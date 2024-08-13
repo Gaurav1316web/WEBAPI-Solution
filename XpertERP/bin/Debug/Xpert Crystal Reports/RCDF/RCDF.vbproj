@@ -605,6 +605,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GALW.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GBKN.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-GKTA.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-V.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\POReport\FrmPurchaseOrderReport-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\POReport\FrmPurchaseOrderReport-V.rpt" />
