@@ -1543,7 +1543,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
 
             obj.HideGroupHeader = True
             obj.HideLastGroupTotal = True
-            'obj.ShowPageNo = True
+            obj.ShowPageNo = True
             obj.PageSetupCustomizeCharColumn = CharColumn
             obj.PageSetupCustomizeCharRows = CharRows
 
