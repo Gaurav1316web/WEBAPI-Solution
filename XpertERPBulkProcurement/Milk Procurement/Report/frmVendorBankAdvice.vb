@@ -492,6 +492,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
 
             If rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                 FinalQuery = GetSavingCurrent()
+                FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
@@ -505,12 +506,12 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             If isPrint AndAlso rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                 FinalQuery = ""
                 FinalQuery = "Select ROW_NUMBER() OVER(Partition by xxxfinal.bankcode ORDER BY xxxfinal.bankcode) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MM/yyyy") + "') As DateRange,xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,
-                              TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount>1"
+                              TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount>1 order by cast(VLC_CODE_Uploader as int) "
                 dt1 = clsDBFuncationality.GetDataTable(FinalQuery)
 
                 FinalQuery = ""
                 FinalQuery = "Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MM/yyyy") + "') As DateRange,xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,
-                              TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount=1"
+                              TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount=1 "
                 dt2 = clsDBFuncationality.GetDataTable(FinalQuery)
 
                 FinalQuery = ""
@@ -703,7 +704,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                             Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE
                              where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                              ) As final
-                             where 2=2  GROUP BY FINAL.[Doc Date],FINAL.[VLC Name],FINAL.[Vlc Uploader Code] )YYY  GROUP BY [VLC Name],[Vlc Uploader Code])xxxDCSCount On xxxDCSCount.[Vlc Uploader Code]=xxxFinal.VLC_CODE_Uploader order by cast(VLC_CODE_Uploader as int)  "
+                             where 2=2  GROUP BY FINAL.[Doc Date],FINAL.[VLC Name],FINAL.[Vlc Uploader Code] )YYY  GROUP BY [VLC Name],[Vlc Uploader Code])xxxDCSCount On xxxDCSCount.[Vlc Uploader Code]=xxxFinal.VLC_CODE_Uploader  "
         Return Qry
     End Function
 
