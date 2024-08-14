@@ -6376,7 +6376,10 @@ Public Class FrmAPInvoiceEntry
                         If clsCommon.myLen(dt.Rows(0)("Against_BulkMillkPurchaseInvoice_No")) > 0 Then
                             Throw New Exception("Current Transaction is created by Bulk Milk Purchase Invoice.So Can't perform this operation")
                         End If
-
+                        Dim dt7 As DataTable = clsDBFuncationality.GetDataTable("select Invoice_Entry_Date,Loc_Code from TSPL_VENDOR_INVOICE_HEAD  where  Document_No ='" + txtDocNo.Value + "'", trans)
+                        If dt7 IsNot Nothing AndAlso dt7.Rows.Count > 0 Then
+                            clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePayable, clsUserMgtCode.mbtnAPInvoiceEntry, clsCommon.myCstr(dt7.Rows(0)("Loc_Code")), clsCommon.myCDate(dt7.Rows(0)("Invoice_Entry_Date")), trans)
+                        End If
                         ''changes done by richa agarwal 29/03/2018
                         qry = "select Payment_No from TSPL_PAYMENT_DETAIL  where Document_No='" + txtDocNo.Value + "'"
                         dt = clsDBFuncationality.GetDataTable(qry, trans)

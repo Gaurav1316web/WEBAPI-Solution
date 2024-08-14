@@ -1437,7 +1437,7 @@ Public Class clsCreateAllTable
             coll.Add("OC", "NUMERIC(10,2)  not null")               '' OTHER CHARGES
             coll.Add("OC_MAX", "NUMERIC(10,2)  not null")           '' MAXIMUM LIMIT OF OTHER CHARGES
             coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) not null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
-
+            coll.Add("PF_Type", "varchar(12) NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
@@ -14400,6 +14400,7 @@ Public Class clsCreateAllTable
             coll.Add("Lic_No", "Varchar(50) null")
             coll.Add("Membership_id", "Varchar(50) null")
             coll.Add("Special_desc", "Varchar(50) null")
+            coll.Add("PF_Type", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

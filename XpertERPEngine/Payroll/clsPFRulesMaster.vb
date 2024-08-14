@@ -22,7 +22,9 @@ Public Class clsPFRulesMaster
     Public ACCOEDLI_MIN As Double
     Public OC As Double                     '' OTHER CHARGES
     Public OC_MAX As Double                 '' MAXIMUM LIMIT OF OTHER CHARGES
-    Public OTH_ROUNDOFF_YPE As String        '' ROUND OFF TYPE OF OTHER PF SHARE
+    Public OTH_ROUNDOFF_YPE As String
+    Public Pf_Type As String
+    '' ROUND OFF TYPE OF OTHER PF SHARE
 
 #End Region
 
@@ -100,6 +102,7 @@ Public Class clsPFRulesMaster
             obj.OC = clsCommon.myCdbl(dt.Rows(0)("OC"))
             obj.OC_MAX = clsCommon.myCdbl(dt.Rows(0)("OC_MAX"))
             obj.OTH_ROUNDOFF_YPE = clsCommon.myCstr(dt.Rows(0)("OTH_ROUNDOFF_YPE"))
+            obj.Pf_Type = clsCommon.myCstr(dt.Rows(0)("Pf_Type"))
 
         End If
         Return obj
@@ -130,6 +133,7 @@ Public Class clsPFRulesMaster
             clsCommon.AddColumnsForChange(coll, "OC", obj.OC)
             clsCommon.AddColumnsForChange(coll, "OC_MAX", obj.OC_MAX)
             clsCommon.AddColumnsForChange(coll, "OTH_ROUNDOFF_YPE", obj.OTH_ROUNDOFF_YPE)
+            clsCommon.AddColumnsForChange(coll, "Pf_Type", obj.Pf_Type)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
             If isNewEntry Then

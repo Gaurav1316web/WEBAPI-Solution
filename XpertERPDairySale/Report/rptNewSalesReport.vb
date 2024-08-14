@@ -31,8 +31,31 @@ Public Class rptNewSalesReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnDemand.IsChecked Then
+            VarID += "_DE"
+        ElseIf rbtnDispatch.IsChecked Then
+            VarID += "_DI"
+        End If
+        If rbtnPartyWise.IsChecked Then
+            VarID += "_PW"
+        ElseIf rbtnRouteWise.IsChecked Then
+            VarID += "_RW"
+        ElseIf rbtnRouteSummary.IsChecked Then
+            VarID += "_RS"
+        ElseIf rbtnProductSale.IsChecked Then
+            VarID += "_DW"
+        End If
+        If chkExcludeGhee.Checked Then
+            VarID += "EG"
+        End If
+        gv1.VarID = VarID
+
     End Sub
 
     Sub funreset()
@@ -308,7 +331,7 @@ Public Class rptNewSalesReport
                     FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
                 End If
 
-                FinalQuery += "  " & Environment.NewLine & " --RATE " & Environment.NewLine & " union all " & Environment.NewLine & " Select 3 as SNO,	max(route_no) as Route_No,max(Shift_Type)Shift_Type,'Rate' as Document_Date, " & MaxQry & "select * , convert( decimal(18,2),(Fresh_Amount/ LTR_QTY)) as Fresh_Rate ,  convert( decimal(18,2),(Product_Amount /  KG_QTY)) as Product_Rate from (" & qry & " " & Environment.NewLine & " )xxx "
+                FinalQuery += "  " & Environment.NewLine & " --RATE " & Environment.NewLine & " union all " & Environment.NewLine & " Select 3 as SNO,	max(route_no) as Route_No,max(Shift_Type)Shift_Type,'Rate' as Document_Date, " & MaxQry & "select * , convert( decimal(18,2),(Fresh_Amount/ LTR_QTY)) as Fresh_Rate ,  case when isnull(Product_Amount,0) = 0 then 0 when  isnull(KG_QTY,0) = 0 then 0 else convert( decimal(18,2),(Product_Amount /  KG_QTY)) end as Product_Rate  from (" & qry & " " & Environment.NewLine & " )xxx "
 
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (avg(Fresh_Rate)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh "
@@ -363,7 +386,7 @@ Public Class rptNewSalesReport
                 End If
                 FinalQuery += " Group by Route_No ,Item_Sub_Group_Type1  )XXFINAL GROUP BY Route_No "
                 FinalQuery += " order by Route_No"
-            ElseIf rbtProductSale.IsChecked Then
+            ElseIf rbtnProductSale.IsChecked Then
                 FinalQuery = "Select  (Shift_Type)Shift_Type, (convert(varchar,Document_Date,103)) Document_Date, " & qry1 & "  from ( " & Environment.NewLine & " " & qry & " " & Environment.NewLine & ""
 
                 If dtFreshItem.Rows.Count > 0 Then
@@ -408,7 +431,7 @@ Public Class rptNewSalesReport
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-                
+
         End Try
     End Sub
 
@@ -456,7 +479,7 @@ Public Class rptNewSalesReport
         gv1.Columns("Receipt_Amount").HeaderText = "CHQ/CASH AMOUNT"
         gv1.Columns("Bal").HeaderText = "BAL. RS."
 
-        If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked OrElse rbtProductSale.IsChecked Then
+        If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked OrElse rbtnProductSale.IsChecked Then
             gv1.Columns("Amount").IsVisible = False
             gv1.Columns("Receipt_Amount").IsVisible = False
             gv1.Columns("Bal").IsVisible = False

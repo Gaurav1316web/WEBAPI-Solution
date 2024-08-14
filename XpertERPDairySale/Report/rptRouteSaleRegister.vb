@@ -25,7 +25,28 @@ Public Class RptRouteSaleRegister
 
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedItem), "Demand") = CompairStringResult.Equal Then
+            VarID += "_DE"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedItem), "Dispatch") = CompairStringResult.Equal Then
+            VarID += "_DI"
+        End If
+
+        If rbtnmilk.IsChecked Then
+            VarID += "_MT"
+        ElseIf btnproduct.IsChecked Then
+            VarID += "_PT"
+        ElseIf btnBoth.IsChecked Then
+            VarID += "_BT"
+        End If
+        Gv1.VarID = VarID
+
     End Sub
 
     Public Sub LoadData()
