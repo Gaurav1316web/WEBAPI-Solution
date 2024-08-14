@@ -42,6 +42,7 @@ Public Class clsEmployeeMaster
     Public EMail_ID As String
     Public SEX As String
     Public MARITAL_STATUS As String
+    Public Pf_Type As String
     Public ANNIVERSARY_DATE As DateTime?
     Public DEPARTMENT_CODE As String
     Public SUB_DEPARTMENT_CODE As String
@@ -328,6 +329,7 @@ Public Class clsEmployeeMaster
             obj.EMail_ID = clsCommon.myCstr(dt.Rows(0)("EMail_ID"))
             obj.SEX = clsCommon.myCstr(dt.Rows(0)("SEX"))
             obj.MARITAL_STATUS = clsCommon.myCstr(dt.Rows(0)("MARITAL_STATUS"))
+            obj.Pf_Type = clsCommon.myCstr(dt.Rows(0)("Pf_Type"))
             If clsCommon.myLen(dt.Rows(0)("RELIEVING_DATE")) > 0 Then
                 obj.RELIEVING_DATE = clsCommon.myCstr(dt.Rows(0)("RELIEVING_DATE"))
             End If
@@ -523,7 +525,7 @@ Public Class clsEmployeeMaster
             clsCommon.AddColumnsForChange(coll, "EMail_ID", obj.EMail_ID)
             clsCommon.AddColumnsForChange(coll, "SEX", obj.SEX)
             clsCommon.AddColumnsForChange(coll, "MARITAL_STATUS", obj.MARITAL_STATUS)
-
+            clsCommon.AddColumnsForChange(coll, "Pf_Type", obj.Pf_Type)
             '' PANCH RAJ 14-OCT-2014 CODE FROM PEPSI TO XPERT
             clsCommon.AddColumnsForChange(coll, "SALARY_ACCOUNT_CODE", obj.SALARY_ACCOUNT_CODE, True)
             clsCommon.AddColumnsForChange(coll, "ADVANCE_TO_STAFF", obj.ADVANCE_TO_STAFF, True)
@@ -794,7 +796,7 @@ Public Class clsEmployeeMaster
         clsCommon.AddColumnsForChange(coll, "EMail_ID", obj.EMail_ID)
         clsCommon.AddColumnsForChange(coll, "SEX", obj.SEX)
         clsCommon.AddColumnsForChange(coll, "MARITAL_STATUS", obj.MARITAL_STATUS)
-
+        clsCommon.AddColumnsForChange(coll, "Pf_Type", obj.Pf_Type)
         '' PANCHRAJ 14-OCT-2014 
         clsCommon.AddColumnsForChange(coll, "SALARY_ACCOUNT_CODE", obj.SALARY_ACCOUNT_CODE, True)
         clsCommon.AddColumnsForChange(coll, "ADVANCE_TO_STAFF", obj.ADVANCE_TO_STAFF, True)

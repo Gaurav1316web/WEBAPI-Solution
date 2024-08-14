@@ -34,6 +34,14 @@ Public Class clsDemandBookingSale
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, False, trans)
+            '' Is Document posted then roll back the transcation by Vinod Kumar14/Aug/2024
+            If clsCommon.myLen(obj.Document_No) > 0 Then
+                qry = "select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + obj.Document_No + "'"
+                Dim isPosted As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+                If isPosted = 1 Then
+                    Throw New Exception("Document Already Posted.")
+                End If
+            End If
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -1543,7 +1551,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
 
             obj.HideGroupHeader = True
             obj.HideLastGroupTotal = True
-            'obj.ShowPageNo = True
+            obj.ShowPageNo = True
             obj.PageSetupCustomizeCharColumn = CharColumn
             obj.PageSetupCustomizeCharRows = CharRows
 

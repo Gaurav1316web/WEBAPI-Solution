@@ -1379,7 +1379,7 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
                 '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleInvoice, obj.Bill_To_Location, obj.Document_Date, trans)
                 ''
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -1424,7 +1424,7 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Code,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionEntry, clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), clsCommon.myCDate(dt.Rows(0)("Document_Code")), trans)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleInvoice, obj.Bill_To_Location, obj.Document_Date, trans)
             End If
             Dim issaved As Boolean = True
 
@@ -1515,6 +1515,15 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
     End Function
     Public Shared Function ReverseAndUnpost(ByVal strCode As String, trans As SqlTransaction, ByVal isReverseOnly As Boolean) As Boolean
         Try
+            Dim dt7 As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD  where  Document_Code ='" + strCode + "'", trans)
+            If dt7 IsNot Nothing AndAlso dt7.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleInvoice, clsCommon.myCstr(dt7.Rows(0)("Bill_To_Location")), clsCommon.myCDate(dt7.Rows(0)("Document_Date")), trans)
+            End If
+            'Dim obj As clsSNInvoiceHead = clsSNInvoiceHead.GetData(strCode, Nothing, NavigatorType.Current, trans)
+            'Dim Mcccode As String = "select Document_Date,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD  where  Document_Code ='" + strCode + "'"
+            'Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCCMultipleDays, Mcccode, obj.Document_Date, trans)
+
             If clsCommon.myLen(strCode) <= 0 Then
                 Throw New Exception("Transaction No not found for reverse and unpost")
             End If
@@ -1523,6 +1532,8 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleInvoice, obj.Bill_To_Location, obj.Document_Date, trans)
+
             If Not isReverseOnly Then
                 Qry = "select distinct DOCUMENT_CODE from TSPL_SD_SALE_RETURN_DETAIL where Invoice_Code='" + strCode + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
