@@ -386,7 +386,24 @@ Public Class RptRGPWiseJobWork
         btnReferesh = True
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
+        GetReportID()
         Load_Report()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(ddlRGPType.SelectedItem.Text, "All") = CompairStringResult.Equal Then
+            VarID += "_A"
+        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Text, "Against Job Work") = CompairStringResult.Equal Then
+            VarID += "_AJ"
+        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Text, "Against BOM") = CompairStringResult.Equal Then
+            VarID += "_AB"
+        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Text, "Against as is it") = CompairStringResult.Equal Then
+            VarID += "_AI"
+        End If
+
+        gv.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

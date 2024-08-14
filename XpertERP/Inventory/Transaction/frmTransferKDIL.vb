@@ -8,10 +8,6 @@ Public Class FrmTransferKDIL
     Inherits FrmMainTranScreen
     Dim Qry As String
     Dim dt As DataTable
-
-
-
-
 #Region "Variables"
     'done by stuti on 05/10/2016 against ticket no BM00000009942
     Dim blnUpdateLoadInwithLoadOut As Boolean
@@ -21,6 +17,7 @@ Public Class FrmTransferKDIL
     Dim IsMandiTax As Boolean = False
     Dim GstStatus As Boolean = False
     Dim RunBatchFifowise As Integer = 0
+    Dim RunBatchFifowisewithmodifyfunctionality As Boolean = False
     Dim ApplyFEFO As Boolean = False
     Public AllowThreeFormatByDefault As Boolean = False
     Public AllowOneFormatByDefault As Boolean = False 'Added by preeti gupta Against tciket no[MIL/06/05/19-000079,MIL/02/05/19-000077]
@@ -63,12 +60,6 @@ Public Class FrmTransferKDIL
     Const colAmtAfterDis As String = "COLAMTAFTERDIS"
     Public strTransferno As String = ""
     Const colBinNo As String = "colBinNo"
-
-
-
-
-
-
     Const colTax1 As String = "COLTAX1"
     Const colTaxBaseAmt1 As String = "COLTAXBASEAMT1"
     Const colTaxRate1 As String = "COLTAXRATE1"
@@ -77,7 +68,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax1 As String = "ISSURTAX1"
     Const colSurTaxCode1 As String = "SURTAXCODE1"
     Const colIsExcisable1 As String = "ISEXCISABLE1"
-
     Const colTax2 As String = "COLTAX2"
     Const colTaxBaseAmt2 As String = "COLTAXBASEAMT2"
     Const colTaxRate2 As String = "COLTAXRATE2"
@@ -86,7 +76,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax2 As String = "ISSURTAX2"
     Const colSurTaxCode2 As String = "SURTAXCODE2"
     Const colIsExcisable2 As String = "ISEXCISABLE2"
-
     Const colTax3 As String = "COLTAX3"
     Const colTaxBaseAmt3 As String = "COLTAXBASEAMT3"
     Const colTaxRate3 As String = "COLTAXRATE3"
@@ -95,7 +84,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax3 As String = "ISSURTAX3"
     Const colSurTaxCode3 As String = "SURTAXCODE3"
     Const colIsExcisable3 As String = "ISEXCISABLE3"
-
     Const colTax4 As String = "COLTAX4"
     Const colTaxBaseAmt4 As String = "COLTAXBASEAMT4"
     Const colTaxRate4 As String = "COLTAXRATE4"
@@ -104,7 +92,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax4 As String = "ISSURTAX4"
     Const colSurTaxCode4 As String = "SURTAXCODE4"
     Const colIsExcisable4 As String = "ISEXCISABLE4"
-
     Const colTax5 As String = "COLTAX5"
     Const colTaxBaseAmt5 As String = "COLTAXBASEAMT5"
     Const colTaxRate5 As String = "COLTAXRATE5"
@@ -113,7 +100,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax5 As String = "ISSURTAX5"
     Const colSurTaxCode5 As String = "SURTAXCODE5"
     Const colIsExcisable5 As String = "ISEXCISABLE5"
-
     Const colTax6 As String = "COLTAX6"
     Const colTaxBaseAmt6 As String = "COLTAXBASEAMT6"
     Const colTaxRate6 As String = "COLTAXRATE6"
@@ -122,7 +108,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax6 As String = "ISSURTAX6"
     Const colSurTaxCode6 As String = "SURTAXCODE6"
     Const colIsExcisable6 As String = "ISEXCISABLE6"
-
     Const colTax7 As String = "COLTAX7"
     Const colTaxBaseAmt7 As String = "COLTAXBASEAMT7"
     Const colTaxRate7 As String = "COLTAXRATE7"
@@ -131,7 +116,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax7 As String = "ISSURTAX7"
     Const colSurTaxCode7 As String = "SURTAXCODE7"
     Const colIsExcisable7 As String = "ISEXCISABLE7"
-
     Const colTax8 As String = "COLTAX8"
     Const colTaxBaseAmt8 As String = "COLTAXBASEAMT8"
     Const colTaxRate8 As String = "COLTAXRATE8"
@@ -140,7 +124,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax8 As String = "ISSURTAX8"
     Const colSurTaxCode8 As String = "SURTAXCODE8"
     Const colIsExcisable8 As String = "ISEXCISABLE8"
-
     Const colTax9 As String = "COLTAX9"
     Const colTaxBaseAmt9 As String = "COLTAXBASEAMT9"
     Const colTaxRate9 As String = "COLTAXRATE9"
@@ -149,7 +132,6 @@ Public Class FrmTransferKDIL
     Const colIsSurTax9 As String = "ISSURTAX9"
     Const colSurTaxCode9 As String = "SURTAXCODE9"
     Const colIsExcisable9 As String = "ISEXCISABLE9"
-
     Const colTax10 As String = "COLTAX10"
     Const colTaxBaseAmt10 As String = "COLTAXBASEAMT10"
     Const colTaxRate10 As String = "COLTAXRATE10"
@@ -160,8 +142,6 @@ Public Class FrmTransferKDIL
     Const colIsExcisable10 As String = "ISEXCISABLE10"
     Const colIsBatchItem As String = "colIsBatchItem"
     Const colFOCItem As String = "colFOCItem"
-
-
     Const colTotTaxAmt As String = "TAXAMT"
     Const colAmtAfterTax As String = "AMTAFTERTAX"
     Const colTransferOutNo As String = "ColTransferOutNo"
@@ -174,11 +154,8 @@ Public Class FrmTransferKDIL
     Const colAssessableAmount As String = "ASSESSABLEAMT"
     Const colIsSerialseItem As String = "COLISSERIALSEITEM"
     Const colIsPickAutoSrNo As String = "colIsPickAutoSrNo"
-
-
     ''Const colLocationCode As String = "LOCATIONCODE"
     ''Const colLocationName As String = "LOCATIONNAME"
-
     Const colTTaxAutCode As String = "TAXAUTCODE"
     Const colTTaxAutName As String = "TAXAUTNAME"
     'Const colTIsTaxable As String = "ISTAXABLE"
@@ -188,11 +165,9 @@ Public Class FrmTransferKDIL
     Const colTBaseAmt As String = "TAXBASEAMT"
     Const colTTaxAmt As String = "TAXAMT"
     Const colTTaxAssessableAmt As String = "COLTTAXASSESSABLEAMT"
-
     Const colACCode As String = "COLACCODE"
     Const colACName As String = "COLACNAME"
     Const colACAmount As String = "COLACAMOUNT"
-
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim i As Integer
     Dim repoBalQty As GridViewDecimalColumn
@@ -218,12 +193,10 @@ Public Class FrmTransferKDIL
     Dim AllowOnlyOneIssueAgainstStoreRequisition As Boolean = False
     Dim ShowPriceCode As Boolean = False
 #End Region
-
     Private Sub LOCATIONRIGTHS()
         Try
             Dim obj As New clsMCCCodes()
             obj = clsMCCCodes.GetData()
-
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
                 Dim check As Integer = 0
                 check = clsDBFuncationality.getSingleValue("select count(*) from tspl_location_master where type='Physical' and location_code='" + obj.Default_LocCode + "'")
@@ -235,12 +208,10 @@ Public Class FrmTransferKDIL
             If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
                 arrLoc = obj.arrLocCodes
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.Transfer)
         If Not (MyBase.isReadFlag) Then
@@ -252,7 +223,6 @@ Public Class FrmTransferKDIL
         btnPrintNew.Visible = MyBase.isPrintFlag
         btnCancel.Visible = MyBase.isCancel_Flag
         btnReverseAndUnpost.Visible = False
-
         'If MyBase.isReverse Then
         '    btnReverseAndUnpost.Enabled = True
         'Else
@@ -275,6 +245,7 @@ Public Class FrmTransferKDIL
         SetUserMgmtNew()
         settPickProductCostFromItemUOMDetail = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickProductCostFromItemUOMDetail, clsFixedParameterCode.PickProductCostFromItemUOMDetail, Nothing)) = 1)
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
+        RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         AllowThreeFormatByDefault = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowThreeFormatByDefaultForPrint, clsFixedParameterCode.AllowThreeFormatByDefaultForPrint, Nothing)) = 1, True, False)
         AllowOneFormatByDefault = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowOneFormatByDefaultForPrint, clsFixedParameterCode.AllowOneFormatByDefaultForPrint, Nothing)) = 1, True, False)
         GrossWtfromItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GrossWtFromItemMasterONCSATransfer, clsFixedParameterCode.GrossWtFromItemMasterONCSATransfer, Nothing)) = 1, True, False)
@@ -330,7 +301,6 @@ Public Class FrmTransferKDIL
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
-
         RadPageView1.SelectedPage = RadPageViewPage1
         LoadBlankGrid()
         LoadBlankGridTax()
@@ -339,18 +309,15 @@ Public Class FrmTransferKDIL
         LoadItemType()
         LoadTransferType()
         cboItemType.SelectedIndex = 2
-
         'ToolStrip1.LayoutStyle = ToolStripLayoutStyle.Table
         SetLength()
         IsFormLoad = False
-
         ''For Custom Fields
         RadPageView1.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.Report_ID = MyBase.Form_ID
             UcCustomFields1.LoadCustomControls()
         End If
-
         If objCommonVar.IsDemoERP Then
             UcAttachment1.Form_ID = MyBase.Form_ID
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
@@ -358,10 +325,7 @@ Public Class FrmTransferKDIL
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
         End If
         ''End of For Attachment
-
         AddNew()
-
-
         If clsCommon.myLen(strTransferno) > 0 Then
             txtDocNo.Value = strTransferno
             LoadData(strTransferno, NavigatorType.Current)
@@ -369,7 +333,6 @@ Public Class FrmTransferKDIL
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
-
         isALlowVehicleGateOutValidation = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowVehicleGateOutValidationTransfer, clsFixedParameterCode.AllowVehicleGateOutValidationTransfer, Nothing)) = "1", True, False)
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
             rbtnPrintExcisable.Visible = True
@@ -386,31 +349,23 @@ Public Class FrmTransferKDIL
         radExportTransferIn.Visibility = ElementVisibility.Collapsed
         radImportTransferIn.Visibility = ElementVisibility.Collapsed
     End Sub
-
     Sub SetLength()
         txtDocNo.MyMaxLength = 30
-
         txtRemarks.MaxLength = 200
         txtComment.MaxLength = 200
         cboModeOfTransport.MaxLength = 12
         cboTransferType.MaxLength = 1
         cboTransferType.MaxLength = 1
-
-
     End Sub
-
     Sub LoadTransferType()
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Name", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
-
         dr = dt.NewRow()
         dr("Code") = "O"
         dr("Name") = "Transfer Out"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "I"
         dr("Name") = "Transfer In"
@@ -421,62 +376,48 @@ Public Class FrmTransferKDIL
         dr("Name") = "Return"
         dt.Rows.Add(dr)
         '==========================================
-
         dr = dt.NewRow()
         dr("Code") = "R"
         dr("Name") = "Rejected"
         dt.Rows.Add(dr)
-
-
-
         cboTransferType.DataSource = dt
         cboTransferType.ValueMember = "Code"
         cboTransferType.DisplayMember = "Name"
         cboTransferType.SelectedValue = "O"
     End Sub
-
     Sub LoadType()
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Name", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = ""
         dr("Name") = "Select"
         dt.Rows.Add(dr)
-
-
         dr = dt.NewRow()
         dr("Code") = "Excise"
         dr("Name") = "Excise"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Depot"
         dr("Name") = "Depot"
         dt.Rows.Add(dr)
-
-
         cboType.DataSource = dt
         cboType.ValueMember = "Code"
         cboType.DisplayMember = "Name"
         cboType.SelectedValue = "Depot"
     End Sub
-
     Sub LoadItemType()
         cboItemType.DataSource = clsItemMaster.GetItemType()
         cboItemType.ValueMember = "Code"
         cboItemType.DisplayMember = "Name"
         cboItemType.SelectedIndex = 2
     End Sub
-
     Sub LoadModeOfTrasport()
         cboModeOfTransport.Items.Add("By Road")
         cboModeOfTransport.Items.Add("By Air")
         cboModeOfTransport.Items.Add("By Sea")
         cboModeOfTransport.Items.Add("By Hand")
     End Sub
-
     Sub BlankAllControls()
         'chkProductionRequest.Enabled = False
         'chkProductionRequest.Checked = False
@@ -507,7 +448,6 @@ Public Class FrmTransferKDIL
         txtWayBill_No.Text = ""
         txtTransporter_Code.Value = Nothing
         txtTransporter_desc.Text = Nothing
-
         cboType.SelectedValue = "Depot"
         txtDocNo.Value = ""
         chkOnHold.Checked = False
@@ -515,12 +455,10 @@ Public Class FrmTransferKDIL
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtOutDate.Value = txtDate.Value
         ttxway_bill_date.Value = txtDate.Value
-
         txtFromLocation.Value = ""
         lblFromLoc.Text = ""
         txtToLoc.Value = ""
         lblToLoc.Text = ""
-
         txtRemarks.Text = ""
         txtComment.Text = ""
         txtTaxGroup.Value = ""
@@ -548,10 +486,8 @@ Public Class FrmTransferKDIL
         txtTransferOutNo.Value = ""
         txtFromLocation.Enabled = True
         txtToLoc.Enabled = True
-
         lblAbandonmentNo.Text = ""
         btnAmendment.Enabled = False
-
         lblAddCharges1.Text = ""
         lblAddCharges1.Text = ""
         rbtnTaxCalAutomatic.IsChecked = True
@@ -560,8 +496,6 @@ Public Class FrmTransferKDIL
         txtKm.Text = ""
         txtRMDANo.Value = ""
         txtDeliveryDuration.Text = ""
-
-
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
             lblDeliveryDate.Visible = False
             txtDeliveryDate.Visible = False
@@ -574,9 +508,7 @@ Public Class FrmTransferKDIL
         End If
         ''End of For Custom Fields
         UcAttachment1.BlankAllControls()
-
         chkOwnVehicle.Checked = False
-
         LOCATIONRIGTHS()
         ''richa 03/03/2015
         chkAgainst_Form.Enabled = True
@@ -595,11 +527,9 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
-
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
         repoLineNo.FormatString = ""
@@ -609,7 +539,6 @@ Public Class FrmTransferKDIL
         repoLineNo.ReadOnly = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoLineNo)
-
         repoComplete = New GridViewTextBoxColumn()
         repoComplete.FormatString = ""
         repoComplete.HeaderText = "Complete"
@@ -618,7 +547,6 @@ Public Class FrmTransferKDIL
         repoComplete.ReadOnly = True
         repoComplete.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoComplete)
-
         'Dim repoRowType As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         'repoRowType.FormatString = ""
         'repoRowType.HeaderText = "Row Type"
@@ -629,9 +557,7 @@ Public Class FrmTransferKDIL
         'repoRowType.DataSource = GetItemType()
         'repoRowType.ValueMember = "Code"
         'repoRowType.DisplayMember = "Code"
-
         'gv1.MasterTemplate.Columns.Add(repoRowType)
-
         ''---------richa 20 july,2016
         Dim repoGPTranferCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoGPTranferCode.FormatString = ""
@@ -647,13 +573,11 @@ Public Class FrmTransferKDIL
             Else
                 repoGPTranferCode.IsVisible = False
             End If
-
         Else
             repoGPTranferCode.IsVisible = False
         End If
         gv1.MasterTemplate.Columns.Add(repoGPTranferCode)
         ''----------------
-
         Dim repoICode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoICode.FormatString = ""
         repoICode.HeaderText = "Item Code"
@@ -662,7 +586,6 @@ Public Class FrmTransferKDIL
         repoICode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoICode.Width = 100
         gv1.MasterTemplate.Columns.Add(repoICode)
-
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoIName.FormatString = ""
         repoIName.HeaderText = "Item Description"
@@ -670,7 +593,6 @@ Public Class FrmTransferKDIL
         repoIName.Width = 150
         repoIName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoIName)
-
         Dim repoIHSN As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoIHSN.FormatString = ""
         repoIHSN.HeaderText = "HSN Code"
@@ -678,8 +600,6 @@ Public Class FrmTransferKDIL
         repoIHSN.Width = 150
         repoIHSN.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoIHSN)
-
-
         ''Dim repoLocationCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         ''repoLocationCode.FormatString = ""
         ''repoLocationCode.HeaderText = "Location Code"
@@ -688,7 +608,6 @@ Public Class FrmTransferKDIL
         ''repoLocationCode.TextImageRelation = TextImageRelation.TextBeforeImage
         ''repoLocationCode.Width = 100
         ''gv1.MasterTemplate.Columns.Add(repoLocationCode)
-
         ''Dim repoLocationName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         ''repoLocationName.FormatString = ""
         ''repoLocationName.HeaderText = "Location"
@@ -696,7 +615,6 @@ Public Class FrmTransferKDIL
         ''repoLocationName.ReadOnly = True
         ''repoLocationName.Width = 150
         ''gv1.MasterTemplate.Columns.Add(repoLocationName)
-
         Dim repoUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoUnit.FormatString = ""
         repoUnit.HeaderText = "UOM"
@@ -704,7 +622,6 @@ Public Class FrmTransferKDIL
         repoUnit.Width = 80
         repoUnit.ReadOnly = False
         gv1.MasterTemplate.Columns.Add(repoUnit)
-
         repoUnit = New GridViewTextBoxColumn()
         repoUnit.FormatString = ""
         repoUnit.HeaderText = "Alt. UOM"
@@ -714,7 +631,6 @@ Public Class FrmTransferKDIL
         repoUnit.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoUnit.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoUnit)
-
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoRate = New GridViewDecimalColumn()
         repoRate.FormatString = ""
@@ -731,7 +647,6 @@ Public Class FrmTransferKDIL
         End If
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate)
-
         Dim repoOutQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoOutQty = New GridViewDecimalColumn()
         repoOutQty.FormatString = ""
@@ -743,7 +658,6 @@ Public Class FrmTransferKDIL
         repoOutQty.Step = 0
         repoOutQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoOutQty)
-
         Dim repoInQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoInQty = New GridViewDecimalColumn()
         repoInQty.FormatString = ""
@@ -756,7 +670,6 @@ Public Class FrmTransferKDIL
         repoInQty.IsVisible = False
         repoInQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoInQty)
-
         '==============================================================
         Dim repounitwt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repounitwt.FormatString = ""
@@ -766,7 +679,6 @@ Public Class FrmTransferKDIL
         repounitwt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repounitwt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repounitwt)
-
         Dim reponetwt As GridViewDecimalColumn = New GridViewDecimalColumn()
         reponetwt.FormatString = ""
         reponetwt.HeaderText = "Net Weight"
@@ -775,7 +687,6 @@ Public Class FrmTransferKDIL
         reponetwt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         reponetwt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(reponetwt)
-
         Dim repoMTwt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoMTwt.FormatString = ""
         repoMTwt.HeaderText = "Net MT Weight"
@@ -786,7 +697,6 @@ Public Class FrmTransferKDIL
         repoMTwt.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoMTwt)
         '==========================================================
-
         Dim repoBinNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoBinNo.FormatString = ""
         repoBinNo.HeaderText = "Bin No"
@@ -794,7 +704,6 @@ Public Class FrmTransferKDIL
         repoBinNo.ReadOnly = True
         repoBinNo.Width = 100
         gv1.MasterTemplate.Columns.Add(repoBinNo)
-
         Dim repoBreakQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoBreakQty = New GridViewDecimalColumn()
         repoBreakQty.FormatString = ""
@@ -807,7 +716,6 @@ Public Class FrmTransferKDIL
         repoBreakQty.IsVisible = False
         repoBreakQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoBreakQty)
-
         Dim repoLeakQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLeakQty = New GridViewDecimalColumn()
         repoLeakQty.FormatString = ""
@@ -820,7 +728,6 @@ Public Class FrmTransferKDIL
         repoLeakQty.IsVisible = False
         repoLeakQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoLeakQty)
-
         Dim repoShortQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoShortQty = New GridViewDecimalColumn()
         repoShortQty.FormatString = ""
@@ -833,7 +740,6 @@ Public Class FrmTransferKDIL
         repoShortQty.IsVisible = False
         repoShortQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoShortQty)
-
         Dim repoAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoAmt = New GridViewDecimalColumn()
         repoAmt.FormatString = ""
@@ -844,7 +750,6 @@ Public Class FrmTransferKDIL
         repoAmt.ReadOnly = True
         repoAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAmt)
-
         Dim repoAbatementRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoAbatementRate = New GridViewDecimalColumn()
         repoAbatementRate.FormatString = ""
@@ -856,7 +761,6 @@ Public Class FrmTransferKDIL
         repoAbatementRate.IsVisible = True
         repoAbatementRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAbatementRate)
-
         Dim repoAbatementamount As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoAbatementamount = New GridViewDecimalColumn()
         repoAbatementamount.FormatString = ""
@@ -868,7 +772,6 @@ Public Class FrmTransferKDIL
         repoAbatementamount.IsVisible = True
         repoAbatementamount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAbatementamount)
-
         Dim repoDisPer As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDisPer = New GridViewDecimalColumn()
         repoDisPer.FormatString = ""
@@ -880,7 +783,6 @@ Public Class FrmTransferKDIL
         repoDisPer.IsVisible = False
         repoDisPer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoDisPer)
-
         Dim repoDisAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDisAmt = New GridViewDecimalColumn()
         repoDisAmt.FormatString = ""
@@ -893,7 +795,6 @@ Public Class FrmTransferKDIL
         repoDisAmt.VisibleInColumnChooser = False
         repoDisAmt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDisAmt)
-
         Dim repoAmtAfterDis As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoAmtAfterDis = New GridViewDecimalColumn()
         repoAmtAfterDis.FormatString = ""
@@ -906,10 +807,6 @@ Public Class FrmTransferKDIL
         repoAmtAfterDis.ReadOnly = True
         repoAmtAfterDis.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoAmtAfterDis)
-
-
-
-
         Dim repoTax1 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax1.FormatString = ""
         repoTax1.HeaderText = "Tax 1"
@@ -917,7 +814,6 @@ Public Class FrmTransferKDIL
         repoTax1.ReadOnly = True
         repoTax1.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax1)
-
         Dim repoTaxBaseAmt1 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt1.FormatString = ""
         repoTaxBaseAmt1.HeaderText = "Tax Base Amount 1"
@@ -925,7 +821,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt1.ReadOnly = True
         repoTaxBaseAmt1.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt1)
-
         Dim repoTaxRate1 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate1 = New GridViewDecimalColumn()
         repoTaxRate1.FormatString = ""
@@ -935,7 +830,6 @@ Public Class FrmTransferKDIL
         repoTaxRate1.ReadOnly = True
         repoTaxRate1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate1)
-
         Dim repoTaxAmt1 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt1 = New GridViewDecimalColumn()
         repoTaxAmt1.FormatString = ""
@@ -945,7 +839,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt1.ReadOnly = True
         repoTaxAmt1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt1)
-
         Dim repoIsSurTax1 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax1.HeaderText = "Is Surtax 1"
         repoIsSurTax1.Name = colIsSurTax1
@@ -953,7 +846,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax1.IsVisible = False
         repoIsSurTax1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax1)
-
         Dim repoSurTaxCode1 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode1.FormatString = ""
         repoSurTaxCode1.HeaderText = "Surtax 1"
@@ -961,7 +853,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode1.ReadOnly = True
         repoSurTaxCode1.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode1)
-
         Dim repoIsTaxable1 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable1.HeaderText = "Is Taxable 1"
         repoIsTaxable1.Name = colIsTaxable1
@@ -969,8 +860,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable1.IsVisible = False
         repoIsTaxable1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable1)
-
-
         Dim repoTax2 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax2.FormatString = ""
         repoTax2.HeaderText = "Tax 2"
@@ -978,7 +867,6 @@ Public Class FrmTransferKDIL
         repoTax2.ReadOnly = True
         repoTax2.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax2)
-
         Dim repoTaxBaseAmt2 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt2.FormatString = ""
         repoTaxBaseAmt2.HeaderText = "Tax Base Amount 2"
@@ -986,7 +874,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt2.ReadOnly = True
         repoTaxBaseAmt2.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt2)
-
         Dim repoTaxRate2 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate2 = New GridViewDecimalColumn()
         repoTaxRate2.FormatString = ""
@@ -996,7 +883,6 @@ Public Class FrmTransferKDIL
         repoTaxRate2.ReadOnly = True
         repoTaxRate2.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate2)
-
         Dim repoTaxAmt2 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt2 = New GridViewDecimalColumn()
         repoTaxAmt2.FormatString = ""
@@ -1006,7 +892,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt2.ReadOnly = True
         repoTaxAmt2.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt2)
-
         Dim repoIsSurTax2 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax2.HeaderText = "Is Surtax 2"
         repoIsSurTax2.Name = colIsSurTax2
@@ -1014,7 +899,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax2.IsVisible = False
         repoIsSurTax2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax2)
-
         Dim repoSurTaxCode2 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode2.FormatString = ""
         repoSurTaxCode2.HeaderText = "Surtax 2"
@@ -1022,7 +906,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode2.ReadOnly = True
         repoSurTaxCode2.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode2)
-
         Dim repoIsTaxable2 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable2.HeaderText = "Is Taxable 2"
         repoIsTaxable2.Name = colIsTaxable2
@@ -1030,7 +913,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable2.IsVisible = False
         repoIsTaxable2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable2)
-
         Dim repoTax3 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax3.FormatString = ""
         repoTax3.HeaderText = "Tax 3"
@@ -1038,7 +920,6 @@ Public Class FrmTransferKDIL
         repoTax3.ReadOnly = True
         repoTax3.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax3)
-
         Dim repoTaxBaseAmt3 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt3.FormatString = ""
         repoTaxBaseAmt3.HeaderText = "Tax Base Amount 3"
@@ -1046,7 +927,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt3.ReadOnly = True
         repoTaxBaseAmt3.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt3)
-
         Dim repoTaxRate3 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate3 = New GridViewDecimalColumn()
         repoTaxRate3.FormatString = ""
@@ -1056,7 +936,6 @@ Public Class FrmTransferKDIL
         repoTaxRate3.ReadOnly = True
         repoTaxRate3.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate3)
-
         Dim repoTaxAmt3 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt3 = New GridViewDecimalColumn()
         repoTaxAmt3.FormatString = ""
@@ -1066,7 +945,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt3.ReadOnly = True
         repoTaxAmt3.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt3)
-
         Dim repoIsSurTax3 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax3.HeaderText = "Is Surtax 3"
         repoIsSurTax3.Name = colIsSurTax3
@@ -1074,7 +952,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax3.IsVisible = False
         repoIsSurTax3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax3)
-
         Dim repoSurTaxCode3 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode3.FormatString = ""
         repoSurTaxCode3.HeaderText = "Surtax 3"
@@ -1082,7 +959,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode3.ReadOnly = True
         repoSurTaxCode3.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode3)
-
         Dim repoIsTaxable3 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable3.HeaderText = "Is Taxable 3"
         repoIsTaxable3.Name = colIsTaxable3
@@ -1090,7 +966,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable3.IsVisible = False
         repoIsTaxable3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable3)
-
         Dim repoTax4 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax4.FormatString = ""
         repoTax4.HeaderText = "Tax 4"
@@ -1098,7 +973,6 @@ Public Class FrmTransferKDIL
         repoTax4.ReadOnly = True
         repoTax4.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax4)
-
         Dim repoTaxBaseAmt4 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt4.FormatString = ""
         repoTaxBaseAmt4.HeaderText = "Tax Base Amount 4"
@@ -1106,7 +980,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt4.ReadOnly = True
         repoTaxBaseAmt4.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt4)
-
         Dim repoTaxRate4 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate4 = New GridViewDecimalColumn()
         repoTaxRate4.FormatString = ""
@@ -1116,7 +989,6 @@ Public Class FrmTransferKDIL
         repoTaxRate4.ReadOnly = True
         repoTaxRate4.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate4)
-
         Dim repoTaxAmt4 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt4 = New GridViewDecimalColumn()
         repoTaxAmt4.FormatString = ""
@@ -1126,7 +998,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt4.ReadOnly = True
         repoTaxAmt4.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt4)
-
         Dim repoIsSurTax4 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax4.HeaderText = "Is Surtax 4"
         repoIsSurTax4.Name = colIsSurTax4
@@ -1134,7 +1005,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax4.IsVisible = False
         repoIsSurTax4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax4)
-
         Dim repoSurTaxCode4 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode4.FormatString = ""
         repoSurTaxCode4.HeaderText = "Surtax 4"
@@ -1142,7 +1012,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode4.ReadOnly = True
         repoSurTaxCode4.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode4)
-
         Dim repoIsTaxable4 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable4.HeaderText = "Is Taxable 4"
         repoIsTaxable4.Name = colIsTaxable4
@@ -1150,7 +1019,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable4.IsVisible = False
         repoIsTaxable4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable4)
-
         Dim repoTax5 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax5.FormatString = ""
         repoTax5.HeaderText = "Tax 5"
@@ -1158,7 +1026,6 @@ Public Class FrmTransferKDIL
         repoTax5.ReadOnly = True
         repoTax5.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax5)
-
         Dim repoTaxBaseAmt5 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt5.FormatString = ""
         repoTaxBaseAmt5.HeaderText = "Tax Base Amount 5"
@@ -1166,7 +1033,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt5.ReadOnly = True
         repoTaxBaseAmt5.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt5)
-
         Dim repoTaxRate5 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate5 = New GridViewDecimalColumn()
         repoTaxRate5.FormatString = ""
@@ -1176,7 +1042,6 @@ Public Class FrmTransferKDIL
         repoTaxRate5.ReadOnly = True
         repoTaxRate5.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate5)
-
         Dim repoTaxAmt5 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt5 = New GridViewDecimalColumn()
         repoTaxAmt5.FormatString = ""
@@ -1186,7 +1051,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt3.ReadOnly = True
         repoTaxAmt5.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt5)
-
         Dim repoIsSurTax5 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax5.HeaderText = "Is Surtax 5"
         repoIsSurTax5.Name = colIsSurTax5
@@ -1194,7 +1058,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax5.IsVisible = False
         repoIsSurTax5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax5)
-
         Dim repoSurTaxCode5 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode5.FormatString = ""
         repoSurTaxCode5.HeaderText = "Surtax 5"
@@ -1202,7 +1065,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode5.ReadOnly = True
         repoSurTaxCode5.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode5)
-
         Dim repoIsTaxable5 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable5.HeaderText = "Is Taxable 5"
         repoIsTaxable5.Name = colIsTaxable5
@@ -1210,7 +1072,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable5.IsVisible = False
         repoIsTaxable5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable5)
-
         Dim repoTax6 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax6.FormatString = ""
         repoTax6.HeaderText = "Tax 6"
@@ -1218,7 +1079,6 @@ Public Class FrmTransferKDIL
         repoTax6.ReadOnly = True
         repoTax6.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax6)
-
         Dim repoTaxBaseAmt6 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt6.FormatString = ""
         repoTaxBaseAmt6.HeaderText = "Tax Base Amount 6"
@@ -1226,7 +1086,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt6.ReadOnly = True
         repoTaxBaseAmt6.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt6)
-
         Dim repoTaxRate6 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate6 = New GridViewDecimalColumn()
         repoTaxRate6.FormatString = ""
@@ -1236,7 +1095,6 @@ Public Class FrmTransferKDIL
         repoTaxRate6.ReadOnly = True
         repoTaxRate6.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate6)
-
         Dim repoTaxAmt6 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt6 = New GridViewDecimalColumn()
         repoTaxAmt6.FormatString = ""
@@ -1246,7 +1104,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt6.ReadOnly = True
         repoTaxAmt6.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt6)
-
         Dim repoIsSurTax6 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax6.HeaderText = "Is Surtax 6"
         repoIsSurTax6.Name = colIsSurTax6
@@ -1254,7 +1111,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax6.IsVisible = False
         repoIsSurTax6.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax6)
-
         Dim repoSurTaxCode6 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode6.FormatString = ""
         repoSurTaxCode6.HeaderText = "Surtax 6"
@@ -1262,7 +1118,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode6.ReadOnly = True
         repoSurTaxCode6.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode6)
-
         Dim repoIsTaxable6 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable6.HeaderText = "Is Taxable 6"
         repoIsTaxable6.Name = colIsTaxable6
@@ -1270,7 +1125,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable6.IsVisible = False
         repoIsTaxable6.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable6)
-
         Dim repoTax7 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax7.FormatString = ""
         repoTax7.HeaderText = "Tax 7"
@@ -1278,7 +1132,6 @@ Public Class FrmTransferKDIL
         repoTax7.ReadOnly = True
         repoTax7.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax7)
-
         Dim repoTaxBaseAmt7 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt7.FormatString = ""
         repoTaxBaseAmt7.HeaderText = "Tax Base Amount 7"
@@ -1286,7 +1139,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt7.ReadOnly = True
         repoTaxBaseAmt7.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt7)
-
         Dim repoTaxRate7 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate7 = New GridViewDecimalColumn()
         repoTaxRate7.FormatString = ""
@@ -1296,7 +1148,6 @@ Public Class FrmTransferKDIL
         repoTaxRate7.ReadOnly = True
         repoTaxRate7.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate7)
-
         Dim repoTaxAmt7 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt7 = New GridViewDecimalColumn()
         repoTaxAmt7.FormatString = ""
@@ -1306,7 +1157,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt7.ReadOnly = True
         repoTaxAmt7.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt7)
-
         Dim repoIsSurTax7 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax7.HeaderText = "Is Surtax 7"
         repoIsSurTax7.Name = colIsSurTax7
@@ -1314,7 +1164,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax7.IsVisible = False
         repoIsSurTax7.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax7)
-
         Dim repoSurTaxCode7 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode7.FormatString = ""
         repoSurTaxCode7.HeaderText = "Surtax 7"
@@ -1322,7 +1171,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode7.ReadOnly = True
         repoSurTaxCode7.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode7)
-
         Dim repoIsTaxable7 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable7.HeaderText = "Is Taxable 7"
         repoIsTaxable7.Name = colIsTaxable7
@@ -1330,7 +1178,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable7.IsVisible = False
         repoIsTaxable7.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable7)
-
         Dim repoTax8 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax8.FormatString = ""
         repoTax8.HeaderText = "Tax 8"
@@ -1338,7 +1185,6 @@ Public Class FrmTransferKDIL
         repoTax8.ReadOnly = True
         repoTax8.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax8)
-
         Dim repoTaxBaseAmt8 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt8.FormatString = ""
         repoTaxBaseAmt8.HeaderText = "Tax Base Amount 8"
@@ -1346,7 +1192,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt8.ReadOnly = True
         repoTaxBaseAmt8.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt8)
-
         Dim repoTaxRate8 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate8 = New GridViewDecimalColumn()
         repoTaxRate8.FormatString = ""
@@ -1356,7 +1201,6 @@ Public Class FrmTransferKDIL
         repoTaxRate8.ReadOnly = True
         repoTaxRate8.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate8)
-
         Dim repoTaxAmt8 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt8 = New GridViewDecimalColumn()
         repoTaxAmt8.FormatString = ""
@@ -1366,7 +1210,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt8.ReadOnly = True
         repoTaxAmt8.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt8)
-
         Dim repoIsSurTax8 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax8.HeaderText = "Is Surtax 8"
         repoIsSurTax8.Name = colIsSurTax8
@@ -1374,7 +1217,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax8.IsVisible = False
         repoIsSurTax8.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax8)
-
         Dim repoSurTaxCode8 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode8.FormatString = ""
         repoSurTaxCode8.HeaderText = "Surtax 8"
@@ -1382,7 +1224,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode8.ReadOnly = True
         repoSurTaxCode8.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode8)
-
         Dim repoIsTaxable8 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable8.HeaderText = "Is Taxable 8"
         repoIsTaxable8.Name = colIsTaxable8
@@ -1390,7 +1231,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable8.IsVisible = False
         repoIsTaxable8.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable8)
-
         Dim repoTax9 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax9.FormatString = ""
         repoTax9.HeaderText = "Tax 9"
@@ -1398,7 +1238,6 @@ Public Class FrmTransferKDIL
         repoTax9.ReadOnly = True
         repoTax9.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax9)
-
         Dim repoTaxBaseAmt9 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt9.FormatString = ""
         repoTaxBaseAmt9.HeaderText = "Tax Base Amount 9"
@@ -1406,7 +1245,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt9.ReadOnly = True
         repoTaxBaseAmt9.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt9)
-
         Dim repoTaxRate9 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate9 = New GridViewDecimalColumn()
         repoTaxRate9.FormatString = ""
@@ -1416,7 +1254,6 @@ Public Class FrmTransferKDIL
         repoTaxRate9.ReadOnly = True
         repoTaxRate9.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate9)
-
         Dim repoTaxAmt9 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt9 = New GridViewDecimalColumn()
         repoTaxAmt9.FormatString = ""
@@ -1426,7 +1263,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt9.ReadOnly = True
         repoTaxAmt9.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt9)
-
         Dim repoIsSurTax9 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax9.HeaderText = "Is Surtax 9"
         repoIsSurTax9.Name = colIsSurTax9
@@ -1434,7 +1270,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax9.IsVisible = False
         repoIsSurTax9.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax9)
-
         Dim repoSurTaxCode9 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode9.FormatString = ""
         repoSurTaxCode9.HeaderText = "Surtax 9"
@@ -1442,7 +1277,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode9.ReadOnly = True
         repoSurTaxCode9.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode9)
-
         Dim repoIsTaxable9 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable9.HeaderText = "Is Taxable 9"
         repoIsTaxable9.Name = colIsTaxable9
@@ -1450,8 +1284,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable9.IsVisible = False
         repoIsTaxable9.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable9)
-
-
         Dim repoTax10 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTax10.FormatString = ""
         repoTax10.HeaderText = "Tax 10"
@@ -1459,7 +1291,6 @@ Public Class FrmTransferKDIL
         repoTax10.ReadOnly = True
         repoTax10.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax10)
-
         Dim repoTaxBaseAmt10 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt10.FormatString = ""
         repoTaxBaseAmt10.HeaderText = "Tax Base Amount 10"
@@ -1467,7 +1298,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt10.ReadOnly = True
         repoTaxBaseAmt10.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTaxBaseAmt10)
-
         Dim repoTaxRate10 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate10 = New GridViewDecimalColumn()
         repoTaxRate10.FormatString = ""
@@ -1477,7 +1307,6 @@ Public Class FrmTransferKDIL
         repoTaxRate10.ReadOnly = True
         repoTaxRate10.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxRate10)
-
         Dim repoTaxAmt10 As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt10 = New GridViewDecimalColumn()
         repoTaxAmt10.FormatString = ""
@@ -1487,7 +1316,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt10.ReadOnly = True
         repoTaxAmt10.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTaxAmt10)
-
         Dim repoIsSurTax10 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSurTax10.HeaderText = "Is Surtax 10"
         repoIsSurTax10.Name = colIsSurTax10
@@ -1495,7 +1323,6 @@ Public Class FrmTransferKDIL
         repoIsSurTax10.IsVisible = False
         repoIsSurTax10.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSurTax10)
-
         Dim repoSurTaxCode10 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSurTaxCode10.FormatString = ""
         repoSurTaxCode10.HeaderText = "Surtax 10"
@@ -1503,7 +1330,6 @@ Public Class FrmTransferKDIL
         repoSurTaxCode10.ReadOnly = True
         repoSurTaxCode10.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSurTaxCode10)
-
         Dim repoIsTaxable10 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsTaxable10.HeaderText = "Is Taxable 10"
         repoIsTaxable10.Name = colIsTaxable10
@@ -1511,7 +1337,6 @@ Public Class FrmTransferKDIL
         repoIsTaxable10.IsVisible = False
         repoIsTaxable10.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable10)
-
         Dim repoItemTaxCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoItemTaxCode = New GridViewTextBoxColumn()
         repoItemTaxCode.FormatString = ""
@@ -1521,7 +1346,6 @@ Public Class FrmTransferKDIL
         repoItemTaxCode.IsVisible = False
         repoItemTaxCode.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoItemTaxCode)
-
         Dim repoTotTaxAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTotTaxAmt = New GridViewDecimalColumn()
         repoTotTaxAmt.FormatString = ""
@@ -1531,7 +1355,6 @@ Public Class FrmTransferKDIL
         repoTotTaxAmt.ReadOnly = True
         repoTotTaxAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTotTaxAmt)
-
         Dim repoAmtAfterTax As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoAmtAfterTax = New GridViewDecimalColumn()
         repoAmtAfterTax.FormatString = ""
@@ -1542,7 +1365,6 @@ Public Class FrmTransferKDIL
         repoAmtAfterTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoAmtAfterTax.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoAmtAfterTax)
-
         Dim repoTransOutNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTransOutNo.FormatString = ""
         repoTransOutNo.HeaderText = "TransferOut No"
@@ -1550,7 +1372,6 @@ Public Class FrmTransferKDIL
         repoTransOutNo.ReadOnly = True
         repoTransOutNo.Width = 100
         gv1.MasterTemplate.Columns.Add(repoTransOutNo)
-
         Dim repoIsMRPMandatory As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsMRPMandatory.HeaderText = "Is MRP Mandatory"
         repoIsMRPMandatory.Name = colisMRPMandatory
@@ -1558,7 +1379,6 @@ Public Class FrmTransferKDIL
         repoIsMRPMandatory.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         repoIsMRPMandatory.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoIsMRPMandatory)
-
         Dim repoMRP As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoMRP.WrapText = True
         repoMRP.ReadOnly = False
@@ -1569,7 +1389,6 @@ Public Class FrmTransferKDIL
         repoMRP.Minimum = 0
         repoMRP.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoMRP)
-
         ''Dim repoAssessable As GridViewDecimalColumn = New GridViewDecimalColumn()
         ''repoAssessable.WrapText = True
         ''repoAssessable.ReadOnly = True
@@ -1580,8 +1399,6 @@ Public Class FrmTransferKDIL
         ''repoAssessable.Minimum = 0
         ''repoAssessable.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         ''gv1.MasterTemplate.Columns.Add(repoAssessable)
-
-
         Dim repoSpecification As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSpecification = New GridViewTextBoxColumn()
         repoSpecification.FormatString = ""
@@ -1589,7 +1406,6 @@ Public Class FrmTransferKDIL
         repoSpecification.Name = colSpecification
         repoSpecification.Width = 100
         gv1.MasterTemplate.Columns.Add(repoSpecification)
-
         Dim repoRemarks As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoRemarks = New GridViewTextBoxColumn()
         repoRemarks.FormatString = ""
@@ -1597,7 +1413,6 @@ Public Class FrmTransferKDIL
         repoRemarks.Name = colRemarks
         repoRemarks.Width = 100
         gv1.MasterTemplate.Columns.Add(repoRemarks)
-
         'Dim repoIsUsedInGRN As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         'repoIsUsedInGRN.HeaderText = "Is Item Used IN GRN "
         'repoIsUsedInGRN.Name = colItemUsedINGRN
@@ -1605,7 +1420,6 @@ Public Class FrmTransferKDIL
         'repoIsUsedInGRN.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         'repoIsUsedInGRN.ReadOnly = True
         'gv1.MasterTemplate.Columns.Add(repoIsUsedInGRN)
-
         Dim repoIsExcisable1 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable1.HeaderText = "Is Excisable 1"
         repoIsExcisable1.Name = colIsExcisable1
@@ -1613,7 +1427,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable1.IsVisible = False
         repoIsExcisable1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable1)
-
         Dim repoIsExcisable2 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable2.HeaderText = "Is Excisable 2"
         repoIsExcisable2.Name = colIsExcisable2
@@ -1621,7 +1434,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable2.IsVisible = False
         repoIsExcisable2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable2)
-
         Dim repoIsExcisable3 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable3.HeaderText = "Is Excisable 3"
         repoIsExcisable3.Name = colIsExcisable3
@@ -1629,7 +1441,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable3.IsVisible = False
         repoIsExcisable3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable3)
-
         Dim repoIsExcisable4 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable4.HeaderText = "Is Excisable 4"
         repoIsExcisable4.Name = colIsExcisable4
@@ -1637,7 +1448,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable4.IsVisible = False
         repoIsExcisable4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable4)
-
         Dim repoIsExcisable5 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable5.HeaderText = "Is Excisable 5"
         repoIsExcisable5.Name = colIsExcisable5
@@ -1645,7 +1455,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable5.IsVisible = False
         repoIsExcisable5.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable5)
-
         Dim repoIsExcisable6 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable6.HeaderText = "Is Excisable 6"
         repoIsExcisable6.Name = colIsExcisable6
@@ -1653,7 +1462,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable6.IsVisible = False
         repoIsExcisable6.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable6)
-
         Dim repoIsExcisable7 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable7.HeaderText = "Is Excisable 7"
         repoIsExcisable7.Name = colIsExcisable7
@@ -1661,7 +1469,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable7.IsVisible = False
         repoIsExcisable7.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable7)
-
         Dim repoIsExcisable8 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable8.HeaderText = "Is Excisable 8"
         repoIsExcisable8.Name = colIsExcisable8
@@ -1669,7 +1476,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable8.IsVisible = False
         repoIsExcisable8.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable8)
-
         Dim repoIsExcisable9 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable9.HeaderText = "Is Excisable 9"
         repoIsExcisable9.Name = colIsExcisable9
@@ -1677,7 +1483,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable9.IsVisible = False
         repoIsExcisable9.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable9)
-
         Dim repoIsExcisable10 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsExcisable10.HeaderText = "Is Excisable 10"
         repoIsExcisable10.Name = colIsExcisable10
@@ -1685,7 +1490,6 @@ Public Class FrmTransferKDIL
         repoIsExcisable10.IsVisible = False
         repoIsExcisable10.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsExcisable10)
-
         Dim repoIsSerItem As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsSerItem.HeaderText = "Is Serialize Item"
         repoIsSerItem.Name = colIsSerialseItem
@@ -1693,7 +1497,6 @@ Public Class FrmTransferKDIL
         repoIsSerItem.IsVisible = False
         repoIsSerItem.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSerItem)
-
         Dim repoIsPickAutoSerNo As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsPickAutoSerNo.HeaderText = "Is Pick Auto Serial"
         repoIsPickAutoSerNo.Name = colIsPickAutoSrNo
@@ -1701,7 +1504,6 @@ Public Class FrmTransferKDIL
         repoIsPickAutoSerNo.IsVisible = False
         repoIsPickAutoSerNo.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsPickAutoSerNo)
-
         'Dim repoRGPNO As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         'repoRGPNO.FormatString = ""
         'repoRGPNO.HeaderText = "RGP No"
@@ -1710,17 +1512,13 @@ Public Class FrmTransferKDIL
         'repoRGPNO.ReadOnly = True
         'repoRGPNO.IsVisible = False
         'gv1.MasterTemplate.Columns.Add(repoRGPNO)
-
         Dim repoIsBatchItem As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsBatchItem.HeaderText = "Is Batch Item"
         repoIsBatchItem.Name = colIsBatchItem
         repoIsBatchItem.ReadOnly = True
-
         repoIsBatchItem.IsVisible = False
         repoIsBatchItem.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsBatchItem)
-
-
         Dim repoFOCItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoFOCItem.FormatString = ""
         repoFOCItem.HeaderText = "FOC Item"
@@ -1729,9 +1527,7 @@ Public Class FrmTransferKDIL
         repoFOCItem.IsVisible = False
         repoFOCItem.Width = 100
         gv1.MasterTemplate.Columns.Add(repoFOCItem)
-
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
-
         gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -1741,13 +1537,10 @@ Public Class FrmTransferKDIL
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
-
     End Sub
-
     Sub LoadBlankGridTax()
         gv2.Rows.Clear()
         gv2.Columns.Clear()
-
         Dim repoTaxAuthCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTaxAuthCode.FormatString = ""
         repoTaxAuthCode.HeaderText = "Tax Authority Code"
@@ -1755,7 +1548,6 @@ Public Class FrmTransferKDIL
         repoTaxAuthCode.Width = 150
         repoTaxAuthCode.ReadOnly = True
         gv2.MasterTemplate.Columns.Add(repoTaxAuthCode)
-
         Dim repoTaxAuthName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTaxAuthName.FormatString = ""
         repoTaxAuthName.HeaderText = "Tax Authority"
@@ -1763,7 +1555,6 @@ Public Class FrmTransferKDIL
         repoTaxAuthName.Width = 200
         repoTaxAuthName.ReadOnly = True
         gv2.MasterTemplate.Columns.Add(repoTaxAuthName)
-
         Dim repoTaxAssessableAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAssessableAmt.FormatString = ""
         repoTaxAssessableAmt.HeaderText = "Assessable Amount"
@@ -1772,7 +1563,6 @@ Public Class FrmTransferKDIL
         repoTaxAssessableAmt.ReadOnly = True
         repoTaxAssessableAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv2.MasterTemplate.Columns.Add(repoTaxAssessableAmt)
-
         Dim repoTaxBaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxBaseAmt.FormatString = ""
         repoTaxBaseAmt.HeaderText = "Base Amount"
@@ -1781,7 +1571,6 @@ Public Class FrmTransferKDIL
         repoTaxBaseAmt.ReadOnly = True
         repoTaxBaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv2.MasterTemplate.Columns.Add(repoTaxBaseAmt)
-
         Dim repoTaxRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxRate.FormatString = ""
         repoTaxRate.HeaderText = "Tax Rate"
@@ -1791,7 +1580,6 @@ Public Class FrmTransferKDIL
         repoTaxRate.IsVisible = True
         repoTaxRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv2.MasterTemplate.Columns.Add(repoTaxRate)
-
         Dim repoTaxAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTaxAmt.FormatString = ""
         repoTaxAmt.HeaderText = "Tax Amount"
@@ -1800,7 +1588,6 @@ Public Class FrmTransferKDIL
         repoTaxAmt.ReadOnly = False
         repoTaxAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv2.MasterTemplate.Columns.Add(repoTaxAmt)
-
         gv2.AllowAddNewRow = False
         gv2.ShowGroupPanel = False
         gv2.AllowColumnReorder = False
@@ -1808,9 +1595,7 @@ Public Class FrmTransferKDIL
         gv2.EnableSorting = False
         gv2.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv2.MasterTemplate.ShowRowHeaderColumn = False
-
     End Sub
-
     Private Sub CalMT_WT(ByVal IntRow As Integer)
         If clsCommon.myLen(Gross_Weight_Unit) > 0 Then
             Dim Wt_Value As Decimal = 0
@@ -1830,14 +1615,11 @@ Public Class FrmTransferKDIL
             If clsCommon.CompairString(Weight_UOM, Weight_MT_Unit) = CompairStringResult.Equal Then
                 mt_uom_cnvrsn = 1
             End If
-
             Qry = "select top 1 CF from (select (case when (Container_UOM='" & Weight_UOM & "' and Contained_UOM='" & Gross_Weight_Unit & "') then round(Contained_Qty/Container_Qty,4) else case when (Container_UOM='" & Gross_Weight_Unit & "' and Contained_UOM='" & Weight_UOM & "') then round(Container_Qty/Contained_Qty,4) end end) as CF,product_type from TSPL_WEIGHT_CONVERSION where product_type in ('ALL','" + clsItemMaster.GetItemProductType(clsCommon.myCstr(gv1.Rows(IntRow).Cells(colICode).Value), Nothing) + "')  " & IIf(ItemStructureMandatoryOnWeightConversion = True, "and isnull(Structure_Code,'') =(select Structure_Code  from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(IntRow).Cells(colICode).Value) & "')", "") & " )aa where isnull(cast(CF as varchar),'')<>'' order by Product_Type desc"
             Dim gross_uom_cnvrsn As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
-
             If clsCommon.CompairString(Weight_UOM, Gross_Weight_Unit) = CompairStringResult.Equal Then
                 gross_uom_cnvrsn = 1
             End If
-
             If gross_uom_cnvrsn > 0 Then
                 gv1.Rows(IntRow).Cells(colINetMTWt).Value = clsCommon.myCdbl(gv1.Rows(IntRow).Cells(colINetWt).Value) * gross_uom_cnvrsn
             Else
@@ -1846,15 +1628,11 @@ Public Class FrmTransferKDIL
                     gv1.Rows(IntRow).Cells(colINetMTWt).Value = clsCommon.myCdbl(gv1.Rows(IntRow).Cells(colINetWt).Value)
                 End If
             End If
-
             If ProvisionAllow = False Then
                 gv1.Rows(IntRow).Cells(colINetMTWt).Value = clsCommon.myCdbl(gv1.Rows(IntRow).Cells(colINetWt).Value)
             End If
         End If
     End Sub
-
-
-
     Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -1867,13 +1645,11 @@ Public Class FrmTransferKDIL
                         UpdateCurrentRow(gv1.CurrentRow.Index) ''-1 is for current row
                         UpdateAllTotals()
                     End If
-
                     If e.Column Is gv1.Columns(colUnit) OrElse e.Column Is gv1.Columns(colTotTaxAmt) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colOutQty) OrElse e.Column Is gv1.Columns(colOutQty) OrElse e.Column Is gv1.Columns(colInQty) OrElse e.Column Is gv1.Columns(colBreakQty) OrElse e.Column Is gv1.Columns(colLeakQty) OrElse e.Column Is gv1.Columns(colShortQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colAmt) OrElse (e.Column Is gv1.Columns(colMRP)) Then
                         If e.Column Is gv1.Columns(colOutQty) OrElse e.Column Is gv1.Columns(colInQty) OrElse e.Column Is gv1.Columns(colBreakQty) OrElse e.Column Is gv1.Columns(colLeakQty) OrElse e.Column Is gv1.Columns(colShortQty) OrElse e.Column Is gv1.Columns(colRate) OrElse (e.Column Is gv1.Columns(colAmt)) OrElse e.Column Is gv1.Columns(colMRP) Then
                             If (e.Column Is gv1.Columns(colOutQty) OrElse clsCommon.myLen(gv1.CurrentRow.Cells(colInQty).Value) OrElse clsCommon.myLen(gv1.CurrentRow.Cells(colLeakQty).Value) OrElse clsCommon.myLen(gv1.CurrentRow.Cells(colBreakQty).Value) OrElse clsCommon.myLen(gv1.CurrentRow.Cells(colShortQty).Value) > 0) Then
                                 Dim dblOutQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colOutQty).Value)
                                 Dim dblInQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colInQty).Value)
-
                                 Dim dblLeakQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colLeakQty).Value)
                                 Dim dblBreakQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colBreakQty).Value)
                                 Dim dblShortQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colShortQty).Value)
@@ -1886,7 +1662,15 @@ Public Class FrmTransferKDIL
                             End If
                             If (e.Column Is gv1.Columns(colOutQty) OrElse e.Column Is gv1.Columns(colInQty)) Then
                                 OpenSerialItem()
-                                OpenBatchItem()
+                                If RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
+                                    If gv1.CurrentRow.Cells(colIsBatchItem).Value = True Then
+                                        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                                            OpenBatchItem()
+                                        End If
+
+                                    End If
+                                End If
+                                'OpenBatchItem()
                             End If
                             '---------------Calculate Abatement Amount--------------------------
                             gv1.CurrentRow.Cells(colAbatementAmount).Value = ((clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) * clsCommon.myCdbl(gv1.CurrentRow.Cells(colAbatementPer).Value)) / 100) * clsCommon.myCdbl(gv1.CurrentRow.Cells(colOutQty).Value)
@@ -1896,11 +1680,9 @@ Public Class FrmTransferKDIL
                                     UpdateCurrentRow(ii)
                                 Next
                             End If
-
                             '============calc. unit wt and net wt.===========
                             CalMT_WT(gv1.CurrentRow.Index)
                             '==============================================
-
                             UpdateAllTotals()
                         ElseIf e.Column Is gv1.Columns(colICode) Then
                             If Not clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
@@ -1909,10 +1691,8 @@ Public Class FrmTransferKDIL
                                 Dim strUnit As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
                                 Dim strDate As String = txtDate.Value
                                 Dim dblUnitCost As Double = 0
-
                                 ''-----------------
                                 ''richa agarwal 15 Nov,2016
-
                                 If PickRateFromPRICEChrtFORUMang Then
                                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select (case when Is_Scheme_Item=1 then 'F' else item_type end) as item_type from TSPL_ITEM_MASTER  where Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "' ")), "F") = CompairStringResult.Equal Then
                                         Dim qry As String = String.Empty
@@ -1935,7 +1715,6 @@ Public Class FrmTransferKDIL
                                                 Exit Sub
                                             End If
                                         End If
-
                                     Else
                                         setAvgRate(gv1.CurrentRow.Index)
                                     End If
@@ -1987,8 +1766,6 @@ Public Class FrmTransferKDIL
                                         gv1.CurrentRow.Cells(colRate).Value = 0
                                     End If
                                 End If
-
-
                                 '============calc. unit wt and net wt.===========
                                 CalMT_WT(gv1.CurrentRow.Index)
                                 '==============================================
@@ -1997,7 +1774,6 @@ Public Class FrmTransferKDIL
                         ''setGridFocus()
                     End If
                     isCellValueChangedOpen = False
-
                     If e.Column Is gv1.Columns(colAltUOM) Then
                         isCellValueChangedOpen = True
                         OpenAltUOMList(False)
@@ -2018,7 +1794,6 @@ Public Class FrmTransferKDIL
                         End If
                     End If
                 End If
-
             End If
         Catch ex As Exception
             isCellValueChangedTaxOpen = False
@@ -2026,7 +1801,6 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub setAvgRate(ByVal rowID As Integer)
         Dim strDate As String = txtDate.Value
         If PickRateFromPRICEChrtFORUMang = False Then
@@ -2038,7 +1812,6 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Sub GetConvRateUOM(ByVal IntRowNo As Integer)
         Try
             Dim strItem As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value)
@@ -2057,9 +1830,7 @@ Public Class FrmTransferKDIL
                 dblConvRate = Math.Round((dblRate * dblOrgConvF), 2)
             End If
             gv1.Rows(IntRowNo).Cells(colRate).Value = dblConvRate
-
         Catch ex As Exception
-
         End Try
     End Sub
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
@@ -2070,7 +1841,6 @@ Public Class FrmTransferKDIL
             gv1.CurrentRow.Cells(colUnit).Value = clsCommon.ShowSelectForm("TRNSKLUOMFND", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "Code", isButtonClick)
         End If
     End Sub
-
     Sub OpenAltUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) > 0 Then
@@ -2080,9 +1850,7 @@ Public Class FrmTransferKDIL
             gv1.CurrentRow.Cells(colAltUOM).Value = clsCommon.ShowSelectForm("TRNSKLUOMFND1", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colAltUOM).Value), "Code", isButtonClick)
         End If
     End Sub
-
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
-
         Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), "", False, isButtonClick, "", "")
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
             gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
@@ -2104,7 +1872,6 @@ Public Class FrmTransferKDIL
         SetitemWiseTaxSetting(True, True)
         setBalance()
     End Sub
-
     Private Sub SetBlankOfItemColumns()
         gv1.CurrentRow.Cells(colICode).Value = ""
         gv1.CurrentRow.Cells(colIName).Value = ""
@@ -2116,7 +1883,6 @@ Public Class FrmTransferKDIL
         gv1.CurrentRow.Cells(colisMRPMandatory).Value = False
         ''gv1.CurrentRow.Cells(colAssessableRate).Value = 0
     End Sub
-
     Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
         For i As Integer = 0 To gv1.Rows.Count - 1
             gv1.Rows(0).Cells(0).Value = 1
@@ -2125,18 +1891,14 @@ Public Class FrmTransferKDIL
             End If
         Next
     End Sub
-
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
         GstStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
         Dim arrTaxableAuth As New List(Of String)
-
         Dim dblOutQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colOutQty).Value)
         Dim dblInQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colInQty).Value)
-
         Dim dblLeakQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colLeakQty).Value)
         Dim dblBreakQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colBreakQty).Value)
         Dim dblShortQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colShortQty).Value)
-
         Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
         Dim dblAmt As Double = 0
         If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "R") = CompairStringResult.Equal Then
@@ -2146,16 +1908,12 @@ Public Class FrmTransferKDIL
             dblAmt = (dblInQty + dblLeakQty + dblBreakQty + dblShortQty) * dblRate
             gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2)
         End If
-
         ''richa agarwal
         Dim strItemCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value)
         Dim strItemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select case when CSA_TYPE='BULK-DESI GHEE' then 1 when CSA_TYPE='CPD-DESI GHEE' then 1 else 0 end   from TSPL_ITEM_MASTER where Item_Code ='" & strItemCode & "' "))
         strTaxType = clsLocationWiseTax.TaxType(txtFromLocation.Value, txtToLoc.Value, "T", txtDate.Value, Nothing)
         ''------------------------------------
-
-
         If clsCommon.myLen(txtTaxGroup.Value) >= 0 Then
-
             'Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
             'Dim dblDisAmt As Double = (dblAmt * dblDisPer) / 100
             Dim dblAmtAfterDis As Double = dblAmt
@@ -2178,7 +1936,6 @@ Public Class FrmTransferKDIL
                             Else
                                 Dim dblOtherTaxAmt As Double = 0
                                 dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
-
                                 If clsERPFuncationality.GetGSTStatus(txtDate.Value) = True Then
                                     dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
                                 Else
@@ -2188,9 +1945,6 @@ Public Class FrmTransferKDIL
                                         dblBaseAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAbatementAmount).Value) + dblOtherTaxAmt
                                     End If
                                 End If
-
-
-
                             End If
                             'gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAbatementAmount).Value), 2)
                             gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
@@ -2204,7 +1958,6 @@ Public Class FrmTransferKDIL
                                 'End If
                             End If
                             gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2))
-
                             If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                                 arrTaxableAuth.Add(strTaxCode.ToUpper())
                             End If
@@ -2248,16 +2001,13 @@ Public Class FrmTransferKDIL
                 gv1.Rows(IntRowNo).Cells(colTotTaxAmt).Value = 0
                 gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = dblAmt
             End If
-
         Else
             gv1.Rows(IntRowNo).Cells(colDisAmt).Value = 0
             gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = 0
             gv1.Rows(IntRowNo).Cells(colTotTaxAmt).Value = 0
             gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = 0
         End If
-
     End Sub
-
     Private Function GetCurrentRowTotalTaxAmt(ByVal IntRowNo As Integer) As Double
         Dim dblTotTax As Double = 0
         For ii As Integer = 1 To 10
@@ -2270,7 +2020,6 @@ Public Class FrmTransferKDIL
         Next
         Return dblTotTax
     End Function
-
     Private Function GetCurrentRowSurTaxAmt(ByVal IntRowNo As Integer, ByVal intEndCol As Integer, ByVal strSurTaxCode As String) As Double
         For ii As Integer = 1 To intEndCol
             Dim strii As String = clsCommon.myCstr(ii)
@@ -2286,7 +2035,6 @@ Public Class FrmTransferKDIL
         Next
         Return 0
     End Function
-
     Private Function GetCurrentRowOtherTaxAmt(ByVal IntRowNo As Integer, ByVal intEndCol As Integer, ByVal arrTaxableAuth As List(Of String)) As Double
         Dim dblRet As Double = 0
         For Each strTaxAuth As String In arrTaxableAuth
@@ -2336,15 +2084,12 @@ Public Class FrmTransferKDIL
             End If
         Next
     End Sub
-
     Private Sub UpdateAllTotals()
         Dim dblTotAmt As Double = 0
         Dim dblTotDisAmt As Double = 0
         Dim dblAmtAfterDis As Double = 0
-
         Dim dblTaxAssessableAmt As Double = 0
         Dim dblMTWt As Double = 0
-
         Dim dblTaxBaseAmt1 As Double = 0
         Dim dblTaxBaseAmt2 As Double = 0
         Dim dblTaxBaseAmt3 As Double = 0
@@ -2355,7 +2100,6 @@ Public Class FrmTransferKDIL
         Dim dblTaxBaseAmt8 As Double = 0
         Dim dblTaxBaseAmt9 As Double = 0
         Dim dblTaxBaseAmt10 As Double = 0
-
         Dim dblTaxAmt1 As Double = 0
         Dim dblTaxAmt2 As Double = 0
         Dim dblTaxAmt3 As Double = 0
@@ -2366,9 +2110,6 @@ Public Class FrmTransferKDIL
         Dim dblTaxAmt8 As Double = 0
         Dim dblTaxAmt9 As Double = 0
         Dim dblTaxAmt10 As Double = 0
-
-
-
         Dim dblTaxTotAmt As Double = 0
         Dim dblNetAmt As Double = 0
         For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -2386,7 +2127,6 @@ Public Class FrmTransferKDIL
                 dblTaxAmt8 = dblTaxAmt8 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt8).Value)
                 dblTaxAmt9 = dblTaxAmt9 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt9).Value)
                 dblTaxAmt10 = dblTaxAmt10 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxAmt10).Value)
-
                 'dblTaxAssessableAmt = dblTaxAssessableAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAssessableAmount).Value)
                 dblTaxBaseAmt1 = dblTaxBaseAmt1 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt1).Value)
                 dblTaxBaseAmt2 = dblTaxBaseAmt2 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt2).Value)
@@ -2398,12 +2138,10 @@ Public Class FrmTransferKDIL
                 dblTaxBaseAmt8 = dblTaxBaseAmt8 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt8).Value)
                 dblTaxBaseAmt9 = dblTaxBaseAmt9 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt9).Value)
                 dblTaxBaseAmt10 = dblTaxBaseAmt10 + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTaxBaseAmt10).Value)
-
                 dblTaxTotAmt = dblTaxTotAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
                 dblNetAmt = dblNetAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterTax).Value)
             End If
         Next
-
         If clsCommon.myLen(txtTaxGroup.Value) > 0 Then
             If rbtnTaxCalAutomatic.IsChecked Then
                 For ii As Integer = 1 To gv2.Rows.Count
@@ -2507,7 +2245,6 @@ Public Class FrmTransferKDIL
                     End Select
                 Next
             End If
-
         Else
             dblNetAmt = clsCommon.myFormat(dblTotAmt)
         End If
@@ -2515,22 +2252,18 @@ Public Class FrmTransferKDIL
         lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt)
         lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
         lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
-
         dblMTWt = 0
         For Each grow As GridViewRowInfo In gv1.Rows
             dblMTWt = dblMTWt + clsCommon.myCdbl(grow.Cells(colINetMTWt).Value)
         Next
-
         dblNetAmt = dblNetAmt
         txttotal_Wt.Text = dblMTWt
         lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
-
         ''================for gopal ji===============
         If clsCommon.CompairString(StrCrateTransferFromBooking, "1") = CompairStringResult.Equal Then
             Dim cratewt As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemCrateWtinKg, clsFixedParameterCode.ItemCrateWtinKg, Nothing))
             Dim jaaliwt As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemJaaliWtinKg, clsFixedParameterCode.ItemJaaliWtinKg, Nothing))
             Dim boxwt As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemBoxWtinKg, clsFixedParameterCode.ItemBoxWtinKg, Nothing))
-
             If clsCommon.CompairString(cmbGPItemType.SelectedValue, "NT") = CompairStringResult.Equal AndAlso clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                 cratewt = cratewt * clsCommon.myCdbl(txtCrateIn.Text)
                 jaaliwt = jaaliwt * clsCommon.myCdbl(txtJaaliIn.Text)
@@ -2540,7 +2273,6 @@ Public Class FrmTransferKDIL
                 jaaliwt = jaaliwt * clsCommon.myCdbl(txtjaaliout.Text)
                 boxwt = boxwt * clsCommon.myCdbl(txtBoxOut.Text)
             End If
-
             If clsCommon.CompairString(cmbGPItemType.SelectedValue, "NT") = CompairStringResult.Equal Then
                 txtGross_Wt.Text = clsCommon.myCdbl(txttotal_Wt.Text) + clsCommon.myCdbl(cratewt) + clsCommon.myCdbl(jaaliwt) + clsCommon.myCdbl(boxwt)
             Else
@@ -2582,10 +2314,8 @@ Public Class FrmTransferKDIL
         Else
             FillVehicleCharges()
         End If
-
         lblTotRAmt1.Text = lblTotRAmt.Text
     End Sub
-
     Private Sub FillVehicleCharges()
         Try
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
@@ -2600,12 +2330,10 @@ Public Class FrmTransferKDIL
                     txtvehicle_Charge.Tag = Nothing
                 End If
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Function GetBaseOtherTaxableAmount(ByVal intEndCol As Integer) As Double
         ''Dim dblRetVal As Double = 0
         ''For ii As Integer = 0 To intEndCol - 1
@@ -2615,7 +2343,6 @@ Public Class FrmTransferKDIL
         ''Next
         ''Return dblRetVal
     End Function
-
     Private Function GetBaseTaxAmount(ByVal intEndCol As Integer, ByVal strSurTaxCode As String) As Double
         For ii As Integer = 0 To intEndCol
             If clsCommon.CompairString(strSurTaxCode, clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxAutCode).Value)) = CompairStringResult.Equal Then
@@ -2624,12 +2351,9 @@ Public Class FrmTransferKDIL
         Next
         Return 0
     End Function
-
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
         AddNew()
-
     End Sub
-
     Sub AddNew()
         isCellValueChangedOpen = False
         isInsideLoadData = False
@@ -2662,7 +2386,6 @@ Public Class FrmTransferKDIL
             chkAgainst_Form.Checked = False
             chkAgainst_Form.Enabled = False
         End If
-
         TxtTransportorMName.MendatroryField = True
         TxtTransportorMName.Visible = False
         fndTransferIndentNo.Value = ""
@@ -2680,7 +2403,6 @@ Public Class FrmTransferKDIL
             lblpricecode.Visible = False
             fndPriceCode.Visible = False
         End If
-
         FndGatePassNo.Value = ""
         fndPriceCode.Value = ""
         LoadGPItemType()
@@ -2700,7 +2422,6 @@ Public Class FrmTransferKDIL
             txtcrateout.Visible = True
             txtjaaliout.Visible = True
             txtBoxOut.Visible = True
-
             lblCrateIn.Visible = False
             lblJaaliIn.Visible = False
             lblBoxIn.Visible = False
@@ -2727,7 +2448,6 @@ Public Class FrmTransferKDIL
             lblJaaliOut.Visible = False
             lblBoxout.Visible = False
         End If
-
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.SetDefaultValues()
@@ -2753,7 +2473,6 @@ Public Class FrmTransferKDIL
         txtTransferOutNo.Enabled = True
         txtLoadingAdviceNo.Text = ""
     End Sub
-
     Function AllowToSave() As Boolean
         Try
             If chkInternalTransfer.Checked Then
@@ -2766,7 +2485,6 @@ Public Class FrmTransferKDIL
                     Return False
                 End If
             End If
-
             Dim Qry As String
             If clsCommon.CompairString(cboTransferType.Text, "Transfer In") = CompairStringResult.Equal Then
                 Qry = "select Document_Date  from TSPL_TRANSFER_ORDER_HEAD where Document_No='" + txtTransferOutNo.Value + "'"
@@ -2779,7 +2497,6 @@ Public Class FrmTransferKDIL
                     Throw New Exception("Please select Price Code")
                 End If
             End If
-
             '=====================Added by preeti Gupta==================
             If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
                 txtDate.Focus()
@@ -2803,13 +2520,11 @@ Public Class FrmTransferKDIL
                     If clsCommon.myLen(lblToLoc.Tag) <= 0 Then
                         Throw New Exception("Please create GIT Location of " & txtToLoc.Value & "")
                     End If
-
                     If clsCommon.CompairString(cmbGPItemType.SelectedValue, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Excisable  from TSPL_LOCATION_MASTER  where  Location_Code ='" & clsCommon.myCstr(txtFromLocation.Value) & "'")), "T") <> CompairStringResult.Equal Then
                         Throw New Exception("Please select From Location of Excisable Type")
                     End If
                 End If
             End If
-
             If clsCommon.CompairString(cboTransferType.Text, "Transfer In") = CompairStringResult.Equal Then
                 Qry = "select isnull(Is_Status_IN ,'') from TSPL_TRANSFER_ORDER_HEAD WHERE Transfer_Type='O' and Document_No In (select Document_No from TSPL_TRANSFER_ORDER_HEAD WHERE Transfer_Type='I' AND Document_No<>'" + txtDocNo.Value + "' AND TransferOutNo='" + txtTransferOutNo.Value + "' ) AND TransferOutNo='" + txtTransferOutNo.Value + "' "
                 Qry = clsDBFuncationality.getSingleValue(Qry)
@@ -2817,7 +2532,6 @@ Public Class FrmTransferKDIL
                     Throw New Exception("Transfer-Out ''" + txtTransferOutNo.Value + "'' has been used with other Transfer-In ")
                 End If
             End If
-
             If isALlowVehicleGateOutValidation = True Then
                 If clsCommon.myLen(txtvehicle_mannual_no.Text) > 0 Then
                     Dim qry1 As String = String.Empty
@@ -2826,13 +2540,9 @@ Public Class FrmTransferKDIL
                     If clsCommon.myLen(result) > 0 Then
                         common.clsCommon.MyMessageBoxShow("Vehicle No ('" & txtvehicle_mannual_no.Text & "') used in other Shipment No. You can create new Shipment with Vehicle No :('" & txtvehicle_mannual_no.Text & "')  After  Gate Out following Shipment No : '" & result & "'")
                         Return False
-
                     End If
                 End If
-
             End If
-
-
             If chkAgainst_Form.Checked AndAlso chkTaxable.Checked = True Then
                 If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
                     Throw New Exception("Please select tax group.")
@@ -2866,7 +2576,6 @@ Public Class FrmTransferKDIL
                     End If
                 End If
             End If
-
             If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                 If clsCommon.myLen(clsCommon.myCstr(txtTransferOutNo.Value)) = 0 Then
@@ -2884,7 +2593,6 @@ Public Class FrmTransferKDIL
             If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(cboType.SelectedValue)) <= 0 Then
                 cboType.Focus()
                 Throw New Exception("Please select Type")
-
             ElseIf clsCommon.myLen(cboModeOfTransport.Text) <= 0 Then
                 cboModeOfTransport.Focus()
                 Throw New Exception("Mode Of Transport Can't be Blank")
@@ -2915,7 +2623,6 @@ Public Class FrmTransferKDIL
                         txtcrateout.Focus()
                         Throw New Exception("Crate In is not greater then crate Out")
                     End If
-
                     If clsCommon.myCdbl(txtBoxIn.Text) > clsCommon.myCdbl(txtBoxOut.Text) Then
                         txtBoxOut.Focus()
                         Throw New Exception("Box In is not greater then Box Out")
@@ -2926,7 +2633,6 @@ Public Class FrmTransferKDIL
                     End If
                 End If
             End If
-
             Dim arrProjNo As New List(Of String)
             Dim arrReqNo As New List(Of String)
             Dim arrICode As New List(Of String)()
@@ -2942,7 +2648,6 @@ Public Class FrmTransferKDIL
                 Dim dblShortQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colShortQty).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
                 Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
-
                 If clsCommon.myLen(strICode) > 0 Then
                     '===============Added by preeti gupta Against ticket no[ERO/15/02/19-000490]=========
                     If clsCommon.myCdbl(dblOutQty) <= 0 Then
@@ -2954,7 +2659,6 @@ Public Class FrmTransferKDIL
                         common.clsCommon.MyMessageBoxShow(Me, "HSN Code can't be blank for [" + strIName + "] Item. At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
-
                     If clsCommon.myCBool(gv1.Rows(ii).Cells(colisMRPMandatory).Value) AndAlso dblMRP <= 0 Then
                         common.clsCommon.MyMessageBoxShow(Me, "Please enter MRP for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
                         Return False
@@ -2965,7 +2669,6 @@ Public Class FrmTransferKDIL
                                   "TSPL_BOOKING_DETAIL on TSPL_GATEPASS_TRANSFER_HEAD.Booking_Code=TSPL_BOOKING_DETAIL.Document_No where  " &
                                   "TSPL_GATEPASS_TRANSFER_HEAD.Document_No='" & clsCommon.myCstr(gv1.Rows(i).Cells(colgatePassTransferNo).Value) & "' and " &
                                   "TSPL_GATEPASS_TRANSFER_DETAIL.item_code='" & clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value) & "' and Scheme_Item='Y'")
-
                         StrCrateTransferFromBooking = clsFixedParameter.GetData(clsFixedParameterType.CreateTransferFromBooking, clsFixedParameterCode.CreateTransferFromBooking, Nothing)
                         If clsCommon.myLen(strIsschemeItem) = 0 Then
                             If StrCrateTransferFromBooking = "1" Then
@@ -2974,7 +2677,6 @@ Public Class FrmTransferKDIL
                                     Return False
                                 End If
                             Else
-
                                 If clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) = 0 Then
                                     common.clsCommon.MyMessageBoxShow(Me, "Please enter Item Rate for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
                                     Return False
@@ -2986,7 +2688,6 @@ Public Class FrmTransferKDIL
                     Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strICode, txtFromLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, strUOM, dblMRP)
                     If clsCommon.myLen(strTransferOutNo) > 0 Then
                         Dim dblTransferInQty As Double = dblInQty + dblLeakQty + dblBreakQty + dblShortQty
-
                         If clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then 'preeti gupta[UDL/24/07/18-000207]
                             If dblTransferInQty > dblOutQty Then
                                 Throw New Exception("In Qty Should not be greater then Out Qty." + Environment.NewLine + "Out Quantity : " + clsCommon.myCstr(dblOutQty) + ". In Quantity : " + clsCommon.myCstr(dblTransferInQty))
@@ -2995,7 +2696,6 @@ Public Class FrmTransferKDIL
                             If dblTransferInQty < dblOutQty Then
                                 Throw New Exception("In Qty Should be equal to Out Qty." + Environment.NewLine + "Out Quantity : " + clsCommon.myCstr(dblOutQty) + ". In Quantity : " + clsCommon.myCstr(dblTransferInQty))
                             End If
-
                             If dblTransferInQty > dblOutQty Then
                                 Throw New Exception("In Qty Should be equal to Out Qty." + Environment.NewLine + "Out Quantity : " + clsCommon.myCstr(dblOutQty) + ". In Quantity : " + clsCommon.myCstr(dblTransferInQty))
                             End If
@@ -3013,7 +2713,6 @@ Public Class FrmTransferKDIL
                                     Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblInQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
                                 End If
                             End If
-
                             If clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
                                 Dim strqry As String = "SELECT (MAX(Out_Qty)-sUM(In_Qty)) AS Ret_Qty  FROM TSPL_TRANSFER_ORDER_DETAIL " &
                                 " LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_DETAIL.Document_No = TSPL_TRANSFER_ORDER_HEAD.Document_No WHERE  Transfer_Type ='T' " &
@@ -3043,13 +2742,16 @@ Public Class FrmTransferKDIL
                                 Return False
                             End If
                         End If
-
-
                         If dblOutQty > 0 AndAlso clsCommon.myCBool(gv1.Rows(ii).Cells(colIsBatchItem).Value) AndAlso clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value) = True Then
-                            If RunBatchFifowise = 1 Then
-                                gv1.CurrentRow = gv1.Rows(ii)
+                            If (RunBatchFifowisewithmodifyfunctionality = True AndAlso clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) <= 0) Then
+                                OpenBatchItem()
+                            ElseIf RunBatchFifowise = 1 AndAlso RunBatchFifowisewithmodifyfunctionality = False Then
                                 OpenBatchItem()
                             End If
+                            'If RunBatchFifowise = 1 Then
+                            '    gv1.CurrentRow = gv1.Rows(ii)
+                            '    OpenBatchItem()
+                            'End If
                             Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
                             If arrBatchNo Is Nothing Then
                                 Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
@@ -3091,7 +2793,6 @@ Public Class FrmTransferKDIL
                         End If
                     Next
                 End If
-
                 If clsCommon.myCBool(gv1.Rows(ii).Cells(colIsSerialseItem).Value) Then
                     Dim arrSerailNo As List(Of clsSerializeInvenotry) = TryCast(gv1.Rows(ii).Tag, List(Of clsSerializeInvenotry))
                     Dim dblQty As Double = 0
@@ -3103,10 +2804,7 @@ Public Class FrmTransferKDIL
                     If arrSerailNo Is Nothing OrElse dblQty <> arrSerailNo.Count Then
                         Throw New Exception("Please provide serial no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
                     End If
-
                 End If
-
-
                 ''richa agarwal 17 Nov,2016
                 If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
                     If PickRateFromPRICEChrtFORUMang Then
@@ -3164,28 +2862,22 @@ Public Class FrmTransferKDIL
                     End If
                 End If
             Next
-
             If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select IsParlour from tspl_location_master where Location_code='" & clsCommon.myCstr(txtToLoc.Value) & "'")), "Y") = CompairStringResult.Equal Then
                 If clsCommon.myLen(fndTransferIndentNo.Value) <= 0 Then
                     fndTransferIndentNo.Focus()
                     Throw New Exception("Please select Transfer Indent No")
                 End If
             End If
-
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 UpdateCurrentRow(ii)
             Next
             UpdateAllTotals()
-
-
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
-
             If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
                 chkTaxable.Checked = clsLocationWiseTax.IsTaxable(txtFromLocation.Value, txtToLoc.Value, txtDate.Value, Nothing)
                 chkIsManditax.Checked = clsLocationWiseTax.IsMandiTax(txtTaxGroup.Value, Nothing)
             End If
-
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) Then
                 If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
                     If chkForRepair.Checked = True Then
@@ -3195,10 +2887,8 @@ Public Class FrmTransferKDIL
                             clsLocationWiseTax.IsValidTaxGroupForTransfer(txtTaxGroup.Value, txtFromLocation.Value, txtToLoc.Value, "T", txtDate.Value, False, Nothing)
                         End If
                     End If
-
                 End If
             Else
-
                 Dim intx As Integer = clsItemMaster.isItemOfSameExcisable(arrICode)
                 If Not (intx = arrICode.Count OrElse intx = 0) Then
                     Throw New Exception("All item should be of Excisable or NonExcisable")
@@ -3223,21 +2913,18 @@ Public Class FrmTransferKDIL
                 Else
                     Item_TaxType = 0
                 End If
-
             End If
             If ValidateTaxGroup Then
                 If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
                     Throw New Exception("Please select tax group.")
                 End If
             End If
-
             txtFreightDistance.Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select MAX(Distance) AS Distance from TSPL_LOCATION_DISTANCE_MAPPING where TransType='T' and ((Location_Code='" & txtFromLocation.Value & "' and Customer_Code='" & txtToLoc.Value & "') OR (Customer_Code='" & txtToLoc.Value & "' and Location_Code='" & txtFromLocation.Value & "'))", Nothing))
             'Dim ELocationType As String = clsDBFuncationality.getSingleValue("select CASE WHEN TSPL_LOCATION_MASTER.Registered=1 then 'BB' else 'BC' end AS Type from TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.Location_Code='" + txtToLoc.Value + "'", Nothing)
             If chkJobWork.Checked = False AndAlso (clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal) AndAlso objCommonVar.GenerateEWayBillWithEInvoice = True AndAlso chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True Then
                 If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
                     Throw New Exception("Please define Freight Distance in EWay Bill Distance Master.")
                 End If
-
                 If chkOwnVehicle.Checked = False Then
                     If clsCommon.myLen(txtTransporter_desc.Text) <= 0 Then
                         Throw New Exception("Pls Select Transporter")
@@ -3250,17 +2937,14 @@ Public Class FrmTransferKDIL
                     End If
                 End If
             End If
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
-
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SavingData(False)
     End Sub
-
     Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
         If (SaveData(False, ChekBtnPost)) Then
             If ChekBtnPost = False Then
@@ -3271,7 +2955,6 @@ Public Class FrmTransferKDIL
             Return False
         End If
     End Function
-
     '' Anubhooti 09-Sep-2014 BM00000003735
     Private Function FinYrCheck(ByVal Save As Boolean, ByVal Post As Boolean) As Boolean
         If (Save = True And Post = False Or Save = False And Post = True) Then
@@ -3282,15 +2965,12 @@ Public Class FrmTransferKDIL
         Return True
         ''
     End Function
-
     Private Function SaveData(ByVal isDoAbandomentNo As Boolean, Optional ByVal ChekBtnPost As Boolean = False) As Boolean
         Try
             If FinYrCheck(True, False) = False Then
                 Return False
             End If
-
             clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
-
             If (AllowToSave()) Then
                 Dim obj As New clsTransferDCC()
                 obj.GLVoucher_No = txtglvoucher.Text
@@ -3298,12 +2978,10 @@ Public Class FrmTransferKDIL
                 obj.Document_Date = txtDate.Value
                 obj.Delivery_date = txtOutDate.Value
                 obj.Delivery_Duration = clsCommon.myCstr(txtDeliveryDuration.Text)
-
                 obj.Secondary_Code = txtSecondary_Doc_Code.Text
                 obj.Loading_Advice_No = clsCommon.myCstr(txtLoadingAdviceNo.Text)
                 obj.Vehicle_Mannual_No = clsCommon.myCstr(txtvehicle_mannual_no.Text)
                 obj.Vehicle_Charge = clsCommon.myCdbl(txtvehicle_Charge.Text)
-
                 ''======================================================================
                 If txtvehicle_Charge.Tag IsNot Nothing AndAlso TryCast(txtvehicle_Charge.Tag, DataTable) IsNot Nothing AndAlso TryCast(txtvehicle_Charge.Tag, DataTable).Rows.Count > 0 Then
                     Dim dt As DataTable = TryCast(txtvehicle_Charge.Tag, DataTable)
@@ -3312,32 +2990,25 @@ Public Class FrmTransferKDIL
                     obj.EmptyCharge = clsCommon.myCdbl(dt.Rows(0)("EmptyCharge"))
                 End If
                 ''======================================================================
-
                 obj.Vehicle_Capacity = clsCommon.myCdbl(txtVehicle_Capacity.Text)
                 obj.Total_Item_Wt = clsCommon.myCdbl(txttotal_Wt.Text)
                 obj.Gross_Item_Wt = clsCommon.myCdbl(txtGross_Wt.Text)
-
                 obj.TransferIndent_No = clsCommon.myCstr(fndTransferIndentNo.Value)
                 obj.Form38 = chkForm38.Checked
                 obj.Ref_No = txtRefNo.Text
                 obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
                 obj.Remarks = txtRemarks.Text
                 obj.From_Location = txtFromLocation.Value
-
                 If clsCommon.myCBool(chkInternalTransfer.Checked) = True Then
                     obj.To_Location = txtToLoc.Value
                 Else
                     obj.To_Location = clsCommon.myCstr(lblToLoc.Tag)
                 End If
-
-
-
                 obj.Comments = txtComment.Text
                 obj.On_Hold = chkOnHold.Checked
                 obj.Mode_Of_Transport = cboModeOfTransport.Text
                 obj.Electronic_Ref_No = txtElecttefNo.Text
                 obj.Waybill_No = clsCommon.myCstr(txtEWayBillNo.Text)
-
                 ''--- add by parteek 17-08-2017
                 obj.For_Repair = IIf(chkForRepair.Checked, 1, 0)
                 ''--end
@@ -3356,7 +3027,6 @@ Public Class FrmTransferKDIL
                 Else
                     obj.GR_Date = Nothing
                 End If
-
                 If chkOwnVehicle.Checked = True Then
                     obj.Transport_Id = ""
                     obj.Transporter_Name_Manual = clsCommon.myCstr(TxtTransportorMName.Text)
@@ -3365,11 +3035,9 @@ Public Class FrmTransferKDIL
                     obj.Transport_Id = clsCommon.myCstr(txtTransporter_Code.Value)
                 End If
                 obj.Freight_Distance = clsCommon.myCdbl(txtFreightDistance.Value)
-
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.Transfer_Type = clsCommon.myCstr(cboTransferType.SelectedValue)
                 obj.RMDA_Code = txtRMDANo.Value
-
                 ''richa agarwal 20 july
                 obj.GP_Item_Type = clsCommon.myCstr(cmbGPItemType.SelectedValue)
                 obj.Price_Code = clsCommon.myCstr(fndPriceCode.Value)
@@ -3381,11 +3049,9 @@ Public Class FrmTransferKDIL
                 obj.Crate_Out = clsCommon.myCdbl(txtcrateout.Text)
                 obj.jaali_Out = clsCommon.myCdbl(txtjaaliout.Text)
                 obj.Box_Out = clsCommon.myCdbl(txtBoxOut.Text)
-
                 '=======================================================
                 obj.Is_Taxable = IIf(chkTaxable.Checked, 1, 0)
                 obj.Is_MandiTax = IIf(chkIsManditax.Checked, 1, 0)
-
                 If (gv2.Rows.Count > 0) Then
                     obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
                     obj.TAX1_Rate = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxRate).Value)
@@ -3446,7 +3112,6 @@ Public Class FrmTransferKDIL
                     obj.TAX10_Base_Amt = clsCommon.myCdbl(gv2.Rows(9).Cells(colTBaseAmt).Value)
                     obj.TAX10_Amt = clsCommon.myCdbl(gv2.Rows(9).Cells(colTTaxAmt).Value)
                 End If
-
                 obj.Terms_Code = txtTermCode.Value
                 obj.Terms_Remark = txtTermRemark.Text
                 obj.Due_Date = txtDueDate.Value
@@ -3455,7 +3120,6 @@ Public Class FrmTransferKDIL
                 obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
                 obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
                 obj.DOC_Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
-
                 obj.TransferOutNo = txtTransferOutNo.Value
                 obj.Vehicle_Code = txtVehicleCode.Value
                 obj.Vehicle_No = lblVehicleNo.Text
@@ -3485,7 +3149,6 @@ Public Class FrmTransferKDIL
                     ''richa agarwal 20/07/2016
                     objTr.GatePassNo = clsCommon.myCstr(grow.Cells(colgatePassTransferNo).Value)
                     ''----------------------
-
                     objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
                     objTr.Out_Qty = clsCommon.myCdbl(grow.Cells(colOutQty).Value)
                     objTr.In_Qty = clsCommon.myCdbl(grow.Cells(colInQty).Value)
@@ -3568,7 +3231,6 @@ Public Class FrmTransferKDIL
                     common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
-
                 ''For Custom Fields
                 obj.Form_ID = MyBase.Form_ID
                 obj.arrCustomFields = New List(Of clsCustomFieldValues)
@@ -3579,7 +3241,6 @@ Public Class FrmTransferKDIL
                     clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
                 End If
                 ''End of For Custom Fields
-
                 '' CurrencConversion
                 If clsModuleCurrencyMapping.CheckMultiCurrency(Me.Module_Code) = True Then
                     obj.CURRENCY_CODE = Me.txtCurrencyCode.Value
@@ -3595,7 +3256,6 @@ Public Class FrmTransferKDIL
                     obj.ApplicableFrom = Nothing
                 End If
                 '' end CurrencyConversion
-
                 Dim isSaved As Boolean = obj.SaveData(obj, isNewEntry, isDoAbandomentNo)
                 UcAttachment1.SaveData(obj.Document_No)
                 'If chkInternalTransfer.Checked Then   'Asked By Shruti mam
@@ -3613,7 +3273,6 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
-
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             btnSave.Enabled = True
@@ -3626,28 +3285,23 @@ Public Class FrmTransferKDIL
             BlankAllControls()
             LoadBlankGrid()
             LoadBlankGridTax()
-
             cboTransferType.Enabled = False
             txtFromLocation.Enabled = False
             txtToLoc.Enabled = False
-
             Dim obj As New clsTransferDCC()
             obj = clsTransferDCC.GetData(strCode, NavTyep)
-
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 'txtTaxGroup.Enabled = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
-
                     repoComplete.IsVisible = True
                     'repoBalQty.IsVisible = True
                     btn_CancelDel.Enabled = True
                 ElseIf obj.Status = ERPTransactionStatus.Pending Then
                     btn_CancelDel.Enabled = False
                 End If
-
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
@@ -3675,12 +3329,10 @@ Public Class FrmTransferKDIL
                     txtEWayBillDate.Value = obj.EWayBillDate
                     txtEWayBillDate.Checked = True
                 End If
-
                 fndTransferIndentNo.Value = obj.TransferIndent_No
                 txtLoadingAdviceNo.Text = obj.Loading_Advice_No
                 chkTaxable.Checked = IIf(obj.Is_Taxable = 1, True, False)
                 chkIsManditax.Checked = IIf(obj.Is_MandiTax = 1, True, False)
-
                 chkInternalTransfer.Checked = IIf(obj.InternalTransfer = 1, True, False)
                 chkProductionRequest.Checked = IIf(obj.ProdRequestTransfer = 1, True, False)
                 If chkInternalTransfer.Checked Then
@@ -3706,16 +3358,13 @@ Public Class FrmTransferKDIL
                     dr("FixedCharge") = obj.FixedCharge
                     dr("FreightCharge") = obj.Vehicle_Charge
                     dr("EmptyCharge") = obj.EmptyCharge
-
                     txtvehicle_Charge.Tag = dt
                 Else
                     txtvehicle_Charge.Tag = Nothing
                 End If
                 ''======================================================================
-
                 txtTaxGroup.Value = obj.Tax_Group
                 PreviousTaxGroupCode = obj.Tax_Group
-
                 txtComment.Text = obj.Comments
                 If clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then 'Added by preeti Gupta[In Case Of Return]
                     pnlLoadIn.Visible = True
@@ -3747,9 +3396,6 @@ Public Class FrmTransferKDIL
                     Else
                         txtToLoc.Value = obj.To_Location_Main
                     End If
-
-
-
                     txtTaxGroup.Enabled = True
                 End If
                 '====Enabled False of Repair Check Box ==============
@@ -3766,17 +3412,14 @@ Public Class FrmTransferKDIL
                 FillLocationInfo(isInsideLoadData)
                 txtFromLocation.Value = obj.From_Location
                 txtRemarks.Text = obj.Remarks
-
                 chkOwnVehicle.Checked = False
                 If clsCommon.myLen(obj.Transport_Id) <= 0 Then
                     chkOwnVehicle.Checked = True
                     TxtTransportorMName.Text = clsCommon.myCstr(obj.Transporter_Name_Manual)
                     txtTransporter_Code.Visible = False
-
                 Else
                     TxtTransportorMName.Text = ""
                 End If
-
                 cboModeOfTransport.Text = obj.Mode_Of_Transport
                 txtTransporter_Code.Value = obj.Transport_Id
                 txtTransporter_desc.Text = clsTransferDCC.GetTransporterName(txtTransporter_Code.Value)
@@ -3793,7 +3436,6 @@ Public Class FrmTransferKDIL
                 cmbGPItemType.SelectedValue = obj.GP_Item_Type
                 fndPriceCode.Value = obj.Price_Code
                 ''-------------
-
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()
                 objTaxGrpMaster = clsTransferDCC.GetTaxGroupData(obj.Tax_Group, "T")
                 If (objTaxGrpMaster IsNot Nothing) Then
@@ -3803,21 +3445,18 @@ Public Class FrmTransferKDIL
                 cboTransferType.SelectedValue = obj.Transfer_Type
                 txtVehicleCode.Value = obj.Vehicle_Code
                 lblVehicleNo.Text = obj.Vehicle_No
-
                 txtTermCode.Value = obj.Terms_Code
                 txtTermRemark.Text = obj.Terms_Remark
                 'lblTermName.Text = obj.Terms_Description
                 If clsCommon.myLen(obj.Due_Date) > 0 Then
                     txtDueDate.Value = obj.Due_Date
                 End If
-
                 lblAmtWithoutTax.Text = clsCommon.myFormat(obj.Discount_Base)
                 lblDiscountAmt.Text = clsCommon.myFormat(obj.Discount_Amt)
                 lblAmtAfterDiscount.Text = clsCommon.myFormat(obj.Amount_Less_Discount)
                 lblTaxAmt.Text = clsCommon.myFormat(obj.Total_Tax_Amt)
                 lblTotRAmt.Text = clsCommon.myFormat(obj.DOC_Total_Amt)
                 lblTotRAmt1.Text = lblTotRAmt.Text
-
                 lblFromLoc.Text = obj.From_LocationName
                 lblTaxGrpName.Text = obj.TaxGroupName
                 lblTermName.Text = obj.TermsName
@@ -3830,10 +3469,7 @@ Public Class FrmTransferKDIL
                 txtBoxOut.Text = clsCommon.myCdbl(obj.Box_Out)
                 txtjaaliout.Text = clsCommon.myCdbl(obj.jaali_Out)
                 '================================================================
-
-
                 EInvoiceType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_TRANSFER_ORDER_HEAD", "Document_No", txtDocNo.Value, Nothing)
-
                 If chkJobWork.Checked = False AndAlso (clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal) AndAlso chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
                     btnReverseAndUnpost.Enabled = False
                     If objCommonVar.GenerateEWayBillWithEInvoice = True Then
@@ -3846,8 +3482,6 @@ Public Class FrmTransferKDIL
                         btn_CancelDel.Enabled = False
                     End If
                 End If
-
-
                 If clsCommon.myLen(txtFromLocation.Value) > 0 AndAlso clsCommon.myLen(txtToLoc.Value) > 0 Then
                     strTaxType = clsLocationWiseTax.TaxType(txtFromLocation.Value, txtToLoc.Value, "T", txtDate.Value, Nothing)
                 End If
@@ -4043,19 +3677,12 @@ Public Class FrmTransferKDIL
                         Next
                     End If
                 End If
-
-
-
-
                 If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
                     rbtnTaxCalAutomatic.IsChecked = True
                 ElseIf obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
                     rbtnTaxCalManual.IsChecked = True
                 End If
-
                 txtKm.Text = obj.Km_Reading
-
-
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsTransferDCCDetail In obj.Arr
                         gv1.Rows.AddNew()
@@ -4086,7 +3713,6 @@ Public Class FrmTransferKDIL
                         Else
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).ReadOnly = False
                         End If
-
                         '==================Added by preeti Gupta Against ticket no[UDL/24/07/18-000207]===========
                         If clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colOutQty).ReadOnly = True
@@ -4143,24 +3769,20 @@ Public Class FrmTransferKDIL
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt10).Value = objTr.TAX10_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTotTaxAmt).Value = objTr.Total_Tax_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAmtAfterTax).Value = objTr.Item_Net_Amt
-
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(objTr.Item_Code)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = objTr.MRP
-
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIUnitWt).Value = objTr.Item_Unit_Wt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colINetWt).Value = objTr.Item_Net_Wt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colINetMTWt).Value = objTr.Item_Net_MT_Wt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colBinNo).Value = objTr.Bin_No
-
                         Dim StrCrateTransferFromBooking As String = clsFixedParameter.GetData(clsFixedParameterType.CreateTransferFromBooking, clsFixedParameterCode.CreateTransferFromBooking, Nothing)
                         'If StrCrateTransferFromBooking = "1" Then
                         '    gv1.Rows(gv1.Rows.Count - 1).Cells(colFOCItem).Value = objTr.FOCItem
                         'End If
                         ''gv1.Rows(gv1.Rows.Count - 1).Cells(colAssessableRate).Value = objTr.Assessable
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colAssessableAmount).Value = objTr.AssessableAmt
-
                         'If clsCommon.myLen(objTr.TransferOutNo) > 0 Then
                         '    gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsRequistionDetail.GetBalanceRequitionQty(objTr.TransferOutNo, objTr.Item_Code, obj.Document_No, "")
                         'End If
@@ -4176,7 +3798,6 @@ Public Class FrmTransferKDIL
                             gv1.Columns(colShortQty).IsVisible = True
                         End If
                     Next
-
                     If obj.Status = ERPTransactionStatus.Approved Then
                         btnAmendment.Enabled = True
                     End If
@@ -4185,7 +3806,6 @@ Public Class FrmTransferKDIL
                             gv1.Rows.AddNew()
                         End If
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
-
                     End If
                     ''RICHA UDL/14/05/18-000161
                     If obj.Status = ERPTransactionStatus.Cancel Then
@@ -4197,14 +3817,12 @@ Public Class FrmTransferKDIL
                 End If
                 SetitemWiseTaxOnlySetting()
                 ''RefreshReqNo()
-
                 ''For Custom Fields
                 If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
                     UcCustomFields1.LoadData(obj.Document_No)
                 End If
                 clsCustomFieldGrid.FillDataInGrid(obj.Document_No, MyBase.Form_ID, gv1)
                 ''End of For Custom Fields
-
                 '' MULTICURRENCY
                 Me.txtCurrencyCode.Value = obj.CURRENCY_CODE
                 Me.txtConversionRate.Text = obj.ConvRate
@@ -4237,15 +3855,12 @@ Public Class FrmTransferKDIL
             IsFormLoad = False
         End Try
     End Sub
-
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         CloseForm()
     End Sub
-
     Sub CloseForm()
         Me.Close()
     End Sub
-
     Private Sub gv2_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gv2.DoubleClick
         Try
             If rbtnTaxCalAutomatic.IsChecked Then
@@ -4272,17 +3887,14 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
         PostData()
     End Sub
-
     Private Function PostAllowToSave() As Boolean
         Try
             If Not ProvisionAllow Then
                 Return True
             End If
-
             If clsCommon.CompairString(cboModeOfTransport.Text, "By Hand") <> CompairStringResult.Equal Then
                 If clsCommon.myLen(txtTransporter_Code.Value) <= 0 AndAlso chkOwnVehicle.Checked = False Then
                     RadPageView1.SelectedPage = RadPageViewPage1
@@ -4291,7 +3903,6 @@ Public Class FrmTransferKDIL
                     clsCommon.MyMessageBoxShow(Me, "Select transporter detail.", Me.Text)
                     Exit Function
                 End If
-
                 If clsCommon.myLen(txtTransporter_Code.Value) > 0 AndAlso clsCommon.myLen(txtvehicle_mannual_no.Text) <= 0 Then
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtvehicle_mannual_no.Focus()
@@ -4299,7 +3910,6 @@ Public Class FrmTransferKDIL
                     clsCommon.MyMessageBoxShow(Me, "Fill vehicle no. for provision booking.", Me.Text)
                     Exit Function
                 End If
-
                 If clsCommon.myLen(txtTransporter_Code.Value) > 0 AndAlso clsCommon.myCdbl(txtVehicle_Capacity.Text) <= 0 Then
                     RadPageView1.SelectedPage = RadPageViewPage1
                     txtVehicle_Capacity.Focus()
@@ -4308,7 +3918,6 @@ Public Class FrmTransferKDIL
                     Exit Function
                 End If
             End If
-
             If clsCommon.myLen(txtTransporter_Code.Value) > 0 AndAlso clsCommon.myCdbl(txtGross_Wt.Text) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtGross_Wt.Focus()
@@ -4316,17 +3925,14 @@ Public Class FrmTransferKDIL
                 clsCommon.MyMessageBoxShow(Me, "Fill Gross weight for provision booking.", Me.Text)
                 Exit Function
             End If
-
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
-
     Sub PostData()
         Try
             If (myMessages.postConfirm()) Then
-
                 If clsCommon.myCBool(chkInternalTransfer.Checked) = False Then
                     If Not PostAllowToSave() Then
                         Exit Sub
@@ -4339,9 +3945,7 @@ Public Class FrmTransferKDIL
                         If dt1 IsNot Nothing AndAlso dt1.Rows.Count <= 0 Then
                             Throw New Exception("Plz attach the attachment,it is mandatory")
                         End If
-
                     End If
-
                     If (clsTransferDCC.postTransfer(txtDocNo.Value, ProvisionAllow, txtglvoucher.Text)) Then
                         common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -4352,11 +3956,9 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
-
     Sub DeleteData()
         Try
             Dim Reason As String = ""
@@ -4385,7 +3987,6 @@ Public Class FrmTransferKDIL
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID
@@ -4394,7 +3995,6 @@ Public Class FrmTransferKDIL
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
-
     Private Sub gv1_CellEditorInitialized(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellEditorInitialized
         If TypeOf Me.gv1.CurrentColumn Is GridViewMultiComboBoxColumn Then
             Dim editor As RadMultiColumnComboBoxElement = DirectCast(Me.gv1.ActiveEditor, RadMultiColumnComboBoxElement)
@@ -4409,7 +4009,6 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Private Sub txtDocNo__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtDocNo._MYNavigator
         Try
             Dim qst As String = "select count(*) from TSPL_TRANSFER_ORDER_HEAD where Document_No='" + txtDocNo.Value + "'"
@@ -4424,7 +4023,6 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
         Dim qry As String = "select Document_No as [TransferNO],convert (varchar(10), Document_Date,103) as Date,DOC_Total_Amt as Amount,case when Status='0' then 'Pending' else 'Approved' end as [Status], From_Location+' - '+FromLocation.Location_Desc as [FromLocation], To_Location+' - '+ToLocation.Location_Desc as [ToLocation], Case When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='O' Then 'LOAD OUT' When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='I' Then 'LOAD IN' When TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='T' Then 'Return' Else 'REJECTED' End as [Transfer Type], TSPL_TRANSFER_ORDER_HEAD.TransferOutNo from TSPL_TRANSFER_ORDER_HEAD LEFT OUTER JOIN TSPL_LOCATION_MASTER FromLocation ON FromLocation.Location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location LEFT OUTER JOIN TSPL_LOCATION_MASTER ToLocation on ToLocation.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location"
         Dim whrClas As String = ""
@@ -4433,7 +4031,6 @@ Public Class FrmTransferKDIL
         End If
         LoadData(clsCommon.ShowSelectForm("POOrde123d", qry, "TransferNO", whrClas, txtDocNo.Value, "TSPL_TRANSFER_ORDER_HEAD.Document_Date desc", isButtonClicked, "TSPL_TRANSFER_ORDER_HEAD.Document_Date"), NavigatorType.Current)
     End Sub
-
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colTransferOutNo).Value) <= 0 Then
             isCellValueChangedOpen = True
@@ -4444,7 +4041,6 @@ Public Class FrmTransferKDIL
             End If
             ''setGridFocus()
             isCellValueChangedOpen = False
-
         ElseIf e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colAltUOM) Then
             isCellValueChangedOpen = True
             OpenAltUOMList(True)
@@ -4463,7 +4059,6 @@ Public Class FrmTransferKDIL
             SelectRequistionItems()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
-
                 ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                                                       "TSPL_Transfer_ORDER_HEAD " + Environment.NewLine +
                                                       "TSPL_TRANSFER_ORDER_DETAIL " + Environment.NewLine +
@@ -4493,17 +4088,22 @@ Public Class FrmTransferKDIL
                 btnReverseAndUnpost.Visible = True
                 blnUpdateLoadInwithLoadOut = True
             End If
+        ElseIf e.KeyCode = Keys.F5 Then
+            '======update by preeti gupta 16/10/2018
+            If ApplyFEFO = True And chkInternalTransfer.Checked = True Then
+                OpenBatchItemIfFIFIOSettingON()
+            ElseIf RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
+                OpenBatchItem()
+            Else
+                OpenBatchItemIfFIFIOSettingON()
+            End If
         End If
     End Sub
-
     Private Sub txtTermCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTermCode._MYValidating
         Dim qry As String = "select Terms_Code as Code,Terms_Desc as Description,No_Days as [No Of Days] from TSPL_TERMS_MASTER"
         txtTermCode.Value = clsCommon.ShowSelectForm("PoermCodefnd", qry, "Code", "", txtTermCode.Value, "Code", isButtonClicked)
         SetTermDetails()
-
-
     End Sub
-
     Sub SetTermDetails()
         Dim qry As String = "select Terms_Code as Code,Terms_Desc as Description,No_Days as [No Of Days] from TSPL_TERMS_MASTER where Terms_Code='" + txtTermCode.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -4514,13 +4114,11 @@ Public Class FrmTransferKDIL
             lblTermName.Text = ""
         End If
     End Sub
-
     Private Sub txtTaxGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTaxGroup._MYValidating
         Try
             If clsCommon.myCBool(chkInternalTransfer.Checked) = True Then
                 txtTaxGroup.Value = clsDBFuncationality.getSingleValue("select Tax_Group_Code from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='EXEMPTED' and tax_group_type='S'", Nothing)
                 txtTaxGroup.Enabled = False
-
             Else
                 GstStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
                 If clsCommon.myLen(txtFromLocation.Value) > 0 AndAlso clsCommon.myLen(txtToLoc.Value) > 0 Then
@@ -4532,21 +4130,17 @@ Public Class FrmTransferKDIL
                     End If
                 Else
                     txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroupForTransfer(txtFromLocation.Value, txtToLoc.Value, "T", txtTaxGroup.Value, isButtonClicked)
-
                 End If
                 If clsCommon.myLen(txtTaxGroup.Value) > 0 Then
                     IsMandiTax = clsLocationWiseTax.IsMandiTax(txtTaxGroup.Value, Nothing)
                 End If
                 txtTaxGroup.Enabled = True
             End If
-
             SetTaxDetails()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
-
     Sub SetTaxDetails()
         LoadBlankGridTax()
         Dim dt As New DataTable
@@ -4585,13 +4179,11 @@ Public Class FrmTransferKDIL
                 BlankTaxDetails(ii)
             Next
         End If
-
         For ii As Integer = 0 To gv1.Rows.Count - 1
             UpdateCurrentRow(ii)
         Next
         UpdateAllTotals()
     End Sub
-
     Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean)
         ''Dim qry As String = "select TSPL_TAX_GROUP_DETAILS.Tax_Group_Code ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,Tax_Code,Tax_Code_Desc,Surtax,Surtax_Tax_Code,(select Tax_Rate from TSPL_TAX_RATES WHERE Tax_Rate_Code=1 AND Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code and TSPL_TAX_RATES.Tax_Type='P') AS TaxRate,Taxable from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" + txtTaxGroup.Value + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='P' order by Trans_Code"
         'Dim dt As DataTable = clsTransferDCC.GetTaxDetailsTransfer(txtTaxGroup.Value)
@@ -4613,7 +4205,6 @@ Public Class FrmTransferKDIL
                 Else
                     BlankTaxDetails(gv1.CurrentRow.Index)
                 End If
-
                 If clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 Then
                     Dim ii As Integer = 1
                     For Each dr As DataRow In dt.Rows
@@ -4677,7 +4268,6 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Sub SetitemWiseTaxOnlySetting()
         ' Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetails(txtTaxGroup.Value)
         Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocationForTransfer(txtTaxGroup.Value, "T", txtToLoc.Value, txtFromLocation.Value)
@@ -4729,16 +4319,12 @@ Public Class FrmTransferKDIL
             Exit Sub
         End If
         '' added functionality for UDL Internal Transfer
-
         If clsCommon.myCBool(EnableInternalTransfer) = True AndAlso (chkInternalTransfer.Checked) = True Then
             qry = "Select  LM.Location_Code as Code,LM.Location_Desc as Description,LM.Loc_Short_Name as [Short Name],Location_type as 'Location Type',(case LM.Excisable when 'T'then 'Excisable'else 'Non-Excisable'end) as 'Excisable'  from TSPL_LOCATION_MASTER as LM "
             Dim whrclas As String = " LM.Location_Type ='Physical' and (LM.GIT_Type='N' or isnull(LM.GIT_Type,'')='')"
             txtFromLocation.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("From Location", qry, "Code", whrclas, txtFromLocation.Value, "Code", isButtonClicked))
             lblFromLoc.Text = clsCommon.myCstr(connectSql.RunScalar("SELECT Location_Desc  FROM TSPL_LOCATION_MASTER WHERE Location_Code = '" + Convert.ToString(txtFromLocation.Value) + "'"))
-
-
         Else
-
             qry = "Select  LM.Location_Code as Code,LM.Location_Desc as Description,LM.Loc_Short_Name as [Short Name],Location_type as 'Location Type',(case LM.Excisable when 'T'then 'Excisable'else 'Non-Excisable'end) as 'Excisable'  from TSPL_LOCATION_MASTER as LM "
             Dim whrclas As String = " LM.Location_Type ='Physical'"
             If clsCommon.myLen(arrLoc) > 0 Then
@@ -4758,8 +4344,6 @@ Public Class FrmTransferKDIL
             If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
                 whrclas += " and (LM.GIT_Type='N' or isnull(LM.GIT_Type,'')='')"
             End If
-
-
             txtFromLocation.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("From Location", qry, "Code", whrclas, txtFromLocation.Value, "Code", isButtonClicked))
             lblFromLoc.Text = clsCommon.myCstr(connectSql.RunScalar("SELECT Location_Desc  FROM TSPL_LOCATION_MASTER WHERE Location_Code = '" + Convert.ToString(txtFromLocation.Value) + "'"))
             'comment by balwinder on 31/01/2015.asked by amit sir becuase user will pick the to location.
@@ -4770,28 +4354,19 @@ Public Class FrmTransferKDIL
             '    txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtFromLocation.Value + "'"))
             '    lblToLoc.Text = clsLocation.GetName(txtToLoc.Value, Nothing)
             'End If
-
-
-
         End If
-
         If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtFromLocation.Value) > 0 Then
             cboType.Enabled = False
         End If
-
-
         '' Anubhooti 08-June-2015 (If FromLoc state and ToLoc state is diff then check f form checkbox should be enable)
         Dim ToLocState As String = String.Empty
         Dim FromLocState As String = String.Empty
-
         If clsCommon.myLen(txtToLoc.Value) > 0 Then
             ToLocState = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(STATE,'') AS StateName FROM TSPL_LOCATION_MASTER WHERE Location_Code='" + txtToLoc.Value + "'"))
         End If
         If clsCommon.myLen(txtFromLocation.Value) > 0 Then
             FromLocState = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(STATE,'') AS StateName FROM TSPL_LOCATION_MASTER WHERE Location_Code='" + txtFromLocation.Value + "'"))
         End If
-
-
         If clsCommon.myLen(ToLocState) > 0 AndAlso clsCommon.myLen(FromLocState) > 0 Then
             If clsCommon.CompairString(ToLocState, FromLocState) <> CompairStringResult.Equal Then
                 chkAgainst_Form.Enabled = True
@@ -4804,7 +4379,6 @@ Public Class FrmTransferKDIL
             chkAgainst_Form.Enabled = False
             chkAgainst_Form.Checked = False
         End If
-
         'Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         'Dim WhrCls As String = " Location_Type='Physical'  "
         'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -4812,28 +4386,21 @@ Public Class FrmTransferKDIL
         'End If
         'txtFromLocation.Value = clsCommon.ShowSelectForm("BILLTOLOCPO", qry, "Code", WhrCls, txtFromLocation.Value, "Code", isButtonClicked)
         'lblFromLoc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtFromLocation.Value + "'"))
-
         SetTax()
     End Sub
-
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtToLoc._MYValidating
-
         Dim qry As String = ""
         If clsCommon.myCBool(EnableInternalTransfer) = True AndAlso (chkInternalTransfer.Checked) = True Then
-
             If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please Select From Location", Me.Text)
                 Exit Sub
             End If
-
             Dim locSub As String = clsDBFuncationality.getSingleValue("select is_sub_location from TSPL_LOCATION_MASTER where Location_Code='" & txtFromLocation.Value & "'")
             If clsCommon.CompairString(locSub, "Y") = CompairStringResult.Equal Then
                 qry = "Select LM.Location_Code as Code,lm.Main_Location_Code as [Main Location Code],LM.Location_Desc as Description,LM.Loc_Short_Name as [Short Name],Location_type as 'Location Type',(case LM.Excisable when 'T'then 'Excisable'else 'Non-Excisable'end) as 'Excisable',GIT_Location as GITLocation from TSPL_LOCATION_MASTER as LM "
                 'Asked by Shruti mam, show all location which main loaction is equal to from location(Sub Location -To- Sub Loaction transfer)
                 Dim StrMainLoc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Main_Location_Code,'') AS MainLoc FROM TSPL_LOCATION_MASTER WHERE Location_Code='" + txtFromLocation.Value + "'"))
                 Dim whrclas As String = "2=2 and (Location_Code='" & StrMainLoc & "' or Main_Location_Code='" & StrMainLoc & "')"
-
-
                 txtToLoc.Value = clsCommon.ShowSelectForm("To Location", qry, "Code", whrclas, txtToLoc.Value, "Code", isButtonClicked)
             Else
                 qry = "Select  LM.Location_Code as Code,LM.Location_Desc as Description,LM.Loc_Short_Name as [Short Name],Location_type as 'Location Type',(case LM.Excisable when 'T'then 'Excisable'else 'Non-Excisable'end) as 'Excisable',GIT_Location as GITLocation from TSPL_LOCATION_MASTER as LM "
@@ -4841,13 +4408,9 @@ Public Class FrmTransferKDIL
                 whrclas += " and LM.Location_Type ='Physical'  and (GIT_Type='N' or   GIT_Type ='') and is_sub_location='Y' and Main_Location_Code='" & txtFromLocation.Value & "' "
                 txtToLoc.Value = clsCommon.ShowSelectForm("To Location", qry, "Code", whrclas, txtToLoc.Value, "Code", isButtonClicked)
             End If
-
-
-
         Else
             qry = "Select  LM.Location_Code as Code,LM.Location_Desc as Description,LM.Loc_Short_Name as [Short Name],Location_type as 'Location Type',(case LM.Excisable when 'T'then 'Excisable'else 'Non-Excisable'end) as 'Excisable',GIT_Location as GITLocation from TSPL_LOCATION_MASTER as LM "
             Dim whrclas As String = "2=2"
-
             If clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                 whrclas += " and LM.Location_Type ='Physical'  and (GIT_Type='N' or   GIT_Type ='') and LM.location_code in (" + arrLoc + ") "
                 txtToLoc.Value = clsCommon.ShowSelectForm("To Location", qry, "Code", whrclas, txtToLoc.Value, "Code", isButtonClicked)
@@ -4859,9 +4422,6 @@ Public Class FrmTransferKDIL
                 txtToLoc.Value = clsCommon.ShowSelectForm("To Location", qry, "Code", whrclas, txtToLoc.Value, "GITLocation", isButtonClicked)
             End If
         End If
-
-
-
         'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
         '    whrclas += " and LM.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         'End If
@@ -4869,15 +4429,12 @@ Public Class FrmTransferKDIL
         '' Anubhooti 08-June-2015 (If FromLoc state and ToLoc state is diff then check f form checkbox should be enable)
         Dim ToLocState As String = String.Empty
         Dim FromLocState As String = String.Empty
-
         If clsCommon.myLen(txtToLoc.Value) > 0 Then
             ToLocState = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(STATE,'') AS StateName FROM TSPL_LOCATION_MASTER WHERE Location_Code='" + txtToLoc.Value + "'"))
         End If
         If clsCommon.myLen(txtFromLocation.Value) > 0 Then
             FromLocState = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(STATE,'') AS StateName FROM TSPL_LOCATION_MASTER WHERE Location_Code='" + txtFromLocation.Value + "'"))
         End If
-
-
         If clsCommon.myLen(ToLocState) > 0 AndAlso clsCommon.myLen(FromLocState) > 0 Then
             If clsCommon.CompairString(ToLocState, FromLocState) <> CompairStringResult.Equal Then
                 chkAgainst_Form.Enabled = True
@@ -4891,9 +4448,7 @@ Public Class FrmTransferKDIL
             chkAgainst_Form.Checked = False
         End If
         SetTax()
-
     End Sub
-
     Private Sub FillLocationInfo(ByVal IsLoadData As Boolean)
         Try
             dt = clsDBFuncationality.GetDataTable("Select Location_Code, Location_Desc, GIT_location from TSPL_LOCATION_MASTER WHERE Location_Code ='" & txtToLoc.Value & "'")
@@ -4919,13 +4474,10 @@ Public Class FrmTransferKDIL
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
     Sub SelectRequistionItems()
         isInsideLoadData = True
         Dim frm As New frmPendingTransfer()
-
         frm.arrLoc = arrLoc
-
         frm.strCurrCode = txtDocNo.Value
         Dim TransferType As String = clsCommon.myCstr(cboTransferType.SelectedValue)
         'If clsCommon.CompairString(TransferType, "R") = CompairStringResult.Equal Then
@@ -4933,19 +4485,15 @@ Public Class FrmTransferKDIL
         'Else
         '    frm.strRetuenType = ""
         'End If
-
         frm.Text = "Pending Transfer"
         frm.InternalTransfer = IIf(chkInternalTransfer.Checked, 1, 0)
-
         frm.JobWorkType = IIf(chkJobWork.Checked, 1, 0)
         frm.ShowDialog()
-
         txtFromLocation.Enabled = True
         txtToLoc.Enabled = True
         txtTaxGroup.Enabled = False
         Dim strDate As String = txtDate.Value
         If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
-
             '=============Added by preeti Gupta against Ticket No[UDL/24/07/18-000207]
             cboTransferType.Enabled = False
             '''''''''================================================
@@ -4957,12 +4505,10 @@ Public Class FrmTransferKDIL
                 If objReq IsNot Nothing AndAlso clsCommon.myLen(objReq.Document_No) > 0 Then
                     txtFromLocation.Enabled = False
                     txtToLoc.Enabled = False
-
                     If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
                         txtFromLocation.Value = objReq.To_Location
                         lblFromLoc.Text = objReq.To_LocationName
                     End If
-
                     'txtToLoc.Value = objReq.From_Location
                     'lblToLoc.Text = objReq.From_LocationName
                     If clsCommon.myCBool(objReq.InternalTransfer) = True Then
@@ -4970,9 +4516,7 @@ Public Class FrmTransferKDIL
                     Else
                         txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtFromLocation.Value + "'"))
                     End If
-
                     lblToLoc.Text = clsLocation.GetName(txtToLoc.Value, Nothing)
-
                     txtVehicle_Capacity.Text = objReq.Vehicle_Capacity
                     txtvehicle_Charge.Text = objReq.Vehicle_Charge
                     txtvehicle_mannual_no.Text = objReq.Vehicle_Mannual_No
@@ -4993,7 +4537,6 @@ Public Class FrmTransferKDIL
                     chkForRepair.Checked = IIf(objReq.For_Repair = 1, True, False)
                     chkForRepair.Enabled = False
                     '==============
-
                     '' code done by Panch raj against email sent by ranjana mam(Anand rohela)
                     txtTransporter_Code.Value = objReq.Transport_Id
                     txtTransporter_desc.Text = clsTransferDCC.GetTransporterName(txtTransporter_Code.Value)
@@ -5029,7 +4572,6 @@ Public Class FrmTransferKDIL
                     txtjaaliout.Text = clsCommon.myCdbl(objReq.jaali_Out)
                     txtBoxOut.Text = clsCommon.myCdbl(objReq.Box_Out)
                     '========================================================
-
                 End If
                 If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
                     gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
@@ -5061,7 +4603,6 @@ Public Class FrmTransferKDIL
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = clsItemMaster.IsSerializeItem(obj.Item_Code)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(obj.Item_Code)
-
                         '=================Added by preeti gupta Against Ticket No[BHA/24/07/18-000189]
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = obj.arrBatchItem
                         '====================================================================
@@ -5076,7 +4617,6 @@ Public Class FrmTransferKDIL
                         SetitemWiseTaxSetting(True, True)
                         UpdateCurrentRow(gv1.Rows.Count - 1)
                     Else
-
                         If Not IsItemExistInGrid(obj) Then
                             gv1.Rows.AddNew()
                             'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = frmGRN.RowTypeItem
@@ -5117,18 +4657,15 @@ Public Class FrmTransferKDIL
                 Next
             End If
         Else
-
             If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
                 Dim objReq As clsTransferDCC = clsTransferDCC.GetData(frm.ArrReturn(0).TransferOutNo, NavigatorType.Current)
                 If objReq IsNot Nothing AndAlso clsCommon.myLen(objReq.Document_No) > 0 Then
                     txtFromLocation.Enabled = False
                     txtToLoc.Enabled = False
-
                     If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
                         txtFromLocation.Value = objReq.From_Location
                         lblFromLoc.Text = objReq.From_LocationName
                     End If
-
                     'txtToLoc.Value = objReq.From_Location
                     'lblToLoc.Text = objReq.From_LocationName
                     If clsCommon.myCBool(objReq.InternalTransfer) = True Then
@@ -5138,7 +4675,6 @@ Public Class FrmTransferKDIL
                         txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtToLoc.Value + "'"))
                         chkInternalTransfer.Enabled = False
                     End If
-
                     lblToLoc.Text = clsLocation.GetName(txtToLoc.Value, Nothing)
                     txtLoadingAdviceNo.Text = objReq.Loading_Advice_No
                     txtVehicle_Capacity.Text = objReq.Vehicle_Capacity
@@ -5154,7 +4690,6 @@ Public Class FrmTransferKDIL
                         txtEWayBillDate.Value = objReq.EWayBillDate
                         txtEWayBillDate.Checked = True
                     End If
-
                     chkTaxable.Checked = IIf(objReq.Is_Taxable = 1, True, False)
                     If clsCommon.myLen(objReq.Transport_Id) <= 0 Then
                         chkOwnVehicle.Checked = True
@@ -5163,13 +4698,11 @@ Public Class FrmTransferKDIL
                     Else
                         TxtTransportorMName.Text = ""
                     End If
-
                     ''---------------------------------------
                     '====Enabled False of Repair Check Box ==============
                     chkForRepair.Checked = IIf(objReq.For_Repair = 1, True, False)
                     chkForRepair.Enabled = False
                     '==============
-
                     '' code done by Panch raj against email sent by ranjana mam(Anand rohela)
                     txtTransporter_Code.Value = objReq.Transport_Id
                     txtTransporter_desc.Text = clsTransferDCC.GetTransporterName(txtTransporter_Code.Value)
@@ -5208,8 +4741,6 @@ Public Class FrmTransferKDIL
                     txtTransferOutNo.Value = objReq.Document_No
                     txtTaxGroup.Value = objReq.Tax_Group
                     SetTaxDetails()
-
-
                 End If
                 If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
                     gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
@@ -5251,7 +4782,6 @@ Public Class FrmTransferKDIL
                         '====================================================================
                         '====Added By Preeti Gupta=========================
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInQty).Value = obj.Out_Qty
-
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = obj.TAX3_Rate
@@ -5267,11 +4797,8 @@ Public Class FrmTransferKDIL
                         gv1.Columns(colLeakQty).IsVisible = True
                         gv1.Columns(colBreakQty).IsVisible = True
                         gv1.Columns(colShortQty).IsVisible = True
-
                         CalMT_WT(gv1.Rows.Count - 1) 'done by stuti against kdil bug on 03/01/2017
-
                     Else
-
                         If Not IsItemExistInGrid(obj) Then
                             gv1.Rows.AddNew()
                             'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = frmGRN.RowTypeItem
@@ -5304,7 +4831,6 @@ Public Class FrmTransferKDIL
                             '====================================================================
                             '====Added By Preeti Gupta=========================
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colInQty).Value = obj.Out_Qty
-
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = obj.TAX3_Rate
@@ -5344,7 +4870,6 @@ Public Class FrmTransferKDIL
         txtFromLocation.Enabled = True
         txtToLoc.Enabled = True
         txtTaxGroup.Enabled = False
-
         ''UDL/24/07/18-000207 richa 
         'Dim whrclas As String = "Transfer_Type ='I' and status=1 and transferoutno not in (SELECT transferoutno FROM TSPL_TRANSFER_ORDER_HEAD WHERE  Transfer_Type ='T' and Status =1)"
         'Dim whrclas As String = "Transfer_Type ='I' and status=1 and transferoutno not in (sELECT DISTINCT Z.TransferOutNo  FROM (SELECT TSPL_TRANSFER_ORDER_DETAIL.TransferOutNo ,Item_Code ,SUM(Out_Qty) AS Out_Qty ,SUM(In_Qty) AS In_Qty  FROM TSPL_TRANSFER_ORDER_DETAIL " & _
@@ -5352,10 +4877,7 @@ Public Class FrmTransferKDIL
         'If (clsCommon.myLen(txtFromLocation.Value) > 0) Then
         '    whrclas += " and To_Location='" + txtFromLocation.Value + "'"
         'End If
-
-
         'Dim qry As String = "select transferoutno as Document_No,convert(varchar,Document_Date,103) as Document_Date from TSPL_TRANSFER_ORDER_HEAD "
-
         Dim QRY As String = " Select distinct z.Document_No ,convert(varchar,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) as Document_Date from  (select code as Document_No,SUM(Qty* case when RI=1 then 1 else 0 end) as OutQty, SUM(Qty* case when RI=-1 then 1 else 0 end) as ReturnQty, SUM(Unapproved) as UnapprovedQty,SUM((Qty *RI)- Unapproved) as PendingQty,Max(Unit_Code) as UnitCode from " &
         " ( " &
         " Select TSPL_TRANSFER_ORDER_DETAIL.TransferOutNo as Code,TSPL_TRANSFER_ORDER_DETAIL.Item_Code as ICode,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Qty,0 as Unapproved,1 as RI,TSPL_TRANSFER_ORDER_DETAIL.Unit_Code FROM TSPL_TRANSFER_ORDER_DETAIL  LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_DETAIL.Document_No = TSPL_TRANSFER_ORDER_HEAD.Document_No  where TSPL_TRANSFER_ORDER_HEAD.Transfer_Type ='I' and  TSPL_TRANSFER_ORDER_HEAD.Status =1 " & Environment.NewLine &
@@ -5365,12 +4887,8 @@ Public Class FrmTransferKDIL
         " ) Final  " &
         " group by Code,ICode having (SUM(Qty *RI)-SUM(Unapproved)) >0  )z " &
         " left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =z.Document_No "
-
-
         txtTransferOutNo.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("Document_No", QRY, "Document_No", "", txtTransferOutNo.Value, "Document_No", True))
-
         Dim objReq As clsTransferDCC = clsTransferDCC.GetData(txtTransferOutNo.Value, NavigatorType.Current)
-
         If objReq IsNot Nothing AndAlso clsCommon.myLen(objReq.Document_No) > 0 Then
             cboTransferType.Enabled = False
             txtFromLocation.Enabled = False
@@ -5381,8 +4899,6 @@ Public Class FrmTransferKDIL
                 txtFromLocation.Value = dt.Rows(0).Item("To_location")
                 lblFromLoc.Text = clsLocation.GetName(txtFromLocation.Value, Nothing)
             End If
-
-
             If clsCommon.myCBool(objReq.InternalTransfer) = True Then
                 txtToLoc.Value = dt.Rows(0).Item("From_Location") 'objReq.From_Location
                 chkInternalTransfer.Enabled = False
@@ -5391,7 +4907,6 @@ Public Class FrmTransferKDIL
                 chkInternalTransfer.Enabled = False
             End If
             lblToLoc.Text = clsLocation.GetName(txtToLoc.Value, Nothing)
-
             txtVehicle_Capacity.Text = objReq.Vehicle_Capacity
             txtvehicle_Charge.Text = objReq.Vehicle_Charge
             txtvehicle_mannual_no.Text = objReq.Vehicle_Mannual_No
@@ -5404,7 +4919,6 @@ Public Class FrmTransferKDIL
                 txtEWayBillDate.Value = objReq.EWayBillDate
                 txtEWayBillDate.Checked = True
             End If
-
             chkTaxable.Checked = IIf(objReq.Is_Taxable = 1, True, False)
             If clsCommon.myLen(objReq.Transport_Id) <= 0 Then
                 chkOwnVehicle.Checked = True
@@ -5413,10 +4927,8 @@ Public Class FrmTransferKDIL
             Else
                 TxtTransportorMName.Text = ""
             End If
-
             chkForRepair.Checked = IIf(objReq.For_Repair = 1, True, False)
             chkForRepair.Enabled = False
-
             txtTransporter_Code.Value = objReq.Transport_Id
             txtTransporter_desc.Text = clsTransferDCC.GetTransporterName(txtTransporter_Code.Value)
             txtGR_No.Text = objReq.GR_No
@@ -5446,17 +4958,12 @@ Public Class FrmTransferKDIL
             If (clsCommon.myLen(txtKm.Text) <= 0) Then
                 txtKm.Text = objReq.Km_Reading
             End If
-
             txtcrateout.Text = clsCommon.myCdbl(objReq.Crate_Out)
             txtjaaliout.Text = clsCommon.myCdbl(objReq.jaali_Out)
             txtBoxOut.Text = clsCommon.myCdbl(objReq.Box_Out)
-
             txtTransferOutNo.Value = objReq.Document_No
             txtTaxGroup.Value = objReq.Tax_Group
             SetTaxDetails()
-
-
-
             If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
                 gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
             End If
@@ -5466,7 +4973,6 @@ Public Class FrmTransferKDIL
                 StrCrateTransferFromBooking = clsFixedParameter.GetData(clsFixedParameterType.CreateTransferFromBooking, clsFixedParameterCode.CreateTransferFromBooking, Nothing)
                 If StrCrateTransferFromBooking = "1" Then
                     gv1.Rows.AddNew()
-
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTransferOutNo).Value = obj.Document_No
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
@@ -5480,22 +4986,17 @@ Public Class FrmTransferKDIL
                     End If
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = obj.Unit_code
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colAltUOM).Value = obj.Alt_Unit_Code
-
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colOutQty).Value = obj.Out_Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIUnitWt).Value = obj.Item_Unit_Wt
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colINetWt).Value = obj.Item_Net_Wt
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colINetMTWt).Value = obj.Item_Net_MT_Wt
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBinNo).Value = obj.Bin_No
-
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = clsItemMaster.IsSerializeItem(obj.Item_Code)
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(obj.Item_Code)
-
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = obj.arrBatchItem
-
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colInQty).Value = obj.Out_Qty
-
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = obj.TAX3_Rate
@@ -5506,19 +5007,14 @@ Public Class FrmTransferKDIL
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate8).Value = obj.TAX8_Rate
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate9).Value = obj.TAX9_Rate
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate10).Value = obj.TAX10_Rate
-
                     gv1.Columns(colInQty).IsVisible = True
                     gv1.Columns(colLeakQty).IsVisible = True
                     gv1.Columns(colBreakQty).IsVisible = True
                     gv1.Columns(colShortQty).IsVisible = True
-
                     CalMT_WT(gv1.Rows.Count - 1)
-
                 Else
-
                     If Not IsItemExistInGrid(obj) Then
                         gv1.Rows.AddNew()
-
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTransferOutNo).Value = obj.Document_No
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
@@ -5540,9 +5036,7 @@ Public Class FrmTransferKDIL
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(obj.Item_Code)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = clsItemMaster.IsSerializeItem(obj.Item_Code)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(obj.Item_Code)
-
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = obj.arrBatchItem
-
                         If clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
                             Dim strqry As String = "SELECT (MAX(Out_Qty)-sUM(In_Qty)) AS Ret_Qty  FROM TSPL_TRANSFER_ORDER_DETAIL " &
                             " LEFT OUTER JOIN TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_DETAIL.Document_No = TSPL_TRANSFER_ORDER_HEAD.Document_No WHERE  Transfer_Type ='T' " &
@@ -5555,7 +5049,6 @@ Public Class FrmTransferKDIL
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colOutQty).Value = obj.Out_Qty
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colInQty).Value = obj.Out_Qty
                         End If
-
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = obj.TAX3_Rate
@@ -5566,7 +5059,6 @@ Public Class FrmTransferKDIL
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate8).Value = obj.TAX8_Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate9).Value = obj.TAX9_Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate10).Value = obj.TAX10_Rate
-
                         gv1.Columns(colInQty).IsVisible = True
                         gv1.Columns(colLeakQty).IsVisible = True
                         gv1.Columns(colBreakQty).IsVisible = True
@@ -5577,34 +5069,24 @@ Public Class FrmTransferKDIL
             Next
         End If
         SetitemWiseTaxSetting(False, False)
-
         For ii As Integer = 0 To gv1.RowCount - 1
             UpdateCurrentRow(ii)
         Next
-
-
         isInsideLoadData = False
         UpdateAllTotals()
         FillLocationInfo(False)
         RefreshReqNo()
     End Sub
-
     '================================================================================================
-
     Sub SelectGSTTransferOutItems()
         isInsideLoadData = True
         Dim frm As New frmPendingTransfer()
-
         frm.arrLoc = arrLoc
-
         frm.strCurrCode = txtDocNo.Value
         frm.Text = "Pending Transfer"
         frm.ShowDialog()
-
         txtFromLocation.Enabled = True
         txtToLoc.Enabled = True
-
-
         isInsideLoadData = False
         UpdateAllTotals()
         FillLocationInfo(False)
@@ -5621,7 +5103,6 @@ Public Class FrmTransferKDIL
         Next
         Return False
     End Function
-
     Private Sub gv1_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gv1.DoubleClick
         Try
             If CalculateTaxRatefromItemwsieTaxOnSale = 0 Then
@@ -5653,7 +5134,6 @@ Public Class FrmTransferKDIL
                                 frm.ArrIn.Add(obj)
                             End If
                         Next
-
                         frm.ShowDialog()
                         If frm.ArrOut IsNot Nothing AndAlso frm.ArrOut.Count > 0 Then
                             BlankTaxDetails(gv1.CurrentRow.Index)
@@ -5684,14 +5164,12 @@ Public Class FrmTransferKDIL
                             End If
                         End If
                     End If
-
                 End If
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub rdbtnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             myMessages.blankValue(Me, "Transfer Order No not found to Print", Me.Text)
@@ -5699,7 +5177,6 @@ Public Class FrmTransferKDIL
             funprint(i)
         End If
     End Sub
-
     Public Sub funprint(ByVal i As Integer)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
@@ -5712,7 +5189,6 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub gv1_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserDeletedRow
         UpdateAllTotals()
         For ii As Integer = 1 To gv1.Rows.Count
@@ -5720,14 +5196,11 @@ Public Class FrmTransferKDIL
         Next
         RefreshReqNo()
     End Sub
-
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
         If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
-
         End If
     End Sub
-
     Private Sub txtDept__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVehicleCode._MYValidating
         Try
             Dim qry As String = "Select distinct  vehicle_id ,Description from TSPL_VEHICLE_MASTER"
@@ -5741,36 +5214,29 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub gv1_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv1.CellFormatting
         Try
             ''If e.Column Is gv1.Columns(colICode) Then
             ''    If clsCommon.myLen(gv1.CurrentRow.Cells(colReqistionNo).Value) > 0 OrElse clsCommon.myCBool(gv1.CurrentRow.Cells(colItemUsedINGRN).Value) Then
             ''        gv1.CurrentRow.Cells(colICode).ReadOnly = True
-
             ''    Else
             ''        gv1.CurrentRow.Cells(colICode).ReadOnly = False
             ''    End If
             ''ElseIf e.Column Is gv1.Columns(colQty) Then
             ''    If clsCommon.myCBool(gv1.CurrentRow.Cells(colItemUsedINGRN).Value) Then
             ''        gv1.CurrentRow.Cells(colQty).ReadOnly = True
-
             ''    Else
             ''        gv1.CurrentRow.Cells(colQty).ReadOnly = False
             ''    End If
             ''End If
-
-
             If e.Column Is gv1.Columns(colICode) Then
                 If clsCommon.myLen(gv1.CurrentRow.Cells(colTransferOutNo).Value) > 0 OrElse clsCommon.myLen(fndSRNO.Value) > 0 Then
                     If AllowOnlyOneIssueAgainstStoreRequisition = False Then
                         gv1.CurrentRow.Cells(colICode).ReadOnly = True
                     End If
-
                 Else
                     gv1.CurrentRow.Cells(colICode).ReadOnly = False
                 End If
-
             ElseIf e.Column Is gv1.Columns(colUnit) Then
                 'If clsCommon.myLen(gv1.CurrentRow.Cells(colTransferOutNo).Value) > 0 OrElse clsCommon.myCBool(gv1.CurrentRow.Cells(colItemUsedINGRN).Value) Then
                 '    gv1.CurrentRow.Cells(colUnit).ReadOnly = True
@@ -5801,7 +5267,6 @@ Public Class FrmTransferKDIL
             '    Else
             '        gv1.CurrentRow.Cells(colQty).ReadOnly = True
             '    End If
-
             'ElseIf e.Column Is gv1.Columns(colRate) Then
             '    If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then
             '        gv1.CurrentRow.Cells(colRate).ReadOnly = False
@@ -5815,13 +5280,10 @@ Public Class FrmTransferKDIL
             '        gv1.CurrentRow.Cells(colAmt).ReadOnly = False
             '    End If
             'End If
-
-
         Catch ex As Exception
             'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
-
     Private Sub setGridFocus()
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
@@ -5843,14 +5305,12 @@ Public Class FrmTransferKDIL
             ElseIf gv1.CurrentColumn Is gv1.Columns(colDisPer) Then
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
                 gv1.CurrentColumn = gv1.Columns(colSpecification)
-
                 ''ElseIf gv1.CurrentColumn Is gv1.Columns(colMRP) Then
                 ''    gv1.CurrentRow = gv1.Rows(intCurrRow)
                 ''    gv1.CurrentColumn = gv1.Columns(colAssessableAmt)
                 ''ElseIf gv1.CurrentColumn Is gv1.Columns(colAssessableAmt) Then
                 ''    gv1.CurrentRow = gv1.Rows(intCurrRow)
                 ''    gv1.CurrentColumn = gv1.Columns(colSpecification)
-
             ElseIf gv1.CurrentColumn Is gv1.Columns(colSpecification) Then
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
                 gv1.CurrentColumn = gv1.Columns(colRemarks)
@@ -5860,28 +5320,23 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Private Sub txtReqNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTransferOutNo._MYValidating
         If clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
             SelectReturnItems()
         Else
             SelectRequistionItems()
         End If
-
         'If clsERPFuncationality.GetGSTStatus("select Document_Date from TSPL_TRANSFER_ORDER_HEAD  where Document_No='" & txtDocNo.Value & "'") = True Then
         '    SelectGSTTransferOutItems()
         'Else
         '    SelectRequistionItems()
         'End If
-
     End Sub
-
     Sub RefreshReqNo()
         txtTransferOutNo.Value = ""
         If gv1.Rows.Count > 0 Then
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 Dim strReqNo As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colTransferOutNo).Value)
-
                 If clsCommon.myLen(strReqNo) > 0 Then
                     txtTransferOutNo.Value = strReqNo
                     Exit Sub
@@ -5889,7 +5344,6 @@ Public Class FrmTransferKDIL
             Next
         End If
     End Sub
-
     Private Sub PrintAmendment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             myMessages.blankValue(Me, "Transfer Order No not found to Print", Me.Text)
@@ -5897,16 +5351,12 @@ Public Class FrmTransferKDIL
             FrmPurchaseOrderReport.PrintAbandoment(txtDocNo.Value)
             '' ''clsCommon.ProgressBarShow()
             '' ''For index As Integer = 1 To Integer.MaxValue - 1
-
             '' ''Next
             '' ''clsCommon.ProgressBarHide()
         End If
     End Sub
-
     Private Sub txtDocNo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtDocNo.Load
-
     End Sub
-
     Sub setBalance()
         UcItemBalance1.ItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         UcItemBalance1.ItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
@@ -5919,20 +5369,16 @@ Public Class FrmTransferKDIL
         UcItemBalance1.ShowPOQty = True
         UcItemBalance1.RefreshData()
     End Sub
-
     Private Sub gv1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gv1.Click
         If gv1.CurrentRow IsNot Nothing Then
             setBalance()
         End If
     End Sub
-
     Private Sub gv1_CurrentRowChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentRowChangedEventArgs) Handles gv1.CurrentRowChanged
-
         If gv1.CurrentRow IsNot Nothing AndAlso Not e.CurrentRow.Index < 0 Then
             setBalance()
         End If
     End Sub
-
     Private Sub ToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ''Printing the amendment
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
@@ -5941,22 +5387,17 @@ Public Class FrmTransferKDIL
             FrmPurchaseOrderReport.PrintAbandoment(txtDocNo.Value)
         End If
     End Sub
-
     Private Function GetItemType() As DataTable
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = RowTypeItem
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = RowTypeMisc
         dt.Rows.Add(dr)
-
         Return dt
     End Function
-
     Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
         If gv1.RowCount > 0 Then
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
@@ -5970,7 +5411,6 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Private Sub cbotransferType_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboTransferType.SelectedValueChanged
         If Not IsFormLoad Then
             gv1.Columns(colIName).ReadOnly = True
@@ -5986,7 +5426,6 @@ Public Class FrmTransferKDIL
                 Else
                     chkAgainst_Form.Checked = False
                 End If
-
                 '------
                 ''richa agarwal 19 july,2016
                 StrCrateTransferFromBooking = clsFixedParameter.GetData(clsFixedParameterType.CreateTransferFromBooking, clsFixedParameterCode.CreateTransferFromBooking, Nothing)
@@ -6007,21 +5446,17 @@ Public Class FrmTransferKDIL
                 '===================added By preeti Gupta===================
                 Dim ShowCrateJaaliBox As Boolean = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.ShowCrateJaaliBoxIntransfer, clsFixedParameterCode.ShowCrateJaaliBoxIntransfer, Nothing) = "1", True, False))
                 If ShowCrateJaaliBox = True Then
-
                     txtcrateout.Enabled = True
                     txtjaaliout.Enabled = True
                     txtBoxOut.Enabled = True
-
                     txtCrateIn.Visible = False
                     txtJaaliIn.Visible = False
                     txtBoxIn.Visible = False
-
                     lblCrateIn.Visible = False
                     lblJaaliIn.Visible = False
                     lblBoxIn.Visible = False
                 End If
                 '===========================================================
-
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
                 pnlLoadIn.Visible = True
                 pnlRMDA.Visible = False
@@ -6047,18 +5482,15 @@ Public Class FrmTransferKDIL
                     txtcrateout.Enabled = False
                     txtjaaliout.Enabled = False
                     txtBoxOut.Enabled = False
-
                     txtCrateIn.Visible = True
                     txtJaaliIn.Visible = True
                     txtBoxIn.Visible = True
-
                     lblCrateIn.Visible = True
                     lblJaaliIn.Visible = True
                     lblBoxIn.Visible = True
                 End If
                 '===========================================================
                 ''-------------
-
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "R") = CompairStringResult.Equal Then
                 pnlLoadIn.Visible = False
                 pnlRMDA.Visible = True
@@ -6104,7 +5536,6 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Private Sub gv2_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv2.CellFormatting
         Try
             If e.Column.Index >= 0 Then
@@ -6114,7 +5545,6 @@ Public Class FrmTransferKDIL
                     gv2.CurrentRow.Cells(colTTaxRate).ReadOnly = rbtnTaxCalAutomatic.IsChecked
                 End If
             End If
-
             'Dim cell As GridDataCellElement = TryCast(e.CellElement, GridDataCellElement)
             'cell.GradientStyle = GradientStyles.Solid
             'cell.BackColor = Color.FromArgb(243, 181, 51)
@@ -6123,7 +5553,6 @@ Public Class FrmTransferKDIL
             'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
-
     Private Sub gv2_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv2.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -6145,7 +5574,6 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
@@ -6155,7 +5583,6 @@ Public Class FrmTransferKDIL
             i = 0
         End If
     End Sub
-
     Private Sub btnprintChallan_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnPrintChallan.Click
         Try
             Dim strQuery As String
@@ -6163,7 +5590,6 @@ Public Class FrmTransferKDIL
             dtDocdate = Nothing
             dtDocdate = (clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select TSPL_TRANSFER_ORDER_HEAD.document_date from TSPL_TRANSFER_ORDER_HEAD where Document_No='" + txtDocNo.Value + "' "), "dd/MMM/yyyy"))
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal OrElse clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsJobWorkType from TSPL_TRANSFER_ORDER_HEAD where Document_No='" + txtDocNo.Value + "'")) = 1 Then
-
                 strQuery = PrintChallan(txtDocNo.Value)
                 dt = clsDBFuncationality.GetDataTable(strQuery)
                 If dt.Rows.Count > 0 Then
@@ -6172,29 +5598,20 @@ Public Class FrmTransferKDIL
                     frmCRV = Nothing
                 End If
             Else
-
                 Dim dtBarCode As New DataTable
-
                 dtBarCode.Columns.Add("BarCodeImage", GetType(Byte()))
                 Dim bytes() As Byte
                 Dim BitmapConverter As System.ComponentModel.TypeConverter = System.ComponentModel.TypeDescriptor.GetConverter(clsCommon.MyBarcodeImage(txtDocNo.Value, 1, False).[GetType]())
                 bytes = DirectCast(BitmapConverter.ConvertTo(clsCommon.MyBarcodeImage(txtDocNo.Value, 1, False), GetType(Byte())), Byte())
-
-
-
                 strQuery = clsTransferDCC.GetAttachQry(txtDocNo.Value)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
-
                 dt.Columns.Add("BarCodeImage", GetType(Byte()))
                 For Each dr As DataRow In dt.Rows
                     dr("BarCodeImage") = bytes
                 Next
-
-
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     Throw New Exception("No Data found to print")
                 End If
-
                 If dt.Rows.Count > 0 Then
                     SetItemWiseTax(dt, txtDocNo.Value)
                     Dim frmCRV As New frmCrystalReportViewer()
@@ -6211,10 +5628,6 @@ Public Class FrmTransferKDIL
                     frmCRV = Nothing
                 End If
             End If
-
-
-
-
             'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Transfer_Type")), "J") = CompairStringResult.Equal Then
             '    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
             '        PurchaseOrderViewer.funreport(dt, "WO-G", "Work Order")
@@ -6242,13 +5655,10 @@ Public Class FrmTransferKDIL
             'Else
             '    Throw New Exception("Not a valid Po Type")
             'End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
-
     Private Sub btnpreprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnpreprint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "Transfer Order No not found to Print", Me.Text)
@@ -6258,22 +5668,18 @@ Public Class FrmTransferKDIL
             i = 0
         End If
     End Sub
-
     Private Sub txtRGPNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
         SelectRGPItems()
     End Sub
-
     Sub SelectRGPItems()
         'isInsideLoadData = True
         'Dim frm As New frmPendingRGP()
-
         'frm.strCurrCode = txtDocNo.Value
         'frm.ShowDialog()
         'If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
         '    If clsCommon.myLen(frm.ArrReturn(0).RGP_No) > 0 Then
         '        Dim objMRNHead As clsRGPHead = clsRGPHead.GetData(frm.ArrReturn(0).RGP_No, NavigatorType.Current)
         '        If objMRNHead IsNot Nothing AndAlso clsCommon.myLen(objMRNHead.RGP_No) > 0 Then
-
         '            'If clsCommon.myLen(txtCarrier.Text) <= 0 Then
         '            '    txtVehicleNo.Text = objMRNHead.VehicleNo
         '            'End If
@@ -6284,8 +5690,6 @@ Public Class FrmTransferKDIL
         '                txtFromLocation.Value = objMRNHead.Location
         '                lblFromLoc.Text = objMRNHead.LocationName
         '            End If
-
-
         '        End If
         '    End If
         '    If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
@@ -6315,10 +5719,8 @@ Public Class FrmTransferKDIL
         'End If
         'isInsideLoadData = False
         'UpdateAllTotals()
-
         'cboTransferType.SelectedValue = "O"
     End Sub
-
     'Sub RefreshGRPNo()
     '    txtRGPNo.Value = ""
     '    If gv1.Rows.Count > 0 Then
@@ -6331,13 +5733,11 @@ Public Class FrmTransferKDIL
     '        Next
     '    End If
     'End Sub
-
     Public Function GetTaxGrp(ByVal strItmType As String) As String
         Dim qry As String = "select Tax_Group  from TSPL_VENDOR_MASTER where Vendor_Code ='" + strItmType + "'"
         strItmType = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
         Return strItmType
     End Function
-
     Function IsValidItemForRGP(ByVal obj As clsRGPDetail)
         For ii As Integer = 0 To gv1.RowCount - 1
             Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
@@ -6349,11 +5749,9 @@ Public Class FrmTransferKDIL
         Next
         Return True
     End Function
-
     Public Function GetItemType(ByVal strItmType As String) As String
         Dim qry As String = "select distinct Item_Type  from TSPL_ITEM_MASTER where Item_Code ='" + strItmType + "'"
         strItmType = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
-
         If strItmType = "F" Then
             strItmType = 0
         Else
@@ -6361,7 +5759,6 @@ Public Class FrmTransferKDIL
         End If
         Return strItmType
     End Function
-
     Public Sub PrintData(ByVal StrCode As String, Optional ByVal IsExcise As Integer = Nothing)
         'Sanjay Ticket No- MIL/02/04/19-000060   Add Logo2
         Dim frmCRV As New frmCrystalReportViewer()
@@ -6382,7 +5779,6 @@ Public Class FrmTransferKDIL
             Dim PrintType As String = ""
             Dim strQuery As String
             Dim dt As DataTable
-
             'If IsTaxable = 1 Then
             '    If clsCommon.CompairString(strLocState, strCustState) = CompairStringResult.Equal Then
             '        strReportType = "L"
@@ -6472,14 +5868,11 @@ Public Class FrmTransferKDIL
                         strQueryKDIL += " UNION Select '1' as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1 "
                     End If
                     strQueryKDIL += " ) YYY ON YYY.COL1=XXX.CopyType  ORDER BY YYY.COL2,Line_No "
-
                     dtKDIL = clsDBFuncationality.GetDataTable(strQueryKDIL)
                 Else
                     strQueryKDIL = "Select * from (" & strQuery & ") XXX"
                     dtKDIL = clsDBFuncationality.GetDataTable(strQueryKDIL)
                 End If
-
-
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal OrElse (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal AndAlso chkForRepair.Checked = False) Then
                     strQuery = PrintChallan(StrCode)
                     dt = clsDBFuncationality.GetDataTable(strQuery)
@@ -6491,13 +5884,9 @@ Public Class FrmTransferKDIL
                         Else
                             frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_Local", "Transfer Local", dtDocdate, "rptCompanyAddress.rpt")
                         End If
-
                         Exit Sub
                     End If
-
                 End If
-
-
                 dt.Columns.Add("BarCodeImage", GetType(Byte()))
                 For Each dr As DataRow In dt.Rows
                     dr("BarCodeImage") = bytes
@@ -6587,7 +5976,6 @@ Public Class FrmTransferKDIL
                     strQuery += " ) YYY ON YYY.COL1=XXX.CopyType ORDER BY YYY.COL2,xxx.Line_No "
                     dt = clsDBFuncationality.GetDataTable(strQuery)
                 End If
-
             End If
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No Data found to print")
@@ -6615,7 +6003,6 @@ Public Class FrmTransferKDIL
                         'KwalitySalesReportViewer.funsubreportWithdt(dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice", "Retail Invoice", "rptCompanyAddress.rpt")
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptProductExciseTransfer", "Excise Transfer", dtDocdate, "rptSubReportExciseTransferSaleInvoice.rpt", "rptCompanyAddress.rpt", clsERPFuncationality.CompanyAddresShowinFooter())
                         'KwalitySalesReportViewer.funsubreportWithdt(dt, dt2, "rptProductExciseTransferSaleInvoice", "Excise Transfer", "rptSubReportExciseTransferSaleInvoice.rpt")
-
                     Else
                         'frmInventoryReportViewer.funreport(dt, "crptStockTransferChallanInvoiceInterState", "Transfer")
                         ''as per preeti gupta
@@ -6636,7 +6023,6 @@ Public Class FrmTransferKDIL
                                     Else
                                         frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "RptTransfer_InterState", "Transfer InterState", dtDocdate, "rptCompanyAddress.rpt")
                                     End If
-
                                 End If
                             Else
                                 frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dtKDIL, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoice1", "Transfer", dtDocdate, "rptCompanyAddress.rpt")
@@ -6646,13 +6032,11 @@ Public Class FrmTransferKDIL
                         Else
                             frmCRV.funsubreportWithdt(CrystalReportFolder.InventoryReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptStockTransferChallanInvoiceInterState", "Transfer", "rptCompanyAddress.rpt")
                         End If
-
                     End If
                 ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
                     If clsERPFuncationality.GetGSTStatus(dtDocdate) Then
                         If clsCommon.myCBool(dt.Rows(0)("InternalTransfer")) = True Then
                             frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_Internal", "Internal Transfer", dtDocdate)
-
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("To_Gp_stateCode")), clsCommon.myCstr(dt.Rows(0)("frm_state_code"))) = CompairStringResult.Equal Then
                             If clsCommon.myCdbl(dt.Rows(0)("Is_MandiTax")) = 1 Then
                                 frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_LocalWithMandiTax", "Transfer Excise Invoice", dtDocdate)
@@ -6662,7 +6046,6 @@ Public Class FrmTransferKDIL
                         Else
                             frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_InterState", "Transfer Excise Invoice", dtDocdate)
                         End If
-
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(IsExcise), "1") = CompairStringResult.Equal Then
                             frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "RptTransfer_ExcisableNormal", "Transfer Excise Invoice", dtDocdate)
@@ -6675,12 +6058,10 @@ Public Class FrmTransferKDIL
                     SetItemWiseTax(dt, StrCode)
                     frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptStockTransferChallanInvoice", "Transfer", dtDocdate)
                 End If
-
             End If
         End If
         frmCRV = Nothing
     End Sub
-
     Private Function PrintChallan(ByVal StrCode As String) As String
         Dim StrGheeItem As Double = 0
         If clsCommon.myLen(StrCode) > 0 Then
@@ -6744,7 +6125,6 @@ Public Class FrmTransferKDIL
             " (CASE WHEN TSPL_TRANSFER_ORDER_HEAD.TAX8!='' THEN(TAX8.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_TRANSFER_ORDER_HEAD.TAX8_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_TRANSFER_ORDER_HEAD.TAX8_Amt))ELSE '' END) +CHAR(13)+" &
             " (CASE WHEN TSPL_TRANSFER_ORDER_HEAD.TAX9!='' THEN(TAX9.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_TRANSFER_ORDER_HEAD.TAX9_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_TRANSFER_ORDER_HEAD.TAX9_Amt))ELSE '' END) +CHAR(13)+" &
             " (CASE WHEN TSPL_TRANSFER_ORDER_HEAD.TAX10!=''  THEN(TAX10.Tax_Code_Desc+' ( '+CONVERT(NVARCHAR(10),TSPL_TRANSFER_ORDER_HEAD.TAX10_Rate)+' % ) '+ CONVERT(NVARCHAR(10),TSPL_TRANSFER_ORDER_HEAD.TAX10_Amt))ELSE '' END),CHAR(13),'') ,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No "
-
         strQuery += " from TSPL_TRANSFER_ORDER_DETAIL" + Environment.NewLine &
 " join TSPL_TRANSFER_ORDER_HEAD  on TSPL_TRANSFER_ORDER_HEAD.Document_No=TSPL_TRANSFER_ORDER_DETAIL.Document_No" + Environment.NewLine &
 " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE = TSPL_TRANSFER_ORDER_DETAIL.iTEM_CODE" + Environment.NewLine &
@@ -6781,42 +6161,33 @@ Public Class FrmTransferKDIL
  " left outer join TSPL_TAX_MASTER as Dtax9 on Dtax9.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX9 " &
  " left outer join TSPL_TAX_MASTER as Dtax10 on Dtax10.Tax_Code =TSPL_TRANSFER_ORDER_DETAIL .TAX10 " &
 " left join TSPL_TRANSFER_ORDER_HEAD GP on GP.document_no=TSPL_TRANSFER_ORDER_HEAD.transferoutno left join tspl_location_master as From_GP_Location on From_GP_Location.Location_Code =GP.From_Location left join TSPL_STATE_MASTER as From_GP_Location_State on From_GP_Location_State.STATE_CODE =From_GP_Location.State "
-
         ''richa agarwal 13 Nov,2019 add case return type of transfer UDL/13/11/19-001010
         If clsCommon.myCBool(chkInternalTransfer.Checked) = True OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
             strQuery += " left outer join TSPL_LOCATION_MASTER AS To_GP_Location on To_GP_Location.Location_Code =  TSPL_TRANSFER_ORDER_HEAD.To_Location "
         Else
             strQuery += " left outer join TSPL_LOCATION_MASTER AS To_GP_Location on To_GP_Location.GIT_Location =  TSPL_TRANSFER_ORDER_HEAD.To_Location "
         End If
-
         strQuery += " left join TSPL_STATE_MASTER as To_GP_Location_State on To_GP_Location_State.STATE_CODE =To_GP_Location.State " &
 " LEFT OUTER JOIN TSPL_CITY_MASTER  TO_LOCATION_CITY ON TO_LOCATION_CITY.City_Code= To_GP_Location.City_Code " &
 " Left Join TSPL_BATCH_ITEM AS BI ON TSPL_TRANSFER_ORDER_DETAIL.Document_No=BI.Document_Code AND TSPL_TRANSFER_ORDER_DETAIL.Line_No=BI.Parent_Line_No "
-
         ''richa agarwal 13 Nov,2019 do this work for return type of transfer UDL/13/11/19-001010
         If clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
             strQuery += " and BI.In_Out_Type =( case when TSPL_ITEM_MASTER.Is_Batch_Item=1 then 'I' else TSPL_TRANSFER_ORDER_HEAD.Transfer_Type end ) "
         Else
             strQuery += "AND TSPL_TRANSFER_ORDER_HEAD.Transfer_Type=BI.In_Out_Type "
         End If
-
         strQuery += " Left JOIN TSPL_ITEM_MASTER IT ON TSPL_TRANSFER_ORDER_DETAIL.Item_Code=IT.Item_Code " &
         "LEFT JOIN TSPL_ABATEMENT_MASTER AM ON AM.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " &
         " where 2=2 and  TSPL_TRANSFER_ORDER_HEAD. Document_No = '" & StrCode & "'"
-
         Return strQuery
     End Function
-
     Private Sub btnPrintNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintNew.Click
         Try
             PrintData(txtDocNo.Value)
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
-
     Private Function SetItemWiseTax(ByVal dtAfterModify As DataTable, ByVal strShipFrm As String) As DataTable
         dtAfterModify.Columns.Add("TAX1_Rate1", GetType(Double))
         dtAfterModify.Columns.Add("TAX1_Rate2", GetType(Double))
@@ -6824,38 +6195,30 @@ Public Class FrmTransferKDIL
         dtAfterModify.Columns.Add("TAX1_Amt1", GetType(Double))
         dtAfterModify.Columns.Add("TAX1_Amt2", GetType(Double))
         dtAfterModify.Columns.Add("TAX1_Amt3", GetType(Double))
-
         dtAfterModify.Columns.Add("TAX2_Rate1", GetType(Double))
         dtAfterModify.Columns.Add("TAX2_Rate2", GetType(Double))
         dtAfterModify.Columns.Add("TAX2_Rate3", GetType(Double))
         dtAfterModify.Columns.Add("TAX2_Amt1", GetType(Double))
         dtAfterModify.Columns.Add("TAX2_Amt2", GetType(Double))
         dtAfterModify.Columns.Add("TAX2_Amt3", GetType(Double))
-
         dtAfterModify.Columns.Add("TAX3_Rate1", GetType(Double))
         dtAfterModify.Columns.Add("TAX3_Rate2", GetType(Double))
         dtAfterModify.Columns.Add("TAX3_Rate3", GetType(Double))
         dtAfterModify.Columns.Add("TAX3_Amt1", GetType(Double))
         dtAfterModify.Columns.Add("TAX3_Amt2", GetType(Double))
         dtAfterModify.Columns.Add("TAX3_Amt3", GetType(Double))
-
         dtAfterModify.Columns.Add("TAX4_Rate1", GetType(Double))
         dtAfterModify.Columns.Add("TAX4_Rate2", GetType(Double))
         dtAfterModify.Columns.Add("TAX4_Rate3", GetType(Double))
         dtAfterModify.Columns.Add("TAX4_Amt1", GetType(Double))
         dtAfterModify.Columns.Add("TAX4_Amt2", GetType(Double))
         dtAfterModify.Columns.Add("TAX4_Amt3", GetType(Double))
-
         dtAfterModify.Columns.Add("TAX5_Rate1", GetType(Double))
         dtAfterModify.Columns.Add("TAX5_Rate2", GetType(Double))
         dtAfterModify.Columns.Add("TAX5_Rate3", GetType(Double))
         dtAfterModify.Columns.Add("TAX5_Amt1", GetType(Double))
         dtAfterModify.Columns.Add("TAX5_Amt2", GetType(Double))
         dtAfterModify.Columns.Add("TAX5_Amt3", GetType(Double))
-
-
-
-
         Dim qry As String = "select Tax,Rate,SUM(Amt) as TaxAmt"
         qry += " from ("
         qry += " select TAX1 as Tax,TAX1_Rate as Rate,TAX1_Amt as Amt"
@@ -6877,8 +6240,6 @@ Public Class FrmTransferKDIL
         qry += " from TSPL_TRANSFER_ORDER_DETAIL where Document_No='" + strShipFrm + "'   "
         qry += " )xxx "
         qry += " group by Tax,Rate   having SUM(Amt)>0   "
-
-
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For Each dr As DataRow In dt.Rows
@@ -6903,14 +6264,12 @@ Public Class FrmTransferKDIL
                         Else
                             Throw New Exception("Printing Support only 3 Diffent Rates")
                         End If
-
                     End If
                 Next
             Next
         End If
         Return dtAfterModify
     End Function
-
     Private Sub chkExciseOnQty_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkExciseOnQty.ToggleStateChanged
         If Not isInsideLoadData Then
             For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -6919,18 +6278,14 @@ Public Class FrmTransferKDIL
             UpdateAllTotals()
         End If
     End Sub
-
     Private Sub txtCurrencyCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCurrencyCode._MYValidating
         Dim qry As String = "select CURRENCY_CODE AS Code, CURRENCY_NAME as Name from TSPL_CURRENCY_MASTER"
         txtCurrencyCode.Value = clsCommon.ShowSelectForm("CURRENCY_MASTER", qry, "Code", "", txtCurrencyCode.Value, "CURRENCY_CODE", isButtonClicked)
         ShowCurrencyDetail()
     End Sub
-
     Sub ShowCurrencyDetail()
         'Dim strq As String
         Dim dt As DataTable
-
-
         If clsCommon.myLen(txtCurrencyCode.Value) > 0 Then
             dt = clsModuleCurrencyMapping.GetLatestCurConvRateDT(Me.txtDate.Value, txtCurrencyCode.Value)
             If dt.Rows.Count = 0 Then
@@ -6949,11 +6304,8 @@ Public Class FrmTransferKDIL
             Me.txtConversionRate.Text = 1
             Me.txtApplicableFrom.Text = ""
         End If
-
     End Sub
-
     Private Sub cboType_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles cboType.Validating
-
         If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Excise") = CompairStringResult.Equal Then
             Dim qry As String = "select Tax_Group_Code from TSPL_TAX_GROUP_MASTER where Is_Transfer=1 and Tax_Group_Type='S'"
             Dim strTaxGroupofTransferType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
@@ -6971,13 +6323,9 @@ Public Class FrmTransferKDIL
             gv2.DataSource = Nothing
             gv2.Rows.Clear()
         End If
-
     End Sub
-
     Private Sub RadPageView1_SelectedPageChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadPageView1.SelectedPageChanged
-
     End Sub
-
     Private Sub btnReverseAndUnpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseAndUnpost.Click
         Try
             If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
@@ -7010,7 +6358,6 @@ Public Class FrmTransferKDIL
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtRMDANo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRMDANo._MYValidating
         isInsideLoadData = True
         Dim qry As String = "select RMDA_No as Code,RMDA_Date as Date from TSPL_SRN_HEAD  "
@@ -7044,13 +6391,11 @@ Public Class FrmTransferKDIL
                     ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = obj.LocationName
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colOutQty).Value = objtr.Rejected_Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = objtr.MRP
-
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colisMRPMandatory).Value = clsItemMaster.IsMRPItem(objtr.Item_Code)
                     'gv1.Columns(colInQty).IsVisible = True
                     'gv1.Columns(colLeakQty).IsVisible = True
                     'gv1.Columns(colBreakQty).IsVisible = True
                     'gv1.Columns(colShortQty).IsVisible = True
-
                     SetitemWiseTaxSetting(True, True)
                     UpdateCurrentRow(gv1.Rows.Count - 1)
                 End If
@@ -7059,7 +6404,6 @@ Public Class FrmTransferKDIL
         isInsideLoadData = False
         UpdateAllTotals()
     End Sub
-
     Private Sub txtTransporter_Code__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtTransporter_Code._MYValidating
         Qry = "select Transport_Id as Code,Transporter_Name as Description,City,State,Pincode,Phone from TSPL_TRANSPORT_MASTER"
         txtTransporter_Code.Value = clsCommon.ShowSelectForm("TRANSPORTER_Transfer_KDIL", Qry, "Code", "", txtTransporter_Code.Value, "Code", isButtonClicked)
@@ -7081,9 +6425,7 @@ Public Class FrmTransferKDIL
         Else
             FillVehicleCharges()
         End If
-
     End Sub
-
     Private Sub txtGross_Wt_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtGross_Wt.TextChanged
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
         Else
@@ -7097,9 +6439,7 @@ Public Class FrmTransferKDIL
                 txtvehicle_Charge.Tag = Nothing
             End If
         End If
-
     End Sub
-
     Private Sub chkOwnVehicle_CheckStateChanged(sender As Object, e As EventArgs) Handles chkOwnVehicle.CheckStateChanged
         If chkOwnVehicle.Checked = True Then
             TxtTransportorMName.Visible = True
@@ -7115,7 +6455,6 @@ Public Class FrmTransferKDIL
             TxtTransportorMName.Text = ""
         End If
     End Sub
-
     Private Sub chkOwnVehicle_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkOwnVehicle.ToggleStateChanged
         txtTransporter_Code.MendatroryField = Not chkOwnVehicle.Checked
         txtTransporter_Code.Enabled = Not chkOwnVehicle.Checked
@@ -7131,7 +6470,6 @@ Public Class FrmTransferKDIL
             ttxway_bill_date.Enabled = False
         End If
     End Sub
-
     Sub OpenSerialItem()
         If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsSerialseItem).Value) Then
             Dim Item_type As String = clsDBFuncationality.getSingleValue("select Item_Type from TSPL_ITEM_MASTER where Item_Code='" + gv1.CurrentRow.Cells(colICode).Value + "'")
@@ -7190,15 +6528,15 @@ Public Class FrmTransferKDIL
     Private Sub gv1_KeyDown(sender As Object, e As KeyEventArgs) Handles gv1.KeyDown
         If e.KeyCode = Keys.F4 Then
             OpenSerialItem()
-        ElseIf e.KeyCode = Keys.F5 Then
-            '======update by preeti gupta 16/10/2018
-            If ApplyFEFO = True And chkInternalTransfer.Checked = True Then
-                OpenBatchItemIfFIFIOSettingON()
-            ElseIf RunBatchFifowise = 0 Then
-                OpenBatchItem()
-            Else
-                OpenBatchItemIfFIFIOSettingON()
-            End If
+            'ElseIf e.KeyCode = Keys.F5 Then
+            '    '======update by preeti gupta 16/10/2018
+            '    If ApplyFEFO = True And chkInternalTransfer.Checked = True Then
+            '        OpenBatchItemIfFIFIOSettingON()
+            '    ElseIf RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
+            '        OpenBatchItem()
+            '    Else
+            '        OpenBatchItemIfFIFIOSettingON()
+            '    End If
         End If
     End Sub
     ''richa agarwal work related to gopal ji
@@ -7219,7 +6557,6 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub LoadGatePassTransferDetail(ByVal GPNo As String)
         Dim qry As String = Nothing
         isInsideLoadData = True
@@ -7231,8 +6568,6 @@ Public Class FrmTransferKDIL
         '" left outer join TSPL_LOCATION_MASTER as GITLOcation on GITLOcation.Location_Code = TSPL_LOCATION_MASTER.GIT_Location " & _
         '" left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER .Vehicle_Id =TSPL_GATEPASS_TRANSFER_HEAD.Vehicle_Code " & _
         '" where TSPL_GATEPASS_TRANSFER_DETAIL.Document_No='" & clsCommon.myCstr(FndGatePassNo.Value) & "' AND TSPL_GATEPASS_TRANSFER_DETAIL .Item_Code  not in (Select Item_Code from TSPL_TRANSFER_ORDER_DETAIL where isnull(GatePassNo ,'')='" & clsCommon.myCstr(FndGatePassNo.Value) & "')"
-
-
         ' Dim qry As String = "Select TSPL_GATEPASS_TRANSFER_HEAD.no_of_crate,TSPL_GATEPASS_TRANSFER_HEAD.no_of_jaali,TSPL_GATEPASS_TRANSFER_HEAD.no_of_box,TSPL_ITEM_MASTER.Is_Serial_Item,TSPL_ITEM_MASTER.Is_MRP,TSPL_VEHICLE_MASTER.number,TSPL_GATEPASS_TRANSFER_DETAIL.Document_No ,TSPL_GATEPASS_TRANSFER_DETAIL.Item_Code ,TSPL_ITEM_MASTER.Item_Desc ,TSPL_GATEPASS_TRANSFER_DETAIL.Unit_code ,TSPL_GATEPASS_TRANSFER_HEAD.Vehicle_Code ,TSPL_VEHICLE_MASTER.Description as VehicleName,TSPL_GATEPASS_TRANSFER_HEAD.Branch_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_GATEPASS_TRANSFER_DETAIL.Qty  from TSPL_GATEPASS_TRANSFER_DETAIL " & _
         '" left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GATEPASS_TRANSFER_DETAIL .Item_Code  " & _
         '" left outer join TSPL_GATEPASS_TRANSFER_HEAD on TSPL_GATEPASS_TRANSFER_HEAD.Document_No =TSPL_GATEPASS_TRANSFER_DETAIL.Document_No " & _
@@ -7255,8 +6590,6 @@ Public Class FrmTransferKDIL
       " left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER .Vehicle_Id =TSPL_GATEPASS_TRANSFER_HEAD.Vehicle_Code " &
       " where TSPL_GATEPASS_TRANSFER_DETAIL.Document_No='" & clsCommon.myCstr(FndGatePassNo.Value) & "' AND TSPL_GATEPASS_TRANSFER_DETAIL .Item_Code  not in (Select Item_Code from TSPL_TRANSFER_ORDER_DETAIL where isnull(GatePassNo ,'')='" & clsCommon.myCstr(FndGatePassNo.Value) & "')"
         End If
-
-
         'If clsCommon.CompairString(cmbGPItemType.SelectedValue, "T") = CompairStringResult.Equal Then
         '    qry += " and TSPL_ITEM_MASTER.IsTaxable =1 and TSPL_ITEM_MASTER.Is_Tax_Exempted <>2"
         'ElseIf clsCommon.CompairString(cmbGPItemType.SelectedValue, "NT") = CompairStringResult.Equal Then
@@ -7282,8 +6615,6 @@ Public Class FrmTransferKDIL
             txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("Vehicle_Code"))
             lblVehicleNo.Text = clsCommon.myCstr(dt.Rows(0)("VehicleName"))
             txtvehicle_mannual_no.Text = clsCommon.myCstr(dt.Rows(0)("number"))
-
-
             If clsCommon.CompairString(cmbGPItemType.SelectedValue, "NT") = CompairStringResult.Equal AndAlso clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                 txtCrateIn.Text = clsCommon.myCdbl(dt.Rows(0)("no_of_crate"))
                 txtBoxIn.Text = clsCommon.myCdbl(dt.Rows(0)("no_of_box"))
@@ -7293,8 +6624,6 @@ Public Class FrmTransferKDIL
                 txtBoxOut.Text = clsCommon.myCdbl(dt.Rows(0)("no_of_box"))
                 txtjaaliout.Text = clsCommon.myCdbl(dt.Rows(0)("no_of_jaali"))
             End If
-
-
             For i As Integer = 0 To dt.Rows.Count - 1
                 gv1.Rows.AddNew()
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
@@ -7317,7 +6646,6 @@ Public Class FrmTransferKDIL
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colisMRPMandatory).Value = dt.Rows(i)("Is_MRP")
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = dt.Rows(i)("Is_Serial_Item")
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(clsCommon.myCstr(dt.Rows(i)("Item_Code")))
-
                 StrCrateTransferFromBooking = clsFixedParameter.GetData(clsFixedParameterType.CreateTransferFromBooking, clsFixedParameterCode.CreateTransferFromBooking, Nothing)
                 'If StrCrateTransferFromBooking = "1" Then
                 '    gv1.Rows(gv1.Rows.Count - 1).Cells(colFOCItem).Value = dt.Rows(i)("Foc_Item")
@@ -7326,12 +6654,9 @@ Public Class FrmTransferKDIL
                 gv1.Columns(colLeakQty).IsVisible = True
                 gv1.Columns(colBreakQty).IsVisible = True
                 gv1.Columns(colShortQty).IsVisible = True
-
                 SetitemWiseTaxSetting(True, True)
                 UpdateCurrentRow(gv1.Rows.Count - 1)
-
             Next
-
             UpdateAllTotals()
         Else
             txtToLoc.Enabled = True
@@ -7339,46 +6664,36 @@ Public Class FrmTransferKDIL
         End If
         isInsideLoadData = False
     End Sub
-
     Sub LoadGPItemType()
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Name", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
-
         dr = dt.NewRow()
         dr("Code") = "S"
         dr("Name") = "Select"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "T"
         dr("Name") = "Taxable"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "NT"
         dr("Name") = "Non Taxable Milk"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "NO"
         dr("Name") = "Non Taxable Other"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "E"
         dr("Name") = "Excise"
         dt.Rows.Add(dr)
-
-
         cmbGPItemType.DataSource = dt
         cmbGPItemType.ValueMember = "Code"
         cmbGPItemType.DisplayMember = "Name"
         cmbGPItemType.SelectedValue = "S"
     End Sub
-
     Private Sub fndPriceCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPriceCode._MYValidating
         Try
             'If clsCommon.myLen(FndGatePassNo.Value) > 0 AndAlso clsCommon.myLen(txtToLoc.Value) > 0 Then
@@ -7394,7 +6709,6 @@ Public Class FrmTransferKDIL
             '    Else
             '        Throw New Exception("Please Select GP No.")
             '    End If
-
             'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7426,18 +6740,15 @@ Public Class FrmTransferKDIL
                                    "TSPL_GATEPASS_TRANSFER_DETAIL.item_code='" & clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value) & "' and Scheme_Item='Y'")
                         If clsCommon.myLen(strIsschemeItem) = 0 Then
                             If StrCrateTransferFromBooking = "1" Then
-
                                 clsCommon.MyMessageBoxShow("Please create Price chart for Location " & txtToLoc.Value & "  for item " & gv1.Rows(i).Cells(colICode).Value & ". ", Me.Text)
                                 gv1.CurrentCell.Focus()
                                 fndPriceCode.Value = ""
-
                             Else
                                 clsCommon.MyMessageBoxShow("Please create Price chart for Location " & txtToLoc.Value & "  for item " & gv1.Rows(i).Cells(colICode).Value & ". ", Me.Text)
                                 gv1.CurrentCell.Focus()
                                 fndPriceCode.Value = ""
                             End If
                         End If
-
                         Exit Sub
                     End If
                 End If
@@ -7445,7 +6756,6 @@ Public Class FrmTransferKDIL
         End If
     End Sub
     ''---------------------------
-
     Private Sub cmbGPItemType_SelectedValueChanged(sender As Object, e As EventArgs) Handles cmbGPItemType.SelectedValueChanged
         If Not IsFormLoad Then
             If clsCommon.myLen(FndGatePassNo.Value) > 0 AndAlso clsCommon.CompairString(cmbGPItemType.SelectedValue, "S") <> CompairStringResult.Equal Then
@@ -7453,8 +6763,8 @@ Public Class FrmTransferKDIL
             End If
         End If
     End Sub
-
     Sub OpenBatchItem()
+        Dim isNewDocumentorExistingdoc As Boolean = True
         If clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value) = True Then
             If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsBatchItem).Value) Then
                 If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
@@ -7472,24 +6782,65 @@ Public Class FrmTransferKDIL
                         frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colOutQty).Value)
                     End If
                     frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
-                    If ApplyFEFO = True AndAlso chkInternalTransfer.Checked = True Then
-                        frm.OpenSerialList(0, "", "", True)
-                        gv1.CurrentRow.Cells(colICode).Tag = frm.arr
-
+                    If RunBatchFifowisewithmodifyfunctionality Then
+                        If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                            isNewDocumentorExistingdoc = False
+                        Else
+                            isNewDocumentorExistingdoc = True
+                        End If
+                        If isNewDocumentorExistingdoc Then
+                            frm.OpenSerialList(0, "")
+                            gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                        Else
+                            frm.ShowDialog()
+                            If Not frm.isCencelButtonClicked Then
+                                gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                            End If
+                        End If
                     ElseIf RunBatchFifowise = 0 Then
                         frm.ShowDialog()
                         If Not frm.isCencelButtonClicked Then
                             gv1.CurrentRow.Cells(colICode).Tag = frm.arr
                         End If
                     Else
-                        frm.OpenSerialList(0, "")
-                        gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                        If ApplyFEFO = True AndAlso chkInternalTransfer.Checked = True Then
+                            frm.OpenSerialList(0, "", "", True)
+                            gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                        Else
+                            frm.OpenSerialList(0, "")
+                            gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                        End If
                     End If
+                    'frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                    'frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+                    'frm.strLocationCode = txtFromLocation.Value
+                    'frm.strCurrDocNo = txtDocNo.Value
+                    'frm.strCurrDocType = If(chkInternalTransfer.Checked = True, "ITransfer", "Transfer")
+                    'frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+                    'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+                    'If clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
+                    '    frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colInQty).Value)
+                    'Else
+                    '    frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colOutQty).Value)
+                    'End If
+                    'frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                    'If ApplyFEFO = True AndAlso chkInternalTransfer.Checked = True Then
+                    '    frm.OpenSerialList(0, "", "", True)
+                    '    gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                    'ElseIf RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
+                    '    frm.ShowDialog()
+                    '    If Not frm.isCencelButtonClicked Then
+                    '        gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                    '    End If
+                    'Else
+                    '    frm.OpenSerialList(0, "")
+                    '    gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                    'End If
                 ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal Then
                     Dim frm As frmBatchItemOut = New frmBatchItemOut()
                     frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                     frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                    frm.strLocationCode = txtFromLocation.Value
+                    frm.strLocationCode = txtToLoc.Value
                     frm.strAgaintsDocNo = txtTransferOutNo.Value
                     frm.strCurrDocNo = txtDocNo.Value
                     frm.strCurrDocType = If(chkInternalTransfer.Checked = True, "ITransfer", "Transfer")
@@ -7505,96 +6856,7 @@ Public Class FrmTransferKDIL
                 End If
             End If
         End If
-
     End Sub
-
-    'Private Sub radExportTransferOut_Click(sender As Object, e As EventArgs) Handles radExportTransferOut.Click
-    '    StrCrateTransferFromBooking = clsFixedParameter.GetData(clsFixedParameterType.CreateTransferFromBooking, clsFixedParameterCode.CreateTransferFromBooking, Nothing)
-    '    If StrCrateTransferFromBooking = "1" Then
-    '        Dim qry As String = "select '' as 'Document Date', '' as 'Gate Pass No','' as 'From Location','' as 'To Location','' as 'Vehicle Code',''  as Type,'' as 'Vehicle Manual No','' as 'Price Code','' as 'Item Code','' as 'Unit Code','' as 'Item Cost'"
-    '        transportSql.ExporttoExcel(qry, Me)
-    '    End If
-
-    'End Sub
-
-    'Private Sub radImportTransferOut_Click(sender As Object, e As EventArgs) Handles radImportTransferOut.Click
-    '    Dim Document_Date As String = Nothing
-    '    Dim Gate_Pass_No As String = Nothing
-    '    Dim From_Location As String = Nothing
-    '    Dim To_Location As String = Nothing
-    '    Dim Vehicle_Code As String = Nothing
-    '    Dim Type As String = Nothing
-    '    Dim Vehicle_Manual_No As String = Nothing
-    '    Dim Price_Code As String = Nothing
-    '    Dim Item_Code As String = Nothing
-    '    Dim Unit_Code As String = Nothing
-    '    Dim Item_Cost As String = Nothing
-    '    Dim GatePassIsExit As String
-    '    Dim Vehicle_Name As String
-    '    Try
-    '        StrCrateTransferFromBooking = clsFixedParameter.GetData(clsFixedParameterType.CreateTransferFromBooking, clsFixedParameterCode.CreateTransferFromBooking, Nothing)
-    '        If StrCrateTransferFromBooking = "1" Then
-    '            If transportSql.importExcel(gv1, "Document Date", "Gate Pass No", "From Location", "Vehicle Code", "Type", "Vehicle Manual No", "Price Code", "Item Code", "Unit Code", "Item Cost") Then
-    '                clsCommon.ProgressBarShow()
-    '                For Each grow As GridViewRowInfo In gv1.Rows
-    '                    From_Location = clsCommon.myCstr(grow.Cells("From Location").Value)
-
-    '                    Vehicle_Code = clsCommon.myCstr(grow.Cells("Vehicle Code").Value)
-    '                    Type = clsCommon.myCstr(grow.Cells("Type").Value)
-    '                    Vehicle_Manual_No = clsCommon.myCstr(grow.Cells("Vehicle Manual No").Value)
-    '                    Price_Code = clsCommon.myCstr(grow.Cells("Price Code").Value)
-    '                    Item_Code = clsCommon.myCstr(grow.Cells("Item Code").Value)
-    '                    Unit_Code = clsCommon.myCstr(grow.Cells("Unit Code").Value)
-    '                    Item_Cost = clsCommon.myCstr(grow.Cells("Item Cost").Value)
-    '                    If grow.Cells("Document Date").Value IsNot Nothing AndAlso clsCommon.myLen(grow.Cells("Document Date").Value) > 0 AndAlso IsDate(grow.Cells("Document Date").Value) Then
-    '                        Document_Date = clsCommon.myCDate(grow.Cells("Document Date").Value)
-    '                    Else
-    '                        clsCommon.ProgressBarHide()
-    '                        Throw New Exception("Enter Document Date at line no. " + clsCommon.myCstr(grow.Index + 1) + "")
-    '                    End If
-    '                    Gate_Pass_No = clsCommon.myCstr(grow.Cells("Gate Pass No").Value)
-    '                    If clsCommon.myLen(Gate_Pass_No) <= 0 Then
-    '                        clsCommon.ProgressBarHide()
-    '                        Throw New Exception("Enter Gate Pass No at line no. " + clsCommon.myCstr(grow.Index + 1) + "")
-    '                    End If
-
-    '                    If clsCommon.myLen(Gate_Pass_No) > 0 Then
-    '                        GatePassIsExit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select  isnull(TSPL_GATEPASS_TRANSFER_HEAD.Document_No,'') from TSPL_GATEPASS_TRANSFER_DETAIL left outer Join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_DETAIL.GatePassNo=TSPL_GATEPASS_TRANSFER_DETAIL.Document_No  and TSPL_GATEPASS_TRANSFER_DETAIL.Item_Code =isnull(TSPL_TRANSFER_ORDER_DETAIL.Item_Code,'') left Outer Join TSPL_GATEPASS_TRANSFER_HEAD on TSPL_GATEPASS_TRANSFER_HEAD.Document_No =TSPL_GATEPASS_TRANSFER_DETAIL.Document_No where TSPL_GATEPASS_TRANSFER_HEAD.Document_No='" + Gate_Pass_No + "'", trans))
-    '                        If GatePassIsExit = "" Then
-    '                            clsCommon.ProgressBarHide()
-    '                            Throw New Exception("Filled Gate Pass No. " + Gate_Pass_No + "is not valid, see at line no. " + clsCommon.myCstr(grow.Index + 1) + "")
-    '                        End If
-    '                    End If
-
-    '                    If clsCommon.myLen(Gate_Pass_No) > 0 Then
-    '                        Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select TSPL_VEHICLE_MASTER.number,TSPL_GATEPASS_TRANSFER_HEAD.Vehicle_Code ,TSPL_VEHICLE_MASTER.Description as VehicleName,TSPL_GATEPASS_TRANSFER_HEAD.Branch_Code from TSPL_GATEPASS_TRANSFER_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_GATEPASS_TRANSFER_HEAD.Branch_Code left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER .Vehicle_Id =TSPL_GATEPASS_TRANSFER_HEAD.Vehicle_Code  where TSPL_GATEPASS_TRANSFER_HEAD.Document_No='" + Gate_Pass_No + "' ", trans)
-    '                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '                            clsCommon.ProgressBarHide()
-    '                            For Each dr As DataRow In dt.Rows
-    '                                To_Location = clsCommon.myCstr(dr("Branch_Code"))
-    '                                Vehicle_Code = clsCommon.myCstr(dr("Vehicle_Code"))
-    '                                Vehicle_Name = clsCommon.myCstr(dr("VehicleName"))
-    '                            Next
-    '                        End If
-
-    '                    End If
-
-    '                    From_Location = clsCommon.myCstr(grow.Cells("From Location").Value)
-    '                    If clsCommon.myLen(From_Location) <= 0 Then
-    '                        clsCommon.ProgressBarHide()
-    '                        Throw New Exception("Enter Location Code at line no. " + clsCommon.myCstr(grow.Index + 1) + "")
-    '                    End If
-
-    '                Next
-    '            End If
-    '        End If
-    '    Catch ex As Exception
-
-    '    End Try
-    'End Sub
-
-
-
     Private Sub btnUpdateE_Click(sender As Object, e As EventArgs) Handles btnUpdateE.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -7612,9 +6874,7 @@ Public Class FrmTransferKDIL
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
-
     Private Sub txtDate_Validating(sender As Object, e As ComponentModel.CancelEventArgs) Handles txtDate.Validating
         Try
             GSTOn = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GSTApplicable, clsFixedParameterCode.GSTApplicable, Nothing))
@@ -7629,13 +6889,10 @@ Public Class FrmTransferKDIL
                     cboType.Enabled = True
                 End If
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
     Private Sub txtDate_ValueChanging(sender As Object, e As ValueChangingEventArgs) Handles txtDate.ValueChanging
         'Try
         '    GSTOn = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GSTApplicable, clsFixedParameterCode.GSTApplicable, Nothing))
@@ -7650,7 +6907,6 @@ Public Class FrmTransferKDIL
         '            cboType.Enabled = True
         '        End If
         '    End If
-
         'Catch ex As Exception
         '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
@@ -7658,12 +6914,8 @@ Public Class FrmTransferKDIL
     '========================Added by preeti gupta[For GST Print]========================================
     'Public Sub ChkPrintGSTApplicableDate()
     '    If clsERPFuncationality.GetGSTStatus() Then
-
     '    End If
     'End Sub
-
-
-
     Private Sub chkForRepair_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkForRepair.ToggleStateChanged
         Try
             If chkForRepair.Checked = True Then
@@ -7677,10 +6929,8 @@ Public Class FrmTransferKDIL
                 txtTaxGroup.Enabled = True
             End If
         Catch ex As Exception
-
         End Try
     End Sub
-
     Private Sub chkInternalTransfer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkInternalTransfer.ToggleStateChanged
         Try
             txtFromLocation.Value = ""
@@ -7716,12 +6966,10 @@ Public Class FrmTransferKDIL
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     ' Ticket : TEC/29/10/18-000353 By Sanjay
     Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
         clsOpenInventory.ShowInventoryDatails(txtDocNo.Value)
     End Sub
-
     'Ticket No-MIL/14/08/19-000120,Sanjay,Transfer Out- Item Import/Export
     Private Sub radExportTransferOut_Click(sender As Object, e As EventArgs) Handles radExportTransferOut.Click
         If clsCommon.CompairString(txtDocNo.Value, "") = CompairStringResult.Equal Then
@@ -7736,7 +6984,6 @@ Public Class FrmTransferKDIL
         whrcls = " and document_no='" + txtDocNo.Value + "'"
         transportSql.ExporttoExcel(str, whrcls, Me)
     End Sub
-
     Private Sub radImportTransferOut_Click(sender As Object, e As EventArgs) Handles radImportTransferOut.Click
         If clsCommon.CompairString(txtFromLocation.Value, "") = CompairStringResult.Equal Then
             common.clsCommon.MyMessageBoxShow(Me, "Please select location.")
@@ -7758,14 +7005,12 @@ Public Class FrmTransferKDIL
             gv1.Rows.AddNew()
         End If
     End Sub
-
     Private Sub fndSRNO__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndSRNO._MYValidating
         Try
             If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
                 Throw New Exception("Please first select from location")
             End If
             'If chkInternalTransfer.Checked = True Then
-
             Dim qry As String = " Select distinct z.Document_No as Code, z.[Date],z.Description,z.[Location Code],z.Location_Desc as [Location Name],z.[Dept Code],z.[Dept Desc],z.Mode_Of_Transport as [Mode Of Transport],z.Remarks,z.Comments,z.[All/Transfer] from ( " &
         " select code as Document_No,SUM(Qty* RI) as OutQty,Max(Unit_Code) as UnitCode ,max(Requisition_Date) as [Date], max(Description) as [Description], max(Location) as [Location Code], max(Location_Desc) as Location_Desc, max(Dept) as [Dept Code],max(Dept_Desc) as [Dept Desc], max(Remarks) as Remarks,max(Mode_Of_Transport) as Mode_Of_Transport, max(Comments) as Comments,Case When Max(All_Transfer_Issue)=0 Then 'All' Else (Case When Max(All_Transfer_Issue)=1 Then 'Transfer' Else '' End) End As [All/Transfer] " &
         "  from " &
@@ -7779,23 +7024,17 @@ Public Class FrmTransferKDIL
          " ) Final where Final.code not in (select isnull(TSPL_TRANSFER_ORDER_HEAD.Requisition_Id,'') as Requisition_Id from TSPL_TRANSFER_ORDER_HEAD ) " &
          " group by Code,ICode,Unit_Code having SUM(Qty *RI) >0   " &
          " )z  "
-
             Dim whrcls = " [All/Transfer] in ('All','Transfer')"
-
-
             'InternalTransfer=1 and
             If isButtonClicked Then
                 fndSRNO.Value = clsCommon.ShowSelectForm("SRNO1@1", qry, "Code", whrcls, fndSRNO.Value, "Code", isButtonClicked)
                 LoadStoreRequisitionDetail(fndSRNO.Value)
             End If
-
             'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
     Sub LoadStoreRequisitionDetail(ByVal SRNO As String)
         Dim qry As String = Nothing
         isInsideLoadData = True
@@ -7858,18 +7097,15 @@ Public Class FrmTransferKDIL
         End If
         isInsideLoadData = False
     End Sub
-
     Private Sub chkJobWork_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkJobWork.ToggleStateChanged
         If chkJobWork.Checked = True Then
             chkInternalTransfer.Checked = True
             chkInternalTransfer.Enabled = False
         Else
-
             chkInternalTransfer.Checked = False
             chkInternalTransfer.Enabled = True
         End If
     End Sub
-
     Private Sub BtnHistory_Click(sender As Object, e As EventArgs) Handles BtnHistory.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
@@ -7883,20 +7119,14 @@ Public Class FrmTransferKDIL
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub fndTransferIndentNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndTransferIndentNo._MYValidating
         Try
             If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal And clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select IsParlour from tspl_location_master where Location_code='" & clsCommon.myCstr(txtToLoc.Value) & "'")), "Y") = CompairStringResult.Equal AndAlso chkProductionRequest.Checked = False Then
                 Dim strQuery As String = "Select TSPL_TRANSFER_INDENT_MASTER.Document_No as IndentNo, Convert (varchar,TSPL_TRANSFER_INDENT_MASTER.Document_Date,103) as [InvoiceDate] ,  TSPL_TRANSFER_INDENT_MASTER.Location_code as [Location Code], TSPL_Location_Master.Location_Desc as [Location Name] from TSPL_TRANSFER_INDENT_MASTER " & Environment.NewLine &
 " Left Outer Join TSPL_Location_Master On TSPL_Location_Master.Location_Code = TSPL_TRANSFER_INDENT_MASTER.location_Code "
-
                 Dim whr As String = " TSPL_TRANSFER_INDENT_MASTER.Booking_By ='Parlor' and  TSPL_TRANSFER_INDENT_MASTER.location_Code ='" & clsCommon.myCstr(txtToLoc.Value) & "' and TSPL_TRANSFER_INDENT_MASTER.Document_No not in ( select TransferIndent_No from tspl_transfer_order_head where isnull(TransferIndent_No,'')<>'' and tspl_transfer_order_head.document_no <>'" & clsCommon.myCstr(txtDocNo.Value) & "' )  " & Environment.NewLine &
 " and Convert(date,TSPL_TRANSFER_INDENT_MASTER.Document_Date,103) <= Convert(date,'" + txtDate.Value + "',103)"
-
-
-
                 'strQuery = "Select * from ( " + strQuery + whr + strProductionStoreRequest + " ) XXX"
-
                 fndTransferIndentNo.Value = clsCommon.ShowSelectForm("IndentNo@Transfer", strQuery, "IndentNo", whr, fndTransferIndentNo.Value, "IndentNo", isButtonClicked)
                 If clsCommon.myLen(fndTransferIndentNo.Value) > 0 Then
                     fillTransferIndentNo(fndTransferIndentNo.Value)
@@ -7906,7 +7136,6 @@ Public Class FrmTransferKDIL
             ElseIf chkProductionRequest.Checked = True AndAlso clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal AndAlso chkInternalTransfer.Checked = True Then
                 Dim strQuery As String = " Select TSPL_PP_REQUISITION_HEAD.Requisition_Id  as IndentNo, convert (varchar, TSPL_PP_REQUISITION_HEAD.Requisition_Date,103) as [InvoiceDate] ,TSPL_PP_REQUISITION_HEAD.Location  as [Location Code] , TSPL_Location_Master.Location_Desc  as [Location Name] from TSPL_PP_REQUISITION_HEAD 
                                            Left Outer Join TSPL_Location_Master on (TSPL_Location_Master.Location_Code = TSPL_PP_REQUISITION_HEAD.Location or TSPL_Location_Master.Main_Location_Code = TSPL_PP_REQUISITION_HEAD.Location ) "
-
                 Dim whr As String = " TSPL_PP_REQUISITION_HEAD.close_yn = 'N' and TSPL_PP_REQUISITION_HEAD.Status = 1 and  TSPL_Location_Master.Location_Code  ='" & clsCommon.myCstr(txtToLoc.Value) & "'  and TSPL_PP_REQUISITION_HEAD.Requisition_Id not in ( select TransferIndent_No from tspl_transfer_order_head where isnull(TransferIndent_No,'')<>'' ) "
                 fndTransferIndentNo.Value = clsCommon.ShowSelectForm("IndentNo@Transfer@PSR", strQuery, "IndentNo", whr, fndTransferIndentNo.Value, "IndentNo", isButtonClicked)
                 If clsCommon.myLen(fndTransferIndentNo.Value) > 0 Then
@@ -7915,12 +7144,10 @@ Public Class FrmTransferKDIL
                     LoadBlankGrid()
                 End If
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Transfer", MessageBoxButtons.OK)
         End Try
     End Sub
-
     Private Sub fillTransferIndentNo(ByVal strTransferIndentNo As String)
         Try
             LoadBlankGrid()
@@ -7933,10 +7160,7 @@ Public Class FrmTransferKDIL
             Else
                 strQuery = " Select TSPL_TRANSFER_INDENT_DETAILS.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,TSPL_TRANSFER_INDENT_DETAILS.Unit_Code , sum(TSPL_TRANSFER_INDENT_DETAILS.Tranfer_Qty) as Qty from TSPL_TRANSFER_INDENT_DETAILS  Left Outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_TRANSFER_INDENT_DETAILS.Item_Code 
                              where TSPL_TRANSFER_INDENT_DETAILS.Document_No = '" + strTransferIndentNo + "' group by TSPL_TRANSFER_INDENT_DETAILS.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,TSPL_TRANSFER_INDENT_DETAILS.Unit_Code "
-
             End If
-
-
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQuery)
             Dim intLineNo As Integer = 0
@@ -7950,22 +7174,17 @@ Public Class FrmTransferKDIL
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsCommon.myCstr(dr("HSN_Code"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("Unit_Code"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colOutQty).Value = clsCommon.myCstr(dr("Qty"))
-
                 Next
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
     Private Sub gv1_UserAddingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv1.UserAddingRow
-
     End Sub
-
     Private Sub btn_CancelDel_Click(sender As Object, e As EventArgs) Handles btn_CancelDel.Click
         CancelDelData()
     End Sub
-
     Function CancelDelData() As Boolean
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
@@ -7974,7 +7193,6 @@ Public Class FrmTransferKDIL
             If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
             End If
-
             Dim strTransfer_In_Ret_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_TRANSFER_ORDER_HEAD where TransferOutNo='" & txtDocNo.Value & "' "))
             If clsCommon.myLen(strTransfer_In_Ret_No) > 0 Then
                 Dim StrTransType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Transfer_Type from TSPL_TRANSFER_ORDER_HEAD where Document_No='" & strTransfer_In_Ret_No & "' "))
@@ -7984,12 +7202,10 @@ Public Class FrmTransferKDIL
                     Throw New Exception("You cannot cancelled this document because its Transfer Return (" + clsCommon.myCstr(strTransfer_In_Ret_No) + ") has been created.")
                 End If
             End If
-
             Dim strTransferReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_TRANSFER_RETURN where Transfer_No='" & txtDocNo.Value & "' "))
             If clsCommon.myLen(strTransferReturnNo) > 0 Then
                 Throw New Exception("You cannot cancelled this document because its Transfer Return (" + clsCommon.myCstr(strTransferReturnNo) + ") has been created.")
             End If
-
             If chkJobWork.Checked = False AndAlso (clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal) AndAlso chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
                 EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,Posting_Date,GETDATE()),0) as PostedHours from TSPL_TRANSFER_ORDER_HEAD where  Document_No = '" + txtDocNo.Value + "'"))
@@ -7997,7 +7213,6 @@ Public Class FrmTransferKDIL
                     Throw New Exception("Transfer can not be cancelled.It has been more than 24 hours.")
                 End If
             End If
-
             clsTransferDCC.CancelDelData(Me.Form_ID, txtDocNo.Value, NavigatorType.Current)
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
@@ -8006,11 +7221,8 @@ Public Class FrmTransferKDIL
         End Try
         Return True
     End Function
-
     Private Sub gv1_CommandCellClick(sender As Object, e As EventArgs) Handles gv1.CommandCellClick
-
     End Sub
-
     Private Sub btnSTAPrint_Click(sender As Object, e As EventArgs) Handles btnSTAPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -8082,10 +7294,8 @@ left join TSPL_VENDOR_MASTER on TSPL_VEHICLE_MASTER.Transport_Id=TSPL_VENDOR_MAS
 left join TSPL_COMPANY_MASTER on TSPL_TRANSFER_ORDER_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code
 left join TSPL_TRANSFER_ORDER_HEAD as TrasOut on TSPL_TRANSFER_ORDER_HEAD.TransferOutNo=TSPL_TRANSFER_ORDER_HEAD.Document_No
 left join TSPL_REQUISITION_HEAD on TSPL_TRANSFER_ORDER_HEAD.Requisition_Id=TSPL_REQUISITION_HEAD.Requisition_Id
-
 where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value) + "'"
                 End If
-
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
@@ -8093,12 +7303,10 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
                         frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTA", "Stock Transfer Advice", Nothing)
                     Else
                         frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockTransferSTA_Other", "Stock Transfer Advice", Nothing)
-
                     End If
-
                     'frmCRV.Close()
                 Else
-                        clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
+                    clsCommon.MyMessageBoxShow("Data not found to print.", Me.Text)
                 End If
             Else
                 clsCommon.MyMessageBoxShow("Select document.", Me.Text)
@@ -8107,7 +7315,6 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnSTAMilkPrint_Click(sender As Object, e As EventArgs) Handles btnSTAMilkPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -8128,7 +7335,6 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnSTAProductPrint_Click(sender As Object, e As EventArgs) Handles btnSTAProductPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then

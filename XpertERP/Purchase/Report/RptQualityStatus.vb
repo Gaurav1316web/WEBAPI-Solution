@@ -161,10 +161,26 @@ Public Class RptQualityStatus
         Try
             PageSetupReport_ID = ReportID
             TemplateGridview = gvDetails
+            GetReportID()
             Load_Report()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If clsCommon.CompairString(cboSelectedBy.SelectedItem.Text, "Accepted") = CompairStringResult.Equal Then
+            VarID += "_A"
+        ElseIf clsCommon.CompairString(cboSelectedBy.SelectedItem.Text, "Rejected Item") = CompairStringResult.Equal Then
+            VarID += "_R"
+        ElseIf clsCommon.CompairString(cboSelectedBy.SelectedItem.Text, "Both") = CompairStringResult.Equal Then
+            VarID += "_B"
+        End If
+
+        gv1.VarID = VarID
+
     End Sub
 
     Private Sub BtnReset_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnReset.Click

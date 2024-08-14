@@ -697,9 +697,23 @@ Public Class FrmPendingSrn_Qty
     End Sub
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportID()
         PageSetupReport_ID = ReportId()
         TemplateGridview = gv
         PrintForExcel(EnumExportTo.Excel, True)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkSummary.Checked Then
+            VarID += "_S"
+        ElseIf chkSRNReturn.Checked Then
+            VarID += "_SR"
+        ElseIf chkPaymentStatus.Checked Then
+            VarID += "_PS"
+        End If
+        gv.VarID = VarID
+
     End Sub
 
     ''Private Sub chk_vendor_select_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chk_vendor_select.ToggleStateChanged
@@ -717,8 +731,8 @@ Public Class FrmPendingSrn_Qty
     ''        chkvendor_All1.IsChecked = True
     ''    End If
     ''End Sub
-   
-   
+
+
     Private Sub chk_All_ToggleStateChanged_1(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chk_All.ToggleStateChanged
         cbgDoc.Enabled = Not chk_All.IsChecked
     End Sub

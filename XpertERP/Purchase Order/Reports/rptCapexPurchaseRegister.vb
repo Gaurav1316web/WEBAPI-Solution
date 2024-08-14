@@ -399,7 +399,19 @@ Public Class rptCapexPurchaseRegister
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = ReportId()
         TemplateGridview = Gv1
+        GetReportID()
         Print(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkCapex.Checked Then
+            VarID += "_C"
+        ElseIf chkFA.Checked Then
+            VarID += "_F"
+        End If
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Function ReportId()

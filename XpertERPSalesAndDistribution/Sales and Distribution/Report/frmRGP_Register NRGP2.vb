@@ -269,6 +269,7 @@ Public Class FrmRGP_Register_NRGP
     End Function
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+        GetReportIDD()
         PageSetupReport_ID = ReportId()
         TemplateGridview = gv
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal AndAlso chkRgpStmt.Checked Then
@@ -393,6 +394,21 @@ Public Class FrmRGP_Register_NRGP
                 common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
+    End Sub
+
+    Sub GetReportIDD()
+        Dim VarID As String = ""
+        If chkRgpStmt.Checked Then
+            VarID += "_R"
+        End If
+
+        If clsCommon.CompairString(cmbtype.SelectedItem.Text, "NRGP") = CompairStringResult.Equal Then
+            VarID += "_N"
+        ElseIf clsCommon.CompairString(cmbtype.SelectedItem.Text, "RGP") = CompairStringResult.Equal Then
+            VarID += "_R"
+        End If
+        gv.VarID = VarID
+
     End Sub
     'Sub print(ByVal companyCode As String, ByVal exporter As EnumExportTo)
     '    Try

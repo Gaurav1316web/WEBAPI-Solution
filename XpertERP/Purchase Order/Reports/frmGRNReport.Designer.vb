@@ -22,7 +22,7 @@ Partial Class FrmGRNReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cbgVendor = New common.MyCheckBoxGrid()
@@ -548,7 +548,7 @@ Partial Class FrmGRNReport
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1146, 424)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1146, 404)
         Me.RadPageViewPage2.Text = "Report"
         '
         'Gv1
@@ -561,11 +561,13 @@ Partial Class FrmGRNReport
         Me.Gv1.MasterTemplate.EnableFiltering = True
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1146, 424)
+        Me.Gv1.Size = New System.Drawing.Size(1146, 404)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnExport
         '

@@ -90,8 +90,22 @@ Public Class RptDayWisePurchasePriceReport
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         PageSetupReport_ID = MyBase.Form_ID
+        GetReportID()
         PrintData(Nothing)
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(cboQtyValueWise.SelectedItem.Text, "Qty wise") = CompairStringResult.Equal Then
+            VarID += "_Q"
+        ElseIf clsCommon.CompairString(cboQtyValueWise.SelectedItem.Text, "Value Wise") = CompairStringResult.Equal Then
+            VarID += "_V"
+        ElseIf clsCommon.CompairString(cboQtyValueWise.SelectedItem.Text, "Both") = CompairStringResult.Equal Then
+            VarID += "_B"
+        End If
+        gv.VarID = VarID
+    End Sub
+
     Sub PrintData(ByVal exporter As EnumExportTo)
         Try
             Dim checkData As Integer = clsDBFuncationality.getSingleValue(" select count(*) from TSPL_SRN_HEAD where  datename(month,convert(date, SRN_Date,103)) ='" + cboMonthName.Text + "' and datename(year,convert(date, SRN_Date,103))  = '" + cboYear.SelectedValue + "'")

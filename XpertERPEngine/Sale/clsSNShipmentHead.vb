@@ -2562,6 +2562,11 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
+            Dim dt7 As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_Location from TSPL_SD_SHIPMENT_HEAD  where  Document_Code ='" + strCode + "'", trans)
+            If dt7 IsNot Nothing AndAlso dt7.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNShipment, clsCommon.myCstr(dt7.Rows(0)("Bill_To_Location")), clsCommon.myCDate(dt7.Rows(0)("Document_Date")), trans)
+            End If
+
             If Not isReverseOnly Then
                 Qry = "select distinct DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL where Shipment_Code='" + strCode + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)

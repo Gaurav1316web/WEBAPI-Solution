@@ -1305,6 +1305,10 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                 Qry += "and (isnull(TSPL_Customer_Invoice_Head.AgainstScrapReturn,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'')='' and  ISNULL (TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'')='' and isnull(TSPL_Customer_Invoice_Head.Against_Asset_Disposal,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_No,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_Security_Receipt_No,'')='' and isnull(TSPL_Customer_Invoice_Head.Against_Service_Visit_Code,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_Subsidy_No,'')='' and ISNULL (TSPL_Customer_Invoice_Head.Against_VCGL,'')='' and ISNULL (TSPL_Customer_Invoice_Head.AgainstScrap,'')='')  "
             End If
 
+            Dim dt7 As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Loc_Code from TSPL_Customer_Invoice_Head  where  Document_No ='" + strCode + "'", trans)
+            If dt7 IsNot Nothing AndAlso dt7.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleReceivable, clsUserMgtCode.mbtnARInvoiceEntry, clsCommon.myCstr(dt7.Rows(0)("Loc_Code")), clsCommon.myCDate(dt7.Rows(0)("Document_Date")), trans)
+            End If
 
             Dim strcustomerInvocieNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
             If clsCommon.myLen(strcustomerInvocieNo) <= 0 Then
