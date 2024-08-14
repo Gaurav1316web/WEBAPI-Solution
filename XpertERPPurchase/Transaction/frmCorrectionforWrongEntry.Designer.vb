@@ -22,7 +22,7 @@ Partial Class frmCorrectionforWrongEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -102,6 +102,12 @@ Partial Class frmCorrectionforWrongEntry
         Me.UnpostLCF = New Telerik.WinControls.UI.RadButton()
         Me.DeleteLCF = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Opendiscode = New Telerik.WinControls.UI.RadButton()
+        Me.Unpostdiscode = New Telerik.WinControls.UI.RadButton()
+        Me.Deletediscode = New Telerik.WinControls.UI.RadButton()
+        Me.DispatchBox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Gv2 = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblIRNSale = New common.Controls.MyLabel()
         Me.MyLabel16 = New common.Controls.MyLabel()
@@ -140,15 +146,19 @@ Partial Class frmCorrectionforWrongEntry
         Me.UnpostDispatch = New Telerik.WinControls.UI.RadButton()
         Me.DeleteDispatch = New Telerik.WinControls.UI.RadButton()
         Me.TxtSI = New common.UserControls.txtNavigator()
+        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.LoadinSlipDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel33 = New common.Controls.MyLabel()
+        Me.TxtLoadinSlipCode = New common.UserControls.txtNavigator()
+        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
+        Me.btnLoadinSlipU = New Telerik.WinControls.UI.RadButton()
+        Me.BtnLoadinSlipD = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdatee = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.DispatchBox = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Gv2 = New common.UserControls.MyRadGridView()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Opendiscode = New Telerik.WinControls.UI.RadButton()
-        Me.Unpostdiscode = New Telerik.WinControls.UI.RadButton()
-        Me.Deletediscode = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -228,6 +238,15 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.UnpostLCF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DeleteLCF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.Opendiscode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Unpostdiscode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Deletediscode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DispatchBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.DispatchBox.SuspendLayout()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.lblIRNSale, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -266,17 +285,18 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.OpenDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UnpostDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DeleteDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LoadinSlipDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnLoadinSlipU, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnLoadinSlipD, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdatee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DispatchBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.DispatchBox.SuspendLayout()
-        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.Opendiscode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unpostdiscode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Deletediscode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -304,10 +324,11 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(1020, 674)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1654,6 +1675,79 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage4.Size = New System.Drawing.Size(999, 626)
         Me.RadPageViewPage4.Text = "SALES"
         '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.Opendiscode)
+        Me.RadGroupBox1.Controls.Add(Me.Unpostdiscode)
+        Me.RadGroupBox1.Controls.Add(Me.Deletediscode)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(406, 417)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(346, 34)
+        Me.RadGroupBox1.TabIndex = 154
+        Me.RadGroupBox1.Visible = False
+        '
+        'Opendiscode
+        '
+        Me.Opendiscode.Location = New System.Drawing.Point(264, 7)
+        Me.Opendiscode.Name = "Opendiscode"
+        Me.Opendiscode.Size = New System.Drawing.Size(69, 22)
+        Me.Opendiscode.TabIndex = 154
+        Me.Opendiscode.Text = "Open"
+        '
+        'Unpostdiscode
+        '
+        Me.Unpostdiscode.Location = New System.Drawing.Point(138, 7)
+        Me.Unpostdiscode.Name = "Unpostdiscode"
+        Me.Unpostdiscode.Size = New System.Drawing.Size(69, 22)
+        Me.Unpostdiscode.TabIndex = 155
+        Me.Unpostdiscode.Text = "UnPost"
+        '
+        'Deletediscode
+        '
+        Me.Deletediscode.Location = New System.Drawing.Point(12, 7)
+        Me.Deletediscode.Name = "Deletediscode"
+        Me.Deletediscode.Size = New System.Drawing.Size(69, 22)
+        Me.Deletediscode.TabIndex = 156
+        Me.Deletediscode.Text = "Delete"
+        '
+        'DispatchBox
+        '
+        Me.DispatchBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.DispatchBox.Controls.Add(Me.Gv2)
+        Me.DispatchBox.HeaderText = "Dispatch Documents"
+        Me.DispatchBox.Location = New System.Drawing.Point(406, 199)
+        Me.DispatchBox.Name = "DispatchBox"
+        Me.DispatchBox.Size = New System.Drawing.Size(346, 218)
+        Me.DispatchBox.TabIndex = 153
+        Me.DispatchBox.Text = "Dispatch Documents"
+        Me.DispatchBox.Visible = False
+        '
+        'Gv2
+        '
+        Me.Gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.Gv2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Gv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.Gv2.ForeColor = System.Drawing.Color.Black
+        Me.Gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Gv2.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.Gv2.MasterTemplate.AllowAddNewRow = False
+        Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv2.MyStopExport = False
+        Me.Gv2.Name = "Gv2"
+        Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Gv2.ShowHeaderCellButtons = True
+        Me.Gv2.Size = New System.Drawing.Size(342, 198)
+        Me.Gv2.TabIndex = 1
+        Me.Gv2.VarID = ""
+        '
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -2147,6 +2241,138 @@ Partial Class frmCorrectionforWrongEntry
         Me.TxtSI.Value = ""
         Me.TxtSI.Visible = False
         '
+        'RadPageViewPage5
+        '
+        Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox6)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage5.Name = "RadPageViewPage5"
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(999, 626)
+        Me.RadPageViewPage5.Text = "LoadInSlip"
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.RadButton1)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel20)
+        Me.RadGroupBox6.Controls.Add(Me.LoadinSlipDate)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel33)
+        Me.RadGroupBox6.Controls.Add(Me.TxtLoadinSlipCode)
+        Me.RadGroupBox6.Controls.Add(Me.RadButton2)
+        Me.RadGroupBox6.Controls.Add(Me.btnLoadinSlipU)
+        Me.RadGroupBox6.Controls.Add(Me.BtnLoadinSlipD)
+        Me.RadGroupBox6.HeaderText = "LoadinSlip"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(16, 15)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Size = New System.Drawing.Size(364, 100)
+        Me.RadGroupBox6.TabIndex = 118
+        Me.RadGroupBox6.Text = "LoadinSlip"
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton1.Image = Global.XpertERPPurchase.My.Resources.Resources._new
+        Me.RadButton1.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.RadButton1.Location = New System.Drawing.Point(341, 21)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(18, 19)
+        Me.RadButton1.TabIndex = 116
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel20.Location = New System.Drawing.Point(7, 44)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(85, 16)
+        Me.MyLabel20.TabIndex = 114
+        Me.MyLabel20.Text = "Document Date"
+        '
+        'LoadinSlipDate
+        '
+        Me.LoadinSlipDate.CalculationExpression = Nothing
+        Me.LoadinSlipDate.CustomFormat = "dd/MM/yyyy"
+        Me.LoadinSlipDate.FieldCode = Nothing
+        Me.LoadinSlipDate.FieldDesc = Nothing
+        Me.LoadinSlipDate.FieldMaxLength = 0
+        Me.LoadinSlipDate.FieldName = Nothing
+        Me.LoadinSlipDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LoadinSlipDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.LoadinSlipDate.isCalculatedField = False
+        Me.LoadinSlipDate.IsSourceFromTable = False
+        Me.LoadinSlipDate.IsSourceFromValueList = False
+        Me.LoadinSlipDate.IsUnique = False
+        Me.LoadinSlipDate.Location = New System.Drawing.Point(112, 42)
+        Me.LoadinSlipDate.MendatroryField = False
+        Me.LoadinSlipDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.LoadinSlipDate.MyLinkLable1 = Me.RadLabel4
+        Me.LoadinSlipDate.MyLinkLable2 = Nothing
+        Me.LoadinSlipDate.Name = "LoadinSlipDate"
+        Me.LoadinSlipDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.LoadinSlipDate.ReferenceFieldDesc = Nothing
+        Me.LoadinSlipDate.ReferenceFieldName = Nothing
+        Me.LoadinSlipDate.ReferenceTableName = Nothing
+        Me.LoadinSlipDate.Size = New System.Drawing.Size(228, 18)
+        Me.LoadinSlipDate.TabIndex = 113
+        Me.LoadinSlipDate.TabStop = False
+        Me.LoadinSlipDate.Text = "13/06/2011"
+        Me.LoadinSlipDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel33
+        '
+        Me.MyLabel33.FieldName = Nothing
+        Me.MyLabel33.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel33.Location = New System.Drawing.Point(7, 24)
+        Me.MyLabel33.Name = "MyLabel33"
+        Me.MyLabel33.Size = New System.Drawing.Size(88, 16)
+        Me.MyLabel33.TabIndex = 112
+        Me.MyLabel33.Text = "Document Code"
+        '
+        'TxtLoadinSlipCode
+        '
+        Me.TxtLoadinSlipCode.FieldName = Nothing
+        Me.TxtLoadinSlipCode.Location = New System.Drawing.Point(112, 21)
+        Me.TxtLoadinSlipCode.MendatroryField = False
+        Me.TxtLoadinSlipCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TxtLoadinSlipCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.TxtLoadinSlipCode.MyLinkLable1 = Nothing
+        Me.TxtLoadinSlipCode.MyLinkLable2 = Nothing
+        Me.TxtLoadinSlipCode.MyMaxLength = 32767
+        Me.TxtLoadinSlipCode.MyReadOnly = False
+        Me.TxtLoadinSlipCode.Name = "TxtLoadinSlipCode"
+        Me.TxtLoadinSlipCode.Size = New System.Drawing.Size(228, 19)
+        Me.TxtLoadinSlipCode.TabIndex = 111
+        Me.TxtLoadinSlipCode.Value = ""
+        '
+        'RadButton2
+        '
+        Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton2.Location = New System.Drawing.Point(233, 73)
+        Me.RadButton2.Name = "RadButton2"
+        Me.RadButton2.Size = New System.Drawing.Size(69, 22)
+        Me.RadButton2.TabIndex = 110
+        Me.RadButton2.Text = "Open"
+        Me.RadButton2.Visible = False
+        '
+        'btnLoadinSlipU
+        '
+        Me.btnLoadinSlipU.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnLoadinSlipU.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLoadinSlipU.Location = New System.Drawing.Point(120, 73)
+        Me.btnLoadinSlipU.Name = "btnLoadinSlipU"
+        Me.btnLoadinSlipU.Size = New System.Drawing.Size(69, 22)
+        Me.btnLoadinSlipU.TabIndex = 108
+        Me.btnLoadinSlipU.Text = "UnPost"
+        '
+        'BtnLoadinSlipD
+        '
+        Me.BtnLoadinSlipD.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnLoadinSlipD.Location = New System.Drawing.Point(7, 73)
+        Me.BtnLoadinSlipD.Name = "BtnLoadinSlipD"
+        Me.BtnLoadinSlipD.Size = New System.Drawing.Size(69, 22)
+        Me.BtnLoadinSlipD.TabIndex = 107
+        Me.BtnLoadinSlipD.Text = "Delete"
+        '
         'btnUpdatee
         '
         Me.btnUpdatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2172,78 +2398,6 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(200, 100)
         Me.RadPageViewPage2.Text = "Weighment"
-        '
-        'DispatchBox
-        '
-        Me.DispatchBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.DispatchBox.Controls.Add(Me.Gv2)
-        Me.DispatchBox.HeaderText = "Dispatch Documents"
-        Me.DispatchBox.Location = New System.Drawing.Point(406, 199)
-        Me.DispatchBox.Name = "DispatchBox"
-        Me.DispatchBox.Size = New System.Drawing.Size(346, 218)
-        Me.DispatchBox.TabIndex = 153
-        Me.DispatchBox.Text = "Dispatch Documents"
-        Me.DispatchBox.Visible = False
-        '
-        'Gv2
-        '
-        Me.Gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.Gv2.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Gv2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.Gv2.ForeColor = System.Drawing.Color.Black
-        Me.Gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Gv2.Location = New System.Drawing.Point(2, 18)
-        '
-        '
-        '
-        Me.Gv2.MasterTemplate.AllowAddNewRow = False
-        Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
-        Me.Gv2.MyStopExport = False
-        Me.Gv2.Name = "Gv2"
-        Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Gv2.ShowHeaderCellButtons = True
-        Me.Gv2.Size = New System.Drawing.Size(342, 198)
-        Me.Gv2.TabIndex = 1
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.Opendiscode)
-        Me.RadGroupBox1.Controls.Add(Me.Unpostdiscode)
-        Me.RadGroupBox1.Controls.Add(Me.Deletediscode)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(406, 417)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(346, 34)
-        Me.RadGroupBox1.TabIndex = 154
-        Me.RadGroupBox1.Visible = False
-        '
-        'Opendiscode
-        '
-        Me.Opendiscode.Location = New System.Drawing.Point(264, 7)
-        Me.Opendiscode.Name = "Opendiscode"
-        Me.Opendiscode.Size = New System.Drawing.Size(69, 22)
-        Me.Opendiscode.TabIndex = 154
-        Me.Opendiscode.Text = "Open"
-        '
-        'Unpostdiscode
-        '
-        Me.Unpostdiscode.Location = New System.Drawing.Point(138, 7)
-        Me.Unpostdiscode.Name = "Unpostdiscode"
-        Me.Unpostdiscode.Size = New System.Drawing.Size(69, 22)
-        Me.Unpostdiscode.TabIndex = 155
-        Me.Unpostdiscode.Text = "UnPost"
-        '
-        'Deletediscode
-        '
-        Me.Deletediscode.Location = New System.Drawing.Point(12, 7)
-        Me.Deletediscode.Name = "Deletediscode"
-        Me.Deletediscode.Size = New System.Drawing.Size(69, 22)
-        Me.Deletediscode.TabIndex = 156
-        Me.Deletediscode.Text = "Delete"
         '
         'frmCorrectionforWrongEntry
         '
@@ -2339,6 +2493,15 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.UnpostLCF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DeleteLCF, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        CType(Me.Opendiscode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Unpostdiscode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Deletediscode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DispatchBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.DispatchBox.ResumeLayout(False)
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -2380,17 +2543,19 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.OpenDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.UnpostDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DeleteDispatch, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage5.ResumeLayout(False)
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LoadinSlipDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnLoadinSlipU, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnLoadinSlipD, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdatee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DispatchBox, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.DispatchBox.ResumeLayout(False)
-        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        CType(Me.Opendiscode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unpostdiscode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Deletediscode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2522,4 +2687,14 @@ Partial Class frmCorrectionforWrongEntry
     Friend WithEvents Opendiscode As RadButton
     Friend WithEvents Unpostdiscode As RadButton
     Friend WithEvents Deletediscode As RadButton
+    Friend WithEvents RadPageViewPage5 As RadPageViewPage
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents MyLabel20 As common.Controls.MyLabel
+    Friend WithEvents LoadinSlipDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel33 As common.Controls.MyLabel
+    Friend WithEvents TxtLoadinSlipCode As common.UserControls.txtNavigator
+    Friend WithEvents RadButton2 As RadButton
+    Friend WithEvents btnLoadinSlipU As RadButton
+    Friend WithEvents BtnLoadinSlipD As RadButton
 End Class
