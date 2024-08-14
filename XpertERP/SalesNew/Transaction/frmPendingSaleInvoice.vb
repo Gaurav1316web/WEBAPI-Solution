@@ -153,8 +153,12 @@ Public Class frmPendingSaleInvoice
         Dim qry As String = ""
 
         '-------------------------------------
-        qry = "select CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,max(TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as TaxGroupName,ICode,max(IName) as IName,MAX(IType) as IType,Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName, SUM(Qty* case when RI=1 then 1 else 0 end) as POQty, SUM(Qty* case when RI=-1 then 1 else 0 end) as GRNQty, SUM(Unapproved) as UnapprovedQty, SUM((Qty *RI)- Unapproved) as PedningQty ,MAX(Rate) as Rate, MAX(Final.TAX1_Rate) as TAX1_Rate,MAX(Final.TAX2_Rate) as TAX2_Rate,MAX(Final.TAX3_Rate) as TAX3_Rate,MAX(Final.TAX4_Rate) as TAX4_Rate,MAX(Final.TAX5_Rate) as TAX5_Rate,MAX(Final.TAX6_Rate) as TAX6_Rate,MAX(Final.TAX7_Rate) as TAX7_Rate,MAX(Final.TAX8_Rate) as TAX8_Rate,MAX(Final.TAX9_Rate) as TAX9_Rate,MAX(Final.TAX10_Rate) as TAX10_Rate,Final.MRP as MRP ,max(Disc_Per) as Disc_Per,max(TransDate) as TransDate ,MAX(Vendor) as Vendor,MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as VendorName,0 as Assessable, MAX(Batch_No) as  Batch_No ,MAX(Expiry_Date) as Expiry_Date ,MAX(MFG_Date) as MFG_Date,max(Scheme_Code) as Scheme_Code,MAX(Document_Date ) As Document_Date from ( " + Environment.NewLine
-        qry += " select TSPL_SD_SALE_INVOICE_HEAD.Document_Date , TSPL_SD_SALE_INVOICE_DETAIL.Line_No,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code as Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type as IType, TSPL_SD_SALE_INVOICE_DETAIL.Qty  as Qty,0 as Unapproved,TSPL_SD_SALE_INVOICE_DETAIL.Unit_Code as Unit,TSPL_SD_SALE_INVOICE_DETAIL.Location as Location,1 as RI,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per,Document_Date as TransDate,TSPL_SD_SALE_INVOICE_DETAIL.Assessable ,TSPL_SD_SALE_INVOICE_DETAIL.Batch_No ,TSPL_SD_SALE_INVOICE_DETAIL.Expiry_Date ,TSPL_SD_SALE_INVOICE_DETAIL.MFG_Date " + Environment.NewLine
+        qry = "select CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,max(TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as TaxGroupName,ICode,max(IName) as IName,MAX(IType) as IType,Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName,
+ SUM(Qty* case when RI=1 then 1 else 0 end) as POQty
+,SUM(Qty* case when RI=2 OR RI=3 then 1 else 0 end) as GRNQty
+,SUM(Qty* case when RI=3 then 1 else 0 end) as UnapprovedQty
+,SUM(Qty* case when RI=1 then 1 else -1 end) as PedningQty ,MAX(Rate) as Rate, MAX(Final.TAX1_Rate) as TAX1_Rate,MAX(Final.TAX2_Rate) as TAX2_Rate,MAX(Final.TAX3_Rate) as TAX3_Rate,MAX(Final.TAX4_Rate) as TAX4_Rate,MAX(Final.TAX5_Rate) as TAX5_Rate,MAX(Final.TAX6_Rate) as TAX6_Rate,MAX(Final.TAX7_Rate) as TAX7_Rate,MAX(Final.TAX8_Rate) as TAX8_Rate,MAX(Final.TAX9_Rate) as TAX9_Rate,MAX(Final.TAX10_Rate) as TAX10_Rate,Max(Final.MRP) as MRP ,max(Disc_Per) as Disc_Per,max(TransDate) as TransDate ,MAX(Vendor) as Vendor,MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as VendorName,0 as Assessable, MAX(Batch_No) as  Batch_No ,MAX(Expiry_Date) as Expiry_Date ,MAX(MFG_Date) as MFG_Date,max(Scheme_Code) as Scheme_Code,MAX(Document_Date ) As Document_Date from ( " + Environment.NewLine
+        qry += " select TSPL_SD_SALE_INVOICE_HEAD.Document_Date , TSPL_SD_SALE_INVOICE_DETAIL.Line_No,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code as Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type as IType, TSPL_SD_SALE_INVOICE_DETAIL.Qty  as Qty,TSPL_SD_SALE_INVOICE_DETAIL.Unit_Code as Unit,TSPL_SD_SALE_INVOICE_DETAIL.Location as Location,1 as RI,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per,Document_Date as TransDate,TSPL_SD_SALE_INVOICE_DETAIL.Assessable ,TSPL_SD_SALE_INVOICE_DETAIL.Batch_No ,TSPL_SD_SALE_INVOICE_DETAIL.Expiry_Date ,TSPL_SD_SALE_INVOICE_DETAIL.MFG_Date " + Environment.NewLine
         qry += " ,Scheme_Code from TSPL_SD_SALE_INVOICE_DETAIL " + Environment.NewLine
         qry += " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code " + Environment.NewLine
         qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" + Environment.NewLine
@@ -169,9 +173,22 @@ Public Class frmPendingSaleInvoice
             qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + VendorCode + "'"
         End If
         qry += " union all " + Environment.NewLine
-        qry += " select NULL As Document_Date, TSPL_SD_SALE_RETURN_DETAIL.Line_No,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code as Code,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,'' as IName,'' as IType,isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Qty,0 as Unapproved,TSPL_SD_SALE_RETURN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate,mrp as MRP,0 as Disc_Per,null as TransDate,isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)as Assessable, '' as  Batch_No ,null as Expiry_Date ,null as MFG_Date" + Environment.NewLine
+        qry += " select NULL As Document_Date, TSPL_SD_SALE_RETURN_DETAIL.Line_No,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code as Code,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,'' as IName,'' as IType,"
+        qry += "  Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='BAG' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInBag) Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='KG' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInKG) Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='MT' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInMT) Else
+   isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInQtl) End End End As Qty,   	 
+ Case  When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='BAG' Then 'Bag'  Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='KG' Then 'KG' Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='MT' Then 'MT' Else 'Qtl'End End End As Unit, "
+        qry += " '' as Location,2 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate,mrp as MRP,0 as Disc_Per,null as TransDate,isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)as Assessable, '' as  Batch_No ,null as Expiry_Date ,null as MFG_Date" + Environment.NewLine
         qry += " ,Scheme_Code from TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine
         qry += " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.Document_Code" + Environment.NewLine
+        qry += " Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInBag' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='Bag')CInBag ON CInBag.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInKG' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='KG')CInKG ON CInKG.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInMT' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='MT')CInMT ON CInMT.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInQtl' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='Qtl')CInQtl ON CInQtl.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code "
         qry += " where  Invoice_Type in ('T','R') and TSPL_SD_SALE_RETURN_HEAD.Status=1 and Scheme_Item='N'  and len(isnull(TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code,''))>0   " + Environment.NewLine
         If clsCommon.CompairString(strDocType, "Export Sale Invoice") = CompairStringResult.Equal Then
             qry += " and TSPL_SD_SALE_RETURN_HEAD.trans_type='EXP' "
@@ -180,9 +197,22 @@ Public Class frmPendingSaleInvoice
             End If
         End If
         qry += " union all   " + Environment.NewLine
-        qry += " select NULL As Document_Date, TSPL_SD_SALE_RETURN_DETAIL.Line_No,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code as Code,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,'' as IName,'' as IType,0 as Qty,isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as Unapproved,TSPL_SD_SALE_RETURN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate,mrp as MRP,0 as Disc_Per,null as TransDate,isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)as Assessable, '' as  Batch_No ,null as Expiry_Date ,null as MFG_Date" + Environment.NewLine
+        qry += " select NULL As Document_Date, TSPL_SD_SALE_RETURN_DETAIL.Line_No,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code as Code,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,'' as IName,'' as IType,"
+        qry += "  Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='BAG' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInBag) Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='KG' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInKG) Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='MT' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInMT) Else
+   isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInQtl) End End End As Qty,   	 
+ Case  When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='BAG' Then 'Bag'  Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='KG' Then 'KG' Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='MT' Then 'MT' Else 'Qtl'End End End As Unit, "
+        qry += " '' as Location,3 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate,mrp as MRP,0 as Disc_Per,null as TransDate,isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)as Assessable, '' as  Batch_No ,null as Expiry_Date ,null as MFG_Date" + Environment.NewLine
         qry += " ,Scheme_Code from TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine
         qry += " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.Document_Code" + Environment.NewLine
+        qry += " Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.Unit_code 
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInBag' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='Bag')CInBag ON CInBag.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInKG' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='KG')CInKG ON CInKG.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInMT' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='MT')CInMT ON CInMT.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInQtl' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='Qtl')CInQtl ON CInQtl.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code "
         qry += " where  Invoice_Type in ('T','R') and TSPL_SD_SALE_RETURN_HEAD.Status=0 and Scheme_Item='N'  and len(isnull(TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code,''))>0 and TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE not in ('" + strCurrCode + "')  " + Environment.NewLine
         If clsCommon.CompairString(strDocType, "Export Sale Invoice") = CompairStringResult.Equal Then
             qry += " and TSPL_SD_SALE_RETURN_HEAD.trans_type='EXP' "
@@ -194,8 +224,10 @@ Public Class frmPendingSaleInvoice
         qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=final.Vendor " + Environment.NewLine
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=Final.Location " + Environment.NewLine
         qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=Final.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' " + Environment.NewLine
-        qry += " WHERE  CONVERT(DATE,Document_Date ,103) >= '" + strFromDate + "' and   CONVERT(DATE,Document_Date,103) <= '" + strToDate + "' " + StrCondition + "  "
-        qry += " group by Code,ICode,Unit,MRP having SUM(Chk)>0 and SUM(Qty *RI) <>0 order by Code,max(Line_No)"
+        If StrCondition IsNot Nothing AndAlso clsCommon.myLen(StrCondition) > 0 Then
+            qry += " WHERE  " + StrCondition
+        End If
+        qry += " group by Code,ICode,Unit having SUM(Chk)>0 and SUM(Qty *RI) <>0  And CONVERT(DATE,Max(Document_Date) ,103) >= '" + strFromDate + "' and   CONVERT(DATE,Max(Document_Date),103) <= '" + strToDate + "' order by Code,max(Line_No)"
 
 
         dtAllData = clsDBFuncationality.GetDataTable(qry)
@@ -746,7 +778,7 @@ Public Class frmPendingSaleInvoice
                 clsERPFuncationality.closeForm(Me)
             End If
         End If
-        
+
     End Sub
 
     Private Sub FrmPendingRequistion_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -848,7 +880,7 @@ Public Class frmPendingSaleInvoice
     End Sub
 
     Private Sub BtnGo_Click(sender As Object, e As EventArgs) Handles BtnGo.Click
-        
+
         Dim strFromDate As String = clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy")
         Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
         LoadData(strFromDate, strToDate, "N")
