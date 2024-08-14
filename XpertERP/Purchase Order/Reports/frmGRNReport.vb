@@ -499,10 +499,20 @@ Public Class FrmGRNReport
             TemplateGridview = Gv1
             Dim FromDate As String = clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy")
             Dim ToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
+            GetReportID()
             GridData(FromDate, ToDate, chkGRNNoSelect.IsChecked, cbgGRNNo.CheckedValue, chkVendorSelect.IsChecked, cbgVendor.CheckedValue, chkLocationSelect.IsChecked, cbgLocation.CheckedValue)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkTrackingReport.Checked Then
+            VarID += "_TR"
+        End If
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub Export_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Export.Click
