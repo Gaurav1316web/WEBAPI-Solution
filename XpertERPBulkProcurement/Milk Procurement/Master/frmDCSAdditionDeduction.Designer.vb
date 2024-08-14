@@ -49,6 +49,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtAddAmount = New common.UserControls.txtMultiSelectFinder()
         Me.txtDescName = New common.Controls.MyTextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail = New common.Controls.MyRadioButton()
         Me.rbtnDCSTypeDCSTruckSheetMultipleDays = New common.Controls.MyRadioButton()
         Me.rbtnDCSTypeDCSTruckSheet = New common.Controls.MyRadioButton()
         Me.txtConvertsion = New common.MyNumBox()
@@ -95,7 +96,6 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -123,6 +123,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDCSTypeDCSTruckSheetMultipleDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDCSTypeDCSTruckSheet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtConvertsion, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,7 +166,6 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -587,6 +587,16 @@ Partial Class frmDCSAdditionDeduction
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Applicable For DCS Type"
         '
+        'rbtnDCSTypeDCSTruckSheetMultipleDaysDetail
+        '
+        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Location = New System.Drawing.Point(4, 104)
+        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.MyLinkLable1 = Nothing
+        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.MyLinkLable2 = Nothing
+        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Name = "rbtnDCSTypeDCSTruckSheetMultipleDaysDetail"
+        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Size = New System.Drawing.Size(206, 18)
+        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.TabIndex = 387
+        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Text = "DCS Truck Sheet Multiple Days Detail"
+        '
         'rbtnDCSTypeDCSTruckSheetMultipleDays
         '
         Me.rbtnDCSTypeDCSTruckSheetMultipleDays.Location = New System.Drawing.Point(4, 85)
@@ -716,8 +726,7 @@ Partial Class frmDCSAdditionDeduction
         Me.grpAdditionType.Size = New System.Drawing.Size(203, 37)
         Me.grpAdditionType.TabIndex = 29
         Me.grpAdditionType.TabStop = False
-        Me.grpAdditionType.Text = "Addition Type"
-        Me.grpAdditionType.Visible = False
+        Me.grpAdditionType.Text = "Type"
         '
         'rbtnAdditionTypeNormal
         '
@@ -1212,16 +1221,6 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'rbtnDCSTypeDCSTruckSheetMultipleDaysDetail
-        '
-        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Location = New System.Drawing.Point(4, 104)
-        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.MyLinkLable1 = Nothing
-        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.MyLinkLable2 = Nothing
-        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Name = "rbtnDCSTypeDCSTruckSheetMultipleDaysDetail"
-        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Size = New System.Drawing.Size(206, 18)
-        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.TabIndex = 387
-        Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Text = "DCS Truck Sheet Multiple Days Detail"
-        '
         'frmDCSAdditionDeduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1265,6 +1264,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.txtDescName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDCSTypeDCSTruckSheetMultipleDays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDCSTypeDCSTruckSheet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtConvertsion, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1309,7 +1309,6 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDCSTypeDCSTruckSheetMultipleDaysDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
