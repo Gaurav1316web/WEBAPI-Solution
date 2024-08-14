@@ -326,6 +326,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesALW.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesUDP.rpt" />
@@ -353,6 +354,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJAL.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceTNK.rpt" />
@@ -605,6 +607,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GALW.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GBKN.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-GKTA.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-V.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\POReport\FrmPurchaseOrderReport-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\POReport\FrmPurchaseOrderReport-V.rpt" />
@@ -1366,6 +1369,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankDraftSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankSavingSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummaryNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDayWiseCollection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />

@@ -613,7 +613,12 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                     End If
                 ElseIf rbtnBankWiseSummary.IsChecked OrElse rbtnSavingSummary.IsChecked Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummary", "Bank Wise Summary")
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummary", "Bank Wise Summary")
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummaryNew", "Bank Wise Summary")
+                    End If
+
                     frmCRV = Nothing
                 ElseIf rbtnBothSavCur.IsChecked Then
                     Dim frmCRV As New frmCrystalReportViewer()
