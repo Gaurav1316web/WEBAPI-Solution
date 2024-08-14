@@ -4379,8 +4379,8 @@ Public Class frmSNShipment
                 CustomerOutstandingAmount(obj.Customer_Code, Nothing)
                 If obj.Status <> ERPTransactionStatus.Approved Then
                     Dim totalamt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Total_Amt from TSPL_SD_SHIPMENT_head where Document_Code='" + obj.Document_Code + "'"))
-                    Dim creditlimit As Decimal = totalamt - (lblTotalOutstansing.Text)
-                    lblTotalOutstansing.Text = (-1 * creditlimit).ToString("F2")
+                    Dim creditlimit As Decimal = (lblTotalOutstansing.Text)
+                    lblTotalOutstansing.Text = (creditlimit).ToString("F2")
                 End If
                 txtOrderQty.Text = obj.Order_Qty
                 If clsCommon.myLen(txtDiscAmt.Text) <= 0 OrElse clsCommon.myLen(txtDiscPer.Text) <= 0 OrElse clsCommon.myCdbl(txtDiscAmt.Text) = 0 OrElse clsCommon.myCdbl(txtDiscPer.Text) = 0 Then

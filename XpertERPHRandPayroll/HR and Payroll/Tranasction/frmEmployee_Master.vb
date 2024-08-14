@@ -138,7 +138,7 @@ Public Class frmEmployee_Master
         CboGender.DataSource = GetGender()
         CboGender.ValueMember = "Code"
         CboGender.DisplayMember = "Code"
-
+        LoadPFType()
         LoadMaritalStatus()
         LoadEmpStatus()
         LoadAddressType()
@@ -371,6 +371,7 @@ Public Class frmEmployee_Master
                 obj.FATHERS_NAME = TxtFathersName.Text
                 obj.MOTHERS_NAME = txtMothersName.Text
                 obj.MARITAL_STATUS = clsCommon.myCstr(CboMaritalStatus.SelectedValue)
+                obj.Pf_Type = clsCommon.myCstr(cboPFType.SelectedValue)
                 obj.SPOUSE_NAME = txtSpouseName.Text
                 obj.SHIFT_CODE = txtShift.Value
                 obj.Designation = TxtDesignation.Value
@@ -812,7 +813,7 @@ Public Class frmEmployee_Master
                 txtAnniversaryDate.Checked = True
                 txtAnniversaryDate.Value = obj.ANNIVERSARY_DATE
             End If
-
+            cboPFType.SelectedValue = obj.Pf_Type
             If obj.PROBATION_END_DATE IsNot Nothing Then
                 txtProbationEndDate.Checked = True
                 txtProbationEndDate.Value = obj.PROBATION_END_DATE
@@ -1365,6 +1366,7 @@ Public Class frmEmployee_Master
         txtCompanyCode.Value = ""
         txtBranch.Value = ""
         txtAttendance.Value = ""
+        cboPFType.SelectedIndex = -1
         Dim currDate As DateTime = clsCommon.GETSERVERDATE()
         txtConfirmationDate.Checked = False
         txtConfirmationDate.Value = currDate
@@ -3813,13 +3815,42 @@ Public Class frmEmployee_Master
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub LoadPFType()
+        Try
+            isInsideLoad = True
+            Dim dt As DataTable = New DataTable
+            dt.Columns.Add("Code")
+            dt.Columns.Add("Name")
 
+            Dim dr As DataRow = dt.NewRow
+            dr("Code") = "NR"
+            dr("Name") = "Normal"
+            dt.Rows.Add(dr)
 
+            dr = dt.NewRow
+            dr("Code") = "HG"
+            dr("Name") = "Higher"
+            dt.Rows.Add(dr)
 
+            dr = dt.NewRow
+            dr("Code") = "IN-E"
+            dr("Name") = "In-Eligible"
+            dt.Rows.Add(dr)
+
+            cboPFType.DataSource = dt
+            cboPFType.ValueMember = "Code"
+            cboPFType.DisplayMember = "Name"
+            isInsideLoad = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub chkPFApplicable_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkPFApplicable.ToggleStateChanged
         If chkPFApplicable.Checked = True Then
             cboPFCalculatnType.Visible = True
             txtPFNo.Enabled = True
+            cboPFType.Visible = True
+            MyLabel49.Visible = True
         Else
             cboPFCalculatnType.Visible = False
             txtPFNo.Enabled = False
@@ -3827,6 +3858,9 @@ Public Class frmEmployee_Master
             txtEPFMaxLimit.Enabled = False
             txtEPFRate.Text = 0
             txtEPFMaxLimit.Text = 0
+            cboPFType.Visible = False
+            MyLabel49.Visible = False
+            cboPFType.SelectedIndex = -1
         End If
     End Sub
 
@@ -3839,12 +3873,20 @@ Public Class frmEmployee_Master
             txtEPFRate.ReadOnly = False
             txtEPFMaxLimit.Enabled = True
             txtEPFMaxLimit.ReadOnly = False
+            cboPFType.Visible = False
+            MyLabel49.Visible = False
+            cboPFType.SelectedIndex = -1
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboPFCalculatnType.SelectedValue), "PR") = CompairStringResult.Equal Then
+            cboPFType.Visible = True
+            MyLabel49.Visible = True
         Else
             txtEPFRate.Enabled = False
             txtEPFMaxLimit.Enabled = False
             txtEPFRate.Text = 0
             txtEPFMaxLimit.Text = 0
-
+            cboPFType.Visible = False
+            MyLabel49.Visible = False
+            cboPFType.SelectedIndex = -1
         End If
     End Sub
 

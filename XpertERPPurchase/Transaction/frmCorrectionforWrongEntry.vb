@@ -1136,6 +1136,116 @@ Public Class frmCorrectionforWrongEntry
 
     End Sub
 
+    Private Sub TxtLoadinSlipCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtLoadinSlipCode._MYValidating
+        Dim Qry As String = "select TSPL_RCDF_LOAD_IN.Document_Code,TSPL_RCDF_LOAD_IN.Document_Date,TSPL_RCDF_LOAD_IN.Location_Code,TSPL_RCDF_LOAD_IN.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_RCDF_LOAD_IN.Vehicle_No 
+from TSPL_RCDF_LOAD_IN
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RCDF_LOAD_IN.Customer_Code"
+        Dim strWhrcls As String = "TSPL_RCDF_LOAD_IN.Status=1 "
+        TxtLoadinSlipCode.Value = clsCommon.ShowSelectForm("RCDFLoadin", Qry, "Document_Code", strWhrcls, Nothing, "Document_Code", isButtonClicked)
+        'LoadDataSH(clsCommon.ShowSelectForm("ScrpCodFiltrFND", Qry, "Code", whrClas, txtShipment.Value, "shipment_Date desc", isButtonClicked), NavigatorType.Current)
+
+        If clsCommon.myLen(TxtLoadinSlipCode.Value) > 0 Then
+            ' Qry = "select TSPL_RCDF_LOAD_IN.Document_Date from  TSPL_RCDF_LOAD_IN where Document_Code='" + TxtLoadinSlipCode.Value + "'"
+            LoadinSlipDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select TSPL_RCDF_LOAD_IN.Document_Date from  TSPL_RCDF_LOAD_IN where Document_Code='" + TxtLoadinSlipCode.Value + "'"))
+        End If
+    End Sub
+
+    Private Sub btnLoadinSlipU_Click(sender As Object, e As EventArgs) Handles btnLoadinSlipU.Click
+        Try
+            Dim qry As String = "select Document_Code,Document_Date,Status,Location_Code,Customer_Code from TSPL_RCDF_LOAD_IN where Document_Code='" + TxtLoadinSlipCode.Value + "' "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                    '' REASON FOR DELETE 
+                    Dim Reason As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Reverse"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        If clsCommon.myLen(dt.Rows(0)("Status")) <= 0 Then
+                            Throw New Exception("Status should be post to perform this operation")
+                        End If
+
+                        qry = "update TSPL_RCDF_LOAD_IN set Status=0 where Document_Code='" + clsCommon.myCstr(TxtLoadinSlipCode.Value) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                        saveCancelLog(Reason, "Reverse And Recreate", trans)
+                        'clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, TxtLoadinSlipCode.Value, "TSPL_RCDF_LOAD_IN", "Document_Code", trans)
+                        trans.Commit()
+                        clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                    Catch ex As Exception
+                        trans.Rollback()
+                        Throw New Exception(ex.Message)
+                    End Try
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub BtnLoadinSlipD_Click(sender As Object, e As EventArgs) Handles BtnLoadinSlipD.Click
+        Try
+            Dim qry As String = "select Document_Code,Document_Date,Status,Location_Code,Customer_Code from TSPL_RCDF_LOAD_IN where Document_Code='" + TxtLoadinSlipCode.Value + "' "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If clsCommon.MyMessageBoxShow("Do you want to Delete the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                    '' REASON FOR DELETE 
+                    Dim Reason As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Delete"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        If (dt.Rows(0)("Status")) = 1 Then
+                            Throw New Exception("Status should be Unposted to perform this operation")
+                        End If
+
+                        qry = "delete from TSPL_RCDF_LOAD_IN_ITEM where Document_Code='" + clsCommon.myCstr(TxtLoadinSlipCode.Value) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                        qry = "delete from TSPL_RCDF_LOAD_IN where Document_Code='" + clsCommon.myCstr(TxtLoadinSlipCode.Value) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                        saveCancelLog(Reason, "Delete", trans)
+                        'clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, txtDocNo.Value, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, TxtLoadinSlipCode.Value, "TSPL_RCDF_LOAD_IN", "Document_Code", trans)
+                        trans.Commit()
+                        clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+                        TxtLoadinSlipCode.Value = ""
+                        LoadinSlipDate.Value = clsCommon.GETSERVERDATE()
+                    Catch ex As Exception
+                        trans.Rollback()
+                        Throw New Exception(ex.Message)
+                    End Try
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        TxtLoadinSlipCode.Value = ""
+        LoadinSlipDate.Value = clsCommon.GETSERVERDATE()
+    End Sub
+
+
+
     'Private Sub Unpostdiscode_Click(sender As Object, e As EventArgs) Handles Unpostdiscode.Click
     '    Try
     '        If clsCommon.myLen(TxtDispatch.Value) <= 0 Then

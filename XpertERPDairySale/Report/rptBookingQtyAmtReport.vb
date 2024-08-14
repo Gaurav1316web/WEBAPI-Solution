@@ -930,9 +930,30 @@ Public Class rptBookingQtyAmtReport
         lblRouteCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_Desc as Name from TSPL_ROUTE_MASTER where Route_No ='" + txtRouteCode.Value + "' "))
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         PrintView(False)
     End Sub
 
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbEnglish.IsChecked Then
+            VarID += "_E"
+        ElseIf rdbHindi.IsChecked Then
+            VarID += "_H"
+        End If
+        If rbtnMilk.Checked Then
+            VarID += "_MT"
+        ElseIf rbtnproduct.Checked Then
+            VarID += "_PT"
+        ElseIf rbtnBoths.Checked Then
+            VarID += "_BT"
+        End If
+        If chkDistributor.Checked Then
+            VarID += "_D"
+        End If
+        Gv1.VarID = VarID
+
+    End Sub
     Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
         PrintView(True)
     End Sub

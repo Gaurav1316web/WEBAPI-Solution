@@ -1551,7 +1551,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
 
             obj.HideGroupHeader = True
             obj.HideLastGroupTotal = True
-            'obj.ShowPageNo = True
+            obj.ShowPageNo = True
             obj.PageSetupCustomizeCharColumn = CharColumn
             obj.PageSetupCustomizeCharRows = CharRows
 
@@ -1580,7 +1580,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
             objGRH.ConstString = "#$DocStatus$#"
             obj.objReportGroup.arrHeaderText1.Add(objGRH)
 
-            obj.objReportGroup.HeaderText2 = "#$Route_Desc$# ( ROUTE: #$Route_No$# )  #$TranspoterName$#  DRIVER: #$DriverName$#  VEHICLE NO:#$Vehicle_No$#  PRINT AT: #$PrintDateTime$#"
+            obj.objReportGroup.HeaderText2 = "#$Route_Desc$# ( ROUTE: #$Route_No$# )  #$TranspoterName$#  DRIVER: #$DriverName$#  VEHICLE NO:#$Vehicle_No$#  [ #$PrintDateTime$# ]"
             obj.objReportGroup.arrHeaderText2 = New List(Of clsDosPrintReportGroupReplaceHeader)
 
             objGRH = New clsDosPrintReportGroupReplaceHeader
@@ -1624,8 +1624,8 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn(clsCommon.myCstr(drItem("Short_Description")), clsCommon.myCstr(drItem("Short_Description")), False, DosPrintAlignment.Right, 10, True, DecimalPlaces.One))
             Next
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCrate", "Total", False, DosPrintAlignment.Right, 10, True, DecimalPlaces.Zero))
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ItemNetAmount", "Shift Amt", False, DosPrintAlignment.Right, 15, True, DecimalPlaces.Two))
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("AmountBE", "  Total Amt", False, DosPrintAlignment.Right, 15, True, DecimalPlaces.Two))
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ItemNetAmount", "Shift Amt", True, DosPrintAlignment.Right, 15, True, DecimalPlaces.Two))
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("AmountBE", "  Total Amt", True, DosPrintAlignment.Right, 15, True, DecimalPlaces.Two))
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalTCSAmt", "TCS", False, DosPrintAlignment.Right, 10, True, DecimalPlaces.Two))
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCollectCrate", "Crate", False, DosPrintAlignment.Right, 10, True, DecimalPlaces.Zero))
 

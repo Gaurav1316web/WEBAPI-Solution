@@ -68,9 +68,12 @@ Public Class clsMilkCollectionMCC
 
                 HistoryUpdate(obj.Document_No, trans)
             End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Mcc_Code from TSPL_MILK_COLLECTION_MCC left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No= TSPL_MILK_COLLECTION_MCC.Document_No where TSPL_MILK_COLLECTION_MCC.Document_No='" + Document_No + "'", trans)
+            'Dim objTr As New clsMilkCollectionMCCDetail()
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select tspl_mcc_master.mcc_name,TSPL_MILK_COLLECTION_MCC_DETAIL.Mcc_code,TSPL_MILK_COLLECTION_MCC.Document_Date from  TSPL_MILK_COLLECTION_MCC_DETAIL left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No =TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+ where TSPL_MILK_COLLECTION_MCC.Document_No='" + Document_No + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.MilkCollectionMCC, clsCommon.myCstr(dt.Rows(0)("mcc_name")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             End If
             Dim qry As String = "delete from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -195,7 +198,7 @@ where 2=2"
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Mcc_Code from TSPL_MILK_COLLECTION_MCC left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No= TSPL_MILK_COLLECTION_MCC.Document_No where TSPL_MILK_COLLECTION_MCC.Document_No='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.MilkCollectionMCC, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             End If
 
             Dim obj As clsMilkCollectionMCC = clsMilkCollectionMCC.GetData(strCode, NavigatorType.Current, trans)
@@ -235,8 +238,9 @@ where 2=2"
             Dim obj As clsMilkCollectionMCC = clsMilkCollectionMCC.GetData(strCode, NavigatorType.Current, trans)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Mcc_Code from TSPL_MILK_COLLECTION_MCC left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No= TSPL_MILK_COLLECTION_MCC.Document_No where TSPL_MILK_COLLECTION_MCC.Document_No='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.MilkCollectionMCC, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             End If
+
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.MCC_Code, obj.Document_Date, trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
@@ -574,6 +578,8 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("Invalid PK ID")
             End If
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.MilkCollectionMCC, clsCommon.myCstr(dt.Rows(0)("Mcc_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+
             qry = "Delete from TSPL_MILK_COLLECTION_MCC_DETAIL where PK_Id=" + clsCommon.myCstr(PKID) + ""
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If dt.Rows.Count = 1 Then

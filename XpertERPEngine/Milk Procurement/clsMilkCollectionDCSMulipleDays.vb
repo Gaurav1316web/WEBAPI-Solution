@@ -45,6 +45,7 @@ Public Class clsMilkCollectionDCSMulipleDays
 
                 HistoryUpdate(obj.Document_No, trans)
             End If
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionDCSMultipleDays, obj.MCC_Code, obj.Document_Date, trans)
             Dim qry As String = "delete from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -145,6 +146,8 @@ where 2=2"
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsMilkCollectionDCSMulipleDays = clsMilkCollectionDCSMulipleDays.GetData(strCode, NavigatorType.Current, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionDCSMultipleDays, obj.MCC_Code, obj.Document_Date, trans)
+
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Delete")
             End If
@@ -204,6 +207,7 @@ where 2=2"
                 Throw New Exception("Document No not found to Post")
             End If
             Dim obj As clsMilkCollectionDCSMulipleDays = clsMilkCollectionDCSMulipleDays.GetData(strCode, NavigatorType.Current, trans, "", "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date")
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionDCSMultipleDays, obj.MCC_Code, obj.Document_Date, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("Document No: " + strCode + " not found to Post")
             End If

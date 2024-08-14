@@ -1437,7 +1437,7 @@ Public Class clsCreateAllTable
             coll.Add("OC", "NUMERIC(10,2)  not null")               '' OTHER CHARGES
             coll.Add("OC_MAX", "NUMERIC(10,2)  not null")           '' MAXIMUM LIMIT OF OTHER CHARGES
             coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) not null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
-
+            coll.Add("PF_Type", "varchar(12) NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
@@ -14400,6 +14400,7 @@ Public Class clsCreateAllTable
             coll.Add("Lic_No", "Varchar(50) null")
             coll.Add("Membership_id", "Varchar(50) null")
             coll.Add("Special_desc", "Varchar(50) null")
+            coll.Add("PF_Type", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -18329,6 +18330,8 @@ Public Class clsCreateAllTable
             coll.Add("Is_Auto_Tare_Weight", "integer NULL")
             coll.Add("Tare_Weight_Manual_By", "varchar(12)  NULL")
             coll.Add("Tare_Weight_Manual_Date", "Datetime  NULL")
+            coll.Add("Gross_Weight_Manual_By", "varchar(12)  NULL")
+            coll.Add("Gross_Weight_Manual_Date", "Datetime  NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
@@ -46708,6 +46711,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Is_Auto_Tare_Weight", "integer NULL")
             coll.Add("Tare_Weight_Manual_By", "varchar(12)  NULL")
             coll.Add("Tare_Weight_Manual_Date", "Datetime  NULL")
+            coll.Add("Gross_Weight_Manual_By", "varchar(12)  NULL")
+            coll.Add("Gross_Weight_Manual_Date", "Datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_HEAD", coll, Nothing, True, True, "", "Weighment_Code", "Weighment_Date")
 
             qry = "alter table TSPL_PO_WEIGHTMENT_HEAD alter column Against_GRN_No varchar(30) null"
@@ -56311,6 +56316,18 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
 
         '**************************************************************************************
 
+        coll = New Dictionary(Of String, String)()
+        coll.Add("ReportID", "Varchar(100) NOT NULL")
+        coll.Add("Page_Size", "Varchar(12) NULL")
+        coll.Add("Page_Style", "Varchar(12) NULL")
+        coll.Add("Page_Width", "decimal(18,2) NULL")
+        coll.Add("Page_Height", "decimal(18,2) NULL")
+        coll.Add("Page_Margin_Top", "decimal(18,2) NULL")
+        coll.Add("Page_Margin_Bottom", "decimal(18,2) NULL")
+        coll.Add("Page_Margin_Left", "decimal(18,2) NULL")
+        coll.Add("Page_Margin_Right", "decimal(18,2) NULL")
+        coll.Add("Page_Right_Header", "Varchar(500) NULL")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_NEW_PDF_PAGE_SIZE", coll)
 
         Return True
     End Function
