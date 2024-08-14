@@ -2800,7 +2800,18 @@ Public Class rptAuditTrailReport
         gv1.DataSource = Nothing
         gv1.Columns.Clear()
         gv1.Rows.Clear()
+        GetReportID()
         Print(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbMaster.Checked Then
+            VarID += "_M"
+        ElseIf rdbTransation.Checked Then
+            VarID += "_T"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

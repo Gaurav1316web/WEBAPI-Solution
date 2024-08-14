@@ -461,11 +461,26 @@ Public Class frmPOAmendmentReport
         Try
             PageSetupReport_ID = ReportId()
             TemplateGridview = gv
+            GetReportID()
             LoadData()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbDetail.IsChecked Then
+            VarID += "_D"
+        ElseIf rdbSummary.IsChecked Then
+            VarID += "_S"
+        End If
+        If rdbAgainstSRN.IsChecked Then
+            VarID += "_AS"
+        End If
+        gv.VarID = VarID
+
+    End Sub
+
     Private Function ReportId()
         Dim Report_Id As String = ""
         Report_Id = MyBase.Form_ID

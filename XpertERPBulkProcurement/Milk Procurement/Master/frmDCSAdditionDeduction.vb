@@ -640,7 +640,7 @@ Public Class frmDCSAdditionDeduction
     End Sub
 
     Sub setNatureTypeAddition()
-        grpAdditionType.Visible = rbtnNatureTypeAddition.IsChecked
+        rbtnAdditionTypeCompulsory.Visible = rbtnNatureTypeAddition.IsChecked
         chkApplyTDS.Visible = rbtnNatureTypeAddition.IsChecked
     End Sub
 

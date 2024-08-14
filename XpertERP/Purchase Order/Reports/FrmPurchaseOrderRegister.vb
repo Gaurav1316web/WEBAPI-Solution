@@ -205,7 +205,28 @@ Public Class FrmPurchaseOrderRegister
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         btnReferesh = False
         PageSetupReport_ID = MyBase.Form_ID
+        GetReportID()
         PrintData(Nothing)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnDetail.IsChecked Then
+            VarID += "_D"
+        ElseIf rbtnSummary.IsChecked Then
+            VarID += "_S"
+        End If
+
+        If clsCommon.CompairString(cboPOType.SelectedItem.Text, "Domestic") = CompairStringResult.Equal Then
+            VarID += "_D"
+        ElseIf clsCommon.CompairString(cboPOType.SelectedItem.Text, "Job Work") = CompairStringResult.Equal Then
+            VarID += "_J"
+        ElseIf clsCommon.CompairString(cboPOType.SelectedItem.Text, "Import") = CompairStringResult.Equal Then
+            VarID += "_I"
+        End If
+
+        gv.VarID = VarID
+
     End Sub
 
     Public Sub FooterSummery(ByVal strColumnName As String)

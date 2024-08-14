@@ -22,6 +22,8 @@ Partial Class FrmPendingSrn_Qty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.saveDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -190,7 +192,6 @@ Partial Class FrmPendingSrn_Qty
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1149, 480)
         Me.RadPageView1.TabIndex = 11
-        Me.RadPageView1.Text = "RadpageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -312,14 +313,17 @@ Partial Class FrmPendingSrn_Qty
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(406, 231)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
+        Me.gvCategory.VarID = ""
         '
         'Panel3
         '
@@ -824,12 +828,15 @@ Partial Class FrmPendingSrn_Qty
         '
         '
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1128, 432)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'btnprint1
         '
@@ -864,15 +871,11 @@ Partial Class FrmPendingSrn_Qty
         '
         'btnExcel
         '
-        Me.btnExcel.AccessibleDescription = "Excel"
-        Me.btnExcel.AccessibleName = "Excel"
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Excel"
         '
         'BtnPDF
         '
-        Me.BtnPDF.AccessibleDescription = "PDF"
-        Me.BtnPDF.AccessibleName = "PDF"
         Me.BtnPDF.Name = "BtnPDF"
         Me.BtnPDF.Text = "PDF"
         '
@@ -903,27 +906,20 @@ Partial Class FrmPendingSrn_Qty
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1149, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btn_savelayout, Me.btn_deletelayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'btn_savelayout
         '
-        Me.btn_savelayout.AccessibleDescription = "Save Layout"
-        Me.btn_savelayout.AccessibleName = "Save Layout"
         Me.btn_savelayout.Name = "btn_savelayout"
         Me.btn_savelayout.Text = "Save Layout"
         '
         'btn_deletelayout
         '
-        Me.btn_deletelayout.AccessibleDescription = "Delete Layout"
-        Me.btn_deletelayout.AccessibleName = "Delete Layout"
         Me.btn_deletelayout.Name = "btn_deletelayout"
         Me.btn_deletelayout.Text = "Delete Layout"
         '

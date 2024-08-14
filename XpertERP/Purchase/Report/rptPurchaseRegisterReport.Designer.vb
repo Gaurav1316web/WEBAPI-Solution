@@ -22,9 +22,11 @@ Partial Class RptPurchaseRegisterReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -72,6 +74,7 @@ Partial Class RptPurchaseRegisterReport
         Me.QExpCSV = New Telerik.WinControls.UI.RadMenuItem()
         Me.BulkExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.BulkCSV = New Telerik.WinControls.UI.RadMenuItem()
+        Me.PDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnBack = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
@@ -81,7 +84,6 @@ Partial Class RptPurchaseRegisterReport
         Me.rmSetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSend = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.PDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -169,7 +171,6 @@ Partial Class RptPurchaseRegisterReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(900, 437)
         Me.RadPageView1.TabIndex = 71
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -378,14 +379,17 @@ Partial Class RptPurchaseRegisterReport
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(290, 241)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
+        Me.gvCategory.VarID = ""
         '
         'Panel6
         '
@@ -480,6 +484,7 @@ Partial Class RptPurchaseRegisterReport
         '
         Me.ddlReportType.AutoCompleteDisplayMember = Nothing
         Me.ddlReportType.AutoCompleteValueMember = Nothing
+        Me.ddlReportType.DropDownAnimationEnabled = True
         Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         RadListDataItem1.Text = "Both"
         RadListDataItem2.Text = "Sale Invoice"
@@ -604,12 +609,15 @@ Partial Class RptPurchaseRegisterReport
         '
         '
         '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(879, 389)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         '
         'rdmenufile
         '
@@ -619,7 +627,6 @@ Partial Class RptPurchaseRegisterReport
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(900, 20)
         Me.rdmenufile.TabIndex = 70
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -631,15 +638,11 @@ Partial Class RptPurchaseRegisterReport
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -654,31 +657,28 @@ Partial Class RptPurchaseRegisterReport
         '
         'QExpExcel
         '
-        Me.QExpExcel.AccessibleDescription = "Excel"
-        Me.QExpExcel.AccessibleName = "Excel"
         Me.QExpExcel.Name = "QExpExcel"
         Me.QExpExcel.Text = "Excel"
         '
         'QExpCSV
         '
-        Me.QExpCSV.AccessibleDescription = "CSV"
-        Me.QExpCSV.AccessibleName = "CSV"
         Me.QExpCSV.Name = "QExpCSV"
         Me.QExpCSV.Text = "CSV"
         '
         'BulkExcel
         '
-        Me.BulkExcel.AccessibleDescription = "Bulk Excel"
-        Me.BulkExcel.AccessibleName = "Bulk Excel"
         Me.BulkExcel.Name = "BulkExcel"
         Me.BulkExcel.Text = "Bulk Excel"
         '
         'BulkCSV
         '
-        Me.BulkCSV.AccessibleDescription = "Bulk CSV"
-        Me.BulkCSV.AccessibleName = "Bulk CSV"
         Me.BulkCSV.Name = "BulkCSV"
         Me.BulkCSV.Text = "Bulk CSV"
+        '
+        'PDF
+        '
+        Me.PDF.Name = "PDF"
+        Me.PDF.Text = "PDF"
         '
         'btnBack
         '
@@ -737,31 +737,18 @@ Partial Class RptPurchaseRegisterReport
         '
         'rmSetting
         '
-        Me.rmSetting.AccessibleDescription = "EMail/SMS Setting"
-        Me.rmSetting.AccessibleName = "EMail/SMS Setting"
         Me.rmSetting.Name = "rmSetting"
         Me.rmSetting.Text = "EMail/SMS Setting"
         '
         'rmSend
         '
-        Me.rmSend.AccessibleDescription = "EMail/SMS Send"
-        Me.rmSend.AccessibleName = "EMail/SMS Send"
         Me.rmSend.Name = "rmSend"
         Me.rmSend.Text = "EMail/SMS Send"
         '
         'rmPDF
         '
-        Me.rmPDF.AccessibleDescription = "PDF"
-        Me.rmPDF.AccessibleName = "PDF"
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
-        '
-        'PDF
-        '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
-        Me.PDF.Name = "PDF"
-        Me.PDF.Text = "PDF"
         '
         'RptPurchaseRegisterReport
         '
