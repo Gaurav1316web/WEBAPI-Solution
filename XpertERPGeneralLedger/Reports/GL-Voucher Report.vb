@@ -871,13 +871,23 @@ Public Class JrnlVoucherReport
 
 
     Private Sub Refresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Refreshbtn.Click
+        GetReportGridID()
         gridvoucher.EnableFiltering = True
         PageSetupReport_ID = MyBase.Form_ID + IIf(chkSummary.Checked = True, "S", "")
         TemplateGridview = gridvoucher
         refreshRecords()
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkSummary.Checked = True Then
+            VarID += "_S"
+        Else
+            VarID += "_SH"
+        End If
 
+        gridvoucher.VarID = VarID
+    End Sub
     Private Sub gridvoucher_ViewCellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gridvoucher.ViewCellFormatting
         If TypeOf e.CellElement Is Telerik.WinControls.UI.GridSummaryCellElement Then
             e.CellElement.TextAlignment = ContentAlignment.MiddleRight
