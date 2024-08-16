@@ -151,9 +151,19 @@ Public Class frmRptDayWiseJournalBook
     'End Function
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportID()
         PageSetupReport_ID = MyBase.Form_ID + IIf(chkSummary.IsChecked = True, "S", "D")
         TemplateGridview = gv1
         LoadData()
+    End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkSummary.IsChecked = True Then
+            VarID += "_S"
+        Else chkDetail.IsChecked = True
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub EnableDisableControls(ByVal Val As Boolean)

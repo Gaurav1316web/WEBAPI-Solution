@@ -420,12 +420,58 @@ Public Class frmRptTrialBalanceNew
     End Sub
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         gv1.EnableFiltering = True
         PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, cbgSrcCode.Text)
         TemplateGridview = gv1
         RefreshData()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkMultipleRollup.Checked = True Then
+            VarID += "_M"
+        End If
+        If chkShowOPBal.Checked = True Then
+            VarID += "_OB"
+        End If
+        If chkRollupWise.Checked = True Then
+            VarID += "_R"
+        End If
+        If chkExcludeTemplete.Checked = True Then
+            VarID += "_E"
+        End If
+        If chkIncludeingAdjustmentEntry.Checked = True Then
+            VarID += "_I"
+        End If
+        If chkIncludeingClosingEntry.Checked = True Then
+            VarID += "_C"
+        End If
+        If chkCusVendWiseSummary.Checked = True Then
+            VarID += "_V"
+        End If
+        If chkShowNetBalance.Checked = True Then
+            VarID += "_N"
+        End If
+        If chkIndAS.Checked = True Then
+            VarID += "IA"
+        End If
+        If chkIncludeUnusedAccount.Checked = True Then
+            VarID += "_U"
+        End If
+        If chkIncludeUnusedAccount.Checked = True Then
+            VarID += "_A"
+        End If
+        If clsCommon.CompairString(cbgSrcCode.Text, "Period Trial Balance") = CompairStringResult.Equal Then
+            VarID += "_PT"
+        ElseIf clsCommon.CompairString(cbgSrcCode.Text, "Location wise") = CompairStringResult.Equal Then
+            VarID += "_LW"
+        End If
 
+
+
+
+        gv1.VarID = VarID
+    End Sub
     Public Sub RefreshData()
         Try
             If Not clsCommon.CompairString(cbgSrcCode.Text, "Trial Balance") = CompairStringResult.Equal AndAlso clsCommon.CompairString(cbgSrcCode.Text, "Location wise") <> CompairStringResult.Equal Then

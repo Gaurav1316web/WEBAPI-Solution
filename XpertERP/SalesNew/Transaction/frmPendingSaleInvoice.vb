@@ -184,7 +184,7 @@ Public Class frmPendingSaleInvoice
         qry += " '' as Location,2 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate,mrp as MRP,0 as Disc_Per,null as TransDate,isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)as Assessable, '' as  Batch_No ,null as Expiry_Date ,null as MFG_Date" + Environment.NewLine
         qry += " ,Scheme_Code from TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine
         qry += " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.Document_Code" + Environment.NewLine
-        qry += " Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+        qry += " Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.Unit_code 
 Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInBag' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='Bag')CInBag ON CInBag.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
 Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInKG' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='KG')CInKG ON CInKG.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
 Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInMT' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='MT')CInMT ON CInMT.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
