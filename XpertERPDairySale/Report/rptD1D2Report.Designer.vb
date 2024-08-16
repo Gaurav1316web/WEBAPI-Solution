@@ -22,7 +22,7 @@ Partial Class rptD1D2Report
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -44,6 +44,11 @@ Partial Class rptD1D2Report
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDemand = New common.Controls.MyRadioButton()
+        Me.rbtnDispatch = New common.Controls.MyRadioButton()
+        Me.txtRouteNo = New common.UserControls.txtFinder()
+        Me.lblCustomer = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -66,6 +71,11 @@ Partial Class rptD1D2Report
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -139,6 +149,7 @@ Partial Class rptD1D2Report
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox6)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -149,6 +160,8 @@ Partial Class rptD1D2Report
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtRouteNo)
+        Me.RadGroupBox1.Controls.Add(Me.lblCustomer)
         Me.RadGroupBox1.Controls.Add(Me.txtToDate)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
         Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
@@ -156,7 +169,7 @@ Partial Class rptD1D2Report
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(314, 50)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(314, 77)
         Me.RadGroupBox1.TabIndex = 389
         '
         'txtToDate
@@ -259,12 +272,13 @@ Partial Class rptD1D2Report
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(671, 278)
         Me.gv1.TabIndex = 2
+        Me.gv1.VarID = ""
         '
         'RadSplitButton1
         '
@@ -318,6 +332,77 @@ Partial Class rptD1D2Report
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.rbtnDemand)
+        Me.RadGroupBox6.Controls.Add(Me.rbtnDispatch)
+        Me.RadGroupBox6.HeaderText = ""
+        Me.RadGroupBox6.Location = New System.Drawing.Point(326, 24)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(179, 37)
+        Me.RadGroupBox6.TabIndex = 445
+        '
+        'rbtnDemand
+        '
+        Me.rbtnDemand.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDemand.Location = New System.Drawing.Point(6, 9)
+        Me.rbtnDemand.MyLinkLable1 = Nothing
+        Me.rbtnDemand.MyLinkLable2 = Nothing
+        Me.rbtnDemand.Name = "rbtnDemand"
+        Me.rbtnDemand.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnDemand.TabIndex = 396
+        Me.rbtnDemand.Text = "Demand"
+        Me.rbtnDemand.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnDispatch
+        '
+        Me.rbtnDispatch.Location = New System.Drawing.Point(102, 9)
+        Me.rbtnDispatch.MyLinkLable1 = Nothing
+        Me.rbtnDispatch.MyLinkLable2 = Nothing
+        Me.rbtnDispatch.Name = "rbtnDispatch"
+        Me.rbtnDispatch.Size = New System.Drawing.Size(64, 18)
+        Me.rbtnDispatch.TabIndex = 391
+        Me.rbtnDispatch.TabStop = False
+        Me.rbtnDispatch.Text = "Dispatch"
+        '
+        'txtRouteNo
+        '
+        Me.txtRouteNo.CalculationExpression = Nothing
+        Me.txtRouteNo.FieldCode = Nothing
+        Me.txtRouteNo.FieldDesc = Nothing
+        Me.txtRouteNo.FieldMaxLength = 0
+        Me.txtRouteNo.FieldName = Nothing
+        Me.txtRouteNo.isCalculatedField = False
+        Me.txtRouteNo.IsSourceFromTable = False
+        Me.txtRouteNo.IsSourceFromValueList = False
+        Me.txtRouteNo.IsUnique = False
+        Me.txtRouteNo.Location = New System.Drawing.Point(83, 45)
+        Me.txtRouteNo.MendatroryField = True
+        Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRouteNo.MyLinkLable1 = Nothing
+        Me.txtRouteNo.MyLinkLable2 = Nothing
+        Me.txtRouteNo.MyReadOnly = False
+        Me.txtRouteNo.MyShowMasterFormButton = False
+        Me.txtRouteNo.Name = "txtRouteNo"
+        Me.txtRouteNo.ReferenceFieldDesc = Nothing
+        Me.txtRouteNo.ReferenceFieldName = Nothing
+        Me.txtRouteNo.ReferenceTableName = Nothing
+        Me.txtRouteNo.Size = New System.Drawing.Size(226, 19)
+        Me.txtRouteNo.TabIndex = 446
+        Me.txtRouteNo.Value = ""
+        '
+        'lblCustomer
+        '
+        Me.lblCustomer.FieldName = Nothing
+        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomer.Location = New System.Drawing.Point(6, 46)
+        Me.lblCustomer.Name = "lblCustomer"
+        Me.lblCustomer.Size = New System.Drawing.Size(54, 18)
+        Me.lblCustomer.TabIndex = 445
+        Me.lblCustomer.Text = "Route No"
+        '
         'rptD1D2Report
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -354,6 +439,12 @@ Partial Class rptD1D2Report
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -380,5 +471,10 @@ Partial Class rptD1D2Report
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents rbtnDemand As common.Controls.MyRadioButton
+    Friend WithEvents rbtnDispatch As common.Controls.MyRadioButton
+    Friend WithEvents txtRouteNo As common.UserControls.txtFinder
+    Friend WithEvents lblCustomer As common.Controls.MyLabel
 End Class
 
