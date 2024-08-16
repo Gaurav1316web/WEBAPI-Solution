@@ -2066,6 +2066,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
     End Sub
 
     Private Sub refresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles refreshbtn.Click
+        GetReportGridID()
         btnrefresh = True
         dtMain = Nothing
         dtCustGrp = Nothing
@@ -2102,7 +2103,42 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
         gvDetails.MasterTemplate.SortDescriptors.Clear()
 
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnCustGroupWise.Checked = True Then
+            VarID += "_CG"
+        ElseIf rbtnCustGroupWiseDrCr.Checked = True Then
+            VarID += "_DC"
+        End If
+        gvCustomerGroup.VarID = VarID
+        VarID = ""
+        If rdbtnZoneWise.Checked = True Then
+            VarID += "_ZW"
+        End If
+        gvZone.VarID = VarID
+        VarID = ""
+        If rbtnAreaWise.Checked = True Then
+            VarID += "_AW"
+        End If
+        gvArea.VarID = VarID
+        VarID = ""
+        If rbtnCustWise.Checked = True Then
+            VarID += "_CW"
+        ElseIf rbtnCustWiseDrCr.Checked = True Then
+            VarID += "_DC"
+        End If
+        gvCustomer.VarID = VarID
+        VarID = ""
+        'If rbtnCustWiseDrCr.Checked = True Then
+        '    VarID += "_DC"
+        'End If
+        ' gvCustomer.VarID = VarID
+        VarID = ""
+        If rbtnNone.Checked = True Then
+            VarID += "_NO"
+        End If
+        gvDetails.VarID = VarID
+    End Sub
     Sub PrintForCustomerCurrency(Optional ByVal BulkExport As Integer = 0)
         Dim CompanyAdd As String = ""
         Dim compname As String = ""

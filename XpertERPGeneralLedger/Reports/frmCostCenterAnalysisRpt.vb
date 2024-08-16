@@ -177,8 +177,21 @@ Public Class FrmCostCenterAnalysisRpt
     End Sub
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportID()
         PageSetupReport_ID = MyBase.Form_ID
         RefreshData()
+    End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If clsCommon.CompairString(listType.Text, "Vehicle") = CompairStringResult.Equal Then
+            VarID += "_V"
+        End If
+        If chkSummary.Checked = True Then
+            VarID += "_S"
+        End If
+        gv1.VarID = VarID
+
     End Sub
 
     'Public Function RefreshData()

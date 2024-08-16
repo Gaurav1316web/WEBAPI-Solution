@@ -59,7 +59,9 @@ Public Class RptDcsPaymentReport
 				                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.DCS_Addition_Deduction)x
 				                    ) As TabDCSdrcr on TabDCSdrcr.InvoiceNo = TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
 
-                                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN VendorAmt ELSE 0 END AS CRAmt,case when DCSDescription='OWN BMC EXPANCES' THEN VendorAmt ELSE 0 END AS OBEAmt
+                                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN VendorAmt ELSE 0 END AS CRAmt,
+                                    case when DCSDescription='OWN BMC EXPANCES' THEN VendorAmt 
+                                    WHEN DCSDescription = 'CHILLING CHARGES' THEN VendorAmt ELSE 0 END AS OBEAmt
 									,x.Doc_No,x.DCSDescription 
 									,x.InvoiceNo from(
 				                    select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,TSPL_DCS_ADDITION_DEDUCTION.Description as DCSDescription,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No as InvoiceNo from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
