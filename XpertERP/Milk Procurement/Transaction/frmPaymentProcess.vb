@@ -2733,7 +2733,7 @@ and (ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,'')<>'' or ISNULL(TSPL_VEND
 and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                qry += " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
+                qry += " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0) in (0,1) and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
             Else
                 qry += " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 "
             End If
