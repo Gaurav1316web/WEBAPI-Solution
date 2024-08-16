@@ -34,9 +34,18 @@ Public Class rptD1D2Report
     Private Sub LoadData()
         Try
             Dim whrcls As String = ""
-            whrcls = " where 2 = 2  and Is_FreshItem = 1 and TSPL_BOOKING_MATSER.Posted = 1 and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)  and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)  "
             Dim dtDate As New DataTable()
-            dtDate = clsDBFuncationality.GetDataTable("select Date from ( SELECT convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date   FROM TSPL_BOOKING_DETAIL left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code " & whrcls & " ) xx  group by date order by date")
+            whrcls = " where 2 = 2  and Is_FreshItem = 1 and TSPL_BOOKING_MATSER.Posted = 1 and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)  and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)  "
+            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+                whrcls += " And TSPL_BOOKING_DETAIL.route_no = '" & txtRouteNo.Value & "'"
+            End If
+            If rbtnDemand.IsChecked Then
+                dtDate = clsDBFuncationality.GetDataTable("select Date from ( SELECT convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date   FROM TSPL_BOOKING_DETAIL left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code " & whrcls & " ) xx  group by date order by date")
+            ElseIf rbtnDispatch.IsChecked Then
+                dtDate = clsDBFuncationality.GetDataTable(" select Date from ( SELECT convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date,TSPL_BOOKING_DETAIL.Cust_Code   FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+			left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
+			left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code " & whrcls & " ) xx  group by date order by date")
+            End If
 
             Dim DateName As String = Nothing
             Dim DatesName As String = Nothing
@@ -56,11 +65,20 @@ Public Class rptD1D2Report
             End If
 
             Dim qry As String = ""
-            qry = "select Cust_Code,Customer_Name, " & DateName & " 0 as Total from ( SELECT TSPL_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name, convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date,TSPL_BOOKING_MATSER.Document_Date, isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) AS Qty
+            If rbtnDemand.IsChecked Then
+                qry = " select Cust_Code,Customer_Name, " & DateName & " 0 as Total from ( SELECT TSPL_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name, convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date,TSPL_BOOKING_MATSER.Document_Date, isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) AS Qty
             ,cast(( isnull ( TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)/I.[LTR]) as int) as LTR_QTY  FROM TSPL_BOOKING_DETAIL left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BOOKING_DETAIL.Unit_Code 
             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_BOOKING_DETAIL.Item_Code = I.item_code
              " & whrcls & " ) xx PIVOT (SUM(LTR_QTY)  FOR Date IN (" & DatesName & " ) )as pivot_date group by Cust_Code,Customer_Name order by Cust_Code"
+
+            ElseIf rbtnDispatch.IsChecked Then
+                qry = " select Cust_Code,Customer_Name, " & DateName & " 0 as Total from ( SELECT TSPL_BOOKING_DETAIL.Cust_Code,TSPL_BOOKING_MATSER.Document_No,TSPL_CUSTOMER_MASTER.Customer_Name, convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date,TSPL_BOOKING_MATSER.Document_Date, isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,0) AS Qty
+            ,cast(( isnull ( TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)/I.[LTR]) as int) as LTR_QTY  FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code 
+            left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BOOKING_DETAIL.Unit_Code 
+            left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code  left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_BOOKING_DETAIL.Item_Code = I.item_code
+              " & whrcls & ")  xx PIVOT (SUM(LTR_QTY)  FOR Date IN (" & DatesName & " ) )as pivot_date group by Cust_Code,Customer_Name order by Cust_Code"
+            End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
@@ -153,5 +171,14 @@ Public Class rptD1D2Report
 
     Private Sub txtFromDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtFromDate.Validating
         txtToDate.Value = New DateTime(txtFromDate.Value.Year, txtFromDate.Value.Month, DateTime.DaysInMonth(txtFromDate.Value.Year, txtFromDate.Value.Month))
+    End Sub
+
+    Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRouteNo._MYValidating
+        Try
+            Dim qry As String = "Select Route_No as Code , Route_Desc as Name from tspl_route_master"
+            txtRouteNo.Value = clsCommon.ShowSelectForm("D1D2RouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
