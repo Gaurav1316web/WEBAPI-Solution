@@ -268,6 +268,7 @@ Public Class FrmSecurityLevel
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportID()
             btnReferesh = True
             PageSetupReport_ID = MyBase.Form_ID + IIf(rbtnSummary.IsChecked = True, "S", "D")
             TemplateGridview = Gv1
@@ -275,6 +276,18 @@ Public Class FrmSecurityLevel
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If rbtnDetail.IsChecked = True Then
+            VarID += "_D"
+        End If
+        If rbtnSummary.IsChecked = True Then
+            VarID += "_S"
+        End If
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

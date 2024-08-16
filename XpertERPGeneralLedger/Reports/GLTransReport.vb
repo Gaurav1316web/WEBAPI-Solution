@@ -291,6 +291,7 @@ Public Class GLTransReport
         '' Added By abhishek As on 2006/2012 for Month Wise Report
         ' Ticket No : ERO/23/05/19-000620 By Prabhakar   
         Try
+            GetReportGridID()
             gv1.EnableFiltering = True
             PageSetupReport_ID = Getreportid()
             TemplateGridview = gv1
@@ -298,6 +299,16 @@ Public Class GLTransReport
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(ddlGroupingType.SelectedItem.Text, "Source Document No") = CompairStringResult.Equal Then
+            VarID += "_NO"
+        ElseIf clsCommon.CompairString(ddlGroupingType.SelectedItem.Text, "Account No") = CompairStringResult.Equal Then
+            VarID += "_AN"
+        End If
+
+        gv1.VarID = VarID
     End Sub
 
     Private Sub EnableDisableControls(ByVal Val As Boolean)

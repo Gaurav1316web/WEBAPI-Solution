@@ -182,8 +182,60 @@ Public Class frmRptProfitAndLoss
     End Sub
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridId()
         PageSetupReport_ID = ReportID
         RefreshData()
+    End Sub
+    Sub GetReportGridId()
+        Dim VarID As String = ""
+        If rbtnYearly.IsChecked = True Then
+            VarID += "_Y"
+        End If
+        If rbtnHalfYearly.IsChecked = True Then
+            VarID += "_H"
+        End If
+        If rbtnQuarterly.IsChecked = True Then
+            VarID += "_Q"
+        End If
+        If rbtnMonthly.IsChecked = True Then
+            VarID += "_M"
+        End If
+        If rbtnDateRange.IsChecked = True Then
+            VarID += "_D"
+        End If
+
+        If rbtnMainGroup.IsChecked = True Then
+            VarID += "_M"
+        End If
+        If rbtnGroup.IsChecked = True Then
+            VarID += "_G"
+        End If
+        If rbtnSubGroup.IsChecked = True Then
+            VarID = "_S"
+        End If
+        If rbtnGLMainAccount.IsChecked = True Then
+            VarID = "_GM"
+        End If
+        If rbtnGLAccount.IsChecked = True Then
+            VarID = "_GA"
+        End If
+
+        If chkIndAS.Checked Then
+            VarID = "_A"
+        End If
+        If chkIncludeingClosingEntry.Checked Then
+            VarID = "_E"
+        End If
+        If chkLocationWise.Checked Then
+            VarID = "_L"
+        End If
+        If chkShowTotalRow.Checked Then
+            VarID = "_T"
+        End If
+        If chkTreeView.Checked = True Then
+            VarID = "_V"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Public Sub RefreshData()
