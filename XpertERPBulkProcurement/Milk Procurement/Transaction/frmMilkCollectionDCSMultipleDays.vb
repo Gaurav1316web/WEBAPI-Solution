@@ -902,7 +902,7 @@ Public Class frmMilkCollectionDCSMultipleDays
                     Next
                 End If
                 setShiftDate()
-                UpdateAllTotal()
+                'UpdateAllTotal()
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
