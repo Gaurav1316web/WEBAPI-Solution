@@ -912,12 +912,12 @@ Public Class rptBoothTruckSheet
             whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
 
         End If
-        Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_CUSTOMER_MASTER.Cust_Code  ,TSPL_CUSTOMER_MASTER.Customer_Name  as [BoothName],"
-  If rdbEnglish.IsChecked = True Then
-            qry += "(TSPL_ITEM_MASTER.Alies_Name)Short_Description, "
+        Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_CUSTOMER_MASTER.Cust_Code  ,"
+        If rdbEnglish.IsChecked = True Then
+            qry += "(TSPL_ITEM_MASTER.Alies_Name)Short_Description,TSPL_CUSTOMER_MASTER.Cust_Code  + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name  as [BoothName], "
         ElseIf rdbHindi.IsChecked = True Then
             ' qry += " (TSPL_ITEM_MASTER.Alies_Name)Short_Description, (TSPL_ITEM_MASTER.Alies_Name_Hindi)  as Item_Description,  "
-            qry += " (TSPL_ITEM_MASTER.Alies_Name_Hindi)Short_Description, "
+            qry += " (TSPL_ITEM_MASTER.Alies_Name_Hindi)Short_Description,TSPL_CUSTOMER_MASTER.Cust_Code  + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name_Hindi  as [BoothName], "
         End If
         qry += "TSPL_BOOKING_DETAIL.Route_No,TSPL_ROUTE_MASTER.Route_Desc,CASE WHEN isnull(TSPL_BOOKING_MATSER.GatePass_Type,'') = 'AM' THEN 'AM' else 'PM'   END AS Shift_Type,TSPL_BOOKING_MATSER.Document_Date, TSPL_ITEM_MASTER.Item_Desc,TSPL_BOOKING_DETAIL.Amount_with_Tax as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
          TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Booking_Qty as CRATE,

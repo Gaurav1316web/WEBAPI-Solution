@@ -1252,8 +1252,13 @@ Public Class clsMilkSRNMCC
             clsMilkSRNMCC.ObjList(0).Std_Qty = clsInventoryMovementNew.GetStdQty(Trans, Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).FAT / 100, 2), Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, 2), objHead.DOC_DATE)
             clsMilkSRNMCC.UpdateDataFromSRNFrom(objHead, clsMilkSRNMCC.ObjList, objVSPChargeList, objPriceChargeList, Trans)
             clsMilkSRNMCC.updateJournalEntryWithTran("MI-SR", objHead.DOC_CODE, Trans)
-
-            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, IIf(isPickCLRInsteadOfSNF, clsMilkSRNMCC.ObjList(0).CLR, dblSNF), Trans, strRejectType)
+            Dim dblSNFOrCLR As Decimal = dblSNF
+            If isPickCLRInsteadOfSNF Then
+                'IIf(isPickCLRInsteadOfSNF, clsMilkSRNMCC.ObjList(0).CLR, dblSNF)
+                dblSNFOrCLR = clsMilkSRNMCC.ObjList(0).CLR
+            End If
+            Dim dblSNFKG As Decimal = clsERPFuncationality.myFloor(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, objCommonVar.MilkSRNFATSNFDecimalPlaces)
+            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNFOrCLR, dblSNFKG, Trans, strRejectType)
             If IsCapping Then
                 qry = "Update TSPL_MILK_SRN_HEAD set Capping_Apply=1 where DOC_CODE='" + objHead.DOC_CODE + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
@@ -1269,7 +1274,7 @@ Public Class clsMilkSRNMCC
         End Try
     End Sub
 
-    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNF As Decimal, trans As SqlTransaction, strRejectType As String) As Boolean
+    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNFOrCLR As Decimal, dblSNFKG As Decimal, trans As SqlTransaction, strRejectType As String) As Boolean
         Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No as Against_Shift_Uploader_DocNo,TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No,
 TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No as Against_Uploader_DocNo ,TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
 from TSPL_MILK_SRN_HEAD 
@@ -1290,7 +1295,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     End If
                     If corrTypeSRNFATSNF Then
                         Arr(0).FAT = dblFAT
-                        Arr(0).SNF = dblSNF
+                        Arr(0).SNF = dblSNFOrCLR
                     End If
                     intAgainst_Milk_Collection_DCS_Detail = Arr(0).Against_Milk_Collection_DCS_Detail
                     Arr(0).Reject_Type = strRejectType
@@ -1307,7 +1312,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     End If
                     If corrTypeSRNFATSNF Then
                         Arr(0).FAT = dblFAT
-                        Arr(0).SNF = dblSNF
+                        Arr(0).SNF = dblSNFOrCLR
                     End If
                     Arr(0).Reject_Type = strRejectType
                     intAgainst_Milk_Collection_DCS_Detail = Arr(0).Against_Milk_Collection_DCS_Detail
@@ -1338,16 +1343,16 @@ and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.SNF=TSPL_MILK_COLLECTION_DCS_D
                     If corrTypeSRNQty Then
                         Arr(0).Qty = dblQty
                         Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
-                        Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
+                        Arr(0).SNFKG = dblSNFKG
                     End If
                     If corrTypeSRNVLC Then
                         Arr(0).VLC_Code = strVLCCode
                     End If
                     If corrTypeSRNFATSNF Then
                         Arr(0).FAT = dblFAT
-                        Arr(0).SNF = dblSNF
+                        Arr(0).SNF = dblSNFOrCLR
                         Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
-                        Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
+                        Arr(0).SNFKG = dblSNFKG
                     End If
                     Arr(0).Milk_Type = strRejectType
                     clsMilkCollectionDCSDetail.SaveData(Arr(0).Document_No, Arr, trans, Arr(0).PK_Id, False, True)
@@ -1361,16 +1366,16 @@ and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.SNF=TSPL_MILK_COLLECTION_DCS_D
                     If corrTypeSRNQty Then
                         Arr(0).Qty = dblQty
                         Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
-                        Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
+                        Arr(0).SNFKG = dblSNFKG
                     End If
                     If corrTypeSRNVLC Then
                         Arr(0).VLC_Code = strVLCCode
                     End If
                     If corrTypeSRNFATSNF Then
                         Arr(0).FAT = dblFAT
-                        Arr(0).SNF = dblSNF
+                        Arr(0).SNF = dblSNFOrCLR
                         Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
-                        Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
+                        Arr(0).SNFKG = dblSNFKG
                     End If
                     Arr(0).Milk_Type = strRejectType
                     clsMilkCollectionDCSMulipleDaysDetail.SaveData(Arr(0).Document_No, Arr, trans)
