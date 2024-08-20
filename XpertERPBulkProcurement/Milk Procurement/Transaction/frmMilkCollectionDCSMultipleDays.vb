@@ -513,9 +513,9 @@ Public Class frmMilkCollectionDCSMultipleDays
                 gv1.Rows(ii).Cells(colMorningSNFPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value), 2, MidpointRounding.ToEven)
             End If
         End If
-        UpdateAllTotal()
+        UpdateAllTotal(False)
     End Sub
-    Private Sub UpdateAllTotal()
+    Private Sub UpdateAllTotal(ByVal SkipSNFKG As Boolean)
         Dim TotEveningQty As Decimal = 0
         Dim TotEveningFATKG As Decimal = 0
         Dim TotEveningSNFKG As Decimal = 0
@@ -535,16 +535,17 @@ Public Class frmMilkCollectionDCSMultipleDays
 
                 Dim dclCurrSNFKGE As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningSNFKG).Value)
                 Dim dclCurrSNFKGM As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFKG).Value)
-                If isPickCLRInsteadOfSNF Then
-                    Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), corrFactor)
-                    dclCurrSNFKGE = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * snfPer / 100
-                    gv1.Rows(ii).Cells(colEveningSNFKG).Value = dclCurrSNFKGE
+                If Not SkipSNFKG Then
+                    If isPickCLRInsteadOfSNF Then
+                        Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), corrFactor)
+                        dclCurrSNFKGE = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * snfPer / 100
+                        gv1.Rows(ii).Cells(colEveningSNFKG).Value = dclCurrSNFKGE
 
-                    snfPer = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFPer).Value), corrFactor)
-                    dclCurrSNFKGM = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * snfPer / 100
-                    gv1.Rows(ii).Cells(colMorningSNFKG).Value = dclCurrSNFKGM
+                        snfPer = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFPer).Value), corrFactor)
+                        dclCurrSNFKGM = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * snfPer / 100
+                        gv1.Rows(ii).Cells(colMorningSNFKG).Value = dclCurrSNFKGM
+                    End If
                 End If
-
                 TotEveningSNFKG += dclCurrSNFKGE
                 TotMorningSNFKG += dclCurrSNFKGM
             End If
@@ -902,7 +903,7 @@ Public Class frmMilkCollectionDCSMultipleDays
                     Next
                 End If
                 setShiftDate()
-                'UpdateAllTotal()
+                UpdateAllTotal(True)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1469,7 +1470,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs)
         Try
-            UpdateAllTotal()
+            UpdateAllTotal(False)
             If clsCommon.myCDecimal(txtTotPendingQty.Text) > 0 AndAlso clsCommon.myCDecimal(txtTotPendingFAT.Text) > 0 AndAlso clsCommon.myCDecimal(txtTotPendingSNF.Text) > 0 Then
                 Dim qry As String = "select top 1 VLC_Code,VLC_Name,VLC_Code_VLC_Uploader,Apply_Cow_Price from TSPL_VLC_MASTER_HEAD where IsSuspense=1"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -1505,7 +1506,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
                     gv1.Rows(ii).Cells(colMorningSNFPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value), 1, MidpointRounding.ToEven)
                     gv1.Rows(ii).Cells(colMorningFATPerNoDecimal).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colMorningFATPer).Value).Replace(".", "")
                     gv1.Rows(ii).Cells(colMorningSNFPerNoDecimal).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colMorningSNFPer).Value).Replace(".", "")
-                    UpdateAllTotal()
+                    UpdateAllTotal(False)
                 Catch ex As Exception
                 Finally
                     isCellValueChangedOpen = False
@@ -1649,7 +1650,7 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
         End Try
     End Sub
     Private Sub txtTotEnteredQty_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtTotEnteredQty.Validating, txtTotEnteredFAT.Validating, txtTotEnteredSNF.Validating, txtTotEnteredFATPer.Validating, txtTotEnteredSNFPer.Validating
-        UpdateAllTotal()
+        UpdateAllTotal(False)
     End Sub
 
 
