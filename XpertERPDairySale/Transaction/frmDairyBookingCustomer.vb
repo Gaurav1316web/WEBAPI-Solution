@@ -2607,6 +2607,24 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtVehicleCode.Enabled = True
         txtVehicleName.Enabled = True
         btnGatepass.Enabled = False
+        chkcashsale.Checked = False
+        chkcashsale.Enabled = True
+        txtChequeNo.Text = ""
+        txtReceiverName.Text = ""
+        cmbPaymentType.SelectedIndex = 0
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+            If Not chkcashsale.Checked Then
+                txtChequeNo.Visible = False
+                lblPaymentType.Visible = False
+                cmbPaymentType.Visible = False
+                lblChequeNo.Visible = False
+            End If
+        Else
+            txtChequeNo.Visible = False
+            lblPaymentType.Visible = False
+            cmbPaymentType.Visible = False
+            lblChequeNo.Visible = False
+        End If
         ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer Then
             txtVendorNo.Focus()
@@ -3022,6 +3040,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
                 obj.location_code = txtLocation.Value
+                obj.Is_CashSale = IIf(chkcashsale.Checked, "Y", "N")
+                If chkcashsale.Checked Then
+                    obj.Payment_Terms = cmbPaymentType.Text
+                    obj.ChequeNo = txtChequeNo.Text
+                End If
+                obj.ReceiverName = txtReceiverName.Text
                 If clsCommon.myLen(txtReceipt.Value) > 0 Then
                     obj.Against_Receipt_No = txtReceipt.Value
                 End If
@@ -3714,6 +3738,13 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 chkBPL.Checked = IIf(obj.Is_BPL = 1, True, False)
                 chkGhee.Checked = IIf(obj.Is_GHEE = 1, True, False)
                 chkGhee.Enabled = False
+                chkcashsale.Checked = IIf(obj.Is_CashSale = "Y", True, False)
+                chkcashsale.Enabled = True
+                txtReceiverName.Text = obj.ReceiverName
+                If chkcashsale.Checked Then
+                    txtChequeNo.Text = obj.ChequeNo
+                    cmbPaymentType.SelectedValue = obj.Payment_Terms
+                End If
                 chkDistributor.Checked = IIf(obj.Is_Distributor = 1, True, False)
                 If chkBPL.Checked Then
                     txtCouponCode.Text = obj.BPL_Coupon_Code
@@ -9158,4 +9189,24 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
         Return dblConvQty
     End Function
 
+    Private Sub chkcashsale_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkcashsale.ToggleStateChanged
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+            If chkcashsale.Checked Then
+                lblPaymentType.Visible = True
+                cmbPaymentType.Visible = True
+                txtChequeNo.Visible = True
+                lblChequeNo.Visible = True
+            Else
+                lblPaymentType.Visible = False
+                cmbPaymentType.Visible = False
+                txtChequeNo.Visible = False
+                lblChequeNo.Visible = False
+            End If
+        Else
+            lblPaymentType.Visible = False
+            cmbPaymentType.Visible = False
+            txtChequeNo.Visible = False
+            lblChequeNo.Visible = False
+        End If
+    End Sub
 End Class

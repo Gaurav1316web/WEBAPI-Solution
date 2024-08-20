@@ -1253,11 +1253,16 @@ Public Class clsMilkSRNMCC
             clsMilkSRNMCC.UpdateDataFromSRNFrom(objHead, clsMilkSRNMCC.ObjList, objVSPChargeList, objPriceChargeList, Trans)
             clsMilkSRNMCC.updateJournalEntryWithTran("MI-SR", objHead.DOC_CODE, Trans)
             Dim dblSNFOrCLR As Decimal = dblSNF
+            Dim dblSNFKG As Decimal = 0
             If isPickCLRInsteadOfSNF Then
                 'IIf(isPickCLRInsteadOfSNF, clsMilkSRNMCC.ObjList(0).CLR, dblSNF)
                 dblSNFOrCLR = clsMilkSRNMCC.ObjList(0).CLR
+                Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).CLR, corrFactor)
+                dblSNFKG = clsERPFuncationality.myFloor(clsMilkSRNMCC.ObjList(0).ACC_Qty * snfPer / 100, objCommonVar.MilkSRNFATSNFDecimalPlaces)
+            Else
+                dblSNFKG = clsERPFuncationality.myFloor(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, objCommonVar.MilkSRNFATSNFDecimalPlaces)
             End If
-            Dim dblSNFKG As Decimal = clsERPFuncationality.myFloor(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, objCommonVar.MilkSRNFATSNFDecimalPlaces)
+
             CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNFOrCLR, dblSNFKG, Trans, strRejectType)
             If IsCapping Then
                 qry = "Update TSPL_MILK_SRN_HEAD set Capping_Apply=1 where DOC_CODE='" + objHead.DOC_CODE + "'"

@@ -863,7 +863,7 @@ order by  xx.Shift desc,xx.Qty "
                                     qry = "select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type 
 from TSPL_MILK_SRN_DETAIL 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE  
-where TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCcode + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtVLCCMFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtVLCCMToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+where TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCcode + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(TransDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(TransDate), "dd/MMM/yyyy hh:mm:ss tt") + "'"
                                     If Not clsCommon.CompairString(clsCommon.myCstr(cboMPCMShift.SelectedValue), "B") = CompairStringResult.Equal Then
                                         qry += " and TSPL_MILK_SRN_HEAD.SHIFT='" + clsCommon.myCstr(cboVLCCMShift.SelectedValue) + "'"
                                     End If
