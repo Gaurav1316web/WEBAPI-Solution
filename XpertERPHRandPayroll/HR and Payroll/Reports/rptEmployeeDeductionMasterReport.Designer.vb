@@ -24,10 +24,14 @@ Partial Class rptEmployeeDeductionMasterReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtMultMonths = New common.UserControls.txtMultiSelectFinder()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnPayHeadDed = New System.Windows.Forms.RadioButton()
+        Me.rbtnEmpDed = New System.Windows.Forms.RadioButton()
         Me.txtMultDeduction = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -40,16 +44,14 @@ Partial Class rptEmployeeDeductionMasterReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnEmpDed = New System.Windows.Forms.RadioButton()
-        Me.rbtnPayHeadDed = New System.Windows.Forms.RadioButton()
-        Me.txtMultMonths = New common.UserControls.txtMultiSelectFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,8 +63,6 @@ Partial Class rptEmployeeDeductionMasterReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,6 +115,53 @@ Partial Class rptEmployeeDeductionMasterReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'txtMultMonths
+        '
+        Me.txtMultMonths.arrDispalyMember = Nothing
+        Me.txtMultMonths.arrValueMember = Nothing
+        Me.txtMultMonths.Location = New System.Drawing.Point(98, 102)
+        Me.txtMultMonths.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultMonths.MyLinkLable1 = Nothing
+        Me.txtMultMonths.MyLinkLable2 = Nothing
+        Me.txtMultMonths.MyNullText = "All"
+        Me.txtMultMonths.Name = "txtMultMonths"
+        Me.txtMultMonths.Size = New System.Drawing.Size(333, 19)
+        Me.txtMultMonths.TabIndex = 356
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnPayHeadDed)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnEmpDed)
+        Me.RadGroupBox1.HeaderText = "Deduction"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(98, 38)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(333, 32)
+        Me.RadGroupBox1.TabIndex = 355
+        Me.RadGroupBox1.Text = "Deduction"
+        '
+        'rbtnPayHeadDed
+        '
+        Me.rbtnPayHeadDed.AutoSize = True
+        Me.rbtnPayHeadDed.Location = New System.Drawing.Point(160, 11)
+        Me.rbtnPayHeadDed.Name = "rbtnPayHeadDed"
+        Me.rbtnPayHeadDed.Size = New System.Drawing.Size(129, 17)
+        Me.rbtnPayHeadDed.TabIndex = 1
+        Me.rbtnPayHeadDed.TabStop = True
+        Me.rbtnPayHeadDed.Text = "Pay Head Deduction"
+        Me.rbtnPayHeadDed.UseVisualStyleBackColor = True
+        '
+        'rbtnEmpDed
+        '
+        Me.rbtnEmpDed.AutoSize = True
+        Me.rbtnEmpDed.Location = New System.Drawing.Point(10, 11)
+        Me.rbtnEmpDed.Name = "rbtnEmpDed"
+        Me.rbtnEmpDed.Size = New System.Drawing.Size(131, 17)
+        Me.rbtnEmpDed.TabIndex = 0
+        Me.rbtnEmpDed.TabStop = True
+        Me.rbtnEmpDed.Text = "Employee Deduction"
+        Me.rbtnEmpDed.UseVisualStyleBackColor = True
         '
         'txtMultDeduction
         '
@@ -187,12 +234,13 @@ Partial Class rptEmployeeDeductionMasterReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(779, 361)
         Me.Gv1.TabIndex = 1
+        Me.Gv1.VarID = ""
         '
         'btnExcel
         '
@@ -244,53 +292,6 @@ Partial Class rptEmployeeDeductionMasterReport
         Me.btnReset.TabIndex = 220
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rbtnPayHeadDed)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnEmpDed)
-        Me.RadGroupBox1.HeaderText = "Deduction"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(98, 38)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(333, 32)
-        Me.RadGroupBox1.TabIndex = 355
-        Me.RadGroupBox1.Text = "Deduction"
-        '
-        'rbtnEmpDed
-        '
-        Me.rbtnEmpDed.AutoSize = True
-        Me.rbtnEmpDed.Location = New System.Drawing.Point(10, 11)
-        Me.rbtnEmpDed.Name = "rbtnEmpDed"
-        Me.rbtnEmpDed.Size = New System.Drawing.Size(131, 17)
-        Me.rbtnEmpDed.TabIndex = 0
-        Me.rbtnEmpDed.TabStop = True
-        Me.rbtnEmpDed.Text = "Employee Deduction"
-        Me.rbtnEmpDed.UseVisualStyleBackColor = True
-        '
-        'rbtnPayHeadDed
-        '
-        Me.rbtnPayHeadDed.AutoSize = True
-        Me.rbtnPayHeadDed.Location = New System.Drawing.Point(160, 11)
-        Me.rbtnPayHeadDed.Name = "rbtnPayHeadDed"
-        Me.rbtnPayHeadDed.Size = New System.Drawing.Size(129, 17)
-        Me.rbtnPayHeadDed.TabIndex = 1
-        Me.rbtnPayHeadDed.TabStop = True
-        Me.rbtnPayHeadDed.Text = "Pay Head Deduction"
-        Me.rbtnPayHeadDed.UseVisualStyleBackColor = True
-        '
-        'txtMultMonths
-        '
-        Me.txtMultMonths.arrDispalyMember = Nothing
-        Me.txtMultMonths.arrValueMember = Nothing
-        Me.txtMultMonths.Location = New System.Drawing.Point(98, 102)
-        Me.txtMultMonths.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMultMonths.MyLinkLable1 = Nothing
-        Me.txtMultMonths.MyLinkLable2 = Nothing
-        Me.txtMultMonths.MyNullText = "All"
-        Me.txtMultMonths.Name = "txtMultMonths"
-        Me.txtMultMonths.Size = New System.Drawing.Size(333, 19)
-        Me.txtMultMonths.TabIndex = 356
-        '
         'rptEmployeeDeductionMasterReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -310,6 +311,9 @@ Partial Class rptEmployeeDeductionMasterReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -321,9 +325,6 @@ Partial Class rptEmployeeDeductionMasterReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
