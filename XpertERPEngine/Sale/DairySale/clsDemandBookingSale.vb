@@ -144,7 +144,7 @@ where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + obj.Document_No + "'"
             clsCommon.AddColumnsForChange(coll, "DocumentAmount", obj.DocumentAmount)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
                 If IsDemandUploader Then
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBookingUploader, "", obj.Location_Code)
@@ -156,7 +156,7 @@ where TSPL_BOOKING_MATSER.Against_DemandBooking_No='" + obj.Document_No + "'"
                 End If
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
