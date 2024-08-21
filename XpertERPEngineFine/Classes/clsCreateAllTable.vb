@@ -8344,6 +8344,10 @@ Public Class clsCreateAllTable
             coll.Add("Payment_Terms", "varchar(20) NULL")
             coll.Add("ChequeNo", "varchar(100) NULL")
             coll.Add("ReceiverName", "varchar(50) NULL")
+            coll.Add("Transport_Id", "varchar(50) null")
+            coll.Add("Description", "VARCHAR(200) NULL")
+            coll.Add("Is_Manual_Vehicle", "char(1) default 'N'")
+            coll.Add("Manual_VehicleNo", "varchar(12) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
