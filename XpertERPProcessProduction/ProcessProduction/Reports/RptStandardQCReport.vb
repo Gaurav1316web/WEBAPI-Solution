@@ -186,11 +186,21 @@ Public Class RptStandardQCReport
 
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID + IIf(RbtnSummary.IsChecked = True, "S", "D")
         TemplateGridview = gv1
         Print(Exporter.Refresh)
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If RbtnDetail.IsChecked = True Then
+            VarID += "_DE"
+        Else
+            RbtnSummary.IsChecked = True
+            VarID += "_SU"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
         Reset()
     End Sub
