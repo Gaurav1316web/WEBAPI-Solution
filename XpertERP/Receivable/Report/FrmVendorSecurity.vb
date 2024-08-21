@@ -712,12 +712,29 @@ where 2=2 "
         Refresh = 3
     End Enum
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         btnReferesh = True
         PageSetupReport_ID = MyBase.Form_ID + IIf(rbtnSecurity.IsChecked, "", "S") + IIf(rdbSummary.IsChecked = True, "S", "D")
         TemplateGridview = Gv1
         Print(Exporter.Refresh)
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSummary.IsChecked = True Then
+            VarID += "_S"
+        Else
+            rdbDetail.IsChecked = True
+            VarID += "_D"
+        End If
+        If rbtnSecurity.IsChecked = True Then
+            VarID += "_SE"
+        ElseIf rbtnSaving.IsChecked = True Then
+            VarID += "_SA"
+        ElseIf rbtnretention.IsChecked Then
+            VarID += "_RE"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub

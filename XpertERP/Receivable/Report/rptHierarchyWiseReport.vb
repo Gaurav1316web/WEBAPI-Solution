@@ -180,11 +180,21 @@ Public Class RptHierarchyWiseReport
 
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID + IIf(RbtnSummary.IsChecked = True, "S", "D")
         TemplateGridview = Gv1
         Print(Exporter.Refresh)
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If RbtnSummary.IsChecked = True Then
+            VarID += "_S"
+        Else
+            VarID += "_D"
+        End If
+        Gv1.VarID = VarID
 
+    End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub

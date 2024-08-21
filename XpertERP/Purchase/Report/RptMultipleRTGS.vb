@@ -18,9 +18,18 @@ Public Class RptMultipleRTGS
         BtnPrint.Visible = MyBase.isPrintFlag
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
         loadReport()
+    End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+
+        If chkNEFTFormat.Checked = True Then
+            VarID += "_NF"
+        End If
+        gv.VarID = VarID
     End Sub
     Public Sub loadReport()
         If txtFromDate.Value > txtToDate.Value Then
