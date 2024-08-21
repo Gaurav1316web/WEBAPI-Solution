@@ -121,7 +121,19 @@ Public Class rptEmployeeStatusReport
         gv1.DataSource = Nothing
         gv1.Columns.Clear()
         gv1.Rows.Clear()
+        GetReportID()
         Print(Exporter.Refresh)
+    End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbnAll.Checked Then
+            VarID += "_A"
+        ElseIf rbtByJoiningDate.Checked Then
+            VarID += "_J"
+        ElseIf btnByRelievingDate.Checked Then
+            VarID += "_R"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

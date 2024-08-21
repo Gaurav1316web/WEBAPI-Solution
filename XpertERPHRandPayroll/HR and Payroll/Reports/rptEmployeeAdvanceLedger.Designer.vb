@@ -22,6 +22,7 @@ Partial Class rptEmployeeAdvanceLedger
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btn_savelayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -86,27 +87,20 @@ Partial Class rptEmployeeAdvanceLedger
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1042, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btn_savelayout, Me.btn_deletelayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'btn_savelayout
         '
-        Me.btn_savelayout.AccessibleDescription = "Save Layout"
-        Me.btn_savelayout.AccessibleName = "Save Layout"
         Me.btn_savelayout.Name = "btn_savelayout"
         Me.btn_savelayout.Text = "Save Layout"
         '
         'btn_deletelayout
         '
-        Me.btn_deletelayout.AccessibleDescription = "Delete Layout"
-        Me.btn_deletelayout.AccessibleName = "Delete Layout"
         Me.btn_deletelayout.Name = "btn_deletelayout"
         Me.btn_deletelayout.Text = "Delete Layout"
         '
@@ -137,10 +131,9 @@ Partial Class rptEmployeeAdvanceLedger
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1042, 457)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -238,7 +231,7 @@ Partial Class rptEmployeeAdvanceLedger
         Me.dtpToDate.Size = New System.Drawing.Size(86, 20)
         Me.dtpToDate.TabIndex = 349
         Me.dtpToDate.TabStop = False
-        Me.dtpToDate.Text = "Friday, July 22, 2011"
+        Me.dtpToDate.Text = "22 July 2011"
         Me.dtpToDate.Value = New Date(2011, 7, 22, 13, 55, 15, 703)
         '
         'dtpFromDate
@@ -251,7 +244,7 @@ Partial Class rptEmployeeAdvanceLedger
         Me.dtpFromDate.Size = New System.Drawing.Size(90, 20)
         Me.dtpFromDate.TabIndex = 348
         Me.dtpFromDate.TabStop = False
-        Me.dtpFromDate.Text = "Friday, July 22, 2011"
+        Me.dtpFromDate.Text = "22 July 2011"
         Me.dtpFromDate.Value = New Date(2011, 7, 22, 13, 55, 15, 703)
         '
         'RadLabel3
@@ -350,19 +343,22 @@ Partial Class rptEmployeeAdvanceLedger
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowEditRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1001, 379)
         Me.gv1.TabIndex = 146
-        Me.gv1.Text = "RadGridView4"
+        Me.gv1.VarID = ""
         '
         'btnExport
         '
@@ -376,15 +372,11 @@ Partial Class rptEmployeeAdvanceLedger
         '
         'btn_excel
         '
-        Me.btn_excel.AccessibleDescription = "To Excel"
-        Me.btn_excel.AccessibleName = "To Excel"
         Me.btn_excel.Name = "btn_excel"
         Me.btn_excel.Text = "To Excel"
         '
         'btn_pdf
         '
-        Me.btn_pdf.AccessibleDescription = "To PDF"
-        Me.btn_pdf.AccessibleName = "To PDF"
         Me.btn_pdf.Name = "btn_pdf"
         Me.btn_pdf.Text = "To PDF"
         '

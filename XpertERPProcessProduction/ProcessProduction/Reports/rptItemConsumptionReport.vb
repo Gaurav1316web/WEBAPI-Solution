@@ -684,6 +684,7 @@ Public Class RptItemConsumptionReport
         End Try
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportsType.Text)
         TemplateGridview = gv1
         If ddlReportsType.SelectedIndex = 0 Then
@@ -693,6 +694,17 @@ Public Class RptItemConsumptionReport
         ElseIf ddlReportsType.SelectedIndex = 2 Then
             Load_ItemWise_Report()
         End If
+    End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(clsCommon.myCstr(ddlReportsType.SelectedIndex), "0") = CompairStringResult.Equal Then
+            VarID += "_BA"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportsType.SelectedIndex), "1") = CompairStringResult.Equal Then
+            VarID += "_BO"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportsType.SelectedIndex), "2") = CompairStringResult.Equal Then
+            VarID += "_IW"
+        End If
+        gv1.VarID = VarID
     End Sub
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
         Reset()

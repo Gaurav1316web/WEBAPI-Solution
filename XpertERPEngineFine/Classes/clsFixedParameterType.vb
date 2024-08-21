@@ -1257,6 +1257,7 @@ Public Class clsFixedParameterType
     Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
     Public Const ApplyCommissionRateWithTax = "Apply Commission Rate With TAX"
     Public Const DisableRouteandVehicle = "Disable Route and Vehicle No."
+    Public Const UpdateDemandBeforePost = "Update Demand Before Post"
     'Public Const SuperuserViewOnly = "Super User View Only"
     'Public Const DistributorViewOnly = "Distributor View Only"
     Public Const ApplyPricePlanDigitRule = "Apply Price Plan Digit Rule"
@@ -2653,6 +2654,7 @@ Public Class clsFixedParameterCode
     Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
     Public Const ApplyCommissionRateWithTax = "Apply Commission Rate With TAX"
     Public Const DisableRouteandVehicle = "Disable Route and Vehicle No."
+    Public Const UpdateDemandBeforePost = "Update Demand Before Post"
     Public Const SuperuserViewOnly = "Super User View Only"
     Public Const DistributorViewOnly = "Distributor View Only"
     Public Const ShowDemandvsDispatch = "Show Demand vs Dispatch"
@@ -4215,6 +4217,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.UpdateDemandBeforePost, clsFixedParameterCode.UpdateDemandBeforePost, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, "0", "0:RoundOff, 1:Truncate;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyPricePlanDigitRule, clsFixedParameterCode.ApplyPricePlanDigitRule, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffDigit, clsFixedParameterCode.PricePlanRoundOffDigit, "2", "Enter Roundoff Digit;")
@@ -5992,6 +5995,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.UpdateDemandBeforePost, clsFixedParameterCode.UpdateDemandBeforePost, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.ApplyPricePlanDigitRule, clsFixedParameterCode.ApplyPricePlanDigitRule, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffDigit, clsFixedParameterCode.PricePlanRoundOffDigit, EnumControlType.TextBox)

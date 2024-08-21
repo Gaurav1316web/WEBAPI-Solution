@@ -589,12 +589,31 @@ Public Class frmRptVendorCustomerLedger
 
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         blnRefresh = True
         PageSetupReport_ID = MyBase.Form_ID + IIf(rdbSummary.IsChecked = True, "S", "D") + IIf(rbPortrait.IsChecked = True, "P", "L")
         TemplateGridview = gv
         Print()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSummary.IsChecked = True Then
+            VarID += "_SU"
+        Else
+            rdbDetail.IsChecked = True
+            VarID += "_DE"
+        End If
+        If chkVendorTypeVSP.IsChecked = True Then
+            VarID += "_TV"
+        ElseIf chkVendorTypePTM.IsChecked = True Then
+            VarID += "_TP"
+        ElseIf chkVendorTypeTTM.IsChecked = True Then
+            VarID += "_TT"
+        ElseIf chkVendorTypeAll.IsChecked = True Then
+            VarID += "_TA"
+        End If
+        gv.VarID = VarID
+    End Sub
     Private Sub btnPrint_Click1(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         blnRefresh = False
         Print()

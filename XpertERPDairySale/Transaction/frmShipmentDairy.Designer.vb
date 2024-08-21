@@ -897,7 +897,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3027,6 +3027,7 @@ Partial Class frmShipmentDairy
         Me.gv1.Size = New System.Drawing.Size(1068, 132)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'lblFromLoc
         '
@@ -4140,6 +4141,7 @@ Partial Class frmShipmentDairy
         Me.gvDistributor.Size = New System.Drawing.Size(1089, 380)
         Me.gvDistributor.TabIndex = 3
         Me.gvDistributor.TabStop = False
+        Me.gvDistributor.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -4433,6 +4435,7 @@ Partial Class frmShipmentDairy
         Me.gv2.Size = New System.Drawing.Size(1084, 274)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -4486,6 +4489,7 @@ Partial Class frmShipmentDairy
         Me.gvAC.Size = New System.Drawing.Size(1089, 375)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
+        Me.gvAC.VarID = ""
         '
         'RadLabel31
         '
@@ -5421,6 +5425,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader_Temp.ShowHeaderCellButtons = True
         Me.gv_Uploader_Temp.Size = New System.Drawing.Size(46, 56)
         Me.gv_Uploader_Temp.TabIndex = 3
+        Me.gv_Uploader_Temp.VarID = ""
         Me.gv_Uploader_Temp.Visible = False
         '
         'gv_Uploader
@@ -5441,6 +5446,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader.ShowHeaderCellButtons = True
         Me.gv_Uploader.Size = New System.Drawing.Size(1081, 363)
         Me.gv_Uploader.TabIndex = 2
+        Me.gv_Uploader.VarID = ""
         '
         'RadPageViewPage6
         '
