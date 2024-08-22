@@ -2140,7 +2140,7 @@ left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code 
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
 where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1
 UNION
-SELECT 'TDS' as Ded_Code,'999' as Sequence_No,'' as SNo
+SELECT 'TDS' as Ded_Code,'5' as Sequence_No,'' as SNo
 )x order by Nos "
             Else
                 sQueryDH = "select * from (select distinct (case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description
