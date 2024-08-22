@@ -2619,6 +2619,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         lblTransporter.Text = ""
         txtDescription.Text = ""
         txtManualVehicle.Text = ""
+        If chkManualVehicle.Checked Then
+            txtManualVehicle.Enabled = True
+        Else
+            txtManualVehicle.Enabled = False
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
             If Not chkcashsale.Checked Then
                 txtChequeNo.Visible = False
@@ -9231,9 +9236,9 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
     End Sub
     Private Sub chkManualVehicle_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkManualVehicle.ToggleStateChanged
         If chkManualVehicle.Checked Then
-            txtManualVehicle.ReadOnly = False
+            txtManualVehicle.Enabled = True
         Else
-            txtManualVehicle.ReadOnly = True
+            txtManualVehicle.Enabled = False
         End If
     End Sub
     Private Sub fndTransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndTransporter._MYValidating
