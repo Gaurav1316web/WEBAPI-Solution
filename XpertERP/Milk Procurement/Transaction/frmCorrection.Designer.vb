@@ -22,14 +22,14 @@ Partial Class frmCorrection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -425,10 +425,10 @@ Partial Class frmCorrection
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
+        RadListDataItem9.Text = "M"
+        RadListDataItem10.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem9)
+        Me.cboShift.Items.Add(RadListDataItem10)
         Me.cboShift.Location = New System.Drawing.Point(273, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -621,10 +621,10 @@ Partial Class frmCorrection
         Me.cboRejectType.IsSourceFromTable = False
         Me.cboRejectType.IsSourceFromValueList = False
         Me.cboRejectType.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem3)
-        Me.cboRejectType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem1)
+        Me.cboRejectType.Items.Add(RadListDataItem2)
         Me.cboRejectType.Location = New System.Drawing.Point(209, 92)
         Me.cboRejectType.MendatroryField = True
         Me.cboRejectType.MyLinkLable1 = Nothing
@@ -741,10 +741,10 @@ Partial Class frmCorrection
         Me.cboMilkType.IsSourceFromTable = False
         Me.cboMilkType.IsSourceFromValueList = False
         Me.cboMilkType.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboMilkType.Items.Add(RadListDataItem5)
-        Me.cboMilkType.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboMilkType.Items.Add(RadListDataItem3)
+        Me.cboMilkType.Items.Add(RadListDataItem4)
         Me.cboMilkType.Location = New System.Drawing.Point(71, 92)
         Me.cboMilkType.MendatroryField = True
         Me.cboMilkType.MyLinkLable1 = Me.MyLabel4
@@ -1812,10 +1812,10 @@ Partial Class frmCorrection
         Me.cboBMCCorrMilkType.IsSourceFromTable = False
         Me.cboBMCCorrMilkType.IsSourceFromValueList = False
         Me.cboBMCCorrMilkType.IsUnique = False
-        RadListDataItem7.Text = "M"
-        RadListDataItem8.Text = "E"
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem7)
-        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem8)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem5)
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem6)
         Me.cboBMCCorrMilkType.Location = New System.Drawing.Point(71, 94)
         Me.cboBMCCorrMilkType.MendatroryField = True
         Me.cboBMCCorrMilkType.MyLinkLable1 = Me.MyLabel24

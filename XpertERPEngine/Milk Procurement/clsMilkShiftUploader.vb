@@ -1635,6 +1635,9 @@ Public Class clsMilkShiftUploaderDetail
     End Function
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal strMCCCode As String, ByVal Arr As List(Of clsMilkShiftUploaderDetail), ByVal trans As SqlTransaction, ByVal strTR_No As String) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            Dim settMaxFATPerLimit As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, trans))
+            Dim settMaxSNFPerLimit As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, trans))
+            Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, trans)) > 0)
             Dim qry As String = "select TSPL_MCC_MASTER.Is_Seprate_Dock_Cow_Buffalo from TSPL_MILK_SHIFT_UPLOADER_HEAD left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code where TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No='" + strDocNo + "'"
             Dim Is_Seprate_Dock_Cow_Buffalo As Boolean = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) = 1
             For Each obj As clsMilkShiftUploaderDetail In Arr
@@ -1655,6 +1658,16 @@ Public Class clsMilkShiftUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
                 clsCommon.AddColumnsForChange(coll, "No_Of_Cans", obj.No_Of_Cans)
                 clsCommon.AddColumnsForChange(coll, "Milk_Weight", obj.Milk_Weight)
+                If settMaxFATPerLimit > 0 Then
+                    If obj.FAT > settMaxFATPerLimit Then
+                        Throw New Exception("FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".")
+                    End If
+                End If
+                If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                    If obj.SNF > settMaxSNFPerLimit Then
+                        Throw New Exception("SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".")
+                    End If
+                End If
                 clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "Reject_Type", obj.Reject_Type, True)
@@ -1675,7 +1688,6 @@ Public Class clsMilkShiftUploaderDetail
                     End If
                 End If
                 clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", obj.Dock_Collection_Milk_Type)
-
                 If clsCommon.myLen(strTR_No) > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SHIFT_UPLOADER_DETAIL", OMInsertOrUpdate.Update, "TR_No='" + strTR_No + "'", trans)
                 Else

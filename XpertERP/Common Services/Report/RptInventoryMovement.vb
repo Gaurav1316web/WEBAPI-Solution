@@ -80,7 +80,23 @@ Public Class RptInventoryMovement
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = Getreport_id()
         TemplateGridview = Gv1
+        GetReportID()
         LoadData(lblDocumentNo.Text)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If chkBoth.IsChecked Then
+            VarID += "_B"
+        ElseIf ChkInventory.IsChecked Then
+            VarID += "_OT"
+        ElseIf ChkInvenoryNew.IsChecked Then
+            VarID += "_NA"
+        End If
+
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
