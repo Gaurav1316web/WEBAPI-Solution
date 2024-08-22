@@ -187,6 +187,23 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+
+            Dim qry As String = "select Against_Milk_Collection_DCS_Detail,sum(1) as Repeted
+from (
+select Against_Milk_Collection_DCS_Detail,TR_No,1 as RI 
+from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+inner join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + obj.Document_No + "'
+union all
+select Against_Milk_Collection_DCS_Detail,TR_No,2 as RI 
+from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL 
+inner join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + obj.Document_No + "'
+) xx group by Against_Milk_Collection_DCS_Detail having sum(1)>1  "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("More than one record found for TR No " + clsCommon.myCstr(dt.Rows(0)("Against_Milk_Collection_DCS_Detail")) + "")
+            End If
             'Throw New Exception("Balwinder Singh Premi")
         Catch ex As Exception
             Throw New Exception(ex.Message)
