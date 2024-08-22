@@ -539,9 +539,23 @@ Public Class FrmProductionAndSaleReport
             PageSetupReport_ID = Me.Form_ID + clsCommon.myCstr(IIf(rdbDaily.Checked = True, "Daily", "Weekly"))
             TemplateGridview = gv1
             fillGridReport(False)
+            GetReportID()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If rdbDaily.Checked Then
+            VarID += "_D"
+        ElseIf rdbWeekly.Checked Then
+            VarID += "_W"
+        End If
+
+        gv1.VarID = VarID
+
     End Sub
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click

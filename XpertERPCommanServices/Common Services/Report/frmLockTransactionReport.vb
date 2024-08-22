@@ -60,7 +60,25 @@ Public Class FrmLockTransactionReport
         PageSetupReport_ID = GetReport_Id()
         TemplateGridview = gv
         LoadData(Exporter.Refresh)
+        GetReportID()
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkUser.Checked = True Then
+            VarID += "_US"
+        End If
+        If chkLocationCode.IsChecked Then
+            VarID += "_LC"
+        ElseIf chkLocationSegment.IsChecked Then
+            VarID += "_LS"
+        End If
+
+        gv.VarID = VarID
+
+    End Sub
+
+
     Sub LoadData(ByVal IsPrint As Exporter)
         Try
             'gv.DataSource = Nothing

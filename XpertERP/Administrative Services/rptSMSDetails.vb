@@ -56,9 +56,9 @@ Public Class rptSMSDetails
                 End If
                 qry = qry + " order by convert(date,tspl_sms_head.Created_Date,103) , TSPL_SMS_DETAIL.Code asc   "
             Else
-                qry = " select tspl_email_Head .Code  as  [Email Code], tspl_email_Head .Email_subject as [Email Subject]  " & _
-                      " , tspl_email_Head.Email_Text as [Email Text] ,Attachment_1_File_Name as [Attachment1] , Attachment_2_File_Name as [Attachment2], tspl_email_Head.Email_ID as [Email ID] ,Created_By as [Created By] " & _
-                      " , convert (varchar,Created_Date,103)  as [Created Date], convert (varchar, Send_On,103) as [Send On] from tspl_email_Head " & _
+                qry = " select tspl_email_Head .Code  as  [Email Code], tspl_email_Head .Email_subject as [Email Subject]  " &
+                      " , tspl_email_Head.Email_Text as [Email Text] ,Attachment_1_File_Name as [Attachment1] , Attachment_2_File_Name as [Attachment2], tspl_email_Head.Email_ID as [Email ID] ,Created_By as [Created By] " &
+                      " , convert (varchar,Created_Date,103)  as [Created Date], convert (varchar, Send_On,103) as [Send On] from tspl_email_Head " &
                       " where  convert(date,Created_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,Created_Date,103)<=convert(date,'" + ToDate.Value + "',103) "
 
                 If rdbSend.Checked = True Then
@@ -94,9 +94,31 @@ Public Class rptSMSDetails
             End If
 
             ReStoreGridLayout()
+            GetReportID()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If rdbSms.Checked Then
+            VarID += "_S"
+        ElseIf rdbEmail.Checked Then
+            VarID += "_E"
+        End If
+
+        If rdbBoth.Checked Then
+            VarID += "_BO"
+        ElseIf rdbSend.Checked Then
+            VarID += "_SE"
+        ElseIf rdbNotSend.Checked Then
+            VarID += "_NS"
+        End If
+
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
