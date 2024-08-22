@@ -942,15 +942,15 @@ Public Class clsMilkSRNMCC
 
             If CorrTypeSRNFATSNF Then
                 clsMilkSRNMCC.ObjList(0).FAT = Math.Truncate(dblFAT * 10) / 10
-                If isPickCLRInsteadOfSNF Then
-                    clsMilkSRNMCC.ObjList(0).CLR = clsEkoPro.getClrOnCalculation(dblFAT, dblSNF, corrFactor)
-                End If
+                'If isPickCLRInsteadOfSNF Then ''CLR Not calculate (Sikar/Deepak)
+                '    clsMilkSRNMCC.ObjList(0).CLR = clsEkoPro.getClrOnCalculation(dblFAT, dblSNF, corrFactor)
+                'End If
+                clsMilkSRNMCC.ObjList(0).CLR = clsEkoPro.getClrOnCalculation(dblFAT, dblSNF, corrFactor)
                 If objCommonVar.MilkProcurementSNF2DecimalPlaces Then
                     clsMilkSRNMCC.ObjList(0).SNF = Math.Round(dblSNF, 2, MidpointRounding.AwayFromZero)
                 Else
                     clsMilkSRNMCC.ObjList(0).SNF = Math.Truncate(dblSNF * 10) / 10
                 End If
-
 
                 If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
                     clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 1

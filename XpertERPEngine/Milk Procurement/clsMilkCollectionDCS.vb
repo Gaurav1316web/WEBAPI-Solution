@@ -199,6 +199,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         Dim objE As clsMilkShiftUploaderHead = Nothing
         Dim objMilkPro As clsMilkProcurementUploaderHead = Nothing
         Dim objMilkProRej As clsMilkProcurementUploaderHead = Nothing
+        Dim settApplySameDayShift As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplySameDayShift, clsFixedParameterCode.ApplySameDayShift, trans)) = 1)
         For Each objDCSTr As clsMilkCollectionDCSDetail In objDCS.Arr
             Dim qry As String = "select max(MCC_Code) as MCC_Code,max(Route_Code) as Route_Code,max(Tanker_No) as Tanker_No,max(Late) as Late,sum(Qty) as Qty,sum(FATKG) as FATKG,sum(SNFKG) as SNFKG,max(Against_DCS_Multiple_Days_Merge) as Against_DCS_Multiple_Days_Merge,max(Against_DCS_Multiple_Days) as Against_DCS_Multiple_Days from (select TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Late,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG,TSPL_MILK_COLLECTION_MCC.Against_DCS_Multiple_Days_Merge,TSPL_MILK_COLLECTION_MCC.Against_DCS_Multiple_Days from TSPL_MILK_COLLECTION_MCC_DETAIL 
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
@@ -259,7 +260,7 @@ and convert(date, Shift_Date,103)=convert(date, '" + clsCommon.GetPrintDate(IIf(
                     ElseIf clsCommon.CompairString(objDCSTr.Shift, "E") = CompairStringResult.Equal Then
                         If objE Is Nothing Then
                             objE = New clsMilkShiftUploaderHead()
-                            If isAgainstMultipleDays Then
+                            If isAgainstMultipleDays OrElse settApplySameDayShift Then
                                 objE.Shift_Date = objDCS.Document_Date
                             Else
                                 objE.Shift_Date = objDCS.Document_Date.AddDays(-1)
@@ -282,7 +283,7 @@ and convert(date, Shift_Date,103)=convert(date, '" + clsCommon.GetPrintDate(IIf(
                     If clsCommon.CompairString(objDCSTr.Shift, "M") = CompairStringResult.Equal Then
                         objTrMilkPro.Shift_Date = objDCS.Document_Date
                     Else
-                        If isAgainstMultipleDays Then
+                        If isAgainstMultipleDays OrElse settApplySameDayShift Then
                             objTrMilkPro.Shift_Date = objDCS.Document_Date
                         Else
                             objTrMilkPro.Shift_Date = objDCS.Document_Date.AddDays(-1)

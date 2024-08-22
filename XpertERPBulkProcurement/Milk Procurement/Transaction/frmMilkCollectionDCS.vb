@@ -49,6 +49,7 @@ Public Class frmMilkCollectionDCS
     Dim corrFactor As Decimal = 0
     Public Shared IsViewBalance As Boolean = False
     Dim SettAdjQty As Boolean = False
+    Dim settApplySameDayShift As Boolean = False
 #End Region
     Public Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
@@ -91,6 +92,7 @@ Public Class frmMilkCollectionDCS
         settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, Nothing))
         SettHeaderFATSNFKGDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HeaderFATSNFKGDecimalPlaces, clsFixedParameterCode.HeaderFATSNFKGDecimalPlaces, Nothing))
         SettAdjQty = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustQtyINOwnVSP, Nothing)) = 1)
+        settApplySameDayShift = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplySameDayShift, clsFixedParameterCode.ApplySameDayShift, Nothing)) = 1)
         'If isPickCLRInsteadOfSNF Then
         '    MyLabel23.Text = "CLR KG"
         '    MyLabel5.Text = "CLR %"
@@ -1196,8 +1198,11 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
     End Sub
 
     Sub setShiftDate()
-        Dim PrevShift As String = clsCommon.GetPrintDate(txtDate.Value.AddDays(-1), "dd/MM/yyyy")
         Dim CurrShift As String = clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")
+        Dim PrevShift As String = clsCommon.GetPrintDate(txtDate.Value.AddDays(-1), "dd/MM/yyyy")
+        If settApplySameDayShift Then
+            PrevShift = CurrShift
+        End If
 
         gv1.Columns(colEveningQty).HeaderText = "Evening Qty" + Environment.NewLine + PrevShift
         gv1.Columns(colEveningFATPerNoDecimal).HeaderText = "Evening FAT " + Environment.NewLine + PrevShift
