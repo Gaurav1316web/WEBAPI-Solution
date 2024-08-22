@@ -24,8 +24,9 @@ Partial Class RptDepartmentWiseSalarySheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -111,7 +112,6 @@ Partial Class RptDepartmentWiseSalarySheet
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(932, 459)
         Me.RadPageView1.TabIndex = 72
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -246,10 +246,11 @@ Partial Class RptDepartmentWiseSalarySheet
         '
         Me.ddlReportType.AutoCompleteDisplayMember = Nothing
         Me.ddlReportType.AutoCompleteValueMember = Nothing
-        RadListDataItem1.Text = "Departmentwise"
-        RadListDataItem2.Text = "Employeewise"
-        Me.ddlReportType.Items.Add(RadListDataItem1)
-        Me.ddlReportType.Items.Add(RadListDataItem2)
+        Me.ddlReportType.DropDownAnimationEnabled = True
+        RadListDataItem3.Text = "Departmentwise"
+        RadListDataItem4.Text = "Employeewise"
+        Me.ddlReportType.Items.Add(RadListDataItem3)
+        Me.ddlReportType.Items.Add(RadListDataItem4)
         Me.ddlReportType.Location = New System.Drawing.Point(193, 3)
         Me.ddlReportType.Name = "ddlReportType"
         Me.ddlReportType.Size = New System.Drawing.Size(219, 20)
@@ -308,7 +309,6 @@ Partial Class RptDepartmentWiseSalarySheet
         Me.lblFrompp.Name = "lblFrompp"
         Me.lblFrompp.Size = New System.Drawing.Size(191, 19)
         Me.lblFrompp.TabIndex = 216
-        Me.lblFrompp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadPageViewPage2
         '
@@ -316,7 +316,7 @@ Partial Class RptDepartmentWiseSalarySheet
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(911, 424)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(911, 411)
         Me.RadPageViewPage2.Text = "Report"
         '
         'Gv1
@@ -326,12 +326,15 @@ Partial Class RptDepartmentWiseSalarySheet
         '
         '
         '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(911, 424)
+        Me.Gv1.Size = New System.Drawing.Size(911, 411)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         '
         'btnPrint
         '
@@ -356,15 +359,11 @@ Partial Class RptDepartmentWiseSalarySheet
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Excel"
-        Me.RadMenuItem1.AccessibleName = "Excel"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Excel"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "PDF"
-        Me.RadMenuItem2.AccessibleName = "PDF"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "PDF"
         '

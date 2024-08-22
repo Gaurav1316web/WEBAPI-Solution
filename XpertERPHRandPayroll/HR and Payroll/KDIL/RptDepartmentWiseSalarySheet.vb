@@ -26,7 +26,18 @@ Public Class RptDepartmentWiseSalarySheet
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Print = True
         PageSetupReport_ID = MyBase.Form_ID
+        GetReportID()
         PrintData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Departmentwise") = CompairStringResult.Equal Then
+            VarID += "_D"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Employeewise") = CompairStringResult.Equal Then
+            VarID += "_E"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Private Sub frmPaySlip_Reports_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

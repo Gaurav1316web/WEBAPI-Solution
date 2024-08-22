@@ -208,7 +208,18 @@ Public Class rptEmployeeAdvanceLedger
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         PageSetupReport_ID = ReportID + IIf(rbtnSummary.IsChecked = True, "S", "D")
         TemplateGridview = gv1
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf rbtndetail.IsChecked Then
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub txtLocationMult_My_Click(sender As Object, e As EventArgs) Handles txtLocationMult._My_Click
