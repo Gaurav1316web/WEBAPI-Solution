@@ -173,10 +173,59 @@ Public Class frmRptCashFlow
     End Sub
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         PageSetupReport_ID = ReportID
         RefreshData()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnYearly.IsChecked = True Then
+            VarID += "_Y"
+        End If
+        If rbtnHalfYearly.IsChecked = True Then
+            VarID += "_H"
+        End If
+        If rbtnQuarterly.IsChecked = True Then
+            VarID += "_Q"
+        End If
+        If rbtnMonthly.IsChecked = True Then
+            VarID += "_M"
+        End If
+        If rbtnDateRange.IsChecked = True Then
+            VarID += "_D"
+        End If
 
+        If rbtnGLGroupLevel.IsChecked = True Then
+            VarID += "_L"
+        End If
+        If rbtnGLRollupLevel.IsChecked = True Then
+            VarID += "_R"
+        End If
+        If ChkGLMainAccount.IsChecked = True Then
+            VarID += "_A"
+        End If
+        If ChkGLAccount.IsChecked = True Then
+            VarID += "_G"
+        End If
+        If rbtnTreeView.IsChecked = True Then
+            VarID += "_V"
+        End If
+
+        If chkShowTotalRow.Checked = True Then
+            VarID += "_TR"
+        End If
+        If chkLocationWise.Checked = True Then
+            VarID += "_LW"
+        End If
+        If chkIncludeingClosingEntry.Checked = True Then
+            VarID += "_CE"
+        End If
+        If chkIndAS.Checked = True Then
+            VarID += "_IA"
+        End If
+
+        gv1.VarID = VarID
+    End Sub
     Public Sub RefreshData()
         Try
             gv1.EnableFiltering = True

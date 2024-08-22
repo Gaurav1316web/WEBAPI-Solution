@@ -81,9 +81,19 @@ Public Class rptAPReport
         gv1.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If btnSummary.IsChecked = True Then
+            VarID += "_S"
+        Else
+            btnDetail.IsChecked = True
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID + IIf(btnSummary.IsChecked, "S", "D")
             TemplateGridview = gv1
             '=================Update by preeti Gupta Against Ticket No[KDI/07/06/18-000349,BHA/18/12/18-000758]

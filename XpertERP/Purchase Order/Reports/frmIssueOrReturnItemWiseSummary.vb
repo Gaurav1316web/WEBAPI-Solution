@@ -1325,12 +1325,22 @@ Public Class FrmIssueOrReturnItemWiseSummary
     Private Sub BtnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnGo.Click
         PageSetupReport_ID = MyBase.Form_ID + IIf(chkDocWise.Checked = True, "DOC", "")
         TemplateGridview = gv
+        GetReportID()
         'If ddlRptType.SelectedIndex = 1 AndAlso chkDocWise.Checked = True Then
         '    PrintDatafornetissue()
         'Else
         '    PrintData()
         'End If
         PrintDataNew()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkDocWise.Checked Then
+            VarID += "_D"
+        End If
+        gv.VarID = VarID
+
     End Sub
 
 

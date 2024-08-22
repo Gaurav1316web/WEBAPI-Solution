@@ -618,6 +618,7 @@ Public Class FrmRptCustomerTransList
     End Sub
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         If ChkSummary.Checked = False AndAlso rbtnCustWise.Checked = True Then
             clsCommon.MyMessageBoxShow("Please tick Summary option with Customer wise option")
             Exit Sub
@@ -627,6 +628,20 @@ Public Class FrmRptCustomerTransList
         TemplateGridview = gv
         Print()
         blnRefresh = False
+    End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If ChkSummary.Checked = True Then
+            VarID += "_S"
+        End If
+
+        If rbtnDocWise.Checked = True Then
+
+            VarID += "_DW"
+        Else
+            VarID += "_CW"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub FrmRptCustomerTransList_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown

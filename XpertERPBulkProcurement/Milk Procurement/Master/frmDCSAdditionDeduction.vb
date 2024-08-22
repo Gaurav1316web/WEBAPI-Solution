@@ -180,18 +180,18 @@ Public Class frmDCSAdditionDeduction
                     obj.Applicable_DCS_Type = 8
                 End If
                 obj.Conversion = txtConvertsion.Value
-                obj.Saving = 0
                 If rbtnNatureTypeAddition.IsChecked Then
                     obj.Nature_Type = 0
-                    If rbtnAdditionTypeSaving.IsChecked Then
-                        obj.Saving = 1
-                    ElseIf rbtnAdditionTypeCompulsory.IsChecked Then
-                        obj.Saving = 2
-                    End If
                     obj.Apply_TDS = chkApplyTDS.Checked
                 ElseIf rbtnNatureTypeDeduction.IsChecked Then
                     obj.Nature_Type = 1
                     obj.Apply_TDS = False
+                End If
+                obj.Saving = 0
+                If rbtnAdditionTypeSaving.IsChecked Then
+                    obj.Saving = 1
+                ElseIf rbtnAdditionTypeCompulsory.IsChecked Then
+                    obj.Saving = 2
                 End If
                 obj.Applicable_Type = clsCommon.myCdbl(cboApplyType.SelectedValue)
                 obj.Applicable_On = clsCommon.myCdbl(cboApplyOn.SelectedValue)
@@ -640,7 +640,7 @@ Public Class frmDCSAdditionDeduction
     End Sub
 
     Sub setNatureTypeAddition()
-        grpAdditionType.Visible = rbtnNatureTypeAddition.IsChecked
+        rbtnAdditionTypeCompulsory.Visible = rbtnNatureTypeAddition.IsChecked
         chkApplyTDS.Visible = rbtnNatureTypeAddition.IsChecked
     End Sub
 

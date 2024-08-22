@@ -3657,13 +3657,11 @@ select Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NO
                                         Throw New Exception("Please set the vendor payable Account")
                                     End If
                                     objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
-                                    objVendorInvHead.Saving = 0
+                                    objVendorInvHead.Saving = clsCommon.myCDecimal(drAmt("Saving"))
                                     Dim ii As Integer = 0
                                     Dim isFirstTime As Boolean = True
                                     objVendorInvHead.Total_Landed_Amt = 0
                                     objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
-
-
                                     If True Then
                                         ii = ii + 1
                                         Dim objVendorInvDetail As New clsVedorInvoiceDetail()
@@ -3712,11 +3710,8 @@ select Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NO
 #End Region
                             End If
                         End If
-
                     Next
-
                 End If
-
 #End Region
             End If
 

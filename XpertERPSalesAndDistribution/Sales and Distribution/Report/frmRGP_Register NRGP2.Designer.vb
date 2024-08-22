@@ -775,7 +775,7 @@ Partial Class FrmRGP_Register_NRGP
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(778, 469)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(778, 412)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gv
@@ -801,8 +801,9 @@ Partial Class FrmRGP_Register_NRGP
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(778, 469)
+        Me.gv.Size = New System.Drawing.Size(778, 412)
         Me.gv.TabIndex = 5
+        Me.gv.VarID = ""
         '
         'SplitContainer2
         '

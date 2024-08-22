@@ -1191,8 +1191,19 @@ Public Class frmPo_action
     Private Sub btnReferesh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReferesh.Click
         PageSetupReport_ID = MyBase.Form_ID + IIf(rbtnDetails.IsChecked = True, "D", "S")
         TemplateGridview = gv
+        GetReportID()
         refereshdata1()
-        
+
+    End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnDetails.IsChecked Then
+            VarID += "_D"
+        ElseIf rbtnSummary.IsChecked Then
+            VarID += "_S"
+        End If
+        gv.VarID = VarID
+
     End Sub
 
     Private Sub gv_CellDoubleClick(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv.CellDoubleClick

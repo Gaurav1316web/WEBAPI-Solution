@@ -45,7 +45,18 @@ Public Class rptEmployeeDeductionMasterReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         PrintReport(False)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnEmpDed.Checked Then
+            VarID += "_S"
+        ElseIf rbtnPayHeadDed.Checked Then
+            VarID += "_T"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Private Sub PrintReport(ByVal isPrint As Boolean)

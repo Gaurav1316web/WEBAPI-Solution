@@ -22,8 +22,10 @@ Partial Class FrmIssueOrReturnItemWiseSummary
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.dtpFromdate = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvCategory = New common.UserControls.MyRadGridView()
@@ -239,14 +241,17 @@ Partial Class FrmIssueOrReturnItemWiseSummary
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(392, 395)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
+        Me.gvCategory.VarID = ""
         '
         'Panel8
         '
@@ -635,10 +640,11 @@ Partial Class FrmIssueOrReturnItemWiseSummary
         '
         Me.ddlRptType.AutoCompleteDisplayMember = Nothing
         Me.ddlRptType.AutoCompleteValueMember = Nothing
-        RadListDataItem3.Text = "Net Issue"
-        RadListDataItem4.Text = "Net Issue Return"
-        Me.ddlRptType.Items.Add(RadListDataItem3)
-        Me.ddlRptType.Items.Add(RadListDataItem4)
+        Me.ddlRptType.DropDownAnimationEnabled = True
+        RadListDataItem1.Text = "Net Issue"
+        RadListDataItem2.Text = "Net Issue Return"
+        Me.ddlRptType.Items.Add(RadListDataItem1)
+        Me.ddlRptType.Items.Add(RadListDataItem2)
         Me.ddlRptType.Location = New System.Drawing.Point(472, 6)
         Me.ddlRptType.Name = "ddlRptType"
         Me.ddlRptType.Size = New System.Drawing.Size(102, 20)
@@ -958,16 +964,12 @@ Partial Class FrmIssueOrReturnItemWiseSummary
         '
         'btnExcel
         '
-        Me.btnExcel.AccessibleDescription = "Excel"
-        Me.btnExcel.AccessibleName = "Excel"
         Me.btnExcel.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Excel"
         '
         'btnPDF
         '
-        Me.btnPDF.AccessibleDescription = "PDF"
-        Me.btnPDF.AccessibleName = "PDF"
         Me.btnPDF.Image = Global.ERP.My.Resources.Resources.pdf
         Me.btnPDF.Name = "btnPDF"
         Me.btnPDF.Text = "PDF"
@@ -1010,7 +1012,6 @@ Partial Class FrmIssueOrReturnItemWiseSummary
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(906, 567)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -1028,7 +1029,7 @@ Partial Class FrmIssueOrReturnItemWiseSummary
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(750, 583)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(885, 519)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gv
@@ -1039,12 +1040,15 @@ Partial Class FrmIssueOrReturnItemWiseSummary
         '
         '
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(750, 583)
+        Me.gv.Size = New System.Drawing.Size(885, 519)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'SplitContainer1
         '
@@ -1077,27 +1081,20 @@ Partial Class FrmIssueOrReturnItemWiseSummary
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(906, 20)
         Me.RadMenu1.TabIndex = 4
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '

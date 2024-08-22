@@ -341,9 +341,21 @@ Public Class RptARReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         PageSetupReport_ID = MyBase.Form_ID + IIf(btnSummary.IsChecked, "S", "D")
         TemplateGridview = gv1
         loaddata()
+    End Sub
+    Sub GetReportID()
+        Dim VarID As String = ""
+
+        If btnSummary.IsChecked = True Then
+            VarID += "_S"
+        Else
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
+
     End Sub
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         'Dim ReportID As String = MyBase.Form_ID
