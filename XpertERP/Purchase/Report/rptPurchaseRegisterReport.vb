@@ -599,7 +599,29 @@ Public Class RptPurchaseRegisterReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         TemplateGridview = Gv1
+        GetReportIDD()
         Print(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportIDD()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Total Purchase") = CompairStringResult.Equal Then
+            VarID += "_TP"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Location Wise") = CompairStringResult.Equal Then
+            VarID += "_LW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Vendor Group Wise") = CompairStringResult.Equal Then
+            VarID += "_VGW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Item Wise") = CompairStringResult.Equal Then
+            VarID += "_IW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Vendor Wise") = CompairStringResult.Equal Then
+            VarID += "_VW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Document Wise") = CompairStringResult.Equal Then
+            VarID += "_DW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Document Detail") = CompairStringResult.Equal Then
+            VarID += "_DD"
+        End If
+
+        Gv1.VarID = VarID
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

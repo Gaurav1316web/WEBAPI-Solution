@@ -1437,7 +1437,7 @@ Public Class clsCreateAllTable
             coll.Add("OC", "NUMERIC(10,2)  not null")               '' OTHER CHARGES
             coll.Add("OC_MAX", "NUMERIC(10,2)  not null")           '' MAXIMUM LIMIT OF OTHER CHARGES
             coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) not null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
-
+            coll.Add("PF_Type", "varchar(12) NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
@@ -8340,6 +8340,14 @@ Public Class clsCreateAllTable
             coll.Add("Acidity", "decimal(18,2) null")
             coll.Add("Temperature", "decimal(18,2) null")
             coll.Add("MBRT_Hours", "decimal(18,2) null")
+            coll.Add("Is_CashSale", "char(1) default 'N'")
+            coll.Add("Payment_Terms", "varchar(20) NULL")
+            coll.Add("ChequeNo", "varchar(100) NULL")
+            coll.Add("ReceiverName", "varchar(50) NULL")
+            coll.Add("Transport_Id", "varchar(50) null")
+            coll.Add("Description", "VARCHAR(200) NULL")
+            coll.Add("Is_Manual_Vehicle", "char(1) default 'N'")
+            coll.Add("Manual_VehicleNo", "varchar(12) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -14400,6 +14408,7 @@ Public Class clsCreateAllTable
             coll.Add("Lic_No", "Varchar(50) null")
             coll.Add("Membership_id", "Varchar(50) null")
             coll.Add("Special_desc", "Varchar(50) null")
+            coll.Add("PF_Type", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

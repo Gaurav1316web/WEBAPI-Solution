@@ -22,6 +22,7 @@ Partial Class rptAuditTrailReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -115,7 +116,6 @@ Partial Class rptAuditTrailReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1029, 445)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -162,7 +162,7 @@ Partial Class rptAuditTrailReport
         Me.rdbTransation.AutoSize = True
         Me.rdbTransation.Location = New System.Drawing.Point(71, 5)
         Me.rdbTransation.Name = "rdbTransation"
-        Me.rdbTransation.Size = New System.Drawing.Size(78, 17)
+        Me.rdbTransation.Size = New System.Drawing.Size(79, 17)
         Me.rdbTransation.TabIndex = 225
         Me.rdbTransation.Text = "Transation"
         Me.rdbTransation.UseVisualStyleBackColor = True
@@ -176,7 +176,6 @@ Partial Class rptAuditTrailReport
         Me.lblScreen.Name = "lblScreen"
         Me.lblScreen.Size = New System.Drawing.Size(177, 18)
         Me.lblScreen.TabIndex = 222
-        Me.lblScreen.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndScreen
         '
@@ -222,7 +221,6 @@ Partial Class rptAuditTrailReport
         Me.lblModule.Name = "lblModule"
         Me.lblModule.Size = New System.Drawing.Size(177, 18)
         Me.lblModule.TabIndex = 219
-        Me.lblModule.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndModule
         '
@@ -382,14 +380,17 @@ Partial Class rptAuditTrailReport
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1008, 397)
         Me.gv1.TabIndex = 5
-        Me.gv1.Text = "gv"
+        Me.gv1.VarID = ""
         '
         'RadMenu1
         '
@@ -398,27 +399,20 @@ Partial Class rptAuditTrailReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1029, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -434,15 +428,11 @@ Partial Class rptAuditTrailReport
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '

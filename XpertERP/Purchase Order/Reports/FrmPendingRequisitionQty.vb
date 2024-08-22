@@ -1066,6 +1066,7 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
     End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         Try
+            GetReportID()
             PageSetupReport_ID = MyBase.Form_ID
             If cbxSummary.Checked = True Then 'AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                 Load_Monthly_Summaries(objCommonVar.CurrentCompanyCode)
@@ -1077,6 +1078,15 @@ from ( select  Item_Code,MAX(Item_Desc) as Item_Desc,  SUM(Stock_Qty * case when
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If IndentTypeStore.Checked Then
+            VarID += "_ITS"
+        End If
+        gv.VarID = VarID
+
     End Sub
     Private Sub rmSaveLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmSaveLayout.Click
         If clsCommon.myLen(MyBase.Form_ID) > 0 Then

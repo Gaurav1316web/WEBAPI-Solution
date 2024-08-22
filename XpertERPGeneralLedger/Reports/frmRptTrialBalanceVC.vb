@@ -402,11 +402,33 @@ Public Class frmRptTrialBalanceVC
     End Sub
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         PageSetupReport_ID = GetReportID()
         TemplateGridview = gv1
         RefreshData()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(cboReportType.SelectedValue, "Main Group Wise") = CompairStringResult.Equal Then
+            VarID += "_MG"
+        End If
+        If clsCommon.CompairString(cboReportType.SelectedValue, "Group Wise") = CompairStringResult.Equal Then
+            VarID += "_GW"
+        End If
+        If clsCommon.CompairString(cboReportType.SelectedValue, "Sub Group Wise") = CompairStringResult.Equal Then
+            VarID += "_SG"
+        End If
+        If clsCommon.CompairString(cboReportType.SelectedValue, "Main Account Wis") = CompairStringResult.Equal Then
+            VarID += "_MA"
+        End If
+        If clsCommon.CompairString(cboReportType.SelectedValue, "GL Account Wise") = CompairStringResult.Equal Then
+            VarID += "_GA"
+        End If
+        If clsCommon.CompairString(cboReportType.SelectedValue, "Customer/Vedndor Wise") = CompairStringResult.Equal Then
+            VarID += "_VW"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Public Sub RefreshData()
         Try
             gv1.EnableFiltering = True

@@ -555,10 +555,24 @@ Public Class frmMonthlyConsumptionReport
             'Load_Data()
             PageSetupReport_ID = MyBase.Form_ID + IIf(ChkQtyWise.Checked = True, "Q", "") + IIf(chkValueWise.Checked = True, "V", "") + IIf(chkBoth.Checked = True, "B", "")
             TemplateGridview = gv
+            GetReportID()
             Load_Report()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If ChkQtyWise.Checked Then
+            VarID += "_Q"
+        ElseIf chkValueWise.Checked Then
+            VarID += "_V"
+        ElseIf chkBoth.Checked Then
+            VarID += "_B"
+        End If
+        gv.VarID = VarID
+
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Try

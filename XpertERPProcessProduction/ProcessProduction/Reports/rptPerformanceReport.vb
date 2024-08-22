@@ -43,7 +43,18 @@ Public Class rptPerformanceReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         Load_Performance_Report()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdobtnWeighment.Checked Then
+            VarID += "_W"
+        ElseIf rdobtnSRN.Checked Then
+            VarID += "_S"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Private Sub Load_Performance_Report()

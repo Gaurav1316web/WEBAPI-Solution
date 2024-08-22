@@ -8,6 +8,7 @@ Imports Telerik.WinControls.UI
 Public Class frmPFRulesMaster
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
+    Dim isInsideLoad As Boolean = False
 #Region "Variable"
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
@@ -18,7 +19,36 @@ Public Class frmPFRulesMaster
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Save()
     End Sub
+    Sub LoadPFCalculationType()
+        Try
+            isInsideLoad = True
+            Dim dt As DataTable = New DataTable
+            dt.Columns.Add("Code")
+            dt.Columns.Add("Name")
 
+            Dim dr As DataRow = dt.NewRow
+            dr("Code") = "NR"
+            dr("Name") = "Normal"
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow
+            dr("Code") = "HG"
+            dr("Name") = "Higher"
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow
+            dr("Code") = "IN-E"
+            dr("Name") = "In-Eligible"
+            dt.Rows.Add(dr)
+
+            cboPFType.DataSource = dt
+            cboPFType.ValueMember = "Code"
+            cboPFType.DisplayMember = "Name"
+            isInsideLoad = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Public Sub Save()
         If AllowToSave() Then
 
@@ -49,6 +79,7 @@ Public Class frmPFRulesMaster
             obj.OC = txtOC.Text
             obj.OC_MAX = txtOC_MAX.Text
             obj.OTH_ROUNDOFF_YPE = CboEmpRound.SelectedValue
+            obj.Pf_Type = clsCommon.myCstr(cboPFType.SelectedValue)
             If (obj.SaveData(obj, isNewEntry)) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
@@ -70,6 +101,7 @@ Public Class frmPFRulesMaster
             funReset()
             isNewEntry = False
             btnSave.Text = "Update"
+
             txtCode.Value = obj.Code
             txtAppDate.Value = obj.APPLICABLE_FROM
             txtCOEPF_PER.Text = obj.COEPF_PER
@@ -89,6 +121,7 @@ Public Class frmPFRulesMaster
             txtOC.Text = obj.OC
             txtOC_MAX.Text = obj.OC_MAX
             CboOCRound.SelectedValue = obj.OTH_ROUNDOFF_YPE
+            cboPFType.SelectedValue = obj.Pf_Type
         End If
 
     End Sub
@@ -147,8 +180,7 @@ Public Class frmPFRulesMaster
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
         '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
-
-
+        LoadPFCalculationType()
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -216,7 +248,7 @@ Public Class frmPFRulesMaster
         CboOCRound.ValueMember = "Code"
         CboOCRound.DisplayMember = "DESCRIPTION"
         CboOCRound.SelectedIndex = -1
-
+        cboPFType.SelectedIndex = 0
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click

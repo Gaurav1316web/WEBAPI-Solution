@@ -813,12 +813,30 @@ Public Class rptAPAgeingDrillDown
 
 
     Private Sub btnGo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+        GetReportGridID()
         gv1.EnableFiltering = True
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv1
         PrintNew1(True)
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(clsCommon.myCstr(ddlCurrencyType.SelectedItem), "Functional Currency") = CompairStringResult.Equal Then
+            VarID += "_FC"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlCurrencyType.SelectedItem), "Vendor Currency") = CompairStringResult.Equal Then
+            VarID += "_VC"
+        End If
+        If clsCommon.CompairString(ddlAgedPayble.Text, "Aged Payble by Due Date") = CompairStringResult.Equal Then
+            VarID += "_AD"
+        ElseIf clsCommon.CompairString(ddlAgedPayble.Text, "Aged Payble by Document Date") = CompairStringResult.Equal Then
+            VarID += "_DD"
+        ElseIf clsCommon.CompairString(ddlAgedPayble.Text, "Aged Payble by Vendor Invoice Date") = CompairStringResult.Equal Then
+            VarID += "_VI"
+        ElseIf clsCommon.CompairString(ddlAgedPayble.Text, "Aged Payble By Vendor Invoice Due Date") = CompairStringResult.Equal Then
+            VarID += "_ID"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub

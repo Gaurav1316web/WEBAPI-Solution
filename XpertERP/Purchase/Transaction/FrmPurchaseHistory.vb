@@ -499,10 +499,21 @@ Public Class FrmPurchaseHistory
         Try
             PageSetupReport_ID = Me.Form_ID & newgv1.Name & Microsoft.VisualBasic.Left(cmbType.SelectedIndex, 3)
             TemplateGridview = newgv1
+            GetReportID()
             fillGridReport(dtpfromdate.Value, dtptodate.Value, fndSrcCode.Value)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(cmbType.SelectedItem.Text, "item") = CompairStringResult.Equal Then
+            VarID += "_I"
+        ElseIf clsCommon.CompairString(cmbType.SelectedItem.Text, "Vendor") = CompairStringResult.Equal Then
+            VarID += "_V"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click

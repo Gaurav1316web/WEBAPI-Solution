@@ -7,7 +7,14 @@ Imports Telerik.WinControls.UI.Export
 
 Public Class FrmProductionAndSaleReport
     Inherits FrmMainTranScreen
-
+    Dim Slot1FD As DateTime = Nothing
+    Dim Slot1TD As DateTime = Nothing
+    Dim Slot2FD As DateTime = Nothing
+    Dim Slot2TD As DateTime = Nothing
+    Dim Slot3FD As DateTime = Nothing
+    Dim Slot3TD As DateTime = Nothing
+    Dim Slot4FD As DateTime = Nothing
+    Dim Slot4TD As DateTime = Nothing
 #Region "Variables"
     Dim buttontooltip As ToolTip = New ToolTip()
     Dim DayCount As Int16 = 0
@@ -913,5 +920,24 @@ Public Class FrmProductionAndSaleReport
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+    Private Sub fromDate_ValueChanged(sender As Object, e As EventArgs) Handles fromDate.ValueChanged
+        Dim slotCount As Integer = 0
+        Dim selectedMonth As Integer = fromDate.Value.Month
+        Dim selectedYear As Integer = fromDate.Value.Year
+        Dim currentDate As New DateTime(selectedYear, selectedMonth, 1)
+        Slot1FD = clsCommon.GetPrintDate(currentDate, "dd/MMM/yyyy")
+        Slot1TD = clsCommon.GetPrintDate(currentDate.AddDays(8), "dd/MMM/yyyy")
+        slotCount += 1
+        Slot2FD = clsCommon.GetPrintDate(currentDate.AddDays(9), "dd/MMM/yyyy")
+        Slot2TD = clsCommon.GetPrintDate(currentDate.AddDays(15), "dd/MMM/yyyy")
+        slotCount += 1
+        Slot3FD = clsCommon.GetPrintDate(currentDate.AddDays(16), "dd/MMM/yyyy")
+        Slot3TD = clsCommon.GetPrintDate(currentDate.AddDays(23), "dd/MMM/yyyy")
+        slotCount += 1
+        Slot4FD = clsCommon.GetPrintDate(currentDate.AddDays(24), "dd/MMM/yyyy")
+        'Slot4TD = clsCommon.GetPrintDate(currentDate.AddDays(24), "dd/MMM/yyyy")
+        toDate.Value = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+        slotCount += 1
     End Sub
 End Class

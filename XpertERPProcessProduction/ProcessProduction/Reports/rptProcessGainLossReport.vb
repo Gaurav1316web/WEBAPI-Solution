@@ -54,6 +54,7 @@ Public Class rptProcessGainLossReport
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
 
             PageSetupReport_ID = MyBase.Form_ID + IIf(rdbSummary.Checked = True, "S", "D")
             TemplateGridview = Gv1
@@ -63,44 +64,44 @@ Public Class rptProcessGainLossReport
             Dim whre As String = ""
 
 
-            BaseQry = "  select TSPL_INVENTORY_SOURCE_CODE.Name as [Trans Name],InOut,Location_Code as [Location Code],Item_Code as [Item Code],Item_Desc as [Item Desc],Qty AS Qty,UOM , " & _
-                      "  Source_Doc_No as [Source Doc No],convert(date,Source_Doc_Date,103) as [Source Doc Date],Entry_Date as [Entry Date] ,  " & _
-                      "  cast(case when Basic_Cost=0 then ((case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end)/ (case when Qty=0 then 1 else Qty end) ) else  (case when InOut='O' THEN (-1 * Basic_Cost) ELSE Basic_Cost end) end as  decimal(16,2)) as [Basic Cost]  , " & _
-                      "  cast((case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end)/ (case when Stock_Qty=0 then 1 else Stock_Qty end) as  decimal(16,2)) as [Stock Cost],  " & _
-                      "  tspl_inventory_movement.Created_By as [Created By],tspl_inventory_movement.Comp_Code as [Comp Code],ItemType as [Item Type], " & _
-                      "  convert(date,Punching_Date,103) as [Punching Date],MRP,Batch_No as [Batch No] ,MFG_Date as [MFG Date],Expiry_Date as [Expiry Date],  " & _
-                      "  (case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end) AS [Avg Cost],Posting_Date as [Posting Date],  " & _
-                      "  Stock_UOM as [Stock UOM],(case when InOut='O' THEN (-1 * Stock_Qty) ELSE Stock_Qty end) as [Stock Qty],Item_Status as [Item Status],Assmbly_Status as [Assmbly Status],Fat_Per as [Fat %],SNF_Per as [SNF %],(case when InOut='O' THEN (-1 * Fat_KG) ELSE Fat_KG end) as[Fat KG],  " & _
-                      "  (case when InOut='O' THEN (-1 * SNF_KG) ELSE SNF_KG end) as [SNF KG] ,'' as [Main Location],  " & _
-                      "  IS_CONSUMPTION,Cust_Code as [Customer Code] ,Cust_Name as [Customer Name],Vendor_Code as [Vendor Code],Vendor_Name as [Vendor Name],Other_Location_Code as [Other Location Code],Other_Location_Desc as [Other Location Desc],convert(decimal(18,2),Fat_Rate) as [Fat Rate],convert(decimal(18,2),SNF_Rate) as [SNF Rate],(case when InOut='O' THEN (-1 * Fat_Amt) ELSE Fat_Amt end) as [Fat Amt],(case when InOut='O' THEN (-1 * SNF_Amt) ELSE SNF_Amt end) as [SNF Amt], " & _
-                      "  0 as [Standard Qty],0 as SYNC_STATUS  " & _
-                      "  from tspl_inventory_movement  left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=tspl_inventory_movement.Trans_Type " & _
-                      "  where Trans_Type in ('PROD_ENTRY','Disassembly') and convert(date,Source_Doc_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' AND convert(date,Source_Doc_Date,103) <='" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "'  " & _
-                      "  union all " & _
-                      "  select TSPL_INVENTORY_SOURCE_CODE.Name as [Trans Name],tspl_inventory_movement_new.InOut,Location_Code as [Location Code] ,Item_Code as [Item Code],Item_Desc as [Item Desc],Qty as Qty,UOM," & _
-                      "  Source_Doc_No as [Source Doc No],convert(date,Source_Doc_Date,103) as [Source Doc Date],Entry_Date as [Entry Date] , " & _
-                      "  cast(case when Basic_Cost=0 then ((case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end)/ (case when Qty=0 then 1 else Qty end) ) else  (case when InOut='O' THEN (-1 * Basic_Cost) ELSE Basic_Cost end) end as  decimal(16,2)) as [Basic Cost]  , " & _
-                      "  cast((case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end)/ (case when Stock_Qty=0 then 1 else Stock_Qty end) as  decimal(16,2)) as [Stock Cost]  ,  " & _
-                      "  tspl_inventory_movement_new.Created_By as [Created By],tspl_inventory_movement_new.Comp_Code as [Comp Code] ,ItemType as [Item Type],  " & _
-                      "  convert(date,Punching_Date,103) as [Punching Date],MRP,Batch_No  as [Batch No],MFG_Date as [MFG Date],Expiry_Date as [Expiry Date] , " & _
-                      "  (case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end) as [Avg Cost] ,Posting_Date as [Posting Date], " & _
-                      "  Stock_UOM as [Stock UOM],(case when InOut='O' THEN (-1 * Stock_Qty) ELSE Stock_Qty end) as [Stock Qty] ,Item_Status as [Item Status],Assmbly_Status as [Assmbly Status],Fat_Per as [Fat %],SNF_Per as [SNF %],(case when InOut='O' THEN (-1 * Fat_KG) ELSE Fat_KG end) as [Fat KG]," & _
-                      "  (case when InOut='O' THEN (-1 * SNF_KG) ELSE SNF_KG end) as [SNF KG], main_location as [Main Location]," & _
-                      "  IS_CONSUMPTION,Cust_Code as [Customer Code],Cust_Name as [Customer Name],Vendor_Code as [Vendor Code],Vendor_Name as [Vendor Name],Other_Location_Code as [Other Location Code],Other_Location_Desc as [Other Location Desc],convert(decimal(18,2),Fat_Rate) as [Fat Rate] ,convert(decimal(18,2),SNF_Rate) as [SNF Rate],(case when InOut='O' THEN (-1 * Fat_Amt) ELSE Fat_Amt end) as [Fat Amt],(case when InOut='O' THEN (-1 * SNF_Amt) ELSE SNF_Amt end) as [SNF Amt], " & _
-                      "  (case when InOut='O' THEN (-1 * Std_Qty) ELSE Std_Qty end) as [Standard Qty],SYNC_STATUS  " & _
-                      "  from tspl_inventory_movement_new left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type " & _
+            BaseQry = "  select TSPL_INVENTORY_SOURCE_CODE.Name as [Trans Name],InOut,Location_Code as [Location Code],Item_Code as [Item Code],Item_Desc as [Item Desc],Qty AS Qty,UOM , " &
+                      "  Source_Doc_No as [Source Doc No],convert(date,Source_Doc_Date,103) as [Source Doc Date],Entry_Date as [Entry Date] ,  " &
+                      "  cast(case when Basic_Cost=0 then ((case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end)/ (case when Qty=0 then 1 else Qty end) ) else  (case when InOut='O' THEN (-1 * Basic_Cost) ELSE Basic_Cost end) end as  decimal(16,2)) as [Basic Cost]  , " &
+                      "  cast((case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end)/ (case when Stock_Qty=0 then 1 else Stock_Qty end) as  decimal(16,2)) as [Stock Cost],  " &
+                      "  tspl_inventory_movement.Created_By as [Created By],tspl_inventory_movement.Comp_Code as [Comp Code],ItemType as [Item Type], " &
+                      "  convert(date,Punching_Date,103) as [Punching Date],MRP,Batch_No as [Batch No] ,MFG_Date as [MFG Date],Expiry_Date as [Expiry Date],  " &
+                      "  (case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end) AS [Avg Cost],Posting_Date as [Posting Date],  " &
+                      "  Stock_UOM as [Stock UOM],(case when InOut='O' THEN (-1 * Stock_Qty) ELSE Stock_Qty end) as [Stock Qty],Item_Status as [Item Status],Assmbly_Status as [Assmbly Status],Fat_Per as [Fat %],SNF_Per as [SNF %],(case when InOut='O' THEN (-1 * Fat_KG) ELSE Fat_KG end) as[Fat KG],  " &
+                      "  (case when InOut='O' THEN (-1 * SNF_KG) ELSE SNF_KG end) as [SNF KG] ,'' as [Main Location],  " &
+                      "  IS_CONSUMPTION,Cust_Code as [Customer Code] ,Cust_Name as [Customer Name],Vendor_Code as [Vendor Code],Vendor_Name as [Vendor Name],Other_Location_Code as [Other Location Code],Other_Location_Desc as [Other Location Desc],convert(decimal(18,2),Fat_Rate) as [Fat Rate],convert(decimal(18,2),SNF_Rate) as [SNF Rate],(case when InOut='O' THEN (-1 * Fat_Amt) ELSE Fat_Amt end) as [Fat Amt],(case when InOut='O' THEN (-1 * SNF_Amt) ELSE SNF_Amt end) as [SNF Amt], " &
+                      "  0 as [Standard Qty],0 as SYNC_STATUS  " &
+                      "  from tspl_inventory_movement  left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=tspl_inventory_movement.Trans_Type " &
+                      "  where Trans_Type in ('PROD_ENTRY','Disassembly') and convert(date,Source_Doc_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' AND convert(date,Source_Doc_Date,103) <='" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "'  " &
+                      "  union all " &
+                      "  select TSPL_INVENTORY_SOURCE_CODE.Name as [Trans Name],tspl_inventory_movement_new.InOut,Location_Code as [Location Code] ,Item_Code as [Item Code],Item_Desc as [Item Desc],Qty as Qty,UOM," &
+                      "  Source_Doc_No as [Source Doc No],convert(date,Source_Doc_Date,103) as [Source Doc Date],Entry_Date as [Entry Date] , " &
+                      "  cast(case when Basic_Cost=0 then ((case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end)/ (case when Qty=0 then 1 else Qty end) ) else  (case when InOut='O' THEN (-1 * Basic_Cost) ELSE Basic_Cost end) end as  decimal(16,2)) as [Basic Cost]  , " &
+                      "  cast((case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end)/ (case when Stock_Qty=0 then 1 else Stock_Qty end) as  decimal(16,2)) as [Stock Cost]  ,  " &
+                      "  tspl_inventory_movement_new.Created_By as [Created By],tspl_inventory_movement_new.Comp_Code as [Comp Code] ,ItemType as [Item Type],  " &
+                      "  convert(date,Punching_Date,103) as [Punching Date],MRP,Batch_No  as [Batch No],MFG_Date as [MFG Date],Expiry_Date as [Expiry Date] , " &
+                      "  (case when InOut='O' THEN (-1 * Avg_Cost) ELSE Avg_Cost end) as [Avg Cost] ,Posting_Date as [Posting Date], " &
+                      "  Stock_UOM as [Stock UOM],(case when InOut='O' THEN (-1 * Stock_Qty) ELSE Stock_Qty end) as [Stock Qty] ,Item_Status as [Item Status],Assmbly_Status as [Assmbly Status],Fat_Per as [Fat %],SNF_Per as [SNF %],(case when InOut='O' THEN (-1 * Fat_KG) ELSE Fat_KG end) as [Fat KG]," &
+                      "  (case when InOut='O' THEN (-1 * SNF_KG) ELSE SNF_KG end) as [SNF KG], main_location as [Main Location]," &
+                      "  IS_CONSUMPTION,Cust_Code as [Customer Code],Cust_Name as [Customer Name],Vendor_Code as [Vendor Code],Vendor_Name as [Vendor Name],Other_Location_Code as [Other Location Code],Other_Location_Desc as [Other Location Desc],convert(decimal(18,2),Fat_Rate) as [Fat Rate] ,convert(decimal(18,2),SNF_Rate) as [SNF Rate],(case when InOut='O' THEN (-1 * Fat_Amt) ELSE Fat_Amt end) as [Fat Amt],(case when InOut='O' THEN (-1 * SNF_Amt) ELSE SNF_Amt end) as [SNF Amt], " &
+                      "  (case when InOut='O' THEN (-1 * Std_Qty) ELSE Std_Qty end) as [Standard Qty],SYNC_STATUS  " &
+                      "  from tspl_inventory_movement_new left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type " &
                       "  where Trans_Type in ('PROD_ENTRY','Disassembly') and convert(date,Source_Doc_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' AND convert(date,Source_Doc_Date,103) <='" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "'   "
 
 
-            qry = " select Final.[Trans Name] as [Document Type], Final.[Source Doc No] as [Document No],convert (varchar, Final.[Source Doc Date],103) as [Document Date],Final.[Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Desc], Final.[Item Code] , Final.[Item Desc],Final.UOM ,Final.Qty, case when final.InOut = 'I' then  Final.[Avg Cost] end as [Debit amount],case when final.InOut = 'O' then  Final.[Avg Cost] * (-1) end as [Credit amount] from ( " & _
-                  " " + BaseQry + " " & _
+            qry = " select Final.[Trans Name] as [Document Type], Final.[Source Doc No] as [Document No],convert (varchar, Final.[Source Doc Date],103) as [Document Date],Final.[Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Desc], Final.[Item Code] , Final.[Item Desc],Final.UOM ,Final.Qty, case when final.InOut = 'I' then  Final.[Avg Cost] end as [Debit amount],case when final.InOut = 'O' then  Final.[Avg Cost] * (-1) end as [Credit amount] from ( " &
+                  " " + BaseQry + " " &
                   " ) Final left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = Final.[Location Code] "
             If rdbDetails.Checked = True Then
                 qry = qry + " order by  Final.[Source Doc No] "
             End If
             If rdbSummary.Checked Then
-                qry = " select max(SummaryFinal.[Document Type]) as [Document Type], SummaryFinal.[Document No]  ,max( SummaryFinal.[Document Date]) as [Document Date],Sum ( SummaryFinal.[Debit amount]) as [Debit amount] ,sum (SummaryFinal.[Credit amount]) as [Credit amount],( Sum ( SummaryFinal.[Debit amount]) - sum (SummaryFinal.[Credit amount]) ) as [Process Gain/Loss] from (  " & _
-                       " " + qry + " " & _
+                qry = " select max(SummaryFinal.[Document Type]) as [Document Type], SummaryFinal.[Document No]  ,max( SummaryFinal.[Document Date]) as [Document Date],Sum ( SummaryFinal.[Debit amount]) as [Debit amount] ,sum (SummaryFinal.[Credit amount]) as [Credit amount],( Sum ( SummaryFinal.[Debit amount]) - sum (SummaryFinal.[Credit amount]) ) as [Process Gain/Loss] from (  " &
+                       " " + qry + " " &
                        " ) SummaryFinal group by [Document No] order by  SummaryFinal.[Document No] "
 
             End If
@@ -142,7 +143,17 @@ Public Class rptProcessGainLossReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSummary.Checked = True Then
+            VarID += "_SU"
+        Else
+            rdbDetails.Checked = True
+            VarID += "_DE"
+        End If
 
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub

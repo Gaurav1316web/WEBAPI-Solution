@@ -1870,6 +1870,7 @@ and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
     End Sub
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         blnRefresh = True
         GC.Collect()
         If clsCommon.CompairString(ddlCurrencyType.SelectedValue, "1") = CompairStringResult.Equal Then
@@ -1880,6 +1881,74 @@ and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
         RestoreGridSummaryRow()
         ReportID = GetReportID()
         PageSetupReport_ID = GetReportID()
+    End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(clsCommon.myCstr(ddlCurrencyType.SelectedItem), "Functional Currency") = CompairStringResult.Equal Then
+            VarID += "_FC"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlCurrencyType.SelectedItem), "Vendor Currency") = CompairStringResult.Equal Then
+            VarID += "_VC"
+        End If
+
+        If chkExcludeOpening.Checked = True Then
+            VarID += "_EO"
+        End If
+        If chkTurnOver.Checked = True Then
+            VarID += "_TO"
+        End If
+        If chkIncludeApplyDocument.Checked = True Then
+            VarID += "_IA"
+        End If
+
+        If chkAgainstSalaryAdvance.Checked = True Then
+            VarID += "_AS"
+        End If
+        If chkTravel.Checked = True Then
+            VarID += "_TR"
+        End If
+        If chkAdvanceTravel.Checked = True Then
+            VarID += "_AT"
+        End If
+        If chkImprest.Checked = True Then
+            VarID += "_IM"
+        End If
+        If chkAdvanceImprest.Checked = True Then
+            VarID += "_AI"
+        End If
+        If chkTADA.Checked = True Then
+            VarID += "_TA"
+        End If
+        If chkSalary.Checked = True Then
+            VarID += "_SA"
+        End If
+
+        If chkVendorGrupWise.IsChecked = True Then
+            VarID += "_VG"
+        End If
+        gvVendorGroup.VarID = VarID
+
+        VarID = ""
+
+        If chkVendorWise.IsChecked = True Then
+            VarID += "_VW"
+        End If
+        gvVendor.VarID = VarID
+
+        VarID = ""
+        If chkNone.IsChecked = True Then
+            VarID += "_NO"
+        ElseIf rbntDocWiseMerge.IsChecked = True Then
+            VarID += "_DW"
+        ElseIf rbtnDocWise.IsChecked = True Then
+            VarID += "_NW"
+        End If
+        If chkSalary.Checked = True Then
+            VarID += "_SA"
+        End If
+
+
+        gv.VarID = VarID
+
     End Sub
     Sub PrintForVendorCurrency(Optional ByVal BulkExport As Integer = 0)
         Dim IsPDCCheque As String = ""
@@ -3247,6 +3316,7 @@ and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
             RadMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
+
 End Class
 
 

@@ -289,7 +289,18 @@ Public Class frmBankSummary_Report
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = Gv1
+        GetReportID()
         PrintData(False)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnPM.IsChecked Then
+            VarID += "_P"
+        ElseIf rbtnBankwise.isChecked Then
+            VarID += "_B"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)

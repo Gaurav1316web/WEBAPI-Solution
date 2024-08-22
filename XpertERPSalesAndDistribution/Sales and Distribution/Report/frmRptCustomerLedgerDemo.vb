@@ -730,7 +730,7 @@ Public Class FrmRptCustomerLedgerDemo
                         ",CTETemp.Receipt_Type,CTETemp.Cust_Type_Code ,CTETemp.Cust_Type_Desc ,CTETemp.Cust_Category_Code ,CTETemp.CUST_CATEGORY_DESC ,CTETemp.Voucher_No As [JE No],CTETemp.JEAccount_Code  AS [JE Account],CTETemp.JEAmount  AS [JE Amount],CTETemp.BalAmt - CTETemp.JEAmount AS DiffAmt   " + Environment.NewLine &
                         "  ,case when CTETemp.DocType='Adjustment' then 'Adjustment' when CTETemp.DocType='IM' then 'Apply Document' when CTETemp.DocType='CR' then 'Credit Note' when CTETemp.DocType='DR' then 'Debit Note' when CTETemp.DocType='IN' then 'Invoice' when CTETemp.DocType='OA' then 'On Account' when CTETemp.DocType='PR' then 'Advance' when CTETemp.DocType='RC' then 'Receipt' " &
                         " when CTETemp.DocType='RF' then 'Refund' when CTETemp.DocType='RV-TA' then 'Bank Reverse' when CTETemp.DocType='UA' then 'Unapplied' when CTETemp.DocType='KN' then 'Knock Off' else CTETemp.DocType end as DocumentType " &
-                        " from CTETemp where CTETemp.ACode in (" & strcustomerfilter & ") ORDER BY CTETemp.ACode,  CTETemp.RowNo"
+                        " from CTETemp where CTETemp.ACode in ('" & strcustomerfilter & "') ORDER BY CTETemp.ACode,  CTETemp.RowNo"
                     End If
                 End If
 
@@ -1934,6 +1934,7 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
     End Sub
 
     Private Sub refresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles refreshbtn.Click
+        GetReportGridID()
         btnrefresh = True
         dtMain = Nothing
         dtCustGrp = Nothing
@@ -1955,7 +1956,32 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
         ReportID = GetReportID()
         PageSetupReport_ID = GetReportID()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
 
+        If rbtnCustGroupWise.Checked = True Then
+            VarID += "_CG"
+        ElseIf rbtnCustGroupWiseDrCr.Checked = True Then
+            VarID += "_CD"
+        ElseIf rbtnCustomerCategory.Checked = True Then
+            VarID += "_CC"
+        ElseIf rbtnCustomerType.Checked = True Then
+            VarID += "_CT"
+        End If
+        gvCustomerGroup.VarID = VarID
+        VarID = ""
+        If rbtnCustWise.Checked = True Then
+            VarID += "_CW"
+        ElseIf rbtnCustWiseDrCr.Checked = True Then
+            VarID += "_CN"
+        End If
+        gvCustomer.VarID = VarID
+        VarID = ""
+        If rbtnNone.Checked = True Then
+            VarID += "_NN"
+        End If
+        gvDetails.VarID = VarID
+    End Sub
     Sub PrintForCustomerCurrency(Optional ByVal BulkExport As Integer = 0)
         Dim CompanyAdd As String = ""
         Dim compname As String = ""

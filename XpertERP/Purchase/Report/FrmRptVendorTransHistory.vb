@@ -461,11 +461,22 @@ Public Class FrmRptVendorTransHistory
     End Sub
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         blnRefresh = True
         PageSetupReport_ID = GetReport_id()
         TemplateGridview = gv
         Print()
         blnRefresh = False
+    End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnDocWise.Checked = True Then
+            VarID += "_D"
+        Else rbtnVenWise.Checked = True
+            VarID += "_V"
+        End If
+        gv.VarID = VarID
+
     End Sub
 
     Private Function GetReport_id()

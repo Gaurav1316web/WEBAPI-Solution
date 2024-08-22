@@ -718,8 +718,7 @@ Partial Class frmSRN
         Me.Grndate.Size = New System.Drawing.Size(152, 18)
         Me.Grndate.TabIndex = 359
         Me.Grndate.TabStop = False
-        Me.Grndate.Text = "13/06/2011 11:29 AM"
-        Me.Grndate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.Grndate.Value = New Date(1753, 1, 1, 0, 0, 0, 0)
         '
         'RadLabel4
         '
@@ -1062,6 +1061,7 @@ Partial Class frmSRN
         Me.gvRGP.Size = New System.Drawing.Size(1086, 66)
         Me.gvRGP.TabIndex = 0
         Me.gvRGP.TabStop = False
+        Me.gvRGP.VarID = ""
         '
         'RadGroupBox2
         '
@@ -1101,6 +1101,7 @@ Partial Class frmSRN
         Me.gv1.Size = New System.Drawing.Size(1086, 48)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'lblDocAmount
         '
@@ -2170,6 +2171,7 @@ Partial Class frmSRN
         Me.gv_c_form.ShowHeaderCellButtons = True
         Me.gv_c_form.Size = New System.Drawing.Size(426, 167)
         Me.gv_c_form.TabIndex = 0
+        Me.gv_c_form.VarID = ""
         '
         'chk_c_form
         '
@@ -2211,6 +2213,7 @@ Partial Class frmSRN
         Me.gv_roadpermit.ShowHeaderCellButtons = True
         Me.gv_roadpermit.Size = New System.Drawing.Size(426, 167)
         Me.gv_roadpermit.TabIndex = 0
+        Me.gv_roadpermit.VarID = ""
         '
         'Chkroadpermit
         '
@@ -2599,6 +2602,7 @@ Partial Class frmSRN
         Me.gv2.Size = New System.Drawing.Size(1100, 352)
         Me.gv2.TabIndex = 6
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -2662,6 +2666,7 @@ Partial Class frmSRN
         Me.gvAC.Size = New System.Drawing.Size(588, 453)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
+        Me.gvAC.VarID = ""
         '
         'Panel2
         '
@@ -2733,6 +2738,7 @@ Partial Class frmSRN
         Me.gvACInsurance.Size = New System.Drawing.Size(501, 448)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
+        Me.gvACInsurance.VarID = ""
         '
         'RadPanel2
         '
