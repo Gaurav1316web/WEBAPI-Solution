@@ -6572,6 +6572,7 @@ Public Class clsCreateAllTable
             coll.Add("Closing_Date", "Datetime null")
             coll.Add("IsTransfer", "int not null default 0")
             coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
+            coll.Add("AgainstDocumentCode", "Varchar(200) null")
             coll.Add("ShiftType", "varchar(20) NULL")
             coll.Add("Loading_Slip", "varchar(20) NULL")
             coll.Add("GatePass_Date", "datetime NULL")
