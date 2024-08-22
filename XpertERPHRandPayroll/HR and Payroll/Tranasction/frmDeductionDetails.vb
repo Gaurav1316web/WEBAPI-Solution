@@ -328,6 +328,23 @@ Public Class frmDeductionDetails
         End If
 
         Dim ii As Int16 = 0
+        Dim dtEmp As DataTable = Nothing
+        Dim StrQry As String = "select TSPL_DEDUCTION_DETAIL.EMP_CODE from TSPL_DEDUCTION_DETAIL
+                                left outer join TSPL_DEDUCTION on TSPL_DEDUCTION.DEDUCTION_CODE=TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE where PAY_PERIOD_CODE='" + findPayperiod.Value + "' "
+        dtEmp = clsDBFuncationality.GetDataTable(StrQry)
+        If dtEmp.Rows.Count > 0 AndAlso dtEmp.Columns.Contains("EMP_CODE") Then
+            For Each grow As GridViewRowInfo In gvDeduction.Rows
+                For Each row As DataRow In dtEmp.Rows
+                    If clsCommon.myCdbl(grow.Cells(colDeductionAmount).Value) > 0 Then
+                        If clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colempCode).Value), row("EMP_CODE")) = CompairStringResult.Equal Then
+                            clsCommon.MyMessageBoxShow(Me, " Payhead already exist  " + clsCommon.myCstr(findPayperiod.Value) + " " + "in this pay period", Me.Text)
+                            Return False
+                        End If
+                    End If
+                Next
+            Next
+        End If
+
         For Each grow As GridViewRowInfo In gvDeduction.Rows
             If clsCommon.myCBool(grow.Cells(colCheck).Value) = True Then
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colempCode).Value)) <= 0 Then

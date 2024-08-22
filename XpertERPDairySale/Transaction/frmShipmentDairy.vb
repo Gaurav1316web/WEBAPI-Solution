@@ -7755,7 +7755,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
         Catch ex As Exception
             If blnReverse = False Then
                 If ChekPostBtn = False Then
-                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    Throw New Exception(ex.Message)
                 Else
                     Throw New Exception(ex.Message)
                 End If

@@ -535,6 +535,7 @@ Public Class rpttotalMilkProcurement
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         If chkSummarywise.Checked = True Then
             PageSetupReport_ID = MyBase.Form_ID
             TemplateGridview = gv
@@ -549,7 +550,20 @@ Public Class rpttotalMilkProcurement
             Load_Report()
         End If
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkSummarywise.Checked = True Then
+            VarID = "_SW"
+        ElseIf ChkDetailWise.Checked = True Then
+            VarID = "_DW"
+        End If
+        'If clsCommon.CompairString(ddlUOM.SelectedValue, "LTR") = CompairStringResult.Equal Then
+        '    VarID = "_LT"
+        'ElseIf clsCommon.CompairString(ddlUOM.SelectedValue, "KG") = CompairStringResult.Equal Then
+        '    VarID = "_KG"
+        'End If
+        gv.VarID = VarID
+    End Sub
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
         Reset()
     End Sub

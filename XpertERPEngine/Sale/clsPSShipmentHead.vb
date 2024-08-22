@@ -714,7 +714,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Terms_Code", obj.Terms_Code)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Carrier", obj.Carrier)
             clsCommon.AddColumnsForChange(coll, "VehicleNo", obj.VehicleNo)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
@@ -902,7 +902,7 @@ Public Class clsPSShipmentHead
                 End If
                 clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_HEAD", OMInsertOrUpdate.Insert, "", trans)
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SHIPMENT_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
@@ -1987,7 +1987,7 @@ Public Class clsPSShipmentHead
 
             CreateJournalEntry(obj.Document_Code, trans, strDispatchVoucherNo, IsDairyModule)
 
-            qry = "Update TSPL_SD_SHIPMENT_HEAD set  Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "'"
+            qry = "Update TSPL_SD_SHIPMENT_HEAD set  Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "'"
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             ''Invoice Should create after post of Shipment.

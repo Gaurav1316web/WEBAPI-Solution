@@ -1984,7 +1984,7 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.from_date,103) as from_date
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.to_date,103) as to_date"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                sQuery += ",(Select SUM(case when TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No='' then (ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, 0) - ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount, 0))end)
+                sQuery += ",(Select SUM(case when TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code='99' then (ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, 0) - ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount, 0))end)
 					From TSPL_PAYMENT_PROCESS_DETAIL Where Doc_No In (" + strDocNo + "))AS TotalOutStandingAmt "
             End If
 
@@ -2038,12 +2038,12 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                 sQuery = " select QBD,sum( Qty) as Qty, CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(FATQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) END AS FATPer,
                            CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(SNFQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) End as SNFPer, "
 
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    sQuery += " sum(isnull(SRN_NET_AMOUNT,0)) AS Amt,round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG "
-                Else
-                    sQuery += " sum(isnull(SRN_NET_AMOUNT,0))+(sum(isnull(PPSRN_RO_Amount,0))*-1) AS Amt,round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG "
-                End If
-                If AreaWiseBilling = True Then
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                '    sQuery += " sum(isnull(SRN_NET_AMOUNT,0)) AS Amt,round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG "
+                'Else
+                sQuery += " sum(isnull(SRN_NET_AMOUNT,0))+(sum(isnull(PPSRN_RO_Amount,0))*-1) AS Amt,round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG "
+                    'End If
+                    If AreaWiseBilling = True Then
                     sQuery += " ,MAX(Location_Desc)Area "
                 End If
                 sQuery += " from ( " + BaseQty + " ) XXXX group by QBD "
@@ -2066,12 +2066,12 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
             sQuery = " select CowBuffalo_Type,sum( Qty) as Qty,  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(FATQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) END AS FATPer,
                            CASE WHEN SUM(Qty) = 0 THEN 0 ELSE CAST(SUM(SNFQTY) * 100 / SUM(Qty) AS DECIMAL(18,2)) End as SNFPer, "
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                sQuery += " sum(SRN_NET_AMOUNT) As Amt, "
-            Else
-                sQuery += " sum(SRN_NET_AMOUNT)+(sum(PPSRN_RO_Amount)*-1) As Amt, "
-            End If
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+            '    sQuery += " sum(SRN_NET_AMOUNT) As Amt, "
+            'Else
+            sQuery += " sum(SRN_NET_AMOUNT)+(sum(PPSRN_RO_Amount)*-1) As Amt, "
+                'End If
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
                 sQuery += " (sum (FATQTY))  As FATKG,(sum (SNFQTY)) As SNFKG "
             Else
                 sQuery += " round(sum (FATQTY),2,1)  As FATKG,round(sum (SNFQTY),2,1) As SNFKG  "

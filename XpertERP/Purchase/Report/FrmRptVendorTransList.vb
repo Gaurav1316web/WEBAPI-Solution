@@ -617,6 +617,7 @@ Public Class FrmRptVendorTransList
     End Sub
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         If ChkSummary.Checked = False AndAlso rbtnVenWise.Checked = True Then
             clsCommon.MyMessageBoxShow(Me, "Please tick Summary option with Customer wise option", Me.Text)
             Exit Sub
@@ -627,7 +628,20 @@ Public Class FrmRptVendorTransList
         Print()
         blnRefresh = False
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(ddlDocType.SelectedIndex, "0") = CompairStringResult.Equal Then
+            VarID += "_AL"
+        ElseIf clsCommon.CompairString(ddlDocType.SelectedIndex, "1") = CompairStringResult.Equal Then
+            VarID += "_AD"
+        ElseIf clsCommon.CompairString(ddlDocType.SelectedIndex, "2") = CompairStringResult.Equal Then
+            VarID += "_AC"
+        ElseIf clsCommon.CompairString(ddlDocType.SelectedIndex, "3") = CompairStringResult.Equal Then
+            VarID += "_DN"
+        End If
+        gv.VarID = VarID
 
+    End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Print()

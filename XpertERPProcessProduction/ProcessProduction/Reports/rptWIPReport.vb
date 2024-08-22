@@ -620,11 +620,28 @@ Public Class RptWIPReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = GetReportId()
         TemplateGridview = gv1
         loadReport()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnSummary.IsChecked = True Then
+            VarID += "_SU"
+        Else
+            rbtnDetail.IsChecked = True
+            VarID += "_DE"
+        End If
+        If clsCommon.CompairString(cboReportType.SelectedValue, "I") = CompairStringResult.Equal Then ''Item wise
+            VarID += "_IW"
+        ElseIf clsCommon.CompairString(cboReportType.SelectedValue, "P") = CompairStringResult.Equal Then ''Date Wise
+            VarID += "_DW"
+        ElseIf clsCommon.CompairString(cboReportType.SelectedValue, "S") = CompairStringResult.Equal Then ''Section Wise
+            VarID += "_SW"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
         Reset()
     End Sub

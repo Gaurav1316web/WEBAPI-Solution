@@ -132,8 +132,21 @@ Public Class frmLeaveRegisterReport
     Private Sub btnGenrate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenrate.Click
         PageSetupReport_ID = ReportID + IIf(rbtnSummary.IsChecked = True, "S", "D")
         TemplateGridview = gv3
+        GetReportID()
         LoadData()
     End Sub
+
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf rbtnDetail.IsChecked Then
+            VarID += "_D"
+        End If
+        gv3.VarID = VarID
+    End Sub
+
     Private Sub RadMenuItemSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItemSave.Click
         If clsCommon.myLen(PageSetupReport_ID) > 0 Then
             gv3.MasterTemplate.FilterDescriptors.Clear()

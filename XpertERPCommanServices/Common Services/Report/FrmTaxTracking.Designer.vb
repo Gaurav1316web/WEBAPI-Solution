@@ -22,7 +22,9 @@ Partial Class FrmTaxTracking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ChkItemWise = New System.Windows.Forms.CheckBox()
         Me.chkTransfer = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cgvState = New common.MyCheckBoxGrid()
@@ -74,7 +76,6 @@ Partial Class FrmTaxTracking
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.ChkItemWise = New System.Windows.Forms.CheckBox()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -151,6 +152,16 @@ Partial Class FrmTaxTracking
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(943, 538)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'ChkItemWise
+        '
+        Me.ChkItemWise.AutoSize = True
+        Me.ChkItemWise.Location = New System.Drawing.Point(494, 32)
+        Me.ChkItemWise.Name = "ChkItemWise"
+        Me.ChkItemWise.Size = New System.Drawing.Size(76, 17)
+        Me.ChkItemWise.TabIndex = 340
+        Me.ChkItemWise.Text = "Item Wise"
+        Me.ChkItemWise.UseVisualStyleBackColor = True
         '
         'chkTransfer
         '
@@ -278,7 +289,7 @@ Partial Class FrmTaxTracking
         Me.ChkVendorInvoice.AutoSize = True
         Me.ChkVendorInvoice.Location = New System.Drawing.Point(385, 35)
         Me.ChkVendorInvoice.Name = "ChkVendorInvoice"
-        Me.ChkVendorInvoice.Size = New System.Drawing.Size(103, 17)
+        Me.ChkVendorInvoice.Size = New System.Drawing.Size(102, 17)
         Me.ChkVendorInvoice.TabIndex = 332
         Me.ChkVendorInvoice.Text = "Vendor Invoice"
         Me.ChkVendorInvoice.UseVisualStyleBackColor = True
@@ -642,7 +653,6 @@ Partial Class FrmTaxTracking
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(964, 586)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -679,13 +689,16 @@ Partial Class FrmTaxTracking
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.AllowEditRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(943, 373)
         Me.gv.TabIndex = 324
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'btnExport
         '
@@ -699,15 +712,11 @@ Partial Class FrmTaxTracking
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -718,39 +727,22 @@ Partial Class FrmTaxTracking
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(964, 20)
         Me.RadMenu1.TabIndex = 17
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
-        '
-        'ChkItemWise
-        '
-        Me.ChkItemWise.AutoSize = True
-        Me.ChkItemWise.Location = New System.Drawing.Point(494, 32)
-        Me.ChkItemWise.Name = "ChkItemWise"
-        Me.ChkItemWise.Size = New System.Drawing.Size(76, 17)
-        Me.ChkItemWise.TabIndex = 340
-        Me.ChkItemWise.Text = "Item Wise"
-        Me.ChkItemWise.UseVisualStyleBackColor = True
         '
         'FrmTaxTracking
         '

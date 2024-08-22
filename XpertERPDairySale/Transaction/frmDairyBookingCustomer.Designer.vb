@@ -22,21 +22,29 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkManualVehicle = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel31 = New common.Controls.MyLabel()
+        Me.lblTransporter = New common.Controls.MyLabel()
+        Me.lblVehicleNo = New common.Controls.MyLabel()
+        Me.txtManualVehicle = New common.Controls.MyTextBox()
+        Me.fndTransporter = New common.UserControls.txtFinder()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.txtDescription = New common.Controls.MyTextBox()
         Me.lblReceiverName = New common.Controls.MyLabel()
         Me.txtReceiverName = New common.Controls.MyTextBox()
         Me.lblChequeNo = New common.Controls.MyLabel()
@@ -94,9 +102,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblUnbilledMilk = New common.Controls.MyLabel()
         Me.lblUnbilledMilkAmt = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.txtSalesman1 = New common.UserControls.txtFinder()
-        Me.lblSalesmandesc1 = New common.Controls.MyLabel()
-        Me.lblsalesman1 = New common.Controls.MyLabel()
         Me.cmbcashcredit = New common.Controls.MyComboBox()
         Me.lblReceipt = New common.Controls.MyLabel()
         Me.lblCredit = New common.Controls.MyLabel()
@@ -187,6 +192,9 @@ Partial Class frmDairyBookingCustomer
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtSalesman1 = New common.UserControls.txtFinder()
+        Me.lblSalesmandesc1 = New common.Controls.MyLabel()
+        Me.lblsalesman1 = New common.Controls.MyLabel()
         Me.txtSalesman = New common.UserControls.txtFinder()
         Me.lblSalesman = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -309,6 +317,13 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReceiverName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtReceiverName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblChequeNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -365,8 +380,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblUnbilledMilk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUnbilledMilkAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSalesmandesc1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblsalesman1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbcashcredit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCredit, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -451,6 +464,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.lblSalesmandesc1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblsalesman1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBoothStation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -627,6 +642,14 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkManualVehicle)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel31)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTransporter)
+        Me.RadPageViewPage1.Controls.Add(Me.lblVehicleNo)
+        Me.RadPageViewPage1.Controls.Add(Me.txtManualVehicle)
+        Me.RadPageViewPage1.Controls.Add(Me.fndTransporter)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel20)
+        Me.RadPageViewPage1.Controls.Add(Me.txtDescription)
         Me.RadPageViewPage1.Controls.Add(Me.lblReceiverName)
         Me.RadPageViewPage1.Controls.Add(Me.txtReceiverName)
         Me.RadPageViewPage1.Controls.Add(Me.lblChequeNo)
@@ -669,9 +692,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Controls.Add(Me.lblUnbilledMilk)
         Me.RadPageViewPage1.Controls.Add(Me.lblUnbilledMilkAmt)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
-        Me.RadPageViewPage1.Controls.Add(Me.txtSalesman1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblSalesmandesc1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblsalesman1)
         Me.RadPageViewPage1.Controls.Add(Me.cmbcashcredit)
         Me.RadPageViewPage1.Controls.Add(Me.lblReceipt)
         Me.RadPageViewPage1.Controls.Add(Me.lblCredit)
@@ -706,11 +726,136 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
         '
+        'chkManualVehicle
+        '
+        Me.chkManualVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkManualVehicle.Location = New System.Drawing.Point(5, 138)
+        Me.chkManualVehicle.Name = "chkManualVehicle"
+        Me.chkManualVehicle.Size = New System.Drawing.Size(98, 16)
+        Me.chkManualVehicle.TabIndex = 1576
+        Me.chkManualVehicle.Text = "Manual Vehicle"
+        '
+        'MyLabel31
+        '
+        Me.MyLabel31.FieldName = Nothing
+        Me.MyLabel31.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel31.Location = New System.Drawing.Point(-3, 89)
+        Me.MyLabel31.Name = "MyLabel31"
+        Me.MyLabel31.Size = New System.Drawing.Size(77, 16)
+        Me.MyLabel31.TabIndex = 1575
+        Me.MyLabel31.Text = "Transporter Id"
+        '
+        'lblTransporter
+        '
+        Me.lblTransporter.AutoSize = False
+        Me.lblTransporter.BorderVisible = True
+        Me.lblTransporter.FieldName = Nothing
+        Me.lblTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTransporter.Location = New System.Drawing.Point(199, 91)
+        Me.lblTransporter.Name = "lblTransporter"
+        Me.lblTransporter.Size = New System.Drawing.Size(227, 17)
+        Me.lblTransporter.TabIndex = 1574
+        Me.lblTransporter.TextWrap = False
+        '
+        'lblVehicleNo
+        '
+        Me.lblVehicleNo.FieldName = Nothing
+        Me.lblVehicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleNo.Location = New System.Drawing.Point(124, 137)
+        Me.lblVehicleNo.Name = "lblVehicleNo"
+        Me.lblVehicleNo.Size = New System.Drawing.Size(61, 16)
+        Me.lblVehicleNo.TabIndex = 1573
+        Me.lblVehicleNo.Text = "Vehicle No"
+        '
+        'txtManualVehicle
+        '
+        Me.txtManualVehicle.CalculationExpression = Nothing
+        Me.txtManualVehicle.FieldCode = Nothing
+        Me.txtManualVehicle.FieldDesc = Nothing
+        Me.txtManualVehicle.FieldMaxLength = 0
+        Me.txtManualVehicle.FieldName = Nothing
+        Me.txtManualVehicle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtManualVehicle.isCalculatedField = False
+        Me.txtManualVehicle.IsSourceFromTable = False
+        Me.txtManualVehicle.IsSourceFromValueList = False
+        Me.txtManualVehicle.IsUnique = False
+        Me.txtManualVehicle.Location = New System.Drawing.Point(191, 135)
+        Me.txtManualVehicle.MaxLength = 200
+        Me.txtManualVehicle.MendatroryField = False
+        Me.txtManualVehicle.MyLinkLable1 = Me.lblVehicleNo
+        Me.txtManualVehicle.MyLinkLable2 = Nothing
+        Me.txtManualVehicle.Name = "txtManualVehicle"
+        Me.txtManualVehicle.ReferenceFieldDesc = Nothing
+        Me.txtManualVehicle.ReferenceFieldName = Nothing
+        Me.txtManualVehicle.ReferenceTableName = Nothing
+        Me.txtManualVehicle.Size = New System.Drawing.Size(136, 18)
+        Me.txtManualVehicle.TabIndex = 1572
+        '
+        'fndTransporter
+        '
+        Me.fndTransporter.CalculationExpression = Nothing
+        Me.fndTransporter.FieldCode = Nothing
+        Me.fndTransporter.FieldDesc = Nothing
+        Me.fndTransporter.FieldMaxLength = 0
+        Me.fndTransporter.FieldName = Nothing
+        Me.fndTransporter.isCalculatedField = False
+        Me.fndTransporter.IsSourceFromTable = False
+        Me.fndTransporter.IsSourceFromValueList = False
+        Me.fndTransporter.IsUnique = False
+        Me.fndTransporter.Location = New System.Drawing.Point(77, 89)
+        Me.fndTransporter.MendatroryField = False
+        Me.fndTransporter.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndTransporter.MyLinkLable1 = Nothing
+        Me.fndTransporter.MyLinkLable2 = Nothing
+        Me.fndTransporter.MyReadOnly = False
+        Me.fndTransporter.MyShowMasterFormButton = False
+        Me.fndTransporter.Name = "fndTransporter"
+        Me.fndTransporter.ReferenceFieldDesc = Nothing
+        Me.fndTransporter.ReferenceFieldName = Nothing
+        Me.fndTransporter.ReferenceTableName = Nothing
+        Me.fndTransporter.Size = New System.Drawing.Size(115, 20)
+        Me.fndTransporter.TabIndex = 1570
+        Me.fndTransporter.Value = ""
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel20.Location = New System.Drawing.Point(628, 135)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(63, 16)
+        Me.MyLabel20.TabIndex = 1569
+        Me.MyLabel20.Text = "Description"
+        '
+        'txtDescription
+        '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
+        Me.txtDescription.Location = New System.Drawing.Point(702, 134)
+        Me.txtDescription.MaxLength = 200
+        Me.txtDescription.MendatroryField = False
+        Me.txtDescription.MyLinkLable1 = Me.MyLabel20
+        Me.txtDescription.MyLinkLable2 = Nothing
+        Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
+        Me.txtDescription.Size = New System.Drawing.Size(430, 18)
+        Me.txtDescription.TabIndex = 1568
+        '
         'lblReceiverName
         '
         Me.lblReceiverName.FieldName = Nothing
         Me.lblReceiverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblReceiverName.Location = New System.Drawing.Point(192, 133)
+        Me.lblReceiverName.Location = New System.Drawing.Point(339, 134)
         Me.lblReceiverName.Name = "lblReceiverName"
         Me.lblReceiverName.Size = New System.Drawing.Size(84, 16)
         Me.lblReceiverName.TabIndex = 1567
@@ -728,7 +873,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtReceiverName.IsSourceFromTable = False
         Me.txtReceiverName.IsSourceFromValueList = False
         Me.txtReceiverName.IsUnique = False
-        Me.txtReceiverName.Location = New System.Drawing.Point(284, 133)
+        Me.txtReceiverName.Location = New System.Drawing.Point(429, 134)
         Me.txtReceiverName.MaxLength = 200
         Me.txtReceiverName.MendatroryField = False
         Me.txtReceiverName.MyLinkLable1 = Me.lblReceiverName
@@ -737,7 +882,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtReceiverName.ReferenceFieldDesc = Nothing
         Me.txtReceiverName.ReferenceFieldName = Nothing
         Me.txtReceiverName.ReferenceTableName = Nothing
-        Me.txtReceiverName.Size = New System.Drawing.Size(143, 18)
+        Me.txtReceiverName.Size = New System.Drawing.Size(188, 18)
         Me.txtReceiverName.TabIndex = 1566
         '
         'lblChequeNo
@@ -789,16 +934,16 @@ Partial Class frmDairyBookingCustomer
         Me.cmbPaymentType.IsSourceFromTable = False
         Me.cmbPaymentType.IsSourceFromValueList = False
         Me.cmbPaymentType.IsUnique = False
-        RadListDataItem1.Text = "CASH"
-        RadListDataItem2.Text = "NEFT"
-        RadListDataItem3.Text = "RTGS"
-        RadListDataItem4.Text = "CHEQUE"
-        RadListDataItem5.Text = "UPI"
-        Me.cmbPaymentType.Items.Add(RadListDataItem1)
-        Me.cmbPaymentType.Items.Add(RadListDataItem2)
-        Me.cmbPaymentType.Items.Add(RadListDataItem3)
-        Me.cmbPaymentType.Items.Add(RadListDataItem4)
-        Me.cmbPaymentType.Items.Add(RadListDataItem5)
+        RadListDataItem11.Text = "CASH"
+        RadListDataItem12.Text = "NEFT"
+        RadListDataItem13.Text = "RTGS"
+        RadListDataItem14.Text = "CHEQUE"
+        RadListDataItem15.Text = "UPI"
+        Me.cmbPaymentType.Items.Add(RadListDataItem11)
+        Me.cmbPaymentType.Items.Add(RadListDataItem12)
+        Me.cmbPaymentType.Items.Add(RadListDataItem13)
+        Me.cmbPaymentType.Items.Add(RadListDataItem14)
+        Me.cmbPaymentType.Items.Add(RadListDataItem15)
         Me.cmbPaymentType.Location = New System.Drawing.Point(883, 0)
         Me.cmbPaymentType.MendatroryField = True
         Me.cmbPaymentType.MyLinkLable1 = Me.MyLabel7
@@ -882,7 +1027,7 @@ Partial Class frmDairyBookingCustomer
         Me.rgbTaxNonTax.Controls.Add(Me.lblAcidity)
         Me.rgbTaxNonTax.Controls.Add(Me.txtAcidity)
         Me.rgbTaxNonTax.HeaderText = ""
-        Me.rgbTaxNonTax.Location = New System.Drawing.Point(506, 136)
+        Me.rgbTaxNonTax.Location = New System.Drawing.Point(506, 153)
         Me.rgbTaxNonTax.Name = "rgbTaxNonTax"
         Me.rgbTaxNonTax.Size = New System.Drawing.Size(698, 33)
         Me.rgbTaxNonTax.TabIndex = 1556
@@ -1184,12 +1329,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.IsSourceFromTable = False
         Me.cmbGatePassType.IsSourceFromValueList = False
         Me.cmbGatePassType.IsUnique = False
-        RadListDataItem6.Text = "Select"
-        RadListDataItem7.Text = "AM"
-        RadListDataItem8.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem6)
-        Me.cmbGatePassType.Items.Add(RadListDataItem7)
-        Me.cmbGatePassType.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "AM"
+        RadListDataItem3.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem1)
+        Me.cmbGatePassType.Items.Add(RadListDataItem2)
+        Me.cmbGatePassType.Items.Add(RadListDataItem3)
         Me.cmbGatePassType.Location = New System.Drawing.Point(171, 158)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -1572,54 +1717,6 @@ Partial Class frmDairyBookingCustomer
         Me.txtDate.Text = "13/06/2011 11:29 AM"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'txtSalesman1
-        '
-        Me.txtSalesman1.CalculationExpression = Nothing
-        Me.txtSalesman1.FieldCode = Nothing
-        Me.txtSalesman1.FieldDesc = Nothing
-        Me.txtSalesman1.FieldMaxLength = 0
-        Me.txtSalesman1.FieldName = Nothing
-        Me.txtSalesman1.isCalculatedField = False
-        Me.txtSalesman1.IsSourceFromTable = False
-        Me.txtSalesman1.IsSourceFromValueList = False
-        Me.txtSalesman1.IsUnique = False
-        Me.txtSalesman1.Location = New System.Drawing.Point(77, 90)
-        Me.txtSalesman1.MendatroryField = False
-        Me.txtSalesman1.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSalesman1.MyLinkLable1 = Me.lblRouteNo
-        Me.txtSalesman1.MyLinkLable2 = Nothing
-        Me.txtSalesman1.MyReadOnly = False
-        Me.txtSalesman1.MyShowMasterFormButton = False
-        Me.txtSalesman1.Name = "txtSalesman1"
-        Me.txtSalesman1.ReferenceFieldDesc = Nothing
-        Me.txtSalesman1.ReferenceFieldName = Nothing
-        Me.txtSalesman1.ReferenceTableName = Nothing
-        Me.txtSalesman1.Size = New System.Drawing.Size(115, 19)
-        Me.txtSalesman1.TabIndex = 1523
-        Me.txtSalesman1.Value = ""
-        '
-        'lblSalesmandesc1
-        '
-        Me.lblSalesmandesc1.AutoSize = False
-        Me.lblSalesmandesc1.BorderVisible = True
-        Me.lblSalesmandesc1.FieldName = Nothing
-        Me.lblSalesmandesc1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSalesmandesc1.Location = New System.Drawing.Point(199, 91)
-        Me.lblSalesmandesc1.Name = "lblSalesmandesc1"
-        Me.lblSalesmandesc1.Size = New System.Drawing.Size(227, 17)
-        Me.lblSalesmandesc1.TabIndex = 1521
-        Me.lblSalesmandesc1.TextWrap = False
-        '
-        'lblsalesman1
-        '
-        Me.lblsalesman1.FieldName = Nothing
-        Me.lblsalesman1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblsalesman1.Location = New System.Drawing.Point(-1, 89)
-        Me.lblsalesman1.Name = "lblsalesman1"
-        Me.lblsalesman1.Size = New System.Drawing.Size(57, 16)
-        Me.lblsalesman1.TabIndex = 1522
-        Me.lblsalesman1.Text = "Salesman"
-        '
         'cmbcashcredit
         '
         Me.cmbcashcredit.AutoCompleteDisplayMember = Nothing
@@ -1635,10 +1732,10 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem9.Text = "CASH"
-        RadListDataItem10.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem9)
-        Me.cmbcashcredit.Items.Add(RadListDataItem10)
+        RadListDataItem4.Text = "CASH"
+        RadListDataItem5.Text = "CREDIT"
+        Me.cmbcashcredit.Items.Add(RadListDataItem4)
+        Me.cmbcashcredit.Items.Add(RadListDataItem5)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -1887,7 +1984,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2162,7 +2259,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2911,6 +3008,9 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage3
         '
+        Me.RadPageViewPage3.Controls.Add(Me.txtSalesman1)
+        Me.RadPageViewPage3.Controls.Add(Me.lblSalesmandesc1)
+        Me.RadPageViewPage3.Controls.Add(Me.lblsalesman1)
         Me.RadPageViewPage3.Controls.Add(Me.txtSalesman)
         Me.RadPageViewPage3.Controls.Add(Me.lblShipToLocation)
         Me.RadPageViewPage3.Controls.Add(Me.lblSalesman)
@@ -2933,8 +3033,56 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(50.0!, 26.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1271, 409)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage3.Text = "Others"
+        '
+        'txtSalesman1
+        '
+        Me.txtSalesman1.CalculationExpression = Nothing
+        Me.txtSalesman1.FieldCode = Nothing
+        Me.txtSalesman1.FieldDesc = Nothing
+        Me.txtSalesman1.FieldMaxLength = 0
+        Me.txtSalesman1.FieldName = Nothing
+        Me.txtSalesman1.isCalculatedField = False
+        Me.txtSalesman1.IsSourceFromTable = False
+        Me.txtSalesman1.IsSourceFromValueList = False
+        Me.txtSalesman1.IsUnique = False
+        Me.txtSalesman1.Location = New System.Drawing.Point(291, 219)
+        Me.txtSalesman1.MendatroryField = False
+        Me.txtSalesman1.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSalesman1.MyLinkLable1 = Me.lblRouteNo
+        Me.txtSalesman1.MyLinkLable2 = Nothing
+        Me.txtSalesman1.MyReadOnly = False
+        Me.txtSalesman1.MyShowMasterFormButton = False
+        Me.txtSalesman1.Name = "txtSalesman1"
+        Me.txtSalesman1.ReferenceFieldDesc = Nothing
+        Me.txtSalesman1.ReferenceFieldName = Nothing
+        Me.txtSalesman1.ReferenceTableName = Nothing
+        Me.txtSalesman1.Size = New System.Drawing.Size(115, 20)
+        Me.txtSalesman1.TabIndex = 1526
+        Me.txtSalesman1.Value = ""
+        '
+        'lblSalesmandesc1
+        '
+        Me.lblSalesmandesc1.AutoSize = False
+        Me.lblSalesmandesc1.BorderVisible = True
+        Me.lblSalesmandesc1.FieldName = Nothing
+        Me.lblSalesmandesc1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSalesmandesc1.Location = New System.Drawing.Point(412, 219)
+        Me.lblSalesmandesc1.Name = "lblSalesmandesc1"
+        Me.lblSalesmandesc1.Size = New System.Drawing.Size(227, 17)
+        Me.lblSalesmandesc1.TabIndex = 1524
+        Me.lblSalesmandesc1.TextWrap = False
+        '
+        'lblsalesman1
+        '
+        Me.lblsalesman1.FieldName = Nothing
+        Me.lblsalesman1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblsalesman1.Location = New System.Drawing.Point(222, 219)
+        Me.lblsalesman1.Name = "lblsalesman1"
+        Me.lblsalesman1.Size = New System.Drawing.Size(57, 16)
+        Me.lblsalesman1.TabIndex = 1525
+        Me.lblsalesman1.Text = "Salesman"
         '
         'txtSalesman
         '
@@ -3834,7 +3982,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1271, 409)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage5.Text = "Attachment"
         '
         'UcAttachment1
@@ -3842,7 +3990,7 @@ Partial Class frmDairyBookingCustomer
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1271, 409)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1260, 409)
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
         '
@@ -4292,6 +4440,13 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkManualVehicle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReceiverName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtReceiverName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblChequeNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4350,8 +4505,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblUnbilledMilk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUnbilledMilkAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSalesmandesc1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblsalesman1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbcashcredit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReceipt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCredit, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4443,6 +4596,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
+        CType(Me.lblSalesmandesc1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblsalesman1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBoothStation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4739,9 +4894,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents cmbcashcredit As common.Controls.MyComboBox
     Friend WithEvents lblCredit As common.Controls.MyLabel
     Friend WithEvents lblBoothStation As common.Controls.MyLabel
-    Friend WithEvents txtSalesman1 As common.UserControls.txtFinder
-    Friend WithEvents lblSalesmandesc1 As common.Controls.MyLabel
-    Friend WithEvents lblsalesman1 As common.Controls.MyLabel
     Friend WithEvents txtSalesman As common.UserControls.txtFinder
     Friend WithEvents lblSalesman As common.Controls.MyLabel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
@@ -4838,5 +4990,16 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtChequeNo As common.Controls.MyTextBox
     Friend WithEvents lblReceiverName As common.Controls.MyLabel
     Friend WithEvents txtReceiverName As common.Controls.MyTextBox
+    Friend WithEvents txtSalesman1 As common.UserControls.txtFinder
+    Friend WithEvents lblSalesmandesc1 As common.Controls.MyLabel
+    Friend WithEvents lblsalesman1 As common.Controls.MyLabel
+    Friend WithEvents MyLabel20 As common.Controls.MyLabel
+    Friend WithEvents txtDescription As common.Controls.MyTextBox
+    Friend WithEvents fndTransporter As common.UserControls.txtFinder
+    Friend WithEvents lblVehicleNo As common.Controls.MyLabel
+    Friend WithEvents txtManualVehicle As common.Controls.MyTextBox
+    Friend WithEvents MyLabel31 As common.Controls.MyLabel
+    Friend WithEvents lblTransporter As common.Controls.MyLabel
+    Friend WithEvents chkManualVehicle As RadCheckBox
 End Class
 

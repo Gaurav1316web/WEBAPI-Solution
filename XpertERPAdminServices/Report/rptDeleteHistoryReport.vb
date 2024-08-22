@@ -237,11 +237,21 @@ Public Class rptDeleteHistoryReport
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
+        GetReportID()
         TemplateGridview = gv1
         gv1.DataSource = Nothing
         gv1.Columns.Clear()
         gv1.Rows.Clear()
         Print(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If clsCommon.myLen(fndScreen.Value) > 0 Then
+            VarID += "_" + clsCommon.myCstr(fndScreen.Value)
+            gv1.VarID = VarID
+        End If
+
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

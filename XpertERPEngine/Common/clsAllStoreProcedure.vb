@@ -2058,7 +2058,7 @@ insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@Fr
            " begin" &
           " declare @sql as varchar(maX)" &
           " declare @query as  varchar(max)" &
-          " set @sql=STUFF((SELECT distinct ',' + QUOTENAME(Description)" &
+          " set @sql=STUFF((SELECT distinct ',' + QUOTENAME(d.Description)" &
          " from TSPL_BOOKING_MATSER as a inner join TSPL_BOOKING_DETAIL as b on a.Document_No=b.Document_No" &
          " inner join TSPL_ITEM_MASTER as c on b.item_code=c.Item_Code inner join TSPL_VEHICLE_MASTER as d on b.Vehicle_Code=d.Vehicle_Id" &
          " where a.location_code in(''+@location_Code+'') and a.Document_Date=''+@Document_Date+'' and Vehicle_Code is not null and Vehicle_Code!=''" &
@@ -2076,7 +2076,7 @@ insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@Fr
                    " pivot" &
         " (" &
                  "   sum(BookingQty)" &
-         " for Description in ('+@sql+')" &
+         " for d.Description in ('+@sql+')" &
         " )piv " &
               "      '" &
                     " End" &
@@ -2093,7 +2093,7 @@ insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@Fr
        " begin" &
       " declare @sql as varchar(maX)" &
       " declare @query as  varchar(max)" &
-      " set @sql=STUFF((SELECT distinct ',' + QUOTENAME(Description)" &
+      " set @sql=STUFF((SELECT distinct ',' + QUOTENAME(d.Description)" &
      " from TSPL_BOOKING_MATSER as a inner join TSPL_BOOKING_DETAIL as b on a.Document_No=b.Document_No" &
      " inner join TSPL_ITEM_MASTER as c on b.item_code=c.Item_Code inner join TSPL_VEHICLE_MASTER as d on b.Vehicle_Code=d.Vehicle_Id" &
      " where a.Document_Date=''+@Document_Date+'' and Vehicle_Code is not null and Vehicle_Code!=''" &
@@ -2111,7 +2111,7 @@ insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@Fr
                " pivot" &
     " (" &
              "   sum(BookingQty)" &
-     " for Description in ('+@sql+')" &
+     " for d.Description in ('+@sql+')" &
     " )piv " &
           "      '" &
                 " End" &

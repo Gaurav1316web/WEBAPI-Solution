@@ -228,6 +228,8 @@ Public Class frmDairyBookingCustomer
         qry = "select TSPL_VEHICLE_MASTER.Vehicle_Id from TSPL_ROUTE_MASTER left join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id where TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "'"
         txtVehicleCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, Nothing))
         txtVehicleName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" + clsCommon.myCstr(txtVehicleCode.Value) + "'"))
+        fndTransporter.Value = clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'")
+        lblTransporter.Text = clsDBFuncationality.getSingleValue("  select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
         If SettTagMultipleRouteWithCustomer Then
             ''richa ERO/15/11/19-001104
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
@@ -1963,14 +1965,14 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 End If
             Next
             If dblGSTTaxRate.Count = 1 Then
-                dblGSTTaxValue1 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0)) * dblGSTTaxRate(0), 2, 4)
+                dblGSTTaxValue1 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0)) * dblGSTTaxRate(0), 2, 5)
             ElseIf dblGSTTaxRate.Count = 2 Then
-                dblGSTTaxValue1 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0) + dblGSTTaxRate(1)) * dblGSTTaxRate(0), 2, 4)
-                dblGSTTaxValue2 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0) + dblGSTTaxRate(1)) * dblGSTTaxRate(1), 2, 4)
+                dblGSTTaxValue1 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0) + dblGSTTaxRate(1)) * dblGSTTaxRate(0), 2, 5)
+                dblGSTTaxValue2 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0) + dblGSTTaxRate(1)) * dblGSTTaxRate(1), 2, 5)
             End If
             dblKKFMNDBaseAmt = dblBasicAmt - (dblGSTTaxValue1 + dblGSTTaxValue2)
-            dblKKFTaxValue = clsCommon.myRoundOFF(dblKKFMNDBaseAmt / (100 + dblKKFTaxRate + dblMNDTaxRate) * dblKKFTaxRate, 2, 4)
-            dblMNDTaxValue = clsCommon.myRoundOFF(dblKKFMNDBaseAmt / (100 + dblKKFTaxRate + dblMNDTaxRate) * dblMNDTaxRate, 2, 4)
+            dblKKFTaxValue = clsCommon.myRoundOFF(dblKKFMNDBaseAmt / (100 + dblKKFTaxRate + dblMNDTaxRate) * dblKKFTaxRate, 2, 5)
+            dblMNDTaxValue = clsCommon.myRoundOFF(dblKKFMNDBaseAmt / (100 + dblKKFTaxRate + dblMNDTaxRate) * dblMNDTaxRate, 2, 5)
             dblTotalTaxValue = dblGSTTaxValue1 + dblGSTTaxValue2 + dblKKFTaxValue + dblMNDTaxValue
             dblTaxableValue = dblBasicAmt - (dblGSTTaxValue1 + dblGSTTaxValue2)
             dblProductValue = dblTaxableValue - (dblKKFTaxValue + dblMNDTaxValue)
@@ -2017,24 +2019,24 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         'End If
                         If clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, Nothing), "K") = CompairStringResult.Equal Then
                             gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = dblKKFTaxValue
-                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblProductValue, 2)
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = clsCommon.myRoundOFF(dblProductValue, 2, 5)
                         ElseIf clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, Nothing), "M") = CompairStringResult.Equal Then
                             gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = dblMNDTaxValue
-                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblProductValue, 2)
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = clsCommon.myRoundOFF(dblProductValue, 2, 5)
                         ElseIf clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal Then
                             gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = dblGSTTaxValue1
-                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblTaxableValue, 2)
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 5)
                         ElseIf clsCommon.CompairString(strTaxCode, "SGST") = CompairStringResult.Equal Then
                             gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = dblGSTTaxValue2
-                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblTaxableValue, 2)
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 5)
                         ElseIf clsCommon.CompairString(strTaxCode, "IGST") = CompairStringResult.Equal Then
                             gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = dblGSTTaxValue1
-                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblTaxableValue, 2)
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 5)
 
                         ElseIf clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
                             If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
-                                gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = Math.Round(dblTaxableValue + dblGSTTaxValue1 + dblGSTTaxValue2, 2) * (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells("colTax_Rate" + clsCommon.myCstr(ii)).Value) / 100)
-                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = Math.Round(dblTaxableValue + dblGSTTaxValue1 + dblGSTTaxValue2, 2)
+                                gv1.Rows(IntRowNo).Cells("colTax_Amt" + clsCommon.myCstr(ii)).Value = clsCommon.myRoundOFF(dblTaxableValue + dblGSTTaxValue1 + dblGSTTaxValue2, 2, 5) * (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells("colTax_Rate" + clsCommon.myCstr(ii)).Value) / 100)
+                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Base_Amt" + Strii)).Value = clsCommon.myRoundOFF(dblTaxableValue + dblGSTTaxValue1 + dblGSTTaxValue2, 2, 5)
                                 TCSTaxRatio(IntRowNo)
                             End If
 
@@ -2055,7 +2057,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         Next
                         Dim dblCurrCalTax As Double = 0
                         If dblTotAmt <> 0 Then
-                            dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                            dblCurrCalTax = clsCommon.myRoundOFF(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, 5)
                         End If
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" + Strii)).Value = dblCurrCalTax
                     End If
@@ -2065,11 +2067,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Dim dblNetPrice As Double = dblAmtAfterDis / dblQty
             End If
             Dim dblTotTaxAmt As Double = GetCurrentRowTotalTaxAmt(IntRowNo)
-            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis - dblTotTaxAmt, 2)
-            gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = Math.Round(dblAmtAfterDis - dblTotTaxAmt, 2)
-            gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = Math.Round(dblTotTaxAmt, 2)
-            gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = Math.Round(dblAmtAfterDis, 2)
-            gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
+            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = clsCommon.myRoundOFF(dblAmtAfterDis - dblTotTaxAmt, 2, 5)
+            gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = clsCommon.myRoundOFF(dblAmtAfterDis - dblTotTaxAmt, 2, 5)
+            gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = clsCommon.myRoundOFF(dblTotTaxAmt, 2, 5)
+            gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = clsCommon.myRoundOFF(dblAmtAfterDis, 2, 5)
+            gv1.Rows(IntRowNo).Cells(colDisAmt).Value = clsCommon.myRoundOFF(dblDisAmt, 2)
             'gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2612,6 +2614,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtChequeNo.Text = ""
         txtReceiverName.Text = ""
         cmbPaymentType.SelectedIndex = 0
+        chkManualVehicle.Checked = False
+        fndTransporter.Value = ""
+        lblTransporter.Text = ""
+        txtDescription.Text = ""
+        txtManualVehicle.Text = ""
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
             If Not chkcashsale.Checked Then
                 txtChequeNo.Visible = False
@@ -3120,6 +3127,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If clsCommon.myLen(lblLoginUserZone.Text) > 0 Then
                     obj.Login_User_Zone_Code = lblLoginUserZone.Text
                 End If
+                obj.Manual_VehicleNo = txtManualVehicle.Text
+                obj.Is_Manual_Vehicle = IIf(chkManualVehicle.Checked, "Y", "N")
+                obj.Transport_Id = fndTransporter.Value
+                obj.Description = txtDescription.Text
                 obj.FAT_Per = clsCommon.myCdbl(txtFATPER.Text)
                 obj.SNF_Per = clsCommon.myCdbl(txtSNFPER.Text)
                 obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
@@ -3739,6 +3750,11 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 chkGhee.Checked = IIf(obj.Is_GHEE = 1, True, False)
                 chkGhee.Enabled = False
                 chkcashsale.Checked = IIf(obj.Is_CashSale = "Y", True, False)
+                chkManualVehicle.Checked = IIf(obj.Is_Manual_Vehicle = "Y", True, False)
+                fndTransporter.Value = obj.Transport_Id
+                lblTransporter.Text = clsDBFuncationality.getSingleValue(" select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
+                txtDescription.Text = obj.Description
+                txtManualVehicle.Text = obj.Manual_VehicleNo
                 chkcashsale.Enabled = True
                 txtReceiverName.Text = obj.ReceiverName
                 If chkcashsale.Checked Then
@@ -4914,8 +4930,10 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 txtVehicleName.Text = clsCommon.myCstr(dt1.Rows(0)("Number"))
                 txtRouteCode1.Enabled = False
                 txtRouteName1.Enabled = False
-                txtVehicleCode.Enabled = False
-                txtVehicleName.Enabled = False
+                txtVehicleCode.Enabled = True
+                txtVehicleName.Enabled = True
+                fndTransporter.Value = clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'")
+                lblTransporter.Text = clsDBFuncationality.getSingleValue("  select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
             End If
         End If
     End Sub
@@ -7360,7 +7378,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub txtSalesman1__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSalesman1._MYValidating
+    Private Sub txtSalesman1__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
         Dim qry As String = "select EMP_CODE as Code,Emp_Name as Name from TSPL_EMPLOYEE_MASTER"
         Dim whrcls As String = "Emp_type='Salesman'"
         txtSalesman1.Value = clsCommon.ShowSelectForm("DBC-SNOSaleman", qry, "Code", whrcls, txtSalesman1.Value, "Code", isButtonClicked)
@@ -7973,6 +7991,8 @@ from
             Dim Whrcls As String = ""
             txtVehicleCode.Value = clsCommon.ShowSelectForm("DBC-Vehicle", qry, "Code", Whrcls, txtVehicleCode.Value, "Code", isButtonClicked)
             txtVehicleName.Text = clsDBFuncationality.getSingleValue("select Vehicle_Name from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'")
+            fndTransporter.Value = clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'")
+            lblTransporter.Text = clsDBFuncationality.getSingleValue("  select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -7996,8 +8016,8 @@ from
             Else
                 txtRouteCode1.Enabled = False
                 txtRouteName1.Enabled = False
-                txtVehicleCode.Enabled = False
-                txtVehicleName.Enabled = False
+                txtVehicleCode.Enabled = True
+                txtVehicleName.Enabled = True
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -8710,7 +8730,36 @@ from
     Private Sub btnPrintChallan_Click(sender As Object, e As EventArgs) Handles btnPrintChallan.Click
         Try
             Dim frmCRV As New frmCrystalReportViewer()
-            Dim Qry As String = "Select * from (select 1 As CopyType,InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_BOOKING_MATSER.Document_Date,
+
+
+            Dim Qry As String = ""
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Qry = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as Comp_Address,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No,
+TSPL_CUSTOMER_MASTER.Customer_Name,
+TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,
+TSPL_SD_SHIPMENT_HEAD.VehicleNo,
+TSPL_VENDOR_MASTER.Transporter,isnull(TSPL_VENDOR_MASTER.Phone1,isnull(TSPL_VENDOR_MASTER.Phone2,isnull(TSPL_VENDOR_MASTER.Contact_Person_Phone,''))) as Phone_No,
+TSPL_BOOKING_DETAIL.route_no,TSPL_STATE_MASTER.STATE_NAME,
+TSPL_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,
+TSPL_BOOKING_DETAIL.Unit_code,
+case when isnull(TSPL_BATCH_ITEM.Batch_No,'')='' then TSPL_BOOKING_DETAIL.Booking_Qty else TSPL_BATCH_ITEM.Qty end as Qty,
+TSPL_BATCH_ITEM.Batch_No
+from TSPL_BOOKING_MATSER
+left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
+left join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+left join TSPL_ITEM_MASTER on TSPL_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+left join TSPL_VEHICLE_MASTER on TSPL_BOOKING_MATSER.ManualVehicle=TSPL_VEHICLE_MASTER.Vehicle_Id
+left join TSPL_LOCATION_MASTER  on TSPL_BOOKING_MATSER.location_code=TSPL_LOCATION_MASTER.Location_Code
+left outer join TSPL_STATE_MASTER   On TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.state 
+left join TSPL_VENDOR_MASTER on TSPL_VEHICLE_MASTER.Transport_Id=TSPL_VENDOR_MASTER.Vendor_Code
+left join TSPL_COMPANY_MASTER on TSPL_BOOKING_MATSER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_BOOKING_DETAIL.Delivery_No=TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code
+left join TSPL_BATCH_ITEM on TSPL_BOOKING_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_BATCH_ITEM.Document_Code
+left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+
+where TSPL_BOOKING_MATSER.Document_No='" + txtDocNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Status=1"
+            Else
+                Qry = "Select * from (select 1 As CopyType,InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_BOOKING_MATSER.Document_Date,
                         TSPL_BOOKING_MATSER.Is_Taxable,Case When TSPL_BOOKING_MATSER.GatePass_Type='AM' OR TSPL_BOOKING_MATSER.GatePass_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_BOOKING_DETAIL.*,
                         TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
@@ -8742,13 +8791,21 @@ from
                         left outer join TSPL_COMPANY_MASTER on  TSPL_COMPANY_MASTER.Comp_Code1 = '" + objCommonVar.CurrComp_Code1 + "'
                         where TSPL_BOOKING_MATSER.Document_No='" + txtDocNo.Value + "')xxx
                         LEFT OUTER JOIN (Select 1 as COL1, 1 as COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=XXX.CopyType ORDER BY Line_No,YYY.COL2 "
+            End If
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt.Rows.Count > 0 Then
-                Dim IsTaxable As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Is_Taxable from TSPL_BOOKING_MATSER where TSPL_BOOKING_MATSER.Document_No='" + txtDocNo.Value + "'"))
-                If IsTaxable = 1 Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptBookingNonTaxableChallan", "Challan", "", "rptCompanyAddress.rpt")
-                ElseIf IsTaxable = 2 Then
-                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptBookingTaxableChallan", "Challan", "", "rptCompanyAddress.rpt")
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "BatchWise_PrintChallan", "Challan", "", "rptCompanyAddress.rpt")
+                Else
+
+                    Dim IsTaxable As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Is_Taxable from TSPL_BOOKING_MATSER where TSPL_BOOKING_MATSER.Document_No='" + txtDocNo.Value + "'"))
+                    If IsTaxable = 1 Then
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptBookingNonTaxableChallan", "Challan", "", "rptCompanyAddress.rpt")
+                    ElseIf IsTaxable = 2 Then
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptBookingTaxableChallan", "Challan", "", "rptCompanyAddress.rpt")
+                    End If
+
                 End If
                 frmCRV = Nothing
             Else
@@ -9171,5 +9228,17 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
             txtChequeNo.Visible = False
             lblChequeNo.Visible = False
         End If
+    End Sub
+    Private Sub chkManualVehicle_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkManualVehicle.ToggleStateChanged
+        If chkManualVehicle.Checked Then
+            txtManualVehicle.ReadOnly = False
+        Else
+            txtManualVehicle.ReadOnly = True
+        End If
+    End Sub
+    Private Sub fndTransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndTransporter._MYValidating
+        Dim qry As String = "select Transport_Id as [Transport Id],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
+        fndTransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndTransporter.Value, "", isButtonClicked)
+        lblTransporter.Text = clsDBFuncationality.getSingleValue(" select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
     End Sub
 End Class

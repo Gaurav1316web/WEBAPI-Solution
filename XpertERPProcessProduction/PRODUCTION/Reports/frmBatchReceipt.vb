@@ -231,7 +231,7 @@ Public Class FrmBatchReceipt
         gv.DataSource = Nothing
         rdbSummary.IsChecked = True
     End Sub
-  
+
 #End Region
 #Region "Finders"
 
@@ -239,7 +239,19 @@ Public Class FrmBatchReceipt
 
 
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
+        GetReportID()
         Print()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf rdbDetail.IsChecked Then
+            VarID += "_D"
+        End If
+        gv.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click

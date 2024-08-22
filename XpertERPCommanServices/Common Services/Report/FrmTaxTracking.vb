@@ -109,9 +109,27 @@ Public Class FrmTaxTracking
     End Sub
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+        GetReportGridId()
         PageSetupReport_ID = GetReportId()
         TemplateGridview = gv
         PrintData()
+
+    End Sub
+
+    Sub GetReportGridId()
+        Dim VarID As String = ""
+        If chkTransfer.Checked = True Then
+            VarID += "_TA"
+        End If
+        If rdoSale.IsChecked Then
+            VarID += "_SA"
+        ElseIf rdoPur.IsChecked Then
+            VarID += "_PU"
+        ElseIf rdoTransfer.IsChecked Then
+            VarID += "_TR"
+        End If
+
+        gv.VarID = VarID
 
     End Sub
 
@@ -1454,4 +1472,8 @@ Public Class FrmTaxTracking
         End If
         Return report_id
     End Function
+
+    Private Sub Panel4_Paint(sender As Object, e As PaintEventArgs) Handles Panel4.Paint
+
+    End Sub
 End Class

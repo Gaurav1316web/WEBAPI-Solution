@@ -2079,9 +2079,9 @@ and not exists(select 1 from TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS where TSPL_MILK
             End If
 
 
-            legerMainQuery += " ,coalesce(PaymentProcess.Credit_Note_Amount,0)as Credit_Note_Amount,coalesce(PaymentProcess.Deduction_Amount,0)*(-1)  as Deduction_Amount,coalesce(PaymentProcess.Item_Issue_Amount,0)*(-1) as Item_Issue_Amount,coalesce(PaymentProcess.Item_Issue_Return_Amount,0) as Item_Issue_Return_Amount,coalesce(PaymentProcess.MCC_Sale_Amount,0)*(-1) as MCC_Sale_Amount ,coalesce(PaymentProcess.MCC_Sale_Return_Amount,0) as MCC_Sale_Return_Amount,coalesce(paymentprocess.Compulsory_Amount,0)Compulsory_Amount from (
-select VLC_Code, VSP_CODE,sum(Total_EMP_Amount) as Total_EMP_Amount,sum(Incentive_Amount) as Incentive_Amount,sum(Incentive_EMP_Amount) as Incentive_EMP_Amount,sum(EMP_Amount) as EMP_Amount,sum(Vsp_Own_System_Amount) as Vsp_Own_System_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(Credit_Note_Amount)as Credit_Note_Amount,sum(Deduction_Amount) as Deduction_Amount,sum(Item_Issue_Amount) as Item_Issue_Amount,sum(Item_Issue_Return_Amount) as Item_Issue_Return_Amount,sum(MCC_Sale_Amount) as MCC_Sale_Amount ,sum(MCC_Sale_Return_Amount) as MCC_Sale_Return_Amount,sum(Payable_Amount) as Payable_Amount,pp.PPNo,sum(Saving_Amount)Saving_Amount,sum(Compulsory_Amount)Compulsory_Amount from (
-select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as PPNo,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount , TSPL_VLC_MASTER_HEAD.VLC_Code  ,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount  ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount  
+            legerMainQuery += " ,coalesce(PaymentProcess.Credit_Note_Amount,0)as Credit_Note_Amount,coalesce(PaymentProcess.Deduction_Amount,0)*(-1)  as Deduction_Amount,coalesce(PaymentProcess.Item_Issue_Amount,0)*(-1) as Item_Issue_Amount,coalesce(PaymentProcess.Item_Issue_Return_Amount,0) as Item_Issue_Return_Amount,coalesce(PaymentProcess.MCC_Sale_Amount,0)*(-1) as MCC_Sale_Amount ,coalesce(PaymentProcess.MCC_Sale_Return_Amount,0) as MCC_Sale_Return_Amount,coalesce(paymentprocess.Compulsory_Amount,0)Compulsory_Amount,coalesce(paymentprocess.SRN_RO_Amount,0)SRN_RO_Amount,Invoice.SRN_Net_Amount+(coalesce(paymentprocess.SRN_RO_Amount,0)*-1) As Amt from (
+select VLC_Code, VSP_CODE,sum(Total_EMP_Amount) as Total_EMP_Amount,sum(Incentive_Amount) as Incentive_Amount,sum(Incentive_EMP_Amount) as Incentive_EMP_Amount,sum(EMP_Amount) as EMP_Amount,sum(Vsp_Own_System_Amount) as Vsp_Own_System_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(Credit_Note_Amount)as Credit_Note_Amount,sum(Deduction_Amount) as Deduction_Amount,sum(Item_Issue_Amount) as Item_Issue_Amount,sum(Item_Issue_Return_Amount) as Item_Issue_Return_Amount,sum(MCC_Sale_Amount) as MCC_Sale_Amount ,sum(MCC_Sale_Return_Amount) as MCC_Sale_Return_Amount,sum(Payable_Amount) as Payable_Amount,pp.PPNo,sum(Saving_Amount)Saving_Amount,sum(Compulsory_Amount)Compulsory_Amount,SUM(SRN_RO_Amount)SRN_RO_Amount from (
+select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as PPNo,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount , TSPL_VLC_MASTER_HEAD.VLC_Code  ,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount  ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,TSPL_PAYMENT_PROCESS_DETAIL.SRN_RO_Amount  
 from TSPL_PAYMENT_PROCESS_DETAIL 
 left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No 
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader =TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  
@@ -2138,7 +2138,7 @@ from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSP
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
-where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('01/Dec/2023'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('15/Dec/2023'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1
+where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1
 UNION
 SELECT 'TDS' as Ded_Code,'999' as Sequence_No,'' as SNo
 )x order by Nos "
@@ -2823,7 +2823,14 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                         SumQty1 = clsCommon.myCdbl(dt.Compute("sum(Qty)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         SumKGFAT1 = clsCommon.myCdbl(dt.Compute("sum(FATQTY)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         SumKGSNF1 = clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
-                        MilkAmt = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                            MilkAmt = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Amt)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'")), 0)
+                        Else
+                            MilkAmt = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
+                        End If
+
+                        'MilkAmt = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         HeadLoadAmt = clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         AVGFAT1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(FAT_PER)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'")), 2)
                         AVGSNF1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(SNF_PER)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'")), 2)
@@ -2835,8 +2842,13 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                             SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dr("VSP_CODE")) + "'"))
                         End If
 
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                            Sumtotal = Math.Round(MilkAmt + SumPayment1 + HeadLoadAmt, 0)
+                        Else
+                            Sumtotal = MilkAmt + SumPayment1 + HeadLoadAmt
+                        End If
                         'Sumtotal = MilkAmt + SumPayment1
-                        Sumtotal = MilkAmt + SumPayment1 + HeadLoadAmt
+                        'Sumtotal = MilkAmt + SumPayment1 + HeadLoadAmt
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                             dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
                             dtMain.Rows.Add(clsCommon.myCstr(dr("Vendor_Name")), SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
@@ -2924,7 +2936,13 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                 Dim GSumKGFAT As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(FATQTY)", "")), 2)
                 Dim GSumKGSNF As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", "")), 2)
 
-                Dim GMilkAmt As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "")), 2)
+                Dim GMilkAmt As Decimal = 0
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    GMilkAmt = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Amt)", "")), 0)
+                Else
+                    GMilkAmt = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "")), 2)
+                End If
+                'Dim GMilkAmt As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "")), 2)
                 Dim GHeadLoadAmt As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", "")), 2)
 
                 Dim GAVGFAT As Decimal = 0
@@ -2933,16 +2951,30 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
                     GAVGFAT = Math.Round(clsCommon.myCdbl((GSumKGFAT * 100) / GSumQty), 2)
                     GAVGSNF = Math.Round(clsCommon.myCdbl((GSumKGSNF * 100) / GSumQty), 2)
                 End If
-                Dim GSumPayment As Decimal = Math.Round(clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "")), 2)
-                Dim GSumDeduction As Decimal = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "")), 2)
+                'Dim GSumPayment As Decimal = Math.Round(clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "")), 2)
+                'Dim GSumDeduction As Decimal = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "")), 2)
                 Dim GSumNETPAYABLE As Decimal = 0
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     GSumNETPAYABLE = Math.Round(clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 0), 2)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    GSumNETPAYABLE = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 0)
                 Else
                     GSumNETPAYABLE = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 2)
                 End If
                 'Dim Gsumtotal As Decimal = GMilkAmt + GSumPayment
-                Dim Gsumtotal As Decimal = GMilkAmt + GSumPayment + GHeadLoadAmt
+                Dim Gsumtotal As Decimal = 0
+                Dim GSumPayment As Decimal = 0
+                Dim GSumDeduction As Decimal = 0
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    GSumPayment = Math.Round(clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "")), 0)
+                    GSumDeduction = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "")), 0)
+                    Gsumtotal = Math.Round(GMilkAmt + GSumPayment + GHeadLoadAmt, 0)
+                Else
+                    GSumPayment = Math.Round(clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "")), 2)
+                    GSumDeduction = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "")), 2)
+                    Gsumtotal = GMilkAmt + GSumPayment + GHeadLoadAmt
+                End If
+                'Dim Gsumtotal As Decimal = GMilkAmt + GSumPayment + GHeadLoadAmt
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     dtMain.Rows.Add(DBNull.Value, "G-TOTAL:", GSumSWEET, GSumKGFAT, GMilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Gsumtotal)
                     dtMain.Rows.Add(DBNull.Value, DBNull.Value, GSumSOUR, GSumKGSNF, GHeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumDeduction)

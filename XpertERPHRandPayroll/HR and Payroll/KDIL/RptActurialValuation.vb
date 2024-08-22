@@ -213,7 +213,18 @@ Public Class RptActurialValuation
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         btnPrint = True
         PageSetupReport_ID = MyBase.Form_ID
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf rbtnDetail.IsChecked Then
+            VarID += "_T"
+        End If
+        gv1.VarID = VarID
     End Sub
     Sub reset()
         todate.Value = clsCommon.GETSERVERDATE()

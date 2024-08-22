@@ -47,6 +47,7 @@ Public Class rptIssueWIPConsumptionReport
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID + IIf(rdbSummary.Checked = True, "S", "D")
             TemplateGridview = Gv1
             Dim qry As String = ""
@@ -58,70 +59,70 @@ Public Class rptIssueWIPConsumptionReport
             If txtBatchNo.arrValueMember IsNot Nothing AndAlso txtBatchNo.arrValueMember.Count > 0 Then
                 whr += " and batchCode  in (" + clsCommon.GetMulcallString(txtBatchNo.arrValueMember) + ")"
             End If
-            Dim mainQry As String = "  select * from ( " & _
-                                    "  select (case when Inventory.Trans_Type='PP_ISSUE' then TSPL_PP_ISSUE_HEAD.Batch_Code else case when Inventory.Trans_Type='PP_STD-FQC' then TSPL_PP_STD_FINALQC_HEAD.Main_Batch_Code else  case when Inventory.Trans_Type='PROD_ENTRY' then TSPL_PP_PRODUCTION_ENTRY.Batch_Code else  case when Inventory.Trans_Type='PRD_STG_PROC' then TSPL_PP_STAGE_PROCESS_HEAD.Main_Batch_Code else '' end end end end) as BatchCode, " & _
-                                    "  Trans_Type,Source_Doc_No,Source_Doc_Date,Avg_Cost,InOut,item_code   " & _
-                                    "  ,(select top 1 CONSM_CODE from TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL where (TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE=Inventory.Source_Doc_No or TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.Standardization_Code=TSPL_PP_STD_FINALQC_HEAD.Against_STD_Code) and TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE=Inventory.Item_Code and TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_QTY=Inventory.Qty) as ExistsINConsumption " & _
-                                    "  ,(select top 1 CONSM_CODE from TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL where (TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE=Inventory.Source_Doc_No or TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.Standardization_Code=TSPL_PP_STD_FINALQC_HEAD.Against_STD_Code) and TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE=Inventory.Item_Code ) as ExistsINConsumptionOnlyItem,IS_CONSUMPTION " & _
-                                    "  from ( " & _
-                                    "  select IS_CONSUMPTION,item_code, Trans_Type,Source_Doc_No,convert(varchar, Source_Doc_Date,103) as Source_Doc_Date,Avg_Cost,InOut,Qty  from TSPL_INVENTORY_MOVEMENT where Trans_Type in ('PP_ISSUE','PP_STD-FQC','PROD_ENTRY','PRD_STG_PROC') " & _
-                                    "  union all " & _
-                                    "  select IS_CONSUMPTION,item_code,Trans_Type,Source_Doc_No,convert(varchar, Source_Doc_Date,103) as Source_Doc_Date,Avg_Cost,InOut,Qty from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type in ('PP_ISSUE','PP_STD-FQC','PROD_ENTRY','PRD_STG_PROC') " & _
-                                    "  )Inventory " & _
-                                    "  left outer join TSPL_PP_ISSUE_HEAD on TSPL_PP_ISSUE_HEAD.Issue_Code=Inventory.Source_Doc_No and Inventory.Trans_Type='PP_ISSUE' and TSPL_PP_ISSUE_HEAD.Is_post=1 " & _
-                                    "  left outer join TSPL_PP_STD_FINALQC_HEAD on TSPL_PP_STD_FINALQC_HEAD.QC_Code=Inventory.Source_Doc_No and Inventory.Trans_Type='PP_STD-FQC' and TSPL_PP_STD_FINALQC_HEAD.Posted=1 " & _
-                                    "  left outer join TSPL_PP_STAGE_PROCESS_HEAD on TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE=Inventory.Source_Doc_No and Inventory.Trans_Type='PRD_STG_PROC' and TSPL_PP_STAGE_PROCESS_HEAD.Posted=1  " & _
-                                    "  left outer join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=Inventory.Source_Doc_No and Inventory.Trans_Type='PROD_ENTRY' and TSPL_PP_PRODUCTION_ENTRY.Posted=1 " & _
-                                    "  )x where not exists(select 1 from TSPL_PP_BATCH_ORDER_bom_detail where TSPL_PP_BATCH_ORDER_bom_detail.batch_Code=x.BatchCode and TSPL_PP_BATCH_ORDER_bom_detail.item_code=x.item_code) " & _
+            Dim mainQry As String = "  select * from ( " &
+                                    "  select (case when Inventory.Trans_Type='PP_ISSUE' then TSPL_PP_ISSUE_HEAD.Batch_Code else case when Inventory.Trans_Type='PP_STD-FQC' then TSPL_PP_STD_FINALQC_HEAD.Main_Batch_Code else  case when Inventory.Trans_Type='PROD_ENTRY' then TSPL_PP_PRODUCTION_ENTRY.Batch_Code else  case when Inventory.Trans_Type='PRD_STG_PROC' then TSPL_PP_STAGE_PROCESS_HEAD.Main_Batch_Code else '' end end end end) as BatchCode, " &
+                                    "  Trans_Type,Source_Doc_No,Source_Doc_Date,Avg_Cost,InOut,item_code   " &
+                                    "  ,(select top 1 CONSM_CODE from TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL where (TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE=Inventory.Source_Doc_No or TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.Standardization_Code=TSPL_PP_STD_FINALQC_HEAD.Against_STD_Code) and TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE=Inventory.Item_Code and TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_QTY=Inventory.Qty) as ExistsINConsumption " &
+                                    "  ,(select top 1 CONSM_CODE from TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL where (TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE=Inventory.Source_Doc_No or TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.Standardization_Code=TSPL_PP_STD_FINALQC_HEAD.Against_STD_Code) and TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE=Inventory.Item_Code ) as ExistsINConsumptionOnlyItem,IS_CONSUMPTION " &
+                                    "  from ( " &
+                                    "  select IS_CONSUMPTION,item_code, Trans_Type,Source_Doc_No,convert(varchar, Source_Doc_Date,103) as Source_Doc_Date,Avg_Cost,InOut,Qty  from TSPL_INVENTORY_MOVEMENT where Trans_Type in ('PP_ISSUE','PP_STD-FQC','PROD_ENTRY','PRD_STG_PROC') " &
+                                    "  union all " &
+                                    "  select IS_CONSUMPTION,item_code,Trans_Type,Source_Doc_No,convert(varchar, Source_Doc_Date,103) as Source_Doc_Date,Avg_Cost,InOut,Qty from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type in ('PP_ISSUE','PP_STD-FQC','PROD_ENTRY','PRD_STG_PROC') " &
+                                    "  )Inventory " &
+                                    "  left outer join TSPL_PP_ISSUE_HEAD on TSPL_PP_ISSUE_HEAD.Issue_Code=Inventory.Source_Doc_No and Inventory.Trans_Type='PP_ISSUE' and TSPL_PP_ISSUE_HEAD.Is_post=1 " &
+                                    "  left outer join TSPL_PP_STD_FINALQC_HEAD on TSPL_PP_STD_FINALQC_HEAD.QC_Code=Inventory.Source_Doc_No and Inventory.Trans_Type='PP_STD-FQC' and TSPL_PP_STD_FINALQC_HEAD.Posted=1 " &
+                                    "  left outer join TSPL_PP_STAGE_PROCESS_HEAD on TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE=Inventory.Source_Doc_No and Inventory.Trans_Type='PRD_STG_PROC' and TSPL_PP_STAGE_PROCESS_HEAD.Posted=1  " &
+                                    "  left outer join TSPL_PP_PRODUCTION_ENTRY on TSPL_PP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=Inventory.Source_Doc_No and Inventory.Trans_Type='PROD_ENTRY' and TSPL_PP_PRODUCTION_ENTRY.Posted=1 " &
+                                    "  )x where not exists(select 1 from TSPL_PP_BATCH_ORDER_bom_detail where TSPL_PP_BATCH_ORDER_bom_detail.batch_Code=x.BatchCode and TSPL_PP_BATCH_ORDER_bom_detail.item_code=x.item_code) " &
                                     ""
 
             If rdbDetail.Checked = True Then
-                qry = " select convert (varchar, TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103) as [Batch Date], BatchCode as [Batch Code],TSPL_PP_BATCH_ORDER_HEAD.Location_Code as [Location Code],tspl_location_master.Location_Desc as [Location Desc], Final.item_code as  [Item Code], TSPL_ITEM_MASTER.Item_Desc as [Item Desc],InOut, " & _
-                      " case when Trans_Type='PP_ISSUE'   then Source_Doc_No   end as [Issue Doc No], " & _
-                      " case when Trans_Type='PP_ISSUE'   then Source_Doc_Date   end as [Issue Doc Date], " & _
-                      " (Avg_Cost * case when Trans_Type='PP_ISSUE' and InOut ='I'  then 1 else 0 end ) as [Issue Amount] , " & _
-                      " case when Trans_Type='PP_STD-FQC' then Source_Doc_No   end as [Standardize Doc No] ,  " & _
-                      " case when Trans_Type='PP_STD-FQC' then Source_Doc_Date   end as [Standardize Doc Date] , " & _
-                      " ((Avg_Cost * case when Trans_Type='PP_STD-FQC' and  2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='O' and IS_CONSUMPTION=1 then 2 else 3 end)   then 1 else 0 end ) +(Avg_Cost * case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='I' then 2 else 3 end)   then -1 else 0 end )) as [Standardize Amount], " & _
-                       "((Avg_Cost * (case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='O' and IS_CONSUMPTION=0 then 2 else 3 end)   then -1 else 0 end ))) as [Standardize Added Amount] " + Environment.NewLine + _
-                      " , case when Trans_Type='PROD_ENTRY' then Source_Doc_No end as [Production Doc No] , " & _
-                      " case when Trans_Type='PROD_ENTRY' then Source_Doc_Date end as [Production Doc Date] , " & _
-                      "  (Avg_Cost * case when Trans_Type='PROD_ENTRY' and 2=(case when InOut='I' then 2 else case when InOut='O' and ExistsINConsumption is not null then 2 else 3 end end) then 1 else 0 end ) as [Production Entry Amount], " & _
-                      "  case when Trans_Type='PRD_STG_PROC' then Source_Doc_No end as [Stage Process DocNo], " & _
-                      "  case when Trans_Type='PRD_STG_PROC' then Source_Doc_Date end as [Stage Process Doc Date] " & _
-                      "  , (Avg_Cost * case when Trans_Type='PRD_STG_PROC' then 1 else 0 end ) as [Stage Process Amount]  from ( " & _
-                      "  " + mainQry + " " & _
-                      "  )Final  " & _
-                      "  left outer join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code = Final.BatchCode " & _
-                      "  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code = Final.Item_Code " & _
-                      "  left outer join tspl_location_master on tspl_location_master.Location_Code =TSPL_PP_BATCH_ORDER_HEAD.Location_Code " & _
-                      "  Where convert(date,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + whr + " " & _
+                qry = " select convert (varchar, TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103) as [Batch Date], BatchCode as [Batch Code],TSPL_PP_BATCH_ORDER_HEAD.Location_Code as [Location Code],tspl_location_master.Location_Desc as [Location Desc], Final.item_code as  [Item Code], TSPL_ITEM_MASTER.Item_Desc as [Item Desc],InOut, " &
+                      " case when Trans_Type='PP_ISSUE'   then Source_Doc_No   end as [Issue Doc No], " &
+                      " case when Trans_Type='PP_ISSUE'   then Source_Doc_Date   end as [Issue Doc Date], " &
+                      " (Avg_Cost * case when Trans_Type='PP_ISSUE' and InOut ='I'  then 1 else 0 end ) as [Issue Amount] , " &
+                      " case when Trans_Type='PP_STD-FQC' then Source_Doc_No   end as [Standardize Doc No] ,  " &
+                      " case when Trans_Type='PP_STD-FQC' then Source_Doc_Date   end as [Standardize Doc Date] , " &
+                      " ((Avg_Cost * case when Trans_Type='PP_STD-FQC' and  2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='O' and IS_CONSUMPTION=1 then 2 else 3 end)   then 1 else 0 end ) +(Avg_Cost * case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='I' then 2 else 3 end)   then -1 else 0 end )) as [Standardize Amount], " &
+                       "((Avg_Cost * (case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='O' and IS_CONSUMPTION=0 then 2 else 3 end)   then -1 else 0 end ))) as [Standardize Added Amount] " + Environment.NewLine +
+                      " , case when Trans_Type='PROD_ENTRY' then Source_Doc_No end as [Production Doc No] , " &
+                      " case when Trans_Type='PROD_ENTRY' then Source_Doc_Date end as [Production Doc Date] , " &
+                      "  (Avg_Cost * case when Trans_Type='PROD_ENTRY' and 2=(case when InOut='I' then 2 else case when InOut='O' and ExistsINConsumption is not null then 2 else 3 end end) then 1 else 0 end ) as [Production Entry Amount], " &
+                      "  case when Trans_Type='PRD_STG_PROC' then Source_Doc_No end as [Stage Process DocNo], " &
+                      "  case when Trans_Type='PRD_STG_PROC' then Source_Doc_Date end as [Stage Process Doc Date] " &
+                      "  , (Avg_Cost * case when Trans_Type='PRD_STG_PROC' then 1 else 0 end ) as [Stage Process Amount]  from ( " &
+                      "  " + mainQry + " " &
+                      "  )Final  " &
+                      "  left outer join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code = Final.BatchCode " &
+                      "  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code = Final.Item_Code " &
+                      "  left outer join tspl_location_master on tspl_location_master.Location_Code =TSPL_PP_BATCH_ORDER_HEAD.Location_Code " &
+                      "  Where convert(date,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + whr + " " &
                       "  order by BatchCode  "
             Else
-                qry = " select convert (varchar,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103) as [Batch Date], x.BatchCode as [Batch Code] ,TSPL_PP_BATCH_ORDER_HEAD.Location_code as [Location code] ,x.IssueDocNo as [Issue Doc No],x.IssueAmount as [Issue Amount] , x.StandardizeDocNo as [Standardize Doc No], StandardizeAmount as [Standardize Amount],StandardizeAddAmount as [Standardize Added Amount] ,x.ProductionDocNo as [Production Doc No] , ProductionEntryAmount as [Production Entry Amount], StageProcessDocNo as [Stage Process Doc No],StageProcessAmount as [Stage Process Amount] , Diff + StageProcessAmount as Diff from (  " & _
-                     "  select  xxx.BatchCode,IssueDocNoMax+case when IssueDocNoMin<>IssueDocNoMax and len(IssueDocNoMin)>0 then ' *' else '' end as  IssueDocNo,IssueAmount,StandardizeDocNoMax +case when StandardizeDocNoMin<>StandardizeDocNoMax and len(StandardizeDocNoMin)>0 then ' *' else '' end as StandardizeDocNo ,StandardizeAmount,StandardizeAddAmount,ProductionDocNoMax + case when ProductionDocNoMin<>ProductionDocNoMax and len(ProductionDocNoMin)>0 then ' *' else '' end as ProductionDocNo,ProductionEntryAmount,StageProcessDocNoMax + case when StageProcessDocNoMin<>StageProcessDocNoMax and len(StageProcessDocNoMin)>0 then ' *' else '' end as StageProcessDocNo,StageProcessAmount " & _
-                     " ,issueAmount-StandardizeAmount+StandardizeAddAmount-ProductionEntryAmount as Diff from ( " & _
-                     " select BatchCode, " & _
-                     " Min(case when Trans_Type='PP_ISSUE'   then Source_Doc_No   end ) as IssueDocNoMin, " & _
-                     " Max(case when Trans_Type='PP_ISSUE'  then Source_Doc_No   end ) as IssueDocNoMax, " & _
-                     " sum(Avg_Cost * case when Trans_Type='PP_ISSUE' and InOut ='I'  then 1 else 0 end ) as IssueAmount, " & _
-                     " Min(case when Trans_Type='PP_STD-FQC' then Source_Doc_No   end ) as StandardizeDocNoMin, " & _
-                     " Max(case when Trans_Type='PP_STD-FQC' then Source_Doc_No   end ) as StandardizeDocNoMax, " & _
-                     " (sum(Avg_Cost * case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and IS_CONSUMPTION=1 then 2 else 3 end)   then 1 else 0 end ) +sum(Avg_Cost * case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='I' then 2 else 3 end)   then -1 else 0 end )) as StandardizeAmount, " & _
-                     " (sum(Avg_Cost * (case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='O' and IS_CONSUMPTION=0 then 2 else 3 end)   then 1 else 0 end ))) as StandardizeAddAmount ," + Environment.NewLine + _
-                     " min(case when Trans_Type='PROD_ENTRY' then Source_Doc_No end ) as ProductionDocNoMin, " & _
-                     " max(case when Trans_Type='PROD_ENTRY' then Source_Doc_No end ) as ProductionDocNoMax, " & _
-                     " sum(Avg_Cost * case when Trans_Type='PROD_ENTRY' and 2=(case when InOut='I' then 2 else case when InOut='O' and ExistsINConsumption is not null then 2 else 3 end end) then 1 else 0 end ) as ProductionEntryAmount,  " & _
-                     " min(case when Trans_Type='PRD_STG_PROC' then Source_Doc_No end ) as StageProcessDocNoMin, " & _
-                     " max(case when Trans_Type='PRD_STG_PROC' then Source_Doc_No end ) as StageProcessDocNoMax, " & _
-                     " /* sum(Avg_Cost * case when Trans_Type='PRD_STG_PROC' then 1 else 0 end ) as StageProcessAmount */  " & _
-                     "  sum(Avg_Cost * case when Trans_Type='PRD_STG_PROC' then (case when InOut ='O' then 1 else -1 end) else 0 end ) as StageProcessAmount " & _
-                     " from ( " & _
-                     " " + mainQry + " " & _
-                     " )Final group by BatchCode  " & _
-                     " )xxx   " & _
-                     " )x  " & _
-                     " left outer join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code=x.BatchCode " & _
+                qry = " select convert (varchar,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103) as [Batch Date], x.BatchCode as [Batch Code] ,TSPL_PP_BATCH_ORDER_HEAD.Location_code as [Location code] ,x.IssueDocNo as [Issue Doc No],x.IssueAmount as [Issue Amount] , x.StandardizeDocNo as [Standardize Doc No], StandardizeAmount as [Standardize Amount],StandardizeAddAmount as [Standardize Added Amount] ,x.ProductionDocNo as [Production Doc No] , ProductionEntryAmount as [Production Entry Amount], StageProcessDocNo as [Stage Process Doc No],StageProcessAmount as [Stage Process Amount] , Diff + StageProcessAmount as Diff from (  " &
+                     "  select  xxx.BatchCode,IssueDocNoMax+case when IssueDocNoMin<>IssueDocNoMax and len(IssueDocNoMin)>0 then ' *' else '' end as  IssueDocNo,IssueAmount,StandardizeDocNoMax +case when StandardizeDocNoMin<>StandardizeDocNoMax and len(StandardizeDocNoMin)>0 then ' *' else '' end as StandardizeDocNo ,StandardizeAmount,StandardizeAddAmount,ProductionDocNoMax + case when ProductionDocNoMin<>ProductionDocNoMax and len(ProductionDocNoMin)>0 then ' *' else '' end as ProductionDocNo,ProductionEntryAmount,StageProcessDocNoMax + case when StageProcessDocNoMin<>StageProcessDocNoMax and len(StageProcessDocNoMin)>0 then ' *' else '' end as StageProcessDocNo,StageProcessAmount " &
+                     " ,issueAmount-StandardizeAmount+StandardizeAddAmount-ProductionEntryAmount as Diff from ( " &
+                     " select BatchCode, " &
+                     " Min(case when Trans_Type='PP_ISSUE'   then Source_Doc_No   end ) as IssueDocNoMin, " &
+                     " Max(case when Trans_Type='PP_ISSUE'  then Source_Doc_No   end ) as IssueDocNoMax, " &
+                     " sum(Avg_Cost * case when Trans_Type='PP_ISSUE' and InOut ='I'  then 1 else 0 end ) as IssueAmount, " &
+                     " Min(case when Trans_Type='PP_STD-FQC' then Source_Doc_No   end ) as StandardizeDocNoMin, " &
+                     " Max(case when Trans_Type='PP_STD-FQC' then Source_Doc_No   end ) as StandardizeDocNoMax, " &
+                     " (sum(Avg_Cost * case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and IS_CONSUMPTION=1 then 2 else 3 end)   then 1 else 0 end ) +sum(Avg_Cost * case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='I' then 2 else 3 end)   then -1 else 0 end )) as StandardizeAmount, " &
+                     " (sum(Avg_Cost * (case when Trans_Type='PP_STD-FQC' and 2=(case when  ExistsINConsumptionOnlyItem is not null and InOut='O' and IS_CONSUMPTION=0 then 2 else 3 end)   then 1 else 0 end ))) as StandardizeAddAmount ," + Environment.NewLine +
+                     " min(case when Trans_Type='PROD_ENTRY' then Source_Doc_No end ) as ProductionDocNoMin, " &
+                     " max(case when Trans_Type='PROD_ENTRY' then Source_Doc_No end ) as ProductionDocNoMax, " &
+                     " sum(Avg_Cost * case when Trans_Type='PROD_ENTRY' and 2=(case when InOut='I' then 2 else case when InOut='O' and ExistsINConsumption is not null then 2 else 3 end end) then 1 else 0 end ) as ProductionEntryAmount,  " &
+                     " min(case when Trans_Type='PRD_STG_PROC' then Source_Doc_No end ) as StageProcessDocNoMin, " &
+                     " max(case when Trans_Type='PRD_STG_PROC' then Source_Doc_No end ) as StageProcessDocNoMax, " &
+                     " /* sum(Avg_Cost * case when Trans_Type='PRD_STG_PROC' then 1 else 0 end ) as StageProcessAmount */  " &
+                     "  sum(Avg_Cost * case when Trans_Type='PRD_STG_PROC' then (case when InOut ='O' then 1 else -1 end) else 0 end ) as StageProcessAmount " &
+                     " from ( " &
+                     " " + mainQry + " " &
+                     " )Final group by BatchCode  " &
+                     " )xxx   " &
+                     " )x  " &
+                     " left outer join TSPL_PP_BATCH_ORDER_HEAD on TSPL_PP_BATCH_ORDER_HEAD.Batch_Code=x.BatchCode " &
                      " where 2= 2 and  convert(date,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_PP_BATCH_ORDER_HEAD.Batch_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + whr + "  "
                 If chkDiff.Checked = True Then
                     qry = qry + " and  2= (case when Diff=0 then 3 else 2 end) "
@@ -169,7 +170,16 @@ Public Class rptIssueWIPConsumptionReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSummary.Checked = True Then
+            VarID += "_SU"
+        Else
+            rdbDetail.Checked = True
+            VarID += "_DE"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub
