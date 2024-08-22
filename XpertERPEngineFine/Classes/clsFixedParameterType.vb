@@ -41,6 +41,7 @@ Public Class clsFixedParameterType
     Public Const HeaderFATSNFKGDecimalPlaces = "Header FAT SNF KG Decimal Places"
     Public Const SNFDecimalPlaces = "SNF Decimal Places"
     Public Const AdjustFATSNFINOwnVSP = "Adjust FAT SNF IN Own VSP"
+    Public Const ApplySameDayShift = "Apply Same Day Shift"
     Public Const HideShiftCollection As String = "Hide Shift Collection"
     Public Const MilkCollectionPickBulkRoute As String = "Milk Collection Pick Bulk Route"
     Public Const DailyQtyReport As String = "Daily Qty Report"
@@ -1324,6 +1325,7 @@ Public Class clsFixedParameterCode
     Public Const SNFDecimalPlaces = "SNF Decimal Places"
     Public Const AdjustFATSNFINOwnVSP = "Adjust FAT SNF IN Own VSP"
     Public Const AdjustQtyINOwnVSP = "Adjust Qty IN Own VSP"
+    Public Const ApplySameDayShift = "Apply Same Day Shift"
     Public Const HideShiftCollection As String = "Hide Shift Collection"
     Public Const MilkCollectionPickBulkRoute As String = "Milk Collection Pick Bulk Route"
     Public Const OwnBMCCreateDRCRNote As String = "Own BMC Create DR CR Note"
@@ -2783,6 +2785,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowZeroFATSNF, clsFixedParameterCode.AllowZeroFATSNF, "0", "0-OFF;1-ON Allow Zero FAT/SNF in Milk Collection")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, "0", "0-OFF;1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustQtyINOwnVSP, "0", "0-OFF;1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplySameDayShift, clsFixedParameterCode.ApplySameDayShift, "0", "0-OFF;1-ON Apply same day shift")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickMilkPurchaseInvoiceQtyOrRecoQty, clsFixedParameterCode.PickMilkPurchaseInvoiceQtyOrRecoQty, "0", "0-Milk Purchase Qty;1-Reco Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowMPIncetiveQtyAboveBilledQty, clsFixedParameterCode.AllowMPIncetiveQtyAboveBilledQty, "1", "1-Allow;0-Now Allowed;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.HeaderFATSNFKGDecimalPlaces, clsFixedParameterCode.HeaderFATSNFKGDecimalPlaces, "3", "Header FAT/SNF Decaimal Places")
@@ -4291,6 +4294,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.AllowZeroFATSNF, clsFixedParameterCode.AllowZeroFATSNF, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustFATSNFINOwnVSP, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustQtyINOwnVSP, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.ApplySameDayShift, clsFixedParameterCode.ApplySameDayShift, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkPricePlanning, clsFixedParameterType.MandatoryPDFFileMilkPricePlan, clsFixedParameterCode.MandatoryPDFFileMilkPricePlan, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MPIncentiveEntry, clsFixedParameterType.AllowMPIncetiveQtyAboveBilledQty, clsFixedParameterCode.AllowMPIncetiveQtyAboveBilledQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.PickMilkPurchaseInvoiceQtyOrRecoQty, clsFixedParameterCode.PickMilkPurchaseInvoiceQtyOrRecoQty, EnumControlType.CheckBox)
