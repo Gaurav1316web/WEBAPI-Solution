@@ -517,8 +517,26 @@ Public Class FrmMCCSummary
         btnReferesh = True
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
+        GetReportID()
         Load_Report()
         tmpValLoad = False
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If ChkGrandtotal.Checked Then
+            VarID += "_G"
+        ElseIf chkShiftWise.Checked Then
+            VarID += "_S"
+        End If
+
+        If clsCommon.CompairString(cboType.SelectedItem.Text, "Mcc Wise") = CompairStringResult.Equal Then
+            VarID += "_MW"
+        ElseIf clsCommon.CompairString(cboType.SelectedItem.Text, "Date Wise") = CompairStringResult.Equal Then
+            VarID += "_R"
+        End If
+        gv.VarID = VarID
+
     End Sub
 
     Private Sub BtnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnReset.Click

@@ -472,9 +472,22 @@ Public Class FrmMCCShiftReportRouteWise
         btnReferesh = True
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
+        GetReportID()
         Load_Report()
         tmpValLoad = False
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbRate.Checked Then
+            VarID += "_R"
+        ElseIf chkGroupingWise.Checked Then
+            VarID += "_G"
+        End If
+        gv.VarID = VarID
+
+    End Sub
+
     Private Sub BtnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnReset.Click
         Reset()
     End Sub
