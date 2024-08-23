@@ -22,12 +22,16 @@ Partial Class rptDailyreceiptReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -134,27 +138,20 @@ Partial Class rptDailyreceiptReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(829, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmsaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmsaveLayout
         '
-        Me.rmsaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmsaveLayout.AccessibleName = "Save Layout"
         Me.rmsaveLayout.Name = "rmsaveLayout"
         Me.rmsaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -192,7 +189,6 @@ Partial Class rptDailyreceiptReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(829, 434)
         Me.RadPageView1.TabIndex = 11
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -278,6 +274,7 @@ Partial Class rptDailyreceiptReport
         Me.cmbInstitutionType.AutoCompleteDisplayMember = Nothing
         Me.cmbInstitutionType.AutoCompleteValueMember = Nothing
         Me.cmbInstitutionType.CalculationExpression = Nothing
+        Me.cmbInstitutionType.DropDownAnimationEnabled = True
         Me.cmbInstitutionType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbInstitutionType.Enabled = False
         Me.cmbInstitutionType.FieldCode = Nothing
@@ -288,12 +285,12 @@ Partial Class rptDailyreceiptReport
         Me.cmbInstitutionType.IsSourceFromTable = False
         Me.cmbInstitutionType.IsSourceFromValueList = False
         Me.cmbInstitutionType.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Institution SO"
-        RadListDataItem3.Text = "Institution CR"
-        Me.cmbInstitutionType.Items.Add(RadListDataItem1)
-        Me.cmbInstitutionType.Items.Add(RadListDataItem2)
-        Me.cmbInstitutionType.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "Institution SO"
+        RadListDataItem6.Text = "Institution CR"
+        Me.cmbInstitutionType.Items.Add(RadListDataItem4)
+        Me.cmbInstitutionType.Items.Add(RadListDataItem5)
+        Me.cmbInstitutionType.Items.Add(RadListDataItem6)
         Me.cmbInstitutionType.Location = New System.Drawing.Point(108, 127)
         Me.cmbInstitutionType.MendatroryField = False
         Me.cmbInstitutionType.MyLinkLable1 = Nothing
@@ -320,6 +317,7 @@ Partial Class rptDailyreceiptReport
         Me.cmbCustomerType.AutoCompleteDisplayMember = Nothing
         Me.cmbCustomerType.AutoCompleteValueMember = Nothing
         Me.cmbCustomerType.CalculationExpression = Nothing
+        Me.cmbCustomerType.DropDownAnimationEnabled = True
         Me.cmbCustomerType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbCustomerType.FieldCode = Nothing
         Me.cmbCustomerType.FieldDesc = Nothing
@@ -329,12 +327,12 @@ Partial Class rptDailyreceiptReport
         Me.cmbCustomerType.IsSourceFromTable = False
         Me.cmbCustomerType.IsSourceFromValueList = False
         Me.cmbCustomerType.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "LMS"
-        RadListDataItem6.Text = "Marketing"
-        Me.cmbCustomerType.Items.Add(RadListDataItem4)
-        Me.cmbCustomerType.Items.Add(RadListDataItem5)
-        Me.cmbCustomerType.Items.Add(RadListDataItem6)
+        RadListDataItem7.Text = "Select"
+        RadListDataItem8.Text = "LMS"
+        RadListDataItem9.Text = "Marketing"
+        Me.cmbCustomerType.Items.Add(RadListDataItem7)
+        Me.cmbCustomerType.Items.Add(RadListDataItem8)
+        Me.cmbCustomerType.Items.Add(RadListDataItem9)
         Me.cmbCustomerType.Location = New System.Drawing.Point(108, 103)
         Me.cmbCustomerType.MendatroryField = False
         Me.cmbCustomerType.MyLinkLable1 = Nothing
@@ -487,13 +485,16 @@ Partial Class rptDailyreceiptReport
         '
         '
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(808, 386)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -516,7 +517,6 @@ Partial Class rptDailyreceiptReport
         Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(806, 384)
         Me.RadScrollablePanel1.Size = New System.Drawing.Size(808, 386)
         Me.RadScrollablePanel1.TabIndex = 1
-        Me.RadScrollablePanel1.Text = "RadScrollablePanel1"
         '
         'SplitContainer2
         '
@@ -548,16 +548,19 @@ Partial Class rptDailyreceiptReport
         Me.gvCS_CD.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvCS_CD.Location = New System.Drawing.Point(0, 0)
         '
-        'gvCS_CD
+        '
         '
         Me.gvCS_CD.MasterTemplate.AllowAddNewRow = False
+        Me.gvCS_CD.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCS_CD.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCS_CD.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvCS_CD.MyStopExport = False
         Me.gvCS_CD.Name = "gvCS_CD"
         Me.gvCS_CD.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCS_CD.ShowHeaderCellButtons = True
         Me.gvCS_CD.Size = New System.Drawing.Size(806, 300)
         Me.gvCS_CD.TabIndex = 1
-        Me.gvCS_CD.Text = "RadGridView1"
+        Me.gvCS_CD.VarID = ""
         '
         'SplitContainer3
         '
@@ -597,16 +600,19 @@ Partial Class rptDailyreceiptReport
         Me.gv_Sale.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv_Sale.Location = New System.Drawing.Point(3, 18)
         '
-        'gv_Sale
+        '
         '
         Me.gv_Sale.MasterTemplate.AllowAddNewRow = False
+        Me.gv_Sale.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Sale.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_Sale.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv_Sale.MyStopExport = False
         Me.gv_Sale.Name = "gv_Sale"
         Me.gv_Sale.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_Sale.ShowHeaderCellButtons = True
         Me.gv_Sale.Size = New System.Drawing.Size(394, 59)
         Me.gv_Sale.TabIndex = 1
-        Me.gv_Sale.Text = "RadGridView1"
+        Me.gv_Sale.VarID = ""
         '
         'GroupBox2
         '
@@ -632,13 +638,16 @@ Partial Class rptDailyreceiptReport
         '
         '
         Me.gv_Collection.MasterTemplate.AllowAddNewRow = False
+        Me.gv_Collection.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Collection.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_Collection.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv_Collection.MyStopExport = False
         Me.gv_Collection.Name = "gv_Collection"
         Me.gv_Collection.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_Collection.ShowHeaderCellButtons = True
         Me.gv_Collection.Size = New System.Drawing.Size(396, 59)
         Me.gv_Collection.TabIndex = 1
-        Me.gv_Collection.Text = "RadGridView1"
+        Me.gv_Collection.VarID = ""
         '
         'RadSplitExp
         '
@@ -652,43 +661,31 @@ Partial Class rptDailyreceiptReport
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
         'rmiExcelSale
         '
-        Me.rmiExcelSale.AccessibleDescription = "Excel Card Sale Abstract"
-        Me.rmiExcelSale.AccessibleName = "Excel Card Sale Abstract"
         Me.rmiExcelSale.Name = "rmiExcelSale"
         Me.rmiExcelSale.Text = "Excel Card Sale Abstract"
         '
         'rmiPDFSale
         '
-        Me.rmiPDFSale.AccessibleDescription = "PDF  Card Sale Abstract"
-        Me.rmiPDFSale.AccessibleName = "PDF  Card Sale Abstract"
         Me.rmiPDFSale.Name = "rmiPDFSale"
         Me.rmiPDFSale.Text = "PDF  Card Sale Abstract"
         '
         'rmiExcelCollection
         '
-        Me.rmiExcelCollection.AccessibleDescription = "Excel Card Collection Abstract"
-        Me.rmiExcelCollection.AccessibleName = "Excel Card Collection Abstract"
         Me.rmiExcelCollection.Name = "rmiExcelCollection"
         Me.rmiExcelCollection.Text = "Excel Card Collection Abstract"
         '
         'rmiPDFCollection
         '
-        Me.rmiPDFCollection.AccessibleDescription = "PDF Card Collection Abstract"
-        Me.rmiPDFCollection.AccessibleName = "PDF Card Collection Abstract"
         Me.rmiPDFCollection.Name = "rmiPDFCollection"
         Me.rmiPDFCollection.Text = "PDF Card Collection Abstract"
         '

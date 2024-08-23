@@ -996,6 +996,17 @@ Public Class frmMilkShiftUploaderUCDF
             Dim dt_vlc As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim dr As DataRow = dt_vlc.Rows(0)
             If Not IsNothing(dr) Then
+                If clsCommon.myLen(txtMCC.Value) > 0 Then
+                    If Not clsCommon.CompairString(txtMCC.Value, clsCommon.myCstr(dr("MCC Code"))) = CompairStringResult.Equal Then
+                        If clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]" + Environment.NewLine + "Do You Want To Continue? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                            txtVLC.Value = ""
+                            txtVLC.Tag = ""
+                            lblVLC.Text = ""
+                            Exit Sub
+                        End If
+                    End If
+                End If
+
                 txtVLC.Value = clsCommon.myCstr(dr("Uploader_Code"))
                 txtVLC.Tag = clsCommon.myCstr(dr("DCS Code"))
                 lblVLC.Text = clsCommon.myCstr(dr("DCS Name"))

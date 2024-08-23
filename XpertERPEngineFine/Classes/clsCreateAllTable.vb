@@ -6572,6 +6572,7 @@ Public Class clsCreateAllTable
             coll.Add("Closing_Date", "Datetime null")
             coll.Add("IsTransfer", "int not null default 0")
             coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
+            coll.Add("AgainstDocumentCode", "Varchar(200) null")
             coll.Add("ShiftType", "varchar(20) NULL")
             coll.Add("Loading_Slip", "varchar(20) NULL")
             coll.Add("GatePass_Date", "datetime NULL")
@@ -7924,6 +7925,7 @@ Public Class clsCreateAllTable
             coll.Add("IsAgainstGateOut", "int NOT NULL default 0")
             coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, False, "", "Gate_Entry_No", "Date_And_Time")
 
             coll = New Dictionary(Of String, String)()
@@ -16451,6 +16453,25 @@ Public Class clsCreateAllTable
             coll.Add("SLAB_TO", "NUMERIC(12,2) NOT NULL")
             coll.Add("PT_AMOUNT", "NUMERIC(12,2) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PT_DETAIL", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("HRR_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("HRR_NAME", "VARCHAR(100) NOT NULL  ")
+            coll.Add("APPLICABLE_FROM", "DATE NOT NULL")
+            coll.Add("STATE_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_STATE_MASTER(STATE_CODE) ")
+            coll.Add("REMARKS", "VARCHAR(200)  NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_RULE_MASTER", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("HRR_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_HRR_RULE_MASTER(HRR_CODE) ")
+            coll.Add("SLAB_FROM", "NUMERIC(12,2) NOT NULL")
+            coll.Add("SLAB_TO", "NUMERIC(12,2) NOT NULL")
+            coll.Add("PAYHEADS", "varchar(12) NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_DETAIL", coll)
 
 
             coll = New Dictionary(Of String, String)()
