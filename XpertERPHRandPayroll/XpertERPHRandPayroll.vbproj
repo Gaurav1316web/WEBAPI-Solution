@@ -861,6 +861,12 @@
     <Compile Include="HR and Payroll\Setup\frmGardeMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Setup\frmHRRSlab.Designer.vb">
+      <DependentUpon>frmHRRSlab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Setup\frmHRRSlab.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Setup\frmLanguageMaster.Designer.vb">
       <DependentUpon>frmLanguageMaster.vb</DependentUpon>
     </Compile>
@@ -2095,6 +2101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Setup\frmGardeMaster.resx">
       <DependentUpon>frmGardeMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Setup\frmHRRSlab.resx">
+      <DependentUpon>frmHRRSlab.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Setup\frmLanguageMaster.resx">
       <DependentUpon>frmLanguageMaster.vb</DependentUpon>

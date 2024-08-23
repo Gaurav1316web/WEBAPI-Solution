@@ -360,10 +360,27 @@ Public Class rptMassBalanceReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
             PageSetupReport_ID = GetReportID()
+            GetReportGridID()
             Load_Data()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+
+        If rbtnSFG.IsChecked Then
+            VarID += "_SFG"
+        ElseIf rbtnFG.IsChecked Then
+            VarID += "_FG"
+        ElseIf rbtnBoth.IsChecked Then
+            VarID += "_BT"
+        ElseIf rbtnMISPlant.IsChecked Then
+            VarID += "_MIS"
+        End If
+        Gv1.VarID = VarID
+
     End Sub
 
     Sub EnableDisableAllcontrol(ByVal val As Boolean)

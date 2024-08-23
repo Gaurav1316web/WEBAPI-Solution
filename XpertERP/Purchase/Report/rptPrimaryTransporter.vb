@@ -861,6 +861,7 @@ where TSPL_PROVISION_ENTRY.Prog_Code='M-Shift_End' and convert(date, TSPL_PROVIS
             btnReferesh = True
             PageSetupReport_ID = MyBase.Form_ID + IIf(chkSummary.IsChecked = True, "S", "D")
             TemplateGridview = gv
+            GetReportID()
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                 If chkActualDistance.IsChecked Then
                     LoadData("UDL")
@@ -873,6 +874,16 @@ where TSPL_PROVISION_ENTRY.Prog_Code='M-Shift_End' and convert(date, TSPL_PROVIS
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf chkDetail.IsChecked Then
+            VarID += "_D"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

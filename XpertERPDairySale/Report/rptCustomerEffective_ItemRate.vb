@@ -120,6 +120,7 @@ Public Class RptCustomerEffective_ItemRate
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
         GetReportID()
@@ -391,7 +392,13 @@ Public Class RptCustomerEffective_ItemRate
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkPriceCodeWise.IsChecked = True Then
+            VarID += "_PC"
+        End If
+        gv.VarID = VarID
+    End Sub
     Sub GetReportID()
         Dim VarID As String = ""
 

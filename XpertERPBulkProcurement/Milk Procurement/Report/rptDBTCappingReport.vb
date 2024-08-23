@@ -17,7 +17,20 @@ Public Class rptDBTCappingReport
         funreset()
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         Print(False)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnAll.Checked Then
+            VarID += "_A"
+        ElseIf rbtnCappingRequired.Checked Then
+            VarID += "_CR"
+        ElseIf rbtnCappingApproved.Checked Then
+            VarID += "_CA"
+        End If
+        gv1.VarID = VarID
     End Sub
     Sub funreset()
         EnableDisableControls(True)

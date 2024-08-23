@@ -84,7 +84,20 @@ Public Class RptDispatchofmilkTransfer2
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gvReport
+        GetReportID()
         Load_Report()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If ChkAll.IsChecked Then
+            VarID += "_S"
+        ElseIf ChkNormal.IsChecked Then
+            VarID += "_D"
+        ElseIf ChkIntermittent.IsChecked Then
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

@@ -139,10 +139,23 @@ Public Class RpttankerReportForErode
                 PageSetupReport_ID = MyBase.Form_ID + "B"
             End If
             TemplateGridview = gv
+            GetReportID()
             LoadData(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkMCC.Checked Then
+            VarID += "_M"
+        ElseIf chkIntermittent.Checked Then
+            VarID += "_I"
+        ElseIf chkBulk.Checked Then
+            VarID += "_B"
+        End If
+        gv.VarID = VarID
     End Sub
     Private Sub LoadData(ByVal isPrint As Boolean)
         Dim isIntermittent As Boolean = chkIntermittent.Checked

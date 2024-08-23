@@ -4345,7 +4345,7 @@ Public Class FrmMCCMilkRegister
                 ReportID += "D"
             ElseIf rbtnPlantWise.Checked Then
                 ReportID += "P"
-            ElseIf rbtnPlantWise.Checked Then
+            ElseIf rdbPlantWisePaymentSummary.Checked Then
                 ReportID += "PWPS"
             ElseIf rdoVLCWisePaymentSummary.Checked Then
                 ReportID += "VLCWPS"
@@ -4358,6 +4358,57 @@ Public Class FrmMCCMilkRegister
         Return ReportID
     End Function
 
+    Private Function GetReportPDFID() As String
+        Dim ReportID As String = MyBase.Form_ID
+        If chkDateShift.Checked Then
+            If rbtnBMC.Checked Then
+                ReportID += "_BW"
+            ElseIf rbtnRoute.Checked Then
+                ReportID += "_DRW"
+            ElseIf rbtnDCS.Checked Then
+                ReportID += "_DW"
+            ElseIf rbtnTotal.Checked Then
+                ReportID += "_T"
+            ElseIf rbtnShiftWiseTotal.Checked Then
+                ReportID += "_ST"
+            End If
+        Else
+            If ChkMCCWise.Checked Then
+                ReportID += "_MW"
+            ElseIf chkRoutewise.Checked Then
+                ReportID += "_RW"
+            ElseIf rbtnVLCWise.Checked Then
+                ReportID += "_VW"
+            ElseIf ChkDetailWise.Checked Then
+                ReportID += "_DEW"
+            ElseIf rbtnPlantWise.Checked Then
+                ReportID += "_PW"
+            ElseIf rdbPlantWisePaymentSummary.Checked Then
+                ReportID += "_PPS"
+            ElseIf rdoVLCWisePaymentSummary.Checked Then
+                ReportID += "_VPS"
+            ElseIf rbtnZoneWise.Checked Then
+                ReportID += "_ZW"
+            ElseIf chkVLCWisePayable.Checked Then
+                ReportID += "_VWP"
+            ElseIf rbtnCollectionSummary.Checked Then
+                ReportID += "_DCS"
+            End If
+
+            If chkRejection.Checked Then
+                ReportID += "_R"
+            End If
+            If chkShiftWise.Checked Then
+                ReportID += "_S"
+            End If
+
+            If chkOnlyRejection.Checked Then
+                ReportID += "_OR"
+            End If
+        End If
+
+        Return ReportID
+    End Function
     Private Sub ReStoreGridLayout()
         Try
             'Dim ReportID As String = GetReportID()
@@ -4405,6 +4456,7 @@ Public Class FrmMCCMilkRegister
         PageSetupReport_ID = GetReportID()
         TemplateGridview = gv
         EnableDisableControl(False)
+        GetReportPDFID()
         LoadData()
 
     End Sub

@@ -1174,7 +1174,22 @@ Public Class rptVSPIncentiveRegister
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = GetReportID()
         TemplateGridview = gv
+        GetReportPdfID()
         LoadData()
+    End Sub
+
+    Sub GetReportPdfID()
+        Dim VarID As String = ""
+        If ChkDetailWise.Checked Then
+            VarID += "_DW"
+        ElseIf rbtnVLCWise.Checked Then
+            VarID += "_VW"
+        ElseIf chkRoutewise.Checked Then
+            VarID += "_RW"
+        ElseIf ChkMCCWise.Checked Then
+            VarID += "_MW"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

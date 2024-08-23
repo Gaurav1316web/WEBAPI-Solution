@@ -102,8 +102,15 @@ Public Class FrmItemListRpt
         chkUOMWise.Checked = False
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkUOMWise.Checked = True Then
+            VarID += "_U"
+        End If
+        gv.VarID = VarID
+    End Sub
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
+        GetReportGridID()
         If chkUOMWise.Checked = True Then
             PageSetupReport_ID = MyBase.Form_ID + "UOM"
         Else

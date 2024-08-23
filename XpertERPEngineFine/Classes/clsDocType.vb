@@ -172,6 +172,7 @@ Public Class clsDocType
     Public Const SkillMaster As String = "Grade Master"
     Public Const OTSLab As String = "OT Slab"
     Public Const PTSLab As String = "PT Slab"
+    Public Const HRRSLab As String = "HRR Slab"
     Public Const ConveyanceRateMaster As String = "Conveyance Rate Master"
     Public Const ODMaster As String = "OD Master"
     Public Const SubDepartmentMaster As String = "Sub Department Master"
@@ -1696,6 +1697,7 @@ Public Class clsDocType
                 InsertDefaultValue(clsDocType.SkillMaster, "", False, False)
                 InsertDefaultValue(clsDocType.OTSLab, "", False, False)
                 InsertDefaultValue(clsDocType.PTSLab, "", False, False)
+                InsertDefaultValue(clsDocType.HRRSLab, "", False, False)
                 InsertDefaultValue(clsDocType.ConveyanceRateMaster, "", False, False)
                 InsertDefaultValue(clsDocType.ODMaster, "", False, False)
                 InsertDefaultValue(clsDocType.SubDepartmentMaster, "", False, False)
