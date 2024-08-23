@@ -33,7 +33,10 @@ Public Class RptDcsPaymentReport
         Try
 
             Dim dt As New DataTable
-            Dim strQry As String = " select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
+            Dim strQry As String = " Select xy.SNo,xy.DocDate,xy.Milk_Purchase_Invoice_Date,xy.Dcs_Uploader,xy.Dcs_name,xy.Milk_Qty,
+                                    xy.FATKg,xy.SNFKg,xy.Milk_Amount,xy.Head_Load_Amount,case when xy.PEAmt=0 then xy.CRAmt  else xy.PEAmt end as PEAmt,xy.OBEAmt,
+                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount,xy.TotalAmt,xy.CRAmts from
+                                    (select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
                                     ,max(x.FATKg)FATKg,max(x.SNFKg)SNFKg,max(x.Milk_Amount)Milk_Amount,max(x.Head_Load_Amount)Head_Load_Amount
                                     ,max(isnull(x.CRAmt,0)+ isnull(x.PURCHASEEXPENSE,0)) as PEAmt,max(isnull(x.OBEAmt,0))OBEAmt,max(x.Credit_Note_Amount)CRAmt,max(x.Reduce_Deduc_Amt)Reduce_Deduc_Amt
                                     ,max(x.Deduction_Amount)Deduction_Amount,isnull(max(x.PURCHASEEXPENSE),0)PURCHASEEXPENSE
@@ -75,7 +78,7 @@ Public Class RptDcsPaymentReport
 				                    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code
 				                    Where convert(date, TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103)>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'   
                                     and convert(date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103)<= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "' 
-				                    )x group by x.AP_Invoice_No "
+				                    )x group by x.AP_Invoice_No)xy "
 
             dt = clsDBFuncationality.GetDataTable(strQry)
             Gv1.DataSource = Nothing
