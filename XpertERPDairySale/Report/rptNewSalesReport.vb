@@ -52,7 +52,7 @@ Public Class rptNewSalesReport
             VarID += "_DW"
         End If
         If chkExcludeGhee.Checked Then
-            VarID += "EG"
+            VarID += "_EG"
         End If
         gv1.VarID = VarID
 

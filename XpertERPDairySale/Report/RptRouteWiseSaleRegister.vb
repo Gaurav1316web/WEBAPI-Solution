@@ -33,7 +33,15 @@ Public Class RptRouteWiseSaleRegister
     End Sub
     ' ticket No : ERO/19/10/19-001070
     'Sanjay add route join
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkdemand.Checked = True Then
+            VarID += "_D"
+        End If
+        gvData.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         If chkdemand.Checked Then
             gvData.VarID = "_DE"
         End If

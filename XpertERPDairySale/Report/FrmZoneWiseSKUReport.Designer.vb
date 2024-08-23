@@ -22,6 +22,7 @@ Partial Class FrmZoneWiseSKUReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +31,10 @@ Partial Class FrmZoneWiseSKUReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gbReturn = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbSalesReturn = New System.Windows.Forms.RadioButton()
+        Me.rdbSalesAndSalesReturn = New System.Windows.Forms.RadioButton()
+        Me.rdbSales = New System.Windows.Forms.RadioButton()
         Me.chkDetailReport = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtZone = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel5 = New common.Controls.MyLabel()
@@ -58,10 +63,6 @@ Partial Class FrmZoneWiseSKUReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.gbReturn = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbSalesReturn = New System.Windows.Forms.RadioButton()
-        Me.rdbSalesAndSalesReturn = New System.Windows.Forms.RadioButton()
-        Me.rdbSales = New System.Windows.Forms.RadioButton()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -72,6 +73,8 @@ Partial Class FrmZoneWiseSKUReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.gbReturn, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbReturn.SuspendLayout()
         CType(Me.chkDetailReport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,8 +97,6 @@ Partial Class FrmZoneWiseSKUReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gbReturn, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbReturn.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -124,28 +125,21 @@ Partial Class FrmZoneWiseSKUReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1044, 20)
         Me.RadMenu1.TabIndex = 18
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
@@ -180,7 +174,6 @@ Partial Class FrmZoneWiseSKUReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1044, 428)
         Me.RadPageView1.TabIndex = 72
-        Me.RadPageView1.Text = "RadPageView2"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -201,6 +194,52 @@ Partial Class FrmZoneWiseSKUReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1023, 380)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'gbReturn
+        '
+        Me.gbReturn.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbReturn.Controls.Add(Me.rdbSalesReturn)
+        Me.gbReturn.Controls.Add(Me.rdbSalesAndSalesReturn)
+        Me.gbReturn.Controls.Add(Me.rdbSales)
+        Me.gbReturn.HeaderText = "Sales And Sales Return"
+        Me.gbReturn.Location = New System.Drawing.Point(541, 1)
+        Me.gbReturn.Name = "gbReturn"
+        Me.gbReturn.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.gbReturn.Size = New System.Drawing.Size(189, 84)
+        Me.gbReturn.TabIndex = 427
+        Me.gbReturn.Text = "Sales And Sales Return"
+        '
+        'rdbSalesReturn
+        '
+        Me.rdbSalesReturn.AutoSize = True
+        Me.rdbSalesReturn.Location = New System.Drawing.Point(13, 41)
+        Me.rdbSalesReturn.Name = "rdbSalesReturn"
+        Me.rdbSalesReturn.Size = New System.Drawing.Size(89, 17)
+        Me.rdbSalesReturn.TabIndex = 6
+        Me.rdbSalesReturn.Text = "Sales Return"
+        Me.rdbSalesReturn.UseVisualStyleBackColor = True
+        '
+        'rdbSalesAndSalesReturn
+        '
+        Me.rdbSalesAndSalesReturn.AutoSize = True
+        Me.rdbSalesAndSalesReturn.Location = New System.Drawing.Point(13, 62)
+        Me.rdbSalesAndSalesReturn.Name = "rdbSalesAndSalesReturn"
+        Me.rdbSalesAndSalesReturn.Size = New System.Drawing.Size(142, 17)
+        Me.rdbSalesAndSalesReturn.TabIndex = 5
+        Me.rdbSalesAndSalesReturn.Text = "Sales And Sales Return"
+        Me.rdbSalesAndSalesReturn.UseVisualStyleBackColor = True
+        '
+        'rdbSales
+        '
+        Me.rdbSales.AutoSize = True
+        Me.rdbSales.Checked = True
+        Me.rdbSales.Location = New System.Drawing.Point(13, 20)
+        Me.rdbSales.Name = "rdbSales"
+        Me.rdbSales.Size = New System.Drawing.Size(51, 17)
+        Me.rdbSales.TabIndex = 4
+        Me.rdbSales.TabStop = True
+        Me.rdbSales.Text = "Sales"
+        Me.rdbSales.UseVisualStyleBackColor = True
         '
         'chkDetailReport
         '
@@ -318,6 +357,7 @@ Partial Class FrmZoneWiseSKUReport
         '
         Me.ddlDocType.AutoCompleteDisplayMember = Nothing
         Me.ddlDocType.AutoCompleteValueMember = Nothing
+        Me.ddlDocType.DropDownAnimationEnabled = True
         Me.ddlDocType.Location = New System.Drawing.Point(112, 103)
         Me.ddlDocType.Name = "ddlDocType"
         Me.ddlDocType.Size = New System.Drawing.Size(214, 20)
@@ -454,12 +494,15 @@ Partial Class FrmZoneWiseSKUReport
         '
         '
         '
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
         Me.gvData.Size = New System.Drawing.Size(1023, 380)
         Me.gvData.TabIndex = 0
-        Me.gvData.Text = "RadGridView1"
+        Me.gvData.VarID = ""
         '
         'RadSplitButton1
         '
@@ -473,15 +516,11 @@ Partial Class FrmZoneWiseSKUReport
         '
         'rmExcel
         '
-        Me.rmExcel.AccessibleDescription = "Excel"
-        Me.rmExcel.AccessibleName = "Excel"
         Me.rmExcel.Name = "rmExcel"
         Me.rmExcel.Text = "Excel"
         '
         'rmPDF
         '
-        Me.rmPDF.AccessibleDescription = "PDF"
-        Me.rmPDF.AccessibleName = "PDF"
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '
@@ -512,52 +551,6 @@ Partial Class FrmZoneWiseSKUReport
         Me.btnReset.TabIndex = 159
         Me.btnReset.Text = "Reset"
         '
-        'gbReturn
-        '
-        Me.gbReturn.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.gbReturn.Controls.Add(Me.rdbSalesReturn)
-        Me.gbReturn.Controls.Add(Me.rdbSalesAndSalesReturn)
-        Me.gbReturn.Controls.Add(Me.rdbSales)
-        Me.gbReturn.HeaderText = "Sales And Sales Return"
-        Me.gbReturn.Location = New System.Drawing.Point(541, 1)
-        Me.gbReturn.Name = "gbReturn"
-        Me.gbReturn.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbReturn.Size = New System.Drawing.Size(189, 84)
-        Me.gbReturn.TabIndex = 427
-        Me.gbReturn.Text = "Sales And Sales Return"
-        '
-        'rdbSalesReturn
-        '
-        Me.rdbSalesReturn.AutoSize = True
-        Me.rdbSalesReturn.Location = New System.Drawing.Point(13, 41)
-        Me.rdbSalesReturn.Name = "rdbSalesReturn"
-        Me.rdbSalesReturn.Size = New System.Drawing.Size(89, 17)
-        Me.rdbSalesReturn.TabIndex = 6
-        Me.rdbSalesReturn.Text = "Sales Return"
-        Me.rdbSalesReturn.UseVisualStyleBackColor = True
-        '
-        'rdbSalesAndSalesReturn
-        '
-        Me.rdbSalesAndSalesReturn.AutoSize = True
-        Me.rdbSalesAndSalesReturn.Location = New System.Drawing.Point(13, 62)
-        Me.rdbSalesAndSalesReturn.Name = "rdbSalesAndSalesReturn"
-        Me.rdbSalesAndSalesReturn.Size = New System.Drawing.Size(142, 17)
-        Me.rdbSalesAndSalesReturn.TabIndex = 5
-        Me.rdbSalesAndSalesReturn.Text = "Sales And Sales Return"
-        Me.rdbSalesAndSalesReturn.UseVisualStyleBackColor = True
-        '
-        'rdbSales
-        '
-        Me.rdbSales.AutoSize = True
-        Me.rdbSales.Checked = True
-        Me.rdbSales.Location = New System.Drawing.Point(13, 20)
-        Me.rdbSales.Name = "rdbSales"
-        Me.rdbSales.Size = New System.Drawing.Size(51, 17)
-        Me.rdbSales.TabIndex = 4
-        Me.rdbSales.TabStop = True
-        Me.rdbSales.Text = "Sales"
-        Me.rdbSales.UseVisualStyleBackColor = True
-        '
         'FrmZoneWiseSKUReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -582,6 +575,9 @@ Partial Class FrmZoneWiseSKUReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.gbReturn, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbReturn.ResumeLayout(False)
+        Me.gbReturn.PerformLayout()
         CType(Me.chkDetailReport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).EndInit()
@@ -607,9 +603,6 @@ Partial Class FrmZoneWiseSKUReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gbReturn, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbReturn.ResumeLayout(False)
-        Me.gbReturn.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

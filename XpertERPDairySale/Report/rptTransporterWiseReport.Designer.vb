@@ -22,6 +22,7 @@ Partial Class rptTransporterWiseReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -29,6 +30,7 @@ Partial Class rptTransporterWiseReport
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkTransporterDeduction = New System.Windows.Forms.RadioButton()
         Me.chkCrateAccountZonewise = New System.Windows.Forms.RadioButton()
         Me.chkCrateAccountDateWise = New System.Windows.Forms.RadioButton()
         Me.chkNone = New System.Windows.Forms.RadioButton()
@@ -72,7 +74,6 @@ Partial Class rptTransporterWiseReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.chkTransporterDeduction = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -154,7 +155,6 @@ Partial Class rptTransporterWiseReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1029, 445)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -222,6 +222,17 @@ Partial Class rptTransporterWiseReport
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(678, 26)
         Me.RadGroupBox1.TabIndex = 408
+        '
+        'chkTransporterDeduction
+        '
+        Me.chkTransporterDeduction.AutoSize = True
+        Me.chkTransporterDeduction.Location = New System.Drawing.Point(472, 4)
+        Me.chkTransporterDeduction.Name = "chkTransporterDeduction"
+        Me.chkTransporterDeduction.Size = New System.Drawing.Size(141, 17)
+        Me.chkTransporterDeduction.TabIndex = 5
+        Me.chkTransporterDeduction.TabStop = True
+        Me.chkTransporterDeduction.Text = "Transporter Deduction"
+        Me.chkTransporterDeduction.UseVisualStyleBackColor = True
         '
         'chkCrateAccountZonewise
         '
@@ -301,7 +312,6 @@ Partial Class rptTransporterWiseReport
         Me.lblTransporter.Name = "lblTransporter"
         Me.lblTransporter.Size = New System.Drawing.Size(250, 18)
         Me.lblTransporter.TabIndex = 405
-        Me.lblTransporter.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -454,19 +464,22 @@ Partial Class rptTransporterWiseReport
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1008, 200)
         Me.gv1.TabIndex = 5
-        Me.gv1.Text = "gv"
+        Me.gv1.VarID = ""
         '
         'txtN_NetPayable
         '
@@ -771,28 +784,21 @@ Partial Class rptTransporterWiseReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1029, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -808,15 +814,11 @@ Partial Class rptTransporterWiseReport
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -849,17 +851,6 @@ Partial Class rptTransporterWiseReport
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 42
         Me.btnGo.Text = ">>>"
-        '
-        'chkTransporterDeduction
-        '
-        Me.chkTransporterDeduction.AutoSize = True
-        Me.chkTransporterDeduction.Location = New System.Drawing.Point(472, 4)
-        Me.chkTransporterDeduction.Name = "chkTransporterDeduction"
-        Me.chkTransporterDeduction.Size = New System.Drawing.Size(141, 17)
-        Me.chkTransporterDeduction.TabIndex = 5
-        Me.chkTransporterDeduction.TabStop = True
-        Me.chkTransporterDeduction.Text = "Transporter Deduction"
-        Me.chkTransporterDeduction.UseVisualStyleBackColor = True
         '
         'rptTransporterWiseReport
         '

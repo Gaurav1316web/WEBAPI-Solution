@@ -51,9 +51,25 @@ Public Class rptDailyreceiptReport
         RadSplitExp.Items("rmiPDFCollection").Visibility = ElementVisibility.Collapsed
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkZoneWisePayment.IsChecked = True Then
+            VarID += "_ZP"
+        End If
+        If chkZoneWiseSuppliesRemittence.IsChecked = True Then
+            VarID += "_ZW"
+        End If
+        If chkSaleandRealisationDetail.IsChecked = True Then
+            VarID += "_SR"
+        End If
+        If chkCardSaleCollectionDetail.IsChecked = True Then
+            VarID += "_CS"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID + clsCommon.myCstr(IIf(chkZoneWisePayment.Checked = True, "Z", "")) + clsCommon.myCstr(IIf(chkZoneWiseSuppliesRemittence.Checked = True, "SR", "")) + clsCommon.myCstr(IIf(chkSaleandRealisationDetail.Checked = True, "SRD", "")) + clsCommon.myCstr(IIf(chkCardSaleCollectionDetail.Checked = True, "CDC", ""))
 
             If chkZoneWisePayment.Checked = True OrElse chkZoneWiseSuppliesRemittence.Checked = True OrElse chkSaleandRealisationDetail.Checked = True OrElse chkCardSaleCollectionDetail.Checked = True Then
@@ -401,17 +417,17 @@ Public Class rptDailyreceiptReport
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
-                    End If
+                End If
 
-                ElseIf chkSaleandRealisationDetail.Checked = True Then
-                    'strPayment = clsDBFuncationality.getSingleValue("  Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) Select STUFF((Select distinct ',' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc ) as Alies_Name FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    'strPaymentSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    'strTotaPayment = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))'  as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+            ElseIf chkSaleandRealisationDetail.Checked = True Then
+                'strPayment = clsDBFuncationality.getSingleValue("  Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) Select STUFF((Select distinct ',' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc ) as Alies_Name FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                'strPaymentSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                'strTotaPayment = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))'  as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
 
-                    If String.IsNullOrEmpty(strPayment) Then
+                If String.IsNullOrEmpty(strPayment) Then
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
-                    End If
+                End If
 
                 ' qry = "  select ROW_NUMBER () over (order by Booking_Type) As SNo,Booking_Type as Particulars,sum([Total In Ltr]) as [Qty],sum(DocumentAmount) as [Amount]," + strPaymentSum + ",(" + strTotaPayment + ") as [Total]" &
                 '  " from (select (case when ss.Booking_Type='FN' then 'Forenoon Sales' when ss.Booking_Type='PS' then 'Parlour Sales' when ss.Booking_Type='CD' then 'Card Sales' when ss.Booking_Type='CASH' then 'Cash Sales' when ss.Booking_Type='SO' then 'Special Order Sales' when ss.Booking_Type='CR' then 'Credit Sales' when ss.Booking_Type='UP' then 'Up Country Sales' else ss.Booking_Type end) as Booking_Type, ss.[Total In Ltr],ss.DocumentAmount, rr.Amount, rr.Payment_Desc from (select Cust_Code,Booking_Type " &
@@ -511,16 +527,16 @@ Public Class rptDailyreceiptReport
                 " ) final  pivot (  sum(Receipt) for Payment_Desc in (" + strPayment + ") ) As zpivot group by Booking_Type order by Booking_Type "
 
             ElseIf chkZoneWiseSuppliesRemittence.Checked = True Then
-                    'strPayment = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc ) as Alies_Name FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    'strPaymentHeading = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'isnull(' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) +',0)' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    'strTotaPayment = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'isnull(' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) +',0)'  as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+                'strPayment = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc ) as Alies_Name FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                'strPaymentHeading = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'isnull(' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) +',0)' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                'strTotaPayment = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'isnull(' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) +',0)'  as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
 
-                    'strPaymentSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    'strTotaPayment = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))'  as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
-                    If String.IsNullOrEmpty(strPayment) Then
+                'strPaymentSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                'strTotaPayment = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME(TSPL_PAYMENT_CODE.Payment_Desc) +',0))'  as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+                If String.IsNullOrEmpty(strPayment) Then
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
-                    End If
+                End If
 
                 'qry = "  select ROW_NUMBER () over (order by Zone_Code) As SNo,Zone_Code as [Zone],[Total In Ltr] as [Qty],DocumentAmount as [Amount]," + strPaymentHeading + ",(" + strTotaPayment + ") as [Total],DocumentAmount-(" + strTotaPayment + ") as [Vendors Not Paid]" &
                 '  " from (select ss.Zone_Code, ss.[Total In Ltr],ss.DocumentAmount, rr.Amount, rr.Payment_Desc from (select ZONE AS  Zone_Code " &
@@ -565,31 +581,31 @@ Public Class rptDailyreceiptReport
                   " pivot (  sum(Amount) for Payment_Desc in (" + strPayment + ") ) As zpivot  group by zpivot.Zone_Code order by  zpivot.Zone_Code "
 
             ElseIf chkZoneWisePayment.Checked = True Then
-                    'strPayment = clsDBFuncationality.getSingleValue("  Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) Select   STUFF((Select distinct ',' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc ) as Alies_Name FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    'strPaymentSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) +',0))' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
-                    If String.IsNullOrEmpty(strPayment) Then
+                'strPayment = clsDBFuncationality.getSingleValue("  Declare @colsScheme As NVARCHAR(MAX),@query  As NVARCHAR(MAX) Select   STUFF((Select distinct ',' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc ) as Alies_Name FROM TSPL_PAYMENT_CODE order by Alies_Name FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                'strPaymentSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) +',0))' +' as ' + QUOTENAME( TSPL_PAYMENT_CODE.Payment_Desc) as Alies_Name  FROM TSPL_PAYMENT_CODE order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
+                If String.IsNullOrEmpty(strPayment) Then
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
-                    End If
+                End If
 
 
-                    qry = "select ROW_NUMBER () over (order by [Zone]) As SNo,[Zone],   " + strPaymentSum + " from ( select TSPL_RECEIPT_HEADER.Receipt_No,isnull(tspl_customer_master.Zone_Code,'') as Zone ,TSPL_RECEIPT_HEADER.RECEIPT_AMOUNT AS Amount,TSPL_PAYMENT_CODE.Payment_Desc from TSPL_RECEIPT_HEADER " & Environment.NewLine &
-                    " left outer join tspl_customer_master on tspl_customer_master.cust_code=TSPL_RECEIPT_HEADER.Cust_code " &
-                    " left outer join TSPL_BANK_MASTER on tspl_bank_master.BANK_CODE =TSPL_RECEIPT_HEADER .Bank_Code " &
-                    " left outer join TSPL_PAYMENT_CODE on TSPL_PAYMENT_CODE.Payment_Code=TSPL_RECEIPT_HEADER.Payment_Code " &
-                    " where convert(date,TSPL_RECEIPT_HEADER.Receipt_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strWhere + " "
-                    qry += " ) as s pivot (  sum(Amount) for Payment_Desc in ( " + strPayment + " ) ) as zpivot " &
-                                " group by zpivot.[Zone] order by zpivot.[Zone] "
+                qry = "select ROW_NUMBER () over (order by [Zone]) As SNo,[Zone],   " + strPaymentSum + " from ( select TSPL_RECEIPT_HEADER.Receipt_No,isnull(tspl_customer_master.Zone_Code,'') as Zone ,TSPL_RECEIPT_HEADER.RECEIPT_AMOUNT AS Amount,TSPL_PAYMENT_CODE.Payment_Desc from TSPL_RECEIPT_HEADER " & Environment.NewLine &
+                " left outer join tspl_customer_master on tspl_customer_master.cust_code=TSPL_RECEIPT_HEADER.Cust_code " &
+                " left outer join TSPL_BANK_MASTER on tspl_bank_master.BANK_CODE =TSPL_RECEIPT_HEADER .Bank_Code " &
+                " left outer join TSPL_PAYMENT_CODE on TSPL_PAYMENT_CODE.Payment_Code=TSPL_RECEIPT_HEADER.Payment_Code " &
+                " where convert(date,TSPL_RECEIPT_HEADER.Receipt_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strWhere + " "
+                qry += " ) as s pivot (  sum(Amount) for Payment_Desc in ( " + strPayment + " ) ) as zpivot " &
+                            " group by zpivot.[Zone] order by zpivot.[Zone] "
 
-                Else
-                    qry = " select TSPL_RECEIPT_HEADER.Receipt_No as [Receipt No],TSPL_RECEIPT_HEADER.Receipt_Type as [Receipt Type],TSPL_RECEIPT_HEADER.created_By as [User Name],convert(varchar,TSPL_RECEIPT_HEADER.Receipt_Date,103) AS [Date], " & Environment.NewLine &
-            " TSPL_RECEIPT_HEADER.Cust_code as [BoothId],tspl_customer_master.Zone_Code as ZONE,tspl_customer_master.Route_Desc AS [ROUTE],isnull(tspl_customer_master.OldName,'') AS BNAME," & Environment.NewLine &
-            " tspl_customer_master.CUSTomer_name as ALLOTEE ,'Company' as ToParty,TSPL_RECEIPT_HEADER.Cheque_No as [Cheque/DD No],TSPL_RECEIPT_HEADER.Cheque_Date as [Cheque Date],TSPL_BANK_MASTER.DESCRIPTION   [Bank/Branch], case when TSPL_RECEIPT_HEADER.created_By='AxisBank' then 'AXISBANK'  when TSPL_RECEIPT_HEADER.created_By='ESewa' then 'ESEWA' " & Environment.NewLine &
-            " when TSPL_RECEIPT_HEADER.created_By='TWALLET' then 'TWALLET'  ELSE TSPL_RECEIPT_HEADER.payment_code + case when len(tspl_customer_master.Zone_Code)>0 then  '_'+tspl_customer_master.Zone_Code else '' end END as [Payment Method Type]," & Environment.NewLine &
-            " case when ISNULL(TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY ,'')='Others' then 'Marketing' else 'LMS' end as Type,TSPL_RECEIPT_HEADER.RECEIPT_AMOUNT AS Amount from TSPL_RECEIPT_HEADER " & Environment.NewLine &
-            " left outer join tspl_customer_master on tspl_customer_master.cust_code=TSPL_RECEIPT_HEADER.Cust_code " &
-            " left outer join TSPL_BANK_MASTER on tspl_bank_master.BANK_CODE =TSPL_RECEIPT_HEADER .Bank_Code " &
-            " where TSPL_RECEIPT_HEADER.receipt_type<>'A' and convert(date,TSPL_RECEIPT_HEADER.Receipt_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strWhere + " " + strUserWhere
+            Else
+                qry = " select TSPL_RECEIPT_HEADER.Receipt_No as [Receipt No],TSPL_RECEIPT_HEADER.Receipt_Type as [Receipt Type],TSPL_RECEIPT_HEADER.created_By as [User Name],convert(varchar,TSPL_RECEIPT_HEADER.Receipt_Date,103) AS [Date], " & Environment.NewLine &
+        " TSPL_RECEIPT_HEADER.Cust_code as [BoothId],tspl_customer_master.Zone_Code as ZONE,tspl_customer_master.Route_Desc AS [ROUTE],isnull(tspl_customer_master.OldName,'') AS BNAME," & Environment.NewLine &
+        " tspl_customer_master.CUSTomer_name as ALLOTEE ,'Company' as ToParty,TSPL_RECEIPT_HEADER.Cheque_No as [Cheque/DD No],TSPL_RECEIPT_HEADER.Cheque_Date as [Cheque Date],TSPL_BANK_MASTER.DESCRIPTION   [Bank/Branch], case when TSPL_RECEIPT_HEADER.created_By='AxisBank' then 'AXISBANK'  when TSPL_RECEIPT_HEADER.created_By='ESewa' then 'ESEWA' " & Environment.NewLine &
+        " when TSPL_RECEIPT_HEADER.created_By='TWALLET' then 'TWALLET'  ELSE TSPL_RECEIPT_HEADER.payment_code + case when len(tspl_customer_master.Zone_Code)>0 then  '_'+tspl_customer_master.Zone_Code else '' end END as [Payment Method Type]," & Environment.NewLine &
+        " case when ISNULL(TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY ,'')='Others' then 'Marketing' else 'LMS' end as Type,TSPL_RECEIPT_HEADER.RECEIPT_AMOUNT AS Amount from TSPL_RECEIPT_HEADER " & Environment.NewLine &
+        " left outer join tspl_customer_master on tspl_customer_master.cust_code=TSPL_RECEIPT_HEADER.Cust_code " &
+        " left outer join TSPL_BANK_MASTER on tspl_bank_master.BANK_CODE =TSPL_RECEIPT_HEADER .Bank_Code " &
+        " where TSPL_RECEIPT_HEADER.receipt_type<>'A' and convert(date,TSPL_RECEIPT_HEADER.Receipt_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strWhere + " " + strUserWhere
                 qry += " order by TSPL_RECEIPT_HEADER.Receipt_Date  "
             End If
 

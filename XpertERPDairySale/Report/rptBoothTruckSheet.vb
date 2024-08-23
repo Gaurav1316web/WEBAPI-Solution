@@ -55,7 +55,7 @@ Public Class rptBoothTruckSheet
             End If
 
             If txtRouteCode.Value IsNot Nothing Then
-                whrcls += "  And TSPL_BOOKING_DETAIL.Route_No In (" + clsCommon.myCstr(txtRouteCode.Value) + ")"
+                whrcls += "  And TSPL_BOOKING_DETAIL.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
             End If
 
             qry = " SELECT  max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
@@ -928,7 +928,7 @@ Public Class rptBoothTruckSheet
 		 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_BOOKING_MATSER.Comp_Code
 		  left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_BOOKING_DETAIL.vehicle_code
 		 left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
-         where 2 = 2   and TSPL_BOOKING_MATSER.Posted = 1 " & whrcls & "    And TSPL_BOOKING_DETAIL.Route_No In (" + clsCommon.myCstr(txtRouteCode.Value) + ")   " & whrclsShift & "  And
+         where 2 = 2   and TSPL_BOOKING_MATSER.Posted = 1 " & whrcls & "    And TSPL_BOOKING_DETAIL.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')   " & whrclsShift & "  And
  convert(date,Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) )
 "
         Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry)
