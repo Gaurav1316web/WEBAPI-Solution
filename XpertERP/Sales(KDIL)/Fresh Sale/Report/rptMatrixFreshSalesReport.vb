@@ -32,7 +32,43 @@ Public Class RptMatrixFreshSalesReport
         strQry = "Select TSPL_VEHICLE_MASTER.Vehicle_Id As Code,   TSPL_VEHICLE_MASTER.Description As Name From TSPL_VEHICLE_MASTER"
         txtLorry.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtLorry.arrValueMember, txtLorry.arrDispalyMember)
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkMilkPouch.Checked = True Then
+            VarID += "_MI"
+        End If
+        If chkProduct.Checked = True Then
+            VarID += "_PO"
+        End If
+        If chkRouteSummary.Checked = True Then
+            VarID += "_RS"
+        End If
+        If rbtnDateWise.Checked = True Then
+            VarID += "_DW"
+        End If
+        If clsCommon.CompairString(ddlReportType.SelectedValue, "MGPD") = CompairStringResult.Equal Then
+            VarID += "_MG"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "TCS") = CompairStringResult.Equal Then
+            VarID += "_TC"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Demand Sheet") = CompairStringResult.Equal Then
+            VarID += "_DS"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "PGPD") = CompairStringResult.Equal Then
+            VarID += "_PG"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MSR") = CompairStringResult.Equal Then
+            VarID += "_MS"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "PSR") = CompairStringResult.Equal Then
+            VarID += "_PS"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "DMGPD") = CompairStringResult.Equal Then
+            VarID += "_DM"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "DPGPD") = CompairStringResult.Equal Then
+            VarID += "_DP"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MPDR") = CompairStringResult.Equal Then
+            VarID += "_MP"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID
         If chkMilkPouch.Checked AndAlso rbtnAsPerBooking.Checked = True Then
             PrintAsPerBooking(Exporter.Refresh)

@@ -59,6 +59,7 @@ Public Class rptProductionWiseStockReco
 
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             gv1.EnableFiltering = True
             PageSetupReport_ID = MyBase.Form_ID + IIf(rdbSummary.Checked = True, "S", "D")
             TemplateGridview = gv1
@@ -67,7 +68,16 @@ Public Class rptProductionWiseStockReco
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSummary.Checked = True Then
+            VarID += "_S"
+        Else
+            rdbDetail.Checked = True
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub LoadData(ByVal isPrintCrystalReport As Integer)
         Try
 

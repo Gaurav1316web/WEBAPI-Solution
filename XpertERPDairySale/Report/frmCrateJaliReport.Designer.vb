@@ -22,10 +22,13 @@ Partial Class FrmCrateJaliReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblLocationName = New common.Controls.MyLabel()
+        Me.RadLabel15 = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
         Me.ddlReportType = New common.Controls.MyComboBox()
         Me.lbltype = New common.Controls.MyLabel()
         Me.pnlActiveInActiveCustomer = New System.Windows.Forms.Panel()
@@ -64,15 +67,14 @@ Partial Class FrmCrateJaliReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.lblLocationName = New common.Controls.MyLabel()
-        Me.RadLabel15 = New common.Controls.MyLabel()
-        Me.fndLocation = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbltype, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlActiveInActiveCustomer.SuspendLayout()
@@ -101,8 +103,6 @@ Partial Class FrmCrateJaliReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -165,6 +165,54 @@ Partial Class FrmCrateJaliReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(798, 357)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'lblLocationName
+        '
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocationName.Location = New System.Drawing.Point(256, 142)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(195, 18)
+        Me.lblLocationName.TabIndex = 421
+        Me.lblLocationName.TextWrap = False
+        '
+        'RadLabel15
+        '
+        Me.RadLabel15.FieldName = Nothing
+        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel15.Location = New System.Drawing.Point(16, 142)
+        Me.RadLabel15.Name = "RadLabel15"
+        Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
+        Me.RadLabel15.TabIndex = 420
+        Me.RadLabel15.Text = "Location"
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(107, 142)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.RadLabel15
+        Me.fndLocation.MyLinkLable2 = Me.lblLocationName
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(143, 18)
+        Me.fndLocation.TabIndex = 419
+        Me.fndLocation.Value = ""
         '
         'ddlReportType
         '
@@ -455,11 +503,13 @@ Partial Class FrmCrateJaliReport
         Me.Gv1.MasterTemplate.EnableFiltering = True
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(798, 357)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'RadMenu1
         '
@@ -571,54 +621,6 @@ Partial Class FrmCrateJaliReport
         Me.btnReset.TabIndex = 147
         Me.btnReset.Text = "Reset"
         '
-        'lblLocationName
-        '
-        Me.lblLocationName.AutoSize = False
-        Me.lblLocationName.BorderVisible = True
-        Me.lblLocationName.FieldName = Nothing
-        Me.lblLocationName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocationName.Location = New System.Drawing.Point(256, 142)
-        Me.lblLocationName.Name = "lblLocationName"
-        Me.lblLocationName.Size = New System.Drawing.Size(195, 18)
-        Me.lblLocationName.TabIndex = 421
-        Me.lblLocationName.TextWrap = False
-        '
-        'RadLabel15
-        '
-        Me.RadLabel15.FieldName = Nothing
-        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(16, 142)
-        Me.RadLabel15.Name = "RadLabel15"
-        Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
-        Me.RadLabel15.TabIndex = 420
-        Me.RadLabel15.Text = "Location"
-        '
-        'fndLocation
-        '
-        Me.fndLocation.CalculationExpression = Nothing
-        Me.fndLocation.FieldCode = Nothing
-        Me.fndLocation.FieldDesc = Nothing
-        Me.fndLocation.FieldMaxLength = 0
-        Me.fndLocation.FieldName = Nothing
-        Me.fndLocation.isCalculatedField = False
-        Me.fndLocation.IsSourceFromTable = False
-        Me.fndLocation.IsSourceFromValueList = False
-        Me.fndLocation.IsUnique = False
-        Me.fndLocation.Location = New System.Drawing.Point(107, 142)
-        Me.fndLocation.MendatroryField = True
-        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndLocation.MyLinkLable1 = Me.RadLabel15
-        Me.fndLocation.MyLinkLable2 = Me.lblLocationName
-        Me.fndLocation.MyReadOnly = False
-        Me.fndLocation.MyShowMasterFormButton = False
-        Me.fndLocation.Name = "fndLocation"
-        Me.fndLocation.ReferenceFieldDesc = Nothing
-        Me.fndLocation.ReferenceFieldName = Nothing
-        Me.fndLocation.ReferenceTableName = Nothing
-        Me.fndLocation.Size = New System.Drawing.Size(143, 18)
-        Me.fndLocation.TabIndex = 419
-        Me.fndLocation.Value = ""
-        '
         'FrmCrateJaliReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -639,6 +641,8 @@ Partial Class FrmCrateJaliReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbltype, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlActiveInActiveCustomer.ResumeLayout(False)
@@ -670,8 +674,6 @@ Partial Class FrmCrateJaliReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

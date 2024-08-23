@@ -228,6 +228,8 @@ Public Class frmDairyBookingCustomer
         qry = "select TSPL_VEHICLE_MASTER.Vehicle_Id from TSPL_ROUTE_MASTER left join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id where TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "'"
         txtVehicleCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, Nothing))
         txtVehicleName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_Id='" + clsCommon.myCstr(txtVehicleCode.Value) + "'"))
+        fndTransporter.Value = clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'")
+        lblTransporter.Text = clsDBFuncationality.getSingleValue("  select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
         If SettTagMultipleRouteWithCustomer Then
             ''richa ERO/15/11/19-001104
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
@@ -2612,6 +2614,16 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtChequeNo.Text = ""
         txtReceiverName.Text = ""
         cmbPaymentType.SelectedIndex = 0
+        chkManualVehicle.Checked = False
+        fndTransporter.Value = ""
+        lblTransporter.Text = ""
+        txtDescription.Text = ""
+        txtManualVehicle.Text = ""
+        If chkManualVehicle.Checked Then
+            txtManualVehicle.Enabled = True
+        Else
+            txtManualVehicle.Enabled = False
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
             If Not chkcashsale.Checked Then
                 txtChequeNo.Visible = False
@@ -3120,6 +3132,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If clsCommon.myLen(lblLoginUserZone.Text) > 0 Then
                     obj.Login_User_Zone_Code = lblLoginUserZone.Text
                 End If
+                obj.Manual_VehicleNo = txtManualVehicle.Text
+                obj.Is_Manual_Vehicle = IIf(chkManualVehicle.Checked, "Y", "N")
+                obj.Transport_Id = fndTransporter.Value
+                obj.Description = txtDescription.Text
                 obj.FAT_Per = clsCommon.myCdbl(txtFATPER.Text)
                 obj.SNF_Per = clsCommon.myCdbl(txtSNFPER.Text)
                 obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
@@ -3739,6 +3755,11 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 chkGhee.Checked = IIf(obj.Is_GHEE = 1, True, False)
                 chkGhee.Enabled = False
                 chkcashsale.Checked = IIf(obj.Is_CashSale = "Y", True, False)
+                chkManualVehicle.Checked = IIf(obj.Is_Manual_Vehicle = "Y", True, False)
+                fndTransporter.Value = obj.Transport_Id
+                lblTransporter.Text = clsDBFuncationality.getSingleValue(" select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
+                txtDescription.Text = obj.Description
+                txtManualVehicle.Text = obj.Manual_VehicleNo
                 chkcashsale.Enabled = True
                 txtReceiverName.Text = obj.ReceiverName
                 If chkcashsale.Checked Then
@@ -4914,8 +4935,10 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 txtVehicleName.Text = clsCommon.myCstr(dt1.Rows(0)("Number"))
                 txtRouteCode1.Enabled = False
                 txtRouteName1.Enabled = False
-                txtVehicleCode.Enabled = False
-                txtVehicleName.Enabled = False
+                txtVehicleCode.Enabled = True
+                txtVehicleName.Enabled = True
+                fndTransporter.Value = clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'")
+                lblTransporter.Text = clsDBFuncationality.getSingleValue("  select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
             End If
         End If
     End Sub
@@ -6182,7 +6205,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     '        txtVendorNo.Focus()
     '    End If
     'End Sub
-    Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
+    Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShipToLocation._MYValidating
         If clsCommon.myLen(txtLocation.Value) = 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtLocation.Focus()
@@ -7360,7 +7383,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub txtSalesman1__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSalesman1._MYValidating
+    Private Sub txtSalesman1__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
         Dim qry As String = "select EMP_CODE as Code,Emp_Name as Name from TSPL_EMPLOYEE_MASTER"
         Dim whrcls As String = "Emp_type='Salesman'"
         txtSalesman1.Value = clsCommon.ShowSelectForm("DBC-SNOSaleman", qry, "Code", whrcls, txtSalesman1.Value, "Code", isButtonClicked)
@@ -7973,6 +7996,8 @@ from
             Dim Whrcls As String = ""
             txtVehicleCode.Value = clsCommon.ShowSelectForm("DBC-Vehicle", qry, "Code", Whrcls, txtVehicleCode.Value, "Code", isButtonClicked)
             txtVehicleName.Text = clsDBFuncationality.getSingleValue("select Vehicle_Name from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'")
+            fndTransporter.Value = clsDBFuncationality.getSingleValue("select Transport_Id from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'")
+            lblTransporter.Text = clsDBFuncationality.getSingleValue("  select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -7996,8 +8021,8 @@ from
             Else
                 txtRouteCode1.Enabled = False
                 txtRouteName1.Enabled = False
-                txtVehicleCode.Enabled = False
-                txtVehicleName.Enabled = False
+                txtVehicleCode.Enabled = True
+                txtVehicleName.Enabled = True
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -8021,7 +8046,14 @@ from
                     Dim TCTotalAmt As Decimal = 0
                     Dim SCTotalAmt As Decimal = 0
                     obj.Vehicle_Code = clsCommon.myCstr(txtVehicleCode.Value)
-                    obj.VehicleNo = clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'", trans)
+                    If chkManualVehicle.Checked Then
+                        obj.VehicleNo = txtManualVehicle.Text
+                    Else
+                        obj.VehicleNo = clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'", trans)
+                    End If
+                    obj.Description = txtDescription.Text
+                    obj.Transport_Id = fndTransporter.Value
+                    obj.Transporter_Name = lblTransporter.Text
                     obj.IsSampling = IIf(chkSampling.Checked, 1, 0)
                     'obj.ShippedCAN = txtCan.Value
                     obj.TotalCAN = txtCan.Text
@@ -8061,6 +8093,7 @@ from
                     obj.Customer_Code = txtVendorNo.Value
                     obj.Customer_Name = lblVendorName.Text
                     obj.Bill_To_Location = txtLocation.Value
+                    obj.Ship_To_Location = txtShipToLocation.Value
                     obj.Trans_Type = "FS"
                     obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
@@ -9208,5 +9241,17 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
             txtChequeNo.Visible = False
             lblChequeNo.Visible = False
         End If
+    End Sub
+    Private Sub chkManualVehicle_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkManualVehicle.ToggleStateChanged
+        If chkManualVehicle.Checked Then
+            txtManualVehicle.Enabled = True
+        Else
+            txtManualVehicle.Enabled = False
+        End If
+    End Sub
+    Private Sub fndTransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndTransporter._MYValidating
+        Dim qry As String = "select Transport_Id as [Transport Id],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
+        fndTransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndTransporter.Value, "", isButtonClicked)
+        lblTransporter.Text = clsDBFuncationality.getSingleValue(" select Transporter_Name from TSPL_TRANSPORT_MASTER where Transport_Id='" + fndTransporter.Value + "'")
     End Sub
 End Class

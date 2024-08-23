@@ -2795,16 +2795,18 @@ Public Class rptAuditTrailReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv1
         gv1.DataSource = Nothing
         gv1.Columns.Clear()
         gv1.Rows.Clear()
-        GetReportID()
+        ' GetReportID()
         Print(Exporter.Refresh)
+        ' GetReportID()
     End Sub
 
-    Sub GetReportID()
+    Sub GetReportGridID()
         Dim VarID As String = ""
         If rdbMaster.Checked Then
             VarID += "_M"
@@ -2812,7 +2814,27 @@ Public Class rptAuditTrailReport
             VarID += "_T"
         End If
         gv1.VarID = VarID
+
     End Sub
+    'Sub GetReportGridID()
+    '    Dim VarID As String = ""
+    '    If rdbMaster.Checked = True Then
+    '        VarID += "_SU"
+    '    Else
+    '        rdbTransation.Checked = True
+    '        VarID += "_DE"
+    '    End If
+    '    gv1.VarID = VarID
+    'End Sub
+    'Sub GetReportID()
+    '    Dim VarID As String = ""
+    '    If rdbMaster.Checked Then
+    '        VarID += "_M"
+    '    ElseIf rdbTransation.Checked Then
+    '        VarID += "_T"
+    '    End If
+    '    gv1.VarID = VarID
+    'End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
         Reset()

@@ -28,7 +28,19 @@ Public Class rptUnpostedDocumentReport
         RadPageView1.SelectedPage = RadPageViewPage1
         EnableDisableControls(True)
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnDispatch.IsChecked = True Then
+            VarID += "_D"
+        Else
+            rbtnAutoPaymentProcess.IsChecked = True
+            VarID += "_A"
+        End If
+        Gv1.VarID = VarID
+    End Sub
+
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         LoadData()
     End Sub
 
