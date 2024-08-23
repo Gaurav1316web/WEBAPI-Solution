@@ -105,14 +105,9 @@ Public Class frmHRRSlab
         End If
         Dim totalSlab As Integer = 0
         For Each grow As GridViewRowInfo In gvOTSlab.Rows
-            '' check blank row
             If clsCommon.myCdbl(grow.Cells(col_FROM).Value) <= 0 AndAlso clsCommon.myCdbl(grow.Cells(col_TO).Value) <= 0 Then
                 Continue For
             End If
-            'If clsCommon.myCdbl(grow.Cells(col_FROM).Value) <= 0 Then
-            '    clsCommon.MyMessageBoxShow("From Value must be greater than Zero at line no-" & (grow.Index + 1) & "")
-            '    Return False
-            'End If
             If clsCommon.myCdbl(grow.Cells(col_TO).Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "To Value must be greater than Zero at line no-" & (grow.Index + 1) & "")
                 Return False
@@ -217,7 +212,7 @@ Public Class frmHRRSlab
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub frmhrrSlab_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

@@ -190,7 +190,7 @@ Public Class clsHRRSlabDetails
         DR("Code") = "BS"
         DT.Rows.Add(DR)
 
-        DR = DT.NewRow() ''BHA/01/02/19-000798 by balwinder on 01/02/2019
+        DR = DT.NewRow()
         DR("Name") = "% Gross"
         DR("Code") = "GS"
         DT.Rows.Add(DR)
