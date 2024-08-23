@@ -935,11 +935,22 @@ Public Class rptBoothTruckSheet
         If dtPrint IsNot Nothing And dtPrint.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If rdbEnglish.IsChecked = True Then
-                frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheet", "Dairy Sale Booth Truck Sheetr")
+                If chkPouch.Checked = True Then
+                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetPouch", "Dairy Sale Booth Truck Sheetr")
+
+                Else
+                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheet", "Dairy Sale Booth Truck Sheetr")
+
+                End If
             Else
-                frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindi", "Dairy Sale Booth Truck Sheet In Hindi")
+                If chkPouch.Checked = True Then
+                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindiPouch", "Dairy Sale Booth Truck Sheetr")
+
+                Else
+                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindi", "Dairy Sale Booth Truck Sheet In Hindi")
+                End If
             End If
-            frmCRV = Nothing
+                frmCRV = Nothing
             Return
             'ElseIf
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
