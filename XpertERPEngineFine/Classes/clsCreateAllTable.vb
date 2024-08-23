@@ -7924,6 +7924,7 @@ Public Class clsCreateAllTable
             coll.Add("IsAgainstGateOut", "int NOT NULL default 0")
             coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, False, "", "Gate_Entry_No", "Date_And_Time")
 
             coll = New Dictionary(Of String, String)()
