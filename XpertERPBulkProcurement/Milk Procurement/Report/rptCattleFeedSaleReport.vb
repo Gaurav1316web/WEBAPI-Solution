@@ -75,7 +75,16 @@ Public Class rptCattleFeedSaleReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkBalanceWise.Checked Then
+            VarID += "_B"
+        End If
+        gv1.VarID = VarID
     End Sub
     Sub Reset()
         gv1.DataSource = Nothing

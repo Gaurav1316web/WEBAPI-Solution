@@ -38,6 +38,7 @@ Public Class rptInvoiceDetailReport
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             If rbtnBatchWise.IsChecked = True Then
                 PageSetupReport_ID = MyBase.Form_ID + "B"
             ElseIf rbtnItemWise.IsChecked = True Then
@@ -49,20 +50,20 @@ Public Class rptInvoiceDetailReport
             Dim dt As New DataTable
 
             If rbtnBatchWise.IsChecked = True Then
-                qry = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code  as [Invoice No],TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [invoice Date] ,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code as [DO No],TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name] ,case when isnull(TSPL_SD_SHIPMENT_HEAD .Ship_To_Location,'')='' then TSPL_CUSTOMER_MASTER.Customer_Name   else TSPL_SHIP_TO_LOCATION.Ship_To_Desc end  as Consignee " & _
-                        ",ISNULL(TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,'') as [Customer PO]  " & _
-                        ", TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code] ,  TSPL_ITEM_MASTER.Item_Desc as [Item Desc]  " & _
-                        ", isnull(TSPL_BATCH_ITEM.Qty,TSPL_SD_SHIPMENT_DETAIL.Qty) as Qty  " & _
-                        ", TSPL_SD_SHIPMENT_DETAIL.Unit_code as UOM,isnull(TSPL_BATCH_ITEM.Batch_No,'')  as [Batch No]  ,isnull(TSPL_BATCH_ITEM.Manual_BatchNo,'') as [Manual Batch No]  , isnull(TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,'N')  as [Is Cancelled]  " & _
-                        " from TSPL_SD_SHIPMENT_DETAIL " & _
-                        "Left Outer Join TSPL_SD_SHIPMENT_HEAD on  TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.Document_Code  " & _
-                        "left join TSPL_BATCH_ITEM on TSPL_SD_SHIPMENT_DETAIL.Document_Code   =TSPL_BATCH_ITEM.Document_Code AND TSPL_BATCH_ITEM.Parent_Line_No=TSPL_SD_SHIPMENT_DETAIL.Line_No  " & _
-                        "AND TSPL_BATCH_ITEM.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code AND TSPL_BATCH_ITEM.UOM =TSPL_SD_SHIPMENT_DETAIL.Unit_code " & _
-                        "left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code   " & _
-                        "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_code = TSPL_SD_SHIPMENT_HEAD.Bill_To_Location  " & _
-                        "left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code   " & _
-                        "left outer join  TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code =TSPL_SD_SHIPMENT_HEAD .Ship_To_Location " & _
-                        "left outer join TSPL_SD_SALE_INVOICE_HEAD  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " & _
+                qry = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code  as [Invoice No],TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [invoice Date] ,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code as [DO No],TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name] ,case when isnull(TSPL_SD_SHIPMENT_HEAD .Ship_To_Location,'')='' then TSPL_CUSTOMER_MASTER.Customer_Name   else TSPL_SHIP_TO_LOCATION.Ship_To_Desc end  as Consignee " &
+                        ",ISNULL(TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,'') as [Customer PO]  " &
+                        ", TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code] ,  TSPL_ITEM_MASTER.Item_Desc as [Item Desc]  " &
+                        ", isnull(TSPL_BATCH_ITEM.Qty,TSPL_SD_SHIPMENT_DETAIL.Qty) as Qty  " &
+                        ", TSPL_SD_SHIPMENT_DETAIL.Unit_code as UOM,isnull(TSPL_BATCH_ITEM.Batch_No,'')  as [Batch No]  ,isnull(TSPL_BATCH_ITEM.Manual_BatchNo,'') as [Manual Batch No]  , isnull(TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,'N')  as [Is Cancelled]  " &
+                        " from TSPL_SD_SHIPMENT_DETAIL " &
+                        "Left Outer Join TSPL_SD_SHIPMENT_HEAD on  TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.Document_Code  " &
+                        "left join TSPL_BATCH_ITEM on TSPL_SD_SHIPMENT_DETAIL.Document_Code   =TSPL_BATCH_ITEM.Document_Code AND TSPL_BATCH_ITEM.Parent_Line_No=TSPL_SD_SHIPMENT_DETAIL.Line_No  " &
+                        "AND TSPL_BATCH_ITEM.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code AND TSPL_BATCH_ITEM.UOM =TSPL_SD_SHIPMENT_DETAIL.Unit_code " &
+                        "left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code   " &
+                        "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_code = TSPL_SD_SHIPMENT_HEAD.Bill_To_Location  " &
+                        "left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code   " &
+                        "left outer join  TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code =TSPL_SD_SHIPMENT_HEAD .Ship_To_Location " &
+                        "left outer join TSPL_SD_SALE_INVOICE_HEAD  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
                        " where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)  "
 
 
@@ -78,21 +79,21 @@ Public Class rptInvoiceDetailReport
 
                 qry += " AND  TSPL_SD_SALE_INVOICE_HEAD.Screen_Type ='DS' order by TSPL_SD_SHIPMENT_HEAD.Document_Date asc "
             ElseIf rbtnItemWise.IsChecked = True Then
-                qry = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code  as [Invoice No],TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [invoice Date] ,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code as [DO No]" & _
-                    ",TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name] " & _
-                    ",case when isnull(TSPL_SD_SHIPMENT_HEAD .Ship_To_Location,'')='' then TSPL_CUSTOMER_MASTER.Customer_Name  " & _
-                    " else TSPL_SHIP_TO_LOCATION.Ship_To_Desc end  as Consignee " & _
-                    ",ISNULL(TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,'') as [Customer PO] " & _
-                    ", TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code] ,  TSPL_ITEM_MASTER.Item_Desc as [Item Desc] " & _
-                    ", TSPL_SD_SHIPMENT_DETAIL.Qty , TSPL_SD_SHIPMENT_DETAIL.Unit_code AS UOM,TSPL_SD_SHIPMENT_DETAIL.Amount [Item Amt],TSPL_SD_SHIPMENT_DETAIL.Total_Tax_Amt [Item Tax Amt],TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt [Item Net Amt] " & _
-                    ", isnull(TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,'N')  as [Is Cancelled] " & _
-                    " from TSPL_SD_SHIPMENT_DETAIL " & _
-                    "LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD .Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  " & _
-                    "LEFT OUTER JOIN TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code  " & _
-                    "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_code = TSPL_SD_SHIPMENT_HEAD.Bill_To_Location   " & _
-                    "left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code " & _
-                    "left outer join  TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code =TSPL_SD_SHIPMENT_HEAD .Ship_To_Location " & _
-                    "left outer join TSPL_SD_SALE_INVOICE_HEAD  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " & _
+                qry = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code  as [Invoice No],TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [invoice Date] ,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code as [DO No]" &
+                    ",TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name] " &
+                    ",case when isnull(TSPL_SD_SHIPMENT_HEAD .Ship_To_Location,'')='' then TSPL_CUSTOMER_MASTER.Customer_Name  " &
+                    " else TSPL_SHIP_TO_LOCATION.Ship_To_Desc end  as Consignee " &
+                    ",ISNULL(TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,'') as [Customer PO] " &
+                    ", TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code] ,  TSPL_ITEM_MASTER.Item_Desc as [Item Desc] " &
+                    ", TSPL_SD_SHIPMENT_DETAIL.Qty , TSPL_SD_SHIPMENT_DETAIL.Unit_code AS UOM,TSPL_SD_SHIPMENT_DETAIL.Amount [Item Amt],TSPL_SD_SHIPMENT_DETAIL.Total_Tax_Amt [Item Tax Amt],TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt [Item Net Amt] " &
+                    ", isnull(TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,'N')  as [Is Cancelled] " &
+                    " from TSPL_SD_SHIPMENT_DETAIL " &
+                    "LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD .Document_Code =TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  " &
+                    "LEFT OUTER JOIN TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code  " &
+                    "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_code = TSPL_SD_SHIPMENT_HEAD.Bill_To_Location   " &
+                    "left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code " &
+                    "left outer join  TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code =TSPL_SD_SHIPMENT_HEAD .Ship_To_Location " &
+                    "left outer join TSPL_SD_SALE_INVOICE_HEAD  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
                    " where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)  "
 
                 If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
@@ -141,7 +142,16 @@ Public Class rptInvoiceDetailReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnItemWise.IsChecked = True Then
+            VarID += "_IW"
+        Else
+            rbtnBatchWise.IsChecked = True
+            VarID += "_BW"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub

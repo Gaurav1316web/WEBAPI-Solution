@@ -707,7 +707,20 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             PageSetupReport_ID = PageSetupReport_ID + "D"
         End If
         TemplateGridview = gv
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(cboReportType.SelectedItem.Text, "Detail") = CompairStringResult.Equal Then
+            VarID += "_D"
+        ElseIf clsCommon.CompairString(cboReportType.SelectedItem.Text, "Summary") = CompairStringResult.Equal Then
+            VarID += "_S"
+        ElseIf clsCommon.CompairString(cboReportType.SelectedItem.Text, "MP Polling") = CompairStringResult.Equal Then
+            VarID += "_MP"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

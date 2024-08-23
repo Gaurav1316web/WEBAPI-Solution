@@ -1032,7 +1032,16 @@ Public Class rptMCCBillGenrationStatus
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = GetReportID()
         TemplateGridview = gv
+        GetReportPdfID()
         LoadData()
+    End Sub
+
+    Sub GetReportPdfID()
+        Dim VarID As String = ""
+        If chkBillPaymentStatus.Checked Then
+            VarID += "_BPS"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

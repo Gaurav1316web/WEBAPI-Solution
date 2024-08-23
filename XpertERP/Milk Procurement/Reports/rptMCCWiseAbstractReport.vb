@@ -810,6 +810,7 @@ Public Class rptMCCWiseAbstractReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         'PageSetupReport_ID = MyBase.Form_ID
         'TemplateGridview = gv1
+        GetReportID()
         gv1.DataSource = Nothing
         gv1.Columns.Clear()
         gv1.Rows.Clear()
@@ -832,6 +833,44 @@ Public Class rptMCCWiseAbstractReport
         Else
             Print(Exporter.Refresh)
         End If
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbMainPlant.Checked Then
+            VarID += "_M"
+        ElseIf rdbOther.Checked Then
+            VarID += "_O"
+        End If
+
+        If rdbDetails.Checked Then
+            VarID += "_D"
+        ElseIf rdbSummary.Checked Then
+            VarID += "_S"
+        ElseIf rdbProcurementAbstract.Checked Then
+            VarID += "_PA"
+        ElseIf rdbMilkReceipts.Checked Then
+            VarID += "_MR"
+        ElseIf rdbCheckList.Checked Then
+            VarID += "_L"
+        ElseIf rdbUnitWiseTotal.Checked Then
+            VarID += "_UWT"
+        ElseIf rdbUnitWiseAnalysis.Checked Then
+            VarID += "_UWA"
+        ElseIf rdbRouteBillsAbstract.Checked Then
+            VarID += "_RBA"
+        ElseIf rdbUnitWiseDeduction.Checked Then
+            VarID += "_UWD"
+        ElseIf rdbTIPsummaryReportMCCandVLCwise.Checked Then
+            VarID += "_RMVW"
+        ElseIf rdbUnitWiseBillSummary.Checked Then
+            VarID += "_UWBS"
+        ElseIf rdbYearlyConsolidatedofMilkPayment.Checked Then
+            VarID += "_YCDMP"
+        ElseIf rdbYearlyConsolidatedReportofMilkProcurement.Checked Then
+            VarID += "_YCRMP"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
