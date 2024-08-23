@@ -1046,7 +1046,7 @@ Public Class RptSaleRegisterReport
         GetReportID()
         PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         TemplateGridview = Gv1
-        GetReportGridID()
+        'GetReportGridID()
         Print(Exporter.Refresh)
     End Sub
 
