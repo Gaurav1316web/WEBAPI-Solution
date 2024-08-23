@@ -128,6 +128,7 @@ Public Class FrmCrateJaliReport
     'End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + IIf(CrateReceivingWithMultipleRoute = True, "MR", "") + IIf(chkCustomerWise.Checked = True, "CW", IIf(chkcustomerWithDateWise.Checked = True, "CWDW", ""))
         If CrateReceivingWithMultipleRoute = True Then
             loaddataRouteWise()
@@ -148,7 +149,27 @@ Public Class FrmCrateJaliReport
         End If
 
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkCustomerWise.Checked = True Then
+            VarID += "_SU"
+        End If
+        If chkcustomerWithDateWise.IsChecked = True Then
+            VarID += "_DE"
+        End If
+        If clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedItem), "Select") = CompairStringResult.Equal Then
+            VarID += "_SE"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedItem), "Deposit Crate Detail") = CompairStringResult.Equal Then
+            VarID += "_DC"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedItem), "Supply Crate Report") = CompairStringResult.Equal Then
+            VarID += "_SC"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedItem), "Party-Wise Report") = CompairStringResult.Equal Then
+            VarID += "_PW"
 
+        End If
+
+        Gv1.VarID = VarID
+    End Sub
     '===========================added by preeti gupta 04/10/2016,[BHA/09/07/18-000140],[BHA/11/07/18-000145,BHA/12/07/18-000154,BHA/22/05/19-000895,BHA/01/07/19-000916]=====================
     Public Sub loaddata()
         dt = Nothing

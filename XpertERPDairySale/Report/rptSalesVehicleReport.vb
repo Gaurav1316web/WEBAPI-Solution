@@ -253,7 +253,20 @@ Public Class rptSalesVehicleReport
         gv1.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbGatePassDate.Checked = True Then
+            VarID += "_GP"
+        ElseIf rdbProvisionEntryDate.Checked = True Then
+            VarID += "_PE"
+        End If
+        If chkLinkedwithShipment.Checked = True Then
+            VarID += "_LS"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID + IIf(chkLinkedwithShipment.Checked, "Shipment", "")
         TemplateGridview = gv1
         gv1.DataSource = Nothing

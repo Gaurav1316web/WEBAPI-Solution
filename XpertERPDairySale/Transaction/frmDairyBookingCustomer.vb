@@ -6205,7 +6205,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     '        txtVendorNo.Focus()
     '    End If
     'End Sub
-    Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
+    Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShipToLocation._MYValidating
         If clsCommon.myLen(txtLocation.Value) = 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtLocation.Focus()
@@ -8046,7 +8046,14 @@ from
                     Dim TCTotalAmt As Decimal = 0
                     Dim SCTotalAmt As Decimal = 0
                     obj.Vehicle_Code = clsCommon.myCstr(txtVehicleCode.Value)
-                    obj.VehicleNo = clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'", trans)
+                    If chkManualVehicle.Checked Then
+                        obj.VehicleNo = txtManualVehicle.Text
+                    Else
+                        obj.VehicleNo = clsDBFuncationality.getSingleValue("select Number from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'", trans)
+                    End If
+                    obj.Description = txtDescription.Text
+                    obj.Transport_Id = fndTransporter.Value
+                    obj.Transporter_Name = lblTransporter.Text
                     obj.IsSampling = IIf(chkSampling.Checked, 1, 0)
                     'obj.ShippedCAN = txtCan.Value
                     obj.TotalCAN = txtCan.Text
@@ -8086,6 +8093,7 @@ from
                     obj.Customer_Code = txtVendorNo.Value
                     obj.Customer_Name = lblVendorName.Text
                     obj.Bill_To_Location = txtLocation.Value
+                    obj.Ship_To_Location = txtShipToLocation.Value
                     obj.Trans_Type = "FS"
                     obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic

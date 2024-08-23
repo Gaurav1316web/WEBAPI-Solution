@@ -3678,7 +3678,7 @@ Public Class frmGRN
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
             SaveData(False)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
