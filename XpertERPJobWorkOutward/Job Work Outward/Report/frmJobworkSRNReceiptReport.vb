@@ -87,7 +87,20 @@ Public Class frmJobworkSRNReceiptReport
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         PageSetupReport_ID = MyBase.Form_ID + IIf(rdbSummary.IsChecked = True, "S", "D")
         TemplateGridview = gv
+        GetReportID()
         LoadData(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf rdbDetail.IsChecked Then
+            VarID += "_D"
+        End If
+
+        gv.VarID = VarID
+
     End Sub
 
     Sub LoadData(ByVal IsPrint As Exporter)

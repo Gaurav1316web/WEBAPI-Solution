@@ -460,6 +460,7 @@ Public Class FrmStockReco
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         Try
             gv1.EnableFiltering = True
+            GetReportGridID()
             If cboDisplayMethod.SelectedValue = "None" Then
                 LoadData(0)
             Else
@@ -471,6 +472,35 @@ Public Class FrmStockReco
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+
+        If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Transaction Wise") = CompairStringResult.Equal Then
+            VarID += "_TW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Type Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_ITWS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Category Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_CWS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_IWS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item And Location Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_ILWS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Document Wise Detail") = CompairStringResult.Equal Then
+            VarID += "_DWD"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Group Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_IGWS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date, Item And Document Wise Detail") = CompairStringResult.Equal Then
+            VarID += "_DIDWS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date and Item Wise Stock") = CompairStringResult.Equal Then
+            VarID += "_DIWS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Document Wise Detail Ledger") = CompairStringResult.Equal Then
+            VarID += "_DWDL"
+        End If
+
+        gv1.VarID = VarID
+
     End Sub
 
     Private Sub LoadDataNew(ByVal isPrintCrystalReport As Integer)

@@ -1045,7 +1045,35 @@ Public Class RptSaleRegisterReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         TemplateGridview = Gv1
+        GetReportGridID()
         Print(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+
+        If clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Total Sale") = CompairStringResult.Equal Then
+            VarID += "_TS"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Location Wise") = CompairStringResult.Equal Then
+            VarID += "_LW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Item Group Wise") = CompairStringResult.Equal Then
+            VarID += "_IGW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Customer Group Wise") = CompairStringResult.Equal Then
+            VarID += "_CGW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Item Wise") = CompairStringResult.Equal Then
+            VarID += "_IW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Customer Wise") = CompairStringResult.Equal Then
+            VarID += "_CW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Document Wise") = CompairStringResult.Equal Then
+            VarID += "_DW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Document Detail") = CompairStringResult.Equal Then
+            VarID += "_DD"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Net Sale") = CompairStringResult.Equal Then
+            VarID += "_NS"
+        End If
+
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
