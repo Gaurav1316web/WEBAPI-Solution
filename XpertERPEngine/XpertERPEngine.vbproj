@@ -493,6 +493,7 @@
     <Compile Include="Payroll\clsfrmSalaryAccountSetting.vb" />
     <Compile Include="Payroll\clsGeneralHolidays.vb" />
     <Compile Include="Payroll\clsHourlyAttendance.vb" />
+    <Compile Include="Payroll\clsHRRSlab.vb" />
     <Compile Include="Payroll\clsIncentiveMaster.vb" />
     <Compile Include="Payroll\clsIncomeTaxTDSCalculation.vb" />
     <Compile Include="Payroll\clsIncomeTaxTDSSlab.vb" />

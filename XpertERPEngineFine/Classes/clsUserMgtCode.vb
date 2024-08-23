@@ -1460,6 +1460,7 @@ Public Class clsUserMgtCode
     Public Const frmLeaveMaster As String = "LEAVE-MAST"
     Public Const frmOTSlab As String = "OT-Slab"
     Public Const frmPTSlab As String = "PT-Slab"
+    Public Const frmHRRSlab As String = "HRR-Slab"
     Public Const frmSavingsMaster As String = "SAVING_MAST"
     Public Const frmSectionAllowanceMaster As String = "SECALW_MAST"
     Public Const frmEmployeeSavingsMapping As String = "EMP_SAV_MAP"

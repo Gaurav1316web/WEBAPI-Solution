@@ -16452,6 +16452,25 @@ Public Class clsCreateAllTable
             coll.Add("PT_AMOUNT", "NUMERIC(12,2) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PT_DETAIL", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("HRR_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("HRR_NAME", "VARCHAR(100) NOT NULL  ")
+            coll.Add("APPLICABLE_FROM", "DATE NOT NULL")
+            coll.Add("STATE_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_STATE_MASTER(STATE_CODE) ")
+            coll.Add("REMARKS", "VARCHAR(200)  NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_RULE_MASTER", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("HRR_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_HRR_RULE_MASTER(HRR_CODE) ")
+            coll.Add("SLAB_FROM", "NUMERIC(12,2) NOT NULL")
+            coll.Add("SLAB_TO", "NUMERIC(12,2) NOT NULL")
+            coll.Add("PAYHEADS", "varchar(12) NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_DETAIL", coll)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PROJECT_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
