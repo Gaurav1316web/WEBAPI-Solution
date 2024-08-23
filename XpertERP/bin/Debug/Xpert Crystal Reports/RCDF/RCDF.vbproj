@@ -1944,6 +1944,8 @@
     <None Include="Crystal Reports\Sales Report\rptCustomerWiseDRCR.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheet.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetInHindi.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetInHindiPouch.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetPouch.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
