@@ -153,11 +153,22 @@ Public Class RptSecondaryTransporterReport
             btnReferesh = True
             PageSetupReport_ID = IIf(chkSummary.IsChecked = True, clsERPFuncationality.GetReportID(MyBase.Form_ID, cbSummaryFor.Text), MyBase.Form_ID + "D")
             TemplateGridview = gv
+            GetReportID()
             LoadData()
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf chkDetail.IsChecked Then
+            VarID += "_D"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub LoadData()

@@ -71,11 +71,29 @@ Public Class RptPendingMilkSRN
         Try
             PageSetupReport_ID = MyBase.Form_ID + IIf(RbSummary.IsChecked = True, "S", "D")
             TemplateGridview = gv
+            GetReportID()
             Load_Report()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If RbDetail.IsChecked Then
+            VarID += "_D"
+        ElseIf RbSummary.IsChecked Then
+            VarID += "_S"
+        End If
+
+        If RbPending.IsChecked Then
+            VarID += "_P"
+        ElseIf RbAll.IsChecked Then
+            VarID += "_AL"
+        End If
+        gv1.VarID = VarID
+    End Sub
+
     Sub Reset()
         LOCATIONRIGTHS()
         txtToDate.Value = clsCommon.GETSERVERDATE()

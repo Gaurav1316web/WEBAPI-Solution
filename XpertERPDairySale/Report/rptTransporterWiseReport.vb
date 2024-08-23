@@ -331,10 +331,26 @@ Public Class rptTransporterWiseReport
         txtmultiRoute.Enabled = True
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkRouteWise.Checked = True Then
+            VarID += "_RW"
+        ElseIf chkZoneWise.Checked = True Then
+            VarID += "_ZW"
+        ElseIf chkCrateAccountDateWise.Checked = True Then
+            VarID += "_AD"
+        ElseIf chkCrateAccountZonewise.Checked = True Then
+            VarID += "_AZ"
+        ElseIf chkTransporterDeduction.Checked = True Then
+            VarID += "_TD"
+        ElseIf chkNone.Checked = True Then
+            VarID += "_NO"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-
+            GetReportGridID()
             If clsCommon.myLen(txtTransport.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Plz Select Transporter.", Me.Text)
                 txtTransport.Focus()

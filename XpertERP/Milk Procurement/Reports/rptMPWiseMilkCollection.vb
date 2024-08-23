@@ -468,7 +468,16 @@ Public Class RptMPWiseMilkCollection
         btnReferesh = True
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkWithoutGroup.Checked Then
+            VarID += "_WG"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

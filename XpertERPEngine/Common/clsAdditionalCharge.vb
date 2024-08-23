@@ -565,7 +565,7 @@ Public Class clsCustomerMaster
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
 
-            If SaveHistory(obj.Cust_Code, isNewEntry, trans) Then
+            If True Then
                 '' Anubhooti 18-July-2014
                 'trans = clsDBFuncationality.GetTransactin()
                 Dim coll As New Hashtable()
@@ -839,6 +839,7 @@ Public Class clsCustomerMaster
                         '    trans.Rollback()
                     End If
                 End If
+                SaveHistory(obj.Cust_Code, False, trans)
             End If
         Catch ex As Exception
             'trans.Rollback()

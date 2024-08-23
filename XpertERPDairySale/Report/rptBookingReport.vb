@@ -43,9 +43,20 @@ Public Class rptBookingReport
         'txtRoute.Enabled = True
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbDay.Checked = True Then
+            VarID += "_D"
+        ElseIf rdbMonth.Checked = True Then
+            VarID += "_M"
+        ElseIf rdbYear.Checked = True Then
+            VarID += "_Y"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID
             TemplateGridview = Gv1
             Dim qry As String = ""

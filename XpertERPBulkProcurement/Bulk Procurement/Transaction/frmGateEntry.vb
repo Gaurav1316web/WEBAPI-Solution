@@ -58,214 +58,222 @@ Public Class FrmGateEntry
     Dim isHighClass As String = ""
 
     Private Sub FrmGateEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim qry As String = ""
+        Try
+            Dim qry As String = ""
 
-        ForceToSelectIteminGateEntry = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ForceToSelectIteminGateEntry, clsFixedParameterCode.ForceToSelectIteminGateEntry, Nothing))
-        GateEntryChamberwisewithManualTankerEntry = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GateEntryChamberwisewithManualTankerEntry, clsFixedParameterCode.GateEntryChamberwisewithManualTankerEntry, Nothing))
-        ShowGateEntryType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowGateEntryTypeonGateEntryBulkProc, clsFixedParameterCode.ShowGateEntryTypeonGateEntryBulkProc, Nothing))
-        AllowBulkProcMCCwithoutTankerDispatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowBulkProcMCCwithoutTankerDispatch, clsFixedParameterCode.AllowBulkProcMCCwithoutTankerDispatch, Nothing))
-        AllowGateEntryAgainstPO = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGateEntryAgainstPO, clsFixedParameterCode.AllowGateEntryAgainstPO, Nothing))
-        allowManualrate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualPriceONBulkPO, clsFixedParameterCode.AllowManualPriceONBulkPO, Nothing))
-        ShowTankerWithoutCheckingAnyValidation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowTankerWithoutCheckingAnyValidation, clsFixedParameterCode.ShowTankerWithoutCheckingAnyValidation, Nothing)) = 0, False, True)
-        AllowtoChangeFatANdSNFPerforHighClassVendorinGE = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeFatANdSNFPerforHighClassVendorinGE, clsFixedParameterCode.AllowtoChangeFatANdSNFPerforHighClassVendorinGE, Nothing)) = 0, False, True)
-        CreateMCCTankerGateOutBasedOnBulkRouteMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateMCCTankerGateOutBasedOnBulkRouteMaster, clsFixedParameterCode.CreateMCCTankerGateOutBasedOnBulkRouteMaster, Nothing)) = 1, True, False)
-        CreateProvisionOfTankerDispatchWithClosingKM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTankerDispatchWithClosingKM, clsFixedParameterCode.CreateProvisionOfTankerDispatchWithClosingKM, Nothing)) = 0, False, True)
-        CreateProvisionforBulkContractorInGateIn = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionforBulkContractorInGateIn, clsFixedParameterCode.CreateProvisionforBulkContractorInGateIn, Nothing)) = 0, False, True)
-        SetUserMgmtNew()
-        'If clsERPFuncationality.isCurrentUserMCC() Then
-        '    chkBulkMilkProc.Enabled = False
-        '    chkMccProc.IsChecked = True
-        'Else
-        '    chkBulkMilkProc.Enabled = True
-        '    chkBulkMilkProc.IsChecked = True
-        'End If
-        MCCChamberwise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsChamberWiseTanker, clsFixedParameterCode.IsChamberWiseTanker, Nothing))
+            ForceToSelectIteminGateEntry = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ForceToSelectIteminGateEntry, clsFixedParameterCode.ForceToSelectIteminGateEntry, Nothing))
+            GateEntryChamberwisewithManualTankerEntry = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GateEntryChamberwisewithManualTankerEntry, clsFixedParameterCode.GateEntryChamberwisewithManualTankerEntry, Nothing))
+            ShowGateEntryType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowGateEntryTypeonGateEntryBulkProc, clsFixedParameterCode.ShowGateEntryTypeonGateEntryBulkProc, Nothing))
+            AllowBulkProcMCCwithoutTankerDispatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowBulkProcMCCwithoutTankerDispatch, clsFixedParameterCode.AllowBulkProcMCCwithoutTankerDispatch, Nothing))
+            AllowGateEntryAgainstPO = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGateEntryAgainstPO, clsFixedParameterCode.AllowGateEntryAgainstPO, Nothing))
+            allowManualrate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualPriceONBulkPO, clsFixedParameterCode.AllowManualPriceONBulkPO, Nothing))
+            ShowTankerWithoutCheckingAnyValidation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowTankerWithoutCheckingAnyValidation, clsFixedParameterCode.ShowTankerWithoutCheckingAnyValidation, Nothing)) = 0, False, True)
+            AllowtoChangeFatANdSNFPerforHighClassVendorinGE = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeFatANdSNFPerforHighClassVendorinGE, clsFixedParameterCode.AllowtoChangeFatANdSNFPerforHighClassVendorinGE, Nothing)) = 0, False, True)
+            CreateMCCTankerGateOutBasedOnBulkRouteMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateMCCTankerGateOutBasedOnBulkRouteMaster, clsFixedParameterCode.CreateMCCTankerGateOutBasedOnBulkRouteMaster, Nothing)) = 1, True, False)
+            CreateProvisionOfTankerDispatchWithClosingKM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTankerDispatchWithClosingKM, clsFixedParameterCode.CreateProvisionOfTankerDispatchWithClosingKM, Nothing)) = 0, False, True)
+            CreateProvisionforBulkContractorInGateIn = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionforBulkContractorInGateIn, clsFixedParameterCode.CreateProvisionforBulkContractorInGateIn, Nothing)) = 0, False, True)
+            SetUserMgmtNew()
+            'If clsERPFuncationality.isCurrentUserMCC() Then
+            '    chkBulkMilkProc.Enabled = False
+            '    chkMccProc.IsChecked = True
+            'Else
+            '    chkBulkMilkProc.Enabled = True
+            '    chkBulkMilkProc.IsChecked = True
+            'End If
+            MCCChamberwise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsChamberWiseTanker, clsFixedParameterCode.IsChamberWiseTanker, Nothing))
 
-        AllowJobWorkonGateEntryBulkProc = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowJobWorkonGateEntryBulkProc, clsFixedParameterCode.AllowJobWorkonGateEntryBulkProc, Nothing))
-        isIntimationReqd = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.isIntimationRequired, clsFixedParameterCode.isIntimationRequired, Nothing))
-        TankerFromMaster = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GateEntryTankerFromTankerMaster, clsFixedParameterCode.GateEntryTankerFromTankerMaster, Nothing))
+            AllowJobWorkonGateEntryBulkProc = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowJobWorkonGateEntryBulkProc, clsFixedParameterCode.AllowJobWorkonGateEntryBulkProc, Nothing))
+            isIntimationReqd = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.isIntimationRequired, clsFixedParameterCode.isIntimationRequired, Nothing))
+            TankerFromMaster = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GateEntryTankerFromTankerMaster, clsFixedParameterCode.GateEntryTankerFromTankerMaster, Nothing))
 
-        intBulkProcRunOneTypeGateEntry = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BulkProcRunOneTypeGateEntry, clsFixedParameterCode.BulkProcRunOneTypeGateEntry, Nothing))
-        If intBulkProcRunOneTypeGateEntry = 1 Then
-            grpGateEntryType.Visible = False
-            chkBulkMilkProc.IsChecked = True
-        ElseIf intBulkProcRunOneTypeGateEntry = 2 Then
-            grpGateEntryType.Visible = False
-            chkMccProc.IsChecked = True
-        Else
-            grpGateEntryType.Visible = True
-        End If
-        'If AllowJobWorkonGateEntryBulkProc = 1 Then
-        chkJobWork.Visible = False
-        ' End If
-        If TankerFromMaster = 0 AndAlso isIntimationReqd = 0 Then
-            SplitContainer4.SplitterDistance = 170
-            Panel1.Visible = False
-        Else
-            Panel1.Visible = True
-        End If
-        If isIntimationReqd = 1 Then
-            lblIntimationNo.Visible = True
-            labIntimation.Visible = True
-        Else
-            lblIntimationNo.Visible = False
-            labIntimation.Visible = False
-        End If
-
-        LoadStatus()
-        LoadGEType()
-        reset()
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S to Save/Update ")
-        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D to Delete ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C to Close The Window")
-        ButtonToolTip.SetToolTip(btnReset, "Press Alt+N For New")
-        ButtonToolTip.SetToolTip(btnPost, "Press Alt+P To Post Transaction")
-        If clsCommon.myLen(strDocCode) > 0 Then
-            Dim DocType As String = clsDBFuncationality.getSingleValue("select doc_type from tspl_gate_entry_details where gate_entry_no='" & strDocCode & "'")
-            If clsCommon.CompairString(DocType, "BulkProc") = CompairStringResult.Equal Then
+            intBulkProcRunOneTypeGateEntry = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BulkProcRunOneTypeGateEntry, clsFixedParameterCode.BulkProcRunOneTypeGateEntry, Nothing))
+            If intBulkProcRunOneTypeGateEntry = 1 Then
+                grpGateEntryType.Visible = False
                 chkBulkMilkProc.IsChecked = True
-            Else
+            ElseIf intBulkProcRunOneTypeGateEntry = 2 Then
+                grpGateEntryType.Visible = False
                 chkMccProc.IsChecked = True
-            End If
-            LoadData(strDocCode, DocType, NavigatorType.Current)
-        End If
-        If clsCommon.myLen(Me.Tag) > 0 Then
-            Dim DocType As String = clsDBFuncationality.getSingleValue("select doc_type from tspl_gate_entry_details where gate_entry_no='" & clsCommon.myCstr(Me.Tag) & "'")
-            If clsCommon.CompairString(DocType, "BulkProc") = CompairStringResult.Equal Then
-                chkBulkMilkProc.IsChecked = True
             Else
-                chkMccProc.IsChecked = True
+                grpGateEntryType.Visible = True
             End If
-            LoadData(clsCommon.myCstr(Me.Tag), DocType, NavigatorType.Current)
-        End If
-        isHideRateDispatchCentreCode = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HideRateDispatchCentreCode, clsFixedParameterCode.HideRateDispatchCentreCode, Nothing))
-        If isHideRateDispatchCentreCode = True Then
-            MyLabel3.Visible = False
-            txtDispatchCentreCode.Visible = False
-        End If
-        If ShowGateEntryType = 1 Then
-            Panel4.Visible = True
-        Else
-            Panel4.Visible = False
-        End If
-        '==========update by preeti Gupta Agaisnt ticket no[ERO/18/07/19-000957]
-        ShowFATSNFPerOnBulkProcInGateIN = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowFATSNFPerOnBulkProcInGateIN, clsFixedParameterCode.ShowFATSNFPerOnBulkProcInGateIN, Nothing))
-        If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGenerateReferenceNoForBulkGateEntry, clsFixedParameterCode.AllowGenerateReferenceNoForBulkGateEntry, Nothing)) = 0, False, True) = True Then
-            dtpDateAndTimeBulk.Enabled = False
-        Else
-            dtpDateAndTimeBulk.Enabled = True
-        End If
-        If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TollTaxMaster, clsFixedParameterCode.TollTaxMaster, Nothing)) = 0, False, True) = False Then
-            MyLabel25.Visible = True
-            txtTollAmount.Visible = True
-            btnUpdateAfterPost.Enabled = False
-            btnClKM.Enabled = False
-        Else
-            MyLabel25.Visible = False
-            txtTollAmount.Visible = False
-            btnUpdateAfterPost.Enabled = True
-            btnClKM.Enabled = True
-        End If
-        If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
-            lblRoute.Visible = True
-            txtRoute.Visible = True
-            chkNetWeight.Checked = True
-        Else
-            lblRoute.Visible = False
-            txtRoute.Visible = False
-        End If
+            'If AllowJobWorkonGateEntryBulkProc = 1 Then
+            chkJobWork.Visible = False
+            ' End If
+            If TankerFromMaster = 0 AndAlso isIntimationReqd = 0 Then
+                SplitContainer4.SplitterDistance = 170
+                Panel1.Visible = False
+            Else
+                Panel1.Visible = True
+            End If
+            If isIntimationReqd = 1 Then
+                lblIntimationNo.Visible = True
+                labIntimation.Visible = True
+            Else
+                lblIntimationNo.Visible = False
+                labIntimation.Visible = False
+            End If
+
+            LoadStatus()
+            LoadGEType()
+            reset()
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S to Save/Update ")
+            ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D to Delete ")
+            ButtonToolTip.SetToolTip(btnClose, "Press Alt+C to Close The Window")
+            ButtonToolTip.SetToolTip(btnReset, "Press Alt+N For New")
+            ButtonToolTip.SetToolTip(btnPost, "Press Alt+P To Post Transaction")
+            If clsCommon.myLen(strDocCode) > 0 Then
+                Dim DocType As String = clsDBFuncationality.getSingleValue("select doc_type from tspl_gate_entry_details where gate_entry_no='" & strDocCode & "'")
+                If clsCommon.CompairString(DocType, "BulkProc") = CompairStringResult.Equal Then
+                    chkBulkMilkProc.IsChecked = True
+                Else
+                    chkMccProc.IsChecked = True
+                End If
+                LoadData(strDocCode, DocType, NavigatorType.Current)
+            End If
+            If clsCommon.myLen(Me.Tag) > 0 Then
+                Dim DocType As String = clsDBFuncationality.getSingleValue("select doc_type from tspl_gate_entry_details where gate_entry_no='" & clsCommon.myCstr(Me.Tag) & "'")
+                If clsCommon.CompairString(DocType, "BulkProc") = CompairStringResult.Equal Then
+                    chkBulkMilkProc.IsChecked = True
+                Else
+                    chkMccProc.IsChecked = True
+                End If
+                LoadData(clsCommon.myCstr(Me.Tag), DocType, NavigatorType.Current)
+            End If
+            isHideRateDispatchCentreCode = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HideRateDispatchCentreCode, clsFixedParameterCode.HideRateDispatchCentreCode, Nothing))
+            If isHideRateDispatchCentreCode = True Then
+                MyLabel3.Visible = False
+                txtDispatchCentreCode.Visible = False
+            End If
+            If ShowGateEntryType = 1 Then
+                Panel4.Visible = True
+            Else
+                Panel4.Visible = False
+            End If
+            '==========update by preeti Gupta Agaisnt ticket no[ERO/18/07/19-000957]
+            ShowFATSNFPerOnBulkProcInGateIN = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowFATSNFPerOnBulkProcInGateIN, clsFixedParameterCode.ShowFATSNFPerOnBulkProcInGateIN, Nothing))
+            If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGenerateReferenceNoForBulkGateEntry, clsFixedParameterCode.AllowGenerateReferenceNoForBulkGateEntry, Nothing)) = 0, False, True) = True Then
+                dtpDateAndTimeBulk.Enabled = False
+            Else
+                dtpDateAndTimeBulk.Enabled = True
+            End If
+            If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TollTaxMaster, clsFixedParameterCode.TollTaxMaster, Nothing)) = 0, False, True) = False Then
+                MyLabel25.Visible = True
+                txtTollAmount.Visible = True
+                btnUpdateAfterPost.Enabled = False
+                btnClKM.Enabled = False
+            Else
+                MyLabel25.Visible = False
+                txtTollAmount.Visible = False
+                btnUpdateAfterPost.Enabled = True
+                btnClKM.Enabled = True
+            End If
+            If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                lblRoute.Visible = True
+                txtRoute.Visible = True
+                chkNetWeight.Checked = True
+            Else
+                lblRoute.Visible = False
+                txtRoute.Visible = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub chkBulkMilkProc_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkBulkMilkProc.ToggleStateChanged
-        'done by priti ERO/10/05/18-000306
-        If chkBulkMilkProc.IsChecked Then
-            If TankerFromMaster = 1 Then
-                FinalChamberwise = 1
-            Else
-                FinalChamberwise = 0
+        Try
+            'done by priti ERO/10/05/18-000306
+            If chkBulkMilkProc.IsChecked Then
+                If TankerFromMaster = 1 Then
+                    FinalChamberwise = 1
+                Else
+                    FinalChamberwise = 0
+                End If
+            ElseIf chkMccProc.IsChecked Then
+                If MCCChamberwise = 1 Then
+                    FinalChamberwise = 1
+                Else
+                    FinalChamberwise = 0
+                End If
             End If
-        ElseIf chkMccProc.IsChecked Then
-            If MCCChamberwise = 1 Then
-                FinalChamberwise = 1
-            Else
-                FinalChamberwise = 0
-            End If
-        End If
 
-        If chkBulkMilkProc.IsChecked Then
-            fndChallanNoMcc.Visible = False
-            txtChallanNoBulk.Visible = True
-            txtChallanNoBulk.Text = "ND"
-            If AllowGateEntryAgainstPO = 0 Then
-                fndVendorBulk.Enabled = True
-            End If
-            lblVendorBulk.Text = "Vendor"
-            dtpChallanDateBulk.Enabled = True
-            txtTankerNoBulk.Visible = True
-            chkTankerReturn.Visible = True
-            If AllowJobWorkonGateEntryBulkProc = 1 Then
-                chkJobWork.Visible = True
-                chkJobWork.ReadOnly = False
-                txtSubLocation.Enabled = True
-            End If
-            chkNetWeight.Checked = False
-            chkNetWeight.Enabled = False
-        ElseIf chkMccProc.IsChecked Then
-            If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
-                lblVendorBulk.Text = "Transpoter"
-            Else
-                lblVendorBulk.Text = "From MCC"
-
-            End If
-            If AllowJobWorkonGateEntryBulkProc = 1 Then
-                chkJobWork.Visible = True
-                chkJobWork.ReadOnly = True
-                txtVendorCode.ReadOnly = True
-                txtSubLocation.Enabled = False
-
-            End If
-            fndChallanNoMcc.Visible = True
-            txtChallanNoBulk.Visible = False
-            txtChallanNoBulk.Text = ""
-            fndVendorBulk.Enabled = True
-            dtpChallanDateBulk.Enabled = False
-            txtTankerNoBulk.Visible = False
-            chkTankerReturn.Visible = False
-            If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+            If chkBulkMilkProc.IsChecked Then
                 fndChallanNoMcc.Visible = False
                 txtChallanNoBulk.Visible = True
-                txtChallanNoBulk.Text = ""
-                txtTankerNoBulk.Visible = True
-                fndTankerNo.Visible = False
-                txtTankerNoBulk.ReadOnly = False
+                txtChallanNoBulk.Text = "ND"
+                If AllowGateEntryAgainstPO = 0 Then
+                    fndVendorBulk.Enabled = True
+                End If
+                lblVendorBulk.Text = "Vendor"
                 dtpChallanDateBulk.Enabled = True
-            End If
-            chkNetWeight.Enabled = True
-        End If
+                txtTankerNoBulk.Visible = True
+                chkTankerReturn.Visible = True
+                If AllowJobWorkonGateEntryBulkProc = 1 Then
+                    chkJobWork.Visible = True
+                    chkJobWork.ReadOnly = False
+                    txtSubLocation.Enabled = True
+                End If
+                chkNetWeight.Checked = False
+                chkNetWeight.Enabled = False
+            ElseIf chkMccProc.IsChecked Then
+                If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                    lblVendorBulk.Text = "Transpoter"
+                Else
+                    lblVendorBulk.Text = "From MCC"
 
-        If chkBulkMilkProc.IsChecked OrElse chkMccProc.IsChecked Then
-            reset()
-            loadBlankGvItemBulk()
-            If TankerFromMaster = 1 And GateEntryChamberwisewithManualTankerEntry = 0 Then
+                End If
+                If AllowJobWorkonGateEntryBulkProc = 1 Then
+                    chkJobWork.Visible = True
+                    chkJobWork.ReadOnly = True
+                    txtVendorCode.ReadOnly = True
+                    txtSubLocation.Enabled = False
+
+                End If
+                fndChallanNoMcc.Visible = True
+                txtChallanNoBulk.Visible = False
+                txtChallanNoBulk.Text = ""
+                fndVendorBulk.Enabled = True
+                dtpChallanDateBulk.Enabled = False
                 txtTankerNoBulk.Visible = False
-                fndTankerNo.Visible = True
+                chkTankerReturn.Visible = False
+                If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                    fndChallanNoMcc.Visible = False
+                    txtChallanNoBulk.Visible = True
+                    txtChallanNoBulk.Text = ""
+                    txtTankerNoBulk.Visible = True
+                    fndTankerNo.Visible = False
+                    txtTankerNoBulk.ReadOnly = False
+                    dtpChallanDateBulk.Enabled = True
+                End If
+                chkNetWeight.Enabled = True
             End If
-        End If
-        ' done by priti BHA/02/07/18-000118 tanker no manually in chamber wise bulk proc.
-        If GateEntryChamberwisewithManualTankerEntry = 1 And chkBulkMilkProc.IsChecked = True And TankerFromMaster = 1 Then
-            Panel5.Visible = True
-        Else
-            Panel5.Visible = False
-        End If
-        If chkBulkMilkProc.IsChecked = True AndAlso CreateProvisionforBulkContractorInGateIn = True Then
-            chkAgainstGateOutNo.Visible = True
-            txtGateOutNo.Visible = True
-            lblGateOut.Visible = True
-        Else
-            chkAgainstGateOutNo.Visible = False
-            txtGateOutNo.Visible = False
-            lblGateOut.Visible = False
-        End If
+
+            If chkBulkMilkProc.IsChecked OrElse chkMccProc.IsChecked Then
+                reset()
+                loadBlankGvItemBulk()
+                If TankerFromMaster = 1 And GateEntryChamberwisewithManualTankerEntry = 0 Then
+                    txtTankerNoBulk.Visible = False
+                    fndTankerNo.Visible = True
+                End If
+            End If
+            ' done by priti BHA/02/07/18-000118 tanker no manually in chamber wise bulk proc.
+            If GateEntryChamberwisewithManualTankerEntry = 1 And chkBulkMilkProc.IsChecked = True And TankerFromMaster = 1 Then
+                Panel5.Visible = True
+            Else
+                Panel5.Visible = False
+            End If
+            If chkBulkMilkProc.IsChecked = True AndAlso CreateProvisionforBulkContractorInGateIn = True Then
+                chkAgainstGateOutNo.Visible = True
+                txtGateOutNo.Visible = True
+                lblGateOut.Visible = True
+            Else
+                chkAgainstGateOutNo.Visible = False
+                txtGateOutNo.Visible = False
+                lblGateOut.Visible = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -276,36 +284,43 @@ Public Class FrmGateEntry
     End Sub
 
     Private Sub fndLocationBulk__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndLocationBulk._MYValidating
-        Dim strLocations = String.Empty
-        If Not clsMccMaster.isCurrentUserHO() Then
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                strLocations = "and location_code in (" & objCommonVar.strCurrUserLocations & ")"
+        Try
+            Dim strLocations = String.Empty
+            If Not clsMccMaster.isCurrentUserHO() Then
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    strLocations = "and location_code in (" & objCommonVar.strCurrUserLocations & ")"
+                End If
             End If
-        End If
-        fndLocationBulk.Value = clsLocation.getFinder("(type='PLANT' or Location_category='MCC')" & strLocations, fndLocationBulk.Value, isButtonClicked)
-        If clsCommon.myLen(fndLocationBulk.Value) > 0 Then
-            lblLocationDecBulk.Text = clsLocation.GetName(fndLocationBulk.Value, Nothing)
-        Else
-            lblLocationDecBulk.Text = ""
-        End If
-        strLocations = Nothing
+            fndLocationBulk.Value = clsLocation.getFinder("(type='PLANT' or Location_category='MCC')" & strLocations, fndLocationBulk.Value, isButtonClicked)
+            If clsCommon.myLen(fndLocationBulk.Value) > 0 Then
+                lblLocationDecBulk.Text = clsLocation.GetName(fndLocationBulk.Value, Nothing)
+            Else
+                lblLocationDecBulk.Text = ""
+            End If
+            strLocations = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub UpdateCurrentLoginStatus()
-        Dim strQry As String = "select case when isnull(Type,'')='PLANT' then type when ISNULL(Location_Category ,'')='MCC' then  Location_Category else 'NA'end    from TSPL_LOCATION_MASTER left outer join  tspl_user_master on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where TSPL_USER_MASTER.User_Code ='" & objCommonVar.CurrentUserCode & "'"
-        strLoggedInTo = clsDBFuncationality.getSingleValue(strQry)
-        If clsCommon.CompairString(strLoggedInTo, "MCC") = CompairStringResult.Equal Or clsCommon.CompairString(strLoggedInTo, "PLANT") = CompairStringResult.Equal Then
-            Dim qry As String = "select location_Code  from TSPL_LOCATION_MASTER left outer join  tspl_user_master on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where TSPL_USER_MASTER.User_Code ='" & objCommonVar.CurrentUserCode & "'"
-            strLoginMccOrPlantCode = clsDBFuncationality.getSingleValue(qry)
-            strLoginMccOrPlantDesc = clsLocation.GetName(strLoginMccOrPlantCode, Nothing)
-        Else
-            strLoginMccOrPlantCode = "NA"
-            strLoginMccOrPlantDesc = "NA"
-        End If
-        'lblLoggedMccOrPlantName.Text = strLoginMccOrPlantDesc & "(Location: " & strLoggedInTo & ")"
-        strQry = Nothing
+        Try
+            Dim strQry As String = "select case when isnull(Type,'')='PLANT' then type when ISNULL(Location_Category ,'')='MCC' then  Location_Category else 'NA'end    from TSPL_LOCATION_MASTER left outer join  tspl_user_master on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where TSPL_USER_MASTER.User_Code ='" & objCommonVar.CurrentUserCode & "'"
+            strLoggedInTo = clsDBFuncationality.getSingleValue(strQry)
+            If clsCommon.CompairString(strLoggedInTo, "MCC") = CompairStringResult.Equal Or clsCommon.CompairString(strLoggedInTo, "PLANT") = CompairStringResult.Equal Then
+                Dim qry As String = "select location_Code  from TSPL_LOCATION_MASTER left outer join  tspl_user_master on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where TSPL_USER_MASTER.User_Code ='" & objCommonVar.CurrentUserCode & "'"
+                strLoginMccOrPlantCode = clsDBFuncationality.getSingleValue(qry)
+                strLoginMccOrPlantDesc = clsLocation.GetName(strLoginMccOrPlantCode, Nothing)
+            Else
+                strLoginMccOrPlantCode = "NA"
+                strLoginMccOrPlantDesc = "NA"
+            End If
+            'lblLoggedMccOrPlantName.Text = strLoginMccOrPlantDesc & "(Location: " & strLoggedInTo & ")"
+            strQry = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub fndVendorBulk__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndVendorBulk._MYValidating
-
         Try
             If chkBulkMilkProc.IsChecked Then
                 If FinalChamberwise = 1 Then
@@ -407,7 +422,7 @@ Public Class FrmGateEntry
         txtTransport.Text = ""
         txtTransportName.Text = ""
         txtProvisionNo.Text = ""
-
+        txtMCC.Value = ""
         txtSubLocation.Enabled = True
         Panel3.Enabled = True
         chkJobWork.Checked = False
@@ -950,108 +965,109 @@ Public Class FrmGateEntry
         gvItemBulk.EnableFiltering = False
         gvItemBulk.EnableSorting = False
         gvItemBulk.EnableGrouping = False
-
     End Sub
-
-
 
     Private Sub btnReset_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReset.Click
         reset()
     End Sub
 
     Private Sub FrmGateEntry_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
-        If e.KeyCode = Keys.F2 AndAlso gvItemBulk.CurrentCell IsNot Nothing Then
-            If Not isCellValueChangedOpen Then
-                isCellValueChangedOpen = True
-                If gvItemBulk.CurrentColumn Is gvItemBulk.Columns(colItemCode) AndAlso chkBulkMilkProc.IsChecked Then
-                    gvItemBulk.CurrentRow.Cells(colItemCode).Value = clsItemMaster.getFinder("Product_Type ='mi'", gvItemBulk.CurrentRow.Cells(colItemCode).Value, True)
-                    gvItemBulk.CurrentRow.Cells(colItemCode).EndEdit()
-                    If clsCommon.myLen(gvItemBulk.CurrentRow.Cells(colItemCode).Value) > 0 Then
-                        gvItemBulk.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsItemMaster.GetItemName(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing))
-                        gvItemBulk.CurrentRow.Cells(colUOM).Value = clsItemMaster.GetStockUnit(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing)
-                    Else
-                        gvItemBulk.CurrentRow.Cells(colItemDesc).Value = ""
-                        gvItemBulk.CurrentRow.Cells(colUOM).Value = ""
+        Try
+            If e.KeyCode = Keys.F2 AndAlso gvItemBulk.CurrentCell IsNot Nothing Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If gvItemBulk.CurrentColumn Is gvItemBulk.Columns(colItemCode) AndAlso chkBulkMilkProc.IsChecked Then
+                        gvItemBulk.CurrentRow.Cells(colItemCode).Value = clsItemMaster.getFinder("Product_Type ='mi'", gvItemBulk.CurrentRow.Cells(colItemCode).Value, True)
+                        gvItemBulk.CurrentRow.Cells(colItemCode).EndEdit()
+                        If clsCommon.myLen(gvItemBulk.CurrentRow.Cells(colItemCode).Value) > 0 Then
+                            gvItemBulk.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsItemMaster.GetItemName(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing))
+                            gvItemBulk.CurrentRow.Cells(colUOM).Value = clsItemMaster.GetStockUnit(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing)
+                        Else
+                            gvItemBulk.CurrentRow.Cells(colItemDesc).Value = ""
+                            gvItemBulk.CurrentRow.Cells(colUOM).Value = ""
+                        End If
                     End If
                 End If
-            End If
-            isCellValueChangedOpen = False
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnReset.Enabled Then
-            btnReset_Click(sender, e)
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
-            btnSave_Click(sender, e)
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled AndAlso MyBase.isPostFlag Then
-            btnPost_Click(sender, e)
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnDelete.Enabled AndAlso MyBase.isDeleteFlag Then
-            btnDelete_Click(sender, e)
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
-            btnClose_Click(sender, e)
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                              "tspl_Gate_entry_details " + Environment.NewLine +
-                                              "TSPL_Gate_Entry_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
-                                              "TSPL_GATE_ENTRY_DETAILS_HISTORY ( For History) " + Environment.NewLine +
-                                              "TSPL_Gate_Entry_Price_Chart ( For Price chart mapped with gate entry If chamber setting is ON and contractor type.) " + Environment.NewLine +
-                                              "IsChamberWiseTanker - Chamber wise setiing for MCC " + Environment.NewLine +
-                                              "GateEntryTankerFromTankerMaster - Chamber wise setiing for Contract tanker  ")
-
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-                BtnResetProv.Visible = True
-            End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
-            If AllowAmendmentWithPasssword(MyBase.Form_ID, Nothing) Then
-                btn_amendment.Visible = True
-            Else
-                btn_amendment.Visible = False
-            End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F10 Then
-            If AllowtoChangeFatANdSNFPerforHighClassVendorinGE Then
+                isCellValueChangedOpen = False
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnReset.Enabled Then
+                btnReset_Click(sender, e)
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
+                btnSave_Click(sender, e)
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled AndAlso MyBase.isPostFlag Then
+                btnPost_Click(sender, e)
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnDelete.Enabled AndAlso MyBase.isDeleteFlag Then
+                btnDelete_Click(sender, e)
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
+                btnClose_Click(sender, e)
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                  "tspl_Gate_entry_details " + Environment.NewLine +
+                                                  "TSPL_Gate_Entry_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
+                                                  "TSPL_GATE_ENTRY_DETAILS_HISTORY ( For History) " + Environment.NewLine +
+                                                  "TSPL_Gate_Entry_Price_Chart ( For Price chart mapped with gate entry If chamber setting is ON and contractor type.) " + Environment.NewLine +
+                                                  "IsChamberWiseTanker - Chamber wise setiing for MCC " + Environment.NewLine +
+                                                  "GateEntryTankerFromTankerMaster - Chamber wise setiing for Contract tanker  ")
 
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = "PwdAllowtoChangeFatANdSNFPerforHighClassVendorinGE"
-                frm.strCode = "PwdAllowtoChangeFatANdSNFPerforHighClassVendorinGE"
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
-                    btnUpdateFatSnfForContractor.Visible = True
-
+                    btnReverse.Visible = True
+                    BtnResetProv.Visible = True
                 End If
-            Else
-                btnUpdateFatSnfForContractor.Visible = False
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
+                If AllowAmendmentWithPasssword(MyBase.Form_ID, Nothing) Then
+                    btn_amendment.Visible = True
+                Else
+                    btn_amendment.Visible = False
+                End If
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F10 Then
+                If AllowtoChangeFatANdSNFPerforHighClassVendorinGE Then
 
-            End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F3 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "GEUpdateAfterPost"
-            frm.strCode = "GEUpdateAfterPost"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnUpdate.Visible = True
-                chkBulkMilkProc.Enabled = False
-                chkMccProc.Enabled = False
-                fndTankerNo.Enabled = False
-            End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F9 Then
-            If clsCommon.myLen(fndGateEntryNO.Value) > 0 AndAlso clsCommon.myLen(txtPriceCode.Value) Then
-                Dim strSRNNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 SRN_NO from TSPL_Bulk_MILK_SRN where gate_entry_no='" & fndGateEntryNO.Value & "'"))
-                If clsCommon.myLen(strSRNNo) = 0 Then
                     Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "GEUpdatePriceChart"
-                    frm.strCode = "GEUpdatePriceChart"
+                    frm.strType = "PwdAllowtoChangeFatANdSNFPerforHighClassVendorinGE"
+                    frm.strCode = "PwdAllowtoChangeFatANdSNFPerforHighClassVendorinGE"
                     frm.ShowDialog()
                     If frm.isPasswordCorrect Then
-                        btnUpdatePrice.Visible = True
-                        txtPriceCode.Enabled = True
+                        btnUpdateFatSnfForContractor.Visible = True
+
                     End If
                 Else
-                    clsCommon.MyMessageBoxShow(Me, "You cannot change Price code. Bulk milk SRN is already created.", Me.Text)
+                    btnUpdateFatSnfForContractor.Visible = False
+
+                End If
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F3 Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "GEUpdateAfterPost"
+                frm.strCode = "GEUpdateAfterPost"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnUpdate.Visible = True
+                    chkBulkMilkProc.Enabled = False
+                    chkMccProc.Enabled = False
+                    fndTankerNo.Enabled = False
+                End If
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F9 Then
+                If clsCommon.myLen(fndGateEntryNO.Value) > 0 AndAlso clsCommon.myLen(txtPriceCode.Value) Then
+                    Dim strSRNNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 SRN_NO from TSPL_Bulk_MILK_SRN where gate_entry_no='" & fndGateEntryNO.Value & "'"))
+                    If clsCommon.myLen(strSRNNo) = 0 Then
+                        Dim frm As New FrmPWD(Nothing)
+                        frm.strType = "GEUpdatePriceChart"
+                        frm.strCode = "GEUpdatePriceChart"
+                        frm.ShowDialog()
+                        If frm.isPasswordCorrect Then
+                            btnUpdatePrice.Visible = True
+                            txtPriceCode.Enabled = True
+                        End If
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "You cannot change Price code. Bulk milk SRN is already created.", Me.Text)
+                    End If
                 End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
@@ -1091,65 +1107,73 @@ Public Class FrmGateEntry
         End Try
     End Sub
     Private Sub gvItemBulk_CellEndEdit(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvItemBulk.CellEndEdit
-        If Not isCellValueChangedOpen Then
-            isCellValueChangedOpen = True
-            If e.Column Is gvItemBulk.Columns(colMilkTypeCode) AndAlso chkBulkMilkProc.IsChecked Then
-                gvItemBulk.CurrentRow.Cells(colMilkTypeCode).Value = clsMilkTypeMaster.getFinder("", gvItemBulk.CurrentRow.Cells(colMilkTypeCode).Value, False)
-            End If
-            ' done by priti BHA/21/06/18-000078 for Different item in chamber wise.
-            If e.Column Is gvItemBulk.Columns(colItemCode) AndAlso (chkBulkMilkProc.IsChecked OrElse AllowBulkProcMCCwithoutTankerDispatch = 1) Then
-                Dim whr As String = " Product_Type ='mi' and exists (select  1 from tspl_item_uom_detail where tspl_item_uom_detail.Item_Code=TSPL_ITEM_MASTER.Item_Code and UOM_Code='KG')"
-                gvItemBulk.CurrentRow.Cells(colItemCode).Value = clsItemMaster.getFinder("Product_Type ='mi'", gvItemBulk.CurrentRow.Cells(colItemCode).Value, False)
-                If clsCommon.myLen(gvItemBulk.CurrentRow.Cells(colItemCode).Value) > 0 Then
-                    gvItemBulk.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsItemMaster.GetItemName(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing))
-                    gvItemBulk.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select UOM_Code   from TSPL_ITEM_UOM_DETAIL where Item_Code='" & gvItemBulk.CurrentRow.Cells(colItemCode).Value & "' and Default_UOM='1' "))
-                    gvItemBulk.CurrentRow.Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing)
-                    If clsCommon.myLen(gvItemBulk.CurrentRow.Cells(colUOM).Value) <= 0 Then
-                        gvItemBulk.CurrentRow.Cells(colUOM).Value = clsItemMaster.GetStockUnit(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing)
-                    End If
-
-                Else
-
-                    gvItemBulk.CurrentRow.Cells(colItemDesc).Value = ""
-                    gvItemBulk.CurrentRow.Cells(colUOM).Value = ""
-                    gvItemBulk.CurrentRow.Cells(colQty).Value = "0"
-                    gvItemBulk.CurrentRow.Cells(colFat).Value = ""
-                    gvItemBulk.CurrentRow.Cells(colFatKG).Value = ""
-                    gvItemBulk.CurrentRow.Cells(colSNF).Value = ""
-                    gvItemBulk.CurrentRow.Cells(colSNFKG).Value = ""
+        Try
+            If Not isCellValueChangedOpen Then
+                isCellValueChangedOpen = True
+                If e.Column Is gvItemBulk.Columns(colMilkTypeCode) AndAlso chkBulkMilkProc.IsChecked Then
+                    gvItemBulk.CurrentRow.Cells(colMilkTypeCode).Value = clsMilkTypeMaster.getFinder("", gvItemBulk.CurrentRow.Cells(colMilkTypeCode).Value, False)
                 End If
-            ElseIf e.Column Is gvItemBulk.Columns(colUOM) AndAlso (chkBulkMilkProc.IsChecked OrElse AllowBulkProcMCCwithoutTankerDispatch = 1) Then
-                OpenUOMList(False)
-            ElseIf e.Column Is gvItemBulk.Columns(colFat) Or e.Column Is gvItemBulk.Columns(colQty) Then
-                ''richa show qty from totalqty_in_kg column in gate entry table in case of MCC PRoc 27 June,2019
-                If (TankerFromMaster = 1 OrElse isIntimationReqd = 1 OrElse MCCChamberwise = 1) Then
-                    If clsCommon.myCdbl(gvItemBulk.CurrentRow.Cells(colQty).Value) > 0 Then
-                        UpdateTotal()
+                ' done by priti BHA/21/06/18-000078 for Different item in chamber wise.
+                If e.Column Is gvItemBulk.Columns(colItemCode) AndAlso (chkBulkMilkProc.IsChecked OrElse AllowBulkProcMCCwithoutTankerDispatch = 1) Then
+                    Dim whr As String = " Product_Type ='mi' and exists (select  1 from tspl_item_uom_detail where tspl_item_uom_detail.Item_Code=TSPL_ITEM_MASTER.Item_Code and UOM_Code='KG')"
+                    gvItemBulk.CurrentRow.Cells(colItemCode).Value = clsItemMaster.getFinder("Product_Type ='mi'", gvItemBulk.CurrentRow.Cells(colItemCode).Value, False)
+                    If clsCommon.myLen(gvItemBulk.CurrentRow.Cells(colItemCode).Value) > 0 Then
+                        gvItemBulk.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsItemMaster.GetItemName(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing))
+                        gvItemBulk.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select UOM_Code   from TSPL_ITEM_UOM_DETAIL where Item_Code='" & gvItemBulk.CurrentRow.Cells(colItemCode).Value & "' and Default_UOM='1' "))
+                        gvItemBulk.CurrentRow.Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing)
+                        If clsCommon.myLen(gvItemBulk.CurrentRow.Cells(colUOM).Value) <= 0 Then
+                            gvItemBulk.CurrentRow.Cells(colUOM).Value = clsItemMaster.GetStockUnit(gvItemBulk.CurrentRow.Cells(colItemCode).Value, Nothing)
+                        End If
+
+                    Else
+
+                        gvItemBulk.CurrentRow.Cells(colItemDesc).Value = ""
+                        gvItemBulk.CurrentRow.Cells(colUOM).Value = ""
+                        gvItemBulk.CurrentRow.Cells(colQty).Value = "0"
+                        gvItemBulk.CurrentRow.Cells(colFat).Value = ""
+                        gvItemBulk.CurrentRow.Cells(colFatKG).Value = ""
+                        gvItemBulk.CurrentRow.Cells(colSNF).Value = ""
+                        gvItemBulk.CurrentRow.Cells(colSNFKG).Value = ""
                     End If
+                ElseIf e.Column Is gvItemBulk.Columns(colUOM) AndAlso (chkBulkMilkProc.IsChecked OrElse AllowBulkProcMCCwithoutTankerDispatch = 1) Then
+                    OpenUOMList(False)
+                ElseIf e.Column Is gvItemBulk.Columns(colFat) Or e.Column Is gvItemBulk.Columns(colQty) Then
+                    ''richa show qty from totalqty_in_kg column in gate entry table in case of MCC PRoc 27 June,2019
+                    If (TankerFromMaster = 1 OrElse isIntimationReqd = 1 OrElse MCCChamberwise = 1) Then
+                        If clsCommon.myCdbl(gvItemBulk.CurrentRow.Cells(colQty).Value) > 0 Then
+                            UpdateTotal()
+                        End If
+                    End If
+                    gvItemBulk.Rows(0).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+                    gvItemBulk.Rows(0).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+                ElseIf e.Column Is gvItemBulk.Columns(colSNF) Or e.Column Is gvItemBulk.Columns(colQty) Then
+                    gvItemBulk.Rows(0).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+                    gvItemBulk.Rows(0).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
                 End If
-                gvItemBulk.Rows(0).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
-                gvItemBulk.Rows(0).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
-            ElseIf e.Column Is gvItemBulk.Columns(colSNF) Or e.Column Is gvItemBulk.Columns(colQty) Then
-                gvItemBulk.Rows(0).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
-                gvItemBulk.Rows(0).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
             End If
-        End If
-        isCellValueChangedOpen = False
+            isCellValueChangedOpen = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
-        Dim strICode As String = clsCommon.myCstr(gvItemBulk.CurrentRow.Cells(colItemCode).Value)
-        If clsCommon.myLen(strICode) > 0 Then
-            'Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
-            'Dim whrCls As String = "Item_Code='" + strICode + "'"
-            'gvItemBulk.CurrentRow.Cells(colUOM).Value = clsCommon.ShowSelectForm("MilkBulkGateIn@fndnder", qry, "Code", whrCls, clsCommon.myCstr(gvItemBulk.CurrentRow.Cells(colItemCode).Value), "Code", isButtonClick)
+        Try
+            Dim strICode As String = clsCommon.myCstr(gvItemBulk.CurrentRow.Cells(colItemCode).Value)
+            If clsCommon.myLen(strICode) > 0 Then
+                'Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
+                'Dim whrCls As String = "Item_Code='" + strICode + "'"
+                'gvItemBulk.CurrentRow.Cells(colUOM).Value = clsCommon.ShowSelectForm("MilkBulkGateIn@fndnder", qry, "Code", whrCls, clsCommon.myCstr(gvItemBulk.CurrentRow.Cells(colItemCode).Value), "Code", isButtonClick)
 
-            Dim qry As String = "select TSPL_ITEM_UOM_DETAIL.UOM_Code as Code , TSPL_UNIT_MASTER.Unit_Desc as [Description]  from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code "
-            Dim whrCls As String = "Item_Code='" + strICode + "'"
-            gvItemBulk.CurrentRow.Cells(colUOM).Value = clsCommon.ShowSelectForm("MilkBulkGateIn@fndnder", qry, "Code", whrCls, clsCommon.myCstr(gvItemBulk.CurrentRow.Cells(colItemCode).Value), "Code", isButtonClick)
-            If clsCommon.myLen(clsCommon.myCstr(gvItemBulk.CurrentRow.Cells(colUOM).Value)) <= 0 Then
-                gvItemBulk.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select UOM_Code   from TSPL_ITEM_UOM_DETAIL where Item_Code='" & gvItemBulk.CurrentRow.Cells(colItemCode).Value & "' and Default_UOM='1' "))
+                Dim qry As String = "select TSPL_ITEM_UOM_DETAIL.UOM_Code as Code , TSPL_UNIT_MASTER.Unit_Desc as [Description]  from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code "
+                Dim whrCls As String = "Item_Code='" + strICode + "'"
+                gvItemBulk.CurrentRow.Cells(colUOM).Value = clsCommon.ShowSelectForm("MilkBulkGateIn@fndnder", qry, "Code", whrCls, clsCommon.myCstr(gvItemBulk.CurrentRow.Cells(colItemCode).Value), "Code", isButtonClick)
+                If clsCommon.myLen(clsCommon.myCstr(gvItemBulk.CurrentRow.Cells(colUOM).Value)) <= 0 Then
+                    gvItemBulk.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select UOM_Code   from TSPL_ITEM_UOM_DETAIL where Item_Code='" & gvItemBulk.CurrentRow.Cells(colItemCode).Value & "' and Default_UOM='1' "))
+                End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -1646,6 +1670,7 @@ Public Class FrmGateEntry
             obj.Toll_Amount = clsCommon.myCdbl(txtTollAmount.Text)
             obj.openingKM = clsCommon.myCdbl(txtOpeningKM.Text)
             obj.closingKM = clsCommon.myCdbl(txtClosingKM.Text)
+            obj.MCC = txtMCC.Value
             'obj.Reference_No = lblRefrenceNo.Text
             If chkBulkMilkProc.IsChecked Then
                 obj.Doc_Type = "BulkProc"
@@ -1798,7 +1823,6 @@ Public Class FrmGateEntry
         Catch ex As Exception
             trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
         Return False
     End Function
@@ -1856,7 +1880,7 @@ Public Class FrmGateEntry
             End If
             dt = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub UpdateTotal()
@@ -1879,235 +1903,238 @@ Public Class FrmGateEntry
         End If
     End Sub
     Sub LoadData(ByVal strGateEntryNo As String, ByVal docType As String, ByVal nav As NavigatorType)
-        Dim obj As clsGateEntry = Nothing
-        btnUpdateFatSnfForContractor.Visible = False
-        If chkBulkMilkProc.IsChecked Then
-            obj = clsGateEntry.getData(strGateEntryNo, "BulkProc", nav)
+        Try
+            Dim obj As clsGateEntry = Nothing
+            btnUpdateFatSnfForContractor.Visible = False
+            If chkBulkMilkProc.IsChecked Then
+                obj = clsGateEntry.getData(strGateEntryNo, "BulkProc", nav)
 
-            If obj IsNot Nothing Then
-                Panel3.Enabled = False
-                insideLoadData = True
-                txtSubLocation.Value = obj.Sublocation_Code
-                chkNetWeight.Enabled = False
-                chkNetWeight.Checked = False
-                chkJobWork.Visible = IIf(obj.IsAgainstJobWork = 1, True, False)
-                chkJobWork.Checked = IIf(obj.IsAgainstJobWork = 1, True, False)
-                If clsCommon.myLen(txtSubLocation.Value) > 0 Then
-                    lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
-                    txtVendorCode.Text = clsDBFuncationality.getSingleValue("select Jobwork_Vendor from TSPL_LOCATION_MASTER WHERE Location_Code='" & txtSubLocation.Value & "'")
+                If obj IsNot Nothing Then
+                    Panel3.Enabled = False
+                    insideLoadData = True
+                    txtSubLocation.Value = obj.Sublocation_Code
+                    chkNetWeight.Enabled = False
+                    chkNetWeight.Checked = False
+                    chkJobWork.Visible = IIf(obj.IsAgainstJobWork = 1, True, False)
+                    chkJobWork.Checked = IIf(obj.IsAgainstJobWork = 1, True, False)
                     If clsCommon.myLen(txtSubLocation.Value) > 0 Then
-                        txtvndrname.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER WHERE Vendor_Code='" & txtVendorCode.Text & "'")
+                        lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+                        txtVendorCode.Text = clsDBFuncationality.getSingleValue("select Jobwork_Vendor from TSPL_LOCATION_MASTER WHERE Location_Code='" & txtSubLocation.Value & "'")
+                        If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                            txtvndrname.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER WHERE Vendor_Code='" & txtVendorCode.Text & "'")
+                        Else
+                            txtvndrname.Text = ""
+                        End If
+                        txtSubLocation.Enabled = False
                     Else
-                        txtvndrname.Text = ""
+                        lblSubLocation.Text = ""
                     End If
-                    txtSubLocation.Enabled = False
-                Else
-                    lblSubLocation.Text = ""
-                End If
-                cmbGEType.SelectedValue = obj.Gate_Entry_Type
-                fndLocationBulk.Enabled = False
-                fndGateEntryNO.Value = obj.Gate_Entry_No
-                lblRefrenceNo.Text = obj.Reference_No
-                dtpDateAndTimeBulk.Value = obj.Date_And_Time
-                fndLocationBulk.Value = obj.location_Code
-                lblLocationDecBulk.Text = obj.Location_Desc
-                fndVendorBulk.Value = obj.Vendor_Code
-                lblVendorNameBulk.Text = obj.Vendor_Desc
-                txtTankerNoBulk.Text = obj.Tanker_No
-                txtChallanNoBulk.Text = obj.Challan_No
-                dtpChallanDateBulk.Value = obj.Challan_Date
-                chkTankerReturn.Checked = IIf(obj.Tanker_Return = 1, True, False)
-                txtPO.Value = obj.PO_No
-
-                If clsCommon.myLen(txtPO.Value) > 0 Then
-                    lblPOQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Qty from TSPL_PO_BULK_MASTER where PO_No= '" & clsCommon.myCstr(txtPO.Value) & "'"))
-                    lblPOBalanceQty.Text = GetBalancePOQty(txtPO.Value)
-                End If
-                txtRoute.Value = obj.ROUTE_NO
-                txtCAN.Value = obj.No_Of_CAN
-                txtNoofChamber.Value = obj.NO_OF_CHAMBER
-                txtBulkRouteNo.Text = obj.Bulk_ROUTE_NO
-                txtRate.Text = obj.Rate
-                txtdistance.Text = obj.Distance
-                txtAmount.Text = obj.Amount
-                txtWeight.Text = obj.Weight
-                txtTransport.Text = obj.Transpoter_Id
-                txtProvisionNo.Text = obj.ProvisionNo
-                txtTransportName.Text = clsDBFuncationality.getSingleValue("select Transpoter_Name from TSPL_TRANSPORT__TANKER_DETAILS where Transpoter_Id='" & obj.Transpoter_Id & "'")
-                lblClosingDate.Text = clsCommon.myCstr(obj.Closing_Date)
-                txtOpeningKM.Text = clsCommon.myCdbl(obj.openingKM)
-                txtClosingKM.Text = clsCommon.myCdbl(obj.closingKM)
-                txtTollAmount.Text = clsCommon.myCdbl(obj.Toll_Amount)
-                loadBlankGvItemBulk()
-                If (isIntimationReqd = 0 AndAlso FinalChamberwise = 0) Then
-                    gvItemBulk.Rows(0).Cells(colItemCode).Value = obj.Item_Code
-                    gvItemBulk.Rows(0).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
-                    gvItemBulk.Rows(0).Cells(colItemDesc).Value = obj.Item_Desc
-                    gvItemBulk.Rows(0).Cells(colUOM).Value = obj.UOM
-                    gvItemBulk.Rows(0).Cells(colQty).Value = obj.Qty_In_Kg
-                    gvItemBulk.Rows(0).Cells(colFat).Value = obj.fat_per
-                    gvItemBulk.Rows(0).Cells(colSNF).Value = obj.snf_Per
-                    gvItemBulk.Rows(0).Cells(colFatKG).Value = obj.fat_per * obj.Qty_In_Kg / 100
-                    gvItemBulk.Rows(0).Cells(colSNFKG).Value = obj.snf_Per * obj.Qty_In_Kg / 100
-                End If
-
-                If obj.isPosted = 1 Then
-                    lblPending.Status = ERPTransactionStatus.Approved
-                    btnSave.Enabled = False
-                    btnDelete.Enabled = False
-                    btnPost.Enabled = False
-                    btn_amendment.Enabled = True
-                    BtnResetProv.Enabled = True
-                Else
-                    lblPending.Status = ERPTransactionStatus.Pending
-                    btnSave.Enabled = True
-                    btnDelete.Enabled = True
-                    btnPost.Enabled = True
-                    btn_amendment.Enabled = False
-                    BtnResetProv.Enabled = False
-                End If
-                btnSave.Text = "Update"
-                ''richa agarwal remove settings as per Ranjana Mam 
-                'If (isIntimationReqd = 1 OrElse FinalChamberwise = 1) Then
-                fndTankerNo.Value = obj.Tanker_No
-                lblIntimationNo.Text = obj.Intimation_No
-                txtSupplierCode.Value = obj.Supplier_Code
-                txtMilktypeCode.Value = obj.MIKL_TYPE_CODE
-                cmbSealStatus.SelectedValue = obj.Seal_Status
-                txtDispatchCentreCode.Text = obj.Dispatch_Centre_Code
-                lblTotalQTy.Text = obj.TotalQty_In_Kg
-                txtSealValue.Text = obj.SealNo_Header
-                lblSupplierName.Text = clsSupplierMaster.getSupplierName(txtSupplierCode.Value, Nothing)
-                lblMilkTypeCode.Text = clsMilkTypeMaster.getMilkTypeName(txtMilktypeCode.Value, Nothing)
-                lblMilkType.Text = clsMilkTypeMaster.getMilkType(txtMilktypeCode.Value, Nothing)
-                txtPriceCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select top 1 price_code from TSPL_GATE_ENTRY_PRICE_CHART where ge_code='" & fndGateEntryNO.Value & "'"))
-                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                    gvItemBulk.Rows.Clear()
-                    For Each objTr As clsGateEntryChemberNoDetails In obj.Arr
-                        gvItemBulk.Rows.AddNew()
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSlNo).Value = objTr.Line_No
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value = objTr.Item_Code
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(objTr.Item_Code, Nothing)
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colDIPStatus).Value = objTr.DIP_Status
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSampleLifted).Value = objTr.Sample_Lifted
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemDesc).Value = clsIntimation.getItemName(objTr.Item_Code, Nothing)
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value = objTr.UOM
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colQty).Value = objTr.Chamber_Qty
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberDesc).Value = objTr.Chamber_Desc
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colMilkTypeCode).Value = objTr.MIKL_TYPE_CODE
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberSealNo).Value = objTr.Seal_No
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colDIPValue).Value = objTr.Dip_value
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFat).Value = objTr.fat_per
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNF).Value = objTr.snf_Per
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFatKG).Value = objTr.fat_per * objTr.Chamber_Qty / 100
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNFKG).Value = objTr.snf_Per * objTr.Chamber_Qty / 100
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colRate).Value = objTr.ManualRate
-                    Next
-                End If
-
-                txtGateOutNo.Value = obj.Against_Gate_Out
-                chkAgainstGateOutNo.Checked = IIf(obj.IsAgainstGateOut = 1, True, False)
-
-                isHighClass = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select case when isnull(IsHighClass,0)=0 then 'N' else 'Y' end from tspl_vendor_master where Vendor_code='" & fndVendorBulk.Value & "' "))
-                If clsCommon.CompairString(isHighClass, "Y") = CompairStringResult.Equal Then
-                    gvItemBulk.Columns(colUOM).ReadOnly = False
-                Else
-                    gvItemBulk.Columns(colUOM).ReadOnly = True
-                End If
-                insideLoadData = False
-                'End If
-            Else
-                reset()
-            End If
-        ElseIf chkMccProc.IsChecked Then
-            obj = clsGateEntry.getData(strGateEntryNo, "MccProc", nav)
-            If obj IsNot Nothing Then
-                insideLoadData = True
-                '=======Sanjeet==========================
-                chkNetWeight.Enabled = True
-                chkNetWeight.Checked = IIf(obj.IsNetWeight = 1, True, False)
-                txtSubLocation.Value = obj.Sublocation_Code
-                chkJobWork.Checked = IIf(obj.IsAgainstJobWork = 1, True, False)
-                If clsCommon.myLen(txtSubLocation.Value) > 0 Then
-                    lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
-                    txtVendorCode.Text = clsDBFuncationality.getSingleValue("select Jobwork_Vendor from TSPL_LOCATION_MASTER WHERE Location_Code='" & txtSubLocation.Value & "'")
-                    If clsCommon.myLen(txtSubLocation.Value) > 0 Then
-                        txtvndrname.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER WHERE Vendor_Code='" & txtVendorCode.Text & "'")
-                    Else
-                        txtvndrname.Text = ""
-                    End If
-                Else
-                    lblSubLocation.Text = ""
-                End If
-                '====================================
-                txtCAN.Value = obj.No_Of_CAN
-                lblRefrenceNo.Text = obj.Reference_No
-                fndGateEntryNO.Value = obj.Gate_Entry_No
-                dtpDateAndTimeBulk.Value = obj.Date_And_Time
-                fndLocationBulk.Value = obj.location_Code
-                lblLocationDecBulk.Text = obj.Location_Desc
-                fndVendorBulk.Value = obj.Dispatched_From_Mcc
-                fndVendorBulk.Enabled = False
-                lblVendorNameBulk.Text = clsLocation.GetName(obj.Dispatched_From_Mcc, Nothing)
-                txtTankerNoBulk.Text = obj.Tanker_No
-                fndTankerNo.Value = obj.Tanker_No
-                txtRoute.Value = obj.ROUTE_NO
-                If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                    cmbGEType.SelectedValue = obj.Gate_Entry_Type
+                    fndLocationBulk.Enabled = False
+                    fndGateEntryNO.Value = obj.Gate_Entry_No
+                    lblRefrenceNo.Text = obj.Reference_No
+                    dtpDateAndTimeBulk.Value = obj.Date_And_Time
+                    fndLocationBulk.Value = obj.location_Code
+                    lblLocationDecBulk.Text = obj.Location_Desc
+                    fndVendorBulk.Value = obj.Vendor_Code
+                    lblVendorNameBulk.Text = obj.Vendor_Desc
+                    txtTankerNoBulk.Text = obj.Tanker_No
                     txtChallanNoBulk.Text = obj.Challan_No
+                    dtpChallanDateBulk.Value = obj.Challan_Date
+                    chkTankerReturn.Checked = IIf(obj.Tanker_Return = 1, True, False)
+                    txtPO.Value = obj.PO_No
+
+                    If clsCommon.myLen(txtPO.Value) > 0 Then
+                        lblPOQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Qty from TSPL_PO_BULK_MASTER where PO_No= '" & clsCommon.myCstr(txtPO.Value) & "'"))
+                        lblPOBalanceQty.Text = GetBalancePOQty(txtPO.Value)
+                    End If
+                    txtRoute.Value = obj.ROUTE_NO
+                    txtCAN.Value = obj.No_Of_CAN
+                    txtNoofChamber.Value = obj.NO_OF_CHAMBER
+                    txtBulkRouteNo.Text = obj.Bulk_ROUTE_NO
+                    txtRate.Text = obj.Rate
+                    txtdistance.Text = obj.Distance
+                    txtAmount.Text = obj.Amount
+                    txtWeight.Text = obj.Weight
+                    txtTransport.Text = obj.Transpoter_Id
+                    txtProvisionNo.Text = obj.ProvisionNo
+                    txtTransportName.Text = clsDBFuncationality.getSingleValue("select Transpoter_Name from TSPL_TRANSPORT__TANKER_DETAILS where Transpoter_Id='" & obj.Transpoter_Id & "'")
+                    lblClosingDate.Text = clsCommon.myCstr(obj.Closing_Date)
+                    txtOpeningKM.Text = clsCommon.myCdbl(obj.openingKM)
+                    txtClosingKM.Text = clsCommon.myCdbl(obj.closingKM)
+                    txtTollAmount.Text = clsCommon.myCdbl(obj.Toll_Amount)
+                    txtMCC.Value = clsCommon.myCstr(obj.MCC)
+                    loadBlankGvItemBulk()
+                    If (isIntimationReqd = 0 AndAlso FinalChamberwise = 0) Then
+                        gvItemBulk.Rows(0).Cells(colItemCode).Value = obj.Item_Code
+                        gvItemBulk.Rows(0).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
+                        gvItemBulk.Rows(0).Cells(colItemDesc).Value = obj.Item_Desc
+                        gvItemBulk.Rows(0).Cells(colUOM).Value = obj.UOM
+                        gvItemBulk.Rows(0).Cells(colQty).Value = obj.Qty_In_Kg
+                        gvItemBulk.Rows(0).Cells(colFat).Value = obj.fat_per
+                        gvItemBulk.Rows(0).Cells(colSNF).Value = obj.snf_Per
+                        gvItemBulk.Rows(0).Cells(colFatKG).Value = obj.fat_per * obj.Qty_In_Kg / 100
+                        gvItemBulk.Rows(0).Cells(colSNFKG).Value = obj.snf_Per * obj.Qty_In_Kg / 100
+                    End If
+
+                    If obj.isPosted = 1 Then
+                        lblPending.Status = ERPTransactionStatus.Approved
+                        btnSave.Enabled = False
+                        btnDelete.Enabled = False
+                        btnPost.Enabled = False
+                        btn_amendment.Enabled = True
+                        BtnResetProv.Enabled = True
+                    Else
+                        lblPending.Status = ERPTransactionStatus.Pending
+                        btnSave.Enabled = True
+                        btnDelete.Enabled = True
+                        btnPost.Enabled = True
+                        btn_amendment.Enabled = False
+                        BtnResetProv.Enabled = False
+                    End If
+                    btnSave.Text = "Update"
+                    ''richa agarwal remove settings as per Ranjana Mam 
+                    'If (isIntimationReqd = 1 OrElse FinalChamberwise = 1) Then
+                    fndTankerNo.Value = obj.Tanker_No
+                    lblIntimationNo.Text = obj.Intimation_No
+                    txtSupplierCode.Value = obj.Supplier_Code
+                    txtMilktypeCode.Value = obj.MIKL_TYPE_CODE
+                    cmbSealStatus.SelectedValue = obj.Seal_Status
+                    txtDispatchCentreCode.Text = obj.Dispatch_Centre_Code
+                    lblTotalQTy.Text = obj.TotalQty_In_Kg
+                    txtSealValue.Text = obj.SealNo_Header
+                    lblSupplierName.Text = clsSupplierMaster.getSupplierName(txtSupplierCode.Value, Nothing)
+                    lblMilkTypeCode.Text = clsMilkTypeMaster.getMilkTypeName(txtMilktypeCode.Value, Nothing)
+                    lblMilkType.Text = clsMilkTypeMaster.getMilkType(txtMilktypeCode.Value, Nothing)
+                    txtPriceCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select top 1 price_code from TSPL_GATE_ENTRY_PRICE_CHART where ge_code='" & fndGateEntryNO.Value & "'"))
+                    If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                        gvItemBulk.Rows.Clear()
+                        For Each objTr As clsGateEntryChemberNoDetails In obj.Arr
+                            gvItemBulk.Rows.AddNew()
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSlNo).Value = objTr.Line_No
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value = objTr.Item_Code
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(objTr.Item_Code, Nothing)
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colDIPStatus).Value = objTr.DIP_Status
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSampleLifted).Value = objTr.Sample_Lifted
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemDesc).Value = clsIntimation.getItemName(objTr.Item_Code, Nothing)
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value = objTr.UOM
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colQty).Value = objTr.Chamber_Qty
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberDesc).Value = objTr.Chamber_Desc
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colMilkTypeCode).Value = objTr.MIKL_TYPE_CODE
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberSealNo).Value = objTr.Seal_No
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colDIPValue).Value = objTr.Dip_value
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFat).Value = objTr.fat_per
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNF).Value = objTr.snf_Per
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFatKG).Value = objTr.fat_per * objTr.Chamber_Qty / 100
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNFKG).Value = objTr.snf_Per * objTr.Chamber_Qty / 100
+                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colRate).Value = objTr.ManualRate
+                        Next
+                    End If
+
+                    txtGateOutNo.Value = obj.Against_Gate_Out
+                    chkAgainstGateOutNo.Checked = IIf(obj.IsAgainstGateOut = 1, True, False)
+
+                    isHighClass = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select case when isnull(IsHighClass,0)=0 then 'N' else 'Y' end from tspl_vendor_master where Vendor_code='" & fndVendorBulk.Value & "' "))
+                    If clsCommon.CompairString(isHighClass, "Y") = CompairStringResult.Equal Then
+                        gvItemBulk.Columns(colUOM).ReadOnly = False
+                    Else
+                        gvItemBulk.Columns(colUOM).ReadOnly = True
+                    End If
+                    insideLoadData = False
+                    'End If
                 Else
-                    fndChallanNoMcc.Value = obj.Challan_No
+                    reset()
                 End If
-                fndLocationBulk.Enabled = False
-                dtpChallanDateBulk.Value = obj.Challan_Date
-                lblClosingDate.Text = clsCommon.myCstr(obj.Closing_Date)
-                txtOpeningKM.Text = clsCommon.myCdbl(obj.openingKM)
-                txtClosingKM.Text = clsCommon.myCdbl(obj.closingKM)
-                txtTollAmount.Text = clsCommon.myCdbl(obj.Toll_Amount)
-                loadBlankGvItemMCC()
-                If (MCCChamberwise = 0 AndAlso chkMccProc.IsChecked = True) Then
-                    gvItemBulk.Rows(0).Cells(colItemCode).Value = obj.Item_Code
-                    gvItemBulk.Rows(0).Cells(colItemDesc).Value = obj.Item_Desc
-                    gvItemBulk.Rows(0).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
-                    gvItemBulk.Rows(0).Cells(colUOM).Value = obj.UOM
-                    gvItemBulk.Rows(0).Cells(colQty).Value = obj.Qty_In_Kg
-                    gvItemBulk.Rows(0).Cells(colFat).Value = obj.fat_per
-                    gvItemBulk.Rows(0).Cells(colSNF).Value = obj.snf_Per
-                    gvItemBulk.Rows(0).Cells(colFatKG).Value = obj.fat_per * obj.Qty_In_Kg / 100
-                    gvItemBulk.Rows(0).Cells(colSNFKG).Value = obj.snf_Per * obj.Qty_In_Kg / 100
+            ElseIf chkMccProc.IsChecked Then
+                obj = clsGateEntry.getData(strGateEntryNo, "MccProc", nav)
+                If obj IsNot Nothing Then
+                    insideLoadData = True
+                    '=======Sanjeet==========================
+                    chkNetWeight.Enabled = True
+                    chkNetWeight.Checked = IIf(obj.IsNetWeight = 1, True, False)
+                    txtSubLocation.Value = obj.Sublocation_Code
+                    chkJobWork.Checked = IIf(obj.IsAgainstJobWork = 1, True, False)
+                    txtMCC.Value = clsCommon.myCstr(obj.MCC)
+                    If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                        lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+                        txtVendorCode.Text = clsDBFuncationality.getSingleValue("select Jobwork_Vendor from TSPL_LOCATION_MASTER WHERE Location_Code='" & txtSubLocation.Value & "'")
+                        If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                            txtvndrname.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER WHERE Vendor_Code='" & txtVendorCode.Text & "'")
+                        Else
+                            txtvndrname.Text = ""
+                        End If
+                    Else
+                        lblSubLocation.Text = ""
+                    End If
+                    '====================================
+                    txtCAN.Value = obj.No_Of_CAN
+                    lblRefrenceNo.Text = obj.Reference_No
+                    fndGateEntryNO.Value = obj.Gate_Entry_No
+                    dtpDateAndTimeBulk.Value = obj.Date_And_Time
+                    fndLocationBulk.Value = obj.location_Code
+                    lblLocationDecBulk.Text = obj.Location_Desc
+                    fndVendorBulk.Value = obj.Dispatched_From_Mcc
+                    fndVendorBulk.Enabled = False
+                    lblVendorNameBulk.Text = clsLocation.GetName(obj.Dispatched_From_Mcc, Nothing)
+                    txtTankerNoBulk.Text = obj.Tanker_No
+                    fndTankerNo.Value = obj.Tanker_No
+                    txtRoute.Value = obj.ROUTE_NO
+                    If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                        txtChallanNoBulk.Text = obj.Challan_No
+                    Else
+                        fndChallanNoMcc.Value = obj.Challan_No
+                    End If
+                    fndLocationBulk.Enabled = False
+                    dtpChallanDateBulk.Value = obj.Challan_Date
+                    lblClosingDate.Text = clsCommon.myCstr(obj.Closing_Date)
+                    txtOpeningKM.Text = clsCommon.myCdbl(obj.openingKM)
+                    txtClosingKM.Text = clsCommon.myCdbl(obj.closingKM)
+                    txtTollAmount.Text = clsCommon.myCdbl(obj.Toll_Amount)
+                    loadBlankGvItemMCC()
+                    If (MCCChamberwise = 0 AndAlso chkMccProc.IsChecked = True) Then
+                        gvItemBulk.Rows(0).Cells(colItemCode).Value = obj.Item_Code
+                        gvItemBulk.Rows(0).Cells(colItemDesc).Value = obj.Item_Desc
+                        gvItemBulk.Rows(0).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
+                        gvItemBulk.Rows(0).Cells(colUOM).Value = obj.UOM
+                        gvItemBulk.Rows(0).Cells(colQty).Value = obj.Qty_In_Kg
+                        gvItemBulk.Rows(0).Cells(colFat).Value = obj.fat_per
+                        gvItemBulk.Rows(0).Cells(colSNF).Value = obj.snf_Per
+                        gvItemBulk.Rows(0).Cells(colFatKG).Value = obj.fat_per * obj.Qty_In_Kg / 100
+                        gvItemBulk.Rows(0).Cells(colSNFKG).Value = obj.snf_Per * obj.Qty_In_Kg / 100
 
-                End If
+                    End If
 
-                Dim objDis As clsMccDispatch = clsMccDispatch.getData(obj.Challan_No, NavigatorType.Current)
+                    Dim objDis As clsMccDispatch = clsMccDispatch.getData(obj.Challan_No, NavigatorType.Current)
 
-                gvManualSeal.Rows(0).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No1)
-                gvManualSeal.Rows(1).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No2)
-                gvManualSeal.Rows(2).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No3)
-                gvManualSeal.Rows(3).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No4)
-                gvManualSeal.Rows(4).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No5)
-                gvManualSeal.Rows(5).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No6)
-                gvManualSeal.Rows(6).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No7)
-                gvManualSeal.Rows(7).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No8)
-                gvManualSeal.Rows(8).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No9)
-                gvManualSeal.Rows(9).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No10)
+                    gvManualSeal.Rows(0).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No1)
+                    gvManualSeal.Rows(1).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No2)
+                    gvManualSeal.Rows(2).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No3)
+                    gvManualSeal.Rows(3).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No4)
+                    gvManualSeal.Rows(4).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No5)
+                    gvManualSeal.Rows(5).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No6)
+                    gvManualSeal.Rows(6).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No7)
+                    gvManualSeal.Rows(7).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No8)
+                    gvManualSeal.Rows(8).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No9)
+                    gvManualSeal.Rows(9).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No10)
 
-                If objDis.arrPaperSeal IsNot Nothing AndAlso objDis.arrPaperSeal.Count > 0 Then
-                    For i As Integer = 0 To objDis.arrPaperSeal.Count - 1
-                        gvPaperSeal.Rows(i).Cells(ColSealNo).Value = objDis.arrPaperSeal(i).Seal_No
-                    Next
-                End If
+                    If objDis.arrPaperSeal IsNot Nothing AndAlso objDis.arrPaperSeal.Count > 0 Then
+                        For i As Integer = 0 To objDis.arrPaperSeal.Count - 1
+                            gvPaperSeal.Rows(i).Cells(ColSealNo).Value = objDis.arrPaperSeal(i).Seal_No
+                        Next
+                    End If
 
-                txtSupplierCode.Value = obj.Supplier_Code
-                txtMilktypeCode.Value = obj.MIKL_TYPE_CODE
-                cmbSealStatus.SelectedValue = obj.Seal_Status
-                'cmbGEType.SelectedValue = obj.Gate_Entry_Type
-                txtDispatchCentreCode.Text = obj.Dispatch_Centre_Code
-                lblTotalQTy.Text = obj.TotalQty_In_Kg
-                txtSealValue.Text = obj.SealNo_Header
-                lblSupplierName.Text = clsSupplierMaster.getSupplierName(txtSupplierCode.Value, Nothing)
-                lblMilkTypeCode.Text = clsMilkTypeMaster.getMilkTypeName(txtMilktypeCode.Value, Nothing)
-                lblMilkType.Text = clsMilkTypeMaster.getMilkType(txtMilktypeCode.Value, Nothing)
-                'If (MCCChamberwise = 1 AndAlso chkMccProc.IsChecked = True) Then
-                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                    txtSupplierCode.Value = obj.Supplier_Code
+                    txtMilktypeCode.Value = obj.MIKL_TYPE_CODE
+                    cmbSealStatus.SelectedValue = obj.Seal_Status
+                    'cmbGEType.SelectedValue = obj.Gate_Entry_Type
+                    txtDispatchCentreCode.Text = obj.Dispatch_Centre_Code
+                    lblTotalQTy.Text = obj.TotalQty_In_Kg
+                    txtSealValue.Text = obj.SealNo_Header
+                    lblSupplierName.Text = clsSupplierMaster.getSupplierName(txtSupplierCode.Value, Nothing)
+                    lblMilkTypeCode.Text = clsMilkTypeMaster.getMilkTypeName(txtMilktypeCode.Value, Nothing)
+                    lblMilkType.Text = clsMilkTypeMaster.getMilkType(txtMilktypeCode.Value, Nothing)
+                    'If (MCCChamberwise = 1 AndAlso chkMccProc.IsChecked = True) Then
+                    If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                         gvItemBulk.Rows.Clear()
                         For Each objTr As clsGateEntryChemberNoDetails In obj.Arr
                             gvItemBulk.Rows.AddNew()
@@ -2130,32 +2157,35 @@ Public Class FrmGateEntry
                         Next
                     End If
                     insideLoadData = False
-                ' End If
-                If obj.isPosted = 1 Then
-                    lblPending.Status = ERPTransactionStatus.Approved
-                    btnSave.Enabled = False
-                    btnDelete.Enabled = False
-                    btnPost.Enabled = False
-                    btn_amendment.Enabled = True
-                    BtnResetProv.Enabled = True
+                    ' End If
+                    If obj.isPosted = 1 Then
+                        lblPending.Status = ERPTransactionStatus.Approved
+                        btnSave.Enabled = False
+                        btnDelete.Enabled = False
+                        btnPost.Enabled = False
+                        btn_amendment.Enabled = True
+                        BtnResetProv.Enabled = True
+                    Else
+                        lblPending.Status = ERPTransactionStatus.Pending
+                        btnSave.Enabled = True
+                        btnDelete.Enabled = True
+                        btnPost.Enabled = True
+                        btn_amendment.Enabled = False
+                        BtnResetProv.Enabled = False
+                    End If
+                    btnSave.Text = "Update"
                 Else
-                    lblPending.Status = ERPTransactionStatus.Pending
-                    btnSave.Enabled = True
-                    btnDelete.Enabled = True
-                    btnPost.Enabled = True
-                    btn_amendment.Enabled = False
-                    BtnResetProv.Enabled = False
+                    reset()
                 End If
-                btnSave.Text = "Update"
             Else
-                reset()
+                clsCommon.MyMessageBoxShow(Me, "Please Select Gate Entry Type Either MCC Procurement or Bulk Procurement ", Me.Text)
+                Exit Sub
             End If
-        Else
-            clsCommon.MyMessageBoxShow(Me, "Please Select Gate Entry Type Either MCC Procurement or Bulk Procurement ", Me.Text)
-            Exit Sub
-        End If
-        DisableIntimationControls()
-        obj = Nothing
+            DisableIntimationControls()
+            obj = Nothing
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Sub DisableIntimationControls()
         If clsCommon.myLen(lblIntimationNo.Text) > 0 Then
@@ -2173,71 +2203,81 @@ Public Class FrmGateEntry
             Else
                 cmbGEType.Enabled = False
             End If
-
         ElseIf (TankerFromMaster = 1 OrElse isIntimationReqd = 1) Then
             txtSupplierCode.Enabled = True
             txtDispatchCentreCode.Enabled = True
             txtMilktypeCode.Enabled = True
             cmbGEType.Enabled = True
         End If
-
     End Sub
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        If allowToSave() Then
-            If SaveData(False) Then
-                If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
-                    If clsCommon.myLen(fndGateEntryNO.Value) > 0 Then
-                        Dim strDocType As String = String.Empty
-                        If chkBulkMilkProc.IsChecked Then
-                            strDocType = "BulkProc"
-                        ElseIf chkMccProc.IsChecked Then
-                            strDocType = "MccProc"
+        Try
+            If allowToSave() Then
+                If SaveData(False) Then
+                    If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                        If clsCommon.myLen(fndGateEntryNO.Value) > 0 Then
+                            Dim strDocType As String = String.Empty
+                            If chkBulkMilkProc.IsChecked Then
+                                strDocType = "BulkProc"
+                            ElseIf chkMccProc.IsChecked Then
+                                strDocType = "MccProc"
+                            End If
+                            LoadData(fndGateEntryNO.Value, strDocType, NavigatorType.Current)
                         End If
-                        LoadData(fndGateEntryNO.Value, strDocType, NavigatorType.Current)
                     End If
                 End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub fndGateEntryNO__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndGateEntryNO._MYNavigator
-        Dim strDocType As String = String.Empty
-        If chkBulkMilkProc.IsChecked Then
-            strDocType = "BulkProc"
-        ElseIf chkMccProc.IsChecked Then
-            strDocType = "MccProc"
-        Else
-            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement", Me.Text)
-            Exit Sub
-        End If
-        LoadData(fndGateEntryNO.Value, strDocType, NavType)
+        Try
+            Dim strDocType As String = String.Empty
+            If chkBulkMilkProc.IsChecked Then
+                strDocType = "BulkProc"
+            ElseIf chkMccProc.IsChecked Then
+                strDocType = "MccProc"
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement", Me.Text)
+                Exit Sub
+            End If
+            LoadData(fndGateEntryNO.Value, strDocType, NavType)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub fndGateEntryNO__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndGateEntryNO._MYValidating
-        Dim strDocType As String = String.Empty
-        If chkBulkMilkProc.IsChecked Then
-            strDocType = "BulkProc"
-        ElseIf chkMccProc.IsChecked Then
-            strDocType = "MccProc"
-        Else
-            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement", Me.Text)
-            Exit Sub
-        End If
-        Dim whrcls As String = " 2=2 "
-        If (Not clsMccMaster.isCurrentUserHO()) AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls += " and Location_Code in (" & objCommonVar.strCurrUserLocations & ") and doc_type='" & strDocType & "'"
-        Else
-            whrcls += " and doc_type='" & strDocType & "'"
-        End If
-        If intBulkProcRunOneTypeGateEntry = 1 Or intBulkProcRunOneTypeGateEntry = 2 Then
-            whrcls += " and doc_type='" & strDocType & "'"
-        End If
-        fndGateEntryNO.Value = clsGateEntry.getFinder(whrcls, fndGateEntryNO.Value, isButtonClicked)
-        If clsCommon.myLen(fndGateEntryNO.Value) > 0 Then
-            LoadData(fndGateEntryNO.Value, strDocType, NavigatorType.Current)
-        Else
-            reset()
-        End If
+        Try
+            Dim strDocType As String = String.Empty
+            If chkBulkMilkProc.IsChecked Then
+                strDocType = "BulkProc"
+            ElseIf chkMccProc.IsChecked Then
+                strDocType = "MccProc"
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type as Bulk Procurment or Mcc Procurement", Me.Text)
+                Exit Sub
+            End If
+            Dim whrcls As String = " 2=2 "
+            If (Not clsMccMaster.isCurrentUserHO()) AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls += " and Location_Code in (" & objCommonVar.strCurrUserLocations & ") and doc_type='" & strDocType & "'"
+            Else
+                whrcls += " and doc_type='" & strDocType & "'"
+            End If
+            If intBulkProcRunOneTypeGateEntry = 1 Or intBulkProcRunOneTypeGateEntry = 2 Then
+                whrcls += " and doc_type='" & strDocType & "'"
+            End If
+            fndGateEntryNO.Value = clsGateEntry.getFinder(whrcls, fndGateEntryNO.Value, isButtonClicked)
+            If clsCommon.myLen(fndGateEntryNO.Value) > 0 Then
+                LoadData(fndGateEntryNO.Value, strDocType, NavigatorType.Current)
+            Else
+                reset()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -2249,16 +2289,20 @@ Public Class FrmGateEntry
     End Sub
 
     Private Sub gvItemBulk_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvItemBulk.CurrentColumnChanged
-        If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
-            If gvItemBulk.RowCount > 0 Then
-                Dim intCurrRow As Integer = gvItemBulk.CurrentRow.Index
-                gvItemBulk.CurrentRow.Cells(colSlNo).Value = clsCommon.myCdbl(intCurrRow + 1)
-                If intCurrRow = gvItemBulk.Rows.Count - 1 Then
-                    gvItemBulk.Rows.AddNew()
-                    gvItemBulk.CurrentRow = gvItemBulk.Rows(intCurrRow)
+        Try
+            If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                If gvItemBulk.RowCount > 0 Then
+                    Dim intCurrRow As Integer = gvItemBulk.CurrentRow.Index
+                    gvItemBulk.CurrentRow.Cells(colSlNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+                    If intCurrRow = gvItemBulk.Rows.Count - 1 Then
+                        gvItemBulk.Rows.AddNew()
+                        gvItemBulk.CurrentRow = gvItemBulk.Rows(intCurrRow)
+                    End If
                 End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub gvItemBulk_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles gvItemBulk.KeyDown
@@ -2266,74 +2310,78 @@ Public Class FrmGateEntry
     End Sub
 
     Private Sub chkMccProc_ToggleStateChanged(ByVal sender As Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkMccProc.ToggleStateChanged
-        If chkBulkMilkProc.IsChecked Then
-            If TankerFromMaster = 1 Then
-                FinalChamberwise = 1
-            Else
-                FinalChamberwise = 0
+        Try
+            If chkBulkMilkProc.IsChecked Then
+                If TankerFromMaster = 1 Then
+                    FinalChamberwise = 1
+                Else
+                    FinalChamberwise = 0
+                End If
+            ElseIf chkMccProc.IsChecked Then
+                If MCCChamberwise = 1 Then
+                    FinalChamberwise = 1
+                Else
+                    FinalChamberwise = 0
+                End If
             End If
-        ElseIf chkMccProc.IsChecked Then
-            If MCCChamberwise = 1 Then
-                FinalChamberwise = 1
-            Else
-                FinalChamberwise = 0
-            End If
-        End If
 
-        If chkBulkMilkProc.IsChecked Then
-            fndChallanNoMcc.Visible = False
-            txtChallanNoBulk.Visible = True
-            fndVendorBulk.Enabled = True
-            lblVendorBulk.Text = "Vendor"
-            dtpChallanDateBulk.Enabled = True
-            If AllowJobWorkonGateEntryBulkProc = 1 Then
-                chkJobWork.Visible = True
-                chkJobWork.Enabled = True
-                txtSubLocation.Enabled = True
-            End If
-            chkNetWeight.Checked = False
-            chkNetWeight.Enabled = False
-        ElseIf chkMccProc.IsChecked Then
-            If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
-                lblVendorBulk.Text = "Transpoter"
-            Else
-                lblVendorBulk.Text = "From MCC"
-
-            End If
-            If AllowJobWorkonGateEntryBulkProc = 1 Then
-                chkJobWork.Visible = True
-                chkJobWork.Enabled = False
-                txtVendorCode.ReadOnly = True
-                txtSubLocation.Enabled = False
-            End If
-            fndChallanNoMcc.Visible = True
-            txtChallanNoBulk.Visible = False
-            fndVendorBulk.Enabled = True
-            dtpChallanDateBulk.Enabled = False
-            If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+            If chkBulkMilkProc.IsChecked Then
                 fndChallanNoMcc.Visible = False
                 txtChallanNoBulk.Visible = True
-                txtChallanNoBulk.Text = ""
-                txtTankerNoBulk.Visible = True
-                fndTankerNo.Visible = False
-                txtTankerNoBulk.ReadOnly = False
+                fndVendorBulk.Enabled = True
+                lblVendorBulk.Text = "Vendor"
                 dtpChallanDateBulk.Enabled = True
+                If AllowJobWorkonGateEntryBulkProc = 1 Then
+                    chkJobWork.Visible = True
+                    chkJobWork.Enabled = True
+                    txtSubLocation.Enabled = True
+                End If
+                chkNetWeight.Checked = False
+                chkNetWeight.Enabled = False
+            ElseIf chkMccProc.IsChecked Then
+                If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                    lblVendorBulk.Text = "Transpoter"
+                Else
+                    lblVendorBulk.Text = "From MCC"
+
+                End If
+                If AllowJobWorkonGateEntryBulkProc = 1 Then
+                    chkJobWork.Visible = True
+                    chkJobWork.Enabled = False
+                    txtVendorCode.ReadOnly = True
+                    txtSubLocation.Enabled = False
+                End If
+                fndChallanNoMcc.Visible = True
+                txtChallanNoBulk.Visible = False
+                fndVendorBulk.Enabled = True
+                dtpChallanDateBulk.Enabled = False
+                If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                    fndChallanNoMcc.Visible = False
+                    txtChallanNoBulk.Visible = True
+                    txtChallanNoBulk.Text = ""
+                    txtTankerNoBulk.Visible = True
+                    fndTankerNo.Visible = False
+                    txtTankerNoBulk.ReadOnly = False
+                    dtpChallanDateBulk.Enabled = True
+                End If
+                chkNetWeight.Enabled = True
             End If
-            chkNetWeight.Enabled = True
-        End If
-        If chkBulkMilkProc.IsChecked OrElse chkMccProc.IsChecked Then
-            reset()
-        End If
-        If GateEntryChamberwisewithManualTankerEntry = 1 And chkBulkMilkProc.IsChecked = True And TankerFromMaster = 1 Then
-            Panel5.Visible = True
-        Else
-            Panel5.Visible = False
-        End If
-        If CreateMCCTankerGateOutBasedOnBulkRouteMaster = True Then
-            RadGroupBox4.Visible = True
-        Else
-            RadGroupBox4.Visible = False
-        End If
+            If chkBulkMilkProc.IsChecked OrElse chkMccProc.IsChecked Then
+                reset()
+            End If
+            If GateEntryChamberwisewithManualTankerEntry = 1 And chkBulkMilkProc.IsChecked = True And TankerFromMaster = 1 Then
+                Panel5.Visible = True
+            Else
+                Panel5.Visible = False
+            End If
+            If CreateMCCTankerGateOutBasedOnBulkRouteMaster = True Then
+                RadGroupBox4.Visible = True
+            Else
+                RadGroupBox4.Visible = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -2351,34 +2399,42 @@ Public Class FrmGateEntry
                 End If
             End If
             RadPageViewPage1.Text = "Gate" & Environment.NewLine & "Entry"
-        Catch err As Exception
-            MessageBox.Show(err.Message)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub mnuSaveLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuSaveLayout.Click
-        If clsCommon.myLen(MyBase.Form_ID) > 0 Then
-            gvItemBulk.MasterTemplate.FilterDescriptors.Clear()
-            Dim obj As New clsGridLayout()
-            obj.ReportID = clsUserMgtCode.frmGateEntry
-            obj.UserID = objCommonVar.CurrentUserCode
-            obj.GridLayout = New MemoryStream()
-            gvItemBulk.SaveLayout(obj.GridLayout)
-            obj.GridColumns = gvItemBulk.ColumnCount
-            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
-            If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+        Try
+            If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+                gvItemBulk.MasterTemplate.FilterDescriptors.Clear()
+                Dim obj As New clsGridLayout()
+                obj.ReportID = clsUserMgtCode.frmGateEntry
+                obj.UserID = objCommonVar.CurrentUserCode
+                obj.GridLayout = New MemoryStream()
+                gvItemBulk.SaveLayout(obj.GridLayout)
+                obj.GridColumns = gvItemBulk.ColumnCount
+                obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                If obj.SaveData() Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+                End If
+                ''stuti regarding memory leakage
+                obj.GridLayout.Close()
+                obj.GridLayout.Dispose()
             End If
-            ''stuti regarding memory leakage
-            obj.GridLayout.Close()
-            obj.GridLayout.Dispose()
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub mnuDeleteLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
-        clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+        Try
+            clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
+            ReStoreGridLayout()
+            clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub mnuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuExit.Click
@@ -2469,9 +2525,13 @@ Public Class FrmGateEntry
     End Sub
 
     Private Sub txtChallanNoBulk_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtChallanNoBulk.Validating
-        If clsCommon.myLen(txtChallanNoBulk.Text) <= 0 Then
-            txtChallanNoBulk.Text = "ND"
-        End If
+        Try
+            If clsCommon.myLen(txtChallanNoBulk.Text) <= 0 Then
+                txtChallanNoBulk.Text = "ND"
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
@@ -2534,225 +2594,207 @@ Public Class FrmGateEntry
 
     End Sub
     Private Sub txtSupplierCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSupplierCode._MYValidating
-        If clsCommon.myLen(fndVendorBulk.Value) = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
-            fndVendorBulk.Focus()
-            Exit Sub
-        End If
-        Dim whr As String = " Vendor_Code='" & fndVendorBulk.Value & "'"
-        txtSupplierCode.Value = clsSupplierMaster.getFinder(whr, txtSupplierCode.Value, isButtonClicked)
-        If clsCommon.myLen(txtSupplierCode.Value) > 0 Then
-            lblSupplierName.Text = clsSupplierMaster.getSupplierName(txtSupplierCode.Value, Nothing)
-        End If
-    End Sub
-
-    Private Sub txtMilktypeCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMilktypeCode._MYValidating
-        Dim whr As String = ""
-        txtMilktypeCode.Value = clsMilkTypeMaster.getFinder(whr, txtMilktypeCode.Value, isButtonClicked)
-        If clsCommon.myLen(txtMilktypeCode.Value) > 0 Then
-            lblMilkTypeCode.Text = clsMilkTypeMaster.getMilkTypeName(txtMilktypeCode.Value, Nothing)
-            lblMilkType.Text = clsMilkTypeMaster.getMilkType(txtMilktypeCode.Value, Nothing)
-            If gvItemBulk.Rows.Count > 0 Then
-                For i As Integer = 0 To gvItemBulk.Rows.Count - 1
-                    gvItemBulk.Rows(i).Cells(colMilkTypeCode).Value = clsCommon.myCstr(txtMilktypeCode.Value)
-                Next
-            End If
-        End If
-    End Sub
-    Private Sub fndTankerNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndTankerNo._MYValidating
-        If clsCommon.myLen(fndLocationBulk.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select Location First.", Me.Text)
-            fndLocationBulk.Focus()
-            Exit Sub
-        End If
-        If chkBulkMilkProc.IsChecked = False AndAlso chkMccProc.IsChecked = False Then
-            clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type.", Me.Text)
-            fndLocationBulk.Focus()
-            Exit Sub
-        End If
-
-        ''richa 22 Sep,2016 
-        If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowTankerBasedonVendorofGE, clsFixedParameterCode.AllowTankerBasedonVendorofGE, Nothing)), "1") = CompairStringResult.Equal AndAlso chkBulkMilkProc.IsChecked = True Then
-            If clsCommon.myLen(fndVendorBulk.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Vendor First.", Me.Text)
+        Try
+            If clsCommon.myLen(fndVendorBulk.Value) = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Vendor", Me.Text)
                 fndVendorBulk.Focus()
                 Exit Sub
             End If
-        End If
-
-        Dim whr As String = ""
-        If clsCommon.myLen(fndVendorBulk.Value) > 0 Then
-            whr = " and TSPL_MCC_Dispatch_Challan.mcc_code='" & fndVendorBulk.Value & "'"
-        End If
-        'fndTankerNo.Value = clsMccDispatch.getFinder(" TSPL_MCC_Dispatch_Challan.mcc_or_plant_code ='" & fndLocationBulk.Value & "' " & whr & " and isPosted=1 and Chalan_NO not in (select distinct challan_no from tspl_gate_entry_details where tspl_gate_entry_details.gate_entry_No<>'" & fndGateEntryNO.Value & "') ", fndTankerNo.Value, isButtonClicked)
-
-        If MCCChamberwise = 0 Then
-            'fndChallanNoMcc.Value = clsMccDispatch.getTankerFinder(" TSPL_MCC_Dispatch_Challan.mcc_or_plant_code ='" & fndLocationBulk.Value & "' " & whr & " and isPosted=1 and Chalan_NO not in (select distinct challan_no from tspl_gate_entry_details where tspl_gate_entry_details.gate_entry_No<>'" & fndGateEntryNO.Value & "') and Chalan_NO not in (select distinct Challan_No from TSPL_MCC_DISPATCH_TRANSFER where isPosted=0) and not exists(select 1 from TSPL_MCC_Dispatch_Challan_Return where TSPL_MCC_Dispatch_Challan_Return.Challan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO )  and not exists(select 1 from TSPL_MCC_Tanker_Dispatch_Return_head where TSPL_MCC_Tanker_Dispatch_Return_head.Chalan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO )  ", fndTankerNo.Value)
-            fndChallanNoMcc.Value = clsMccDispatch.getTankerFinder(" TSPL_MCC_Dispatch_Challan.mcc_or_plant_code ='" & fndLocationBulk.Value & "' " & whr & " and isPosted=1 and Chalan_NO not in (select distinct challan_no from tspl_gate_entry_details where tspl_gate_entry_details.gate_entry_No<>'" & fndGateEntryNO.Value & "' and tspl_gate_entry_details.In_Return=0 ) and Chalan_NO not in (select distinct Challan_No from TSPL_MCC_DISPATCH_TRANSFER where isPosted=0) and not exists(select 1 from TSPL_MCC_Dispatch_Challan_Return where TSPL_MCC_Dispatch_Challan_Return.Challan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO )  and not exists(select 1 from TSPL_MCC_Tanker_Dispatch_Return_head where TSPL_MCC_Tanker_Dispatch_Return_head.Chalan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO )  ", fndTankerNo.Value)
-        Else
-            If Not chkBulkMilkProc.IsChecked Then
-                fndChallanNoMcc.Value = clsMccDispatch.getTankerFinder(" TSPL_MCC_Dispatch_Challan.mcc_or_plant_code ='" & fndLocationBulk.Value & "' " & whr & " and isPosted=1 and Chalan_NO not in (select distinct challan_no from tspl_gate_entry_details where tspl_gate_entry_details.gate_entry_No<>'" & fndGateEntryNO.Value & "') and Chalan_NO not in (select distinct Challan_No from TSPL_MCC_DISPATCH_TRANSFER where isPosted=0) and not exists(select 1 from TSPL_MCC_Dispatch_Challan_Return where TSPL_MCC_Dispatch_Challan_Return.Challan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO ) ", fndTankerNo.Value)
+            Dim whr As String = " Vendor_Code='" & fndVendorBulk.Value & "'"
+            txtSupplierCode.Value = clsSupplierMaster.getFinder(whr, txtSupplierCode.Value, isButtonClicked)
+            If clsCommon.myLen(txtSupplierCode.Value) > 0 Then
+                lblSupplierName.Text = clsSupplierMaster.getSupplierName(txtSupplierCode.Value, Nothing)
             End If
-        End If
-        If clsCommon.myLen(fndChallanNoMcc.Value) > 0 Then
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select  isnull(TSPL_MCC_Dispatch_Challan.IsAgainstJobWork,0) as IsAgainstJobWork,TSPL_MCC_Dispatch_Challan.Sublocation_Code,TSPL_MCC_Dispatch_Challan.mcc_code,mcc_name,TSPL_MCC_Dispatch_Challan.dispatch_date,TSPL_MCC_Dispatch_Challan.uom_Code,TSPL_MCC_Dispatch_Challan.tanker_no,TSPL_MCC_Dispatch_Challan.item_code,TSPL_MCC_Dispatch_Challan.item_desc,TSPL_MCC_Dispatch_Challan.net_qty,TSPL_MCC_Dispatch_Challan.no_of_cans from TSPL_MCC_Dispatch_Challan   where TSPL_MCC_Dispatch_Challan.chalan_no='" & fndChallanNoMcc.Value & "'")
-            fndVendorBulk.Value = dt.Rows(0)("mcc_code")
-            fndVendorBulk.Enabled = False
-            lblVendorNameBulk.Text = dt.Rows(0)("mcc_name")
-            dtpChallanDateBulk.Value = dt.Rows(0)("dispatch_date")
-            txtTankerNoBulk.Text = dt.Rows(0)("tanker_no")
-            fndTankerNo.Value = dt.Rows(0)("tanker_no")
-            txtCAN.Value = clsCommon.myCdbl(dt.Rows(0)("no_of_cans"))
-            fndLocationBulk.Enabled = False
-            '======Sanjeet=======================
-            chkJobWork.Checked = IIf(dt.Rows(0)("IsAgainstJobWork") = 1, True, False)
-            If dt.Rows(0)("IsAgainstJobWork") = 1 Then
-                Panel3.Visible = True
-                If clsCommon.myLen(dt.Rows(0)("Sublocation_Code")) > 0 Then
-                    Dim StrJobWorkQry As String = "select TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VENDOR_MASTER.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_LOCATION_MASTER left outer join TSPL_VENDOR_MASTER ON TSPL_LOCATION_MASTER.Jobwork_Vendor=TSPL_VENDOR_MASTER.Vendor_Code " &
-                                                 " WHERE TSPL_LOCATION_MASTER.Location_Code='" & clsCommon.myCstr(dt.Rows(0)("Sublocation_Code")) & "'"
-                    Dim dtj As DataTable = clsDBFuncationality.GetDataTable(StrJobWorkQry)
-                    If dtj.Rows.Count > 0 Then
-
-                        txtSubLocation.Value = clsCommon.myCstr(dtj.Rows(0)("Location_Code"))
-                        lblSubLocation.Text = clsCommon.myCstr(dtj.Rows(0)("Location_Desc"))
-                        txtVendorCode.Text = clsCommon.myCstr(dtj.Rows(0)("Vendor_Code"))
-                        txtvndrname.Text = clsCommon.myCstr(dtj.Rows(0)("Vendor_Name"))
-                    Else
-                        txtSubLocation.Value = ""
-                        lblSubLocation.Text = ""
-                        txtVendorCode.Text = ""
-                        txtvndrname.Text = ""
-                    End If
-
-                End If
-            Else
-                Panel3.Visible = False
-                txtSubLocation.Value = ""
-                lblSubLocation.Text = ""
-                txtVendorCode.Text = ""
-                txtvndrname.Text = ""
-            End If
-            '=====================================
-            Dim objDis As clsMccDispatch = clsMccDispatch.getData(fndChallanNoMcc.Value, NavigatorType.Current)
-            If objDis.arr IsNot Nothing AndAlso objDis.arr.Count > 0 Then
-                Dim intLineNo As Integer = 0
-                gvItemBulk.Rows.Clear()
-                For Each objtr As clsMCCDispatchDetail In objDis.arr
-                    gvItemBulk.Rows.AddNew()
-                    intLineNo += 1
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSlNo).Value = intLineNo
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value = objtr.Item_Code
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(objtr.Item_Code, Nothing)
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemDesc).Value = objtr.Item_Name
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberDesc).Value = objtr.Chamber_Description
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value = objtr.Item_UOM
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colQty).Value = objtr.Qty_KG
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFat).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='FAT' and SNo='" & objtr.SNo & "'")
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNF).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='SNF' and SNo='" & objtr.SNo & "'")
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colQty).Value) / 100
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colQty).Value) / 100
-                Next
-            Else
-                gvItemBulk.Rows(0).Cells(colItemCode).Value = dt.Rows(0)("item_code")
-                gvItemBulk.Rows(0).Cells(colItemDesc).Value = dt.Rows(0)("item_desc")
-                gvItemBulk.Rows(0).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(gvItemBulk.Rows(0).Cells(colItemCode).Value, Nothing)
-                gvItemBulk.Rows(0).Cells(colUOM).Value = clsCommon.myCstr(dt.Rows(0)("uom_Code"))
-                gvItemBulk.Rows(0).Cells(colQty).Value = dt.Rows(0)("net_qty")
-                gvItemBulk.Rows(0).Cells(colFat).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='FAT'")
-                gvItemBulk.Rows(0).Cells(colSNF).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='SNF'")
-                gvItemBulk.Rows(0).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
-                gvItemBulk.Rows(0).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
-            End If
-            gvManualSeal.Rows(0).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No1)
-            gvManualSeal.Rows(1).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No2)
-            gvManualSeal.Rows(2).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No3)
-            gvManualSeal.Rows(3).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No4)
-            gvManualSeal.Rows(4).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No5)
-            gvManualSeal.Rows(5).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No6)
-            gvManualSeal.Rows(6).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No7)
-            gvManualSeal.Rows(7).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No8)
-            gvManualSeal.Rows(8).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No9)
-            gvManualSeal.Rows(9).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No10)
-            If objDis.arrPaperSeal IsNot Nothing AndAlso objDis.arrPaperSeal.Count > 0 Then
-                For i As Integer = 0 To objDis.arrPaperSeal.Count - 1
-                    gvPaperSeal.Rows(i).Cells(ColSealNo).Value = objDis.arrPaperSeal(i).Seal_No
-                Next
-            End If
-            dt = Nothing
-            If CreateMCCTankerGateOutBasedOnBulkRouteMaster = True Then
-                txtOpeningKM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select TSPL_MCC_TANKER_GATE_OUT.opening_km from TSPL_MCC_TANKER_GATE_OUT left join tspl_mcc_dispatch_challan on tspl_mcc_dispatch_challan.Against_Gate_Out=TSPL_MCC_TANKER_GATE_OUT.Gate_out_No where tspl_mcc_dispatch_challan.Chalan_No='" & fndChallanNoMcc.Value & "'"))
-            End If
-        Else
-            If (MCCChamberwise = 0 OrElse chkMccProc.IsChecked) Then
-                fndVendorBulk.Value = ""
-                lblVendorNameBulk.Text = ""
-                'dtpChallanDateBulk.Value = ""
-                txtTankerNoBulk.Text = ""
-                fndTankerNo.Value = ""
-                gvItemBulk.Rows(0).Cells(colItemCode).Value = ""
-                gvItemBulk.Rows(0).Cells(colHSN).Value = ""
-                gvItemBulk.Rows(0).Cells(colItemDesc).Value = ""
-                gvItemBulk.Rows(0).Cells(colUOM).Value = ""
-                gvItemBulk.Rows(0).Cells(colQty).Value = "0"
-                gvItemBulk.Rows(0).Cells(colFat).Value = ""
-                gvItemBulk.Rows(0).Cells(colSNF).Value = ""
-                gvItemBulk.Rows(0).Cells(colFatKG).Value = ""
-                gvItemBulk.Rows(0).Cells(colSNFKG).Value = ""
-            Else
-                ''richa 22 Sep,2016 
-                If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowTankerBasedonVendorofGE, clsFixedParameterCode.AllowTankerBasedonVendorofGE, Nothing)), "1") = CompairStringResult.Equal AndAlso chkBulkMilkProc.IsChecked = True Then
-                    fndTankerNo.Value = clsContractTankerHead.getTankerFinderBasedonVendor("(TSPL_CONTRACT_TANKER_MASTER.tanker_code  not in (select Tspl_Gate_Entry_Details.Tanker_No from Tspl_Gate_Entry_Details ) or TSPL_CONTRACT_TANKER_MASTER.tanker_code   in (select TSPL_Gate_Out.Tanker_No from TSPL_Gate_Out )  ) and TSPL_CONTRACT_TANKER_VENDOR_DETAIL.Vendor_Code='" & clsCommon.myCstr(fndVendorBulk.Value) & "'", fndTankerNo.Value, isButtonClicked)
-                Else
-                    fndTankerNo.Value = clsContractTankerHead.getFinder("( tanker_code  not in (select Tanker_No from Tspl_Gate_Entry_Details ) or tanker_code   in (select Tanker_No from TSPL_Gate_Out )  ) ", fndTankerNo.Value, isButtonClicked)
-                End If
-
-                If clsCommon.myLen(fndTankerNo.Value) > 0 Then
-                    txtTankerNoBulk.Text = fndTankerNo.Value
-                    LoadGrid(fndTankerNo.Value)
-                End If
-            End If
-
-        End If
-
-        txtMilktypeCode.Value = ""
-        lblMilkTypeCode.Text = ""
-        lblMilkType.Text = ""
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
-    Sub LoadGrid(ByVal strTankerCode As String)
-        If clsCommon.myLen(strTankerCode) > 0 Then
-            loadBlankGv()
-            If AllowGateEntryAgainstPO = 0 Then
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select LINE_NO,CHAMBER_DESC,(select Description from TSPL_FIXED_PARAMETER where Type='MCCDefaultMilkItem' and Code='MilkSetting') as ItemCode from TSPL_CONTRACT_TANKER_DETAIL where TANKER_CODE='" & fndTankerNo.Value & "'")
-                If dt.Rows.Count > 0 Then
-                    gvItemBulk.Rows.Clear()
+
+    Private Sub txtMilktypeCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMilktypeCode._MYValidating
+        Try
+            Dim whr As String = ""
+            txtMilktypeCode.Value = clsMilkTypeMaster.getFinder(whr, txtMilktypeCode.Value, isButtonClicked)
+            If clsCommon.myLen(txtMilktypeCode.Value) > 0 Then
+                lblMilkTypeCode.Text = clsMilkTypeMaster.getMilkTypeName(txtMilktypeCode.Value, Nothing)
+                lblMilkType.Text = clsMilkTypeMaster.getMilkType(txtMilktypeCode.Value, Nothing)
+                If gvItemBulk.Rows.Count > 0 Then
+                    For i As Integer = 0 To gvItemBulk.Rows.Count - 1
+                        gvItemBulk.Rows(i).Cells(colMilkTypeCode).Value = clsCommon.myCstr(txtMilktypeCode.Value)
+                    Next
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub fndTankerNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndTankerNo._MYValidating
+        Try
+            If clsCommon.myLen(fndLocationBulk.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Location First.", Me.Text)
+                fndLocationBulk.Focus()
+                Exit Sub
+            End If
+            If chkBulkMilkProc.IsChecked = False AndAlso chkMccProc.IsChecked = False Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type.", Me.Text)
+                fndLocationBulk.Focus()
+                Exit Sub
+            End If
+
+            ''richa 22 Sep,2016 
+            If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowTankerBasedonVendorofGE, clsFixedParameterCode.AllowTankerBasedonVendorofGE, Nothing)), "1") = CompairStringResult.Equal AndAlso chkBulkMilkProc.IsChecked = True Then
+                If clsCommon.myLen(fndVendorBulk.Value) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please select Vendor First.", Me.Text)
+                    fndVendorBulk.Focus()
+                    Exit Sub
+                End If
+            End If
+
+            Dim whr As String = ""
+            If clsCommon.myLen(fndVendorBulk.Value) > 0 Then
+                whr = " and TSPL_MCC_Dispatch_Challan.mcc_code='" & fndVendorBulk.Value & "'"
+            End If
+            'fndTankerNo.Value = clsMccDispatch.getFinder(" TSPL_MCC_Dispatch_Challan.mcc_or_plant_code ='" & fndLocationBulk.Value & "' " & whr & " and isPosted=1 and Chalan_NO not in (select distinct challan_no from tspl_gate_entry_details where tspl_gate_entry_details.gate_entry_No<>'" & fndGateEntryNO.Value & "') ", fndTankerNo.Value, isButtonClicked)
+
+            If MCCChamberwise = 0 Then
+                'fndChallanNoMcc.Value = clsMccDispatch.getTankerFinder(" TSPL_MCC_Dispatch_Challan.mcc_or_plant_code ='" & fndLocationBulk.Value & "' " & whr & " and isPosted=1 and Chalan_NO not in (select distinct challan_no from tspl_gate_entry_details where tspl_gate_entry_details.gate_entry_No<>'" & fndGateEntryNO.Value & "') and Chalan_NO not in (select distinct Challan_No from TSPL_MCC_DISPATCH_TRANSFER where isPosted=0) and not exists(select 1 from TSPL_MCC_Dispatch_Challan_Return where TSPL_MCC_Dispatch_Challan_Return.Challan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO )  and not exists(select 1 from TSPL_MCC_Tanker_Dispatch_Return_head where TSPL_MCC_Tanker_Dispatch_Return_head.Chalan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO )  ", fndTankerNo.Value)
+                fndChallanNoMcc.Value = clsMccDispatch.getTankerFinder(" TSPL_MCC_Dispatch_Challan.mcc_or_plant_code ='" & fndLocationBulk.Value & "' " & whr & " and isPosted=1 and Chalan_NO not in (select distinct challan_no from tspl_gate_entry_details where tspl_gate_entry_details.gate_entry_No<>'" & fndGateEntryNO.Value & "' and tspl_gate_entry_details.In_Return=0 ) and Chalan_NO not in (select distinct Challan_No from TSPL_MCC_DISPATCH_TRANSFER where isPosted=0) and not exists(select 1 from TSPL_MCC_Dispatch_Challan_Return where TSPL_MCC_Dispatch_Challan_Return.Challan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO )  and not exists(select 1 from TSPL_MCC_Tanker_Dispatch_Return_head where TSPL_MCC_Tanker_Dispatch_Return_head.Chalan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO )  ", fndTankerNo.Value)
+            Else
+                If Not chkBulkMilkProc.IsChecked Then
+                    fndChallanNoMcc.Value = clsMccDispatch.getTankerFinder(" TSPL_MCC_Dispatch_Challan.mcc_or_plant_code ='" & fndLocationBulk.Value & "' " & whr & " and isPosted=1 and Chalan_NO not in (select distinct challan_no from tspl_gate_entry_details where tspl_gate_entry_details.gate_entry_No<>'" & fndGateEntryNO.Value & "') and Chalan_NO not in (select distinct Challan_No from TSPL_MCC_DISPATCH_TRANSFER where isPosted=0) and not exists(select 1 from TSPL_MCC_Dispatch_Challan_Return where TSPL_MCC_Dispatch_Challan_Return.Challan_No = TSPL_MCC_Dispatch_Challan.Chalan_NO ) ", fndTankerNo.Value)
+                End If
+            End If
+            If clsCommon.myLen(fndChallanNoMcc.Value) > 0 Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select  isnull(TSPL_MCC_Dispatch_Challan.IsAgainstJobWork,0) as IsAgainstJobWork,TSPL_MCC_Dispatch_Challan.Sublocation_Code,TSPL_MCC_Dispatch_Challan.mcc_code,mcc_name,TSPL_MCC_Dispatch_Challan.dispatch_date,TSPL_MCC_Dispatch_Challan.uom_Code,TSPL_MCC_Dispatch_Challan.tanker_no,TSPL_MCC_Dispatch_Challan.item_code,TSPL_MCC_Dispatch_Challan.item_desc,TSPL_MCC_Dispatch_Challan.net_qty,TSPL_MCC_Dispatch_Challan.no_of_cans from TSPL_MCC_Dispatch_Challan   where TSPL_MCC_Dispatch_Challan.chalan_no='" & fndChallanNoMcc.Value & "'")
+                fndVendorBulk.Value = dt.Rows(0)("mcc_code")
+                fndVendorBulk.Enabled = False
+                lblVendorNameBulk.Text = dt.Rows(0)("mcc_name")
+                dtpChallanDateBulk.Value = dt.Rows(0)("dispatch_date")
+                txtTankerNoBulk.Text = dt.Rows(0)("tanker_no")
+                fndTankerNo.Value = dt.Rows(0)("tanker_no")
+                txtCAN.Value = clsCommon.myCdbl(dt.Rows(0)("no_of_cans"))
+                fndLocationBulk.Enabled = False
+                '======Sanjeet=======================
+                chkJobWork.Checked = IIf(dt.Rows(0)("IsAgainstJobWork") = 1, True, False)
+                If dt.Rows(0)("IsAgainstJobWork") = 1 Then
+                    Panel3.Visible = True
+                    If clsCommon.myLen(dt.Rows(0)("Sublocation_Code")) > 0 Then
+                        Dim StrJobWorkQry As String = "select TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VENDOR_MASTER.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name from TSPL_LOCATION_MASTER left outer join TSPL_VENDOR_MASTER ON TSPL_LOCATION_MASTER.Jobwork_Vendor=TSPL_VENDOR_MASTER.Vendor_Code " &
+                                                     " WHERE TSPL_LOCATION_MASTER.Location_Code='" & clsCommon.myCstr(dt.Rows(0)("Sublocation_Code")) & "'"
+                        Dim dtj As DataTable = clsDBFuncationality.GetDataTable(StrJobWorkQry)
+                        If dtj.Rows.Count > 0 Then
+
+                            txtSubLocation.Value = clsCommon.myCstr(dtj.Rows(0)("Location_Code"))
+                            lblSubLocation.Text = clsCommon.myCstr(dtj.Rows(0)("Location_Desc"))
+                            txtVendorCode.Text = clsCommon.myCstr(dtj.Rows(0)("Vendor_Code"))
+                            txtvndrname.Text = clsCommon.myCstr(dtj.Rows(0)("Vendor_Name"))
+                        Else
+                            txtSubLocation.Value = ""
+                            lblSubLocation.Text = ""
+                            txtVendorCode.Text = ""
+                            txtvndrname.Text = ""
+                        End If
+
+                    End If
+                Else
+                    Panel3.Visible = False
+                    txtSubLocation.Value = ""
+                    lblSubLocation.Text = ""
+                    txtVendorCode.Text = ""
+                    txtvndrname.Text = ""
+                End If
+                '=====================================
+                Dim objDis As clsMccDispatch = clsMccDispatch.getData(fndChallanNoMcc.Value, NavigatorType.Current)
+                If objDis.arr IsNot Nothing AndAlso objDis.arr.Count > 0 Then
                     Dim intLineNo As Integer = 0
-                    For Each dr As DataRow In dt.Rows
+                    gvItemBulk.Rows.Clear()
+                    For Each objtr As clsMCCDispatchDetail In objDis.arr
                         gvItemBulk.Rows.AddNew()
                         intLineNo += 1
                         gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSlNo).Value = intLineNo
-                        ' done by priti BHA/17/08/18-000455 to forcibly select item in contract type for bharat
-                        If ForceToSelectIteminGateEntry = 0 Then
-                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(dr("ItemCode"))
-                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value, Nothing)
-                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemDesc).Value = clsIntimation.getItemName(clsCommon.myCstr(dr("ItemCode")), Nothing)
-                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select UOM_Code   from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(dr("ItemCode")) & "' and Default_UOM='1' "))
-                            If clsCommon.myLen(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value) <= 0 Then
-                                gvItemBulk.CurrentRow.Cells(colUOM).Value = clsItemMaster.GetStockUnit(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value, Nothing)
-                            End If
-                        End If
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberDesc).Value = clsCommon.myCstr(dr("CHAMBER_DESC"))
-                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colMilkTypeCode).Value = clsCommon.myCstr(txtMilktypeCode.Value)
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value = objtr.Item_Code
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(objtr.Item_Code, Nothing)
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemDesc).Value = objtr.Item_Name
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberDesc).Value = objtr.Chamber_Description
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value = objtr.Item_UOM
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colQty).Value = objtr.Qty_KG
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFat).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='FAT' and SNo='" & objtr.SNo & "'")
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNF).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='SNF' and SNo='" & objtr.SNo & "'")
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colQty).Value) / 100
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colQty).Value) / 100
+                    Next
+                Else
+                    gvItemBulk.Rows(0).Cells(colItemCode).Value = dt.Rows(0)("item_code")
+                    gvItemBulk.Rows(0).Cells(colItemDesc).Value = dt.Rows(0)("item_desc")
+                    gvItemBulk.Rows(0).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(gvItemBulk.Rows(0).Cells(colItemCode).Value, Nothing)
+                    gvItemBulk.Rows(0).Cells(colUOM).Value = clsCommon.myCstr(dt.Rows(0)("uom_Code"))
+                    gvItemBulk.Rows(0).Cells(colQty).Value = dt.Rows(0)("net_qty")
+                    gvItemBulk.Rows(0).Cells(colFat).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='FAT'")
+                    gvItemBulk.Rows(0).Cells(colSNF).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='SNF'")
+                    gvItemBulk.Rows(0).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+                    gvItemBulk.Rows(0).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+                End If
+                gvManualSeal.Rows(0).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No1)
+                gvManualSeal.Rows(1).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No2)
+                gvManualSeal.Rows(2).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No3)
+                gvManualSeal.Rows(3).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No4)
+                gvManualSeal.Rows(4).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No5)
+                gvManualSeal.Rows(5).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No6)
+                gvManualSeal.Rows(6).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No7)
+                gvManualSeal.Rows(7).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No8)
+                gvManualSeal.Rows(8).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No9)
+                gvManualSeal.Rows(9).Cells(ColSealNo).Value = clsCommon.myCstr(objDis.Seal_No10)
+                If objDis.arrPaperSeal IsNot Nothing AndAlso objDis.arrPaperSeal.Count > 0 Then
+                    For i As Integer = 0 To objDis.arrPaperSeal.Count - 1
+                        gvPaperSeal.Rows(i).Cells(ColSealNo).Value = objDis.arrPaperSeal(i).Seal_No
                     Next
                 End If
+                dt = Nothing
+                If CreateMCCTankerGateOutBasedOnBulkRouteMaster = True Then
+                    txtOpeningKM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select TSPL_MCC_TANKER_GATE_OUT.opening_km from TSPL_MCC_TANKER_GATE_OUT left join tspl_mcc_dispatch_challan on tspl_mcc_dispatch_challan.Against_Gate_Out=TSPL_MCC_TANKER_GATE_OUT.Gate_out_No where tspl_mcc_dispatch_challan.Chalan_No='" & fndChallanNoMcc.Value & "'"))
+                End If
             Else
-                If allowManualrate = 1 Then
-                    If clsCommon.myLen(txtPO.Value) = 0 Then
-                        clsCommon.MyMessageBoxShow(Me, "Please Select PO No first", Me.Text)
-                        fndTankerNo.Value = ""
-                        Exit Sub
+                If (MCCChamberwise = 0 OrElse chkMccProc.IsChecked) Then
+                    fndVendorBulk.Value = ""
+                    lblVendorNameBulk.Text = ""
+                    'dtpChallanDateBulk.Value = ""
+                    txtTankerNoBulk.Text = ""
+                    fndTankerNo.Value = ""
+                    gvItemBulk.Rows(0).Cells(colItemCode).Value = ""
+                    gvItemBulk.Rows(0).Cells(colHSN).Value = ""
+                    gvItemBulk.Rows(0).Cells(colItemDesc).Value = ""
+                    gvItemBulk.Rows(0).Cells(colUOM).Value = ""
+                    gvItemBulk.Rows(0).Cells(colQty).Value = "0"
+                    gvItemBulk.Rows(0).Cells(colFat).Value = ""
+                    gvItemBulk.Rows(0).Cells(colSNF).Value = ""
+                    gvItemBulk.Rows(0).Cells(colFatKG).Value = ""
+                    gvItemBulk.Rows(0).Cells(colSNFKG).Value = ""
+                Else
+                    ''richa 22 Sep,2016 
+                    If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowTankerBasedonVendorofGE, clsFixedParameterCode.AllowTankerBasedonVendorofGE, Nothing)), "1") = CompairStringResult.Equal AndAlso chkBulkMilkProc.IsChecked = True Then
+                        fndTankerNo.Value = clsContractTankerHead.getTankerFinderBasedonVendor("(TSPL_CONTRACT_TANKER_MASTER.tanker_code  not in (select Tspl_Gate_Entry_Details.Tanker_No from Tspl_Gate_Entry_Details ) or TSPL_CONTRACT_TANKER_MASTER.tanker_code   in (select TSPL_Gate_Out.Tanker_No from TSPL_Gate_Out )  ) and TSPL_CONTRACT_TANKER_VENDOR_DETAIL.Vendor_Code='" & clsCommon.myCstr(fndVendorBulk.Value) & "'", fndTankerNo.Value, isButtonClicked)
+                    Else
+                        fndTankerNo.Value = clsContractTankerHead.getFinder("( tanker_code  not in (select Tanker_No from Tspl_Gate_Entry_Details ) or tanker_code   in (select Tanker_No from TSPL_Gate_Out )  ) ", fndTankerNo.Value, isButtonClicked)
                     End If
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("select LINE_NO,CHAMBER_DESC,(select top 1 Item_Code from TSPL_PO_BULK_DETAIL where PO_No='" & txtPO.Value & "') as ItemCode from TSPL_CONTRACT_TANKER_DETAIL where TANKER_CODE='" & fndTankerNo.Value & "'")
+
+                    If clsCommon.myLen(fndTankerNo.Value) > 0 Then
+                        txtTankerNoBulk.Text = fndTankerNo.Value
+                        LoadGrid(fndTankerNo.Value)
+                    End If
+                End If
+            End If
+            txtMilktypeCode.Value = ""
+            lblMilkTypeCode.Text = ""
+            lblMilkType.Text = ""
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub LoadGrid(ByVal strTankerCode As String)
+        Try
+            If clsCommon.myLen(strTankerCode) > 0 Then
+                loadBlankGv()
+                If AllowGateEntryAgainstPO = 0 Then
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("select LINE_NO,CHAMBER_DESC,(select Description from TSPL_FIXED_PARAMETER where Type='MCCDefaultMilkItem' and Code='MilkSetting') as ItemCode from TSPL_CONTRACT_TANKER_DETAIL where TANKER_CODE='" & fndTankerNo.Value & "'")
                     If dt.Rows.Count > 0 Then
                         gvItemBulk.Rows.Clear()
                         Dim intLineNo As Integer = 0
@@ -2772,12 +2814,44 @@ Public Class FrmGateEntry
                             End If
                             gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberDesc).Value = clsCommon.myCstr(dr("CHAMBER_DESC"))
                             gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colMilkTypeCode).Value = clsCommon.myCstr(txtMilktypeCode.Value)
-                            gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 ManualRate  from TSPL_PO_BULK_DETAIL where PO_No='" & txtPO.Value & "'"))
                         Next
+                    End If
+                Else
+                    If allowManualrate = 1 Then
+                        If clsCommon.myLen(txtPO.Value) = 0 Then
+                            clsCommon.MyMessageBoxShow(Me, "Please Select PO No first", Me.Text)
+                            fndTankerNo.Value = ""
+                            Exit Sub
+                        End If
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select LINE_NO,CHAMBER_DESC,(select top 1 Item_Code from TSPL_PO_BULK_DETAIL where PO_No='" & txtPO.Value & "') as ItemCode from TSPL_CONTRACT_TANKER_DETAIL where TANKER_CODE='" & fndTankerNo.Value & "'")
+                        If dt.Rows.Count > 0 Then
+                            gvItemBulk.Rows.Clear()
+                            Dim intLineNo As Integer = 0
+                            For Each dr As DataRow In dt.Rows
+                                gvItemBulk.Rows.AddNew()
+                                intLineNo += 1
+                                gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSlNo).Value = intLineNo
+                                ' done by priti BHA/17/08/18-000455 to forcibly select item in contract type for bharat
+                                If ForceToSelectIteminGateEntry = 0 Then
+                                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(dr("ItemCode"))
+                                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value, Nothing)
+                                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemDesc).Value = clsIntimation.getItemName(clsCommon.myCstr(dr("ItemCode")), Nothing)
+                                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select UOM_Code   from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(dr("ItemCode")) & "' and Default_UOM='1' "))
+                                    If clsCommon.myLen(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value) <= 0 Then
+                                        gvItemBulk.CurrentRow.Cells(colUOM).Value = clsItemMaster.GetStockUnit(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemCode).Value, Nothing)
+                                    End If
+                                End If
+                                gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colChamberDesc).Value = clsCommon.myCstr(dr("CHAMBER_DESC"))
+                                gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colMilkTypeCode).Value = clsCommon.myCstr(txtMilktypeCode.Value)
+                                gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 ManualRate  from TSPL_PO_BULK_DETAIL where PO_No='" & txtPO.Value & "'"))
+                            Next
+                        End If
                     End If
                 End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub dtpDateAndTimeBulk_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles dtpDateAndTimeBulk.Validating
         Try
@@ -2830,7 +2904,7 @@ Public Class FrmGateEntry
                 frmCRV = Nothing
             End If
         Catch ex As Exception
-            RadMessageBox.Show(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'KUNAL > TICKET : BM00000009843 > DATE : 17-NOV-2016
@@ -2851,12 +2925,16 @@ Public Class FrmGateEntry
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
-        Dim obj As New clsCancelLog
-        obj.Program_Code = Form_ID
-        obj.DOCUMENT_NO = clsCommon.myCstr(Me.fndGateEntryNO.Value)
-        obj.REASON = Reason
-        obj.ACTIVITY_TYPE = Activity_Type
-        Return clsCancelLog.SaveData(obj, True, trans)
+        Try
+            Dim obj As New clsCancelLog
+            obj.Program_Code = Form_ID
+            obj.DOCUMENT_NO = clsCommon.myCstr(Me.fndGateEntryNO.Value)
+            obj.REASON = Reason
+            obj.ACTIVITY_TYPE = Activity_Type
+            Return clsCancelLog.SaveData(obj, True, trans)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Function
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
         Try
@@ -2980,7 +3058,7 @@ Public Class FrmGateEntry
                 End If
             End If
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function GetBalancePOQty(ByVal strPOCode As String) As Double
@@ -2996,19 +3074,22 @@ Public Class FrmGateEntry
     End Function
 
     Private Sub txtPriceCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPriceCode._MYValidating
-        If clsCommon.myLen(fndGateEntryNO.Value) = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select Document No", Me.Text)
-            fndVendorBulk.Focus()
-            Exit Sub
-        End If
-        Dim whr As String = " TSPL_Bulk_Price_MASTER.Posted=1  and effective_Date<='" & clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm tt") & "' and " &
-            "expirydate >= '" & clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm tt") & "' and " &
-            "TSPL_Bulk_Price_MASTER.Milk_Type_Code='" & txtMilktypeCode.Value & "' " &
-            "and TSPL_Bulk_Price_MASTER.Price_Code in (select Tspl_Vendor_Price_Chart_mapping.PriceCode from " &
-            "Tspl_Vendor_Price_Chart_mapping where TSPL_VENDOR_PRICE_CHART_MAPPING.Posted=1 and " &
-            "Tspl_Vendor_Price_Chart_mapping.VendorCode='" & fndVendorBulk.Value & "')"
-        txtPriceCode.Value = clsPriceChartBulkProc.getFinder(whr, txtPriceCode.Value, isButtonClicked)
-
+        Try
+            If clsCommon.myLen(fndGateEntryNO.Value) = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Document No", Me.Text)
+                fndVendorBulk.Focus()
+                Exit Sub
+            End If
+            Dim whr As String = " TSPL_Bulk_Price_MASTER.Posted=1  and effective_Date<='" & clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm tt") & "' and " &
+                "expirydate >= '" & clsCommon.GetPrintDate(dtpDateAndTimeBulk.Value, "dd/MMM/yyyy hh:mm tt") & "' and " &
+                "TSPL_Bulk_Price_MASTER.Milk_Type_Code='" & txtMilktypeCode.Value & "' " &
+                "and TSPL_Bulk_Price_MASTER.Price_Code in (select Tspl_Vendor_Price_Chart_mapping.PriceCode from " &
+                "Tspl_Vendor_Price_Chart_mapping where TSPL_VENDOR_PRICE_CHART_MAPPING.Posted=1 and " &
+                "Tspl_Vendor_Price_Chart_mapping.VendorCode='" & fndVendorBulk.Value & "')"
+            txtPriceCode.Value = clsPriceChartBulkProc.getFinder(whr, txtPriceCode.Value, isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnUpdatePrice_Click(sender As Object, e As EventArgs) Handles btnUpdatePrice.Click
@@ -3025,50 +3106,55 @@ Public Class FrmGateEntry
                 trans.Rollback()
             End If
         Catch ex As Exception
-
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub chkJobWork_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkJobWork.ToggleStateChanged
-        If chkJobWork.Checked Then
-            Panel3.Visible = True
-        Else
-            Panel3.Visible = False
-            txtSubLocation.Value = ""
-            lblSubLocation.Text = ""
-            txtVendorCode.Text = ""
-            txtvndrname.Text = ""
-        End If
+        Try
+            If chkJobWork.Checked Then
+                Panel3.Visible = True
+            Else
+                Panel3.Visible = False
+                txtSubLocation.Value = ""
+                lblSubLocation.Text = ""
+                txtVendorCode.Text = ""
+                txtvndrname.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
-        Dim strLocations = String.Empty
-        If Not clsMccMaster.isCurrentUserHO() Then
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                strLocations = "and location_code in (" & objCommonVar.strCurrUserLocations & ")"
+        Try
+            Dim strLocations = String.Empty
+            If Not clsMccMaster.isCurrentUserHO() Then
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    strLocations = "and location_code in (" & objCommonVar.strCurrUserLocations & ")"
+                End If
             End If
-        End If
-        If clsCommon.myLen(fndLocationBulk.Value) = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select location code before sub location", Me.Text)
-            Exit Sub
-        End If
-        txtSubLocation.Value = clsLocation.getFinder("(Main_Location_Code='" & fndLocationBulk.Value & "' and Is_Jobwork=1 and isnull(Is_Sub_Location,'N')='Y')" & strLocations, txtSubLocation.Value, isButtonClicked)
-        If clsCommon.myLen(txtSubLocation.Value) > 0 Then
-            lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
-            txtVendorCode.Text = clsDBFuncationality.getSingleValue("select Jobwork_Vendor from TSPL_LOCATION_MASTER WHERE Location_Code='" & txtSubLocation.Value & "'")
+            If clsCommon.myLen(fndLocationBulk.Value) = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select location code before sub location", Me.Text)
+                Exit Sub
+            End If
+            txtSubLocation.Value = clsLocation.getFinder("(Main_Location_Code='" & fndLocationBulk.Value & "' and Is_Jobwork=1 and isnull(Is_Sub_Location,'N')='Y')" & strLocations, txtSubLocation.Value, isButtonClicked)
             If clsCommon.myLen(txtSubLocation.Value) > 0 Then
-                txtvndrname.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER WHERE Vendor_Code='" & txtVendorCode.Text & "'")
+                lblSubLocation.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+                txtVendorCode.Text = clsDBFuncationality.getSingleValue("select Jobwork_Vendor from TSPL_LOCATION_MASTER WHERE Location_Code='" & txtSubLocation.Value & "'")
+                If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                    txtvndrname.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER WHERE Vendor_Code='" & txtVendorCode.Text & "'")
+                Else
+                    txtvndrname.Text = ""
+                End If
             Else
-                txtvndrname.Text = ""
+                lblSubLocation.Text = ""
+                txtVendorCode.Text = ""
             End If
-        Else
-            lblSubLocation.Text = ""
-            txtVendorCode.Text = ""
-        End If
-        strLocations = Nothing
-
-
+            strLocations = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtNoofChamber_TextChanged(sender As Object, e As EventArgs) Handles txtNoofChamber.TextChanged
@@ -3156,9 +3242,7 @@ Public Class FrmGateEntry
     Private Function UpdateFatAndSnfInCaseOFcontractor() As Boolean
         Dim trans As SqlTransaction = Nothing
         Try
-
             trans = clsDBFuncationality.GetTransactin()
-
             Dim intLine As Integer = 0
             For Each grow As GridViewRowInfo In gvItemBulk.Rows
                 Dim objTr As New clsGateEntryChemberNoDetails()
@@ -3173,11 +3257,9 @@ Public Class FrmGateEntry
 
             Next
             trans.Commit()
-
         Catch ex As Exception
             trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
         Return True
     End Function
@@ -3318,12 +3400,9 @@ Public Class FrmGateEntry
             Else
                 Throw New Exception("Document no not found")
             End If
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
 
     Private Sub BtnResetProv_Click(sender As Object, e As EventArgs) Handles BtnResetProv.Click
@@ -3366,40 +3445,48 @@ Public Class FrmGateEntry
                 LoadData(fndGateEntryNO.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
             Catch ex As Exception
                 trans.Rollback()
-                Throw New Exception(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
 
     Private Sub txtGateOutNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtGateOutNo._MYValidating
-        Dim strwhrclause As String = String.Empty
-        Dim qry As String = "select GATE_OUT_NO as Code from TSPL_MCC_TANKER_GATE_OUT "
-        strwhrclause = " TSPL_MCC_TANKER_GATE_OUT.IsContractor=1 and TSPL_MCC_TANKER_GATE_OUT.GATE_OUT_NO not in (select Against_Gate_Out from tspl_gate_entry_details where IsAgainstGateOut=1 and isnull(Against_Gate_Out,'')<>'' and Gate_Entry_No <>'" & fndGateEntryNO.Value & "')"
-        txtGateOutNo.Value = clsCommon.ShowSelectForm("GateOutNo", qry, "Code", strwhrclause, txtGateOutNo.Value, "Code", isButtonClicked)
-        If clsCommon.myLen(txtGateOutNo.Value) > 0 Then
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_MCC_TANKER_GATE_OUT where GATE_OUT_NO ='" & txtGateOutNo.Value & "'")
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                'fndLocationBulk.Value = clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE"))
-                txtTankerNoBulk.Text = clsCommon.myCstr(dt.Rows(0)("TANKER_NO"))
-                txtOpeningKM.Text = clsCommon.myCdbl(dt.Rows(0)("Opening_Km"))
-                txtTollAmount.Text = clsCommon.myCdbl(dt.Rows(0)("TollAmount"))
+        Try
+            Dim strwhrclause As String = String.Empty
+            Dim qry As String = "select GATE_OUT_NO as Code from TSPL_MCC_TANKER_GATE_OUT "
+            strwhrclause = " TSPL_MCC_TANKER_GATE_OUT.IsContractor=1 and TSPL_MCC_TANKER_GATE_OUT.GATE_OUT_NO not in (select Against_Gate_Out from tspl_gate_entry_details where IsAgainstGateOut=1 and isnull(Against_Gate_Out,'')<>'' and Gate_Entry_No <>'" & fndGateEntryNO.Value & "')"
+            txtGateOutNo.Value = clsCommon.ShowSelectForm("GateOutNo", qry, "Code", strwhrclause, txtGateOutNo.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(txtGateOutNo.Value) > 0 Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_MCC_TANKER_GATE_OUT where GATE_OUT_NO ='" & txtGateOutNo.Value & "'")
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    'fndLocationBulk.Value = clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE"))
+                    txtTankerNoBulk.Text = clsCommon.myCstr(dt.Rows(0)("TANKER_NO"))
+                    txtOpeningKM.Text = clsCommon.myCdbl(dt.Rows(0)("Opening_Km"))
+                    txtTollAmount.Text = clsCommon.myCdbl(dt.Rows(0)("TollAmount"))
+                End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub chkForContractor_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkAgainstGateOutNo.ToggleStateChanged
-        If CreateProvisionforBulkContractorInGateIn Then
-            If chkAgainstGateOutNo.Checked = True Then
-                txtGateOutNo.Visible = True
-                lblGateOut.Visible = True
+        Try
+            If CreateProvisionforBulkContractorInGateIn Then
+                If chkAgainstGateOutNo.Checked = True Then
+                    txtGateOutNo.Visible = True
+                    lblGateOut.Visible = True
+                Else
+                    txtGateOutNo.Visible = False
+                    lblGateOut.Visible = False
+                End If
             Else
                 txtGateOutNo.Visible = False
                 lblGateOut.Visible = False
             End If
-        Else
-            txtGateOutNo.Visible = False
-            lblGateOut.Visible = False
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtRoute__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRoute._MYValidating
@@ -3412,11 +3499,11 @@ Public Class FrmGateEntry
         End Try
     End Sub
 
-    Private Sub TxtFinder1__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtFinder1._MYValidating
+    Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
         Try
             Dim qry As String = " select MCC_Code as Code,MCC_NAME as Name from  TSPL_MCC_MASTER "
             Dim whrCls As String = "exists(select 1 from TSPL_MCC_MASTER where TSPL_MCC_MASTER.MCC_Code=TSPL_MCC_MASTER.MCC_Code )"
-            TxtFinder1.Value = clsCommon.ShowSelectForm("ddGEShUp", qry, "Code", whrCls, TxtFinder1.Value, "Code", isButtonClicked)
+            txtMCC.Value = clsCommon.ShowSelectForm("ddGEShUp", qry, "Code", whrCls, txtMCC.Value, "Code", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
