@@ -98,6 +98,24 @@ Public Class clsEmployeeMaster
     Public BioMetricEmpID As String
     Public EmpBasisType As String
     Public Company_Bank As String
+    Public COEPF_PER As Double
+    Public COEPF_ROUNDOFF_YPE As String      '' COMPANY PF SHARE
+    Public COEPS_PER As Double               '' COMPANY EPS SHARE
+    Public EPS_MAX As Double                '' MAXIMUM LIMIT OF EPS AMOUNT
+    Public EMPEPF_PER As Double              '' EMPLOYEE PF SHARE
+    Public EMPEPF_MAX As Double             '' MAXIMUM LIMIT OF EMPLOYEE SHARE
+    Public EMPEPF_ROUNDOFF_YPE As String     '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
+    Public ACCOEPF_PER As Double             '' ADMIN CHARGES ON COMPANY PF SHARE
+    Public ACCOEPF_MAX As Double            '' MAXIMUM LIMIT OF ADMIN CHARGES ON COMPANY PF SHARE
+    Public COEDLI_PER As Double              '' EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+    Public COEDLI_MAX As Double             '' MAXIMUM LIMIT OF EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+    Public ACCOEDLI_PER As Double            '' ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+    Public ACCOEDLI_MAX As Double           '' MAXIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+    Public ACCOEDLI_MIN As Double
+    Public OC As Double                     '' OTHER CHARGES
+    Public OC_MAX As Double                 '' MAXIMUM LIMIT OF OTHER CHARGES
+    Public OTH_ROUNDOFF_YPE As String
+
     '===shivani============================='
     Public Adhar_No As String
     '==============================
@@ -165,7 +183,7 @@ Public Class clsEmployeeMaster
     Public NO_DUES As String = "0"
     Public FDContactNo As String
     Public Hold_Slary As String = "0"
-
+    Public Staff_Quarter As String = "0"
 
     Public Form_ID As String = ""
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
@@ -344,6 +362,23 @@ Public Class clsEmployeeMaster
             Else
                 obj.ANNIVERSARY_DATE = Nothing
             End If
+            obj.COEPF_PER = clsCommon.myCdbl(dt.Rows(0)("COEPF_PER"))
+            obj.COEPF_ROUNDOFF_YPE = clsCommon.myCstr(dt.Rows(0)("COEPF_ROUNDOFF_YPE"))
+            obj.COEPS_PER = clsCommon.myCdbl(dt.Rows(0)("COEPS_PER"))
+            obj.EPS_MAX = clsCommon.myCdbl(dt.Rows(0)("EPS_MAX"))
+            obj.EMPEPF_PER = clsCommon.myCdbl(dt.Rows(0)("EMPEPF_PER"))
+            obj.EMPEPF_MAX = clsCommon.myCdbl(dt.Rows(0)("EMPEPF_MAX"))
+            obj.EMPEPF_ROUNDOFF_YPE = clsCommon.myCstr(dt.Rows(0)("EMPEPF_ROUNDOFF_YPE"))
+            obj.ACCOEPF_PER = clsCommon.myCdbl(dt.Rows(0)("ACCOEPF_PER"))
+            obj.ACCOEPF_MAX = clsCommon.myCdbl(dt.Rows(0)("ACCOEPF_MAX"))
+            obj.COEDLI_PER = clsCommon.myCdbl(dt.Rows(0)("COEDLI_PER"))
+            obj.COEDLI_MAX = clsCommon.myCdbl(dt.Rows(0)("COEDLI_MAX"))
+            obj.ACCOEDLI_PER = clsCommon.myCdbl(dt.Rows(0)("ACCOEDLI_PER"))
+            obj.ACCOEDLI_MAX = clsCommon.myCdbl(dt.Rows(0)("ACCOEDLI_MAX"))
+            obj.ACCOEDLI_MIN = clsCommon.myCdbl(dt.Rows(0)("ACCOEDLI_MIN"))
+            obj.OC = clsCommon.myCdbl(dt.Rows(0)("OC"))
+            obj.OC_MAX = clsCommon.myCdbl(dt.Rows(0)("OC_MAX"))
+            obj.OTH_ROUNDOFF_YPE = clsCommon.myCstr(dt.Rows(0)("OTH_ROUNDOFF_YPE"))
             obj.DEPARTMENT_CODE = clsCommon.myCstr(dt.Rows(0)("DEPARTMENT_CODE"))
             obj.SUB_DEPARTMENT_CODE = clsCommon.myCstr(dt.Rows(0)("SUB_DEPARTMENT_CODE"))
             obj.OCCUPATION_CODE = clsCommon.myCstr(dt.Rows(0)("OCCUPATION_CODE"))
@@ -418,6 +453,7 @@ Public Class clsEmployeeMaster
             obj.USER_CODE = clsCommon.myCstr(dt.Rows(0)("USER_CODE"))
             obj.COMMENTS = clsCommon.myCstr(dt.Rows(0)("COMMENTS"))
             obj.Hold_Slary = clsCommon.myCstr(dt.Rows(0)("Hold_Salary"))
+            obj.Staff_Quarter = clsCommon.myCstr(dt.Rows(0)("Staff_Quarter"))
             If IsDBNull(dt.Rows(0)("APPLY_ALL_CUST")) = True Then
                 obj.APPLY_ALL_CUST = False
             Else
@@ -516,6 +552,24 @@ Public Class clsEmployeeMaster
             If clsCommon.CompairString(clsCommon.myCstr(obj.Emp_Status), "Inactive") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Status_Inactive_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Status_Inactive_Date", clsCommon.GetPrintDate(obj.Status_Inactive_Date, "dd/MMM/yyyy"))
             End If
+            clsCommon.AddColumnsForChange(coll, "COEPF_PER", obj.COEPF_PER)
+            clsCommon.AddColumnsForChange(coll, "COEPF_ROUNDOFF_YPE", obj.COEPF_ROUNDOFF_YPE)
+            clsCommon.AddColumnsForChange(coll, "COEPS_PER", obj.COEPS_PER)
+            clsCommon.AddColumnsForChange(coll, "EPS_MAX", obj.EPS_MAX)
+            clsCommon.AddColumnsForChange(coll, "EMPEPF_PER", obj.EMPEPF_PER)
+            clsCommon.AddColumnsForChange(coll, "EMPEPF_MAX", obj.EMPEPF_MAX)
+            clsCommon.AddColumnsForChange(coll, "EMPEPF_ROUNDOFF_YPE", obj.EMPEPF_ROUNDOFF_YPE)
+            clsCommon.AddColumnsForChange(coll, "ACCOEPF_PER", obj.ACCOEPF_PER)
+            clsCommon.AddColumnsForChange(coll, "ACCOEPF_MAX", obj.ACCOEPF_MAX)
+            clsCommon.AddColumnsForChange(coll, "COEDLI_PER", obj.COEDLI_PER)
+            clsCommon.AddColumnsForChange(coll, "COEDLI_MAX", obj.COEDLI_MAX)
+            clsCommon.AddColumnsForChange(coll, "ACCOEDLI_PER", obj.ACCOEDLI_PER)
+            clsCommon.AddColumnsForChange(coll, "ACCOEDLI_MAX", obj.ACCOEDLI_MAX)
+            clsCommon.AddColumnsForChange(coll, "ACCOEDLI_MIN", obj.ACCOEDLI_MIN)
+            clsCommon.AddColumnsForChange(coll, "OC", obj.OC)
+            clsCommon.AddColumnsForChange(coll, "OC_MAX", obj.OC_MAX)
+            clsCommon.AddColumnsForChange(coll, "OTH_ROUNDOFF_YPE", obj.OTH_ROUNDOFF_YPE)
+
             clsCommon.AddColumnsForChange(coll, "rel_date", obj.rel_date)
             clsCommon.AddColumnsForChange(coll, "Payroll_Code", obj.Payroll_Code)
             clsCommon.AddColumnsForChange(coll, "Empty_Ex", obj.Empty_Ex)
@@ -652,6 +706,7 @@ Public Class clsEmployeeMaster
             clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name)
             clsCommon.AddColumnsForChange(coll, "hold_salary", obj.Hold_Slary)
             clsCommon.AddColumnsForChange(coll, "Adhar_No", obj.Adhar_No)
+            clsCommon.AddColumnsForChange(coll, "Staff_Quarter", obj.Staff_Quarter)
             '===
             clsCommon.AddColumnsForChange(coll, "Pf_Calculation_Type", obj.Pf_Calculation_Type)
             clsCommon.AddColumnsForChange(coll, "Max_Amount_EPF", obj.Max_Amount_EPF)
