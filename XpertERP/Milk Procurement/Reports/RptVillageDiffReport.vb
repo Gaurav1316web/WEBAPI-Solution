@@ -696,8 +696,17 @@ Public Class RptVillageDiffReport
         btnReferesh = True
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
+        GetReportID()
         Load_Report()
         tmpValLoad = False
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkGroupWise.Checked Then
+            VarID += "_GW"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

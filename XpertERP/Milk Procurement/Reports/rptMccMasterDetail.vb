@@ -63,6 +63,7 @@ Public Class rptMccMasterDetail
                     PageSetupReport_ID = MyBase.Form_ID + "MP"
                 End If
             End If
+            GetReportID()
             TemplateGridview = Gv1
             Dim BaseQry As String = ""
             Dim qry As String = ""
@@ -251,6 +252,33 @@ Public Class rptMccMasterDetail
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnJanVerified.Checked Then
+            VarID += "_JV"
+        ElseIf rbtnJanUnverified.Checked Then
+            VarID += "_JU"
+        ElseIf rbtnJanAll.Checked Then
+            VarID += "_JA"
+        End If
+
+        If clsCommon.CompairString(cmbReportType.SelectedItem.Text, "DCS Full Details") = CompairStringResult.Equal Then
+            VarID += "_DFD"
+        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "MP Details") = CompairStringResult.Equal Then
+            VarID += "_MD"
+        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+            VarID += "_UWJS"
+        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "Secretary") = CompairStringResult.Equal Then
+            VarID += "_S"
+        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "Transporter") = CompairStringResult.Equal Then
+            VarID += "_T"
+        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "Employee") = CompairStringResult.Equal Then
+            VarID += "_E"
+        End If
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

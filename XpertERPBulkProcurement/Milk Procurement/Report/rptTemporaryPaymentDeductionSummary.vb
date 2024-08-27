@@ -49,6 +49,7 @@ Public Class rptTemporaryPaymentDeductionSummary
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         btnPrint.Text = Nothing
         PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
+        GetReportID()
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse
             clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse
@@ -58,6 +59,34 @@ Public Class rptTemporaryPaymentDeductionSummary
             Print(False)
         End If
         btnPrint.Text = "Print"
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkDCSWise.Checked Then
+            VarID += "_DW"
+        End If
+
+        If rdbOldOutstanding.Checked Then
+            VarID += "_O"
+        ElseIf rdbOldCurrent.Checked Then
+            VarID += "_CD"
+        ElseIf rdbCurrentStanding.Checked Then
+            VarID += "_CO"
+        ElseIf chkWithOpening.Checked Then
+            VarID += "_OO"
+        ElseIf chkORD_CD.Checked Then
+            VarID += "_RD"
+        End If
+
+        If rbtnActive.Checked Then
+            VarID += "_A"
+        ElseIf rbtnInActive.Checked Then
+            VarID += "_I"
+        ElseIf rbtnAll.Checked Then
+            VarID += "_AL"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Sub PrintUDP(ByVal isPrint As Boolean, Optional ByVal isPrerint As Boolean = False)

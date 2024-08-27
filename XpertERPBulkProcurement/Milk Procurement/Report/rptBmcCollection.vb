@@ -20,7 +20,20 @@ Public Class rptBmcCollection
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        LoadData
+        GetReportID()
+        LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkZone.Checked Then
+            VarID += "_Z"
+        ElseIf Checkallmcc.Checked Then
+            VarID += "_A"
+        ElseIf RbtBmcDcs.Checked Then
+            VarID += "_B"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
 

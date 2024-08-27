@@ -791,7 +791,23 @@ Public Class FrmMonthlySaleReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         ReportID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         PageSetupReport_ID = ReportID
+        GetReportGridID()
         Print1(Exporter.Refresh)
+
+    End Sub
+
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+
+        If clsCommon.CompairString(ddlReportType.SelectedValue, "Customer Wise") = CompairStringResult.Equal Then
+            VarID += "_CW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Product Wise") = CompairStringResult.Equal Then
+            VarID += "_PW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Town Wise") = CompairStringResult.Equal Then
+            VarID += "_TW"
+        End If
+
+        Gv1.VarID = VarID
 
     End Sub
 
