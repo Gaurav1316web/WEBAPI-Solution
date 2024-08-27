@@ -1980,6 +1980,11 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
         If rbtnNone.Checked = True Then
             VarID += "_NN"
         End If
+        If clsCommon.CompairString(ddlCurrencyType.SelectedItem.Text, "Functional Currency") = CompairStringResult.Equal Then
+            VarID += "_FC"
+        ElseIf clsCommon.CompairString(ddlCurrencyType.SelectedItem.Text, "Customer Currency") = CompairStringResult.Equal Then
+            VarID += "_CE"
+        End If
         gvDetails.VarID = VarID
     End Sub
     Sub PrintForCustomerCurrency(Optional ByVal BulkExport As Integer = 0)
@@ -3738,4 +3743,6 @@ left outer join tspl_company_master on tspl_company_master.Comp_Code =tspl_custo
 
         ' print()
     End Sub
+
+
 End Class

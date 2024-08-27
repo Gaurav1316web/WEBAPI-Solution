@@ -601,8 +601,16 @@ Public Class FrmRptCustomerTransHistory
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         FunReset()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If ChkSummary.IsChecked = True Then
+            VarID += "_SU"
+        End If
+        gv.VarID = VarID
+    End Sub
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         blnRefresh = True
         PageSetupReport_ID = MyBase.Form_ID + IIf(rbtnCustWise.Checked = True, "C", "D")
         TemplateGridview = gv
