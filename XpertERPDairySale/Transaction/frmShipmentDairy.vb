@@ -11143,7 +11143,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     If Not ApplyCommissionRateWithTax Then
                         gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                     Else
-                        gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = Math.Round(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), 4)
+                        gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = clsCommon.myRoundOFF(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), 4, 5)
                     End If
                     gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value = (gv1.Rows(IntRowNo).Cells(colQty).Value * gv1.Rows(IntRowNo).Cells(ColDCUnitCF).Value) / gv1.Rows(IntRowNo).Cells(ColDCCFUOM).Value
                     gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value
@@ -11204,14 +11204,14 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     End If
                 Next
                 If dblGSTTaxRate.Count = 1 Then
-                    dblGSTTaxValue1 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0)) * dblGSTTaxRate(0), 2, 4)
+                    dblGSTTaxValue1 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0)) * dblGSTTaxRate(0), 2, 5)
                 ElseIf dblGSTTaxRate.Count = 2 Then
-                    dblGSTTaxValue1 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0) + dblGSTTaxRate(1)) * dblGSTTaxRate(0), 2, 4)
-                    dblGSTTaxValue2 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0) + dblGSTTaxRate(1)) * dblGSTTaxRate(1), 2, 4)
+                    dblGSTTaxValue1 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0) + dblGSTTaxRate(1)) * dblGSTTaxRate(0), 2, 5)
+                    dblGSTTaxValue2 = clsCommon.myRoundOFF(dblBasicAmt / (100 + dblGSTTaxRate(0) + dblGSTTaxRate(1)) * dblGSTTaxRate(1), 2, 5)
                 End If
                 dblKKFMNDBaseAmt = dblBasicAmt - (dblGSTTaxValue1 + dblGSTTaxValue2)
-                dblKKFTaxValue = clsCommon.myRoundOFF(dblKKFMNDBaseAmt / (100 + dblKKFTaxRate + dblMNDTaxRate) * dblKKFTaxRate, 2, 4)
-                dblMNDTaxValue = clsCommon.myRoundOFF(dblKKFMNDBaseAmt / (100 + dblKKFTaxRate + dblMNDTaxRate) * dblMNDTaxRate, 2, 4)
+                dblKKFTaxValue = clsCommon.myRoundOFF(dblKKFMNDBaseAmt / (100 + dblKKFTaxRate + dblMNDTaxRate) * dblKKFTaxRate, 2, 5)
+                dblMNDTaxValue = clsCommon.myRoundOFF(dblKKFMNDBaseAmt / (100 + dblKKFTaxRate + dblMNDTaxRate) * dblMNDTaxRate, 2, 5)
                 dblTotalTaxValue = dblGSTTaxValue1 + dblGSTTaxValue2 + dblKKFTaxValue + dblMNDTaxValue
                 dblTaxableValue = dblBasicAmt - (dblGSTTaxValue1 + dblGSTTaxValue2)
                 dblProductValue = dblTaxableValue - (dblKKFTaxValue + dblMNDTaxValue)
@@ -11299,19 +11299,19 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                             'End If
                             If clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, trans), "K") = CompairStringResult.Equal Then
                                 gv1.Rows(IntRowNo).Cells("colTaxAmt" + clsCommon.myCstr(ii)).Value = dblKKFTaxValue
-                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblProductValue, 2)
+                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = clsCommon.myRoundOFF(dblProductValue, 2, 5)
                             ElseIf clsCommon.CompairString(clsTaxCalculation.GetTaxType(strTaxCode, trans), "M") = CompairStringResult.Equal Then
                                 gv1.Rows(IntRowNo).Cells("colTaxAmt" + clsCommon.myCstr(ii)).Value = dblMNDTaxValue
-                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblProductValue, 2)
+                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = clsCommon.myRoundOFF(dblProductValue, 2, 5)
                             ElseIf clsCommon.CompairString(strTaxCode, "CGST") = CompairStringResult.Equal Then
                                 gv1.Rows(IntRowNo).Cells("colTaxAmt" + clsCommon.myCstr(ii)).Value = dblGSTTaxValue1
-                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblTaxableValue, 2)
+                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 5)
                             ElseIf clsCommon.CompairString(strTaxCode, "SGST") = CompairStringResult.Equal Then
                                 gv1.Rows(IntRowNo).Cells("colTaxAmt" + clsCommon.myCstr(ii)).Value = dblGSTTaxValue2
-                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblTaxableValue, 2)
+                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 5)
                             ElseIf clsCommon.CompairString(strTaxCode, "IGST") = CompairStringResult.Equal Then
                                 gv1.Rows(IntRowNo).Cells("colTaxAmt" + clsCommon.myCstr(ii)).Value = dblGSTTaxValue1
-                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblTaxableValue, 2)
+                                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 5)
                             End If
                         Else
                             gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value = Nothing
@@ -11333,7 +11333,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                             Next
                             Dim dblCurrCalTax As Double = 0
                             If dblTotAmt <> 0 Then
-                                dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                                dblCurrCalTax = clsCommon.myRoundOFF(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, 5)
                             End If
                             gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
                         End If
@@ -11351,22 +11351,22 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Else
                     dblAmtAfterTax = dblAmtAfterDis - dblTotTaxAmt
                 End If
-                gv1.Rows(IntRowNo).Cells(colAlterUnitQty).Value = Math.Round(dblAlterQty, 2)
-                gv1.Rows(IntRowNo).Cells(colRateUnitQty).Value = Math.Round(dblQty, 2)
-                gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
-                gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterTax, 2)
-                gv1.Rows(IntRowNo).Cells(colTotTaxAmt).Value = Math.Round(dblTotTaxAmt, 2)
-                gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = Math.Round(dblAmtAfterDis, 2)
-                gv1.Rows(IntRowNo).Cells(colAbatementAmount).Value = Math.Round(dblAbatementAmt, 2)
-                gv1.Rows(IntRowNo).Cells(colTotalMRP).Value = Math.Round(dblMRPAmt, 2)
-                gv1.Rows(IntRowNo).Cells(colTotalBasicAmount).Value = Math.Round(dblBasicAmt, 2)
+                gv1.Rows(IntRowNo).Cells(colAlterUnitQty).Value = clsCommon.myRoundOFF(dblAlterQty, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colRateUnitQty).Value = clsCommon.myRoundOFF(dblQty, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colDisAmt).Value = clsCommon.myRoundOFF(dblDisAmt, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = clsCommon.myRoundOFF(dblAmtAfterTax, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colTotTaxAmt).Value = clsCommon.myRoundOFF(dblTotTaxAmt, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = clsCommon.myRoundOFF(dblAmtAfterDis, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colAbatementAmount).Value = clsCommon.myRoundOFF(dblAbatementAmt, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colTotalMRP).Value = clsCommon.myRoundOFF(dblMRPAmt, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colTotalBasicAmount).Value = clsCommon.myRoundOFF(dblBasicAmt, 2, 5)
                 'gv1.Rows(IntRowNo).Cells(colTotItemWt).Value = Math.Round(dblConvF * dblItemWeight * dblQty, 2)
-                gv1.Rows(IntRowNo).Cells(colTotalCustDiscount).Value = Math.Round(dblTotCustDisc, 2)
+                gv1.Rows(IntRowNo).Cells(colTotalCustDiscount).Value = clsCommon.myRoundOFF(dblTotCustDisc, 2, 5)
                 gv1.Rows(IntRowNo).Cells(colRate).Value = dblRate
-                gv1.Rows(IntRowNo).Cells(colHeadDisPerAmt).Value = Math.Round(dblHeadPerDisAmt, 2)
-                gv1.Rows(IntRowNo).Cells(colTotalDiscountAmount).Value = Math.Round(dblTotDiscAmt, 2)
+                gv1.Rows(IntRowNo).Cells(colHeadDisPerAmt).Value = clsCommon.myRoundOFF(dblHeadPerDisAmt, 2, 5)
+                gv1.Rows(IntRowNo).Cells(colTotalDiscountAmount).Value = clsCommon.myRoundOFF(dblTotDiscAmt, 2, 5)
                 gv1.Rows(IntRowNo).Cells(colOrgUnit).Value = strOrgUnit
-                gv1.Rows(IntRowNo).Cells(colMRP).Value = Math.Round(dblMRP, 2)
+                gv1.Rows(IntRowNo).Cells(colMRP).Value = clsCommon.myRoundOFF(dblMRP, 2, 5)
                 If dblDisAmt < 0 Then
                     gv1.Rows(IntRowNo).Cells(colActualCost).Value = dblRate
                 End If

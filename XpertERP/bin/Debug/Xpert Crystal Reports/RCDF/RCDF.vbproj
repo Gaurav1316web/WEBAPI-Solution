@@ -1283,6 +1283,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementRouteAndDistributorWiseDetailcredit.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementRouteWiseDetailcreditProduct.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandBookingChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />

@@ -1046,6 +1046,7 @@ Public Class RptSaleRegisterReport
         GetReportID()
         PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         TemplateGridview = Gv1
+        'GetReportGridID()
         Print(Exporter.Refresh)
     End Sub
 
@@ -1967,8 +1968,8 @@ Public Class RptSaleRegisterReport
 
     Function GetMIS_ITem_GroupColumn() As String
         Dim qry As String = ""
-        qry = " select MAP.Custom_Field_Code from TSPL_CUSTOM_FIELD_MAPPING MAP " & _
-            " left join TSPL_CUSTOM_FIELD_HEAD CF on MAP.Custom_Field_Code=CF.Code " & _
+        qry = " select MAP.Custom_Field_Code from TSPL_CUSTOM_FIELD_MAPPING MAP " &
+            " left join TSPL_CUSTOM_FIELD_HEAD CF on MAP.Custom_Field_Code=CF.Code " &
             " where CF.Name='MIS Item Group' and MAP.PROGRAM_CODE='" & clsUserMgtCode.itemStructure & "'"
         MIS_Item_Group = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
         Return MIS_Item_Group
