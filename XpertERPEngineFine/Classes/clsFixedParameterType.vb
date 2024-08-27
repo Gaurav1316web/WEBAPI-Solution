@@ -1717,6 +1717,7 @@ Public Class clsFixedParameterCode
     Public Const PostTankerDispatchWithZeroAvgCost As String = "PostTankerDispatchWithZeroAvgCost"
     Public Const EPF As String = "EPF"
     Public Const HRA As String = "HRA"
+    Public Const HRR As String = "HRR"
     Public Const LOAN As String = "LOAN"
     Public Const OT As String = "OT"
     Public Const OTHER As String = "OTHER"
@@ -3167,6 +3168,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PayHeadSubHead, clsFixedParameterCode.EMPESI, "Employee ESI", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PayHeadSubHead, clsFixedParameterCode.EPF, "Employee PF", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PayHeadSubHead, clsFixedParameterCode.HRA, "HRA", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PayHeadSubHead, clsFixedParameterCode.HRR, "HRR", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PayHeadSubHead, clsFixedParameterCode.LOAN, "LOAN", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PayHeadSubHead, clsFixedParameterCode.OT, "OT", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PayHeadSubHead, clsFixedParameterCode.OTHER, "Other", "")

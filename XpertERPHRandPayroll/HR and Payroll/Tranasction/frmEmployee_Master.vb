@@ -17,8 +17,7 @@ Public Class frmEmployee_Master
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isInsideLoad As Boolean = False
-
-
+    Dim dt_Cbo As DataTable
 #Region "Variable"
     Dim EmployeeRetirementAge As Double = 0
     Dim EmployeePFRetirementAge As Double = 0
@@ -30,23 +29,16 @@ Public Class frmEmployee_Master
     Dim AadharNoMandatoryOnEmpMaster As Boolean = False
     Public ObjListEmpFamilieDetails As List(Of clsEmpFamilieDetails) = Nothing
     Dim objEmpFamilieDetails As New clsEmpFamilieDetails()
-
     Public ObjListEmpLanguageDetails As List(Of clsEmpLanguageDetails) = Nothing
     Dim objEmpLanguageDetails As New clsEmpLanguageDetails()
-
     Public ObjListEmpQualiDetails As List(Of clsEmpQualiDetails) = Nothing
     Dim objEmpQualiDetails As New clsEmpQualiDetails()
-
     Dim ObjListEmpDocuments As List(Of clsEmpDocuments) = Nothing
     Dim objEmpDocuments As New clsEmpDocuments()
-
     Public ObjListEmpExpDetails As List(Of clsEmpExpDetails) = Nothing
     Dim objEmpExpDetails As New clsEmpExpDetails()
-
     Public ObjListEmpAssetDetails As List(Of clsEmpAssets) = Nothing
     Dim objEmpAssetDetails As New clsEmpAssets()
-
-
 #Region "Emp Exp"
     Const colLineNo As String = "LineNo"
     Const colEmployerName As String = "EmployerName"
@@ -65,13 +57,10 @@ Public Class frmEmployee_Master
     Const colReporting_Person_Phone As String = "colReporting_Person_Phone"
     Const colReporting_Person_Email As String = "colReporting_Person_Email"
     Const colReporting_Person_Mobile As String = "colReporting_Person_Mobile"
-
     Const colVERIFICATION_STATUS As String = "colVERIFICATION_STATUS"
     Const colVERIFICATION_MODE As String = "colVERIFICATION_MODE"
     Const colVERIFICATION_REMARKS As String = "colVERIFICATION_REMARKS"
-
 #End Region
-
 #Region "Emp Quli"
     Const colQuliLineNo As String = "QuliLineNo"
     Const colQuliCourseCode As String = "QuliCourseCode"
@@ -88,7 +77,6 @@ Public Class frmEmployee_Master
     Const colQuliOpen As String = "colQuliOpen"
     Const colQuliPath As String = "colQuliPath"
 #End Region
-
 #Region "Emp Doc"
     Const colDocLineNo As String = "DocLineNo"
     Const colDocCode As String = "DocCode"
@@ -99,7 +87,6 @@ Public Class frmEmployee_Master
     Const colDocOpen As String = "colDocOpen"
     Const colDocPath As String = "colDocPath"
 #End Region
-
 #Region "Emp Language"
     Const colLangLineNo As String = "LangLineNo"
     Const colLangCode As String = "LangCode"
@@ -108,7 +95,6 @@ Public Class frmEmployee_Master
     Const colLangWrittingLevel As String = "LangWrittingLevel"
     Const colLangDescription As String = "LangDescription"
 #End Region
-
 #Region "Emp Family"
     Const colFamilyLineNo As String = "FamilyLineNo"
     Const colFamilyMemberName As String = "FamilyMemberName"
@@ -132,7 +118,6 @@ Public Class frmEmployee_Master
     Const colRETURNED As String = "colRETURNED"
 #End Region
 #End Region
-
     Private Sub frmEmployee_Master_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         CboGender.DataSource = GetGender()
@@ -161,11 +146,175 @@ Public Class frmEmployee_Master
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
         AddNew()
+
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("GL_Account", "Varchar(30) null")
+        '' --------------fields added for HR and Payroll(Panch Raj)----------------------
+        coll.Add("SEX", "Varchar(10)  NULL")
+        coll.Add("MARITAL_STATUS", "Varchar(15)  NULL")
+        coll.Add("ANNIVERSARY_DATE", "DATETIME NULL")
+        coll.Add("DEPARTMENT_CODE", "Varchar(30)  NULL REFERENCES TSPL_DEPARTMENT_MASTER(DEPARTMENT_CODE)")
+        coll.Add("OCCUPATION_CODE", "Varchar(30)  NULL REFERENCES TSPL_OCCUPATION_MASTER(OCCUPATION_CODE)")
+        coll.Add("DEVISION_CODE", "Varchar(30)  NULL REFERENCES TSPL_DEVISION_MASTER(DEVISION_CODE)")
+        coll.Add("GRADE_CODE", "Varchar(30)  NULL REFERENCES TSPL_GRADE_MASTER(GRADE_CODE)")
+        coll.Add("BRANCH_CODE", "Varchar(30)  NULL REFERENCES TSPL_BRANCH_MASTER(BRANCH_CODE)")
+        coll.Add("ATTENDANCE_CODE", "Varchar(30)  NULL REFERENCES TSPL_ATTENDANCE_MASTER(ATTENDANCE_CODE)")
+        coll.Add("PAYMENT_MODE", "VARCHAR(20)  NULL")
+        coll.Add("BANK_ACC_NO", "VARCHAR(50) NULL")
+        coll.Add("BANK_CODE", "VARCHAR(12) NULL REFERENCES TSPL_BANK_MASTER(BANK_CODE)")
+        coll.Add("CONFIRMATION_DATE", "DATETIME NULL")
+        coll.Add("PROBATION_END_DATE", "DATETIME NULL")
+        coll.Add("SHIFT_CODE", "VARCHAR(30) NULL REFERENCES TSPL_SHIFT_MASTER(SHIFT_CODE)")
+        coll.Add("RELIEVING_DATE", "DATETIME NULL")
+        coll.Add("LEAVING_REASON", "VARCHAR(50) NULL")
+        coll.Add("CAST_CATEGORY_CODE", "VARCHAR(30) NULL REFERENCES TSPL_CAST_CATEGORY_MASTER(CAST_CATEGORY_CODE)")
+        coll.Add("RELIGION_CODE", "VARCHAR(30) NULL REFERENCES TSPL_RELIGION_MASTER(RELIGION_CODE)")
+        coll.Add("PRESENT_COUNTRY_CODE", "VARCHAR(30) NULL REFERENCES TSPL_COUNTRY_MASTER(COUNTRY_CODE)")
+        coll.Add("PRESENT_STATE_CODE", "VARCHAR(30) NULL REFERENCES TSPL_STATE_MASTER(STATE_CODE)")
+        coll.Add("PRESENT_CITY_CODE", "VARCHAR(50) NULL REFERENCES TSPL_CITY_MASTER(CITY_CODE)")
+        coll.Add("PRESENT_MOBILE_NO", "VARCHAR(20) NULL")
+
+        coll.Add("PERMA_COUNTRY_CODE", "VARCHAR(30) NULL REFERENCES TSPL_COUNTRY_MASTER(COUNTRY_CODE)")
+        coll.Add("PERMA_STATE_CODE", "VARCHAR(30) NULL REFERENCES TSPL_STATE_MASTER(STATE_CODE)")
+        coll.Add("PERMA_CITY_CODE", "VARCHAR(50) NULL REFERENCES TSPL_CITY_MASTER(CITY_CODE)")
+        coll.Add("PERMA_PHONE_NO", "VARCHAR(20) NULL")
+        coll.Add("PERMA_MOBILE_NO", "VARCHAR(20) NULL")
+        coll.Add("PERMA_PIN_CODE", "VARCHAR(20) NULL")
+        coll.Add("PAN_NO", "VARCHAR(20) NULL")
+        coll.Add("PASPORT_NO", "VARCHAR(20) NULL")
+        coll.Add("DESCRIPTION", "VARCHAR(100) NULL")
+        coll.Add("COMPANY_BANK", "VARCHAR(12) NULL REFERENCES TSPL_Bank_Master(BANK_CODE)")
+        coll.Add("FATHERS_NAME", "Varchar(100)  NULL")
+        coll.Add("MOTHERS_NAME", "Varchar(100)  NULL")
+        coll.Add("SPOUSE_NAME", "Varchar(100)  NULL")
+        coll.Add("ISESI", "BIT NOT NULL DEFAULT '0'")
+        coll.Add("ESI_NO", "Varchar(50)  NULL")
+        coll.Add("ESI_DISPENSARY", "Varchar(100)  NULL")
+        coll.Add("ISPF", "BIT NOT NULL DEFAULT '0'")
+        coll.Add("PF_NO", "Varchar(50)  NULL")
+        coll.Add("PF_NO_DEPT_FILE", "Varchar(50)  NULL")
+        coll.Add("WARD_CIRCLE", "Varchar(50)  NULL")
+        coll.Add("ISRESTRICT_PF", "BIT NOT NULL DEFAULT '0'")
+        coll.Add("ISZERO_PENSION", "BIT NOT NULL DEFAULT '0'")
+        coll.Add("ISDIRECTOR", "BIT NOT NULL DEFAULT '0'")
+        coll.Add("ISZERO_PT", "BIT NOT NULL DEFAULT '0'")
+        coll.Add("Franchise_Code", "varchar(12)  NULL ")
+        coll.Add("RESIGNATION_SUBMIT_DATE", "DATE NULL")
+        coll.Add("NOTICE_PERIOD_IN_DAYS", "integer not NULL default 0 ")
+        coll.Add("SALARY_ACCOUNT_CODE", "VARCHAR(30) NULL REFERENCES TSPL_PAYROLL_ACCOUNTSETS(ACCOUNT_SET_CODE)")
+        coll.Add("ADVANCE_TO_STAFF", "VARCHAR(50)  NULL REFERENCES TSPL_GL_ACCOUNTS(Account_Code)")
+        coll.Add("LOCATION_CODE", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        coll.Add("WORKING_LOCATION_CODE", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        coll.Add("SUB_DEPARTMENT_CODE", "Varchar(30)  NULL REFERENCES TSPL_SUB_DEPARTMENT_MASTER(SUB_DEPARTMENT_CODE)")
+        coll.Add("BLOOD_GROUP", "VARCHAR(10) NULL ")
+        coll.Add("UIN_NO", "VARCHAR(30) NULL ")
+        coll.Add("ADD1_TYPE", "VARCHAR(30) NULL ") '' POSSIBLE VALUES 1. Owned 2. Rented
+        coll.Add("ADD1_VERIFIED", "BIT NOT NULL DEFAULT 0 ")
+        coll.Add("ADD1_VERIFIED_REMARKS", "VARCHAR(200) NULL ")
+        coll.Add("ADD1_TEHSIL", "VARCHAR(200) NULL ")
+        coll.Add("ADD1_VILLAGE", "VARCHAR(200) NULL ")
+        coll.Add("ADD1_POST_OFFICE", "VARCHAR(200) NULL ")
+        coll.Add("ADD1_POLICE_STATION", "VARCHAR(200) NULL ")
+        coll.Add("ADD2_TYPE", "VARCHAR(30) NULL ") '' POSSIBLE VALUES 1. Owned 2. Rented
+        coll.Add("ADD2_VERIFIED", "BIT NOT NULL DEFAULT 0 ")
+        coll.Add("ADD2_VERIFIED_REMARKS", "VARCHAR(200) NULL ")
+        coll.Add("ADD2_TEHSIL", "VARCHAR(200) NULL ")
+        coll.Add("ADD2_VILLAGE", "VARCHAR(200) NULL ")
+        coll.Add("ADD2_POST_OFFICE", "VARCHAR(200) NULL ")
+        coll.Add("ADD2_POLICE_STATION", "VARCHAR(200) NULL ")
+        coll.Add("ALTERNATE_EMAIL_ID", "VARCHAR(100) NULL ")
+        coll.Add("NO_DUES", "BIT NOT NULL DEFAULT 0 ")
+        '=====================TSPL_EMPLOYEE_MASTER(NEW CHANGES KDIL AND VINEY)=============================
+        coll.Add("CONV_TYPE", "Varchar(30) not null DEFAULT 'NONE'") '' POSSIBLE VALUES 1. TWO WHEELER(TW) 2. FOUR WHEELER(FW) 3. NONE
+        coll.Add("EMPLOYMENT_NATURE", "Varchar(30) not null DEFAULT 'PERMANENT'") '' POSSIBLE VALUES 1. PERMANENT 2. CONTRACTUAL 3. OTHERS
+        coll.Add("IS_OT_APPL", "BIT  NOT NULL DEFAULT 0")
+        coll.Add("IS_OD_APPL", "BIT  NOT NULL DEFAULT 0")
+        coll.Add("DISPLAY_IN_STATUTORY", "BIT  NOT NULL DEFAULT 0")
+        coll.Add("MINIMUM_BASIC_SALARY", "FLOAT  NOT NULL DEFAULT 0")
+        coll.Add("VENDOR_CODE", "Varchar(12)  NULL REFERENCES TSPL_VENDOR_MASTER(VENDOR_CODE)")
+        coll.Add("AGENCY_CODE", "Varchar(30)  NULL REFERENCES Tspl_HR_Agency_Master(CODE)")
+        coll.Add("Bank_Branch", "Varchar (100) null")
+        coll.Add("EARNING_CODE", "VARCHAR(30) NULL")
+        coll.Add("UNIT_COST", "DECIMAL(18,6) NOT NULL DEFAULT 0")
+        coll.Add("BILLING_RATE", "DECIMAL(18,6) NOT NULL DEFAULT 0")
+        coll.Add("APPLY_ALL_CUST", "BIT NOT NULL DEFAULT 0")
+        coll.Add("USER_CODE", "VARCHAR(12) NULL REFERENCES TSPL_USER_MASTER(USER_CODE)")
+        coll.Add("COMMENTS", "VARCHAR(MAX) NULL")
+        coll.Add("EMail_ID", "Varchar(100) NULL")
+        coll.Add("EMP_CODE", "varchar(12)  NOT NULL PRIMARY KEY ")
+        coll.Add("Emp_Name", "varchar(50)  NOT NULL")
+        coll.Add("Designation", "varchar(50) NULL")
+        coll.Add("Add1", "varchar(250) NULL")
+        coll.Add("Add2", "varchar(250) NULL")
+        coll.Add("Pin_Code", "varchar(10) NULL")
+        coll.Add("Phone", "varchar(50) NULL")
+        coll.Add("Birth_date", "varchar(10) NULL")
+        coll.Add("Cash", "decimal (18,2) NULL")
+        coll.Add("Card_No", "varchar(50) NULL")
+        coll.Add("Joining_date", "varchar(10) NULL")
+        coll.Add("Emp_type", "varchar(20)  NOT NULL")
+        coll.Add("ExDate", "varchar(10) NULL")
+        coll.Add("Emp_Status", "varchar(50) NULL")
+        coll.Add("Active_Date", "int NULL")
+        coll.Add("Status_Active_Date", "DateTime NULL")
+        coll.Add("Inactive_Date", "int NULL")
+        coll.Add("Status_Inactive_Date", "DateTime NULL")
+        coll.Add("rel_date", "varchar(10) NULL")
+        coll.Add("Payroll_Code", "varchar(50) NULL")
+        coll.Add("Empty_Ex", "decimal (18,2) NULL")
+        coll.Add("Bank_Branch_Name", "Varchar(100) NULL")
+        coll.Add("Bank_Name", "Varchar(100) NULL")
+        coll.Add("Age_For_Pension", "INTEGER NOT NULL default 0")
+        coll.Add("Created_By", "varchar(12)  NOT NULL")
+        coll.Add("Created_Date", "varchar(10)  NOT NULL")
+        coll.Add("Modify_By", "varchar(12)  NOT NULL")
+        coll.Add("Modify_Date", "varchar(10)  NOT NULL")
+        coll.Add("Comp_Code", "varchar(8)  NOT NULL")
+        coll.Add("Adhar_No", "varchar(12) NULL")
+        coll.Add("PF_Calculation_Type", "varchar(12) NULL") '' Possible values 1. PF Rule(PR) 2.Formula Amount(FA) 3. Custom(C)
+        coll.Add("Max_Amount_EPF", "numeric(18,2) NULL ")
+        coll.Add("EPF_Rate", "numeric(5,2) NULL ")
+        coll.Add("Votercard_No", "Varchar(30) NULL")
+        coll.Add("Rationcard_No", "Varchar(30) NULL")
+        coll.Add("DL_No", "Varchar(30) NULL")
+        coll.Add("Employee_BandCode", "varchar(30) NULL REFERENCES TSPL_EMPLOYEE_BAND_MASTER(CODE)")
+        coll.Add("Working_City_Code", "varchar(50) NULL REFERENCES TSPL_City_MASTER(City_Code)")
+        coll.Add("BioMetricEmpID", "Varchar(30) NULL")
+        coll.Add("EmpBasisType", "char(10) not null default ''")
+        coll.Add("SecChequeNoLac1", "Varchar(30) NULL")
+        coll.Add("SecChequeNoRs100", "Varchar(30) NULL")
+        coll.Add("UANNo", "Varchar(12) null")
+        coll.Add("Transfer_PF", "integer null default 0")
+        coll.Add("TransferPF_Text", "Varchar(12) null")
+        coll.Add("GPF_No", "Varchar(50) null")
+        coll.Add("Policy_No", "Varchar(50) null")
+        coll.Add("Lic_No", "Varchar(50) null")
+        coll.Add("Membership_id", "Varchar(50) null")
+        coll.Add("Special_desc", "Varchar(50) null")
+        coll.Add("PF_Type", "varchar(12) NULL")
+        coll.Add("Staff_Quarter", "BIT NOT NULL DEFAULT 0")
+        coll.Add("COEPF_PER", "FLOAT  null")
+        coll.Add("COEPF_ROUNDOFF_YPE", "varchar(3)  null")    '' COMPANY PF SHARE
+        coll.Add("COEPS_PER", "FLOAT  null")                '' COMPANY EPS SHARE
+        coll.Add("EPS_MAX", "NUMERIC(10,2)   null")          '' MAXIMUM LIMIT OF EPS AMOUNT
+        coll.Add("EMPEPF_PER", "FLOAT   null")               '' EMPLOYEE PF SHARE
+        coll.Add("EMPEPF_MAX", "NUMERIC(10,2)   null")       '' MAXIMUM LIMIT OF EMPLOYEE SHARE
+        coll.Add("EMPEPF_ROUNDOFF_YPE", "varchar(3)  null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
+        coll.Add("ACCOEPF_PER", "FLOAT   null")              '' ADMIN CHARGES ON COMPANY PF SHARE
+        coll.Add("ACCOEPF_MAX", "NUMERIC(10,2)   null")      '' MAXIMUM LIMIT OF ADMIN CHARGES ON COMPANY PF SHARE
+        coll.Add("COEDLI_PER", "FLOAT   null")               '' EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+        coll.Add("COEDLI_MAX", "NUMERIC(10,2)   null")       '' MAXIMUM LIMIT OF EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+        coll.Add("ACCOEDLI_PER", "FLOAT   null")             '' ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+        coll.Add("ACCOEDLI_MAX", "NUMERIC(10,2)   null")     '' MAXIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+        coll.Add("ACCOEDLI_MIN", "NUMERIC(10,2)   null")      '' MINIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+        coll.Add("OC", "NUMERIC(10,2)   null")               '' OTHER CHARGES
+        coll.Add("OC_MAX", "NUMERIC(10,2)   null")           '' MAXIMUM LIMIT OF OTHER CHARGES
+        coll.Add("OTH_ROUNDOFF_YPE", "varchar(3)  null")
+        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
         'EmployeeStatusDate()
         'CreateTable()
     End Sub
-
-
     'Sub CreateTable()
     '    Dim coll As Dictionary(Of String, String)
     '    coll = New Dictionary(Of String, String)()
@@ -173,192 +322,145 @@ Public Class frmEmployee_Master
     '    coll.Add("DocName", "VARCHAR(100) NULL")
     '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_QUALIFICATION", coll, Nothing, False, False)
     'End Sub
-
     Public Function GetGender() As DataTable
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = "Male"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Female"
         dt.Rows.Add(dr)
-
         Return dt
     End Function
-
     Public Sub LoadMaritalStatus()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = "Single"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Married"
         dt.Rows.Add(dr)
-
         CboMaritalStatus.DataSource = dt
         CboMaritalStatus.ValueMember = "Code"
         CboMaritalStatus.DisplayMember = "Code"
     End Sub
-
     Public Sub LoadEmpStatus()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = "Active"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Inactive"
         dt.Rows.Add(dr)
-
         CboEmployeeStatus.DataSource = dt
         CboEmployeeStatus.ValueMember = "Code"
         CboEmployeeStatus.DisplayMember = "Code"
     End Sub
-
     Public Sub LoadEmpBasisType()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Name", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = ""
         dr("Name") = "Select"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "PB"
         dr("Name") = "Permanent Basis"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "CB"
         dr("Name") = "Contract Basis "
         dt.Rows.Add(dr)
-
-
         dr = dt.NewRow()
         dr("Code") = "DB"
         dr("Name") = "Daily Basis"
         dt.Rows.Add(dr)
-
         cboemployeebasistype.DataSource = dt
         cboemployeebasistype.ValueMember = "Code"
         cboemployeebasistype.DisplayMember = "Name"
     End Sub
-
     Public Sub LoadAddressType()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = "Owned"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Rented"
         dt.Rows.Add(dr)
-
         cboAdd1_Type.DataSource = dt.Copy()
         cboAdd1_Type.ValueMember = "Code"
         cboAdd1_Type.DisplayMember = "Code"
-
-
         cboAdd2_Type.DataSource = dt.Copy()
         cboAdd2_Type.ValueMember = "Code"
         cboAdd2_Type.DisplayMember = "Code"
     End Sub
-
-
     Public Sub LoadConvenceType()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = "Other"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Two Wheeler"
         dt.Rows.Add(dr)
-
-
         dr = dt.NewRow()
         dr("Code") = "Four Wheeler"
         dt.Rows.Add(dr)
-
         cboConveyanceType.DataSource = dt
         cboConveyanceType.ValueMember = "Code"
         cboConveyanceType.DisplayMember = "Code"
     End Sub
-
     Public Sub loademptype()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Name", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = ""
         dr("Name") = "Select"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "SalesMan"
         dr("Name") = "SalesMan"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Halper"
         dr("Name") = "Halper"
         dt.Rows.Add(dr)
-
-
         dr = dt.NewRow()
         dr("Code") = "Other"
         dr("Name") = "Other"
         dt.Rows.Add(dr)
-
         CboEmployeeType.DataSource = dt
         CboEmployeeType.ValueMember = "Code"
         CboEmployeeType.DisplayMember = "Name"
     End Sub
-
     Public Sub LoadEmpNature()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = "Other"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Permanent"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Contractual"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Casual"
         dt.Rows.Add(dr)
-
         cboEmpNature.DataSource = dt
         cboEmpNature.ValueMember = "Code"
         cboEmpNature.DisplayMember = "Code"
     End Sub
-
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
         Save()
     End Sub
-
     Public Sub Save()
         Try
             If AllowToSave() Then
@@ -384,6 +486,23 @@ Public Class frmEmployee_Master
                 obj.LOCATION_CODE = txtBranch.Value
                 obj.ATTENDANCE_CODE = txtAttendance.Value
                 obj.GPF_no = txtGPFNo.Text
+                obj.COEPF_PER = txtCOEPF_PER.Text
+                obj.COEPF_ROUNDOFF_YPE = cboCoEPFRound.SelectedValue
+                obj.COEPS_PER = txtCOEPS_PER.Text
+                obj.EPS_MAX = txtEPS_MAX.Text
+                obj.EMPEPF_PER = txtEMPEPF_PER.Text
+                obj.EMPEPF_MAX = txtEMPEPF_MAX.Text
+                obj.EMPEPF_ROUNDOFF_YPE = CboEmpRound.SelectedValue
+                obj.ACCOEPF_PER = txtACCOEPF_PER.Text
+                obj.COEDLI_PER = txtCOEDLI_PER.Text
+                obj.ACCOEPF_MAX = txtACCOEPF_MAX.Text
+                obj.COEDLI_MAX = txtCOEDLI_MAX.Text
+                obj.ACCOEDLI_PER = txtACCOEDLI_PER.Text
+                obj.ACCOEDLI_MAX = txtACCOEDLI_MAX.Text
+                obj.ACCOEDLI_MIN = txtACCOEDLI_MIN.Text
+                obj.OC = txtOC.Text
+                obj.OC_MAX = txtOC_MAX.Text
+                obj.OTH_ROUNDOFF_YPE = CboEmpRound.SelectedValue
                 If txtConfirmationDate.Checked Then
                     obj.CONFIRMATION_DATE = txtConfirmationDate.Value
                 End If
@@ -400,6 +519,7 @@ Public Class frmEmployee_Master
                 obj.Birth_date = clsCommon.myCstr(clsCommon.GetPrintDate(txtDOB.Value, "dd/MM/yyyy"))
                 obj.Joining_date = clsCommon.myCstr(clsCommon.GetPrintDate(txtJoiningDate.Value, "dd/MM/yyyy"))
                 obj.Hold_Slary = chkHoldsalary.Checked
+                obj.Staff_Quarter = chkStfQtr.Checked
                 obj.BLOOD_GROUP = txtBloodGroup.Text
                 obj.Emp_Status = clsCommon.myCstr(CboEmployeeStatus.SelectedValue)
                 If clsCommon.CompairString(lblActiveInactiveDate.Text, "Active Date") = CompairStringResult.Equal AndAlso txtActiveInactiveDate.Checked Then
@@ -546,10 +666,6 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = txtFamilyAge
                     Throw New Exception(ex.Message)
                 End Try
-
-
-
-
                 ''Language Details
                 Try
                     If gvEmpLanguage IsNot Nothing AndAlso gvEmpLanguage.Rows.Count > 0 Then
@@ -572,11 +688,6 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = Languages
                     Throw New Exception(ex.Message)
                 End Try
-
-
-
-
-
                 ''Qulification Details
                 Try
                     If gvEmpQuli IsNot Nothing AndAlso gvEmpQuli.Rows.Count > 0 Then
@@ -601,7 +712,6 @@ Public Class frmEmployee_Master
                                 objExTr.VERIFICATION_DONE = IIf(clsCommon.myCBool(grow.Cells(colQualVerification_Done).Value), "Y", "N")
                                 objExTr.University_Address = clsCommon.myCstr(grow.Cells(colUniversity_Address).Value)
                                 objExTr.University_Website = clsCommon.myCstr(grow.Cells(colUniversity_Website).Value)
-
                                 objExTr.DocName = System.IO.Path.GetFileName(grow.Cells(colQuliBrowse).Value)
                                 If clsCommon.myLen(grow.Cells(colQuliBrowse).Value) > 0 Then
                                     Dim bData As Byte()
@@ -620,11 +730,6 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = Qualification
                     Throw New Exception(ex.Message)
                 End Try
-
-
-
-
-
                 ''Exp Details
                 Try
                     If gvEmpEx IsNot Nothing AndAlso gvEmpEx.Rows.Count > 0 Then
@@ -633,14 +738,12 @@ Public Class frmEmployee_Master
                             If clsCommon.myLen(grow.Cells(colEmployerName).Value) > 0 Then
                                 Dim objExTr As New clsEmpExpDetails()
                                 objExTr.EMP_CODE = clsCommon.myCstr(txtCode.Value)
-
                                 objExTr.LINE_NO = clsCommon.myCstr(grow.Cells(colLineNo).Value)
                                 objExTr.EMPLOYER_NAME = clsCommon.myCstr(grow.Cells(colEmployerName).Value)
                                 objExTr.EMPLOYER_ADDRESS = clsCommon.myCstr(grow.Cells(colEmployerAddress).Value)
                                 If clsCommon.myLen(grow.Cells(colJoiningDate).Value) <= 0 Then
                                     Throw New Exception("Please provide experience Joining date of employer " + objExTr.EMPLOYER_NAME)
                                 End If
-
                                 objExTr.JOINING_DATE = clsCommon.myCDate(grow.Cells(colJoiningDate).Value)
                                 If clsCommon.myLen(grow.Cells(colJoinDesi).Value) <= 0 Then
                                     Throw New Exception("Please provide experience Joining Designation of employer " + objExTr.EMPLOYER_NAME)
@@ -668,7 +771,6 @@ Public Class frmEmployee_Master
                                     Throw New Exception("Please provide Verification status of employer " + objExTr.EMPLOYER_NAME)
                                 End If
                                 objExTr.VERIFICATION_STATUS = clsCommon.myCstr(grow.Cells(colVERIFICATION_STATUS).Value)
-
                                 If clsCommon.myLen(grow.Cells(colVERIFICATION_MODE).Value) <= 0 Then
                                     Throw New Exception("Please provide experience varifacation mode of employer " + objExTr.EMPLOYER_NAME)
                                 End If
@@ -682,10 +784,6 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = Experience
                     Throw New Exception(ex.Message)
                 End Try
-
-
-
-
                 '' document details
                 Try
                     If gvEmpDoc IsNot Nothing AndAlso gvEmpDoc.Rows.Count > 0 Then
@@ -720,8 +818,6 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = Documents
                     Throw New Exception(ex.Message)
                 End Try
-
-
                 '' asset details: KDIL new requirement
                 Try
                     If gvAssets IsNot Nothing AndAlso gvAssets.Rows.Count > 0 Then
@@ -751,9 +847,6 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = RadPageViewPage1
                     Throw New Exception(ex.Message)
                 End Try
-
-
-
                 If grpFranchise.Visible Then
                     obj.strFranchiseCode = txtFranchiseCode.Value.ToString.Trim
                 Else
@@ -768,8 +861,6 @@ Public Class frmEmployee_Master
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         BlankAllControl()
         'clsEmployeeMaster.UpdateEMPStatusData(strCode, EmployeeRetirementAge, EmployeePFRetirementAge, NavTyep)
@@ -821,10 +912,28 @@ Public Class frmEmployee_Master
             If obj.Transfer_PF Then
                 chlTransPF.Checked = True
             End If
+            txtCOEPF_PER.Text = obj.COEPF_PER
+            cboCoEPFRound.SelectedValue = obj.COEPF_ROUNDOFF_YPE
+            txtCOEPS_PER.Text = obj.COEPS_PER
+            txtEPS_MAX.Text = obj.EPS_MAX
+            txtEMPEPF_PER.Text = obj.EMPEPF_PER
+            txtEMPEPF_MAX.Text = obj.EMPEPF_MAX
+            CboEmpRound.SelectedValue = obj.EMPEPF_ROUNDOFF_YPE
+            txtACCOEPF_PER.Text = obj.ACCOEPF_PER
+            txtCOEDLI_PER.Text = obj.COEDLI_PER
+            txtACCOEPF_MAX.Text = obj.ACCOEPF_MAX
+            txtCOEDLI_MAX.Text = obj.COEDLI_MAX
+            txtACCOEDLI_PER.Text = obj.ACCOEDLI_PER
+            txtACCOEDLI_MAX.Text = obj.ACCOEDLI_MAX
+            txtACCOEDLI_MIN.Text = obj.ACCOEDLI_MIN
+            txtOC.Text = obj.OC
+            txtOC_MAX.Text = obj.OC_MAX
+            CboOCRound.SelectedValue = obj.OTH_ROUNDOFF_YPE
             txtTransferPF.Text = obj.transferText
             txtDOB.Value = obj.Birth_date
             txtJoiningDate.Value = obj.Joining_date
             chkHoldsalary.Checked = obj.Hold_Slary
+            chkStfQtr.Checked = obj.Staff_Quarter
             txtBloodGroup.Text = obj.BLOOD_GROUP
             CboEmployeeStatus.SelectedValue = obj.Emp_Status
             'Dim yearsDifference As Integer = DateDiff(DateInterval.Year, txtDOB.Value, txtRelevingDate.Value)
@@ -953,22 +1062,16 @@ Public Class frmEmployee_Master
                     gvEmpFamily.Rows(gvEmpFamily.Rows.Count - 1).Cells(colFamilySex).Value = objFamilyTr.MEMBER_SEX
                     gvEmpFamily.Rows(gvEmpFamily.Rows.Count - 1).Cells(colFamilyDescription).Value = objFamilyTr.DESCRIPTION
                     gvEmpFamily.Rows(gvEmpFamily.Rows.Count - 1).Cells(colIs_Dependent).Value = IIf(clsCommon.CompairString(objFamilyTr.IS_DEPENDENT, "1") = CompairStringResult.Equal, True, False)
-
                     If Not objFamilyTr.Member_DOB Is Nothing Then
                         gvEmpFamily.Rows(gvEmpFamily.Rows.Count - 1).Cells(colMember_DOB).Value = objFamilyTr.Member_DOB
                     Else
                         gvEmpFamily.Rows(gvEmpFamily.Rows.Count - 1).Cells(colMember_DOB).Value = Nothing
                     End If
-
                     gvEmpFamily.Rows(gvEmpFamily.Rows.Count - 1).Cells(colMember_Occupation).Value = objFamilyTr.Member_Occupation
-
                     gvEmpFamily.Rows(gvEmpFamily.Rows.Count - 1).Cells(colDependent_Living_With_Emp).Value = IIf(clsCommon.CompairString(objFamilyTr.Dependent_Living_With_Emp, "1") = CompairStringResult.Equal, True, False)
-
-
                     gvEmpFamily.Rows(gvEmpFamily.Rows.Count - 1).Cells(colFDContactNo).Value = objFamilyTr.FDContactNo
                 Next
             End If
-
             ''Language Details
             If obj.ObjListEmpLangDetails IsNot Nothing AndAlso obj.ObjListEmpLangDetails.Count > 0 Then
                 LoadEmpLangGridColumns()
@@ -982,7 +1085,6 @@ Public Class frmEmployee_Master
                     gvEmpLanguage.Rows(gvEmpLanguage.Rows.Count - 1).Cells(colLangDescription).Value = objLangTr.DESCRIPTION
                 Next
             End If
-
             ''Qulification Details
             If obj.ObjListEmpQualiDetails IsNot Nothing AndAlso obj.ObjListEmpQualiDetails.Count > 0 Then
                 LoadEmpQuliGridColumns()
@@ -996,14 +1098,12 @@ Public Class frmEmployee_Master
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colQuliJoiningDate).Value = objQualiTr.JOINING_DATE
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colQuliDescription).Value = objQualiTr.DESCRIPTION
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colQualVerification_Done).Value = IIf(clsCommon.CompairString(objQualiTr.VERIFICATION_DONE, "Y") = CompairStringResult.Equal, True, False)
-
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colUniversity_Address).Value = objQualiTr.University_Address
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colUniversity_Website).Value = objQualiTr.University_Website
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colQuliFileName).Value = objQualiTr.DocName
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colQuliOpen).Tag = objQualiTr.DOCUMENT_FILE
                 Next
             End If
-
             ''Exp Details
             If obj.ObjListEmpExpDetails IsNot Nothing AndAlso obj.ObjListEmpExpDetails.Count > 0 Then
                 LoadEmpExGridColumns()
@@ -1021,19 +1121,16 @@ Public Class frmEmployee_Master
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colAchievements).Value = objExTr.ACHIEVEMENTS
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colDescription).Value = objExTr.DESCRIPTION
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colExpVerification_Done).Value = IIf(clsCommon.CompairString(objExTr.VERIFICATION_DONE, "Y") = CompairStringResult.Equal, True, False)
-
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colReporting_Person_Name).Value = objExTr.Reporting_Person_Name
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colReporting_Person_Designation).Value = objExTr.Reporting_Person_Designation
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colReporting_Person_Phone).Value = objExTr.Reporting_Person_Phone
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colReporting_Person_Mobile).Value = objExTr.Reporting_Person_Mobile
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colReporting_Person_Email).Value = objExTr.Reporting_Person_Email
-
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colVERIFICATION_STATUS).Value = objExTr.VERIFICATION_STATUS
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colVERIFICATION_MODE).Value = objExTr.VERIFICATION_MODE
                     gvEmpEx.Rows(gvEmpEx.Rows.Count - 1).Cells(colVERIFICATION_REMARKS).Value = objExTr.VERIFICATION_REMARKS
                 Next
             End If
-
             ''Document Details
             If obj.ObjListEmpDocuments IsNot Nothing AndAlso obj.ObjListEmpDocuments.Count > 0 Then
                 LoadEmpDocGridColumns()
@@ -1049,13 +1146,11 @@ Public Class frmEmployee_Master
                 Next
                 'gvEmpDoc_SelectionChanged(Nothing, Nothing)
             End If
-
             ''asset Details
             If obj.ObjListEmpAssets IsNot Nothing AndAlso obj.ObjListEmpAssets.Count > 0 Then
                 LoadEmpAssetsGridColumns()
                 For Each objAssetTr As clsEmpAssets In obj.ObjListEmpAssets
                     gvAssets.Rows.AddNew()
-
                     gvAssets.Rows(gvAssets.Rows.Count - 1).Cells(colLINE_NO).Value = objAssetTr.LINE_NO
                     gvAssets.Rows(gvAssets.Rows.Count - 1).Cells(colASSET_CODE).Value = objAssetTr.ASSET_CODE
                     gvAssets.Rows(gvAssets.Rows.Count - 1).Cells(colASSET_NAME).Value = objAssetTr.ASSET_NAME
@@ -1063,7 +1158,6 @@ Public Class frmEmployee_Master
                     gvAssets.Rows(gvAssets.Rows.Count - 1).Cells(colAssetDESCRIPTION).Value = objAssetTr.DESCRIPTION
                     gvAssets.Rows(gvAssets.Rows.Count - 1).Cells(colRETURNED).Value = objAssetTr.RETURNED
                 Next
-
             End If
             gvEmpFamily.Rows.AddNew()
             gvEmpLanguage.Rows.AddNew()
@@ -1072,14 +1166,11 @@ Public Class frmEmployee_Master
             gvEmpDoc.Rows.AddNew()
             gvEmpEx.Rows.AddNew()
             txtCode.MyReadOnly = True
-
             btnsave.Enabled = True
             btndelete.Enabled = True
             isNewEntry = False
         End If
-
     End Sub
-
     Function AllowToSave() As Boolean
         'If clsCommon.myLen(txtCode.Value) <= 0 Then
         '    myMessages.blankValue("Code")
@@ -1087,7 +1178,6 @@ Public Class frmEmployee_Master
         '    Return False
         'Else
         '========================shivani[BM00000005685]
-
         Dim Year As String = clsDBFuncationality.getSingleValue(clsCommon.myCstr("select DATEDIFF(yy,convert(date,'" & txtDOB.Text & "',103),getdate()) "))
         If clsCommon.myLen(txtDOB.Text) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, " Enter Date of birth ", Me.Text)
@@ -1104,7 +1194,6 @@ Public Class frmEmployee_Master
             txtJoiningDate.Focus()
             Return False
         End If
-
         If clsCommon.myLen(txtConfirmationDate.Text) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, " Enter Date of Confirmation ", Me.Text)
             txtConfirmationDate.Focus()
@@ -1125,7 +1214,6 @@ Public Class frmEmployee_Master
                 Return False
             End If
         End If
-
         If clsCommon.myLen(txtJoiningDate.Text) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, " Enter Date of joining ", Me.Text)
             txtJoiningDate.Focus()
@@ -1136,8 +1224,6 @@ Public Class frmEmployee_Master
             txtDOB.Focus()
             Return False
         End If
-
-
         If clsCommon.myLen(txtConfirmationDate.Text) > 0 Then
             If clsCommon.myCDate(txtDOB.Text) > clsCommon.myCDate(txtConfirmationDate.Text) Then
                 common.clsCommon.MyMessageBoxShow(Me, " DOB should not Equal or greater than Confirmation Date", Me.Text)
@@ -1152,20 +1238,16 @@ Public Class frmEmployee_Master
                 Return False
             End If
         End If
-
-
         If clsCommon.myLen(dtpJoining.Text) > clsCommon.myLen(txtJoiningDate.Text) Then
             common.clsCommon.MyMessageBoxShow(Me, " previous employer joining  should not greater than current employer joining date")
             dtpJoining.Focus()
             Return False
         End If
-
         If clsCommon.myLen(txtLeavingDate.Text) > clsCommon.myLen(txtJoiningDate.Text) Then
             common.clsCommon.MyMessageBoxShow(Me, " previous employer  leaving date should not greater than current employer joining date")
             txtLeavingDate.Focus()
             Return False
         End If
-
         If clsCommon.myLen(txtDOB.Text) <= 0 Then
             myMessages.blankValue(Me, " Date Of birth", Me.Text)
             txtDOB.Focus()
@@ -1213,7 +1295,6 @@ Public Class frmEmployee_Master
                     End If
                 End If
             End If
-
         End If
         'sanjay Ticket No- BHA/24/09/18-000564 Emp code as per employee type
         If CreateEmpCodeAsPerEmployeeBasisType = True Then
@@ -1223,7 +1304,6 @@ Public Class frmEmployee_Master
                 Return False
             End If
         End If
-
         If AadharNoMandatoryOnEmpMaster = True Then
             If clsCommon.myLen(txtAadharCard.Text) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, " Aadhar Card No ", Me.Text)
@@ -1238,7 +1318,6 @@ Public Class frmEmployee_Master
         End If
         Return True
     End Function
-
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         DeleteData()
     End Sub
@@ -1256,7 +1335,6 @@ Public Class frmEmployee_Master
         '' Code Ends 
         funDelete()
     End Sub
-
     Sub funDelete()
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
         Try
@@ -1273,8 +1351,6 @@ Public Class frmEmployee_Master
                         Reason = frm.strRmks
                     End If
                 End If
-
-
                 If (clsEmployeeMaster.DeleteData(txtCode.Value, trans)) Then
                     saveCancelLog(Reason, "Delete", trans)
                     trans.Commit()
@@ -1286,7 +1362,6 @@ Public Class frmEmployee_Master
             trans.Rollback()
             myMessages.myExceptions(ex)
         End Try
-
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
@@ -1296,13 +1371,8 @@ Public Class frmEmployee_Master
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
-
     Private Sub frmEmployee_Master_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Leave
-
     End Sub
-
-
-
     Public Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmEmployee_Master)
         If Not (MyBase.isReadFlag) Then
@@ -1316,11 +1386,9 @@ Public Class frmEmployee_Master
         '' Anubhooti 24-July-2014 BM00000003181
         RadMenuItem3.Enabled = MyBase.isModifyFlag
     End Sub
-
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnnew.Click
         AddNew()
     End Sub
-
     Sub AddNew()
         txtActiveInactiveDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
         txtActiveInactiveDate.Checked = False
@@ -1344,8 +1412,38 @@ Public Class frmEmployee_Master
             txtBranch.Value = ""
         End If
         txtCompBank.Value = ""
-    End Sub
+        txtCOEPF_PER.Text = "0.00"
+        txtCOEPS_PER.Text = "0.00"
+        txtEPS_MAX.Text = "0.00"
+        txtEMPEPF_PER.Text = "0.00"
+        txtEMPEPF_MAX.Text = "0.00"
+        txtACCOEPF_PER.Text = "0.00"
+        txtCOEDLI_PER.Text = "0.00"
+        txtACCOEPF_MAX.Text = "0.00"
+        txtCOEDLI_MAX.Text = "0.00"
+        txtACCOEDLI_PER.Text = "0.00"
+        txtACCOEDLI_MAX.Text = "0.00"
+        txtACCOEDLI_MIN.Text = "0.00"
+        txtOC.Text = "0.00"
+        txtOC_MAX.Text = "0.00"
 
+        dt_Cbo = clsFixedParameter.GetCboDataTable("CboRound", Nothing)
+        cboCoEPFRound.DataSource = dt_Cbo.Copy()
+        cboCoEPFRound.ValueMember = "Code"
+        cboCoEPFRound.DisplayMember = "DESCRIPTION"
+        cboCoEPFRound.SelectedIndex = -1
+
+        CboEmpRound.DataSource = dt_Cbo.Copy()
+        CboEmpRound.ValueMember = "Code"
+        CboEmpRound.DisplayMember = "DESCRIPTION"
+        CboEmpRound.SelectedIndex = -1
+
+        CboOCRound.DataSource = dt_Cbo.Copy()
+        CboOCRound.ValueMember = "Code"
+        CboOCRound.DisplayMember = "DESCRIPTION"
+        CboOCRound.SelectedIndex = -1
+        cboPFType.SelectedIndex = 0
+    End Sub
     Sub BlankAllControl()
         RadPageView1.SelectedPage = General
         txtname.Text = ""
@@ -1377,6 +1475,7 @@ Public Class frmEmployee_Master
         txtDOB.Value = currDate
         txtJoiningDate.Value = currDate
         chkHoldsalary.Checked = False
+        chkStfQtr.Checked = False
         txtBloodGroup.Text = ""
         CboEmployeeStatus.SelectedIndex = 0
         txtPayRollCode.Text = ""
@@ -1473,15 +1572,12 @@ Public Class frmEmployee_Master
         LoadEmpExGridColumns()
         LoadEmpAssetsGridColumns()
     End Sub
-
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         funClose()
     End Sub
-
     Sub funClose()
         Me.Close()
     End Sub
-
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim whrcls As String = Nothing
         Dim LocCode As String = Nothing
@@ -1514,11 +1610,8 @@ Public Class frmEmployee_Master
             End If
         End If
     End Sub
-
     Sub funFill()
-
     End Sub
-
     Private Sub txtCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
         Try
             LoadData(txtCode.Value, NavType)
@@ -1526,7 +1619,6 @@ Public Class frmEmployee_Master
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub frmEmployee_Master_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnnew.Enabled Then
             AddNew()
@@ -1540,52 +1632,36 @@ Public Class frmEmployee_Master
             AddNew()
         End If
     End Sub
-
 #Region "Employee Exp"
-
-
-
     Private Function GetVerificationStatus() As DataTable
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = "Positive"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Negative"
         dt.Rows.Add(dr)
-
         Return dt
     End Function
-
     Private Function GetVerificationMode() As DataTable
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = "Self"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "Third Party"
         dt.Rows.Add(dr)
-
         Return dt
     End Function
-
-
     Private Sub gvEmpEx_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvEmpEx.UserDeletingRow
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
 #End Region
-
 #Region "Finders"
-
-
     Private Sub txtPresentCity__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPresentCity._MYValidating
         Dim qry As String = " select City_Code As Code,City_Name  as [City Name]from TSPL_City_MASTER "
         txtPresentCity.Value = clsCommon.ShowSelectForm("frmCity", qry, "Code", "", txtPresentCity.Value, "", isButtonClicked)
@@ -1601,7 +1677,6 @@ Public Class frmEmployee_Master
         txtPresentState.Value = clsCommon.ShowSelectForm("STATE_MASTER", qry, "Code", "", txtPresentState.Value, "STATE_CODE", isButtonClicked)
         'lblState.Text = clsStateMaster.GetName(TxtState.Value)
     End Sub
-
     Private Sub txtPermCity__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPermCity._MYValidating
         Dim qry As String = " select City_Code As Code,City_Name  as [City Name]from TSPL_City_MASTER "
         txtPermCity.Value = clsCommon.ShowSelectForm("frmCity", qry, "Code", "", txtPermCity.Value, "", isButtonClicked)
@@ -1617,34 +1692,26 @@ Public Class frmEmployee_Master
         txtPermState.Value = clsCommon.ShowSelectForm("STATE_MASTER", qry, "Code", "", txtPermState.Value, "STATE_CODE", isButtonClicked)
         'lblState.Text = clsStateMaster.GetName(TxtState.Value)
     End Sub
-
-
     Private Sub txtDivision__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDivision._MYValidating
         Dim qry As String = "select DEVISION_CODE as Code, DEVISION_NAME as Name, DESCRIPTION as Description from TSPL_DEVISION_MASTER"
         txtDivision.Value = clsCommon.ShowSelectForm("DEVISION_MASTER", qry, "Code", "", txtDivision.Value, "DEVISION_CODE", isButtonClicked)
     End Sub
-
     Private Sub TxtDesignation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles TxtDesignation._MYValidating
         Dim qry As String = " select designation_id As Code,designation_desc  as [Description]from TSPL_Designation_MASTER "
         TxtDesignation.Value = clsCommon.ShowSelectForm("fmdesignation", qry, "Code", "", TxtDesignation.Value, "", isButtonClicked)
     End Sub
-
     Private Sub txtDepartment__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDepartment._MYValidating
         Dim qry As String = "select DEPARTMENT_CODE AS Code, DEPARTMENT_NAME AS Name, DESCRIPTION AS Description from TSPL_DEPARTMENT_MASTER"
         txtDepartment.Value = clsCommon.ShowSelectForm("Dep_Master", qry, "Code", "", txtDepartment.Value, "DEPARTMENT_CODE", isButtonClicked)
     End Sub
-
     Private Sub txtOccupation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtOccupation._MYValidating
         Dim qry As String = "select OCCUPATION_CODE as Code, OCCUPATION_NAME as Name, DESCRIPTION as Description from TSPL_OCCUPATION_MASTER"
         txtOccupation.Value = clsCommon.ShowSelectForm("OCCUPATION_MASTER", qry, "Code", "", txtOccupation.Value, "OCCUPATION_CODE", isButtonClicked)
     End Sub
-
     Private Sub txtGrade__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtGrade._MYValidating
-
         Dim qry As String = "select GRADE_CODE as Code, GRADE_NAME as Name, DESCRIPTION from TSPL_GRADE_MASTER"
         txtGrade.Value = clsCommon.ShowSelectForm("GRADE_MASTER", qry, "Code", "", txtGrade.Value, "GRADE_CODE", isButtonClicked)
     End Sub
-
     Private Sub txtBranch__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBranch._MYValidating
         'Dim qry As String = "select BRANCH_CODE as Code, BRANCH_NAME as Name,RESPONSIBLE_PERSION_NAME as 'Responsible Persion', BRANCH_ADDRESS as 'Branch Address', CITY_CODE as 'City Code', STATE_CODE as 'State Code' , COUNTRY_CODE as 'Country Code', PHONE_NO as 'Phone No',FAX_NO as 'Fax No', EMAIL_ID as 'Email Id'  from TSPL_BRANCH_MASTER"
         Dim whrcls As String = Nothing
@@ -1660,7 +1727,6 @@ Public Class frmEmployee_Master
         txtBranch.Value = clsLocation.getFinder(whrcls, Me.txtBranch.Value, isButtonClicked)
         'txtBranch.Value = clsCommon.ShowSelectForm("BRANCH_MASTER", qry, "Code", "", txtBranch.Value, "BRANCH_CODE", isButtonClicked)
     End Sub
-
     Private Sub txtCompanyCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCompanyCode._MYValidating
         Try
             Dim Qry As String = " Select Comp_Code As [Company Code] from TSPL_COMPANY_MASTER "
@@ -1669,60 +1735,44 @@ Public Class frmEmployee_Master
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtAttendance__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtAttendance._MYValidating
         Dim qry As String = "select ATTENDANCE_CODE as Code, ATTENDANCE_NAME as Name, DESCRIPTION as Description, SALARY_DEPENDENT_ON_ATTEN as 'Salary Dependency', OT_CODE as 'OT Code' , CALC_SAL_ON as 'Salary Calculation on Days', ATTN_REGISTER_TYPE as 'Attendance Register Type'  from TSPL_ATTENDANCE_MASTER"
         txtAttendance.Value = clsCommon.ShowSelectForm("ATTENDANCE_MASTER", qry, "Code", "", txtAttendance.Value, "ATTENDANCE_CODE", isButtonClicked)
     End Sub
-
     Private Sub txtBank__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBank._MYValidating
         Dim qry As String = " select bank_code As Code,description  as [Description]from TSPL_Bank_MASTER "
         txtBank.Value = clsCommon.ShowSelectForm("fmBankMaster", qry, "Code", "", txtBank.Value, "bank_code", isButtonClicked)
-
     End Sub
-
     Private Sub txtShift__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShift._MYValidating
         Dim qry As String = "select SHIFT_CODE as Code, SHIFT_NAME AS Name, FROM_Time AS 'From Time', TO_Time AS 'To Time'  from TSPL_SHIFT_MASTER"
         txtShift.Value = clsCommon.ShowSelectForm("SHIFT_Master", qry, "Code", "", txtShift.Value, "SHIFT_CODE", isButtonClicked)
     End Sub
-
     Private Sub TxtGLAccount__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles TxtGLAccount._MYValidating
         Dim qry As String = " SELECT Account_Code AS [Code], Description FROM TSPL_GL_ACCOUNTS "
         TxtGLAccount.Value = clsCommon.ShowSelectForm("GL Accounts", qry, "Code", "", TxtGLAccount.Value, "", isButtonClicked)
     End Sub
-
     Private Sub txtCastCategory__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCastCategory._MYValidating
         Dim qry As String = "select CAST_CATEGORY_CODE as Code, CAST_CATEGORY_NAME AS Name, DESCRIPTION AS Description  from TSPL_CAST_CATEGORY_MASTER"
         txtCastCategory.Value = clsCommon.ShowSelectForm("Cast_Master", qry, "Code", "", txtCastCategory.Value, "CAST_CATEGORY_CODE", isButtonClicked)
     End Sub
-
     Private Sub txtReligion__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtReligion._MYValidating
         Dim qry As String = "select RELIGION_CODE as Code, RELIGION_NAME as Name from TSPL_RELIGION_MASTER"
         txtReligion.Value = clsCommon.ShowSelectForm("RELIGION_MASTER", qry, "Code", "", txtReligion.Value, "RELIGION_CODE", isButtonClicked)
     End Sub
-
 #End Region
-
 #Region "Employee Quli"
-
-
-
-
     Private Sub gvEmpquli_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvEmpQuli.UserDeletingRow
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
 #End Region
-
 #Region "Employee doc"
-
     Sub LoadEmpDocGridColumns()
         'gvEmpDoc.DataSource = Nothing
         gvEmpDoc.Rows.Clear()
         gvEmpDoc.Columns.Clear()
         gvEmpDoc.ReadOnly = False
-
         Dim DoclineNo As New GridViewTextBoxColumn()
         DoclineNo.FormatString = ""
         DoclineNo.HeaderText = "Line No"
@@ -1730,7 +1780,6 @@ Public Class frmEmployee_Master
         DoclineNo.Width = 30
         DoclineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpDoc.Columns.Add(DoclineNo)
-
         Dim DocCode As New GridViewTextBoxColumn()
         DocCode.FormatString = ""
         DocCode.HeaderText = "Document Code"
@@ -1738,7 +1787,6 @@ Public Class frmEmployee_Master
         DocCode.Width = 100
         DocCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpDoc.Columns.Add(DocCode)
-
         Dim DocFileName As New GridViewTextBoxColumn()
         DocFileName.FormatString = ""
         DocFileName.HeaderText = "Document Name"
@@ -1747,7 +1795,6 @@ Public Class frmEmployee_Master
         DocFileName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         DocFileName.ReadOnly = True
         gvEmpDoc.Columns.Add(DocFileName)
-
         Dim DocSubmitDate As New GridViewDateTimeColumn()
         DocSubmitDate.CustomFormat = "dd/MM/yyyy"
         DocSubmitDate.FormatString = "{0:d}"
@@ -1756,8 +1803,6 @@ Public Class frmEmployee_Master
         DocSubmitDate.Width = 80
         DocSubmitDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpDoc.Columns.Add(DocSubmitDate)
-
-
         Dim DocBrowse As New GridViewBrowseColumn
         DocBrowse.FormatString = ""
         DocBrowse.HeaderText = "Browse"
@@ -1765,16 +1810,13 @@ Public Class frmEmployee_Master
         DocBrowse.Width = 80
         DocBrowse.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpDoc.Columns.Add(DocBrowse)
-
         Dim docOpen As New GridViewCommandColumn
         docOpen.FormatString = ""
         docOpen.HeaderText = "Open"
-
         docOpen.Name = colDocOpen
         docOpen.Width = 100
         docOpen.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpDoc.Columns.Add(docOpen)
-
         Dim DocPath As New GridViewTextBoxColumn()
         DocPath.FormatString = ""
         DocPath.HeaderText = "Path"
@@ -1783,7 +1825,6 @@ Public Class frmEmployee_Master
         DocPath.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         DocPath.IsVisible = False
         gvEmpDoc.Columns.Add(DocPath)
-
         Dim DocDescription As New GridViewTextBoxColumn()
         DocDescription.FormatString = ""
         DocDescription.HeaderText = "Remark"
@@ -1793,13 +1834,11 @@ Public Class frmEmployee_Master
         gvEmpDoc.Columns.Add(DocDescription)
         'gvEmpDoc.Rows.AddNew()
     End Sub
-
     Public Sub LoadDocumentGridData()
         LoadEmpDocGridColumns()
         If clsCommon.myLen(txtCode.Value) > 0 Then
             ObjListEmpDocuments = clsEmpDocuments.GetDataForGrid(txtCode.Value, Nothing)
             If ObjListEmpDocuments IsNot Nothing AndAlso ObjListEmpDocuments.Count > 0 Then
-
                 For Each objDocTr As clsEmpDocuments In ObjListEmpDocuments
                     gvEmpDoc.Rows.AddNew()
                     gvEmpDoc.Rows(gvEmpDoc.Rows.Count - 1).Cells(colDocLineNo).Value = objDocTr.LINE_NO
@@ -1812,8 +1851,6 @@ Public Class frmEmployee_Master
         End If
         'gvEmpDoc_SelectionChanged(Nothing, Nothing)
     End Sub
-
-
     Private Sub gvEmpDoc_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvEmpDoc.CellValueChanged
         If Not isInsideLoadData Then
             If Not isCellValueChanged Then
@@ -1821,7 +1858,6 @@ Public Class frmEmployee_Master
                     isCellValueChanged = True
                     'OpenFileDialog1.ShowDialog()
                     'gvEmpDoc.CurrentRow.Cells(colDocPath).Value =
-
                     isCellValueChanged = False
                 End If
                 If e.Column Is gvEmpDoc.Columns(colDocCode) Then
@@ -1829,7 +1865,6 @@ Public Class frmEmployee_Master
                     If clsCommon.myLen(gvEmpDoc.CurrentRow.Cells(colDocCode).Value) > 0 Then
                         gvEmpDoc.CurrentRow.Cells(colDocFileName).Value = clsDocumentMaster.GetData(gvEmpDoc.CurrentRow.Cells(colDocCode).Value, NavigatorType.Current).Name
                     End If
-
                 End If
                 If e.Column Is gvEmpDoc.Columns(colDocOpen) Then
                     btnShowDoc_Click(gvEmpDoc.CurrentRow.Cells(colDocCode).Value, gvEmpDoc.CurrentRow.Cells(colDocBrowse).Value)
@@ -1844,11 +1879,9 @@ Public Class frmEmployee_Master
             If intCurrRow = gvEmpDoc.Rows.Count - 1 Then
                 gvEmpDoc.Rows.AddNew()
                 gvEmpDoc.CurrentRow = gvEmpDoc.Rows(intCurrRow)
-
             End If
         End If
     End Sub
-
     Private Sub btnShowDoc_Click(ByVal Doc_Code As String, ByVal DocPath As String)
         If clsCommon.CompairString(Doc_Code, "") = CompairStringResult.Equal And clsCommon.CompairString(DocPath, "") = CompairStringResult.Equal Then
             clsCommon.MyMessageBoxShow(Me, "No document attached.", Me.Text)
@@ -1858,7 +1891,6 @@ Public Class frmEmployee_Master
         Dim filename As String = ""
         Dim file_path As String = ""
         Dim file_extn As String = ""
-
         Try
             If clsCommon.CompairString(DocPath, "") = CompairStringResult.Equal Then
                 ds_attachment = New DataTable
@@ -1867,7 +1899,6 @@ Public Class frmEmployee_Master
                 Dim blob As Byte() = ds_attachment.Rows(0)("DOCUMENT_FILE")
                 file_path = Application.StartupPath '"C:\ERPTempFolder"
                 Dim dir As DirectoryInfo = New DirectoryInfo(file_path)
-
                 If dir.Exists = False Then
                     dir.Create()
                 End If
@@ -1885,13 +1916,9 @@ Public Class frmEmployee_Master
             Else
                 System.Diagnostics.Process.Start(DocPath)
             End If
-
         Catch ex As Exception
-
         End Try
     End Sub
-
-
     Private Sub btnShowQuli_Click(ByVal Doc_Code As String, ByVal LineNo As Integer)
         If clsCommon.CompairString(Doc_Code, "") = CompairStringResult.Equal And clsCommon.CompairString(LineNo, "") = CompairStringResult.Equal Then
             clsCommon.MyMessageBoxShow(Me, "No document attached.", Me.Text)
@@ -1901,7 +1928,6 @@ Public Class frmEmployee_Master
         Dim filename As String = ""
         Dim file_path As String = ""
         Dim file_extn As String = ""
-
         Try
             If LineNo > 0 Then
                 ds_attachment = New DataTable
@@ -1910,7 +1936,6 @@ Public Class frmEmployee_Master
                 Dim blob As Byte() = ds_attachment.Rows(0)("DOCUMENT_FILE")
                 file_path = Application.StartupPath '"C:\ERPTempFolder"
                 Dim dir As DirectoryInfo = New DirectoryInfo(file_path)
-
                 If dir.Exists = False Then
                     dir.Create()
                 End If
@@ -1928,44 +1953,31 @@ Public Class frmEmployee_Master
             Else
                 System.Diagnostics.Process.Start(LineNo)
             End If
-
         Catch ex As Exception
-
         End Try
     End Sub
-
-
     'Private Sub gvEmpDoc_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gvEmpDoc.DoubleClick
     '    btnShowDoc_Click(gvEmpDoc.CurrentRow.Cells(colDocCode).Value, gvEmpDoc.CurrentRow.Cells(colDocBrowse).Value)
     'End Sub
-
     Private Sub gvEmpDoc_CommandCellClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles gvEmpDoc.CommandCellClick
         btnShowDoc_Click(gvEmpDoc.CurrentRow.Cells(colDocCode).Value, gvEmpDoc.CurrentRow.Cells(colDocBrowse).Value)
     End Sub
-
 #End Region
-
 #Region "Employee Language"
-
     Private Sub gvEmpLang_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs)
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
 #End Region
-
 #Region "Employee Family"
-
     Private Sub gvEmpFamily_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs)
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
-
 #End Region
-
     Private Sub CboRelation_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
-
     End Sub
     Sub demoImport()
         Dim gv As New RadGridView()
@@ -1973,7 +1985,6 @@ Public Class frmEmployee_Master
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         'If transportSql.importExcel(gv, "Emp ID", "Employee Name", "Fathers Name", "Mothers Name", "Date of Birth", "Sex", "Marital Status", "Spouse Name", "Date of Joining", "Salary calculate from", "Date of leaving", "Reason for leaving") Then
-
         If transportSql.importExcel(gv, "Emp ID", "Employee Name", "Fathers Name", "Mothers Name", "Date of Birth", "Sex", "Marital Status", "Spouse Name", "Designation", "Designation Name", "Occupation", "Department", "Department Name", "Sub Department", "Sub Department Name", "Grade", "Branch", "Working City", "Division", "Bank Account No", "Bank Name", "Bank Branch Name", "Bank Branch Description", "Bank Description", "Sal Structure", "Attendance", "Res No", "Res Name", "Road/Street 1", "Locality/Area", "Present City/District", "State", "Present Pincode", "Road/Street 2", "Permanent City/District", "Permanent State", "Permanent Pincode", "E - Mail ID", "STD Code", "Phone", "Mobile", "Date of Joining", "Salary calculate frm", "Date of leaving", "Reason for leaving", "ESI Applicable", "ESI No", "ESI Dispensary", "PF Applicable", "PF No", "PF No for Dept File", "Restrict PF", "Zero Pension", "Zero PT", "PAN", "Ward/Circle", "Director", "Resignation Submit Date", "Notice Period In Days", "Salary Account", "Advance To Staff", "Conveyance Type", "Employment Nature", "Is OT Applicable", "Is OD Applicable", "Show in Statutory", "Minimum Basic Salary", "Vendor Code", "Agency Code", "Age For Pension") Then
             Dim trans As SqlTransaction = Nothing
             Try
@@ -1984,8 +1995,6 @@ Public Class frmEmployee_Master
                 For Each grow As GridViewRowInfo In gv.Rows
                     clsCommon.ProgressBarUpdate((grow.Index + 1) & "/" & gv.Rows.Count)
                     If clsCommon.myLen(grow.Cells("Emp ID").Value) > 0 AndAlso clsCommon.myLen(grow.Cells("Employee Name").Value) > 0 Then
-
-
                         Dim obj As New clsEmployeeMaster()
                         Counter += 1
                         'Dim Qry As String
@@ -1996,29 +2005,24 @@ Public Class frmEmployee_Master
                             Continue For
                         End If
                         obj.EMP_CODE = strCode
-
                         Dim strName As String = ""
                         Dim strBBDesp As String = ""
                         Dim strBBName As String = ""
-
                         strName = clsCommon.myCstr(grow.Cells("Employee Name").Value)
                         If strName.Length > 100 Or (String.IsNullOrEmpty(strName)) Then
                             Throw New Exception("Name can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.Emp_Name = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Fathers Name").Value)
                         'If strName.Length > 100 Or (String.IsNullOrEmpty(strName)) Then
                         '    Throw New Exception("Fathers Name can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         'End If
                         obj.FATHERS_NAME = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Mothers Name").Value)
                         'If strName.Length > 100 Then
                         '    Throw New Exception("Mothers Name can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         'End If
                         obj.MOTHERS_NAME = strName
-
                         Dim Date_date As Date = Nothing
                         If clsCommon.myLen(grow.Cells("Date of Birth")) > 0 Then
                             Date_date = clsCommon.myCDate(grow.Cells("Date of Birth").Value)
@@ -2029,50 +2033,40 @@ Public Class frmEmployee_Master
                         Else
                             Throw New Exception("Date of Birth can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Sex").Value)
                         If strName.Length > 10 Or (String.IsNullOrEmpty(strName)) Then
                             Throw New Exception("Sex can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.SEX = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Marital Status").Value)
                         If strName.Length > 0 Then
                             obj.MARITAL_STATUS = strName
                         Else
                             obj.MARITAL_STATUS = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Spouse Name").Value)
                         If strName.Length > 100 Then
                             Throw New Exception("Spouse Name can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.SPOUSE_NAME = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Designation").Value)
                         If strName.Length > 0 Then
                             obj.Designation = strName
                         Else
                             obj.Designation = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Occupation").Value)
-
                         If strName.Length > 0 Then
                             'Qry = "select OCCUPATION_CODE from TSPL_EMPLOYEE_MASTER where OCCUPATION_CODE ='" & strName & "'"
                             'check = clsDBFuncationality.getSingleValue(Qry, trans)
                             'If check <= 0 Then
                             '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Check Occupation Code in  Occupation Master")
                             'End If
-
-
                             obj.OCCUPATION_CODE = strName
                         Else
                             obj.OCCUPATION_CODE = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Department").Value)
-
                         'Qry = "select DEPARTMENT_CODE from TSPL_EMPLOYEE_MASTER where DEPARTMENT_CODE ='" & strName & "'"
                         'check = clsDBFuncationality.getSingleValue(Qry, trans)
                         'If check <= 0 Then
@@ -2083,7 +2077,6 @@ Public Class frmEmployee_Master
                         Else
                             obj.DEPARTMENT_CODE = strName
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Sub Department").Value)
                         If strName.Length > 0 Then
                             '    Qry = "select SUB_DEPARTMENT_CODE from TSPL_EMPLOYEE_MASTER where SUB_DEPARTMENT_CODE ='" & strName & "'"
@@ -2091,27 +2084,21 @@ Public Class frmEmployee_Master
                             '    If check <= 0 Then
                             '        Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Check Sub Department Code in  Sub Department Master")
                             '    End If
-
                             obj.SUB_DEPARTMENT_CODE = strName
                         Else
                             obj.SUB_DEPARTMENT_CODE = ""
                         End If
-
-
                         strName = clsCommon.myCstr(grow.Cells("Grade").Value)
-
                         If strName.Length > 0 Then
                             'Qry = "select GRADE_CODE from TSPL_EMPLOYEE_MASTER where GRADE_CODE ='" & strName & "'"
                             'check = clsDBFuncationality.getSingleValue(Qry, trans)
                             'If check <= 0 Then
                             '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Check Grade Code in  Grade Master")
                             'End If
-
                             obj.GRADE_CODE = strName
                         Else
                             obj.GRADE_CODE = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Branch").Value)
                         If strName.Length > 0 Then
                             'Qry = "select LOCATION_CODE from TSPL_EMPLOYEE_MASTER where LOCATION_CODE ='" & strName & "'"
@@ -2119,19 +2106,16 @@ Public Class frmEmployee_Master
                             'If check <= 0 Then
                             '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Check Location Code in  Location Master")
                             'End If
-
                             obj.LOCATION_CODE = strName
                         Else
                             obj.LOCATION_CODE = ""
                         End If
                         strName = clsCommon.myCstr(grow.Cells("Working City").Value)
                         If strName.Length > 0 Then
-
                             obj.Working_City_Code = strName
                         Else
                             obj.Working_City_Code = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Division").Value)
                         If strName.Length > 0 Then
                             ''Qry = "select Division from TSPL_EMPLOYEE_MASTER where Division ='" & strName & "'"
@@ -2139,18 +2123,15 @@ Public Class frmEmployee_Master
                             ''If check <= 0 Then
                             ''    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Division Code in  Division Master")
                             ''End If
-
                             obj.DEVISION_CODE = strName
                         Else
                             obj.DEVISION_CODE = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Bank Account No").Value)
                         If strName.Length > 50 Then
                             Throw New Exception("Bank Account No can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.BANK_ACC_NO = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Bank Name").Value)
                         If strName.Length > 0 Then
                             'Qry = "select BANK_CODE from TSPL_EMPLOYEE_MASTER where BANK_CODE ='" & strName & "'"
@@ -2158,12 +2139,10 @@ Public Class frmEmployee_Master
                             'If check <= 0 Then
                             '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Bank Code in  Bank Master")
                             'End If
-
                             obj.BANK_CODE = strName
                         Else
                             obj.BANK_CODE = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Bank Branch Name").Value)
                         If strName.Length > 0 Then
                             obj.Bank_Branch = strName
@@ -2188,7 +2167,6 @@ Public Class frmEmployee_Master
                         Else
                             obj.Bank_Name = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Attendance").Value)
                         If strName.Length > 0 Then
                             'Qry = "select ATTENDANCE_CODE from TSPL_EMPLOYEE_MASTER where ATTENDANCE_CODE ='" & strName & "'"
@@ -2196,12 +2174,10 @@ Public Class frmEmployee_Master
                             'If check <= 0 Then
                             '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Attendance Code in  Attendance Master")
                             'End If
-
                             obj.ATTENDANCE_CODE = strName
                         Else
                             obj.ATTENDANCE_CODE = ""
                         End If
-
                         Dim add As String = ""
                         strName = clsCommon.myCstr(grow.Cells("Res No").Value)
                         If clsCommon.myCstr(strName).Length > 0 Then
@@ -2220,7 +2196,6 @@ Public Class frmEmployee_Master
                             add += strName
                         End If
                         obj.Add1 = add
-
                         strName = clsCommon.myCstr(grow.Cells("Present City/District").Value)
                         If strName.Length > 0 Then
                             'Qry = "select PRESENT_CITY_CODE from TSPL_EMPLOYEE_MASTER where PRESENT_CITY_CODE ='" & strName & "'"
@@ -2228,13 +2203,10 @@ Public Class frmEmployee_Master
                             'If check <= 0 Then
                             '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Check City Code in  City Master")
                             'End If
-
-
                             obj.PRESENT_CITY_CODE = strName
                         Else
                             obj.PRESENT_CITY_CODE = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("State").Value)
                         If strName.Length > 0 Or (String.IsNullOrEmpty(strName)) Then
                             'Qry = "select PRESENT_STATE_CODE from TSPL_EMPLOYEE_MASTER where PRESENT_STATE_CODE ='" & strName & "'"
@@ -2242,36 +2214,30 @@ Public Class frmEmployee_Master
                             'If check <= 0 Then
                             '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Check State Code in  State Master")
                             'End If
-
                             obj.PRESENT_STATE_CODE = strName
                         Else
                             obj.PRESENT_STATE_CODE = ""
                         End If
-
                         Dim Phone_no As String = ""
                         strName = clsCommon.myCstr(grow.Cells("STD Code").Value)
                         If strName.Length > 0 Then
                             Phone_no += strName
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Phone").Value)
                         If strName.Length > 0 Then
                             Phone_no += strName
                         End If
                         obj.Phone = Phone_no
-
                         strName = clsCommon.myCstr(grow.Cells("Mobile").Value)
                         If strName.Length > 14 Then
                             Throw New Exception("Mobile can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.PRESENT_MOBILE_NO = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Present Pincode").Value)
                         If strName.Length > 6 Then
                             Throw New Exception("Pincode can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.Pin_Code = strName
-
                         add = ""
                         'strName = clsCommon.myCstr(grow.Cells("Res No1").Value)
                         'If clsCommon.myCstr(strName).Length > 0 Then
@@ -2290,21 +2256,17 @@ Public Class frmEmployee_Master
                         '    add += strName
                         'End If
                         obj.Add2 = add
-
                         strName = clsCommon.myCstr(grow.Cells("Permanent City/District").Value)
                         'Qry = "select PERMA_CITY_CODE from TSPL_EMPLOYEE_MASTER where PERMA_CITY_CODE ='" & strName & "'"
                         'check = clsDBFuncationality.getSingleValue(Qry, trans)
                         'If check <= 0 Then
                         '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Check City Code in  City Master")
                         'End If
-
                         If strName.Length > 0 Then
                             obj.PERMA_CITY_CODE = strName
                         Else
                             obj.PERMA_CITY_CODE = ""
                         End If
-
-
                         strName = clsCommon.myCstr(grow.Cells("Permanent State").Value)
                         If strName.Length > 0 Then
                             'Qry = "select PERMA_STATE_CODE from TSPL_EMPLOYEE_MASTER where PERMA_STATE_CODE ='" & strName & "'"
@@ -2312,38 +2274,32 @@ Public Class frmEmployee_Master
                             'If check <= 0 Then
                             '    Throw New Exception("'" & clsCommon.myCstr(strName) & "' code does not exists at line no. " + clsCommon.myCstr(Counter) + ".Please Check State Code in  State Master")
                             'End If
-
                             obj.PERMA_STATE_CODE = strName
                         Else
                             obj.PERMA_STATE_CODE = ""
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Resignation Submit Date").Value)
                         If strName.Length > 0 Then
                             obj.RESINATION_SUBMIT_DATE = clsCommon.GetPrintDate(clsCommon.myCDate(strName), "dd/MMM/yyyy")
                         Else
                             obj.RESINATION_SUBMIT_DATE = Nothing
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Notice Period In Days").Value)
                         If strName.Length > 0 Then
                             obj.NOTICE_IN_DAYS = clsCommon.myCdbl(strName)
                         Else
                             obj.NOTICE_IN_DAYS = 0
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Permanent Pincode").Value)
                         If strName.Length > 6 Then
                             Throw New Exception("Pincode can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.PERMA_PIN_CODE = strName
-
                         strName = clsCommon.myCstr(grow.Cells("E - Mail ID").Value)
                         If strName.Length > 100 Then
                             Throw New Exception("E - Mail ID can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.EMail_ID = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Date of Joining").Value)
                         If clsCommon.myLen(strName) <= 0 Then
                             Throw New Exception("Date of Joining can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
@@ -2353,8 +2309,6 @@ Public Class frmEmployee_Master
                             Throw New Exception("Date of Joining can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.Joining_date = clsCommon.GetPrintDate(Date_date, "dd/MM/yyyy")
-
-
                         If IsDBNull(grow.Cells("Salary calculate frm").Value) Then
                             Date_date = clsCommon.myCDate(grow.Cells("Date of Joining").Value)
                         Else
@@ -2364,7 +2318,6 @@ Public Class frmEmployee_Master
                             Throw New Exception("Salary calculate frm can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.CONFIRMATION_DATE = clsCommon.GetPrintDate(Date_date, "dd/MM/yyyy")
-
                         If clsCommon.myCstr(grow.Cells("Date of leaving").Value).Length > 0 Then
                             Date_date = clsCommon.myCDate(grow.Cells("Date of leaving").Value)
                             If Date_date.Year < 1900 Then
@@ -2372,7 +2325,6 @@ Public Class frmEmployee_Master
                             End If
                             obj.RELIEVING_DATE = clsCommon.GetPrintDate(Date_date, "dd/MM/yyyy")
                         End If
-
                         If clsCommon.myCstr(grow.Cells("Date of leaving").Value).Length > 0 Then
                             Date_date = clsCommon.myCDate(grow.Cells("Date of leaving").Value)
                             If Date_date.Year < 1900 Then
@@ -2380,98 +2332,82 @@ Public Class frmEmployee_Master
                             End If
                             obj.RELIEVING_DATE = clsCommon.GetPrintDate(Date_date, "dd/MMM/yyyy")
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Reason for leaving").Value)
                         If strName.Length > 50 Then
                             Throw New Exception("Reason for leaving can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.LEAVING_REASON = strName
-
                         strName = clsCommon.myCstr(grow.Cells("ESI Applicable").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.ISESI = True
                         Else
                             obj.ISESI = False
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("ESI No").Value)
                         If strName.Length > 50 Then
                             Throw New Exception("ESI No can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.ESI_NO = strName
-
                         strName = clsCommon.myCstr(grow.Cells("ESI Dispensary").Value)
                         If strName.Length > 100 Then
                             Throw New Exception("ESI Dispensary can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.ESI_DISPENSARY = strName
-
                         strName = clsCommon.myCstr(grow.Cells("PF Applicable").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.ISPF = True
                         Else
                             obj.ISPF = False
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("PF No").Value)
                         If strName.Length > 50 Then
                             Throw New Exception("PF No can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.PF_NO = strName
-
                         strName = clsCommon.myCstr(grow.Cells("PF No for Dept File").Value)
                         If strName.Length > 50 Then
                             Throw New Exception("PF No for Dept File can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.PF_NO_DEPT_FILE = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Restrict PF").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.ISRESTRICT_PF = True
                         Else
                             obj.ISRESTRICT_PF = False
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Zero Pension").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.ISZERO_PENSION = True
                         Else
                             obj.ISZERO_PENSION = False
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Zero PT").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.ISZERO_PT = True
                         Else
                             obj.ISZERO_PT = False
                         End If
-
                         'strName = clsCommon.myCstr(grow.Cells("PAN").Value)
                         'If strName.Length > 50 Then
                         '    Throw New Exception("PAN No can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         'End If
                         'obj.PAN_NO = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Ward/Circle").Value)
                         If strName.Length > 50 Then
                             Throw New Exception("Ward/Circle can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                         End If
                         obj.WARD_CIRCLE = strName
-
                         strName = clsCommon.myCstr(grow.Cells("Director").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.ISDIRECTOR = True
                         Else
                             obj.ISDIRECTOR = False
                         End If
-
                         '' panch raj 14-oct-2014 
                         Dim Salary_Acc As String = ""
                         Dim Adv_To As String = ""
-
                         Dim Salary_Acc_Code As String
                         Dim Account_To_Staff As String
-
                         Salary_Acc = clsCommon.myCstr(grow.Cells("Salary Account").Value)
                         If Salary_Acc.Length > 30 Then
                             'obj.SALARY_ACCOUNT_CODE = strName
@@ -2485,7 +2421,6 @@ Public Class frmEmployee_Master
                             End If
                         End If
                         obj.SALARY_ACCOUNT_CODE = Salary_Acc
-
                         Adv_To = clsCommon.myCstr(grow.Cells("Advance To Staff").Value)
                         If Adv_To.Length > 50 Then
                             Throw New Exception("Advance To Staff length can not be greater than 50")
@@ -2499,7 +2434,6 @@ Public Class frmEmployee_Master
                         End If
                         obj.ADVANCE_TO_STAFF = Adv_To
                         '' for kdil and viney
-
                         strName = clsCommon.myCstr(grow.Cells("Conveyance Type").Value)
                         If clsCommon.CompairString(strName, "TW") = CompairStringResult.Equal Then
                             obj.CONV_TYPE = strName
@@ -2510,7 +2444,6 @@ Public Class frmEmployee_Master
                         Else
                             obj.CONV_TYPE = "None"
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Employment Nature").Value)
                         If clsCommon.CompairString(strName, "Permanent") = CompairStringResult.Equal Then
                             obj.CONV_TYPE = strName
@@ -2521,31 +2454,26 @@ Public Class frmEmployee_Master
                         Else
                             obj.CONV_TYPE = "Other"
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Is OT Applicable").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.IS_OT_APPL = True
                         Else
                             obj.IS_OT_APPL = False
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Is OD Applicable").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.IS_OD_APPL = True
                         Else
                             obj.IS_OD_APPL = False
                         End If
-
                         strName = clsCommon.myCstr(grow.Cells("Show in Statutory").Value)
                         If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                             obj.DISPLAY_IN_STATUTORY = True
                         Else
                             obj.DISPLAY_IN_STATUTORY = False
                         End If
-
                         strName = clsCommon.myCdbl(grow.Cells("Minimum Basic Salary").Value)
                         obj.MINIMUM_BASIC_SALARY = strName
-
                         strCode = clsCommon.myCstr(grow.Cells("Vendor Code").Value)
                         If strCode.Length > 30 Then
                             Throw New Exception("Vendor Code length can not be greater than 30")
@@ -2558,7 +2486,6 @@ Public Class frmEmployee_Master
                             End If
                         End If
                         obj.VENDOR_CODE = strCode
-
                         strCode = clsCommon.myCstr(grow.Cells("Agency Code").Value)
                         If strCode.Length > 30 Then
                             Throw New Exception("Agency Code length can not be greater than 30")
@@ -2571,7 +2498,6 @@ Public Class frmEmployee_Master
                             End If
                         End If
                         obj.AGENCY_CODE = strCode
-
                         '' user code
                         strCode = clsCommon.myCstr(grow.Cells("User Code").Value)
                         If strCode.Length > 30 Then
@@ -2585,7 +2511,6 @@ Public Class frmEmployee_Master
                             End If
                         End If
                         obj.USER_CODE = strCode
-
                         Dim AgeFPen As Double = clsCommon.myCdbl(grow.Cells("Age For Pension").Value)
                         If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Age For Pension").Value)) > 0 Then
                             If clsCommon.myLen(AgeFPen) > 0 Then
@@ -2597,7 +2522,6 @@ Public Class frmEmployee_Master
                                 End If
                             End If
                         End If
-
                         obj.AgeForPension = AgeFPen
                         obj.Emp_Status = "Active"
                         '' end kdil and viney
@@ -2611,7 +2535,6 @@ Public Class frmEmployee_Master
                 'Dim ds As DataSet = gv.DataSource
                 ''Dim bulkcopy As SqlBulkCopy
                 'Using bulkcopy = New SqlBulkCopy(clsDBFuncationality.GetConnnection)
-
                 '    Try
                 '        bulkcopy.DestinationTableName = "dbo.TestTable"
                 '        bulkcopy.WriteToServer(ds.Tables(0))
@@ -2619,22 +2542,17 @@ Public Class frmEmployee_Master
                 '        Console.WriteLine(ex.Message)
                 '    End Try
                 'End Using
-
                 clsCommon.ProgressBarHide()
                 common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(Me, ex.Message.ToString, Me.Text)
                 clsCommon.ProgressBarHide()
             End Try
-
         End If
         Me.Controls.Remove(gv)
     End Sub
     Private Sub MenuItemImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImport.Click
-
         Import()
-
-
     End Sub
     '' changes by shivani against[8264]
     '==update by preeti gupta Against ticket no[GKD/06/03/19-000178]
@@ -2657,15 +2575,11 @@ Public Class frmEmployee_Master
                     Dim strBBName As String = ""
                     Dim strCode As String = ""
                     Dim strEmpBandCode As String = ""
-
                     strCode = clsCommon.myCstr(grow.Cells("Emp ID").Value)
                     If strCode.Length > 12 Then
                         Throw New Exception(" Length of Employee id can not be greater than 30")
                     End If
                     obj.EMP_CODE = strCode
-
-
-
                     strName = clsCommon.myCstr(grow.Cells("Employee Name").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of Employee Name can not be greater than 50 ")
@@ -2673,19 +2587,16 @@ Public Class frmEmployee_Master
                         Throw New Exception("Employee Name can not be blank ")
                     End If
                     obj.Emp_Name = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Fathers Name").Value)
                     If strName.Length > 100 Then
                         Throw New Exception("Length of Father Name can not be greater than 100")
                     End If
                     obj.FATHERS_NAME = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Mothers Name").Value)
                     If strName.Length > 100 Then
                         Throw New Exception("Length of Mother Name can not be greater than 100")
                     End If
                     obj.MOTHERS_NAME = strName
-
                     Dim Date_date As Date = Nothing
                     'Date_date = clsCommon.myCDate(grow.Cells("Date of Birth").Value)
                     'If clsCommon.myLen(grow.Cells("Date of Birth")) > 0 Then
@@ -2703,7 +2614,6 @@ Public Class frmEmployee_Master
                         Throw New Exception("Format of Date of Birth is incorrect")
                     End If
                     obj.Birth_date = clsCommon.GetPrintDate(strName, "dd/MM/yyyy")
-
                     strName = clsCommon.myCstr(grow.Cells("Sex").Value)
                     If strName.Length > 10 Then
                         Throw New Exception("Length of Sex can not be greater than 10")
@@ -2711,7 +2621,6 @@ Public Class frmEmployee_Master
                         Throw New Exception("Sex can not be blank ")
                     End If
                     obj.SEX = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Marital Status").Value)
                     If strName.Length > 15 Then
                         Throw New Exception("Length of Marital Status can not be greater than 15")
@@ -2719,14 +2628,11 @@ Public Class frmEmployee_Master
                         Throw New Exception("Marital Status can not be blank ")
                     End If
                     obj.MARITAL_STATUS = strName
-
-
                     strName = clsCommon.myCstr(grow.Cells("Spouse Name").Value)
                     If strName.Length > 100 Then
                         Throw New Exception("Length of Spouse Name can not be greater than 100")
                     End If
                     obj.SPOUSE_NAME = strName
-
                     strCode = clsCommon.myCstr(grow.Cells("Designation").Value)
                     If strCode.Length > 50 Then
                         Throw New Exception("length of Designation can not be greater than 50")
@@ -2739,7 +2645,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.Designation = strCode
-
                     strCode = clsCommon.myCstr(grow.Cells("Occupation").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Occupation can not be greater than 30")
@@ -2752,8 +2657,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.OCCUPATION_CODE = strCode
-
-
                     strCode = clsCommon.myCstr(grow.Cells("Department").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Department can not be greater than 30")
@@ -2766,23 +2669,18 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.DEPARTMENT_CODE = strCode
-
-
                     strCode = clsCommon.myCstr(grow.Cells("Sub Department").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Sub Department can not be greater than 30")
                     Else
                         If strCode.Length > 0 Then
-
                             strName = clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_SUB_DEPARTMENT_MASTER Where TSPL_SUB_DEPARTMENT_MASTER.SUB_DEPARTMENT_CODE   ='" & strCode & "'", trans)
                             If strName <= 0 Then
                                 Throw New Exception("Sub Department (" & strCode & ") does not exist in Sub Department Master . Please make it entry first.")
                             End If
                         End If
                     End If
-
                     obj.SUB_DEPARTMENT_CODE = strCode
-
                     strCode = clsCommon.myCstr(grow.Cells("Grade").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Grade can not be greater than 30")
@@ -2795,8 +2693,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.GRADE_CODE = strCode
-
-
                     strCode = clsCommon.myCstr(grow.Cells("Location").Value)
                     If strCode.Length > 12 Then
                         Throw New Exception("length of Location can not be greater than 12")
@@ -2809,7 +2705,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.LOCATION_CODE = strCode
-
                     strCode = clsCommon.myCstr(grow.Cells("Working Location").Value)
                     If strCode.Length > 50 Then
                         Throw New Exception("length of Working Location can not be greater than 50")
@@ -2822,8 +2717,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.Working_City_Code = strCode
-
-
                     strCode = clsCommon.myCstr(grow.Cells("Division").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Division can not be greater than 30")
@@ -2835,10 +2728,7 @@ Public Class frmEmployee_Master
                             End If
                         End If
                     End If
-
                     obj.DEVISION_CODE = strCode
-
-
                     strCode = clsCommon.myCstr(grow.Cells("Bank Account No").Value)
                     If strCode.Length > 0 Then
                         If (Not IsNumeric(clsCommon.myCstr(grow.Cells("Bank Account No").Value))) Then
@@ -2848,9 +2738,7 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.BANK_ACC_NO = strCode
-
                     'strCode = clsCommon.myCstr(grow.Cells("B Name").Value)
-
                     'If strCode.Length > 30 Then
                     '    Throw New Exception("length of B Name can not be greater than 30")
                     'Else
@@ -2861,10 +2749,7 @@ Public Class frmEmployee_Master
                     '        End If
                     '    End If
                     'End If
-
                     'obj.BANK_CODE = strCode
-
-
                     strName = clsCommon.myCstr(grow.Cells("Bank Branch IFC").Value)
                     'If (Not IsNumeric(clsCommon.myCstr(grow.Cells("Bank Branch IFC").Value))) Then
                     '    Throw New Exception("Please enter Numeric only in Bank Branch IFC")
@@ -2874,7 +2759,6 @@ Public Class frmEmployee_Master
                     Else
                         obj.Bank_Branch = ""
                     End If
-
                     strBBDesp = clsCommon.myCstr(grow.Cells("Bank Branch Description").Value)
                     If strBBDesp.Length > 0 Then
                         obj.Bank_Branch_Name = strBBDesp
@@ -2892,7 +2776,6 @@ Public Class frmEmployee_Master
                     Else
                         obj.Bank_Name = ""
                     End If
-
                     strCode = clsCommon.myCstr(grow.Cells("Attendance").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Attendance can not be greater than 30")
@@ -2905,8 +2788,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.ATTENDANCE_CODE = strCode
-
-
                     Dim add As String = ""
                     strName = clsCommon.myCstr(grow.Cells("Res No").Value)
                     If clsCommon.myCstr(strName).Length > 0 Then
@@ -2916,7 +2797,6 @@ Public Class frmEmployee_Master
                     If clsCommon.myCstr(strName).Length > 0 Then
                         add += strName
                     End If
-
                     strCode = clsCommon.myCstr(grow.Cells("Payment Mode").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Payment Mode can not be greater than 30")
@@ -2929,16 +2809,11 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.PAYMENT_MODE = strCode
-
-
-
                     strName = clsCommon.myCstr(grow.Cells("Current Address").Value)
                     If strName.Length > 250 Then
                         Throw New Exception("Length of Current Address can not be greater than 250")
                     End If
                     obj.Add1 = strName
-
-
                     strCode = clsCommon.myCstr(grow.Cells("Current Country Code").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Current Country can not be greater than 30")
@@ -2951,7 +2826,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.PRESENT_COUNTRY_CODE = strCode
-
                     strCode = clsCommon.myCstr(grow.Cells("Current State").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Current State can not be greater than 30")
@@ -2964,7 +2838,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.PRESENT_STATE_CODE = strCode
-
                     strCode = clsCommon.myCstr(grow.Cells("Current City").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Current City can not be greater than 30")
@@ -2977,50 +2850,41 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.PRESENT_CITY_CODE = strCode
-
                     strName = clsCommon.myCstr(grow.Cells("Current Phone No").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of Current Phone No. can not be greater than 50")
                     End If
                     obj.Phone = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Current Mobile No").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of Current Mobile No can not be greater than 14 ")
                     End If
                     obj.PRESENT_MOBILE_NO = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Current Postal Code").Value)
                     If strName.Length > 6 Then
                         Throw New Exception("Length of Current Postal Code can not be greater than 6")
                     End If
                     obj.Pin_Code = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Current Tehsil").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Current Tehsil can not be greater than 200")
                     End If
                     obj.ADD2_TEHSIL = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Current Village").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Current Village can not be greater than 200")
                     End If
                     obj.ADD2_VILLAGE = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Current Post office").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Current Post office can not be greater than 200")
                     End If
                     obj.ADD2_POST_OFFICE = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Current Police Station").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Current police Station can not be greater than 200")
                     End If
                     obj.ADD2_POLICE_STATION = strName
-
-
                     strName = clsCommon.myCstr(grow.Cells("Current Type").Value)
                     If strName.Length > 30 Then
                         Throw New Exception("Length of Current Type can not be greater than 30")
@@ -3031,8 +2895,6 @@ Public Class frmEmployee_Master
                         Throw New Exception("Current Type should be amoung 'Owned','Rented' ")
                     End If
                     obj.ADD2_TYPE = strName
-
-
                     strName = clsCommon.myCstr(grow.Cells("Current Address Verified").Value)
                     If strName.Length <= 0 Then
                         obj.ADD2_VERIFIED = ""
@@ -3040,20 +2902,16 @@ Public Class frmEmployee_Master
                         Throw New Exception("Please enter only Y or N in Current Address Verified")
                     End If
                     obj.ADD2_VERIFIED = IIf(clsCommon.CompairString(strName, "Y") = CompairStringResult.Equal, 1, 0)
-
-
                     strName = clsCommon.myCstr(grow.Cells("Current Verification Remarks").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Current Verification remarks can not be greater than 200")
                     End If
                     obj.ADD2_VERIFIED_REMARKS = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Address").Value)
                     If strName.Length > 250 Then
                         Throw New Exception("Length of Permanent Address can not be greater than 250")
                     End If
                     obj.Add2 = strName
-
                     strCode = clsCommon.myCstr(grow.Cells("Permanent Country").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Permanent Country can not be greater than 30")
@@ -3066,7 +2924,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.PERMA_COUNTRY_CODE = strCode
-
                     strCode = clsCommon.myCstr(grow.Cells("Permanent State").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Permanent State can not be greater than 30")
@@ -3079,7 +2936,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.PERMA_STATE_CODE = strCode
-
                     strCode = clsCommon.myCstr(grow.Cells("Permanent City").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("length of Permanent City can not be greater than 30")
@@ -3092,51 +2948,42 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.PERMA_CITY_CODE = strCode
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Phone No").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of Permanent Phone No. can not be greater than 50")
                     End If
                     obj.PERMA_PHONE_NO = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Mobile No").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of Permanent Mobile No can not be greater than 14 ")
                     End If
                     obj.PERMA_MOBILE_NO = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Postal").Value)
                     If strName.Length > 6 Then
                         Throw New Exception("Length of Permanent Postal Code can not be greater than 6")
                     End If
                     obj.PERMA_PIN_CODE = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Tehsil").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Permanent Tehsil can not be greater than 200")
                     End If
                     obj.ADD1_TEHSIL = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Village").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Permanent Village can not be greater than 200")
                     End If
                     obj.ADD1_VILLAGE = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Post Office").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Permanent Post office can not be greater than 200")
                     End If
                     obj.ADD1_POST_OFFICE = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Police Station").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Permanent police Station can not be greater than 200")
                     End If
                     obj.ADD1_POLICE_STATION = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Type").Value)
-
                     If strName.Length > 30 Then
                         Throw New Exception("Length of Permanent Type can not be greater than 30")
                     End If
@@ -3146,7 +2993,6 @@ Public Class frmEmployee_Master
                         Throw New Exception("Current Type should be amoung 'Owned','Rented' ")
                     End If
                     obj.ADD1_TYPE = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Address Verified").Value)
                     If strName.Length <= 0 Then
                         obj.ADD1_VERIFIED_REMARKS = ""
@@ -3154,22 +3000,16 @@ Public Class frmEmployee_Master
                         Throw New Exception("Please enter only Y or N in Permanent Address Verified")
                     End If
                     obj.ADD1_VERIFIED = IIf(clsCommon.CompairString(strName, "Y") = CompairStringResult.Equal, 1, 0)
-
-
                     strName = clsCommon.myCstr(grow.Cells("Permanent Verification remarks").Value)
                     If strName.Length > 200 Then
                         Throw New Exception("Length of Permanent Verification remarks can not be greater than 200")
                     End If
-
                     obj.ADD1_VERIFIED_REMARKS = strName
-
-
                     strName = clsCommon.myCstr(grow.Cells("E - Mail ID").Value)
                     If strName.Length > 100 Then
                         Throw New Exception("Length of E-Mail ID can not be greater than 100 ")
                     End If
                     obj.EMail_ID = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Date of Joining").Value)
                     If clsCommon.myLen(strName) <= 0 Then
                         Throw New Exception("Date of Joining can not be blank ")
@@ -3181,21 +3021,17 @@ Public Class frmEmployee_Master
                     '    Throw New Exception("Date of Joining can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                     'End If
                     obj.Joining_date = clsCommon.GetPrintDate(Date_date, "dd/MM/yyyy")
-
-
                     If IsDBNull(grow.Cells("Salary calculate frm").Value) Then
                         Date_date = clsCommon.myCDate(grow.Cells("Date of Joining").Value)
                     Else
                         If clsCommon.myLen(grow.Cells("Salary calculate frm").Value) > 0 Then
                             Date_date = clsCommon.myCDate(grow.Cells("Salary calculate frm").Value)
                         End If
-
                     End If
                     'If Date_date.Year < 1900 Or (String.IsNullOrEmpty(Date_date)) Then
                     '    Throw New Exception("Salary calculate frm can not be blank or incorrect ")
                     'End If
                     obj.CONFIRMATION_DATE = clsCommon.GetPrintDate(Date_date, "dd/MM/yyyy")
-
                     'If clsCommon.myCstr(grow.Cells("Date of leaving").Value).Length > 0 Then
                     '    Date_date = clsCommon.myCDate(grow.Cells("Date of leaving").Value)
                     '    'If Date_date.Year < 1900 Then
@@ -3203,8 +3039,6 @@ Public Class frmEmployee_Master
                     '    'End If
                     '    obj.rel_date = clsCommon.GetPrintDate(Date_date, "dd/MM/yyyy")
                     'End If
-
-
                     strName = clsCommon.myCstr(grow.Cells("Date of leaving").Value)
                     If clsCommon.myLen(strName) > 0 Then
                         If IsDate(clsCommon.myCstr(grow.Cells("Date of leaving").Value)) = False Then
@@ -3219,99 +3053,82 @@ Public Class frmEmployee_Master
                         End If
                         'obj.RELIEVING_DATE = Nothing
                     End If
-
-
                     strName = clsCommon.myCstr(grow.Cells("Reason for leaving").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of Reason for leaving can not be greater then 50")
                     End If
                     obj.LEAVING_REASON = strName
-
                     strName = clsCommon.myCstr(grow.Cells("ESI Applicable").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.ISESI = True
                     Else
                         obj.ISESI = False
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("ESI No").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of ESI No can not be greater then 50 ")
                     End If
                     obj.ESI_NO = strName
-
                     strName = clsCommon.myCstr(grow.Cells("ESI Dispensary").Value)
                     If strName.Length > 100 Then
                         Throw New Exception("Length of ESI Dispensary can not be greater then 100")
                     End If
                     obj.ESI_DISPENSARY = strName
-
                     strName = clsCommon.myCstr(grow.Cells("PF Applicable").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.ISPF = True
                     Else
                         obj.ISPF = False
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("PF No").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of PF No can not greater then 50")
                     End If
                     obj.PF_NO = strName
-
                     strName = clsCommon.myCstr(grow.Cells("PF No for Dept File").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of PF No for Dept File can not greater then 50")
                     End If
                     obj.PF_NO_DEPT_FILE = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Restrict PF").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.ISRESTRICT_PF = True
                     Else
                         obj.ISRESTRICT_PF = False
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("Zero Pension").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.ISZERO_PENSION = True
                     Else
                         obj.ISZERO_PENSION = False
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("Zero PT").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.ISZERO_PT = True
                     Else
                         obj.ISZERO_PT = False
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("PAN").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("PAN No can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                     End If
                     obj.PAN_NO = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Ward/Circle").Value)
                     If strName.Length > 50 Then
                         Throw New Exception("Length of Ward/Circle can not greater then 50")
                     End If
                     obj.WARD_CIRCLE = strName
-
                     strName = clsCommon.myCstr(grow.Cells("Director").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.ISDIRECTOR = True
                     Else
                         obj.ISDIRECTOR = False
                     End If
-
                     '' panch raj 14-oct-2014 
                     Dim Salary_Acc As String = ""
                     Dim Adv_To As String = ""
-
                     Dim Salary_Acc_Code As String
                     Dim Account_To_Staff As String
-
                     Salary_Acc = clsCommon.myCstr(grow.Cells("Salary Account").Value)
                     If Salary_Acc.Length > 30 Then
                         'obj.SALARY_ACCOUNT_CODE = strName
@@ -3325,7 +3142,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.SALARY_ACCOUNT_CODE = Salary_Acc
-
                     Adv_To = clsCommon.myCstr(grow.Cells("Advance To Staff").Value)
                     If Adv_To.Length > 50 Then
                         Throw New Exception("Advance To Staff length can not be greater than 50")
@@ -3339,7 +3155,6 @@ Public Class frmEmployee_Master
                     End If
                     obj.ADVANCE_TO_STAFF = Adv_To
                     '' for kdil and viney
-
                     strName = clsCommon.myCstr(grow.Cells("Conveyance Type").Value)
                     If clsCommon.CompairString(strName, "TW") = CompairStringResult.Equal Then
                         obj.CONV_TYPE = strName
@@ -3350,7 +3165,6 @@ Public Class frmEmployee_Master
                     Else
                         obj.CONV_TYPE = "None"
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("Employment Nature").Value)
                     If clsCommon.CompairString(strName, "Permanent") = CompairStringResult.Equal Then
                         obj.CONV_TYPE = strName
@@ -3361,20 +3175,17 @@ Public Class frmEmployee_Master
                     Else
                         obj.CONV_TYPE = "Other"
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("Is OT Applicable").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.IS_OT_APPL = True
                     Else
                         obj.IS_OT_APPL = False
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("Aadhar No").Value)
                     If strName.Length > 12 Then
                         Throw New Exception("Length of Aadhar No can not be greater than 12")
                     End If
                     obj.Adhar_No = strName
-
                     '=================
                     Dim Limit As Double = clsCommon.myCdbl(grow.Cells("Max Amount EPF").Value)
                     Dim EPF As Double = clsCommon.myCdbl(grow.Cells("EPF Rate").Value)
@@ -3400,35 +3211,21 @@ Public Class frmEmployee_Master
                         obj.EPF_Rate = 0
                         obj.Max_Amount_EPF = 0
                     End If
-
                     '==========
-
-
-
-
-
-
-
-
-
-
                     strName = clsCommon.myCstr(grow.Cells("Is OD Applicable").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.IS_OD_APPL = True
                     Else
                         obj.IS_OD_APPL = False
                     End If
-
                     strName = clsCommon.myCstr(grow.Cells("Show in Statutory").Value)
                     If strName.Length > 0 AndAlso clsCommon.CompairString(strName, "Yes") = CompairStringResult.Equal Then
                         obj.DISPLAY_IN_STATUTORY = True
                     Else
                         obj.DISPLAY_IN_STATUTORY = False
                     End If
-
                     strName = clsCommon.myCdbl(grow.Cells("Minimum Basic Salary").Value)
                     obj.MINIMUM_BASIC_SALARY = strName
-
                     strCode = clsCommon.myCstr(grow.Cells("Vendor Code").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("Vendor Code length can not be greater than 30")
@@ -3441,7 +3238,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.VENDOR_CODE = strCode
-
                     strCode = clsCommon.myCstr(grow.Cells("Agency Code").Value)
                     If strCode.Length > 30 Then
                         Throw New Exception("Agency Code length can not be greater than 30")
@@ -3454,7 +3250,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.AGENCY_CODE = strCode
-
                     '' user code
                     strCode = clsCommon.myCstr(grow.Cells("User Code").Value)
                     If strCode.Length > 30 Then
@@ -3468,11 +3263,9 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.USER_CODE = strCode
-
                     Dim AgeFPen As Double = clsCommon.myCdbl(grow.Cells("Age For Pension").Value)
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Age For Pension").Value)) > 0 Then
                         If clsCommon.myLen(AgeFPen) > 0 Then
-
                             If clsCommon.myCdbl(AgeFPen) < 0 Then
                                 Throw New Exception("Age for pension should be numeric")
                             End If
@@ -3481,9 +3274,7 @@ Public Class frmEmployee_Master
                             End If
                         End If
                     End If
-
                     obj.AgeForPension = AgeFPen
-
                     strEmpBandCode = clsCommon.myCstr(grow.Cells("Employee Band Code").Value)
                     If clsCommon.CompairString(clsCommon.myCstr(strEmpBandCode), "") <> CompairStringResult.Equal Then
                         Dim dt As DataTable
@@ -3493,7 +3284,6 @@ Public Class frmEmployee_Master
                         End If
                     End If
                     obj.EMP_Band_Code = strEmpBandCode
-
                     Dim BiometricEmpCode = clsCommon.myCstr(grow.Cells("BioMetric Employee Code").Value)
                     obj.BioMetricEmpID = BiometricEmpCode
                     '==========================
@@ -3503,25 +3293,21 @@ Public Class frmEmployee_Master
                         Throw New Exception("[Employee Status] should be Active or Inactive.")
                     End If
                     obj.Emp_Status = strName '"Active"
-
                     'sanjay Ticket No  BHA/14/03/19-000846 
                     obj.Card_No = clsCommon.myCstr(grow.Cells("Card_No").Value)
                     obj.UIN_NO = clsCommon.myCstr(grow.Cells("UIN_NO").Value)
                     'sanjay
                     obj.SecChequeNoLac1 = clsCommon.myCstr(grow.Cells("SecChequeNoLac1").Value)
                     obj.SecChequeNoRs100 = clsCommon.myCstr(grow.Cells("SecChequeNoRs100").Value)
-
                     If clsCommon.myLen(grow.Cells("UANNo").Value) > 0 AndAlso clsCommon.myLen(grow.Cells("UANNo").Value) < 12 Then
                         Throw New Exception("Length of UAN No. Should be 12")
                     End If
-
                     obj.UANNo = clsCommon.myCstr(grow.Cells("UANNo").Value)
                     '' end kdil and viney
                     lstemp.Add(obj)
                     grow = Nothing
                     obj = Nothing
                 Next
-
                 If lstemp IsNot Nothing AndAlso lstemp.Count > 0 Then
                     trans = clsDBFuncationality.GetTransactin()
                     For Each items As clsEmployeeMaster In lstemp
@@ -3541,10 +3327,7 @@ Public Class frmEmployee_Master
                 clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line No : " & i, Me.Text)
             End Try
         End If
-
-
     End Sub
-
     Private Sub MenuItemExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemExport.Click
         Dim str As String = "select EMP_CODE as 'Emp ID',[Emp_Name] as 'Employee Name',[FATHERS_NAME] as 'Fathers Name',[MOTHERS_NAME] as 'Mothers Name', " &
 "convert(varchar(12),Birth_date,103) as 'Date of Birth',[SEX] as 'Sex',[MARITAL_STATUS] as 'Marital Status',[SPOUSE_NAME] as 'Spouse Name', " &
@@ -3571,26 +3354,21 @@ Public Class frmEmployee_Master
  " left join TSPL_CITY_MASTER as Present_City on Present_City.City_Code =TSPL_EMPLOYEE_MASTER.PRESENT_CITY_CODE "
         transportSql.ExporttoExcel(str, Me)
     End Sub
-
     Private Sub MenuItemClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemClose.Click
         Dim frm As New FrmMailSMSSettingNew2()
         frm.FormId = clsUserMgtCode.frmEmployee_Master
         frm.ShowDialog()
     End Sub
-
     Private Sub txtFranchiseCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtFranchiseCode._MYValidating
-
         'Dim qry As String = "select Vendor_CODE as Code, Vendor_NAME as Name, add1 + ',' + add2 + ',' + add3 as Address  from TSPL_Vendor_MASTER "
         'txtFranchiseCode.Value = clsCommon.ShowSelectForm("FRNCHICE", qry, "Code", "franchise_yn='Y'", txtFranchiseCode.Value, "Vendor_CODE", isButtonClicked)
         txtFranchiseCode.Value = clsVendorMaster.getFinder("franchise_yn='Y'", txtFranchiseCode.Value, isButtonClicked)
         lblFranchiseName.Text = "Franchise Name : " & clsDBFuncationality.getSingleValue("select vendor_name from tspl_vendor_master where vendor_code='" & txtFranchiseCode.Value & "'")
     End Sub
-
     Private Sub txtSalaryAccount__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtSalaryAccount._MYValidating
         Dim qry As String = " Select ACCOUNT_SET_CODE AS Code ,DESCRIPTION  From TSPL_PAYROLL_ACCOUNTSETS "
         txtSalaryAccount.Value = clsCommon.ShowSelectForm("fmSalAcc", qry, "Code", "", txtSalaryAccount.Value, "Code", isButtonClicked)
     End Sub
-
     Private Sub txtAdvToStaff__MYOpenMasterForm(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtAdvToStaff._MYValidating
         OpenGLAccount(isButtonClicked)
     End Sub
@@ -3600,33 +3378,25 @@ Public Class frmEmployee_Master
             Dim whrcls As String
             Dim arr As New ArrayList()
             '  Dim isEarningCond As String
-
             arr = clsERPFuncationality.glaccountquery(objCommonVar.CurrentUserCode)
             qry = arr.Item(0)
             whrcls = arr.Item(1)
-
             txtAdvToStaff.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("GLACJournalEntry", qry, "Account_Code", whrcls, clsCommon.myCstr(txtAdvToStaff.Value), "Account_Code", isButtonClick))
             'txtSalaryPayableAccountDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(fndSalaryPayableAccount.Value) + "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub fndVendor__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndVendor._MYValidating
         Me.fndVendor.Value = clsVendorMaster.getFinder("", Me.fndVendor.Value, isButtonClicked)
     End Sub
-
     Private Sub fndAgent__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndAgent._MYValidating
-
         Dim qry As String = "select Code,Name from Tspl_HR_Agency_Master  "
         Me.fndAgent.Value = clsCommon.ShowSelectForm("Agency_M", qry, "Code", "", fndAgent.Value, "", isButtonClicked)
     End Sub
-
     Private Sub txtUser__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndUser._MYValidating
         Me.fndUser.Value = clsUserMaster.getFinder("", Me.fndUser.Value, isButtonClicked)
     End Sub
-
-
 #Region "Employee Assets"
     Private Sub gvAssets_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvAssets.CellValueChanged
         If Not isInsideLoadData Then
@@ -3641,14 +3411,12 @@ Public Class frmEmployee_Master
                 End If
             End If
         End If
-
     End Sub
     Sub LoadEmpAssetsGridColumns()
         'gvAssets.DataSource = Nothing
         gvAssets.Rows.Clear()
         gvAssets.Columns.Clear()
         gvAssets.ReadOnly = False
-
         Dim DoclineNo As New GridViewTextBoxColumn()
         DoclineNo.FormatString = ""
         DoclineNo.HeaderText = "Line No"
@@ -3656,7 +3424,6 @@ Public Class frmEmployee_Master
         DoclineNo.Width = 30
         DoclineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvAssets.Columns.Add(DoclineNo)
-
         Dim DocCode As New GridViewTextBoxColumn()
         DocCode.FormatString = ""
         DocCode.HeaderText = "Asset Code"
@@ -3664,7 +3431,6 @@ Public Class frmEmployee_Master
         DocCode.Width = 100
         DocCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvAssets.Columns.Add(DocCode)
-
         Dim DocFileName As New GridViewTextBoxColumn()
         DocFileName.FormatString = ""
         DocFileName.HeaderText = "Asset Name"
@@ -3673,7 +3439,6 @@ Public Class frmEmployee_Master
         DocFileName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         DocFileName.ReadOnly = True
         gvAssets.Columns.Add(DocFileName)
-
         Dim DocSubmitDate As New GridViewDateTimeColumn()
         DocSubmitDate.CustomFormat = "dd/MM/yyyy"
         DocSubmitDate.FormatString = "{0:d}"
@@ -3682,7 +3447,6 @@ Public Class frmEmployee_Master
         DocSubmitDate.Width = 80
         DocSubmitDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvAssets.Columns.Add(DocSubmitDate)
-
         Dim DocDescription As New GridViewTextBoxColumn()
         DocDescription.FormatString = ""
         DocDescription.HeaderText = "Remark"
@@ -3690,13 +3454,11 @@ Public Class frmEmployee_Master
         DocDescription.Width = 100
         DocDescription.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvAssets.Columns.Add(DocDescription)
-
         Dim AssetReturned As New GridViewComboBoxColumn
         Dim arr As New ArrayList
         arr.Add("Y")
         arr.Add("N")
         AssetReturned.DataSource = arr
-
         AssetReturned.FormatString = ""
         AssetReturned.HeaderText = "Returned"
         AssetReturned.Name = colRETURNED
@@ -3704,17 +3466,13 @@ Public Class frmEmployee_Master
         AssetReturned.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         AssetReturned.IsVisible = True
         gvAssets.Columns.Add(AssetReturned)
-
-
         'gvAssets.Rows.AddNew()
     End Sub
-
     Public Sub LoadAssetGridData()
         LoadEmpAssetsGridColumns()
         If clsCommon.myLen(txtCode.Value) > 0 Then
             ObjListEmpAssetDetails = clsEmpAssets.GetDataForGrid(txtCode.Value, Nothing)
             If ObjListEmpAssetDetails IsNot Nothing AndAlso ObjListEmpAssetDetails.Count > 0 Then
-
                 For Each objDocTr As clsEmpAssets In ObjListEmpAssetDetails
                     gvAssets.Rows.AddNew()
                     gvAssets.Rows(gvAssets.Rows.Count - 1).Cells(colLINE_NO).Value = objDocTr.LINE_NO
@@ -3728,9 +3486,6 @@ Public Class frmEmployee_Master
         End If
         'gvEmpDoc_SelectionChanged(Nothing, Nothing)
     End Sub
-
-
-
     Private Sub gvAssets_CurrentColumnChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gvAssets.CurrentColumnChanged
         If gvEmpDoc.RowCount > 0 Then
             Dim intCurrRow As Integer = gvAssets.CurrentRow.Index
@@ -3738,12 +3493,9 @@ Public Class frmEmployee_Master
             If intCurrRow = gvAssets.Rows.Count - 1 Then
                 gvAssets.Rows.AddNew()
                 gvAssets.CurrentRow = gvAssets.Rows(intCurrRow)
-
             End If
         End If
     End Sub
-
-
 #End Region
     '==========Shivani Tyagi
     Private Sub txtSubDepartment__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtSubDepartment._MYValidating
@@ -3754,21 +3506,14 @@ Public Class frmEmployee_Master
                 Exit Sub
             End If
             Dim whrcls As String = "DEPARTMENT_CODE='" & clsCommon.myCstr(txtDepartment.Value) & "'"
-
             txtSubDepartment.Value = clsSubDepartmentMaster.getFinder(whrcls, txtSubDepartment.Value, isButtonClicked)
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub fndLocation2__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtWorkingLocation._MYValidating, txtWorkingLocation._MYValidating
-
         txtWorkingLocation.Value = clsLocation.getFinder("Location_Type='Physical'", Me.txtBranch.Value, isButtonClicked)
-
-
     End Sub
-
     Private Sub CboEmployeeType_SelectedIndexChanged_1(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles CboEmployeeType.SelectedIndexChanged
         If CboEmployeeType.Text.Trim = "Service Dealer" Then
             grpFranchise.Visible = True
@@ -3776,7 +3521,6 @@ Public Class frmEmployee_Master
             grpFranchise.Visible = False
         End If
     End Sub
-
     Private Sub fndPaymentMode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPaymentMode._MYValidating
         Dim qry As String = "select CODE as Code, NAME as Name  from TSPL_Payment_MODE"
         fndPaymentMode.Value = clsCommon.ShowSelectForm("PaymentMode", qry, "Code", "", fndPaymentMode.Value, "CODE", isButtonClicked)
@@ -3787,22 +3531,18 @@ Public Class frmEmployee_Master
             Dim dt As DataTable = New DataTable
             dt.Columns.Add("Code")
             dt.Columns.Add("Name")
-
             Dim dr As DataRow = dt.NewRow
             dr("Code") = "PR"
             dr("Name") = "PF Rule"
             dt.Rows.Add(dr)
-
             dr = dt.NewRow
             dr("Code") = "FA"
             dr("Name") = "Formula Amount"
             dt.Rows.Add(dr)
-
             dr = dt.NewRow
             dr("Code") = "C"
             dr("Name") = "Custom"
             dt.Rows.Add(dr)
-
             dr = dt.NewRow
             dr("Code") = "N"
             dr("Name") = "None"
@@ -3821,22 +3561,18 @@ Public Class frmEmployee_Master
             Dim dt As DataTable = New DataTable
             dt.Columns.Add("Code")
             dt.Columns.Add("Name")
-
             Dim dr As DataRow = dt.NewRow
             dr("Code") = "NR"
             dr("Name") = "Normal"
             dt.Rows.Add(dr)
-
             dr = dt.NewRow
             dr("Code") = "HG"
             dr("Name") = "Higher"
             dt.Rows.Add(dr)
-
             dr = dt.NewRow
             dr("Code") = "IN-E"
             dr("Name") = "In-Eligible"
             dt.Rows.Add(dr)
-
             cboPFType.DataSource = dt
             cboPFType.ValueMember = "Code"
             cboPFType.DisplayMember = "Name"
@@ -3851,8 +3587,13 @@ Public Class frmEmployee_Master
             txtPFNo.Enabled = True
             cboPFType.Visible = True
             MyLabel49.Visible = True
+            cboPFType.SelectedIndex = 0
+            GroupBox3.Visible = True
+            If clsCommon.CompairString(clsCommon.myCstr(cboPFCalculatnType.SelectedValue), "PR") = CompairStringResult.Equal Then
+                LoadEPF()
+            End If
         Else
-            cboPFCalculatnType.Visible = False
+                cboPFCalculatnType.Visible = False
             txtPFNo.Enabled = False
             txtEPFRate.Enabled = False
             txtEPFMaxLimit.Enabled = False
@@ -3861,13 +3602,56 @@ Public Class frmEmployee_Master
             cboPFType.Visible = False
             MyLabel49.Visible = False
             cboPFType.SelectedIndex = -1
+            GroupBox3.Visible = False
+            txtCOEPF_PER.Text = "0.00"
+            txtCOEPS_PER.Text = "0.00"
+            txtEPS_MAX.Text = "0.00"
+            txtEMPEPF_PER.Text = "0.00"
+            txtEMPEPF_MAX.Text = "0.00"
+            txtACCOEPF_PER.Text = "0.00"
+            txtCOEDLI_PER.Text = "0.00"
+            txtACCOEPF_MAX.Text = "0.00"
+            txtCOEDLI_MAX.Text = "0.00"
+            txtACCOEDLI_PER.Text = "0.00"
+            txtACCOEDLI_MAX.Text = "0.00"
+            txtACCOEDLI_MIN.Text = "0.00"
+            txtOC.Text = "0.00"
+            txtOC_MAX.Text = "0.00"
         End If
     End Sub
-
+    Public Sub LoadEPF()
+        Try
+            Dim dt As DataTable = Nothing
+            Dim Qry As String = "select COEPF_PER,COEPF_ROUNDOFF_YPE,COEPS_PER,EPS_MAX,EMPEPF_PER,EMPEPF_MAX,EMPEPF_ROUNDOFF_YPE,ACCOEPF_PER,ACCOEPF_MAX,COEDLI_PER,COEDLI_MAX,ACCOEDLI_PER,ACCOEDLI_MAX,ACCOEDLI_MIN,OC,OC_MAX,OTH_ROUNDOFF_YPE from TSPL_PF_RULE_MASTER "
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                txtCOEPF_PER.Text = (dt.Rows(0)("COEPF_PER"))
+                cboCoEPFRound.SelectedValue = (dt.Rows(0)("COEPF_ROUNDOFF_YPE"))
+                txtCOEPS_PER.Text = (dt.Rows(0)("COEPS_PER"))
+                txtEPS_MAX.Text = (dt.Rows(0)("EPS_MAX"))
+                txtEMPEPF_PER.Text = (dt.Rows(0)("EMPEPF_PER"))
+                txtEMPEPF_MAX.Text = (dt.Rows(0)("EMPEPF_MAX"))
+                CboEmpRound.SelectedValue = (dt.Rows(0)("EMPEPF_ROUNDOFF_YPE"))
+                txtACCOEPF_PER.Text = (dt.Rows(0)("ACCOEPF_PER"))
+                txtCOEDLI_PER.Text = (dt.Rows(0)("ACCOEPF_MAX"))
+                txtACCOEPF_MAX.Text = (dt.Rows(0)("COEDLI_PER"))
+                txtCOEDLI_MAX.Text = (dt.Rows(0)("COEDLI_MAX"))
+                txtACCOEDLI_PER.Text = (dt.Rows(0)("ACCOEDLI_PER"))
+                txtACCOEDLI_MAX.Text = (dt.Rows(0)("ACCOEDLI_MAX"))
+                txtACCOEDLI_MIN.Text = (dt.Rows(0)("ACCOEDLI_MIN"))
+                txtOC.Text = (dt.Rows(0)("OC"))
+                txtOC_MAX.Text = (dt.Rows(0)("OC_MAX"))
+                CboOCRound.SelectedValue = (dt.Rows(0)("OTH_ROUNDOFF_YPE"))
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub cboPFCalculatnType_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboPFCalculatnType.SelectedValueChanged
         If isInsideLoad Then
             Exit Sub
         End If
+
         If clsCommon.CompairString(clsCommon.myCstr(cboPFCalculatnType.SelectedValue), "C") = CompairStringResult.Equal Then
             txtEPFRate.Enabled = True
             txtEPFRate.ReadOnly = False
@@ -3876,9 +3660,27 @@ Public Class frmEmployee_Master
             cboPFType.Visible = False
             MyLabel49.Visible = False
             cboPFType.SelectedIndex = -1
+            GroupBox3.Visible = False
+            txtCOEPF_PER.Text = "0.00"
+            txtCOEPS_PER.Text = "0.00"
+            txtEPS_MAX.Text = "0.00"
+            txtEMPEPF_PER.Text = "0.00"
+            txtEMPEPF_MAX.Text = "0.00"
+            txtACCOEPF_PER.Text = "0.00"
+            txtCOEDLI_PER.Text = "0.00"
+            txtACCOEPF_MAX.Text = "0.00"
+            txtCOEDLI_MAX.Text = "0.00"
+            txtACCOEDLI_PER.Text = "0.00"
+            txtACCOEDLI_MAX.Text = "0.00"
+            txtACCOEDLI_MIN.Text = "0.00"
+            txtOC.Text = "0.00"
+            txtOC_MAX.Text = "0.00"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboPFCalculatnType.SelectedValue), "PR") = CompairStringResult.Equal Then
             cboPFType.Visible = True
             MyLabel49.Visible = True
+            cboPFType.SelectedIndex = 0
+            GroupBox3.Visible = True
+            LoadEPF()
         Else
             txtEPFRate.Enabled = False
             txtEPFMaxLimit.Enabled = False
@@ -3887,12 +3689,23 @@ Public Class frmEmployee_Master
             cboPFType.Visible = False
             MyLabel49.Visible = False
             cboPFType.SelectedIndex = -1
+            GroupBox3.Visible = False
+            txtCOEPF_PER.Text = "0.00"
+            txtCOEPS_PER.Text = "0.00"
+            txtEPS_MAX.Text = "0.00"
+            txtEMPEPF_PER.Text = "0.00"
+            txtEMPEPF_MAX.Text = "0.00"
+            txtACCOEPF_PER.Text = "0.00"
+            txtCOEDLI_PER.Text = "0.00"
+            txtACCOEPF_MAX.Text = "0.00"
+            txtCOEDLI_MAX.Text = "0.00"
+            txtACCOEDLI_PER.Text = "0.00"
+            txtACCOEDLI_MAX.Text = "0.00"
+            txtACCOEDLI_MIN.Text = "0.00"
+            txtOC.Text = "0.00"
+            txtOC_MAX.Text = "0.00"
         End If
     End Sub
-
-
-
-
     Dim isCellValueChangedOpen As Boolean = False
     Private Sub gvEmpEx_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvEmpEx.CellValueChanged
         Try
@@ -3911,7 +3724,6 @@ Public Class frmEmployee_Master
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub OpenJoiningDesignation(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gvEmpEx.CurrentRow.Cells(colEmployerName).Value)
         If clsCommon.myLen(strICode) > 0 Then
@@ -3919,7 +3731,6 @@ Public Class frmEmployee_Master
             gvEmpEx.CurrentRow.Cells(colJoinDesi).Value = clsCommon.ShowSelectForm("EMEexJoin", qry, "Code", "", clsCommon.myCstr(gvEmpEx.CurrentRow.Cells(colJoinDesi).Value), "", isButtonClick)
         End If
     End Sub
-
     Sub OpenLivingDesignation(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gvEmpEx.CurrentRow.Cells(colEmployerName).Value)
         If clsCommon.myLen(strICode) > 0 Then
@@ -3927,12 +3738,10 @@ Public Class frmEmployee_Master
             gvEmpEx.CurrentRow.Cells(colLeavDesi).Value = clsCommon.ShowSelectForm("EMEexJoin", qry, "Code", "", clsCommon.myCstr(gvEmpEx.CurrentRow.Cells(colLeavDesi).Value), "", isButtonClick)
         End If
     End Sub
-
     Sub LoadEmpExGridColumns()
         gvEmpEx.DataSource = Nothing
         gvEmpEx.Rows.Clear()
         gvEmpEx.Columns.Clear()
-
         gvEmpEx.ReadOnly = False
         Dim lineNo As New GridViewTextBoxColumn()
         lineNo.FormatString = ""
@@ -3942,7 +3751,6 @@ Public Class frmEmployee_Master
         lineNo.ReadOnly = True
         lineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpEx.Columns.Add(lineNo)
-
         Dim EmployerName As New GridViewTextBoxColumn()
         EmployerName.FormatString = ""
         EmployerName.HeaderText = "Employer Name"
@@ -3951,7 +3759,6 @@ Public Class frmEmployee_Master
         EmployerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         EmployerName.ReadOnly = False
         gvEmpEx.Columns.Add(EmployerName)
-
         Dim EmployerAddress As New GridViewTextBoxColumn()
         EmployerAddress.FormatString = ""
         EmployerAddress.HeaderText = "Employer Address"
@@ -3960,7 +3767,6 @@ Public Class frmEmployee_Master
         EmployerAddress.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         EmployerAddress.ReadOnly = False
         gvEmpEx.Columns.Add(EmployerAddress)
-
         Dim JoiningDate As New GridViewDateTimeColumn()
         JoiningDate.CustomFormat = "dd/MM/yyyy"
         JoiningDate.FormatString = "{0:d}"
@@ -3970,7 +3776,6 @@ Public Class frmEmployee_Master
         JoiningDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         JoiningDate.ReadOnly = False
         gvEmpEx.Columns.Add(JoiningDate)
-
         Dim JoinDesi As New GridViewTextBoxColumn()
         JoinDesi.FormatString = ""
         JoinDesi.HeaderText = "Joining Designation"
@@ -3981,7 +3786,6 @@ Public Class frmEmployee_Master
         JoinDesi.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         JoinDesi.ReadOnly = False
         gvEmpEx.Columns.Add(JoinDesi)
-
         Dim JoinSalary As New GridViewDecimalColumn()
         JoinSalary.FormatString = ""
         JoinSalary.HeaderText = "Joining Salary"
@@ -3991,7 +3795,6 @@ Public Class frmEmployee_Master
         JoinSalary.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         JoinSalary.ReadOnly = False
         gvEmpEx.Columns.Add(JoinSalary)
-
         Dim LeavingDate As New GridViewDateTimeColumn()
         LeavingDate.CustomFormat = "dd/MM/yyyy"
         LeavingDate.FormatString = "{0:d}"
@@ -4001,7 +3804,6 @@ Public Class frmEmployee_Master
         LeavingDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         LeavingDate.ReadOnly = False
         gvEmpEx.Columns.Add(LeavingDate)
-
         Dim LeavingSalary As New GridViewDecimalColumn()
         LeavingSalary.FormatString = ""
         LeavingSalary.HeaderText = "Leaving Salary"
@@ -4010,7 +3812,6 @@ Public Class frmEmployee_Master
         LeavingSalary.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         LeavingSalary.ReadOnly = False
         gvEmpEx.Columns.Add(LeavingSalary)
-
         Dim LeavDesi As New GridViewTextBoxColumn()
         LeavDesi.FormatString = ""
         LeavDesi.HeaderText = "Leaving Designation"
@@ -4021,7 +3822,6 @@ Public Class frmEmployee_Master
         LeavDesi.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         LeavDesi.ReadOnly = False
         gvEmpEx.Columns.Add(LeavDesi)
-
         Dim Achievements As New GridViewTextBoxColumn()
         Achievements.FormatString = ""
         Achievements.HeaderText = "Achievements"
@@ -4030,7 +3830,6 @@ Public Class frmEmployee_Master
         Achievements.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Achievements.ReadOnly = False
         gvEmpEx.Columns.Add(Achievements)
-
         Dim Description As New GridViewTextBoxColumn()
         Description.FormatString = ""
         Description.HeaderText = "Description"
@@ -4039,7 +3838,6 @@ Public Class frmEmployee_Master
         Description.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Description.ReadOnly = False
         gvEmpEx.Columns.Add(Description)
-
         Dim Verification_Done As New GridViewCheckBoxColumn()
         Verification_Done.FormatString = ""
         Verification_Done.HeaderText = "Verification Done"
@@ -4048,7 +3846,6 @@ Public Class frmEmployee_Master
         Verification_Done.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Verification_Done.ReadOnly = False
         gvEmpEx.Columns.Add(Verification_Done)
-
         Dim Reporting_Person_Name As New GridViewTextBoxColumn()
         Reporting_Person_Name.FormatString = ""
         Reporting_Person_Name.HeaderText = "Reporting Person Name"
@@ -4057,7 +3854,6 @@ Public Class frmEmployee_Master
         Reporting_Person_Name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Reporting_Person_Name.ReadOnly = False
         gvEmpEx.Columns.Add(Reporting_Person_Name)
-
         Dim Reporting_Person_Designation As New GridViewTextBoxColumn()
         Reporting_Person_Designation.FormatString = ""
         Reporting_Person_Designation.HeaderText = "Reporting Person Designation"
@@ -4066,7 +3862,6 @@ Public Class frmEmployee_Master
         Reporting_Person_Designation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Reporting_Person_Designation.ReadOnly = False
         gvEmpEx.Columns.Add(Reporting_Person_Designation)
-
         Dim Reporting_Person_Phone As New GridViewTextBoxColumn()
         Reporting_Person_Phone.FormatString = ""
         Reporting_Person_Phone.HeaderText = "Reporting Person Phone"
@@ -4075,7 +3870,6 @@ Public Class frmEmployee_Master
         Reporting_Person_Phone.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Reporting_Person_Phone.ReadOnly = False
         gvEmpEx.Columns.Add(Reporting_Person_Phone)
-
         Dim Reporting_Person_Mobile As New GridViewTextBoxColumn()
         Reporting_Person_Mobile.FormatString = ""
         Reporting_Person_Mobile.HeaderText = "Reporting Person Mobile"
@@ -4084,7 +3878,6 @@ Public Class frmEmployee_Master
         Reporting_Person_Mobile.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Reporting_Person_Mobile.ReadOnly = False
         gvEmpEx.Columns.Add(Reporting_Person_Mobile)
-
         Dim Reporting_Person_Email As New GridViewTextBoxColumn()
         Reporting_Person_Email.FormatString = ""
         Reporting_Person_Email.HeaderText = "Reporting Person Email"
@@ -4093,8 +3886,6 @@ Public Class frmEmployee_Master
         Reporting_Person_Email.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Reporting_Person_Email.ReadOnly = False
         gvEmpEx.Columns.Add(Reporting_Person_Email)
-
-
         Dim repoRowType As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         repoRowType.FormatString = ""
         repoRowType.HeaderText = "Verification Status"
@@ -4106,7 +3897,6 @@ Public Class frmEmployee_Master
         repoRowType.ValueMember = "Code"
         repoRowType.DisplayMember = "Code"
         gvEmpEx.MasterTemplate.Columns.Add(repoRowType)
-
         repoRowType = New GridViewComboBoxColumn()
         repoRowType.FormatString = ""
         repoRowType.HeaderText = "Verification Mode"
@@ -4118,7 +3908,6 @@ Public Class frmEmployee_Master
         repoRowType.ValueMember = "Code"
         repoRowType.DisplayMember = "Code"
         gvEmpEx.MasterTemplate.Columns.Add(repoRowType)
-
         Dim VERIFICATION_REMARKS As New GridViewTextBoxColumn()
         VERIFICATION_REMARKS.FormatString = ""
         VERIFICATION_REMARKS.HeaderText = "Verification Remarks"
@@ -4127,15 +3916,11 @@ Public Class frmEmployee_Master
         VERIFICATION_REMARKS.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         VERIFICATION_REMARKS.ReadOnly = False
         gvEmpEx.Columns.Add(VERIFICATION_REMARKS)
-
     End Sub
-
-
     Sub LoadEmpQuliGridColumns()
         gvEmpQuli.DataSource = Nothing
         gvEmpQuli.Rows.Clear()
         gvEmpQuli.Columns.Clear()
-
         gvEmpQuli.ReadOnly = False
         Dim lineNo As New GridViewTextBoxColumn()
         lineNo.FormatString = ""
@@ -4145,7 +3930,6 @@ Public Class frmEmployee_Master
         lineNo.ReadOnly = True
         lineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpQuli.Columns.Add(lineNo)
-
         Dim QuliCourseCode As New GridViewTextBoxColumn()
         QuliCourseCode.FormatString = ""
         QuliCourseCode.HeaderText = "Course Code"
@@ -4153,7 +3937,6 @@ Public Class frmEmployee_Master
         QuliCourseCode.Width = 100
         QuliCourseCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(QuliCourseCode)
-
         Dim QuliJoiningDate As New GridViewDateTimeColumn()
         QuliJoiningDate.CustomFormat = "dd/MM/yyyy"
         QuliJoiningDate.FormatString = "{0:d}"
@@ -4162,7 +3945,6 @@ Public Class frmEmployee_Master
         QuliJoiningDate.Width = 80
         QuliJoiningDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpQuli.Columns.Add(QuliJoiningDate)
-
         Dim QuliCompletionDate As New GridViewDateTimeColumn()
         QuliCompletionDate.CustomFormat = "dd/MM/yyyy"
         QuliCompletionDate.FormatString = "{0:d}"
@@ -4171,7 +3953,6 @@ Public Class frmEmployee_Master
         QuliCompletionDate.Width = 80
         QuliCompletionDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpQuli.Columns.Add(QuliCompletionDate)
-
         Dim QuliCollegeUniversity As New GridViewTextBoxColumn()
         QuliCollegeUniversity.FormatString = ""
         QuliCollegeUniversity.HeaderText = "College / University"
@@ -4179,7 +3960,6 @@ Public Class frmEmployee_Master
         QuliCollegeUniversity.Width = 150
         QuliCollegeUniversity.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(QuliCollegeUniversity)
-
         Dim QuliGradePercentage As New GridViewTextBoxColumn()
         QuliGradePercentage.FormatString = ""
         QuliGradePercentage.HeaderText = "Grade Percentage"
@@ -4187,7 +3967,6 @@ Public Class frmEmployee_Master
         QuliGradePercentage.Width = 100
         QuliGradePercentage.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(QuliGradePercentage)
-
         Dim QuliDescription As New GridViewTextBoxColumn()
         QuliDescription.FormatString = ""
         QuliDescription.HeaderText = "Other Details"
@@ -4195,7 +3974,6 @@ Public Class frmEmployee_Master
         QuliDescription.Width = 200
         QuliDescription.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(QuliDescription)
-
         Dim Verification_Done As New GridViewCheckBoxColumn()
         Verification_Done.FormatString = ""
         Verification_Done.HeaderText = "Verification Done"
@@ -4203,7 +3981,6 @@ Public Class frmEmployee_Master
         Verification_Done.Width = 100
         Verification_Done.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(Verification_Done)
-
         Dim University_Address As New GridViewTextBoxColumn()
         University_Address.FormatString = ""
         University_Address.HeaderText = "University Address"
@@ -4211,7 +3988,6 @@ Public Class frmEmployee_Master
         University_Address.Width = 100
         University_Address.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(University_Address)
-
         Dim University_Website As New GridViewTextBoxColumn()
         University_Website.FormatString = ""
         University_Website.HeaderText = "University Website"
@@ -4219,7 +3995,6 @@ Public Class frmEmployee_Master
         University_Website.Width = 100
         University_Website.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(University_Website)
-
         Dim QuliFileName As New GridViewTextBoxColumn()
         QuliFileName.FormatString = ""
         QuliFileName.HeaderText = "File Name"
@@ -4227,7 +4002,6 @@ Public Class frmEmployee_Master
         QuliFileName.Width = 80
         QuliFileName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(QuliFileName)
-
         Dim QuliBrowse As New GridViewBrowseColumn
         QuliBrowse.FormatString = ""
         QuliBrowse.HeaderText = "Browse"
@@ -4235,7 +4009,6 @@ Public Class frmEmployee_Master
         QuliBrowse.Width = 80
         QuliBrowse.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(QuliBrowse)
-
         Dim QuliOpen As New GridViewCommandColumn
         QuliOpen.FormatString = ""
         QuliOpen.HeaderText = "Open"
@@ -4243,7 +4016,6 @@ Public Class frmEmployee_Master
         QuliOpen.Width = 100
         QuliOpen.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(QuliOpen)
-
         Dim QuliPath As New GridViewTextBoxColumn()
         QuliPath.FormatString = ""
         QuliPath.HeaderText = "Path"
@@ -4252,9 +4024,7 @@ Public Class frmEmployee_Master
         QuliPath.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         QuliPath.IsVisible = False
         gvEmpQuli.Columns.Add(QuliPath)
-
     End Sub
-
     Private Sub gvEmpQuli_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvEmpQuli.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -4270,12 +4040,10 @@ Public Class frmEmployee_Master
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub OpenCource(ByVal isButtonClick As Boolean)
         Dim qry As String = " select COURSE_CODE as Code, COURSE_NAME as Name, DESCRIPTION AS Description from TSPL_COURSE_MASTER"
         gvEmpQuli.CurrentRow.Cells(colQuliCourseCode).Value = clsCommon.ShowSelectForm("Course_Master", qry, "Code", "", clsCommon.myCstr(gvEmpQuli.CurrentRow.Cells(colQuliCourseCode).Value), "", isButtonClick)
     End Sub
-
     Private Sub gvEmpQuli_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvEmpQuli.CurrentColumnChanged
         If gvEmpQuli.RowCount > 0 Then
             Dim intCurrRow As Integer = gvEmpQuli.CurrentRow.Index
@@ -4286,7 +4054,6 @@ Public Class frmEmployee_Master
             End If
         End If
     End Sub
-
     Private Sub gvEmpEx_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvEmpEx.CurrentColumnChanged
         If gvEmpEx.RowCount > 0 Then
             Dim intCurrRow As Integer = gvEmpEx.CurrentRow.Index
@@ -4297,7 +4064,6 @@ Public Class frmEmployee_Master
             End If
         End If
     End Sub
-
     Private Sub gvEmpLanguage_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvEmpLanguage.CurrentColumnChanged
         If gvEmpLanguage.RowCount > 0 Then
             Dim intCurrRow As Integer = gvEmpLanguage.CurrentRow.Index
@@ -4308,13 +4074,11 @@ Public Class frmEmployee_Master
             End If
         End If
     End Sub
-
     Sub LoadEmpLangGridColumns()
         gvEmpLanguage.DataSource = Nothing
         gvEmpLanguage.Rows.Clear()
         gvEmpLanguage.Columns.Clear()
         gvEmpLanguage.ReadOnly = False
-
         Dim LangLineNo As New GridViewTextBoxColumn()
         LangLineNo.FormatString = ""
         LangLineNo.HeaderText = "Line No"
@@ -4323,7 +4087,6 @@ Public Class frmEmployee_Master
         LangLineNo.ReadOnly = True
         LangLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpLanguage.Columns.Add(LangLineNo)
-
         Dim LangCode As New GridViewTextBoxColumn()
         LangCode.FormatString = ""
         LangCode.HeaderText = "Language Code"
@@ -4332,7 +4095,6 @@ Public Class frmEmployee_Master
         LangCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         LangCode.ReadOnly = False
         gvEmpLanguage.Columns.Add(LangCode)
-
         Dim LangReadingLevel As New GridViewComboBoxColumn()
         LangReadingLevel.FormatString = ""
         LangReadingLevel.HeaderText = "Reading Level"
@@ -4342,9 +4104,7 @@ Public Class frmEmployee_Master
         LangReadingLevel.ValueMember = "Code"
         LangReadingLevel.DisplayMember = "Description"
         LangReadingLevel.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-
         gvEmpLanguage.Columns.Add(LangReadingLevel)
-
         Dim LangWrittingLevel As New GridViewComboBoxColumn()
         LangWrittingLevel.FormatString = ""
         LangWrittingLevel.HeaderText = "Writing Level"
@@ -4355,7 +4115,6 @@ Public Class frmEmployee_Master
         LangWrittingLevel.ValueMember = "Code"
         LangWrittingLevel.DisplayMember = "Description"
         gvEmpLanguage.Columns.Add(LangWrittingLevel)
-
         Dim LangSpeakingLevel As New GridViewComboBoxColumn()
         LangSpeakingLevel.FormatString = ""
         LangSpeakingLevel.HeaderText = "Speaking Level"
@@ -4366,7 +4125,6 @@ Public Class frmEmployee_Master
         LangSpeakingLevel.ValueMember = "Code"
         LangSpeakingLevel.DisplayMember = "Description"
         gvEmpLanguage.Columns.Add(LangSpeakingLevel)
-
         Dim LangDescription As New GridViewTextBoxColumn()
         LangDescription.FormatString = ""
         LangDescription.HeaderText = "Other Details"
@@ -4375,15 +4133,12 @@ Public Class frmEmployee_Master
         LangDescription.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpLanguage.Columns.Add(LangDescription)
     End Sub
-
     Private Function GetLevel() As DataTable
         Return clsDBFuncationality.GetDataTable("select Code,Description from tspl_fixed_parameter where type='Language'")
     End Function
-
     Private Function GetRelation() As DataTable
         Return clsDBFuncationality.GetDataTable("select Code,Description from tspl_fixed_parameter where type='Relation'")
     End Function
-
     Private Sub gvEmpLanguage_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvEmpLanguage.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -4399,19 +4154,15 @@ Public Class frmEmployee_Master
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub OpenEmpLang(ByVal isButtonClick As Boolean)
         Dim qry As String = "select LANGUAGE_CODE as Code, LANGUAGE_NAME as Name, DESCRIPTION as Description from TSPL_LANGUAGE_MASTER"
         gvEmpLanguage.CurrentRow.Cells(colLangCode).Value = clsCommon.ShowSelectForm("LANGUAGE_MASTER", qry, "Code", "", clsCommon.myCstr(gvEmpLanguage.CurrentRow.Cells(colLangCode).Value), "", isButtonClick)
     End Sub
-
-
     Sub LoadEmpFamilyGridColumns()
         gvEmpFamily.DataSource = Nothing
         gvEmpFamily.Rows.Clear()
         gvEmpFamily.Columns.Clear()
         gvEmpFamily.ReadOnly = False
-
         Dim FamilyLineNo As New GridViewTextBoxColumn()
         FamilyLineNo.FormatString = ""
         FamilyLineNo.HeaderText = "Line No"
@@ -4420,7 +4171,6 @@ Public Class frmEmployee_Master
         FamilyLineNo.ReadOnly = True
         FamilyLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpFamily.Columns.Add(FamilyLineNo)
-
         Dim FamilyMemberName As New GridViewTextBoxColumn()
         FamilyMemberName.FormatString = ""
         FamilyMemberName.HeaderText = "Name"
@@ -4428,7 +4178,6 @@ Public Class frmEmployee_Master
         FamilyMemberName.Width = 100
         FamilyMemberName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(FamilyMemberName)
-
         'Ticket No-ERO/21/08/19-000998,Sanjay ,Manual Entry
         'Dim FamilyRelation As New GridViewComboBoxColumn(
         Dim FamilyRelation As New GridViewTextBoxColumn()
@@ -4441,7 +4190,6 @@ Public Class frmEmployee_Master
         'FamilyRelation.DisplayMember = "Description"
         FamilyRelation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(FamilyRelation)
-
         Dim FamilyAge As New GridViewTextBoxColumn()
         FamilyAge.FormatString = ""
         FamilyAge.HeaderText = "Age"
@@ -4449,7 +4197,6 @@ Public Class frmEmployee_Master
         FamilyAge.Width = 100
         FamilyAge.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(FamilyAge)
-
         Dim FamilySex As New GridViewComboBoxColumn()
         FamilySex.FormatString = ""
         FamilySex.HeaderText = "Gender"
@@ -4460,7 +4207,6 @@ Public Class frmEmployee_Master
         FamilySex.DisplayMember = "Code"
         FamilySex.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(FamilySex)
-
         Dim FamilyDescription As New GridViewTextBoxColumn()
         FamilyDescription.FormatString = ""
         FamilyDescription.HeaderText = "Other Details"
@@ -4468,7 +4214,6 @@ Public Class frmEmployee_Master
         FamilyDescription.Width = 200
         FamilyDescription.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(FamilyDescription)
-
         Dim Is_Dependent As New GridViewCheckBoxColumn()
         Is_Dependent.FormatString = ""
         Is_Dependent.HeaderText = "Is Dependent"
@@ -4476,7 +4221,6 @@ Public Class frmEmployee_Master
         Is_Dependent.Width = 100
         Is_Dependent.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(Is_Dependent)
-
         Dim Member_DOB As New GridViewDateTimeColumn()
         Member_DOB.CustomFormat = "dd/MM/yyyy"
         Member_DOB.FormatString = "{0:d}"
@@ -4485,8 +4229,6 @@ Public Class frmEmployee_Master
         Member_DOB.Width = 80
         Member_DOB.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvEmpFamily.Columns.Add(Member_DOB)
-
-
         Dim Member_Occupation As New GridViewTextBoxColumn()
         Member_Occupation.FormatString = ""
         Member_Occupation.HeaderText = "Occupation"
@@ -4494,7 +4236,6 @@ Public Class frmEmployee_Master
         Member_Occupation.Width = 100
         Member_Occupation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(Member_Occupation)
-
         Dim Dependent_Living_With_Emp As New GridViewCheckBoxColumn()
         Dependent_Living_With_Emp.FormatString = ""
         Dependent_Living_With_Emp.HeaderText = "Living with employee"
@@ -4502,8 +4243,6 @@ Public Class frmEmployee_Master
         Dependent_Living_With_Emp.Width = 100
         Dependent_Living_With_Emp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(Dependent_Living_With_Emp)
-
-
         Member_Occupation = New GridViewTextBoxColumn()
         Member_Occupation.FormatString = ""
         Member_Occupation.HeaderText = "Contact No"
@@ -4511,10 +4250,7 @@ Public Class frmEmployee_Master
         Member_Occupation.Width = 100
         Member_Occupation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpFamily.Columns.Add(Member_Occupation)
-
     End Sub
-
-
     Private Sub gvEmpFamily_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvEmpFamily.CurrentColumnChanged
         If gvEmpFamily.RowCount > 0 Then
             Dim intCurrRow As Integer = gvEmpFamily.CurrentRow.Index
@@ -4525,7 +4261,6 @@ Public Class frmEmployee_Master
             End If
         End If
     End Sub
-
     Private Sub txtEmployeeBand__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtEmployeeBand._MYValidating
         Try
             Me.txtEmployeeBand.Value = clsEmployeeBandMaster.getFinder("", txtEmployeeBand.Value, isButtonClicked)
@@ -4533,11 +4268,9 @@ Public Class frmEmployee_Master
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub fndcity__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndcity._MYValidating
         fndcity.Value = clsCityMaster.getFinder("", fndcity.Value, isButtonClicked)
     End Sub
-
     Private Sub gvEmpQuli_CommandCellClick(sender As Object, e As GridViewCellEventArgs) Handles gvEmpQuli.CommandCellClick
         Try
             btnShowQuli_Click(gvEmpQuli.CurrentRow.Cells(colQuliCourseCode).Value, gvEmpQuli.CurrentRow.Cells(colQuliLineNo).Value)
@@ -4545,7 +4278,6 @@ Public Class frmEmployee_Master
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub CboEmployeeStatus_SelectedValueChanged(sender As Object, e As EventArgs) Handles CboEmployeeStatus.SelectedValueChanged
         Try
             EmployeeStatusDate()
@@ -4553,7 +4285,6 @@ Public Class frmEmployee_Master
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Public Sub EmployeeStatusDate()
         If clsCommon.CompairString(clsCommon.myCstr(CboEmployeeStatus.SelectedIndex), "0") = CompairStringResult.Equal Then
             lblActiveInactiveDate.Visible = True
@@ -4566,7 +4297,6 @@ Public Class frmEmployee_Master
         End If
         txtActiveInactiveDate.Checked = False
     End Sub
-
     Private Sub txtDOB_Validated(sender As Object, e As EventArgs) Handles txtDOB.Validated
         Try
             RelevingDate()
@@ -4574,7 +4304,6 @@ Public Class frmEmployee_Master
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub RelevingDate()
         Dim Qry As String = "Select DATEDIFF(year,Convert(Date,'" & txtDOB.Value & "',103),Convert(Date,'" & clsCommon.GETSERVERDATE() & "',103))CurrentAge,EOMONTH(DATEADD(year, " + clsCommon.myCstr(EmployeeRetirementAge) + ", Convert(Date,'" & txtDOB.Value & "',103)))RetirementDate "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -4582,12 +4311,23 @@ Public Class frmEmployee_Master
             txtRelevingDate.Value = clsCommon.GetPrintDate(dt.Rows(0)("RetirementDate"), "dd/MM/yyyy")
         End If
     End Sub
-
     Private Sub txtCompBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCompBank._MYValidating
         Try
             txtCompBank.Value = clsBankMaster.getFinder("", txtCompBank.Value, isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtCode_KeyPress(sender As Object, e As KeyPressEventArgs)
+
+    End Sub
+
+    Private Sub GroupBox3_Enter(sender As Object, e As EventArgs) Handles GroupBox3.Enter
+
+    End Sub
+
+    Private Sub txtACCOEDLI_MIN_TextChanged(sender As Object, e As EventArgs) Handles txtACCOEDLI_MIN.TextChanged
+
     End Sub
 End Class
