@@ -14,7 +14,8 @@ Imports XpertERPSalesAndDistribution
 Public Class frmSNSaleReturn
     Inherits FrmMainTranScreen
 #Region "Variables"
-
+    Dim isPostSave As Boolean = False
+    Dim isLoadConvFact As Boolean = False
     Const colIHSN As String = "colIHSN"
     Dim GSTStatus As Boolean = False
     Private StrSql As String
@@ -2254,6 +2255,22 @@ Public Class frmSNSaleReturn
 
     End Sub
 
+    Function ReturnConvFact(ByVal ICode As String, ByVal UOM As String) As Double
+        Dim convFact As Double = 1
+        If isLoadConvFact Then
+            Dim Qry As String = "Select  Item_Code,UOM_Code,(Case When Default_UOM=1 Then (Conversion_Factor/xxx.ConvIn)/xxx.ConvIn Else (xxx.ConvIn/Conversion_Factor)End) As ConvFact from (Select TSPL_ITEM_UOM_DETAIL.Item_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_ITEM_UOM_DETAIL.Default_UOM,Conversion_Factor,CInConvFact.ConvIn from TSPL_ITEM_UOM_DETAIL 
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvIn' from TSPL_ITEM_UOM_DETAIL Where Item_Code='" + ICode + "' And Default_UOM=1)CInConvFact ON CInConvFact.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.UOM_Code='" + UOM + "' )xxx"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                convFact = clsCommon.myCdbl(dt.Rows(0)("ConvFact"))
+            End If
+        End If
+        Return convFact
+    End Function
+
+
+
     Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -2271,34 +2288,9 @@ Public Class frmSNSaleReturn
                             If ((e.Column Is gv1.Columns(colQty))) Then
                                 Dim dblPendingQty As Double = 0
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
-                                    dblPendingQty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colPendingQty).Value)
+                                    dblPendingQty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colBalanceQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colPendingQty).Value)
                                 End If
-                                Dim convFact As Double = 1
-                                Dim Qry As String = "Select 
-                                                    ((Conversion_Factor)/xxx.ConvInBag) As 'Bag', 
-                                                    ((Conversion_Factor)/xxx.ConvInKG ) As 'KG',
-                                                    ((Conversion_Factor)/xxx.ConvInMT ) As 'MT',
-                                                    ((Conversion_Factor)/xxx.ConvInQtl) As 'Qtl'
-                                                    from (
-                                                    Select TSPL_ITEM_UOM_DETAIL.Item_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_ITEM_UOM_DETAIL.Default_UOM,Conversion_Factor,CInBag.ConvInBag,CInKG.ConvInKG,CInMT.ConvInMT,CInQtl.ConvInQtl from TSPL_ITEM_UOM_DETAIL 
-                                                    Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInBag' from TSPL_ITEM_UOM_DETAIL Where Item_Code='FG0003' And UOM_Code='BAG')CInBag ON CInBag.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
-                                                    Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInKG' from TSPL_ITEM_UOM_DETAIL Where Item_Code='FG0003' And UOM_Code='KG')CInKG ON CInKG.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
-                                                    Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInMT' from TSPL_ITEM_UOM_DETAIL Where Item_Code='FG0003' And UOM_Code='MT')CInMT ON CInMT.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
-                                                    Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInQtl' from TSPL_ITEM_UOM_DETAIL Where Item_Code='FG0003' And UOM_Code='Qtl')CInQtl ON CInQtl.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
-                                                    where TSPL_ITEM_UOM_DETAIL.Default_UOM=1 And TSPL_ITEM_UOM_DETAIL.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "')xxx"
-                                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                    If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "BAG") = CompairStringResult.Equal Then
-                                        convFact = clsCommon.myCdbl(dt.Rows(0)("Bag"))
-                                    ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "KG") = CompairStringResult.Equal Then
-                                        convFact = clsCommon.myCdbl(dt.Rows(0)("KG"))
-                                    ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "MT") = CompairStringResult.Equal Then
-                                        convFact = clsCommon.myCdbl(dt.Rows(0)("MT"))
-                                    ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), "Qtl") = CompairStringResult.Equal Then
-                                        convFact = clsCommon.myCdbl(dt.Rows(0)("Qtl"))
-                                    End If
-                                End If
-
+                                Dim convFact As Double = ReturnConvFact(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value))
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
                                     Dim dblEnteredQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
                                     Dim dblDamageQty As Double = 0 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colLeakQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colBurstQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colShortQty).Value)
@@ -2831,20 +2823,20 @@ Public Class frmSNSaleReturn
                         gv1.CurrentRow.Cells(colTaxRate10).Value = clsCommon.myCdbl(dr("Tax10Rate"))
                     End If
                     gv1.CurrentRow.Cells(ColFOC).Value = 0
-                        gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr("Weight_Value"))
-                        Dim dblConvF As Double
-                        dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
-                        gv1.CurrentRow.Cells(colConvF).Value = dblConvF
+                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr("Weight_Value"))
+                    Dim dblConvF As Double
+                    dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
+                    gv1.CurrentRow.Cells(colConvF).Value = dblConvF
 
-                        gv1.CurrentRow.Cells(colMarkupOn).Value = clsCommon.myCstr(dr("markup_on"))
-                        gv1.CurrentRow.Cells(colMarkUpPercentage).Value = clsCommon.myCdbl(dr("markup_percent"))
-                        gv1.CurrentRow.Cells(colLandingCost).Value = clsCommon.myCdbl(dr("landing_cost"))
-                        gv1.CurrentRow.Cells(colPurCost).Value = clsCommon.myCdbl(dr("Purchase_Cost"))
-                        gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr("BasicRate"))
+                    gv1.CurrentRow.Cells(colMarkupOn).Value = clsCommon.myCstr(dr("markup_on"))
+                    gv1.CurrentRow.Cells(colMarkUpPercentage).Value = clsCommon.myCdbl(dr("markup_percent"))
+                    gv1.CurrentRow.Cells(colLandingCost).Value = clsCommon.myCdbl(dr("landing_cost"))
+                    gv1.CurrentRow.Cells(colPurCost).Value = clsCommon.myCdbl(dr("Purchase_Cost"))
+                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr("BasicRate"))
 
 
-                    End If
-                Else
+                End If
+            Else
                 SetBlankOfItemColumns()
             End If
 
@@ -3236,135 +3228,138 @@ Public Class frmSNSaleReturn
 
     End Sub
 
-    Function AllowToSave() As Boolean
+    Function AllowToSave(ByVal isPostSave As Boolean) As Boolean
         Try
-            RefreshReqNo()
+            If isPostSave Then
+                RefreshReqNo()
 
-            UpdateAllTotals()
-            If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Customer")
-                txtVendorNo.Focus()
-                Return False
-            End If
+                UpdateAllTotals()
+                If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("Please select Customer")
+                    txtVendorNo.Focus()
+                    Return False
+                End If
 
-            If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Tax Group")
-                txtTaxGroup.Focus()
-                Return False
-            End If
-            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
-                txtBillToLocation.Focus()
-                Return False
-            End If
-            If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Return No Not found to save")
-                txtDocNo.Focus()
-                Return False
-            End If
-            'If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
-            '    common.clsCommon.MyMessageBoxShow("Please select Item Type")
-            '    cboItemType.Focus()
-            '    Return False
-            'End If
+                If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("Please select Tax Group")
+                    txtTaxGroup.Focus()
+                    Return False
+                End If
+                If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("Please select Bill to Location")
+                    txtBillToLocation.Focus()
+                    Return False
+                End If
+                If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("Return No Not found to save")
+                    txtDocNo.Focus()
+                    Return False
+                End If
+                'If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
+                '    common.clsCommon.MyMessageBoxShow("Please select Item Type")
+                '    cboItemType.Focus()
+                '    Return False
+                'End If
 
-            Dim arrReqNo As New List(Of String)
-            Dim arrICode As New List(Of String)()
+                Dim arrReqNo As New List(Of String)
+                Dim arrICode As New List(Of String)()
 
-            For ii As Integer = 0 To gv1.Rows.Count - 1
-                Dim strReqNo As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colOrderNo).Value)
-                Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
-                Dim strIName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
-                Dim dblPendingQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colPendingQty).Value)
-                Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
-                Dim dblDamageQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDamageQty).Value)
-                Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then
-                    If clsCommon.myLen(strUOM) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                        Return False
+                For ii As Integer = 0 To gv1.Rows.Count - 1
+                    Dim strReqNo As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colOrderNo).Value)
+                    Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
+                    Dim strIName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
+                    Dim dblPendingQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colPendingQty).Value)
+                    Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
+                    Dim dblDamageQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDamageQty).Value)
+                    Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
+                    If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then
+                        If clsCommon.myLen(strUOM) <= 0 Then
+                            common.clsCommon.MyMessageBoxShow("Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            Return False
+                        End If
+                        If clsCommon.myLen(strReqNo) > 0 Then
+                            If Not (arrReqNo.Contains(strReqNo)) Then
+                                arrReqNo.Add(strReqNo)
+                            End If
+                            'Dim ConvFact As Double = ReturnConvFact(strICode, strUOM)
+                            If (dblQty + dblDamageQty) > dblPendingQty Then
+                                common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                                Return False
+                            End If
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal AndAlso IsBatchDetailMandatory(gv1.Rows(ii).Cells(colUnit).Value) Then
+                            If clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value) <= 0 Then
+                                common.clsCommon.MyMessageBoxShow("Please enter MRP No for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                            If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo).Value) <= 0 Then
+                                common.clsCommon.MyMessageBoxShow("Please enter Batch No for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                            If clsCommon.myLen(gv1.Rows(ii).Cells(colExpiry).Value) <= 0 Then
+                                common.clsCommon.MyMessageBoxShow("Please enter Expiry Date for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                            If clsCommon.myLen(gv1.Rows(ii).Cells(colManufactureDate).Value) <= 0 Then
+                                common.clsCommon.MyMessageBoxShow("Please enter Manufacture Date for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                        End If
+                        If Not arrICode.Contains(strICode) Then
+                            arrICode.Add(strICode)
+                        End If
+
+                        If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "O") = CompairStringResult.Equal Then
+                            For jj As Integer = ii + 1 To gv1.Rows.Count - 1
+                                Dim strInICode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
+                                Dim strInUOM As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
+                                If clsCommon.CompairString(strICode, strInICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colSchemeItem).Value), "No") = CompairStringResult.Equal Then
+                                    common.clsCommon.MyMessageBoxShow("Item Code " + strICode + " and Unit " + strUOM + " is repeted at Row No" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1), Me.Text)
+                                    Return False
+                                End If
+                            Next
+                        End If
                     End If
-                    If clsCommon.myLen(strReqNo) > 0 Then
-                        If Not (arrReqNo.Contains(strReqNo)) Then
-                            arrReqNo.Add(strReqNo)
-                        End If
-                        If (dblQty + dblDamageQty) > dblPendingQty Then
-                            common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                    If clsCommon.myCBool(gv1.Rows(ii).Cells(colIsSerialseItem).Value) Then
+                        Dim arrSerailNo As List(Of clsSerializeInvenotry) = TryCast(gv1.Rows(ii).Tag, List(Of clsSerializeInvenotry))
+                        If arrSerailNo Is Nothing OrElse dblQty <> arrSerailNo.Count Then
+                            common.clsCommon.MyMessageBoxShow("Please provice serial no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
                             Return False
                         End If
                     End If
-                    If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal AndAlso IsBatchDetailMandatory(gv1.Rows(ii).Cells(colUnit).Value) Then
-                        If clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please enter MRP No for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
-                        End If
-                        If clsCommon.myLen(gv1.Rows(ii).Cells(colBatchNo).Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please enter Batch No for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
-                        End If
-                        If clsCommon.myLen(gv1.Rows(ii).Cells(colExpiry).Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please enter Expiry Date for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
-                        End If
-                        If clsCommon.myLen(gv1.Rows(ii).Cells(colManufactureDate).Value) <= 0 Then
-                            common.clsCommon.MyMessageBoxShow("Please enter Manufacture Date for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
-                        End If
-                    End If
-                    If Not arrICode.Contains(strICode) Then
-                        arrICode.Add(strICode)
-                    End If
+                Next
 
-                    If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "O") = CompairStringResult.Equal Then
-                        For jj As Integer = ii + 1 To gv1.Rows.Count - 1
-                            Dim strInICode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
-                            Dim strInUOM As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
-                            If clsCommon.CompairString(strICode, strInICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colSchemeItem).Value), "No") = CompairStringResult.Equal Then
-                                common.clsCommon.MyMessageBoxShow("Item Code " + strICode + " and Unit " + strUOM + " is repeted at Row No" + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1), Me.Text)
+                For ii As Integer = 0 To gvAC.Rows.Count - 1
+                    If clsCommon.myLen(gvAC.Rows(ii).Cells(colACCode).Value) > 0 Then
+                        For jj As Integer = 0 To gvAC.Rows.Count - 1
+                            If ii = jj Then
+                                Continue For
+                            End If
+                            If clsCommon.CompairString(clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value), clsCommon.myCstr(gvAC.Rows(jj).Cells(colACCode).Value)) = CompairStringResult.Equal Then
+                                common.clsCommon.MyMessageBoxShow("Additional Charges: " + clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value) + "Repeated at Row No " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
                                 Return False
                             End If
                         Next
                     End If
-                End If
-                If clsCommon.myCBool(gv1.Rows(ii).Cells(colIsSerialseItem).Value) Then
-                    Dim arrSerailNo As List(Of clsSerializeInvenotry) = TryCast(gv1.Rows(ii).Tag, List(Of clsSerializeInvenotry))
-                    If arrSerailNo Is Nothing OrElse dblQty <> arrSerailNo.Count Then
-                        common.clsCommon.MyMessageBoxShow("Please provice serial no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
-                        Return False
-                    End If
-                End If
-            Next
-
-            For ii As Integer = 0 To gvAC.Rows.Count - 1
-                If clsCommon.myLen(gvAC.Rows(ii).Cells(colACCode).Value) > 0 Then
-                    For jj As Integer = 0 To gvAC.Rows.Count - 1
-                        If ii = jj Then
-                            Continue For
-                        End If
-                        If clsCommon.CompairString(clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value), clsCommon.myCstr(gvAC.Rows(jj).Cells(colACCode).Value)) = CompairStringResult.Equal Then
-                            common.clsCommon.MyMessageBoxShow("Additional Charges: " + clsCommon.myCstr(gvAC.Rows(ii).Cells(colACCode).Value) + "Repeated at Row No " + clsCommon.myCstr(ii + 1) + " and " + clsCommon.myCstr(jj + 1) + "")
-                            Return False
-                        End If
-                    Next
-                End If
-            Next
+                Next
 
 
-            'clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
-            clsSNInvoiceHead.IsValidCustomer(arrReqNo, txtVendorNo.Value)
-            UcCustomFields1.AllowToSave()
-            UcAttachment1.AllowToSave()
-            Return True
-
+                'clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+                clsSNInvoiceHead.IsValidCustomer(arrReqNo, txtVendorNo.Value)
+                UcCustomFields1.AllowToSave()
+                UcAttachment1.AllowToSave()
+                Return True
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
-
     End Function
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        isPostSave = True
         SaveData(False)
+        isPostSave = False
     End Sub
 
     Sub SaveData(ByVal ChekPostBtn As Boolean)
@@ -3376,9 +3371,7 @@ Public Class frmSNSaleReturn
                 End If
             End If
             ''
-            If (AllowToSave()) Then
-
-
+            If (AllowToSave(isPostSave)) Then
                 Dim obj As New clsSNSalesReturnHead()
                 obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
                 obj.Return_Type = ddlReturnType.SelectedValue
@@ -3660,8 +3653,8 @@ Public Class frmSNSaleReturn
                     objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
                     objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
                     objTr.Is_Mannual_Amt = clsCommon.myCdbl(grow.Cells(colIsMannualAmt).Value)
-
-                    objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                    'objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                    objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colBalanceQty).Value)
 
                     objTr.Scheme_Applicable = clsCommon.myCstr(grow.Cells(colSchemeApplicable).Value)
                     objTr.Scheme_Code = clsCommon.myCstr(grow.Cells(colFromSchemeCode).Value)
@@ -4149,7 +4142,10 @@ Public Class frmSNSaleReturn
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = clsItemMaster.IsSerializeItem(objTr.Item_Code)
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgSOQty).Value = objTr.so_Qty
 
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
+                        isLoadConvFact = True
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = clsSNSalesReturnHead.GetBalance(txtReqNo.Value, ReturnConvFact(objTr.Item_Code, objTr.Unit_code))
+
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDamageQty).Value = objTr.DamageQty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colFreeQty).Value = objTr.Free_Qty
@@ -4224,9 +4220,10 @@ Public Class frmSNSaleReturn
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colManufactureDate).Value = objTr.MFG_Date
                         End If
                         If clsCommon.myLen(objTr.Invoice_Code) > 0 Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsSNInvoiceDetail.GetBalanceSRNQty(objTr.Invoice_Code, objTr.Item_Code, obj.Document_Code, objTr.Unit_code, objTr.MRP, objTr.Assessable)
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsSNInvoiceDetail.GetBalanceSRNQty(objTr.Invoice_Code, objTr.Item_Code, obj.Document_Code, objTr.Unit_code, objTr.MRP, objTr.Assessable)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsSNSalesReturnHead.GetBalance(txtReqNo.Value, ReturnConvFact(objTr.Item_Code, objTr.Unit_code))
                         End If
-
+                        isLoadConvFact = False
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsMannualAmt).Value = objTr.Is_Mannual_Amt
@@ -4417,6 +4414,10 @@ Public Class frmSNSaleReturn
             Dim msg As String = ""
             Dim dt As DataTable = Nothing
             If (myMessages.postConfirm()) Then
+                If Not AllowToSave(True) Then
+                    Exit Sub
+                End If
+                isPostSave = False
                 SaveData(True)
                 '' Anubhooti 13-Sep-2014 BM00000003735
                 If FrmMainTranScreen.ValidateTransactionAccToFinYear("Sale Return", txtDate.Value) = False Then
@@ -4617,12 +4618,14 @@ Public Class frmSNSaleReturn
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then
+            isLoadConvFact = True
             isCellValueChangedOpen = True
             gv1.CurrentColumn = gv1.Columns(colIName)
             OpenUOMList(True)
             gv1.CurrentColumn = gv1.Columns(colUnit)
             setGridFocus()
             isCellValueChangedOpen = False
+            isLoadConvFact = False
         End If
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) <= 0 Then
             isCellValueChangedOpen = True
@@ -4952,7 +4955,7 @@ Public Class frmSNSaleReturn
         Dim objOrderHead As clsSNInvoiceHead = Nothing
         If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
             If clsCommon.myLen(frm.ArrReturn(0).Document_Code) > 0 Then
-                objOrderHead = clsSNInvoiceHead.GetData(frm.ArrReturn(0).Document_Code, "", NavigatorType.Current)
+                objOrderHead = clsSNInvoiceHead.GetData(frm.ArrReturn(0).Document_Code, NavigatorType.Current, "", Nothing, clsCommon.myCstr(Me.Form_ID))
                 If objOrderHead IsNot Nothing AndAlso clsCommon.myLen(objOrderHead.Document_Code) > 0 Then
                     chkIsTaxable.Checked = IIf(objOrderHead.is_taxable = 1, True, False)
                     If clsCommon.myLen(txtRefNo.Text) <= 0 Then
@@ -5109,7 +5112,7 @@ Public Class frmSNSaleReturn
                     LoadBlankGridAC()
                     gvAC.Rows.AddNew()
                 End If
-                
+
             End If
             If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
                 gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
@@ -5122,7 +5125,7 @@ Public Class frmSNSaleReturn
                     Dim strCode As String = frm.ArrReturn(ii).Document_Code
                     'If Not arr.Contains(strCode) Then
                     '    arr.Add(strCode)
-                    objOrderHead = clsSNInvoiceHead.GetData(frm.ArrReturn(ii).Document_Code, "", NavigatorType.Current)
+                    objOrderHead = clsSNInvoiceHead.GetData(frm.ArrReturn(ii).Document_Code, NavigatorType.Current, "", Nothing, clsCommon.myCstr(Me.Form_ID))
                     For Each obj As clsSNInvoiceDetail In objOrderHead.Arr
                         If (obj.Item_Code = frm.ArrReturn(ii).Item_Code AndAlso obj.Scheme_Item = "N") OrElse (obj.Scheme_Code = frm.ArrReturn(ii).Scheme_Code AndAlso clsCommon.myLen(obj.Scheme_Code) > 0) Then
 
@@ -5140,6 +5143,7 @@ Public Class frmSNSaleReturn
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = obj.Item_Cost
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = obj.Unit_code
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = obj.Balance_Qty
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = obj.Balance_Qty
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = obj.Balance_Qty
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
@@ -5479,7 +5483,7 @@ Public Class frmSNSaleReturn
                    " TSPL_COMPANY_MASTER.Tin_No as TinNo, TSPL_COMPANY_MASTER.CST_LST as CstNo, (case when ISNULL(TSPL_COMPANY_MASTER.ADD1,'')<> '' then TSPL_COMPANY_MASTER.ADD1 else '' end + case when ISNULL(TSPL_COMPANY_MASTER.ADD2,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD2 else '' end + " &
                    " case when ISNULL(TSPL_COMPANY_MASTER.ADD3,'')<> '' then ', ' +TSPL_COMPANY_MASTER.ADD3 else '' end ) as CompAddress, " &
                    " COALESCE(TSPL_SD_SALES_ORDER_DETAIL.Qty,0) as OrdQty, COALESCE(TSPL_SD_SALE_RETURN_DETAIL.MRP,0) AS MRP,  " &
-                   " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
+                   " COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) as ReturnQty,COALESCE(TSPL_SD_SALE_RETURN_DETAIL.DamageQty,0) as DamageQty,COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Damage_Amount,0) as Damage_Amount, COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) as CustInvQty, (COALESCE(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0) - COALESCE(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)) as Difference, TSPL_SD_SALE_RETURN_DETAIL.Remarks, TSPL_ITEM_BARCODE.Bar_Code "
             Qry += " " & colsTaxRateType & ",TSPL_SD_SALE_RETURN_DETAIL.Amount,TSPL_SD_SALE_RETURN_DETAIL.tax1_rate as VAT,TSPL_SD_SALE_RETURN_DETAIL.tax1_amt as VAT_Amt  from TSPL_SD_SALE_RETURN_DETAIL  "
             Qry += " LEFT outer join TSPL_SD_SALE_RETURN_HEAD  on TSPL_SD_SALE_RETURN_HEAD.Document_Code  =TSPL_SD_SALE_RETURN_DETAIL.Document_Code   "
             Qry += " LEFT outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_RETURN_DETAIL.tax1  "
@@ -5920,6 +5924,7 @@ Public Class frmSNSaleReturn
             Dim dblItemWeight As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemWeight).Value)
             Dim dblheadDiscamt As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeadDiscamt).Value)
             Dim dblOrgBasicRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colOrgCost).Value)
+            Dim dblBalanceQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colBalanceQty).Value)
             Dim dblConvBasicRate As Double = dblOrgBasicRate * dblQty 'dblConvF
             Dim dblMRPAmt As Double = dblQty * dblMRP
             If clsCommon.CompairString(ddlReturnType.SelectedValue, "P") = CompairStringResult.Equal Then
@@ -6056,6 +6061,9 @@ Public Class frmSNSaleReturn
             gv1.Rows(IntRowNo).Cells(colRate).Value = dblRate 'dblConvBasicRate
             gv1.Rows(IntRowNo).Cells(colHeadDisPerAmt).Value = Math.Round(dblHeadPerDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colTotalDiscountAmount).Value = Math.Round(dblTotDiscAmt, 2)
+            Dim ConvFact As Double = ReturnConvFact(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value))
+            gv1.Rows(IntRowNo).Cells(colPendingQty).Value = (Math.Round(dblBalanceQty, 2) * ConvFact) - dblQty
+            gv1.Rows(IntRowNo).Cells(colBalanceQty).Value = Math.Round(dblBalanceQty, 2) * ConvFact
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -6077,9 +6085,9 @@ Public Class frmSNSaleReturn
                 End If
 
                 ''richa agarwal regarding memory leakage
-                obj = Nothing
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
+                obj = Nothing
                 ''---------------
             End If
         Catch ex As Exception
