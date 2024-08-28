@@ -67,8 +67,27 @@ Public Class RptMccSaleAdjustment
     Private Sub btnok_Click(sender As Object, e As EventArgs) Handles btnok.Click
         PageSetupReport_ID = GetReportID()
         TemplateGridview = gv1
+        GetReportPdfID()
         LoadData()
     End Sub
+
+    Sub GetReportPdfID()
+        Dim VarID As String = ""
+        If chkSkippedDocument.Checked Then
+            VarID += "_SD"
+        ElseIf cbxPaymentCycle.Checked Then
+            VarID += "_PC"
+        End If
+        If rbtnMCCWise.IsChecked Then
+            VarID += "_MW"
+        ElseIf rbtnVLCWise.IsChecked Then
+            VarID += "_VW"
+        ElseIf rbtnAdhoc.IsChecked Then
+            VarID += "_A"
+        End If
+        gv1.VarID = VarID
+    End Sub
+
 
     Private Sub LoadData()
         Try

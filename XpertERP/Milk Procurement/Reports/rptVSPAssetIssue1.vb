@@ -94,7 +94,21 @@ Public Class RptVSPAssetIssue1
             PageSetupReport_ID = MyBase.Form_ID + "CS"
         End If
         TemplateGridview = gv
+        GetReportID()
         Load_Report()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf rbtnDetail.IsChecked Then
+            VarID += "_D"
+        End If
+        If chkAssetIssueWithPurchase.Checked Then
+            VarID += "_AIWP"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

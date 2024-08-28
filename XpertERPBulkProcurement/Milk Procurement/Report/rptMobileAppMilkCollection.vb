@@ -37,10 +37,21 @@ Public Class rptMobileAppMilkCollection
         Reset()
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-
+        GetReportID()
         LoadData()
         'ControlEnableDisable(False)
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnBMC.Checked Then
+            VarID += "_B"
+        ElseIf rbtnDCS.Checked Then
+            VarID += "_D"
+        End If
+        Gv1.VarID = VarID
+    End Sub
+
     Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
         Try
             Dim qry As String = "select ROUTE_NO,ROUTE_NAME from TSPL_BULK_ROUTE_MASTER where 2=2 "

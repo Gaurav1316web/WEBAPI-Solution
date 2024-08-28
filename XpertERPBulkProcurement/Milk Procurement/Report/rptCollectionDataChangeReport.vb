@@ -718,7 +718,20 @@ Public Class rptCollectionDataChangeReport
         gv1.DataSource = Nothing
         gv1.Columns.Clear()
         gv1.Rows.Clear()
+        GetReportID()
         Print(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnRetestingData.Checked Then
+            VarID += "_RD"
+        ElseIf rbtnCorrectionData.Checked Then
+            VarID += "_CD"
+        ElseIf rbtnMilkProcUpl.Checked Then
+            VarID += "_MP"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click

@@ -199,7 +199,18 @@ Public Class RptDailyWiseMilkCost
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtn_summary.IsChecked Then
+            VarID += "_S"
+        ElseIf rbnt_detail.IsChecked Then
+            VarID += "_D"
+        End If
+        gv.VarID = VarID
     End Sub
 
     Private Sub LoadData(Optional ByVal BulkExport As Integer = 0)

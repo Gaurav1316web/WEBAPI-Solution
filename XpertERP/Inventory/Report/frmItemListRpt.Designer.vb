@@ -22,6 +22,7 @@ Partial Class FrmItemListRpt
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -112,10 +113,9 @@ Partial Class FrmItemListRpt
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(3, 23)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(454, 337)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -253,20 +253,23 @@ Partial Class FrmItemListRpt
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.AllowDragToGroup = False
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.EnableGrouping = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(433, 289)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
+        Me.gv.VarID = ""
         '
         'RadMenu1
         '
@@ -275,27 +278,20 @@ Partial Class FrmItemListRpt
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(454, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -331,16 +327,12 @@ Partial Class FrmItemListRpt
         '
         'btnexcel
         '
-        Me.btnexcel.AccessibleDescription = "Export To Excel"
-        Me.btnexcel.AccessibleName = "Export To Excel"
         Me.btnexcel.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnexcel.Name = "btnexcel"
         Me.btnexcel.Text = "Export To Excel"
         '
         'btnpdf
         '
-        Me.btnpdf.AccessibleDescription = "Export To PDF"
-        Me.btnpdf.AccessibleName = "Export To PDF"
         Me.btnpdf.Image = Global.ERP.My.Resources.Resources.pdf
         Me.btnpdf.Name = "btnpdf"
         Me.btnpdf.Text = "Export To PDF"

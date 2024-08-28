@@ -65,8 +65,26 @@ Public Class rptJobworkProductionReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         TemplateGridview = Gv1
+        GetReportGridID()
         loaddata()
     End Sub
+
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+
+        If clsCommon.CompairString(ddlReportType.Text, "All") = CompairStringResult.Equal Then
+            VarID += "_AL"
+        ElseIf clsCommon.CompairString(ddlReportType.Text, "Vendor Wise") = CompairStringResult.Equal Then
+            VarID += "_VW"
+        ElseIf clsCommon.CompairString(ddlReportType.Text, "Location Wise") = CompairStringResult.Equal Then
+            VarID += "_LW"
+        ElseIf clsCommon.CompairString(ddlReportType.Text, "Date Wise") = CompairStringResult.Equal Then
+            VarID += "_DW"
+        End If
+        Gv1.VarID = VarID
+
+    End Sub
+
     Sub FormatGrid()
         Try
 

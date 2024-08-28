@@ -177,8 +177,10 @@ Public Class clsPaymentHeader
 
 
     Public Function SaveData(ByVal obj As clsPaymentHeader, ByVal isNewEntry As Boolean, Optional ByVal trans As SqlTransaction = Nothing, Optional ByVal isPosted As Boolean = False) As Boolean
+        Dim flag As Boolean = False
         If trans Is Nothing Then
             trans = clsDBFuncationality.GetTransactin()
+            flag = True
         End If
         Try
             SaveData1(obj, isNewEntry, trans)
@@ -187,7 +189,9 @@ Public Class clsPaymentHeader
             End If
 
         Catch ex As Exception
-            trans.Rollback()
+            If flag Then
+                trans.Rollback()
+            End If
             Throw New Exception(ex.Message)
         End Try
         Return True

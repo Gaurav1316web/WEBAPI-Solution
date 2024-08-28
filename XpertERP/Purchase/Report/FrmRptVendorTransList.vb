@@ -630,14 +630,18 @@ Public Class FrmRptVendorTransList
     End Sub
     Sub GetReportGridID()
         Dim VarID As String = ""
+        If ChkSummary.Checked = True Then
+            VarID += "_S"
+        End If
+
         If clsCommon.CompairString(ddlDocType.SelectedIndex, "0") = CompairStringResult.Equal Then
-            VarID += "_AL"
+            VarID += "_L"
         ElseIf clsCommon.CompairString(ddlDocType.SelectedIndex, "1") = CompairStringResult.Equal Then
-            VarID += "_AD"
+            VarID += "_D"
         ElseIf clsCommon.CompairString(ddlDocType.SelectedIndex, "2") = CompairStringResult.Equal Then
-            VarID += "_AC"
+            VarID += "_C"
         ElseIf clsCommon.CompairString(ddlDocType.SelectedIndex, "3") = CompairStringResult.Equal Then
-            VarID += "_DN"
+            VarID += "_N"
         End If
         gv.VarID = VarID
 

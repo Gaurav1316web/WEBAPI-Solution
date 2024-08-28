@@ -2105,6 +2105,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
     End Sub
     Sub GetReportGridID()
         Dim VarID As String = ""
+
         If rbtnCustGroupWise.Checked = True Then
             VarID += "_CG"
         ElseIf rbtnCustGroupWiseDrCr.Checked = True Then
@@ -2136,6 +2137,11 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
         VarID = ""
         If rbtnNone.Checked = True Then
             VarID += "_NO"
+        End If
+        If clsCommon.CompairString(ddlCurrencyType.SelectedItem.Text, "Functional Currency") = CompairStringResult.Equal Then
+            VarID += "_FC"
+        ElseIf clsCommon.CompairString(ddlCurrencyType.SelectedItem.Text, "Customer Currency") = CompairStringResult.Equal Then
+            VarID += "_CE"
         End If
         gvDetails.VarID = VarID
     End Sub
