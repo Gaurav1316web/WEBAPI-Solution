@@ -470,6 +470,9 @@ Public Class FrmRptVendorTransHistory
     End Sub
     Sub GetReportGridID()
         Dim VarID As String = ""
+        If ChkSummary.Checked = True Then
+            VarID += "_S"
+        End If
         If rbtnDocWise.Checked = True Then
             VarID += "_D"
         Else rbtnVenWise.Checked = True
