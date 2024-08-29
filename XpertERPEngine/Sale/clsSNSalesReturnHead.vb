@@ -329,6 +329,21 @@ Public Class clsSNSalesReturnHead
         Return isSaved
     End Function
 
+    Public Shared Function GetBalance(ByVal InvoiceNo As String, ByVal ConvFact As Double) As Double
+        Dim Qry As String = "Select Sum(Qty*RI) from (select TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_SD_SALE_INVOICE_DETAIL.Qty*" + clsCommon.myCstr(ConvFact) + " As Qty,1 as RI 
+                             from TSPL_SD_SALE_INVOICE_DETAIL 
+                             left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code 
+                             Where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + InvoiceNo + "'
+                             union all 
+                             select TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,TSPL_SD_SALE_RETURN_DETAIL.Qty,-1 as RI 
+                             from TSPL_SD_SALE_RETURN_DETAIL 
+                             left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE 
+                             Where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + InvoiceNo + "'
+                             ) final"
+        Return (clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry)))
+    End Function
+
+
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType) As clsSNSalesReturnHead
         Return GetData(strDocumentNo, NavType, Nothing)
     End Function

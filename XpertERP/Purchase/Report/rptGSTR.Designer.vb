@@ -22,6 +22,9 @@ Partial Class rptGSTR
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
@@ -151,7 +154,6 @@ Partial Class rptGSTR
         Me.RadSplitContainer1.Size = New System.Drawing.Size(886, 490)
         Me.RadSplitContainer1.TabIndex = 4
         Me.RadSplitContainer1.TabStop = False
-        Me.RadSplitContainer1.Text = "RadSplitContainer1"
         '
         'SplitPanel1
         '
@@ -163,7 +165,7 @@ Partial Class rptGSTR
         '
         Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel1.Size = New System.Drawing.Size(886, 23)
-        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.4526462!)
+        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.4526462!)
         Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -104)
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
@@ -176,28 +178,21 @@ Partial Class rptGSTR
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(886, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem2.AccessibleName = "Save Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Save Layout"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem3.AccessibleName = "Delete Layout"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Delete Layout"
         '
@@ -211,7 +206,7 @@ Partial Class rptGSTR
         '
         Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel2.Size = New System.Drawing.Size(886, 463)
-        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.4526462!)
+        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.4526462!)
         Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 104)
         Me.SplitPanel2.TabIndex = 1
         Me.SplitPanel2.TabStop = False
@@ -228,7 +223,6 @@ Partial Class rptGSTR
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(886, 463)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         '
         'RadPageViewPage1
         '
@@ -530,19 +524,22 @@ Partial Class rptGSTR
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(865, 151)
         Me.gv1.TabIndex = 5
-        Me.gv1.Text = "gv"
+        Me.gv1.VarID = ""
         '
         'gv2
         '
@@ -559,14 +556,17 @@ Partial Class rptGSTR
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.EnableFiltering = True
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(865, 260)
         Me.gv2.TabIndex = 6
-        Me.gv2.Text = "gv"
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -592,14 +592,17 @@ Partial Class rptGSTR
         Me.gv3.MasterTemplate.AllowAddNewRow = False
         Me.gv3.MasterTemplate.AllowDeleteRow = False
         Me.gv3.MasterTemplate.EnableFiltering = True
+        Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv3.MyStopExport = False
         Me.gv3.Name = "gv3"
         Me.gv3.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv3.ShowGroupPanel = False
         Me.gv3.ShowHeaderCellButtons = True
         Me.gv3.Size = New System.Drawing.Size(865, 415)
         Me.gv3.TabIndex = 6
-        Me.gv3.Text = "gv"
+        Me.gv3.VarID = ""
         '
         'btnSplit
         '
@@ -613,15 +616,11 @@ Partial Class rptGSTR
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
