@@ -252,6 +252,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
                 'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 'Gv1.Rows.Add()
                 FormatGrid()
+                GetReportID()
                 Gv1.BestFitColumns()
 
             Else
@@ -263,6 +264,16 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf rbtnDetail.IsChecked Then
+            VarID += "_D"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

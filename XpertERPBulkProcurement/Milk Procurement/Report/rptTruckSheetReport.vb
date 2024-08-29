@@ -687,7 +687,22 @@ where 1=1 "
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv1
+        GetReportID()
         PrintNew(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnRouteWise.IsChecked Then
+            VarID += "_RW"
+        ElseIf rbtnBMCWise.ISChecked Then
+            VarID += "_BW"
+        End If
+
+        If chkTotalInBold.Checked Then
+            VarID += "_TB"
+        End If
+        gv1.VarID = VarID
     End Sub
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
         Reset()

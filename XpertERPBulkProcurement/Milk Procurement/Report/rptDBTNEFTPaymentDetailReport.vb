@@ -39,8 +39,17 @@ Public Class rptDBTNEFTPaymentDetailReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnDetail.IsChecked Then
+            VarID += "_D"
+        ElseIf rbtnSummary.IsChecked Then
+            VarID += "_S"
+        End If
     End Sub
 
     Sub funreset()
