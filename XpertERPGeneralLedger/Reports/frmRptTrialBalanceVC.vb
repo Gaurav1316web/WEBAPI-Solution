@@ -418,7 +418,7 @@ Public Class frmRptTrialBalanceVC
         If clsCommon.CompairString(cboReportType.SelectedValue, "Sub Group Wise") = CompairStringResult.Equal Then
             VarID += "_SG"
         End If
-        If clsCommon.CompairString(cboReportType.SelectedValue, "Main Account Wis") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cboReportType.SelectedValue, "Main Account Wise") = CompairStringResult.Equal Then
             VarID += "_MA"
         End If
         If clsCommon.CompairString(cboReportType.SelectedValue, "GL Account Wise") = CompairStringResult.Equal Then
@@ -427,7 +427,21 @@ Public Class frmRptTrialBalanceVC
         If clsCommon.CompairString(cboReportType.SelectedValue, "Customer/Vedndor Wise") = CompairStringResult.Equal Then
             VarID += "_VW"
         End If
-        gv1.VarID = VarID
+        If clsCommon.CompairString(cboAddCVAfter.SelectedValue, "Main Group Wise") = CompairStringResult.Equal Then
+            VarID += "_A"
+        ElseIf clsCommon.CompairString(cboAddCVAfter.SelectedValue, "Main Group Wise") = CompairStringResult.Equal Then
+            VarID += "_B"
+        ElseIf clsCommon.CompairString(cboAddCVAfter.SelectedValue, "Group Wise") = CompairStringResult.Equal Then
+            VarID += "_C"
+        ElseIf clsCommon.CompairString(cboAddCVAfter.SelectedValue, "Sub Group Wise") = CompairStringResult.Equal Then
+            VarID += "_D"
+        ElseIf clsCommon.CompairString(cboAddCVAfter.SelectedValue, "Main Account Wise") = CompairStringResult.Equal Then
+            VarID += "_E"
+        ElseIf clsCommon.CompairString(cboAddCVAfter.SelectedValue, "GL Account Wise") = CompairStringResult.Equal Then
+            VarID += "_F"
+        ElseIf clsCommon.CompairString(cboAddCVAfter.SelectedValue, "Customer/Vedndor Wise") = CompairStringResult.Equal Then
+            VarID += "_G"
+        End If
     End Sub
     Public Sub RefreshData()
         Try

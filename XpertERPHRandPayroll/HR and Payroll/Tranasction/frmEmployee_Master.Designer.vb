@@ -36,6 +36,7 @@ Partial Class frmEmployee_Master
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.General = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkStfQtr = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel48 = New common.Controls.MyLabel()
         Me.txtCompBank = New common.UserControls.txtFinder()
         Me.txtActiveInactiveDate = New common.Controls.MyDateTimePicker()
@@ -217,7 +218,48 @@ Partial Class frmEmployee_Master
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvAssets = New common.UserControls.MyRadGridView()
         Me.pageOthers = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.CboOCRound = New common.Controls.MyComboBox()
+        Me.MyLabel67 = New common.Controls.MyLabel()
+        Me.MyLabel65 = New common.Controls.MyLabel()
+        Me.MyLabel66 = New common.Controls.MyLabel()
+        Me.txtOC = New common.Controls.MyTextBox()
+        Me.txtOC_MAX = New common.Controls.MyTextBox()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.CboEmpRound = New common.Controls.MyComboBox()
+        Me.MyLabel64 = New common.Controls.MyLabel()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.txtEMPEPF_PER = New common.Controls.MyTextBox()
+        Me.txtEMPEPF_MAX = New common.Controls.MyTextBox()
+        Me.MyLabel63 = New common.Controls.MyLabel()
+        Me.txtACCOEDLI_MIN = New common.Controls.MyTextBox()
+        Me.lblMinACEDLI = New common.Controls.MyLabel()
+        Me.MyLabel61 = New common.Controls.MyLabel()
+        Me.MyLabel57 = New common.Controls.MyLabel()
+        Me.MyLabel58 = New common.Controls.MyLabel()
+        Me.MyLabel59 = New common.Controls.MyLabel()
+        Me.MyLabel60 = New common.Controls.MyLabel()
+        Me.cboCoEPFRound = New common.Controls.MyComboBox()
+        Me.txtEPS_MAX = New common.Controls.MyTextBox()
+        Me.MyLabel53 = New common.Controls.MyLabel()
+        Me.txtCOEDLI_MAX = New common.Controls.MyTextBox()
+        Me.txtCOEPS_PER = New common.Controls.MyTextBox()
+        Me.txtACCOEDLI_MAX = New common.Controls.MyTextBox()
+        Me.lblShipmentTotal = New common.Controls.MyLabel()
+        Me.txtACCOEPF_MAX = New common.Controls.MyTextBox()
+        Me.MyLabel54 = New common.Controls.MyLabel()
+        Me.txtCOEPF_PER = New common.Controls.MyTextBox()
+        Me.MyLabel55 = New common.Controls.MyLabel()
+        Me.txtACCOEDLI_PER = New common.Controls.MyTextBox()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.MyLabel56 = New common.Controls.MyLabel()
+        Me.txtACCOEPF_PER = New common.Controls.MyTextBox()
+        Me.txtCOEDLI_PER = New common.Controls.MyTextBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel49 = New common.Controls.MyLabel()
+        Me.cboPFType = New common.Controls.MyComboBox()
         Me.MyLabel43 = New common.Controls.MyLabel()
         Me.txtGPFNo = New common.Controls.MyTextBox()
         Me.txtTransferPF = New common.Controls.MyTextBox()
@@ -253,10 +295,8 @@ Partial Class frmEmployee_Master
         Me.txtSecChequeLac1 = New common.Controls.MyTextBox()
         Me.MyLabel50 = New common.Controls.MyLabel()
         Me.fndPaymentMode = New common.UserControls.txtFinder()
-        Me.MyLabel11 = New common.Controls.MyLabel()
         Me.txtaccno = New common.Controls.MyTextBox()
         Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.MyLabel13 = New common.Controls.MyLabel()
         Me.txtBank = New common.UserControls.txtFinder()
         Me.MyLabel86 = New common.Controls.MyLabel()
         Me.cboEmpNature = New common.Controls.MyComboBox()
@@ -304,11 +344,10 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtLeavingDate = New common.Controls.MyDateTimePicker()
         Me.dtpJoining = New common.Controls.MyDateTimePicker()
-        Me.cboPFType = New common.Controls.MyComboBox()
-        Me.MyLabel49 = New common.Controls.MyLabel()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.General.SuspendLayout()
+        CType(Me.chkStfQtr, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtActiveInactiveDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblActiveInactiveDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -474,7 +513,48 @@ Partial Class frmEmployee_Master
         CType(Me.gvAssets, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvAssets.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageOthers.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        Me.GroupBox5.SuspendLayout()
+        CType(Me.CboOCRound, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtOC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtOC_MAX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox4.SuspendLayout()
+        CType(Me.CboEmpRound, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEMPEPF_PER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEMPEPF_MAX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtACCOEDLI_MIN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMinACEDLI, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboCoEPFRound, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEPS_MAX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel53, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCOEDLI_MAX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCOEPS_PER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtACCOEDLI_MAX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblShipmentTotal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtACCOEPF_MAX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCOEPF_PER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel55, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtACCOEDLI_PER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtACCOEPF_PER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCOEDLI_PER, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
+        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboPFType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGPFNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTransferPF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -509,10 +589,8 @@ Partial Class frmEmployee_Master
         CType(Me.MyLabel52, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSecChequeLac1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel50, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtaccno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel86, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboEmpNature, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboConveyanceType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -550,8 +628,6 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.SuspendLayout()
         CType(Me.txtLeavingDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpJoining, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboPFType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -573,13 +649,14 @@ Partial Class frmEmployee_Master
         Me.RadPageView1.Location = New System.Drawing.Point(5, 35)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.pageOthers
-        Me.RadPageView1.Size = New System.Drawing.Size(1049, 460)
+        Me.RadPageView1.Size = New System.Drawing.Size(1230, 460)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemFitMode = Telerik.WinControls.UI.StripViewItemFitMode.None
         '
         'General
         '
+        Me.General.Controls.Add(Me.chkStfQtr)
         Me.General.Controls.Add(Me.MyLabel48)
         Me.General.Controls.Add(Me.txtCompBank)
         Me.General.Controls.Add(Me.txtActiveInactiveDate)
@@ -664,8 +741,16 @@ Partial Class frmEmployee_Master
         Me.General.ItemSize = New System.Drawing.SizeF(116.0!, 28.0!)
         Me.General.Location = New System.Drawing.Point(10, 37)
         Me.General.Name = "General"
-        Me.General.Size = New System.Drawing.Size(845, 412)
+        Me.General.Size = New System.Drawing.Size(1209, 412)
         Me.General.Text = "General Information"
+        '
+        'chkStfQtr
+        '
+        Me.chkStfQtr.Location = New System.Drawing.Point(619, 42)
+        Me.chkStfQtr.Name = "chkStfQtr"
+        Me.chkStfQtr.Size = New System.Drawing.Size(84, 18)
+        Me.chkStfQtr.TabIndex = 62
+        Me.chkStfQtr.Text = "Staff Quarter"
         '
         'MyLabel48
         '
@@ -2147,7 +2232,7 @@ Partial Class frmEmployee_Master
         Me.Contact.ItemSize = New System.Drawing.SizeF(92.0!, 28.0!)
         Me.Contact.Location = New System.Drawing.Point(10, 37)
         Me.Contact.Name = "Contact"
-        Me.Contact.Size = New System.Drawing.Size(845, 412)
+        Me.Contact.Size = New System.Drawing.Size(1209, 412)
         Me.Contact.Text = "Contact Details"
         '
         'RadGroupBox4
@@ -3898,14 +3983,696 @@ Partial Class frmEmployee_Master
         '
         'pageOthers
         '
+        Me.pageOthers.Controls.Add(Me.GroupBox3)
         Me.pageOthers.Controls.Add(Me.GroupBox2)
         Me.pageOthers.Controls.Add(Me.GroupBox1)
         Me.pageOthers.Controls.Add(Me.grpFranchise)
         Me.pageOthers.ItemSize = New System.Drawing.SizeF(134.0!, 28.0!)
         Me.pageOthers.Location = New System.Drawing.Point(10, 37)
         Me.pageOthers.Name = "pageOthers"
-        Me.pageOthers.Size = New System.Drawing.Size(1028, 412)
+        Me.pageOthers.Size = New System.Drawing.Size(1209, 412)
         Me.pageOthers.Text = "PF/ESI/Bank and Others"
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.GroupBox5)
+        Me.GroupBox3.Controls.Add(Me.GroupBox4)
+        Me.GroupBox3.Controls.Add(Me.txtACCOEDLI_MIN)
+        Me.GroupBox3.Controls.Add(Me.lblMinACEDLI)
+        Me.GroupBox3.Controls.Add(Me.MyLabel61)
+        Me.GroupBox3.Controls.Add(Me.MyLabel57)
+        Me.GroupBox3.Controls.Add(Me.MyLabel58)
+        Me.GroupBox3.Controls.Add(Me.MyLabel59)
+        Me.GroupBox3.Controls.Add(Me.MyLabel60)
+        Me.GroupBox3.Controls.Add(Me.cboCoEPFRound)
+        Me.GroupBox3.Controls.Add(Me.txtEPS_MAX)
+        Me.GroupBox3.Controls.Add(Me.MyLabel53)
+        Me.GroupBox3.Controls.Add(Me.txtCOEDLI_MAX)
+        Me.GroupBox3.Controls.Add(Me.txtCOEPS_PER)
+        Me.GroupBox3.Controls.Add(Me.txtACCOEDLI_MAX)
+        Me.GroupBox3.Controls.Add(Me.lblShipmentTotal)
+        Me.GroupBox3.Controls.Add(Me.txtACCOEPF_MAX)
+        Me.GroupBox3.Controls.Add(Me.MyLabel54)
+        Me.GroupBox3.Controls.Add(Me.txtCOEPF_PER)
+        Me.GroupBox3.Controls.Add(Me.MyLabel55)
+        Me.GroupBox3.Controls.Add(Me.txtACCOEDLI_PER)
+        Me.GroupBox3.Controls.Add(Me.MyLabel56)
+        Me.GroupBox3.Controls.Add(Me.txtACCOEPF_PER)
+        Me.GroupBox3.Controls.Add(Me.txtCOEDLI_PER)
+        Me.GroupBox3.Location = New System.Drawing.Point(716, 95)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(490, 288)
+        Me.GroupBox3.TabIndex = 173
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "PF Details"
+        '
+        'GroupBox5
+        '
+        Me.GroupBox5.Controls.Add(Me.CboOCRound)
+        Me.GroupBox5.Controls.Add(Me.MyLabel65)
+        Me.GroupBox5.Controls.Add(Me.MyLabel67)
+        Me.GroupBox5.Controls.Add(Me.MyLabel66)
+        Me.GroupBox5.Controls.Add(Me.txtOC)
+        Me.GroupBox5.Controls.Add(Me.txtOC_MAX)
+        Me.GroupBox5.Location = New System.Drawing.Point(9, 192)
+        Me.GroupBox5.Name = "GroupBox5"
+        Me.GroupBox5.Size = New System.Drawing.Size(475, 67)
+        Me.GroupBox5.TabIndex = 193
+        Me.GroupBox5.TabStop = False
+        Me.GroupBox5.Text = "Others"
+        '
+        'CboOCRound
+        '
+        Me.CboOCRound.AutoCompleteDisplayMember = Nothing
+        Me.CboOCRound.AutoCompleteValueMember = Nothing
+        Me.CboOCRound.BackColor = System.Drawing.Color.Transparent
+        Me.CboOCRound.CalculationExpression = Nothing
+        Me.CboOCRound.DropDownAnimationEnabled = True
+        Me.CboOCRound.FieldCode = Nothing
+        Me.CboOCRound.FieldDesc = Nothing
+        Me.CboOCRound.FieldMaxLength = 0
+        Me.CboOCRound.FieldName = Nothing
+        Me.CboOCRound.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboOCRound.isCalculatedField = False
+        Me.CboOCRound.IsSourceFromTable = False
+        Me.CboOCRound.IsSourceFromValueList = False
+        Me.CboOCRound.IsUnique = False
+        Me.CboOCRound.Location = New System.Drawing.Point(380, 18)
+        Me.CboOCRound.MendatroryField = False
+        Me.CboOCRound.MyLinkLable1 = Me.MyLabel67
+        Me.CboOCRound.MyLinkLable2 = Nothing
+        Me.CboOCRound.Name = "CboOCRound"
+        Me.CboOCRound.ReferenceFieldDesc = Nothing
+        Me.CboOCRound.ReferenceFieldName = Nothing
+        Me.CboOCRound.ReferenceTableName = Nothing
+        Me.CboOCRound.Size = New System.Drawing.Size(89, 18)
+        Me.CboOCRound.TabIndex = 194
+        '
+        'MyLabel67
+        '
+        Me.MyLabel67.FieldName = Nothing
+        Me.MyLabel67.Location = New System.Drawing.Point(249, 17)
+        Me.MyLabel67.Name = "MyLabel67"
+        Me.MyLabel67.Size = New System.Drawing.Size(125, 18)
+        Me.MyLabel67.TabIndex = 195
+        Me.MyLabel67.Text = "Charges Round off type"
+        '
+        'MyLabel65
+        '
+        Me.MyLabel65.FieldName = Nothing
+        Me.MyLabel65.Location = New System.Drawing.Point(6, 17)
+        Me.MyLabel65.Name = "MyLabel65"
+        Me.MyLabel65.Size = New System.Drawing.Size(101, 18)
+        Me.MyLabel65.TabIndex = 194
+        Me.MyLabel65.Text = "Other Charges(OC)"
+        '
+        'MyLabel66
+        '
+        Me.MyLabel66.FieldName = Nothing
+        Me.MyLabel66.Location = New System.Drawing.Point(6, 38)
+        Me.MyLabel66.Name = "MyLabel66"
+        Me.MyLabel66.Size = New System.Drawing.Size(138, 18)
+        Me.MyLabel66.TabIndex = 195
+        Me.MyLabel66.Text = "Max of Other Charges(OC)"
+        '
+        'txtOC
+        '
+        Me.txtOC.AutoSize = False
+        Me.txtOC.CalculationExpression = Nothing
+        Me.txtOC.FieldCode = Nothing
+        Me.txtOC.FieldDesc = Nothing
+        Me.txtOC.FieldMaxLength = 0
+        Me.txtOC.FieldName = Nothing
+        Me.txtOC.isCalculatedField = False
+        Me.txtOC.IsSourceFromTable = False
+        Me.txtOC.IsSourceFromValueList = False
+        Me.txtOC.IsUnique = False
+        Me.txtOC.Location = New System.Drawing.Point(152, 16)
+        Me.txtOC.MendatroryField = False
+        Me.txtOC.Multiline = True
+        Me.txtOC.MyLinkLable1 = Me.MyLabel14
+        Me.txtOC.MyLinkLable2 = Nothing
+        Me.txtOC.Name = "txtOC"
+        Me.txtOC.ReferenceFieldDesc = Nothing
+        Me.txtOC.ReferenceFieldName = Nothing
+        Me.txtOC.ReferenceTableName = Nothing
+        Me.txtOC.Size = New System.Drawing.Size(92, 18)
+        Me.txtOC.TabIndex = 174
+        Me.txtOC.Text = "0.0"
+        Me.txtOC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtOC_MAX
+        '
+        Me.txtOC_MAX.AutoSize = False
+        Me.txtOC_MAX.CalculationExpression = Nothing
+        Me.txtOC_MAX.FieldCode = Nothing
+        Me.txtOC_MAX.FieldDesc = Nothing
+        Me.txtOC_MAX.FieldMaxLength = 0
+        Me.txtOC_MAX.FieldName = Nothing
+        Me.txtOC_MAX.isCalculatedField = False
+        Me.txtOC_MAX.IsSourceFromTable = False
+        Me.txtOC_MAX.IsSourceFromValueList = False
+        Me.txtOC_MAX.IsUnique = False
+        Me.txtOC_MAX.Location = New System.Drawing.Point(152, 38)
+        Me.txtOC_MAX.MendatroryField = False
+        Me.txtOC_MAX.Multiline = True
+        Me.txtOC_MAX.MyLinkLable1 = Me.MyLabel13
+        Me.txtOC_MAX.MyLinkLable2 = Nothing
+        Me.txtOC_MAX.Name = "txtOC_MAX"
+        Me.txtOC_MAX.ReferenceFieldDesc = Nothing
+        Me.txtOC_MAX.ReferenceFieldName = Nothing
+        Me.txtOC_MAX.ReferenceTableName = Nothing
+        Me.txtOC_MAX.Size = New System.Drawing.Size(93, 18)
+        Me.txtOC_MAX.TabIndex = 175
+        Me.txtOC_MAX.Text = "0.0"
+        Me.txtOC_MAX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel13.Location = New System.Drawing.Point(369, 129)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel13.TabIndex = 163
+        Me.MyLabel13.Text = "Bank Name"
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.CboEmpRound)
+        Me.GroupBox4.Controls.Add(Me.MyLabel62)
+        Me.GroupBox4.Controls.Add(Me.MyLabel64)
+        Me.GroupBox4.Controls.Add(Me.txtEMPEPF_PER)
+        Me.GroupBox4.Controls.Add(Me.txtEMPEPF_MAX)
+        Me.GroupBox4.Controls.Add(Me.MyLabel63)
+        Me.GroupBox4.Location = New System.Drawing.Point(9, 132)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(476, 57)
+        Me.GroupBox4.TabIndex = 192
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Employee"
+        '
+        'CboEmpRound
+        '
+        Me.CboEmpRound.AutoCompleteDisplayMember = Nothing
+        Me.CboEmpRound.AutoCompleteValueMember = Nothing
+        Me.CboEmpRound.BackColor = System.Drawing.Color.Transparent
+        Me.CboEmpRound.CalculationExpression = Nothing
+        Me.CboEmpRound.DropDownAnimationEnabled = True
+        Me.CboEmpRound.FieldCode = Nothing
+        Me.CboEmpRound.FieldDesc = Nothing
+        Me.CboEmpRound.FieldMaxLength = 0
+        Me.CboEmpRound.FieldName = Nothing
+        Me.CboEmpRound.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboEmpRound.isCalculatedField = False
+        Me.CboEmpRound.IsSourceFromTable = False
+        Me.CboEmpRound.IsSourceFromValueList = False
+        Me.CboEmpRound.IsUnique = False
+        Me.CboEmpRound.Location = New System.Drawing.Point(390, 14)
+        Me.CboEmpRound.MendatroryField = False
+        Me.CboEmpRound.MyLinkLable1 = Me.MyLabel64
+        Me.CboEmpRound.MyLinkLable2 = Nothing
+        Me.CboEmpRound.Name = "CboEmpRound"
+        Me.CboEmpRound.ReferenceFieldDesc = Nothing
+        Me.CboEmpRound.ReferenceFieldName = Nothing
+        Me.CboEmpRound.ReferenceTableName = Nothing
+        Me.CboEmpRound.Size = New System.Drawing.Size(80, 18)
+        Me.CboEmpRound.TabIndex = 193
+        '
+        'MyLabel64
+        '
+        Me.MyLabel64.FieldName = Nothing
+        Me.MyLabel64.Location = New System.Drawing.Point(258, 14)
+        Me.MyLabel64.Name = "MyLabel64"
+        Me.MyLabel64.Size = New System.Drawing.Size(131, 18)
+        Me.MyLabel64.TabIndex = 194
+        Me.MyLabel64.Text = "Emp EPF Round Off Type"
+        '
+        'MyLabel62
+        '
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Location = New System.Drawing.Point(6, 35)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(91, 18)
+        Me.MyLabel62.TabIndex = 193
+        Me.MyLabel62.Text = "Max EPF Amount"
+        '
+        'txtEMPEPF_PER
+        '
+        Me.txtEMPEPF_PER.AutoSize = False
+        Me.txtEMPEPF_PER.CalculationExpression = Nothing
+        Me.txtEMPEPF_PER.FieldCode = Nothing
+        Me.txtEMPEPF_PER.FieldDesc = Nothing
+        Me.txtEMPEPF_PER.FieldMaxLength = 0
+        Me.txtEMPEPF_PER.FieldName = Nothing
+        Me.txtEMPEPF_PER.isCalculatedField = False
+        Me.txtEMPEPF_PER.IsSourceFromTable = False
+        Me.txtEMPEPF_PER.IsSourceFromValueList = False
+        Me.txtEMPEPF_PER.IsUnique = False
+        Me.txtEMPEPF_PER.Location = New System.Drawing.Point(173, 14)
+        Me.txtEMPEPF_PER.MendatroryField = False
+        Me.txtEMPEPF_PER.Multiline = True
+        Me.txtEMPEPF_PER.MyLinkLable1 = Me.MyLabel7
+        Me.txtEMPEPF_PER.MyLinkLable2 = Nothing
+        Me.txtEMPEPF_PER.Name = "txtEMPEPF_PER"
+        Me.txtEMPEPF_PER.ReferenceFieldDesc = Nothing
+        Me.txtEMPEPF_PER.ReferenceFieldName = Nothing
+        Me.txtEMPEPF_PER.ReferenceTableName = Nothing
+        Me.txtEMPEPF_PER.Size = New System.Drawing.Size(82, 18)
+        Me.txtEMPEPF_PER.TabIndex = 190
+        Me.txtEMPEPF_PER.Text = "0.0"
+        Me.txtEMPEPF_PER.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtEMPEPF_MAX
+        '
+        Me.txtEMPEPF_MAX.AutoSize = False
+        Me.txtEMPEPF_MAX.CalculationExpression = Nothing
+        Me.txtEMPEPF_MAX.FieldCode = Nothing
+        Me.txtEMPEPF_MAX.FieldDesc = Nothing
+        Me.txtEMPEPF_MAX.FieldMaxLength = 0
+        Me.txtEMPEPF_MAX.FieldName = Nothing
+        Me.txtEMPEPF_MAX.isCalculatedField = False
+        Me.txtEMPEPF_MAX.IsSourceFromTable = False
+        Me.txtEMPEPF_MAX.IsSourceFromValueList = False
+        Me.txtEMPEPF_MAX.IsUnique = False
+        Me.txtEMPEPF_MAX.Location = New System.Drawing.Point(173, 34)
+        Me.txtEMPEPF_MAX.MendatroryField = False
+        Me.txtEMPEPF_MAX.Multiline = True
+        Me.txtEMPEPF_MAX.MyLinkLable1 = Me.MyLabel3
+        Me.txtEMPEPF_MAX.MyLinkLable2 = Nothing
+        Me.txtEMPEPF_MAX.Name = "txtEMPEPF_MAX"
+        Me.txtEMPEPF_MAX.ReferenceFieldDesc = Nothing
+        Me.txtEMPEPF_MAX.ReferenceFieldName = Nothing
+        Me.txtEMPEPF_MAX.ReferenceTableName = Nothing
+        Me.txtEMPEPF_MAX.Size = New System.Drawing.Size(82, 18)
+        Me.txtEMPEPF_MAX.TabIndex = 191
+        Me.txtEMPEPF_MAX.Text = "0.0"
+        Me.txtEMPEPF_MAX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'MyLabel63
+        '
+        Me.MyLabel63.FieldName = Nothing
+        Me.MyLabel63.Location = New System.Drawing.Point(6, 15)
+        Me.MyLabel63.Name = "MyLabel63"
+        Me.MyLabel63.Size = New System.Drawing.Size(162, 18)
+        Me.MyLabel63.TabIndex = 192
+        Me.MyLabel63.Text = "Employee EPF Share(%)-A/C 01"
+        '
+        'txtACCOEDLI_MIN
+        '
+        Me.txtACCOEDLI_MIN.AutoSize = False
+        Me.txtACCOEDLI_MIN.CalculationExpression = Nothing
+        Me.txtACCOEDLI_MIN.FieldCode = Nothing
+        Me.txtACCOEDLI_MIN.FieldDesc = Nothing
+        Me.txtACCOEDLI_MIN.FieldMaxLength = 0
+        Me.txtACCOEDLI_MIN.FieldName = Nothing
+        Me.txtACCOEDLI_MIN.isCalculatedField = False
+        Me.txtACCOEDLI_MIN.IsSourceFromTable = False
+        Me.txtACCOEDLI_MIN.IsSourceFromValueList = False
+        Me.txtACCOEDLI_MIN.IsUnique = False
+        Me.txtACCOEDLI_MIN.Location = New System.Drawing.Point(336, 107)
+        Me.txtACCOEDLI_MIN.MendatroryField = False
+        Me.txtACCOEDLI_MIN.Multiline = True
+        Me.txtACCOEDLI_MIN.MyLinkLable1 = Me.lblMinACEDLI
+        Me.txtACCOEDLI_MIN.MyLinkLable2 = Nothing
+        Me.txtACCOEDLI_MIN.Name = "txtACCOEDLI_MIN"
+        Me.txtACCOEDLI_MIN.ReferenceFieldDesc = Nothing
+        Me.txtACCOEDLI_MIN.ReferenceFieldName = Nothing
+        Me.txtACCOEDLI_MIN.ReferenceTableName = Nothing
+        Me.txtACCOEDLI_MIN.Size = New System.Drawing.Size(30, 18)
+        Me.txtACCOEDLI_MIN.TabIndex = 188
+        Me.txtACCOEDLI_MIN.Text = "0.0"
+        Me.txtACCOEDLI_MIN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'lblMinACEDLI
+        '
+        Me.lblMinACEDLI.FieldName = Nothing
+        Me.lblMinACEDLI.Location = New System.Drawing.Point(256, 106)
+        Me.lblMinACEDLI.Name = "lblMinACEDLI"
+        Me.lblMinACEDLI.Size = New System.Drawing.Size(78, 18)
+        Me.lblMinACEDLI.TabIndex = 189
+        Me.lblMinACEDLI.Text = "Min of ACEDLI"
+        '
+        'MyLabel61
+        '
+        Me.MyLabel61.FieldName = Nothing
+        Me.MyLabel61.Location = New System.Drawing.Point(368, 107)
+        Me.MyLabel61.Name = "MyLabel61"
+        Me.MyLabel61.Size = New System.Drawing.Size(80, 18)
+        Me.MyLabel61.TabIndex = 187
+        Me.MyLabel61.Text = "Max of ACEDLI"
+        '
+        'MyLabel57
+        '
+        Me.MyLabel57.FieldName = Nothing
+        Me.MyLabel57.Location = New System.Drawing.Point(254, 38)
+        Me.MyLabel57.Name = "MyLabel57"
+        Me.MyLabel57.Size = New System.Drawing.Size(92, 18)
+        Me.MyLabel57.TabIndex = 184
+        Me.MyLabel57.Text = "Max EPS Amount"
+        '
+        'MyLabel58
+        '
+        Me.MyLabel58.FieldName = Nothing
+        Me.MyLabel58.Location = New System.Drawing.Point(254, 14)
+        Me.MyLabel58.Name = "MyLabel58"
+        Me.MyLabel58.Size = New System.Drawing.Size(139, 18)
+        Me.MyLabel58.TabIndex = 183
+        Me.MyLabel58.Text = "Comp EPF Round Off Type"
+        '
+        'MyLabel59
+        '
+        Me.MyLabel59.FieldName = Nothing
+        Me.MyLabel59.Location = New System.Drawing.Point(256, 84)
+        Me.MyLabel59.Name = "MyLabel59"
+        Me.MyLabel59.Size = New System.Drawing.Size(66, 18)
+        Me.MyLabel59.TabIndex = 186
+        Me.MyLabel59.Text = "Max of EDLI"
+        '
+        'MyLabel60
+        '
+        Me.MyLabel60.FieldName = Nothing
+        Me.MyLabel60.Location = New System.Drawing.Point(254, 61)
+        Me.MyLabel60.Name = "MyLabel60"
+        Me.MyLabel60.Size = New System.Drawing.Size(118, 18)
+        Me.MyLabel60.TabIndex = 185
+        Me.MyLabel60.Text = "Max amount of ACEPF"
+        '
+        'cboCoEPFRound
+        '
+        Me.cboCoEPFRound.AutoCompleteDisplayMember = Nothing
+        Me.cboCoEPFRound.AutoCompleteValueMember = Nothing
+        Me.cboCoEPFRound.BackColor = System.Drawing.Color.Transparent
+        Me.cboCoEPFRound.CalculationExpression = Nothing
+        Me.cboCoEPFRound.DropDownAnimationEnabled = True
+        Me.cboCoEPFRound.FieldCode = Nothing
+        Me.cboCoEPFRound.FieldDesc = Nothing
+        Me.cboCoEPFRound.FieldMaxLength = 0
+        Me.cboCoEPFRound.FieldName = Nothing
+        Me.cboCoEPFRound.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboCoEPFRound.isCalculatedField = False
+        Me.cboCoEPFRound.IsSourceFromTable = False
+        Me.cboCoEPFRound.IsSourceFromValueList = False
+        Me.cboCoEPFRound.IsUnique = False
+        Me.cboCoEPFRound.Location = New System.Drawing.Point(407, 15)
+        Me.cboCoEPFRound.MendatroryField = False
+        Me.cboCoEPFRound.MyLinkLable1 = Me.MyLabel1
+        Me.cboCoEPFRound.MyLinkLable2 = Nothing
+        Me.cboCoEPFRound.Name = "cboCoEPFRound"
+        Me.cboCoEPFRound.ReferenceFieldDesc = Nothing
+        Me.cboCoEPFRound.ReferenceFieldName = Nothing
+        Me.cboCoEPFRound.ReferenceTableName = Nothing
+        Me.cboCoEPFRound.Size = New System.Drawing.Size(77, 18)
+        Me.cboCoEPFRound.TabIndex = 174
+        '
+        'txtEPS_MAX
+        '
+        Me.txtEPS_MAX.AutoSize = False
+        Me.txtEPS_MAX.CalculationExpression = Nothing
+        Me.txtEPS_MAX.FieldCode = Nothing
+        Me.txtEPS_MAX.FieldDesc = Nothing
+        Me.txtEPS_MAX.FieldMaxLength = 0
+        Me.txtEPS_MAX.FieldName = Nothing
+        Me.txtEPS_MAX.isCalculatedField = False
+        Me.txtEPS_MAX.IsSourceFromTable = False
+        Me.txtEPS_MAX.IsSourceFromValueList = False
+        Me.txtEPS_MAX.IsUnique = False
+        Me.txtEPS_MAX.Location = New System.Drawing.Point(406, 38)
+        Me.txtEPS_MAX.MendatroryField = False
+        Me.txtEPS_MAX.Multiline = True
+        Me.txtEPS_MAX.MyLinkLable1 = Me.MyLabel6
+        Me.txtEPS_MAX.MyLinkLable2 = Nothing
+        Me.txtEPS_MAX.Name = "txtEPS_MAX"
+        Me.txtEPS_MAX.ReferenceFieldDesc = Nothing
+        Me.txtEPS_MAX.ReferenceFieldName = Nothing
+        Me.txtEPS_MAX.ReferenceTableName = Nothing
+        Me.txtEPS_MAX.Size = New System.Drawing.Size(78, 18)
+        Me.txtEPS_MAX.TabIndex = 175
+        Me.txtEPS_MAX.Text = "0.0"
+        Me.txtEPS_MAX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'MyLabel53
+        '
+        Me.MyLabel53.FieldName = Nothing
+        Me.MyLabel53.Location = New System.Drawing.Point(9, 38)
+        Me.MyLabel53.Name = "MyLabel53"
+        Me.MyLabel53.Size = New System.Drawing.Size(139, 18)
+        Me.MyLabel53.TabIndex = 175
+        Me.MyLabel53.Text = "Com. EPS Share(%)-A/C 10"
+        '
+        'txtCOEDLI_MAX
+        '
+        Me.txtCOEDLI_MAX.AutoSize = False
+        Me.txtCOEDLI_MAX.CalculationExpression = Nothing
+        Me.txtCOEDLI_MAX.FieldCode = Nothing
+        Me.txtCOEDLI_MAX.FieldDesc = Nothing
+        Me.txtCOEDLI_MAX.FieldMaxLength = 0
+        Me.txtCOEDLI_MAX.FieldName = Nothing
+        Me.txtCOEDLI_MAX.isCalculatedField = False
+        Me.txtCOEDLI_MAX.IsSourceFromTable = False
+        Me.txtCOEDLI_MAX.IsSourceFromValueList = False
+        Me.txtCOEDLI_MAX.IsUnique = False
+        Me.txtCOEDLI_MAX.Location = New System.Drawing.Point(406, 84)
+        Me.txtCOEDLI_MAX.MendatroryField = False
+        Me.txtCOEDLI_MAX.Multiline = True
+        Me.txtCOEDLI_MAX.MyLinkLable1 = Me.MyLabel10
+        Me.txtCOEDLI_MAX.MyLinkLable2 = Nothing
+        Me.txtCOEDLI_MAX.Name = "txtCOEDLI_MAX"
+        Me.txtCOEDLI_MAX.ReferenceFieldDesc = Nothing
+        Me.txtCOEDLI_MAX.ReferenceFieldName = Nothing
+        Me.txtCOEDLI_MAX.ReferenceTableName = Nothing
+        Me.txtCOEDLI_MAX.Size = New System.Drawing.Size(78, 18)
+        Me.txtCOEDLI_MAX.TabIndex = 177
+        Me.txtCOEDLI_MAX.Text = "0.0"
+        Me.txtCOEDLI_MAX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtCOEPS_PER
+        '
+        Me.txtCOEPS_PER.AutoSize = False
+        Me.txtCOEPS_PER.CalculationExpression = Nothing
+        Me.txtCOEPS_PER.FieldCode = Nothing
+        Me.txtCOEPS_PER.FieldDesc = Nothing
+        Me.txtCOEPS_PER.FieldMaxLength = 0
+        Me.txtCOEPS_PER.FieldName = Nothing
+        Me.txtCOEPS_PER.isCalculatedField = False
+        Me.txtCOEPS_PER.IsSourceFromTable = False
+        Me.txtCOEPS_PER.IsSourceFromValueList = False
+        Me.txtCOEPS_PER.IsUnique = False
+        Me.txtCOEPS_PER.Location = New System.Drawing.Point(207, 36)
+        Me.txtCOEPS_PER.MendatroryField = False
+        Me.txtCOEPS_PER.Multiline = True
+        Me.txtCOEPS_PER.MyLinkLable1 = Me.MyLabel2
+        Me.txtCOEPS_PER.MyLinkLable2 = Nothing
+        Me.txtCOEPS_PER.Name = "txtCOEPS_PER"
+        Me.txtCOEPS_PER.ReferenceFieldDesc = Nothing
+        Me.txtCOEPS_PER.ReferenceFieldName = Nothing
+        Me.txtCOEPS_PER.ReferenceTableName = Nothing
+        Me.txtCOEPS_PER.Size = New System.Drawing.Size(46, 18)
+        Me.txtCOEPS_PER.TabIndex = 10
+        Me.txtCOEPS_PER.Text = "0.0"
+        Me.txtCOEPS_PER.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtACCOEDLI_MAX
+        '
+        Me.txtACCOEDLI_MAX.AutoSize = False
+        Me.txtACCOEDLI_MAX.CalculationExpression = Nothing
+        Me.txtACCOEDLI_MAX.FieldCode = Nothing
+        Me.txtACCOEDLI_MAX.FieldDesc = Nothing
+        Me.txtACCOEDLI_MAX.FieldMaxLength = 0
+        Me.txtACCOEDLI_MAX.FieldName = Nothing
+        Me.txtACCOEDLI_MAX.isCalculatedField = False
+        Me.txtACCOEDLI_MAX.IsSourceFromTable = False
+        Me.txtACCOEDLI_MAX.IsSourceFromValueList = False
+        Me.txtACCOEDLI_MAX.IsUnique = False
+        Me.txtACCOEDLI_MAX.Location = New System.Drawing.Point(451, 107)
+        Me.txtACCOEDLI_MAX.MendatroryField = False
+        Me.txtACCOEDLI_MAX.Multiline = True
+        Me.txtACCOEDLI_MAX.MyLinkLable1 = Me.MyLabel15
+        Me.txtACCOEDLI_MAX.MyLinkLable2 = Nothing
+        Me.txtACCOEDLI_MAX.Name = "txtACCOEDLI_MAX"
+        Me.txtACCOEDLI_MAX.ReferenceFieldDesc = Nothing
+        Me.txtACCOEDLI_MAX.ReferenceFieldName = Nothing
+        Me.txtACCOEDLI_MAX.ReferenceTableName = Nothing
+        Me.txtACCOEDLI_MAX.Size = New System.Drawing.Size(34, 18)
+        Me.txtACCOEDLI_MAX.TabIndex = 178
+        Me.txtACCOEDLI_MAX.Text = "0.0"
+        Me.txtACCOEDLI_MAX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'lblShipmentTotal
+        '
+        Me.lblShipmentTotal.FieldName = Nothing
+        Me.lblShipmentTotal.Location = New System.Drawing.Point(9, 15)
+        Me.lblShipmentTotal.Name = "lblShipmentTotal"
+        Me.lblShipmentTotal.Size = New System.Drawing.Size(139, 18)
+        Me.lblShipmentTotal.TabIndex = 174
+        Me.lblShipmentTotal.Text = "Com.EPF Share(%)- A/C 01"
+        '
+        'txtACCOEPF_MAX
+        '
+        Me.txtACCOEPF_MAX.AutoSize = False
+        Me.txtACCOEPF_MAX.CalculationExpression = Nothing
+        Me.txtACCOEPF_MAX.FieldCode = Nothing
+        Me.txtACCOEPF_MAX.FieldDesc = Nothing
+        Me.txtACCOEPF_MAX.FieldMaxLength = 0
+        Me.txtACCOEPF_MAX.FieldName = Nothing
+        Me.txtACCOEPF_MAX.isCalculatedField = False
+        Me.txtACCOEPF_MAX.IsSourceFromTable = False
+        Me.txtACCOEPF_MAX.IsSourceFromValueList = False
+        Me.txtACCOEPF_MAX.IsUnique = False
+        Me.txtACCOEPF_MAX.Location = New System.Drawing.Point(406, 61)
+        Me.txtACCOEPF_MAX.MendatroryField = False
+        Me.txtACCOEPF_MAX.Multiline = True
+        Me.txtACCOEPF_MAX.MyLinkLable1 = Me.MyLabel8
+        Me.txtACCOEPF_MAX.MyLinkLable2 = Nothing
+        Me.txtACCOEPF_MAX.Name = "txtACCOEPF_MAX"
+        Me.txtACCOEPF_MAX.ReferenceFieldDesc = Nothing
+        Me.txtACCOEPF_MAX.ReferenceFieldName = Nothing
+        Me.txtACCOEPF_MAX.ReferenceTableName = Nothing
+        Me.txtACCOEPF_MAX.Size = New System.Drawing.Size(78, 18)
+        Me.txtACCOEPF_MAX.TabIndex = 176
+        Me.txtACCOEPF_MAX.Text = "0.0"
+        Me.txtACCOEPF_MAX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'MyLabel54
+        '
+        Me.MyLabel54.FieldName = Nothing
+        Me.MyLabel54.Location = New System.Drawing.Point(9, 61)
+        Me.MyLabel54.Name = "MyLabel54"
+        Me.MyLabel54.Size = New System.Drawing.Size(190, 18)
+        Me.MyLabel54.TabIndex = 176
+        Me.MyLabel54.Text = "Adm. Charges on EPF(ACEPF)-A/C 02"
+        '
+        'txtCOEPF_PER
+        '
+        Me.txtCOEPF_PER.AutoSize = False
+        Me.txtCOEPF_PER.CalculationExpression = Nothing
+        Me.txtCOEPF_PER.FieldCode = Nothing
+        Me.txtCOEPF_PER.FieldDesc = Nothing
+        Me.txtCOEPF_PER.FieldMaxLength = 0
+        Me.txtCOEPF_PER.FieldName = Nothing
+        Me.txtCOEPF_PER.isCalculatedField = False
+        Me.txtCOEPF_PER.IsSourceFromTable = False
+        Me.txtCOEPF_PER.IsSourceFromValueList = False
+        Me.txtCOEPF_PER.IsUnique = False
+        Me.txtCOEPF_PER.Location = New System.Drawing.Point(207, 13)
+        Me.txtCOEPF_PER.MendatroryField = False
+        Me.txtCOEPF_PER.Multiline = True
+        Me.txtCOEPF_PER.MyLinkLable1 = Nothing
+        Me.txtCOEPF_PER.MyLinkLable2 = Nothing
+        Me.txtCOEPF_PER.Name = "txtCOEPF_PER"
+        Me.txtCOEPF_PER.ReferenceFieldDesc = Nothing
+        Me.txtCOEPF_PER.ReferenceFieldName = Nothing
+        Me.txtCOEPF_PER.ReferenceTableName = Nothing
+        Me.txtCOEPF_PER.Size = New System.Drawing.Size(46, 18)
+        Me.txtCOEPF_PER.TabIndex = 9
+        Me.txtCOEPF_PER.Text = "0.0"
+        Me.txtCOEPF_PER.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'MyLabel55
+        '
+        Me.MyLabel55.FieldName = Nothing
+        Me.MyLabel55.Location = New System.Drawing.Point(9, 107)
+        Me.MyLabel55.Name = "MyLabel55"
+        Me.MyLabel55.Size = New System.Drawing.Size(199, 18)
+        Me.MyLabel55.TabIndex = 178
+        Me.MyLabel55.Text = "Adm. Charges on EDLI(ACEDLI)-A/C 22"
+        '
+        'txtACCOEDLI_PER
+        '
+        Me.txtACCOEDLI_PER.AutoSize = False
+        Me.txtACCOEDLI_PER.CalculationExpression = Nothing
+        Me.txtACCOEDLI_PER.FieldCode = Nothing
+        Me.txtACCOEDLI_PER.FieldDesc = Nothing
+        Me.txtACCOEDLI_PER.FieldMaxLength = 0
+        Me.txtACCOEDLI_PER.FieldName = Nothing
+        Me.txtACCOEDLI_PER.isCalculatedField = False
+        Me.txtACCOEDLI_PER.IsSourceFromTable = False
+        Me.txtACCOEDLI_PER.IsSourceFromValueList = False
+        Me.txtACCOEDLI_PER.IsUnique = False
+        Me.txtACCOEDLI_PER.Location = New System.Drawing.Point(208, 105)
+        Me.txtACCOEDLI_PER.MendatroryField = False
+        Me.txtACCOEDLI_PER.Multiline = True
+        Me.txtACCOEDLI_PER.MyLinkLable1 = Me.MyLabel11
+        Me.txtACCOEDLI_PER.MyLinkLable2 = Nothing
+        Me.txtACCOEDLI_PER.Name = "txtACCOEDLI_PER"
+        Me.txtACCOEDLI_PER.ReferenceFieldDesc = Nothing
+        Me.txtACCOEDLI_PER.ReferenceFieldName = Nothing
+        Me.txtACCOEDLI_PER.ReferenceTableName = Nothing
+        Me.txtACCOEDLI_PER.Size = New System.Drawing.Size(46, 18)
+        Me.txtACCOEDLI_PER.TabIndex = 13
+        Me.txtACCOEDLI_PER.Text = "0.0"
+        Me.txtACCOEDLI_PER.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(369, 110)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(72, 16)
+        Me.MyLabel11.TabIndex = 161
+        Me.MyLabel11.Text = "Bank Acc No"
+        '
+        'MyLabel56
+        '
+        Me.MyLabel56.FieldName = Nothing
+        Me.MyLabel56.Location = New System.Drawing.Point(9, 84)
+        Me.MyLabel56.Name = "MyLabel56"
+        Me.MyLabel56.Size = New System.Drawing.Size(139, 18)
+        Me.MyLabel56.TabIndex = 177
+        Me.MyLabel56.Text = "EDLI Paid by Com.- A/C 21"
+        '
+        'txtACCOEPF_PER
+        '
+        Me.txtACCOEPF_PER.AutoSize = False
+        Me.txtACCOEPF_PER.CalculationExpression = Nothing
+        Me.txtACCOEPF_PER.FieldCode = Nothing
+        Me.txtACCOEPF_PER.FieldDesc = Nothing
+        Me.txtACCOEPF_PER.FieldMaxLength = 0
+        Me.txtACCOEPF_PER.FieldName = Nothing
+        Me.txtACCOEPF_PER.isCalculatedField = False
+        Me.txtACCOEPF_PER.IsSourceFromTable = False
+        Me.txtACCOEPF_PER.IsSourceFromValueList = False
+        Me.txtACCOEPF_PER.IsUnique = False
+        Me.txtACCOEPF_PER.Location = New System.Drawing.Point(207, 59)
+        Me.txtACCOEPF_PER.MendatroryField = False
+        Me.txtACCOEPF_PER.Multiline = True
+        Me.txtACCOEPF_PER.MyLinkLable1 = Me.MyLabel4
+        Me.txtACCOEPF_PER.MyLinkLable2 = Nothing
+        Me.txtACCOEPF_PER.Name = "txtACCOEPF_PER"
+        Me.txtACCOEPF_PER.ReferenceFieldDesc = Nothing
+        Me.txtACCOEPF_PER.ReferenceFieldName = Nothing
+        Me.txtACCOEPF_PER.ReferenceTableName = Nothing
+        Me.txtACCOEPF_PER.Size = New System.Drawing.Size(46, 18)
+        Me.txtACCOEPF_PER.TabIndex = 11
+        Me.txtACCOEPF_PER.Text = "0.0"
+        Me.txtACCOEPF_PER.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'txtCOEDLI_PER
+        '
+        Me.txtCOEDLI_PER.AutoSize = False
+        Me.txtCOEDLI_PER.CalculationExpression = Nothing
+        Me.txtCOEDLI_PER.FieldCode = Nothing
+        Me.txtCOEDLI_PER.FieldDesc = Nothing
+        Me.txtCOEDLI_PER.FieldMaxLength = 0
+        Me.txtCOEDLI_PER.FieldName = Nothing
+        Me.txtCOEDLI_PER.isCalculatedField = False
+        Me.txtCOEDLI_PER.IsSourceFromTable = False
+        Me.txtCOEDLI_PER.IsSourceFromValueList = False
+        Me.txtCOEDLI_PER.IsUnique = False
+        Me.txtCOEDLI_PER.Location = New System.Drawing.Point(207, 82)
+        Me.txtCOEDLI_PER.MendatroryField = False
+        Me.txtCOEDLI_PER.Multiline = True
+        Me.txtCOEDLI_PER.MyLinkLable1 = Me.MyLabel9
+        Me.txtCOEDLI_PER.MyLinkLable2 = Nothing
+        Me.txtCOEDLI_PER.Name = "txtCOEDLI_PER"
+        Me.txtCOEDLI_PER.ReferenceFieldDesc = Nothing
+        Me.txtCOEDLI_PER.ReferenceFieldName = Nothing
+        Me.txtCOEDLI_PER.ReferenceTableName = Nothing
+        Me.txtCOEDLI_PER.Size = New System.Drawing.Size(46, 18)
+        Me.txtCOEDLI_PER.TabIndex = 12
+        Me.txtCOEDLI_PER.Text = "0.0"
+        Me.txtCOEDLI_PER.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'GroupBox2
         '
@@ -3938,6 +4705,43 @@ Partial Class frmEmployee_Master
         Me.GroupBox2.TabIndex = 172
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "PF/ESI"
+        '
+        'MyLabel49
+        '
+        Me.MyLabel49.FieldName = Nothing
+        Me.MyLabel49.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel49.Location = New System.Drawing.Point(666, 54)
+        Me.MyLabel49.Name = "MyLabel49"
+        Me.MyLabel49.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel49.TabIndex = 10
+        Me.MyLabel49.Text = "PF Type"
+        '
+        'cboPFType
+        '
+        Me.cboPFType.AutoCompleteDisplayMember = Nothing
+        Me.cboPFType.AutoCompleteValueMember = Nothing
+        Me.cboPFType.CalculationExpression = Nothing
+        Me.cboPFType.DropDownAnimationEnabled = True
+        Me.cboPFType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboPFType.FieldCode = Nothing
+        Me.cboPFType.FieldDesc = Nothing
+        Me.cboPFType.FieldMaxLength = 0
+        Me.cboPFType.FieldName = Nothing
+        Me.cboPFType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboPFType.isCalculatedField = False
+        Me.cboPFType.IsSourceFromTable = False
+        Me.cboPFType.IsSourceFromValueList = False
+        Me.cboPFType.IsUnique = False
+        Me.cboPFType.Location = New System.Drawing.Point(719, 53)
+        Me.cboPFType.MendatroryField = False
+        Me.cboPFType.MyLinkLable1 = Nothing
+        Me.cboPFType.MyLinkLable2 = Nothing
+        Me.cboPFType.Name = "cboPFType"
+        Me.cboPFType.ReferenceFieldDesc = Nothing
+        Me.cboPFType.ReferenceFieldName = Nothing
+        Me.cboPFType.ReferenceTableName = Nothing
+        Me.cboPFType.Size = New System.Drawing.Size(142, 18)
+        Me.cboPFType.TabIndex = 173
         '
         'MyLabel43
         '
@@ -4339,7 +5143,7 @@ Partial Class frmEmployee_Master
         Me.GroupBox1.Controls.Add(Me.CboEmployeeType)
         Me.GroupBox1.Location = New System.Drawing.Point(3, 96)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(708, 285)
+        Me.GroupBox1.Size = New System.Drawing.Size(708, 287)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Other"
@@ -4572,16 +5376,6 @@ Partial Class frmEmployee_Master
         Me.fndPaymentMode.TabIndex = 12
         Me.fndPaymentMode.Value = ""
         '
-        'MyLabel11
-        '
-        Me.MyLabel11.FieldName = Nothing
-        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(369, 110)
-        Me.MyLabel11.Name = "MyLabel11"
-        Me.MyLabel11.Size = New System.Drawing.Size(72, 16)
-        Me.MyLabel11.TabIndex = 161
-        Me.MyLabel11.Text = "Bank Acc No"
-        '
         'txtaccno
         '
         Me.txtaccno.CalculationExpression = Nothing
@@ -4615,16 +5409,6 @@ Partial Class frmEmployee_Master
         Me.MyLabel12.Size = New System.Drawing.Size(82, 16)
         Me.MyLabel12.TabIndex = 162
         Me.MyLabel12.Text = "Payment Mode"
-        '
-        'MyLabel13
-        '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(369, 129)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel13.TabIndex = 163
-        Me.MyLabel13.Text = "Bank Name"
         '
         'txtBank
         '
@@ -5190,7 +5974,7 @@ Partial Class frmEmployee_Master
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(988, 5)
+        Me.btnclose.Location = New System.Drawing.Point(1169, 5)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(66, 18)
         Me.btnclose.TabIndex = 3
@@ -5210,7 +5994,7 @@ Partial Class frmEmployee_Master
         Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(1059, 20)
+        Me.RadMenu2.Size = New System.Drawing.Size(1240, 20)
         Me.RadMenu2.TabIndex = 61
         '
         'RadMenuItem3
@@ -5255,7 +6039,7 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1059, 535)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1240, 535)
         Me.SplitContainer1.SplitterDistance = 502
         Me.SplitContainer1.TabIndex = 0
         '
@@ -5319,48 +6103,11 @@ Partial Class frmEmployee_Master
         Me.dtpJoining.Text = "03/05/2011"
         Me.dtpJoining.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
-        'cboPFType
-        '
-        Me.cboPFType.AutoCompleteDisplayMember = Nothing
-        Me.cboPFType.AutoCompleteValueMember = Nothing
-        Me.cboPFType.CalculationExpression = Nothing
-        Me.cboPFType.DropDownAnimationEnabled = True
-        Me.cboPFType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboPFType.FieldCode = Nothing
-        Me.cboPFType.FieldDesc = Nothing
-        Me.cboPFType.FieldMaxLength = 0
-        Me.cboPFType.FieldName = Nothing
-        Me.cboPFType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboPFType.isCalculatedField = False
-        Me.cboPFType.IsSourceFromTable = False
-        Me.cboPFType.IsSourceFromValueList = False
-        Me.cboPFType.IsUnique = False
-        Me.cboPFType.Location = New System.Drawing.Point(719, 53)
-        Me.cboPFType.MendatroryField = False
-        Me.cboPFType.MyLinkLable1 = Nothing
-        Me.cboPFType.MyLinkLable2 = Nothing
-        Me.cboPFType.Name = "cboPFType"
-        Me.cboPFType.ReferenceFieldDesc = Nothing
-        Me.cboPFType.ReferenceFieldName = Nothing
-        Me.cboPFType.ReferenceTableName = Nothing
-        Me.cboPFType.Size = New System.Drawing.Size(142, 18)
-        Me.cboPFType.TabIndex = 173
-        '
-        'MyLabel49
-        '
-        Me.MyLabel49.FieldName = Nothing
-        Me.MyLabel49.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel49.Location = New System.Drawing.Point(666, 54)
-        Me.MyLabel49.Name = "MyLabel49"
-        Me.MyLabel49.Size = New System.Drawing.Size(49, 16)
-        Me.MyLabel49.TabIndex = 10
-        Me.MyLabel49.Text = "PF Type"
-        '
         'frmEmployee_Master
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1059, 555)
+        Me.ClientSize = New System.Drawing.Size(1240, 555)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu2)
         Me.Name = "frmEmployee_Master"
@@ -5373,6 +6120,7 @@ Partial Class frmEmployee_Master
         Me.RadPageView1.ResumeLayout(False)
         Me.General.ResumeLayout(False)
         Me.General.PerformLayout()
+        CType(Me.chkStfQtr, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtActiveInactiveDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblActiveInactiveDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5542,8 +6290,52 @@ Partial Class frmEmployee_Master
         CType(Me.gvAssets.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvAssets, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageOthers.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
+        Me.GroupBox5.ResumeLayout(False)
+        Me.GroupBox5.PerformLayout()
+        CType(Me.CboOCRound, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtOC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtOC_MAX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
+        CType(Me.CboEmpRound, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEMPEPF_PER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEMPEPF_MAX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtACCOEDLI_MIN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMinACEDLI, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboCoEPFRound, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEPS_MAX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel53, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCOEDLI_MAX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCOEPS_PER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtACCOEDLI_MAX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblShipmentTotal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtACCOEPF_MAX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCOEPF_PER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel55, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtACCOEDLI_PER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtACCOEPF_PER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCOEDLI_PER, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboPFType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGPFNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTransferPF, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5579,10 +6371,8 @@ Partial Class frmEmployee_Master
         CType(Me.MyLabel52, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSecChequeLac1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel50, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtaccno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel86, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboEmpNature, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboConveyanceType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5622,8 +6412,6 @@ Partial Class frmEmployee_Master
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.txtLeavingDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpJoining, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboPFType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5903,4 +6691,42 @@ Partial Class frmEmployee_Master
     Friend WithEvents txtCompBank As common.UserControls.txtFinder
     Friend WithEvents MyLabel49 As common.Controls.MyLabel
     Friend WithEvents cboPFType As common.Controls.MyComboBox
+    Friend WithEvents chkStfQtr As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents txtCOEPS_PER As common.Controls.MyTextBox
+    Friend WithEvents txtCOEPF_PER As common.Controls.MyTextBox
+    Friend WithEvents txtACCOEDLI_PER As common.Controls.MyTextBox
+    Friend WithEvents txtACCOEPF_PER As common.Controls.MyTextBox
+    Friend WithEvents txtCOEDLI_PER As common.Controls.MyTextBox
+    Friend WithEvents MyLabel53 As common.Controls.MyLabel
+    Friend WithEvents lblShipmentTotal As common.Controls.MyLabel
+    Friend WithEvents MyLabel54 As common.Controls.MyLabel
+    Friend WithEvents MyLabel55 As common.Controls.MyLabel
+    Friend WithEvents MyLabel56 As common.Controls.MyLabel
+    Friend WithEvents cboCoEPFRound As common.Controls.MyComboBox
+    Friend WithEvents txtEPS_MAX As common.Controls.MyTextBox
+    Friend WithEvents txtCOEDLI_MAX As common.Controls.MyTextBox
+    Friend WithEvents txtACCOEDLI_MAX As common.Controls.MyTextBox
+    Friend WithEvents txtACCOEPF_MAX As common.Controls.MyTextBox
+    Friend WithEvents MyLabel57 As common.Controls.MyLabel
+    Friend WithEvents MyLabel58 As common.Controls.MyLabel
+    Friend WithEvents MyLabel59 As common.Controls.MyLabel
+    Friend WithEvents MyLabel60 As common.Controls.MyLabel
+    Friend WithEvents lblMinACEDLI As common.Controls.MyLabel
+    Friend WithEvents txtACCOEDLI_MIN As common.Controls.MyTextBox
+    Friend WithEvents MyLabel61 As common.Controls.MyLabel
+    Friend WithEvents txtEMPEPF_MAX As common.Controls.MyTextBox
+    Friend WithEvents txtEMPEPF_PER As common.Controls.MyTextBox
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents MyLabel62 As common.Controls.MyLabel
+    Friend WithEvents MyLabel63 As common.Controls.MyLabel
+    Friend WithEvents MyLabel64 As common.Controls.MyLabel
+    Friend WithEvents CboEmpRound As common.Controls.MyComboBox
+    Friend WithEvents GroupBox5 As GroupBox
+    Friend WithEvents txtOC As common.Controls.MyTextBox
+    Friend WithEvents txtOC_MAX As common.Controls.MyTextBox
+    Friend WithEvents MyLabel65 As common.Controls.MyLabel
+    Friend WithEvents MyLabel66 As common.Controls.MyLabel
+    Friend WithEvents CboOCRound As common.Controls.MyComboBox
+    Friend WithEvents MyLabel67 As common.Controls.MyLabel
 End Class
