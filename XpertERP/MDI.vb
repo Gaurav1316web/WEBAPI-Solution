@@ -3703,6 +3703,10 @@ Public Class MDI
                         frm = New RmSecurityDeduction()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.WeightmentAutoAndManualReport
+                        frm = New Weightment_Auto_and_Manual_Report()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

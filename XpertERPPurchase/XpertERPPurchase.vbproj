@@ -414,6 +414,12 @@
     <Compile Include="Report\Vendor Rating Rejection.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\WeightmentAutoandManualReport.Designer.vb">
+      <DependentUpon>WeightmentAutoandManualReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\WeightmentAutoandManualReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmCorrectionforWrongEntry.Designer.vb">
       <DependentUpon>frmCorrectionforWrongEntry.vb</DependentUpon>
     </Compile>
@@ -628,6 +634,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Vendor Rating Rejection.resx">
       <DependentUpon>Vendor Rating Rejection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\WeightmentAutoandManualReport.resx">
+      <DependentUpon>WeightmentAutoandManualReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmCorrectionforWrongEntry.resx">
       <DependentUpon>frmCorrectionforWrongEntry.vb</DependentUpon>
