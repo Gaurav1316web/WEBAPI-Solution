@@ -372,8 +372,19 @@ Public Class FrmTransferRegister
     Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkSummary.IsChecked = True Then
+            VarID += "_S"
+        Else
+            ChkDetail.IsChecked = True
+            VarID += "_D"
+        End If
+        gv.VarID = VarID
+    End Sub
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         PageSetupReport_ID = ReportID + IIf(ChkDetail.IsChecked = True, "D", "")
         TemplateGridview = gv
         LoadData(Exporter.Refresh)

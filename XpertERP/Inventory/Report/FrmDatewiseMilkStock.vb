@@ -119,9 +119,21 @@ Public Class FrmDatewiseMilkStock
         'LoadData(3)
         Me.Close()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Summary") = CompairStringResult.Equal Then
+            VarID += "_S"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Monthly") = CompairStringResult.Equal Then
+            VarID += "_M"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Daily") = CompairStringResult.Equal Then
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
+    End Sub
 
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             gv1.EnableFiltering = True
             PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, cboType.Text)
             TemplateGridview = gv1

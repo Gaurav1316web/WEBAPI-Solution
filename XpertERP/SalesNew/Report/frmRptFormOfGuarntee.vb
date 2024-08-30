@@ -60,8 +60,18 @@ Public Class frmRptFormOfGuarntee
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbGuarntee.IsChecked = True Then
+            VarID += "_G"
+        ElseIf rdbWarranty.IsChecked = True Then
+            VarID += "_W"
+        End If
+        gv1.VarID = VarID
 
+    End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+        GetReportGridID()
         PrintData()
     End Sub
     Sub PrintData()

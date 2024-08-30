@@ -126,9 +126,20 @@ Public Class FrmRptSales
         End Try
 
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnItemWise.IsChecked = True Then
+            VarID += "_TW"
+        ElseIf rbtnInvoiceWise.IsChecked = True Then
+            VarID += "IW"
+        ElseIf rbtnCustomerWise.IsChecked = True Then
+            VarID += "_CW"
+        End If
+        gvReport.VarID = VarID
+    End Sub
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
         Try
+            GetReportGridID()
             gvReport.EnableFiltering = True
             reset()
             RefreshData()

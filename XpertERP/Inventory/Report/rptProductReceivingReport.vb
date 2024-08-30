@@ -35,9 +35,16 @@ Public Class rptProductReceivingReport
         Gv1.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkDetail.Checked = True Then
+            VarID += "_D"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID + IIf(chkDetail.Checked = True, "D", "")
             TemplateGridview = Gv1
             Dim qry As String = ""
