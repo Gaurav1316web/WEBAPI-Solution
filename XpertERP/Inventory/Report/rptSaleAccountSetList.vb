@@ -112,11 +112,41 @@ Public Class rptSaleAccountSetList
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         isLoadData = True
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = Gv1
         LoadData(False)
         isLoadData = False
+    End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkOnlyview.Checked = True Then
+            VarID += "_W"
+        End If
+        If clsCommon.CompairString(cboItemType.SelectedValue, "A") = CompairStringResult.Equal Then
+            VarID += "_A"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "C") = CompairStringResult.Equal Then
+            VarID += "_C"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "E") = CompairStringResult.Equal Then
+            VarID += "_E"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "F") = CompairStringResult.Equal Then
+            VarID += "_F"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "G") = CompairStringResult.Equal Then
+            VarID += "_G"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "M") = CompairStringResult.Equal Then
+            VarID += "_M"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "O") = CompairStringResult.Equal Then
+            VarID += "_O"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "P") = CompairStringResult.Equal Then
+            VarID += "_P"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "R") = CompairStringResult.Equal Then
+            VarID += "_R"
+        ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "S") = CompairStringResult.Equal Then
+            VarID += "_S"
+        End If
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

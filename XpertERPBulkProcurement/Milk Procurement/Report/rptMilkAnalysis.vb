@@ -97,7 +97,18 @@ Public Class rptMilkAnalysis
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
+        GetReportID()
         Print(False)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtn_Detail.Checked Then
+            VarID += "_D"
+        ElseIf rbtn_Summary.Checked Then
+            VarID += "_S"
+        End If
+        Gv1.VarID = VarID
     End Sub
     Sub Print(ByVal isPrint As Boolean, Optional ByVal isPrerint As Boolean = False)
         Try

@@ -475,6 +475,7 @@ Public Class clsCreateAllTable
             coll.Add("BackgroundImage", "image null")
             coll.Add("Union_Contact_Person", "Varchar(30) null ")
             coll.Add("Union_Contact_PhoneNo", "Varchar(30) null ")
+            coll.Add("ISO_No", "Varchar(30) null ")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_COMPANY_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -6572,6 +6573,7 @@ Public Class clsCreateAllTable
             coll.Add("Closing_Date", "Datetime null")
             coll.Add("IsTransfer", "int not null default 0")
             coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
+            coll.Add("AgainstDocumentCode", "Varchar(200) null")
             coll.Add("ShiftType", "varchar(20) NULL")
             coll.Add("Loading_Slip", "varchar(20) NULL")
             coll.Add("GatePass_Date", "datetime NULL")
@@ -7924,6 +7926,7 @@ Public Class clsCreateAllTable
             coll.Add("IsAgainstGateOut", "int NOT NULL default 0")
             coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, False, "", "Gate_Entry_No", "Date_And_Time")
 
             coll = New Dictionary(Of String, String)()
@@ -14409,6 +14412,24 @@ Public Class clsCreateAllTable
             coll.Add("Membership_id", "Varchar(50) null")
             coll.Add("Special_desc", "Varchar(50) null")
             coll.Add("PF_Type", "varchar(12) NULL")
+            coll.Add("Staff_Quarter", "BIT NOT NULL DEFAULT 0")
+            coll.Add("COEPF_PER", "FLOAT not null")
+            coll.Add("COEPF_ROUNDOFF_YPE", "varchar(3) not null")    '' COMPANY PF SHARE
+            coll.Add("COEPS_PER", "FLOAT  not null")                '' COMPANY EPS SHARE
+            coll.Add("EPS_MAX", "NUMERIC(10,2)  not null")          '' MAXIMUM LIMIT OF EPS AMOUNT
+            coll.Add("EMPEPF_PER", "FLOAT  not null")               '' EMPLOYEE PF SHARE
+            coll.Add("EMPEPF_MAX", "NUMERIC(10,2)  not null")       '' MAXIMUM LIMIT OF EMPLOYEE SHARE
+            coll.Add("EMPEPF_ROUNDOFF_YPE", "varchar(3) not null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
+            coll.Add("ACCOEPF_PER", "FLOAT  not null")              '' ADMIN CHARGES ON COMPANY PF SHARE
+            coll.Add("ACCOEPF_MAX", "NUMERIC(10,2)  not null")      '' MAXIMUM LIMIT OF ADMIN CHARGES ON COMPANY PF SHARE
+            coll.Add("COEDLI_PER", "FLOAT  not null")               '' EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("COEDLI_MAX", "NUMERIC(10,2)  not null")       '' MAXIMUM LIMIT OF EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("ACCOEDLI_PER", "FLOAT  not null")             '' ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("ACCOEDLI_MAX", "NUMERIC(10,2)  not null")     '' MAXIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("ACCOEDLI_MIN", "NUMERIC(10,2)   null")      '' MINIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("OC", "NUMERIC(10,2)  not null")               '' OTHER CHARGES
+            coll.Add("OC_MAX", "NUMERIC(10,2)  not null")           '' MAXIMUM LIMIT OF OTHER CHARGES
+            coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) not null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -16451,6 +16472,25 @@ Public Class clsCreateAllTable
             coll.Add("SLAB_TO", "NUMERIC(12,2) NOT NULL")
             coll.Add("PT_AMOUNT", "NUMERIC(12,2) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PT_DETAIL", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("HRR_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("HRR_NAME", "VARCHAR(100) NOT NULL  ")
+            coll.Add("APPLICABLE_FROM", "DATE NOT NULL")
+            coll.Add("STATE_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_STATE_MASTER(STATE_CODE) ")
+            coll.Add("REMARKS", "VARCHAR(200)  NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_RULE_MASTER", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("HRR_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_HRR_RULE_MASTER(HRR_CODE) ")
+            coll.Add("SLAB_FROM", "NUMERIC(12,2) NOT NULL")
+            coll.Add("SLAB_TO", "NUMERIC(12,2) NOT NULL")
+            coll.Add("PAYHEADS", "varchar(12) NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_DETAIL", coll)
 
 
             coll = New Dictionary(Of String, String)()

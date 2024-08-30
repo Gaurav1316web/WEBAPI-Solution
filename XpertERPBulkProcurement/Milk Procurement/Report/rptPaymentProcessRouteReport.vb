@@ -103,7 +103,26 @@ Public Class rptPaymentProcessRouteReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnRoute.Checked Then
+            VarID += "_R"
+        ElseIf rbtnDcs.Checked Then
+            VarID += "_D"
+        End If
+
+        If rbtnPDCS.Checked Then
+            VarID += "_PD"
+        ElseIf rbtnRegistered.Checked Then
+            VarID += "_R"
+        ElseIf rbtnPRBoth.Checked Then
+            VarID += "_PB"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Public Sub LoadData()

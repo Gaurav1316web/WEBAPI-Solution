@@ -57,23 +57,24 @@ Public Class rptJobworkBilling
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
             PageSetupReport_ID = GetReportId()
+            GetReportGridID()
             TemplateGridview = Gv1
             Dim BaseQry As String = ""
             Dim qry As String = ""
             Dim dt As New DataTable
-            BaseQry = " select TSPL_JOBWORK_BILLING_DETAIL.Document_Code as [Document Code], convert (varchar, TSPL_JOBWORK_BILLING_HEAD.Document_Date,103) as [Document Date] ,TSPL_JOBWORK_BILLING_HEAD.cust_Code as [Customer Code] , " & _
-                  " tspl_Customer_Master.Customer_Name as [Customer Name], TSPL_JOBWORK_BILLING_HEAD.Loc_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Desc], TSPL_JOBWORK_BILLING_HEAD.Status ,  " & _
-                  " TSPL_JOBWORK_BILLING_DETAIL.Item_Code as [Item Code], TSPL_Item_Master.Item_Desc as [Item Desc], TSPL_JOBWORK_BILLING_DETAIL.Invoice_Qty as [Invoice Qty], TSPL_JOBWORK_BILLING_DETAIL.ConvKG_Qty as [Invoice Qty(KG)], " & _
-                  " TSPL_JOBWORK_BILLING_DETAIL.Price as [Rate], TSPL_JOBWORK_BILLING_DETAIL.ItemAmt as [Amount], " & _
-                  " TSPL_JOBWORK_BILLING_DETAIL.TAX1 as [Tax1 Code], TSPL_JOBWORK_BILLING_DETAIL.Tax1_Rate as [Tax1 Rate], TSPL_JOBWORK_BILLING_DETAIL.Tax1_Amt as [Tax1 Amount], " & _
-                  " TSPL_JOBWORK_BILLING_DETAIL.TAX2 as [Tax2 Code], TSPL_JOBWORK_BILLING_DETAIL.Tax2_Rate as [Tax2 Rate], TSPL_JOBWORK_BILLING_DETAIL.Tax2_Amt as [Tax2 Amount], " & _
-                  " TSPL_JOBWORK_BILLING_DETAIL.TAX3 as [Tax3 Code], TSPL_JOBWORK_BILLING_DETAIL.Tax3_Rate as [Tax3 Rate], TSPL_JOBWORK_BILLING_DETAIL.Tax3_Amt as [Tax3 Amount], " & _
-                  " TSPL_JOBWORK_BILLING_DETAIL.TotalTaxAmt as [Total Tax Amount], TSPL_JOBWORK_BILLING_DETAIL.TotalAmt as [Total Amount] " & _
-                  " from TSPL_JOBWORK_BILLING_DETAIL " & _
-                  " left outer join TSPL_JOBWORK_BILLING_HEAD on TSPL_JOBWORK_BILLING_HEAD.Document_Code= TSPL_JOBWORK_BILLING_DETAIL.Document_code " & _
-                  " left outer join tspl_Customer_Master on tspl_Customer_Master.cust_Code = TSPL_JOBWORK_BILLING_HEAD.Cust_Code " & _
-                  " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_JOBWORK_BILLING_HEAD.Loc_Code " & _
-                  " left outer join TSPL_Item_Master on TSPL_Item_Master.Item_Code = TSPL_JOBWORK_BILLING_DETAIL.Item_Code  " & _
+            BaseQry = " select TSPL_JOBWORK_BILLING_DETAIL.Document_Code as [Document Code], convert (varchar, TSPL_JOBWORK_BILLING_HEAD.Document_Date,103) as [Document Date] ,TSPL_JOBWORK_BILLING_HEAD.cust_Code as [Customer Code] , " &
+                  " tspl_Customer_Master.Customer_Name as [Customer Name], TSPL_JOBWORK_BILLING_HEAD.Loc_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Desc], TSPL_JOBWORK_BILLING_HEAD.Status ,  " &
+                  " TSPL_JOBWORK_BILLING_DETAIL.Item_Code as [Item Code], TSPL_Item_Master.Item_Desc as [Item Desc], TSPL_JOBWORK_BILLING_DETAIL.Invoice_Qty as [Invoice Qty], TSPL_JOBWORK_BILLING_DETAIL.ConvKG_Qty as [Invoice Qty(KG)], " &
+                  " TSPL_JOBWORK_BILLING_DETAIL.Price as [Rate], TSPL_JOBWORK_BILLING_DETAIL.ItemAmt as [Amount], " &
+                  " TSPL_JOBWORK_BILLING_DETAIL.TAX1 as [Tax1 Code], TSPL_JOBWORK_BILLING_DETAIL.Tax1_Rate as [Tax1 Rate], TSPL_JOBWORK_BILLING_DETAIL.Tax1_Amt as [Tax1 Amount], " &
+                  " TSPL_JOBWORK_BILLING_DETAIL.TAX2 as [Tax2 Code], TSPL_JOBWORK_BILLING_DETAIL.Tax2_Rate as [Tax2 Rate], TSPL_JOBWORK_BILLING_DETAIL.Tax2_Amt as [Tax2 Amount], " &
+                  " TSPL_JOBWORK_BILLING_DETAIL.TAX3 as [Tax3 Code], TSPL_JOBWORK_BILLING_DETAIL.Tax3_Rate as [Tax3 Rate], TSPL_JOBWORK_BILLING_DETAIL.Tax3_Amt as [Tax3 Amount], " &
+                  " TSPL_JOBWORK_BILLING_DETAIL.TotalTaxAmt as [Total Tax Amount], TSPL_JOBWORK_BILLING_DETAIL.TotalAmt as [Total Amount] " &
+                  " from TSPL_JOBWORK_BILLING_DETAIL " &
+                  " left outer join TSPL_JOBWORK_BILLING_HEAD on TSPL_JOBWORK_BILLING_HEAD.Document_Code= TSPL_JOBWORK_BILLING_DETAIL.Document_code " &
+                  " left outer join tspl_Customer_Master on tspl_Customer_Master.cust_Code = TSPL_JOBWORK_BILLING_HEAD.Cust_Code " &
+                  " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_JOBWORK_BILLING_HEAD.Loc_Code " &
+                  " left outer join TSPL_Item_Master on TSPL_Item_Master.Item_Code = TSPL_JOBWORK_BILLING_DETAIL.Item_Code  " &
                   " where convert(date,TSPL_JOBWORK_BILLING_HEAD.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_JOBWORK_BILLING_HEAD.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)  "
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 And isBackOn = False Then
                 BaseQry += " and TSPL_JOBWORK_BILLING_HEAD.cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
@@ -91,20 +92,20 @@ Public Class rptJobworkBilling
                 qry = BaseQry
             ElseIf rdbSummary.Checked Then
                 If clsCommon.CompairString(cboBy.SelectedValue, "All") = CompairStringResult.Equal Then
-                    qry = " select  XXX.[Document Code],max(XXX.[Document Date]) as [Document Date], max( XXX.[Customer Code] ) as [Customer Code] , max(XXX.[Customer Name] )as [Customer Name],max(XXX.[Location Code]) as [Location Code],max([Location Desc]) as [Location Desc],  XXX.[Item code], max (XXX.[Item Desc]) as [Item Desc] , sum( XXX.[Invoice Qty(KG)]) as  [Invoice Qty(KG)], sum(XXX.[Amount]) as [Amount] , sum(XXX.[Total Tax Amount]) as [Total Tax Amount] ,sum (XXX.[Total Amount]) as [Total Amount] from ( " & _
-                         "" + BaseQry + " " & _
+                    qry = " select  XXX.[Document Code],max(XXX.[Document Date]) as [Document Date], max( XXX.[Customer Code] ) as [Customer Code] , max(XXX.[Customer Name] )as [Customer Name],max(XXX.[Location Code]) as [Location Code],max([Location Desc]) as [Location Desc],  XXX.[Item code], max (XXX.[Item Desc]) as [Item Desc] , sum( XXX.[Invoice Qty(KG)]) as  [Invoice Qty(KG)], sum(XXX.[Amount]) as [Amount] , sum(XXX.[Total Tax Amount]) as [Total Tax Amount] ,sum (XXX.[Total Amount]) as [Total Amount] from ( " &
+                         "" + BaseQry + " " &
                          " ) XXX  group by XXX.[Document Code] , XXX.[Item code] order by XXX.[Document Code] "
                 ElseIf clsCommon.CompairString(cboBy.SelectedValue, "Customerwise") = CompairStringResult.Equal Then
-                    qry = " select XXX.[Customer Code] , max(XXX.[Customer Name] )as [Customer Name], XXX.[Item code], max (XXX.[Item Desc]) as [Item Desc] , sum( XXX.[Invoice Qty(KG)]) as  [Invoice Qty(KG)], sum(XXX.[Amount]) as [Amount] , sum(XXX.[Total Tax Amount]) as [Total Tax Amount] ,sum (XXX.[Total Amount]) as [Total Amount] from ( " & _
-                          "" + BaseQry + " " & _
+                    qry = " select XXX.[Customer Code] , max(XXX.[Customer Name] )as [Customer Name], XXX.[Item code], max (XXX.[Item Desc]) as [Item Desc] , sum( XXX.[Invoice Qty(KG)]) as  [Invoice Qty(KG)], sum(XXX.[Amount]) as [Amount] , sum(XXX.[Total Tax Amount]) as [Total Tax Amount] ,sum (XXX.[Total Amount]) as [Total Amount] from ( " &
+                          "" + BaseQry + " " &
                           " ) XXX  group by XXX.[Customer Code] , XXX.[Item code] order by XXX.[Customer Code] "
                 ElseIf clsCommon.CompairString(cboBy.SelectedValue, "Locationwise") = CompairStringResult.Equal Then
-                    qry = " select XXX.[Location Code] , max(XXX.[Location Desc] )as [Location Desc], XXX.[Item code], max (XXX.[Item Desc]) as [Item Desc] , sum( XXX.[Invoice Qty(KG)]) as  [Invoice Qty(KG)], sum(XXX.[Amount]) as [Amount] , sum(XXX.[Total Tax Amount]) as [Total Tax Amount] ,sum (XXX.[Total Amount]) as [Total Amount] from ( " & _
-                         "" + BaseQry + " " & _
+                    qry = " select XXX.[Location Code] , max(XXX.[Location Desc] )as [Location Desc], XXX.[Item code], max (XXX.[Item Desc]) as [Item Desc] , sum( XXX.[Invoice Qty(KG)]) as  [Invoice Qty(KG)], sum(XXX.[Amount]) as [Amount] , sum(XXX.[Total Tax Amount]) as [Total Tax Amount] ,sum (XXX.[Total Amount]) as [Total Amount] from ( " &
+                         "" + BaseQry + " " &
                          " ) XXX  group by XXX.[Location Code] , XXX.[Item code] order by XXX.[Location Code] "
                 ElseIf clsCommon.CompairString(cboBy.SelectedValue, "Datewise") = CompairStringResult.Equal Then
-                    qry = " select XXX.[Document Date] , max(XXX.[Customer Name] )as [Customer Name], XXX.[Item code], max (XXX.[Item Desc]) as [Item Desc] , sum( XXX.[Invoice Qty(KG)]) as  [Invoice Qty(KG)], sum(XXX.[Amount]) as [Amount] , sum(XXX.[Total Tax Amount]) as [Total Tax Amount] ,sum (XXX.[Total Amount]) as [Total Amount] from ( " & _
-                             "" + BaseQry + " " & _
+                    qry = " select XXX.[Document Date] , max(XXX.[Customer Name] )as [Customer Name], XXX.[Item code], max (XXX.[Item Desc]) as [Item Desc] , sum( XXX.[Invoice Qty(KG)]) as  [Invoice Qty(KG)], sum(XXX.[Amount]) as [Amount] , sum(XXX.[Total Tax Amount]) as [Total Tax Amount] ,sum (XXX.[Total Amount]) as [Total Amount] from ( " &
+                             "" + BaseQry + " " &
                              " ) XXX  group by XXX.[Document Date] , XXX.[Item code] order by convert (date, XXX.[Document Date],103) asc "
                 End If
 
@@ -155,6 +156,30 @@ Public Class rptJobworkBilling
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+
+        If rdbDetails.Checked = True Then
+            VarID += "_D"
+        Else
+            rdbSummary.Checked = True
+            VarID += "_S"
+        End If
+
+        If clsCommon.CompairString(cboBy.SelectedValue, "All") = CompairStringResult.Equal Then
+            VarID += "_AL"
+        ElseIf clsCommon.CompairString(cboBy.SelectedValue, "Customerwise") = CompairStringResult.Equal Then
+            VarID += "_CW"
+        ElseIf clsCommon.CompairString(cboBy.SelectedValue, "Locationwise") = CompairStringResult.Equal Then
+            VarID += "_LW"
+        ElseIf clsCommon.CompairString(cboBy.SelectedValue, "Datewise") = CompairStringResult.Equal Then
+            VarID += "_DW"
+        End If
+
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click

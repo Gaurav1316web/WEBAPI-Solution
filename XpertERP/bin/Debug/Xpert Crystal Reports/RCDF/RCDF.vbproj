@@ -1283,6 +1283,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementRouteAndDistributorWiseDetailcredit.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementRouteWiseDetailcreditProduct.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandBookingChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
@@ -1942,6 +1943,10 @@
     <None Include="Crystal Reports\Sales Report\rptCustomerLedger_DEMO.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustomerSecurity.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustomerWiseDRCR.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheet.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetInHindi.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetInHindiPouch.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetPouch.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />

@@ -1043,9 +1043,36 @@ Public Class RptSaleRegisterReport
     'End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         TemplateGridview = Gv1
+        'GetReportGridID()
         Print(Exporter.Refresh)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Total Sale") = CompairStringResult.Equal Then
+            VarID += "_TS"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Location Wise") = CompairStringResult.Equal Then
+            VarID += "_LW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Item Group Wise") = CompairStringResult.Equal Then
+            VarID += "_IG"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Customer Group Wise") = CompairStringResult.Equal Then
+            VarID += "_CG"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Item Wise") = CompairStringResult.Equal Then
+            VarID += "_IW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Customer Wise") = CompairStringResult.Equal Then
+            VarID += "_CW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Document Wise") = CompairStringResult.Equal Then
+            VarID += "_DW"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Document Detail") = CompairStringResult.Equal Then
+            VarID += "_DD"
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Net Sale") = CompairStringResult.Equal Then
+            VarID += "_NS"
+        End If
+        Gv1.VarID = VarID
+
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -1947,8 +1974,8 @@ Public Class RptSaleRegisterReport
 
     Function GetMIS_ITem_GroupColumn() As String
         Dim qry As String = ""
-        qry = " select MAP.Custom_Field_Code from TSPL_CUSTOM_FIELD_MAPPING MAP " & _
-            " left join TSPL_CUSTOM_FIELD_HEAD CF on MAP.Custom_Field_Code=CF.Code " & _
+        qry = " select MAP.Custom_Field_Code from TSPL_CUSTOM_FIELD_MAPPING MAP " &
+            " left join TSPL_CUSTOM_FIELD_HEAD CF on MAP.Custom_Field_Code=CF.Code " &
             " where CF.Name='MIS Item Group' and MAP.PROGRAM_CODE='" & clsUserMgtCode.itemStructure & "'"
         MIS_Item_Group = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
         Return MIS_Item_Group

@@ -67,9 +67,19 @@ Public Class rptGSTR
         RadPageViewPage3.Text = "Detail data"
 
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If btnGSTR1.IsChecked = True Then
+            VarID += "_A"
+            gv1.VarID = VarID
+        ElseIf btnGSTR2.IsChecked = True Then
+            VarID += "_B"
+            gv2.VarID = VarID
+        End If
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID
             Dim qryheader As String = String.Empty
             Dim qryfooter As String = String.Empty

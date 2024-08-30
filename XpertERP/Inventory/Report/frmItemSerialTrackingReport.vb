@@ -101,8 +101,22 @@ Public Class FrmItemSerialTrackingReport
         Me.Close()
     End Sub
 
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rcbShowSerialNo.Checked = True Then
+            VarID += "_SS"
+        End If
+        If rdbSummary.IsChecked = True Then
+            VarID += "_SU"
+        ElseIf rdbDetail.IsChecked = True Then
+            VarID += "_DE"
+
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         Try
+            GetReportGridID()
             gv1.EnableFiltering = True
             PageSetupReport_ID = MyBase.Form_ID
             LoadData()

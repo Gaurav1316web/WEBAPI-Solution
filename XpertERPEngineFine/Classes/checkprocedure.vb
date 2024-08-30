@@ -995,6 +995,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmPayrollDesignationMaster, "Designation Master", "1.11.01.27", clsUserMgtCode.SubModuleHRSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmPaymentMode, "Payment Mode Master", "1.11.01.28", clsUserMgtCode.SubModuleHRSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmPTSlab, "PT Slab", "1.11.01.29", clsUserMgtCode.SubModuleHRSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmHRRSlab, "HRR Slab", "1.11.01.30", clsUserMgtCode.SubModuleHRSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmSavingsMaster, "Savings Master", "1.11.01.30", clsUserMgtCode.SubModuleHRSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmSectionAllowanceMaster, "Section/Allowance Master", "1.11.01.31", clsUserMgtCode.SubModuleHRSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmEmployeeSavingsMapping, "Employee Savings Mapping", "1.11.01.32", clsUserMgtCode.SubModuleHRSetup, 27)

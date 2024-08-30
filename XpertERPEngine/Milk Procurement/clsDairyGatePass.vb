@@ -124,6 +124,7 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "Opening_Km", obj.Opening_Km)
             clsCommon.AddColumnsForChange(coll, "IsTransfer", obj.IsTransfer)
             clsCommon.AddColumnsForChange(coll, "AgainstTransferNo", obj.AgainstTransferNo, True)
+            clsCommon.AddColumnsForChange(coll, "AgainstDocumentCode", obj.AgainstDocumentCode, True)
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType, True)
             clsCommon.AddColumnsForChange(coll, "Loading_Slip", obj.Loading_Slip)
             clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
@@ -144,12 +145,16 @@ Public Class clsDairyGatePassEntry
             ''richa agarwal 22 Nov,2019 ERO/22/11/19-001129
             '' qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
 
-            qry = ""
+            Dim stringArray() As String = obj.AgainstDocumentCode.Split(","c)
+                Dim myList As New ArrayList(stringArray)
+
+
+                qry = ""
             If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
                 qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Production_Remarks='" & obj.Remarks & "',GPCode='" & obj.GPCode & "' from TSPL_DEMAND_BOOKING_DETAIL left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and TSPL_DEMAND_BOOKING_MASTER.Location_code='" & obj.Location_Code & "' and TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code ='" & obj.Vehicle_Id & "' and TSPL_DEMAND_BOOKING_MASTER.route_no='" & obj.Route_No & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & obj.ShiftType & "'"
             Else
                 '    'qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" & obj.Vehicle_Id & "'  and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
-                qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and  Bill_To_Location='" & obj.Location_Code & "' and TSPL_SD_SHIPMENT_HEAD.ParentDocNo  in (" + AgainstDocumentCode + ")"
+                qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Supply_Date,103)='" & clsCommon.GetPrintDate(obj.Supply_Date, "") & "' and isnull(GPCode,'') = '' and  Bill_To_Location='" & obj.Location_Code & "' and TSPL_SD_SHIPMENT_HEAD.ParentDocNo  in (" + clsCommon.GetMulcallString(myList) + ")"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
 
@@ -251,6 +256,7 @@ Public Class clsDairyGatePassEntry
             obj.TotalCAN = clsCommon.myCdbl(dt.Rows(0)("TotalCAN"))
             obj.IsTransfer = clsCommon.myCdbl(dt.Rows(0)("IsTransfer"))
             obj.AgainstTransferNo = clsCommon.myCstr(dt.Rows(0)("AgainstTransferNo"))
+            obj.AgainstDocumentCode = clsCommon.myCstr(dt.Rows(0)("AgainstDocumentCode"))
             obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))
             '===========================================================
             'obj.Arr = clsGPDetail.GetData(obj.GPCode, trans, obj.GPDate, TransType)

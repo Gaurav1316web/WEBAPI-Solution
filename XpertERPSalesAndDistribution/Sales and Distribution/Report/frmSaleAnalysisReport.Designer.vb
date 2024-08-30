@@ -115,7 +115,7 @@ Partial Class frmSaleAnalysisReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 385)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -412,11 +412,16 @@ Partial Class frmSaleAnalysisReport
         '
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.AllowColumnReorder = False
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ReadOnly = True
+        Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(779, 337)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'RadSplitExp
         '
@@ -545,11 +550,11 @@ Partial Class frmSaleAnalysisReport
     Friend WithEvents txtMultDistributor As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtMultBooth As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents Gv1 As RadGridView
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rbtnSummary As RadioButton
     Friend WithEvents rbtnDetails As RadioButton
     Friend WithEvents RadSplitExp As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
     Friend WithEvents rmiPDF As RadMenuItem
+    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
 End Class

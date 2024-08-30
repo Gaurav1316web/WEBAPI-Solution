@@ -41,8 +41,17 @@ Public Class rptSalesReport
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
         Reset()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbnPricegroup.Checked = True Then
+            VarID += "_PU"
+        ElseIf rbnCustgroup.Checked = True Then
+            VarID += "_CG"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         Load_Sales_Report(False)
     End Sub
 

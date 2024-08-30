@@ -488,6 +488,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(833, 278)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnPrint
         '

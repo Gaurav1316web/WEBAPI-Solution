@@ -62,6 +62,7 @@ Public Class rptDailyQtyReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         FatSnfRoundOff = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DailyQtyReport, clsFixedParameterCode.FATKGSNFKGRoundOff, Nothing))
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
+        GetReportID()
         If FatSnfRoundOff = 0 Then
             Try
                 If rbtnTranpoterGainLoss.Checked Then
@@ -283,8 +284,8 @@ Public Class rptDailyQtyReport
 						sum(XXGetAllRecords.MCC_FATKG)MCC_FATKG,
 						sum(XXGetAllRecords.MCC_SNFKG)MCC_SNFKG,
                         sum(XXGetAllRecords.DiffMCCVsEntered_Qty)DiffMCCVsEntered_Qty,
-                          sum(isnull(XXGetAllRecords.Entered_FATKg,0)-isnull(XXGetAllRecords.MCC_FATKG,0))DiffMCCVsEntered_FATKG,sum(XXGetAllRecords.MCC_FATKG)* " & txtToleranceFat.Value & "/100 as FAT_Tolerence,case when sum((isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0)))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0))-sum(XXGetAllRecords.MCC_FATKG)* " & txtToleranceFat.Value & "/100  end as FATKG_Recovered,max(XXGetAllRecords.Loss_FAT_Rate)*case when sum((isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0)))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0))-sum(XXGetAllRecords.MCC_FATKG)* " & txtToleranceFat.Value & "/100 end  as FAT_AMT,
-                        sum(XXGetAllRecords.DiffMCCVsEntered_SNFKG)DiffMCCVsEntered_SNFKG,sum(XXGetAllRecords.MCC_SNFKG)* " & txtTolerenceSNF.Value & "/100 as SNF_Tolerence,case when sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))-sum(XXGetAllRecords.MCC_SNFKG)* " & txtTolerenceSNF.Value & "/100 end as SNFKG_Recovered,max(XXGetAllRecords.Loss_SNF_Rate)*case when sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))-sum(XXGetAllRecords.MCC_SNFKG)* " & txtTolerenceSNF.Value & "/100  end as SNF_AMT,max(XXGetAllRecords.Loss_FAT_Rate)*case when sum((isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0)))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0))-sum(XXGetAllRecords.MCC_FATKG)* '" + txtTolerenceSNF.Value + "'/100 end + max(XXGetAllRecords.Loss_SNF_Rate)*case when sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))-sum(XXGetAllRecords.MCC_SNFKG)* '" + txtTolerenceSNF.Value + "'/100  end as AMOUNT,max(XXGetAllRecords.GainLossCode) as GainLoss_Code,
+                          sum(isnull(XXGetAllRecords.Entered_FATKg,0)-isnull(XXGetAllRecords.MCC_FATKG,0))DiffMCCVsEntered_FATKG,sum(XXGetAllRecords.MCC_FATKG)* " & clsCommon.myCstr(txtToleranceFat.Value) & "/100 as FAT_Tolerence,case when sum((isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0)))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0))-sum(XXGetAllRecords.MCC_FATKG)* " & clsCommon.myCstr(txtToleranceFat.Value) & "/100  end as FATKG_Recovered,max(XXGetAllRecords.Loss_FAT_Rate)*case when sum((isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0)))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0))-sum(XXGetAllRecords.MCC_FATKG)* " & clsCommon.myCstr(txtToleranceFat.Value) & "/100 end  as FAT_AMT,
+                        sum(XXGetAllRecords.DiffMCCVsEntered_SNFKG)DiffMCCVsEntered_SNFKG,sum(XXGetAllRecords.MCC_SNFKG)* " & clsCommon.myCstr(txtTolerenceSNF.Value) & "/100 as SNF_Tolerence,case when sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))-sum(XXGetAllRecords.MCC_SNFKG)* " & clsCommon.myCstr(txtTolerenceSNF.Value) & "/100 end as SNFKG_Recovered,max(XXGetAllRecords.Loss_SNF_Rate)*case when sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))-sum(XXGetAllRecords.MCC_SNFKG)* " & clsCommon.myCstr(txtTolerenceSNF.Value) & "/100  end as SNF_AMT,max(XXGetAllRecords.Loss_FAT_Rate)*case when sum((isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0)))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_FATKG - 0,0))-sum(XXGetAllRecords.MCC_FATKG)* '" + clsCommon.myCstr(txtTolerenceSNF.Value) + "'/100 end + max(XXGetAllRecords.Loss_SNF_Rate)*case when sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))<0 then 0 else sum(isnull(XXGetAllRecords.DiffMCCVsEntered_SNFKG - 0,0))-sum(XXGetAllRecords.MCC_SNFKG)* '" + clsCommon.myCstr(txtTolerenceSNF.Value) + "'/100  end as AMOUNT,max(XXGetAllRecords.GainLossCode) as GainLoss_Code,
                            sum(XXGetAllRecords.Loss_FAT_Rate) as Loss_FAT_Rate,
                            sum(XXGetAllRecords.Loss_SNF_Rate) as Loss_SNF_Rate,
                            max(XXGetAllRecords.Start_Date) as Start_Date
@@ -895,6 +896,51 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             End Try
         End If
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbSummary.Checked Then
+            VarID += "_S"
+        ElseIf rdbDetails.Checked Then
+            VarID += "_D"
+        ElseIf rbtnDock.Checked Then
+            VarID += "_D"
+        ElseIf rbtnTranpoterGainLoss.Checked Then
+            VarID += "_TGL"
+        ElseIf rbtnBmcSummary.Checked Then
+            VarID += "_BS"
+        ElseIf rdbTankerWise.Checked Then
+            VarID += "_TW"
+        ElseIf rdbMultiple.Checked Then
+            VarID += "_M"
+        ElseIf rdbCollectionWise.Checked Then
+            VarID += "_CW"
+        ElseIf rbtnBMCTankerCollection.Checked Then
+            VarID += "_BTC"
+        ElseIf rbtnRouteWise.Checked Then
+            VarID += "_RW"
+        ElseIf rbtnDockDateWise.Checked Then
+            VarID += "_DDW"
+        ElseIf rbtnDockShiftWise.Checked Then
+            VarID += "_DSW"
+        ElseIf rbtnTranspoterGainlossSummary.Checked Then
+            VarID += "_TGLS"
+        End If
+
+        If rbtnBMCDock.Checked Then
+            VarID += "_BD"
+        ElseIf rbtnDockSummary.Checked Then
+            VarID += "_DS"
+        ElseIf rbtnSummary.Checked Then
+            VarID += "_S"
+        ElseIf rbtnBMCDCSPrint.Checked Then
+            VarID += "_BMP"
+        ElseIf rbtnBMCRoutePrint.Checked Then
+            VarID += "_BRP"
+        End If
+        Gv1.VarID = VarID
+    End Sub
+
     Sub SetGridFormationOFGV1()
         Gv1.TableElement.TableHeaderHeight = 40
         Gv1.MasterTemplate.ShowRowHeaderColumn = False

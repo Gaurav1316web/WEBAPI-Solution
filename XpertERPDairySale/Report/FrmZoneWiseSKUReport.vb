@@ -17,7 +17,22 @@ Public Class FrmZoneWiseSKUReport
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkDetailReport.Checked = True Then
+            VarID += "_DR"
+        End If
+        If rbtn_DateWise.Checked = True Then
+            VarID += "_SU"
+        ElseIf rbtn_MonthWise.Checked = True Then
+            VarID += "_DE"
+        ElseIf rbtn_YearWise.Checked = True Then
+            VarID += "_DE"
+        End If
+        gvData.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         If txtfDate.Value > txtToDate.Value Then
             common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
             txtfDate.Focus()

@@ -19,6 +19,7 @@ Public Class frmDBTStatusAndLastDPTStatus
 
     Private Sub btnReport_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportID()
             Dim query = ReportQry()
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
@@ -48,6 +49,24 @@ Public Class frmDBTStatusAndLastDPTStatus
 
         End Try
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbDBTStatus.Checked Then
+            VarID += "_DBTS"
+        ElseIf rdbLastDBTStatus.Checked Then
+            VarID += "_LDS"
+        ElseIf rdbERPStatusLastEntry.Checked Then
+            VarID += "_ESLE"
+        End If
+
+        If rbtnTransactionPosted.Checked Then
+            VarID += "_TP"
+        ElseIf rbtnTranasctionAll.Checked Then
+            VarID += "_TA"
+        End If
+    End Sub
+
     Private Function ReportQry() As String
         Try
             If objCommonVar.RCDFCFP = True Then

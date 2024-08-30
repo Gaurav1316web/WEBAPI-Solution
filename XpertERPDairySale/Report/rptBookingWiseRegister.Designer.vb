@@ -25,6 +25,7 @@ Partial Class rptBookingWiseRegister
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -139,10 +140,9 @@ Partial Class rptBookingWiseRegister
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1041, 468)
         Me.RadPageView1.TabIndex = 71
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -331,6 +331,7 @@ Partial Class rptBookingWiseRegister
         '
         Me.ddlReportType.AutoCompleteDisplayMember = Nothing
         Me.ddlReportType.AutoCompleteValueMember = Nothing
+        Me.ddlReportType.DropDownAnimationEnabled = True
         RadListDataItem1.Text = "Both"
         RadListDataItem2.Text = "Sale Invoice"
         RadListDataItem3.Text = "Sale Return"
@@ -464,14 +465,17 @@ Partial Class rptBookingWiseRegister
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'Gv1
         '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1020, 420)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         '
         'rdmenufile
         '
@@ -481,7 +485,6 @@ Partial Class rptBookingWiseRegister
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(1041, 20)
         Me.rdmenufile.TabIndex = 70
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -493,15 +496,11 @@ Partial Class rptBookingWiseRegister
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -535,29 +534,21 @@ Partial Class rptBookingWiseRegister
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Excel"
-        Me.RadMenuItem2.AccessibleName = "Excel"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Excel"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
         'BulkExcel
         '
-        Me.BulkExcel.AccessibleDescription = "Bulk Excel"
-        Me.BulkExcel.AccessibleName = "Bulk Excel"
         Me.BulkExcel.Name = "BulkExcel"
         Me.BulkExcel.Text = "Bulk Excel"
         '
         'BulkCSV
         '
-        Me.BulkCSV.AccessibleDescription = "Bulk CSV"
-        Me.BulkCSV.AccessibleName = "Bulk CSV"
         Me.BulkCSV.Name = "BulkCSV"
         Me.BulkCSV.Text = "Bulk CSV"
         '
@@ -590,8 +581,6 @@ Partial Class rptBookingWiseRegister
         '
         'rmPDF
         '
-        Me.rmPDF.AccessibleDescription = "PDF"
-        Me.rmPDF.AccessibleName = "PDF"
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '

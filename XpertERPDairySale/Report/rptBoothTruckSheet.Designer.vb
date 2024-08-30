@@ -22,10 +22,16 @@ Partial Class rptBoothTruckSheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMilkType = New common.Controls.MyRadioButton()
+        Me.rbtnProductType = New common.Controls.MyRadioButton()
+        Me.MyRadioButton3 = New common.Controls.MyRadioButton()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnMorning = New common.Controls.MyRadioButton()
         Me.rbtnEvening = New common.Controls.MyRadioButton()
@@ -47,18 +53,20 @@ Partial Class rptBoothTruckSheet
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnMilkType = New common.Controls.MyRadioButton()
-        Me.rbtnProductType = New common.Controls.MyRadioButton()
-        Me.MyRadioButton3 = New common.Controls.MyRadioButton()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.chkPouch = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.rbtnMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnProductType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadioButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,13 +91,7 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
-        CType(Me.rbtnMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnProductType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyRadioButton3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkPouch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -128,6 +130,7 @@ Partial Class rptBoothTruckSheet
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkPouch)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
@@ -142,6 +145,73 @@ Partial Class rptBoothTruckSheet
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 350)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(21, 117)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel1.TabIndex = 447
+        Me.MyLabel1.Text = "Shift Type"
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(19, 85)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
+        Me.MyLabel4.TabIndex = 446
+        Me.MyLabel4.Text = "Document Type"
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnMilkType)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnProductType)
+        Me.RadGroupBox4.Controls.Add(Me.MyRadioButton3)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(132, 76)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(303, 34)
+        Me.RadGroupBox4.TabIndex = 445
+        '
+        'rbtnMilkType
+        '
+        Me.rbtnMilkType.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMilkType.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnMilkType.MyLinkLable1 = Nothing
+        Me.rbtnMilkType.MyLinkLable2 = Nothing
+        Me.rbtnMilkType.Name = "rbtnMilkType"
+        Me.rbtnMilkType.Size = New System.Drawing.Size(69, 18)
+        Me.rbtnMilkType.TabIndex = 393
+        Me.rbtnMilkType.Text = "Milk Type"
+        Me.rbtnMilkType.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnProductType
+        '
+        Me.rbtnProductType.Location = New System.Drawing.Point(95, 9)
+        Me.rbtnProductType.MyLinkLable1 = Nothing
+        Me.rbtnProductType.MyLinkLable2 = Nothing
+        Me.rbtnProductType.Name = "rbtnProductType"
+        Me.rbtnProductType.Size = New System.Drawing.Size(86, 18)
+        Me.rbtnProductType.TabIndex = 393
+        Me.rbtnProductType.TabStop = False
+        Me.rbtnProductType.Text = "Product Type"
+        '
+        'MyRadioButton3
+        '
+        Me.MyRadioButton3.Location = New System.Drawing.Point(212, 9)
+        Me.MyRadioButton3.MyLinkLable1 = Nothing
+        Me.MyRadioButton3.MyLinkLable2 = Nothing
+        Me.MyRadioButton3.Name = "MyRadioButton3"
+        Me.MyRadioButton3.Size = New System.Drawing.Size(44, 18)
+        Me.MyRadioButton3.TabIndex = 395
+        Me.MyRadioButton3.TabStop = False
+        Me.MyRadioButton3.Text = "Both"
         '
         'RadGroupBox5
         '
@@ -355,13 +425,14 @@ Partial Class rptBoothTruckSheet
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(779, 350)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnPrint
         '
@@ -403,72 +474,13 @@ Partial Class rptBoothTruckSheet
         Me.btnReset.TabIndex = 155
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox4
+        'chkPouch
         '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.rbtnMilkType)
-        Me.RadGroupBox4.Controls.Add(Me.rbtnProductType)
-        Me.RadGroupBox4.Controls.Add(Me.MyRadioButton3)
-        Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(132, 76)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(303, 34)
-        Me.RadGroupBox4.TabIndex = 445
-        '
-        'rbtnMilkType
-        '
-        Me.rbtnMilkType.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnMilkType.Location = New System.Drawing.Point(5, 9)
-        Me.rbtnMilkType.MyLinkLable1 = Nothing
-        Me.rbtnMilkType.MyLinkLable2 = Nothing
-        Me.rbtnMilkType.Name = "rbtnMilkType"
-        Me.rbtnMilkType.Size = New System.Drawing.Size(69, 18)
-        Me.rbtnMilkType.TabIndex = 393
-        Me.rbtnMilkType.Text = "Milk Type"
-        Me.rbtnMilkType.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnProductType
-        '
-        Me.rbtnProductType.Location = New System.Drawing.Point(95, 9)
-        Me.rbtnProductType.MyLinkLable1 = Nothing
-        Me.rbtnProductType.MyLinkLable2 = Nothing
-        Me.rbtnProductType.Name = "rbtnProductType"
-        Me.rbtnProductType.Size = New System.Drawing.Size(86, 18)
-        Me.rbtnProductType.TabIndex = 393
-        Me.rbtnProductType.TabStop = False
-        Me.rbtnProductType.Text = "Product Type"
-        '
-        'MyRadioButton3
-        '
-        Me.MyRadioButton3.Location = New System.Drawing.Point(212, 9)
-        Me.MyRadioButton3.MyLinkLable1 = Nothing
-        Me.MyRadioButton3.MyLinkLable2 = Nothing
-        Me.MyRadioButton3.Name = "MyRadioButton3"
-        Me.MyRadioButton3.Size = New System.Drawing.Size(44, 18)
-        Me.MyRadioButton3.TabIndex = 395
-        Me.MyRadioButton3.TabStop = False
-        Me.MyRadioButton3.Text = "Both"
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(19, 85)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
-        Me.MyLabel4.TabIndex = 446
-        Me.MyLabel4.Text = "Document Type"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(21, 117)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(56, 18)
-        Me.MyLabel1.TabIndex = 447
-        Me.MyLabel1.Text = "Shift Type"
+        Me.chkPouch.Location = New System.Drawing.Point(411, 25)
+        Me.chkPouch.Name = "chkPouch"
+        Me.chkPouch.Size = New System.Drawing.Size(51, 18)
+        Me.chkPouch.TabIndex = 448
+        Me.chkPouch.Text = "Pouch"
         '
         'rptBoothTruckSheet
         '
@@ -489,6 +501,14 @@ Partial Class rptBoothTruckSheet
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.rbtnMilkType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnProductType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadioButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -516,14 +536,7 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout()
-        CType(Me.rbtnMilkType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnProductType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyRadioButton3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkPouch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -559,4 +572,5 @@ Partial Class rptBoothTruckSheet
     Friend WithEvents MyRadioButton3 As common.Controls.MyRadioButton
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents chkPouch As RadCheckBox
 End Class

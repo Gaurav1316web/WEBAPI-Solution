@@ -63,6 +63,7 @@ Public Class clsGateEntry
     Public Against_Gate_Out As String = Nothing
     Public IsAgainstGateOut As Integer = 0
     Public ROUTE_NO As String = Nothing
+    Public MCC As String = Nothing
     Public Shared Function saveData(ByVal obj As clsGateEntry, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False, Optional ByVal isAmendment As Boolean = False) As Boolean
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateEntry, obj.location_Code, obj.Date_And_Time, trans)
@@ -152,6 +153,7 @@ Public Class clsGateEntry
             clsCommon.AddColumnsForChange(coll, "openingKM", obj.openingKM)
             clsCommon.AddColumnsForChange(coll, "closingKM", obj.closingKM)
             clsCommon.AddColumnsForChange(coll, "Toll_Amount", obj.Toll_Amount)
+            clsCommon.AddColumnsForChange(coll, "MCC", obj.MCC)
             If Not isAmendment Then
                 clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -671,6 +673,7 @@ Public Class clsGateEntry
                 obj.openingKM = clsCommon.myCdbl(dt.Rows(0)("openingKM"))
                 obj.closingKM = clsCommon.myCdbl(dt.Rows(0)("closingKM"))
                 obj.Toll_Amount = clsCommon.myCdbl(dt.Rows(0)("Toll_Amount"))
+                obj.MCC = clsCommon.myCstr(dt.Rows(0)("MCC"))
                 If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("Closing_Date"))) > 0 Then
                     obj.Closing_Date = clsCommon.myCDate(dt.Rows(0)("Closing_Date"))
                 End If
