@@ -1768,7 +1768,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 dblTotalTCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColTCAmt).Value)
                 If dblTotalDCAmt > 0 Then
                     If ApplyCommission Then
-                        dblDisAmt = dblDisAmt + dblTotalDCAmt
+                        If Not chkSampling.Checked Then
+                            dblDisAmt = dblDisAmt + dblTotalDCAmt
+
+                        End If
                     End If
                 End If
             End If
@@ -1850,7 +1853,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = Math.Round(dblAmtAfterDis, 2)
             gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = Math.Round(dblTotTaxAmt, 2)
             gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = Math.Round(dblTotTaxAmt + dblAmtAfterDis, 2)
-            gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
+            If chkSampling.Checked Then
+                gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2) + Math.Round(dblAmtAfterDis, 2)
+
+            Else
+                gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
+
+            End If
             gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2078,7 +2087,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = clsCommon.myRoundOFF(dblAmtAfterDis - dblTotTaxAmt, 2, 4)
             gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = clsCommon.myRoundOFF(dblTotTaxAmt, 2, 4)
             gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = clsCommon.myRoundOFF(dblAmtAfterDis, 2, 4)
-            gv1.Rows(IntRowNo).Cells(colDisAmt).Value = clsCommon.myRoundOFF(dblDisAmt, 2, 4)
+            If chkSampling.Checked Then
+                gv1.Rows(IntRowNo).Cells(colDisAmt).Value = clsCommon.myRoundOFF(dblDisAmt, 2, 4) + clsCommon.myRoundOFF(dblAmtAfterDis, 2, 4)
+
+            Else
+                gv1.Rows(IntRowNo).Cells(colDisAmt).Value = clsCommon.myRoundOFF(dblDisAmt, 2, 4)
+
+            End If
             'gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2418,19 +2433,30 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         '    txtSecurity.Text = clsCommon.myFormat(dblSCAmt)
         '    lblTotalDocAmt.Text = clsCommon.myFormat(dblNetAmt)
         'Else
-        lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
-            txtCan.Text = Math.Round(clsCommon.myCdbl(TotalCan), 2)
+        If chkSampling.Checked Then
+            dblDisAmt = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
+        End If
+
+        txtCan.Text = Math.Round(clsCommon.myCdbl(TotalCan), 2)
             txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
             txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
-            lblAmtWithDiscount.Text = clsCommon.myFormat(lblTotRAmt1.Text)
-            lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
+        lblAmtWithDiscount.Text = dblNetAmt
+        lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
             lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt), 2) - dblDisAmt)
         lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTotalTcsAmt)
-        lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+        If chkSampling.Checked Then
+            lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt - dblDisAmt), 2)
+            lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
+            lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
+        Else
+            lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
+            lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+            lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+
+        End If
         txtDCAmt.Text = clsCommon.myFormat(dblCommAmt)
-            txtTCAmt.Text = clsCommon.myFormat(dblTCAmt)
+        txtTCAmt.Text = clsCommon.myFormat(dblTCAmt)
             txtSecurity.Text = clsCommon.myFormat(dblSCAmt)
-        lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
         'End If
         If ApplyRoundOffZero Then
             If Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0) > clsCommon.myCdbl(lblTotRAmt.Text) Then
@@ -2518,7 +2544,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         lblCreatedDateAndTime.Text = ""
         chkDistributor.Checked = True
         chkDCS.Checked = False
-
+        chkSampling.Enabled = True
         txtDCSDemandNo.Text = ""
         lblDCSDemand.Visible = False
         txtDCSDemandNo.Visible = False
@@ -3758,6 +3784,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj = clsBookingEntryDairySale.GetData(strCode, NavTyep, clsUserMgtCode.frmDairyBookingCustomer)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 IsTotalQtyinKG = False
+                chkSampling.Enabled = False
                 Dim isDemandBooking1 = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & obj.Document_No & "'")
                 If clsCommon.myLen(isDemandBooking1) > 0 Then
                     rgbItemType.Visible = False
@@ -8374,7 +8401,7 @@ from
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKR", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                         End If
                         frmCRV = Nothing
                         ''   end of print Invoice '''''''
