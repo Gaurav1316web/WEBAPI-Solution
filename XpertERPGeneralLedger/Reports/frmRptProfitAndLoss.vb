@@ -211,29 +211,29 @@ Public Class frmRptProfitAndLoss
             VarID += "_G"
         End If
         If rbtnSubGroup.IsChecked = True Then
-            VarID = "_S"
+            VarID += "_S"
         End If
         If rbtnGLMainAccount.IsChecked = True Then
-            VarID = "_GM"
+            VarID += "_GM"
         End If
         If rbtnGLAccount.IsChecked = True Then
-            VarID = "_GA"
+            VarID += "_GA"
         End If
 
         If chkIndAS.Checked Then
-            VarID = "_A"
+            VarID += "_A"
         End If
         If chkIncludeingClosingEntry.Checked Then
-            VarID = "_E"
+            VarID += "_E"
         End If
         If chkLocationWise.Checked Then
-            VarID = "_L"
+            VarID += "_L"
         End If
         If chkShowTotalRow.Checked Then
-            VarID = "_T"
+            VarID += "_T"
         End If
         If chkTreeView.Checked = True Then
-            VarID = "_V"
+            VarID += "_V"
         End If
         gv1.VarID = VarID
     End Sub

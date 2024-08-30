@@ -125,13 +125,26 @@ Public Class FrmDealerManagementReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-   
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkPost.IsChecked = True Then
+            VarID += "_P"
+        End If
+        If chksummary.IsChecked = True Then
+            VarID += "_S"
+        Else
+            chkdetail.IsChecked = True
+            VarID += "_D"
+        End If
+        gv.VarID = VarID
+    End Sub
     Private Sub btnrefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnrefresh.Click
         'If chksummary.IsChecked Then
         '    Print()
         'ElseIf chkdetail.IsChecked Then
         '    Print_Detail()
         'End If
+        GetReportGridID()
         Referesh()
     End Sub
 

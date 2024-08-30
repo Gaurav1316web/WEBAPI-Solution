@@ -91,7 +91,7 @@ Public Class RptKDILSalarySlip
             Qry += " TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME ,TSPL_BANK_MASTER.BANK_CODE ,t1.Bank_Name,T1.BANK_ACC_NO ,T1.PAN_NO as Emp_Pan_no,"
             Qry += "  TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+"
             Qry += "  Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End as Location_Address"
-            Qry += " ,t1.Joining_date ,t7.PAY_PERIOD_CODE,T6.PAYPERIOD_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,(T6.PAYPERIOD_DAYS-HOLIDAY_DAYS) as Working_days,T6.Present_Days as [Present Days],(T6.PAYPERIOD_DAYS-Present_Days-HOLIDAY_DAYS-LEAVE_DAYS-LOP_DAYS) as Weekly_off,D1.DEVISION_CODE AS DevCode,TSPL_LOCATION_MASTER.PF_NO as Firm_PF_No,isnull(Card_No,'') as Card_No from TSPL_EMPLOYEE_MASTER T1"
+            Qry += " ,t1.Joining_date ,t7.PAY_PERIOD_CODE,T6.PAYPERIOD_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,CAST(PAYABLE_DAYS AS INT) AS PAYABLE_DAYS1,(T6.PAYPERIOD_DAYS-HOLIDAY_DAYS) as Working_days,T6.Present_Days as [Present Days],(T6.PAYPERIOD_DAYS-Present_Days-HOLIDAY_DAYS-LEAVE_DAYS-LOP_DAYS) as Weekly_off,D1.DEVISION_CODE AS DevCode,TSPL_LOCATION_MASTER.PF_NO as Firm_PF_No,isnull(Card_No,'') as Card_No from TSPL_EMPLOYEE_MASTER T1"
             Qry += " left Outer join tspl_company_Master T2 on T2.Comp_Code =T1.Comp_Code  "
             Qry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = T1.LOCATION_CODE "
             Qry += " left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State "
@@ -162,6 +162,7 @@ Public Class RptKDILSalarySlip
                 dtFinal.Columns.Add("PAYPERIOD_DAYS", GetType(String))
                 dtFinal.Columns.Add("HOLIDAY_DAYS", GetType(String))
                 dtFinal.Columns.Add("PAYABLE_DAYS", GetType(String))
+                dtFinal.Columns.Add("PAYABLE_DAYS1", GetType(String))
                 dtFinal.Columns.Add("Working_days", GetType(String))
                 dtFinal.Columns.Add("Present Days", GetType(String))
                 dtFinal.Columns.Add("Weekly_off", GetType(String))
@@ -320,6 +321,7 @@ Public Class RptKDILSalarySlip
                         DrFinal.Item("PAYPERIOD_DAYS") = clsCommon.myCstr(DrHead("PAYPERIOD_DAYS"))
                         DrFinal.Item("HOLIDAY_DAYS") = clsCommon.myCstr(DrHead("HOLIDAY_DAYS"))
                         DrFinal.Item("PAYABLE_DAYS") = clsCommon.myCstr(DrHead("PAYABLE_DAYS"))
+                        DrFinal.Item("PAYABLE_DAYS1") = clsCommon.myCstr(DrHead("PAYABLE_DAYS1"))
                         DrFinal.Item("Working_days") = clsCommon.myCstr(DrHead("Working_days"))
                         DrFinal.Item("Present Days") = clsCommon.myCstr(DrHead("Present Days"))
                         DrFinal.Item("Weekly_off") = clsCommon.myCstr(DrHead("Weekly_off"))
@@ -406,7 +408,11 @@ Public Class RptKDILSalarySlip
                 dtFinal.AcceptChanges()
                 If Print = True Then
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report")
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1_CHU", "Employee Salary Slip Report")
+                    Else
+                        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report")
+                    End If
                     frmcrystal = Nothing
                 Else
                     Dim frmcrystal As New frmCrystalReportViewer()

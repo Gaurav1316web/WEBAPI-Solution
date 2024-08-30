@@ -31,18 +31,21 @@ Public Class RptDcsPaymentReport
 
     Public Sub LoadData()
         Try
-
+            Dim Dayss As Integer = DateDiff(DateInterval.Day, fromDate.Value, dtpToDate.Value)
+            Dim Days As Integer = Dayss + 1
             Dim dt As New DataTable
             Dim strQry As String = " Select xy.SNo,xy.DocDate,xy.Milk_Purchase_Invoice_Date,xy.Dcs_Uploader,xy.Dcs_name,xy.Milk_Qty,
                                     xy.FATKg,xy.SNFKg,xy.Milk_Amount,xy.Head_Load_Amount,case when xy.PEAmt=0 then xy.CRAmt  else xy.PEAmt end as PEAmt,xy.OBEAmt,
-                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount,xy.TotalAmt,xy.CRAmts from
+                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount,xy.TotalAmt,xy.CRAmts,
+                                    xy.DAYS_Total,FORMAT(xy.AVG_QTY, 'N2') AS AVG_QTY from
                                     (select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
                                     ,max(x.FATKg)FATKg,max(x.SNFKg)SNFKg,max(x.Milk_Amount)Milk_Amount,max(x.Head_Load_Amount)Head_Load_Amount
                                     ,max(isnull(x.CRAmt,0)+ isnull(x.PURCHASEEXPENSE,0)) as PEAmt,max(isnull(x.OBEAmt,0))OBEAmt,max(x.Credit_Note_Amount)CRAmt,max(x.Reduce_Deduc_Amt)Reduce_Deduc_Amt
                                     ,max(x.Deduction_Amount)Deduction_Amount,isnull(max(x.PURCHASEEXPENSE),0)PURCHASEEXPENSE
 									,Case When max(isOwnBMC)=1 then sum(x.PURCHASEEXPENSE) else max(isnull(x.Credit_Note_Amount,0)+ isnull(x.PURCHASEEXPENSE,0)) end as AMTS
 									,max(x.Payable_Amount)Payable_Amount ,isnull(max(x.Saving_Amount),0)Saving_Amount,max(isnull(x.Payable_Amount,0) + isnull(x.Saving_Amount,0)) as TotalAmt
-									,sum(isnull(x.CRAmt,0))CRAmts
+									,sum(isnull(x.CRAmt,0))CRAmts,max(isnull(x.DAYS_Total,0))DAYS_Total,
+									case when max(x.Milk_Qty) = 0 then 0 else max(x.Milk_Qty) /  " & Days & "  end as AVG_QTY
                                     from  
                                     (select TSPL_PAYMENT_PROCESS_DETAIL.SNo ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Name,TSPL_VLC_MASTER_HEAD.Route_Code as Route,TSPL_MCC_MASTER.MCC_NAME as Bmc_name 
@@ -50,13 +53,31 @@ Public Class RptDcsPaymentReport
                                     ,TabFATSNFDetail.FATKg,TabFATSNFDetail.SNFKg,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.Reduce_Deduc_Amt,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount 
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount ,TabDCSdrcr.PURCHASEEXPENSE,TSPL_VLC_MASTER_HEAD.isOwnBMC
-									,TabDCSCreditNote.CRAmt as CRAmt,TabDCSCreditNote.OBEAmt as OBEAmt
+									,TabDCSCreditNote.CRAmt as CRAmt,TabDCSCreditNote.OBEAmt as OBEAmt,DaysCount.DAYS_Total as DAYS_Total,DATEDIFF(DAY, '" + fromDate.Value + "', '" + dtpToDate.Value + "') + 1 AS TotalDays
                                     from   TSPL_PAYMENT_PROCESS_DETAIL
                                     Inner Join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
-                                      left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer
-                                      from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg, cast(ACC_Qty * SNF_PER / 100 As Decimal(18,2)) As SNFKg  
-				                      from TSPL_MILK_PURCHASE_INVOICE_DETAIL )xx group by DOC_CODE 
+
+                                      left outer join (select DOC_CODE,cast( sum(FATKg) as decimal(18,3)) as FATKg,
+                                      cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer ,
+                                      cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer
+                                      from (select DOC_CODE, ACC_Qty,FAT_PER,SNF_PER,cast(ACC_Qty*FAT_PER/100 as decimal(18,2)) as FATKg, 
+                                      cast(ACC_Qty * SNF_PER / 100 As Decimal(18,2)) As SNFKg
+                                      from TSPL_MILK_PURCHASE_INVOICE_DETAIL
+                                      )xx  group by DOC_CODE 
                                     ) As TabFATSNFDetail On TabFATSNFDetail.DOC_CODE= TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
+
+                                      left outer join (Select Count(DOC_DATE)DAYS_Total,VSP_CODE,max(DOC_CODE)DOC_CODE from
+													(select MAX(DOC_CODE)DOC_CODE,DOC_DATE,(VSP_CODE)VSP_CODE
+                                      from (select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE
+				                      from TSPL_MILK_PURCHASE_INVOICE_DETAIL
+									  Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
+									  left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
+									  left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE
+										)xx  where  convert(date,xx.DOC_DATE,103)>=convert(date,('" + fromDate.Value + "'),103) 
+                                         and convert(date,xx.DOC_DATE,103) <=convert(date,('" + dtpToDate.Value + "'),103) 
+									 group by VSP_CODE,DOC_DATE
+                                    ) XY GROUP BY VSP_CODE) as DaysCount on DaysCount.DOC_CODE= TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+
 				                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN Amount ELSE 0 END AS PURCHASEEXPENSE,x.InvoiceNo,x.DCSDescription from(
 				                    select TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo,TSPL_DCS_ADDITION_DEDUCTION.Description As DCSDescription,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE
 				                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.DCS_Addition_Deduction)x
@@ -220,6 +241,14 @@ Public Class RptDcsPaymentReport
         Gv1.Columns("TotalAmt").Width = 200
         Gv1.Columns("TotalAmt").IsVisible = True
 
+        Gv1.Columns("DAYS_Total").HeaderText = "Total Days"
+        Gv1.Columns("DAYS_Total").Width = 200
+        Gv1.Columns("DAYS_Total").IsVisible = True
+
+        Gv1.Columns("AVG_QTY").HeaderText = "AVG QTY"
+        Gv1.Columns("AVG_QTY").Width = 200
+        Gv1.Columns("AVG_QTY").IsVisible = True
+
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
@@ -281,4 +310,66 @@ Public Class RptDcsPaymentReport
                              left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE where 2=2 "
         txtMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMulSelect", qry, "Code", "Name", txtMultDCS.arrValueMember, txtMultDCS.arrDispalyMember)
     End Sub
+
+    'Private Sub fromDate_ValueChanged(sender As Object, e As EventArgs) Handles fromDate.ValueChanged
+
+    '    Try
+    '        ' Example: define any date
+    '        'Dim fromDate As DateTime =   ' You can change this date to any other date
+
+    '        ' Calculate the total days in the month of the given date
+    '        ' Dim totalDays As Integer = GetTotalDaysInMonth(fromDate)
+
+    '        ' Output the result
+    '        'Console.WriteLine("Total days in the month of " & fromDate.ToString("MMMM yyyy") & ": " & totalDays)
+
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
+
+    ''Function to() Get the total number Of days In the month For a given Date
+    'Function GetTotalDaysInMonth(ByVal dateValue As DateTime) As Integer
+    '    ' Extract the year and month from the given date
+    '    Dim year As Integer = dateValue.Year
+    '    Dim month As Integer = dateValue.Month
+
+    '    ' Get the total number of days in the specified month
+    '    Dim daysInMonth As Integer = DateTime.DaysInMonth(year, month)
+
+    '    Return daysInMonth
+    'End Function
+
+    'Private Sub dtpToDate_ValueChanged(sender As Object, e As EventArgs) Handles dtpToDate.ValueChanged
+    '    Try
+
+    '        Dim Days As Integer = DateDiff(DateInterval.Day, fromDate.Value, dtpToDate.Value)
+
+    '        'Dim fromDate As DateTime =   ' You can change this date to any other date
+    '        'Dim sd As DateTime = New DateTime(fromDate)
+    '        'Dim ed As DateTime = dtpToDate.Value.Day
+
+    '        ' Calculate the total days in the month of the given date
+    '        'Dim totalDays As Integer = GetTotalDaysBetweenDates(sd, ed)
+
+    '        ' Output the result
+    '        'Console.WriteLine("Total days in the month of " & fromDate.ToString("MMMM yyyy") & ": " & totalDays)
+
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
+
+    Function GetTotalDaysBetweenDates(ByVal fromDate As DateTime, ByVal dtpToDate As DateTime) As Integer
+        ' Ensure startDate is before endDate
+        If fromDate > dtpToDate Then
+            Throw New ArgumentException("Start date must be earlier than or equal to end date.")
+        End If
+
+        ' Calculate the number of days between the two dates
+        Dim totalDays As Integer = (dtpToDate - fromDate).Days
+
+        Return totalDays
+    End Function
+
 End Class

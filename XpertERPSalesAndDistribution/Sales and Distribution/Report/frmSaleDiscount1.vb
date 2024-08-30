@@ -1492,8 +1492,19 @@ Public Class FrmSaleDiscount1
     Private Sub rbtnCompanyAll_ToggleStateChanged(ByVal sender As Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnCompanyAll.ToggleStateChanged
         cbgCompany.Enabled = Not rbtnCompanyAll.IsChecked
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbItemSummary.IsChecked = True Then
+            VarID += "_SU"
+        ElseIf rdbDocSummary.IsChecked = True Then
+            VarID += "_DS"
+        ElseIf rdbDetail.IsChecked = True Then
+            VarID += "_DE"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnGo.Click
+        GetReportGridID()
         gv1.EnableFiltering = True
         print()
     End Sub

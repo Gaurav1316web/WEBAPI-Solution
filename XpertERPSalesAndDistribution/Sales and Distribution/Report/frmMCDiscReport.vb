@@ -628,9 +628,19 @@ Public Class FrmMCDiscReport
     Private Sub btnClose_Click1(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSku.IsChecked = True Then
+            VarID += "_SK"
+        Else
+            rdbPack.IsChecked = True
+            VarID += "_PA"
+        End If
+        gvReport.VarID = VarID
+    End Sub
     Private Sub btnRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
-        print()      
+        GetReportGridID()
+        Print()
     End Sub
 
     Private Sub btnReset_Click1(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReset.Click

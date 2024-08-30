@@ -187,9 +187,16 @@ Public Class rptDCSSaleRegister
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkUploader.IsChecked = True Then
+            VarID += "_SU"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID + IIf(chkUploader.Checked = True, "Uploader", "")
             TemplateGridview = Gv1
             Dim FromDate As String = clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy")

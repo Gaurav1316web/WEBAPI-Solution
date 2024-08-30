@@ -105,6 +105,7 @@ Public Class frmDBTApprovalStatus
 
     Private Sub btnReport_Click(sender As Object, e As EventArgs) Handles btnReport.Click
         Try
+            GetReportID()
             Dim query = ReportQry()
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
@@ -137,6 +138,22 @@ Public Class frmDBTApprovalStatus
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnDetail.IsChecked Then
+            VarID += "_D"
+        ElseIf rbtnSummary.IsChecked Then
+            VarID += "_S"
+        End If
+
+        If rbtnTransactionPending.Checked Then
+            VarID += "_TP"
+        ElseIf rbtnTranasctionAll.Checked Then
+            VarID += "_TA"
+        End If
+    End Sub
+
     Sub View()
         Try
             If gvData.Rows.Count > 0 Then

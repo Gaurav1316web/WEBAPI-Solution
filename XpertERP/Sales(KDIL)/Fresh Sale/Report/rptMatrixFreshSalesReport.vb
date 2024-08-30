@@ -1282,6 +1282,7 @@ from (select max(zzz.item_code) as item_code,zzz.Document_No,max(Document_Date) 
             strCreateConv = " TSPL_BOOKING_DETAIL.Booking_Qty "
             Dim strWhrClause As String = String.Empty
             strWhrClause = " and convert(date, TSPL_BOOKING_MATSER.Document_Date ,103) = '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' "
+
             If clsCommon.CompairString(rddlTCSShift.Text, "Morning") = CompairStringResult.Equal Then
                 strWhrClause += " and TSPL_BOOKING_MATSER.GatePass_Type='AM' "
             ElseIf clsCommon.CompairString(rddlTCSShift.Text, "Evening") = CompairStringResult.Equal Then
@@ -3503,6 +3504,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 lbltcsShift.Visible = False
                 rddlTCSShift.Visible = False
                 txtfndBooth.Visible = False
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             End If
         End If
     End Sub
@@ -3554,6 +3557,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadLabel2.Visible = True
                 RadLabel1.Text = "From"
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
                 '--VARSHHA
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "RBW") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = True
@@ -3613,6 +3618,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadLabel2.Visible = True
                 RadLabel1.Text = "From"
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
                 '--VARSHA END
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "TS") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = True
@@ -3671,6 +3678,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadLabel2.Visible = True
                 RadLabel1.Text = "From"
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3718,6 +3727,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadLabel2.Visible = True
                 RadLabel1.Text = "From"
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "PGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3766,6 +3777,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadLabel2.Visible = True
                 RadLabel1.Text = "From"
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "DPGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3813,6 +3826,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadLabel2.Visible = True
                 RadLabel1.Text = "From"
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "DMGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3860,6 +3875,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadLabel2.Visible = True
                 RadLabel1.Text = "From"
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MSR") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 RadGroupBox7.Visible = False
@@ -3879,6 +3896,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
                 btnPrintRoutBoothwise.Visible = False
                 txtfndBooth.Visible = False
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "PSR") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3898,6 +3917,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
                 btnPrintRoutBoothwise.Visible = False
                 txtfndBooth.Visible = False
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MFS") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3946,6 +3967,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
                 btnPrintRoutBoothwise.Visible = False
                 txtfndBooth.Visible = False
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "CSR") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 RadGroupBox3.Visible = False
@@ -3993,6 +4016,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
                 btnPrintRoutBoothwise.Visible = False
                 txtfndBooth.Visible = False
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MPDR") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -4040,6 +4065,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
                 btnPrintRoutBoothwise.Visible = False
                 txtfndBooth.Visible = False
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "TCS") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -4089,60 +4116,128 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 RadGroupBox3.Size = New System.Drawing.Size(246, 42)
                 btnPrintRoutBoothwise.Visible = False
                 txtfndBooth.Visible = False
+                txtDistributor.Visible = False
+                lblDistributor.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Demand Sheet") = CompairStringResult.Equal Then
-                RadGroupBox2.Visible = False
-                chkBookingWise.Visible = False
-                pnlMilkPouch.Visible = False
-                chkRouteSummary.Visible = False
-                chkProduct.Visible = False
-                chkFilterByCreatedDate.Visible = False
-                'chksaleInvoicewise.Visible = False
-                RadGroupBox3.Visible = True
-                RadGroupBox7.Visible = False
-                txtCustomerGroup.Visible = False
-                lblCustomerGroup.Visible = False
-                txtCustomer.Visible = False
-                lblCustomer.Visible = True
-                MyLabel2.Visible = False
-                txtItemCode.Visible = False
-                MyLabel3.Visible = False
-                txtLorry.Visible = False
-                lblLocation.Visible = False
-                txtLocation.Visible = False
-                MyLabel1.Visible = False
-                txtZone.Visible = False
-                MyLabel10.Visible = True
-                TxtRoute.Visible = True
-                MyLabel4.Visible = False
-                TxtUOM.Visible = False
-                MyLabel5.Visible = False
-                txtBookingType.Visible = False
-                MyLabel6.Visible = False
-                TxtMultiCustomerCategory.Visible = False
-                lblSubCategory.Visible = False
-                ddlInvocieType.Visible = False
-                RadGroupBox5.Visible = False
-                lbltcsShift.Visible = False
-                rddlTCSShift.Visible = False
-                lbltcsShift.Location = New System.Drawing.Point(21, 87)
-                rddlTCSShift.Location = New System.Drawing.Point(116, 87)
-                txtfndCustomer.Visible = True
-                txtFndRoute.Visible = True
-                lblCustomer.Location = New System.Drawing.Point(21, 111)
-                txtfndCustomer.Location = New System.Drawing.Point(116, 111)
-                MyLabel10.Location = New System.Drawing.Point(21, 138)
-                txtFndRoute.Location = New System.Drawing.Point(116, 138)
-                TxtRoute.Visible = False
-                ToDate.Visible = False
-                RadLabel2.Visible = False
-                RadLabel1.Text = "Date"
-                lbltcsShift.Visible = True
-                rddlTCSShift.Visible = True
-                lbltcsShift.Location = New System.Drawing.Point(21, 87)
-                rddlTCSShift.Location = New System.Drawing.Point(116, 87)
-                RadGroupBox3.Size = New System.Drawing.Size(132, 42)
-                btnPrintRoutBoothwise.Visible = False
-                txtfndBooth.Visible = False
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    btnMilkDemand.Visible = True
+                    RadGroupBox2.Visible = False
+                    chkBookingWise.Visible = False
+                    pnlMilkPouch.Visible = False
+                    chkRouteSummary.Visible = False
+                    chkProduct.Visible = False
+                    chkFilterByCreatedDate.Visible = False
+                    'chksaleInvoicewise.Visible = False
+                    RadGroupBox3.Visible = True
+                    RadGroupBox7.Visible = True
+                    txtCustomerGroup.Visible = False
+                    lblCustomerGroup.Visible = False
+                    txtCustomer.Visible = False
+                    lblCustomer.Visible = False
+                    MyLabel2.Visible = False
+                    txtItemCode.Visible = False
+                    MyLabel3.Visible = False
+                    txtLorry.Visible = False
+                    lblLocation.Visible = False
+                    txtLocation.Visible = False
+                    MyLabel1.Visible = False
+                    txtZone.Visible = False
+                    MyLabel10.Visible = False
+                    TxtRoute.Visible = False
+                    MyLabel4.Visible = False
+                    TxtUOM.Visible = False
+                    MyLabel5.Visible = False
+                    txtBookingType.Visible = False
+                    MyLabel6.Visible = False
+                    TxtMultiCustomerCategory.Visible = False
+                    lblSubCategory.Visible = False
+                    ddlInvocieType.Visible = False
+                    RadGroupBox5.Visible = False
+                    lbltcsShift.Visible = False
+                    rddlTCSShift.Visible = False
+                    lbltcsShift.Location = New System.Drawing.Point(21, 87)
+                    rddlTCSShift.Location = New System.Drawing.Point(116, 87)
+                    txtfndCustomer.Visible = False
+                    txtFndRoute.Visible = False
+                    lblCustomer.Location = New System.Drawing.Point(21, 111)
+                    txtfndCustomer.Location = New System.Drawing.Point(116, 111)
+                    MyLabel10.Location = New System.Drawing.Point(21, 138)
+                    txtFndRoute.Location = New System.Drawing.Point(116, 138)
+                    TxtRoute.Visible = False
+                    ToDate.Visible = False
+                    RadLabel2.Visible = False
+                    RadLabel1.Text = "Date"
+                    lbltcsShift.Visible = False
+                    rddlTCSShift.Visible = False
+                    lbltcsShift.Location = New System.Drawing.Point(21, 87)
+                    rddlTCSShift.Location = New System.Drawing.Point(116, 87)
+                    RadGroupBox3.Size = New System.Drawing.Size(132, 42)
+                    btnPrintRoutBoothwise.Visible = False
+                    txtfndBooth.Visible = False
+                    rbtnDateWise.Visible = False
+                    txtDistributor.Visible = True
+                    lblDistributor.Visible = True
+                    txtDistributor.Location = New System.Drawing.Point(116, 87)
+                    lblDistributor.Location = New System.Drawing.Point(21, 87)
+                Else
+                    RadGroupBox2.Visible = False
+                    chkBookingWise.Visible = False
+                    pnlMilkPouch.Visible = False
+                    chkRouteSummary.Visible = False
+                    chkProduct.Visible = False
+                    chkFilterByCreatedDate.Visible = False
+                    'chksaleInvoicewise.Visible = False
+                    RadGroupBox3.Visible = True
+                    RadGroupBox7.Visible = False
+                    txtCustomerGroup.Visible = False
+                    lblCustomerGroup.Visible = False
+                    txtCustomer.Visible = False
+                    lblCustomer.Visible = True
+                    MyLabel2.Visible = False
+                    txtItemCode.Visible = False
+                    MyLabel3.Visible = False
+                    txtLorry.Visible = False
+                    lblLocation.Visible = False
+                    txtLocation.Visible = False
+                    MyLabel1.Visible = False
+                    txtZone.Visible = False
+                    MyLabel10.Visible = True
+                    TxtRoute.Visible = True
+                    MyLabel4.Visible = False
+                    TxtUOM.Visible = False
+                    MyLabel5.Visible = False
+                    txtBookingType.Visible = False
+                    MyLabel6.Visible = False
+                    TxtMultiCustomerCategory.Visible = False
+                    lblSubCategory.Visible = False
+                    ddlInvocieType.Visible = False
+                    RadGroupBox5.Visible = False
+                    lbltcsShift.Visible = False
+                    rddlTCSShift.Visible = False
+                    lbltcsShift.Location = New System.Drawing.Point(21, 87)
+                    rddlTCSShift.Location = New System.Drawing.Point(116, 87)
+                    txtfndCustomer.Visible = True
+                    txtFndRoute.Visible = True
+                    lblCustomer.Location = New System.Drawing.Point(21, 111)
+                    txtfndCustomer.Location = New System.Drawing.Point(116, 111)
+                    MyLabel10.Location = New System.Drawing.Point(21, 138)
+                    txtFndRoute.Location = New System.Drawing.Point(116, 138)
+                    TxtRoute.Visible = False
+                    ToDate.Visible = False
+                    RadLabel2.Visible = False
+                    RadLabel1.Text = "Date"
+                    lbltcsShift.Visible = True
+                    rddlTCSShift.Visible = True
+                    lbltcsShift.Location = New System.Drawing.Point(21, 87)
+                    rddlTCSShift.Location = New System.Drawing.Point(116, 87)
+                    RadGroupBox3.Size = New System.Drawing.Size(132, 42)
+                    btnPrintRoutBoothwise.Visible = False
+                    txtfndBooth.Visible = False
+                    txtDistributor.Visible = False
+                    lblDistributor.Visible = False
+                End If
+
+
             End If
         End If
     End Sub
@@ -4472,6 +4567,82 @@ where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsC
         End Try
     End Sub
 
+    Private Sub txtDistributor__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDistributor._MYValidating
+        Try
+            Dim sQuery As String = " Select Cust_Code as Code , Customer_Name as Name  from TSPL_CUSTOMER_MASTER  "
+            Dim whrcls As String = " IsDistributor = 'Y'"
+            txtDistributor.Value = clsCommon.ShowSelectForm("SalesNewReportCust", sQuery, "Code", whrcls, txtDistributor.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
+    End Sub
 
+    Private Sub btnMilkDemand_Click(sender As Object, e As EventArgs) Handles btnMilkDemand.Click
+        PageSetupReport_ID = MyBase.Form_ID
+        MilkDemandPrint(Exporter.Print)
+    End Sub
+    Private Sub MilkDemandPrint(ByVal IsPrint As Exporter)
+        Try
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                Dim MainQuery As String = String.Empty
+                Dim query As String = String.Empty
+                Dim strWhrClause As String = String.Empty
+                strWhrClause = " and convert(date, TSPL_BOOKING_MATSER.Document_Date ,103) = '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' "
+                Dim ShiftType As String = Nothing
 
+                MainQuery = "Select TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.is_freshitem,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_CUSTOMER_MASTER.Credit_Customer, TSPL_DEMAND_BOOKING_MASTER.ShiftType, 
+ case when TSPL_ITEM_MASTER.Is_Ambient = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) 
+		else 
+		(case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) else 0 end ) end as Final_Qty,case when TSPL_ITEM_MASTER.Is_FreshItem = 1 then	round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.KG,2) else 0 end as Kg_Qty , tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax,'" + clsCommon.GetPrintDate(fromDate.Value) + "' as Date, TSPL_ITEM_MASTER.Sku_Seq, TSPL_CUSTOMER_MASTER.Display_Seq,dist.Cust_Code,coalesce(TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name        
+	    , TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description as Short_Description,TSPL_UNIT_MASTER.Unit_Desc,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
+       ,TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise ,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) as ProdQ,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=1 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as MAmt
+       ,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) as PQty,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as PAmt
+	    from TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+        Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
+       left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code 
+	    left join ( select  Route_No,max(Cust_Code)Cust_Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+		group by Route_No) dist on dist.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
+        Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+		left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =dist.Cust_Code  left outer join tspl_company_master on 2 = 2
+        left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code"
+                query = "select * from (Select case when ShiftType = 'Morning' THEN 1 else 2 end As Shift_Seq, case when ShiftType = 'Morning' THEN 'MORNING'  else 'EVENING'  end as ShiftType , '" + objCommonVar.CurrentUser + "' as UserName, sum(Final_Qty)Final_Qty, Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State, max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(Date)Date,max(Customer_Name) as Customer_Name,Item_Code,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc
+		,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise,sum(ItemNetAmount) as TotalAmt_ItemWise,sum(ProdQ) as ProdQ ,SUM(MAmt) AS MAmt,SUM(PAmt) AS PAmt,(sum(isnull(MAmt,0))) as [Total Amount],sum(Kg_Qty)Kg_Qty,max(Structure_Code)Structure_Code,max(Cust_Code)Cust_Code,max(XXXFirst.Document_Date)Document_Date
+        from (" + MainQuery + ") XXXFirst 
+   where Item_Code is  not null and Cust_Code is not null  and XXXFirst.Is_FreshItem=1 and convert(date,XXXFirst.Document_Date) = CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value) + "', 103)"
+
+                If clsCommon.myLen(txtDistributor.Value) > 0 Then
+                    query += " and XXXFirst.Cust_Code='" & txtDistributor.Value & "' "
+                End If
+                If rbtnMrng.Checked Then
+                    ShiftType = "'Morning'"
+                    query += " and XXXFirst.ShiftType=" + ShiftType + ""
+                ElseIf rbtnEvng.Checked Then
+                    ShiftType = "'Evening'"
+                    query += " and XXXFirst.ShiftType=" + ShiftType + ""
+                ElseIf rbtnBoths.Checked Then
+                    query += ""
+                End If
+                query += " Group By  XXXFirst.ShiftType,	XXXFirst.Item_Code ,XXXFirst.Sku_Seq   )xxxxx
+   cross apply (select top 1 ((xxxxx.[Total Amount])*Security_Rate) as CF,Security_Rate,(xxxxx.[Total Amount])-((xxxxx.[Total Amount])*Security_Rate) as TotalAmt from TSPL_DISTRIBUTOR_COMMISSION_DETAIL
+                        left outer join TSPL_DISTRIBUTOR_COMMISSION_HEAD on TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No = TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No 
+                        where xxxxx.Cust_Code = TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code and xxxxx.Cust_Code = TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code 
+                        order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Document_Date desc) as secrate
+   order by ShiftType desc,Sku_Seq"
+
+                Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(query)
+                If dtPrint IsNot Nothing And dtPrint.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptFluidMilkDemandReport", "Milk Demand")
+                    frmCRV = Nothing
+                    Return
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                    Return
+                End If
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
+    End Sub
 End Class
