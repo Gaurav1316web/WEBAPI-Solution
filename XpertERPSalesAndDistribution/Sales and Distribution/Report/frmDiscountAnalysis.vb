@@ -79,8 +79,24 @@ Public Class FrmDiscountAnalysis
     Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSku.IsChecked = True Then
+            VarID += "_SK"
+        Else rdbpack.IsChecked = True
+            VarID += "_PA"
+        End If
+        If rdbSummary.IsChecked = True Then
+            VarID += "_SU"
+        ElseIf rdbDiscSummary.IsChecked = True Then
+            VarID += "_DS"
+        ElseIf rdbDetail.IsChecked = True Then
+            VarID += "_DE"
+        End If
+        GV1.VarID = VarID
+    End Sub
     Private Sub btnRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         Print()
     End Sub
 

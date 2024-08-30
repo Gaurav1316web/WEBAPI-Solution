@@ -91,8 +91,11 @@ Public Class frmRptCreditSales
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+    Sub GetReportGridID()
 
+    End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+
         print()
     End Sub
     Sub print()

@@ -510,8 +510,15 @@ Public Class frmCustomerBillWiseDuesSummary
         gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         ReStoreGridLayout()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkcatewise.IsChecked = True Then
+            VarID += "_SU"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         If dtpFrmDate.Value > dtpToDate.Value Then
             common.clsCommon.MyMessageBoxShow(Me, "Start Date Can Not Be Greater Then End Date", Me.Text)
             dtpFrmDate.Focus()

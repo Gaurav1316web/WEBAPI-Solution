@@ -130,8 +130,20 @@ Public Class FrmRptEmptyTransaction
         Me.Close()
     End Sub
 
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSummary.IsChecked = True Then
+            VarID += "_S"
+        ElseIf rdbDetail.IsChecked = True Then
+            VarID += "_D"
+        ElseIf rdbRowwise.IsChecked = True Then
+            VarID += "_R"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         Try
+            GetReportGridID()
             gv1.EnableFiltering = True
             LoadData()
         Catch ex As Exception

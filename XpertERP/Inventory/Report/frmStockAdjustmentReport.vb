@@ -403,9 +403,19 @@ Public Class FrmStockAdjustmentReport
     Private Sub chkIemAll_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkIemAll.ToggleStateChanged
         cbgItem.Enabled = Not chkIemAll.IsChecked
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If RadioBtnSummary.IsChecked = True Then
+            VarID += "_S"
+        Else
+            RadioBtnDetail.IsChecked = True
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID + IIf(RadioBtnSummary.IsChecked = True, "S", "D")
             TemplateGridview = gv1
             strSql = funPrint()

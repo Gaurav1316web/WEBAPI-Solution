@@ -212,9 +212,17 @@ Public Class FrmVehiclePendingStatusRpt
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If ChkVehicleIN.Checked = True Then
+            VarID += "_V"
+        Else ChkReceiptIn.Checked = True
+            VarID += "_R"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnrefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnrefresh.Click
-
+        GetReportGridID()
         LoadData()
     End Sub
 

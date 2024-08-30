@@ -37,6 +37,11 @@ Partial Class RptMatrixFreshSalesReport
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -140,6 +145,9 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.txtDistributor = New common.UserControls.txtFinder()
+        Me.lblDistributor = New common.Controls.MyLabel()
+        Me.btnMilkDemand = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -222,6 +230,8 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnMilkDemand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -239,6 +249,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnMilkDemand)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRouteSummaryPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -288,7 +299,9 @@ Partial Class RptMatrixFreshSalesReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtDistributor)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnDateWise)
+        Me.RadPageViewPage1.Controls.Add(Me.lblDistributor)
         Me.RadPageViewPage1.Controls.Add(Me.txtFndRoute)
         Me.RadPageViewPage1.Controls.Add(Me.txtfndBooth)
         Me.RadPageViewPage1.Controls.Add(Me.txtfndCustomer)
@@ -1493,6 +1506,53 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnReset.TabIndex = 147
         Me.btnReset.Text = "Reset"
         '
+        'txtDistributor
+        '
+        Me.txtDistributor.CalculationExpression = Nothing
+        Me.txtDistributor.FieldCode = Nothing
+        Me.txtDistributor.FieldDesc = Nothing
+        Me.txtDistributor.FieldMaxLength = 0
+        Me.txtDistributor.FieldName = Nothing
+        Me.txtDistributor.isCalculatedField = False
+        Me.txtDistributor.IsSourceFromTable = False
+        Me.txtDistributor.IsSourceFromValueList = False
+        Me.txtDistributor.IsUnique = False
+        Me.txtDistributor.Location = New System.Drawing.Point(133, 395)
+        Me.txtDistributor.MendatroryField = True
+        Me.txtDistributor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDistributor.MyLinkLable1 = Me.lblLocation
+        Me.txtDistributor.MyLinkLable2 = Nothing
+        Me.txtDistributor.MyReadOnly = False
+        Me.txtDistributor.MyShowMasterFormButton = False
+        Me.txtDistributor.Name = "txtDistributor"
+        Me.txtDistributor.ReferenceFieldDesc = Nothing
+        Me.txtDistributor.ReferenceFieldName = Nothing
+        Me.txtDistributor.ReferenceTableName = Nothing
+        Me.txtDistributor.Size = New System.Drawing.Size(227, 19)
+        Me.txtDistributor.TabIndex = 446
+        Me.txtDistributor.Value = ""
+        '
+        'lblDistributor
+        '
+        Me.lblDistributor.FieldName = Nothing
+        Me.lblDistributor.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDistributor.Location = New System.Drawing.Point(21, 395)
+        Me.lblDistributor.Name = "lblDistributor"
+        Me.lblDistributor.Size = New System.Drawing.Size(60, 18)
+        Me.lblDistributor.TabIndex = 445
+        Me.lblDistributor.Text = "Distributor"
+        '
+        'btnMilkDemand
+        '
+        Me.btnMilkDemand.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnMilkDemand.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMilkDemand.Location = New System.Drawing.Point(391, 8)
+        Me.btnMilkDemand.Name = "btnMilkDemand"
+        Me.btnMilkDemand.Size = New System.Drawing.Size(133, 22)
+        Me.btnMilkDemand.TabIndex = 152
+        Me.btnMilkDemand.Text = "Milk Demand Print"
+        Me.btnMilkDemand.Visible = False
+        '
         'RptMatrixFreshSalesReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1597,6 +1657,8 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnMilkDemand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1704,5 +1766,8 @@ Partial Class RptMatrixFreshSalesReport
     Friend WithEvents btnGPSummaryRouteWise As RadButton
     Friend WithEvents chkIndividualCustomer As RadCheckBox
     Friend WithEvents rbtnDateWise As RadCheckBox
+    Friend WithEvents txtDistributor As common.UserControls.txtFinder
+    Friend WithEvents lblDistributor As common.Controls.MyLabel
+    Friend WithEvents btnMilkDemand As RadButton
 End Class
 

@@ -101,9 +101,25 @@ Public Class frmSaleAnalysisReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rbtnDetails.Checked = True Then
+            VarID += "_DE"
+        Else rbtnSummary.Checked = True
+            VarID += "_SU"
+        End If
+        If rbtnDaily.Checked = True Then
+            VarID += "_DA"
+        ElseIf rbtnWeekly.Checked = True Then
+            VarID += "_WE"
+        ElseIf rbtnMonthly.Checked = True Then
+            VarID += "_MO"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            GetReportGridID()
             Dim Qry As String = Nothing
             Dim BaseQry As String = BaseQuery()
             Dim PreviousWise As String = Nothing
