@@ -62,8 +62,17 @@ Public Class frmRptDVAT32
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbDVAT32.IsChecked = True Then
+            VarID += "_T"
+        Else rdbDVAT33.IsChecked = True
+            VarID += "_D"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+        GetReportGridID()
         PrintData()
     End Sub
     Sub PrintData()

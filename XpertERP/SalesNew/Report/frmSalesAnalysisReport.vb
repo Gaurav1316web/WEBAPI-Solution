@@ -1606,8 +1606,26 @@ Public Class frmSalesAnalysisReport
         cbgLocation.Enabled = Not chkLocAll.IsChecked
     End Sub
 
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbItemSummary.IsChecked = True Then
+            VarID += "_IS"
+        ElseIf rdbDocSummary.IsChecked = True Then
+            VarID += "_SU"
+        ElseIf rdbDetail.IsChecked = True Then
+            VarID += "_DE"
+        End If
+        If rdbWithFOC.IsChecked = True Then
+            VarID += "_WF"
+        ElseIf rdbWoFOC.IsChecked = True Then
+            VarID += "_FO"
+        ElseIf rdbFOC.IsChecked = True Then
+            VarID += "_FC"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnGo.Click
+        GetReportGridID()
         gv1.EnableFiltering = True
         print()
     End Sub

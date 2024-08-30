@@ -122,7 +122,15 @@ Public Class frmInventoryAgeingReportNew
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkBatchWise.IsChecked = True Then
+            VarID += "_BW"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
+        GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID
         GetData()
     End Sub

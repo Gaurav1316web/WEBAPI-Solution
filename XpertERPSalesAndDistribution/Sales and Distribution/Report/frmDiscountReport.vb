@@ -847,9 +847,36 @@ Public Class FrmDiscountReport
     Private Sub RadPageView1_SelectedPageChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadPageView1.SelectedPageChanged
 
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSummary.IsChecked = True Then
+            VarID += "_SU"
+        ElseIf rdbDetail.IsChecked = True Then
+            VarID += "_DE"
+        End If
+        If rdbSku.IsChecked = True Then
+            VarID += "_SK"
+        ElseIf rdbPack.IsChecked = True Then
+            VarID += "_PA"
+        ElseIf rdbFlavour.IsChecked = True Then
+            VarID += "_FL"
+        End If
+        If rdbNonSampling.IsChecked = True Then
+            VarID += "_NS"
+        ElseIf rdbSampling.IsChecked = True Then
+            VarID += "_SA"
+        ElseIf rdbVSD.IsChecked = True Then
+            VarID += "_VS"
+        ElseIf rdbOther.IsChecked = True Then
+            VarID += "_OT"
+        End If
+        If rdbIterComp.Checked = True Then
+            VarID += "_IC"
+        End If
+        gvReport.VarID = VarID
+    End Sub
     Private Sub btnRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
-
+        GetReportGridID()
         If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
             common.clsCommon.MyMessageBoxShow("Please select at least one Location or select ALL")
             Return

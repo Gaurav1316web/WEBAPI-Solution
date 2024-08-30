@@ -216,8 +216,15 @@ Public Class frmCustomerBillWiseDetail
     Private Sub rbtnCategoryAll_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnCategoryAll.ToggleStateChanged, rbtnCategorySelect.ToggleStateChanged
         tvCategory.Enabled = rbtnCategorySelect.IsChecked
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkcatewise.IsChecked = True Then
+            VarID += "_SU"
+        End If
+        gv.VarID = VarID
+    End Sub
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         If dtpFrmDate.Value > dtpToDate.Value Then
             common.clsCommon.MyMessageBoxShow(Me, "Start Date Can Not Be Greater Then End Date", Me.Text)
             dtpFrmDate.Focus()

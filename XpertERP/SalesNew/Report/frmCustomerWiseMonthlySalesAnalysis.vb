@@ -47,8 +47,18 @@ Public Class frmCustomerWiseMonthlySalesAnalysis
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbAmtAfterDisc.IsChecked = True Then
+            VarID += "_A"
+        Else
+            rdbNetAmount.IsChecked = True
+            VarID += "_N"
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+        GetReportGridID()
         PrintData()
     End Sub
     Sub PrintData()

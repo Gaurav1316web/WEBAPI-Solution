@@ -491,8 +491,19 @@ Public Class FrmTargetReport1
         GV1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         RadPageView1.SelectedPage = RadPageViewPage2
     End Sub
-
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbSummary.IsChecked = True Then
+            VarID += "_S"
+        ElseIf rdbDetail.IsChecked = True Then
+            VarID += "_D"
+        ElseIf rdbPendingSummary.IsChecked = True Then
+            VarID += "_P"
+        End If
+        GV1.VarID = VarID
+    End Sub
     Private Sub btnRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+        GetReportGridID()
         print()
     End Sub
 
