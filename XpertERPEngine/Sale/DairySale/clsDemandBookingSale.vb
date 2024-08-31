@@ -1216,18 +1216,18 @@ where 2=2 "
     '        End Try
     '        Return True
     '    End Function
-    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal ApplyPrintCommand As Boolean) As Boolean
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize) As Boolean
         Try
             Dim BaseQry As String = " select xfinal.*,case when (select top 1 posted from TSPL_DEMAND_BOOKING_MASTER where Route_No in( xfinal.route_no) and ShiftType= xfinal.ShiftType and convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "') =1 then 'Approved' else 'Pending' end as DocStatus ,TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_CUSTOMER_MASTER.Display_Seq from (
- select xx.* ,case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull((select sum(ItemNetAmount) as netamt  
+ select xx.* ,((case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull((select sum(ItemNetAmount) as netamt  
  from TSPL_DEMAND_BOOKING_MASTER 
  left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
  where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + strShift + "'  and (CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "') "
             If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
                 BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
             End If
-            BaseQry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) + isnull((xx.PrevItemNetAmount),0) ) else 0 end) else 0 end as AmountBE,
-case when xx.SNO=1 then xx.Crate_Collect else 0 end as TotalCollectCrate,case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull(tcs.TCSAmount,0)) else 0 end) else 0 end as TotalTCSAmt  from ( 
+            BaseQry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) ) else 0 end) else 0 end) + isnull((xx.PrevItemNetAmount),0)) as AmountBE,
+ xx.Crate_Collect  as TotalCollectCrate,case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull(tcs.TCSAmount,0)) else 0 end) else 0 end as TotalTCSAmt  from ( 
 select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, sum(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, sum(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, sum(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,sum(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName ,max(XXFinal.TranspoterName) as TranspoterName,max(XXFinal.DriverName) as DriverName,max(XXFinal.Vehicle_No) as Vehicle_No, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,sum(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(XXFinal.CreditCust) as CreditCust from ( 
 select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType, TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,0 as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise Else 0 End As Crate, 
@@ -1260,7 +1260,7 @@ and CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon
             If Not IsIndividualCustomer Then
                 BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
             End If
-            BaseQry += "Union all
+            BaseQry += Environment.NewLine + " Union all
 select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,'" + strShift + "'  as ShiftType,TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
 TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
 0 As Crate,
@@ -1289,9 +1289,9 @@ where 2=2 "
                 BaseQry += " And isnull(TSPL_ITEM_MASTER.Is_Ambient,0)=1 "
             End If
             If clsCommon.CompairString(strShift, "Morning") = CompairStringResult.Equal Then
-                BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) end) "
+                BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else 3 end) "
             Else
-                BaseQry += " and 2= (case when CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
+                BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
             End If
             BaseQry += "  )XXFinal
 where XXFinal.Cust_Code in (select distinct TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER 
@@ -1306,7 +1306,9 @@ left join ( select sum(XYZ.TCSAmount) as TCSAmount,XYZ.Cust_Code,max(XYZ.Against
 select TSPL_BOOKING_MATSER.TCSAmount,TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_DETAIL.Cust_Code 
 from TSPL_BOOKING_MATSER
 left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
-where 2=2  and  (CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "')  group by TSPL_BOOKING_DETAIL.Cust_Code,TSPL_BOOKING_MATSER.TCSAmount,TSPL_BOOKING_MATSER.Against_DemandBooking_No) XYZ
+where 2=2  
+and 2= (case when TSPL_BOOKING_MATSER.GatePass_Type='AM' and CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else (case when TSPL_BOOKING_MATSER.GatePass_Type='PM' and CONVERT(date, TSPL_BOOKING_MATSER.Document_Date,103)= '" + clsCommon.GetPrintDate(DocDate.AddDays(-1), "dd/MMM/yyyy") + "' then 2 else 3 end)  end)
+group by TSPL_BOOKING_DETAIL.Cust_Code,TSPL_BOOKING_MATSER.TCSAmount,TSPL_BOOKING_MATSER.Against_DemandBooking_No) XYZ
 group by XYZ.Cust_Code)  as tcs on xx.Cust_Code=tcs.Cust_Code 
 ) xfinal 
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=xfinal.Cust_Code "
@@ -1358,10 +1360,10 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
                     drLtr(clsCommon.myCstr(drItem("Short_Description"))) = drTotal("LTR#$#" + clsCommon.myCstr(drItem("Short_Description")))
                     drCrate(clsCommon.myCstr(drItem("Short_Description"))) = drTotal("CRATE#$#" + clsCommon.myCstr(drItem("Short_Description")))
                     drPourch(clsCommon.myCstr(drItem("Short_Description"))) = drTotal("POUCH#$#" + clsCommon.myCstr(drItem("Short_Description")))
-                    Dim Quotient As Integer = clsCommon.myCDecimal(drPourch(clsCommon.myCstr(drItem("Short_Description"))) / 12)
-                    Dim Reminder As Integer = drPourch(clsCommon.myCstr(drItem("Short_Description"))) Mod 12
-                    drCrate(clsCommon.myCstr(drItem("Short_Description"))) += Quotient
-                    drPourch(clsCommon.myCstr(drItem("Short_Description"))) = Reminder
+                    'Dim Quotient As Integer = clsCommon.myCDecimal(drPourch(clsCommon.myCstr(drItem("Short_Description"))) / 12)
+                    'Dim Reminder As Integer = drPourch(clsCommon.myCstr(drItem("Short_Description"))) Mod 12
+                    'drCrate(clsCommon.myCstr(drItem("Short_Description"))) += Quotient
+                    'drPourch(clsCommon.myCstr(drItem("Short_Description"))) = Reminder
                     drCrate("TotalCrate") += drCrate(clsCommon.myCstr(drItem("Short_Description")))
                     drPourch("TotalCrate") += drPourch(clsCommon.myCstr(drItem("Short_Description")))
                 Next
@@ -1373,7 +1375,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
 #End Region
             Dim obj As clsDosPrint = New clsDosPrint()
             obj.ReportName = objCommonVar.CurrentCompanyName
-            obj.ApplyPrintCommand = ApplyPrintCommand
+            obj.ApplyPrintCommand = True
             obj.HideGroupHeader = True
             obj.HideLastGroupTotal = True
             obj.ShowPageNo = True
@@ -1399,7 +1401,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
             objGRH.ColumnName = "DocStatus"
             objGRH.ConstString = "#$DocStatus$#"
             obj.objReportGroup.arrHeaderText1.Add(objGRH)
-            obj.objReportGroup.HeaderText2 = "#$Route_Desc$# ( ROUTE: #$Route_No$# )  #$TranspoterName$#  DRIVER: #$DriverName$#  VEHICLE NO:#$Vehicle_No$#  [ #$PrintDateTime$# ]"
+            obj.objReportGroup.HeaderText2 = "#$Route_Desc$# ( ROUTE:#$Route_No$# ) #$TranspoterName$# DRIVER:#$DriverName$# VEHICLE NO:#$Vehicle_No$# [#$PrintDateTime$#]"
             obj.objReportGroup.arrHeaderText2 = New List(Of clsDosPrintReportGroupReplaceHeader)
             objGRH = New clsDosPrintReportGroupReplaceHeader
             objGRH.ColumnName = "Route_Desc"
@@ -1429,16 +1431,22 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
             obj.arrGroup.Add(clsDosPrintGroup.GetObject("Credit_Customer", "Details of", ""))
             obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
             obj.arrColumn = New List(Of clsDosPrintColumn)()
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Cust_Code", "Booth", False, DosPrintAlignment.Left, 10, False, DecimalPlaces.NA))
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Cust_Code", "Booth", False, DosPrintAlignment.Left, 7, False, DecimalPlaces.NA))
             For Each drItem As DataRow In dtItem.Rows
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn(clsCommon.myCstr(drItem("Short_Description")), clsCommon.myCstr(drItem("Short_Description")), False, DosPrintAlignment.Right, 10, True, DecimalPlaces.One))
             Next
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCrate", "Total", False, DosPrintAlignment.Right, 10, True, DecimalPlaces.Zero))
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ItemNetAmount", "Shift Amt", True, DosPrintAlignment.Right, 15, True, DecimalPlaces.Two))
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("AmountBE", "Total Amt", True, DosPrintAlignment.Right, 15, True, DecimalPlaces.Two))
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalTCSAmt", "TCS", False, DosPrintAlignment.Right, 10, True, DecimalPlaces.Two))
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCollectCrate", "Crate", False, DosPrintAlignment.Right, 10, True, DecimalPlaces.Zero))
-            obj.Print(obj, dt, PageSetup.Landscap)
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCrate", "Total", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.One))
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ItemNetAmount", "Shift Amt", True, DosPrintAlignment.Right, 12, True, DecimalPlaces.Two))
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("AmountBE", "Total Amt", True, DosPrintAlignment.Right, 12, True, DecimalPlaces.Two))
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalTCSAmt", "TCS", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.Two))
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCollectCrate", "Crate", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.One))
+            If EnumPageSize = DosPaperSize.Custom Then
+                'obj.ApplyPrintCommand = False
+                obj.CustomizePaperSizeWidth = 1200
+                obj.CustomizePaperSizeHight = 1500
+            End If
+            obj.Print(obj, dt, PageSetup.Landscap, "", "", EnumPageSize)
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
