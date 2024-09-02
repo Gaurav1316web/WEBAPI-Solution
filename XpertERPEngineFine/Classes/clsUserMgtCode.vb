@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
     Public Const rptTentativeReport As String = "TEN-SAL-RPT"
     Public Const frmRCDFRateControl As String = "RCDF-RT-CNT"
@@ -2226,6 +2227,7 @@ Public Class clsUserMgtCode
     Public Const DBTCappingIncrease As String = "DBT-CAP-INC"
     Public Const DBTNEFTUploader As String = "DBT-NEFT-UPL"
     Public Const DBTPayment As String = "DBT-PAY-MNT"
+    Public Const SendDBTToJanaadhar As String = "SND-DBT-JAD"
     Public Const FrmCreateBMCDCSbyMobile As String = "BMC-DCS-MOB"
     Public Const DBTNEFTReject As String = "DBT-NEFT-REJ"
     ''=============================================

@@ -22,7 +22,7 @@ Partial Class Weightment_Auto_and_Manual_Report
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -42,6 +42,9 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtWeightment = New System.Windows.Forms.RadioButton()
+        Me.rbtLoadSlip = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -63,6 +66,8 @@ Partial Class Weightment_Auto_and_Manual_Report
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,6 +107,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -250,7 +256,7 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -322,6 +328,39 @@ Partial Class Weightment_Auto_and_Manual_Report
         Me.btnGo.TabIndex = 353
         Me.btnGo.Text = ">>>"
         '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.rbtWeightment)
+        Me.RadGroupBox7.Controls.Add(Me.rbtLoadSlip)
+        Me.RadGroupBox7.HeaderText = ""
+        Me.RadGroupBox7.Location = New System.Drawing.Point(369, 23)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Size = New System.Drawing.Size(181, 26)
+        Me.RadGroupBox7.TabIndex = 1468
+        '
+        'rbtWeightment
+        '
+        Me.rbtWeightment.AutoSize = True
+        Me.rbtWeightment.Checked = True
+        Me.rbtWeightment.Location = New System.Drawing.Point(5, 4)
+        Me.rbtWeightment.Name = "rbtWeightment"
+        Me.rbtWeightment.Size = New System.Drawing.Size(89, 17)
+        Me.rbtWeightment.TabIndex = 440
+        Me.rbtWeightment.TabStop = True
+        Me.rbtWeightment.Text = "Weightment"
+        Me.rbtWeightment.UseVisualStyleBackColor = True
+        '
+        'rbtLoadSlip
+        '
+        Me.rbtLoadSlip.AutoSize = True
+        Me.rbtLoadSlip.Location = New System.Drawing.Point(101, 4)
+        Me.rbtLoadSlip.Name = "rbtLoadSlip"
+        Me.rbtLoadSlip.Size = New System.Drawing.Size(72, 17)
+        Me.rbtLoadSlip.TabIndex = 441
+        Me.rbtLoadSlip.Text = "Load Slip"
+        Me.rbtLoadSlip.UseVisualStyleBackColor = True
+        '
         'Weightment_Auto_and_Manual_Report
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -357,6 +396,9 @@ Partial Class Weightment_Auto_and_Manual_Report
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -381,5 +423,8 @@ Partial Class Weightment_Auto_and_Manual_Report
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents BtnReset As RadButton
     Friend WithEvents btnGo As RadButton
+    Friend WithEvents RadGroupBox7 As RadGroupBox
+    Friend WithEvents rbtWeightment As RadioButton
+    Friend WithEvents rbtLoadSlip As RadioButton
 End Class
 
