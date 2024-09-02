@@ -19,6 +19,8 @@ Public Class Weightment_Auto_and_Manual_Report
         Reset()
     End Sub
     Sub Reset()
+        rbtLoadSlip.Checked = False
+        rbtWeightment.Checked = True
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtLocation.arrValueMember = Nothing
@@ -96,17 +98,42 @@ Public Class Weightment_Auto_and_Manual_Report
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            Dim strqry As String = ""
+            GetReportID()
             PageSetupReport_ID = MyBase.Form_ID
             TemplateGridview = gv1
+            If rbtWeightment.Checked = True Then
+                strqry = " SELECT aa.Location_Code as Location,ISNULL(SUM(aa.Auto_wt),0) AS [Auto Weighment],
+             ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+             ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+             ISNULL(SUM(aa.Total_wt), 0) AS Total,
+             (ISNULL(SUM(aa.Auto_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Auto%],
+             (ISNULL(SUM(aa.Manual_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Manual%],
+             ((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Pending%]
+             FROM (SELECT Location_Code,
+             CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
+             CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
+             END AS Manual_wt, COUNT(*) AS Total_wt
+             FROM TSPL_PO_WEIGHTMENT_HEAD 
+             where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+             GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight) aa  "
 
-            Dim strqry As String = " SELECT aa.Location_Code,SUM(aa.Auto_wt) AS Auto_wt,ISNULL(SUM(aa.Manual_wt), 0) AS Manual_wt,ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Null/Pending],ISNULL(SUM(aa.Total_wt), 0) AS Total,(ISNULL(SUM(aa.Auto_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Auto%Page],(ISNULL(SUM(aa.Manual_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Manual%Page],((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Pending_Page]
-         FROM ( SELECT Location_Code,
-         CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
-         CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
-         END AS Manual_wt, COUNT(*) AS Total_wt
-         FROM TSPL_RCDF_LOAD_IN 
-         where convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-         GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight) aa  "
+            Else
+                strqry = " SELECT aa.Location_Code as Location,ISNULL(SUM(aa.Auto_wt),0) AS [Auto Weighment],
+             ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+             ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+             ISNULL(SUM(aa.Total_wt), 0) AS Total,
+             (ISNULL(SUM(aa.Auto_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Auto%],
+             (ISNULL(SUM(aa.Manual_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Manual%],
+             ((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Pending%]
+             FROM (SELECT Location_Code,
+             CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
+             CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
+             END AS Manual_wt, COUNT(*) AS Total_wt
+             FROM TSPL_RCDF_LOAD_IN 
+             where convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+             GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight) aa  "
+            End If
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 strqry += " where aa.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
             End If
@@ -132,10 +159,21 @@ Public Class Weightment_Auto_and_Manual_Report
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
+
             ReStoreGridLayout()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtWeightment.Checked Then
+            VarID += "_W"
+        ElseIf rbtLoadSlip.Checked Then
+            VarID += "_LS"
+        End If
+        gv1.VarID = VarID
     End Sub
 
     Private Sub ReStoreGridLayout()
@@ -161,21 +199,31 @@ Public Class Weightment_Auto_and_Manual_Report
         Dim qry As String = " "
 
         Try
-            qry = " SELECT aa.Location_Code,SUM(COALESCE(aa.Auto_wt, 0)) AS Auto_wt,SUM(COALESCE(aa.Manual_wt, 0)) AS Manual_wt,SUM(aa.Total_wt) - SUM(COALESCE(aa.Auto_wt, 0)) - SUM(COALESCE(aa.Manual_wt, 0)) AS Pending,SUM(aa.Total_wt) AS Total,
-            CASE WHEN SUM(COALESCE(aa.Auto_wt, 0)) + SUM(COALESCE(aa.Manual_wt, 0)) = 0 THEN 0
-            ELSE (SUM(COALESCE(aa.Auto_wt, 0)) * 100) / (SUM(COALESCE(aa.Auto_wt, 0)) + SUM(COALESCE(aa.Manual_wt, 0)))END AS Auto_Page,
-            CASE WHEN SUM(COALESCE(aa.Auto_wt, 0)) + SUM(COALESCE(aa.Manual_wt, 0)) = 0 THEN 0
-            ELSE (SUM(COALESCE(aa.Manual_wt, 0)) * 100) / (SUM(COALESCE(aa.Auto_wt, 0)) + SUM(COALESCE(aa.Manual_wt, 0)))
-            END AS Manual_Page FROM (SELECT Location_Code,
-            CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*) END AS Auto_wt,
-            CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) 
-            THEN COUNT(*) END AS Manual_wt,COUNT(*) AS Total_wt FROM TSPL_PO_WEIGHTMENT_HEAD 
-            where convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-            GROUP BY  Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight) aa "
+            qry = " SELECT 
+            aa.Location_Code as Location,
+            ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
+            ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+            ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+            ISNULL(SUM(aa.Total_wt), 0) AS Total,
+            (ISNULL(SUM(aa.Auto_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Auto%],
+            (ISNULL(SUM(aa.Manual_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Manual%],
+            ((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Pending%],
+            aa.Location_Desc
+            FROM (SELECT r.Location_Code,l.Location_Desc,CASE 
+            WHEN (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 1) THEN COUNT(*) END AS Auto_wt,CASE 
+            WHEN (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 0) 
+            OR (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 1) 
+            OR (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 0) 
+            THEN COUNT(*)END AS Manual_wt,COUNT(*) AS Total_wt FROM TSPL_RCDF_LOAD_IN r
+            LEFT JOIN TSPL_LOCATION_MASTER l ON l.Location_Code = r.Location_Code
+            where convert(date,r.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,r.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+            GROUP BY 
+            r.Location_Code, l.Location_Desc, r.Is_Auto_Gross_Weight, r.Is_Auto_Tare_Weight ) aa  "
+
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 qry += " where aa.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
             End If
-
+            qry += " GROUP BY aa.Location_Code, aa.Location_Desc ORDER BY aa.Location_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
