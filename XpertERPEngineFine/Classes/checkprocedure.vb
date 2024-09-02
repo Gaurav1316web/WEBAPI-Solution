@@ -38,6 +38,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmConfigureSynchronization, "Configure Synchronization", "1.00.01.16", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
         'InsertDefaultValue(clsUserMgtCode.FrmSendSMSMultipleUser, "Send SMS", "1.00.01.17", clsUserMgtCode.SubModuleSystemAdminSetup, "", 29, 0, "", "", "", True, True, False, Nothing)
         'InsertDefaultValue(clsUserMgtCode.UtilityImportExport, "Utility Import/Export", "1.00.01.18", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
+        InsertDefaultValue(clsUserMgtCode.frmChangePasswordScreen, "Change Password", "1.00.01.20", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
         ' Transation
 
         InsertDefaultValue(clsUserMgtCode.SubModuleSystemAdminTransation, "Transaction", "1.00.02", clsUserMgtCode.ModuleSystemAdmin, "SM", 26)
