@@ -7519,6 +7519,11 @@ Public Class MDI
                     Case clsUserMgtCode.frmHeadLoadMaster
                         frm = New frmHeadLoadMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmDeductionTypeMaster
+                        frm = New frmDeductionTypeMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmPriceChartMaster
                         frm = New FrmPriceChartMaster(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
