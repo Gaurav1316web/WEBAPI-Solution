@@ -4132,6 +4132,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Location_Wise", "integer NOT NULL default 0")
             coll.Add("Master_Prefix", "integer NOT NULL default 0")
             coll.Add("Is_MCC_Wise", "integer NOT NULL default 0")
+            coll.Add("Is_Route_Wise", "integer NOT NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DOCUMENT_TYPE", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -4159,6 +4160,7 @@ Public Class clsCreateAllTable
             coll.Add("Doc_Type", "varchar(30) NOT NULL")
             coll.Add("Doc_Trans_Type", "varchar(30) NULL")
             coll.Add("Location_Code", "varchar(12) NULL")
+            coll.Add("RouteNo", "varchar(12) NULL")
             coll.Add("Doc_Prfeix", "varchar(16) NOT NULL")
             coll.Add("Fin_Year", "int NOT NULL")
             coll.Add("Next_Number", "int NOT NULL")
@@ -4186,6 +4188,7 @@ Public Class clsCreateAllTable
             coll.Add("Doc_Type", "varchar(30) NOT NULL")
             coll.Add("Doc_Trans_Type", "varchar(30) NULL")
             coll.Add("Location_Code", "varchar(12) NULL")
+            coll.Add("RouteNo", "varchar(12) NULL")
             coll.Add("BackLog_Date", "Date NULL")
             coll.Add("BackLog_Next_Number", "Varchar(100) NULL")
             coll.Add("Next_Number", "int  NOT NULL")

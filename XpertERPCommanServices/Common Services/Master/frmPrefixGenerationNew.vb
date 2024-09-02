@@ -7,6 +7,7 @@ Public Class FrmPrefixGenerationNew
     Dim isInsideLoadData As Boolean = False
     Const colTransType As String = "TRANSTYPE"
     Const colLoaction As String = "LOCATION"
+    Const colRouteNo As String = "RouteNo"
     Const colPrefix As String = "PREFIX"
     Const colDontAddPrefix As String = "colDontAddPrefix"
     Const colNextNumber As String = "NEXTNO"
@@ -149,7 +150,7 @@ Public Class FrmPrefixGenerationNew
     Sub LoadData()
         isInsideLoadData = True
         LoadBlankGrid()
-        Dim qry As String = "select Doc_Trans_Type,Location_Code,Doc_Prfeix,Next_Number,Separator,Is_Change_Monthly,Curr_Month,Is_Change_Daily,Curr_Date,dontDisplayYearInSeries,Short_Fiscal_Year,MinSizeofSeries,Year_Separator,isnull(Dont_Add_Prefix,0) as Dont_Add_Prefix from TSPL_DOCPREFIX_MASTER where Doc_Type='" + clsCommon.myCstr(txtDocument.Value) + "'"
+        Dim qry As String = "select Doc_Trans_Type,Location_Code,RouteNo,Doc_Prfeix,Next_Number,Separator,Is_Change_Monthly,Curr_Month,Is_Change_Daily,Curr_Date,dontDisplayYearInSeries,Short_Fiscal_Year,MinSizeofSeries,Year_Separator,isnull(Dont_Add_Prefix,0) as Dont_Add_Prefix from TSPL_DOCPREFIX_MASTER where Doc_Type='" + clsCommon.myCstr(txtDocument.Value) + "'"
         If chkFinYear.Checked = True Then
             qry += " and Fin_Year='" + clsCommon.myCstr(cboFiscalYear.SelectedValue) + "'"
         End If
@@ -163,6 +164,7 @@ Public Class FrmPrefixGenerationNew
                 gv1.Rows.AddNew()
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTransType).Value = clsCommon.myCstr(dr("Doc_Trans_Type"))
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colLoaction).Value = clsCommon.myCstr(dr("Location_Code"))
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteNo).Value = clsCommon.myCstr(dr("RouteNo"))
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colPrefix).Value = clsCommon.myCstr(dr("Doc_Prfeix"))
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colDontAddPrefix).Value = (clsCommon.myCDecimal(dr("Dont_Add_Prefix")) = 1)
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colNextNumber).Value = clsCommon.myCdbl(dr("Next_Number"))
@@ -216,6 +218,16 @@ Public Class FrmPrefixGenerationNew
         repoLocation.TextImageRelation = TextImageRelation.TextBeforeImage
         repoLocation.Width = 200
         gv1.MasterTemplate.Columns.Add(repoLocation)
+
+        Dim repoRouteNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoRouteNo.FormatString = ""
+        repoRouteNo.HeaderText = "Route No"
+        repoRouteNo.Name = colRouteNo
+        repoRouteNo.MaxLength = 10
+        repoRouteNo.HeaderImage = Global.XpertERPCommanServices.My.Resources.Resources.search4
+        repoRouteNo.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoRouteNo.Width = 200
+        gv1.MasterTemplate.Columns.Add(repoRouteNo)
 
         repoTransType = New GridViewTextBoxColumn()
         repoTransType.FormatString = ""
@@ -404,6 +416,20 @@ Public Class FrmPrefixGenerationNew
                             gv1.CurrentRow.Cells(colLoaction).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("PrefixGen", qry, "SegmnentCode", "Seg_No='7'", clsCommon.myCstr(gv1.CurrentRow.Cells(colLoaction).Value), "SegmnentCode", False))
                         End If
                         gv1.CurrentRow.Cells(colIsValueChanged).Value = True
+                    ElseIf (clsCommon.CompairString(e.Column.Name, colRouteNo) = CompairStringResult.Equal) Then
+                        Dim qry As String = "select Is_Route_Wise from TSPL_DOCUMENT_TYPE where Doc_Type='" + clsCommon.myCstr(txtDocument.Value) + "' and ISNULL(Doc_Trans_Type,'')='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colTransType).Value) + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                            clsCommon.MyMessageBoxShow(Me, "Doc Transaction Type is not correct", Me.Text)
+                            gv1.CurrentRow.Cells(colLoaction).Value = ""
+                            Exit Sub
+                        End If
+                        If clsCommon.myCdbl(dt.Rows(0)("Is_Route_Wise")) = 1 Then
+                            qry = "select Route_No as Code,Route_Desc as Name from TSPL_ROUTE_MASTER"
+                            gv1.CurrentRow.Cells(colRouteNo).Value = clsCommon.myCstr(clsCommon.ShowSelectForm("StatePrefix", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNo).Value), "", False))
+
+                        End If
+                        gv1.CurrentRow.Cells(colIsValueChanged).Value = True
                     ElseIf (clsCommon.CompairString(e.Column.Name, colNextNumber) = CompairStringResult.Equal) Then
                         Dim dblVal As Double = Math.Round(clsCommon.myCdbl(gv1.CurrentRow.Cells(colNextNumber).Value), 0, MidpointRounding.AwayFromZero)
                         If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsOldEntry).Value) Then
@@ -475,6 +501,7 @@ Public Class FrmPrefixGenerationNew
                             Dim obj As New clsDocPrefix()
                             obj.Doc_Trans_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colTransType).Value)
                             obj.Location_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colLoaction).Value)
+                            obj.RouteNo = clsCommon.myCstr(gv1.Rows(ii).Cells(colRouteNo).Value)
                             obj.Doc_Prfeix = clsCommon.myCstr(gv1.Rows(ii).Cells(colPrefix).Value)
                             obj.Dont_Add_Prefix = clsCommon.myCBool(gv1.Rows(ii).Cells(colDontAddPrefix).Value)
                             obj.Next_Number = clsCommon.myCstr(gv1.Rows(ii).Cells(colNextNumber).Value)
