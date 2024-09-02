@@ -1689,7 +1689,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.54", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.55", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.56", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-
+        InsertDefaultValue(clsUserMgtCode.SendDBTToJanaadhar, "Send DBT To Janaadhar", "1.17.02.57", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         '=========================================================================================
         '--Reportsmdi
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
