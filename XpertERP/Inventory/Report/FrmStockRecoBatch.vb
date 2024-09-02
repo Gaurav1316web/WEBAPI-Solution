@@ -268,6 +268,12 @@ Public Class FrmStockRecoBatch
     End Sub
     Sub GetReportGridID()
         Dim VarID As String = ""
+        If chkFATAndSNF.Checked = True Then
+            VarID += "_FS"
+        End If
+        If chkIncludeGIT.Checked = True Then
+            VarID += "_GT"
+        End If
         If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Type Wise Summary") = CompairStringResult.Equal Then
             VarID += "_TW"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Group Wise Summary") = CompairStringResult.Equal Then
