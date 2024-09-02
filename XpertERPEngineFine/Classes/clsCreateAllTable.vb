@@ -53613,6 +53613,12 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Ref_PK_Id", "integer not NULL UNIQUE references TSPL_DBT_NEFT_DETAIL (PK_Id) ")
             coll.Add("Bank_Response", "Varchar(100) NOT null")
             coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("JA_Request_ID", "Varchar(30) NOT null")
+            coll.Add("JA_CMSG", "Varchar(200) NOT null")
+            coll.Add("JA_Is_Saved", "Varchar(1) NOT null")
+            coll.Add("JA_Msg", "Varchar(100) NOT null")
+            coll.Add("JA_Created_Date", "Datetime NULL")
+            coll.Add("JA_Created_By", "Varchar(12) NOT null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_BANK_RESPONSE", coll, "", False, False, "", "", "")
 
             coll = New Dictionary(Of String, String)()
