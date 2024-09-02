@@ -279,9 +279,19 @@ Public Class frmFATSNFGainLoss
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton2.Click
         Me.Close()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Main Location Wise") = CompairStringResult.Equal Then
+            VarID += "_ML"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Main Location and Location Wise") = CompairStringResult.Equal Then
+            VarID += "_LM"
 
+        End If
+        gv1.VarID = VarID
+    End Sub
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         Try
+            GetReportGridID()
             gv1.EnableFiltering = True
             LoadData()
             TemplateGridview = gv1

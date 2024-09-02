@@ -266,9 +266,38 @@ Public Class FrmStockRecoBatch
         'LoadData(3)
         Me.Close()
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkFATAndSNF.Checked = True Then
+            VarID += "_FS"
+        End If
+        If chkIncludeGIT.Checked = True Then
+            VarID += "_GT"
+        End If
+        If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Type Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_TW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Group Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_TG"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Category Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_CW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item And Batch Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_IA"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Batch And Location Wise Summary") = CompairStringResult.Equal Then
+            VarID += "_IB"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Document Wise Detail") = CompairStringResult.Equal Then
+            VarID += "_DW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date, Item And Document Wise Detail") = CompairStringResult.Equal Then
+            VarID += "_DI"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date and Item Wise Stock") = CompairStringResult.Equal Then
+            VarID += "_DS"
+        End If
+
+        gv1.VarID = VarID
+    End Sub
 
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         Try
+            GetReportGridID()
             gv1.EnableFiltering = True
             TemplateGridview = gv1
             PageSetupReport_ID = GetReportID()

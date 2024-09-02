@@ -50,30 +50,30 @@ Public Class clsDairyGatePassEntry
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim qry As String
-            'If isNewEntry AndAlso obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-            '    For jj As Integer = 0 To obj.Arr.Count - 1
-            '        qry = "select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,(Case When UsedGPDetail.GPUsedQty>0 Then (Qty-UsedGPDetail.GPUsedQty) Else Qty End) As BalanceQty,TSPL_ITEM_MASTER.HSN_Code  
-            '                from tspl_sd_shipment_head 
-            '                left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
-            '                left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code 
-            '                left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  
-            '                left outer Join (Select PK_ID,	Max(GPCode)GPCode,	Item_Code,	Unit_Code,	Sum(IsNull(GP_Qty,0))GPUsedQty from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID,Item_Code,Unit_Code)UsedGPDetail On UsedGPDetail.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID 
-            '                where TSPL_SD_SHIPMENT_DETAIL.PK_ID in ('" + clsCommon.myCstr(obj.Arr(jj).PK_ID) + "')"
-            '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            '        If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '            For ii As Integer = 0 To dt.Rows.Count - 1
-            '                If clsCommon.myCdbl(dt.Rows(ii)("PK_ID")) = clsCommon.myCdbl(obj.Arr(jj).PK_ID) Then
-            '                    If clsCommon.myCdbl(dt.Rows(ii)("BalanceQty")) < clsCommon.myCdbl(obj.Arr(jj).Qty) Then
-            '                        Throw New Exception("Item Code : " + clsCommon.myCstr(obj.Arr(jj).Item_Code) + Environment.NewLine + "Dispatch Balance Qty : " + clsCommon.myCstr(dt.Rows(ii)("BalanceQty")) + Environment.NewLine + "Gatepass Entered Qty : " + clsCommon.myCstr(obj.Arr(jj).Qty) + Environment.NewLine + "Gatepass Entered Qty can't be more then Dispatch Balance Qty.")
-            '                    End If
-            '                End If
-            '            Next
-            '        End If
-            '    Next
-            'End If
+            If isNewEntry AndAlso obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                For jj As Integer = 0 To obj.Arr.Count - 1
+                    qry = "select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Document_Code as [DocNo],Document_Date as [Document Date],Customer_Code,Customer_Name, TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,(Case When UsedGPDetail.GPUsedQty>0 Then (Qty-UsedGPDetail.GPUsedQty) Else Qty End) As BalanceQty,TSPL_ITEM_MASTER.HSN_Code  
+                            from tspl_sd_shipment_head 
+                            left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
+                            left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code 
+                            left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  
+                            left outer Join (Select PK_ID,	Max(GPCode)GPCode,	Item_Code,	Unit_Code,	Sum(IsNull(GP_Qty,0))GPUsedQty from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID,Item_Code,Unit_Code)UsedGPDetail On UsedGPDetail.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID 
+                            where TSPL_SD_SHIPMENT_DETAIL.PK_ID in ('" + clsCommon.myCstr(obj.Arr(jj).PK_ID) + "')"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        For ii As Integer = 0 To dt.Rows.Count - 1
+                            If clsCommon.myCdbl(dt.Rows(ii)("PK_ID")) = clsCommon.myCdbl(obj.Arr(jj).PK_ID) Then
+                                If clsCommon.myCdbl(dt.Rows(ii)("BalanceQty")) < clsCommon.myCdbl(obj.Arr(jj).Qty) Then
+                                    Throw New Exception("Item Code : " + clsCommon.myCstr(obj.Arr(jj).Item_Code) + Environment.NewLine + "Dispatch Balance Qty : " + clsCommon.myCstr(dt.Rows(ii)("BalanceQty")) + Environment.NewLine + "Gatepass Entered Qty : " + clsCommon.myCstr(obj.Arr(jj).Qty) + Environment.NewLine + "Gatepass Entered Qty can't be more then Dispatch Balance Qty.")
+                                End If
+                            End If
+                        Next
+                    End If
+                Next
+            End If
 
 
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
@@ -124,7 +124,6 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "Opening_Km", obj.Opening_Km)
             clsCommon.AddColumnsForChange(coll, "IsTransfer", obj.IsTransfer)
             clsCommon.AddColumnsForChange(coll, "AgainstTransferNo", obj.AgainstTransferNo, True)
-            clsCommon.AddColumnsForChange(coll, "AgainstDocumentCode", obj.AgainstDocumentCode, True)
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType, True)
             clsCommon.AddColumnsForChange(coll, "Loading_Slip", obj.Loading_Slip)
             clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
@@ -145,16 +144,12 @@ Public Class clsDairyGatePassEntry
             ''richa agarwal 22 Nov,2019 ERO/22/11/19-001129
             '' qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
 
-            Dim stringArray() As String = obj.AgainstDocumentCode.Split(","c)
-                Dim myList As New ArrayList(stringArray)
-
-
-                qry = ""
+            qry = ""
             If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
                 qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Production_Remarks='" & obj.Remarks & "',GPCode='" & obj.GPCode & "' from TSPL_DEMAND_BOOKING_DETAIL left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and TSPL_DEMAND_BOOKING_MASTER.Location_code='" & obj.Location_Code & "' and TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code ='" & obj.Vehicle_Id & "' and TSPL_DEMAND_BOOKING_MASTER.route_no='" & obj.Route_No & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & obj.ShiftType & "'"
-            Else
+                'Else
                 '    'qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" & obj.Vehicle_Id & "'  and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
-                qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Supply_Date,103)='" & clsCommon.GetPrintDate(obj.Supply_Date, "") & "' and isnull(GPCode,'') = '' and  Bill_To_Location='" & obj.Location_Code & "' and TSPL_SD_SHIPMENT_HEAD.ParentDocNo  in (" + clsCommon.GetMulcallString(myList) + ")"
+                '    qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
 
@@ -256,7 +251,7 @@ Public Class clsDairyGatePassEntry
             obj.TotalCAN = clsCommon.myCdbl(dt.Rows(0)("TotalCAN"))
             obj.IsTransfer = clsCommon.myCdbl(dt.Rows(0)("IsTransfer"))
             obj.AgainstTransferNo = clsCommon.myCstr(dt.Rows(0)("AgainstTransferNo"))
-            obj.AgainstDocumentCode = clsCommon.myCstr(dt.Rows(0)("AgainstDocumentCode"))
+            'obj.AgainstDocumentCode = clsCommon.myCstr(dt.Rows(0)("AgainstDocumentCode"))
             obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))
             '===========================================================
             'obj.Arr = clsGPDetail.GetData(obj.GPCode, trans, obj.GPDate, TransType)

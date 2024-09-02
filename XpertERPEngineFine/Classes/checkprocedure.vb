@@ -864,6 +864,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptTransactionWiseStock, "Transaction Wise Stock", "1.08.03.50", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.Rptralwisematerialreceivedandpayment, "Ral Wise Material Received And Payment", "1.08.03.51", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.RmSecurityDeduction, "Rm Security Deduction", "1.08.03.52", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.WeightmentAutoAndManualReport, "Weightment Auto And Manual Report", "1.08.03.53", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
@@ -1689,7 +1690,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.54", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.55", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.56", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-
+        InsertDefaultValue(clsUserMgtCode.SendDBTToJanaadhar, "Send DBT To Janaadhar", "1.17.02.57", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         '=========================================================================================
         '--Reportsmdi
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)

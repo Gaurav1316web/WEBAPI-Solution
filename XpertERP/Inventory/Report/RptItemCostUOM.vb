@@ -80,9 +80,17 @@ Public Class RptItemCostUOM
         ChkMilkType.Checked = False
 
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If ChkMilkType.IsChecked = True Then
+            VarID += "_M"
+        End If
+        gv.VarID = VarID
+    End Sub
 
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
         Try
+            GetReportGridID()
             PageSetupReport_ID = MyBase.Form_ID + IIf(ChkMilkType.Checked = True, "M", "")
             TemplateGridview = gv
             Print(Exporter.Refresh)
