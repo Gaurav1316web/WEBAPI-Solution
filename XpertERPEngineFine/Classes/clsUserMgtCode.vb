@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
     Public Const rptTentativeReport As String = "TEN-SAL-RPT"
     Public Const frmRCDFRateControl As String = "RCDF-RT-CNT"
@@ -2023,6 +2024,7 @@ Public Class clsUserMgtCode
     Public Const MilkPricePlanning As String = "PCM-PLN"
     Public Const GazeReading As String = "GAZ-RDN"
     Public Const frmHeadLoadMaster As String = "HED_LOD-MST"
+    Public Const frmDeductionTypeMaster As String = "DED_TYP-MST"
     Public Const frmPriceChartMaster As String = "PCM-MST"
     Public Const frmVLCUploader As String = "VLC-UPL"
     Public Const frmMPMaster As String = "MP-MST"

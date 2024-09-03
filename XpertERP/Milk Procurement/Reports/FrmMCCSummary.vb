@@ -530,9 +530,9 @@ Public Class FrmMCCSummary
             VarID += "_S"
         End If
 
-        If clsCommon.CompairString(cboType.SelectedItem.Text, "Mcc Wise") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cboType.SelectedItem.Value, "Mcc Wise") = CompairStringResult.Equal Then
             VarID += "_MW"
-        ElseIf clsCommon.CompairString(cboType.SelectedItem.Text, "Date Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboType.SelectedItem.Value, "Date Wise") = CompairStringResult.Equal Then
             VarID += "_R"
         End If
         gv.VarID = VarID

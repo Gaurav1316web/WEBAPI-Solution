@@ -1052,23 +1052,23 @@ Public Class RptSaleRegisterReport
 
     Sub GetReportID()
         Dim VarID As String = ""
-        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Total Sale") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Total Sale") = CompairStringResult.Equal Then
             VarID += "_TS"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Location Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Location Wise") = CompairStringResult.Equal Then
             VarID += "_LW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Item Group Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Item Group Wise") = CompairStringResult.Equal Then
             VarID += "_IG"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Customer Group Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Customer Group Wise") = CompairStringResult.Equal Then
             VarID += "_CG"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Item Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Item Wise") = CompairStringResult.Equal Then
             VarID += "_IW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Customer Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Customer Wise") = CompairStringResult.Equal Then
             VarID += "_CW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Document Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Document Wise") = CompairStringResult.Equal Then
             VarID += "_DW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Document Detail") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Document Detail") = CompairStringResult.Equal Then
             VarID += "_DD"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Net Sale") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Net Sale") = CompairStringResult.Equal Then
             VarID += "_NS"
         End If
         Gv1.VarID = VarID
