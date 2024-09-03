@@ -7045,20 +7045,33 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If (AllowToSave(False)) Then
+            If IsOnlyCreditCust Then
+                txtTransNo.Text = txtVendorNo.Value
+
+                txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
+                lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
+                GetRouteNO(False)
+            End If
             trans = clsDBFuncationality.GetTransactin()
             Try
+                Dim BoothCode As String = ""
                 If Not IsOnlyCreditCust Then
                     txtTransNo.Text = txtVendorNo.Value
                     SaveData(False, trans)
                 Else
                     txtTransNo.Text = txtVendorNo.Value
-                    MergeDistributorItems(True, True, trans)
+
                     txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
+                    lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
+                    BoothCode = txtVendorNo.Value
+                    MergeDistributorItems(True, True, trans)
                     SaveData(False, trans)
                 End If
+
                 If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
-                    For Each lst As clsPSShipmentDemand In lstobj
-                        Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
+                        For Each lst As clsPSShipmentDemand In lstobj
+                        If Not clsCommon.CompairString(BoothCode, lst.Booth_Code) = CompairStringResult.Equal Then
+                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
 TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Cust_Code,
 TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,
 TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code as Item_Code,
@@ -7075,23 +7088,27 @@ left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITE
 where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
 
 
-                        LoadDistributorGrid(strQry, trans)
-                        If DispatchPriceCodeForCreditCustomer Then
-                            txtVendorNo.Value = lst.Booth_Code
-                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                            LoadDistributorGrid(strQry, trans)
+                            If DispatchPriceCodeForCreditCustomer Then
+                                txtVendorNo.Value = lst.Booth_Code
+                                lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                            End If
+                            MergeDistributorItems(True, True, trans)
+                            If RunBatchFifowise = 1 Then
+                                OpenBatchItemForCreditCust(trans)
+                            End If
+                            If Not DispatchPriceCodeForCreditCustomer Then
+                                txtVendorNo.Value = lst.Booth_Code
+                                lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+                            End If
+                            SaveData(False, trans)
                         End If
-                        MergeDistributorItems(True, True, trans)
-                        If RunBatchFifowise = 1 Then
-                            OpenBatchItemForCreditCust(trans)
-                        End If
-                        If Not DispatchPriceCodeForCreditCustomer Then
-                            txtVendorNo.Value = lst.Booth_Code
-                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
-                        End If
-                        SaveData(False, trans)
+
                     Next
-                End If
-                trans.Commit()
+                    End If
+
+
+                    trans.Commit()
                 Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(strupdate)
                 If Not IsAutoClose Then
