@@ -2330,6 +2330,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
             coll.Add("Report_Name", "varchar(50) NULL")
             coll.Add("AllowEntryInDecimal", "Integer null")
+            coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -8131,6 +8132,8 @@ Public Class clsCreateAllTable
             coll.Add("Posted_Evening_By", "varchar(12) NULL")
             coll.Add("Posted_Evening_Date", "Datetime NULL")
             coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
+            coll.Add("IsUpdating", "integer null")
+            coll.Add("IsPosting", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -10893,6 +10896,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Negative_SRN", "integer not null default 0")
             coll.Add("Is_Transfer_To_Saving", "integer not null default 0")
             coll.Add("Description_Hindi", "nvarchar(100) null")
+            coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 
@@ -55326,6 +55330,17 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             Catch ex As Exception
 
             End Try
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(40) Not NULL Primary Key")
+            coll.Add("Description", "Varchar(100) NULL ")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "DateTime  Not NULL")
+            coll.Add("Modified_By", "varchar(12)  Not NULL")
+            coll.Add("Modified_Date", "datetime  Not NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Doc_Date", "Datetime NOT NULL")

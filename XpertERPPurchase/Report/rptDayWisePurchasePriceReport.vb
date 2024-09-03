@@ -96,11 +96,11 @@ Public Class RptDayWisePurchasePriceReport
 
     Sub GetReportID()
         Dim VarID As String = ""
-        If clsCommon.CompairString(cboQtyValueWise.SelectedItem.Text, "Qty wise") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cboQtyValueWise.SelectedItem.Value, "Qty wise") = CompairStringResult.Equal Then
             VarID += "_Q"
-        ElseIf clsCommon.CompairString(cboQtyValueWise.SelectedItem.Text, "Value Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboQtyValueWise.SelectedItem.Value, "Value Wise") = CompairStringResult.Equal Then
             VarID += "_V"
-        ElseIf clsCommon.CompairString(cboQtyValueWise.SelectedItem.Text, "Both") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboQtyValueWise.SelectedItem.Value, "Both") = CompairStringResult.Equal Then
             VarID += "_B"
         End If
         gv.VarID = VarID

@@ -38,6 +38,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.frmConfigureSynchronization, "Configure Synchronization", "1.00.01.16", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
         'InsertDefaultValue(clsUserMgtCode.FrmSendSMSMultipleUser, "Send SMS", "1.00.01.17", clsUserMgtCode.SubModuleSystemAdminSetup, "", 29, 0, "", "", "", True, True, False, Nothing)
         'InsertDefaultValue(clsUserMgtCode.UtilityImportExport, "Utility Import/Export", "1.00.01.18", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
+        InsertDefaultValue(clsUserMgtCode.frmChangePasswordScreen, "Change Password", "1.00.01.20", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
         ' Transation
 
         InsertDefaultValue(clsUserMgtCode.SubModuleSystemAdminTransation, "Transaction", "1.00.02", clsUserMgtCode.ModuleSystemAdmin, "SM", 26)
@@ -1590,6 +1591,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSAdditionDeduction, "DCS Addition/Deduction", "1.18.01.38", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.GazeReading, "Gaze Reading", "1.18.01.39", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmHeadLoadMaster, "Head Load Master", "1.18.01.40", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmDeductionTypeMaster, "Deduction Type Master", "1.18.01.41", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
 
         InsertDefaultValue(clsUserMgtCode.frmMilkReasonMaster, "Mcc Reason Master", "1.17.01.32", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.GenratePaymentCycle, "Generate Payment Cycle", "1.17.01.33", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
