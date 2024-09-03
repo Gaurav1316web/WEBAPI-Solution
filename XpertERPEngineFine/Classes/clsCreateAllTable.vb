@@ -2330,7 +2330,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
             coll.Add("Report_Name", "varchar(50) NULL")
             coll.Add("AllowEntryInDecimal", "Integer null")
-            coll.Add("Deduction_Type", "Varchar(50) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
+            coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -10894,7 +10894,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Negative_SRN", "integer not null default 0")
             coll.Add("Is_Transfer_To_Saving", "integer not null default 0")
             coll.Add("Description_Hindi", "nvarchar(100) null")
-            coll.Add("Deduction_Type", "Varchar(50) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
+            coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 
