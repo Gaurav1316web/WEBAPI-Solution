@@ -8650,15 +8650,15 @@ from
                             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtVendorNo.Value & "'")), "0") = CompairStringResult.Equal Then
                                 If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
                                     Dim dblOutstandingAmount As Double = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
-                                    If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
+                                    If dblOutstandingAmount <= AmountToCheckCustomerOutstandingForTCSTax Then
                                         dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
-                                        If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                                        If dblOutstandingAmount >= AmountToCheckCustomerOutstandingForTCSTax Then
                                             If clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
                                                 txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 2)
                                             End If
                                         End If
                                     End If
-                                    If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                                    If dblOutstandingAmount >= AmountToCheckCustomerOutstandingForTCSTax Then
                                         If EnableTCSRateValidityFrom01July2021 Then
                                             Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & txtVendorNo.Value & "'")) = 1, True, False)
                                             If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
