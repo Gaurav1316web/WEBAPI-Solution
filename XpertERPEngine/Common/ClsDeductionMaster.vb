@@ -9,6 +9,7 @@ Public Class ClsDeductionMaster
     Public Description_Hindi As String = Nothing
     Public Ded_Grp_Code As String = Nothing
     Public GL_Account_Code As String = Nothing
+    Public Deduction_Type As String = Nothing
     Public Security As Integer = Nothing
 
     Public Is_Default_Company_Deduction As Boolean
@@ -51,6 +52,7 @@ Public Class ClsDeductionMaster
             clsCommon.AddColumnsForChange(coll, "Description_Hindi", obj.Description_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "Ded_Grp_Code", obj.Ded_Grp_Code)
             clsCommon.AddColumnsForChange(coll, "GL_Account_Code", obj.GL_Account_Code)
+            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type)
             clsCommon.AddColumnsForChange(coll, "Security", obj.Security)
             clsCommon.AddColumnsForChange(coll, "Show_FAT_SNF", IIf(obj.Show_FAT_SNF, 1, 0))
             clsCommon.AddColumnsForChange(coll, "HO_TYPE", IIf(obj.HO_TYPE, 1, 0))
@@ -240,6 +242,7 @@ Public Class ClsDeductionMaster
                 obj.Description_Hindi = clsCommon.myCstr(dt1.Rows(0)("Description_Hindi"))
                 obj.Ded_Grp_Code = clsCommon.myCstr(dt1.Rows(0)("Ded_Grp_Code"))
                 obj.GL_Account_Code = clsCommon.myCstr(dt1.Rows(0)("GL_Account_Code"))
+                obj.Deduction_Type = clsCommon.myCstr(dt1.Rows(0)("Deduction_Type"))
                 obj.Security = clsCommon.myCstr(dt1.Rows(0)("Security"))
                 obj.Own_BMC_Milk_Reject_Type = clsCommon.myCstr(dt1.Rows(0)("Own_BMC_Milk_Reject_Type"))
                 obj.Is_Default_Company_Deduction = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_Company_Deduction")) > 0, True, False)

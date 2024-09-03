@@ -160,7 +160,7 @@ Partial Class frmDeductionTypeMaster
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(13, 0)
+        Me.btnSave.Location = New System.Drawing.Point(13, 3)
         Me.btnSave.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(72, 22)

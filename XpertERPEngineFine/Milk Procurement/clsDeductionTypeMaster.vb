@@ -98,5 +98,11 @@ Public Class clsDeductionTypeMaster
         Return True
     End Function
 
+    Public Shared Function getFinder(ByVal whrcls As String, ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
+        Dim str As String = ""
+        Dim sql As String = "select Document_No as DocumentNo ,Description from TSPL_DEDUCTION_TYPE_MASTER"
+        str = clsCommon.ShowSelectForm("DeductionTypeMaster", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
+        Return str
+    End Function
 
 End Class
