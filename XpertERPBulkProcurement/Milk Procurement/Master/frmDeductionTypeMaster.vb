@@ -19,6 +19,7 @@ Public Class frmDeductionTypeMaster
 
     Private Sub Addnew()
         isNewEntry = True
+        txtDocumentNo.MyReadOnly = False
         txtDocumentNo.Value = ""
         txtDescription.Text = ""
     End Sub
@@ -109,4 +110,48 @@ Public Class frmDeductionTypeMaster
 
     End Sub
 
+    Private Sub txtDocumentNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
+        Dim str As String = "select count(*) from TSPL_DEDUCTION_TYPE_MASTER where Document_No ='" + txtDocumentNo.Value + "' "
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        If no = 0 AndAlso isButtonClicked = False Then
+            txtDocumentNo.MyReadOnly = False
+        Else
+            txtDocumentNo.MyReadOnly = True
+        End If
+        If txtDocumentNo.MyReadOnly OrElse isButtonClicked Then
+            txtDocumentNo.Value = clsDeductionTypeMaster.getFinder("", txtDocumentNo.Value, isButtonClicked)
+            If txtDocumentNo.Value <> "" Then
+                LoadData(txtDocumentNo.Value, NavigatorType.Current)
+            Else
+                Addnew()
+            End If
+        End If
+
+        'If clsCommon.myLen(txtDocumentNo) <= 0 Then
+        '    clsCommon.MyMessageBoxShow(Me, "Document No can't be blank", Me.Text)
+        'End If
+        'txtDocumentNo.Value = clsDeductionTypeMaster.getFinder(txtDocumentNo.Value, isButtonClicked)
+        'LoadData(txtDocumentNo.Value, NavigatorType.Current)
+    End Sub
+
+    Private Sub txtDocumentNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocumentNo._MYNavigator
+        Try
+            LoadData(txtDocumentNo.Value, NavType)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+        'Try
+        '    Dim qry As String = "select count(*) from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" + txtDocumentNo.Value + "' "
+        '    Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+        '    If count = 0 Then
+        '        txtDocumentNo.MyReadOnly = False
+        '    Else
+        '        txtDocumentNo.MyReadOnly = True
+        '    End If
+        '    LoadData(txtDocumentNo.Value, NavType)
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
+    End Sub
 End Class
