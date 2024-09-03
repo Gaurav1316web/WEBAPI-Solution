@@ -8132,6 +8132,8 @@ Public Class clsCreateAllTable
             coll.Add("Posted_Evening_By", "varchar(12) NULL")
             coll.Add("Posted_Evening_Date", "Datetime NULL")
             coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
+            coll.Add("IsUpdating", "integer null")
+            coll.Add("IsPosting", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
