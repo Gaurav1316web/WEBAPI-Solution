@@ -171,11 +171,11 @@ Public Class RptQualityStatus
     Sub GetReportID()
         Dim VarID As String = ""
 
-        If clsCommon.CompairString(cboSelectedBy.SelectedItem.Text, "Accepted") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cboSelectedBy.SelectedItem.Value, "Accepted") = CompairStringResult.Equal Then
             VarID += "_A"
-        ElseIf clsCommon.CompairString(cboSelectedBy.SelectedItem.Text, "Rejected Item") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboSelectedBy.SelectedItem.Value, "Rejected Item") = CompairStringResult.Equal Then
             VarID += "_R"
-        ElseIf clsCommon.CompairString(cboSelectedBy.SelectedItem.Text, "Both") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboSelectedBy.SelectedItem.Value, "Both") = CompairStringResult.Equal Then
             VarID += "_B"
         End If
 

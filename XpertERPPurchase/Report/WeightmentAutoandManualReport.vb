@@ -103,13 +103,14 @@ Public Class Weightment_Auto_and_Manual_Report
             PageSetupReport_ID = MyBase.Form_ID
             TemplateGridview = gv1
             If rbtWeightment.Checked = True Then
-                strqry = " SELECT aa.Location_Code as Location,ISNULL(SUM(aa.Auto_wt),0) AS [Auto Weighment],
-             ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
-             ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
-             ISNULL(SUM(aa.Total_wt), 0) AS Total,
-             (ISNULL(SUM(aa.Auto_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Auto%],
-             (ISNULL(SUM(aa.Manual_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Manual%],
-             ((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Pending%]
+                strqry = " SELECT aa.Location_Code as Location,
+    ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
+    ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+    ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+    ISNULL(SUM(aa.Total_wt), 0) AS Total,
+    CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Auto%],
+    CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Manual%],
+    CAST(ROUND(((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Pending%]
              FROM (SELECT Location_Code,
              CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
              CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
@@ -119,13 +120,14 @@ Public Class Weightment_Auto_and_Manual_Report
              GROUP BY Location_Code,Is_Auto_Gross_Weight,Is_Auto_Tare_Weight) aa  "
 
             Else
-                strqry = " SELECT aa.Location_Code as Location,ISNULL(SUM(aa.Auto_wt),0) AS [Auto Weighment],
-             ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
-             ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
-             ISNULL(SUM(aa.Total_wt), 0) AS Total,
-             (ISNULL(SUM(aa.Auto_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Auto%],
-             (ISNULL(SUM(aa.Manual_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Manual%],
-             ((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Pending%]
+                strqry = " SELECT aa.Location_Code as Location,
+    ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
+    ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+    ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+    ISNULL(SUM(aa.Total_wt), 0) AS Total,
+    CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Auto%],
+    CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Manual%],
+    CAST(ROUND(((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Pending%]
              FROM (SELECT Location_Code,
              CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
              CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
@@ -197,18 +199,23 @@ Public Class Weightment_Auto_and_Manual_Report
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Dim qry As String = " "
-
+        Dim str As String = ""
         Try
-            qry = " SELECT 
+            If rbtWeightment.Checked = True Then
+                str = "Weightment"
+            ElseIf rbtLoadSlip.Checked = True Then
+                str = "Load Slip"
+            End If
+            qry = " SELECT '" + str + "' as ReportName,'" + txtFromDate.Value + "' as Date1 ,'" + txtToDate.Value + "' as Date2,
             aa.Location_Code as Location,
-            ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
-            ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
-            ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
-            ISNULL(SUM(aa.Total_wt), 0) AS Total,
-            (ISNULL(SUM(aa.Auto_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Auto%],
-            (ISNULL(SUM(aa.Manual_wt), 0) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Manual%],
-            ((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100) / ISNULL(SUM(aa.Total_wt), 0) AS [Pending%],
-            aa.Location_Desc
+    ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
+    ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+    ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+    ISNULL(SUM(aa.Total_wt), 0) AS Total,
+    CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Auto%],
+    CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Manual%],
+    CAST(ROUND(((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Pending%],
+    aa.Location_Desc
             FROM (SELECT r.Location_Code,l.Location_Desc,CASE 
             WHEN (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 1) THEN COUNT(*) END AS Auto_wt,CASE 
             WHEN (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 0) 

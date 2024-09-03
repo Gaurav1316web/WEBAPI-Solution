@@ -7982,7 +7982,7 @@ Public Class MDI
                     Case clsUserMgtCode.DBTPayment
                         frm = New FrmDBTPayment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.SendDBTToJanaadhar
+                    Case clsUserMgtCode.MilkProcurementVisualReport
                         frm = New FrmSendDBTToJanaadhar
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
