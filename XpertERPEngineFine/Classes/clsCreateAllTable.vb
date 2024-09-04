@@ -143,6 +143,15 @@ Public Class clsCreateAllTable
             coll.Add("Comp_code", "varchar(8)  Not NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_WISE_TAX", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(40) Not NULL Primary Key")
+            coll.Add("Description", "Varchar(100) NULL ")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "DateTime  Not NULL")
+            coll.Add("Modified_By", "varchar(12)  Not NULL")
+            coll.Add("Modified_Date", "datetime  Not NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("HCODE", "Varchar(30) Not null Primary key")
@@ -55331,15 +55340,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
 
             End Try
 
-            coll = New Dictionary(Of String, String)()
-            coll.Add("Document_No", "varchar(40) Not NULL Primary Key")
-            coll.Add("Description", "Varchar(100) NULL ")
-            coll.Add("Created_By", "varchar(12)  Not NULL")
-            coll.Add("Created_Date", "DateTime  Not NULL")
-            coll.Add("Modified_By", "varchar(12)  Not NULL")
-            coll.Add("Modified_Date", "datetime  Not NULL")
 
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_Code", "varchar(30) NOT NULL Primary Key")
