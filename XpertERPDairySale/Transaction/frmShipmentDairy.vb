@@ -7045,13 +7045,15 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If (AllowToSave(False)) Then
-            If IsOnlyCreditCust Then
-                txtTransNo.Text = txtVendorNo.Value
 
-                txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
-                lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
-                GetRouteNO(False)
-            End If
+            'If IsOnlyCreditCust Then
+            '    txtTransNo.Text = txtVendorNo.Value
+            '    Dim routeNo As String = txtRouteNo.Value
+            '    txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
+            '    lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
+            '    GetRouteNO(False)
+            '    txtRouteNo.Value = routeNo
+            'End If
             trans = clsDBFuncationality.GetTransactin()
             Try
                 Dim BoothCode As String = ""
@@ -7069,7 +7071,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 End If
 
                 If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
-                        For Each lst As clsPSShipmentDemand In lstobj
+                    For Each lst As clsPSShipmentDemand In lstobj
                         If Not clsCommon.CompairString(BoothCode, lst.Booth_Code) = CompairStringResult.Equal Then
                             Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
 TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Cust_Code,
@@ -7105,10 +7107,10 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                         End If
 
                     Next
-                    End If
+                End If
 
 
-                    trans.Commit()
+                trans.Commit()
                 Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(strupdate)
                 If Not IsAutoClose Then
