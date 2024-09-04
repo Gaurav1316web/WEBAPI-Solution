@@ -34,6 +34,103 @@ Partial Class frmPurchaseOrder
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkpoclose = New System.Windows.Forms.CheckBox()
+        Me.chkRepair = New Telerik.WinControls.UI.RadCheckBox()
+        Me.ChkISPO = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.chkJobWorkOutward = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkGSTRegistered = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.pnl_capex = New System.Windows.Forms.Panel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkAutoCalculate = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkIsMerchantTrade = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.chkMCCPurchase = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkBlanket = New Telerik.WinControls.UI.RadCheckBox()
+        Me.UcItemBalance1 = New XpertERPEngine.ucItemBalance()
+        Me.pnlPCJ = New System.Windows.Forms.Panel()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkAgainst_RGP = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkOnHold = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnForm_Update = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chk_c_form = New Telerik.WinControls.UI.RadCheckBox()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Chkroadpermit = New Telerik.WinControls.UI.RadCheckBox()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkExciseOnQty = New Telerik.WinControls.UI.RadCheckBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RdPaymentterms = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbAmountinpercentage = New System.Windows.Forms.RadioButton()
+        Me.rdbAmountinrupees = New System.Windows.Forms.RadioButton()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnMTUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.RadPanel2 = New Telerik.WinControls.UI.RadPanel()
+        Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtCmt13 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt12 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt11 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt10 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt9 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt8 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt7 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt6 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt5 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt4 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt3 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt2 = New System.Windows.Forms.RichTextBox()
+        Me.txtCmt1 = New System.Windows.Forms.RichTextBox()
+        Me.chkIsContent = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtKindAttentation = New System.Windows.Forms.TextBox()
+        Me.txtSubject = New System.Windows.Forms.TextBox()
+        Me.txtContentSubject = New System.Windows.Forms.TextBox()
+        Me.pnlCurrConv = New System.Windows.Forms.Panel()
+        Me.txtComment = New System.Windows.Forms.RichTextBox()
+        Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
+        Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+        Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
+        Me.btn_Cancels = New Telerik.WinControls.UI.RadButton()
+        Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
+        Me.btn_cancel = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.btnCopy = New Telerik.WinControls.UI.RadButton()
+        Me.btnUnpost = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrintNew = New Telerik.WinControls.UI.RadButton()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnAmendment = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnViewTDSDetails = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ReportFooter = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
+        Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.lblShipFromLocation = New common.Controls.MyLabel()
         Me.MyLabel64 = New common.Controls.MyLabel()
         Me.txtShipFromLocation = New common.UserControls.txtFinder()
@@ -44,26 +141,19 @@ Partial Class frmPurchaseOrder
         Me.RadLabel7 = New common.Controls.MyLabel()
         Me.MyLabel55 = New common.Controls.MyLabel()
         Me.chkTender = New common.Controls.MyCheckBox()
-        Me.chkpoclose = New System.Windows.Forms.CheckBox()
         Me.MyLabel50 = New common.Controls.MyLabel()
         Me.fndProject = New common.UserControls.txtFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.lblProject = New common.Controls.MyLabel()
         Me.lblVendorQuotationNo = New common.Controls.MyLabel()
-        Me.chkRepair = New Telerik.WinControls.UI.RadCheckBox()
-        Me.ChkISPO = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Panel4 = New System.Windows.Forms.Panel()
         Me.lblGstinNo = New common.Controls.MyLabel()
         Me.MyLabel49 = New common.Controls.MyLabel()
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.lblRegisterOrUnregister = New common.Controls.MyLabel()
         Me.txt_deliverydays = New common.MyNumBox()
         Me.MyLabel42 = New common.Controls.MyLabel()
-        Me.chkJobWorkOutward = New Telerik.WinControls.UI.RadCheckBox()
         Me.ddl_category = New common.Controls.MyComboBox()
         Me.MyLabel39 = New common.Controls.MyLabel()
-        Me.chkGSTRegistered = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Panel3 = New System.Windows.Forms.Panel()
         Me.lblSubLocation = New common.Controls.MyLabel()
         Me.MyLabel43 = New common.Controls.MyLabel()
         Me.txtSubLocation = New common.UserControls.txtFinder()
@@ -72,8 +162,6 @@ Partial Class frmPurchaseOrder
         Me.lblBillNo = New common.Controls.MyLabel()
         Me.txtBillNo = New common.Controls.MyTextBox()
         Me.chk_emergency = New common.Controls.MyCheckBox()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.pnl_capex = New System.Windows.Forms.Panel()
         Me.chkReceiveControl = New common.Controls.MyCheckBox()
         Me.MyLabel37 = New common.Controls.MyLabel()
         Me.MyLabel38 = New common.Controls.MyLabel()
@@ -89,22 +177,16 @@ Partial Class frmPurchaseOrder
         Me.MyLabel34 = New common.Controls.MyLabel()
         Me.fndcapexcode = New common.UserControls.txtFinder()
         Me.lbl_capexcode = New common.Controls.MyLabel()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.chkAutoCalculate = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtAgainstPO_No = New common.Controls.MyLabel()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.dtpRenewal = New common.Controls.MyDateTimePicker()
         Me.chkOpenPO = New common.Controls.MyCheckBox()
-        Me.chkIsMerchantTrade = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblAbandonmentNo = New common.Controls.MyLabel()
-        Me.Panel2 = New System.Windows.Forms.Panel()
         Me.lblState = New common.Controls.MyLabel()
         Me.fndState = New common.UserControls.txtFinder()
         Me.lblStateName = New common.Controls.MyLabel()
-        Me.chkMCCPurchase = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.chkBlanket = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblAmt = New common.Controls.MyLabel()
         Me.txtAmount = New common.Controls.MyTextBox()
         Me.cboPOType = New common.Controls.MyComboBox()
@@ -116,10 +198,7 @@ Partial Class frmPurchaseOrder
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.lblTotRAmtCopy = New common.Controls.MyLabel()
         Me.RadLabel12 = New common.Controls.MyLabel()
-        Me.UcItemBalance1 = New XpertERPEngine.ucItemBalance()
-        Me.pnlPCJ = New System.Windows.Forms.Panel()
         Me.txtReferencePO = New common.Controls.MyTextBox()
-        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.txtDeliveryDuration = New common.Controls.MyTextBox()
         Me.lblDeliveryDuration = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -139,8 +218,6 @@ Partial Class frmPurchaseOrder
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.lblDeliveryDate = New common.Controls.MyLabel()
         Me.RadLabel4 = New common.Controls.MyLabel()
-        Me.chkAgainst_RGP = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkOnHold = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblVendorName = New common.Controls.MyLabel()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -157,26 +234,15 @@ Partial Class frmPurchaseOrder
         Me.txtRefNo = New common.Controls.MyTextBox()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.txtDesc = New common.Controls.MyTextBox()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
-        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.btnForm_Update = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv_c_form = New common.UserControls.MyRadGridView()
-        Me.chk_c_form = New Telerik.WinControls.UI.RadCheckBox()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv_roadpermit = New common.UserControls.MyRadGridView()
-        Me.Chkroadpermit = New Telerik.WinControls.UI.RadCheckBox()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.chkTDSApplied = New common.Controls.MyCheckBox()
-        Me.chkExciseOnQty = New Telerik.WinControls.UI.RadCheckBox()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalAutomatic = New common.Controls.MyRadioButton()
         Me.txtTaxGroup = New common.UserControls.txtFinder()
         Me.RadLabel11 = New common.Controls.MyLabel()
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadLabel10 = New common.Controls.MyLabel()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel62 = New common.Controls.MyLabel()
         Me.TxtRetention = New common.Controls.MyTextBox()
         Me.MyLabel54 = New common.Controls.MyLabel()
@@ -202,7 +268,6 @@ Partial Class frmPurchaseOrder
         Me.txtDueDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel17 = New common.Controls.MyLabel()
         Me.gv2 = New common.UserControls.MyRadGridView()
-        Me.RdPaymentterms = New Telerik.WinControls.UI.RadPageViewPage()
         Me.lblBankDesc = New common.Controls.MyLabel()
         Me.txtPaymentMode = New common.UserControls.txtFinder()
         Me.txtBankCode = New common.UserControls.txtFinder()
@@ -251,9 +316,6 @@ Partial Class frmPurchaseOrder
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.lblBeneficiary = New common.Controls.MyLabel()
         Me.MyLabel10 = New common.Controls.MyLabel()
-        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbAmountinpercentage = New System.Windows.Forms.RadioButton()
-        Me.rdbAmountinrupees = New System.Windows.Forms.RadioButton()
         Me.lblAdvance = New common.Controls.MyLabel()
         Me.TxtOnAccount = New common.MyNumBox()
         Me.lblonAccount = New common.Controls.MyLabel()
@@ -272,43 +334,18 @@ Partial Class frmPurchaseOrder
         Me.TxtBeneficiary = New common.UserControls.txtFinder()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.TxtINCOTERMS = New common.Controls.MyTextBox()
-        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cboPIStatus = New common.Controls.MyComboBox()
-        Me.btnMTUpdate = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel22 = New common.Controls.MyLabel()
         Me.txtPIDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel29 = New common.Controls.MyLabel()
         Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.gvAC = New common.UserControls.MyRadGridView()
-        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadLabel31 = New common.Controls.MyLabel()
         Me.lblAddCharges = New common.Controls.MyLabel()
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.gvACInsurance = New common.UserControls.MyRadGridView()
-        Me.RadPanel2 = New Telerik.WinControls.UI.RadPanel()
         Me.MyLabel56 = New common.Controls.MyLabel()
         Me.lblAddChargesForInsurance = New common.Controls.MyLabel()
-        Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
-        Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
-        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtCmt13 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt12 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt11 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt10 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt9 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt8 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt7 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt6 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt5 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt4 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt3 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt2 = New System.Windows.Forms.RichTextBox()
-        Me.txtCmt1 = New System.Windows.Forms.RichTextBox()
         Me.MyLabel58 = New common.Controls.MyLabel()
         Me.lblTotalInsuranceAmt = New common.Controls.MyLabel()
         Me.MyLabel57 = New common.Controls.MyLabel()
@@ -319,14 +356,9 @@ Partial Class frmPurchaseOrder
         Me.lblTaxableAmount = New common.Controls.MyLabel()
         Me.MyLabel41 = New common.Controls.MyLabel()
         Me.lblAmtAfterTax = New common.Controls.MyLabel()
-        Me.chkIsContent = New Telerik.WinControls.UI.RadCheckBox()
-        Me.txtKindAttentation = New System.Windows.Forms.TextBox()
         Me.lblKindAttentation = New common.Controls.MyLabel()
-        Me.txtSubject = New System.Windows.Forms.TextBox()
-        Me.txtContentSubject = New System.Windows.Forms.TextBox()
         Me.lblContentSubject = New common.Controls.MyLabel()
         Me.lblSubject = New common.Controls.MyLabel()
-        Me.pnlCurrConv = New System.Windows.Forms.Panel()
         Me.txtConversionRate = New common.MyNumBox()
         Me.txtCurrencyCode = New common.UserControls.txtFinder()
         Me.lblEffectiveFrom = New common.Controls.MyLabel()
@@ -335,7 +367,6 @@ Partial Class frmPurchaseOrder
         Me.lblConvRate = New common.Controls.MyLabel()
         Me.lblAddCharges1 = New common.Controls.MyLabel()
         Me.RadLabel32 = New common.Controls.MyLabel()
-        Me.txtComment = New System.Windows.Forms.RichTextBox()
         Me.RadLabel14 = New common.Controls.MyLabel()
         Me.RadLabel9 = New common.Controls.MyLabel()
         Me.RadLabel27 = New common.Controls.MyLabel()
@@ -347,55 +378,111 @@ Partial Class frmPurchaseOrder
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
-        Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvSchedule = New common.UserControls.MyRadGridView()
-        Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.txtScheduleStartDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel60 = New common.Controls.MyLabel()
         Me.MyLabel61 = New common.Controls.MyLabel()
-        Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
         Me.lblWAddress = New common.Controls.MyTextBox()
         Me.lblWPhone = New common.Controls.MyTextBox()
         Me.lblWVendorName = New common.Controls.MyTextBox()
         Me.MyLabel47 = New common.Controls.MyLabel()
         Me.lblAddress = New common.Controls.MyLabel()
         Me.MyLabel46 = New common.Controls.MyLabel()
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.gvCategoryValue = New common.UserControls.MyRadGridView()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
-        Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.gvTermsCdtion = New common.UserControls.MyRadGridView()
-        Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
-        Me.btn_Cancels = New Telerik.WinControls.UI.RadButton()
-        Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
-        Me.btn_cancel = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.btnCopy = New Telerik.WinControls.UI.RadButton()
-        Me.btnUnpost = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrintNew = New Telerik.WinControls.UI.RadButton()
-        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
-        Me.btnAmendment = New Telerik.WinControls.UI.RadButton()
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnViewTDSDetails = New Telerik.WinControls.UI.RadButton()
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.ReportFooter = New Telerik.WinControls.UI.RadMenuItem()
-        Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
-        Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkRepair, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkISPO, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel4.SuspendLayout()
+        CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkGSTRegistered, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel3.SuspendLayout()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        Me.pnl_capex.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.chkAutoCalculate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsMerchantTrade, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel2.SuspendLayout()
+        CType(Me.chkMCCPurchase, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkBlanket, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlPCJ.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        CType(Me.chkAgainst_RGP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.btnForm_Update, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.chk_c_form, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.Chkroadpermit, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.chkExciseOnQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        Me.RdPaymentterms.SuspendLayout()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.btnMTUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        Me.SplitContainer5.Panel1.SuspendLayout()
+        Me.SplitContainer5.Panel2.SuspendLayout()
+        Me.SplitContainer5.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPanel1.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
+        CType(Me.RadPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPanel2.SuspendLayout()
+        Me.pvpCustomFields.SuspendLayout()
+        Me.Attachments.SuspendLayout()
+        Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.chkIsContent, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlCurrConv.SuspendLayout()
+        Me.RadPageViewPage7.SuspendLayout()
+        Me.Panel5.SuspendLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage6.SuspendLayout()
+        Me.SplitContainer4.Panel1.SuspendLayout()
+        Me.SplitContainer4.Panel2.SuspendLayout()
+        Me.SplitContainer4.SuspendLayout()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadSplitContainer1.SuspendLayout()
+        CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitPanel1.SuspendLayout()
+        CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btn_Cancels, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btn_cancel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAmendment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShipFromLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -408,20 +495,14 @@ Partial Class frmPurchaseOrder
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblProject, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorQuotationNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkRepair, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChkISPO, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel4.SuspendLayout()
         CType(Me.lblGstinNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRegisterOrUnregister, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txt_deliverydays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddl_category, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkGSTRegistered, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel3.SuspendLayout()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBillDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -430,10 +511,6 @@ Partial Class frmPurchaseOrder
         CType(Me.txtBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chk_emergency, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.chk_emergency.SuspendLayout()
-        Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.Panel2.SuspendLayout()
-        Me.SplitContainer2.SuspendLayout()
-        Me.pnl_capex.SuspendLayout()
         CType(Me.chkReceiveControl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -447,23 +524,16 @@ Partial Class frmPurchaseOrder
         CType(Me.lbl_capexsubcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_capexcode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAutoCalculate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAgainstPO_No, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpRenewal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOpenPO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsMerchantTrade, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAbandonmentNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel2.SuspendLayout()
         CType(Me.lblState, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblStateName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkMCCPurchase, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkBlanket, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboPOType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -475,9 +545,7 @@ Partial Class frmPurchaseOrder
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotRAmtCopy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlPCJ.SuspendLayout()
         CType(Me.txtReferencePO, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel1.SuspendLayout()
         CType(Me.txtDeliveryDuration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDeliveryDuration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -496,8 +564,6 @@ Partial Class frmPurchaseOrder
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDeliveryDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAgainst_RGP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -507,30 +573,16 @@ Partial Class frmPurchaseOrder
         CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage5.SuspendLayout()
-        CType(Me.btnForm_Update, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
         CType(Me.gv_c_form, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv_c_form.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chk_c_form, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
         CType(Me.gv_roadpermit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv_roadpermit.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Chkroadpermit, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
         CType(Me.chkTDSApplied, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkExciseOnQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -555,7 +607,6 @@ Partial Class frmPurchaseOrder
         CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RdPaymentterms.SuspendLayout()
         CType(Me.lblBankDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblpaymentcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -598,8 +649,6 @@ Partial Class frmPurchaseOrder
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBeneficiary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox6.SuspendLayout()
         CType(Me.lblAdvance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtOnAccount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblonAccount, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -616,35 +665,19 @@ Partial Class frmPurchaseOrder
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtINCOTERMS, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox5.SuspendLayout()
         CType(Me.cboPIStatus, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnMTUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPIDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage3.SuspendLayout()
-        Me.SplitContainer5.Panel1.SuspendLayout()
-        Me.SplitContainer5.Panel2.SuspendLayout()
-        Me.SplitContainer5.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         CType(Me.gvAC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvAC.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPanel1.SuspendLayout()
         CType(Me.RadLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAddCharges, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox4.SuspendLayout()
         CType(Me.gvACInsurance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvACInsurance.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPanel2.SuspendLayout()
         CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAddChargesForInsurance, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pvpCustomFields.SuspendLayout()
-        Me.Attachments.SuspendLayout()
-        Me.RadPageViewPage4.SuspendLayout()
         CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalInsuranceAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -655,11 +688,9 @@ Partial Class frmPurchaseOrder
         CType(Me.lblTaxableAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAmtAfterTax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsContent, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblKindAttentation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblContentSubject, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubject, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlCurrConv.SuspendLayout()
         CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -678,52 +709,21 @@ Partial Class frmPurchaseOrder
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage7.SuspendLayout()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel5.SuspendLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtScheduleStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage6.SuspendLayout()
-        Me.SplitContainer4.Panel1.SuspendLayout()
-        Me.SplitContainer4.Panel2.SuspendLayout()
-        Me.SplitContainer4.SuspendLayout()
         CType(Me.lblWAddress, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblWPhone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblWVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer3.Panel1.SuspendLayout()
-        Me.SplitContainer3.Panel2.SuspendLayout()
-        Me.SplitContainer3.SuspendLayout()
         CType(Me.gvCategoryValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCategoryValue.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox2.SuspendLayout()
-        CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadSplitContainer1.SuspendLayout()
-        CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitPanel1.SuspendLayout()
         CType(Me.gvTermsCdtion, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvTermsCdtion.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btn_Cancels, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btn_cancel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAmendment, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -796,35 +796,41 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel55)
         Me.RadPageViewPage1.Controls.Add(Me.chkTender)
         Me.RadPageViewPage1.Controls.Add(Me.chkpoclose)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel50)
-        Me.RadPageViewPage1.Controls.Add(Me.fndProject)
-        Me.RadPageViewPage1.Controls.Add(Me.lblVendorQuotationNo)
         Me.RadPageViewPage1.Controls.Add(Me.chkRepair)
         Me.RadPageViewPage1.Controls.Add(Me.ChkISPO)
         Me.RadPageViewPage1.Controls.Add(Me.Panel4)
-        Me.RadPageViewPage1.Controls.Add(Me.txt_deliverydays)
         Me.RadPageViewPage1.Controls.Add(Me.chkJobWorkOutward)
-        Me.RadPageViewPage1.Controls.Add(Me.ddl_category)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel39)
         Me.RadPageViewPage1.Controls.Add(Me.chkGSTRegistered)
         Me.RadPageViewPage1.Controls.Add(Me.Panel3)
+        Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
+        Me.RadPageViewPage1.Controls.Add(Me.chkAutoCalculate)
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsMerchantTrade)
+        Me.RadPageViewPage1.Controls.Add(Me.Panel2)
+        Me.RadPageViewPage1.Controls.Add(Me.chkBlanket)
+        Me.RadPageViewPage1.Controls.Add(Me.UcItemBalance1)
+        Me.RadPageViewPage1.Controls.Add(Me.pnlPCJ)
+        Me.RadPageViewPage1.Controls.Add(Me.Panel1)
+        Me.RadPageViewPage1.Controls.Add(Me.chkAgainst_RGP)
+        Me.RadPageViewPage1.Controls.Add(Me.chkOnHold)
+        Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel50)
+        Me.RadPageViewPage1.Controls.Add(Me.fndProject)
+        Me.RadPageViewPage1.Controls.Add(Me.lblVendorQuotationNo)
+        Me.RadPageViewPage1.Controls.Add(Me.txt_deliverydays)
+        Me.RadPageViewPage1.Controls.Add(Me.ddl_category)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel39)
         Me.RadPageViewPage1.Controls.Add(Me.lblBillDate)
         Me.RadPageViewPage1.Controls.Add(Me.dtBillDate)
         Me.RadPageViewPage1.Controls.Add(Me.lblBillNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtBillNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel42)
         Me.RadPageViewPage1.Controls.Add(Me.chk_emergency)
-        Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.Controls.Add(Me.chkAutoCalculate)
         Me.RadPageViewPage1.Controls.Add(Me.txtAgainstPO_No)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel13)
         Me.RadPageViewPage1.Controls.Add(Me.dtpRenewal)
         Me.RadPageViewPage1.Controls.Add(Me.chkOpenPO)
-        Me.RadPageViewPage1.Controls.Add(Me.chkIsMerchantTrade)
         Me.RadPageViewPage1.Controls.Add(Me.lblAbandonmentNo)
-        Me.RadPageViewPage1.Controls.Add(Me.Panel2)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
-        Me.RadPageViewPage1.Controls.Add(Me.chkBlanket)
         Me.RadPageViewPage1.Controls.Add(Me.lblAmt)
         Me.RadPageViewPage1.Controls.Add(Me.txtAmount)
         Me.RadPageViewPage1.Controls.Add(Me.cboPOType)
@@ -836,9 +842,6 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
         Me.RadPageViewPage1.Controls.Add(Me.lblTotRAmtCopy)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel12)
-        Me.RadPageViewPage1.Controls.Add(Me.UcItemBalance1)
-        Me.RadPageViewPage1.Controls.Add(Me.pnlPCJ)
-        Me.RadPageViewPage1.Controls.Add(Me.Panel1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.txtQuotationNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
@@ -858,8 +861,6 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel7)
         Me.RadPageViewPage1.Controls.Add(Me.lblDeliveryDate)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel4)
-        Me.RadPageViewPage1.Controls.Add(Me.chkAgainst_RGP)
-        Me.RadPageViewPage1.Controls.Add(Me.chkOnHold)
         Me.RadPageViewPage1.Controls.Add(Me.lblVendorName)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel1)
@@ -876,13 +877,1170 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage1.Controls.Add(Me.txtRefNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
-        Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(96.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(92.0!, 22.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1080, 399)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1080, 403)
         Me.RadPageViewPage1.Text = "Purchase Order"
+        '
+        'chkpoclose
+        '
+        Me.chkpoclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkpoclose.AutoSize = True
+        Me.chkpoclose.Location = New System.Drawing.Point(680, 382)
+        Me.chkpoclose.Name = "chkpoclose"
+        Me.chkpoclose.Size = New System.Drawing.Size(133, 18)
+        Me.chkpoclose.TabIndex = 9
+        Me.chkpoclose.Text = "Close Purchase Order"
+        Me.chkpoclose.UseVisualStyleBackColor = True
+        '
+        'chkRepair
+        '
+        Me.chkRepair.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkRepair.Location = New System.Drawing.Point(462, 117)
+        Me.chkRepair.Name = "chkRepair"
+        Me.chkRepair.Size = New System.Drawing.Size(54, 16)
+        Me.chkRepair.TabIndex = 604
+        Me.chkRepair.Text = "Repair"
+        Me.chkRepair.Visible = False
+        '
+        'ChkISPO
+        '
+        Me.ChkISPO.AccessibleDescription = ""
+        Me.ChkISPO.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ChkISPO.Location = New System.Drawing.Point(897, 147)
+        Me.ChkISPO.Name = "ChkISPO"
+        Me.ChkISPO.Size = New System.Drawing.Size(48, 16)
+        Me.ChkISPO.TabIndex = 69
+        Me.ChkISPO.Text = "Is PO"
+        '
+        'Panel4
+        '
+        Me.Panel4.Controls.Add(Me.lblGstinNo)
+        Me.Panel4.Controls.Add(Me.MyLabel49)
+        Me.Panel4.Controls.Add(Me.MyLabel45)
+        Me.Panel4.Controls.Add(Me.lblRegisterOrUnregister)
+        Me.Panel4.Location = New System.Drawing.Point(507, 160)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(465, 21)
+        Me.Panel4.TabIndex = 603
+        '
+        'chkJobWorkOutward
+        '
+        Me.chkJobWorkOutward.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkJobWorkOutward.Location = New System.Drawing.Point(353, 117)
+        Me.chkJobWorkOutward.Name = "chkJobWorkOutward"
+        Me.chkJobWorkOutward.Size = New System.Drawing.Size(108, 16)
+        Me.chkJobWorkOutward.TabIndex = 23
+        Me.chkJobWorkOutward.Text = "JobWorkOutward"
+        '
+        'chkGSTRegistered
+        '
+        Me.chkGSTRegistered.AccessibleDescription = ""
+        Me.chkGSTRegistered.Enabled = False
+        Me.chkGSTRegistered.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkGSTRegistered.Location = New System.Drawing.Point(797, 130)
+        Me.chkGSTRegistered.Name = "chkGSTRegistered"
+        Me.chkGSTRegistered.Size = New System.Drawing.Size(95, 16)
+        Me.chkGSTRegistered.TabIndex = 26
+        Me.chkGSTRegistered.Text = "GST Registred"
+        '
+        'Panel3
+        '
+        Me.Panel3.Controls.Add(Me.lblSubLocation)
+        Me.Panel3.Controls.Add(Me.MyLabel43)
+        Me.Panel3.Controls.Add(Me.txtSubLocation)
+        Me.Panel3.Location = New System.Drawing.Point(3, 135)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(503, 23)
+        Me.Panel3.TabIndex = 24
+        '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.Location = New System.Drawing.Point(2, 226)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.pnl_capex)
+        Me.SplitContainer2.Panel1.Padding = New System.Windows.Forms.Padding(2)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
+        Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(2)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1077, 109)
+        Me.SplitContainer2.SplitterDistance = 49
+        Me.SplitContainer2.TabIndex = 71
+        '
+        'pnl_capex
+        '
+        Me.pnl_capex.Controls.Add(Me.chkReceiveControl)
+        Me.pnl_capex.Controls.Add(Me.MyLabel37)
+        Me.pnl_capex.Controls.Add(Me.MyLabel38)
+        Me.pnl_capex.Controls.Add(Me.MyLabel40)
+        Me.pnl_capex.Controls.Add(Me.lbl_rebudgetamtwithtolerence)
+        Me.pnl_capex.Controls.Add(Me.lbl_rebudgetamt)
+        Me.pnl_capex.Controls.Add(Me.MyLabel35)
+        Me.pnl_capex.Controls.Add(Me.lbl_budgetamtwithtolerence)
+        Me.pnl_capex.Controls.Add(Me.lbl_budgetamt)
+        Me.pnl_capex.Controls.Add(Me.MyLabel36)
+        Me.pnl_capex.Controls.Add(Me.fndcapexsubcode)
+        Me.pnl_capex.Controls.Add(Me.lbl_capexsubcode)
+        Me.pnl_capex.Controls.Add(Me.MyLabel34)
+        Me.pnl_capex.Controls.Add(Me.fndcapexcode)
+        Me.pnl_capex.Controls.Add(Me.lbl_capexcode)
+        Me.pnl_capex.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pnl_capex.Location = New System.Drawing.Point(2, 2)
+        Me.pnl_capex.Name = "pnl_capex"
+        Me.pnl_capex.Size = New System.Drawing.Size(1073, 45)
+        Me.pnl_capex.TabIndex = 0
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.gv1)
+        Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadGroupBox2.HeaderText = "Item Details"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 2)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1073, 52)
+        Me.RadGroupBox2.TabIndex = 0
+        Me.RadGroupBox2.Text = "Item Details"
+        '
+        'chkAutoCalculate
+        '
+        Me.chkAutoCalculate.AccessibleDescription = ""
+        Me.chkAutoCalculate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAutoCalculate.Location = New System.Drawing.Point(797, 145)
+        Me.chkAutoCalculate.Name = "chkAutoCalculate"
+        Me.chkAutoCalculate.Size = New System.Drawing.Size(94, 16)
+        Me.chkAutoCalculate.TabIndex = 68
+        Me.chkAutoCalculate.Text = "Auto Calculate"
+        '
+        'chkIsMerchantTrade
+        '
+        Me.chkIsMerchantTrade.AccessibleDescription = ""
+        Me.chkIsMerchantTrade.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsMerchantTrade.Location = New System.Drawing.Point(797, 114)
+        Me.chkIsMerchantTrade.Name = "chkIsMerchantTrade"
+        Me.chkIsMerchantTrade.Size = New System.Drawing.Size(100, 16)
+        Me.chkIsMerchantTrade.TabIndex = 23
+        Me.chkIsMerchantTrade.Text = "Merchant Trade"
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.lblState)
+        Me.Panel2.Controls.Add(Me.fndState)
+        Me.Panel2.Controls.Add(Me.lblStateName)
+        Me.Panel2.Controls.Add(Me.chkMCCPurchase)
+        Me.Panel2.Location = New System.Drawing.Point(3, 183)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(609, 22)
+        Me.Panel2.TabIndex = 28
+        '
+        'chkMCCPurchase
+        '
+        Me.chkMCCPurchase.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkMCCPurchase.Location = New System.Drawing.Point(510, 4)
+        Me.chkMCCPurchase.Name = "chkMCCPurchase"
+        Me.chkMCCPurchase.Size = New System.Drawing.Size(97, 16)
+        Me.chkMCCPurchase.TabIndex = 1
+        Me.chkMCCPurchase.Text = "MCC Purchase"
+        '
+        'chkBlanket
+        '
+        Me.chkBlanket.AccessibleDescription = ""
+        Me.chkBlanket.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkBlanket.Location = New System.Drawing.Point(513, 98)
+        Me.chkBlanket.Name = "chkBlanket"
+        Me.chkBlanket.Size = New System.Drawing.Size(58, 16)
+        Me.chkBlanket.TabIndex = 18
+        Me.chkBlanket.Text = "Blanket"
+        '
+        'UcItemBalance1
+        '
+        Me.UcItemBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.UcItemBalance1.CommitedQty = False
+        Me.UcItemBalance1.CommitedQtyLbl = False
+        Me.UcItemBalance1.ItemCode = ""
+        Me.UcItemBalance1.ItemMRP = 0R
+        Me.UcItemBalance1.ItemName = ""
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 333)
+        Me.UcItemBalance1.LocationCode = ""
+        Me.UcItemBalance1.LocationName = ""
+        Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
+        Me.UcItemBalance1.MinimumSize = New System.Drawing.Size(710, 70)
+        Me.UcItemBalance1.Name = "UcItemBalance1"
+        Me.UcItemBalance1.ShowCSADOQty = False
+        Me.UcItemBalance1.ShowPOQty = False
+        Me.UcItemBalance1.ShowSOQty = False
+        Me.UcItemBalance1.Size = New System.Drawing.Size(710, 70)
+        Me.UcItemBalance1.TabIndex = 25
+        Me.UcItemBalance1.TabStop = False
+        Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
+        Me.UcItemBalance1.TransNo = ""
+        Me.UcItemBalance1.UOM = ""
+        '
+        'pnlPCJ
+        '
+        Me.pnlPCJ.Controls.Add(Me.txtReferencePO)
+        Me.pnlPCJ.Controls.Add(Me.MyLabel4)
+        Me.pnlPCJ.Location = New System.Drawing.Point(3, 159)
+        Me.pnlPCJ.Name = "pnlPCJ"
+        Me.pnlPCJ.Size = New System.Drawing.Size(503, 23)
+        Me.pnlPCJ.TabIndex = 23
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.txtDeliveryDuration)
+        Me.Panel1.Controls.Add(Me.lblDeliveryDuration)
+        Me.Panel1.Location = New System.Drawing.Point(513, 116)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(284, 18)
+        Me.Panel1.TabIndex = 22
+        '
+        'chkAgainst_RGP
+        '
+        Me.chkAgainst_RGP.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAgainst_RGP.Location = New System.Drawing.Point(734, 79)
+        Me.chkAgainst_RGP.Name = "chkAgainst_RGP"
+        Me.chkAgainst_RGP.Size = New System.Drawing.Size(62, 16)
+        Me.chkAgainst_RGP.TabIndex = 16
+        Me.chkAgainst_RGP.Text = "RGP No"
+        '
+        'chkOnHold
+        '
+        Me.chkOnHold.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkOnHold.Location = New System.Drawing.Point(738, 1)
+        Me.chkOnHold.Name = "chkOnHold"
+        Me.chkOnHold.Size = New System.Drawing.Size(62, 16)
+        Me.chkOnHold.TabIndex = 4
+        Me.chkOnHold.Text = "On Hold"
+        '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(376, 0)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 18)
+        Me.btnAddNew.TabIndex = 1
+        '
+        'RadPageViewPage5
+        '
+        Me.RadPageViewPage5.Controls.Add(Me.btnForm_Update)
+        Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageViewPage5.Controls.Add(Me.chk_c_form)
+        Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox3)
+        Me.RadPageViewPage5.Controls.Add(Me.Chkroadpermit)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(84.0!, 22.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage5.Name = "RadPageViewPage5"
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1080, 391)
+        Me.RadPageViewPage5.Text = "Form(s) Detail"
+        '
+        'btnForm_Update
+        '
+        Me.btnForm_Update.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnForm_Update.Location = New System.Drawing.Point(581, 173)
+        Me.btnForm_Update.Name = "btnForm_Update"
+        Me.btnForm_Update.Size = New System.Drawing.Size(69, 22)
+        Me.btnForm_Update.TabIndex = 21
+        Me.btnForm_Update.Text = "&Update"
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.gv_c_form)
+        Me.RadGroupBox4.HeaderText = "C-Forms Detail"
+        Me.RadGroupBox4.Location = New System.Drawing.Point(147, 201)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(430, 187)
+        Me.RadGroupBox4.TabIndex = 20
+        Me.RadGroupBox4.Text = "C-Forms Detail"
+        Me.RadGroupBox4.Visible = False
+        '
+        'chk_c_form
+        '
+        Me.chk_c_form.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chk_c_form.Location = New System.Drawing.Point(15, 211)
+        Me.chk_c_form.Name = "chk_c_form"
+        Me.chk_c_form.Size = New System.Drawing.Size(99, 16)
+        Me.chk_c_form.TabIndex = 19
+        Me.chk_c_form.Text = "Against C-Form"
+        Me.chk_c_form.Visible = False
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.gv_roadpermit)
+        Me.RadGroupBox3.HeaderText = "Forms Detail"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(147, 8)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(430, 187)
+        Me.RadGroupBox3.TabIndex = 18
+        Me.RadGroupBox3.Text = "Forms Detail"
+        '
+        'Chkroadpermit
+        '
+        Me.Chkroadpermit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Chkroadpermit.Location = New System.Drawing.Point(15, 18)
+        Me.Chkroadpermit.Name = "Chkroadpermit"
+        Me.Chkroadpermit.Size = New System.Drawing.Size(124, 16)
+        Me.Chkroadpermit.TabIndex = 17
+        Me.Chkroadpermit.Text = "Against Road Permit"
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.chkTDSApplied)
+        Me.RadPageViewPage2.Controls.Add(Me.chkExciseOnQty)
+        Me.RadPageViewPage2.Controls.Add(Me.GroupBox1)
+        Me.RadPageViewPage2.Controls.Add(Me.txtTaxGroup)
+        Me.RadPageViewPage2.Controls.Add(Me.RadLabel10)
+        Me.RadPageViewPage2.Controls.Add(Me.RadGroupBox1)
+        Me.RadPageViewPage2.Controls.Add(Me.lblTaxGrpName)
+        Me.RadPageViewPage2.Controls.Add(Me.gv2)
+        Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
+        Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(78.0!, 22.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1080, 391)
+        Me.RadPageViewPage2.Text = "Taxes/Terms"
+        '
+        'chkExciseOnQty
+        '
+        Me.chkExciseOnQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkExciseOnQty.Location = New System.Drawing.Point(714, 13)
+        Me.chkExciseOnQty.Name = "chkExciseOnQty"
+        Me.chkExciseOnQty.Size = New System.Drawing.Size(115, 16)
+        Me.chkExciseOnQty.TabIndex = 2
+        Me.chkExciseOnQty.Text = "Excise on Quantity"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbtnTaxCalManual)
+        Me.GroupBox1.Controls.Add(Me.rbtnTaxCalAutomatic)
+        Me.GroupBox1.Location = New System.Drawing.Point(547, -2)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(163, 36)
+        Me.GroupBox1.TabIndex = 1
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Tax Calculation Type"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel62)
+        Me.RadGroupBox1.Controls.Add(Me.TxtRetention)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel54)
+        Me.RadGroupBox1.Controls.Add(Me.lblConfirmatory_PO_SRN_No)
+        Me.RadGroupBox1.Controls.Add(Me.txtFreight)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel52)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel51)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel48)
+        Me.RadGroupBox1.Controls.Add(Me.txtPackingForward)
+        Me.RadGroupBox1.Controls.Add(Me.txtInsurance)
+        Me.RadGroupBox1.Controls.Add(Me.txtDeliveryDesc)
+        Me.RadGroupBox1.Controls.Add(Me.txtDelivery_Code)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel15)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel16)
+        Me.RadGroupBox1.Controls.Add(Me.txtInsuranceTerms)
+        Me.RadGroupBox1.Controls.Add(Me.txtPaymentTerm)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel14)
+        Me.RadGroupBox1.Controls.Add(Me.txtTermRemark)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
+        Me.RadGroupBox1.Controls.Add(Me.txtTermCode)
+        Me.RadGroupBox1.Controls.Add(Me.RadLabel16)
+        Me.RadGroupBox1.Controls.Add(Me.txtDueDate)
+        Me.RadGroupBox1.Controls.Add(Me.RadLabel17)
+        Me.RadGroupBox1.Controls.Add(Me.lblTermName)
+        Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadGroupBox1.HeaderText = "Terms"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 247)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1079, 144)
+        Me.RadGroupBox1.TabIndex = 3
+        Me.RadGroupBox1.Text = "Terms"
+        '
+        'RdPaymentterms
+        '
+        Me.RdPaymentterms.Controls.Add(Me.lblBankDesc)
+        Me.RdPaymentterms.Controls.Add(Me.txtPaymentMode)
+        Me.RdPaymentterms.Controls.Add(Me.txtBankCode)
+        Me.RdPaymentterms.Controls.Add(Me.lblpaymentcode)
+        Me.RdPaymentterms.Controls.Add(Me.lblbankcode)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel33)
+        Me.RdPaymentterms.Controls.Add(Me.TxtBuyerPODate)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel23)
+        Me.RdPaymentterms.Controls.Add(Me.TxtBuyerPONo)
+        Me.RdPaymentterms.Controls.Add(Me.ChkPartPayment)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel26)
+        Me.RdPaymentterms.Controls.Add(Me.cmbAdvanceType)
+        Me.RdPaymentterms.Controls.Add(Me.TxtCIF)
+        Me.RdPaymentterms.Controls.Add(Me.lblCIF)
+        Me.RdPaymentterms.Controls.Add(Me.chkTransshipment)
+        Me.RdPaymentterms.Controls.Add(Me.chkPartshipment)
+        Me.RdPaymentterms.Controls.Add(Me.dtpAcceptance)
+        Me.RdPaymentterms.Controls.Add(Me.chkAcceptance)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel21)
+        Me.RdPaymentterms.Controls.Add(Me.txtPre_Carriage_By)
+        Me.RdPaymentterms.Controls.Add(Me.txtAdvance_Pers)
+        Me.RdPaymentterms.Controls.Add(Me.cmbTerms_Payment)
+        Me.RdPaymentterms.Controls.Add(Me.cmbTerms)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel19)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel20)
+        Me.RdPaymentterms.Controls.Add(Me.txtPIDueDate)
+        Me.RdPaymentterms.Controls.Add(Me.FndCreditTerms)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel24)
+        Me.RdPaymentterms.Controls.Add(Me.fndCountry_Final_Destination)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel25)
+        Me.RdPaymentterms.Controls.Add(Me.TxtCreditTermsName)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel27)
+        Me.RdPaymentterms.Controls.Add(Me.txtFinal_Destination)
+        Me.RdPaymentterms.Controls.Add(Me.fndCountry_Origin)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel18)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel28)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel30)
+        Me.RdPaymentterms.Controls.Add(Me.txtPort_Discharge)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel31)
+        Me.RdPaymentterms.Controls.Add(Me.cboStuffing)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel32)
+        Me.RdPaymentterms.Controls.Add(Me.txtCarrier)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel17)
+        Me.RdPaymentterms.Controls.Add(Me.TxtHSClassificationNo)
+        Me.RdPaymentterms.Controls.Add(Me.txtPINo)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel10)
+        Me.RdPaymentterms.Controls.Add(Me.RadGroupBox6)
+        Me.RdPaymentterms.Controls.Add(Me.lblAdvance)
+        Me.RdPaymentterms.Controls.Add(Me.TxtOnAccount)
+        Me.RdPaymentterms.Controls.Add(Me.lblonAccount)
+        Me.RdPaymentterms.Controls.Add(Me.txtRetained)
+        Me.RdPaymentterms.Controls.Add(Me.lblretained)
+        Me.RdPaymentterms.Controls.Add(Me.TxtBalancePayment)
+        Me.RdPaymentterms.Controls.Add(Me.lblBalancePayment)
+        Me.RdPaymentterms.Controls.Add(Me.TxtLC)
+        Me.RdPaymentterms.Controls.Add(Me.lblLC)
+        Me.RdPaymentterms.Controls.Add(Me.TxtCAD)
+        Me.RdPaymentterms.Controls.Add(Me.lblCad)
+        Me.RdPaymentterms.Controls.Add(Me.txtAdvance)
+        Me.RdPaymentterms.Controls.Add(Me.lblpaymenttermsgroup)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel12)
+        Me.RdPaymentterms.Controls.Add(Me.fndPaymenttermsGroup)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel11)
+        Me.RdPaymentterms.Controls.Add(Me.lblBeneficiary)
+        Me.RdPaymentterms.Controls.Add(Me.TxtBeneficiary)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel9)
+        Me.RdPaymentterms.Controls.Add(Me.TxtINCOTERMS)
+        Me.RdPaymentterms.Controls.Add(Me.RadGroupBox5)
+        Me.RdPaymentterms.Controls.Add(Me.MyLabel8)
+        Me.RdPaymentterms.ItemSize = New System.Drawing.SizeF(92.0!, 22.0!)
+        Me.RdPaymentterms.Location = New System.Drawing.Point(10, 35)
+        Me.RdPaymentterms.Name = "RdPaymentterms"
+        Me.RdPaymentterms.Size = New System.Drawing.Size(1080, 391)
+        Me.RdPaymentterms.Text = "Payment Terms"
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.rdbAmountinpercentage)
+        Me.RadGroupBox6.Controls.Add(Me.rdbAmountinrupees)
+        Me.RadGroupBox6.HeaderText = ""
+        Me.RadGroupBox6.Location = New System.Drawing.Point(138, 163)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Size = New System.Drawing.Size(143, 21)
+        Me.RadGroupBox6.TabIndex = 1433
+        '
+        'rdbAmountinpercentage
+        '
+        Me.rdbAmountinpercentage.AutoSize = True
+        Me.rdbAmountinpercentage.Location = New System.Drawing.Point(72, 2)
+        Me.rdbAmountinpercentage.Name = "rdbAmountinpercentage"
+        Me.rdbAmountinpercentage.Size = New System.Drawing.Size(63, 17)
+        Me.rdbAmountinpercentage.TabIndex = 1
+        Me.rdbAmountinpercentage.TabStop = True
+        Me.rdbAmountinpercentage.Text = "Percent"
+        Me.rdbAmountinpercentage.UseVisualStyleBackColor = True
+        '
+        'rdbAmountinrupees
+        '
+        Me.rdbAmountinrupees.AutoSize = True
+        Me.rdbAmountinrupees.Checked = True
+        Me.rdbAmountinrupees.Location = New System.Drawing.Point(2, 3)
+        Me.rdbAmountinrupees.Name = "rdbAmountinrupees"
+        Me.rdbAmountinrupees.Size = New System.Drawing.Size(66, 17)
+        Me.rdbAmountinrupees.TabIndex = 0
+        Me.rdbAmountinrupees.TabStop = True
+        Me.rdbAmountinrupees.Text = "Amount"
+        Me.rdbAmountinrupees.UseVisualStyleBackColor = True
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.cboPIStatus)
+        Me.RadGroupBox5.Controls.Add(Me.btnMTUpdate)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel22)
+        Me.RadGroupBox5.Controls.Add(Me.txtPIDate)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel29)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(16, 33)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Size = New System.Drawing.Size(503, 33)
+        Me.RadGroupBox5.TabIndex = 1412
+        '
+        'btnMTUpdate
+        '
+        Me.btnMTUpdate.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnMTUpdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMTUpdate.Location = New System.Drawing.Point(402, 6)
+        Me.btnMTUpdate.Name = "btnMTUpdate"
+        Me.btnMTUpdate.Size = New System.Drawing.Size(69, 20)
+        Me.btnMTUpdate.TabIndex = 1402
+        Me.btnMTUpdate.Text = "Update"
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.SplitContainer5)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1080, 391)
+        Me.RadPageViewPage3.Text = "Additional Charges"
+        '
+        'SplitContainer5
+        '
+        Me.SplitContainer5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer5.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer5.Name = "SplitContainer5"
+        '
+        'SplitContainer5.Panel1
+        '
+        Me.SplitContainer5.Panel1.Controls.Add(Me.GroupBox3)
+        '
+        'SplitContainer5.Panel2
+        '
+        Me.SplitContainer5.Panel2.Controls.Add(Me.GroupBox4)
+        Me.SplitContainer5.Size = New System.Drawing.Size(1080, 391)
+        Me.SplitContainer5.SplitterDistance = 621
+        Me.SplitContainer5.TabIndex = 2
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.gvAC)
+        Me.GroupBox3.Controls.Add(Me.RadPanel1)
+        Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox3.Location = New System.Drawing.Point(0, 0)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(621, 391)
+        Me.GroupBox3.TabIndex = 0
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Additional Charges"
+        '
+        'RadPanel1
+        '
+        Me.RadPanel1.Controls.Add(Me.RadLabel31)
+        Me.RadPanel1.Controls.Add(Me.lblAddCharges)
+        Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.RadPanel1.Location = New System.Drawing.Point(3, 361)
+        Me.RadPanel1.Name = "RadPanel1"
+        Me.RadPanel1.Size = New System.Drawing.Size(615, 27)
+        Me.RadPanel1.TabIndex = 1
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.gvACInsurance)
+        Me.GroupBox4.Controls.Add(Me.RadPanel2)
+        Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox4.Location = New System.Drawing.Point(0, 0)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(455, 391)
+        Me.GroupBox4.TabIndex = 1
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Additional Charges For Insurance"
+        '
+        'RadPanel2
+        '
+        Me.RadPanel2.Controls.Add(Me.MyLabel56)
+        Me.RadPanel2.Controls.Add(Me.lblAddChargesForInsurance)
+        Me.RadPanel2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.RadPanel2.Location = New System.Drawing.Point(3, 361)
+        Me.RadPanel2.Name = "RadPanel2"
+        Me.RadPanel2.Size = New System.Drawing.Size(449, 27)
+        Me.RadPanel2.TabIndex = 2
+        '
+        'pvpCustomFields
+        '
+        Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
+        Me.pvpCustomFields.Name = "pvpCustomFields"
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1020, 391)
+        Me.pvpCustomFields.Text = "Custom Fields"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1020, 391)
+        Me.UcCustomFields1.TabIndex = 1
+        '
+        'Attachments
+        '
+        Me.Attachments.Controls.Add(Me.UcAttachment1)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
+        Me.Attachments.Location = New System.Drawing.Point(10, 35)
+        Me.Attachments.Name = "Attachments"
+        Me.Attachments.Size = New System.Drawing.Size(1080, 391)
+        Me.Attachments.Text = "Attachments"
+        '
+        'RadPageViewPage4
+        '
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt13)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt12)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt11)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt10)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt9)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt8)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt7)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt6)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt5)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt4)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt3)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt2)
+        Me.RadPageViewPage4.Controls.Add(Me.txtCmt1)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel58)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTotalInsuranceAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel57)
+        Me.RadPageViewPage4.Controls.Add(Me.lblAddChargesForInsurance1)
+        Me.RadPageViewPage4.Controls.Add(Me.txtHeaderDiscountAmount)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel53)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel44)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTaxableAmount)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel41)
+        Me.RadPageViewPage4.Controls.Add(Me.lblAmtAfterTax)
+        Me.RadPageViewPage4.Controls.Add(Me.chkIsContent)
+        Me.RadPageViewPage4.Controls.Add(Me.txtKindAttentation)
+        Me.RadPageViewPage4.Controls.Add(Me.lblKindAttentation)
+        Me.RadPageViewPage4.Controls.Add(Me.txtSubject)
+        Me.RadPageViewPage4.Controls.Add(Me.txtContentSubject)
+        Me.RadPageViewPage4.Controls.Add(Me.lblContentSubject)
+        Me.RadPageViewPage4.Controls.Add(Me.lblSubject)
+        Me.RadPageViewPage4.Controls.Add(Me.pnlCurrConv)
+        Me.RadPageViewPage4.Controls.Add(Me.lblAddCharges1)
+        Me.RadPageViewPage4.Controls.Add(Me.RadLabel32)
+        Me.RadPageViewPage4.Controls.Add(Me.txtComment)
+        Me.RadPageViewPage4.Controls.Add(Me.RadLabel14)
+        Me.RadPageViewPage4.Controls.Add(Me.RadLabel9)
+        Me.RadPageViewPage4.Controls.Add(Me.RadLabel27)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTotRAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.RadLabel25)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTaxAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.lblAmtAfterDiscount)
+        Me.RadPageViewPage4.Controls.Add(Me.lblDiscountAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.lblAmtWithDiscount)
+        Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
+        Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
+        Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage4.Name = "RadPageViewPage4"
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1080, 391)
+        Me.RadPageViewPage4.Text = "Total"
+        '
+        'txtCmt13
+        '
+        Me.txtCmt13.Location = New System.Drawing.Point(495, 382)
+        Me.txtCmt13.Name = "txtCmt13"
+        Me.txtCmt13.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt13.TabIndex = 104
+        Me.txtCmt13.Text = ""
+        '
+        'txtCmt12
+        '
+        Me.txtCmt12.Location = New System.Drawing.Point(495, 356)
+        Me.txtCmt12.Name = "txtCmt12"
+        Me.txtCmt12.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt12.TabIndex = 103
+        Me.txtCmt12.Text = ""
+        '
+        'txtCmt11
+        '
+        Me.txtCmt11.Location = New System.Drawing.Point(495, 331)
+        Me.txtCmt11.Name = "txtCmt11"
+        Me.txtCmt11.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt11.TabIndex = 101
+        Me.txtCmt11.Text = ""
+        '
+        'txtCmt10
+        '
+        Me.txtCmt10.Location = New System.Drawing.Point(495, 306)
+        Me.txtCmt10.Name = "txtCmt10"
+        Me.txtCmt10.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt10.TabIndex = 99
+        Me.txtCmt10.Text = ""
+        '
+        'txtCmt9
+        '
+        Me.txtCmt9.Location = New System.Drawing.Point(495, 281)
+        Me.txtCmt9.Name = "txtCmt9"
+        Me.txtCmt9.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt9.TabIndex = 97
+        Me.txtCmt9.Text = ""
+        '
+        'txtCmt8
+        '
+        Me.txtCmt8.Location = New System.Drawing.Point(495, 256)
+        Me.txtCmt8.Name = "txtCmt8"
+        Me.txtCmt8.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt8.TabIndex = 95
+        Me.txtCmt8.Text = ""
+        '
+        'txtCmt7
+        '
+        Me.txtCmt7.Location = New System.Drawing.Point(495, 231)
+        Me.txtCmt7.Name = "txtCmt7"
+        Me.txtCmt7.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt7.TabIndex = 93
+        Me.txtCmt7.Text = ""
+        '
+        'txtCmt6
+        '
+        Me.txtCmt6.Location = New System.Drawing.Point(495, 206)
+        Me.txtCmt6.Name = "txtCmt6"
+        Me.txtCmt6.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt6.TabIndex = 91
+        Me.txtCmt6.Text = ""
+        '
+        'txtCmt5
+        '
+        Me.txtCmt5.Location = New System.Drawing.Point(495, 182)
+        Me.txtCmt5.Name = "txtCmt5"
+        Me.txtCmt5.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt5.TabIndex = 89
+        Me.txtCmt5.Text = ""
+        '
+        'txtCmt4
+        '
+        Me.txtCmt4.Location = New System.Drawing.Point(495, 156)
+        Me.txtCmt4.Name = "txtCmt4"
+        Me.txtCmt4.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt4.TabIndex = 87
+        Me.txtCmt4.Text = ""
+        '
+        'txtCmt3
+        '
+        Me.txtCmt3.Location = New System.Drawing.Point(495, 131)
+        Me.txtCmt3.Name = "txtCmt3"
+        Me.txtCmt3.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt3.TabIndex = 85
+        Me.txtCmt3.Text = ""
+        '
+        'txtCmt2
+        '
+        Me.txtCmt2.Location = New System.Drawing.Point(495, 106)
+        Me.txtCmt2.Name = "txtCmt2"
+        Me.txtCmt2.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt2.TabIndex = 83
+        Me.txtCmt2.Text = ""
+        '
+        'txtCmt1
+        '
+        Me.txtCmt1.Location = New System.Drawing.Point(495, 82)
+        Me.txtCmt1.Name = "txtCmt1"
+        Me.txtCmt1.Size = New System.Drawing.Size(475, 22)
+        Me.txtCmt1.TabIndex = 81
+        Me.txtCmt1.Text = ""
+        '
+        'chkIsContent
+        '
+        Me.chkIsContent.AccessibleDescription = ""
+        Me.chkIsContent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsContent.Location = New System.Drawing.Point(19, 406)
+        Me.chkIsContent.Name = "chkIsContent"
+        Me.chkIsContent.Size = New System.Drawing.Size(72, 16)
+        Me.chkIsContent.TabIndex = 70
+        Me.chkIsContent.Text = "Is Content"
+        '
+        'txtKindAttentation
+        '
+        Me.txtKindAttentation.Location = New System.Drawing.Point(123, 402)
+        Me.txtKindAttentation.Multiline = True
+        Me.txtKindAttentation.Name = "txtKindAttentation"
+        Me.txtKindAttentation.Size = New System.Drawing.Size(298, 52)
+        Me.txtKindAttentation.TabIndex = 20
+        '
+        'txtSubject
+        '
+        Me.txtSubject.Location = New System.Drawing.Point(123, 292)
+        Me.txtSubject.Multiline = True
+        Me.txtSubject.Name = "txtSubject"
+        Me.txtSubject.Size = New System.Drawing.Size(298, 48)
+        Me.txtSubject.TabIndex = 18
+        '
+        'txtContentSubject
+        '
+        Me.txtContentSubject.Location = New System.Drawing.Point(123, 344)
+        Me.txtContentSubject.Multiline = True
+        Me.txtContentSubject.Name = "txtContentSubject"
+        Me.txtContentSubject.Size = New System.Drawing.Size(298, 52)
+        Me.txtContentSubject.TabIndex = 17
+        '
+        'pnlCurrConv
+        '
+        Me.pnlCurrConv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlCurrConv.Controls.Add(Me.txtConversionRate)
+        Me.pnlCurrConv.Controls.Add(Me.txtCurrencyCode)
+        Me.pnlCurrConv.Controls.Add(Me.lblEffectiveFrom)
+        Me.pnlCurrConv.Controls.Add(Me.txtApplicableFrom)
+        Me.pnlCurrConv.Controls.Add(Me.lblCurrency)
+        Me.pnlCurrConv.Controls.Add(Me.lblConvRate)
+        Me.pnlCurrConv.Location = New System.Drawing.Point(30, 13)
+        Me.pnlCurrConv.Name = "pnlCurrConv"
+        Me.pnlCurrConv.Size = New System.Drawing.Size(736, 38)
+        Me.pnlCurrConv.TabIndex = 0
+        '
+        'txtComment
+        '
+        Me.txtComment.Location = New System.Drawing.Point(495, 57)
+        Me.txtComment.Name = "txtComment"
+        Me.txtComment.Size = New System.Drawing.Size(475, 22)
+        Me.txtComment.TabIndex = 1
+        Me.txtComment.Text = ""
+        '
+        'RadPageViewPage7
+        '
+        Me.RadPageViewPage7.Controls.Add(Me.gvSchedule)
+        Me.RadPageViewPage7.Controls.Add(Me.Panel5)
+        Me.RadPageViewPage7.Controls.Add(Me.MyLabel61)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(80.0!, 22.0!)
+        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage7.Name = "RadPageViewPage7"
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1080, 419)
+        Me.RadPageViewPage7.Text = "Set Schedule"
+        '
+        'Panel5
+        '
+        Me.Panel5.Controls.Add(Me.RadButton1)
+        Me.Panel5.Controls.Add(Me.txtScheduleStartDate)
+        Me.Panel5.Controls.Add(Me.MyLabel60)
+        Me.Panel5.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel5.Location = New System.Drawing.Point(0, 0)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(1080, 28)
+        Me.Panel5.TabIndex = 19
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton1.Location = New System.Drawing.Point(202, 5)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(55, 18)
+        Me.RadButton1.TabIndex = 1520
+        Me.RadButton1.Text = ">>"
+        '
+        'RadPageViewPage6
+        '
+        Me.RadPageViewPage6.Controls.Add(Me.SplitContainer4)
+        Me.RadPageViewPage6.Enabled = False
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(71.0!, 22.0!)
+        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage6.Name = "RadPageViewPage6"
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1080, 391)
+        Me.RadPageViewPage6.Text = "Work Order"
+        '
+        'SplitContainer4
+        '
+        Me.SplitContainer4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer4.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer4.Name = "SplitContainer4"
+        Me.SplitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer4.Panel1
+        '
+        Me.SplitContainer4.Panel1.Controls.Add(Me.lblWAddress)
+        Me.SplitContainer4.Panel1.Controls.Add(Me.lblWPhone)
+        Me.SplitContainer4.Panel1.Controls.Add(Me.lblWVendorName)
+        Me.SplitContainer4.Panel1.Controls.Add(Me.MyLabel47)
+        Me.SplitContainer4.Panel1.Controls.Add(Me.lblAddress)
+        Me.SplitContainer4.Panel1.Controls.Add(Me.MyLabel46)
+        '
+        'SplitContainer4.Panel2
+        '
+        Me.SplitContainer4.Panel2.Controls.Add(Me.SplitContainer3)
+        Me.SplitContainer4.Size = New System.Drawing.Size(1080, 391)
+        Me.SplitContainer4.SplitterDistance = 49
+        Me.SplitContainer4.TabIndex = 1
+        '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer3.IsSplitterFixed = True
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.gvCategoryValue)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.GroupBox2)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1080, 338)
+        Me.SplitContainer3.SplitterDistance = 219
+        Me.SplitContainer3.TabIndex = 0
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.RadSplitContainer1)
+        Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox2.Location = New System.Drawing.Point(0, 0)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(1080, 115)
+        Me.GroupBox2.TabIndex = 0
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Terms & Conditions"
+        '
+        'RadSplitContainer1
+        '
+        Me.RadSplitContainer1.Controls.Add(Me.SplitPanel1)
+        Me.RadSplitContainer1.Controls.Add(Me.SplitPanel2)
+        Me.RadSplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadSplitContainer1.Location = New System.Drawing.Point(3, 16)
+        Me.RadSplitContainer1.Name = "RadSplitContainer1"
+        Me.RadSplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        '
+        '
+        Me.RadSplitContainer1.RootElement.MinSize = New System.Drawing.Size(0, 0)
+        Me.RadSplitContainer1.Size = New System.Drawing.Size(1074, 96)
+        Me.RadSplitContainer1.TabIndex = 2
+        Me.RadSplitContainer1.TabStop = False
+        '
+        'SplitPanel1
+        '
+        Me.SplitPanel1.Controls.Add(Me.gvTermsCdtion)
+        Me.SplitPanel1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitPanel1.Name = "SplitPanel1"
+        '
+        '
+        '
+        Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(0, 0)
+        Me.SplitPanel1.Size = New System.Drawing.Size(1074, 92)
+        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.5!)
+        Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 84)
+        Me.SplitPanel1.TabIndex = 0
+        Me.SplitPanel1.TabStop = False
+        Me.SplitPanel1.Text = "SplitPanel1"
+        '
+        'SplitPanel2
+        '
+        Me.SplitPanel2.Location = New System.Drawing.Point(0, 96)
+        Me.SplitPanel2.Name = "SplitPanel2"
+        '
+        '
+        '
+        Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
+        Me.SplitPanel2.Size = New System.Drawing.Size(1074, 0)
+        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.5!)
+        Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -84)
+        Me.SplitPanel2.TabIndex = 1
+        Me.SplitPanel2.TabStop = False
+        Me.SplitPanel2.Text = "SplitPanel2"
+        '
+        'btn_Cancels
+        '
+        Me.btn_Cancels.Location = New System.Drawing.Point(208, 5)
+        Me.btn_Cancels.Name = "btn_Cancels"
+        Me.btn_Cancels.Size = New System.Drawing.Size(56, 22)
+        Me.btn_Cancels.TabIndex = 42
+        Me.btn_Cancels.Text = "Cancel"
+        '
+        'btnNewHistory
+        '
+        Me.btnNewHistory.Location = New System.Drawing.Point(821, 2)
+        Me.btnNewHistory.Name = "btnNewHistory"
+        Me.btnNewHistory.Size = New System.Drawing.Size(71, 22)
+        Me.btnNewHistory.TabIndex = 41
+        Me.btnNewHistory.Text = "&History"
+        '
+        'btn_cancel
+        '
+        Me.btn_cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_cancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_cancel.Location = New System.Drawing.Point(893, 2)
+        Me.btn_cancel.Name = "btn_cancel"
+        Me.btn_cancel.Size = New System.Drawing.Size(69, 22)
+        Me.btn_cancel.TabIndex = 12
+        Me.btn_cancel.Text = "Cancel"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(962, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnHistory.TabIndex = 11
+        Me.btnHistory.Text = "History"
+        '
+        'btnCopy
+        '
+        Me.btnCopy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCopy.Location = New System.Drawing.Point(469, 5)
+        Me.btnCopy.Name = "btnCopy"
+        Me.btnCopy.Size = New System.Drawing.Size(69, 22)
+        Me.btnCopy.TabIndex = 5
+        Me.btnCopy.Text = "Copy PO"
+        '
+        'btnUnpost
+        '
+        Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUnpost.Location = New System.Drawing.Point(331, 4)
+        Me.btnUnpost.Name = "btnUnpost"
+        Me.btnUnpost.Size = New System.Drawing.Size(69, 22)
+        Me.btnUnpost.TabIndex = 3
+        Me.btnUnpost.Text = "Reverse"
+        '
+        'btnPrintNew
+        '
+        Me.btnPrintNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintNew.Location = New System.Drawing.Point(400, 5)
+        Me.btnPrintNew.Name = "btnPrintNew"
+        Me.btnPrintNew.Size = New System.Drawing.Size(69, 22)
+        Me.btnPrintNew.TabIndex = 4
+        Me.btnPrintNew.Text = "Print"
+        '
+        'RadSplitButton1
+        '
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(539, 5)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(80, 22)
+        Me.RadSplitButton1.TabIndex = 6
+        Me.RadSplitButton1.Text = "Print"
+        Me.RadSplitButton1.Visible = False
+        '
+        'btnAmendment
+        '
+        Me.btnAmendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAmendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAmendment.Location = New System.Drawing.Point(620, 5)
+        Me.btnAmendment.Name = "btnAmendment"
+        Me.btnAmendment.Size = New System.Drawing.Size(69, 22)
+        Me.btnAmendment.TabIndex = 7
+        Me.btnAmendment.Text = "Amendment"
+        Me.btnAmendment.Visible = False
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Location = New System.Drawing.Point(72, 5)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(69, 22)
+        Me.btnDelete.TabIndex = 2
+        Me.btnDelete.Text = "Delete"
+        '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPost.Location = New System.Drawing.Point(140, 5)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(69, 22)
+        Me.btnPost.TabIndex = 1
+        Me.btnPost.Text = "Post"
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(1030, 2)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(69, 22)
+        Me.btnClose.TabIndex = 10
+        Me.btnClose.Text = "Close"
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Location = New System.Drawing.Point(5, 5)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(69, 22)
+        Me.btnSave.TabIndex = 0
+        Me.btnSave.Text = "Save"
+        '
+        'btnViewTDSDetails
+        '
+        Me.btnViewTDSDetails.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnViewTDSDetails.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnViewTDSDetails.Location = New System.Drawing.Point(262, 5)
+        Me.btnViewTDSDetails.Name = "btnViewTDSDetails"
+        Me.btnViewTDSDetails.Size = New System.Drawing.Size(69, 22)
+        Me.btnViewTDSDetails.TabIndex = 13
+        Me.btnViewTDSDetails.Text = "View TDS"
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ReportFooter, Me.SaveLayoutbtn, Me.DeleteLayout, Me.rmImport, Me.rmExport})
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "Setting"
+        '
+        'ReportFooter
+        '
+        Me.ReportFooter.Name = "ReportFooter"
+        Me.ReportFooter.Text = "Report Footer"
+        '
+        'SaveLayoutbtn
+        '
+        Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
+        Me.SaveLayoutbtn.Text = "Save Layout"
+        '
+        'DeleteLayout
+        '
+        Me.DeleteLayout.Name = "DeleteLayout"
+        Me.DeleteLayout.Text = "Delete Layout "
+        '
+        'rmImport
+        '
+        Me.rmImport.Name = "rmImport"
+        Me.rmImport.Text = "Import"
+        Me.rmImport.Visibility = Telerik.WinControls.ElementVisibility.Hidden
+        '
+        'rmExport
+        '
+        Me.rmExport.Name = "rmExport"
+        Me.rmExport.Text = "Export"
+        Me.rmExport.Visibility = Telerik.WinControls.ElementVisibility.Hidden
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(1105, 20)
+        Me.RadMenu1.TabIndex = 4
         '
         'lblShipFromLocation
         '
@@ -1037,17 +2195,6 @@ Partial Class frmPurchaseOrder
         Me.chkTender.Tag1 = Nothing
         Me.chkTender.Text = "Tender"
         '
-        'chkpoclose
-        '
-        Me.chkpoclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.chkpoclose.AutoSize = True
-        Me.chkpoclose.Location = New System.Drawing.Point(680, 378)
-        Me.chkpoclose.Name = "chkpoclose"
-        Me.chkpoclose.Size = New System.Drawing.Size(133, 18)
-        Me.chkpoclose.TabIndex = 9
-        Me.chkpoclose.Text = "Close Purchase Order"
-        Me.chkpoclose.UseVisualStyleBackColor = True
-        '
         'MyLabel50
         '
         Me.MyLabel50.FieldName = Nothing
@@ -1119,37 +2266,6 @@ Partial Class frmPurchaseOrder
         Me.lblVendorQuotationNo.Size = New System.Drawing.Size(129, 19)
         Me.lblVendorQuotationNo.TabIndex = 605
         Me.lblVendorQuotationNo.TextWrap = False
-        '
-        'chkRepair
-        '
-        Me.chkRepair.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkRepair.Location = New System.Drawing.Point(462, 117)
-        Me.chkRepair.Name = "chkRepair"
-        Me.chkRepair.Size = New System.Drawing.Size(54, 16)
-        Me.chkRepair.TabIndex = 604
-        Me.chkRepair.Text = "Repair"
-        Me.chkRepair.Visible = False
-        '
-        'ChkISPO
-        '
-        Me.ChkISPO.AccessibleDescription = ""
-        Me.ChkISPO.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ChkISPO.Location = New System.Drawing.Point(897, 147)
-        Me.ChkISPO.Name = "ChkISPO"
-        Me.ChkISPO.Size = New System.Drawing.Size(48, 16)
-        Me.ChkISPO.TabIndex = 69
-        Me.ChkISPO.Text = "Is PO"
-        '
-        'Panel4
-        '
-        Me.Panel4.Controls.Add(Me.lblGstinNo)
-        Me.Panel4.Controls.Add(Me.MyLabel49)
-        Me.Panel4.Controls.Add(Me.MyLabel45)
-        Me.Panel4.Controls.Add(Me.lblRegisterOrUnregister)
-        Me.Panel4.Location = New System.Drawing.Point(507, 160)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(465, 21)
-        Me.Panel4.TabIndex = 603
         '
         'lblGstinNo
         '
@@ -1232,15 +2348,6 @@ Partial Class frmPurchaseOrder
         Me.MyLabel42.TabIndex = 75
         Me.MyLabel42.Text = "Days"
         '
-        'chkJobWorkOutward
-        '
-        Me.chkJobWorkOutward.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkJobWorkOutward.Location = New System.Drawing.Point(353, 117)
-        Me.chkJobWorkOutward.Name = "chkJobWorkOutward"
-        Me.chkJobWorkOutward.Size = New System.Drawing.Size(108, 16)
-        Me.chkJobWorkOutward.TabIndex = 23
-        Me.chkJobWorkOutward.Text = "JobWorkOutward"
-        '
         'ddl_category
         '
         Me.ddl_category.AutoCompleteDisplayMember = Nothing
@@ -1276,27 +2383,6 @@ Partial Class frmPurchaseOrder
         Me.MyLabel39.Size = New System.Drawing.Size(52, 16)
         Me.MyLabel39.TabIndex = 73
         Me.MyLabel39.Text = "Category"
-        '
-        'chkGSTRegistered
-        '
-        Me.chkGSTRegistered.AccessibleDescription = ""
-        Me.chkGSTRegistered.Enabled = False
-        Me.chkGSTRegistered.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkGSTRegistered.Location = New System.Drawing.Point(797, 130)
-        Me.chkGSTRegistered.Name = "chkGSTRegistered"
-        Me.chkGSTRegistered.Size = New System.Drawing.Size(95, 16)
-        Me.chkGSTRegistered.TabIndex = 26
-        Me.chkGSTRegistered.Text = "GST Registred"
-        '
-        'Panel3
-        '
-        Me.Panel3.Controls.Add(Me.lblSubLocation)
-        Me.Panel3.Controls.Add(Me.MyLabel43)
-        Me.Panel3.Controls.Add(Me.txtSubLocation)
-        Me.Panel3.Location = New System.Drawing.Point(3, 135)
-        Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(503, 23)
-        Me.Panel3.TabIndex = 24
         '
         'lblSubLocation
         '
@@ -1433,52 +2519,6 @@ Partial Class frmPurchaseOrder
         Me.chk_emergency.TabIndex = 27
         Me.chk_emergency.Tag1 = Nothing
         Me.chk_emergency.Text = "Emergency"
-        '
-        'SplitContainer2
-        '
-        Me.SplitContainer2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer2.Location = New System.Drawing.Point(2, 226)
-        Me.SplitContainer2.Name = "SplitContainer2"
-        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer2.Panel1
-        '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.pnl_capex)
-        Me.SplitContainer2.Panel1.Padding = New System.Windows.Forms.Padding(2)
-        '
-        'SplitContainer2.Panel2
-        '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1077, 105)
-        Me.SplitContainer2.SplitterDistance = 49
-        Me.SplitContainer2.TabIndex = 71
-        '
-        'pnl_capex
-        '
-        Me.pnl_capex.Controls.Add(Me.chkReceiveControl)
-        Me.pnl_capex.Controls.Add(Me.MyLabel37)
-        Me.pnl_capex.Controls.Add(Me.MyLabel38)
-        Me.pnl_capex.Controls.Add(Me.MyLabel40)
-        Me.pnl_capex.Controls.Add(Me.lbl_rebudgetamtwithtolerence)
-        Me.pnl_capex.Controls.Add(Me.lbl_rebudgetamt)
-        Me.pnl_capex.Controls.Add(Me.MyLabel35)
-        Me.pnl_capex.Controls.Add(Me.lbl_budgetamtwithtolerence)
-        Me.pnl_capex.Controls.Add(Me.lbl_budgetamt)
-        Me.pnl_capex.Controls.Add(Me.MyLabel36)
-        Me.pnl_capex.Controls.Add(Me.fndcapexsubcode)
-        Me.pnl_capex.Controls.Add(Me.lbl_capexsubcode)
-        Me.pnl_capex.Controls.Add(Me.MyLabel34)
-        Me.pnl_capex.Controls.Add(Me.fndcapexcode)
-        Me.pnl_capex.Controls.Add(Me.lbl_capexcode)
-        Me.pnl_capex.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.pnl_capex.Location = New System.Drawing.Point(2, 2)
-        Me.pnl_capex.Name = "pnl_capex"
-        Me.pnl_capex.Size = New System.Drawing.Size(1073, 45)
-        Me.pnl_capex.TabIndex = 0
         '
         'chkReceiveControl
         '
@@ -1676,20 +2716,6 @@ Partial Class frmPurchaseOrder
         Me.lbl_capexcode.TabIndex = 5
         Me.lbl_capexcode.TextWrap = False
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.gv1)
-        Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox2.HeaderText = "Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 2)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1073, 48)
-        Me.RadGroupBox2.TabIndex = 0
-        Me.RadGroupBox2.Text = "Item Details"
-        '
         'gv1
         '
         Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -1711,19 +2737,10 @@ Partial Class frmPurchaseOrder
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1053, 18)
+        Me.gv1.Size = New System.Drawing.Size(1053, 22)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        '
-        'chkAutoCalculate
-        '
-        Me.chkAutoCalculate.AccessibleDescription = ""
-        Me.chkAutoCalculate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAutoCalculate.Location = New System.Drawing.Point(797, 145)
-        Me.chkAutoCalculate.Name = "chkAutoCalculate"
-        Me.chkAutoCalculate.Size = New System.Drawing.Size(94, 16)
-        Me.chkAutoCalculate.TabIndex = 68
-        Me.chkAutoCalculate.Text = "Auto Calculate"
+        Me.gv1.VarID = ""
         '
         'txtAgainstPO_No
         '
@@ -1789,16 +2806,6 @@ Partial Class frmPurchaseOrder
         Me.chkOpenPO.Tag1 = Nothing
         Me.chkOpenPO.Text = "Open PO"
         '
-        'chkIsMerchantTrade
-        '
-        Me.chkIsMerchantTrade.AccessibleDescription = ""
-        Me.chkIsMerchantTrade.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsMerchantTrade.Location = New System.Drawing.Point(797, 114)
-        Me.chkIsMerchantTrade.Name = "chkIsMerchantTrade"
-        Me.chkIsMerchantTrade.Size = New System.Drawing.Size(100, 16)
-        Me.chkIsMerchantTrade.TabIndex = 23
-        Me.chkIsMerchantTrade.Text = "Merchant Trade"
-        '
         'lblAbandonmentNo
         '
         Me.lblAbandonmentNo.FieldName = Nothing
@@ -1807,17 +2814,6 @@ Partial Class frmPurchaseOrder
         Me.lblAbandonmentNo.Name = "lblAbandonmentNo"
         Me.lblAbandonmentNo.Size = New System.Drawing.Size(2, 2)
         Me.lblAbandonmentNo.TabIndex = 27
-        '
-        'Panel2
-        '
-        Me.Panel2.Controls.Add(Me.lblState)
-        Me.Panel2.Controls.Add(Me.fndState)
-        Me.Panel2.Controls.Add(Me.lblStateName)
-        Me.Panel2.Controls.Add(Me.chkMCCPurchase)
-        Me.Panel2.Location = New System.Drawing.Point(3, 183)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(609, 22)
-        Me.Panel2.TabIndex = 28
         '
         'lblState
         '
@@ -1868,15 +2864,6 @@ Partial Class frmPurchaseOrder
         Me.lblStateName.TabIndex = 53
         Me.lblStateName.TextWrap = False
         '
-        'chkMCCPurchase
-        '
-        Me.chkMCCPurchase.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMCCPurchase.Location = New System.Drawing.Point(510, 4)
-        Me.chkMCCPurchase.Name = "chkMCCPurchase"
-        Me.chkMCCPurchase.Size = New System.Drawing.Size(97, 16)
-        Me.chkMCCPurchase.TabIndex = 1
-        Me.chkMCCPurchase.Text = "MCC Purchase"
-        '
         'MyLabel7
         '
         Me.MyLabel7.FieldName = Nothing
@@ -1894,16 +2881,6 @@ Partial Class frmPurchaseOrder
         Me.MyLabel7.TabIndex = 61
         Me.MyLabel7.Text = "Entered PO"
         Me.MyLabel7.TextAlignment = System.Drawing.ContentAlignment.TopLeft
-        '
-        'chkBlanket
-        '
-        Me.chkBlanket.AccessibleDescription = ""
-        Me.chkBlanket.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBlanket.Location = New System.Drawing.Point(513, 98)
-        Me.chkBlanket.Name = "chkBlanket"
-        Me.chkBlanket.Size = New System.Drawing.Size(58, 16)
-        Me.chkBlanket.TabIndex = 18
-        Me.chkBlanket.Text = "Blanket"
         '
         'lblAmt
         '
@@ -2059,7 +3036,7 @@ Partial Class frmPurchaseOrder
         Me.MyLabel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(858, 333)
+        Me.MyLabel5.Location = New System.Drawing.Point(858, 337)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(100, 16)
         Me.MyLabel5.TabIndex = 27
@@ -2072,7 +3049,7 @@ Partial Class frmPurchaseOrder
         Me.lblTotRAmtCopy.BorderVisible = True
         Me.lblTotRAmtCopy.FieldName = Nothing
         Me.lblTotRAmtCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmtCopy.Location = New System.Drawing.Point(960, 332)
+        Me.lblTotRAmtCopy.Location = New System.Drawing.Point(960, 336)
         Me.lblTotRAmtCopy.Name = "lblTotRAmtCopy"
         Me.lblTotRAmtCopy.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmtCopy.TabIndex = 26
@@ -2084,44 +3061,11 @@ Partial Class frmPurchaseOrder
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(819, 386)
+        Me.RadLabel12.Location = New System.Drawing.Point(819, 390)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(261, 13)
         Me.RadLabel12.TabIndex = 25
         Me.RadLabel12.Text = "Double click on Tax Amount Column To Set Item wise Tax"
-        '
-        'UcItemBalance1
-        '
-        Me.UcItemBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.UcItemBalance1.CommitedQty = False
-        Me.UcItemBalance1.CommitedQtyLbl = False
-        Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0R
-        Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 329)
-        Me.UcItemBalance1.LocationCode = ""
-        Me.UcItemBalance1.LocationName = ""
-        Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
-        Me.UcItemBalance1.MinimumSize = New System.Drawing.Size(710, 70)
-        Me.UcItemBalance1.Name = "UcItemBalance1"
-        Me.UcItemBalance1.ShowCSADOQty = False
-        Me.UcItemBalance1.ShowPOQty = False
-        Me.UcItemBalance1.ShowSOQty = False
-        Me.UcItemBalance1.Size = New System.Drawing.Size(710, 70)
-        Me.UcItemBalance1.TabIndex = 25
-        Me.UcItemBalance1.TabStop = False
-        Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
-        Me.UcItemBalance1.TransNo = ""
-        Me.UcItemBalance1.UOM = ""
-        '
-        'pnlPCJ
-        '
-        Me.pnlPCJ.Controls.Add(Me.txtReferencePO)
-        Me.pnlPCJ.Controls.Add(Me.MyLabel4)
-        Me.pnlPCJ.Location = New System.Drawing.Point(3, 159)
-        Me.pnlPCJ.Name = "pnlPCJ"
-        Me.pnlPCJ.Size = New System.Drawing.Size(503, 23)
-        Me.pnlPCJ.TabIndex = 23
         '
         'txtReferencePO
         '
@@ -2146,15 +3090,6 @@ Partial Class frmPurchaseOrder
         Me.txtReferencePO.ReferenceTableName = Nothing
         Me.txtReferencePO.Size = New System.Drawing.Size(260, 18)
         Me.txtReferencePO.TabIndex = 12
-        '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.txtDeliveryDuration)
-        Me.Panel1.Controls.Add(Me.lblDeliveryDuration)
-        Me.Panel1.Location = New System.Drawing.Point(513, 116)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(284, 18)
-        Me.Panel1.TabIndex = 22
         '
         'txtDeliveryDuration
         '
@@ -2414,24 +3349,6 @@ Partial Class frmPurchaseOrder
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 48
         Me.RadLabel4.Text = "Date"
-        '
-        'chkAgainst_RGP
-        '
-        Me.chkAgainst_RGP.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAgainst_RGP.Location = New System.Drawing.Point(734, 79)
-        Me.chkAgainst_RGP.Name = "chkAgainst_RGP"
-        Me.chkAgainst_RGP.Size = New System.Drawing.Size(62, 16)
-        Me.chkAgainst_RGP.TabIndex = 16
-        Me.chkAgainst_RGP.Text = "RGP No"
-        '
-        'chkOnHold
-        '
-        Me.chkOnHold.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkOnHold.Location = New System.Drawing.Point(738, 1)
-        Me.chkOnHold.Name = "chkOnHold"
-        Me.chkOnHold.Size = New System.Drawing.Size(62, 16)
-        Me.chkOnHold.TabIndex = 4
-        Me.chkOnHold.Text = "On Hold"
         '
         'lblVendorName
         '
@@ -2780,50 +3697,6 @@ Partial Class frmPurchaseOrder
         Me.txtDesc.Size = New System.Drawing.Size(291, 18)
         Me.txtDesc.TabIndex = 7
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(376, 0)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 18)
-        Me.btnAddNew.TabIndex = 1
-        '
-        'RadPageViewPage5
-        '
-        Me.RadPageViewPage5.Controls.Add(Me.btnForm_Update)
-        Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox4)
-        Me.RadPageViewPage5.Controls.Add(Me.chk_c_form)
-        Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage5.Controls.Add(Me.Chkroadpermit)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(88.0!, 26.0!)
-        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1080, 391)
-        Me.RadPageViewPage5.Text = "Form(s) Detail"
-        '
-        'btnForm_Update
-        '
-        Me.btnForm_Update.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnForm_Update.Location = New System.Drawing.Point(581, 173)
-        Me.btnForm_Update.Name = "btnForm_Update"
-        Me.btnForm_Update.Size = New System.Drawing.Size(69, 22)
-        Me.btnForm_Update.TabIndex = 21
-        Me.btnForm_Update.Text = "&Update"
-        '
-        'RadGroupBox4
-        '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.gv_c_form)
-        Me.RadGroupBox4.HeaderText = "C-Forms Detail"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(147, 201)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(430, 187)
-        Me.RadGroupBox4.TabIndex = 20
-        Me.RadGroupBox4.Text = "C-Forms Detail"
-        Me.RadGroupBox4.Visible = False
-        '
         'gv_c_form
         '
         Me.gv_c_form.Dock = System.Windows.Forms.DockStyle.Fill
@@ -2843,27 +3716,7 @@ Partial Class frmPurchaseOrder
         Me.gv_c_form.ShowHeaderCellButtons = True
         Me.gv_c_form.Size = New System.Drawing.Size(426, 167)
         Me.gv_c_form.TabIndex = 0
-        '
-        'chk_c_form
-        '
-        Me.chk_c_form.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chk_c_form.Location = New System.Drawing.Point(15, 211)
-        Me.chk_c_form.Name = "chk_c_form"
-        Me.chk_c_form.Size = New System.Drawing.Size(99, 16)
-        Me.chk_c_form.TabIndex = 19
-        Me.chk_c_form.Text = "Against C-Form"
-        Me.chk_c_form.Visible = False
-        '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.gv_roadpermit)
-        Me.RadGroupBox3.HeaderText = "Forms Detail"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(147, 8)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(430, 187)
-        Me.RadGroupBox3.TabIndex = 18
-        Me.RadGroupBox3.Text = "Forms Detail"
+        Me.gv_c_form.VarID = ""
         '
         'gv_roadpermit
         '
@@ -2884,33 +3737,7 @@ Partial Class frmPurchaseOrder
         Me.gv_roadpermit.ShowHeaderCellButtons = True
         Me.gv_roadpermit.Size = New System.Drawing.Size(426, 167)
         Me.gv_roadpermit.TabIndex = 0
-        '
-        'Chkroadpermit
-        '
-        Me.Chkroadpermit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Chkroadpermit.Location = New System.Drawing.Point(15, 18)
-        Me.Chkroadpermit.Name = "Chkroadpermit"
-        Me.Chkroadpermit.Size = New System.Drawing.Size(124, 16)
-        Me.Chkroadpermit.TabIndex = 17
-        Me.Chkroadpermit.Text = "Against Road Permit"
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.chkTDSApplied)
-        Me.RadPageViewPage2.Controls.Add(Me.chkExciseOnQty)
-        Me.RadPageViewPage2.Controls.Add(Me.GroupBox1)
-        Me.RadPageViewPage2.Controls.Add(Me.txtTaxGroup)
-        Me.RadPageViewPage2.Controls.Add(Me.RadLabel10)
-        Me.RadPageViewPage2.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage2.Controls.Add(Me.lblTaxGrpName)
-        Me.RadPageViewPage2.Controls.Add(Me.gv2)
-        Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
-        Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(82.0!, 26.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1080, 391)
-        Me.RadPageViewPage2.Text = "Taxes/Terms"
+        Me.gv_roadpermit.VarID = ""
         '
         'chkTDSApplied
         '
@@ -2923,26 +3750,6 @@ Partial Class frmPurchaseOrder
         Me.chkTDSApplied.TabIndex = 25
         Me.chkTDSApplied.Tag1 = Nothing
         Me.chkTDSApplied.Text = "TCS Applied"
-        '
-        'chkExciseOnQty
-        '
-        Me.chkExciseOnQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkExciseOnQty.Location = New System.Drawing.Point(714, 13)
-        Me.chkExciseOnQty.Name = "chkExciseOnQty"
-        Me.chkExciseOnQty.Size = New System.Drawing.Size(115, 16)
-        Me.chkExciseOnQty.TabIndex = 2
-        Me.chkExciseOnQty.Text = "Excise on Quantity"
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.rbtnTaxCalManual)
-        Me.GroupBox1.Controls.Add(Me.rbtnTaxCalAutomatic)
-        Me.GroupBox1.Location = New System.Drawing.Point(547, -2)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(163, 36)
-        Me.GroupBox1.TabIndex = 1
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Tax Calculation Type"
         '
         'rbtnTaxCalManual
         '
@@ -3023,44 +3830,6 @@ Partial Class frmPurchaseOrder
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
         Me.RadLabel10.Text = "Double click To Chage Rate"
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel62)
-        Me.RadGroupBox1.Controls.Add(Me.TxtRetention)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel54)
-        Me.RadGroupBox1.Controls.Add(Me.lblConfirmatory_PO_SRN_No)
-        Me.RadGroupBox1.Controls.Add(Me.txtFreight)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel52)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel51)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel48)
-        Me.RadGroupBox1.Controls.Add(Me.txtPackingForward)
-        Me.RadGroupBox1.Controls.Add(Me.txtInsurance)
-        Me.RadGroupBox1.Controls.Add(Me.txtDeliveryDesc)
-        Me.RadGroupBox1.Controls.Add(Me.txtDelivery_Code)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel15)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel16)
-        Me.RadGroupBox1.Controls.Add(Me.txtInsuranceTerms)
-        Me.RadGroupBox1.Controls.Add(Me.txtPaymentTerm)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel14)
-        Me.RadGroupBox1.Controls.Add(Me.txtTermRemark)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
-        Me.RadGroupBox1.Controls.Add(Me.txtTermCode)
-        Me.RadGroupBox1.Controls.Add(Me.RadLabel16)
-        Me.RadGroupBox1.Controls.Add(Me.txtDueDate)
-        Me.RadGroupBox1.Controls.Add(Me.RadLabel17)
-        Me.RadGroupBox1.Controls.Add(Me.lblTermName)
-        Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 247)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1079, 144)
-        Me.RadGroupBox1.TabIndex = 3
-        Me.RadGroupBox1.Text = "Terms"
         '
         'MyLabel62
         '
@@ -3494,83 +4263,7 @@ Partial Class frmPurchaseOrder
         Me.gv2.Size = New System.Drawing.Size(1075, 190)
         Me.gv2.TabIndex = 4
         Me.gv2.TabStop = False
-        '
-        'RdPaymentterms
-        '
-        Me.RdPaymentterms.Controls.Add(Me.lblBankDesc)
-        Me.RdPaymentterms.Controls.Add(Me.txtPaymentMode)
-        Me.RdPaymentterms.Controls.Add(Me.txtBankCode)
-        Me.RdPaymentterms.Controls.Add(Me.lblpaymentcode)
-        Me.RdPaymentterms.Controls.Add(Me.lblbankcode)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel33)
-        Me.RdPaymentterms.Controls.Add(Me.TxtBuyerPODate)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel23)
-        Me.RdPaymentterms.Controls.Add(Me.TxtBuyerPONo)
-        Me.RdPaymentterms.Controls.Add(Me.ChkPartPayment)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel26)
-        Me.RdPaymentterms.Controls.Add(Me.cmbAdvanceType)
-        Me.RdPaymentterms.Controls.Add(Me.TxtCIF)
-        Me.RdPaymentterms.Controls.Add(Me.lblCIF)
-        Me.RdPaymentterms.Controls.Add(Me.chkTransshipment)
-        Me.RdPaymentterms.Controls.Add(Me.chkPartshipment)
-        Me.RdPaymentterms.Controls.Add(Me.dtpAcceptance)
-        Me.RdPaymentterms.Controls.Add(Me.chkAcceptance)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel21)
-        Me.RdPaymentterms.Controls.Add(Me.txtPre_Carriage_By)
-        Me.RdPaymentterms.Controls.Add(Me.txtAdvance_Pers)
-        Me.RdPaymentterms.Controls.Add(Me.cmbTerms_Payment)
-        Me.RdPaymentterms.Controls.Add(Me.cmbTerms)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel19)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel20)
-        Me.RdPaymentterms.Controls.Add(Me.txtPIDueDate)
-        Me.RdPaymentterms.Controls.Add(Me.FndCreditTerms)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel24)
-        Me.RdPaymentterms.Controls.Add(Me.fndCountry_Final_Destination)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel25)
-        Me.RdPaymentterms.Controls.Add(Me.TxtCreditTermsName)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel27)
-        Me.RdPaymentterms.Controls.Add(Me.txtFinal_Destination)
-        Me.RdPaymentterms.Controls.Add(Me.fndCountry_Origin)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel18)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel28)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel30)
-        Me.RdPaymentterms.Controls.Add(Me.txtPort_Discharge)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel31)
-        Me.RdPaymentterms.Controls.Add(Me.cboStuffing)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel32)
-        Me.RdPaymentterms.Controls.Add(Me.txtCarrier)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel17)
-        Me.RdPaymentterms.Controls.Add(Me.TxtHSClassificationNo)
-        Me.RdPaymentterms.Controls.Add(Me.txtPINo)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel10)
-        Me.RdPaymentterms.Controls.Add(Me.RadGroupBox6)
-        Me.RdPaymentterms.Controls.Add(Me.lblAdvance)
-        Me.RdPaymentterms.Controls.Add(Me.TxtOnAccount)
-        Me.RdPaymentterms.Controls.Add(Me.lblonAccount)
-        Me.RdPaymentterms.Controls.Add(Me.txtRetained)
-        Me.RdPaymentterms.Controls.Add(Me.lblretained)
-        Me.RdPaymentterms.Controls.Add(Me.TxtBalancePayment)
-        Me.RdPaymentterms.Controls.Add(Me.lblBalancePayment)
-        Me.RdPaymentterms.Controls.Add(Me.TxtLC)
-        Me.RdPaymentterms.Controls.Add(Me.lblLC)
-        Me.RdPaymentterms.Controls.Add(Me.TxtCAD)
-        Me.RdPaymentterms.Controls.Add(Me.lblCad)
-        Me.RdPaymentterms.Controls.Add(Me.txtAdvance)
-        Me.RdPaymentterms.Controls.Add(Me.lblpaymenttermsgroup)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel12)
-        Me.RdPaymentterms.Controls.Add(Me.fndPaymenttermsGroup)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel11)
-        Me.RdPaymentterms.Controls.Add(Me.lblBeneficiary)
-        Me.RdPaymentterms.Controls.Add(Me.TxtBeneficiary)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel9)
-        Me.RdPaymentterms.Controls.Add(Me.TxtINCOTERMS)
-        Me.RdPaymentterms.Controls.Add(Me.RadGroupBox5)
-        Me.RdPaymentterms.Controls.Add(Me.MyLabel8)
-        Me.RdPaymentterms.ItemSize = New System.Drawing.SizeF(96.0!, 26.0!)
-        Me.RdPaymentterms.Location = New System.Drawing.Point(10, 35)
-        Me.RdPaymentterms.Name = "RdPaymentterms"
-        Me.RdPaymentterms.Size = New System.Drawing.Size(1080, 391)
-        Me.RdPaymentterms.Text = "Payment Terms"
+        Me.gv2.VarID = ""
         '
         'lblBankDesc
         '
@@ -4401,40 +5094,6 @@ Partial Class frmPurchaseOrder
         Me.MyLabel10.TabIndex = 1434
         Me.MyLabel10.Text = "Apply on Amount"
         '
-        'RadGroupBox6
-        '
-        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox6.Controls.Add(Me.rdbAmountinpercentage)
-        Me.RadGroupBox6.Controls.Add(Me.rdbAmountinrupees)
-        Me.RadGroupBox6.HeaderText = ""
-        Me.RadGroupBox6.Location = New System.Drawing.Point(138, 163)
-        Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Size = New System.Drawing.Size(143, 21)
-        Me.RadGroupBox6.TabIndex = 1433
-        '
-        'rdbAmountinpercentage
-        '
-        Me.rdbAmountinpercentage.AutoSize = True
-        Me.rdbAmountinpercentage.Location = New System.Drawing.Point(72, 2)
-        Me.rdbAmountinpercentage.Name = "rdbAmountinpercentage"
-        Me.rdbAmountinpercentage.Size = New System.Drawing.Size(62, 18)
-        Me.rdbAmountinpercentage.TabIndex = 1
-        Me.rdbAmountinpercentage.TabStop = True
-        Me.rdbAmountinpercentage.Text = "Percent"
-        Me.rdbAmountinpercentage.UseVisualStyleBackColor = True
-        '
-        'rdbAmountinrupees
-        '
-        Me.rdbAmountinrupees.AutoSize = True
-        Me.rdbAmountinrupees.Checked = True
-        Me.rdbAmountinrupees.Location = New System.Drawing.Point(2, 3)
-        Me.rdbAmountinrupees.Name = "rdbAmountinrupees"
-        Me.rdbAmountinrupees.Size = New System.Drawing.Size(62, 18)
-        Me.rdbAmountinrupees.TabIndex = 0
-        Me.rdbAmountinrupees.TabStop = True
-        Me.rdbAmountinrupees.Text = "Amount"
-        Me.rdbAmountinrupees.UseVisualStyleBackColor = True
-        '
         'lblAdvance
         '
         Me.lblAdvance.FieldName = Nothing
@@ -4766,20 +5425,6 @@ Partial Class frmPurchaseOrder
         Me.TxtINCOTERMS.Size = New System.Drawing.Size(383, 18)
         Me.TxtINCOTERMS.TabIndex = 1413
         '
-        'RadGroupBox5
-        '
-        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox5.Controls.Add(Me.cboPIStatus)
-        Me.RadGroupBox5.Controls.Add(Me.btnMTUpdate)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel22)
-        Me.RadGroupBox5.Controls.Add(Me.txtPIDate)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel29)
-        Me.RadGroupBox5.HeaderText = ""
-        Me.RadGroupBox5.Location = New System.Drawing.Point(16, 33)
-        Me.RadGroupBox5.Name = "RadGroupBox5"
-        Me.RadGroupBox5.Size = New System.Drawing.Size(503, 33)
-        Me.RadGroupBox5.TabIndex = 1412
-        '
         'cboPIStatus
         '
         Me.cboPIStatus.AutoCompleteDisplayMember = Nothing
@@ -4805,16 +5450,6 @@ Partial Class frmPurchaseOrder
         Me.cboPIStatus.ReferenceTableName = Nothing
         Me.cboPIStatus.Size = New System.Drawing.Size(143, 20)
         Me.cboPIStatus.TabIndex = 1403
-        '
-        'btnMTUpdate
-        '
-        Me.btnMTUpdate.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.btnMTUpdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMTUpdate.Location = New System.Drawing.Point(402, 6)
-        Me.btnMTUpdate.Name = "btnMTUpdate"
-        Me.btnMTUpdate.Size = New System.Drawing.Size(69, 20)
-        Me.btnMTUpdate.TabIndex = 1402
-        Me.btnMTUpdate.Text = "Update"
         '
         'MyLabel22
         '
@@ -4877,44 +5512,6 @@ Partial Class frmPurchaseOrder
         Me.MyLabel8.TabIndex = 30
         Me.MyLabel8.Text = " PI No"
         '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.SplitContainer5)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1080, 391)
-        Me.RadPageViewPage3.Text = "Additional Charges"
-        '
-        'SplitContainer5
-        '
-        Me.SplitContainer5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer5.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer5.Name = "SplitContainer5"
-        '
-        'SplitContainer5.Panel1
-        '
-        Me.SplitContainer5.Panel1.Controls.Add(Me.GroupBox3)
-        '
-        'SplitContainer5.Panel2
-        '
-        Me.SplitContainer5.Panel2.Controls.Add(Me.GroupBox4)
-        Me.SplitContainer5.Size = New System.Drawing.Size(1080, 391)
-        Me.SplitContainer5.SplitterDistance = 621
-        Me.SplitContainer5.TabIndex = 2
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.gvAC)
-        Me.GroupBox3.Controls.Add(Me.RadPanel1)
-        Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox3.Location = New System.Drawing.Point(0, 0)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(621, 391)
-        Me.GroupBox3.TabIndex = 0
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Additional Charges"
-        '
         'gvAC
         '
         Me.gvAC.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -4939,16 +5536,7 @@ Partial Class frmPurchaseOrder
         Me.gvAC.Size = New System.Drawing.Size(615, 345)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
-        '
-        'RadPanel1
-        '
-        Me.RadPanel1.Controls.Add(Me.RadLabel31)
-        Me.RadPanel1.Controls.Add(Me.lblAddCharges)
-        Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.RadPanel1.Location = New System.Drawing.Point(3, 361)
-        Me.RadPanel1.Name = "RadPanel1"
-        Me.RadPanel1.Size = New System.Drawing.Size(615, 27)
-        Me.RadPanel1.TabIndex = 1
+        Me.gvAC.VarID = ""
         '
         'RadLabel31
         '
@@ -4974,18 +5562,6 @@ Partial Class frmPurchaseOrder
         Me.lblAddCharges.TabIndex = 0
         Me.lblAddCharges.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
-        'GroupBox4
-        '
-        Me.GroupBox4.Controls.Add(Me.gvACInsurance)
-        Me.GroupBox4.Controls.Add(Me.RadPanel2)
-        Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox4.Location = New System.Drawing.Point(0, 0)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(455, 391)
-        Me.GroupBox4.TabIndex = 1
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Additional Charges For Insurance"
-        '
         'gvACInsurance
         '
         Me.gvACInsurance.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -5010,16 +5586,7 @@ Partial Class frmPurchaseOrder
         Me.gvACInsurance.Size = New System.Drawing.Size(449, 345)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
-        '
-        'RadPanel2
-        '
-        Me.RadPanel2.Controls.Add(Me.MyLabel56)
-        Me.RadPanel2.Controls.Add(Me.lblAddChargesForInsurance)
-        Me.RadPanel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.RadPanel2.Location = New System.Drawing.Point(3, 361)
-        Me.RadPanel2.Name = "RadPanel2"
-        Me.RadPanel2.Size = New System.Drawing.Size(449, 27)
-        Me.RadPanel2.TabIndex = 2
+        Me.gvACInsurance.VarID = ""
         '
         'MyLabel56
         '
@@ -5045,32 +5612,6 @@ Partial Class frmPurchaseOrder
         Me.lblAddChargesForInsurance.TabIndex = 0
         Me.lblAddChargesForInsurance.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
-        'pvpCustomFields
-        '
-        Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
-        Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1020, 391)
-        Me.pvpCustomFields.Text = "Custom Fields"
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1020, 391)
-        Me.UcCustomFields1.TabIndex = 1
-        '
-        'Attachments
-        '
-        Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
-        Me.Attachments.Location = New System.Drawing.Point(10, 35)
-        Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(1080, 391)
-        Me.Attachments.Text = "Attachments"
-        '
         'UcAttachment1
         '
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -5079,164 +5620,6 @@ Partial Class frmPurchaseOrder
         Me.UcAttachment1.Size = New System.Drawing.Size(1080, 391)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
-        '
-        'RadPageViewPage4
-        '
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt13)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt12)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt11)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt10)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt9)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt8)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt7)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt6)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt5)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt4)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt3)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt2)
-        Me.RadPageViewPage4.Controls.Add(Me.txtCmt1)
-        Me.RadPageViewPage4.Controls.Add(Me.MyLabel58)
-        Me.RadPageViewPage4.Controls.Add(Me.lblTotalInsuranceAmt)
-        Me.RadPageViewPage4.Controls.Add(Me.MyLabel57)
-        Me.RadPageViewPage4.Controls.Add(Me.lblAddChargesForInsurance1)
-        Me.RadPageViewPage4.Controls.Add(Me.txtHeaderDiscountAmount)
-        Me.RadPageViewPage4.Controls.Add(Me.MyLabel53)
-        Me.RadPageViewPage4.Controls.Add(Me.MyLabel44)
-        Me.RadPageViewPage4.Controls.Add(Me.lblTaxableAmount)
-        Me.RadPageViewPage4.Controls.Add(Me.MyLabel41)
-        Me.RadPageViewPage4.Controls.Add(Me.lblAmtAfterTax)
-        Me.RadPageViewPage4.Controls.Add(Me.chkIsContent)
-        Me.RadPageViewPage4.Controls.Add(Me.txtKindAttentation)
-        Me.RadPageViewPage4.Controls.Add(Me.lblKindAttentation)
-        Me.RadPageViewPage4.Controls.Add(Me.txtSubject)
-        Me.RadPageViewPage4.Controls.Add(Me.txtContentSubject)
-        Me.RadPageViewPage4.Controls.Add(Me.lblContentSubject)
-        Me.RadPageViewPage4.Controls.Add(Me.lblSubject)
-        Me.RadPageViewPage4.Controls.Add(Me.pnlCurrConv)
-        Me.RadPageViewPage4.Controls.Add(Me.lblAddCharges1)
-        Me.RadPageViewPage4.Controls.Add(Me.RadLabel32)
-        Me.RadPageViewPage4.Controls.Add(Me.txtComment)
-        Me.RadPageViewPage4.Controls.Add(Me.RadLabel14)
-        Me.RadPageViewPage4.Controls.Add(Me.RadLabel9)
-        Me.RadPageViewPage4.Controls.Add(Me.RadLabel27)
-        Me.RadPageViewPage4.Controls.Add(Me.lblTotRAmt)
-        Me.RadPageViewPage4.Controls.Add(Me.RadLabel25)
-        Me.RadPageViewPage4.Controls.Add(Me.lblTaxAmt)
-        Me.RadPageViewPage4.Controls.Add(Me.lblAmtAfterDiscount)
-        Me.RadPageViewPage4.Controls.Add(Me.lblDiscountAmt)
-        Me.RadPageViewPage4.Controls.Add(Me.lblAmtWithDiscount)
-        Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
-        Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
-        Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1080, 391)
-        Me.RadPageViewPage4.Text = "Total"
-        '
-        'txtCmt13
-        '
-        Me.txtCmt13.Location = New System.Drawing.Point(495, 382)
-        Me.txtCmt13.Name = "txtCmt13"
-        Me.txtCmt13.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt13.TabIndex = 104
-        Me.txtCmt13.Text = ""
-        '
-        'txtCmt12
-        '
-        Me.txtCmt12.Location = New System.Drawing.Point(495, 356)
-        Me.txtCmt12.Name = "txtCmt12"
-        Me.txtCmt12.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt12.TabIndex = 103
-        Me.txtCmt12.Text = ""
-        '
-        'txtCmt11
-        '
-        Me.txtCmt11.Location = New System.Drawing.Point(495, 331)
-        Me.txtCmt11.Name = "txtCmt11"
-        Me.txtCmt11.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt11.TabIndex = 101
-        Me.txtCmt11.Text = ""
-        '
-        'txtCmt10
-        '
-        Me.txtCmt10.Location = New System.Drawing.Point(495, 306)
-        Me.txtCmt10.Name = "txtCmt10"
-        Me.txtCmt10.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt10.TabIndex = 99
-        Me.txtCmt10.Text = ""
-        '
-        'txtCmt9
-        '
-        Me.txtCmt9.Location = New System.Drawing.Point(495, 281)
-        Me.txtCmt9.Name = "txtCmt9"
-        Me.txtCmt9.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt9.TabIndex = 97
-        Me.txtCmt9.Text = ""
-        '
-        'txtCmt8
-        '
-        Me.txtCmt8.Location = New System.Drawing.Point(495, 256)
-        Me.txtCmt8.Name = "txtCmt8"
-        Me.txtCmt8.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt8.TabIndex = 95
-        Me.txtCmt8.Text = ""
-        '
-        'txtCmt7
-        '
-        Me.txtCmt7.Location = New System.Drawing.Point(495, 231)
-        Me.txtCmt7.Name = "txtCmt7"
-        Me.txtCmt7.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt7.TabIndex = 93
-        Me.txtCmt7.Text = ""
-        '
-        'txtCmt6
-        '
-        Me.txtCmt6.Location = New System.Drawing.Point(495, 206)
-        Me.txtCmt6.Name = "txtCmt6"
-        Me.txtCmt6.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt6.TabIndex = 91
-        Me.txtCmt6.Text = ""
-        '
-        'txtCmt5
-        '
-        Me.txtCmt5.Location = New System.Drawing.Point(495, 182)
-        Me.txtCmt5.Name = "txtCmt5"
-        Me.txtCmt5.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt5.TabIndex = 89
-        Me.txtCmt5.Text = ""
-        '
-        'txtCmt4
-        '
-        Me.txtCmt4.Location = New System.Drawing.Point(495, 156)
-        Me.txtCmt4.Name = "txtCmt4"
-        Me.txtCmt4.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt4.TabIndex = 87
-        Me.txtCmt4.Text = ""
-        '
-        'txtCmt3
-        '
-        Me.txtCmt3.Location = New System.Drawing.Point(495, 131)
-        Me.txtCmt3.Name = "txtCmt3"
-        Me.txtCmt3.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt3.TabIndex = 85
-        Me.txtCmt3.Text = ""
-        '
-        'txtCmt2
-        '
-        Me.txtCmt2.Location = New System.Drawing.Point(495, 106)
-        Me.txtCmt2.Name = "txtCmt2"
-        Me.txtCmt2.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt2.TabIndex = 83
-        Me.txtCmt2.Text = ""
-        '
-        'txtCmt1
-        '
-        Me.txtCmt1.Location = New System.Drawing.Point(495, 82)
-        Me.txtCmt1.Name = "txtCmt1"
-        Me.txtCmt1.Size = New System.Drawing.Size(475, 22)
-        Me.txtCmt1.TabIndex = 81
-        Me.txtCmt1.Text = ""
         '
         'MyLabel58
         '
@@ -5363,24 +5746,6 @@ Partial Class frmPurchaseOrder
         Me.lblAmtAfterTax.TabIndex = 71
         Me.lblAmtAfterTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
-        'chkIsContent
-        '
-        Me.chkIsContent.AccessibleDescription = ""
-        Me.chkIsContent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsContent.Location = New System.Drawing.Point(19, 406)
-        Me.chkIsContent.Name = "chkIsContent"
-        Me.chkIsContent.Size = New System.Drawing.Size(72, 16)
-        Me.chkIsContent.TabIndex = 70
-        Me.chkIsContent.Text = "Is Content"
-        '
-        'txtKindAttentation
-        '
-        Me.txtKindAttentation.Location = New System.Drawing.Point(123, 402)
-        Me.txtKindAttentation.Multiline = True
-        Me.txtKindAttentation.Name = "txtKindAttentation"
-        Me.txtKindAttentation.Size = New System.Drawing.Size(298, 52)
-        Me.txtKindAttentation.TabIndex = 20
-        '
         'lblKindAttentation
         '
         Me.lblKindAttentation.FieldName = Nothing
@@ -5390,22 +5755,6 @@ Partial Class frmPurchaseOrder
         Me.lblKindAttentation.Size = New System.Drawing.Size(77, 16)
         Me.lblKindAttentation.TabIndex = 19
         Me.lblKindAttentation.Text = "Kind Attention"
-        '
-        'txtSubject
-        '
-        Me.txtSubject.Location = New System.Drawing.Point(123, 292)
-        Me.txtSubject.Multiline = True
-        Me.txtSubject.Name = "txtSubject"
-        Me.txtSubject.Size = New System.Drawing.Size(298, 48)
-        Me.txtSubject.TabIndex = 18
-        '
-        'txtContentSubject
-        '
-        Me.txtContentSubject.Location = New System.Drawing.Point(123, 344)
-        Me.txtContentSubject.Multiline = True
-        Me.txtContentSubject.Name = "txtContentSubject"
-        Me.txtContentSubject.Size = New System.Drawing.Size(298, 52)
-        Me.txtContentSubject.TabIndex = 17
         '
         'lblContentSubject
         '
@@ -5426,20 +5775,6 @@ Partial Class frmPurchaseOrder
         Me.lblSubject.Size = New System.Drawing.Size(44, 16)
         Me.lblSubject.TabIndex = 15
         Me.lblSubject.Text = "Subject"
-        '
-        'pnlCurrConv
-        '
-        Me.pnlCurrConv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnlCurrConv.Controls.Add(Me.txtConversionRate)
-        Me.pnlCurrConv.Controls.Add(Me.txtCurrencyCode)
-        Me.pnlCurrConv.Controls.Add(Me.lblEffectiveFrom)
-        Me.pnlCurrConv.Controls.Add(Me.txtApplicableFrom)
-        Me.pnlCurrConv.Controls.Add(Me.lblCurrency)
-        Me.pnlCurrConv.Controls.Add(Me.lblConvRate)
-        Me.pnlCurrConv.Location = New System.Drawing.Point(30, 13)
-        Me.pnlCurrConv.Name = "pnlCurrConv"
-        Me.pnlCurrConv.Size = New System.Drawing.Size(736, 38)
-        Me.pnlCurrConv.TabIndex = 0
         '
         'txtConversionRate
         '
@@ -5558,14 +5893,6 @@ Partial Class frmPurchaseOrder
         Me.RadLabel32.Size = New System.Drawing.Size(140, 16)
         Me.RadLabel32.TabIndex = 5
         Me.RadLabel32.Text = "+ Total Additional Charges"
-        '
-        'txtComment
-        '
-        Me.txtComment.Location = New System.Drawing.Point(495, 57)
-        Me.txtComment.Name = "txtComment"
-        Me.txtComment.Size = New System.Drawing.Size(475, 22)
-        Me.txtComment.TabIndex = 1
-        Me.txtComment.Text = ""
         '
         'RadLabel14
         '
@@ -5687,17 +6014,6 @@ Partial Class frmPurchaseOrder
         Me.RadLabel19.TabIndex = 14
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
-        'RadPageViewPage7
-        '
-        Me.RadPageViewPage7.Controls.Add(Me.gvSchedule)
-        Me.RadPageViewPage7.Controls.Add(Me.Panel5)
-        Me.RadPageViewPage7.Controls.Add(Me.MyLabel61)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(84.0!, 26.0!)
-        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(1080, 419)
-        Me.RadPageViewPage7.Text = "Set Schedule"
-        '
         'gvSchedule
         '
         Me.gvSchedule.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -5722,27 +6038,7 @@ Partial Class frmPurchaseOrder
         Me.gvSchedule.Size = New System.Drawing.Size(1080, 378)
         Me.gvSchedule.TabIndex = 20
         Me.gvSchedule.TabStop = False
-        '
-        'Panel5
-        '
-        Me.Panel5.Controls.Add(Me.RadButton1)
-        Me.Panel5.Controls.Add(Me.txtScheduleStartDate)
-        Me.Panel5.Controls.Add(Me.MyLabel60)
-        Me.Panel5.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel5.Location = New System.Drawing.Point(0, 0)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(1080, 28)
-        Me.Panel5.TabIndex = 19
-        '
-        'RadButton1
-        '
-        Me.RadButton1.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(202, 5)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(55, 18)
-        Me.RadButton1.TabIndex = 1520
-        Me.RadButton1.Text = ">>"
+        Me.gvSchedule.VarID = ""
         '
         'txtScheduleStartDate
         '
@@ -5795,39 +6091,6 @@ Partial Class frmPurchaseOrder
         Me.MyLabel61.Size = New System.Drawing.Size(1080, 13)
         Me.MyLabel61.TabIndex = 1522
         Me.MyLabel61.Text = "Press F5 To View Penelty Details"
-        '
-        'RadPageViewPage6
-        '
-        Me.RadPageViewPage6.Controls.Add(Me.SplitContainer4)
-        Me.RadPageViewPage6.Enabled = False
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(75.0!, 26.0!)
-        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(1080, 391)
-        Me.RadPageViewPage6.Text = "Work Order"
-        '
-        'SplitContainer4
-        '
-        Me.SplitContainer4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer4.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer4.Name = "SplitContainer4"
-        Me.SplitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer4.Panel1
-        '
-        Me.SplitContainer4.Panel1.Controls.Add(Me.lblWAddress)
-        Me.SplitContainer4.Panel1.Controls.Add(Me.lblWPhone)
-        Me.SplitContainer4.Panel1.Controls.Add(Me.lblWVendorName)
-        Me.SplitContainer4.Panel1.Controls.Add(Me.MyLabel47)
-        Me.SplitContainer4.Panel1.Controls.Add(Me.lblAddress)
-        Me.SplitContainer4.Panel1.Controls.Add(Me.MyLabel46)
-        '
-        'SplitContainer4.Panel2
-        '
-        Me.SplitContainer4.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer4.Size = New System.Drawing.Size(1080, 391)
-        Me.SplitContainer4.SplitterDistance = 49
-        Me.SplitContainer4.TabIndex = 1
         '
         'lblWAddress
         '
@@ -5932,26 +6195,6 @@ Partial Class frmPurchaseOrder
         Me.MyLabel46.TabIndex = 40
         Me.MyLabel46.Text = "Vendor Name"
         '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer3.IsSplitterFixed = True
-        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.gvCategoryValue)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.GroupBox2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1080, 338)
-        Me.SplitContainer3.SplitterDistance = 219
-        Me.SplitContainer3.TabIndex = 0
-        '
         'gvCategoryValue
         '
         Me.gvCategoryValue.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -5976,49 +6219,7 @@ Partial Class frmPurchaseOrder
         Me.gvCategoryValue.Size = New System.Drawing.Size(1080, 219)
         Me.gvCategoryValue.TabIndex = 1
         Me.gvCategoryValue.TabStop = False
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.RadSplitContainer1)
-        Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GroupBox2.Location = New System.Drawing.Point(0, 0)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(1080, 115)
-        Me.GroupBox2.TabIndex = 0
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Terms & Conditions"
-        '
-        'RadSplitContainer1
-        '
-        Me.RadSplitContainer1.Controls.Add(Me.SplitPanel1)
-        Me.RadSplitContainer1.Controls.Add(Me.SplitPanel2)
-        Me.RadSplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadSplitContainer1.Location = New System.Drawing.Point(3, 16)
-        Me.RadSplitContainer1.Name = "RadSplitContainer1"
-        Me.RadSplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        '
-        '
-        Me.RadSplitContainer1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadSplitContainer1.Size = New System.Drawing.Size(1074, 96)
-        Me.RadSplitContainer1.TabIndex = 2
-        Me.RadSplitContainer1.TabStop = False
-        '
-        'SplitPanel1
-        '
-        Me.SplitPanel1.Controls.Add(Me.gvTermsCdtion)
-        Me.SplitPanel1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitPanel1.Name = "SplitPanel1"
-        '
-        '
-        '
-        Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.SplitPanel1.Size = New System.Drawing.Size(1074, 92)
-        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.5!)
-        Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 84)
-        Me.SplitPanel1.TabIndex = 0
-        Me.SplitPanel1.TabStop = False
-        Me.SplitPanel1.Text = "SplitPanel1"
+        Me.gvCategoryValue.VarID = ""
         '
         'gvTermsCdtion
         '
@@ -6044,199 +6245,7 @@ Partial Class frmPurchaseOrder
         Me.gvTermsCdtion.Size = New System.Drawing.Size(1074, 92)
         Me.gvTermsCdtion.TabIndex = 1
         Me.gvTermsCdtion.TabStop = False
-        '
-        'SplitPanel2
-        '
-        Me.SplitPanel2.Location = New System.Drawing.Point(0, 96)
-        Me.SplitPanel2.Name = "SplitPanel2"
-        '
-        '
-        '
-        Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.SplitPanel2.Size = New System.Drawing.Size(1074, 0)
-        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.5!)
-        Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -84)
-        Me.SplitPanel2.TabIndex = 1
-        Me.SplitPanel2.TabStop = False
-        Me.SplitPanel2.Text = "SplitPanel2"
-        '
-        'btn_Cancels
-        '
-        Me.btn_Cancels.Location = New System.Drawing.Point(208, 5)
-        Me.btn_Cancels.Name = "btn_Cancels"
-        Me.btn_Cancels.Size = New System.Drawing.Size(56, 22)
-        Me.btn_Cancels.TabIndex = 42
-        Me.btn_Cancels.Text = "Cancel"
-        '
-        'btnNewHistory
-        '
-        Me.btnNewHistory.Location = New System.Drawing.Point(821, 2)
-        Me.btnNewHistory.Name = "btnNewHistory"
-        Me.btnNewHistory.Size = New System.Drawing.Size(71, 22)
-        Me.btnNewHistory.TabIndex = 41
-        Me.btnNewHistory.Text = "&History"
-        '
-        'btn_cancel
-        '
-        Me.btn_cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_cancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_cancel.Location = New System.Drawing.Point(893, 2)
-        Me.btn_cancel.Name = "btn_cancel"
-        Me.btn_cancel.Size = New System.Drawing.Size(69, 22)
-        Me.btn_cancel.TabIndex = 12
-        Me.btn_cancel.Text = "Cancel"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(962, 2)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(69, 22)
-        Me.btnHistory.TabIndex = 11
-        Me.btnHistory.Text = "History"
-        '
-        'btnCopy
-        '
-        Me.btnCopy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCopy.Location = New System.Drawing.Point(469, 5)
-        Me.btnCopy.Name = "btnCopy"
-        Me.btnCopy.Size = New System.Drawing.Size(69, 22)
-        Me.btnCopy.TabIndex = 5
-        Me.btnCopy.Text = "Copy PO"
-        '
-        'btnUnpost
-        '
-        Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnpost.Location = New System.Drawing.Point(331, 4)
-        Me.btnUnpost.Name = "btnUnpost"
-        Me.btnUnpost.Size = New System.Drawing.Size(69, 22)
-        Me.btnUnpost.TabIndex = 3
-        Me.btnUnpost.Text = "Reverse"
-        '
-        'btnPrintNew
-        '
-        Me.btnPrintNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrintNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintNew.Location = New System.Drawing.Point(400, 5)
-        Me.btnPrintNew.Name = "btnPrintNew"
-        Me.btnPrintNew.Size = New System.Drawing.Size(69, 22)
-        Me.btnPrintNew.TabIndex = 4
-        Me.btnPrintNew.Text = "Print"
-        '
-        'RadSplitButton1
-        '
-        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Location = New System.Drawing.Point(539, 5)
-        Me.RadSplitButton1.Name = "RadSplitButton1"
-        Me.RadSplitButton1.Size = New System.Drawing.Size(80, 22)
-        Me.RadSplitButton1.TabIndex = 6
-        Me.RadSplitButton1.Text = "Print"
-        Me.RadSplitButton1.Visible = False
-        '
-        'btnAmendment
-        '
-        Me.btnAmendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAmendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAmendment.Location = New System.Drawing.Point(620, 5)
-        Me.btnAmendment.Name = "btnAmendment"
-        Me.btnAmendment.Size = New System.Drawing.Size(69, 22)
-        Me.btnAmendment.TabIndex = 7
-        Me.btnAmendment.Text = "Amendment"
-        Me.btnAmendment.Visible = False
-        '
-        'btnDelete
-        '
-        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(72, 5)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(69, 22)
-        Me.btnDelete.TabIndex = 2
-        Me.btnDelete.Text = "Delete"
-        '
-        'btnPost
-        '
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(140, 5)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 22)
-        Me.btnPost.TabIndex = 1
-        Me.btnPost.Text = "Post"
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1030, 2)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 22)
-        Me.btnClose.TabIndex = 10
-        Me.btnClose.Text = "Close"
-        '
-        'btnSave
-        '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(5, 5)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(69, 22)
-        Me.btnSave.TabIndex = 0
-        Me.btnSave.Text = "Save"
-        '
-        'btnViewTDSDetails
-        '
-        Me.btnViewTDSDetails.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnViewTDSDetails.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnViewTDSDetails.Location = New System.Drawing.Point(262, 5)
-        Me.btnViewTDSDetails.Name = "btnViewTDSDetails"
-        Me.btnViewTDSDetails.Size = New System.Drawing.Size(69, 22)
-        Me.btnViewTDSDetails.TabIndex = 13
-        Me.btnViewTDSDetails.Text = "View TDS"
-        '
-        'RadMenuItem3
-        '
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ReportFooter, Me.SaveLayoutbtn, Me.DeleteLayout, Me.rmImport, Me.rmExport})
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "Setting"
-        '
-        'ReportFooter
-        '
-        Me.ReportFooter.Name = "ReportFooter"
-        Me.ReportFooter.Text = "Report Footer"
-        '
-        'SaveLayoutbtn
-        '
-        Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
-        Me.SaveLayoutbtn.Text = "Save Layout"
-        '
-        'DeleteLayout
-        '
-        Me.DeleteLayout.Name = "DeleteLayout"
-        Me.DeleteLayout.Text = "Delete Layout "
-        '
-        'rmImport
-        '
-        Me.rmImport.Name = "rmImport"
-        Me.rmImport.Text = "Import"
-        Me.rmImport.Visibility = Telerik.WinControls.ElementVisibility.Hidden
-        '
-        'rmExport
-        '
-        Me.rmExport.Name = "rmExport"
-        Me.rmExport.Text = "Export"
-        Me.rmExport.Visibility = Telerik.WinControls.ElementVisibility.Hidden
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1105, 20)
-        Me.RadMenu1.TabIndex = 4
+        Me.gvTermsCdtion.VarID = ""
         '
         'frmPurchaseOrder
         '
@@ -6259,6 +6268,113 @@ Partial Class frmPurchaseOrder
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkRepair, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkISPO, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel4.ResumeLayout(False)
+        Me.Panel4.PerformLayout()
+        CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkGSTRegistered, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel3.ResumeLayout(False)
+        Me.Panel3.PerformLayout()
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        Me.SplitContainer2.ResumeLayout(False)
+        Me.pnl_capex.ResumeLayout(False)
+        Me.pnl_capex.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        CType(Me.chkAutoCalculate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsMerchantTrade, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel2.ResumeLayout(False)
+        Me.Panel2.PerformLayout()
+        CType(Me.chkMCCPurchase, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkBlanket, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlPCJ.ResumeLayout(False)
+        Me.pnlPCJ.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        CType(Me.chkAgainst_RGP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage5.ResumeLayout(False)
+        Me.RadPageViewPage5.PerformLayout()
+        CType(Me.btnForm_Update, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        CType(Me.chk_c_form, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        CType(Me.Chkroadpermit, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        Me.RadPageViewPage2.PerformLayout()
+        CType(Me.chkExciseOnQty, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        Me.RdPaymentterms.ResumeLayout(False)
+        Me.RdPaymentterms.PerformLayout()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.btnMTUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        Me.SplitContainer5.Panel1.ResumeLayout(False)
+        Me.SplitContainer5.Panel2.ResumeLayout(False)
+        Me.SplitContainer5.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
+        CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPanel1.ResumeLayout(False)
+        Me.RadPanel1.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        CType(Me.RadPanel2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPanel2.ResumeLayout(False)
+        Me.RadPanel2.PerformLayout()
+        Me.pvpCustomFields.ResumeLayout(False)
+        Me.Attachments.ResumeLayout(False)
+        Me.RadPageViewPage4.ResumeLayout(False)
+        Me.RadPageViewPage4.PerformLayout()
+        CType(Me.chkIsContent, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlCurrConv.ResumeLayout(False)
+        Me.pnlCurrConv.PerformLayout()
+        Me.RadPageViewPage7.ResumeLayout(False)
+        Me.RadPageViewPage7.PerformLayout()
+        Me.Panel5.ResumeLayout(False)
+        Me.Panel5.PerformLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage6.ResumeLayout(False)
+        Me.SplitContainer4.Panel1.ResumeLayout(False)
+        Me.SplitContainer4.Panel1.PerformLayout()
+        Me.SplitContainer4.Panel2.ResumeLayout(False)
+        Me.SplitContainer4.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
+        CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadSplitContainer1.ResumeLayout(False)
+        CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitPanel1.ResumeLayout(False)
+        CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btn_Cancels, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btn_cancel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAmendment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShipFromLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6271,22 +6387,14 @@ Partial Class frmPurchaseOrder
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblProject, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorQuotationNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkRepair, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChkISPO, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel4.ResumeLayout(False)
-        Me.Panel4.PerformLayout()
         CType(Me.lblGstinNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRegisterOrUnregister, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txt_deliverydays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddl_category, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkGSTRegistered, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel3.ResumeLayout(False)
-        Me.Panel3.PerformLayout()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBillDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6295,11 +6403,6 @@ Partial Class frmPurchaseOrder
         CType(Me.txtBillNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chk_emergency, System.ComponentModel.ISupportInitialize).EndInit()
         Me.chk_emergency.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.ResumeLayout(False)
-        Me.SplitContainer2.Panel2.ResumeLayout(False)
-        Me.SplitContainer2.ResumeLayout(False)
-        Me.pnl_capex.ResumeLayout(False)
-        Me.pnl_capex.PerformLayout()
         CType(Me.chkReceiveControl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6313,24 +6416,16 @@ Partial Class frmPurchaseOrder
         CType(Me.lbl_capexsubcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbl_capexcode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAutoCalculate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAgainstPO_No, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpRenewal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOpenPO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsMerchantTrade, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAbandonmentNo, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
         CType(Me.lblState, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblStateName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkMCCPurchase, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkBlanket, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboPOType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6342,11 +6437,7 @@ Partial Class frmPurchaseOrder
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotRAmtCopy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlPCJ.ResumeLayout(False)
-        Me.pnlPCJ.PerformLayout()
         CType(Me.txtReferencePO, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
         CType(Me.txtDeliveryDuration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDeliveryDuration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6365,8 +6456,6 @@ Partial Class frmPurchaseOrder
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDeliveryDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAgainst_RGP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6376,34 +6465,16 @@ Partial Class frmPurchaseOrder
         CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage5.ResumeLayout(False)
-        Me.RadPageViewPage5.PerformLayout()
-        CType(Me.btnForm_Update, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
         CType(Me.gv_c_form.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv_c_form, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chk_c_form, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
         CType(Me.gv_roadpermit.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv_roadpermit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Chkroadpermit, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        Me.RadPageViewPage2.PerformLayout()
         CType(Me.chkTDSApplied, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkExciseOnQty, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
         CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6428,8 +6499,6 @@ Partial Class frmPurchaseOrder
         CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RdPaymentterms.ResumeLayout(False)
-        Me.RdPaymentterms.PerformLayout()
         CType(Me.lblBankDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblpaymentcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6472,9 +6541,6 @@ Partial Class frmPurchaseOrder
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBeneficiary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox6.ResumeLayout(False)
-        Me.RadGroupBox6.PerformLayout()
         CType(Me.lblAdvance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtOnAccount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblonAccount, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6491,39 +6557,19 @@ Partial Class frmPurchaseOrder
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtINCOTERMS, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox5.ResumeLayout(False)
-        Me.RadGroupBox5.PerformLayout()
         CType(Me.cboPIStatus, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnMTUpdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPIDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage3.ResumeLayout(False)
-        Me.SplitContainer5.Panel1.ResumeLayout(False)
-        Me.SplitContainer5.Panel2.ResumeLayout(False)
-        Me.SplitContainer5.ResumeLayout(False)
-        Me.GroupBox3.ResumeLayout(False)
         CType(Me.gvAC.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvAC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPanel1.ResumeLayout(False)
-        Me.RadPanel1.PerformLayout()
         CType(Me.RadLabel31, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAddCharges, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox4.ResumeLayout(False)
         CType(Me.gvACInsurance.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvACInsurance, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPanel2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPanel2.ResumeLayout(False)
-        Me.RadPanel2.PerformLayout()
         CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAddChargesForInsurance, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pvpCustomFields.ResumeLayout(False)
-        Me.Attachments.ResumeLayout(False)
-        Me.RadPageViewPage4.ResumeLayout(False)
-        Me.RadPageViewPage4.PerformLayout()
         CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalInsuranceAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6534,12 +6580,9 @@ Partial Class frmPurchaseOrder
         CType(Me.lblTaxableAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAmtAfterTax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsContent, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblKindAttentation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblContentSubject, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubject, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlCurrConv.ResumeLayout(False)
-        Me.pnlCurrConv.PerformLayout()
         CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6558,55 +6601,21 @@ Partial Class frmPurchaseOrder
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage7.ResumeLayout(False)
-        Me.RadPageViewPage7.PerformLayout()
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel5.ResumeLayout(False)
-        Me.Panel5.PerformLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtScheduleStartDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage6.ResumeLayout(False)
-        Me.SplitContainer4.Panel1.ResumeLayout(False)
-        Me.SplitContainer4.Panel1.PerformLayout()
-        Me.SplitContainer4.Panel2.ResumeLayout(False)
-        Me.SplitContainer4.ResumeLayout(False)
         CType(Me.lblWAddress, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblWPhone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblWVendorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel2.ResumeLayout(False)
-        Me.SplitContainer3.ResumeLayout(False)
         CType(Me.gvCategoryValue.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCategoryValue, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox2.ResumeLayout(False)
-        CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadSplitContainer1.ResumeLayout(False)
-        CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitPanel1.ResumeLayout(False)
         CType(Me.gvTermsCdtion.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvTermsCdtion, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btn_Cancels, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btn_cancel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAmendment, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

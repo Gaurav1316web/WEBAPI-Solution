@@ -1586,6 +1586,8 @@
     <None Include="Crystal Reports\Purchase\VendorLedgerSummary_DEMO.rpt" />
     <None Include="Crystal Reports\Purchase\VendorTransListLandScape.rpt" />
     <None Include="Crystal Reports\Purchase\VendorTransListLandScapeSummary.rpt" />
+    <None Include="Crystal Reports\Purchase\WeightmentAutoandManualReport.rpt" />
+    <None Include="Crystal Reports\Purchase\WeightmentAutoandManualReport2.rpt" />
     <None Include="Crystal Reports\replace on server\PaymentEntryReport.rpt" />
     <None Include="Crystal Reports\replace on server\receipt.rpt" />
     <None Include="Crystal Reports\rptSaleInvoiceNonExcise.rpt" />

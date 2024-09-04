@@ -240,12 +240,22 @@ Public Class rptVSPMilkNotSold
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
+            GetReportID()
             SetGridFormat()
             'ReStoreGridLayout()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If chkDeduction.Checked Then
+            VarID += "_D"
+        End If
+        Gv1.VarID = VarID
+    End Sub
+
     Sub SetGridFormat()
         Gv1.AutoExpandGroups = True
         Gv1.ShowGroupPanel = False

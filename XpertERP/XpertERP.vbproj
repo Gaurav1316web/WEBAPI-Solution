@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -358,15 +358,12 @@
     <Reference Include="XpertERPElectrical">
       <HintPath>..\XpertERPElectrical\bin\Debug\XpertERPElectrical.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine, Version=7.1.1.73, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertERPEngine, Version=7.1.2.95, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineeringAndPlantManagement">
       <HintPath>..\XpertERPEngineeringAndPlantManagement\bin\Debug\XpertERPEngineeringAndPlantManagement.dll</HintPath>
-    </Reference>
-    <Reference Include="XpertERPEngineFine">
-      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPFarmerPayment">
       <HintPath>..\XpertERPFarmerPayment\bin\Debug\XpertERPFarmerPayment.dll</HintPath>
@@ -7887,6 +7884,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XpertERPEngineFine\XpertERPEngineFine.vbproj">
+      <Project>{ab38a7f1-75cb-41f0-ae56-6ad1cec5193b}</Project>
+      <Name>XpertERPEngineFine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

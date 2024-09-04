@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
     Public Const rptTentativeReport As String = "TEN-SAL-RPT"
     Public Const frmRCDFRateControl As String = "RCDF-RT-CNT"
@@ -2023,6 +2024,7 @@ Public Class clsUserMgtCode
     Public Const MilkPricePlanning As String = "PCM-PLN"
     Public Const GazeReading As String = "GAZ-RDN"
     Public Const frmHeadLoadMaster As String = "HED_LOD-MST"
+    Public Const frmDeductionTypeMaster As String = "DED_TYP-MST"
     Public Const frmPriceChartMaster As String = "PCM-MST"
     Public Const frmVLCUploader As String = "VLC-UPL"
     Public Const frmMPMaster As String = "MP-MST"
@@ -2225,6 +2227,7 @@ Public Class clsUserMgtCode
     Public Const DBTCappingIncrease As String = "DBT-CAP-INC"
     Public Const DBTNEFTUploader As String = "DBT-NEFT-UPL"
     Public Const DBTPayment As String = "DBT-PAY-MNT"
+    Public Const SendDBTToJanaadhar As String = "SND-DBT-JAD"
     Public Const FrmCreateBMCDCSbyMobile As String = "BMC-DCS-MOB"
     Public Const DBTNEFTReject As String = "DBT-NEFT-REJ"
     ''=============================================
@@ -2490,6 +2493,7 @@ Public Class clsUserMgtCode
     Public Const rptTransactionWiseStock As String = "TRAN-STCK"
     Public Const Rptralwisematerialreceivedandpayment As String = "RAL-REC-RPT"
     Public Const RmSecurityDeduction As String = "RM-SRT-DED"
+    Public Const WeightmentAutoAndManualReport As String = "WE-AU-MAN"
     Public Const rptRMUnloading As String = "RM-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"

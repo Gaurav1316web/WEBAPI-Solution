@@ -392,13 +392,13 @@ Public Class RptRGPWiseJobWork
 
     Sub GetReportID()
         Dim VarID As String = ""
-        If clsCommon.CompairString(ddlRGPType.SelectedItem.Text, "All") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(ddlRGPType.SelectedItem.Value, "All") = CompairStringResult.Equal Then
             VarID += "_A"
-        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Text, "Against Job Work") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Value, "Against Job Work") = CompairStringResult.Equal Then
             VarID += "_AJ"
-        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Text, "Against BOM") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Value, "Against BOM") = CompairStringResult.Equal Then
             VarID += "_AB"
-        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Text, "Against as is it") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlRGPType.SelectedItem.Value, "Against as is it") = CompairStringResult.Equal Then
             VarID += "_AI"
         End If
 

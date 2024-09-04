@@ -841,15 +841,23 @@ Public Class frmDemandBooking
     End Sub
     Private Function SaveData(ByVal IsRepeatOrder As Integer, ByVal isQuickDemand As Boolean) As Boolean
         Try
-            UpdateAllTotals(False)
             Dim qry As String = ""
+
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                qry = "select Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"
-                Dim isPosted As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-                If isPosted = 1 Then
-                    Throw New Exception("Document Already Posted.")
+                qry = "select IsPosting,IsUpdating,Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                    If clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1 Then
+                        Throw New Exception("Document in used by another user.")
+                    End If
                 End If
+                qry = "Update TSPL_DEMAND_BOOKING_MASTER set IsUpdating=1 where Document_No='" + txtDocNo.Value + "' "
+                clsDBFuncationality.ExecuteNonQuery(qry)
             End If
+
+            UpdateAllTotals(False)
+
+
             blnSaveTotalQTy = True
             'BookingStatus = 0
             Dim strPriceCode As String = String.Empty
@@ -979,6 +987,9 @@ Public Class frmDemandBooking
             blnSaveTotalQTy = True
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
+        Finally
+            Dim qry As String = "Update TSPL_DEMAND_BOOKING_MASTER set IsUpdating=0 where Document_No='" + txtDocNo.Value + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry)
         End Try
         Return False
     End Function
@@ -2528,8 +2539,21 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         Dim desc As String = Nothing
         Dim IsPost As Boolean = False
         Try
+            Dim StrQry As String = ""
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                StrQry = "select IsPosting,IsUpdating,Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
+                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                    If clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1 Then
+                        Throw New Exception("Document in use by another user.")
+                    End If
+                End If
+                StrQry = "Update TSPL_DEMAND_BOOKING_MASTER set IsPosting=1 where Document_No='" + txtDocNo.Value + "' "
+                clsDBFuncationality.ExecuteNonQuery(StrQry)
+            End If
+
             'Dim custCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where route_no='" + txtRouteNo.Value + "' and IsDistributor='Y'"))
-            Dim StrQry As String = "select  top 1 x.Cust_Code 
+            StrQry = "select  top 1 x.Cust_Code 
 from(
 select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
 from TSPL_DISTRIBUTOR_ROUTE
@@ -2593,10 +2617,13 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
+            qry = "Update TSPL_DEMAND_BOOKING_MASTER set IsPosting=0 where Document_No='" + txtDocNo.Value + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry)
             msg = Nothing
             qry = Nothing
             dt = Nothing
             desc = Nothing
+
         End Try
     End Sub
     Private Sub rbtnEvening_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnEvening.ToggleStateChanged
@@ -4135,7 +4162,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 End If
                 Dim arrRoute As New ArrayList
                 arrRoute.Add(txtRouteNo.Value)
-                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked, 107, 48, True) ''
+                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked, 107, 48, DosPaperSize.A4) ''
             Else
                 Dim Comp_Name As String = clsDBFuncationality.getSingleValue("select Comp_Name from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'")
                 Try
@@ -4663,7 +4690,7 @@ left join TSPL_CUSTOMER_MASTER on XXXFinal.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_C
             Dim qry As String = " select  max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name,( max(TSPL_COMPANY_MASTER.Add1) + max(TSPL_COMPANY_MASTER.Add2) + Max(TSPL_COMPANY_MASTER.Add3)) as Company_Address,
 max(TSPL_DEMAND_BOOKING_MASTER.Document_Date) as Document_Date,max(TSPL_DEMAND_BOOKING_MASTER.ShiftType) as ShiftType,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,
 max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_DEMAND_BOOKING_MASTER.Route_No) as Route_No,max(TSPL_Route_Master.Route_Desc)  as Route_Desc,
-max(TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code) as Vehicle_Code,max(TSPL_VEHICLE_MASTER.Vehicle_No) as Vehicle_No,max(TSPL_ITEM_MASTER.HSN_Code) as HSN_Code,
+max(TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code) as Vehicle_Code,max(TSPL_VEHICLE_MASTER.Number) as Vehicle_No,max(TSPL_ITEM_MASTER.HSN_Code) as HSN_Code,
 TSPL_DEMAND_BOOKING_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Short_Description) as Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) as Qty ,
 sum(TSPL_DEMAND_BOOKING_DETAIL.Item_Rate) as Item_Rate,sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount) as ItemNetAmount 
 from TSPL_DEMAND_BOOKING_MASTER

@@ -1308,10 +1308,15 @@ Public Class FrmLoadReport
         reset()
     End Sub
 
+    Sub GetReportGridID()
+        Dim VarID As String = ""
 
+        gv.VarID = VarID
+    End Sub
 
     Private Sub btnrefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnrefresh.Click
         Try
+            GetReportGridID()
             gv.EnableFiltering = True
             Dim dt As New DataTable()
             dt = print()

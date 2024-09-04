@@ -283,7 +283,41 @@ Public Class FrmSaleAccountBreakOrCashDisc
     Private Sub rbtnCompanyAll_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs)
         cbgCompany.Enabled = Not rbtnCompanyAll.IsChecked
     End Sub
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If rdbRoute.Checked = True Then
+            VarID += "_RO"
+        End If
+        If rdbGross.Checked = True Then
+            VarID += "_RG"
+        End If
+        If (ddlType.Text = "Both") Then
+            VarID += "_BO"
+        ElseIf (ddlType.Text = "Value") Then
+            VarID += "_VA"
+        ElseIf (ddlType.Text = "Quantity") Then
+            VarID += "_QU"
+        End If
+        If rdbSummary.IsChecked = True Then
+            VarID += "_SU"
+        ElseIf rdbDetail.IsChecked = True Then
+            VarID += "_DE"
+        ElseIf rdbSummaryDoc.IsChecked = True Then
+            VarID += "_SD"
+        ElseIf rdbSalewithTargetQty.IsChecked = True Then
+            VarID += "_SW"
+        End If
+        If rdbSku.IsChecked = True Then
+            VarID += "_SK"
+        ElseIf rdbPack.IsChecked = True Then
+            VarID += "_PA"
+        ElseIf rdbFlavour.IsChecked = True Then
+            VarID += "_FL"
+        End If
+        GV1.VarID = VarID
+    End Sub
     Private Sub btnprint_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+        GetReportGridID()
         print()
     End Sub
 

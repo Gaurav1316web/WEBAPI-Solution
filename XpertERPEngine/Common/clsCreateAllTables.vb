@@ -716,7 +716,10 @@ Public Class clsCreateAllTables
                 qry = "alter table TSPL_RECEIPT_DETAIL add CONSTRAINT uk_Receipt_No_Receipt_Line_No UNIQUE (Receipt_No,Receipt_Line_No)"
                 ExecuteQeuryWithCatch(qry)
 
-                qry = "alter table TSPL_DOCPREFIX_MASTER add CONSTRAINT uk_TSPL_DOCPREFIX_MASTER UNIQUE (Doc_Type,Doc_Trans_Type,Location_Code,Fin_Year,Is_Change_Monthly,Is_Change_Daily,Curr_Month,Curr_Date)"
+                qry = "ALTER TABLE TSPL_DOCPREFIX_MASTER DROP CONSTRAINT uk_TSPL_DOCPREFIX_MASTER"
+                ExecuteQeuryWithCatch(qry)
+
+                qry = "alter table TSPL_DOCPREFIX_MASTER add CONSTRAINT uk_TSPL_DOCPREFIX_MASTER UNIQUE (Doc_Type,Doc_Trans_Type,Location_Code,RouteNo,Fin_Year,Is_Change_Monthly,Is_Change_Daily,Curr_Month,Curr_Date)"
                 ExecuteQeuryWithCatch(qry)
 
                 ''richa agarwal 5 Oct,2020

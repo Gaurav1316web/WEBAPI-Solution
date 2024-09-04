@@ -104,9 +104,41 @@ Public Class frmVendorBankAdvice
         If ChkIFSCCode.Checked = True Then
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "IFSC"
         End If
-
+        GetReportID()
         Print(False)
         ReStoreGridLayout()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtnBankAdvice.IsChecked Then
+            VarID += "_BA"
+        ElseIf rbtnBankWiseSummary.IsChecked Then
+            VarID += "_BWS"
+        ElseIf rbtnCurrentBankWiseSummary.IsChecked Then
+            VarID += "_CBWS"
+        End If
+
+        If rbtnSaving.IsChecked Then
+            VarID += "_S"
+        ElseIf rbtnSavingSummary.IsChecked Then
+            VarID += "_SS"
+        End If
+
+        If rbtnCompulsory.IsChecked Then
+            VarID += "_C"
+        ElseIf rbtnCompulsoryWiseSummary.IsChecked Then
+            VarID += "_CWS"
+        End If
+
+        If rbtnBothSavCur.IsChecked Then
+            VarID += "_BS"
+        End If
+
+        If ChkIFSCCode.Checked Then
+            VarID += "_IFSC"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Public Sub Print(ByVal isPrint As Boolean)

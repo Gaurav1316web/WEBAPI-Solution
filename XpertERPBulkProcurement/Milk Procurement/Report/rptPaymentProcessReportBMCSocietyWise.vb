@@ -50,7 +50,18 @@ Public Class rptPaymentProcessReportBMCSocietyWise
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportID()
         LoadData()
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbSummary.IsChecked Then
+            VarID += "_S"
+        ElseIf rdbDetails.ISChecked Then
+            VarID += "_D"
+        End If
+        Gv1.VarID = VarID
     End Sub
 
     Public Sub LoadData(Optional ByVal strDocumentNoForDetails As String = "", Optional ByVal strVSPCodeForDetails As String = "")

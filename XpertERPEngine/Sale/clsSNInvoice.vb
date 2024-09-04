@@ -498,7 +498,11 @@ Public Class clsSNInvoiceHead
         Return GetData(strDocumentNo, NavType, strInvoiceType, Nothing)
     End Function
 
-    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal strInvoiceType As String, ByVal trans As SqlTransaction) As clsSNInvoiceHead
+    Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType, ByVal strInvoiceType As String, ByVal trans As SqlTransaction) As clsSNInvoiceHead
+        Return GetData(strDocumentNo, NavType, strInvoiceType, trans, Nothing)
+    End Function
+
+    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal strInvoiceType As String, ByVal trans As SqlTransaction, ByVal FormID As String) As clsSNInvoiceHead
         Dim obj As clsSNInvoiceHead = Nothing
         Dim qry As String = "SELECT TSPL_SD_SALE_INVOICE_HEAD.Electronic_Ref_No,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,
 TSPL_SD_SALE_INVOICE_HEAD.EwayBillValidDate,TSPL_SD_SALE_INVOICE_HEAD.EwayBillRemarks,TSPL_SD_SALE_INVOICE_HEAD.IRN_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,
@@ -770,11 +774,11 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
                 obj.ApplicableFrom = clsCommon.GetPrintDate(dt.Rows(0)("ApplicableFrom"), "dd/MMM/yyyy")
             End If
             '' END CURRENCYCONVERSION 
-
-            qry = "SELECT  TSPL_SD_SALE_INVOICE_DETAIL.Is_Mannual_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No, " &
-            "TSPL_SD_SALE_INVOICE_DETAIL.Status,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type,TSPL_SD_SALE_INVOICE_DETAIL.status, " &
+            Dim BaseQry As String
+            BaseQry = "SELECT 1 As RI, TSPL_SD_SALE_INVOICE_DETAIL.Is_Mannual_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Status,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type, " &
             "TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.Qty, " &
-            "TSPL_SD_SALE_INVOICE_DETAIL.Free_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Free_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code, " &
             "TSPL_SD_SALE_INVOICE_DETAIL.Balance_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Location, " &
             "TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost,TSPL_SD_SALE_INVOICE_DETAIL.TAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate, " &
             "TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate, " &
@@ -803,10 +807,42 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
             "TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,TSPL_SD_SALE_INVOICE_DETAIL.Item_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Price_Date, " &
             "TSPL_SD_SALE_INVOICE_DETAIL.TotalItem_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,TSPL_SD_SALE_INVOICE_DETAIL.Purchase_Cost,TSPL_SD_SALE_INVOICE_DETAIL.OrgRate,  " &
             "TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_INVOICE_DETAIL.Bin_No,TSPL_SD_SALE_INVOICE_DETAIL.vendor_code,TSPL_SD_SALE_INVOICE_DETAIL.vendor_desc,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleCode,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleDesc,TSPL_SD_SALE_INVOICE_DETAIL.Markup_On,TSPL_SD_SALE_INVOICE_DETAIL.Markup_Percent,TSPL_SD_SALE_INVOICE_DETAIL.Landing_Cost,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscAmt,TSPL_SD_SALE_INVOICE_DETAIL.CustDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.CasdDiscScheme_Code "
-            qry += " FROM TSPL_SD_SALE_INVOICE_DETAIL "
-            qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location "
-            qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code"
-            qry += " where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" + obj.Document_Code + "' ORDER BY TSPL_SD_SALE_INVOICE_DETAIL.Line_No asc"
+            BaseQry += " FROM TSPL_SD_SALE_INVOICE_DETAIL "
+            BaseQry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location "
+            BaseQry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code"
+            BaseQry += " where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" + obj.Document_Code + "'" ' ORDER BY TSPL_SD_SALE_INVOICE_DETAIL.Line_No asc"
+
+            If clsCommon.CompairString(FormID, "SALN-SR") = CompairStringResult.Equal Then
+                BaseQry += " Union All "
+
+                BaseQry += " Select -1 As RI,Is_Mannual_Amt,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No As Document_Code,TSPL_SD_SALE_RETURN_DETAIL.Line_No,TSPL_SD_SALE_RETURN_DETAIL.Status,
+TSPL_SD_SALE_RETURN_DETAIL.Row_Type,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='BAG' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInBag) Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='KG' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInKG) Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='MT' Then isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInMT) Else
+   isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*((Conversion_Factor)/ConvInQtl) End End End As Qty,Free_Qty,'' As Shipment_Code,0 As Balance_Qty,
+ Case  When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='BAG' Then 'Bag'  Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='KG' Then 'KG' Else
+ Case When (Select Unit_code from TSPL_SD_SALE_INVOICE_DETAIL Where DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code And Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code  )='MT' Then 'MT' Else 'Qtl'End End End As Unit_code,
+Location,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost,TSPL_SD_SALE_RETURN_DETAIL.TAX1,
+TSPL_SD_SALE_RETURN_DETAIL.TAX1_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX1_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX2,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX3,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX4,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX5,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX6,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX7,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX8,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX9,TSPL_SD_SALE_RETURN_DETAIL.TAX9_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX9_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX10,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt,TSPL_SD_SALE_RETURN_DETAIL.Amount,Disc_Per,Disc_Amt,Amt_Less_Discount,TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_SD_SALE_RETURN_DETAIL.TAX1_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX2_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX3_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX4_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX5_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX6_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX7_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX8_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX9_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Base_Amt,TSPL_SD_SALE_RETURN_DETAIL.MRP,TSPL_SD_SALE_RETURN_DETAIL.Batch_No,TSPL_SD_SALE_RETURN_DETAIL.MFG_Date,TSPL_SD_SALE_RETURN_DETAIL.Expiry_Date,TSPL_SD_SALE_RETURN_DETAIL.Specification,TSPL_SD_SALE_RETURN_DETAIL.Remarks,TSPL_SD_SALE_RETURN_DETAIL.Assessable,AssessableAmt,Scheme_Applicable,Scheme_Code,Scheme_Item,Item_Tax,Total_MRP_Amt,Total_Basic_Amt,Total_Disc_Amt,Cust_Discount,Total_Cust_Discount,ActualRate,Cust_DiscountQty,TSPL_SD_SALE_RETURN_DETAIL.Price_code,Abatement_Per,Abatement_Amt,FOC_Item,Item_Weight,Price_Date,TotalItem_Weight,Conv_Factor,Purchase_Cost,OrgRate,HeadDiscPer,HeadDiscPerAmt,TSPL_SD_SALE_RETURN_DETAIL.Bin_No,TSPL_SD_SALE_RETURN_DETAIL.vendor_code,vendor_desc,PrincipleCode,PrincipleDesc,Markup_On,Markup_Percent,Landing_Cost,HeadDiscAmt,CustDiscPer,CasdDiscScheme_Code From TSPL_SD_SALE_RETURN_DETAIL
+Left Outer Join TSPL_SD_SALE_RETURN_HEAD On TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
+Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.Unit_code 
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInBag' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='Bag')CInBag ON CInBag.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInKG' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='KG')CInKG ON CInKG.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInMT' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='MT')CInMT ON CInMT.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+Left Outer Join (Select Item_Code, Conversion_Factor As 'ConvInQtl' from TSPL_ITEM_UOM_DETAIL Where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_Code='Qtl')CInQtl ON CInQtl.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_RETURN_DETAIL.Location  
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + obj.Document_Code + "' "
+
+                qry = " Select  MAx(Is_Mannual_Amt)Is_Mannual_Amt,Max(Document_Code)Document_Code,(Line_No)Line_No,Max(Status)Status,Max(Row_Type)Row_Type,	Max(Item_Code)Item_Code,Max(Item_Desc)Item_Desc,Max(Qty)Qty,Sum(Free_Qty*RI)Free_Qty,Max(Shipment_Code)Shipment_Code,Sum(Qty*RI) As Balance_Qty,Max(Unit_code)Unit_code,Max(Location)Location,Sum(Item_Cost)Item_Cost,Max(TAX1)TAX1,Max(TAX1_Rate)TAX1_Rate,	Max(TAX1_Amt)TAX1_Amt,Max(TAX2)TAX2,Max(TAX2_Rate)TAX2_Rate,Max(TAX2_Amt)TAX2_Amt,Max(TAX3)TAX3,Max(TAX3_Rate)TAX3_Rate,Max(TAX3_Amt)TAX3_Amt,	Max(TAX4)TAX4,	Max(TAX4_Rate)TAX4_Rate,Max(TAX4_Amt)TAX4_Amt,Max(TAX5)TAX5,Max(TAX5_Rate)TAX5_Rate,Max(TAX5_Amt)TAX5_Amt,Max(TAX6)TAX6,	Max(TAX6_Rate)TAX6_Rate,Max(TAX6_Amt)TAX6_Amt,	Max(TAX7)TAX7,Max(TAX7_Rate)TAX7_Rate,Max(TAX7_Amt)TAX7_Amt,Max(TAX8)TAX8,Max(TAX8_Rate)TAX8_Rate,	Max(TAX8_Amt)TAX8_Amt,Max(TAX9)TAX9,Max(TAX9_Rate)TAX9_Rate,	Max(TAX9_Amt)TAX9_Amt,Max(TAX10)TAX10,	Max(TAX10_Rate)TAX10_Rate,Max(TAX10_Amt)TAX10_Amt,Max(Amount)Amount,	Max(Disc_Per)Disc_Per,Max(Disc_Amt)Disc_Amt,Max(Amt_Less_Discount)Amt_Less_Discount,	Max(Total_Tax_Amt)Total_Tax_Amt,Max(Item_Net_Amt)Item_Net_Amt,Max(LocationName	)LocationName,Max(TAX1_Base_Amt)TAX1_Base_Amt	,Max(TAX1_Base_Amt)TAX1_Base_Amt,Max(TAX2_Base_Amt)TAX2_Base_Amt,Max(TAX3_Base_Amt)TAX3_Base_Amt,Max(TAX4_Base_Amt)TAX4_Base_Amt,Max(TAX5_Base_Amt)TAX5_Base_Amt,	Max(TAX6_Base_Amt)TAX6_Base_Amt,Max(TAX7_Base_Amt)TAX7_Base_Amt,Max(TAX8_Base_Amt)TAX8_Base_Amt,Max(TAX9_Base_Amt)TAX9_Base_Amt,	Max(TAX10_Base_Amt)TAX10_Base_Amt,Max(MRP)MRP,Max(Batch_No)Batch_No,Max(MFG_Date)MFG_Date,Max(Expiry_Date)Expiry_Date,Max(Specification)Specification,Max(Remarks)Remarks,Max(Assessable)Assessable,Max(AssessableAmt)AssessableAmt,Max(Scheme_Applicable)Scheme_Applicable,Max(Scheme_Code)Scheme_Code,Max(Scheme_Item)Scheme_Item,Max(Item_Tax)Item_Tax,Max(Total_MRP_Amt)Total_MRP_Amt,Max(Total_Basic_Amt)Total_Basic_Amt,Max(Total_Disc_Amt)Total_Disc_Amt,Max(Cust_Discount)Cust_Discount,Max(Total_Cust_Discount)Total_Cust_Discount,Max(ActualRate)ActualRate,Max(Cust_DiscountQty)Cust_DiscountQty,Max(Price_code)Price_code,Max(Abatement_Per)Abatement_Per,Max(Abatement_Amt)Abatement_Amt,Max(FOC_Item)FOC_Item,Max(Item_Weight)Item_Weight,Max(Price_Date)Price_Date,Max(TotalItem_Weight)TotalItem_Weight,Max(Conv_Factor)Conv_Factor,Max(Purchase_Cost)Purchase_Cost,Max(OrgRate)OrgRate,Max(HeadDiscPer)HeadDiscPer,Max(HeadDiscPerAmt)HeadDiscPerAmt,Max(Bin_No)Bin_No,Max(vendor_code)vendor_code,Max(vendor_desc)vendor_desc,	Max(PrincipleCode)PrincipleCode,Max(PrincipleDesc)PrincipleDesc,Max(Markup_On)Markup_On,Max(Markup_Percent)Markup_Percent,Max(Landing_Cost)Landing_Cost,Max(HeadDiscAmt)HeadDiscAmt,Max(CustDiscPer)CustDiscPer,Max(CasdDiscScheme_Code)CasdDiscScheme_Code from( "
+                qry += "" + BaseQry + ""
+                qry += " )xxx Group By DOCUMENT_CODE,Line_No ORDER BY Line_No asc"
+            Else
+                qry = BaseQry + " ORDER BY TSPL_SD_SALE_INVOICE_DETAIL.Line_No asc"
+            End If
+
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then

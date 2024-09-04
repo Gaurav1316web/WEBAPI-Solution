@@ -42,7 +42,15 @@ Public Class ItemStockReport
         Reset()
     End Sub
 
+    Sub GetReportGridID()
+        Dim VarID As String = ""
+        If chkPhV.Checked = True Then
+            VarID += "_PV"
+        End If
+        Gv1.VarID = VarID
+    End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        GetReportGridID()
         Load_Item_Stock_Report()
     End Sub
 

@@ -62,6 +62,7 @@ Public Class rptDailyQtyReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         FatSnfRoundOff = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DailyQtyReport, clsFixedParameterCode.FATKGSNFKGRoundOff, Nothing))
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
+        GetReportID()
         If FatSnfRoundOff = 0 Then
             Try
                 If rbtnTranpoterGainLoss.Checked Then
@@ -904,6 +905,51 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             End Try
         End If
     End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rdbSummary.Checked Then
+            VarID += "_S"
+        ElseIf rdbDetails.Checked Then
+            VarID += "_D"
+        ElseIf rbtnDock.Checked Then
+            VarID += "_D"
+        ElseIf rbtnTranpoterGainLoss.Checked Then
+            VarID += "_TGL"
+        ElseIf rbtnBmcSummary.Checked Then
+            VarID += "_BS"
+        ElseIf rdbTankerWise.Checked Then
+            VarID += "_TW"
+        ElseIf rdbMultiple.Checked Then
+            VarID += "_M"
+        ElseIf rdbCollectionWise.Checked Then
+            VarID += "_CW"
+        ElseIf rbtnBMCTankerCollection.Checked Then
+            VarID += "_BTC"
+        ElseIf rbtnRouteWise.Checked Then
+            VarID += "_RW"
+        ElseIf rbtnDockDateWise.Checked Then
+            VarID += "_DDW"
+        ElseIf rbtnDockShiftWise.Checked Then
+            VarID += "_DSW"
+        ElseIf rbtnTranspoterGainlossSummary.Checked Then
+            VarID += "_TGLS"
+        End If
+
+        If rbtnBMCDock.Checked Then
+            VarID += "_BD"
+        ElseIf rbtnDockSummary.Checked Then
+            VarID += "_DS"
+        ElseIf rbtnSummary.Checked Then
+            VarID += "_S"
+        ElseIf rbtnBMCDCSPrint.Checked Then
+            VarID += "_BMP"
+        ElseIf rbtnBMCRoutePrint.Checked Then
+            VarID += "_BRP"
+        End If
+        Gv1.VarID = VarID
+    End Sub
+
     Sub SetGridFormationOFGV1()
         Gv1.TableElement.TableHeaderHeight = 40
         Gv1.MasterTemplate.ShowRowHeaderColumn = False

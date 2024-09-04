@@ -1948,6 +1948,7 @@
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetInHindiPouch.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetPouch.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptFluidMilkDemandReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
