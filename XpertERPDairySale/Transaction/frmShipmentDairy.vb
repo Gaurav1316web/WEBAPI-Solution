@@ -14489,13 +14489,16 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
 
                                 End If
                             Else
-                                Dim obj As New clsSNShipmentDCSItemDetail
-                                obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
-                                obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
-                                obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
-                                myDictionary.Add(strKey, obj)
+                                If clsCommon.CompairString(clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value), clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)) = CompairStringResult.Equal Then
+
+                                    Dim obj As New clsSNShipmentDCSItemDetail
+                                    obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
+                                    obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                    obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    myDictionary.Add(strKey, obj)
+                                End If
                             End If
-                        End If
+                            End If
                     End If
                 Next
                 If myDictionary.Count > 0 Then
