@@ -14429,23 +14429,23 @@ Public Class clsCreateAllTable
             coll.Add("Special_desc", "Varchar(50) null")
             coll.Add("PF_Type", "varchar(12) NULL")
             coll.Add("Staff_Quarter", "BIT NOT NULL DEFAULT 0")
-            coll.Add("COEPF_PER", "FLOAT not null")
-            coll.Add("COEPF_ROUNDOFF_YPE", "varchar(3) not null")    '' COMPANY PF SHARE
-            coll.Add("COEPS_PER", "FLOAT  not null")                '' COMPANY EPS SHARE
-            coll.Add("EPS_MAX", "NUMERIC(10,2)  not null")          '' MAXIMUM LIMIT OF EPS AMOUNT
-            coll.Add("EMPEPF_PER", "FLOAT  not null")               '' EMPLOYEE PF SHARE
-            coll.Add("EMPEPF_MAX", "NUMERIC(10,2)  not null")       '' MAXIMUM LIMIT OF EMPLOYEE SHARE
-            coll.Add("EMPEPF_ROUNDOFF_YPE", "varchar(3) not null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
-            coll.Add("ACCOEPF_PER", "FLOAT  not null")              '' ADMIN CHARGES ON COMPANY PF SHARE
-            coll.Add("ACCOEPF_MAX", "NUMERIC(10,2)  not null")      '' MAXIMUM LIMIT OF ADMIN CHARGES ON COMPANY PF SHARE
-            coll.Add("COEDLI_PER", "FLOAT  not null")               '' EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
-            coll.Add("COEDLI_MAX", "NUMERIC(10,2)  not null")       '' MAXIMUM LIMIT OF EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
-            coll.Add("ACCOEDLI_PER", "FLOAT  not null")             '' ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
-            coll.Add("ACCOEDLI_MAX", "NUMERIC(10,2)  not null")     '' MAXIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("COEPF_PER", "FLOAT  null")
+            coll.Add("COEPF_ROUNDOFF_YPE", "varchar(3)  null")    '' COMPANY PF SHARE
+            coll.Add("COEPS_PER", "FLOAT   null")                '' COMPANY EPS SHARE
+            coll.Add("EPS_MAX", "NUMERIC(10,2) null")          '' MAXIMUM LIMIT OF EPS AMOUNT
+            coll.Add("EMPEPF_PER", "FLOAT   null")               '' EMPLOYEE PF SHARE
+            coll.Add("EMPEPF_MAX", "NUMERIC(10,2)  null")       '' MAXIMUM LIMIT OF EMPLOYEE SHARE
+            coll.Add("EMPEPF_ROUNDOFF_YPE", "varchar(3)  null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
+            coll.Add("ACCOEPF_PER", "FLOAT  null")              '' ADMIN CHARGES ON COMPANY PF SHARE
+            coll.Add("ACCOEPF_MAX", "NUMERIC(10,2)  null")      '' MAXIMUM LIMIT OF ADMIN CHARGES ON COMPANY PF SHARE
+            coll.Add("COEDLI_PER", "FLOAT null")               '' EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("COEDLI_MAX", "NUMERIC(10,2) null")       '' MAXIMUM LIMIT OF EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("ACCOEDLI_PER", "FLOAT null")             '' ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("ACCOEDLI_MAX", "NUMERIC(10,2) null")     '' MAXIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
             coll.Add("ACCOEDLI_MIN", "NUMERIC(10,2)   null")      '' MINIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
-            coll.Add("OC", "NUMERIC(10,2)  not null")               '' OTHER CHARGES
-            coll.Add("OC_MAX", "NUMERIC(10,2)  not null")           '' MAXIMUM LIMIT OF OTHER CHARGES
-            coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) not null")
+            coll.Add("OC", "NUMERIC(10,2) null")               '' OTHER CHARGES
+            coll.Add("OC_MAX", "NUMERIC(10,2) null")           '' MAXIMUM LIMIT OF OTHER CHARGES
+            coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -16374,7 +16374,14 @@ Public Class clsCreateAllTable
             coll.Add("Is_Professional_Tax_Applicable", "integer Not null default 0")
             coll.Add("ISESI", "integer Not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALARY_CALCULATION", coll, Nothing, False, False, "TSPL_GENERATE_SALARY", "SALARY_CALCULATION_CODE", "")
-
+            Try
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column EPS_MAX NUMERIC(12,2) NULL ")
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column PF_MAX_LIM NUMERIC(12,2) NULL")
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column COEPF_ROUNDOFF_YPE varchar(3) NULL")
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column EMPEPF_ROUNDOFF_YPE varchar(3) NULL")
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column RATE_AMOUNT NUMERIC(10,3)  NULL")
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("SALARY_CALCULATION_CODE", "BIGINT IDENTITY NOT NULL PRIMARY KEY")
             coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL ")
@@ -16506,6 +16513,7 @@ Public Class clsCreateAllTable
             coll.Add("SLAB_FROM", "NUMERIC(12,2) NOT NULL")
             coll.Add("SLAB_TO", "NUMERIC(12,2) NOT NULL")
             coll.Add("PAYHEADS", "varchar(12) NOT NULL")
+            coll.Add("Percentage", "NUMERIC(12,2) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_DETAIL", coll)
 
 
