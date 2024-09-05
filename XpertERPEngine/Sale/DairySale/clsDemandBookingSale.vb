@@ -1218,6 +1218,9 @@ where 2=2 "
     '    End Function
     Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize) As Boolean
         Try
+            If clsCommon.myLen(strShift) <= 0 Then
+                Throw New Exception("Please select Shift")
+            End If
             Dim BaseQry As String = " select xfinal.*,case when (select top 1 posted from TSPL_DEMAND_BOOKING_MASTER where Route_No in( xfinal.route_no) and ShiftType= xfinal.ShiftType and convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "') =1 then 'Approved' else 'Pending' end as DocStatus ,TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_CUSTOMER_MASTER.Display_Seq from (
  select xx.* ,((case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull((select sum(ItemNetAmount) as netamt  
  from TSPL_DEMAND_BOOKING_MASTER 
@@ -1440,13 +1443,11 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("AmountBE", "Total Amt", True, DosPrintAlignment.Right, 12, True, DecimalPlaces.Two))
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalTCSAmt", "TCS", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.Two))
             obj.arrColumn.Add(clsDosPrintColumn.SetColumn("TotalCollectCrate", "Crate", False, DosPrintAlignment.Right, 9, True, DecimalPlaces.One))
-            If EnumPageSize = DosPaperSize.Custom Then
-                'obj.ApplyPrintCommand = False
-                obj.CustomizePaperSizeWidth = 1200
-                obj.CustomizePaperSizeHight = 1500
-            End If
+            'If EnumPageSize = DosPaperSize.Tecxpert15X12 Then
+            '    obj.ApplyPrintCommand = False
+            'End If
             obj.Print(obj, dt, PageSetup.Landscap, "", "", EnumPageSize)
-
+            Dim x As Integer = 1
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
