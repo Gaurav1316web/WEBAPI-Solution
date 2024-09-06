@@ -28,6 +28,9 @@ Partial Class FrmDeductionMaster
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtDeductionType = New common.UserControls.txtFinder()
+        Me.lblDeductionType = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtNameHindi = New common.Controls.MyTextBox()
         Me.lblName = New common.Controls.MyLabel()
@@ -79,6 +82,8 @@ Partial Class FrmDeductionMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDeductionType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -158,6 +163,9 @@ Partial Class FrmDeductionMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDeductionType)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblDeductionType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtNameHindi)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkAddition)
@@ -192,6 +200,54 @@ Partial Class FrmDeductionMaster
         Me.SplitContainer1.Size = New System.Drawing.Size(699, 393)
         Me.SplitContainer1.SplitterDistance = 353
         Me.SplitContainer1.TabIndex = 4
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(17, 116)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(86, 16)
+        Me.MyLabel4.TabIndex = 627
+        Me.MyLabel4.Text = "Deduction Type"
+        '
+        'txtDeductionType
+        '
+        Me.txtDeductionType.CalculationExpression = Nothing
+        Me.txtDeductionType.FieldCode = Nothing
+        Me.txtDeductionType.FieldDesc = Nothing
+        Me.txtDeductionType.FieldMaxLength = 0
+        Me.txtDeductionType.FieldName = Nothing
+        Me.txtDeductionType.isCalculatedField = False
+        Me.txtDeductionType.IsSourceFromTable = False
+        Me.txtDeductionType.IsSourceFromValueList = False
+        Me.txtDeductionType.IsUnique = False
+        Me.txtDeductionType.Location = New System.Drawing.Point(111, 114)
+        Me.txtDeductionType.MendatroryField = True
+        Me.txtDeductionType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDeductionType.MyLinkLable1 = Nothing
+        Me.txtDeductionType.MyLinkLable2 = Me.lblDeductionType
+        Me.txtDeductionType.MyReadOnly = False
+        Me.txtDeductionType.MyShowMasterFormButton = False
+        Me.txtDeductionType.Name = "txtDeductionType"
+        Me.txtDeductionType.ReferenceFieldDesc = Nothing
+        Me.txtDeductionType.ReferenceFieldName = Nothing
+        Me.txtDeductionType.ReferenceTableName = Nothing
+        Me.txtDeductionType.Size = New System.Drawing.Size(228, 18)
+        Me.txtDeductionType.TabIndex = 625
+        Me.txtDeductionType.Value = ""
+        '
+        'lblDeductionType
+        '
+        Me.lblDeductionType.AutoSize = False
+        Me.lblDeductionType.BorderVisible = True
+        Me.lblDeductionType.FieldName = Nothing
+        Me.lblDeductionType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDeductionType.Location = New System.Drawing.Point(345, 114)
+        Me.lblDeductionType.Name = "lblDeductionType"
+        Me.lblDeductionType.Size = New System.Drawing.Size(266, 18)
+        Me.lblDeductionType.TabIndex = 626
+        Me.lblDeductionType.TextWrap = False
         '
         'MyLabel1
         '
@@ -239,7 +295,7 @@ Partial Class FrmDeductionMaster
         '
         'chkAddition
         '
-        Me.chkAddition.Location = New System.Drawing.Point(17, 298)
+        Me.chkAddition.Location = New System.Drawing.Point(17, 312)
         Me.chkAddition.Name = "chkAddition"
         Me.chkAddition.Size = New System.Drawing.Size(63, 18)
         Me.chkAddition.TabIndex = 622
@@ -247,7 +303,7 @@ Partial Class FrmDeductionMaster
         '
         'chkFEED
         '
-        Me.chkFEED.Location = New System.Drawing.Point(18, 274)
+        Me.chkFEED.Location = New System.Drawing.Point(17, 290)
         Me.chkFEED.Name = "chkFEED"
         Me.chkFEED.Size = New System.Drawing.Size(45, 18)
         Me.chkFEED.TabIndex = 621
@@ -255,7 +311,7 @@ Partial Class FrmDeductionMaster
         '
         'chkGHEE
         '
-        Me.chkGHEE.Location = New System.Drawing.Point(94, 274)
+        Me.chkGHEE.Location = New System.Drawing.Point(94, 290)
         Me.chkGHEE.Name = "chkGHEE"
         Me.chkGHEE.Size = New System.Drawing.Size(47, 18)
         Me.chkGHEE.TabIndex = 620
@@ -263,7 +319,7 @@ Partial Class FrmDeductionMaster
         '
         'chkMILK
         '
-        Me.chkMILK.Location = New System.Drawing.Point(160, 274)
+        Me.chkMILK.Location = New System.Drawing.Point(160, 290)
         Me.chkMILK.Name = "chkMILK"
         Me.chkMILK.Size = New System.Drawing.Size(45, 18)
         Me.chkMILK.TabIndex = 619
@@ -307,7 +363,7 @@ Partial Class FrmDeductionMaster
         '
         'chkHO
         '
-        Me.chkHO.Location = New System.Drawing.Point(17, 250)
+        Me.chkHO.Location = New System.Drawing.Point(17, 271)
         Me.chkHO.Name = "chkHO"
         Me.chkHO.Size = New System.Drawing.Size(37, 18)
         Me.chkHO.TabIndex = 88
@@ -315,15 +371,15 @@ Partial Class FrmDeductionMaster
         '
         'chkVLC
         '
-        Me.chkVLC.Location = New System.Drawing.Point(94, 250)
+        Me.chkVLC.Location = New System.Drawing.Point(94, 271)
         Me.chkVLC.Name = "chkVLC"
-        Me.chkVLC.Size = New System.Drawing.Size(40, 18)
+        Me.chkVLC.Size = New System.Drawing.Size(41, 18)
         Me.chkVLC.TabIndex = 87
         Me.chkVLC.Text = "DCS"
         '
         'chkOTHERS
         '
-        Me.chkOTHERS.Location = New System.Drawing.Point(160, 250)
+        Me.chkOTHERS.Location = New System.Drawing.Point(160, 271)
         Me.chkOTHERS.Name = "chkOTHERS"
         Me.chkOTHERS.Size = New System.Drawing.Size(61, 18)
         Me.chkOTHERS.TabIndex = 86
@@ -331,7 +387,7 @@ Partial Class FrmDeductionMaster
         '
         'chkShowFATSNF
         '
-        Me.chkShowFATSNF.Location = New System.Drawing.Point(18, 226)
+        Me.chkShowFATSNF.Location = New System.Drawing.Point(17, 253)
         Me.chkShowFATSNF.Name = "chkShowFATSNF"
         Me.chkShowFATSNF.Size = New System.Drawing.Size(124, 18)
         Me.chkShowFATSNF.TabIndex = 85
@@ -358,7 +414,7 @@ Partial Class FrmDeductionMaster
         Me.GroupBox1.Controls.Add(Me.chkDefaultSecurity)
         Me.GroupBox1.Controls.Add(Me.chkVSP)
         Me.GroupBox1.Controls.Add(Me.chkCompany)
-        Me.GroupBox1.Location = New System.Drawing.Point(12, 117)
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 138)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(594, 113)
         Me.GroupBox1.TabIndex = 84
@@ -536,7 +592,7 @@ Partial Class FrmDeductionMaster
         '
         Me.chkVSP.Location = New System.Drawing.Point(88, 21)
         Me.chkVSP.Name = "chkVSP"
-        Me.chkVSP.Size = New System.Drawing.Size(40, 18)
+        Me.chkVSP.Size = New System.Drawing.Size(66, 18)
         Me.chkVSP.TabIndex = 81
         Me.chkVSP.Text = "Secretary"
         '
@@ -748,6 +804,8 @@ Partial Class FrmDeductionMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDeductionType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -849,5 +907,8 @@ Partial Class FrmDeductionMaster
     Friend WithEvents chkTransferToSaving As RadCheckBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtNameHindi As common.Controls.MyTextBox
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtDeductionType As common.UserControls.txtFinder
+    Friend WithEvents lblDeductionType As common.Controls.MyLabel
 End Class
 

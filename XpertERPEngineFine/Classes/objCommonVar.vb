@@ -140,6 +140,7 @@ Public Class objCommonVar
     Private Shared _StopJournalEntry As Boolean = False
     Private Shared _StopInventory As Boolean = False
     Private Shared _StopInventoryNew As Boolean = False
+    Private Shared _RCDFRateControl As Boolean = False
 #End Region
     Public Shared Property RCDFDB() As String
         Get
@@ -149,6 +150,15 @@ Public Class objCommonVar
 
         End Set
     End Property
+    Public Shared Property RCDFRateControl() As Boolean
+        Get
+            Return _RCDFRateControl
+        End Get
+        Set(ByVal Value As Boolean)
+            _RCDFRateControl = Value
+        End Set
+    End Property
+
     Public Shared Property StopJournalEntry() As Boolean
         Get
             Return _StopJournalEntry
@@ -921,6 +931,8 @@ Public Class objCommonVar
         objCommonVar.StopJournalEntry = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, Nothing)) = 1, True, False)
         objCommonVar.StopInventory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StopSetting, clsFixedParameterCode.Inventory, Nothing)) = 1, True, False)
         objCommonVar.StopInventoryNew = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StopSetting, clsFixedParameterCode.InventoryNew, Nothing)) = 1, True, False)
+
+        objCommonVar.RCDFRateControl = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, Nothing)) = 1, True, False)
 
         dt.Dispose()
     End Sub

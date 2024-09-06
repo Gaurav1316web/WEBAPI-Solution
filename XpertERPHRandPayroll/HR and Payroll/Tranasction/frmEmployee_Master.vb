@@ -3590,9 +3590,35 @@ Public Class frmEmployee_Master
             cboPFType.SelectedIndex = 0
             GroupBox3.Visible = True
             If clsCommon.CompairString(clsCommon.myCstr(cboPFCalculatnType.SelectedValue), "PR") = CompairStringResult.Equal Then
-                LoadEPF()
+                Dim str As Double = clsDBFuncationality.getSingleValue("select isnull(Coepf_per,0)Coepf_per from TSPL_EMPLOYEE_MASTER where EMP_Code='" + txtCode.Value + "'")
+                If clsCommon.myCdbl(str) <= 0 Then
+                    LoadEPF()
+                Else
+                    Dim dt As DataTable = Nothing
+                    Dim Qry As String = "select COEPF_PER,COEPF_ROUNDOFF_YPE,COEPS_PER,EPS_MAX,EMPEPF_PER,EMPEPF_MAX,EMPEPF_ROUNDOFF_YPE,ACCOEPF_PER,ACCOEPF_MAX,COEDLI_PER,COEDLI_MAX,ACCOEDLI_PER,ACCOEDLI_MAX,ACCOEDLI_MIN,OC,OC_MAX,OTH_ROUNDOFF_YPE from TSPL_EMPLOYEE_MASTER  WHERE EMP_CODE='" + txtCode.Value + "'"
+                    dt = clsDBFuncationality.GetDataTable(Qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        txtCOEPF_PER.Text = (dt.Rows(0)("COEPF_PER"))
+                        cboCoEPFRound.SelectedValue = (dt.Rows(0)("COEPF_ROUNDOFF_YPE"))
+                        txtCOEPS_PER.Text = (dt.Rows(0)("COEPS_PER"))
+                        txtEPS_MAX.Text = (dt.Rows(0)("EPS_MAX"))
+                        txtEMPEPF_PER.Text = (dt.Rows(0)("EMPEPF_PER"))
+                        txtEMPEPF_MAX.Text = (dt.Rows(0)("EMPEPF_MAX"))
+                        CboEmpRound.SelectedValue = (dt.Rows(0)("EMPEPF_ROUNDOFF_YPE"))
+                        txtACCOEPF_PER.Text = (dt.Rows(0)("ACCOEPF_PER"))
+                        txtCOEDLI_PER.Text = (dt.Rows(0)("ACCOEPF_MAX"))
+                        txtACCOEPF_MAX.Text = (dt.Rows(0)("COEDLI_PER"))
+                        txtCOEDLI_MAX.Text = (dt.Rows(0)("COEDLI_MAX"))
+                        txtACCOEDLI_PER.Text = (dt.Rows(0)("ACCOEDLI_PER"))
+                        txtACCOEDLI_MAX.Text = (dt.Rows(0)("ACCOEDLI_MAX"))
+                        txtACCOEDLI_MIN.Text = (dt.Rows(0)("ACCOEDLI_MIN"))
+                        txtOC.Text = (dt.Rows(0)("OC"))
+                        txtOC_MAX.Text = (dt.Rows(0)("OC_MAX"))
+                        CboOCRound.SelectedValue = (dt.Rows(0)("OTH_ROUNDOFF_YPE"))
+                    End If
+                End If
             End If
-        Else
+            Else
                 cboPFCalculatnType.Visible = False
             txtPFNo.Enabled = False
             txtEPFRate.Enabled = False
@@ -4318,16 +4344,16 @@ Public Class frmEmployee_Master
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub txtCode_KeyPress(sender As Object, e As KeyPressEventArgs)
-
-    End Sub
-
-    Private Sub GroupBox3_Enter(sender As Object, e As EventArgs) Handles GroupBox3.Enter
-
-    End Sub
-
-    Private Sub txtACCOEDLI_MIN_TextChanged(sender As Object, e As EventArgs) Handles txtACCOEDLI_MIN.TextChanged
-
+    Private Sub chkStfQtr_CheckStateChanged(sender As Object, e As EventArgs) Handles chkStfQtr.CheckStateChanged
+        Try
+            If chkStfQtr.Checked = True Then
+                Dim Staff As String = clsDBFuncationality.getSingleValue("SELECT top 1 HRR_CODE FROM TSPL_HRR_RULE_MASTER ")
+                If clsCommon.myLen(Staff) <= 0 Then
+                    Throw New Exception("Please Fill HRR Slab")
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

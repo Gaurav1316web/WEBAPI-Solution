@@ -161,8 +161,7 @@ Public Class clsRCDFRateControl
 
     Public Shared Function CheckRCDFRateControl(ByVal ItemCode As String, ByVal ItemUOM As String, ByVal ItemUnitRate As Decimal, ByVal DocDate As Date, ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim isRCDFRateControl As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, trans)) = 1, True, False))
-            If isRCDFRateControl Then
+            If objCommonVar.RCDFRateControl Then
                 Dim strMsg As String = ""
                 Dim isCheck As Boolean = False
 

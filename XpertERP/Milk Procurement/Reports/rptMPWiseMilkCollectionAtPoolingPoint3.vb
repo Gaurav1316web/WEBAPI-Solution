@@ -713,11 +713,11 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
 
     Sub GetReportID()
         Dim VarID As String = ""
-        If clsCommon.CompairString(cboReportType.SelectedItem.Text, "Detail") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cboReportType.SelectedItem.Value, "Detail") = CompairStringResult.Equal Then
             VarID += "_D"
-        ElseIf clsCommon.CompairString(cboReportType.SelectedItem.Text, "Summary") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboReportType.SelectedItem.Value, "Summary") = CompairStringResult.Equal Then
             VarID += "_S"
-        ElseIf clsCommon.CompairString(cboReportType.SelectedItem.Text, "MP Polling") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboReportType.SelectedItem.Value, "MP Polling") = CompairStringResult.Equal Then
             VarID += "_MP"
         End If
         gv.VarID = VarID

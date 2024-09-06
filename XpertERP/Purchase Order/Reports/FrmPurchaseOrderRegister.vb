@@ -217,11 +217,11 @@ Public Class FrmPurchaseOrderRegister
             VarID += "_S"
         End If
 
-        If clsCommon.CompairString(cboPOType.SelectedItem.Text, "Domestic") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cboPOType.SelectedItem.Value, "Domestic") = CompairStringResult.Equal Then
             VarID += "_D"
-        ElseIf clsCommon.CompairString(cboPOType.SelectedItem.Text, "Job Work") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboPOType.SelectedItem.Value, "Job Work") = CompairStringResult.Equal Then
             VarID += "_J"
-        ElseIf clsCommon.CompairString(cboPOType.SelectedItem.Text, "Import") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cboPOType.SelectedItem.Value, "Import") = CompairStringResult.Equal Then
             VarID += "_I"
         End If
 
