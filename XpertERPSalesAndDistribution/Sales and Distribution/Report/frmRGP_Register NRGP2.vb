@@ -402,9 +402,9 @@ Public Class FrmRGP_Register_NRGP
             VarID += "_R"
         End If
 
-        If clsCommon.CompairString(cmbtype.SelectedItem.Text, "NRGP") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cmbtype.Text, "NRGP") = CompairStringResult.Equal Then
             VarID += "_N"
-        ElseIf clsCommon.CompairString(cmbtype.SelectedItem.Text, "RGP") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cmbtype.Text, "RGP") = CompairStringResult.Equal Then
             VarID += "_R"
         End If
         gv.VarID = VarID

@@ -186,6 +186,12 @@
     <Compile Include="Milk Procurement\Master\frmChillingChargesSlab.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmDeductionTypeMaster.Designer.vb">
+      <DependentUpon>frmDeductionTypeMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmDeductionTypeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmHeadLoadMaster.Designer.vb">
       <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
     </Compile>
@@ -738,6 +744,12 @@
     <Compile Include="Milk Procurement\Transaction\frmSendBillToDCS.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\FrmSendDBTToJanaadhar.Designer.vb">
+      <DependentUpon>FrmSendDBTToJanaadhar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\FrmSendDBTToJanaadhar.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmTransferToSaving.Designer.vb">
       <DependentUpon>frmTransferToSaving.vb</DependentUpon>
     </Compile>
@@ -903,6 +915,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmChillingChargesSlab.resx">
       <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmDeductionTypeMaster.resx">
+      <DependentUpon>frmDeductionTypeMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmHeadLoadMaster.resx">
       <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
@@ -1177,6 +1192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmSendBillToDCS.resx">
       <DependentUpon>frmSendBillToDCS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\FrmSendDBTToJanaadhar.resx">
+      <DependentUpon>FrmSendDBTToJanaadhar.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmTransferToSaving.resx">
       <DependentUpon>frmTransferToSaving.vb</DependentUpon>

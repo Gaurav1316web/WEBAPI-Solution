@@ -508,9 +508,9 @@ Public Class FrmPurchaseHistory
 
     Sub GetReportID()
         Dim VarID As String = ""
-        If clsCommon.CompairString(cmbType.SelectedItem.Text, "item") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cmbType.SelectedItem.Value, "item") = CompairStringResult.Equal Then
             VarID += "_I"
-        ElseIf clsCommon.CompairString(cmbType.SelectedItem.Text, "Vendor") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cmbType.SelectedItem.Value, "Vendor") = CompairStringResult.Equal Then
             VarID += "_V"
         End If
         gv1.VarID = VarID

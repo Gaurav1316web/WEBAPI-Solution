@@ -8650,15 +8650,15 @@ from
                             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtVendorNo.Value & "'")), "0") = CompairStringResult.Equal Then
                                 If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
                                     Dim dblOutstandingAmount As Double = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
-                                    If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
+                                    If dblOutstandingAmount <= AmountToCheckCustomerOutstandingForTCSTax Then
                                         dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
-                                        If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                                        If dblOutstandingAmount >= AmountToCheckCustomerOutstandingForTCSTax Then
                                             If clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
                                                 txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 2)
                                             End If
                                         End If
                                     End If
-                                    If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                                    If dblOutstandingAmount >= AmountToCheckCustomerOutstandingForTCSTax Then
                                         If EnableTCSRateValidityFrom01July2021 Then
                                             Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & txtVendorNo.Value & "'")) = 1, True, False)
                                             If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
@@ -8841,13 +8841,13 @@ where TSPL_BOOKING_MATSER.Document_No='" + txtDocNo.Value + "' and TSPL_SD_SHIPM
             Else
                 Qry = "Select * from (select 1 As CopyType,InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_BOOKING_MATSER.Document_Date,
                         TSPL_BOOKING_MATSER.Is_Taxable,Case When TSPL_BOOKING_MATSER.GatePass_Type='AM' OR TSPL_BOOKING_MATSER.GatePass_Type='M' Then '[M]' Else '[E]' End As Shift,
-                        TSPL_BOOKING_DETAIL.*,
+                        TSPL_BOOKING_DETAIL.*,TSPL_COMPANY_MASTER.Access_Officer,
                         TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
                         case when coalesce(InLtr.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InLtr.Conversion_factor,1)) end as QtyInLtr, 
                         case when coalesce(InCrate.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InCrate.Conversion_factor,1)) end as QtyInCrate,
                         case when coalesce(InPouch.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_BOOKING_DETAIL.Booking_Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InPouch.Conversion_factor,1)) end as QtyInPouch,
                         TSPL_BOOKING_MATSER.FAT_Per,TSPL_BOOKING_MATSER.SNF_Per,TSPL_BOOKING_MATSER.Acidity,TSPL_BOOKING_MATSER.Temperature,TSPL_BOOKING_MATSER.MBRT_Hours, 
-                        TSPL_Route_Master.Route_Desc,TSPL_VEHICLE_MASTER.Vehicle_Id,TSPL_VEHICLE_MASTER.Number As Vehicle_Number,
+                        TSPL_Route_Master.Route_Desc,TSPL_VEHICLE_MASTER.Vehicle_Id,case when Manual_VehicleNo > ''  then  Manual_VehicleNo else TSPL_VEHICLE_MASTER.Number  end As Vehicle_Number,
                         TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1 As Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 As Cust_Add2,TSPL_CUSTOMER_MASTER.Add3 As Cust_Add3,TSPL_CUSTOMER_MASTER.PIN_Code As Cust_PINCode,
                         TSPL_CUSTOMER_MASTER.Phone1 As Cust_Phone1,TSPL_CUSTOMER_MASTER.Phone2 As Cust_Phone2,
                         TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img As Comp_Logo1,TSPL_COMPANY_MASTER.Logo_Img2 As Comp_Logo2,TSPL_COMPANY_MASTER.Add1 As Comp_Add1,TSPL_COMPANY_MASTER.Add2 As Comp_Add2,

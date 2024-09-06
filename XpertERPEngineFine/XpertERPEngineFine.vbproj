@@ -143,7 +143,9 @@
     <Compile Include="LocationModel\ClsLocation_JobworkItem.vb" />
     <Compile Include="Milk Procurement\clsChillingCharges.vb" />
     <Compile Include="Milk Procurement\clsDBTCaping.vb" />
+    <Compile Include="Milk Procurement\clsDeductionTypeMaster.vb" />
     <Compile Include="Milk Procurement\clsMilkUnion.vb" />
+    <Compile Include="Milk Procurement\clsSendDBTDataToJanAadhar.vb" />
     <Compile Include="MIS\clsDailySMPProduction.vb" />
     <Compile Include="MIS\clsProductionTransactionType.vb" />
     <Compile Include="Payroll\clsEmployeeDeductionMaster.vb" />

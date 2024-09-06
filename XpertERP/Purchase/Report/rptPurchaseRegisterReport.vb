@@ -605,19 +605,19 @@ Public Class RptPurchaseRegisterReport
 
     Sub GetReportIDD()
         Dim VarID As String = ""
-        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Total Purchase") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Total Purchase") = CompairStringResult.Equal Then
             VarID += "_TP"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Location Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Location Wise") = CompairStringResult.Equal Then
             VarID += "_LW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Vendor Group Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Vendor Group Wise") = CompairStringResult.Equal Then
             VarID += "_VGW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Item Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Item Wise") = CompairStringResult.Equal Then
             VarID += "_IW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Vendor Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Vendor Wise") = CompairStringResult.Equal Then
             VarID += "_VW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Document Wise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Document Wise") = CompairStringResult.Equal Then
             VarID += "_DW"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Document Detail") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Value, "Document Detail") = CompairStringResult.Equal Then
             VarID += "_DD"
         End If
 
