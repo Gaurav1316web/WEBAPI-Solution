@@ -7049,10 +7049,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             'If IsOnlyCreditCust Then
             '    txtTransNo.Text = txtVendorNo.Value
             '    Dim routeNo As String = txtRouteNo.Value
+            '    GetRouteNO(False)
             '    txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
             '    lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
-            '    GetRouteNO(False)
-            '    txtRouteNo.Value = routeNo
+            '    MergeDistributorItems(True, True, trans)
+            '    'txtRouteNo.Value = routeNo
             'End If
             trans = clsDBFuncationality.GetTransactin()
             Try
@@ -14483,15 +14484,21 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                         Else
                             strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                             If myDictionary.ContainsKey(strKey) Then
-                                myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                If clsCommon.CompairString(clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value), clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)) = CompairStringResult.Equal Then
+                                    myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+
+                                End If
                             Else
-                                Dim obj As New clsSNShipmentDCSItemDetail
-                                obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
-                                obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
-                                obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
-                                myDictionary.Add(strKey, obj)
+                                If clsCommon.CompairString(clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value), clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)) = CompairStringResult.Equal Then
+
+                                    Dim obj As New clsSNShipmentDCSItemDetail
+                                    obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
+                                    obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                                    obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                                    myDictionary.Add(strKey, obj)
+                                End If
                             End If
-                        End If
+                            End If
                     End If
                 Next
                 If myDictionary.Count > 0 Then

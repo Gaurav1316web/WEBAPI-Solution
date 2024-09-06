@@ -1350,12 +1350,25 @@ Public Class clsSNShipmentHead
             ''richa agarwal 24 Dec,2020
             ''----------
 
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_Detail", "Document_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
 
             qry = "delete from TSPL_SD_SHIPMENT_DETAIL where document_code ='" & Doc_No & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SD_SHIPMENT_HEAD where document_code ='" & Doc_No & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "   delete from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE = '" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "   delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No = '" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = " DELETE FROM TSPL_JOURNAL_DETAILS WHERE Voucher_No = (SELECT Voucher_No FROM TSPL_JOURNAL_MASTER WHERE Source_Doc_No = '" & Doc_No & "');"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "   delete from TSPL_JOURNAL_MASTER where Source_Doc_No = '" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             trans.Commit()
