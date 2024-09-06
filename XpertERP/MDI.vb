@@ -375,7 +375,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.75") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.76") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -7519,6 +7519,11 @@ Public Class MDI
                     Case clsUserMgtCode.frmHeadLoadMaster
                         frm = New frmHeadLoadMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmDeductionTypeMaster
+                        frm = New frmDeductionTypeMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmPriceChartMaster
                         frm = New FrmPriceChartMaster(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7982,7 +7987,7 @@ Public Class MDI
                     Case clsUserMgtCode.DBTPayment
                         frm = New FrmDBTPayment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.SendDBTToJanaadhar
+                    Case clsUserMgtCode.MilkProcurementVisualReport
                         frm = New FrmSendDBTToJanaadhar
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
@@ -9209,6 +9214,9 @@ Public Class MDI
                         frm = New frmCustomerIncetiveEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     '=========
+                    Case clsUserMgtCode.frmChangePasswordScreen
+                        frm = New frmChangePasswordScreen()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.RptEffectiveRateReport1
                         frm = New RptEffectiveRateReport1

@@ -264,17 +264,17 @@ Public Class rptMccMasterDetail
             VarID += "_JA"
         End If
 
-        If clsCommon.CompairString(cmbReportType.SelectedItem.Text, "DCS Full Details") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(cmbReportType.Text, "DCS Full Details") = CompairStringResult.Equal Then
             VarID += "_DFD"
-        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "MP Details") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
             VarID += "_MD"
-        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
             VarID += "_UWJS"
-        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "Secretary") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cmbReportType.Text, "Secretary") = CompairStringResult.Equal Then
             VarID += "_S"
-        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "Transporter") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cmbReportType.Text, "Transporter") = CompairStringResult.Equal Then
             VarID += "_T"
-        ElseIf clsCommon.CompairString(cmbReportType.SelectedItem.Text, "Employee") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(cmbReportType.Text, "Employee") = CompairStringResult.Equal Then
             VarID += "_E"
         End If
         Gv1.VarID = VarID

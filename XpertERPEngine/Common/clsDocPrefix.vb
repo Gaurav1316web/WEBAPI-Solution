@@ -7,6 +7,7 @@ Public Class clsDocPrefix
     Public Doc_Type As String = Nothing
     Public Doc_Trans_Type As String = Nothing
     Public Location_Code As String = Nothing
+    Public RouteNo As String = Nothing
     Public Doc_Prfeix As String = Nothing
     Public Dont_Add_Prefix As Boolean = False
     Public Fin_Year As Integer = 0
@@ -47,6 +48,7 @@ Public Class clsDocPrefix
                     clsCommon.AddColumnsForChange(coll, "Doc_Type", strDocType)
                     clsCommon.AddColumnsForChange(coll, "Doc_Trans_Type", obj.Doc_Trans_Type)
                     clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+                    clsCommon.AddColumnsForChange(coll, "RouteNo", obj.RouteNo)
                     clsCommon.AddColumnsForChange(coll, "Doc_Prfeix", obj.Doc_Prfeix)
                     clsCommon.AddColumnsForChange(coll, "Dont_Add_Prefix", IIf(obj.Dont_Add_Prefix, 1, 0))
                     clsCommon.AddColumnsForChange(coll, "Fin_Year", intFiscalYear)

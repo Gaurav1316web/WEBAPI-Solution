@@ -240,7 +240,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             clsBatchInventory.DeleteData("SRN", Doc_No, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
 
-            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type='" & Form_Id & "'"
+            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No='" & Doc_No & "')"
@@ -258,13 +258,37 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             qry = "delete from TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL where SRN_No='" & Doc_No & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_SRN_DETAIL where SRN_No='" & Doc_No & "' "
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_SRN_Head where SRN_No='" & Doc_No & "' "
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            If clsCommon.myLen(Doc_No) > 0 Then
+                qry = "delete from TSPL_SRN_DEDUCTION_SECURITY where SRN_No='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            If clsCommon.myLen(Doc_No) > 0 Then
+                qry = "delete from TSPL_QC_CHECK_MRN_DETAIL where SRN_Id='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            If clsCommon.myLen(Doc_No) > 0 Then
+                qry = "delete from TSPL_SRN_TENDER_CALC where SRN_No='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            If clsCommon.myLen(Doc_No) > 0 Then
+                qry = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where SRN_id='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
 
+            If clsCommon.myLen(Doc_No) > 0 Then
+                qry = "delete from TSPL_SRN_DEDUCTION where SRN_No='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
 
+            If clsCommon.myLen(Doc_No) > 0 Then
+                qry = "delete from TSPL_SRN_DETAIL where SRN_No='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            If clsCommon.myLen(Doc_No) > 0 Then
+                qry = "delete from TSPL_SRN_Head where SRN_No='" & Doc_No & "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
             trans.Commit()
             '' release objects 
             obj = Nothing

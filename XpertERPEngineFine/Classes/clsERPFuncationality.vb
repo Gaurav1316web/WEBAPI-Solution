@@ -14,6 +14,7 @@ Public Class clsERPFuncationality
     Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String) As String
         Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, False)
     End Function
+
     Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean) As String
         Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, True)
     End Function
@@ -26,9 +27,13 @@ Public Class clsERPFuncationality
         Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, False)
     End Function
     Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean) As String
-        Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, isMonthlyChange, False)
+        Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, isMonthlyChange, False, "")
     End Function
-    Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal isLocationCodeisMCC As Boolean) As String
+    Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal strRouteNo As String) As String
+        Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, isMonthlyChange, False, strRouteNo)
+    End Function
+
+    Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal isLocationCodeisMCC As Boolean, ByVal strRouteNo As String) As String
         Dim qry As String = ""
         Dim strRetCode As String = ""
         Dim strLocatinSegmentCode As String = ""
@@ -80,10 +85,10 @@ Public Class clsERPFuncationality
             IntFiscalYear -= 1
         End If
 
-        qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, False, isMasterPrefix)
+        qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, strRouteNo, IntFiscalYear, False, isMasterPrefix)
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            qry = GetQryOFDOCPrefix(trans, dtDocDate.AddMonths(-1), strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, True, isMasterPrefix)
+            qry = GetQryOFDOCPrefix(trans, dtDocDate.AddMonths(-1), strDocType, strTransType, strLocatinSegmentCode, strRouteNo, IntFiscalYear, True, isMasterPrefix)
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             Dim flag As Boolean = False
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso (clsCommon.myCdbl(dt.Rows(0)("Is_Change_monthly")) = 1 OrElse clsCommon.myCdbl(dt.Rows(0)("Is_Change_Daily")) = 1) Then
@@ -91,7 +96,7 @@ Public Class clsERPFuncationality
             End If
             If Not flag Then
                 If objCommonVar.AutoGeneratePrefix Then
-                    qry = GetQryOFDOCPrefix(trans, dtDocDate.AddYears(-1), strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear - 1, False, isMasterPrefix)
+                    qry = GetQryOFDOCPrefix(trans, dtDocDate.AddYears(-1), strDocType, strTransType, strLocatinSegmentCode, strRouteNo, IntFiscalYear - 1, False, isMasterPrefix)
                     dt = clsDBFuncationality.GetDataTable(qry, trans)
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                         Dim dr As DataRow = dt.NewRow()
@@ -155,6 +160,9 @@ Public Class clsERPFuncationality
                             If clsCommon.myLen(strLocatinSegmentCode) > 0 Then
                                 strPrefix += "-" + strLocatinSegmentCode
                             End If
+                            If clsCommon.myLen(strRouteNo) > 0 Then
+                                strPrefix += "-" + strRouteNo
+                            End If
                             dr("Doc_Prfeix") = strPrefix.ToUpper()
                             dr("Separator") = "/"
                             dr("Is_Change_monthly") = 0
@@ -176,6 +184,7 @@ Public Class clsERPFuncationality
                 clsCommon.AddColumnsForChange(coll, "Doc_Type", strDocType)
                 clsCommon.AddColumnsForChange(coll, "Doc_Trans_Type", strTransType)
                 clsCommon.AddColumnsForChange(coll, "Location_Code", strLocatinSegmentCode)
+                clsCommon.AddColumnsForChange(coll, "RouteNo", strRouteNo)
                 clsCommon.AddColumnsForChange(coll, "Doc_Prfeix", clsCommon.myCstr(dt.Rows(0)("Doc_Prfeix")))
                 clsCommon.AddColumnsForChange(coll, "Dont_Add_Prefix", clsCommon.myCDecimal(dt.Rows(0)("Dont_Add_Prefix")))
                 If clsCommon.myCdbl(dt.Rows(0)("dontDisplayYearInSeries")) = 1 OrElse clsCommon.myCDecimal(dt.Rows(0)("Dont_Add_Prefix")) = 1 Then
@@ -208,7 +217,7 @@ Public Class clsERPFuncationality
                 clsCommon.AddColumnsForChange(coll, "MinSizeofSeries", clsCommon.myCdbl(dt.Rows(0)("MinSizeofSeries")))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DOCPREFIX_MASTER", OMInsertOrUpdate.Insert, "", trans)
 
-                qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, False, isMasterPrefix)
+                qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, strRouteNo, IntFiscalYear, False, isMasterPrefix)
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
             End If
 
@@ -310,14 +319,18 @@ Public Class clsERPFuncationality
 
     End Function
 
-    Private Shared Function GetQryOFDOCPrefix(ByVal tran As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocatinSegmentCode As String, ByVal IntFiscalYear As Integer, ByVal isTakingTopOne As Boolean, ByVal isMasterPrefix As Boolean) As String
+    Private Shared Function GetQryOFDOCPrefix(ByVal tran As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocatinSegmentCode As String, ByVal strRouteNo As String, ByVal IntFiscalYear As Integer, ByVal isTakingTopOne As Boolean, ByVal isMasterPrefix As Boolean) As String
         Dim whr As String = "select  PK_ID from TSPL_DOCPREFIX_MASTER where Doc_Type='" + strDocType + "' and  isnull(Doc_Trans_Type,'')='" + strTransType + "' and isnull(Location_Code,'')='" + strLocatinSegmentCode + "'"
+        If clsCommon.myLen(strRouteNo) > 0 Then
+            whr += " and isnull(RouteNo,'')='" + strRouteNo + "' "
+        End If
         If Not isMasterPrefix Then
             whr += " and Fin_Year='" + clsCommon.myCstr(IntFiscalYear) + "'"
         End If
         If Not isTakingTopOne Then
             whr += " and 2=(case when Is_Change_Daily=1 then case when Curr_Date= '" + clsCommon.GetPrintDate(dtDocDate, "dd/MMM/yyyy") + "'  then 2 else 3  end   else   case when Is_Change_monthly=1 then case when Curr_Month= " + clsCommon.myCstr(dtDocDate.Month) + "  then 2 else 3  end else 2 end end)"
         End If
+
 
         Dim qry As String = "select " + IIf(isTakingTopOne, " Top 1", "") + " PK_ID,Doc_Prfeix,Dont_Add_Prefix,Fin_Year,Next_Number,Separator,Is_Change_monthly,Curr_Month,Is_Change_Daily,Curr_Date,dontDisplayYearInSeries,Short_Fiscal_Year,MinSizeofSeries,Year_Separator from TSPL_DOCPREFIX_MASTER  WITH ( UPDLOCK ) " + Environment.NewLine +
           " where PK_ID in (" + whr + ")"

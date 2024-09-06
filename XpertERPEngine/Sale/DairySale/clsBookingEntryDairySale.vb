@@ -198,9 +198,9 @@ Public Class clsBookingEntryDairySale
                 obj.Document_No = strBookingDocNo
             ElseIf isNewEntry = True Then
                 If IsDemandUploader Then
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleBookingUploader, "", obj.location_code)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleBookingUploader, "", obj.location_code, False, True, False, False, obj.Arr(0).Route_No)
                 Else
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleBooking, "", obj.location_code)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleBooking, "", obj.location_code, False, True, False, False, obj.Arr(0).Route_No)
                 End If
             End If
 
