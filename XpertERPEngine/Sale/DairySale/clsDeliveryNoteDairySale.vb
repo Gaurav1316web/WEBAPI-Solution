@@ -70,7 +70,7 @@ Public Class clsDeliveryNoteDairySale
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""
             If isNewEntry Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleDeliveryOrder, "", obj.Location_Code)
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDairySaleDeliveryOrder, "", obj.Location_Code, False, True, False, False, obj.Route_No)
             End If
 
             If (clsCommon.myLen(obj.Document_No) <= 0) Then

@@ -6,18 +6,15 @@ Public Class FrmSendDBTToJanaadhar
 #Region "Variables"
     Dim ButtonTooltip As New ToolTip()
 #End Region
-
     Public Sub New()
         InitializeComponent()
     End Sub
-
     Private Sub FrmMilkVSPPayment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ButtonTooltip.SetToolTip(btnClose, "Press Alt+C for Close the Window")
         ButtonTooltip.SetToolTip(btnGenerateBill, "Press Alt+R for Refresh the Data")
         SetUserMgmtNew()
         LoadUnion()
     End Sub
-
     Public Sub LoadUnion()
         Dim qry As String = "select Code,Location_Name as Name from TSPL_MASTER.dbo.TSPL_APP_LOCATION where isnull(Union_Report,0)=1 order by Name"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -25,8 +22,6 @@ Public Class FrmSendDBTToJanaadhar
         cboUnion.ValueMember = "Code"
         cboUnion.DisplayMember = "Name"
     End Sub
-
-
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -34,9 +29,6 @@ Public Class FrmSendDBTToJanaadhar
         btnGenerateBill.Visible = MyBase.isPostFlag
 
     End Sub
-
-
-
     Private Sub btnGenerateBill_Click(sender As Object, e As EventArgs) Handles btnGenerateBill.Click
         Try
             If clsCommon.myLen(cboUnion.SelectedValue) <= 0 Then
@@ -48,7 +40,6 @@ Public Class FrmSendDBTToJanaadhar
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub SendRemaingDBTToJanAadhaar(ByVal Task As String, ByVal PortNo As String)
         clsCommon.ProgressBarPercentShow()
         Try
@@ -57,7 +48,7 @@ Public Class FrmSendDBTToJanaadhar
 
             Dim ResponceSucess As Integer = 0
             Dim ResponceFailure As Integer = 0
-            qry = "select top 5 TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_MP_MASTER.JA_janaadhaarId,TSPL_MP_MASTER.JA_jan_mid,TSPL_DBT_NEFT_DETAIL.MP_Account_No,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No,TSPL_DBT_NEFT_DETAIL.PK_Id,convert(varchar, TSPL_DBT_NEFT_BANK_RESPONSE.Created_Date,103) as Created_Date,TSPL_DBT_NEFT_DETAIL.Amount" & Environment.NewLine & ",(case when TSPL_DBT_NEFT_REJECT_DETAIL.PK_Id is not null then 'Failure' else (case when Bank_Response like 'STATUS : SUCCESS%' then 'Success' else 'Failure' end) end) as Bank_Response 
+            qry = "select TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_MP_MASTER.JA_janaadhaarId,TSPL_MP_MASTER.JA_jan_mid,TSPL_DBT_NEFT_DETAIL.MP_Account_No,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No,TSPL_DBT_NEFT_DETAIL.PK_Id,convert(varchar, TSPL_DBT_NEFT_BANK_RESPONSE.Created_Date,103) as Created_Date,TSPL_DBT_NEFT_DETAIL.Amount" & Environment.NewLine & ",(case when TSPL_DBT_NEFT_REJECT_DETAIL.PK_Id is not null then 'Failure' else (case when Bank_Response like 'STATUS : SUCCESS%' then 'Success' else 'Failure' end) end) as Bank_Response 
 from " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL 
 left outer join " + DBName + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL on " + DBName + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = " + DBName + ".dbo.TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
 left outer join " + DBName + ".dbo.TSPL_MP_MASTER on  " + DBName + ".dbo.TSPL_MP_MASTER.MP_Code = " + DBName + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
@@ -125,11 +116,9 @@ where isnull(" + DBName + ".dbo.TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)=1 and I
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         CloseForm()
     End Sub
-
     Private Sub CloseForm()
         Me.Close()
     End Sub
-
     Private Sub FrmDBTPayment_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()

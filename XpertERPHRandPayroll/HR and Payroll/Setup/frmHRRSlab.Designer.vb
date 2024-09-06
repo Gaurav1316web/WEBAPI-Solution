@@ -24,7 +24,7 @@ Partial Class frmHRRSlab
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHRRSlab))
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.dtpApplicableFrom = New Telerik.WinControls.UI.RadDateTimePicker()
@@ -252,7 +252,7 @@ Partial Class frmHRRSlab
         Me.lblItemCategoryCode.Name = "lblItemCategoryCode"
         Me.lblItemCategoryCode.Size = New System.Drawing.Size(51, 16)
         Me.lblItemCategoryCode.TabIndex = 158
-        Me.lblItemCategoryCode.Text = "PT Code"
+        Me.lblItemCategoryCode.Text = "HRR Code"
         '
         'gvOTSlab
         '
@@ -274,7 +274,7 @@ Partial Class frmHRRSlab
         Me.gvOTSlab.MasterTemplate.EnableGrouping = False
         Me.gvOTSlab.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOTSlab.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOTSlab.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvOTSlab.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvOTSlab.MyStopExport = False
         Me.gvOTSlab.Name = "gvOTSlab"
         Me.gvOTSlab.RightToLeft = System.Windows.Forms.RightToLeft.No

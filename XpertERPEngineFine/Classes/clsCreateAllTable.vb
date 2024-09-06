@@ -143,6 +143,15 @@ Public Class clsCreateAllTable
             coll.Add("Comp_code", "varchar(8)  Not NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_WISE_TAX", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(40) Not NULL Primary Key")
+            coll.Add("Description", "Varchar(100) NULL ")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "DateTime  Not NULL")
+            coll.Add("Modified_By", "varchar(12)  Not NULL")
+            coll.Add("Modified_Date", "datetime  Not NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("HCODE", "Varchar(30) Not null Primary key")
@@ -195,6 +204,9 @@ Public Class clsCreateAllTable
             coll.Add("Posting_Date", "datetime  Null")
             coll.Add("Status", "Integer Null")
             coll.Add("Remarks", "varchar(200) Null")
+            coll.Add("Toll_Charges", "decimal(18,2) Null")
+            coll.Add("Total_Payable_Amount", "decimal(18,2) Null")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -2330,6 +2342,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Sub_Group_Type", "varchar(50) NULL")
             coll.Add("Report_Name", "varchar(50) NULL")
             coll.Add("AllowEntryInDecimal", "Integer null")
+            coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -8131,6 +8144,8 @@ Public Class clsCreateAllTable
             coll.Add("Posted_Evening_By", "varchar(12) NULL")
             coll.Add("Posted_Evening_Date", "Datetime NULL")
             coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
+            coll.Add("IsUpdating", "integer null")
+            coll.Add("IsPosting", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -10893,6 +10908,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Negative_SRN", "integer not null default 0")
             coll.Add("Is_Transfer_To_Saving", "integer not null default 0")
             coll.Add("Description_Hindi", "nvarchar(100) null")
+            coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 
@@ -14416,23 +14432,23 @@ Public Class clsCreateAllTable
             coll.Add("Special_desc", "Varchar(50) null")
             coll.Add("PF_Type", "varchar(12) NULL")
             coll.Add("Staff_Quarter", "BIT NOT NULL DEFAULT 0")
-            coll.Add("COEPF_PER", "FLOAT not null")
-            coll.Add("COEPF_ROUNDOFF_YPE", "varchar(3) not null")    '' COMPANY PF SHARE
-            coll.Add("COEPS_PER", "FLOAT  not null")                '' COMPANY EPS SHARE
-            coll.Add("EPS_MAX", "NUMERIC(10,2)  not null")          '' MAXIMUM LIMIT OF EPS AMOUNT
-            coll.Add("EMPEPF_PER", "FLOAT  not null")               '' EMPLOYEE PF SHARE
-            coll.Add("EMPEPF_MAX", "NUMERIC(10,2)  not null")       '' MAXIMUM LIMIT OF EMPLOYEE SHARE
-            coll.Add("EMPEPF_ROUNDOFF_YPE", "varchar(3) not null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
-            coll.Add("ACCOEPF_PER", "FLOAT  not null")              '' ADMIN CHARGES ON COMPANY PF SHARE
-            coll.Add("ACCOEPF_MAX", "NUMERIC(10,2)  not null")      '' MAXIMUM LIMIT OF ADMIN CHARGES ON COMPANY PF SHARE
-            coll.Add("COEDLI_PER", "FLOAT  not null")               '' EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
-            coll.Add("COEDLI_MAX", "NUMERIC(10,2)  not null")       '' MAXIMUM LIMIT OF EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
-            coll.Add("ACCOEDLI_PER", "FLOAT  not null")             '' ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
-            coll.Add("ACCOEDLI_MAX", "NUMERIC(10,2)  not null")     '' MAXIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("COEPF_PER", "FLOAT  null")
+            coll.Add("COEPF_ROUNDOFF_YPE", "varchar(3)  null")    '' COMPANY PF SHARE
+            coll.Add("COEPS_PER", "FLOAT   null")                '' COMPANY EPS SHARE
+            coll.Add("EPS_MAX", "NUMERIC(10,2) null")          '' MAXIMUM LIMIT OF EPS AMOUNT
+            coll.Add("EMPEPF_PER", "FLOAT   null")               '' EMPLOYEE PF SHARE
+            coll.Add("EMPEPF_MAX", "NUMERIC(10,2)  null")       '' MAXIMUM LIMIT OF EMPLOYEE SHARE
+            coll.Add("EMPEPF_ROUNDOFF_YPE", "varchar(3)  null")   '' ROUND OFF TYPE OF EMPLOYEE PF SHARE
+            coll.Add("ACCOEPF_PER", "FLOAT  null")              '' ADMIN CHARGES ON COMPANY PF SHARE
+            coll.Add("ACCOEPF_MAX", "NUMERIC(10,2)  null")      '' MAXIMUM LIMIT OF ADMIN CHARGES ON COMPANY PF SHARE
+            coll.Add("COEDLI_PER", "FLOAT null")               '' EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("COEDLI_MAX", "NUMERIC(10,2) null")       '' MAXIMUM LIMIT OF EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("ACCOEDLI_PER", "FLOAT null")             '' ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
+            coll.Add("ACCOEDLI_MAX", "NUMERIC(10,2) null")     '' MAXIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
             coll.Add("ACCOEDLI_MIN", "NUMERIC(10,2)   null")      '' MINIMUM LIMIT OF ADMIN CHARGES ON EMPLOYEE DEPOSIT LINKED INSURANCE PAID BY COMPANY
-            coll.Add("OC", "NUMERIC(10,2)  not null")               '' OTHER CHARGES
-            coll.Add("OC_MAX", "NUMERIC(10,2)  not null")           '' MAXIMUM LIMIT OF OTHER CHARGES
-            coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) not null")
+            coll.Add("OC", "NUMERIC(10,2) null")               '' OTHER CHARGES
+            coll.Add("OC_MAX", "NUMERIC(10,2) null")           '' MAXIMUM LIMIT OF OTHER CHARGES
+            coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -16361,7 +16377,14 @@ Public Class clsCreateAllTable
             coll.Add("Is_Professional_Tax_Applicable", "integer Not null default 0")
             coll.Add("ISESI", "integer Not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALARY_CALCULATION", coll, Nothing, False, False, "TSPL_GENERATE_SALARY", "SALARY_CALCULATION_CODE", "")
-
+            Try
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column EPS_MAX NUMERIC(12,2) NULL ")
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column PF_MAX_LIM NUMERIC(12,2) NULL")
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column COEPF_ROUNDOFF_YPE varchar(3) NULL")
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column EMPEPF_ROUNDOFF_YPE varchar(3) NULL")
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column RATE_AMOUNT NUMERIC(10,3)  NULL")
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("SALARY_CALCULATION_CODE", "BIGINT IDENTITY NOT NULL PRIMARY KEY")
             coll.Add("EMP_CODE", "VARCHAR(12) NOT NULL ")
@@ -16493,6 +16516,7 @@ Public Class clsCreateAllTable
             coll.Add("SLAB_FROM", "NUMERIC(12,2) NOT NULL")
             coll.Add("SLAB_TO", "NUMERIC(12,2) NOT NULL")
             coll.Add("PAYHEADS", "varchar(12) NOT NULL")
+            coll.Add("Percentage", "NUMERIC(12,2) NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_DETAIL", coll)
 
 
@@ -55326,6 +55350,9 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             Catch ex As Exception
 
             End Try
+
+
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Doc_Date", "Datetime NOT NULL")
@@ -55634,12 +55661,14 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("SNo", "integer null")
             coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_MASTER(Document_Code)")
             coll.Add("Tender_Qty", "decimal (18,2) NULL")
+            coll.Add("Qty", "decimal (18,2) NULL")
             coll.Add("Rate", "decimal(18, 2) NULL")
             coll.Add("Pro_Rate", "decimal(18, 2) NULL")
             coll.Add("DieselPetrol", "decimal (18,2) NULL")
             coll.Add("Applicable_Rate", "decimal (18,2) NULL")
             coll.Add("GPS_KM", "decimal(18,2) NULL")
             coll.Add("Payable_Amount", "decimal (18,2) NULL")
+            coll.Add("Toll_Charges", "decimal (18,2) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", "Document_Date", True)
 
@@ -55677,6 +55706,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Applicable_Rate", "decimal (18,2) NULL")
             coll.Add("GPS_KM", "decimal(18,2) NULL")
             coll.Add("Payable_Amount", "decimal (18,2) NULL")
+            coll.Add("Toll_Charges", "decimal (18,2) NULL")
+            coll.Add("Total_Payable_Amount", "decimal (18,2) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", False)
 

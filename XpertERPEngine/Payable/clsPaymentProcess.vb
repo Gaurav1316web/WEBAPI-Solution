@@ -2002,7 +2002,7 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.from_date,103) as from_date
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.to_date,103) as to_date"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                sQuery += ",(Select SUM(case when TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code='99' then (ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, 0) - ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount, 0))end)
+                sQuery += ",(Select SUM(case when TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code='99' then (ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, 0))end)
 					From TSPL_PAYMENT_PROCESS_DETAIL Where Doc_No In (" + strDocNo + "))AS TotalOutStandingAmt "
             End If
 

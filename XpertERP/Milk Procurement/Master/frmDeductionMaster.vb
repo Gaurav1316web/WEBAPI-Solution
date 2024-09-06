@@ -45,6 +45,8 @@ Public Class FrmDeductionMaster
         lblDedGrpName.Text = ""
         FndGLAcct.Value = ""
         lblGLAcctName.Text = ""
+        txtDeductionType.Value = ""
+        lblDeductionType.Text = ""
         btnSave.Text = "Save"
         fndCode.MyReadOnly = False
         chkCompany.Checked = False
@@ -155,6 +157,7 @@ Public Class FrmDeductionMaster
             obj.Description_Hindi = txtNameHindi.Text
             obj.Ded_Grp_Code = fndDedGrp.Value
             obj.GL_Account_Code = FndGLAcct.Value
+            obj.Deduction_Type = txtDeductionType.Value
             If ChkSecurity.Checked Then
                 obj.Security = 1
             Else
@@ -219,6 +222,7 @@ Public Class FrmDeductionMaster
                 txtNameHindi.Text = obj.Description_Hindi
                 fndDedGrp.Value = obj.Ded_Grp_Code
                 FndGLAcct.Value = obj.GL_Account_Code
+                txtDeductionType.Value = obj.Deduction_Type
                 If obj.Security = 1 Then
                     ChkSecurity.Checked = True
                 Else
@@ -252,6 +256,7 @@ Public Class FrmDeductionMaster
                 txtSeqNo.Text = obj.Sequence_No
                 lblDedGrpName.Text = clsDBFuncationality.getSingleValue("select Ded_Description from TSPL_DEDUCTION_GROUP where Ded_Code='" & fndDedGrp.Value & "'")
                 lblGLAcctName.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" & FndGLAcct.Value & "'")
+                lblDeductionType.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" & txtDeductionType.Value & "'")
                 If clsCommon.myLen(obj.Own_BMC_Milk_Reject_Type) > 0 Then
                     txtOwnBMCMilkRejectType.Value = obj.Own_BMC_Milk_Reject_Type
                     chkOwnBMCMilkRejectType.Checked = True
@@ -492,5 +497,12 @@ Public Class FrmDeductionMaster
         Dim qry As String = "select Code,Description from TSPL_MILK_REJECT_TYPE"
         Dim Whr As String = " not exists(select 1 from TSPL_DEDUCTION_MASTER where TSPL_DEDUCTION_MASTER.Own_BMC_Milk_Reject_Type=TSPL_MILK_REJECT_TYPE.Code and TSPL_DEDUCTION_MASTER.Code not in ('" + fndCode.Value + "'))"
         txtOwnBMCMilkRejectType.Value = clsCommon.ShowSelectForm("fn@Ded@Mre", qry, "Code", Whr, txtOwnBMCMilkRejectType.Value, "Code", isButtonClicked)
+    End Sub
+
+    Private Sub txtDeductionType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDeductionType._MYValidating
+        Dim Qry As String = "SELECT Document_No,Description	 FROM TSPL_DEDUCTION_TYPE_MASTER "
+        txtDeductionType.Value = clsCommon.ShowSelectForm("txtDeductionType", Qry, "Document_No", "", txtDeductionType.Value, "Document_No", isButtonClicked)
+        lblDeductionType.Text = clsDBFuncationality.getSingleValue("Select Description from TSPL_DEDUCTION_TYPE_MASTER Where Document_No='" + txtDeductionType.Value + "' ")
+
     End Sub
 End Class

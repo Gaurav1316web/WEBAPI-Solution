@@ -290,11 +290,11 @@ Public Class frmEmployeeRegister
 
     Sub GetReportID()
         Dim VarID As String = ""
-        If clsCommon.CompairString(CboStatus.SelectedItem.Text, "All") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(CboStatus.SelectedItem.Value, "All") = CompairStringResult.Equal Then
             VarID += "_AL"
-        ElseIf clsCommon.CompairString(CboStatus.SelectedItem.Text, "Active") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(CboStatus.SelectedItem.Value, "Active") = CompairStringResult.Equal Then
             VarID += "_A"
-        ElseIf clsCommon.CompairString(CboStatus.SelectedItem.Text, "InActive") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(CboStatus.SelectedItem.Value, "InActive") = CompairStringResult.Equal Then
             VarID += "_IA"
         End If
         gv1.VarID = VarID
