@@ -1345,6 +1345,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptTotalMilkProcurement, "Total Milk Procurement Report", "1.29.03.29", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.rptProductionStandardization, "Production Standardization Report", "1.29.03.30", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.ProductionEntryReport, "Production Entry Report", "1.29.03.31", clsUserMgtCode.SubModuleProductionReportDairy, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerProfitLossReport, "Tanker Profit Loss Report", "1.29.03.32", clsUserMgtCode.SubModuleProductionReportDairy, 37)
 
 
 
