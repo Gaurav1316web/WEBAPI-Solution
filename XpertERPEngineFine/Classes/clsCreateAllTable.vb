@@ -195,6 +195,9 @@ Public Class clsCreateAllTable
             coll.Add("Posting_Date", "datetime  Null")
             coll.Add("Status", "Integer Null")
             coll.Add("Remarks", "varchar(200) Null")
+            coll.Add("Toll_Charges", "decimal(18,2) Null")
+            coll.Add("Total_Payable_Amount", "decimal(18,2) Null")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -55625,12 +55628,14 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("SNo", "integer null")
             coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_MASTER(Document_Code)")
             coll.Add("Tender_Qty", "decimal (18,2) NULL")
+            coll.Add("Qty", "decimal (18,2) NULL")
             coll.Add("Rate", "decimal(18, 2) NULL")
             coll.Add("Pro_Rate", "decimal(18, 2) NULL")
             coll.Add("DieselPetrol", "decimal (18,2) NULL")
             coll.Add("Applicable_Rate", "decimal (18,2) NULL")
             coll.Add("GPS_KM", "decimal(18,2) NULL")
             coll.Add("Payable_Amount", "decimal (18,2) NULL")
+            coll.Add("Toll_Charges", "decimal (18,2) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", "Document_Date", True)
 
@@ -55668,6 +55673,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Applicable_Rate", "decimal (18,2) NULL")
             coll.Add("GPS_KM", "decimal(18,2) NULL")
             coll.Add("Payable_Amount", "decimal (18,2) NULL")
+            coll.Add("Toll_Charges", "decimal (18,2) NULL")
+            coll.Add("Total_Payable_Amount", "decimal (18,2) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", False)
 

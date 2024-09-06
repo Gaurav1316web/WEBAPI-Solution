@@ -100,12 +100,16 @@ Public Class clsBulkSaleFreightMaster
                     objtr.SNO = clsCommon.myCdbl(dr("SNO"))
                     objtr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
                     objtr.Tender_Qty = clsCommon.myCstr(dr("Tender_Qty"))
+                    objtr.Qty = clsCommon.myCstr(dr("Qty"))
                     objtr.Rate = clsCommon.myCstr(dr("Rate"))
                     objtr.Pro_Rate = clsCommon.myCstr(dr("Pro_Rate"))
                     objtr.DieselPetrol = clsCommon.myCstr(dr("DieselPetrol"))
                     objtr.Applicable_Rate = clsCommon.myCstr(dr("Applicable_Rate"))
                     objtr.GPS_KM = clsCommon.myCstr(dr("GPS_KM"))
                     objtr.Payable_Amount = clsCommon.myCstr(dr("Payable_Amount"))
+                    objtr.Toll_Charges = clsCommon.myCDecimal(dr("Toll_Charges"))
+                    'objtr.Total_Payable_Amount = clsCommon.myCDecimal(dr("Total_Payable_Amount"))
+
                     obj.Arr.Add(objtr)
                 Next
             End If
@@ -249,12 +253,15 @@ Public Class clsBulkSaleFreightDetail
     Public SNO As Integer
     Public Document_Code As String = Nothing
     Public Tender_Qty As Double = 0
+    Public Qty As Double = 0
     Public Rate As Double = 0
     Public Applicable_Rate As Double = 0
     Public Pro_Rate As Double = 0
     Public DieselPetrol As Double = 0
     Public GPS_KM As Double = 0
     Public Payable_Amount As Double = 0
+    Public Toll_Charges As Double = 0
+    'Public Total_Payable_Amount As Double = 0
 
 #End Region
 
@@ -265,12 +272,15 @@ Public Class clsBulkSaleFreightDetail
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
                 clsCommon.AddColumnsForChange(coll, "SNO", obj.SNO)
                 clsCommon.AddColumnsForChange(coll, "Tender_Qty", obj.Tender_Qty)
+                clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
                 clsCommon.AddColumnsForChange(coll, "Pro_Rate", obj.Pro_Rate)
                 clsCommon.AddColumnsForChange(coll, "DieselPetrol", obj.DieselPetrol)
                 clsCommon.AddColumnsForChange(coll, "Applicable_Rate", obj.Applicable_Rate)
                 clsCommon.AddColumnsForChange(coll, "GPS_KM", obj.GPS_KM)
                 clsCommon.AddColumnsForChange(coll, "Payable_Amount", obj.Payable_Amount)
+                clsCommon.AddColumnsForChange(coll, "Toll_Charges", obj.Toll_Charges)
+                'clsCommon.AddColumnsForChange(coll, "Total_Payable_Amount", obj.Total_Payable_Amount)
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
