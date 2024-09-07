@@ -11566,7 +11566,7 @@ b:                          ' Next
                 If (myMessages.CancelConfirms(Me)) Then
                     clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocNo.Value))
                 End If
-                clsSRNHead.CancelData(Me.Form_ID, txtDocNo.Value, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal, "MT", "SRN"))
+                clsSRNHead.CancelData(Me.Form_ID, txtDocNo.Value, IIf(clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal, "MT", "SRN"))
                 clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
                 AddNew()
             End If
