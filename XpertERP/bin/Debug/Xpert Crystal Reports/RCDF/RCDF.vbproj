@@ -1470,6 +1470,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptQualityCheck.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRoutePeriodicalDispatchReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTruckSheetDailySummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptVlcDailyLanded.rpt" />
@@ -1477,6 +1478,7 @@
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillFATSNFDebitCreditNote.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillMCCSale.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillRejection.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\SubTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CANARA BANK.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CheckPrintDemo.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CheckPrintFormatDemo.rpt" />
