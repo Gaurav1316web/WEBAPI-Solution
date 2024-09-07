@@ -185,6 +185,8 @@ Public Class clsSRNHead
     Public Arr_ACInsurance As List(Of clsSRNAdditionChargeInsurance) = Nothing
     Public TenderNo As String = Nothing
     Public GRN_Date As Date? = Nothing
+    Public NIRQC As Double
+    Public QC_Status As String = Nothing
 #End Region
     '==============added by preeti gupta against ticket no[TEC/23/05/18-000253]
     Public Shared Function HistoryUpdate(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
@@ -672,10 +674,10 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         ' Dim obj As clsSRNHead = Nothing
         Dim obj As New clsSRNHead
         Dim qry As String = "SELECT TSPL_SRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
-        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo,TSPL_GRN_HEAD.GRN_Date  " &
+        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo,TSPL_GRN_HEAD.GRN_Date ,IsNull(TSPL_MRN_HEAD.NIR_QC,0)NIR_QC,TSPL_QC_CHECK_HEAD.QC_Status  " &
         " FROM TSPL_SRN_HEAD
-        left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN " &
-        "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_HEAD.Bill_To_Location " &
+        left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN left outer join TSPL_MRN_HEAD On TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No " &
+        "Left Outer Join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_MRN_HEAD.Against_GRN left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_HEAD.Bill_To_Location " &
         "left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO " &
         " left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_SubLocation  on TSPL_LOCATION_MASTER_SubLocation.Location_Code=TSPL_SRN_HEAD.Sublocation_Code " &
         " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SRN_HEAD.Ship_To_Location " &
@@ -909,8 +911,10 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             obj.Is_Shortage_Include_In_Landed_Cost = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Shortage_Include_In_Landed_Cost")) = 1, True, False)
             obj.Total_Add_Charge_Insurance = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge_Insurance"))
             obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Item_Insurance_Amt"))
-
-            qry = "SELECT TSPL_SRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName FROM TSPL_SRN_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_DETAIL.Location where TSPL_SRN_DETAIL.SRN_No='" + obj.SRN_No + "' ORDER BY TSPL_SRN_DETAIL.Line_No"
+            obj.NIRQC = clsCommon.myCdbl(dt.Rows(0)("NIR_QC"))
+            obj.QC_Status = clsCommon.myCstr(dt.Rows(0)("QC_Status"))
+            qry = "SELECT TSPL_SRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_QC_CHECK_HEAD.QC_Status,Case When IsNull(TSPL_SRN_DETAIL.Rejected_Qty,0)>0 Then IsNull(TSPL_SRN_DETAIL.Rejected_Qty,0) Else IsNull(TSPL_QC_CHECK_DETAIL.Reject_Qty,0) End As RjtQty
+                   FROM TSPL_SRN_DETAIL left Outer Join TSPL_SRN_HEAD On TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No Left Outer Join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_SRN_HEAD.Against_GRN left outer Join TSPL_QC_CHECK_DETAIL On TSPL_QC_CHECK_DETAIL.Document_Code=TSPL_QC_CHECK_HEAD.Document_Code And TSPL_QC_CHECK_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_DETAIL.Location where TSPL_SRN_DETAIL.SRN_No='" + obj.SRN_No + "' ORDER BY TSPL_SRN_DETAIL.Line_No"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -930,7 +934,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                     objTr.Leak_Qty = clsCommon.myCdbl(dr("Leak_Qty"))
                     objTr.Burst_Qty = clsCommon.myCdbl(dr("Burst_Qty"))
                     objTr.Short_Qty = clsCommon.myCdbl(dr("Short_Qty"))
-                    objTr.Rejected_Qty = clsCommon.myCdbl(dr("Rejected_Qty"))
+                    objTr.Rejected_Qty = clsCommon.myCdbl(dr("RjtQty"))
                     objTr.Freeqty = clsCommon.myCdbl(dr("Free_Qty"))
                     objTr.MRN_Id = clsCommon.myCstr(dr("MRN_Id"))
                     objTr.GRN_ID = clsCommon.myCstr(dr("GRN_ID"))
@@ -1109,7 +1113,6 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                     objTr.Item_Amt_After_Insurance = clsCommon.myCdbl(dr("Item_Amt_After_Insurance"))
 
                     objTr.arrBatchItem = clsBatchInventory.GetData("SRN", objTr.SRN_No, objTr.Item_Code, objTr.Line_No, trans)
-
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -3170,6 +3173,7 @@ Public Class clsSRNDetail
     Public Item_Insurance_Rate As Decimal = 0
     Public Item_Insurance_Amt As Decimal = 0
     Public Item_Amt_After_Insurance As Decimal = 0
+    Public QC_Status As String = Nothing
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal objHead As clsSRNHead, ByVal trans As SqlTransaction) As Boolean
