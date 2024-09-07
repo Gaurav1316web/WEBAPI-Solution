@@ -889,7 +889,8 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Item_Insurance_Amt"))
             obj.NIRQC = clsCommon.myCdbl(dt.Rows(0)("NIR_QC"))
             obj.QC_Status = clsCommon.myCstr(dt.Rows(0)("QC_Status"))
-            qry = "SELECT TSPL_SRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_QC_CHECK_HEAD.QC_Status  FROM TSPL_SRN_DETAIL left Outer Join TSPL_SRN_HEAD On TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No Left Outer Join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_SRN_HEAD.Against_GRN  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_DETAIL.Location where TSPL_SRN_DETAIL.SRN_No='" + obj.SRN_No + "' ORDER BY TSPL_SRN_DETAIL.Line_No"
+            qry = "SELECT TSPL_SRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_QC_CHECK_HEAD.QC_Status,Case When IsNull(TSPL_SRN_DETAIL.Rejected_Qty,0)>0 Then IsNull(TSPL_SRN_DETAIL.Rejected_Qty,0) Else IsNull(TSPL_QC_CHECK_DETAIL.Reject_Qty,0) End As RjtQty
+                   FROM TSPL_SRN_DETAIL left Outer Join TSPL_SRN_HEAD On TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No Left Outer Join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_SRN_HEAD.Against_GRN left outer Join TSPL_QC_CHECK_DETAIL On TSPL_QC_CHECK_DETAIL.Document_Code=TSPL_QC_CHECK_HEAD.Document_Code And TSPL_QC_CHECK_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_DETAIL.Location where TSPL_SRN_DETAIL.SRN_No='" + obj.SRN_No + "' ORDER BY TSPL_SRN_DETAIL.Line_No"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -909,7 +910,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                     objTr.Leak_Qty = clsCommon.myCdbl(dr("Leak_Qty"))
                     objTr.Burst_Qty = clsCommon.myCdbl(dr("Burst_Qty"))
                     objTr.Short_Qty = clsCommon.myCdbl(dr("Short_Qty"))
-                    objTr.Rejected_Qty = clsCommon.myCdbl(dr("Rejected_Qty"))
+                    objTr.Rejected_Qty = clsCommon.myCdbl(dr("RjtQty"))
                     objTr.Freeqty = clsCommon.myCdbl(dr("Free_Qty"))
                     objTr.MRN_Id = clsCommon.myCstr(dr("MRN_Id"))
                     objTr.GRN_ID = clsCommon.myCstr(dr("GRN_ID"))
