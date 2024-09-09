@@ -9800,6 +9800,9 @@ Public Class MDI
                     Case clsUserMgtCode.ProductionEntryReport
                         frm = New ProductionEntryReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptTankerProfitLossReport
+                        frm = New rptTankerProfitLossReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProductionUtilityCost
                         frm = New frmProductionUtilityCost
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

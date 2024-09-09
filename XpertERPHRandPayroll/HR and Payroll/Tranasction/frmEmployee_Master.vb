@@ -1316,6 +1316,43 @@ Public Class frmEmployee_Master
             txtUANNo.Focus()
             Return False
         End If
+        If chkPFApplicable.Checked = True Then
+            'If cboPFType.SelectedIndex = 0 Then
+            Dim COEPS As Decimal = txtCOEPS_PER.Text
+            Dim COEPF As Decimal = txtCOEPF_PER.Text
+            Dim per As Decimal = 0.00
+            per = clsCommon.myCDecimal(txtCOEPF_PER.Text) + clsCommon.myCDecimal(txtCOEPS_PER.Text)
+            If Per <> 12 Then
+                clsCommon.MyMessageBoxShow(Me, " Total of A/C-01 and A/C-10 should be 12", Me.Text)
+                Return False
+            End If
+            'ElseIf cboPFType.SelectedIndex = 1 Then
+            '    Dim COEPS As Decimal = txtCOEPS_PER.Text
+            '    Dim COEPF As Decimal = txtCOEPF_PER.Text
+            '    If clsCommon.myCDecimal(COEPF) <> 3.67 AndAlso clsCommon.myCDecimal(COEPS) <> 8.33 Then
+            '        txtCOEPF_PER.Text = 3.67
+            '        txtCOEPS_PER.Text = 8.33
+            '    End If
+            '    Dim Per As Decimal = 0
+            '    Per = clsCommon.myCDecimal(txtCOEPF_PER.Text) + clsCommon.myCDecimal(txtCOEPS_PER.Text)
+            '    If Per <> 12 Then
+            '        Throw New Exception("A/C-01 and A/C-10 should be 12")
+            '    End If
+            '    If clsCommon.myCdbl(txtEPS_MAX.Text) > 0 Then
+            '        txtEPS_MAX.Text = 0
+            '    End If
+            'ElseIf cboPFType.SelectedIndex = 2 Then
+            '    Dim Per As Double = 0
+            '    Dim COEpf As Decimal = txtCOEPF_PER.Text
+            '    If clsCommon.myCdbl(COEpf) > 0 Then
+            '        txtCOEPF_PER.Text = 12
+            '    End If
+            '    If txtCOEPF_PER.Text <> 12 Then
+            '        Throw New Exception("A/C-01 should be 12")
+            '    End If
+            '    txtCOEPS_PER.Text = 0
+            '    txtEPS_MAX.Text = 0
+        End If
         Return True
     End Function
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
@@ -3587,7 +3624,6 @@ Public Class frmEmployee_Master
             txtPFNo.Enabled = True
             cboPFType.Visible = True
             MyLabel49.Visible = True
-            cboPFType.SelectedIndex = 0
             GroupBox3.Visible = True
             If clsCommon.CompairString(clsCommon.myCstr(cboPFCalculatnType.SelectedValue), "PR") = CompairStringResult.Equal Then
                 Dim str As Double = clsDBFuncationality.getSingleValue("select isnull(Coepf_per,0)Coepf_per from TSPL_EMPLOYEE_MASTER where EMP_Code='" + txtCode.Value + "'")
@@ -3618,7 +3654,8 @@ Public Class frmEmployee_Master
                     End If
                 End If
             End If
-            Else
+            cboPFType.SelectedIndex = 0
+        Else
                 cboPFCalculatnType.Visible = False
             txtPFNo.Enabled = False
             txtEPFRate.Enabled = False
@@ -4355,5 +4392,49 @@ Public Class frmEmployee_Master
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub cboPFType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cboPFType.SelectedIndexChanged
+        If chkPFApplicable.Checked = True Then
+            If cboPFType.SelectedIndex = 0 Then
+                Dim COEPS As Decimal = txtCOEPS_PER.Text
+                Dim COEPF As Decimal = txtCOEPF_PER.Text
+                If clsCommon.myCDecimal(COEPF) <> 3.67 AndAlso clsCommon.myCDecimal(COEPS) <> 8.33 Then
+                    txtCOEPF_PER.Text = 3.67
+                    txtCOEPS_PER.Text = 8.33
+                End If
+                txtEPS_MAX.Text = 1250
+                Dim Per As Double = 0
+                Per = clsCommon.myCDecimal(txtCOEPF_PER.Text) + clsCommon.myCDecimal(txtCOEPS_PER.Text)
+                If Per <> 12 Then
+                    Throw New Exception("A/C-01 and A/C-10 should be 12")
+                End If
+            ElseIf cboPFType.SelectedIndex = 1 Then
+                Dim COEPS As Decimal = txtCOEPS_PER.Text
+                Dim COEPF As Decimal = txtCOEPF_PER.Text
+                If clsCommon.myCDecimal(COEPF) <> 3.67 AndAlso clsCommon.myCDecimal(COEPS) <> 8.33 Then
+                    txtCOEPF_PER.Text = 3.67
+                    txtCOEPS_PER.Text = 8.33
+                End If
+                Dim Per As Decimal = 0
+                Per = clsCommon.myCDecimal(txtCOEPF_PER.Text) + clsCommon.myCDecimal(txtCOEPS_PER.Text)
+                If Per <> 12 Then
+                        Throw New Exception("A/C-01 and A/C-10 should be 12")
+                    End If
+                    If clsCommon.myCdbl(txtEPS_MAX.Text) > 0 Then
+                        txtEPS_MAX.Text = 0
+                    End If
+                ElseIf cboPFType.SelectedIndex = 2 Then
+                    Dim Per As Double = 0
+                Dim COEpf As Decimal = txtCOEPF_PER.Text
+                If clsCommon.myCdbl(COEpf) > 0 Then
+                    txtCOEPF_PER.Text = 12
+                End If
+                If txtCOEPF_PER.Text <> 12 Then
+                    Throw New Exception("A/C-01 should be 12")
+                End If
+                txtCOEPS_PER.Text = 0
+                    txtEPS_MAX.Text = 0
+                End If
+            End If
     End Sub
 End Class

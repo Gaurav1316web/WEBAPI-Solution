@@ -24,6 +24,8 @@ Public Class frmBulkSaleFreightCalculation
     Const colApplicableRate As String = "colApplicableRate"
     Const colGPSKM As String = "colGPSKM"
     Const colPayableAmount As String = "colPayableAmount"
+    Const colTollCharges As String = "colTollCharges"
+    Const colTotalPayableAmount As String = "colTotalPayableAmount"
 
     Dim isLoadData As Boolean = False
     Dim isCopyData As Boolean = False
@@ -189,6 +191,8 @@ Public Class frmBulkSaleFreightCalculation
                             objTr.Payable_Amount = clsCommon.myCDecimal(grow.Cells("Payable_Amount").Value)
                             objTr.DieselPetrol = clsCommon.myCDecimal(grow.Cells("DieselPetrol").Value)
                             objTr.GPS_KM = clsCommon.myCDecimal(grow.Cells("GPS_KM").Value)
+                            objTr.Toll_Charges = clsCommon.myCDecimal(grow.Cells("Toll_Charges").Value)
+                            objTr.Total_Payable_Amount = clsCommon.myCDecimal(grow.Cells("Total_Payable_Amount").Value)
                             TotalAmt = TotalAmt + clsCommon.myCdbl(grow.Cells("Payable_Amount").Value)
                             obj.Arr.Add(objTr)
                         End If
@@ -210,6 +214,8 @@ Public Class frmBulkSaleFreightCalculation
                             objTr.Payable_Amount = clsCommon.myCDecimal(grow.Cells(colPayableAmount).Value)
                             objTr.DieselPetrol = clsCommon.myCDecimal(grow.Cells(colDieselPetrol).Value)
                             objTr.GPS_KM = clsCommon.myCDecimal(grow.Cells(colGPSKM).Value)
+                            objTr.Toll_Charges = clsCommon.myCDecimal(grow.Cells(colTollCharges).Value)
+                            objTr.Total_Payable_Amount = clsCommon.myCDecimal(grow.Cells(colTotalPayableAmount).Value)
                             TotalAmt = TotalAmt + clsCommon.myCdbl(grow.Cells(colPayableAmount).Value)
                             obj.Arr.Add(objTr)
                         End If
@@ -254,6 +260,7 @@ Public Class frmBulkSaleFreightCalculation
         gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
         gv1.AddNewRowPosition = SystemRowPosition.Bottom
+
         Dim repoNumBox As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoNumBox.Name = colSNo
         repoNumBox.Width = 40
@@ -371,13 +378,14 @@ Public Class frmBulkSaleFreightCalculation
         repoDieselPetrol.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoDieselPetrol)
 
+
         Dim repoApplicableRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoApplicableRate.FormatString = ""
+        repoApplicableRate.FormatString = "0.00"
         repoApplicableRate.Width = 100
         repoApplicableRate.HeaderText = "Applicable Rate"
         repoApplicableRate.Name = colApplicableRate
-        repoApplicableRate.IsVisible = True
-        repoApplicableRate.ReadOnly = True
+        repoApplicableRate.IsVisible = False
+        repoApplicableRate.ReadOnly = False
         repoApplicableRate.Minimum = 0
         repoApplicableRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoApplicableRate)
@@ -404,6 +412,28 @@ Public Class frmBulkSaleFreightCalculation
         repoPayableAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoPayableAmount)
 
+        Dim repoTollCharges As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoTollCharges.FormatString = ""
+        repoTollCharges.Width = 120
+        repoTollCharges.HeaderText = "Toll_Charges"
+        repoTollCharges.Name = colTollCharges
+        repoTollCharges.ReadOnly = False
+        repoTollCharges.IsVisible = True
+        repoTollCharges.Minimum = 0
+        repoTollCharges.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoTollCharges)
+
+        Dim repoTotalPayableAmount As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoTotalPayableAmount.FormatString = ""
+        repoTotalPayableAmount.Width = 120
+        repoTotalPayableAmount.HeaderText = "Total_Payable_Amount"
+        repoTotalPayableAmount.Name = colTotalPayableAmount
+        repoTotalPayableAmount.ReadOnly = True
+        repoTotalPayableAmount.IsVisible = True
+        repoTotalPayableAmount.Minimum = 0
+        repoTotalPayableAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoTotalPayableAmount)
+
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
         gv1.AllowColumnReorder = True
@@ -422,6 +452,7 @@ Public Class frmBulkSaleFreightCalculation
             btnsave.Enabled = True
             btnPost.Enabled = True
             LoadBlankGrid()
+            isInsideLoadData = True
             Dim obj As New clsBulkSaleFreightCalculation()
             obj = clsBulkSaleFreightCalculation.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_Code)) > 0) Then
@@ -464,6 +495,8 @@ Public Class frmBulkSaleFreightCalculation
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDieselPetrol).Value = objTr.DieselPetrol
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGPSKM).Value = objTr.GPS_KM
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colPayableAmount).Value = objTr.Payable_Amount
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTollCharges).Value = objTr.Toll_Charges
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalPayableAmount).Value = objTr.Total_Payable_Amount
 
                     Next
                 End If
@@ -471,7 +504,7 @@ Public Class frmBulkSaleFreightCalculation
             End If
 
             isLoadData = True
-            isInsideLoadData = True
+            isInsideLoadData = False
             isInsideLoadData = False
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -531,13 +564,15 @@ Public Class frmBulkSaleFreightCalculation
 
     Private Sub LoadDispatchAcknowledge(ByVal FromDate As String, ByVal ToDate As String, ByVal Customer As String)
         Try
-
+            isInsideLoadData = True
+            isCellValueChangedOpen = True
             Dim dt As DataTable = clsBulkSaleFreightCalculation.LoadDispatchAcknowledgeData(FromDate, ToDate, Customer)
+            gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
             gv1.SummaryRowsBottom.Clear()
             gv1.Columns.Clear()
-            gv1.DataSource = Nothing
+
             If dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
                 If txtDieselHike.Value > 0 Then
@@ -556,6 +591,8 @@ Public Class frmBulkSaleFreightCalculation
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
+            isInsideLoadData = False
+            isCellValueChangedOpen = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -590,6 +627,8 @@ Public Class frmBulkSaleFreightCalculation
                                 gv1.Rows(ii).Cells(colApplicableRate).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Applicable Rate").Value)
                                 gv1.Rows(ii).Cells(colGPSKM).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("GPS KM").Value)
                                 gv1.Rows(ii).Cells(colPayableAmount).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Payable Amount").Value)
+                                gv1.Rows(ii).Cells(colTollCharges).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Toll Charges").Value)
+                                gv1.Rows(ii).Cells(colTotalPayableAmount).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Payable Amount").Value)
 
                                 If clsCommon.myLen(txtDocumentNo.Value) = 0 Then
                                     If gv1.Rows.Count = gvImport.Rows.Count Then
@@ -627,10 +666,18 @@ Public Class frmBulkSaleFreightCalculation
         gv1.EnableFiltering = True
         gv1.ShowRowHeaderColumn = True
         For ii As Integer = 0 To gv1.Columns.Count - 1
-            gv1.Columns(ii).ReadOnly = True
+
+            If clsCommon.CompairString(clsCommon.myCstr(gv1.Columns(ii).HeaderText), "Applicable_Rate") = CompairStringResult.Equal Then
+                gv1.Columns(ii).ReadOnly = False
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.Columns(ii).HeaderText), "Toll_Charges") = CompairStringResult.Equal Then
+                gv1.Columns(ii).ReadOnly = False
+            Else
+                gv1.Columns(ii).ReadOnly = True
+            End If
             gv1.Columns(ii).IsVisible = True
             '  gv1.Columns(ii).Width = 100
         Next
+
         gv1.Columns("Date").HeaderText = "Dispatch Date"
         gv1.Columns("Tanker_No").HeaderText = "Tanker No"
         gv1.Columns("Dispatch_No").HeaderText = "Dispatch No "
@@ -639,9 +686,11 @@ Public Class frmBulkSaleFreightCalculation
         gv1.Columns("Rate").HeaderText = "Rate Per 9KL"
         gv1.Columns("Pro_Rate").HeaderText = "Pro-Rate Payable Rate"
         gv1.Columns("DieselPetrol").HeaderText = "Diesel Hike/Red."
-        gv1.Columns("Payable_Amount").HeaderText = "Payable_Amount"
+        gv1.Columns("Payable_Amount").HeaderText = "Payable Amount"
         gv1.Columns("GPS_KM").HeaderText = "GPS KM"
-        gv1.Columns("Applicable_Rate").HeaderText = "Applicable_Rate"
+        gv1.Columns("Applicable_Rate").HeaderText = "Applicable Rate"
+        gv1.Columns("Toll_Charges").HeaderText = "Toll Charges"
+        gv1.Columns("Total_Payable_Amount").HeaderText = "Total Payable Amount"
 
     End Sub
 
@@ -698,8 +747,29 @@ Public Class frmBulkSaleFreightCalculation
         transportSql.ExporttoExcelWithoutFilter(qry, "", "", Me)
     End Sub
 
+
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         LoadDispatchAcknowledge(txtFromDate.Value, txtToDate.Value, txtCustomer.Value)
+    End Sub
+
+    Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                isCellValueChangedOpen = True
+                UpdateCurrentRow(gv1.CurrentRow.Index)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+        Dim applicableRate As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells("Applicable_Rate").Value)
+        Dim gpsKm As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells("GPS_KM").Value)
+        Dim PayAmt As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells("Payable_Amount").Value)
+        Dim TollChr As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells("Toll_charges").Value)
+        gv1.Rows(IntRowNo).Cells("Payable_Amount").Value = applicableRate * gpsKm
+        gv1.Rows(IntRowNo).Cells("Total_Payable_Amount").Value = PayAmt + TollChr
     End Sub
 
 End Class
