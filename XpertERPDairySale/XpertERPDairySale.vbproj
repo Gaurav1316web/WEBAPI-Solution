@@ -405,6 +405,12 @@
     <Compile Include="Report\rptInvoiceDetailReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptMonthWiseDMRReport.Designer.vb">
+      <DependentUpon>rptMonthWiseDMRReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptMonthWiseDMRReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptNewSalesReport.Designer.vb">
       <DependentUpon>rptNewSalesReport.vb</DependentUpon>
     </Compile>
@@ -968,6 +974,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptInvoiceDetailReport.resx">
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptMonthWiseDMRReport.resx">
+      <DependentUpon>rptMonthWiseDMRReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptNewSalesReport.resx">
       <DependentUpon>rptNewSalesReport.vb</DependentUpon>
