@@ -68,6 +68,7 @@ Public Class frmTender
         'Else
         '    btnreverse.Enabled = False
         'End If
+        'Cancel_btn.Enabled = MyBase.isCancel_Flag
         btnreverse.Visible = False
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

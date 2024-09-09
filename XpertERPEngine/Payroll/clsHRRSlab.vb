@@ -128,6 +128,7 @@ Public Class clsHRRSlabDetails
     Public HRR_CODE As String
     Public _FROM As Decimal
     Public _TO As Decimal
+    Public Percentage As Decimal
     Public PAYHEADS As String
 #End Region
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
@@ -157,6 +158,7 @@ Public Class clsHRRSlabDetails
                 obj._FROM = clsCommon.myCdbl(dr("SLAB_FROM"))
                 obj._TO = clsCommon.myCdbl(dr("SLAB_TO"))
                 obj.PAYHEADS = clsCommon.myCstr(dr("PAYHEADS"))
+                obj.Percentage = clsCommon.myCstr(dr("Percentage"))
                 ObjList.Add(obj)
             Next
         End If
@@ -173,6 +175,7 @@ Public Class clsHRRSlabDetails
                 clsCommon.AddColumnsForChange(coll, "SLAB_FROM", obj._FROM)
                 clsCommon.AddColumnsForChange(coll, "SLAB_TO", obj._TO)
                 clsCommon.AddColumnsForChange(coll, "PAYHEADS", obj.PAYHEADS)
+                clsCommon.AddColumnsForChange(coll, "Percentage", obj.Percentage)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_HRR_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         Catch ex As Exception

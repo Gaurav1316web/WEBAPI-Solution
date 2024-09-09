@@ -271,6 +271,7 @@ Public Class clsUserMgtCode
     Public Const rptCreditCustomerReport As String = "CRD_CST_RPT"
     Public Const rptD1D2Report As String = "D1_D2_RPT"
     Public Const rptZoneWiseReport1 As String = "ZW_RPT"
+    Public Const rptMonthWiseDMRReport As String = "MW_DMR_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -2203,6 +2204,7 @@ Public Class clsUserMgtCode
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
+    Public Const rptTankerProfitLossReport As String = "TNR_P_L_R"
     Public Const rptPerodicalDispatchReport As String = "PERO_DISP_R"
     Public Const rptDBTCappingReport As String = "DBT_CAP_R"
     Public Const rptHeadLoadReport As String = "HEAD-LOAD-R"

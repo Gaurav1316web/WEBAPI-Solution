@@ -1347,6 +1347,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptTotalMilkProcurement, "Total Milk Procurement Report", "1.29.03.29", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.rptProductionStandardization, "Production Standardization Report", "1.29.03.30", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.ProductionEntryReport, "Production Entry Report", "1.29.03.31", clsUserMgtCode.SubModuleProductionReportDairy, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerProfitLossReport, "Tanker Profit Loss Report", "1.29.03.32", clsUserMgtCode.SubModuleProductionReportDairy, 37)
 
 
 
@@ -2359,6 +2360,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCreditCustomerReport, "Credit Customer Report", "1.36.03.26", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptD1D2Report, "D1D2 Report", "1.36.03.27", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptZoneWiseReport1, "Zone Wise Report", "1.36.03.28", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, "Month Wise DMR Report", "1.36.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
