@@ -158,6 +158,7 @@ Public Class FrmDeductionMaster
             obj.Ded_Grp_Code = fndDedGrp.Value
             obj.GL_Account_Code = FndGLAcct.Value
             obj.Deduction_Type = txtDeductionType.Value
+            obj.Deduction_Type_Hindi = lblDeductionType.Text
             If ChkSecurity.Checked Then
                 obj.Security = 1
             Else
@@ -256,7 +257,8 @@ Public Class FrmDeductionMaster
                 txtSeqNo.Text = obj.Sequence_No
                 lblDedGrpName.Text = clsDBFuncationality.getSingleValue("select Ded_Description from TSPL_DEDUCTION_GROUP where Ded_Code='" & fndDedGrp.Value & "'")
                 lblGLAcctName.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" & FndGLAcct.Value & "'")
-                lblDeductionType.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" & txtDeductionType.Value & "'")
+                lblDeductionType.Text = obj.Deduction_Type_Hindi
+                'lblDeductionType.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" & txtDeductionType.Value & "'")
                 If clsCommon.myLen(obj.Own_BMC_Milk_Reject_Type) > 0 Then
                     txtOwnBMCMilkRejectType.Value = obj.Own_BMC_Milk_Reject_Type
                     chkOwnBMCMilkRejectType.Checked = True
@@ -502,7 +504,7 @@ Public Class FrmDeductionMaster
     Private Sub txtDeductionType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDeductionType._MYValidating
         Dim Qry As String = "SELECT Document_No,Description	 FROM TSPL_DEDUCTION_TYPE_MASTER "
         txtDeductionType.Value = clsCommon.ShowSelectForm("txtDeductionType", Qry, "Document_No", "", txtDeductionType.Value, "Document_No", isButtonClicked)
-        lblDeductionType.Text = clsDBFuncationality.getSingleValue("Select Description from TSPL_DEDUCTION_TYPE_MASTER Where Document_No='" + txtDeductionType.Value + "' ")
+        lblDeductionType.Text = clsDBFuncationality.getSingleValue("Select isnull(Description_Hindi,'') as Description_Hindi  from TSPL_DEDUCTION_TYPE_MASTER Where Document_No='" + txtDeductionType.Value + "' ")
 
     End Sub
 End Class

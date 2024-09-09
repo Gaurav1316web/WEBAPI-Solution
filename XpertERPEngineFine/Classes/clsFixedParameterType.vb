@@ -3,6 +3,7 @@ Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
+    Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
     Public Const Transactionupdate As String = "Transtion Update"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const RCDFControl As String = "RCDF Control"
@@ -1278,6 +1279,7 @@ Public Class clsFixedParameterCode
     Public Const ItemMaster As String = "Item Master"
     Public Const CustomerMaster As String = "Customer Master"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
+    Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
@@ -2754,6 +2756,7 @@ Public Class clsFixedParameter
     End Function
     Public Shared Function FixedParameterValues() As Boolean
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, "1", "0:OFF;1:ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk")
@@ -4270,6 +4273,7 @@ Public Class clsFixedParameterProgramMapping
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmRCDFRateControl, clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)

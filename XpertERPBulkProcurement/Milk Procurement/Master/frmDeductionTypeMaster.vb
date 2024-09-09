@@ -22,6 +22,7 @@ Public Class frmDeductionTypeMaster
         txtDocumentNo.MyReadOnly = False
         txtDocumentNo.Value = ""
         txtDescription.Text = ""
+        txtDescriptionHindi.Text = ""
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -57,6 +58,7 @@ Public Class frmDeductionTypeMaster
                 Dim obj As New clsDeductionTypeMaster()
                 obj.Document_No = txtDocumentNo.Value
                 obj.Description = txtDescription.Text
+                obj.Description_Hindi = txtDescriptionHindi.Text
 
                 If (obj.SaveData(obj, isNewEntry, Nothing)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -77,6 +79,7 @@ Public Class frmDeductionTypeMaster
 
                 txtDocumentNo.Value = obj.Document_No
                 txtDescription.Text = obj.Description
+                txtDescriptionHindi.Text = obj.Description_Hindi
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

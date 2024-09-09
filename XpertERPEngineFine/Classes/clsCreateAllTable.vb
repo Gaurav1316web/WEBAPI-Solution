@@ -150,6 +150,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "DateTime  Not NULL")
             coll.Add("Modified_By", "varchar(12)  Not NULL")
             coll.Add("Modified_Date", "datetime  Not NULL")
+            coll.Add("Description_Hindi", "nvarchar(100) NULL ")
 
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
 
@@ -10906,6 +10907,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Transfer_To_Saving", "integer not null default 0")
             coll.Add("Description_Hindi", "nvarchar(100) null")
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
+            coll.Add("Deduction_Type_Hindi", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 
