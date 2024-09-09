@@ -1674,51 +1674,51 @@ Public Class clsBookingDetailDairySale
 
                 Dim objD As clsSchemeApplyOnDairy = Nothing
                 'If clsCommon.myLen(clsCommon.myCstr(SchemeType)) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(SchemeType), "Quantitive") = CompairStringResult.Equal Then ''richa use obj.schemetype instead of SchemeType variable becuase scheme quantity will remain always 0 due to this 
-                objD = clsSchemeApplyOnDairy.GetSchemeData(clsCommon.myCstr(obj.Item_Code), clsCommon.myCstr(obj.Unit_code), clsCommon.myCstr(obj.Booking_Qty), obj.Cust_Code, clsCommon.myCstr(SchemeType), Nothing, Nothing, trans)
-                If objD IsNot Nothing AndAlso objD.Arr.Count > 0 Then
+                'objD = clsSchemeApplyOnDairy.GetSchemeData(clsCommon.myCstr(obj.Item_Code), clsCommon.myCstr(obj.Unit_code), clsCommon.myCstr(obj.Booking_Qty), obj.Cust_Code, clsCommon.myCstr(SchemeType), Nothing, Nothing, trans)
+                'If objD IsNot Nothing AndAlso objD.Arr.Count > 0 Then
 
-                    For Each objtrScheme As clsSchemeApplyOnDairy In objD.Arr
-                        If clsCommon.myLen(clsCommon.myCstr(obj.SchemeType)) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.SchemeType), "Quantitive") = CompairStringResult.Equal Then
-                            Dim colll As New Hashtable()
-                            Dim DocAmt As Integer = 0
-                            LineNo += 1
-                            clsCommon.AddColumnsForChange(colll, "Document_No", strDocNo)
-                            clsCommon.AddColumnsForChange(colll, "Line_No", LineNo) 'obj.Line_No
-                            clsCommon.AddColumnsForChange(colll, "Cust_Code", obj.Cust_Code)
-                            clsCommon.AddColumnsForChange(colll, "Loc_Code", obj.Loc_Code)
-                            clsCommon.AddColumnsForChange(colll, "Item_Code", objtrScheme.Schm_Icode)
-                            clsCommon.AddColumnsForChange(colll, "Unit_code", objtrScheme.Schm_Item_Uom)
-                            clsCommon.AddColumnsForChange(colll, "Booking_Qty", obj.Scheme_Qty)
-                            clsCommon.AddColumnsForChange(colll, "DO_Qty", obj.Scheme_Qty)
-                            ' clsCommon.AddColumnsForChange(colll, "Short_Description", obj.Short_Description)
-                            clsCommon.AddColumnsForChange(colll, "Vehicle_Code", obj.Vehicle_Code)
-                            clsCommon.AddColumnsForChange(colll, "Booking_Status", obj.Booking_Status)
-                            clsCommon.AddColumnsForChange(colll, "Total_Qty", obj.Scheme_Qty)
+                '    For Each objtrScheme As clsSchemeApplyOnDairy In objD.Arr
+                '        If clsCommon.myLen(clsCommon.myCstr(obj.SchemeType)) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.SchemeType), "Quantitive") = CompairStringResult.Equal Then
+                '            Dim colll As New Hashtable()
+                '            Dim DocAmt As Integer = 0
+                '            LineNo += 1
+                '            clsCommon.AddColumnsForChange(colll, "Document_No", strDocNo)
+                '            clsCommon.AddColumnsForChange(colll, "Line_No", LineNo) 'obj.Line_No
+                '            clsCommon.AddColumnsForChange(colll, "Cust_Code", obj.Cust_Code)
+                '            clsCommon.AddColumnsForChange(colll, "Loc_Code", obj.Loc_Code)
+                '            clsCommon.AddColumnsForChange(colll, "Item_Code", objtrScheme.Schm_Icode)
+                '            clsCommon.AddColumnsForChange(colll, "Unit_code", objtrScheme.Schm_Item_Uom)
+                '            clsCommon.AddColumnsForChange(colll, "Booking_Qty", obj.Scheme_Qty)
+                '            clsCommon.AddColumnsForChange(colll, "DO_Qty", obj.Scheme_Qty)
+                '            ' clsCommon.AddColumnsForChange(colll, "Short_Description", obj.Short_Description)
+                '            clsCommon.AddColumnsForChange(colll, "Vehicle_Code", obj.Vehicle_Code)
+                '            clsCommon.AddColumnsForChange(colll, "Booking_Status", obj.Booking_Status)
+                '            clsCommon.AddColumnsForChange(colll, "Total_Qty", obj.Scheme_Qty)
 
-                            clsCommon.AddColumnsForChange(colll, "Scheme_Type", "")
-                            clsCommon.AddColumnsForChange(colll, "Scheme_Item_Code", obj.Item_Code)
-                            clsCommon.AddColumnsForChange(colll, "Scheme_Qty", obj.Booking_Qty)
-                            clsCommon.AddColumnsForChange(colll, "Scheme_Item_UOM", obj.Unit_code)
-                            clsCommon.AddColumnsForChange(colll, "Scheme_Code", objtrScheme.Schm_Code)
+                '            clsCommon.AddColumnsForChange(colll, "Scheme_Type", "")
+                '            clsCommon.AddColumnsForChange(colll, "Scheme_Item_Code", obj.Item_Code)
+                '            clsCommon.AddColumnsForChange(colll, "Scheme_Qty", obj.Booking_Qty)
+                '            clsCommon.AddColumnsForChange(colll, "Scheme_Item_UOM", obj.Unit_code)
+                '            clsCommon.AddColumnsForChange(colll, "Scheme_Code", objtrScheme.Schm_Code)
 
-                            clsCommon.AddColumnsForChange(colll, "Scheme_Item", "Y")
-                            clsCommon.AddColumnsForChange(colll, "FOC_Item", "1")
-                            '================Added by preeti Gupta======================
-                            clsCommon.AddColumnsForChange(colll, "Route_No", obj.Route_No)
-                            '==============================================================
-                            If clsCommon.myLen(obj.Price_IdStartDate) > 0 Then
-                                clsCommon.AddColumnsForChange(colll, "Price_IdStartDate", clsCommon.GetPrintDate(obj.Price_IdStartDate, "dd/MMM/yyyy"), True)
-                            Else
-                                clsCommon.AddColumnsForChange(colll, "Price_IdStartDate", Nothing, True)
-                            End If
-                            clsCommon.AddColumnsForChange(colll, "PricePlanNo", obj.PricePlanNo, True)
-                            clsCommon.AddColumnsForChange(colll, "Item_Price_ID", obj.Item_Price_ID)
+                '            clsCommon.AddColumnsForChange(colll, "Scheme_Item", "Y")
+                '            clsCommon.AddColumnsForChange(colll, "FOC_Item", "1")
+                '            '================Added by preeti Gupta======================
+                '            clsCommon.AddColumnsForChange(colll, "Route_No", obj.Route_No)
+                '            '==============================================================
+                '            If clsCommon.myLen(obj.Price_IdStartDate) > 0 Then
+                '                clsCommon.AddColumnsForChange(colll, "Price_IdStartDate", clsCommon.GetPrintDate(obj.Price_IdStartDate, "dd/MMM/yyyy"), True)
+                '            Else
+                '                clsCommon.AddColumnsForChange(colll, "Price_IdStartDate", Nothing, True)
+                '            End If
+                '            clsCommon.AddColumnsForChange(colll, "PricePlanNo", obj.PricePlanNo, True)
+                '            clsCommon.AddColumnsForChange(colll, "Item_Price_ID", obj.Item_Price_ID)
 
-                            clsCommonFunctionality.UpdateDataTable(colll, "TSPL_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                '            clsCommonFunctionality.UpdateDataTable(colll, "TSPL_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
 
-                        End If
-                    Next
-                End If
+                '        End If
+                '    Next
+                'End If
                 Dim checkstockmrpwise As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, trans)) = 0, False, True)
                 If clsCommon.myLen(strDocNo) > 0 Then
                     Dim strQry As String = "delete TSPL_BATCH_ITEM  where Document_Code='" + strDocNo + "' and Item_Code='" + obj.Item_Code + "' and UOM='" + obj.Unit_code + "'"

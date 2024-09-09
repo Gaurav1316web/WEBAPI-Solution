@@ -3299,28 +3299,28 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         Dim DOCdateCurrent As Date? = Nothing
                         DOCdateCurrent = clsCommon.GETSERVERDATE()
                         ' Query to get scheme type of Item
-                        Dim qryScheme As String = "Select TSPL_SCHEME_MASTER_NEW.Scheme_Type from TSPL_SCHEME_MASTER_NEW left outer join TSPL_SCHEME_DETAIL_NEW on TSPL_SCHEME_DETAIL_NEW.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code "
-                        qryScheme += " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_SCHEME_DETAIL_NEW.Item_Code "
-                        qryScheme += " where TSPL_SCHEME_MASTER_NEW.Scheme_Code in (select scheme_code from (select ROW_NUMBER() over (partition by scheme_type order by start_date desc) as sno, TSPL_SCHEME_MASTER_NEW.Scheme_Code from "
-                        qryScheme += " TSPL_SCHEME_MASTER_NEW where TSPL_SCHEME_MASTER_NEW.Scheme_Type='Quantitive' and TSPL_SCHEME_MASTER_NEW.Status='Active' and  TSPL_SCHEME_MASTER_NEW.Start_Date<='" & clsCommon.GetPrintDate(DOCdateCurrent, "dd/MMM/yyyy") & "'  and (TSPL_SCHEME_MASTER_NEW.End_Date >= '" & clsCommon.GetPrintDate(DOCdateCurrent, "dd/MMM/yyyy") & "'  or TSPL_SCHEME_MASTER_NEW.End_date is null) and TSPL_SCHEME_MASTER_NEW.Scheme_Code in (select TSPL_SCHEME_DETAIL_NEW.Scheme_Code from "
-                        qryScheme += " TSPL_SCHEME_DETAIL_NEW left outer join TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_DETAIL_NEW.Scheme_Code=TSPL_SCHEME_BENEFICIARY.Scheme_Code where MainItem_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and Cust_Code='" + txtVendorNo.Value + "'))a where a.sno=1)"
-                        qryScheme += " and TSPL_SCHEME_MASTER_NEW.Scheme_Code in (select Scheme_Code from TSPL_SCHEME_BENEFICIARY where Cust_Code='" + objTr.Cust_Code + "') and TSPL_SCHEME_MASTER_NEW.Status='Active'"
-                        qryScheme += " and TSPL_SCHEME_DETAIL_NEW.MainItem_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' "
-                        qryScheme += " order by TSPL_SCHEME_MASTER_NEW.Scheme_Code"
-                        Dim SchemeType As String = clsDBFuncationality.getSingleValue(qryScheme)
-                        If clsCommon.myLen(clsCommon.myCstr(SchemeType)) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(SchemeType), "Quantitive") = CompairStringResult.Equal Then
-                            Dim objD As clsSchemeApplyOnDairy = Nothing
-                            objD = clsSchemeApplyOnDairy.GetSchemeData(clsCommon.myCstr(grow.Cells(colICode).Value), clsCommon.myCstr(grow.Cells(colUnit).Value), clsCommon.myCdbl(grow.Cells(colQty).Value), txtVendorNo.Value, clsCommon.myCstr(grow.Cells(colSchemeType).Value), Nothing, Nothing)
-                            If objD IsNot Nothing AndAlso objD.Arr.Count > 0 Then
-                                For Each objtrScheme As clsSchemeApplyOnDairy In objD.Arr
-                                    objTr.SchemeType = objtrScheme.schm_Type
-                                    objTr.Scheme_Item_Code = objtrScheme.Schm_Icode
-                                    objTr.Scheme_Qty = objtrScheme.Schm_Qty
-                                    objTr.Scheme_Item_UOM = objtrScheme.Schm_Item_Uom
-                                    objTr.Scheme_Code = objtrScheme.Schm_Code
-                                Next
-                            End If
-                        End If
+                        'Dim qryScheme As String = "Select TSPL_SCHEME_MASTER_NEW.Scheme_Type from TSPL_SCHEME_MASTER_NEW left outer join TSPL_SCHEME_DETAIL_NEW on TSPL_SCHEME_DETAIL_NEW.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code "
+                        'qryScheme += " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_SCHEME_DETAIL_NEW.Item_Code "
+                        'qryScheme += " where TSPL_SCHEME_MASTER_NEW.Scheme_Code in (select scheme_code from (select ROW_NUMBER() over (partition by scheme_type order by start_date desc) as sno, TSPL_SCHEME_MASTER_NEW.Scheme_Code from "
+                        'qryScheme += " TSPL_SCHEME_MASTER_NEW where TSPL_SCHEME_MASTER_NEW.Scheme_Type='Quantitive' and TSPL_SCHEME_MASTER_NEW.Status='Active' and  TSPL_SCHEME_MASTER_NEW.Start_Date<='" & clsCommon.GetPrintDate(DOCdateCurrent, "dd/MMM/yyyy") & "'  and (TSPL_SCHEME_MASTER_NEW.End_Date >= '" & clsCommon.GetPrintDate(DOCdateCurrent, "dd/MMM/yyyy") & "'  or TSPL_SCHEME_MASTER_NEW.End_date is null) and TSPL_SCHEME_MASTER_NEW.Scheme_Code in (select TSPL_SCHEME_DETAIL_NEW.Scheme_Code from "
+                        'qryScheme += " TSPL_SCHEME_DETAIL_NEW left outer join TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_DETAIL_NEW.Scheme_Code=TSPL_SCHEME_BENEFICIARY.Scheme_Code where MainItem_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and Cust_Code='" + txtVendorNo.Value + "'))a where a.sno=1)"
+                        'qryScheme += " and TSPL_SCHEME_MASTER_NEW.Scheme_Code in (select Scheme_Code from TSPL_SCHEME_BENEFICIARY where Cust_Code='" + objTr.Cust_Code + "') and TSPL_SCHEME_MASTER_NEW.Status='Active'"
+                        'qryScheme += " and TSPL_SCHEME_DETAIL_NEW.MainItem_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' "
+                        'qryScheme += " order by TSPL_SCHEME_MASTER_NEW.Scheme_Code"
+                        'Dim SchemeType As String = clsDBFuncationality.getSingleValue(qryScheme)
+                        'If clsCommon.myLen(clsCommon.myCstr(SchemeType)) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(SchemeType), "Quantitive") = CompairStringResult.Equal Then
+                        '    Dim objD As clsSchemeApplyOnDairy = Nothing
+                        '    objD = clsSchemeApplyOnDairy.GetSchemeData(clsCommon.myCstr(grow.Cells(colICode).Value), clsCommon.myCstr(grow.Cells(colUnit).Value), clsCommon.myCdbl(grow.Cells(colQty).Value), txtVendorNo.Value, clsCommon.myCstr(grow.Cells(colSchemeType).Value), Nothing, Nothing)
+                        '    If objD IsNot Nothing AndAlso objD.Arr.Count > 0 Then
+                        '        For Each objtrScheme As clsSchemeApplyOnDairy In objD.Arr
+                        '            objTr.SchemeType = objtrScheme.schm_Type
+                        '            objTr.Scheme_Item_Code = objtrScheme.Schm_Icode
+                        '            objTr.Scheme_Qty = objtrScheme.Schm_Qty
+                        '            objTr.Scheme_Item_UOM = objtrScheme.Schm_Item_Uom
+                        '            objTr.Scheme_Code = objtrScheme.Schm_Code
+                        '        Next
+                        '    End If
+                        'End If
                         'End of Scheme Type of Detail
                     End If
                     objTr.QtyinKg = clsCommon.myCdbl(grow.Cells(colQtyinKG).Value)

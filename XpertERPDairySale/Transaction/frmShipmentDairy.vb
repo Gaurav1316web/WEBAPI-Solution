@@ -7046,15 +7046,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If (AllowToSave(False)) Then
 
-            'If IsOnlyCreditCust Then
-            '    txtTransNo.Text = txtVendorNo.Value
-            '    Dim routeNo As String = txtRouteNo.Value
-            '    GetRouteNO(False)
-            '    txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
-            '    lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
-            '    MergeDistributorItems(True, True, trans)
-            '    'txtRouteNo.Value = routeNo
-            'End If
+
             trans = clsDBFuncationality.GetTransactin()
             Try
                 Dim BoothCode As String = ""
@@ -14541,12 +14533,16 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceCOde).Value = obj.Price_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = txtTransNo.Text
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = obj.Scheme_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'", trans))
+
                         If chkSampling.Checked Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
                         End If
                         If AutoScheme = True Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
+                            If Not IsLoadCreditCust Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
+                                findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value)
+                            End If
                         End If
                         'findQtyandPromoSchemeCode(False, obj.Scheme_Code, objOrderHead.Document_Date)
                         'If Not IsCreditCustomer Then
