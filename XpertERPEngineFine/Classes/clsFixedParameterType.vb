@@ -1270,7 +1270,7 @@ Public Class clsFixedParameterType
     Public Const VehicleNofromDispatch = "VehicleNo From Dispatch"
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
-
+    Public Const PickRatefromMaster = "Pick Rate from Master"
 End Class
 Public Class clsFixedParameterCode
     'Public Const SecretorydcsMaster As String = "Secretory/DCS Master"
@@ -2676,7 +2676,7 @@ Public Class clsFixedParameterCode
     Public Const HideQtyCrateRegister = "Hide Qty Crate Register"
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
-
+    Public Const PickRatefromMaster = "Pick Rate from Master"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4242,6 +4242,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, "0", "0:Pick Rate Manually, 1:Pick Rate from Master;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6024,6 +6025,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, EnumControlType.CheckBox)
+
+        InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, EnumControlType.CheckBox)
 
     End Sub
 End Class
