@@ -32,6 +32,8 @@ Partial Class frmDeductionTypeMaster
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtDescriptionHindi = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -42,6 +44,8 @@ Partial Class frmDeductionTypeMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDescriptionHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -54,6 +58,8 @@ Partial Class frmDeductionTypeMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDescriptionHindi)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnAddNew)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDescription)
@@ -178,6 +184,40 @@ Partial Class frmDeductionTypeMaster
         Me.btnDelete.TabIndex = 3
         Me.btnDelete.Text = "Delete"
         '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(13, 58)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(92, 16)
+        Me.MyLabel1.TabIndex = 626
+        Me.MyLabel1.Text = "Description Hindi"
+        '
+        'txtDescriptionHindi
+        '
+        Me.txtDescriptionHindi.CalculationExpression = Nothing
+        Me.txtDescriptionHindi.FieldCode = Nothing
+        Me.txtDescriptionHindi.FieldDesc = Nothing
+        Me.txtDescriptionHindi.FieldMaxLength = 0
+        Me.txtDescriptionHindi.FieldName = Nothing
+        Me.txtDescriptionHindi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescriptionHindi.isCalculatedField = False
+        Me.txtDescriptionHindi.IsSourceFromTable = False
+        Me.txtDescriptionHindi.IsSourceFromValueList = False
+        Me.txtDescriptionHindi.IsUnique = False
+        Me.txtDescriptionHindi.Location = New System.Drawing.Point(114, 58)
+        Me.txtDescriptionHindi.MaxLength = 100
+        Me.txtDescriptionHindi.MendatroryField = False
+        Me.txtDescriptionHindi.MyLinkLable1 = Nothing
+        Me.txtDescriptionHindi.MyLinkLable2 = Nothing
+        Me.txtDescriptionHindi.Name = "txtDescriptionHindi"
+        Me.txtDescriptionHindi.ReferenceFieldDesc = Nothing
+        Me.txtDescriptionHindi.ReferenceFieldName = Nothing
+        Me.txtDescriptionHindi.ReferenceTableName = Nothing
+        Me.txtDescriptionHindi.Size = New System.Drawing.Size(250, 18)
+        Me.txtDescriptionHindi.TabIndex = 625
+        '
         'frmDeductionTypeMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -201,6 +241,8 @@ Partial Class frmDeductionTypeMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDescriptionHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -215,4 +257,6 @@ Partial Class frmDeductionTypeMaster
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
     Friend WithEvents txtDescription As common.Controls.MyTextBox
     Friend WithEvents btnAddNew As RadButton
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtDescriptionHindi As common.Controls.MyTextBox
 End Class
