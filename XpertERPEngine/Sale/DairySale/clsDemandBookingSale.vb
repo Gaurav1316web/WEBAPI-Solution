@@ -1216,7 +1216,7 @@ where 2=2 "
     '        End Try
     '        Return True
     '    End Function
-    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize) As Boolean
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup) As Boolean
         Try
             If clsCommon.myLen(strShift) <= 0 Then
                 Throw New Exception("Please select Shift")
@@ -1446,7 +1446,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
             'If EnumPageSize = DosPaperSize.Tecxpert15X12 Then
             '    obj.ApplyPrintCommand = False
             'End If
-            obj.Print(obj, dt, PageSetup.Landscap, "", "", EnumPageSize)
+            obj.Print(obj, dt, enumPageSetup, "", "", EnumPageSize)
             Dim x As Integer = 1
         Catch ex As Exception
             Throw New Exception(ex.Message)

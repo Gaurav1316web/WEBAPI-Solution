@@ -85,10 +85,10 @@ Public Class clsERPFuncationality
             IntFiscalYear -= 1
         End If
 
-        qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, strRouteNo, IntFiscalYear, False, isMasterPrefix)
+        qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, False, isMasterPrefix, strRouteNo)
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            qry = GetQryOFDOCPrefix(trans, dtDocDate.AddMonths(-1), strDocType, strTransType, strLocatinSegmentCode, strRouteNo, IntFiscalYear, True, isMasterPrefix)
+            qry = GetQryOFDOCPrefix(trans, dtDocDate.AddMonths(-1), strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, True, isMasterPrefix, strRouteNo)
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             Dim flag As Boolean = False
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso (clsCommon.myCdbl(dt.Rows(0)("Is_Change_monthly")) = 1 OrElse clsCommon.myCdbl(dt.Rows(0)("Is_Change_Daily")) = 1) Then
@@ -96,7 +96,7 @@ Public Class clsERPFuncationality
             End If
             If Not flag Then
                 If objCommonVar.AutoGeneratePrefix Then
-                    qry = GetQryOFDOCPrefix(trans, dtDocDate.AddYears(-1), strDocType, strTransType, strLocatinSegmentCode, strRouteNo, IntFiscalYear - 1, False, isMasterPrefix)
+                    qry = GetQryOFDOCPrefix(trans, dtDocDate.AddYears(-1), strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear - 1, False, isMasterPrefix, strRouteNo)
                     dt = clsDBFuncationality.GetDataTable(qry, trans)
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                         Dim dr As DataRow = dt.NewRow()
@@ -217,7 +217,7 @@ Public Class clsERPFuncationality
                 clsCommon.AddColumnsForChange(coll, "MinSizeofSeries", clsCommon.myCdbl(dt.Rows(0)("MinSizeofSeries")))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DOCPREFIX_MASTER", OMInsertOrUpdate.Insert, "", trans)
 
-                qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, strRouteNo, IntFiscalYear, False, isMasterPrefix)
+                qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, False, isMasterPrefix, strRouteNo)
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
             End If
 
@@ -319,7 +319,7 @@ Public Class clsERPFuncationality
 
     End Function
 
-    Private Shared Function GetQryOFDOCPrefix(ByVal tran As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocatinSegmentCode As String, ByVal strRouteNo As String, ByVal IntFiscalYear As Integer, ByVal isTakingTopOne As Boolean, ByVal isMasterPrefix As Boolean) As String
+    Private Shared Function GetQryOFDOCPrefix(ByVal tran As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocatinSegmentCode As String, ByVal IntFiscalYear As Integer, ByVal isTakingTopOne As Boolean, ByVal isMasterPrefix As Boolean, ByVal strRouteNo As String) As String
         Dim whr As String = "select  PK_ID from TSPL_DOCPREFIX_MASTER where Doc_Type='" + strDocType + "' and  isnull(Doc_Trans_Type,'')='" + strTransType + "' and isnull(Location_Code,'')='" + strLocatinSegmentCode + "'"
         If clsCommon.myLen(strRouteNo) > 0 Then
             whr += " and isnull(RouteNo,'')='" + strRouteNo + "' "
