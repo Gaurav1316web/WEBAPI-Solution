@@ -37479,6 +37479,13 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Amount", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
+            coll.Add("Against_PKID", "integer not null references TSPL_PRODUCTION_UPLOADER_DETAIL(PK_ID)")
+            coll.Add("QC_Code", "Varchar(30) not null")
+            coll.Add("Value", "Decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_QC", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
 
             '===================================BM00000003192=======================Process Planning

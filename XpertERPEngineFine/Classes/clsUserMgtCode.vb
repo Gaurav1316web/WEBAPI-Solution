@@ -1662,6 +1662,7 @@ Public Class clsUserMgtCode
     Public Const frmProductionEntry As String = "PROD_ENTRY"
     Public Const frmProductionEntryFinalQC As String = "PRO-ENT-FQC"
     Public Const DariyProductionUploader As String = "DRY-PRO-UPL"
+    Public Const ProductionShiftMgmt As String = "PRO-SFT-MGM"
     Public Const frmWreckageBooking As String = "PROD_WR"
     Public Const frmProductionEntryWithoutBatch As String = "PROD_ENTR_WB"
     Public Const frmProcessProdReturn As String = "PP_PROD_RET"
