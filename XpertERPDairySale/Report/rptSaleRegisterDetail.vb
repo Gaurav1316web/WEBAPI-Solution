@@ -684,15 +684,15 @@ Public Class rptSaleRegisterDetail
                         Gv1.Columns(i).IsVisible = True
                     Next
                     Gv1.Columns("Amount").IsVisible = True
-                    'Gv1.Columns("Total Tax Amount").IsVisible = True
-                    Gv1.Columns("Total Tax Amount").IsVisible = False
+                    Gv1.Columns("Total Tax Amount").IsVisible = True
+                    'Gv1.Columns("Total Tax Amount").IsVisible = False
                     Gv1.Columns("Total Amount").IsVisible = True
 
                     Gv1.Columns("Batch_No").IsVisible = True
                     Gv1.Columns("Batch_No").HeaderText = "Batch No"
 
-                    Gv1.Columns("TaxAmt").IsVisible = True
-                    Gv1.Columns("TaxAmt").HeaderText = "Total Tax Amount"
+                    'Gv1.Columns("TaxAmt").IsVisible = True
+                    'Gv1.Columns("TaxAmt").HeaderText = "Total Tax Amount"
 
                 Else
                     For i As Integer = 0 To Gv1.Columns.Count - 1
@@ -710,10 +710,10 @@ Public Class rptSaleRegisterDetail
                     Next
                 End If
 
-                Gv1.Columns("Total Tax Amount").IsVisible = False
+                'Gv1.Columns("Total Tax Amount").IsVisible = False
 
-                Gv1.Columns("TaxAmt").IsVisible = True
-                Gv1.Columns("TaxAmt").HeaderText = "Total Tax Amount"
+                'Gv1.Columns("TaxAmt").IsVisible = True
+                'Gv1.Columns("TaxAmt").HeaderText = "Total Tax Amount"
 
                 Gv1.Columns("Form Type").IsVisible = False
                 Gv1.Columns("Form Type").Width = 70
