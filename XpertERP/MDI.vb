@@ -7037,6 +7037,9 @@ Public Class MDI
                     Case clsUserMgtCode.DariyProductionUploader
                         frm = New frmDairyProductionUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.ProductionShiftMgmt
+                        frm = New frmProductionShiftMgmt
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmWreckageBooking
                         frm = New frmWreckage
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

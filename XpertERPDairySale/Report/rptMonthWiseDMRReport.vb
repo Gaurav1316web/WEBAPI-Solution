@@ -9,9 +9,12 @@ Public Class rptMonthWiseDMRReport
 #Region "Variables"
     Dim dtFreshItem As DataTable = New DataTable()
     Dim dtProductItem As DataTable = New DataTable()
+    Dim PickRatefromMaster As Boolean = False
 #End Region
     Private Sub rptMonthWiseDMRReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         funreset()
+        PickRatefromMaster = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, Nothing)) = 1)
+
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
     End Sub
@@ -23,15 +26,17 @@ Public Class rptMonthWiseDMRReport
                 view.ColumnGroups.Add(New GridViewColumnGroup(""))
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add("Document_Date")
-                For ii As Integer = 0 To dtFreshItem.Rows.Count - 1
-                    view.ColumnGroups.Add(New GridViewColumnGroup(dtFreshItem.Rows(ii)("Short_Description")))
-                    view.ColumnGroups(ii + 1).Rows.Add(New GridViewColumnGroupRow())
-                    For col As Integer = 1 To gv1.Columns("Total_Milk_Qty").Index - 1
-                        If clsCommon.CompairString(gv1.Columns(col).HeaderText, dtFreshItem.Rows(ii)("Short_Description")) = CompairStringResult.Equal OrElse clsCommon.CompairString(gv1.Columns(col).HeaderText, dtFreshItem.Rows(ii)("Item_Description")) = CompairStringResult.Equal Then
-                            view.ColumnGroups(ii + 1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
-                        End If
+                If dtFreshItem.Rows.Count > 0 Then
+                    For ii As Integer = 0 To dtFreshItem.Rows.Count - 1
+                        view.ColumnGroups.Add(New GridViewColumnGroup(dtFreshItem.Rows(ii)("Short_Description")))
+                        view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                        For col As Integer = 1 To gv1.Columns("Total_Milk_Qty").Index - 1
+                            If clsCommon.CompairString(gv1.Columns(col).HeaderText, dtFreshItem.Rows(ii)("Short_Description")) = CompairStringResult.Equal OrElse clsCommon.CompairString(gv1.Columns(col).HeaderText, dtFreshItem.Rows(ii)("Item_Description")) = CompairStringResult.Equal Then
+                                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
+                            End If
+                        Next
                     Next
-                Next
+                End If
 
                 'For ii As Integer = 0 To dtProductItem.Rows.Count - 1
                 '    view.ColumnGroups.Add(New GridViewColumnGroup(dtProductItem.Rows(ii)("Short_Description")))
@@ -40,32 +45,33 @@ Public Class rptMonthWiseDMRReport
                 '    Next
                 'Next
                 view.ColumnGroups.Add(New GridViewColumnGroup(""))
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_Milk_Qty").Name)
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_Milk_Amt").Name)
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("TCS_Milk").Name)
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Security").Name)
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("GrandTotalMilk").Name)
-
-                For ii As Integer = 0 To dtProductItem.Rows.Count - 1
-                    view.ColumnGroups.Add(New GridViewColumnGroup(dtProductItem.Rows(ii)("Short_Description")))
                     view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
-                    For col As Integer = gv1.Columns("GrandTotalMilk").Index + 1 To gv1.Columns("Total_Prod_Amt").Index - 1
-                        If clsCommon.CompairString(gv1.Columns(col).HeaderText, dtProductItem.Rows(ii)("Short_Description")) = CompairStringResult.Equal OrElse clsCommon.CompairString(gv1.Columns(col).HeaderText, dtProductItem.Rows(ii)("Item_Description")) = CompairStringResult.Equal Then
-                            view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
-                        End If
-                    Next
-                Next
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_Milk_Qty").Name)
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_Milk_Amt").Name)
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("TCS_Milk").Name)
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Security").Name)
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("GrandTotalMilk").Name)
 
+                If dtProductItem.Rows.Count > 0 Then
+                    For ii As Integer = 0 To dtProductItem.Rows.Count - 1
+                        view.ColumnGroups.Add(New GridViewColumnGroup(dtProductItem.Rows(ii)("Short_Description")))
+                        view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                        For col As Integer = gv1.Columns("GrandTotalMilk").Index + 1 To gv1.Columns("Total_Prod_Amt").Index - 1
+                            If clsCommon.CompairString(gv1.Columns(col).HeaderText, dtProductItem.Rows(ii)("Short_Description")) = CompairStringResult.Equal OrElse clsCommon.CompairString(gv1.Columns(col).HeaderText, dtProductItem.Rows(ii)("Item_Description")) = CompairStringResult.Equal Then
+                                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
+                            End If
+                        Next
+                    Next
+                End If
                 view.ColumnGroups.Add(New GridViewColumnGroup(""))
                 view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_Prod_Amt").Name)
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("TCS_Prod").Name)
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("GrandTotalProd").Name)
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Grand Total").Name)
-                gv1.ViewDefinition = view
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_Prod_Amt").Name)
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("TCS_Prod").Name)
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("GrandTotalProd").Name)
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Grand Total").Name)
+                    gv1.ViewDefinition = view
 
-            End If
+                End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
@@ -127,7 +133,7 @@ Public Class rptMonthWiseDMRReport
                 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) " & whrcls & ""
 
                 dtFreshItem = clsDBFuncationality.GetDataTable("select " & qry & " and  TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0   group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq ORDER BY Sku_Seq ")
-                dtProductItem = clsDBFuncationality.GetDataTable("select " & qry & "  and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1  group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq ORDER BY Sku_Seq ")
+                dtProductItem = clsDBFuncationality.GetDataTable("select " & qry & " and TSPL_ITEM_MASTER.IsTaxable = 1  group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq ORDER BY Sku_Seq ")
             End If
             Dim FreshItem As String = Nothing
             Dim FreshItemName As String = Nothing
@@ -170,13 +176,13 @@ Public Class rptMonthWiseDMRReport
                     ProdItemName += "Sum(IsNull([" + clsCommon.myCstr(dtProductItem.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtProductItem.Rows(i)("Short_Description")) + "]" + ", Sum(IsNull([" + clsCommon.myCstr(dtProductItem.Rows(i)("Item_Description")) + "],0)) As [" + clsCommon.myCstr(dtProductItem.Rows(i)("Item_Description")) + "]" + ","
                     ProdItem += "[" + clsCommon.myCstr(dtProductItem.Rows(i)("Short_Description")) + "] As [" + clsCommon.myCstr(dtProductItem.Rows(i)("Short_Description")) + "]" + ",[" + clsCommon.myCstr(dtProductItem.Rows(i)("Item_Description")) + "] As [" + clsCommon.myCstr(dtProductItem.Rows(i)("Item_Description")) + "]" + ","
                     If i = 0 Then
-                        ProdItemsQty += "ISNULL([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Short_Description")) + "],0)"
-                        ProdItemsAmt += "ISNULL([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Item_Description")) + "],0)"
+                        ProdItemsQty += "ISNULL([" + clsCommon.myCstr(dtProductItem.Rows(i)("Short_Description")) + "],0)"
+                        ProdItemsAmt += "ISNULL([" + clsCommon.myCstr(dtProductItem.Rows(i)("Item_Description")) + "],0)"
                         ProdItemQtyPivot += "[" + clsCommon.myCstr(dtProductItem.Rows(i)("Short_Description")) + "] "
                         ProdItemAmtPivot += "[" + clsCommon.myCstr(dtProductItem.Rows(i)("Item_Description")) + "] "
                     Else
-                        ProdItemsQty += "+" + "ISNULL([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Short_Description")) + "],0)"
-                        ProdItemsAmt += "+" + "ISNULL([" + clsCommon.myCstr(dtFreshItem.Rows(i)("Item_Description")) + "],0)"
+                        ProdItemsQty += "+" + "ISNULL([" + clsCommon.myCstr(dtProductItem.Rows(i)("Short_Description")) + "],0)"
+                        ProdItemsAmt += "+" + "ISNULL([" + clsCommon.myCstr(dtProductItem.Rows(i)("Item_Description")) + "],0)"
                         ProdItemQtyPivot += ", [" + clsCommon.myCstr(dtProductItem.Rows(i)("Short_Description")) + "] "
                         ProdItemAmtPivot += ", [" + clsCommon.myCstr(dtProductItem.Rows(i)("Item_Description")) + "] "
 
@@ -187,16 +193,35 @@ Public Class rptMonthWiseDMRReport
             Dim FinalQuery As String = ""
 
             If rbtnDispatch.IsChecked Then
-                BaseQry += " select Document_Date," & FreshItem & " Total_Milk_Qty,Total_Milk_Amt,TCS_Milk,Security,(Total_Milk_Amt +TCS_Milk+Security) as GrandTotalMilk, " & ProdItem & " Total_Prod_Amt,TCS_Prod,(Total_Prod_Amt+ TCS_Prod) as GrandTotalProd ,(Total_Milk_Amt +TCS_Milk+Security+ Total_Prod_Amt+ TCS_Prod ) as [Grand Total] from ( SELECT  Document_Date,  " & FreshItemName & " SUM(" & FreshItemsQty & ") As Total_Milk_Qty,SUM(" & FreshItemsAmt & ") As Total_Milk_Amt,CONVERT(DECIMAL(18,2),(SUM(" & FreshItemsAmt & ")* 0.1 ))  as TCS_Milk,CONVERT(DECIMAL(18,2),(SUM(" & FreshItemsQty & ")* 0.1)) as Security  , " & ProdItemName & "SUM(" & ProdItemsQty & ") As Total_Product_Qty, SUM(" & ProdItemsAmt & ") As Total_Prod_Amt ,CONVERT(DECIMAL(18,2),(SUM (" & ProdItemsAmt & ")* 0.1 ))  as TCS_Prod FROM( "
+                If dtProductItem.Rows.Count <= 0 Then
+                    ProdItemsAmt = "0"
+                End If
+                If dtFreshItem.Rows.Count <= 0 Then
+                    FreshItemsQty = "0"
+                    FreshItemsAmt = "0"
+
+                End If
+                BaseQry += " select Document_Date," & FreshItem & " Total_Milk_Qty,Total_Milk_Amt,TCS_Milk,Security,(Total_Milk_Amt +TCS_Milk+Security) as GrandTotalMilk, " & ProdItem & " Total_Prod_Amt,TCS_Prod,(Total_Prod_Amt+ TCS_Prod) as GrandTotalProd ,(Total_Milk_Amt +TCS_Milk+Security+ Total_Prod_Amt+ TCS_Prod ) as [Grand Total] from ( SELECT  Document_Date,  " & FreshItemName & " SUM(" & FreshItemsQty & ") As Total_Milk_Qty,SUM(" & FreshItemsAmt & ") As Total_Milk_Amt,CONVERT(DECIMAL(18,2),(SUM(" & FreshItemsAmt & ")* 0.1 ))  as TCS_Milk,CONVERT(DECIMAL(18,2),(SUM(" & FreshItemsQty & ")* 0.1)) as Security ,  " & ProdItemName & " SUM(" & ProdItemsAmt & ") As Total_Prod_Amt ,CONVERT(DECIMAL(18,2),(SUM (" & ProdItemsAmt & ")* 0.1 ))  as TCS_Prod FROM( "
                 BaseQry += " SELECT TSPL_ITEM_MASTER.Item_Code,TSPL_SD_SHIPMENT_HEAD.Customer_Code as Cust_Code,  TSPL_SD_SHIPMENT_HEAD.Route_No, CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)Document_Date, case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 )  then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item ,
                 case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 )  then  TSPL_ITEM_MASTER.Short_Description + '-Amt' end as Fresh_Item_Amt,TSPL_SD_SHIPMENT_DETAIL.Unit_Code AS UOM ,isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) AS Qty, case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) then
-                isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0) end as Fresh_Qty, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) end as Product_Qty,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY  ,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY
-                ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Product_Amount ,case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 )  then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Fresh_Amount,TSPL_SD_SHIPMENT_DETAIL.Amount, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
-		        ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + '-Amt' end AS Product_Item_Amt From TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0) end as Fresh_Qty, case when  IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) end as Product_Qty,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY  ,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY
+                ,case when  IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Product_Amount ,case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 )  then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Fresh_Amount,TSPL_SD_SHIPMENT_DETAIL.Amount, case when  IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item
+		        ,case when  IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + '-Amt' end AS Product_Item_Amt From TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
 	            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code  left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = I.item_code
                 where 2 = 2  And TSPL_SD_SHIPMENT_HEAD.Status = 1   And  convert(date,Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)  and   convert(date,Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) " & whrcls & "  )  xx "
-                BaseQry += "  PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemQtyPivot & ") ) AS pivot_fresh PIVOT (SUM(KG_QTY)  FOR Product_Item IN (" & ProdItemQtyPivot & ") ) AS pivot_Product  "
-                BaseQry += "  PIVOT (SUM(Fresh_Amount)  For Fresh_Item_Amt In (" & FreshItemAmtPivot & ") ) AS pivot_fresh_amt PIVOT (SUM(Product_Amount)  FOR Product_Item_Amt IN (" & ProdItemAmtPivot & ") ) AS pivot_Product_amt Group BY Document_Date)xxx order by convert(date,Document_Date,103)  "
+                If dtFreshItem.Rows.Count > 0 Then
+                    BaseQry += "  PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemQtyPivot & ") ) AS pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    BaseQry += " PIVOT (SUM(KG_QTY)  FOR Product_Item IN (" & ProdItemQtyPivot & ") ) AS pivot_Product "
+                End If
+                If dtFreshItem.Rows.Count > 0 Then
+                    BaseQry += "  PIVOT (SUM(Fresh_Amount)  For Fresh_Item_Amt In (" & FreshItemAmtPivot & ") ) AS pivot_fresh_amt"
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    BaseQry += "  PIVOT (SUM(Product_Amount)  FOR Product_Item_Amt IN (" & ProdItemAmtPivot & ") ) AS pivot_Product_amt"
+                End If
+                BaseQry += "  Group BY Document_Date)xxx order by convert(date,Document_Date,103)  "
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
 

@@ -1254,6 +1254,7 @@ Public Class ProgramCodeNew
 
         InsertDefaultValue(clsUserMgtCode.frmProductionEntryFinalQC, "Production Entry Final QC", "1.29.02.08", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, True, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.DariyProductionUploader, "Production Uploader", "1.29.02.09", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, True, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+
         InsertDefaultValue(clsUserMgtCode.frmWreckageBooking, "Wreckage Booking", "1.29.02.10", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmAssembDis, "Assemblies/Disassemblies", "1.29.02.11", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.JobWorkDispatchProduction, "Job Work Dispatch", "1.29.02.12", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
@@ -1305,7 +1306,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.29.02.54", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.29.02.55", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", True, False, False, Nothing)
         InsertDefaultValue(clsUserMgtCode.BulkProcurementUploader, "Bulk Procurement Uploader", "1.29.02.56", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
-
+        InsertDefaultValue(clsUserMgtCode.ProductionShiftMgmt, "Shift Management", "1.29.02.57", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", False, False, True, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
 
         '----------------Preeti Gupta------------
