@@ -878,7 +878,7 @@ Public Class FrmPrintFreshInvoice
             End If
 
             Qry += "  from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC,Item_Desc+'   '+isnull(batchNO,'') as Particulars from (  
-select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,TSPL_BOOKING_MATSER.Payment_Terms,TSPL_BOOKING_MATSER.ReceiverName,TSPL_BOOKING_MATSER.Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type,
+select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,TSPL_BOOKING_MATSER.Payment_Terms,TSPL_BOOKING_MATSER.ReceiverName,TSPL_BOOKING_MATSER.Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,convert(varchar(12),TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)Supply_Date,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type,
 TSPL_SD_SALE_INVOICE_DETAIL.TAX1 as ITAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_RATE AS   ITAX1_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as ITAX1_Amt , 
 TSPL_SD_SALE_INVOICE_DETAIL.TAX2 as ITAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_RATE AS ITAX2_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt  as ITAX2_Amt , 
 TSPL_SD_SALE_INVOICE_DETAIL.TAX3 AS ITAX3,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate AS ITAX3_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt  as ITAX3_Amt , 

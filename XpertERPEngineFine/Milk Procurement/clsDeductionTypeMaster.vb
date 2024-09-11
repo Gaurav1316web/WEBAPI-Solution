@@ -9,6 +9,7 @@ Public Class clsDeductionTypeMaster
     Public Start_Date As Date? = Nothing
     Public Document_date As Date? = Nothing
     Public Description As String = Nothing
+    Public Description_Hindi As String = Nothing
     Public Status As Integer = 0
     Public Arr As List(Of clsHeadLoadDCS) = Nothing
 #End Region
@@ -28,11 +29,12 @@ Public Class clsDeductionTypeMaster
     Public Function SaveData(ByVal obj As clsDeductionTypeMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
-            Dim qry As String = "delete from TSPL_HEAD_LOAD_DCS where Document_No='" + obj.Document_No + "'"
+            Dim qry As String = "delete from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Description_Hindi", obj.Description_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -59,7 +61,7 @@ Public Class clsDeductionTypeMaster
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsDeductionTypeMaster
         Dim obj As clsDeductionTypeMaster = Nothing
-        Dim qry As String = "select Document_No ,Description from TSPL_DEDUCTION_TYPE_MASTER where 2=2 "
+        Dim qry As String = "select Document_No ,Description,* from TSPL_DEDUCTION_TYPE_MASTER where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_DEDUCTION_TYPE_MASTER.Document_No = (select MIN(Document_No) from TSPL_DEDUCTION_TYPE_MASTER)"
@@ -78,6 +80,7 @@ Public Class clsDeductionTypeMaster
             obj = New clsDeductionTypeMaster()
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
+            obj.Description_Hindi = clsCommon.myCstr(dt.Rows(0)("Description_Hindi"))
         End If
         Return obj
     End Function

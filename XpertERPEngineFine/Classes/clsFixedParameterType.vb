@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Public Class clsFixedParameterType
     Public Const CalculateProRateAuto As String = "Calculate Pro Rate Auto"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
+    Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
     Public Const Transactionupdate As String = "Transtion Update"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const RCDFControl As String = "RCDF Control"
@@ -1270,7 +1271,7 @@ Public Class clsFixedParameterType
     Public Const VehicleNofromDispatch = "VehicleNo From Dispatch"
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
-
+    Public Const PickRatefromMaster = "Pick Rate from Master"
 End Class
 Public Class clsFixedParameterCode
     'Public Const SecretorydcsMaster As String = "Secretory/DCS Master"
@@ -1280,6 +1281,7 @@ Public Class clsFixedParameterCode
     Public Const ItemMaster As String = "Item Master"
     Public Const CustomerMaster As String = "Customer Master"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
+    Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
@@ -2676,7 +2678,7 @@ Public Class clsFixedParameterCode
     Public Const HideQtyCrateRegister = "Hide Qty Crate Register"
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
-
+    Public Const PickRatefromMaster = "Pick Rate from Master"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2757,6 +2759,7 @@ Public Class clsFixedParameter
     Public Shared Function FixedParameterValues() As Boolean
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, "0", "0:OFF;1:ON to Calculate Pro Rate Auto")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, "1", "0:OFF;1:ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk")
@@ -4242,6 +4245,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, "0", "0:Pick Rate Manually, 1:Pick Rate from Master;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -4274,6 +4278,7 @@ Public Class clsFixedParameterProgramMapping
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
         InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmRCDFRateControl, clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
@@ -6024,6 +6029,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, EnumControlType.CheckBox)
+
+        InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, EnumControlType.CheckBox)
 
     End Sub
 End Class

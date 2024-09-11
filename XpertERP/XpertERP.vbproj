@@ -2261,6 +2261,12 @@
     <Compile Include="Process Production\Transaction\frmProductionEntryWithoutBatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Process Production\Transaction\frmProductionShiftMgmt.Designer.vb">
+      <DependentUpon>frmProductionShiftMgmt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProductionShiftMgmt.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Process Production\Transaction\frmProfitCenter.Designer.vb">
       <DependentUpon>frmProfitCenter.vb</DependentUpon>
     </Compile>
@@ -5986,6 +5992,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmProductionEntryWithoutBatch.resx">
       <DependentUpon>frmProductionEntryWithoutBatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmProductionShiftMgmt.resx">
+      <DependentUpon>frmProductionShiftMgmt.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmProfitCenter.resx">
       <DependentUpon>frmProfitCenter.vb</DependentUpon>

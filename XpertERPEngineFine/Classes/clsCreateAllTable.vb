@@ -150,6 +150,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "DateTime  Not NULL")
             coll.Add("Modified_By", "varchar(12)  Not NULL")
             coll.Add("Modified_Date", "datetime  Not NULL")
+            coll.Add("Description_Hindi", "nvarchar(100) NULL ")
 
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
 
@@ -10909,6 +10910,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Transfer_To_Saving", "integer not null default 0")
             coll.Add("Description_Hindi", "nvarchar(100) null")
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
+            coll.Add("Deduction_Type_Hindi", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 
@@ -37477,6 +37479,13 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Amount", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_OVERHEAD_COST_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
+            coll.Add("Against_PKID", "integer not null references TSPL_PRODUCTION_UPLOADER_DETAIL(PK_ID)")
+            coll.Add("QC_Code", "Varchar(30) not null")
+            coll.Add("Value", "Decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_QC", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
 
             '===================================BM00000003192=======================Process Planning
