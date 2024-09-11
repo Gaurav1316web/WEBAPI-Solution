@@ -271,6 +271,7 @@ Public Class clsUserMgtCode
     Public Const rptCreditCustomerReport As String = "CRD_CST_RPT"
     Public Const rptD1D2Report As String = "D1_D2_RPT"
     Public Const rptZoneWiseReport1 As String = "ZW_RPT"
+    Public Const rptMonthWiseDMRReport As String = "MW_DMR_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -1661,6 +1662,7 @@ Public Class clsUserMgtCode
     Public Const frmProductionEntry As String = "PROD_ENTRY"
     Public Const frmProductionEntryFinalQC As String = "PRO-ENT-FQC"
     Public Const DariyProductionUploader As String = "DRY-PRO-UPL"
+    Public Const ProductionShiftMgmt As String = "PRO-SFT-MGM"
     Public Const frmWreckageBooking As String = "PROD_WR"
     Public Const frmProductionEntryWithoutBatch As String = "PROD_ENTR_WB"
     Public Const frmProcessProdReturn As String = "PP_PROD_RET"
