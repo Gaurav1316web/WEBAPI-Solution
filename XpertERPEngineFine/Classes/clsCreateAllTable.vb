@@ -21465,7 +21465,10 @@ Public Class clsCreateAllTable
             coll.Add("PO_Sch_Qty", "float null")
             coll.Add("BOM_Code", "varchar(30) null")
             coll.Add("Main_PO_Icode", "varchar(50) null References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Penalty_Cost", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_DETAIL", coll, Nothing, True, False, "TSPL_RGP_HEAD", "RGP_No", "")
+            qry = " ALTER TABLE TSPL_RGP_DETAIL ALTER COLUMN Item_Cost Decimal(18,3)"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)
             coll.Add("GRN_No", "varchar(30) NOT NULL Primary Key")

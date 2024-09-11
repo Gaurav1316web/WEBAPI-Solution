@@ -35,7 +35,7 @@ Public Class frmRGP
     Const colLastRGPNRGP As String = "RGPNRGP"
     Const colDate As String = "Date"
     Const colSp As String = "COLSPECIFICATION"
-
+    Const colPenaltyCost As String = "colPenaltyCost"
     Const colRejSRNQty As String = "COLRejSRNQty"
     Const colMainPOItem As String = "MainPOItem"
     Const colMainBOMCode As String = "MainBOMCode"
@@ -69,6 +69,7 @@ Public Class frmRGP
     Const colBOMPONo As String = "BPono"
     Const colBOMScheduleNo As String = "BSchNo"
     Const colBOMModule As String = "BModule"
+    Dim PenaltyCost As Double = 0
     Dim ChkAutoDepOnPurchaseCycle As Boolean = False
 #End Region
 
@@ -208,6 +209,7 @@ Public Class frmRGP
         repoline.IsVisible = False
         gv_PO.MasterTemplate.Columns.Add(repoline)
 
+
         gv_PO.AllowDeleteRow = True
         gv_PO.AllowAddNewRow = False
         gv_PO.ShowGroupPanel = False
@@ -265,6 +267,7 @@ Public Class frmRGP
         chkAsPerBOM.Visible = False
 
         RadPageViewPage2.Text = "Item Detail"
+        PenaltyCost = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PenaltyCost, clsFixedParameterCode.PenaltyCost, Nothing))
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
         IsRGPAfterPO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.IsRGPAfterPurchaseOrder, clsFixedParameterCode.IsRGPAfterPurchaseOrder, Nothing)) = "1", True, False))
         If IsRGPAfterPO = True Then
@@ -565,6 +568,7 @@ Public Class frmRGP
         repoQty.ReadOnly = True
         repoQty.Width = 100
         repoQty.Minimum = 0
+        repoQty.IsVisible = True
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQty)
 
@@ -574,6 +578,7 @@ Public Class frmRGP
         repoQty.Name = colRetQty
         repoQty.Width = 100
         repoQty.Minimum = 0
+        repoQty.IsVisible = True
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQty)
 
@@ -736,6 +741,15 @@ Public Class frmRGP
         repoIsSerItem.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsSerItem)
 
+        Dim repoPenaltyCost As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoPenaltyCost.FormatString = ""
+        repoPenaltyCost.Name = colPenaltyCost
+        repoPenaltyCost.HeaderText = "Penalty Cost"
+        repoPenaltyCost.Width = 80
+        repoPenaltyCost.DecimalPlaces = 2
+        repoPenaltyCost.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoPenaltyCost)
+
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
 
         gv1.AllowDeleteRow = True
@@ -827,6 +841,27 @@ Public Class frmRGP
                         '        gv1.CurrentRow.Cells(colQty).Value = 0
                         '    End If
                         'End If
+                        Dim CountDays As Double
+                        If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "NRGP") = CompairStringResult.Equal AndAlso ChkRejLoc.Checked AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) > 0 Then
+                            CountDays = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select  DATEDIFF(Day,Convert(varchar(10),TSPL_QC_CHECK_HEAD.Document_Date), Convert(varchar(10),'" + clsCommon.GetPrintDate(txtDate.Value, "yyyy-MM-dd") + "')) AS DifferenceInDays from TSPL_QC_CHECK_HEAD Left Outer Join TSPL_SRN_HEAD On Against_QC_Code=TSPL_QC_CHECK_HEAD.Document_Code where TSPL_QC_CHECK_HEAD.QC_Status='Rejected'  And TSPL_SRN_HEAD.SRN_No='" + txtSRNNo.Value + "'"))
+
+                            If CountDays > 30 Then
+                                Dim Qry As String = "select TSPL_ITEM_UOM_DETAIL.Item_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Default_UOM,CInBag.Conversion_Factor,((" + clsCommon.myCstr(gv1.CurrentRow.Cells(colQty).Value) + "*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/CInBag.Conversion_Factor) As QtyInBag from TSPL_ITEM_UOM_DETAIL
+                                            Left Outer Join (Select item_Code,Uom_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL Where UOM_Code='BAG' And TSPL_ITEM_UOM_DETAIL.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "') As CInBag on CInBag.item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code 
+                                            Where TSPL_ITEM_UOM_DETAIL.Default_UOM='1' And TSPL_ITEM_UOM_DETAIL.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'"
+                                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    gv1.CurrentRow.Cells(colPenaltyCost).Value = clsCommon.myCdbl(dt.Rows(0)("QtyInBag")) * PenaltyCost * (CountDays - 30)
+                                Else
+                                    gv1.CurrentRow.Cells(colPenaltyCost).Value = 0
+                                End If
+                            Else
+                                gv1.CurrentRow.Cells(colPenaltyCost).Value = 0
+                            End If
+                        Else
+                                gv1.CurrentRow.Cells(colPenaltyCost).Value = 0
+                        End If
+
 
                         If e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) Then
                             If e.Column Is gv1.Columns(colQty) Then
@@ -1467,7 +1502,6 @@ Public Class frmRGP
             ''
             If (AllowToSave()) Then
                 Dim obj As New clsRGPHead()
-
                 obj.chklocstion = "N"
                 obj.srnlocation = ""
                 If chkthirdparty.Checked Then
@@ -1581,6 +1615,7 @@ Public Class frmRGP
                     objTr.Approx_Cost = clsCommon.myCdbl(grow.Cells(colApproxCost).Value)
                     objTr.arrSrItem = TryCast(grow.Tag, List(Of clsSerializeInvenotry))
                     objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))  ' Change By prabhakar
+                    objTr.Penalty_Cost = clsCommon.myCdbl(grow.Cells(colPenaltyCost).Value)
                     If clsCommon.myLen(objTr.Item_Code) > 0 Then
                         obj.Arr.Add(objTr)
                     End If
@@ -2034,6 +2069,7 @@ Public Class frmRGP
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMainPOItem).Value = objTr.Main_PO_Icode
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMainBOMCode).Value = objTr.BOM_Code
                         gv1.Rows(gv1.Rows.Count - 1).Tag = objTr.arrSrItem
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPenaltyCost).Value = objTr.Penalty_Cost
                     Next
                     If obj.Status = ERPTransactionStatus.Pending Then
                         gv1.Rows.AddNew()
@@ -2493,7 +2529,7 @@ Public Class frmRGP
             Else
                 strqry += " , TSPL_CUSTOMER_MASTER.Customer_Name ,ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')+ Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End as Customer_Phone ,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end   as Customer_address,TSPL_CUSTOMER_MASTER.Tin_No as customer_Tin_No,TSPL_CUSTOMER_MASTER.Remarks1  +case when len(TSPL_CUSTOMER_MASTER.Remarks2 )>0 then ', '+TSPL_CUSTOMER_MASTER.Remarks2 else ''  end   as Customer_Remarks,TSPL_CUSTOMER_MASTER.Add1 AS venadd1, TSPL_CUSTOMER_MASTER.Add2 AS venadd2, TSPL_CUSTOMER_MASTER.Add3 AS venadd3,TSPL_CUSTOMER_MASTER.Tin_No as VenTINNO,  TSPL_CITY_MASTER.City_Name as vencity,TSPL_CUSTOMER_MASTER.Lst_No "
             End If
-            strqry += " ,'" + type + "' as RGPType ,TSPL_GL_SEGMENT_CODE.Description as Department,case when  TSPL_RGP_HEAD.billing='Y' then 'Yes' when  TSPL_RGP_HEAD.billing='N' then 'No' else '' end as Billing,TSPL_RGP_DETAIL.Approx_Cost,TSPL_RGP_HEAD.Road_Permit_No, convert(date,TSPL_RGP_HEAD.RoadPermit_Date)as RoadPermit_Date  "
+            strqry += " ,'" + type + "' as RGPType ,TSPL_GL_SEGMENT_CODE.Description as Department,case when  TSPL_RGP_HEAD.billing='Y' then 'Yes' when  TSPL_RGP_HEAD.billing='N' then 'No' else '' end as Billing,TSPL_RGP_DETAIL.Approx_Cost,TSPL_RGP_HEAD.Road_Permit_No, convert(date,TSPL_RGP_HEAD.RoadPermit_Date)as RoadPermit_Date,IsNull(TSPL_RGP_DETAIL.Penalty_Cost,0)Penalty_Cost  "
             strqry += " FROM TSPL_RGP_HEAD INNER JOIN "
             strqry += " TSPL_RGP_DETAIL ON TSPL_RGP_HEAD.RGP_No = TSPL_RGP_DETAIL.RGP_No  "
             If chkAgainst_Sale.Checked = False And chlCust.Checked = False Then
