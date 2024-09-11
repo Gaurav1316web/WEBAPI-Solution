@@ -27,7 +27,6 @@ Public Class rptMarginAmount
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
-
     Private Sub txtFromDate_Validated(sender As Object, e As EventArgs) Handles txtFromDate.Validated
         SetToDateNew()
     End Sub
@@ -36,7 +35,6 @@ Public Class rptMarginAmount
             Dim PaymentCycleType As String = ""
             Dim PaymentCycleValue As Integer = 0
             ' If Not isLoad Then
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
@@ -53,7 +51,6 @@ Public Class rptMarginAmount
                     Exit Sub
                 End If
                 txtToDate.Value = txtFromDate.Value.AddDays(PaymentCycleValue - 1)
-
                 If txtFromDate.Value.Month <> txtToDate.Value.Month Then
                     txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
                 End If
@@ -88,34 +85,32 @@ Public Class rptMarginAmount
     Private Sub txtFromDate_Leave(sender As Object, e As EventArgs) Handles txtFromDate.Leave
         SetToDateNew()
     End Sub
-
     Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click
         funreset()
     End Sub
-
     Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click
         griddata()
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Dim qry As String = "select '" + txtFromDate.Value + "' as Fromdate,'" + txtToDate.Value + "' as ToDate,row_number() over(order by(select 1)) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_COMPANY_MASTER.Comp_Name
+            Dim qry As String = "select '" + txtFromDate.Value + "' as Fromdate,'" + txtToDate.Value + "' as ToDate, row_number() over(order by(VLC_Code_VLC_Uploader)) as SNo, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name
                                     ,Applicable_Value as [Formula]
                                     ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
                                     cast((TSPL_VENDOR_INVOICE_DETAIL.Total_Amount*100)/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
                                      when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
                                     cast(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
                                     else 0 end AS [Base Amount/Quantity]                                    
-                                    ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]
-                                    
-                                     from TSPL_VENDOR_INVOICE_DETAIL
-                                    LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
-                                    LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
-                                    left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
-									left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VLC_MASTER_HEAD.comp_code
-                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 and Applicable_Value=2 order by VLC_Code_VLC_Uploader asc"
+                                    ,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount As [Addition/Deduction Amount]
+                                     from TSPL_PAYMENT_PROCESS_DEDUCTION 
+                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+                                    left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+                                    left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+                                    left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code 
+                                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+                                    left outer join TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+                                    left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 and Applicable_Value=2 order by VLC_Code_VLC_Uploader asc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMarginPerAmt", "")
@@ -123,27 +118,29 @@ Public Class rptMarginAmount
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub griddata()
         Try
-            Dim qry As String = "select row_number() over(order by(select 1)) as SNo, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name
+            Dim qry As String = " select row_number() over(order by(VLC_Code_VLC_Uploader)) as SNo, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name
                                     ,Applicable_Value as [Formula]
                                     ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
                                     cast((TSPL_VENDOR_INVOICE_DETAIL.Total_Amount*100)/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
                                      when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
                                     cast(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
                                     else 0 end AS [Base Amount/Quantity]                                    
-                                    ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]
-                                     from TSPL_VENDOR_INVOICE_DETAIL
-                                    LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
-                                    LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
-                                    left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
-                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 and Applicable_Value=2 order by VLC_Code_VLC_Uploader asc "
+                                    ,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount As [Addition/Deduction Amount]
+                                     from TSPL_PAYMENT_PROCESS_DEDUCTION 
+                                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+                                        left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+                                        left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+                                        left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code 
+                                        left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+                                        left outer join TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+                                        left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 and Applicable_Value=2 order by VLC_Code_VLC_Uploader asc "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
@@ -151,13 +148,11 @@ Public Class rptMarginAmount
             gv1.GroupDescriptors.Clear()
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             gv1.MasterView.Refresh()
-
             If dt IsNot Nothing OrElse dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
                 For ii As Integer = 0 To gv1.Columns.Count - 1
                     gv1.Columns(ii).ReadOnly = True
                 Next
-
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.EnableFiltering = True
                 SetGridFormat()
@@ -171,7 +166,6 @@ Public Class rptMarginAmount
         End Try
     End Sub
     Sub SetGridFormat()
-
         gv1.AutoExpandGroups = True
         gv1.ShowGroupPanel = True
         gv1.ShowRowHeaderColumn = False
@@ -179,37 +173,28 @@ Public Class rptMarginAmount
         gv1.AllowDeleteRow = False
         gv1.EnableFiltering = True
         gv1.ShowFilteringRow = True
-
-
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).BestFit()
         Next
         gv1.Columns("SNo").Name = "SNo"
         gv1.Columns("SNo").IsVisible = True
-
         gv1.Columns("DCS Code").HeaderText = "DCS Code"
         gv1.Columns("DCS Code").Width = 250
         gv1.Columns("DCS Code").IsVisible = True
         'gv1.Columns("VLC_Name").FormatString = "{0:n2}"
-
         gv1.Columns("VLC_Name").HeaderText = "DCS Name"
         gv1.Columns("VLC_Name").Width = 500
-
-
         gv1.Columns("Formula").HeaderText = "Formula"
         gv1.Columns("Formula").Width = 250
         gv1.Columns("Formula").FormatString = "{0:n2}"
         gv1.Columns("Formula").IsVisible = False
-
         gv1.Columns("Base Amount/Quantity").HeaderText = "Base Amount"
         gv1.Columns("Base Amount/Quantity").Width = 500
         gv1.Columns("Base Amount/Quantity").IsVisible = False
-
         gv1.Columns("Addition/Deduction Amount").HeaderText = "Amount"
         gv1.Columns("Addition/Deduction Amount").Width = 250
         gv1.Columns("Addition/Deduction Amount").FormatString = "{0:n2}"
-
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Addition/Deduction Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -223,12 +208,10 @@ Public Class rptMarginAmount
                 Exit Sub
             End If
             Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMarginAmt & "'"))
-
             Dim arrHeader As List(Of String) = New List(Of String)()
             'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
             arrHeader.Add("Report Name : " + strHeading)
             arrHeader.Add("Date Range from : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
-
             transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
             If exporter = EnumExportTo.Excel Then
                 'transportSql.QuickExportToExcel(Gv1, "", Me.Text,, arrHeader)

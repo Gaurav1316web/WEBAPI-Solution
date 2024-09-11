@@ -603,6 +603,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PersonWiseGoodsReturnableBalance.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G old1.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-G-JAL.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GALW.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GBKN.rpt" />
@@ -1913,6 +1914,7 @@
     <None Include="Crystal Reports\Sales Report\FINAL UPDATED RPT BY RAKESH SIR\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports\Sales Report\flavourtype.rpt" />
     <None Include="Crystal Reports\Sales Report\InvoiceTDMSKU.rpt" />
+    <None Include="Crystal Reports\Sales Report\MonthlyBiIlReport.rpt" />
     <None Include="Crystal Reports\Sales Report\oldcrptCustomerEmptyTrial.rpt" />
     <None Include="Crystal Reports\Sales Report\OutletDetails.rpt" />
     <None Include="Crystal Reports\Sales Report\PackTypeInvoice.rpt" />
