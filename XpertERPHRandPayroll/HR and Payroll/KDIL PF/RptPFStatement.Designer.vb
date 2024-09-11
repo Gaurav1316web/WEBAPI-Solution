@@ -305,7 +305,7 @@ Partial Class RptPFStatement
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 16
-        Me.btnGo.Text = ">>>"
+        Me.btnGo.Text = "Print"
         '
         'RptPFStatement
         '
