@@ -1527,6 +1527,7 @@ Public Class clsBookingDetailDairySale
     Public Distributor_Commission_Amt As Decimal = 0
     Public Transporter_Commission_Rate As Decimal = 0
     Public Transporter_Commission_Amt As Decimal = 0
+    Public PK_ID As Decimal = 0
     Public Security_Rate As Decimal = 0
     Public Security_Amt As Decimal = 0
     Public Batch_No As String = ""
@@ -1995,6 +1996,7 @@ Public Class clsBookingDetailDairySale
                     obj.Distributor_Commission_RateWithTax = clsCommon.myCdbl(dt.Rows(i)("Distributor_Commission_RateWithTax"))
                     obj.Distributor_Commission_Amt = clsCommon.myCdbl(dt.Rows(i)("Distributor_Commission_Amt"))
                     obj.Security_Rate = clsCommon.myCdbl(dt.Rows(i)("Security_Rate"))
+                    obj.PK_ID = clsCommon.myCdbl(dt.Rows(i)("PK_ID"))
                     obj.Security_Amt = clsCommon.myCdbl(dt.Rows(i)("Security_Amt"))
                     obj.Batch_No = clsCommon.myCdbl(dt.Rows(i)("Batch_No"))
                     obj.arrBatchItem = clsBatchInventory.GetData("FS-SH", obj.Document_No, obj.Item_Code, obj.Unit_code, trans)

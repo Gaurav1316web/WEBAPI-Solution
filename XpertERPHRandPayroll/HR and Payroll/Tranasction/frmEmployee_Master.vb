@@ -1501,7 +1501,7 @@ Public Class frmEmployee_Master
         txtCompanyCode.Value = ""
         txtBranch.Value = ""
         txtAttendance.Value = ""
-        cboPFType.SelectedIndex = -1
+        cboPFType.SelectedIndex = 0
         Dim currDate As DateTime = clsCommon.GETSERVERDATE()
         txtConfirmationDate.Checked = False
         txtConfirmationDate.Value = currDate
@@ -3654,9 +3654,9 @@ Public Class frmEmployee_Master
                     End If
                 End If
             End If
-            cboPFType.SelectedIndex = 0
+            'cboPFType.SelectedIndex = 0
         Else
-                cboPFCalculatnType.Visible = False
+            cboPFCalculatnType.Visible = False
             txtPFNo.Enabled = False
             txtEPFRate.Enabled = False
             txtEPFMaxLimit.Enabled = False
@@ -4418,13 +4418,13 @@ Public Class frmEmployee_Master
                 Dim Per As Decimal = 0
                 Per = clsCommon.myCDecimal(txtCOEPF_PER.Text) + clsCommon.myCDecimal(txtCOEPS_PER.Text)
                 If Per <> 12 Then
-                        Throw New Exception("A/C-01 and A/C-10 should be 12")
-                    End If
-                    If clsCommon.myCdbl(txtEPS_MAX.Text) > 0 Then
-                        txtEPS_MAX.Text = 0
-                    End If
-                ElseIf cboPFType.SelectedIndex = 2 Then
-                    Dim Per As Double = 0
+                    Throw New Exception("A/C-01 and A/C-10 should be 12")
+                End If
+                If clsCommon.myCdbl(txtEPS_MAX.Text) > 0 Then
+                    txtEPS_MAX.Text = 0
+                End If
+            ElseIf cboPFType.SelectedIndex = 2 Then
+                Dim Per As Double = 0
                 Dim COEpf As Decimal = txtCOEPF_PER.Text
                 If clsCommon.myCdbl(COEpf) > 0 Then
                     txtCOEPF_PER.Text = 12
@@ -4433,8 +4433,8 @@ Public Class frmEmployee_Master
                     Throw New Exception("A/C-01 should be 12")
                 End If
                 txtCOEPS_PER.Text = 0
-                    txtEPS_MAX.Text = 0
-                End If
+                txtEPS_MAX.Text = 0
             End If
+        End If
     End Sub
 End Class

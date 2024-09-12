@@ -5,7 +5,6 @@ Imports System.Data.SqlClient
 Public Class clsRGPHead
 
 #Region "Variables"
-
     Public Against_BOM As Integer = Nothing
     Public Against_As_It_Is As Integer = Nothing
     Public GRNo As String = Nothing
@@ -536,19 +535,20 @@ Public Class clsRGPHead
 
             'qry = "SELECT TSPL_RGP_DETAIL.MRP,TSPL_RGP_DETAIL.RGP_No,TSPL_RGP_DETAIL.Line_No,TSPL_RGP_DETAIL.Item_Code,TSPL_RGP_DETAIL.Item_Desc,TSPL_RGP_DETAIL.RGP_Qty, (Select ISNULL(RGP_Qty,0) from TSPL_RGP_DETAIL as dtl Where dtl.RGP_No=TSPL_RGP_HEAD.Against_NRGP AND dtl.Item_Code=TSPL_RGP_DETAIL.Item_Code) as NRGP_Qty, TSPL_RGP_DETAIL.Unit_code,TSPL_RGP_DETAIL.Item_Cost,TSPL_RGP_DETAIL.Amount, TSPL_RGP_DETAIL.Last_RGP_No, TSPL_RGP_DETAIL.Last_RGP_Date, TSPL_RGP_DETAIL.Specification FROM TSPL_RGP_DETAIL LEFT OUTER JOIN TSPL_RGP_HEAD ON TSPL_RGP_HEAD.RGP_No=TSPL_RGP_DETAIL.RGP_No where TSPL_RGP_DETAIL.RGP_No='" & obj.RGP_No & "'  ORDER BY TSPL_RGP_DETAIL.Line_No"
             If clsCommon.myLen(obj.Against_NRGP) <= 0 AndAlso clsCommon.CompairString(obj.Doc_Type, "RGPR") <> CompairStringResult.Equal Then
-                qry = "Select XXX.BOM_Code,XXX.Main_PO_Icode,XXX.PO_Sch_Qty,XXX.po_id,XXX.Against_Schedule_Code,XXX.MRP, XXX.RGP_No, XXX.Line_No, XXX.Item_Code, XXX.Item_Desc, XXX.RGP_Qty, XXX.NRGP_Qty, XXX.Unit_code, XXX.Item_Cost,XXX.Approx_Cost, XXX.Amount, XXX.Last_RGP_No, XXX.Last_RGP_Date, XXX.Specification, RGP_Qty-(select ISNULL(SUM(RGP_Qty),0) from TSPL_RGP_HEAD LEFT OUTER JOIN TSPL_RGP_DETAIL ON TSPL_RGP_DETAIL.RGP_No=TSPL_RGP_HEAD.RGP_No WHERE TSPL_RGP_HEAD.Against_NRGP='" & obj.RGP_No & "' AND TSPL_RGP_DETAIL.Item_Code=XXX.Item_Code) as Balance_Qty from ("
+                qry = "Select XXX.BOM_Code,XXX.Main_PO_Icode,XXX.PO_Sch_Qty,XXX.po_id,XXX.Against_Schedule_Code,XXX.MRP, XXX.RGP_No, XXX.Line_No, XXX.Item_Code, XXX.Item_Desc, XXX.RGP_Qty, XXX.NRGP_Qty, XXX.Unit_code, XXX.Item_Cost,XXX.Approx_Cost, XXX.Amount, XXX.Last_RGP_No, XXX.Last_RGP_Date, XXX.Specification, RGP_Qty-(select ISNULL(SUM(RGP_Qty),0) from TSPL_RGP_HEAD LEFT OUTER JOIN TSPL_RGP_DETAIL ON TSPL_RGP_DETAIL.RGP_No=TSPL_RGP_HEAD.RGP_No WHERE TSPL_RGP_HEAD.Against_NRGP='" & obj.RGP_No & "' AND TSPL_RGP_DETAIL.Item_Code=XXX.Item_Code) as Balance_Qty, "
             ElseIf clsCommon.myLen(obj.Against_RGP) <= 0 AndAlso clsCommon.CompairString(obj.Doc_Type, "RGPR") = CompairStringResult.Equal Then
-                qry = "Select XXX.BOM_Code,XXX.Main_PO_Icode,XXX.PO_Sch_Qty,XXX.po_id,XXX.Against_Schedule_Code,XXX.MRP, XXX.RGP_No, XXX.Line_No, XXX.Item_Code, XXX.Item_Desc, XXX.RGP_Qty, XXX.NRGP_Qty, XXX.Unit_code, XXX.Item_Cost,XXX.Approx_Cost, XXX.Amount, XXX.Last_RGP_No, XXX.Last_RGP_Date, XXX.Specification, RGP_Qty-(select ISNULL(SUM(RGP_Qty),0) from TSPL_RGP_HEAD LEFT OUTER JOIN TSPL_RGP_DETAIL ON TSPL_RGP_DETAIL.RGP_No=TSPL_RGP_HEAD.RGP_No WHERE TSPL_RGP_HEAD.Against_RGP='" & obj.RGP_No & "' AND TSPL_RGP_DETAIL.Item_Code=XXX.Item_Code) as Balance_Qty from ("
+                qry = "Select XXX.BOM_Code,XXX.Main_PO_Icode,XXX.PO_Sch_Qty,XXX.po_id,XXX.Against_Schedule_Code,XXX.MRP, XXX.RGP_No, XXX.Line_No, XXX.Item_Code, XXX.Item_Desc, XXX.RGP_Qty, XXX.NRGP_Qty, XXX.Unit_code, XXX.Item_Cost,XXX.Approx_Cost, XXX.Amount, XXX.Last_RGP_No, XXX.Last_RGP_Date, XXX.Specification, RGP_Qty-(select ISNULL(SUM(RGP_Qty),0) from TSPL_RGP_HEAD LEFT OUTER JOIN TSPL_RGP_DETAIL ON TSPL_RGP_DETAIL.RGP_No=TSPL_RGP_HEAD.RGP_No WHERE TSPL_RGP_HEAD.Against_RGP='" & obj.RGP_No & "' AND TSPL_RGP_DETAIL.Item_Code=XXX.Item_Code) as Balance_Qty,"
             ElseIf clsCommon.myLen(obj.Against_RGP) >= 0 AndAlso clsCommon.CompairString(obj.Doc_Type, "RGPR") = CompairStringResult.Equal Then
-                qry = "Select XXX.BOM_Code,XXX.Main_PO_Icode,XXX.PO_Sch_Qty,XXX.po_id,XXX.Against_Schedule_Code,XXX.MRP, XXX.RGP_No, XXX.Line_No, XXX.Item_Code, XXX.Item_Desc, XXX.RGP_Qty, XXX.NRGP_Qty, XXX.Unit_code, XXX.Item_Cost,XXX.Approx_Cost, XXX.Amount, XXX.Last_RGP_No, XXX.Last_RGP_Date, XXX.Specification, RGP_Qty-(select ISNULL(SUM(RGP_Qty),0) from TSPL_RGP_HEAD LEFT OUTER JOIN TSPL_RGP_DETAIL ON TSPL_RGP_DETAIL.RGP_No=TSPL_RGP_HEAD.RGP_No WHERE TSPL_RGP_HEAD.Against_RGP='" & obj.Against_RGP & "' AND TSPL_RGP_DETAIL.Item_Code=XXX.Item_Code AND TSPL_RGP_HEAD.RGP_No<>'" & obj.RGP_No & "') as Balance_Qty from ("
+                qry = "Select XXX.BOM_Code,XXX.Main_PO_Icode,XXX.PO_Sch_Qty,XXX.po_id,XXX.Against_Schedule_Code,XXX.MRP, XXX.RGP_No, XXX.Line_No, XXX.Item_Code, XXX.Item_Desc, XXX.RGP_Qty, XXX.NRGP_Qty, XXX.Unit_code, XXX.Item_Cost,XXX.Approx_Cost, XXX.Amount, XXX.Last_RGP_No, XXX.Last_RGP_Date, XXX.Specification, RGP_Qty-(select ISNULL(SUM(RGP_Qty),0) from TSPL_RGP_HEAD LEFT OUTER JOIN TSPL_RGP_DETAIL ON TSPL_RGP_DETAIL.RGP_No=TSPL_RGP_HEAD.RGP_No WHERE TSPL_RGP_HEAD.Against_RGP='" & obj.Against_RGP & "' AND TSPL_RGP_DETAIL.Item_Code=XXX.Item_Code AND TSPL_RGP_HEAD.RGP_No<>'" & obj.RGP_No & "') as Balance_Qty,"
             Else
-                qry = "Select XXX.BOM_Code,XXX.Main_PO_Icode,XXX.PO_Sch_Qty,XXX.po_id,XXX.Against_Schedule_Code,XXX.MRP, XXX.RGP_No, XXX.Line_No, XXX.Item_Code, XXX.Item_Desc, XXX.RGP_Qty, XXX.NRGP_Qty, XXX.Unit_code, XXX.Item_Cost,XXX.Approx_Cost, XXX.Amount, XXX.Last_RGP_No, XXX.Last_RGP_Date, XXX.Specification, NRGP_Qty-(select ISNULL(SUM(RGP_Qty),0) from TSPL_RGP_HEAD LEFT OUTER JOIN TSPL_RGP_DETAIL ON TSPL_RGP_DETAIL.RGP_No=TSPL_RGP_HEAD.RGP_No WHERE TSPL_RGP_HEAD.Against_NRGP='" & obj.Against_NRGP & "' AND TSPL_RGP_DETAIL.Item_Code=XXX.Item_Code AND TSPL_RGP_HEAD.RGP_No<>'" & obj.RGP_No & "') as Balance_Qty from ("
+                qry = "Select XXX.BOM_Code,XXX.Main_PO_Icode,XXX.PO_Sch_Qty,XXX.po_id,XXX.Against_Schedule_Code,XXX.MRP, XXX.RGP_No, XXX.Line_No, XXX.Item_Code, XXX.Item_Desc, XXX.RGP_Qty, XXX.NRGP_Qty, XXX.Unit_code, XXX.Item_Cost,XXX.Approx_Cost, XXX.Amount, XXX.Last_RGP_No, XXX.Last_RGP_Date, XXX.Specification, NRGP_Qty-(select ISNULL(SUM(RGP_Qty),0) from TSPL_RGP_HEAD LEFT OUTER JOIN TSPL_RGP_DETAIL ON TSPL_RGP_DETAIL.RGP_No=TSPL_RGP_HEAD.RGP_No WHERE TSPL_RGP_HEAD.Against_NRGP='" & obj.Against_NRGP & "' AND TSPL_RGP_DETAIL.Item_Code=XXX.Item_Code AND TSPL_RGP_HEAD.RGP_No<>'" & obj.RGP_No & "') as Balance_Qty,"
             End If
-            qry += " SELECT TSPL_RGP_DETAIL.BOM_Code,TSPL_RGP_DETAIL.Main_PO_Icode,TSPL_RGP_DETAIL.PO_Sch_Qty,TSPL_RGP_DETAIL.po_id,TSPL_RGP_DETAIL.Against_Schedule_Code,TSPL_RGP_DETAIL.MRP,TSPL_RGP_DETAIL.RGP_No,TSPL_RGP_DETAIL.Line_No,TSPL_RGP_DETAIL.Item_Code,TSPL_RGP_DETAIL.Item_Desc,TSPL_RGP_DETAIL.RGP_Qty," & _
-        " (Select ISNULL(RGP_Qty,0) from TSPL_RGP_DETAIL as dtl Where dtl.RGP_No=TSPL_RGP_HEAD.Against_NRGP AND dtl.Item_Code=TSPL_RGP_DETAIL.Item_Code) as NRGP_Qty," & _
-        " TSPL_RGP_DETAIL.Unit_code,TSPL_RGP_DETAIL.Item_Cost,isnull(TSPL_RGP_DETAIL.Approx_Cost,0) As Approx_Cost,TSPL_RGP_DETAIL.Amount, TSPL_RGP_DETAIL.Last_RGP_No, TSPL_RGP_DETAIL.Last_RGP_Date," & _
-        " TSPL_RGP_DETAIL.Specification, TSPL_RGP_HEAD.Against_NRGP FROM TSPL_RGP_DETAIL" & _
-        " LEFT OUTER JOIN TSPL_RGP_HEAD ON TSPL_RGP_HEAD.RGP_No=TSPL_RGP_DETAIL.RGP_No where TSPL_RGP_DETAIL.RGP_No='" & obj.RGP_No & "'" & _
+            qry += " Penalty_Cost from ("
+            qry += " SELECT TSPL_RGP_DETAIL.BOM_Code,TSPL_RGP_DETAIL.Main_PO_Icode,TSPL_RGP_DETAIL.PO_Sch_Qty,TSPL_RGP_DETAIL.po_id,TSPL_RGP_DETAIL.Against_Schedule_Code,TSPL_RGP_DETAIL.MRP,TSPL_RGP_DETAIL.RGP_No,TSPL_RGP_DETAIL.Line_No,TSPL_RGP_DETAIL.Item_Code,TSPL_RGP_DETAIL.Item_Desc,TSPL_RGP_DETAIL.RGP_Qty," &
+        " (Select ISNULL(RGP_Qty,0) from TSPL_RGP_DETAIL as dtl Where dtl.RGP_No=TSPL_RGP_HEAD.Against_NRGP AND dtl.Item_Code=TSPL_RGP_DETAIL.Item_Code) as NRGP_Qty," &
+        " TSPL_RGP_DETAIL.Unit_code,TSPL_RGP_DETAIL.Item_Cost,isnull(TSPL_RGP_DETAIL.Approx_Cost,0) As Approx_Cost,TSPL_RGP_DETAIL.Amount, TSPL_RGP_DETAIL.Last_RGP_No, TSPL_RGP_DETAIL.Last_RGP_Date," &
+        " TSPL_RGP_DETAIL.Specification, TSPL_RGP_HEAD.Against_NRGP,IsNull(TSPL_RGP_DETAIL.Penalty_Cost,0)Penalty_Cost FROM TSPL_RGP_DETAIL" &
+        " LEFT OUTER JOIN TSPL_RGP_HEAD ON TSPL_RGP_HEAD.RGP_No=TSPL_RGP_DETAIL.RGP_No where TSPL_RGP_DETAIL.RGP_No='" & obj.RGP_No & "'" &
         " ) XXX ORDER BY XXX.Line_No"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -580,6 +580,7 @@ Public Class clsRGPHead
                     objTr.Approx_Cost = clsCommon.myCdbl(dr("Approx_Cost"))
                     objTr.arrSrItem = clsSerializeInvenotry.GetData(obj.Doc_Type, objTr.RGP_No, objTr.Item_Code, objTr.Line_No, trans)
                     objTr.arrBatchItem = clsBatchInventory.GetData(obj.Doc_Type, objTr.RGP_No, objTr.Item_Code, objTr.Line_No, trans)
+                    objTr.Penalty_Cost = clsCommon.myCdbl(dr("Penalty_Cost"))
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -749,6 +750,7 @@ Public Class clsRGPHead
 
         Dim trans As SqlTransaction = Nothing
         Try
+            Dim dt As DataTable = Nothing
             trans = clsDBFuncationality.GetTransactin()
             Dim isSaved As Boolean = True
             If (clsCommon.myLen(strDocNo) <= 0) Then
@@ -820,6 +822,101 @@ Public Class clsRGPHead
             If obj.Is_Non_Inventory = 0 Then
                 isSaved = isSaved AndAlso clsInventoryMovement.SaveData(obj.Doc_Type, obj.RGP_No, obj.RGP_Date, clsCommon.GetPrintDate(strPostDate, "dd/MM/yyyy"), ArrInventoryMovement, trans)
             End If
+
+
+            '===================Debit Note=========================
+            Dim dblAmount As Double = 0
+            qry = "Select Sum(IsNull(Penalty_Cost,0))Penalty_Cost from TSPL_RGP_DETAIL Where RGP_No='" + obj.RGP_No + "'"
+            dblAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+            If True AndAlso dblAmount > 0 Then
+                Dim objVendorInvHead As clsVedorInvoiceHead
+                objVendorInvHead = New clsVedorInvoiceHead()
+                objVendorInvHead.isDeduction = 1
+                objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(strPostDate, "dd/MMM/yyyy")
+                objVendorInvHead.Vendor_Code = obj.Vendor_Code
+                objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(obj.Vendor_Code, trans)
+                objVendorInvHead.Vendor_Invoice_No = "" ''No Need to send vendor invoice no because it is of debit note type
+                objVendorInvHead.Invoice_Type = "AP"
+                objVendorInvHead.Vendor_Invoice_Date = objVendorInvHead.Invoice_Entry_Date
+                objVendorInvHead.loc_code = clsLocation.GetSegmentCode(obj.Location, trans)
+                objVendorInvHead.Description = "AP Debit Note Against QC Deduction"
+                objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + objVendorInvHead.Vendor_Code + "'", trans))
+                If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
+                    Throw New Exception("Please set the vendor Account Set For Vendor : " + objVendorInvHead.Vendor_Name)
+                End If
+                objVendorInvHead.Document_Type = "D" ''For Purchase Invoice Type
+                objVendorInvHead.RefDocType = "LT-PNT"
+                objVendorInvHead.RefDocNo = obj.RGP_No
+                objVendorInvHead.On_Hold = False
+                objVendorInvHead.Due_Date = objVendorInvHead.Invoice_Entry_Date
+                dt = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,Deduction_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
+                    objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, obj.Location, trans)
+                    If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                        objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
+                        objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, obj.Location, trans)
+                    End If
+                End If
+                If clsCommon.myLen(objVendorInvHead.Vendor_Control_AC) <= 0 Then
+                    Throw New Exception("Please set the vendor payable Account")
+                End If
+                objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
+                objVendorInvHead.Total_Landed_Amt = 0
+                objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
+                If True Then
+                    Dim objVendorInvDetail As New clsVedorInvoiceDetail()
+                    objVendorInvDetail.Detail_Line_No = 1
+                    'objVendorInvDetail.DCS_Addition_Deduction = clsCommon.myCstr(drAmt("Against_DCS_ADDITION_DEDUCTION"))
+                    objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dt.Rows(0)("Deduction_ACCOUNT"))
+                    If clsCommon.myLen(objVendorInvDetail.GL_Account_Code) <= 0 Then
+                        Throw New Exception("Please Set Deduction Account of Vendor Account set [" + clsCommon.myCstr(dt.Rows(0)("Acct_Set_Code")) + "] and Vendor [" + obj.Vendor_Code + "]")
+                    End If
+                    objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, obj.Location, trans)
+                    objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
+                    objVendorInvDetail.Amount = dblAmount
+                    objVendorInvDetail.Discount_Per = 0
+                    objVendorInvDetail.Discount = 0
+                    objVendorInvDetail.Amount_less_Discount = dblAmount
+                    objVendorInvDetail.Total_Tax = 0
+                    objVendorInvDetail.Total_Amount = dblAmount
+                    objVendorInvDetail.Landed_Amount = dblAmount
+                    ''End of Set AP Invvoice Detail Table
+                    If (clsCommon.myLen(objVendorInvDetail.GL_Account_Code) > 0) Then
+                        objVendorInvHead.Arr.Add(objVendorInvDetail)
+                    End If
+
+                    ''Set AP Invvoice Header Table
+                    objVendorInvHead.Total_Landed_Amt += dblAmount
+                    objVendorInvHead.Discount_Base += dblAmount
+                    objVendorInvHead.Discount_Amount += 0
+                    objVendorInvHead.Amount_Less_Discount += dblAmount
+                    objVendorInvHead.Document_Total += dblAmount
+                    objVendorInvHead.Balance_Amt += dblAmount
+                    ''End of Set AP Invvoice Header Table
+
+                    objVendorInvHead.Empty_Amount = 0 'obj.Tot_Empty_Amount
+                    If objVendorInvHead.Empty_Amount > 0 Then
+                        If clsCommon.myLen(objVendorInvHead.Empty_Account) <= 0 Then
+                            Throw New Exception("Please set Inventory Control Empties")
+                        End If
+                        objVendorInvHead.Document_Total += objVendorInvHead.Empty_Amount
+                    End If
+                End If
+                If (objVendorInvHead.Arr Is Nothing OrElse objVendorInvHead.Arr.Count <= 0) Then
+                    Throw New Exception("No GL Account Found For AP Invoice")
+                End If
+                objVendorInvHead.ApplicableFrom = objVendorInvHead.Invoice_Entry_Date
+                objVendorInvHead.SaveData(objVendorInvHead, True, trans)
+                clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
+            End If
+
+            '============================================
+
+
+
+
+
             CreateJV(obj, trans, "")
             ''
             '========================================================================
@@ -842,6 +939,11 @@ Public Class clsRGPHead
         End Try
         Return True
     End Function
+
+
+
+
+
     Public Shared Function CreateJV(ByVal obj As clsRGPHead, ByVal trans As SqlTransaction, ByVal strJVNo As String) As Boolean
         Dim RecoControlACC As String = ""
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
@@ -1186,6 +1288,11 @@ Public Class clsRGPHead
             'Qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No ='" + strCode + "'"
             'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
+            Qry = "delete From TSPL_VENDOR_INVOICE_DETAIL Where Document_No In (Select Document_No from TSPL_VENDOR_INVOICE_HEAD Where RefDocNo='" + strCode + "' )"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            Qry = "delete From TSPL_VENDOR_INVOICE_HEAD Where RefDocNo ='" + strCode + "' "
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
@@ -1207,6 +1314,7 @@ End Class
 
 Public Class clsRGPDetail
 #Region "Variables"
+    Public Penalty_Cost As Double = 0
     Public Item_MRP As Decimal = Nothing
     Public RGP_No As String = Nothing
     Public Line_No As Integer = 0
@@ -1261,6 +1369,7 @@ Public Class clsRGPDetail
                 clsCommon.AddColumnsForChange(coll, "PO_Id", obj.PO_Id, True)
                 clsCommon.AddColumnsForChange(coll, "Against_Schedule_Code", obj.Against_Schedule_Code, True)
                 clsCommon.AddColumnsForChange(coll, "PO_Sch_Qty", obj.PO_Sch_Qty)
+                clsCommon.AddColumnsForChange(coll, "Penalty_Cost", obj.Penalty_Cost)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_RGP_DETAIL", OMInsertOrUpdate.Insert, "", trans)
 
                 clsSerializeInvenotry.SaveData(objHead.Doc_Type, strDocNo, objHead.RGP_Date, "O", obj.Item_Code, objHead.Location, obj.Line_No, obj.arrSrItem, trans)
