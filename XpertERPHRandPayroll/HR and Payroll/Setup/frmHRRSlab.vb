@@ -17,6 +17,7 @@ Public Class frmHRRSlab
     Const col_FROM As String = "col_FROM"
     Const col_TO As String = "col_TO"
     Const COLRATETYPE As String = "COLRATETYPE"
+    Const COLPER As String = "COLPer"
 #End Region
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
         Save()
@@ -50,6 +51,7 @@ Public Class frmHRRSlab
                 objTr._FROM = clsCommon.myCdbl(grow.Cells(col_FROM).Value)
                 objTr._TO = clsCommon.myCdbl(grow.Cells(col_TO).Value)
                 objTr.PAYHEADS = clsCommon.myCstr(grow.Cells(COLRATETYPE).Value)
+                objTr.Percentage = clsCommon.myCstr(grow.Cells(COLPER).Value)
                 obj.ObjList.Add(objTr)
             Next
             arr.Add(obj)
@@ -85,6 +87,7 @@ Public Class frmHRRSlab
                     gvOTSlab.Rows(gvOTSlab.Rows.Count - 1).Cells(col_FROM).Value = objTr._FROM
                     gvOTSlab.Rows(gvOTSlab.Rows.Count - 1).Cells(col_TO).Value = objTr._TO
                     gvOTSlab.Rows(gvOTSlab.Rows.Count - 1).Cells(COLRATETYPE).Value = objTr.PAYHEADS
+                    gvOTSlab.Rows(gvOTSlab.Rows.Count - 1).Cells(COLPER).Value = objTr.Percentage
                 Next
             End If
         Else
@@ -160,6 +163,14 @@ Public Class frmHRRSlab
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
         funReset()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("HRR_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_HRR_RULE_MASTER(HRR_CODE) ")
+        coll.Add("SLAB_FROM", "NUMERIC(12,2) NOT NULL")
+        coll.Add("SLAB_TO", "NUMERIC(12,2) NOT NULL")
+        coll.Add("PAYHEADS", "varchar(12) NOT NULL")
+        coll.Add("Percentage", "NUMERIC(12,2) NOT NULL")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_HRR_DETAIL", coll)
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -235,6 +246,7 @@ Public Class frmHRRSlab
         gvOTSlab.ReadOnly = False
         Dim _FROM As New GridViewDecimalColumn
         Dim _TO As New GridViewDecimalColumn
+        Dim Per As New GridViewDecimalColumn
         Dim RATE_TYPE As New GridViewComboBoxColumn
         _FROM.FormatString = ""
         _FROM.HeaderText = "From"
@@ -259,6 +271,13 @@ Public Class frmHRRSlab
         RATE_TYPE.DisplayMember = "Name"
         RATE_TYPE.ValueMember = "Code"
         gvOTSlab.Columns.Add(RATE_TYPE)
+        Per.FormatString = ""
+        Per.HeaderText = "Percentage"
+        Per.Name = colPer
+        Per.Width = 100
+        Per.ReadOnly = False
+        Per.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvOTSlab.Columns.Add(Per)
     End Sub
     Private Sub gvCategoryValues_CurrentColumnChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gvOTSlab.CurrentColumnChanged
         If gvOTSlab.RowCount > 0 Then

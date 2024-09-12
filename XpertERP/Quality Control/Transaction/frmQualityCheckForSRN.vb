@@ -1714,6 +1714,11 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
                         End If
 
                         'grow_PR.Cells(colRejQty).Value = System.Math.Round(clsCommon.myCdbl(grow_PR.Cells(colQty).Value) - clsCommon.myCdbl(grow_PR.Cells(colOkQty).Value), 2)
+
+                        If clsCommon.CompairString(txtAccept.Text, "Rejected") <> CompairStringResult.Equal Then
+                            grow_PR.Cells(colOkQty).Value = grow_PR.Cells(colOkQty).Value + grow_PR.Cells(colRejQty).Value
+                            grow_PR.Cells(colRejQty).Value = 0
+                        End If
                     Next
                 Next
                 Template_Remarks = frm.Template_Remarks
@@ -2501,5 +2506,19 @@ SELECT  MRN_No FROM TSPL_QC_CHECK_DETAIL WHERE Document_Code='" + clsCommon.myCs
     End Sub
     Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
         CancelWetQCData()
+    End Sub
+
+    Private Sub gv_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv.CellFormatting
+        Try
+            If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
+                If clsCommon.CompairString(txtAccept.Text, "Rejected") = CompairStringResult.Equal Then
+                    gv.CurrentRow.Cells(colRejQty).ReadOnly = False
+                Else
+                    gv.CurrentRow.Cells(colRejQty).ReadOnly = True
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

@@ -2450,11 +2450,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         End If
 
         txtCan.Text = Math.Round(clsCommon.myCdbl(TotalCan), 2)
-            txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
-            txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
+        txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
+        txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
         lblAmtWithDiscount.Text = dblNetAmt
         lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
-            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt), 2) - dblDisAmt)
+        lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt), 2) - dblDisAmt)
         lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTotalTcsAmt)
         If chkSampling.Checked Then
             lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt - dblDisAmt), 2)
@@ -2468,7 +2468,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         End If
         txtDCAmt.Text = clsCommon.myFormat(dblCommAmt)
         txtTCAmt.Text = clsCommon.myFormat(dblTCAmt)
-            txtSecurity.Text = clsCommon.myFormat(dblSCAmt)
+        txtSecurity.Text = clsCommon.myFormat(dblSCAmt)
         'End If
         If ApplyRoundOffZero Then
             If Math.Round(clsCommon.myCdbl(lblTotRAmt.Text), 0) > clsCommon.myCdbl(lblTotRAmt.Text) Then
@@ -8403,15 +8403,15 @@ from
             End Try
         End If
         Try
-                If clsCommon.myLen(DocCode) > 0 Then
-                    If common.clsCommon.MyMessageBoxShow(" Print Invoice ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                        '' Print '''''''''''
-                        Dim frmCRV As New frmCrystalReportViewer()
-                        Dim objMultPrintInvoice As New FrmPrintFreshInvoice
-                        Dim SaleInvoiceNo As New List(Of String)
-                        SaleInvoiceNo.Add(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" + DocCode + "'"))
-                        Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo), txtDate.Value, txtVendorNo.Value)
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If clsCommon.myLen(DocCode) > 0 Then
+                If common.clsCommon.MyMessageBoxShow(" Print Invoice ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    '' Print '''''''''''
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+                    Dim SaleInvoiceNo As New List(Of String)
+                    SaleInvoiceNo.Add(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" + DocCode + "'"))
+                    Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo), txtDate.Value, txtVendorNo.Value)
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
@@ -8424,15 +8424,15 @@ from
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKR", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     Else
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                        End If
-                        frmCRV = Nothing
-                        ''   end of print Invoice '''''''
                     End If
-                Else
-                    Throw New Exception("Invoice Not Found!")
+                    frmCRV = Nothing
+                    ''   end of print Invoice '''''''
                 End If
-            Catch ex As Exception
-                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Else
+                Throw New Exception("Invoice Not Found!")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub chkBPL_CheckStateChanged(sender As Object, e As EventArgs) Handles chkBPL.CheckStateChanged
@@ -9025,8 +9025,8 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                                 Dim arr As List(Of clsBatchInventory) = Nothing
                                 arr = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
                                 If arr IsNot Nothing Then
-                                        For Each obj As clsBatchInventory In arr
-                                            Dim dblqty As Double = obj.Qty
+                                    For Each obj As clsBatchInventory In arr
+                                        Dim dblqty As Double = obj.Qty
                                         'If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)) <> CompairStringResult.Equal Then
                                         dblqty = GetConvQuantity(strICodeOuter, clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), obj.Qty)
                                         'End If
@@ -9036,8 +9036,8 @@ where  TSPL_BOOKING_DETAIL.Cust_Code='" + strVendorno + "' and convert(date,TSPL
                                                     "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
                                                     "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
                                                     "" & dblqty & " as Qty, 0 as MRP "
-                                        Next
-                                    End If
+                                    Next
+                                End If
                                 'End If
                                 'Next
                             End If

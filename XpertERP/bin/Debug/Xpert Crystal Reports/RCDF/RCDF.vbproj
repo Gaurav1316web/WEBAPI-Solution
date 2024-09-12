@@ -603,6 +603,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PersonWiseGoodsReturnableBalance.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G old1.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-G-JAL.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GALW.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GBKN.rpt" />
@@ -1470,6 +1471,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptQualityCheck.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRoutePeriodicalDispatchReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTruckSheetDailySummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptVlcDailyLanded.rpt" />
@@ -1477,6 +1479,7 @@
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillFATSNFDebitCreditNote.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillMCCSale.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillRejection.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\SubTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CANARA BANK.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CheckPrintDemo.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CheckPrintFormatDemo.rpt" />
@@ -1911,6 +1914,7 @@
     <None Include="Crystal Reports\Sales Report\FINAL UPDATED RPT BY RAKESH SIR\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports\Sales Report\flavourtype.rpt" />
     <None Include="Crystal Reports\Sales Report\InvoiceTDMSKU.rpt" />
+    <None Include="Crystal Reports\Sales Report\MonthlyBiIlReport.rpt" />
     <None Include="Crystal Reports\Sales Report\oldcrptCustomerEmptyTrial.rpt" />
     <None Include="Crystal Reports\Sales Report\OutletDetails.rpt" />
     <None Include="Crystal Reports\Sales Report\PackTypeInvoice.rpt" />

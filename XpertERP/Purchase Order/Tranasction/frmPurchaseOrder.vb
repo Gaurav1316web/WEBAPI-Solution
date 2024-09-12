@@ -498,7 +498,7 @@ Public Class frmPurchaseOrder
             RadPageView1.Pages("RdPaymentterms").Item.Visibility = ElementVisibility.Visible
             RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
         End If
-
+        btn_cancel.Visible = False
         btnUnpost.Visible = False
         ''-----------------
         isApplyBrachAccounting = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, Nothing)) = 1, True, False)
@@ -600,6 +600,7 @@ Public Class frmPurchaseOrder
         btnUnpost.Visible = False
         'btn_cancel.Visible = MyBase.isCancel_Flag
         btn_Cancels.Visible = MyBase.isCancel_Flag
+
         'If MyBase.isReverse Then
         '    btnUnpost.Enabled = True
         'Else

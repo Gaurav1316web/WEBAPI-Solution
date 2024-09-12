@@ -120,7 +120,7 @@ Public Class RptCustomerEffective_ItemRate
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        GetReportGridID()
+        'GetReportGridID()
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gv
         GetReportID()
@@ -403,13 +403,14 @@ Public Class RptCustomerEffective_ItemRate
         Dim VarID As String = ""
 
         If RbtnLatest.Checked Then
-            VarID += "_L"
+            VarID += "_LA"
         ElseIf RbtnAll.Checked Then
             VarID += "_AL"
         End If
         If chkStockingUOM.IsChecked Then
             VarID += "_SU"
-        ElseIf chkPriceCodeWise.IsChecked Then
+        End If
+        If chkPriceCodeWise.IsChecked Then
             VarID += "_PW"
         End If
         If ChkExcisablePrice.IsChecked Then

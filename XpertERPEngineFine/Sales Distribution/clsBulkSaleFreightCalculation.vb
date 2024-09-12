@@ -118,6 +118,8 @@ Public Class clsBulkSaleFreightCalculation
                     objtr.Applicable_Rate = clsCommon.myCDecimal(dr("Applicable_Rate"))
                     objtr.GPS_KM = clsCommon.myCDecimal(dr("GPS_KM"))
                     objtr.Payable_Amount = clsCommon.myCDecimal(dr("Payable_Amount"))
+                    objtr.Toll_Charges = clsCommon.myCDecimal(dr("Toll_Charges"))
+                    objtr.Total_Payable_Amount = clsCommon.myCDecimal(dr("Total_Payable_Amount"))
                     obj.Arr.Add(objtr)
                 Next
             End If
@@ -256,13 +258,15 @@ Public Class clsBulkSaleFreightCalculation
         Try
             Dim qry As String = ""
             qry = "SELECT ROW_NUMBER() Over (Order By (Document_Date)) As SNo,  xx.Date,xx.Tanker_No,xx.Transporter,xx.Dispatch_No, xx.Qty, xx.Fat, xx.Snf,isnull(tab2.Tender_Qty,0)Tender_Qty,
-            isnull(tab2.Rate,0)Rate,isnull(tab2.Pro_Rate,0)Pro_Rate,isnull(tab2.DieselPetrol,0)DieselPetrol,isnull(tab2.Applicable_Rate,0)Applicable_Rate,isnull(tab2.GPS_KM,0)GPS_KM ,isnull(tab2.Payable_Amount,0)Payable_Amount
+            isnull(tab2.Rate,0)Rate,Case  When isnull(Tender_Qty,0)>0 Then Round((isnull(Qty,0)*isnull(Rate,0))/isnull(Tender_Qty,0),2) Else 0 End AS Pro_Rate,
+			isnull(tab2.DieselPetrol,0)DieselPetrol,(Case  When isnull(Tender_Qty,0)>0 Then Round((isnull(Qty,0)*isnull(Rate,0))/isnull(Tender_Qty,0),2) Else 0 End)+isnull(tab2.DieselPetrol,0) As Applicable_Rate, isnull(tab2.GPS_KM,0)GPS_KM, ((Case  When isnull(Tender_Qty,0)>0 Then Round((isnull(Qty,0)*isnull(Rate,0))/isnull(Tender_Qty,0),2) Else 0 End)+isnull(tab2.DieselPetrol,0))*isnull(tab2.GPS_KM,0) as Payable_Amount, tab2.Toll_charges, ((Case  When isnull(Tender_Qty,0)>0 Then Round((isnull(Qty,0)*isnull(Rate,0))/isnull(Tender_Qty,0),2) Else 0 End)+isnull(tab2.DieselPetrol,0))*isnull(tab2.GPS_KM,0)+isnull(xx.Toll_charges,0) as Total_Payable_Amount
             FROM ( SELECT  CONVERT(VARCHAR, TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_Date, 103) AS Date,TSPL_Dispatch_BulkSale.Tanker_Code AS Tanker_No,	TSPL_Dispatch_BulkSale.Transporter as Transporter,TSPL_Dispatch_BulkSale.Document_No AS Dispatch_No,
-            ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.Qty, 0) AS Qty,ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.FAT, 0) AS Fat,ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.SNF, 0) AS Snf,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_Date
+            ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.Qty, 0) AS Qty,ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.FAT, 0) AS Fat,ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.SNF, 0) AS Snf,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_Date, TSPL_BULK_SALE_ACKNOWLEDGEMENT.Toll_Charges,
+			TSPL_BULK_SALE_ACKNOWLEDGEMENT.Total_Payable_Amount
             FROM TSPL_BULK_SALE_ACKNOWLEDGEMENT LEFT OUTER JOIN TSPL_Dispatch_BulkSale ON TSPL_Dispatch_BulkSale.Document_No = TSPL_BULK_SALE_ACKNOWLEDGEMENT.Bulk_Dispatch_Document
             LEFT OUTER JOIN TSPL_Dispatch_Detail_BulkSale ON TSPL_Dispatch_BulkSale.Document_No = TSPL_Dispatch_Detail_BulkSale.Document_No where TSPL_BULK_SALE_ACKNOWLEDGEMENT.Status = 1 ) AS xx
             cross APPLY ( SELECT TOP 1 TSPL_BLK_FREIGHT_MASTER.Start_Date, TSPL_BLK_FREIGHT_detail.Tender_Qty,TSPL_BLK_FREIGHT_detail.Rate,TSPL_BLK_FREIGHT_detail.DieselPetrol, TSPL_BLK_FREIGHT_detail.Payable_Amount, TSPL_BLK_FREIGHT_detail.Applicable_Rate,
-            TSPL_BLK_FREIGHT_detail.Pro_Rate,TSPL_BLK_FREIGHT_detail.GPS_KM  FROM TSPL_BLK_FREIGHT_MASTER LEFT outer JOIN  TSPL_BLK_FREIGHT_detail ON TSPL_BLK_FREIGHT_detail.Document_Code = TSPL_BLK_FREIGHT_MASTER.Document_Code
+            TSPL_BLK_FREIGHT_detail.Pro_Rate,TSPL_BLK_FREIGHT_detail.GPS_KM,TSPL_BLK_FREIGHT_detail.Toll_Charges  FROM TSPL_BLK_FREIGHT_MASTER LEFT outer JOIN  TSPL_BLK_FREIGHT_detail ON TSPL_BLK_FREIGHT_detail.Document_Code = TSPL_BLK_FREIGHT_MASTER.Document_Code
             WHERE TSPL_BLK_FREIGHT_MASTER.Status = 1 and TSPL_BLK_FREIGHT_MASTER.Customer_Code = xx.Customer_Code  AND TSPL_BLK_FREIGHT_MASTER.Start_Date <= xx.Document_Date ORDER BY TSPL_BLK_FREIGHT_MASTER.Start_Date DESC ) AS tab2
             WHERE CONVERT(DATE, xx.Document_Date, 103) >=  CONVERT(DATE, '" & clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") & "', 103) AND  CONVERT(DATE, xx.Document_Date, 103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") & "', 103) AND xx.Customer_Code = '" & Customer & "' "
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -292,6 +296,8 @@ Public Class clsBulkSaleFreightCalculationDetail
     Public DieselPetrol As Double = 0
     Public GPS_KM As Double = 0
     Public Payable_Amount As Double = 0
+    Public Toll_Charges As Double = 0
+    Public Total_Payable_Amount As Double = 0
 
 #End Region
 
@@ -315,6 +321,8 @@ Public Class clsBulkSaleFreightCalculationDetail
                 clsCommon.AddColumnsForChange(coll, "Applicable_Rate", obj.Applicable_Rate)
                 clsCommon.AddColumnsForChange(coll, "GPS_KM", obj.GPS_KM)
                 clsCommon.AddColumnsForChange(coll, "Payable_Amount", obj.Payable_Amount)
+                clsCommon.AddColumnsForChange(coll, "Toll_Charges", obj.Toll_Charges)
+                clsCommon.AddColumnsForChange(coll, "Total_Payable_Amount", obj.Total_Payable_Amount)
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_CALC_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next

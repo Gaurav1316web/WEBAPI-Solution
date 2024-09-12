@@ -10,6 +10,7 @@ Public Class frmBulkSaleFreightMaster
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Const colSNo As String = "colSNo"
+    Const ColAckQty As String = "ColAckQty"
     Const colTenderQty As String = "colTenderQty"
     Const colRate As String = "colRate"
     Const colProRate As String = "colProRate"
@@ -17,14 +18,18 @@ Public Class frmBulkSaleFreightMaster
     Const colApplicableRate As String = "colApplicableRate"
     Const colGPSKM As String = "colGPSKM"
     Const colPayableAmount As String = "colPayableAmount"
+    Const colTollCharges As String = "colTollCharges"
+    'Const colTotalPayableAmount As String = "colTotalPayableAmount"
     Dim isLoadData As Boolean = False
     Dim isCopyData As Boolean = False
+    Dim CalculateProRateAuto As Boolean = False
 #End Region
 
     Private Sub frmBulkSaleFreightMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         LoadBlankGrid()
         Addnew()
+        CalculateProRateAuto = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, Nothing)) = "1", True, False))
         btnPost.Visible = True
         btnPost.Enabled = False
         If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
@@ -180,12 +185,15 @@ Public Class frmBulkSaleFreightMaster
                     If clsCommon.myCdbl((grow.Cells(colTenderQty).Value)) > 0 Then
                         objTr.SNO = grow.Cells(colSNo).Value
                         objTr.Tender_Qty = clsCommon.myCdbl((grow.Cells(colTenderQty).Value))
+                        objTr.Qty = clsCommon.myCdbl((grow.Cells(ColAckQty).Value))
                         objTr.Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
                         objTr.Pro_Rate = clsCommon.myCDecimal(grow.Cells(colProRate).Value)
                         objTr.Applicable_Rate = clsCommon.myCDecimal(grow.Cells(colApplicableRate).Value)
                         objTr.Payable_Amount = clsCommon.myCDecimal(grow.Cells(colPayableAmount).Value)
                         objTr.DieselPetrol = clsCommon.myCDecimal(grow.Cells(colDieselPetrol).Value)
                         objTr.GPS_KM = clsCommon.myCDecimal(grow.Cells(colGPSKM).Value)
+                        objTr.Toll_Charges = clsCommon.myCDecimal(grow.Cells(colTollCharges).Value)
+                        'objTr.Total_Payable_Amount = clsCommon.myCDecimal(grow.Cells(colTotalPayableAmount).Value)
                         obj.Arr.Add(objTr)
                     End If
 
@@ -234,14 +242,16 @@ Public Class frmBulkSaleFreightMaster
         repoNumBox.HeaderText = "SNO"
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
-        Dim repoTenderQty As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoTenderQty.FormatString = ""
-        repoTenderQty.Width = 100
-        repoTenderQty.HeaderText = "Tender Qty"
-        repoTenderQty.Name = colTenderQty
-        repoTenderQty.IsVisible = True
-        repoTenderQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoTenderQty)
+        Dim repoColAckQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoColAckQty.FormatString = ""
+        repoColAckQty.HeaderText = "Qty"
+        repoColAckQty.Name = ColAckQty
+        repoColAckQty.Minimum = 0
+        repoColAckQty.ReadOnly = False
+        repoColAckQty.IsVisible = True
+        repoColAckQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoColAckQty.Width = 60
+        gv1.MasterTemplate.Columns.Add(repoColAckQty)
 
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoRate.FormatString = ""
@@ -253,6 +263,15 @@ Public Class frmBulkSaleFreightMaster
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate)
 
+        Dim repoTenderQty As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTenderQty.FormatString = ""
+        repoTenderQty.Width = 100
+        repoTenderQty.HeaderText = "Tender Qty"
+        repoTenderQty.Name = colTenderQty
+        repoTenderQty.IsVisible = True
+        repoTenderQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoTenderQty)
+
         Dim repoProRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoProRate.FormatString = ""
         repoProRate.Width = 120
@@ -263,13 +282,23 @@ Public Class frmBulkSaleFreightMaster
         repoProRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoProRate)
 
+        Dim repoGPSKM As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoGPSKM.FormatString = ""
+        repoGPSKM.Width = 90
+        repoGPSKM.HeaderText = "GPS KM"
+        repoGPSKM.Name = colGPSKM
+        repoGPSKM.IsVisible = True
+        repoGPSKM.Minimum = 0
+        repoGPSKM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoGPSKM)
+
         Dim repoDieselPetrol As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDieselPetrol = New GridViewDecimalColumn()
         repoDieselPetrol.FormatString = ""
         repoDieselPetrol.Width = 120
         repoDieselPetrol.HeaderText = "Diesel Hike/Red."
         repoDieselPetrol.Name = colDieselPetrol
-        repoDieselPetrol.IsVisible = True
+        repoDieselPetrol.IsVisible = False
         repoDieselPetrol.Minimum = 0
         repoDieselPetrol.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoDieselPetrol)
@@ -284,25 +313,37 @@ Public Class frmBulkSaleFreightMaster
         repoApplicableRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoApplicableRate)
 
-        Dim repoGPSKM As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoGPSKM.FormatString = ""
-        repoGPSKM.Width = 90
-        repoGPSKM.HeaderText = "GPS KM"
-        repoGPSKM.Name = colGPSKM
-        repoGPSKM.IsVisible = True
-        repoGPSKM.Minimum = 0
-        repoGPSKM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoGPSKM)
-
         Dim repoPayableAmount As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoPayableAmount.FormatString = ""
         repoPayableAmount.Width = 120
         repoPayableAmount.HeaderText = "Payable Amount"
         repoPayableAmount.Name = colPayableAmount
-        repoPayableAmount.IsVisible = True
+        repoPayableAmount.IsVisible = False
         repoPayableAmount.Minimum = 0
         repoPayableAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoPayableAmount)
+
+        Dim repoTollCharges As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoTollCharges.FormatString = ""
+        repoTollCharges.Width = 120
+        repoTollCharges.HeaderText = "Toll Charges"
+        repoTollCharges.Name = colTollCharges
+        repoTollCharges.ReadOnly = False
+        repoTollCharges.IsVisible = True
+        repoTollCharges.Minimum = 0
+        repoTollCharges.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoTollCharges)
+
+        'Dim repoTotalPayableAmount As GridViewDecimalColumn = New GridViewDecimalColumn()
+        'repoTotalPayableAmount.FormatString = ""
+        'repoTotalPayableAmount.Width = 120
+        'repoTotalPayableAmount.HeaderText = "Total Payable Amount"
+        'repoTotalPayableAmount.Name = colTotalPayableAmount
+        'repoTotalPayableAmount.ReadOnly = True
+        'repoTotalPayableAmount.IsVisible = True
+        'repoTotalPayableAmount.Minimum = 0
+        'repoTotalPayableAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        'gv1.MasterTemplate.Columns.Add(repoTotalPayableAmount)
 
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -346,18 +387,20 @@ Public Class frmBulkSaleFreightMaster
                     For Each objTr As clsBulkSaleFreightDetail In obj.Arr
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = objTr.SNO
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTenderQty).Value = objTr.Tender_Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColAckQty).Value = objTr.Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colProRate).Value = objTr.Pro_Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colApplicableRate).Value = objTr.Applicable_Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDieselPetrol).Value = objTr.DieselPetrol
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGPSKM).Value = objTr.GPS_KM
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colPayableAmount).Value = objTr.Payable_Amount
-
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTollCharges).Value = objTr.Toll_Charges
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalPayableAmount).Value = objTr.Total_Payable_Amount
                     Next
                 End If
 
             End If
-
+            GridBasisOnSetting()
             isLoadData = True
             isInsideLoadData = True
             isInsideLoadData = False
@@ -367,6 +410,16 @@ Public Class frmBulkSaleFreightMaster
         Finally
 
         End Try
+    End Sub
+
+    Sub GridBasisOnSetting()
+        If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+            If CalculateProRateAuto Then
+                gv1.Columns("colProRate").IsVisible = True
+            Else
+                gv1.Columns("colProRate").IsVisible = False
+            End If
+        End If
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -457,6 +510,7 @@ Public Class frmBulkSaleFreightMaster
 
                                 gv1.Rows(ii).Cells(colSNo).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("SNO").Value)
                                 gv1.Rows(ii).Cells(colTenderQty).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Tender Qty").Value)
+                                gv1.Rows(ii).Cells(ColAckQty).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Qty").Value)
                                 gv1.Rows(ii).Cells(colRate).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Rate").Value)
                                 gv1.Rows(ii).Cells(colProRate).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Pro Rate").Value)
                                 gv1.Rows(ii).Cells(colApplicableRate).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Applicable Rate").Value)
@@ -546,5 +600,28 @@ Public Class frmBulkSaleFreightMaster
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
         Dim qry As String = "select '' as SNO ,'' AS [Tender Qty] , '' AS Rate , '' as [Pro Rate] ,'' as [Diesel Hike/Red.], '' as [Applicable Rate] , '' as [GPS KM] , '' [Payable Amount]"
         transportSql.ExporttoExcelWithoutFilter(qry, "", "", Me)
+    End Sub
+
+    Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                isCellValueChangedOpen = True
+                If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+
+                End If
+                UpdateCurrentRow(gv1.CurrentRow.Index)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+        Dim ackqty As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(ColAckQty).Value)
+        Dim rate As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colRate).Value)
+        Dim tenderqty As Decimal = clsCommon.myCDecimal(gv1.Rows(IntRowNo).Cells(colTenderQty).Value)
+        If clsCommon.myCDecimal(tenderqty) > 0 Then
+            gv1.Rows(IntRowNo).Cells(colProRate).Value = ackqty * rate / tenderqty
+        End If
     End Sub
 End Class

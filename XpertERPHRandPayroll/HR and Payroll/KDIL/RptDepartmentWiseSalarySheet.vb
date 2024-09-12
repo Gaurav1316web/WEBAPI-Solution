@@ -32,9 +32,9 @@ Public Class RptDepartmentWiseSalarySheet
 
     Sub GetReportID()
         Dim VarID As String = ""
-        If clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Departmentwise") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(ddlReportType.Text, "Departmentwise") = CompairStringResult.Equal Then
             VarID += "_D"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedItem.Text, "Employeewise") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.Text, "Employeewise") = CompairStringResult.Equal Then
             VarID += "_E"
         End If
         Gv1.VarID = VarID

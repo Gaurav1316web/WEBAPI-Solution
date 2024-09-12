@@ -20,6 +20,7 @@ Public Class frmNIRQC
         btnPrint.Visible = MyBase.isPrintFlag
         btnPost.Visible = MyBase.isPostFlag
         CancelBtn.Visible = MyBase.isCancel_Flag
+
         'If MyBase.isReverse Then
         '    RadButton1.Enabled = True
         'Else

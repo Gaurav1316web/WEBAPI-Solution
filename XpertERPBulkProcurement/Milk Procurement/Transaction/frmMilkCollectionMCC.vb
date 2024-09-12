@@ -35,6 +35,7 @@ Public Class frmMilkCollectionMCC
     Dim isCellValueChangedOpen As Boolean = False
     Dim SettMilkCollectionFATSNFTypeHeader As Integer
     Dim SettMilkCollectionFATSNFType As Integer
+    Dim PickOnlyOWNBMCDCS As Integer
     Dim isPickCLRInsteadOfSNF As Boolean = False
     Dim settFillRouteTankerNo As Boolean = False
     Dim SettFATSNFNoDecimalMCC As Boolean
@@ -107,6 +108,7 @@ Public Class frmMilkCollectionMCC
         isPickCLRInsteadOfSNF = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
         SettMilkCollectionFATSNFType = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
+        PickOnlyOWNBMCDCS = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, Nothing))
         SettFATSNFNoDecimalMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing)) = 1)
         SettShowAllMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing)) = 1)
         SettApplyGaze = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyGaze, clsFixedParameterCode.ApplyGaze, Nothing)) = 1)
@@ -903,7 +905,13 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
             txtRoute.Focus()
             Throw New Exception("Please provide Route code ")
         End If
-        Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 and TSPL_MCC_MASTER.In_active=0 "
+        Dim whr As String = ""
+        If PickOnlyOWNBMCDCS = 1 Then
+            whr = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 and TSPL_MCC_MASTER.In_active=0 AND TSPL_VLC_MASTER_HEAD.isOwnBMC=1"
+        Else
+            whr = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 and TSPL_MCC_MASTER.In_active=0 "
+        End If
+        ' whr = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 and TSPL_MCC_MASTER.In_active=0 "
         If Not SettShowAllMCC Then
             whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtRoute.Value + "' "
         End If
@@ -1542,6 +1550,16 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                     ElseIf Late = 1 Then
                     Else
                         Throw New Exception("Late value should be 0 or 1 At Line No " + clsCommon.myCstr(counter) + "")
+                    End If
+
+                    If PickOnlyOWNBMCDCS = 1 Then
+                        qry = "select count (*)  from TSPL_MCC_MASTER
+                               LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader=TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader
+                               where Mcc_Code_VLC_Uploader = '" + BMCMCCCode + "'  and isOwnBMC=1"
+                        checkValid = clsCommon.myCBool(clsDBFuncationality.getSingleValue(qry))
+                        If checkValid = False Then
+                            Throw New Exception("Invalid BMC At Line No " + clsCommon.myCstr(counter) + "")
+                        End If
                     End If
                     If SettApplyGaze = True Then
                         dclSampleNo = clsCommon.myCDecimal(grow.Cells("SampleNo").Value)

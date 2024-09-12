@@ -299,6 +299,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv_MRN.Size = New System.Drawing.Size(1016, 121)
         Me.gv_MRN.TabIndex = 0
         Me.gv_MRN.TabStop = False
+        Me.gv_MRN.VarID = ""
         '
         'RadGroupBox1
         '
@@ -338,6 +339,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv.Size = New System.Drawing.Size(1016, 50)
         Me.gv.TabIndex = 0
         Me.gv.TabStop = False
+        Me.gv.VarID = ""
         '
         'Panel1
         '

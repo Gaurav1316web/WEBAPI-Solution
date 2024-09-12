@@ -558,7 +558,7 @@ Public Class frmQCTemplateEntry
                 End If
 
 
-               
+
 
                 gv.Rows.Clear()
 
@@ -618,6 +618,7 @@ Public Class frmQCTemplateEntry
                     txtAccept.BackColor = Color.Green
                 ElseIf clsCommon.CompairString(obj.QC_Status, "Under Deviation") = CompairStringResult.Equal Then
                     txtAccept.BackColor = Color.Yellow
+                    txtAccept.Enabled = True
                 ElseIf clsCommon.CompairString(obj.QC_Status, "Rejected") = CompairStringResult.Equal Then
                     txtAccept.BackColor = Color.Red
                 End If
@@ -1541,7 +1542,7 @@ Public Class frmQCTemplateEntry
             ElseIf txtAccept.Text = "Rejected" Then
                 chkStatus.Enabled = True
             Else
-                chkStatus.Enabled = False
+                chkStatus.Enabled = True
             End If
         Catch err As Exception
             common.clsCommon.MyMessageBoxShow(err.Message)

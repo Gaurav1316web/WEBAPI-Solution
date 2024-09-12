@@ -70,9 +70,9 @@ Public Class clsQualityCheckApprovalForSRN
                     If Not arrdocumentcode.Contains(objtr.Document_Code) Then
                         arrdocumentcode.Add(objtr.Document_Code)
                     End If
-                    If (Not arrdocumentcode_WithoutRejected.Contains(objtr.Document_Code)) AndAlso clsCommon.CompairString(objtr.QC_Status, "Rejected") <> CompairStringResult.Equal Then
-                        arrdocumentcode_WithoutRejected.Add(objtr.Document_Code)
-                    End If
+                    'If (Not arrdocumentcode_WithoutRejected.Contains(objtr.Document_Code)) AndAlso clsCommon.CompairString(objtr.QC_Status, "Rejected") <> CompairStringResult.Equal Then
+                    '    arrdocumentcode_WithoutRejected.Add(objtr.Document_Code)
+                    'End If
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_QC_CHECK_APPROVAL_ENTRY", OMInsertOrUpdate.Insert, "", trans)
 
                 Next
@@ -82,10 +82,10 @@ Public Class clsQualityCheckApprovalForSRN
             'Else
             'End If
 
-            'SaveDataForSRN(obj, arrdocumentcode, trans)
-            If arrdocumentcode_WithoutRejected.Count > 0 Then
-                SaveDataForSRN(obj, arrdocumentcode_WithoutRejected, trans)
-            End If
+            SaveDataForSRN(obj, arrdocumentcode, trans)
+            'If arrdocumentcode_WithoutRejected.Count > 0 Then
+            '    SaveDataForSRN(obj, arrdocumentcode_WithoutRejected, trans)
+            'End If
 
             ''====================update the approval status to qc check table
             qry = "update TSPL_QC_CHECK_HEAD set Approved_For_SRN=1,modified_by='" + objCommonVar.CurrentUserCode + "',modified_date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code in (" + clsCommon.GetMulcallString(arrdocumentcode) + ")"

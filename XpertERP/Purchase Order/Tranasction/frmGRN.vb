@@ -277,6 +277,7 @@ Public Class frmGRN
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
         Cancelbtn.Visible = MyBase.isCancel_Flag_After_Posting
         btnUnpost.Visible = False
+        Cancelbtn.Visible = MyBase.isCancel_Flag
         'If MyBase.isReverse Then
         '    btnUnpost.Enabled = True
         'Else

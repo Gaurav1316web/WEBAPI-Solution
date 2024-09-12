@@ -27,7 +27,7 @@ Public Class frmRMProcessLoss
     Const colStockTransferAmt As String = "StockTransferAmt"
     Const colProductioncode As String = "ProductionCode"
     Const colBomcodedetail As String = "Bomcodedetail"
-    Dim isNewEntry As Boolean = True
+    Dim isNewEntry As Boolean = False
     Dim isInsideLoadData As Boolean = False
     Public Template_Status As String = Nothing
     Public colNature As String = "Nature"
@@ -532,7 +532,7 @@ Public Class frmRMProcessLoss
         Dim arr As New List(Of String)
         Dim icode As String = ""
         Dim status As Integer = 0
-        Dim amtforFG1 As String = ""
+        Dim amtforFG1 As Double = 0
         Dim code1 As String = ""
         Dim Itemcode1 As String = ""
         Dim PLAvg As Decimal = 0
@@ -544,9 +544,9 @@ Public Class frmRMProcessLoss
             code1 = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
             If clsCommon.CompairString(code1, "RM") = CompairStringResult.Equal OrElse clsCommon.CompairString(code1, "FG") = CompairStringResult.Equal Then
                 If clsCommon.CompairString(code1, "FG") = CompairStringResult.Equal Then
-                    amtforFG1 = clsDBFuncationality.getSingleValue(" select SFG_for_CF from TSPL_ITEM_MASTER where Item_Code='" + Itemcode1 + "' ")
+                    amtforFG1 = clsDBFuncationality.getSingleValue(" select isnull(SFG_for_CF,0)SFG_for_CF from TSPL_ITEM_MASTER where Item_Code='" + Itemcode1 + "' ")
                 End If
-                If clsCommon.myLen(amtforFG1) > 0 Then
+                If clsCommon.myCdbl(amtforFG1) > 0 Then
                     Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
                     If PL > 0 Then
                         PLAvg += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
@@ -579,7 +579,7 @@ Public Class frmRMProcessLoss
         Dim code As String = ""
         Dim Itemcode As String = ""
         Dim status1 As Integer = 0
-        Dim amtforFG As String = ""
+        Dim amtforFG As Double = 0
         Dim PLAvg1 As Decimal = 0
         Dim AvgPer1 As Decimal = 0
         For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -587,9 +587,9 @@ Public Class frmRMProcessLoss
             code = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemType).Value)
             If clsCommon.CompairString(code, "RM") = CompairStringResult.Equal OrElse clsCommon.CompairString(code, "FG") = CompairStringResult.Equal Then
                 If clsCommon.CompairString(code, "FG") = CompairStringResult.Equal Then
-                    amtforFG = clsDBFuncationality.getSingleValue(" select SFG_for_CF from TSPL_ITEM_MASTER where Item_Code='" + Itemcode + "' ")
+                    amtforFG = clsDBFuncationality.getSingleValue(" select isnull(SFG_for_CF,0)SFG_for_CF from TSPL_ITEM_MASTER where Item_Code='" + Itemcode + "' ")
                 End If
-                If clsCommon.myLen(amtforFG) > 0 Then
+                If clsCommon.myCdbl(amtforFG) > 0 Then
                     Dim PL As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)
                     If PL > 0 Then
                         PLAvg1 += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colIssProdAmt).Value)

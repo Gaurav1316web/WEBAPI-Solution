@@ -265,9 +265,18 @@ Public Class rptDailyQtyReport
                           sum(ppp.FAT_Tolerence) as FAT_Tolerence, case when sum(ppp.FATKG_Recovered)<=0 then 0 else sum(ppp.FATKG_Recovered) end   as FATKG_Recovered
 						  , case when sum(ppp.FATKG_Recovered)<=0 then 0 else  Sum(FAT_AMT) end as FAT_AMT,
                         sum(PPP.DiffMCCVsEntered_SNFKG)DiffMCCVsEntered_SNFKG,sum(SNF_Tolerence) as SNF_Tolerence,
-						Sum(ppp.SNFKG_Recovered)  as SNFKG_Recovered
-						,Sum(ppp.SNF_AMT) as SNF_AMT
-						,Sum(AMOUNT) AMOUNT,max(PPP.GainLoss_Code) as GainLoss_Code,
+						 case when Sum(ppp.SNFKG_Recovered)<=0 then 0 else Sum(ppp.SNFKG_Recovered) end as SNFKG_Recovered
+						,Case when Sum(ppp.SNF_AMT)<=0 then 0 else Sum(ppp.SNF_AMT) end  as SNF_AMT
+						, CASE 
+            WHEN SUM(FAT_AMT) >= 0 AND SUM(SNF_AMT) >= 0 THEN 
+                ISNULL(SUM(FAT_AMT), 0) + ISNULL(SUM(SNF_AMT), 0)
+            WHEN SUM(FAT_AMT) >= 0 AND SUM(SNF_AMT) <= 0 THEN 
+                SUM(FAT_AMT)
+            WHEN SUM(FAT_AMT) <= 0 AND SUM(SNF_AMT) >= 0 THEN 
+                SUM(SNF_AMT)
+            ELSE 
+                0
+        END AS AMOUNT,max(PPP.GainLoss_Code) as GainLoss_Code,
                            sum(PPP.Loss_FAT_Rate) as Loss_FAT_Rate,
                            sum(PPP.Loss_SNF_Rate) as Loss_SNF_Rate,
                            max(PPP.Start_Date) as Start_Date
@@ -959,13 +968,13 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 Gv1.Columns("Vehicle_No").IsVisible = False
                 Gv1.Columns("GainLoss_Code").HeaderText = "Gain Loss Code"
                 Gv1.Columns("GainLoss_Code").IsVisible = False
-                Gv1.Columns("Loss_FAT_Rate").HeaderText = "Loss FAT Rate"
-                Gv1.Columns("Loss_FAT_Rate").IsVisible = False
-                Gv1.Columns("Loss_SNF_Rate").HeaderText = "Loss SNF Rate"
-                Gv1.Columns("Loss_SNF_Rate").IsVisible = False
-                Gv1.Columns("Start_Date").HeaderText = "Start Date"
-                Gv1.Columns("Start_Date").IsVisible = False
-            End If
+                    Gv1.Columns("Loss_FAT_Rate").HeaderText = "Loss FAT Rate"
+                    Gv1.Columns("Loss_FAT_Rate").IsVisible = False
+                    Gv1.Columns("Loss_SNF_Rate").HeaderText = "Loss SNF Rate"
+                    Gv1.Columns("Loss_SNF_Rate").IsVisible = False
+                    Gv1.Columns("Start_Date").HeaderText = "Start Date"
+                    Gv1.Columns("Start_Date").IsVisible = False
+                End If
             If rdbTankerWise.Checked = False AndAlso rbtnBMCTankerCollection.Checked = False AndAlso rbtnRouteWise.Checked = False Then
                 Gv1.Columns("Document_No").HeaderText = "Document No"
                 Gv1.Columns("Route_Code").HeaderText = "Route Code"
@@ -1126,10 +1135,10 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             If rbtnTranpoterGainLoss.Checked = True OrElse rbtnTranspoterGainlossSummary.Checked = True Then
                 Gv1.Columns("DiffMCCVsEntered_Qty").HeaderText = "Qty"
                 Gv1.Columns("DiffMCCVsEntered_Qty").FormatString = "{0:n3}"
-                Gv1.Columns("DiffMCCVsEntered_FATKG").HeaderText = "FAT Difference"
-                Gv1.Columns("FATKG_Recovered").HeaderText = "FAT KG to be Recovered"
-                Gv1.Columns("DiffMCCVsEntered_SNFKG").HeaderText = "SNF Difference"
-                Gv1.Columns("SNFKG_Recovered").HeaderText = "SNF KG to be Recovered"
+                    Gv1.Columns("DiffMCCVsEntered_FATKG").HeaderText = "FAT Difference"
+                    Gv1.Columns("FATKG_Recovered").HeaderText = "FAT KG to be Recovered"
+                    Gv1.Columns("DiffMCCVsEntered_SNFKG").HeaderText = "SNF Difference"
+                    Gv1.Columns("SNFKG_Recovered").HeaderText = "SNF KG to be Recovered"
                 If FatSnfRoundOff = 0 Then
                     Gv1.Columns("DiffMCCVsEntered_FATKG").FormatString = "{0:n3}"
                     Gv1.Columns("FATKG_Recovered").FormatString = "{0:n3}"
@@ -1137,22 +1146,22 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                     Gv1.Columns("SNFKG_Recovered").FormatString = "{0:n3}"
                 Else
                     Gv1.Columns("DiffMCCVsEntered_FATKG").FormatString = "{0:n2}"
-                    Gv1.Columns("FATKG_Recovered").FormatString = "{0:n2}"
-                    Gv1.Columns("DiffMCCVsEntered_SNFKG").FormatString = "{0:n2}"
-                    Gv1.Columns("SNFKG_Recovered").FormatString = "{0:n2}"
+                        Gv1.Columns("FATKG_Recovered").FormatString = "{0:n2}"
+                        Gv1.Columns("DiffMCCVsEntered_SNFKG").FormatString = "{0:n2}"
+                        Gv1.Columns("SNFKG_Recovered").FormatString = "{0:n2}"
+                    End If
+                    Gv1.Columns("FAT_Tolerence").HeaderText = "Allow FAT Tolerence"
+                    Gv1.Columns("FAT_Tolerence").FormatString = "{0:n3}"
+                    Gv1.Columns("FAT_AMT").HeaderText = "FAT Amount Recovered"
+                    Gv1.Columns("FAT_AMT").FormatString = "{0:n2}"
+                    Gv1.Columns("SNF_Tolerence").HeaderText = "Allow SNF Tolerence"
+                    Gv1.Columns("SNF_Tolerence").FormatString = "{0:n3}"
+                    Gv1.Columns("SNF_AMT").HeaderText = "SNF Amount Recovered"
+                    Gv1.Columns("SNF_AMT").FormatString = "{0:n2}"
+                    Gv1.Columns("AMOUNT").HeaderText = "AMOUNT"
+                    Gv1.Columns("AMOUNT").FormatString = "{0:n2}"
                 End If
-                Gv1.Columns("FAT_Tolerence").HeaderText = "Allow FAT Tolerence"
-                Gv1.Columns("FAT_Tolerence").FormatString = "{0:n3}"
-                Gv1.Columns("FAT_AMT").HeaderText = "FAT Amount Recovered"
-                Gv1.Columns("FAT_AMT").FormatString = "{0:n2}"
-                Gv1.Columns("SNF_Tolerence").HeaderText = "Allow SNF Tolerence"
-                Gv1.Columns("SNF_Tolerence").FormatString = "{0:n3}"
-                Gv1.Columns("SNF_AMT").HeaderText = "SNF Amount Recovered"
-                Gv1.Columns("SNF_AMT").FormatString = "{0:n2}"
-                Gv1.Columns("AMOUNT").HeaderText = "AMOUNT"
-                Gv1.Columns("AMOUNT").FormatString = "{0:n2}"
-            End If
-            If rdbSummary.Checked = True Then
+                If rdbSummary.Checked = True Then
                 Gv1.Columns("DiffEnteredVsMCC_Qty").HeaderText = "Qty"
                 Gv1.Columns("DiffEnteredVsMCC_Qty").FormatString = "{0:n3}"
                 Gv1.Columns("DiffEnteredVsMCC_FAT").HeaderText = "FAT %"

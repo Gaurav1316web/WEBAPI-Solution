@@ -68,6 +68,7 @@ Public Class frmTender
         'Else
         '    btnreverse.Enabled = False
         'End If
+        'Cancel_btn.Enabled = MyBase.isCancel_Flag
         btnreverse.Visible = False
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -1373,7 +1374,7 @@ Public Class frmTender
             Dim qry As String = "select tspl_location_master.Location_Code,tspl_location_master.Location_Desc,tspl_item_master.item_code,tspl_item_master.Item_Desc,UOM.UOM_Code from 
                                 (select 1 as a,Location_Code,Location_Desc from tspl_location_master where 2=2 "
             If objCommonVar.RCDFCFP Then
-                qry += "and isnull(IsMainPlant,0)=0 "
+                qry += "and isnull(IsMainPlant,0)=0 and tspl_location_master.Rejected_Type='N'"
             Else
                 qry += "and Location_Category<>'MCC' and Is_Sub_Location='N' "
             End If
