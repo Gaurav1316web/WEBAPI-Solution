@@ -847,8 +847,11 @@ Public Class FrmPrintFreshInvoice
         End If
         Return Qry
     End Function
-
     Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String) As String
+        Return PrintInvoiceForAll(strinvoiceNo, docDate, CustCode, "Y")
+    End Function
+    ' Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String) As String
+    Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String, ByVal isMainPrint As String) As String
         Dim Qry As String = Nothing
         If clsCommon.myLen(strinvoiceNo) > 0 Then
 
@@ -878,7 +881,13 @@ Public Class FrmPrintFreshInvoice
             End If
 
             Qry += "  from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC,Item_Desc+'   '+isnull(batchNO,'') as Particulars from (  
-select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,TSPL_BOOKING_MATSER.Payment_Terms,TSPL_BOOKING_MATSER.ReceiverName,TSPL_BOOKING_MATSER.Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type,
+select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                Qry += " TSPL_ITEM_PRICE_MASTER.Item_MRP as MRP ,TSPL_SD_sale_invoice_DETAIL.Balance_Qty, "
+            End If
+
+
+            Qry += "TSPL_BOOKING_MATSER.Payment_Terms,TSPL_BOOKING_MATSER.ReceiverName,TSPL_BOOKING_MATSER.Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type,
 TSPL_SD_SALE_INVOICE_DETAIL.TAX1 as ITAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_RATE AS   ITAX1_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as ITAX1_Amt , 
 TSPL_SD_SALE_INVOICE_DETAIL.TAX2 as ITAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_RATE AS ITAX2_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt  as ITAX2_Amt , 
 TSPL_SD_SALE_INVOICE_DETAIL.TAX3 AS ITAX3,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate AS ITAX3_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt  as ITAX3_Amt , 
@@ -958,8 +967,20 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_SHIP_TO_L
 Full join  (select DOCUMENT_CODE,Item_Code as Scheme_Item_Code,SUM(Qty ) AS SUB_QTY,SUM(Crate) AS schemeInCrates from  TSPL_SD_sale_invoice_DETAIL as inn where DOCUMENT_CODE in (" + strinvoiceNo + ") and inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  
 TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  
 TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code  LEFT OUTER JOIN TSPL_VEHICLE_MASTER on  
-TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.AlternateVehicle 
-left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_sale_invoice_DETAIL.Location and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and  len(isnull( TSPL_SD_sale_invoice_DETAIL.Price_code  ,''))>0  left outer join TSPL_DELIVERY_NOTE_master_FRESHSALE on TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code
+TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.AlternateVehicle"
+
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                Qry += " left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_shipment_head.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_shipment_head.Bill_To_Location 
+and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and TSPL_ITEM_PRICE_MASTER.UOM=TSPL_SD_sale_invoice_DETAIL.Unit_code
+and  len(isnull( TSPL_SD_shipment_head.Price_code  ,''))>0 "
+            Else
+                Qry += "left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_sale_invoice_DETAIL.Location
+and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and  len(isnull( TSPL_SD_sale_invoice_DETAIL.Price_code  ,''))>0  "
+            End If
+
+
+            Qry += "left outer join TSPL_DELIVERY_NOTE_master_FRESHSALE on TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code
 left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No
 left outer join (select Document_Code,Parent_Line_No,STRING_AGG(Batch_No+'('+convert(varchar(8),Qty)+')', ',') as Batch_No  from (
 SELECT Document_Code,Batch_No,Qty,Parent_Line_No FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
@@ -977,8 +998,15 @@ Full join  (select DOCUMENT_CODE,Item_Code as Scheme_Item_Code,SUM(Qty ) AS SUB_
 from  TSPL_SD_sale_invoice_DETAIL as inn where DOCUMENT_CODE in (" + strinvoiceNo + ") and inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code 
 where 2=2 and  TSPL_SD_SALE_INVOICE_HEAD.Document_Code in   (" + strinvoiceNo + ")  and TSPL_SD_sale_invoice_DETAIL.Scheme_Item='N')xx  
 where xx.Item_Code=TSPL_SD_sale_invoice_DETAIL.item_CODE and xx.DOCUMENT_CODE=TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
-and 2= (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 2 else 3 end))
-) as final 
+and 2= "
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+            '    If clsCommon.myisMainPrint Then
+            Qry += " (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='" + isMainPrint + "' then 2 else 3 end))"
+            'End If
+            'Else
+            '        Qry += " (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 2 else 3 end))"
+            '    End If
+            Qry += ") as final 
 left outer join ( select Item_Code,max([CATEGORY RM]) as [CATEGORY RM],max([BRAND]) as [BRAND],max([SUB BRAND]) as [SUB BRAND],max([DESCRP]) as [DESCRP],max([PACK]) as [PACK], max([PACK SIZE]) as [PACK SIZE],max([CATEGORY OT]) as [CATEGORY OT],max([CATEGORY FA]) as [CATEGORY FA],max([P TYPE]) as [P TYPE],max([L TYPE]) as [L TYPE],max([JW]) as [JW],  max([SCRAP]) as [SCRAP],max([CATEGORY RMDESC]) as [CATEGORY RMDESC],max([BRANDDESC]) as [BRANDDESC],max([SUB BRANDDESC]) as [SUB BRANDDESC],max([DESCRPDESC]) as [DESCRPDESC],max([PACKDESC]) as [PACKDESC],  max([PACK SIZEDESC]) as [PACK SIZEDESC],max([CATEGORY OTDESC]) as [CATEGORY OTDESC],max([CATEGORY FADESC]) as [CATEGORY FADESC],max([P TYPEDESC]) as [P TYPEDESC],max([L TYPEDESC]) as [L TYPEDESC],max([JWDESC]) as [JWDESC], max([SCRAPDESC]) as [SCRAPDESC]  from ( select * from (   select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code   ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+'DESC' as Item_Category_CodeDesc,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc  
 from  TSPL_ITEM_MASTER    
 left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code 
@@ -993,7 +1021,7 @@ Pivot   ( max(Item_Cagetory_Values) for Item_Category_Code   in ( [CATEGORY RM],
             Qry += " ) Final "
             'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
         End If
-        Return Qry
+            Return Qry
 
     End Function
 
