@@ -70,6 +70,7 @@ Public Class frmRGP
     Const colBOMScheduleNo As String = "BSchNo"
     Const colBOMModule As String = "BModule"
     Dim PenaltyCost As Double = 0
+    Dim PenaltyAfterDays As Double = 0
     Dim ChkAutoDepOnPurchaseCycle As Boolean = False
 #End Region
 
@@ -267,6 +268,7 @@ Public Class frmRGP
         chkAsPerBOM.Visible = False
 
         RadPageViewPage2.Text = "Item Detail"
+        PenaltyAfterDays = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PenaltyAfterDays, clsFixedParameterCode.PenaltyAfterDays, Nothing))
         PenaltyCost = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PenaltyCost, clsFixedParameterCode.PenaltyCost, Nothing))
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
         IsRGPAfterPO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.IsRGPAfterPurchaseOrder, clsFixedParameterCode.IsRGPAfterPurchaseOrder, Nothing)) = "1", True, False))
@@ -845,13 +847,13 @@ Public Class frmRGP
                         If clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "NRGP") = CompairStringResult.Equal AndAlso ChkRejLoc.Checked AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) > 0 Then
                             CountDays = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select  DATEDIFF(Day,Convert(varchar(10),TSPL_QC_CHECK_HEAD.Document_Date), Convert(varchar(10),'" + clsCommon.GetPrintDate(txtDate.Value, "yyyy-MM-dd") + "')) AS DifferenceInDays from TSPL_QC_CHECK_HEAD Left Outer Join TSPL_SRN_HEAD On Against_QC_Code=TSPL_QC_CHECK_HEAD.Document_Code where TSPL_QC_CHECK_HEAD.QC_Status='Rejected'  And TSPL_SRN_HEAD.SRN_No='" + txtSRNNo.Value + "'"))
 
-                            If CountDays > 30 Then
+                            If CountDays > PenaltyAfterDays Then
                                 Dim Qry As String = "select TSPL_ITEM_UOM_DETAIL.Item_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Default_UOM,CInBag.Conversion_Factor,((" + clsCommon.myCstr(gv1.CurrentRow.Cells(colQty).Value) + "*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/CInBag.Conversion_Factor) As QtyInBag from TSPL_ITEM_UOM_DETAIL
                                             Left Outer Join (Select item_Code,Uom_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL Where UOM_Code='BAG' And TSPL_ITEM_UOM_DETAIL.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "') As CInBag on CInBag.item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code 
                                             Where TSPL_ITEM_UOM_DETAIL.Default_UOM='1' And TSPL_ITEM_UOM_DETAIL.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'"
                                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                                    gv1.CurrentRow.Cells(colPenaltyCost).Value = clsCommon.myCdbl(dt.Rows(0)("QtyInBag")) * PenaltyCost * (CountDays - 30)
+                                    gv1.CurrentRow.Cells(colPenaltyCost).Value = clsCommon.myCdbl(dt.Rows(0)("QtyInBag")) * PenaltyCost * (CountDays - PenaltyAfterDays)
                                 Else
                                     gv1.CurrentRow.Cells(colPenaltyCost).Value = 0
                                 End If
