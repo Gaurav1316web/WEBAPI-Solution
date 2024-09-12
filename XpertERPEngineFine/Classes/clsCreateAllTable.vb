@@ -27134,6 +27134,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Modify_Date", "date  NOT NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("Transfer", "int DEFAULT 0")
+            coll.Add("Inactive", "int Not Null DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_COMPONENT_MAPPING", coll, "PRIMARY KEY (Price_Code, Price_Comp_Code)")
 
             coll = New Dictionary(Of String, String)()
