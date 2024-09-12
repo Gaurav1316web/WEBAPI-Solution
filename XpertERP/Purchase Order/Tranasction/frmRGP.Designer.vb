@@ -2289,6 +2289,7 @@ Partial Class frmRGP
         Me.gv1.Size = New System.Drawing.Size(1205, 83)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -2296,7 +2297,7 @@ Partial Class frmRGP
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(118.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(980, 102)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1207, 102)
         Me.RadPageViewPage3.Text = "Received Item Detail"
         '
         'RadGroupBox3
@@ -2311,7 +2312,7 @@ Partial Class frmRGP
         Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(1, 20, 1, 3)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(980, 102)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(1207, 102)
         Me.RadGroupBox3.TabIndex = 37
         Me.RadGroupBox3.Text = "Item Detail"
         '
@@ -2349,9 +2350,10 @@ Partial Class frmRGP
         Me.gv_PO.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_PO.ShowGroupPanel = False
         Me.gv_PO.ShowHeaderCellButtons = True
-        Me.gv_PO.Size = New System.Drawing.Size(978, 79)
+        Me.gv_PO.Size = New System.Drawing.Size(1205, 79)
         Me.gv_PO.TabIndex = 0
         Me.gv_PO.TabStop = False
+        Me.gv_PO.VarID = ""
         '
         'btnSameasAbove
         '

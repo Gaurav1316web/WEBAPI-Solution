@@ -1685,6 +1685,14 @@ Public Class frmCustomer
             If OutStandAmt > 0 AndAlso chkInActive.Checked = True Then
                 Throw New Exception("You can not make this customer Inactive because it has outstanding amount")
             End If
+
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                If chkInActive.Checked Then
+                    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER Set InActive = 'Y' where Cust_Code ='" & obj.Cust_Code & "'")
+                Else
+                    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER Set InActive = 'N' where Cust_Code ='" & obj.Cust_Code & "'")
+                End If
+            End If
             '' ******************* Check Outstanding Amount Of customer *************
             Dim issaved As Boolean = obj.SaveData(obj, obj.ArrVisi, isNewEntry)
             UcAttachment1.SaveData(obj.Cust_Code)
