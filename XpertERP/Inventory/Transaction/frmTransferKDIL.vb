@@ -4326,7 +4326,7 @@ Public Class FrmTransferKDIL
             lblFromLoc.Text = clsCommon.myCstr(connectSql.RunScalar("SELECT Location_Desc  FROM TSPL_LOCATION_MASTER WHERE Location_Code = '" + Convert.ToString(txtFromLocation.Value) + "'"))
         Else
             qry = "Select  LM.Location_Code as Code,LM.Location_Desc as Description,LM.Loc_Short_Name as [Short Name],Location_type as 'Location Type',(case LM.Excisable when 'T'then 'Excisable'else 'Non-Excisable'end) as 'Excisable'  from TSPL_LOCATION_MASTER as LM "
-            Dim whrclas As String = " LM.Location_Type ='Physical'"
+            Dim whrclas As String = "Rejected_Type='N' and LM.Location_Type ='Physical'"
             If clsCommon.myLen(arrLoc) > 0 Then
                 If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
                     whrclas += " and LM.Location_Code in (" + arrLoc + ")"

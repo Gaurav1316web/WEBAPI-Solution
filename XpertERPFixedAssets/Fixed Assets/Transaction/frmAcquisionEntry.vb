@@ -5446,7 +5446,7 @@ Public Class frmAcquisionEntry
 
     Private Sub txtLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtLocation._MYValidating
         'Dim qry As String = "select Location_Code,Location_Desc from TSPL_LOCATION_MASTER"
-        txtLocation.Value = clsLocation.getFinder("Location_Type='Physical'", txtLocation.Value, isButtonClicked) ' clsCommon.ShowSelectForm("POVendorFndr", qry, "Location_Code", "Location_Type='Physical'", txtLocation.Value, "Location_Code", isButtonClicked)
+        txtLocation.Value = clsLocation.getFinder("Location_Type='Physical' and Rejected_Type='N'", txtLocation.Value, isButtonClicked) ' clsCommon.ShowSelectForm("POVendorFndr", qry, "Location_Code", "Location_Type='Physical'", txtLocation.Value, "Location_Code", isButtonClicked)
         'qry = "select Location_Desc from TSPL_LOCATION_MASTER where Location_Code ='" + txtLocation.Value + "'"
         lblLocation.Text = clsLocation.GetName(txtLocation.Value, Nothing) 'clsDBFuncationality.getSingleValue(qry)
     End Sub
