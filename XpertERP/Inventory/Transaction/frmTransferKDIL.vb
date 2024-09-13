@@ -4662,17 +4662,26 @@ Public Class FrmTransferKDIL
                 If objReq IsNot Nothing AndAlso clsCommon.myLen(objReq.Document_No) > 0 Then
                     txtFromLocation.Enabled = False
                     txtToLoc.Enabled = False
-                    If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
-                        txtFromLocation.Value = objReq.From_Location
-                        lblFromLoc.Text = objReq.From_LocationName
+                    If clsCommon.myCBool(objReq.InternalTransfer) = True Then
+                        If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
+                            txtFromLocation.Value = objReq.From_Location
+                            lblFromLoc.Text = objReq.From_LocationName
+                        End If
+                    Else
+                        If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
+                            txtFromLocation.Value = objReq.To_Location
+                            lblFromLoc.Text = objReq.To_LocationName
+                        End If
                     End If
+
                     'txtToLoc.Value = objReq.From_Location
                     'lblToLoc.Text = objReq.From_LocationName
                     If clsCommon.myCBool(objReq.InternalTransfer) = True Then
                         txtToLoc.Value = objReq.To_Location
                         chkInternalTransfer.Enabled = False
                     Else
-                        txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtToLoc.Value + "'"))
+                        txtToLoc.Value = objReq.To_Location_Main
+                        'txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtToLoc.Value + "'"))
                         chkInternalTransfer.Enabled = False
                     End If
                     lblToLoc.Text = clsLocation.GetName(txtToLoc.Value, Nothing)

@@ -2353,20 +2353,20 @@ insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@Fr
                 clsCommonFunctionality.CreateStoreProcedure("SP_Customer_Security", strProcedureBody)
             End If
 
-            strProcedureBody = MobileAppStoredProceduresFunction("Sale Register")
-            If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then
-                clsCommonFunctionality.CreateStoreProcedure("SP_Sale_Register", strProcedureBody)
-            End If
+            'strProcedureBody = MobileAppStoredProceduresFunction("Sale Register")
+            'If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then
+            '    clsCommonFunctionality.CreateStoreProcedure("SP_Sale_Register", strProcedureBody)
+            'End If
 
             strProcedureBody = MobileAppStoredProceduresFunction("Secutity details")
             If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then
                 clsCommonFunctionality.CreateStoreProcedure("SP_Secutity_details", strProcedureBody)
             End If
 
-            strProcedureBody = MobileAppStoredProceduresFunction("Tax Sale Register")
-            If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then
-                clsCommonFunctionality.CreateStoreProcedure("SP_Tax_Sale_Register", strProcedureBody)
-            End If
+            'strProcedureBody = MobileAppStoredProceduresFunction("Tax Sale Register")
+            'If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then
+            '    clsCommonFunctionality.CreateStoreProcedure("SP_Tax_Sale_Register", strProcedureBody)
+            'End If
 
             strProcedureBody = MobileAppStoredProceduresFunction("Vendor Margin")
             If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then
