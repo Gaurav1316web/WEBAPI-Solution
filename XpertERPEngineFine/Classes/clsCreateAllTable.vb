@@ -2344,6 +2344,7 @@ Public Class clsCreateAllTable
             coll.Add("Report_Name", "varchar(50) NULL")
             coll.Add("AllowEntryInDecimal", "Integer null")
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
+            coll.Add("Deduction_Type_Hindi", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
