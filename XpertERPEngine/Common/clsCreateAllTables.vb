@@ -904,6 +904,49 @@ Public Class clsCreateAllTables
                 Catch ex As Exception
                 End Try
                 Try
+                    Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_DISPATCH_MASTER_FRESHSALE'"))
+                    If chkValuesDetail = 1 Then
+                        Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_DISPATCH_MASTER_FRESHSALE' and b.COLUMN_NAME='DeliveryNo' ORDER BY A.TABLE_NAME")
+                        If clsCommon.myLen(QryForeign) > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_DISPATCH_MASTER_FRESHSALE drop constraint " & QryForeign & "")
+                        End If
+                    End If
+                Catch ex As Exception
+                End Try
+
+                Try
+                    Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_GATEPASS_DETAIL_DAIRYSALE'"))
+                    If chkValuesDetail = 1 Then
+                        Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_GATEPASS_DETAIL_DAIRYSALE' and b.COLUMN_NAME='Delivery_Code' ORDER BY A.TABLE_NAME")
+                        If clsCommon.myLen(QryForeign) > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_GATEPASS_DETAIL_DAIRYSALE drop constraint " & QryForeign & "")
+                        End If
+                    End If
+                Catch ex As Exception
+                End Try
+
+                Try
+                    Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_GATEPASS_MASTER_DAIRYSALE'"))
+                    If chkValuesDetail = 1 Then
+                        Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_GATEPASS_MASTER_DAIRYSALE' and b.COLUMN_NAME='Delivery_Code' ORDER BY A.TABLE_NAME")
+                        If clsCommon.myLen(QryForeign) > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_GATEPASS_MASTER_DAIRYSALE drop constraint " & QryForeign & "")
+                        End If
+                    End If
+                Catch ex As Exception
+                End Try
+
+                Try
+                    Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SD_SALES_ORDER_DETAIL'"))
+                    If chkValuesDetail = 1 Then
+                        Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_SD_SALES_ORDER_DETAIL' and b.COLUMN_NAME='Delivery_Code' ORDER BY A.TABLE_NAME")
+                        If clsCommon.myLen(QryForeign) > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALES_ORDER_DETAIL drop constraint " & QryForeign & "")
+                        End If
+                    End If
+                Catch ex As Exception
+                End Try
+                Try
                     Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE'"))
                     If chkValuesDetail = 1 Then
                         clsDBFuncationality.ExecuteNonQuery("DROP TABLE TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE ")
@@ -919,6 +962,7 @@ Public Class clsCreateAllTables
                 Catch ex As Exception
 
                 End Try
+
 
                 qry = "select 1 from TSPL_Exception"
                 dt = clsDBFuncationality.GetDataTable(qry)
