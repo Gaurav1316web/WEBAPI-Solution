@@ -363,7 +363,7 @@ Public Class FrmAsset_Issue_Return
             Dim WhrCls As String = ""
             'If chkIssue.IsChecked = True Then
             Qry = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-            WhrCls = " Location_Type='Physical'  "
+            WhrCls = " Location_Type='Physical'  and Rejected_Type='N'"
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
             End If

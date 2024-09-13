@@ -1158,7 +1158,7 @@ Public Class frmFAMergeAsset
     End Sub
 
     Private Sub txtLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtLocation._MYValidating
-        txtLocation.Value = clsLocation.getFinder("Location_Type='Physical'", txtLocation.Value, isButtonClicked)
+        txtLocation.Value = clsLocation.getFinder("Location_Type='Physical' and Rejected_Type='N'", txtLocation.Value, isButtonClicked)
         lblLocation.Text = clsLocation.GetName(txtLocation.Value, Nothing)
     End Sub
 

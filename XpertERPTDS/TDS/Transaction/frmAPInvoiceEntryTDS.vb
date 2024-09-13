@@ -4048,7 +4048,7 @@ Public Class FrmAPInvoiceEntryTDS
         Try
             'Dim qry As String = "select Segment_code as Code ,Description  from TSPL_GL_SEGMENT_CODE "
             Dim qry As String = "select distinct(Segment_code) as Code ,Description  from TSPL_GL_SEGMENT_CODE left outer join TSPL_LOCATION_MASTER on TSPL_GL_SEGMENT_CODE .Segment_code =TSPL_LOCATION_MASTER .Loc_Segment_Code "
-            Dim WhrCls As String = "Seg_No = '7'"
+            Dim WhrCls As String = "Seg_No = '7' and Rejected_Type='N'"
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls += "  and  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
             End If

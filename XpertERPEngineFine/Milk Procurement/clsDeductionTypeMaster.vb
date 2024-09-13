@@ -29,8 +29,8 @@ Public Class clsDeductionTypeMaster
     Public Function SaveData(ByVal obj As clsDeductionTypeMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
-            Dim qry As String = "delete from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" + obj.Document_No + "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            'Dim qry As String = " Delete from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" + obj.Document_No + "'"
+            'isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
