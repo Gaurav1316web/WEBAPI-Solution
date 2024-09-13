@@ -363,7 +363,6 @@ Public Class frmShipmentDairy
     Public Property IsTaxable As String = Nothing
     Public Property IsAutoClose As Boolean = False
     Dim dblOutstandingAmount As Double = 0
-    'Dim Scheme2 As Boolean = False
 #End Region
     Public Sub SetUserMgmtNew()
         Me.Form_ID = clsUserMgtCode.frmSaleDispatchDairy
@@ -4740,17 +4739,17 @@ Public Class frmShipmentDairy
                                 gv1.CurrentRow.Cells(colSchemeApplicable).Value = "Yes"
                             End If
                         End If
-                    Else
-                        Dim Qry As String = "select isnull(Scheme_Code,'') as Scheme_Code from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE inner join TSPL_DELIVERY_NOTE_Detail_FRESHSALE on " &
-                                " TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Document_No" &
-                                " where TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Document_No='" + txtReqNo.Value + "' and TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Item_Code='" + gv1.CurrentRow.Cells(colICode).Value + "' and TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Unit_code='" + gv1.CurrentRow.Cells(colUnit).Value + "' and isnull(TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Scheme_Item,'N')='N'"
-                        Dim SchemeCodeValue As String = clsDBFuncationality.getSingleValue(Qry)
-                        SchemeCode = SchemeCodeValue
-                        If SchemeCode <> "" Then
-                            If AutoScheme = True Then
-                                gv1.CurrentRow.Cells(colSchemeApplicable).Value = "Yes"
-                            End If
-                        End If
+                        'Else
+                        'Dim Qry As String = "select isnull(Scheme_Code,'') as Scheme_Code from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE inner join TSPL_DELIVERY_NOTE_Detail_FRESHSALE on " &
+                        '        " TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Document_No" &
+                        '        " where TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Document_No='" + txtReqNo.Value + "' and TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Item_Code='" + gv1.CurrentRow.Cells(colICode).Value + "' and TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Unit_code='" + gv1.CurrentRow.Cells(colUnit).Value + "' and isnull(TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Scheme_Item,'N')='N'"
+                        'Dim SchemeCodeValue As String = clsDBFuncationality.getSingleValue(Qry)
+                        'SchemeCode = SchemeCodeValue
+                        'If SchemeCode <> "" Then
+                        '    If AutoScheme = True Then
+                        '        gv1.CurrentRow.Cells(colSchemeApplicable).Value = "Yes"
+                        '    End If
+                        'End If
                     End If
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colSchemeApplicable).Value), "No") = CompairStringResult.Equal OrElse clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) = 0 Then
                         For schemeRow As Integer = gv1.Rows.Count - 1 To 0 Step -1
@@ -6415,13 +6414,13 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     If Not (arrReqNo.Contains(strReqNo)) Then
                         arrReqNo.Add(strReqNo)
                     End If
-                    If btnUpdateCustomer.Enabled = False Then
-                        dblPendingQty = GetBalanceDeliveryQty(strReqNo, strICode)
-                        If dblQty > dblPendingQty AndAlso clsCommon.CompairString(strSchemeItem, "No") = CompairStringResult.Equal Then
-                            Throw New Exception("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                            Return False
-                        End If
-                    End If
+                    'If btnUpdateCustomer.Enabled = False Then
+                    '    dblPendingQty = GetBalanceDeliveryQty(strReqNo, strICode)
+                    '    If dblQty > dblPendingQty AndAlso clsCommon.CompairString(strSchemeItem, "No") = CompairStringResult.Equal Then
+                    '        Throw New Exception("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                    '        Return False
+                    '    End If
+                    'End If
                     If objCommonVar.IsDemoERP Then
                         If Not strProject Is Nothing Then
                             strProject = clsSNSalesOrderHead.IsValidProjectForSO(strReqNo, "")
@@ -7048,7 +7047,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If (AllowToSave(False)) Then
 
-
             trans = clsDBFuncationality.GetTransactin()
             Try
                 Dim BoothCode As String = ""
@@ -7098,6 +7096,12 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                                 txtVendorNo.Value = lst.Booth_Code
                                 lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
                             End If
+                            Dim dts As DataTable = clsDBFuncationality.GetDataTable("select Document_Code,Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + ParentDocNo + "' and Customer_Code='" + lst.Booth_Code + "'", trans)
+                            If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
+                                txtDocNo.Value = clsCommon.myCstr(dts.Rows(0)("Document_Code"))
+                                txtInvoiceNo.Text = clsCommon.myCstr(dts.Rows(0)("Sale_Invoice_No"))
+                            End If
+
                             SaveData(False, trans)
                         End If
 
@@ -12232,8 +12236,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         End If
     End Function
     'No work done for ticket BHA/25/07/18-000193 .checked on code and rupesh exe .already working fine.
-    Private Sub btnPrintInvoice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrintInvoice.Click
-
+    Private Sub btnPrintInvoice_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
         '    myMessages.blankValue("Invoice not found to Print")
         'Else
@@ -12406,10 +12409,10 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 Else
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    End If
-                    'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    frmCRV = Nothing
                 End If
+                'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV = Nothing
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End Try
@@ -14374,22 +14377,22 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     'and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDateDistributor.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
                     'and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + txtRouteNo.Value + "' and TSPL_DEMAND_BOOKING_MASTER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'"
                     Dim qry As String = "select 
-TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code as TR_CODE,TSPL_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_BOOKING_DETAIL.Booking_Qty as DemandQty,TSPL_BOOKING_DETAIL.Booking_Qty as Qty,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_MATSER.trip_No,0 as Commission_Amt,0 as Security_Amt 
-from TSPL_BOOKING_MATSER
-left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
-left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DETAIL.Item_Code 
- left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_BOOKING_DETAIL.Cust_Code 
-where TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbShift.SelectedValue) + "'  and TSPL_BOOKING_MATSER.Document_Date>='" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and TSPL_BOOKING_MATSER.Document_Date<'" + clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) + "' 
-   and TSPL_BOOKING_MATSER.Posted=1
-and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MATSER.Location_Code='" + txtBillToLocation.Value + "' 
+TSPL_Demand_Booking_Detail.TR_Code as TR_CODE,TSPL_Demand_Booking_Detail.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Demand_Booking_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_Demand_Booking_Detail.Qty as DemandQty,TSPL_Demand_Booking_Detail.Qty as Qty,TSPL_Demand_Booking_Detail.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.trip_No,0 as Commission_Amt,0 as Security_Amt 
+from TSPL_Demand_Booking_Master
+left join TSPL_Demand_Booking_Detail on TSPL_Demand_Booking_Master.Document_No=TSPL_Demand_Booking_Detail.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_Detail.Item_Code 
+ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Demand_Booking_Detail.Cust_Code 
+where TSPL_Demand_Booking_Master.ShiftType='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "'  and TSPL_Demand_Booking_Master.Document_Date>='" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and TSPL_Demand_Booking_Master.Document_Date<'" + clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) + "' 
+   and TSPL_Demand_Booking_Master.Posted=1
+and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' 
  "
                     If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
                         qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
                     Else
                         qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
                     End If
-                    qry += " and TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code is not null  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
-order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
+                    qry += " and TSPL_Demand_Booking_Detail.TR_Code is not null  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
+order by   TSPL_Demand_Booking_Detail.TR_Code "
                     LoadDistributorGrid(qry, trans)
                     MergeDistributorItems(True, False, trans)
                     'If Not IsOnlyCreditCust Then
@@ -14571,7 +14574,6 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = txtTransNo.Text
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'", trans))
-
                         If chkSampling.Checked Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
                         End If
@@ -14580,8 +14582,9 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
                                 findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value)
                             End If
+
+
                         End If
-                        'findQtyandPromoSchemeCode(False, obj.Scheme_Code, objOrderHead.Document_Date)
                         'If Not IsCreditCustomer Then
                         GetDCDetails(trans)
                         'End If
@@ -14597,6 +14600,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                     UpdateAllTotals(trans)
                     SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
                 End If
+
             End If
             isInsideLoadData = False
         Catch ex As Exception
@@ -14751,6 +14755,65 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
         Try
             LoadData(gvCC.CurrentRow.Cells("Document_Code").Value, NavigatorType.Current)
         Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub RadMenuItem9_Click(sender As Object, e As EventArgs) Handles RadMenuItem9.Click
+        PrintInvoiveForAll()
+    End Sub
+
+    Private Sub RadMenuItem10_Click(sender As Object, e As EventArgs) Handles RadMenuItem10.Click
+        PrintSchemeInvoice()
+    End Sub
+    Public Sub PrintSchemeInvoice()
+        Try
+            Dim Qry As String = Nothing
+
+            If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+                Throw New Exception("Invoice not found to Print")
+            Else
+
+                Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAd where Document_Code in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + txtDocNo.Value + "')"), "Sale_Invoice_No")
+                Qry = "select TSPL_COMPANY_MASTER.Comp_Name,
+(TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3) as Company_Address,
+TSPL_COMPANY_MASTER.GSTINNo,TSPL_COMPANY_MASTER.GSTReg_No,
+(TSPL_COMPANY_MASTER.Phone1+','+TSPL_COMPANY_MASTER.Phone2) as Phone_No,
+TSPL_CUSTOMER_MASTER.Customer_Name,(TSPL_CUSTOMER_MASTER.Add1+TSPL_CUSTOMER_MASTER.Add2+TSPL_CUSTOMER_MASTER.Add3) as Customer_Address,
+isnull(TSPL_CUSTOMER_MASTER.Phone1,ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')) as CustomerPhoneNo,
+TSPL_STATE_MASTER.STATE_CODE,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceNo,
+TSPL_SD_SALE_INVOICE_HEAD.Document_Date as InvoiceDate,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,
+TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,
+TSPL_SD_sale_invoice_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,
+isnull(TSPL_BATCH_ITEM.Batch_No,'') as Batch_No,TSPL_SD_sale_invoice_DETAIL.Unit_code,
+--case when ISNULL(TSPL_BATCH_ITEM.Batch_No,'')='' then TSPL_SD_sale_invoice_DETAIL.Qty
+TSPL_SD_sale_invoice_DETAIL.Qty,TSPL_SD_sale_invoice_DETAIL.Total_Basic_Amt,TSPL_SD_sale_invoice_DETAIL.Total_Disc_Amt,
+TSPL_SD_sale_invoice_DETAIL.Total_Tax_Amt,TSPL_SD_sale_invoice_DETAIL.Total_MRP_Amt,TSPL_SD_sale_invoice_DETAIL.Item_Net_Amt,
+TSPL_SD_sale_invoice_DETAIL.tax1,TSPL_SD_sale_invoice_DETAIL.tax2,TSPL_SD_sale_invoice_DETAIL.tax3,TSPL_SD_sale_invoice_DETAIL.tax4,
+TSPL_SD_sale_invoice_DETAIL.tax5,TSPL_SD_sale_invoice_DETAIL.TAX6,TSPL_SD_sale_invoice_DETAIL.TAX1_Rate,
+TSPL_SD_sale_invoice_DETAIL.TAX2_Rate,TSPL_SD_sale_invoice_DETAIL.TAX3_Rate,TSPL_SD_sale_invoice_DETAIL.TAX4_Rate,
+TSPL_SD_sale_invoice_DETAIL.TAX5_Rate,TSPL_SD_sale_invoice_DETAIL.TAX6_Rate,TSPL_SD_sale_invoice_DETAIL.TAX1_Amt,
+TSPL_SD_sale_invoice_DETAIL.TAX2_Amt,TSPL_SD_sale_invoice_DETAIL.TAX3_Amt,TSPL_SD_sale_invoice_DETAIL.TAX4_Amt,
+TSPL_SD_sale_invoice_DETAIL.TAX5_Amt,TSPL_SD_sale_invoice_DETAIL.TAX6_Amt
+from TSPL_SD_SALE_INVOICE_HEAD
+left join TSPL_SD_sale_invoice_DETAIL on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE
+left join TSPL_ITEM_MASTER on TSPL_SD_sale_invoice_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+left join TSPL_BATCH_ITEM on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_BATCH_ITEM.Document_Code
+left join TSPL_CUSTOMER_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+left join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State=TSPL_STATE_MASTER.STATE_CODE
+left join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code = 'UDP'
+where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ") 
+                      and TSPL_SD_sale_invoice_DETAIL.Scheme_Item = 'Y'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Throw New Exception("Report will comming soon...")
+                Else
+                    Throw New Exception("No Data Found!")
+                End If
+            End If
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

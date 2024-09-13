@@ -60,6 +60,13 @@ Public Class frmDeductionTypeMaster
                 obj.Description = txtDescription.Text
                 obj.Description_Hindi = txtDescriptionHindi.Text
 
+                Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(Document_No) from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" + obj.Document_No + "'")
+                If (qry = 0) Then
+                    isNewEntry = True
+                Else
+                    isNewEntry = False
+                End If
+
                 If (obj.SaveData(obj, isNewEntry, Nothing)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
