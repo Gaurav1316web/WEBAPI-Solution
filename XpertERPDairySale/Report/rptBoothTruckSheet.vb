@@ -904,12 +904,15 @@ Public Class rptBoothTruckSheet
             whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
         End If
         Dim whrclsShift As String = ""
+        Dim Shift As String = ""
         If rbtnMorning.IsChecked Then
-
             whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
-
-        Else
+            Shift = "Morning"
+        ElseIf rbtnEvening.IsChecked Then
             whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
+            Shift = "Evening"
+        Else
+            Shift = "Both"
 
         End If
         Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_CUSTOMER_MASTER.Cust_Code  ,"
@@ -919,7 +922,7 @@ Public Class rptBoothTruckSheet
             ' qry += " (TSPL_ITEM_MASTER.Alies_Name)Short_Description, (TSPL_ITEM_MASTER.Alies_Name_Hindi)  as Item_Description,  "
             qry += " (TSPL_ITEM_MASTER.Alies_Name_Hindi)Short_Description,TSPL_CUSTOMER_MASTER.Cust_Code  + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name_Hindi  as [BoothName], "
         End If
-        qry += "TSPL_BOOKING_DETAIL.Route_No,TSPL_ROUTE_MASTER.Route_Desc,CASE WHEN isnull(TSPL_BOOKING_MATSER.GatePass_Type,'') = 'AM' THEN 'AM' else 'PM'   END AS Shift_Type,TSPL_BOOKING_MATSER.Document_Date, TSPL_ITEM_MASTER.Item_Desc,TSPL_BOOKING_DETAIL.Amount_with_Tax as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
+        qry += "TSPL_BOOKING_DETAIL.Route_No,TSPL_ROUTE_MASTER.Route_Desc,'" + Shift + "' AS Shift_Type,TSPL_BOOKING_MATSER.Document_Date, TSPL_ITEM_MASTER.Item_Desc,TSPL_BOOKING_DETAIL.Amount_with_Tax as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
          TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Booking_Qty as CRATE,
 		    		Case When TSPL_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_BOOKING_DETAIL.Booking_Qty Else 0 End Pouch,
 

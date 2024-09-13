@@ -193,6 +193,7 @@ Public Class FrmMCCMaster
             TxtSiloWiseCapacity.Text = ""
             TxtPaymentCycle.Text = 0
             fndMCCCode.Value = ""
+            fndMCCCode.MyReadOnly = False
             ddlMCCType.SelectedIndex = 0
             txtMCCName.Text = ""
             txtShortDescription.Text = ""
