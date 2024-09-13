@@ -1189,7 +1189,7 @@ Public Class clsPSInvoiceHead
                 For Each dr As DataRow In dt.Rows
                     objTr = New clsPSInvoiceHeadDetail
                     objTr.Sampling = clsCommon.myCdbl(dr("Sampling"))
-                    objTr.Delivery_Code = clsCommon.myCstr(dr("Delivery_Code"))
+                    'objTr.Delivery_Code = clsCommon.myCstr(dr("Delivery_Code"))
                     objTr.CAN = clsCommon.myCdbl(dr("CAN"))
                     objTr.Structure_Code = clsCommon.myCstr(dr("Structure_Code"))
                     objTr.ItemwiseTaxCode = clsCommon.myCstr(dr("ItemwiseTaxCode"))
@@ -9510,7 +9510,7 @@ Public Class clsPSInvoiceHeadDetail
                 End If
                 clsCommon.AddColumnsForChange(coll, "Assessable", obj.Assessable)
                 clsCommon.AddColumnsForChange(coll, "AssessableAmt", obj.AssessableAmt)
-                clsCommon.AddColumnsForChange(coll, "Delivery_Code", obj.Delivery_Code, True)
+                'clsCommon.AddColumnsForChange(coll, "Delivery_Code", obj.Delivery_Code, True)
 
                 Dim strSql As String = "select top 1 TSPL_ITEM_PRICE_MASTER.Price_Amount1 ,TSPL_ITEM_PRICE_MASTER.Price_Amount2 , " & _
              "TSPL_ITEM_PRICE_MASTER.Price_Amount3 ,TSPL_ITEM_PRICE_MASTER.Price_Amount4 ,TSPL_ITEM_PRICE_MASTER.Price_Amount5 , " & _

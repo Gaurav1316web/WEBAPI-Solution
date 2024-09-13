@@ -22,7 +22,7 @@ Partial Class rptMonthWiseDMRReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,9 +32,7 @@ Partial Class rptMonthWiseDMRReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnDemand = New common.Controls.MyRadioButton()
-        Me.rbtnDispatch = New common.Controls.MyRadioButton()
+        Me.txtRoute = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -48,7 +46,8 @@ Partial Class rptMonthWiseDMRReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtRoute = New common.UserControls.txtFinder()
+        Me.rbtnDispatch = New common.Controls.MyRadioButton()
+        Me.rbtnDemand = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -60,10 +59,6 @@ Partial Class rptMonthWiseDMRReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox6.SuspendLayout()
-        CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,6 +71,8 @@ Partial Class rptMonthWiseDMRReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -159,8 +156,9 @@ Partial Class rptMonthWiseDMRReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnDemand)
         Me.RadGroupBox1.Controls.Add(Me.txtRoute)
-        Me.RadGroupBox1.Controls.Add(Me.RadGroupBox6)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnDispatch)
         Me.RadGroupBox1.Controls.Add(Me.lblLocation)
         Me.RadGroupBox1.Controls.Add(Me.txtToDate)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
@@ -169,43 +167,34 @@ Partial Class rptMonthWiseDMRReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(349, 131)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(349, 105)
         Me.RadGroupBox1.TabIndex = 389
         '
-        'RadGroupBox6
+        'txtRoute
         '
-        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox6.Controls.Add(Me.rbtnDemand)
-        Me.RadGroupBox6.Controls.Add(Me.rbtnDispatch)
-        Me.RadGroupBox6.HeaderText = ""
-        Me.RadGroupBox6.Location = New System.Drawing.Point(5, 76)
-        Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(176, 37)
-        Me.RadGroupBox6.TabIndex = 444
-        '
-        'rbtnDemand
-        '
-        Me.rbtnDemand.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDemand.Location = New System.Drawing.Point(6, 9)
-        Me.rbtnDemand.MyLinkLable1 = Nothing
-        Me.rbtnDemand.MyLinkLable2 = Nothing
-        Me.rbtnDemand.Name = "rbtnDemand"
-        Me.rbtnDemand.Size = New System.Drawing.Size(63, 18)
-        Me.rbtnDemand.TabIndex = 396
-        Me.rbtnDemand.Text = "Demand"
-        Me.rbtnDemand.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnDispatch
-        '
-        Me.rbtnDispatch.Location = New System.Drawing.Point(94, 9)
-        Me.rbtnDispatch.MyLinkLable1 = Nothing
-        Me.rbtnDispatch.MyLinkLable2 = Nothing
-        Me.rbtnDispatch.Name = "rbtnDispatch"
-        Me.rbtnDispatch.Size = New System.Drawing.Size(64, 18)
-        Me.rbtnDispatch.TabIndex = 391
-        Me.rbtnDispatch.TabStop = False
-        Me.rbtnDispatch.Text = "Dispatch"
+        Me.txtRoute.CalculationExpression = Nothing
+        Me.txtRoute.FieldCode = Nothing
+        Me.txtRoute.FieldDesc = Nothing
+        Me.txtRoute.FieldMaxLength = 0
+        Me.txtRoute.FieldName = Nothing
+        Me.txtRoute.isCalculatedField = False
+        Me.txtRoute.IsSourceFromTable = False
+        Me.txtRoute.IsSourceFromValueList = False
+        Me.txtRoute.IsUnique = False
+        Me.txtRoute.Location = New System.Drawing.Point(95, 44)
+        Me.txtRoute.MendatroryField = True
+        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoute.MyLinkLable1 = Nothing
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.MyReadOnly = False
+        Me.txtRoute.MyShowMasterFormButton = False
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.ReferenceFieldDesc = Nothing
+        Me.txtRoute.ReferenceFieldName = Nothing
+        Me.txtRoute.ReferenceTableName = Nothing
+        Me.txtRoute.Size = New System.Drawing.Size(222, 19)
+        Me.txtRoute.TabIndex = 445
+        Me.txtRoute.Value = ""
         '
         'lblLocation
         '
@@ -317,7 +306,7 @@ Partial Class rptMonthWiseDMRReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -377,31 +366,28 @@ Partial Class rptMonthWiseDMRReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'txtRoute
+        'rbtnDispatch
         '
-        Me.txtRoute.CalculationExpression = Nothing
-        Me.txtRoute.FieldCode = Nothing
-        Me.txtRoute.FieldDesc = Nothing
-        Me.txtRoute.FieldMaxLength = 0
-        Me.txtRoute.FieldName = Nothing
-        Me.txtRoute.isCalculatedField = False
-        Me.txtRoute.IsSourceFromTable = False
-        Me.txtRoute.IsSourceFromValueList = False
-        Me.txtRoute.IsUnique = False
-        Me.txtRoute.Location = New System.Drawing.Point(95, 44)
-        Me.txtRoute.MendatroryField = True
-        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRoute.MyLinkLable1 = Nothing
-        Me.txtRoute.MyLinkLable2 = Nothing
-        Me.txtRoute.MyReadOnly = False
-        Me.txtRoute.MyShowMasterFormButton = False
-        Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.ReferenceFieldDesc = Nothing
-        Me.txtRoute.ReferenceFieldName = Nothing
-        Me.txtRoute.ReferenceTableName = Nothing
-        Me.txtRoute.Size = New System.Drawing.Size(222, 19)
-        Me.txtRoute.TabIndex = 445
-        Me.txtRoute.Value = ""
+        Me.rbtnDispatch.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDispatch.Location = New System.Drawing.Point(5, 76)
+        Me.rbtnDispatch.MyLinkLable1 = Nothing
+        Me.rbtnDispatch.MyLinkLable2 = Nothing
+        Me.rbtnDispatch.Name = "rbtnDispatch"
+        Me.rbtnDispatch.Size = New System.Drawing.Size(64, 18)
+        Me.rbtnDispatch.TabIndex = 391
+        Me.rbtnDispatch.Text = "Dispatch"
+        Me.rbtnDispatch.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnDemand
+        '
+        Me.rbtnDemand.Location = New System.Drawing.Point(74, 76)
+        Me.rbtnDemand.MyLinkLable1 = Nothing
+        Me.rbtnDemand.MyLinkLable2 = Nothing
+        Me.rbtnDemand.Name = "rbtnDemand"
+        Me.rbtnDemand.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnDemand.TabIndex = 396
+        Me.rbtnDemand.TabStop = False
+        Me.rbtnDemand.Text = "Demand"
         '
         'rptMonthWiseDMRReport
         '
@@ -428,11 +414,6 @@ Partial Class rptMonthWiseDMRReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox6.ResumeLayout(False)
-        Me.RadGroupBox6.PerformLayout()
-        CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -445,6 +426,8 @@ Partial Class rptMonthWiseDMRReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -472,9 +455,8 @@ Partial Class rptMonthWiseDMRReport
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents txtRoute As common.UserControls.txtFinder
     Friend WithEvents rbtnDemand As common.Controls.MyRadioButton
     Friend WithEvents rbtnDispatch As common.Controls.MyRadioButton
-    Friend WithEvents txtRoute As common.UserControls.txtFinder
 End Class
 

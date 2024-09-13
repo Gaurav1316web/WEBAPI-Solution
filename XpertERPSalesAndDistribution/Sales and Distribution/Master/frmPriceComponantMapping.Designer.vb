@@ -24,11 +24,13 @@ Partial Class FrmPriceComponantMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim GridViewMultiComboBoxColumn1 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim SortDescriptor1 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPriceComponantMapping))
+        Dim GridViewMultiComboBoxColumn3 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
+        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn9 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim SortDescriptor3 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel9 = New common.Controls.MyLabel()
@@ -48,12 +50,13 @@ Partial Class FrmPriceComponantMapping
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkInActive = New System.Windows.Forms.CheckBox()
+        Me.chkTransfer = New System.Windows.Forms.CheckBox()
         Me.txtprinciple = New common.Controls.MyLabel()
         Me.txtpri_code = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ucCustomFields()
-        Me.chkTransfer = New System.Windows.Forms.CheckBox()
+        Me.UcCustomFields1 = New XpertERPSalesAndDistribution.ucCustomFields()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -134,7 +137,7 @@ Partial Class FrmPriceComponantMapping
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnReset.Image = CType(resources.GetObject("btnReset.Image"), System.Drawing.Image)
         Me.btnReset.Location = New System.Drawing.Point(321, 2)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(14, 18)
@@ -186,33 +189,36 @@ Partial Class FrmPriceComponantMapping
         Me.grdPrice.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.grdPrice.Location = New System.Drawing.Point(10, 20)
         '
-        'grdPrice
+        '
         '
         Me.grdPrice.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.grdPrice.MasterTemplate.AllowAddNewRow = False
-        GridViewMultiComboBoxColumn1.FieldName = "Price Componant Code"
-        GridViewMultiComboBoxColumn1.HeaderText = "Price Component Code"
-        GridViewMultiComboBoxColumn1.Name = "Price Componant Code"
-        GridViewMultiComboBoxColumn1.ReadOnly = True
-        GridViewMultiComboBoxColumn1.Width = 150
-        GridViewTextBoxColumn1.FieldName = "Description"
-        GridViewTextBoxColumn1.HeaderText = "Description"
-        GridViewTextBoxColumn1.Name = "Description"
-        GridViewTextBoxColumn1.ReadOnly = True
-        GridViewTextBoxColumn1.Width = 400
-        GridViewTextBoxColumn2.HeaderText = "Price Calculation Method"
-        GridViewTextBoxColumn2.Name = "Price Calculation Type"
-        GridViewTextBoxColumn2.ReadOnly = True
-        GridViewTextBoxColumn2.Width = 150
-        GridViewTextBoxColumn3.FieldName = "Amount"
-        GridViewTextBoxColumn3.HeaderText = "Amount"
-        GridViewTextBoxColumn3.Name = "Amount"
-        GridViewTextBoxColumn3.Width = 150
-        Me.grdPrice.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn1, GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3})
+        GridViewMultiComboBoxColumn3.FieldName = "Price Componant Code"
+        GridViewMultiComboBoxColumn3.HeaderText = "Price Component Code"
+        GridViewMultiComboBoxColumn3.Name = "Price Componant Code"
+        GridViewMultiComboBoxColumn3.ReadOnly = True
+        GridViewMultiComboBoxColumn3.Width = 150
+        GridViewTextBoxColumn7.FieldName = "Description"
+        GridViewTextBoxColumn7.HeaderText = "Description"
+        GridViewTextBoxColumn7.Name = "Description"
+        GridViewTextBoxColumn7.ReadOnly = True
+        GridViewTextBoxColumn7.Width = 400
+        GridViewTextBoxColumn8.HeaderText = "Price Calculation Method"
+        GridViewTextBoxColumn8.Name = "Price Calculation Type"
+        GridViewTextBoxColumn8.ReadOnly = True
+        GridViewTextBoxColumn8.Width = 150
+        GridViewTextBoxColumn9.FieldName = "Amount"
+        GridViewTextBoxColumn9.HeaderText = "Amount"
+        GridViewTextBoxColumn9.Name = "Amount"
+        GridViewTextBoxColumn9.Width = 150
+        Me.grdPrice.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn3, GridViewTextBoxColumn7, GridViewTextBoxColumn8, GridViewTextBoxColumn9})
         Me.grdPrice.MasterTemplate.EnableSorting = False
+        Me.grdPrice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdPrice.MasterTemplate.ShowHeaderCellButtons = True
-        SortDescriptor1.PropertyName = "Price Component Code"
-        Me.grdPrice.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor1})
+        SortDescriptor3.PropertyName = "Price Component Code"
+        Me.grdPrice.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor3})
+        Me.grdPrice.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.grdPrice.MyStopExport = False
         Me.grdPrice.Name = "grdPrice"
         Me.grdPrice.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdPrice.ShowGroupPanel = False
@@ -220,7 +226,7 @@ Partial Class FrmPriceComponantMapping
         Me.grdPrice.Size = New System.Drawing.Size(868, 279)
         Me.grdPrice.TabIndex = 0
         Me.grdPrice.TabStop = False
-        Me.grdPrice.Text = "RadGridView1"
+        Me.grdPrice.VarID = ""
         '
         'txtRemarks
         '
@@ -276,11 +282,9 @@ Partial Class FrmPriceComponantMapping
         Me.MenuFile.Name = "MenuFile"
         Me.MenuFile.Size = New System.Drawing.Size(916, 20)
         Me.MenuFile.TabIndex = 1
-        Me.MenuFile.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
         Me.RadMenuItem1.AccessibleName = "FIleMenu"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mbtnExport, Me.mbtnImport})
@@ -289,15 +293,11 @@ Partial Class FrmPriceComponantMapping
         '
         'mbtnExport
         '
-        Me.mbtnExport.AccessibleDescription = "Export"
-        Me.mbtnExport.AccessibleName = "Export"
         Me.mbtnExport.Name = "mbtnExport"
         Me.mbtnExport.Text = "Export"
         '
         'mbtnImport
         '
-        Me.mbtnImport.AccessibleDescription = "Import"
-        Me.mbtnImport.AccessibleName = "Import"
         Me.mbtnImport.Name = "mbtnImport"
         Me.mbtnImport.Text = "Import"
         '
@@ -332,11 +332,11 @@ Partial Class FrmPriceComponantMapping
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(916, 459)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkInActive)
         Me.RadPageViewPage1.Controls.Add(Me.chkTransfer)
         Me.RadPageViewPage1.Controls.Add(Me.txtprinciple)
         Me.RadPageViewPage1.Controls.Add(Me.txtpri_code)
@@ -355,6 +355,26 @@ Partial Class FrmPriceComponantMapping
         Me.RadPageViewPage1.Size = New System.Drawing.Size(895, 411)
         Me.RadPageViewPage1.Text = "Customer"
         '
+        'chkInActive
+        '
+        Me.chkInActive.AutoSize = True
+        Me.chkInActive.Location = New System.Drawing.Point(424, 3)
+        Me.chkInActive.Name = "chkInActive"
+        Me.chkInActive.Size = New System.Drawing.Size(65, 17)
+        Me.chkInActive.TabIndex = 10
+        Me.chkInActive.Text = "Inactive"
+        Me.chkInActive.UseVisualStyleBackColor = True
+        '
+        'chkTransfer
+        '
+        Me.chkTransfer.AutoSize = True
+        Me.chkTransfer.Location = New System.Drawing.Point(351, 3)
+        Me.chkTransfer.Name = "chkTransfer"
+        Me.chkTransfer.Size = New System.Drawing.Size(67, 17)
+        Me.chkTransfer.TabIndex = 9
+        Me.chkTransfer.Text = "Transfer"
+        Me.chkTransfer.UseVisualStyleBackColor = True
+        '
         'txtprinciple
         '
         Me.txtprinciple.AutoSize = False
@@ -365,7 +385,6 @@ Partial Class FrmPriceComponantMapping
         Me.txtprinciple.Name = "txtprinciple"
         Me.txtprinciple.Size = New System.Drawing.Size(439, 18)
         Me.txtprinciple.TabIndex = 5
-        Me.txtprinciple.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtprinciple.TextWrap = False
         '
         'txtpri_code
@@ -420,16 +439,6 @@ Partial Class FrmPriceComponantMapping
         Me.UcCustomFields1.Name = "UcCustomFields1"
         Me.UcCustomFields1.Size = New System.Drawing.Size(1027, 353)
         Me.UcCustomFields1.TabIndex = 1
-        '
-        'chkTransfer
-        '
-        Me.chkTransfer.AutoSize = True
-        Me.chkTransfer.Location = New System.Drawing.Point(351, 3)
-        Me.chkTransfer.Name = "chkTransfer"
-        Me.chkTransfer.Size = New System.Drawing.Size(67, 17)
-        Me.chkTransfer.TabIndex = 9
-        Me.chkTransfer.Text = "Transfer"
-        Me.chkTransfer.UseVisualStyleBackColor = True
         '
         'FrmPriceComponantMapping
         '
@@ -500,5 +509,6 @@ Partial Class FrmPriceComponantMapping
     Friend WithEvents txtprinciple As common.Controls.MyLabel
     Friend WithEvents txtpri_code As common.UserControls.txtFinder
     Friend WithEvents chkTransfer As System.Windows.Forms.CheckBox
+    Friend WithEvents chkInActive As CheckBox
 End Class
 

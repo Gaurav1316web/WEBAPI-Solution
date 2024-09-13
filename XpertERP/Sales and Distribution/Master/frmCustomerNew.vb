@@ -1685,6 +1685,14 @@ Public Class frmCustomer
             If OutStandAmt > 0 AndAlso chkInActive.Checked = True Then
                 Throw New Exception("You can not make this customer Inactive because it has outstanding amount")
             End If
+
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                If chkInActive.Checked Then
+                    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER Set InActive = 'Y' where Cust_Code ='" & obj.Cust_Code & "'")
+                Else
+                    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER Set InActive = 'N' where Cust_Code ='" & obj.Cust_Code & "'")
+                End If
+            End If
             '' ******************* Check Outstanding Amount Of customer *************
             Dim issaved As Boolean = obj.SaveData(obj, obj.ArrVisi, isNewEntry)
             UcAttachment1.SaveData(obj.Cust_Code)
@@ -4477,7 +4485,7 @@ Public Class frmCustomer
     '----------------------------------------Code Ends Here---------------------------------------
     Private Sub txtPriceCodeNon__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPriceCodeNon._MYValidating
         Dim qry As String = "SELECT DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code as [Code], TSPL_PRICE_COMPONENT_MAPPING.Price_Code_Desc as [Price Code Description], TSPL_ITEM_PRICE_MASTER.Tax_group as [Tax Group] FROM TSPL_ITEM_PRICE_MASTER INNER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_PRICE_COMPONENT_MAPPING.Price_Code INNER JOIN TSPL_TAX_GROUP_MASTER ON TSPL_ITEM_PRICE_MASTER.Tax_group = TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
-        Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='N'"
+        Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='N' And Inactive=0"
         txtPriceCodeNon.Value = clsCommon.ShowSelectForm("PriceCodeNFND", qry, "Code", WhrCls, txtPriceCodeNon.Value, "Code", isButtonClicked)
     End Sub
     Private Sub txtPriceCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPriceCode._MYValidating
@@ -5800,8 +5808,6 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog

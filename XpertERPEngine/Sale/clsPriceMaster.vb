@@ -802,6 +802,7 @@ Public Class clsPriceComponentMapping
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
     '============added by preeti gupta=================
     Public Transfer As Decimal = 0
+    Public Inactive As Decimal = 0
     '==================================================
 #End Region
     '----------------Code For Get Finder--------------------------------------------------------------------'
@@ -838,7 +839,7 @@ Public Class clsPriceComponentMapping
                 'clsCommon.AddColumnsForChange(coll, "Transfer", obj.Transfer)
                 'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_COMPONENT_MAPPING", OMInsertOrUpdate.Update, "price_code='" & obj.Price_Code & "'", trans)
                 'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_COMPONENT_MAPPING", OMInsertOrUpdate.Insert, "", trans)
-                clsDBFuncationality.ExecuteNonQuery("update TSPL_PRICE_COMPONENT_MAPPING set Transfer  =" & obj.Transfer & " where Price_Code ='" & obj.Price_Code & "'", trans)
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_PRICE_COMPONENT_MAPPING set Transfer  =" & obj.Transfer & ",Inactive=" & obj.Inactive & " where Price_Code ='" & obj.Price_Code & "'", trans)
             Next
             trans.Commit()
         Catch ex As Exception
@@ -883,7 +884,7 @@ Public Class clsPriceComponentMapping
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As List(Of clsPriceComponentMapping)
         Dim obj As clsPriceComponentMapping = Nothing
-        Dim qry As String = "SELECT distinct [Price_code] as [Price Code] ,[Price_Code_Desc] as [Description], Remarks,vendor_code,Transfer FROM [TSPL_PRICE_COMPONENT_MAPPING] where 2=2"
+        Dim qry As String = "SELECT distinct [Price_code] as [Price Code] ,[Price_Code_Desc] as [Description], Remarks,vendor_code,Transfer,Inactive FROM [TSPL_PRICE_COMPONENT_MAPPING] where 2=2"
         Select Case NavType
             Case NavigatorType.Current
                 qry += " and TSPL_PRICE_COMPONENT_MAPPING.Price_code in ('" + strCode + "')"
@@ -915,6 +916,7 @@ Public Class clsPriceComponentMapping
                     obj.Price_Calculation_Method = clsCommon.myCstr(dr("Price_Calculation_Method"))
                     obj.Amount = clsCommon.myCdbl(dr("Amount"))
                     obj.Transfer = clsCommon.myCdbl(dt.Rows(0)("Transfer"))
+                    obj.Inactive = clsCommon.myCdbl(dt.Rows(0)("Inactive"))
                     arr.Add(obj)
                 Next
             End If
