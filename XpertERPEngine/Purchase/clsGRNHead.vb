@@ -161,6 +161,7 @@ Public Class clsGRNHead
     Public SRNDate As Date? = Nothing
     Public penalty As String = Nothing
     Public Retention As Decimal = 0
+    Public isHighClass As Integer = 0
 #End Region
     Public Function SaveData(ByVal obj As clsGRNHead, ByVal isNewEntry As Boolean, Optional ByVal isamendment As Boolean = False) As Boolean
         ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))

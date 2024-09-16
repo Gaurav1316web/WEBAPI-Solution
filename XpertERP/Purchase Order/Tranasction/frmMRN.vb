@@ -430,7 +430,7 @@ Public Class frmMRN
         txt_RoadPermitDate.Text = clsCommon.GETSERVERDATE()
         txt_RoadPermitNo.Text = ""
         '====end here====
-
+        chkHighClass.Checked = False
         txtBillToLocation.Value = ""
         lblBillToLocation.Text = ""
         txtShipToLocation.Value = ""
@@ -3288,6 +3288,7 @@ Public Class frmMRN
                 obj.PurchaseOrder_Type = clsCommon.myCstr(cboMRNType.SelectedValue)
                 obj.RGP_Type = clsCommon.myCstr(txtRGPType.Text)
                 obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
+                obj.isHighClass = 0
                 'stuti
                 obj.IsCancel = 0
                 If txt_RoadPermitDate.Text IsNot Nothing AndAlso clsCommon.myLen(txt_RoadPermitDate.Text) > 0 AndAlso IsDate(txt_RoadPermitDate.Text) Then
@@ -3413,10 +3414,6 @@ Public Class frmMRN
                 If clsCommon.myLen(obj.Against_PO) > 0 Then
                     obj.Against_Requisition = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Against_Requisition FROM TSPL_PURCHASE_ORDER_HEAD WHERE PurchaseOrder_No='" + obj.Against_PO + "' and isnull(TSPL_PURCHASE_ORDER_HEAD.ISCANCEL,0)=0"))
                 End If
-
-
-
-
                 If (gvAC.Rows.Count > 0) Then
                     If clsCommon.myLen(gvAC.Rows(0).Cells(colACCode).Value) > 0 Then
                         obj.Add_Charge_Code1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colACCode).Value)
@@ -3488,10 +3485,6 @@ Public Class frmMRN
                     End If
                 End If
                 obj.Total_Add_Charge = clsCommon.myCdbl(lblAddCharges.Text)
-
-
-
-
                 obj.Arr = New List(Of clsMRNDetail)
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsMRNDetail()
@@ -3791,7 +3784,7 @@ Public Class frmMRN
                 cboMRNType.SelectedValue = obj.PurchaseOrder_Type
                 txtRGPType.Text = obj.RGP_Type
                 TxtRetention.Text = obj.Retention
-
+                chkHighClass.Checked = IIf(obj.isHighClass = 1, True, False)
                 'stuti
                 If obj.RoadPermit_Date IsNot Nothing AndAlso clsCommon.myLen(obj.RoadPermit_Date) > 0 AndAlso IsDate(obj.RoadPermit_Date) Then
                     txt_RoadPermitDate.Text = obj.RoadPermit_Date
@@ -4662,7 +4655,7 @@ Public Class frmMRN
         Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],Terms_Code as [Term Code] ,Terms_Code_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description] from TSPL_VENDOR_MASTER"
         txtVendorNo.Value = clsCommon.ShowSelectForm("PFilter", qry, "Code", " TSPL_VENDOR_MASTER.Status='N' ", txtVendorNo.Value, "Code", isButtonClicked)
         ''lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'"))
-        qry = "select  Vendor_Code,Vendor_Name,Terms_Code,Terms_Code_Desc ,Vendor_Account ,Tax_Group,Tax_Group_Desc from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "'and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
+        qry = "select  Vendor_Code,Vendor_Name,Terms_Code,Terms_Code_Desc ,Vendor_Account ,Tax_Group,Tax_Group_Desc,isHighClass from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "'and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Vendor_Name"))
@@ -4826,6 +4819,10 @@ Public Class frmMRN
                 txtCurrencyCode.Value = objReq.CURRENCY_CODE
                 txtConversionRate.Value = objReq.ConvRate
                 txtCurrencyCode.Enabled = False
+                If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                    Dim Value As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select isHighClass from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'"))
+                    chkHighClass.Checked = IIf(Value = 1, True, False)
+                End If
                 ''-------------------------------------------
                 If objReq.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
                     rbtnTaxCalAutomatic.IsChecked = True
@@ -4904,11 +4901,6 @@ Public Class frmMRN
                 End If
                 gvAC.Rows.AddNew()
             End If
-
-
-
-
-
             If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
                 gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
             End If
