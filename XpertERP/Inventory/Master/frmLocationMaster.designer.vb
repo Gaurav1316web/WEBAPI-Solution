@@ -265,7 +265,6 @@ Partial Class frmLocationMaster
         Me.txtCategoryStructureCode = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.PgHOAddress = New Telerik.WinControls.UI.RadPageViewPage()
@@ -328,6 +327,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -708,7 +708,7 @@ Partial Class frmLocationMaster
         Me.RadMenu1.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenu1.HorizontalPopupAlignment = Telerik.WinControls.UI.HorizontalPopupAlignment.LeftToRight
         Me.RadMenu1.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Location = New System.Drawing.Point(118, 330)
         Me.RadMenu1.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenu1.Minimum = New System.Drawing.Size(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
@@ -820,10 +820,10 @@ Partial Class frmLocationMaster
         'Details
         '
         Me.Details.Controls.Add(Me.radgroupbox)
-        Me.Details.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.Details.Location = New System.Drawing.Point(10, 37)
+        Me.Details.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
+        Me.Details.Location = New System.Drawing.Point(10, 33)
         Me.Details.Name = "Details"
-        Me.Details.Size = New System.Drawing.Size(863, 542)
+        Me.Details.Size = New System.Drawing.Size(863, 546)
         Me.Details.Text = "Details"
         '
         'radgroupbox
@@ -927,7 +927,7 @@ Partial Class frmLocationMaster
         Me.radgroupbox.Location = New System.Drawing.Point(0, 0)
         Me.radgroupbox.Name = "radgroupbox"
         Me.radgroupbox.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.radgroupbox.Size = New System.Drawing.Size(863, 542)
+        Me.radgroupbox.Size = New System.Drawing.Size(863, 546)
         Me.radgroupbox.TabIndex = 0
         Me.radgroupbox.Text = "Details"
         '
@@ -2637,7 +2637,7 @@ Partial Class frmLocationMaster
         Me.RadPageViewPage2.Controls.Add(Me.lblLocationSegmentCode)
         Me.RadPageViewPage2.Controls.Add(Me.ddlType)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(83.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(79.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(863, 542)
@@ -3454,10 +3454,10 @@ Partial Class frmLocationMaster
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadPageView3)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(57.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(53.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(863, 542)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(863, 546)
         Me.RadPageViewPage1.Text = "Sale Tax"
         '
         'RadPageView3
@@ -3468,7 +3468,7 @@ Partial Class frmLocationMaster
         Me.RadPageView3.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView3.Name = "RadPageView3"
         Me.RadPageView3.SelectedPage = Me.RadPageViewPage8
-        Me.RadPageView3.Size = New System.Drawing.Size(863, 542)
+        Me.RadPageView3.Size = New System.Drawing.Size(863, 546)
         Me.RadPageView3.TabIndex = 18
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Center
@@ -3476,9 +3476,10 @@ Partial Class frmLocationMaster
         'RadPageViewPage8
         '
         Me.RadPageViewPage8.Controls.Add(Me.SplitContainer4)
-        Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(38.0!, 24.0!)
+        Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
-        Me.RadPageViewPage8.Size = New System.Drawing.Size(842, 494)
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(842, 502)
         Me.RadPageViewPage8.Text = "Local"
         '
         'SplitContainer4
@@ -3495,8 +3496,8 @@ Partial Class frmLocationMaster
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.gvSaleTaxLocal)
-        Me.SplitContainer4.Size = New System.Drawing.Size(842, 494)
-        Me.SplitContainer4.SplitterDistance = 218
+        Me.SplitContainer4.Size = New System.Drawing.Size(842, 502)
+        Me.SplitContainer4.SplitterDistance = 221
         Me.SplitContainer4.TabIndex = 0
         '
         'SplitContainer9
@@ -3512,7 +3513,7 @@ Partial Class frmLocationMaster
         'SplitContainer9.Panel2
         '
         Me.SplitContainer9.Panel2.Controls.Add(Me.gvSaleItemDetailsLocal)
-        Me.SplitContainer9.Size = New System.Drawing.Size(842, 218)
+        Me.SplitContainer9.Size = New System.Drawing.Size(842, 221)
         Me.SplitContainer9.SplitterDistance = 410
         Me.SplitContainer9.TabIndex = 5
         '
@@ -3538,9 +3539,10 @@ Partial Class frmLocationMaster
         Me.gvSaleLocal.Name = "gvSaleLocal"
         Me.gvSaleLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleLocal.ShowHeaderCellButtons = True
-        Me.gvSaleLocal.Size = New System.Drawing.Size(410, 218)
+        Me.gvSaleLocal.Size = New System.Drawing.Size(410, 221)
         Me.gvSaleLocal.TabIndex = 4
         Me.gvSaleLocal.TabStop = False
+        Me.gvSaleLocal.VarID = ""
         '
         'gvSaleItemDetailsLocal
         '
@@ -3564,9 +3566,10 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsLocal.Name = "gvSaleItemDetailsLocal"
         Me.gvSaleItemDetailsLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleItemDetailsLocal.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsLocal.Size = New System.Drawing.Size(428, 218)
+        Me.gvSaleItemDetailsLocal.Size = New System.Drawing.Size(428, 221)
         Me.gvSaleItemDetailsLocal.TabIndex = 5
         Me.gvSaleItemDetailsLocal.TabStop = False
+        Me.gvSaleItemDetailsLocal.VarID = ""
         '
         'gvSaleTaxLocal
         '
@@ -3590,16 +3593,18 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxLocal.Name = "gvSaleTaxLocal"
         Me.gvSaleTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleTaxLocal.ShowHeaderCellButtons = True
-        Me.gvSaleTaxLocal.Size = New System.Drawing.Size(842, 272)
+        Me.gvSaleTaxLocal.Size = New System.Drawing.Size(842, 277)
         Me.gvSaleTaxLocal.TabIndex = 3
         Me.gvSaleTaxLocal.TabStop = False
+        Me.gvSaleTaxLocal.VarID = ""
         '
         'RadPageViewPage9
         '
         Me.RadPageViewPage9.Controls.Add(Me.SplitContainer5)
+        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(64.0!, 24.0!)
         Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage9.Name = "RadPageViewPage9"
-        Me.RadPageViewPage9.Size = New System.Drawing.Size(767, 525)
+        Me.RadPageViewPage9.Size = New System.Drawing.Size(842, 494)
         Me.RadPageViewPage9.Text = "Inter State"
         '
         'SplitContainer5
@@ -3616,8 +3621,8 @@ Partial Class frmLocationMaster
         'SplitContainer5.Panel2
         '
         Me.SplitContainer5.Panel2.Controls.Add(Me.gvSaleTaxInterState)
-        Me.SplitContainer5.Size = New System.Drawing.Size(767, 525)
-        Me.SplitContainer5.SplitterDistance = 232
+        Me.SplitContainer5.Size = New System.Drawing.Size(842, 494)
+        Me.SplitContainer5.SplitterDistance = 218
         Me.SplitContainer5.TabIndex = 1
         '
         'SplitContainer10
@@ -3633,8 +3638,8 @@ Partial Class frmLocationMaster
         'SplitContainer10.Panel2
         '
         Me.SplitContainer10.Panel2.Controls.Add(Me.gvSaleItemDetailsInterState)
-        Me.SplitContainer10.Size = New System.Drawing.Size(767, 232)
-        Me.SplitContainer10.SplitterDistance = 386
+        Me.SplitContainer10.Size = New System.Drawing.Size(842, 218)
+        Me.SplitContainer10.SplitterDistance = 423
         Me.SplitContainer10.TabIndex = 5
         '
         'gvSaleInterState
@@ -3659,9 +3664,10 @@ Partial Class frmLocationMaster
         Me.gvSaleInterState.Name = "gvSaleInterState"
         Me.gvSaleInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleInterState.ShowHeaderCellButtons = True
-        Me.gvSaleInterState.Size = New System.Drawing.Size(386, 232)
+        Me.gvSaleInterState.Size = New System.Drawing.Size(423, 218)
         Me.gvSaleInterState.TabIndex = 4
         Me.gvSaleInterState.TabStop = False
+        Me.gvSaleInterState.VarID = ""
         '
         'gvSaleItemDetailsInterState
         '
@@ -3685,9 +3691,10 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsInterState.Name = "gvSaleItemDetailsInterState"
         Me.gvSaleItemDetailsInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleItemDetailsInterState.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsInterState.Size = New System.Drawing.Size(377, 232)
+        Me.gvSaleItemDetailsInterState.Size = New System.Drawing.Size(415, 218)
         Me.gvSaleItemDetailsInterState.TabIndex = 5
         Me.gvSaleItemDetailsInterState.TabStop = False
+        Me.gvSaleItemDetailsInterState.VarID = ""
         '
         'gvSaleTaxInterState
         '
@@ -3711,14 +3718,15 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxInterState.Name = "gvSaleTaxInterState"
         Me.gvSaleTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleTaxInterState.ShowHeaderCellButtons = True
-        Me.gvSaleTaxInterState.Size = New System.Drawing.Size(767, 289)
+        Me.gvSaleTaxInterState.Size = New System.Drawing.Size(842, 272)
         Me.gvSaleTaxInterState.TabIndex = 3
         Me.gvSaleTaxInterState.TabStop = False
+        Me.gvSaleTaxInterState.VarID = ""
         '
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.RadPageView2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(81.0!, 28.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(77.0!, 24.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(863, 542)
@@ -3740,9 +3748,10 @@ Partial Class frmLocationMaster
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(38.0!, 24.0!)
+        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(842, 494)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(842, 498)
         Me.RadPageViewPage6.Text = "Local"
         '
         'SplitContainer2
@@ -3759,8 +3768,8 @@ Partial Class frmLocationMaster
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvPurchaseTaxLocal)
-        Me.SplitContainer2.Size = New System.Drawing.Size(842, 494)
-        Me.SplitContainer2.SplitterDistance = 218
+        Me.SplitContainer2.Size = New System.Drawing.Size(842, 498)
+        Me.SplitContainer2.SplitterDistance = 219
         Me.SplitContainer2.TabIndex = 0
         '
         'gvPurchaseLocal
@@ -3785,9 +3794,10 @@ Partial Class frmLocationMaster
         Me.gvPurchaseLocal.Name = "gvPurchaseLocal"
         Me.gvPurchaseLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseLocal.ShowHeaderCellButtons = True
-        Me.gvPurchaseLocal.Size = New System.Drawing.Size(842, 218)
+        Me.gvPurchaseLocal.Size = New System.Drawing.Size(842, 219)
         Me.gvPurchaseLocal.TabIndex = 4
         Me.gvPurchaseLocal.TabStop = False
+        Me.gvPurchaseLocal.VarID = ""
         '
         'gvPurchaseTaxLocal
         '
@@ -3811,13 +3821,15 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxLocal.Name = "gvPurchaseTaxLocal"
         Me.gvPurchaseTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseTaxLocal.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxLocal.Size = New System.Drawing.Size(842, 272)
+        Me.gvPurchaseTaxLocal.Size = New System.Drawing.Size(842, 275)
         Me.gvPurchaseTaxLocal.TabIndex = 3
         Me.gvPurchaseTaxLocal.TabStop = False
+        Me.gvPurchaseTaxLocal.VarID = ""
         '
         'RadPageViewPage7
         '
         Me.RadPageViewPage7.Controls.Add(Me.SplitContainer3)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(64.0!, 24.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(767, 444)
@@ -3866,6 +3878,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseInterState.Size = New System.Drawing.Size(767, 197)
         Me.gvPurchaseInterState.TabIndex = 4
         Me.gvPurchaseInterState.TabStop = False
+        Me.gvPurchaseInterState.VarID = ""
         '
         'gvPurchaseTaxInterState
         '
@@ -3892,11 +3905,12 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxInterState.Size = New System.Drawing.Size(767, 243)
         Me.gvPurchaseTaxInterState.TabIndex = 3
         Me.gvPurchaseTaxInterState.TabStop = False
+        Me.gvPurchaseTaxInterState.VarID = ""
         '
         'pageTransferTax
         '
         Me.pageTransferTax.Controls.Add(Me.RadPageView4)
-        Me.pageTransferTax.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
+        Me.pageTransferTax.ItemSize = New System.Drawing.SizeF(72.0!, 24.0!)
         Me.pageTransferTax.Location = New System.Drawing.Point(10, 37)
         Me.pageTransferTax.Name = "pageTransferTax"
         Me.pageTransferTax.Size = New System.Drawing.Size(863, 542)
@@ -3918,9 +3932,10 @@ Partial Class frmLocationMaster
         'RadPageViewPage10
         '
         Me.RadPageViewPage10.Controls.Add(Me.SplitContainer6)
-        Me.RadPageViewPage10.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage10.ItemSize = New System.Drawing.SizeF(38.0!, 24.0!)
+        Me.RadPageViewPage10.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage10.Name = "RadPageViewPage10"
-        Me.RadPageViewPage10.Size = New System.Drawing.Size(842, 494)
+        Me.RadPageViewPage10.Size = New System.Drawing.Size(842, 498)
         Me.RadPageViewPage10.Text = "Local"
         '
         'SplitContainer6
@@ -3937,8 +3952,8 @@ Partial Class frmLocationMaster
         'SplitContainer6.Panel2
         '
         Me.SplitContainer6.Panel2.Controls.Add(Me.gvTransferTaxLocal)
-        Me.SplitContainer6.Size = New System.Drawing.Size(842, 494)
-        Me.SplitContainer6.SplitterDistance = 219
+        Me.SplitContainer6.Size = New System.Drawing.Size(842, 498)
+        Me.SplitContainer6.SplitterDistance = 220
         Me.SplitContainer6.TabIndex = 0
         '
         'gvTransferLocal
@@ -3963,9 +3978,10 @@ Partial Class frmLocationMaster
         Me.gvTransferLocal.Name = "gvTransferLocal"
         Me.gvTransferLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferLocal.ShowHeaderCellButtons = True
-        Me.gvTransferLocal.Size = New System.Drawing.Size(842, 219)
+        Me.gvTransferLocal.Size = New System.Drawing.Size(842, 220)
         Me.gvTransferLocal.TabIndex = 4
         Me.gvTransferLocal.TabStop = False
+        Me.gvTransferLocal.VarID = ""
         '
         'gvTransferTaxLocal
         '
@@ -3989,13 +4005,15 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxLocal.Name = "gvTransferTaxLocal"
         Me.gvTransferTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferTaxLocal.ShowHeaderCellButtons = True
-        Me.gvTransferTaxLocal.Size = New System.Drawing.Size(842, 271)
+        Me.gvTransferTaxLocal.Size = New System.Drawing.Size(842, 274)
         Me.gvTransferTaxLocal.TabIndex = 3
         Me.gvTransferTaxLocal.TabStop = False
+        Me.gvTransferTaxLocal.VarID = ""
         '
         'RadPageViewPage11
         '
         Me.RadPageViewPage11.Controls.Add(Me.SplitContainer7)
+        Me.RadPageViewPage11.ItemSize = New System.Drawing.SizeF(64.0!, 24.0!)
         Me.RadPageViewPage11.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage11.Name = "RadPageViewPage11"
         Me.RadPageViewPage11.Size = New System.Drawing.Size(767, 444)
@@ -4044,6 +4062,7 @@ Partial Class frmLocationMaster
         Me.gvTransferInterState.Size = New System.Drawing.Size(767, 197)
         Me.gvTransferInterState.TabIndex = 4
         Me.gvTransferInterState.TabStop = False
+        Me.gvTransferInterState.VarID = ""
         '
         'gvTransferTaxInterState
         '
@@ -4070,12 +4089,13 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxInterState.Size = New System.Drawing.Size(767, 243)
         Me.gvTransferTaxInterState.TabIndex = 3
         Me.gvTransferTaxInterState.TabStop = False
+        Me.gvTransferTaxInterState.VarID = ""
         '
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.gvCategory)
         Me.RadPageViewPage4.Controls.Add(Me.Panel1)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(110.0!, 28.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(106.0!, 24.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(863, 542)
@@ -4097,6 +4117,7 @@ Partial Class frmLocationMaster
         Me.gvCategory.Size = New System.Drawing.Size(863, 510)
         Me.gvCategory.TabIndex = 2
         Me.gvCategory.TabStop = False
+        Me.gvCategory.VarID = ""
         '
         'Panel1
         '
@@ -4157,24 +4178,16 @@ Partial Class frmLocationMaster
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(863, 542)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(863, 542)
-        Me.UcCustomFields1.TabIndex = 2
-        '
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(863, 542)
@@ -4191,7 +4204,7 @@ Partial Class frmLocationMaster
         'PgHOAddress
         '
         Me.PgHOAddress.Controls.Add(Me.GrpHeadOfc)
-        Me.PgHOAddress.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
+        Me.PgHOAddress.ItemSize = New System.Drawing.SizeF(72.0!, 24.0!)
         Me.PgHOAddress.Location = New System.Drawing.Point(10, 37)
         Me.PgHOAddress.Name = "PgHOAddress"
         Me.PgHOAddress.Size = New System.Drawing.Size(863, 542)
@@ -4273,7 +4286,7 @@ Partial Class frmLocationMaster
         '
         Me.RadPageViewPage12.Controls.Add(Me.ChkIsJobwork)
         Me.RadPageViewPage12.Controls.Add(Me.GrpJobwork)
-        Me.RadPageViewPage12.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
+        Me.RadPageViewPage12.ItemSize = New System.Drawing.SizeF(91.0!, 24.0!)
         Me.RadPageViewPage12.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage12.Name = "RadPageViewPage12"
         Me.RadPageViewPage12.Size = New System.Drawing.Size(863, 542)
@@ -4319,9 +4332,10 @@ Partial Class frmLocationMaster
         'RadPageViewPage13
         '
         Me.RadPageViewPage13.Controls.Add(Me.SplitContainer8)
-        Me.RadPageViewPage13.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage13.ItemSize = New System.Drawing.SizeF(80.0!, 24.0!)
+        Me.RadPageViewPage13.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage13.Name = "RadPageViewPage13"
-        Me.RadPageViewPage13.Size = New System.Drawing.Size(750, 158)
+        Me.RadPageViewPage13.Size = New System.Drawing.Size(750, 162)
         Me.RadPageViewPage13.Text = "Jobwork Item"
         '
         'SplitContainer8
@@ -4335,7 +4349,7 @@ Partial Class frmLocationMaster
         '
         Me.SplitContainer8.Panel1.Controls.Add(Me.gvItem)
         Me.SplitContainer8.Panel2Collapsed = True
-        Me.SplitContainer8.Size = New System.Drawing.Size(750, 158)
+        Me.SplitContainer8.Size = New System.Drawing.Size(750, 162)
         Me.SplitContainer8.SplitterDistance = 114
         Me.SplitContainer8.TabIndex = 0
         '
@@ -4349,7 +4363,7 @@ Partial Class frmLocationMaster
         Me.gvItem.MyAutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
         Me.gvItem.MyShowHeadrText = False
         Me.gvItem.Name = "gvItem"
-        Me.gvItem.Size = New System.Drawing.Size(750, 158)
+        Me.gvItem.Size = New System.Drawing.Size(750, 162)
         Me.gvItem.TabIndex = 3
         Me.gvItem.ValueMember = "Code"
         '
@@ -4449,7 +4463,7 @@ Partial Class frmLocationMaster
         Me.PageBankDetails.Controls.Add(Me.RadGroupBox7)
         Me.PageBankDetails.Controls.Add(Me.RadGroupBox6)
         Me.PageBankDetails.Controls.Add(Me.RadGroupBox5)
-        Me.PageBankDetails.ItemSize = New System.Drawing.SizeF(77.0!, 28.0!)
+        Me.PageBankDetails.ItemSize = New System.Drawing.SizeF(73.0!, 24.0!)
         Me.PageBankDetails.Location = New System.Drawing.Point(10, 37)
         Me.PageBankDetails.Name = "PageBankDetails"
         Me.PageBankDetails.Size = New System.Drawing.Size(863, 542)
@@ -5174,6 +5188,14 @@ Partial Class frmLocationMaster
         Me.btnHistory.Size = New System.Drawing.Size(84, 24)
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(863, 542)
+        Me.UcCustomFields1.TabIndex = 2
         '
         'frmLocationMaster
         '

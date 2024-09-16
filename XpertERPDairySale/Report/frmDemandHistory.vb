@@ -84,7 +84,12 @@ Public Class frmDemandHistory
 
         Dim repoDocumentNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoDocumentNo.FormatString = ""
-        repoDocumentNo.HeaderText = "Document No"
+        If clsCommon.CompairString(cmbScreenType.Text, "Demand") = CompairStringResult.Equal Then
+            repoDocumentNo.HeaderText = "TR Code"
+        Else
+            repoDocumentNo.HeaderText = "Document No"
+
+        End If
         repoDocumentNo.Name = colDocumentNo
         repoDocumentNo.Width = 50
         repoDocumentNo.ReadOnly = True
@@ -253,18 +258,26 @@ Public Class frmDemandHistory
     End Sub
 
 
-    Private Sub LoadGridData(ByVal frmdate As Date, ByVal Shift As String, ByVal BoothCode As String)
+    Private Sub LoadGridData(ByVal frmdate As Date, ByVal Shift As String, ByVal BoothCode As String, ByVal ScreenName As String)
         Try
             Dim lstobj As List(Of clsDemandHistoryMaster)
             gv1.DataSource = Nothing
             gv1.Visible = False
             Dim shiftType As String = ""
-            If clsCommon.CompairString(Shift, "Morning") = CompairStringResult.Equal Then
-                shiftType = "AM"
-            ElseIf clsCommon.CompairString(Shift, "Evening") = CompairStringResult.Equal Then
-                shiftType = "PM"
+
+            If clsCommon.CompairString(cmbScreenType.Text, "Demand") = CompairStringResult.Equal Then
+
+                lstobj = clsDemandHistoryMaster.GetDataFromDemand(frmdate, Shift, BoothCode, Nothing)
+
+            Else
+                If clsCommon.CompairString(Shift, "Morning") = CompairStringResult.Equal Then
+                    shiftType = "AM"
+                ElseIf clsCommon.CompairString(Shift, "Evening") = CompairStringResult.Equal Then
+                    shiftType = "PM"
+                End If
+                lstobj = clsDemandHistoryMaster.GetDataFromBooking(frmdate, shiftType, BoothCode, Nothing)
+
             End If
-            lstobj = clsDemandHistoryMaster.GetData(frmdate, shiftType, BoothCode, Nothing)
             If (lstobj IsNot Nothing AndAlso lstobj.Count > 0) Then
                 gv1.Visible = True
                 LoadBlankGrid()
@@ -383,9 +396,9 @@ Public Class frmDemandHistory
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            If clsCommon.myLen(txtBooth.Value) > 0 AndAlso clsCommon.myLen(cmbShift.Text) > 0 Then
+            If clsCommon.myLen(txtBooth.Value) > 0 AndAlso clsCommon.myLen(cmbShift.Text) > 0 AndAlso clsCommon.myLen(cmbScreenType.Text) > 0 Then
                 'fillGridReport(txtDate.Value, cmbShift.Text, txtBooth.Value)
-                LoadGridData(txtDate.Value, cmbShift.Text, txtBooth.Value)
+                LoadGridData(txtDate.Value, cmbShift.Text, txtBooth.Value, cmbScreenType.Text)
             Else
                 Throw New Exception(" Please Select Shift/Booth ")
             End If
