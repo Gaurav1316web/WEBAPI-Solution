@@ -4326,7 +4326,7 @@ Public Class FrmTransferKDIL
             lblFromLoc.Text = clsCommon.myCstr(connectSql.RunScalar("SELECT Location_Desc  FROM TSPL_LOCATION_MASTER WHERE Location_Code = '" + Convert.ToString(txtFromLocation.Value) + "'"))
         Else
             qry = "Select  LM.Location_Code as Code,LM.Location_Desc as Description,LM.Loc_Short_Name as [Short Name],Location_type as 'Location Type',(case LM.Excisable when 'T'then 'Excisable'else 'Non-Excisable'end) as 'Excisable'  from TSPL_LOCATION_MASTER as LM "
-            Dim whrclas As String = " LM.Location_Type ='Physical'"
+            Dim whrclas As String = "Rejected_Type='N' and LM.Location_Type ='Physical'"
             If clsCommon.myLen(arrLoc) > 0 Then
                 If clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal Then
                     whrclas += " and LM.Location_Code in (" + arrLoc + ")"
@@ -4662,17 +4662,26 @@ Public Class FrmTransferKDIL
                 If objReq IsNot Nothing AndAlso clsCommon.myLen(objReq.Document_No) > 0 Then
                     txtFromLocation.Enabled = False
                     txtToLoc.Enabled = False
-                    If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
-                        txtFromLocation.Value = objReq.From_Location
-                        lblFromLoc.Text = objReq.From_LocationName
+                    If clsCommon.myCBool(objReq.InternalTransfer) = True Then
+                        If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
+                            txtFromLocation.Value = objReq.From_Location
+                            lblFromLoc.Text = objReq.From_LocationName
+                        End If
+                    Else
+                        If (clsCommon.myLen(txtFromLocation.Value) <= 0) Then
+                            txtFromLocation.Value = objReq.To_Location
+                            lblFromLoc.Text = objReq.To_LocationName
+                        End If
                     End If
+
                     'txtToLoc.Value = objReq.From_Location
                     'lblToLoc.Text = objReq.From_LocationName
                     If clsCommon.myCBool(objReq.InternalTransfer) = True Then
                         txtToLoc.Value = objReq.To_Location
                         chkInternalTransfer.Enabled = False
                     Else
-                        txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtToLoc.Value + "'"))
+                        txtToLoc.Value = objReq.To_Location_Main
+                        'txtToLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select location_code from tspl_location_master where git_location='" + txtToLoc.Value + "'"))
                         chkInternalTransfer.Enabled = False
                     End If
                     lblToLoc.Text = clsLocation.GetName(txtToLoc.Value, Nothing)

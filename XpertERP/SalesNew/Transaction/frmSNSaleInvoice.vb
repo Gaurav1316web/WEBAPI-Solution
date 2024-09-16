@@ -5299,7 +5299,7 @@ Public Class frmSNSaleInvoice
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
 
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical'  "
+        Dim WhrCls As String = " Location_Type='Physical' AND Rejected_Type='N'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If

@@ -29,6 +29,8 @@ Public Class clsItemMaster
     Public uom_code As String = ""
     Public Structure_Code As String = ""
     Public Structure_Desc As String = ""
+    Public Deduction_Type As String=""
+    Public Deduction_Type_Hindi As String = ""
     Public Purchase_Class_Code As String = ""
     Public Sale_Class_Code As String = ""
     Public Cheapter_Heads As String = ""
@@ -911,6 +913,21 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             Throw New Exception(ex.Message)
         End Try
     End Function
+
+    Public Shared Function Convert(itemCode As String, Qty As Decimal, FromUOM As String, ToUOM As String) As Decimal
+        Dim retVal As Decimal = 0
+        If clsCommon.CompairString(FromUOM, ToUOM) = CompairStringResult.Equal Then
+            retVal = Qty
+        Else
+            Dim qry As String = "select  (" + clsCommon.myCstr(Qty) + " * TabConvFatMul.Conversion_Factor/ TabConvFatDiv.Conversion_Factor) as Prod_Qty
+from    TSPL_ITEM_UOM_DETAIL  as TabConvFatMul
+left join TSPL_ITEM_UOM_DETAIL as  TabConvFatDiv on TabConvFatDiv.Item_Code='" + itemCode + "' and TabConvFatDiv.UOM_Code='" + ToUOM + "'
+where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" + FromUOM + "'"
+            retVal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+        End If
+        Return retVal
+    End Function
+
     Public Shared Function GetFatherCode(ByVal strICode As String, ByVal trans As SqlTransaction) As String
         Dim qry As String = "select Father_Code from TSPL_ITEM_MASTER where Item_Code='" + strICode + "' and Father_Code not in ('NIL')"
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
@@ -1546,6 +1563,9 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Alies_Name_Hindi", obj.Alies_Name_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "BuyBackType", obj.BuyBackType, True, True)
             clsCommon.AddColumnsForChange(coll, "BuyBackValue", obj.BuyBackValue, True, True)
+            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type)
+            clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
+
             If isNewEntry Then
                 ' If clsCommon.myLen(obj.Item_Code) <= 0 Then 
                 ' Ticket No : ERO/11/07/19-000679 By Prabhakar
@@ -1648,6 +1668,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
                 obj.Item_Desc = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
                 obj.Item_Desc_Hindi = clsCommon.myCstr(dt.Rows(0)("Item_Desc_Hindi"))
+                obj.Deduction_Type = clsCommon.myCstr(dt.Rows(0)("Deduction_Type"))
+                obj.Deduction_Type_Hindi = clsCommon.myCstr(dt.Rows(0)("Deduction_Type_Hindi"))
                 obj.Part_No = clsCommon.myCstr(dt.Rows(0)("Part_No"))
                 obj.Drawing_No = clsCommon.myCstr(dt.Rows(0)("Drawing_No"))
                 obj.Item_Short_Desc = clsCommon.myCstr(dt.Rows(0)("Short_Description"))

@@ -133,5 +133,18 @@ Public Class clsShiftMaster
 
     End Function
 
-
+    Public Shared Function GetShiftTime(strShiftCode As String, TranDate As DateTime, ByRef ShiftFromDate As DateTime) As DateTime
+        Dim qry = "select FROM_Time,TO_Time  from TSPL_SHIFT_MASTER where SHIFT_CODE='" + strShiftCode + "'"
+        Dim dt = clsDBFuncationality.GetDataTable(qry)
+        Dim tsFrom As TimeSpan = (dt.Rows(0)("FROM_Time"))
+        Dim tsTo As TimeSpan = (dt.Rows(0)("TO_Time"))
+        ShiftFromDate = New Date(TranDate.Year, TranDate.Month, TranDate.Day, tsFrom.Hours, tsFrom.Minutes, 0)
+        Dim ShiftToDate As DateTime = New Date(TranDate.Year, TranDate.Month, TranDate.Day, tsTo.Hours, tsTo.Minutes, 0)
+        If clsCommon.CompairString(clsCommon.GetPrintDate(ShiftFromDate, "tt"), "PM") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.GetPrintDate(ShiftToDate, "tt"), "AM") = CompairStringResult.Equal Then
+                ShiftToDate = ShiftToDate.AddDays(1)
+            End If
+        End If
+        Return ShiftToDate
+    End Function
 End Class

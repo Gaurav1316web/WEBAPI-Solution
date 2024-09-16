@@ -83,6 +83,7 @@ Public Class FrmPriceComponantMapping
         fndPrice.MyReadOnly = False
         txtDesc.Text = ""
         chkTransfer.Checked = False
+        chkInActive.Checked = False
         GridBind()
         btnSave.Text = "Save"
         ''For Custom Fields
@@ -118,6 +119,7 @@ Public Class FrmPriceComponantMapping
                     obj.Price_Calculation_Method = clsCommon.myCstr(grow.Cells("Price Calculation Type").Value)
                     obj.Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
                     obj.Transfer = clsCommon.myCdbl(chkTransfer.Checked)
+                    obj.Inactive = clsCommon.myCdbl(chkInActive.Checked)
                     Arr.Add(obj)
                 Next
                 If (clsPriceComponentMapping.SaveData(fndPrice.Value, Arr)) Then
@@ -300,6 +302,7 @@ Public Class FrmPriceComponantMapping
                         Dim vendorcode As String = clsCommon.myCstr(dgrv.Cells("principle code").Value)
                         Dim vendorname As String = clsCommon.myCstr(dgrv.Cells("principle name").Value)
                         Dim Transfer As Double = clsCommon.myCstr(dgrv.Cells("Transfer").Value)
+                        Dim Inactive As Double = clsCommon.myCstr(dgrv.Cells("Inactive").Value)
 
                         If clsCommon.myLen(vendorname) > 0 Then
                             qry = "select vendor_code from tspl_vendor_master where vendor_name='" + vendorname + "'"
@@ -323,6 +326,7 @@ Public Class FrmPriceComponantMapping
                         clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
                         clsCommon.AddColumnsForChange(coll, "vendor_code", vendorcode)
                         clsCommon.AddColumnsForChange(coll, "Transfer", Transfer)
+                        clsCommon.AddColumnsForChange(coll, "Inactive", Inactive)
 
                         If strCode <= 0 Then
                             clsCommon.AddColumnsForChange(coll, "Price_Code", strPriceCode)
@@ -407,6 +411,7 @@ Public Class FrmPriceComponantMapping
 
                         txtpri_code.Value = obj.principlecode
                         chkTransfer.Checked = obj.Transfer
+                        chkInActive.Checked = obj.Inactive
 
                         If clsCommon.myLen(txtpri_code.Value) > 0 Then
                             txtprinciple.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vendor_name from tspl_vendor_master where vendor_code='" + txtpri_code.Value + "'"))

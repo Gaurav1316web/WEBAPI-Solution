@@ -636,6 +636,7 @@ Partial Class frmFAMergeAsset
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(934, 270)
         Me.gv1.TabIndex = 0
+        Me.gv1.VarID = ""
         '
         'RadLabel4
         '

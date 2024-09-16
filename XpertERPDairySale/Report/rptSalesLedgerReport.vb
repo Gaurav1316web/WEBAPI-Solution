@@ -57,7 +57,7 @@ Public Class rptSalesLedgerReport
                 view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
 
                 view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-                For col As Integer = 8 To gv1.Columns("Total Qty").Index - 1
+                For col As Integer = 6 To gv1.Columns("Total Qty").Index - 1
                     view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
                 Next
                 view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
@@ -229,14 +229,14 @@ Public Class rptSalesLedgerReport
             Dim whrclsShift As String = ""
             If rbtnMorning.IsChecked Then
                 If rbtnDemand.IsChecked Then
-                    whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
+                    whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Morning' "
                 ElseIf rbtnDispatch.IsChecked Then
                     whrclsShift = " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'AM' "
                 End If
                 strShift = " 'M' "
             ElseIf rbtnEvening.IsChecked Then
                 If rbtnDemand.IsChecked Then
-                    whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
+                    whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
                 ElseIf rbtnDispatch.IsChecked Then
                     whrclsShift = " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
                 End If
@@ -253,7 +253,7 @@ Public Class rptSalesLedgerReport
 
             If txtRoute.arrValueMember IsNot Nothing Then
                 If rbtnDemand.IsChecked Then
-                    whrcls += "  And TSPL_BOOKING_DETAIL.Route_No In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    whrcls += "  And TSPL_DEMAND_BOOKING_MASTER.Route_No In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 ElseIf rbtnDispatch.IsChecked Then
                     whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 End If
@@ -261,7 +261,7 @@ Public Class rptSalesLedgerReport
 
             If txtCustomer.arrValueMember IsNot Nothing Then
                 If rbtnDemand.IsChecked Then
-                    whrcls += " and TSPL_BOOKING_DETAIL.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                    whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
                 ElseIf rbtnDispatch.IsChecked Then
                     whrcls += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
                 End If
@@ -278,8 +278,8 @@ Public Class rptSalesLedgerReport
             and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) " & whrcls & " " & whrclsShift & ""
             ElseIf rbtnDemand.IsChecked Then
                 qry = " SELECT  max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
-            FROM TSPL_BOOKING_DETAIL  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code
-            where  TSPL_BOOKING_MATSER.Posted = 1 and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= Convert(date,'" & txtFromDate.Value & "',103)   and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103)  " & whrcls & " " & whrclsShift & ""
+            FROM TSPL_DEMAND_BOOKING_DETAIL  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+            where  TSPL_DEMAND_BOOKING_MASTER.Posted = 1 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= Convert(date,'" & txtFromDate.Value & "',103)   and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103)  " & whrcls & " " & whrclsShift & ""
             End If
             qry += " group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
 
@@ -366,15 +366,16 @@ Public Class rptSalesLedgerReport
          From TSPL_SD_SHIPMENT_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code Left OUTER Join TSPL_SD_SHIPMENT_HEAD On TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
          Left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No where 2 = 2  And TSPL_SD_SHIPMENT_HEAD.Status = 1 " & whrcls & " " & whrclsShift & " "
             ElseIf rbtnDemand.IsChecked Then
-                BaseQry += "  TSPL_BOOKING_DETAIL.Route_No,TSPL_ROUTE_MASTER.Route_Desc,"
+                BaseQry += "  TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,"
                 If rbtnDetail.IsChecked Then
-                    BaseQry += " Case WHEN isnull(TSPL_BOOKING_MATSER.GatePass_Type,'') = 'AM' THEN 'AM' else 'PM'   END AS Shift_Type,TSPL_BOOKING_MATSER.Document_Date,"
+                    BaseQry += " Case WHEN isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Morning' THEN 'AM' else 'PM'   END AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date,"
                 End If
-                    BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_BOOKING_DETAIL.Amount_with_Tax As Amount, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
-         TSPL_BOOKING_DETAIL.Unit_code, TSPL_BOOKING_DETAIL.Booking_Qty As CRATE FROM TSPL_BOOKING_DETAIL LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DETAIL.Item_Code LEFT OUTER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No
-         Left OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_BOOKING_DETAIL.Cust_Code left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_BOOKING_DETAIL.Route_No
-         where 2 = 2   and TSPL_BOOKING_MATSER.Posted = 1 " & whrcls & " " & whrclsShift & "  "
-                End If
+                BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount + (case when TSPL_DEMAND_BOOKING_DETAIL.TAX1 = 'TCS' then TAX1_Amt  when TSPL_DEMAND_BOOKING_DETAIL.TAX2 = 'TCS' then TAX2_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX3 = 'TCS' then TAX3_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX4 = 'TCS' then TAX4_Amt
+         when TSPL_DEMAND_BOOKING_DETAIL.TAX5 = 'TCS' then TAX5_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX6 = 'TCS' then TAX6_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX7 = 'TCS' then TAX7_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX8 = 'TCS' then TAX8_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX9 = 'TCS' then TAX9_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX10 = 'TCS' then TAX10_Amt END ) Amount, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
+         TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.Qty As CRATE FROM TSPL_DEMAND_BOOKING_DETAIL LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
+         Left OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
+         where 2 = 2   and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & " " & whrclsShift & "  "
+            End If
 
                 If rbtnSummary.IsChecked Then
                     BaseQry += "And  convert(date,Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "

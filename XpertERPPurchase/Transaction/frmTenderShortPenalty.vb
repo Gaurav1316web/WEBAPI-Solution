@@ -366,7 +366,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-            Dim WhrCls As String = " Location_Type='Physical'  "
+            Dim WhrCls As String = " Location_Type='Physical' and Rejected_Type='N' "
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
             End If

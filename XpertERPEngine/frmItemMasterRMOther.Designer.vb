@@ -192,8 +192,11 @@ Partial Class FrmItemMasterRMOther
         Me.lblSaleAcSet = New common.Controls.MyLabel()
         Me.lblPurchaseACSet = New common.Controls.MyLabel()
         Me.lblStructurer = New common.Controls.MyLabel()
+        Me.lblDeduction = New common.Controls.MyLabel()
         Me.txtUOM = New common.UserControls.txtFinder()
+        Me.txtDeductiontype = New common.UserControls.txtFinder()
         Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.myLabel47 = New common.Controls.MyLabel()
         Me.cboItemType = New common.Controls.MyComboBox()
         Me.txtCategory = New common.UserControls.txtFinder()
         Me.txtSaleAcSet = New common.UserControls.txtFinder()
@@ -448,7 +451,9 @@ Partial Class FrmItemMasterRMOther
         CType(Me.lblSaleAcSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPurchaseACSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblStructurer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.myLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -711,7 +716,9 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Controls.Add(Me.lblSaleAcSet)
         Me.RadPageViewPage1.Controls.Add(Me.lblPurchaseACSet)
         Me.RadPageViewPage1.Controls.Add(Me.lblStructurer)
+        Me.RadPageViewPage1.Controls.Add(Me.lblDeduction)
         Me.RadPageViewPage1.Controls.Add(Me.txtUOM)
+        Me.RadPageViewPage1.Controls.Add(Me.txtDeductiontype)
         Me.RadPageViewPage1.Controls.Add(Me.cboItemType)
         Me.RadPageViewPage1.Controls.Add(Me.txtCategory)
         Me.RadPageViewPage1.Controls.Add(Me.txtSaleAcSet)
@@ -720,6 +727,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel12)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
+        Me.RadPageViewPage1.Controls.Add(Me.myLabel47)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel8)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
@@ -2885,6 +2893,52 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel9.TabIndex = 80
         Me.MyLabel9.Text = "MCC Item UOM"
         '
+        '
+        'txtDeductiontype
+        '
+        Me.txtDeductiontype.CalculationExpression = Nothing
+        Me.txtDeductiontype.FieldCode = Nothing
+        Me.txtDeductiontype.FieldDesc = Nothing
+        Me.txtDeductiontype.FieldMaxLength = 0
+        Me.txtDeductiontype.FieldName = Nothing
+        Me.txtDeductiontype.isCalculatedField = False
+        Me.txtDeductiontype.IsSourceFromTable = False
+        Me.txtDeductiontype.IsSourceFromValueList = False
+        Me.txtDeductiontype.IsUnique = False
+        Me.txtDeductiontype.Location = New System.Drawing.Point(425, 415)
+        Me.txtDeductiontype.MendatroryField = True
+        Me.txtDeductiontype.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDeductiontype.MyLinkLable1 = Me.MyLabel47
+        Me.txtDeductiontype.MyLinkLable2 = Nothing
+        Me.txtDeductiontype.MyReadOnly = False
+        Me.txtDeductiontype.MyShowMasterFormButton = False
+        Me.txtDeductiontype.Name = "txtDeductiontype"
+        Me.txtDeductiontype.ReferenceFieldDesc = Nothing
+        Me.txtDeductiontype.ReferenceFieldName = Nothing
+        Me.txtDeductiontype.ReferenceTableName = Nothing
+        Me.txtDeductiontype.Size = New System.Drawing.Size(162, 20)
+        Me.txtDeductiontype.TabIndex = 199
+        Me.txtDeductiontype.Value = ""
+        '
+        'MYLABEL47
+        '
+        Me.MyLabel47.FieldName = Nothing
+        Me.myLabel47.Location = New System.Drawing.Point(301, 415)
+        Me.MyLabel47.Name = "MyLabel47"
+        Me.myLabel47.Size = New System.Drawing.Size(86, 18)
+        Me.myLabel47.TabIndex = 211
+        Me.myLabel47.Text = "Deduction Type"
+        '
+        '
+        Me.lblDeduction.AutoSize = False
+        Me.lblDeduction.BorderVisible = True
+        Me.lblDeduction.FieldName = Nothing
+        Me.lblDeduction.Location = New System.Drawing.Point(590, 415)
+        Me.lblDeduction.Name = "lblDeduction"
+        Me.lblDeduction.Size = New System.Drawing.Size(90, 18)
+        Me.lblDeduction.TabIndex = 92
+        Me.lblDeduction.Text = ""
+        '
         'cboItemType
         '
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
@@ -4617,7 +4671,9 @@ Partial Class FrmItemMasterRMOther
         CType(Me.lblSaleAcSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPurchaseACSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblStructurer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4736,6 +4792,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents chkMorning As common.Controls.MyCheckBox
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents myLabel47 As common.Controls.MyLabel
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
@@ -4756,7 +4813,9 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents lblSaleAcSet As common.Controls.MyLabel
     Friend WithEvents lblPurchaseACSet As common.Controls.MyLabel
     Friend WithEvents lblStructurer As common.Controls.MyLabel
+    Friend WithEvents lblDeduction As common.Controls.MyLabel
     Friend WithEvents txtUOM As common.UserControls.txtFinder
+    Friend WithEvents txtDeductiontype As common.UserControls.txtFinder
     Friend WithEvents btnNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents cbgDatabase As common.MyCheckBoxGrid
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem

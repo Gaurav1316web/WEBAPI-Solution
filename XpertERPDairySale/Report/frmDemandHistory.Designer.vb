@@ -22,9 +22,11 @@ Partial Class frmDemandHistory
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -45,6 +47,8 @@ Partial Class frmDemandHistory
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.cmbScreenType = New common.Controls.MyComboBox()
+        Me.lblScreenType = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -64,6 +68,8 @@ Partial Class frmDemandHistory
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbScreenType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblScreenType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,6 +133,8 @@ Partial Class frmDemandHistory
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cmbScreenType)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblScreenType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.cmbShift)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblShift)
@@ -166,10 +174,10 @@ Partial Class frmDemandHistory
         Me.cmbShift.IsSourceFromTable = False
         Me.cmbShift.IsSourceFromValueList = False
         Me.cmbShift.IsUnique = False
-        RadListDataItem1.Text = "Morning"
-        RadListDataItem2.Text = "Evening"
-        Me.cmbShift.Items.Add(RadListDataItem1)
-        Me.cmbShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Morning"
+        RadListDataItem4.Text = "Evening"
+        Me.cmbShift.Items.Add(RadListDataItem3)
+        Me.cmbShift.Items.Add(RadListDataItem4)
         Me.cmbShift.Location = New System.Drawing.Point(298, 8)
         Me.cmbShift.MendatroryField = False
         Me.cmbShift.MyLinkLable1 = Nothing
@@ -302,11 +310,13 @@ Partial Class frmDemandHistory
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(800, 320)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'btnclose
         '
@@ -348,6 +358,46 @@ Partial Class frmDemandHistory
         Me.btnreset.TabIndex = 84
         Me.btnreset.Text = "Reset"
         '
+        'cmbScreenType
+        '
+        Me.cmbScreenType.AutoCompleteDisplayMember = Nothing
+        Me.cmbScreenType.AutoCompleteValueMember = Nothing
+        Me.cmbScreenType.CalculationExpression = Nothing
+        Me.cmbScreenType.DropDownAnimationEnabled = True
+        Me.cmbScreenType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbScreenType.FieldCode = Nothing
+        Me.cmbScreenType.FieldDesc = Nothing
+        Me.cmbScreenType.FieldMaxLength = 0
+        Me.cmbScreenType.FieldName = Nothing
+        Me.cmbScreenType.isCalculatedField = False
+        Me.cmbScreenType.IsSourceFromTable = False
+        Me.cmbScreenType.IsSourceFromValueList = False
+        Me.cmbScreenType.IsUnique = False
+        RadListDataItem1.Text = "Demand"
+        RadListDataItem2.Text = "Booking"
+        Me.cmbScreenType.Items.Add(RadListDataItem1)
+        Me.cmbScreenType.Items.Add(RadListDataItem2)
+        Me.cmbScreenType.Location = New System.Drawing.Point(475, 8)
+        Me.cmbScreenType.MendatroryField = False
+        Me.cmbScreenType.MyLinkLable1 = Nothing
+        Me.cmbScreenType.MyLinkLable2 = Nothing
+        Me.cmbScreenType.Name = "cmbScreenType"
+        Me.cmbScreenType.ReferenceFieldDesc = Nothing
+        Me.cmbScreenType.ReferenceFieldName = Nothing
+        Me.cmbScreenType.ReferenceTableName = Nothing
+        Me.cmbScreenType.Size = New System.Drawing.Size(99, 20)
+        Me.cmbScreenType.TabIndex = 1520
+        '
+        'lblScreenType
+        '
+        Me.lblScreenType.FieldName = Nothing
+        Me.lblScreenType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblScreenType.Location = New System.Drawing.Point(403, 10)
+        Me.lblScreenType.Name = "lblScreenType"
+        Me.lblScreenType.Size = New System.Drawing.Size(70, 16)
+        Me.lblScreenType.TabIndex = 1521
+        Me.lblScreenType.Text = "Screen Type"
+        '
         'frmDemandHistory
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -381,6 +431,8 @@ Partial Class frmDemandHistory
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbScreenType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblScreenType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -407,4 +459,6 @@ Partial Class frmDemandHistory
     Friend WithEvents lblShift As common.Controls.MyLabel
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnGo As RadButton
+    Friend WithEvents cmbScreenType As common.Controls.MyComboBox
+    Friend WithEvents lblScreenType As common.Controls.MyLabel
 End Class

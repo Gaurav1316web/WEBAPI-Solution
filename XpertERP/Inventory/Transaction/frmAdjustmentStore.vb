@@ -1471,13 +1471,13 @@ Public Class frmAdjustmentStore
             Dim qry As String = ""
             Dim whrclas As String = ""
             qry = "select Location_Code ,Location_Desc from TSPL_LOCATION_MASTER "
-            whrclas = "(Location_Type='Physical'  and GIT_Type<>'Y' and isnull(vendor_code,'')=''"
+            whrclas = " (Location_Type='Physical'  and GIT_Type<>'Y' and isnull(vendor_code,'')=''"
             If chklocation.Checked Then
                 whrclas = "(Location_Type='Physical' and GIT_Type<>'Y' and isnull(vendor_code,'')<>''"
             End If
 
             If clsCommon.CompairString(MDI.IsLoc_Third_Party, "NO") = CompairStringResult.Equal Then
-                whrclas = "(Location_Type='Physical'  and GIT_Type<>'Y'"
+                whrclas = "Rejected_Type='N' and (Location_Type='Physical'  and GIT_Type<>'Y'"
             End If
 
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then

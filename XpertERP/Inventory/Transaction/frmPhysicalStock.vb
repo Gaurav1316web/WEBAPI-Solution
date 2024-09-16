@@ -1032,7 +1032,7 @@ Public Class FrmPhysicalStock
     Private Sub txtLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtLocation._MYValidating
         Try
             'Dim qry As String = "select Location_Code ,Location_Desc from TSPL_LOCATION_MASTER "
-            Dim whrclas As String = "Location_Type='Physical'"
+            Dim whrclas As String = " Rejected_Type='N' and Location_Type='Physical'"
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 whrclas += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
             End If

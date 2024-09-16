@@ -7120,7 +7120,7 @@ Public Class frmSRN
             If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
                 WhrCls = " Location_Type='Virtual' "
             Else
-                WhrCls = " (Location_Type='Physical' or Location_Type='WorkOrder')  "
+                WhrCls = " Rejected_Type='N' and (Location_Type='Physical' or Location_Type='WorkOrder')  "
             End If
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
@@ -7158,7 +7158,7 @@ Public Class frmSRN
         'txtShipToLocation.Value = clsCommon.ShowSelectForm("POShindrlter", qry, "Code", "", txtShipToLocation.Value, "Code", isButtonClicked)
         'lblShipToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Ship_To_Desc from TSPL_SHIP_TO_LOCATION where Ship_To_Code='" + txtShipToLocation.Value + "'"))
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical'  "
+        Dim WhrCls As String = " Location_Type='Physical'  and Rejected_Type='N'"
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If

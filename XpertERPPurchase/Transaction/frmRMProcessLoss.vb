@@ -389,7 +389,7 @@ Public Class frmRMProcessLoss
     End Sub
     Private Sub txtLoc__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLoc._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical'  "
+        Dim WhrCls As String = "Rejected_Type='N' and Location_Type='Physical'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
@@ -458,7 +458,7 @@ Public Class frmRMProcessLoss
                     left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
                     left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                    where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy") + "',103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate((txtTodate.Value), "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1
+                    where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy") + "',103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate((txtTodate.Value), "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1 AND Stock_Qty>0
                     UNION 
                     SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
                     LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code

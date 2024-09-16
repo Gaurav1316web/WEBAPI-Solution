@@ -1758,7 +1758,7 @@ Public Class frmStoreRequistion
 
 
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-            Dim WhrCls As String = " Location_Category not in( 'MCC')  "
+            Dim WhrCls As String = " Location_Category not in( 'MCC') and Rejected_Type='N' "
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
             End If

@@ -432,7 +432,7 @@ Public Class frmGeneralWeighment
 
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name,Loc_Short_Name as [Short Name] from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " 1=1 "
+        Dim WhrCls As String = " 1=1 and  Rejected_Type='N'"
         If rbtnJobWork.IsChecked Then
             WhrCls += " and TSPL_LOCATION_MASTER.Is_Jobwork=1 "
         End If

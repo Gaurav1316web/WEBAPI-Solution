@@ -98,6 +98,42 @@ Public Class Weightment_Auto_and_Manual_Report
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        Getdata(False)
+    End Sub
+
+    Sub GetReportID()
+        Dim VarID As String = ""
+        If rbtWeightment.Checked Then
+            VarID += "_W"
+        ElseIf rbtLoadSlip.Checked Then
+            VarID += "_LS"
+        End If
+        gv1.VarID = VarID
+    End Sub
+
+    Private Sub ReStoreGridLayout()
+        Try
+            If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+                Dim obj As clsGridLayout = New clsGridLayout()
+                obj = CType(obj.GetData(PageSetupReport_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
+                    Dim ii As Integer
+                    For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
+                        gv1.Columns(ii).IsVisible = False
+                        gv1.Columns(ii).VisibleInColumnChooser = True
+                    Next
+                    gv1.LoadLayout(obj.GridLayout)
+                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                End If
+            End If
+        Catch err As Exception
+            MessageBox.Show(err.Message)
+        End Try
+    End Sub
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        Getdata(True)
+    End Sub
+    Public Sub Getdata(ByVal print As Boolean)
         Try
             Dim strqry As String = ""
             GetReportID()
@@ -142,22 +178,42 @@ Public Class Weightment_Auto_and_Manual_Report
             End If
             strqry += "GROUP BY aa.Location_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
-            gv1.DataSource = Nothing
-            gv1.Rows.Clear()
-            gv1.Columns.Clear()
-            gv1.GroupDescriptors.Clear()
-            gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            gv1.MasterView.Refresh()
-
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
-                gv1.DataSource = dt
-                For ii As Integer = 0 To gv1.Columns.Count - 1
-                    gv1.Columns(ii).ReadOnly = True
-                Next
+                If print = False Then
+                    gv1.DataSource = Nothing
+                    gv1.Rows.Clear()
+                    gv1.Columns.Clear()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.MasterView.Refresh()
 
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gv1.BestFitColumns()
-                gv1.EnableFiltering = True
+                    gv1.DataSource = dt
+                    For ii As Integer = 0 To gv1.Columns.Count - 1
+                        gv1.Columns(ii).ReadOnly = True
+                    Next
+
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.BestFitColumns()
+                    gv1.EnableFiltering = True
+                Else
+                    If rbtWeightment.Checked = True Then
+                        If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                            Dim frmCRV As New frmCrystalReportViewer()
+                            frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport2", "")
+                            frmCRV = Nothing
+                        Else
+                            clsCommon.MyMessageBoxShow("No Data Found")
+                        End If
+                    ElseIf rbtLoadSlip.Checked = True Then
+                        If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                            Dim frmCRV As New frmCrystalReportViewer()
+                            frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport", "")
+                            frmCRV = Nothing
+                        Else
+                            clsCommon.MyMessageBoxShow("No Data Found")
+                        End If
+                    End If
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -168,111 +224,4 @@ Public Class Weightment_Auto_and_Manual_Report
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Sub GetReportID()
-        Dim VarID As String = ""
-        If rbtWeightment.Checked Then
-            VarID += "_W"
-        ElseIf rbtLoadSlip.Checked Then
-            VarID += "_LS"
-        End If
-        gv1.VarID = VarID
-    End Sub
-
-    Private Sub ReStoreGridLayout()
-        Try
-            If clsCommon.myLen(PageSetupReport_ID) > 0 Then
-                Dim obj As clsGridLayout = New clsGridLayout()
-                obj = CType(obj.GetData(PageSetupReport_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
-                If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
-                    Dim ii As Integer
-                    For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
-                        gv1.Columns(ii).IsVisible = False
-                        gv1.Columns(ii).VisibleInColumnChooser = True
-                    Next
-                    gv1.LoadLayout(obj.GridLayout)
-                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
-                End If
-            End If
-        Catch err As Exception
-            MessageBox.Show(err.Message)
-        End Try
-    End Sub
-    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
-        Dim qry As String = " "
-        Dim str As String = ""
-        Try
-            If rbtWeightment.Checked = True Then
-                qry = " SELECT '" + str + "' as ReportName,'" + txtFromDate.Value + "' as Date1 ,'" + txtToDate.Value + "' as Date2,
-            aa.Location_Code as Location,
-            ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
-            ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
-            ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
-            ISNULL(SUM(aa.Total_wt), 0) AS Total,
-            CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Auto%],
-            CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Manual%],
-            CAST(ROUND(((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Pending%],
-            aa.Location_Desc
-            FROM (SELECT r.Location_Code,l.Location_Desc,CASE 
-            WHEN (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 1) THEN COUNT(*) END AS Auto_wt,CASE 
-            WHEN (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 0) 
-            OR (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 1) 
-            OR (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 0) 
-            THEN COUNT(*)END AS Manual_wt,COUNT(*) AS Total_wt FROM TSPL_PO_WEIGHTMENT_HEAD r
-            LEFT JOIN TSPL_LOCATION_MASTER l ON l.Location_Code = r.Location_Code
-            where convert(date,r.Weighment_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,r.Weighment_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-            GROUP BY 
-            r.Location_Code, l.Location_Desc, r.Is_Auto_Gross_Weight, r.Is_Auto_Tare_Weight ) aa  "
-            ElseIf rbtLoadSlip.Checked = True Then
-                qry = " SELECT '" + str + "' as ReportName,'" + txtFromDate.Value + "' as Date1 ,'" + txtToDate.Value + "' as Date2,
-            aa.Location_Code as Location,
-            ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
-            ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
-            ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
-            ISNULL(SUM(aa.Total_wt), 0) AS Total,
-            CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Auto%],
-            CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Manual%],
-            CAST(ROUND(((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Pending%],
-            aa.Location_Desc
-            FROM (SELECT r.Location_Code,l.Location_Desc,CASE 
-            WHEN (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 1) THEN COUNT(*) END AS Auto_wt,CASE 
-            WHEN (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 0) 
-            OR (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 1) 
-            OR (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 0) 
-            THEN COUNT(*)END AS Manual_wt,COUNT(*) AS Total_wt FROM TSPL_RCDF_LOAD_IN r
-            LEFT JOIN TSPL_LOCATION_MASTER l ON l.Location_Code = r.Location_Code
-            where convert(date,r.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,r.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
-            GROUP BY 
-            r.Location_Code, l.Location_Desc, r.Is_Auto_Gross_Weight, r.Is_Auto_Tare_Weight ) aa  "
-            End If
-
-            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                qry += " where aa.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
-            End If
-            qry += " GROUP BY aa.Location_Code, aa.Location_Desc ORDER BY aa.Location_Code "
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If rbtWeightment.Checked = True Then
-                If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport2", "")
-                    frmCRV = Nothing
-                Else
-                    clsCommon.MyMessageBoxShow("No Data Found")
-                End If
-            ElseIf rbtLoadSlip.Checked = True Then
-                If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport", "")
-                    frmCRV = Nothing
-                Else
-                    clsCommon.MyMessageBoxShow("No Data Found")
-                End If
-            End If
-
-
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
 End Class

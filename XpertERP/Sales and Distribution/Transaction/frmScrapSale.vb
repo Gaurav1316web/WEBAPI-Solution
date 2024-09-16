@@ -3546,7 +3546,7 @@ Public Class frmScrapSale
     End Sub
     Private Sub fndShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndShipToLocation._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = "Location_Type='Physical'"
+        Dim WhrCls As String = "Location_Type='Physical' and Rejected_Type='N'"
 
         fndShipToLocation.Value = clsCommon.ShowSelectForm("VendrMastrFND", qry, "Code", WhrCls, fndShipToLocation.Value, "Code", isButtonClicked)
 
@@ -3838,7 +3838,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndLocation._MYValidating
 
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical'  "
+        Dim WhrCls As String = " Location_Type='Physical' AND  Rejected_Type='N'"
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If

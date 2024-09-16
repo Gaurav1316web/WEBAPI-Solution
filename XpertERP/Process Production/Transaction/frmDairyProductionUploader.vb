@@ -25,15 +25,6 @@ Public Class frmDairyProductionUploader
 #End Region
 
     Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
-        coll.Add("Against_PKID", "integer not null references TSPL_PRODUCTION_UPLOADER_DETAIL(PK_ID)")
-        coll.Add("QC_Code", "Varchar(30) not null")
-        coll.Add("Value", "Decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_QC", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
-
         LOCATIONRIGTHS()
         AddNew()
         btnReverse.Visible = False

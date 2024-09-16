@@ -132,10 +132,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="XpertCommon">
-      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+      <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine, Version=7.1.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="XpertERPEngine">
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine">
@@ -724,6 +723,12 @@
     <Compile Include="RCDFProduction\Transaction\frmRCDFStandardization.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ShiftMgmt\frmProductionShiftMgmt.Designer.vb">
+      <DependentUpon>frmProductionShiftMgmt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ShiftMgmt\frmProductionShiftMgmt.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProcessProduction\Master\frmBreakDownMaster.resx">
@@ -1053,6 +1058,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RCDFProduction\Transaction\frmRCDFStandardization.resx">
       <DependentUpon>frmRCDFStandardization.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShiftMgmt\frmProductionShiftMgmt.resx">
+      <DependentUpon>frmProductionShiftMgmt.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
