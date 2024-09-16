@@ -6,7 +6,7 @@ Imports System.IO
 Public Class Weightment_Auto_and_Manual_Report
 
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where Location_Type='Physical' "
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where Location_Type='Physical' and  TSPL_LOCATION_MASTER.Rejected_Type='N'"
         'qry += " where 2=2 and Seg_No = '7' AND GIT='N' "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             qry += " and  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
@@ -140,7 +140,9 @@ Public Class Weightment_Auto_and_Manual_Report
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 strqry += " where aa.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
             End If
-            strqry += "GROUP BY aa.Location_Code "
+            strqry += "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=aa.Location_Code
+			 where TSPL_LOCATION_MASTER.Rejected_Type='N'
+             GROUP BY aa.Location_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
@@ -249,7 +251,9 @@ Public Class Weightment_Auto_and_Manual_Report
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 qry += " where aa.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
             End If
-            qry += " GROUP BY aa.Location_Code, aa.Location_Desc ORDER BY aa.Location_Code "
+            qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=aa.Location_Code
+			 where TSPL_LOCATION_MASTER.Rejected_Type='N'
+             GROUP BY aa.Location_Code, aa.Location_Desc ORDER BY aa.Location_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If rbtWeightment.Checked = True Then
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
