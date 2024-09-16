@@ -383,6 +383,12 @@
     <Compile Include="frmSerializeItemOutCheckBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmStockBalance.Designer.vb">
+      <DependentUpon>frmStockBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmStockBalance.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmStockDetail.Designer.vb">
       <DependentUpon>frmStockDetail.vb</DependentUpon>
     </Compile>
@@ -535,6 +541,7 @@
     <Compile Include="Production\clsProductionEntryFinalQC.vb" />
     <Compile Include="Production\clsProductionMRP.vb" />
     <Compile Include="Production\clsProductionRequistionHead.vb" />
+    <Compile Include="Production\clsProductionShiftMgmt.vb" />
     <Compile Include="Production\ClsSiloMilkTransfer.vb" />
     <Compile Include="Production\clsStanderdProductionEntry.vb" />
     <Compile Include="Purchase\clsGateOutt.vb" />
@@ -1438,6 +1445,9 @@
     <EmbeddedResource Include="frmSerializeItemOutCheckBox.resx">
       <DependentUpon>frmSerializeItemOutCheckBox.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStockBalance.resx">
+      <DependentUpon>frmStockBalance.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStockDetail.resx">
       <DependentUpon>frmStockDetail.vb</DependentUpon>

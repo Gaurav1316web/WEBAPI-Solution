@@ -346,7 +346,7 @@ Public Class clsDocType
     Public Const frmSaleReturnProductSale As String = "Sale Return ProductSale"
 
     Public Const DairyProductionUploader As String = "Dairy Production Uploader"
-
+    Public Const ShiftMgmt As String = "Shift Management"
     Public Const BarCode As String = "Bar Code"
     Public Const ShipToMaster As String = "Ship To Master"
     Public Const BOM As String = "BOM"
@@ -1378,6 +1378,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.BOM, clsDocTransactionType.BOMOSPTYPE, False, False)
             InsertDefaultValue(clsDocType.BOM, clsDocTransactionType.NA, False, False)
             InsertDefaultValue(clsDocType.DairyProductionUploader, "", False, True)
+            InsertDefaultValue(clsDocType.ShiftMgmt, "", False, True)
             InsertDefaultValue(clsDocType.VendorQuotation, "", False, False)
             InsertDefaultValue(clsDocType.SetPOSchedule, "", False, False)
             InsertDefaultValue(clsDocType.RFQ, "", False, False)
