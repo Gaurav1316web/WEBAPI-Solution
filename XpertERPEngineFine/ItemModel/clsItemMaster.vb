@@ -913,6 +913,21 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             Throw New Exception(ex.Message)
         End Try
     End Function
+
+    Public Shared Function Convert(itemCode As String, Qty As Decimal, FromUOM As String, ToUOM As String) As Decimal
+        Dim retVal As Decimal = 0
+        If clsCommon.CompairString(FromUOM, ToUOM) = CompairStringResult.Equal Then
+            retVal = Qty
+        Else
+            Dim qry As String = "select  (" + clsCommon.myCstr(Qty) + " * TabConvFatMul.Conversion_Factor/ TabConvFatDiv.Conversion_Factor) as Prod_Qty
+from    TSPL_ITEM_UOM_DETAIL  as TabConvFatMul
+left join TSPL_ITEM_UOM_DETAIL as  TabConvFatDiv on TabConvFatDiv.Item_Code='" + itemCode + "' and TabConvFatDiv.UOM_Code='" + ToUOM + "'
+where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" + FromUOM + "'"
+            retVal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+        End If
+        Return retVal
+    End Function
+
     Public Shared Function GetFatherCode(ByVal strICode As String, ByVal trans As SqlTransaction) As String
         Dim qry As String = "select Father_Code from TSPL_ITEM_MASTER where Item_Code='" + strICode + "' and Father_Code not in ('NIL')"
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
