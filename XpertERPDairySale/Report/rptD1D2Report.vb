@@ -35,16 +35,16 @@ Public Class rptD1D2Report
         Try
             Dim whrcls As String = ""
             Dim dtDate As New DataTable()
-            whrcls = " where 2 = 2  and Is_FreshItem = 1 and TSPL_BOOKING_MATSER.Posted = 1 and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)  and convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)  "
+            whrcls = " where 2 = 2  and Is_FreshItem = 1 and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)  and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)  "
             If clsCommon.myLen(txtRouteNo.Value) > 0 Then
-                whrcls += " And TSPL_BOOKING_DETAIL.route_no = '" & txtRouteNo.Value & "'"
+                whrcls += " And TSPL_DEMAND_BOOKING_MASTER.route_no = '" & txtRouteNo.Value & "'"
             End If
             If rbtnDemand.IsChecked Then
-                dtDate = clsDBFuncationality.GetDataTable("select Date from ( SELECT convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date   FROM TSPL_BOOKING_DETAIL left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code " & whrcls & " ) xx  group by date order by date")
+                dtDate = clsDBFuncationality.GetDataTable("select Date from ( SELECT convert(varchar,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)as Date   FROM TSPL_DEMAND_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code " & whrcls & " ) xx  group by date order by date")
             ElseIf rbtnDispatch.IsChecked Then
-                dtDate = clsDBFuncationality.GetDataTable(" select Date from ( SELECT convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date,TSPL_BOOKING_DETAIL.Cust_Code   FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
-			left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
-			left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code " & whrcls & " ) xx  group by date order by date")
+                dtDate = clsDBFuncationality.GetDataTable(" select Date from ( SELECT convert(varchar,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)as Date,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code   FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+			left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+			left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code " & whrcls & " ) xx  group by date order by date")
             End If
 
             Dim DateName As String = Nothing
@@ -66,17 +66,17 @@ Public Class rptD1D2Report
 
             Dim qry As String = ""
             If rbtnDemand.IsChecked Then
-                qry = " select Cust_Code,Customer_Name, " & DateName & " 0 as Total from ( SELECT TSPL_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name, convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date,TSPL_BOOKING_MATSER.Document_Date, isnull(TSPL_BOOKING_DETAIL.Booking_Qty,0) AS Qty
-            ,cast(( isnull ( TSPL_BOOKING_DETAIL.Booking_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)/I.[LTR]) as int) as LTR_QTY  FROM TSPL_BOOKING_DETAIL left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No 
-            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BOOKING_DETAIL.Unit_Code 
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_BOOKING_DETAIL.Item_Code = I.item_code
+                qry = " select Cust_Code,Customer_Name, " & DateName & " 0 as Total from ( SELECT TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name, convert(varchar,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)as Date,TSPL_DEMAND_BOOKING_MASTER.Document_Date, isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) AS Qty
+            ,cast(( isnull ( TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)/I.[LTR]) as int) as LTR_QTY  FROM TSPL_DEMAND_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code 
+            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code
              " & whrcls & " ) xx PIVOT (SUM(LTR_QTY)  FOR Date IN (" & DatesName & " ) )as pivot_date group by Cust_Code,Customer_Name order by Cust_Code"
 
             ElseIf rbtnDispatch.IsChecked Then
-                qry = " select Cust_Code,Customer_Name, " & DateName & " 0 as Total from ( SELECT TSPL_BOOKING_DETAIL.Cust_Code,TSPL_BOOKING_MATSER.Document_No,TSPL_CUSTOMER_MASTER.Customer_Name, convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103)as Date,TSPL_BOOKING_MATSER.Document_Date, isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,0) AS Qty
-            ,cast(( isnull ( TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)/I.[LTR]) as int) as LTR_QTY  FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code 
-            left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BOOKING_DETAIL.Unit_Code 
-            left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code  left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_BOOKING_DETAIL.Item_Code = I.item_code
+                qry = " select Cust_Code,Customer_Name, " & DateName & " 0 as Total from ( SELECT TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_CUSTOMER_MASTER.Customer_Name, convert(varchar,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)as Date,TSPL_DEMAND_BOOKING_MASTER.Document_Date, isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,0) AS Qty
+            ,cast(( isnull ( TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)/I.[LTR]) as int) as LTR_QTY  FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code 
+            left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code 
+            left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code
               " & whrcls & ")  xx PIVOT (SUM(LTR_QTY)  FOR Date IN (" & DatesName & " ) )as pivot_date group by Cust_Code,Customer_Name order by Cust_Code"
             End If
 
