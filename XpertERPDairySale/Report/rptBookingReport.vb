@@ -69,12 +69,14 @@ Public Class rptBookingReport
             Dim strDateForPivot As String = ""
             Dim strDateWithIsNull As String = ""
             Dim strDateForTotal As String = ""
-            Dim whr As String = " and 2= 2 and Is_Cancelled = 0 "
+            'Dim whr As String = " and 2= 2 and Is_Cancelled = 0 "
+            Dim whr As String = " and 2= 2 "
+
             Dim dateFormatewise As String = ""
             If rdbStatusPosted.Checked = True Then
-                whr += " and  TSPL_BOOKING_MATSER.Posted  = 1 "
+                whr += " and  TSPL_DEMAND_BOOKING_MASTER.Posted  = 1 "
             ElseIf rdbStatusUnposted.Checked = True Then
-                whr += " and  TSPL_BOOKING_MATSER.Posted  = 0 "
+                whr += " and  TSPL_DEMAND_BOOKING_MASTER.Posted  = 0 "
             Else
             End If
 
@@ -86,8 +88,8 @@ Public Class rptBookingReport
                 End If
                 strDateWithIsNull = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ',isnull (['+thedate+'],0) as ['+thedate+'] '  from (select  convert (varchar,thedate,103) as thedate from ExplodeDates ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "')    ) XXX order by convert (date, thedate,103) asc   For XML Path('')),1,1,'') "))
                 strDateForTotal = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select '+ isnull (['+thedate+'],0)  ' from (select  convert (varchar,thedate,103) as thedate from ExplodeDates ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "')    ) XXX order by convert (date, thedate,103) asc   For XML Path('')),1,1,'') "))
-                whr += " and convert (date, TSPL_BOOKING_MATSER.Document_Date,103) > =convert (date, '" + fromDate.Value + "',103)  and  convert (date,TSPL_BOOKING_MATSER.Document_Date,103)  < = convert (date, '" + ToDate.Value + "',103)   "
-                dateFormatewise = "  convert (varchar,TSPL_BOOKING_MATSER.Document_Date,103)  "
+                whr += " and convert (date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) > =convert (date, '" + fromDate.Value + "',103)  and  convert (date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)  < = convert (date, '" + ToDate.Value + "',103)   "
+                dateFormatewise = "  convert (varchar,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)  "
             ElseIf rdbMonth.Checked = True Then
 
                 strDateForPivot = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select STUFF((Select ',['+thedate+']'  from (select  distinct  convert (varchar,DATENAME(month,(thedate)))+ '-'+ convert (varchar, year((thedate))) as thedate, month((thedate)) as MonthNo, year((thedate)) as YearNo from ExplodeDates ('" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "' )    ) XXX order by YearNo, MonthNo asc   For XML Path('')),1,1,'') "))
@@ -102,8 +104,8 @@ Public Class rptBookingReport
                 strDateForTotal = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select STUFF((Select '+ isnull (['+thedate+'],0)  '  from (select  distinct  convert (varchar,DATENAME(month,(thedate)))+ '-'+ convert (varchar, year((thedate))) as thedate, month((thedate)) as MonthNo, year((thedate)) as YearNo from ExplodeDates ('" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "' )    ) XXX order by YearNo, MonthNo asc   For XML Path('')),1,1,'') "))
 
                 Dim EndDayOfToDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select day( EOMONTH('" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy")) + "'))"))
-                whr += " and convert (date, TSPL_BOOKING_MATSER.Document_Date,103) > =convert (date, '01-" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "MMM")) + "-" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "yyyy")) + "',103)  and  convert (date,TSPL_BOOKING_MATSER.Document_Date,103)  < = convert (date, '" + EndDayOfToDate + "-" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "MMM")) + "-" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "yyyy")) + "',103)   "
-                dateFormatewise = " convert (varchar, DATENAME( month ,TSPL_BOOKING_MATSER.Document_Date)) + '-'+ convert (varchar, Year (TSPL_BOOKING_MATSER.Document_Date))  "
+                whr += " and convert (date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) > =convert (date, '01-" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "MMM")) + "-" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "yyyy")) + "',103)  and  convert (date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)  < = convert (date, '" + EndDayOfToDate + "-" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "MMM")) + "-" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "yyyy")) + "',103)   "
+                dateFormatewise = " convert (varchar, DATENAME( month ,TSPL_DEMAND_BOOKING_MASTER.Document_Date)) + '-'+ convert (varchar, Year (TSPL_DEMAND_BOOKING_MASTER.Document_Date))  "
 
             ElseIf rdbYear.Checked = True Then
 
@@ -116,21 +118,21 @@ Public Class rptBookingReport
                 strDateWithIsNull = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select STUFF((Select ',isnull (['+thedate+'],0) as ['+thedate+'] '  from (select  distinct   convert (varchar, year((thedate))) as thedate, year((thedate)) as YearNo from ExplodeDates ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "' )    ) XXX order by YearNo asc   For XML Path('')),1,1,'') "))
 
                 strDateForTotal = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" Select STUFF((Select '+ isnull (['+thedate+'],0)  '  from (select  distinct   convert (varchar, year((thedate))) as thedate, year((thedate)) as YearNo from ExplodeDates ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "' )    ) XXX order by YearNo asc   For XML Path('')),1,1,'') "))
-                whr += " and convert (date, TSPL_BOOKING_MATSER.Document_Date,103) > =convert (date, '01-Jan-" + fromDate.Text + "',103)  and  convert (date,TSPL_BOOKING_MATSER.Document_Date,103)  < = convert (date, '31-Dec-" + ToDate.Text + "',103)   "
-                dateFormatewise = "  convert (varchar, Year (TSPL_BOOKING_MATSER.Document_Date))  "
+                whr += " and convert (date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) > =convert (date, '01-Jan-" + fromDate.Text + "',103)  and  convert (date,TSPL_BOOKING_MATSER.Document_Date,103)  < = convert (date, '31-Dec-" + ToDate.Text + "',103)   "
+                dateFormatewise = "  convert (varchar, Year (TSPL_DEMAND_BOOKING_MASTER.Document_Date))  "
 
             End If
 
 
 
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
-                whr += " and TSPL_BOOKING_DETAIL.Cust_Code  in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                whr += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
             End If
             If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
-                whr += " and TSPL_CUSTOMER_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ") "
+                whr += " and TSPL_DEMAND_BOOKING_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ") "
             End If
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                whr += " and TSPL_BOOKING_DETAIL.route_no in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
+                whr += " and TSPL_DEMAND_BOOKING_DETAIL.route_no in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
             End If
 
 
@@ -138,13 +140,13 @@ Public Class rptBookingReport
 
             qry = "  select Customer_Code as [Customer Code] , Customer_Name as [Customer Name], Zone_Code as [Zone Code],Zone_Name as [Zone Name] , route_no as [Route Code], Route_Desc as [Route Name] , Uom, " + strDateForTotal + "  as [Grand Total] ,  " + strDateWithIsNull + " from (
                      select final .Document_Date, final.Customer_Code, max(final.Customer_Name) as Customer_Name , max( final.Zone_Code )  as Zone_Code , max(final.Zone_Name) as  Zone_Name, final.route_no ,max( final.Route_Desc) as  Route_Desc,max(final.Phone1)  as  [Mobile No] ,'" + clsCommon.myCstr(txtUOM.Value) + "' as Uom ,  sum(Final_Qty) as Qty  from (
-                     select   TSPL_BOOKING_MATSER.Document_No as Document_Code,   " + dateFormatewise + " as Document_Date, TSPL_BOOKING_DETAIL.Cust_Code as Customer_Code ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Zone_Code , TSPL_ZONE_MASTER.Description as Zone_Name ,TSPL_CUSTOMER_MASTER.Phone1, TSPL_BOOKING_DETAIL.route_no ,TSPL_ROUTE_MASTER.Route_Desc  , TSPL_BOOKING_DETAIL.Item_Code, TSPL_BOOKING_DETAIL.Unit_code, convert (decimal(18,2) , (TSPL_BOOKING_DETAIL.Booking_Qty * Stocking_Conversion_Factor.Conversion_Factor ) / nullif (Target_Conversion_Factor.Conversion_Factor,0) ) as Final_Qty from TSPL_BOOKING_DETAIL 
-                     left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No  = TSPL_BOOKING_DETAIL.Document_No
-                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_BOOKING_DETAIL.Cust_Code
+                     select   TSPL_DEMAND_BOOKING_MASTER.Document_No as Document_Code,   " + dateFormatewise + " as Document_Date, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code as Customer_Code ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Zone_Code , TSPL_ZONE_MASTER.Description as Zone_Name ,TSPL_CUSTOMER_MASTER.Phone1, TSPL_DEMAND_BOOKING_MASTER.route_no ,TSPL_ROUTE_MASTER.Route_Desc  , TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, convert (decimal(18,2) , (TSPL_DEMAND_BOOKING_DETAIL.Qty * Stocking_Conversion_Factor.Conversion_Factor ) / nullif (Target_Conversion_Factor.Conversion_Factor,0) ) as Final_Qty from TSPL_DEMAND_BOOKING_DETAIL 
+                     left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No  = TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                      left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_CUSTOMER_MASTER.Zone_Code 
-				     left outer join TSPL_ROUTE_MASTER  on TSPL_ROUTE_MASTER.Route_No = TSPL_BOOKING_DETAIL.route_no
-                     left outer join (Select TSPL_ITEM_UOM_DETAIL.ITem_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where TSPL_ITEM_UOM_DETAIL.UOM_Code = '" + txtUOM.Value + "' ) as Target_Conversion_Factor on Target_Conversion_Factor.Item_Code = TSPL_BOOKING_DETAIL.Item_Code
-                     left outer join TSPL_ITEM_UOM_DETAIL as Stocking_Conversion_Factor on TSPL_BOOKING_DETAIL.item_Code = Stocking_Conversion_Factor.Item_Code and TSPL_BOOKING_DETAIL.Unit_code = Stocking_Conversion_Factor.UOM_Code
+				     left outer join TSPL_ROUTE_MASTER  on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no
+                     left outer join (Select TSPL_ITEM_UOM_DETAIL.ITem_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where TSPL_ITEM_UOM_DETAIL.UOM_Code = '" + txtUOM.Value + "' ) as Target_Conversion_Factor on Target_Conversion_Factor.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                     left outer join TSPL_ITEM_UOM_DETAIL as Stocking_Conversion_Factor on TSPL_DEMAND_BOOKING_DETAIL.item_Code = Stocking_Conversion_Factor.Item_Code and TSPL_DEMAND_BOOKING_DETAIL.Unit_code = Stocking_Conversion_Factor.UOM_Code
                      Where 2=2  " + whr + " 
                      ) final group by final .Document_Date, final.Customer_Code , final.route_no
                      ) XFinal

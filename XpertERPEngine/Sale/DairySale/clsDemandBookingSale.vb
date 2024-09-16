@@ -1339,8 +1339,15 @@ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=xfinal.Cu
                 qry += ",sum((case when Credit_Customer='Y' then QTYLtr else Crate end) * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [" + clsCommon.myCstr(drItem("Short_Description")) + "] "
             Next
             qry += ",sum(case when Credit_Customer='Y' then QTYLtr else Crate end) as [TotalCrate]
-,sum(ItemNetAmount) as ItemNetAmount
-,sum(AmountBE) as AmountBE
+,sum(ItemNetAmount) as ItemNetAmount"
+
+            If strShift = "Evening" Then
+                qry += " ,0 as AmountBE"
+            Else
+                qry += " ,sum(AmountBE) as AmountBE"
+            End If
+
+            qry += "
 ,sum(TotalTCSAmt) as TotalTCSAmt
 ,sum(TotalCollectCrate) as TotalCollectCrate
 from (
@@ -1448,7 +1455,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
             obj.arrGroup.Add(clsDosPrintGroup.GetObject("Credit_Customer", "Details of", ""))
             obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
             obj.arrColumn = New List(Of clsDosPrintColumn)()
-            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Cust_Code", "Booth", False, DosPrintAlignment.Left, 7, False, DecimalPlaces.NA))
+            obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Cust_Code", "Booth", False, DosPrintAlignment.Left, 8, False, DecimalPlaces.NA))
             For Each drItem As DataRow In dtItem.Rows
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn(clsCommon.myCstr(drItem("Short_Description")), clsCommon.myCstr(drItem("Short_Description")), False, DosPrintAlignment.Right, 10, True, DecimalPlaces.One))
             Next
