@@ -376,6 +376,8 @@ Public Class FrmItemMasterRMOther
         ChkAllowQC.Checked = False
         txtStructurer.Value = ""
         lblStructurer.Text = ""
+        txtDeductiontype.Value = ""
+        lblDeduction.Text = ""
         txtPurchaseACSet.Value = ""
         lblPurchaseACSet.Text = ""
         txtSaleAcSet.Value = ""
@@ -1347,6 +1349,12 @@ Public Class FrmItemMasterRMOther
         txtStructurer.Value = clsCommon.ShowSelectForm("IMStruCode", qry, "Code", "", txtStructurer.Value, "", isButtonClicked)
         lblStructurer.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Structure_Descq from TSPL_STRUCTURE_MASTER where Structure_Code='" + txtStructurer.Value + "'"))
     End Sub
+
+    Private Sub txtDeductionType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDeductiontype._MYValidating
+        Dim Qry As String = "SELECT Document_No,Description	 FROM TSPL_DEDUCTION_TYPE_MASTER "
+        txtDeductiontype.Value = clsCommon.ShowSelectForm("txtDeductionType", Qry, "Document_No", "", txtDeductiontype.Value, "Document_No", isButtonClicked)
+        lblDeduction.Text = clsDBFuncationality.getSingleValue("Select isnull(Description_Hindi,'') as Description_Hindi  from TSPL_DEDUCTION_TYPE_MASTER Where Document_No='" + txtDeductiontype.Value + "' ")
+    End Sub
     Private Sub txtPurchaseACSet__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPurchaseACSet._MYValidating
         Dim qry As String = "select Purchase_Class_Code as [Code], Purchase_Class_Desc as [Description] from dbo.TSPL_PURCHASE_ACCOUNTS"
         txtPurchaseACSet.Value = clsCommon.ShowSelectForm("IMPurchaseACSet", qry, "Code", "", txtPurchaseACSet.Value, "", isButtonClicked)
@@ -1429,6 +1437,8 @@ Public Class FrmItemMasterRMOther
                 obj.std_pur_rate = clsCommon.myCdbl(txtstnd_pur_rate.Text)
                 obj.Structure_Code = txtStructurer.Value
                 obj.Structure_Desc = txtStructurer.Value
+                obj.Deduction_Type = txtDeductiontype.Value
+                obj.Deduction_Type_Hindi = lblDeduction.Text
                 obj.Purchase_Class_Code = txtPurchaseACSet.Value
                 obj.Cost = txtCost.Value
                 obj.Tolerance = txt_tolerance.Value
@@ -2606,6 +2616,8 @@ Public Class FrmItemMasterRMOther
                 lblUOM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select unit_desc from tspl_unit_master where unit_code ='" + txtUOM.Value + "'"))
                 txtStructurer.Value = obj.Structure_Code
                 lblStructurer.Text = obj.Structure_Desc
+                txtDeductiontype.Value = obj.Deduction_Type
+                lblDeduction.Text = obj.Deduction_Type_Hindi
                 txtPurchaseACSet.Value = obj.Purchase_Class_Code
                 lblPurchaseACSet.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Purchase_Class_Desc  from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code ='" + txtPurchaseACSet.Value + "'"))
                 txtSaleAcSet.Value = obj.Sale_Class_Code

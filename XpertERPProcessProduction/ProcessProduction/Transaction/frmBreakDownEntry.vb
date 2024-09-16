@@ -311,7 +311,7 @@ Public Class frmBreakDownEntry
 
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         Dim qry As String = " select Location_Code as [Code],Location_Desc as [Description],Loc_Short_Name as [Short Name] from TSPL_Location_MASTER"
-        Dim WhrCls As String = " TSPL_LOCATION_MASTER.IsMainPlant='0' "
+        Dim WhrCls As String = " TSPL_LOCATION_MASTER.IsMainPlant='0' and Rejected_Type='N' "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If

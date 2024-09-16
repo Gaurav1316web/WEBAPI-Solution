@@ -1664,7 +1664,7 @@ select Asset_Code,-1* Dep_Amount as Dep_Amount,-1*Dep_Amount_Tax as Dep_Amount_T
     End Sub
 
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
-        Dim qry As String = "select Location_Code,Location_Desc from TSPL_LOCATION_MASTER where Location_Type='Physical'"
+        Dim qry As String = "select Location_Code,Location_Desc from TSPL_LOCATION_MASTER where Location_Type='Physical' and Rejected_Type='N'"
         txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("Loc@ca", qry, "Location_Code", "Location_Desc", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
 
     End Sub
