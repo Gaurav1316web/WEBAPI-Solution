@@ -190,7 +190,7 @@ Public Class frmMPIncetiveEntryReport
 
             Dim BaseQry As String = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,
 TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end  as Comp_address,
-TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103) +' - '+ convert(varchar,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,tspl_MCC_Master.MCC_Name,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_VENDOR_MASTER.SupervisorOrRP,RPMaster.Emp_Name as SupervisorOrRPName,TSPL_MP_MASTER.Jan_Aadhar_No,TSPL_MP_MASTER.JA_acc,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_MASTER.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,case when isnull (TSPL_MP_MASTER.Jan_Aadhar_No_Verified,'')>0 then 'Y' else 'N' end as [Jan Aadhar Verified],TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No,TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount as Payable_Amount,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_Entry_Source,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_By,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_Date,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_Entry_Source,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_By,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_Date,case when TABReco.Document_Code is null then 'Pending' else TABReco.Reco_Status end as Reco_Status,TABReco.Document_Code as Reco_Document_Code 
+TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103) +' - '+ convert(varchar,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,tspl_MCC_Master.MCC_Name,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_VENDOR_MASTER.SupervisorOrRP,RPMaster.Emp_Name as SupervisorOrRPName,TSPL_MP_MASTER.Jan_Aadhar_No,TSPL_MP_MASTER.JA_acc,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_MASTER.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,case when isnull (TSPL_MP_MASTER.Jan_Aadhar_No_Verified,'')>0 then 'Y' else 'N' end as [Jan Aadhar Verified],TSPL_MP_MASTER.JA_aadhar, TSPL_MP_MASTER.JA_age, TSPL_MP_MASTER.JA_bankBranch, TSPL_MP_MASTER.JA_bankName, TSPL_MP_MASTER.JA_ifsc, TSPL_MP_MASTER.JA_caste, TSPL_MP_MASTER.JA_categoryDescEng, TSPL_MP_MASTER.JA_disability, TSPL_MP_MASTER.JA_disabilityPercentage, TSPL_MP_MASTER.JA_disabilityType, TSPL_MP_MASTER.JA_dlNo, TSPL_MP_MASTER.JA_dob, TSPL_MP_MASTER.JA_eid, TSPL_MP_MASTER.JA_email, TSPL_MP_MASTER.JA_enrId, TSPL_MP_MASTER.JA_fnameEng, TSPL_MP_MASTER.JA_fnameHnd, TSPL_MP_MASTER.JA_gender, TSPL_MP_MASTER.JA_income, TSPL_MP_MASTER.JA_isorphan, TSPL_MP_MASTER.JA_isStateGovtEmp, TSPL_MP_MASTER.JA_jan_mid, TSPL_MP_MASTER.JA_janaadhaarId, TSPL_MP_MASTER.JA_maritalStatus, TSPL_MP_MASTER.JA_micr, TSPL_MP_MASTER.JA_mnameEng, TSPL_MP_MASTER.JA_mnameHnd, TSPL_MP_MASTER.JA_mobile, TSPL_MP_MASTER.JA_nameEng, TSPL_MP_MASTER.JA_nameHnd, TSPL_MP_MASTER.JA_occupation, TSPL_MP_MASTER.JA_relationTyp, TSPL_MP_MASTER.JA_panNo, TSPL_MP_MASTER.JA_passport, TSPL_MP_MASTER.JA_qualification, TSPL_MP_MASTER.JA_rghs_no, TSPL_MP_MASTER.JA_snameEng, TSPL_MP_MASTER.JA_snameHnd, TSPL_MP_MASTER.JA_voterId,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No,TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount as Payable_Amount,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_Entry_Source,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_By,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_Date,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_Entry_Source,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_By,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_Date,case when TABReco.Document_Code is null then 'Pending' else TABReco.Reco_Status end as Reco_Status,TABReco.Document_Code as Reco_Document_Code 
 ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mineral_Mixture_Qty ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mineral_Mixture_Amount,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code as DocumentCode
 ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Pashu_Aahar_Qty ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Pashu_Aahar_Amount
 ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Rahat_Kampekat_Feed_Qty ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Rahat_Kampekat_Feed_Amount
@@ -243,7 +243,8 @@ where 2=2 and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)>='" + cls
 
             ElseIf rbtnMCCWise.IsChecked Or rbtnDetails.IsChecked Then
                 strColumnForTotal = "MCC_Code"
-                Qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) As S_No,xx.DocumentCode, max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,xx.From_Date,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,max(Jan_Aadhar_No) as Jan_Aadhar_No,max(JA_acc)Jan_Aadhar_Account_No,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([Jan Aadhar Verified]) as Jan_Aadhar_No_Verified,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],max([Created Month-Year]) as [Created Month-Year],  max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,  CASE WHEN (SUM(Payable_Amount)) % 1 >= 0.5 THEN CAST(CEILING(SUM(Payable_Amount)) AS DECIMAL(10, 2)) ELSE CAST(FLOOR(SUM(Payable_Amount)) AS DECIMAL(10, 2)) END AS Payable_Amount,  max(xx.Created_Entry_Source) as Created_Entry_Source,max(xx.Created_By) as Created_By,max(convert(varchar, xx.Created_Date,103)+' '+SUBSTRING(convert(varchar, xx.Created_Date,100),13,20) ) as Created_Date,max(xx.Modified_Entry_Source) as Modified_Entry_Source,max(xx.Modified_By) as Modified_By,max(convert(varchar, xx.Modified_Date,103)+' '+SUBSTRING(convert(varchar, xx.Modified_Date,100),13,20)) as Modified_Date,max(xx.Reco_Status) as Reco_Status,max(xx.Reco_Document_Code) as Reco_Document_Code
+                Qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) As S_No,xx.DocumentCode, max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,xx.From_Date,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,max(Jan_Aadhar_No) as Jan_Aadhar_No,max(JA_acc)Jan_Aadhar_Account_No,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([Jan Aadhar Verified]) as Jan_Aadhar_No_Verified,max([JA_bankBranch]) as [JA_bankBranch], max ([JA_bankName]) as [JA_bankName], max ([JA_ifsc]) as [JA_ifsc], max ([JA_caste]) as [JA_caste], max ([JA_categoryDescEng]) as [JA_categoryDescEng], max ([JA_disability]) as [JA_disability], max ([JA_disabilityPercentage]) as [JA_disabilityPercentage], max ([JA_disabilityType]) as [JA_disabilityType],
+max ([JA_dlNo]) as [JA_dlNo], max ([JA_dob]) as [JA_dob], max ([JA_eid]) as [JA_eid], max ([JA_email]) as [JA_email], max ([JA_enrId]) as [JA_enrId], max ([JA_fnameEng]) as [JA_fnameEng], max ([JA_fnameHnd]) as [JA_fnameHnd], max ([JA_gender]) as [JA_gender], max ([JA_income]) as [JA_income], max ([JA_isorphan]) as [JA_isorphan], max ([JA_isStateGovtEmp]) as [JA_isStateGovtEmp], max ([JA_jan_mid]) as [JA_jan_mid], max ([JA_janaadhaarId]) as [JA_janaadhaarId], max ([JA_maritalStatus]) as [JA_maritalStatus], max ([JA_micr]) as [JA_micr], max ([JA_mobile]) as [JA_mobile], max ([JA_nameEng]) as [JA_nameEng], max ([JA_nameHnd]) as [JA_nameHnd], max ([JA_occupation]) as [JA_occupation], max ([JA_relationTyp]) as [JA_relationTyp], max ([JA_panNo]) as [JA_panNo], max ([JA_passport]) as [JA_passport], max ([JA_qualification]) as [JA_qualification], max ([JA_snameEng]) as [JA_snameEng], max ([JA_snameHnd]) as [JA_snameHnd], max ([JA_snameHnd]) as [JA_snameHnd], max ([JA_voterId]) as [JA_voterId], max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],max([Created Month-Year]) as [Created Month-Year],  max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,  CASE WHEN (SUM(Payable_Amount)) % 1 >= 0.5 THEN CAST(CEILING(SUM(Payable_Amount)) AS DECIMAL(10, 2)) ELSE CAST(FLOOR(SUM(Payable_Amount)) AS DECIMAL(10, 2)) END AS Payable_Amount,  max(xx.Created_Entry_Source) as Created_Entry_Source,max(xx.Created_By) as Created_By,max(convert(varchar, xx.Created_Date,103)+' '+SUBSTRING(convert(varchar, xx.Created_Date,100),13,20) ) as Created_Date,max(xx.Modified_Entry_Source) as Modified_Entry_Source,max(xx.Modified_By) as Modified_By,max(convert(varchar, xx.Modified_Date,103)+' '+SUBSTRING(convert(varchar, xx.Modified_Date,100),13,20)) as Modified_Date,max(xx.Reco_Status) as Reco_Status,max(xx.Reco_Document_Code) as Reco_Document_Code
                            ,sum(Mineral_Mixture_Qty) as Mineral_Mixture_Qty,sum(Mineral_Mixture_Amount) as Mineral_Mixture_Amount,sum(Pashu_Aahar_Qty) as Pashu_Aahar_Qty,sum(Pashu_Aahar_Amount) as Pashu_Aahar_Amount,sum(Rahat_Kampekat_Feed_Qty) as Rahat_Kampekat_Feed_Qty,sum(Rahat_Kampekat_Feed_Amount) as Rahat_Kampekat_Feed_Amount,sum(Sailej_Qty) as Sailej_Qty,sum(Sailej_Amount) as Sailej_Amount, "
 
                 If clsCommon.CompairString(objCommonVar.CurrDatabase, "BKN") = CompairStringResult.Equal Then
@@ -556,7 +557,6 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             Gv1.Columns("MCC_Name").HeaderText = "BMC"
             Gv1.Columns("MCC_Name").IsVisible = True
 
-
             Gv1.Columns("Route_Code").HeaderText = "Route Code"
             Gv1.Columns("Route_Code").IsVisible = True
 
@@ -676,6 +676,8 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             Gv1.Columns("Reco_Document_Code").HeaderText = "Reco No"
             Gv1.Columns("Reco_Document_Code").IsVisible = True
 
+            '=======================================
+
             Gv1.Columns("Jan_Aadhar_No").HeaderText = "Jan Aadhar No"
             Gv1.Columns("Jan_Aadhar_No").IsVisible = True
 
@@ -684,6 +686,108 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
 
             Gv1.Columns("Jan_Aadhar_Account_No").HeaderText = "Jan Aadhar Account"
             Gv1.Columns("Jan_Aadhar_Account_No").IsVisible = True
+
+            Gv1.Columns("JA_bankBranch").HeaderText = "JA Bank Branch"
+            Gv1.Columns("JA_bankBranch").IsVisible = False
+
+            Gv1.Columns("JA_bankName").HeaderText = "JA Bank Name"
+            Gv1.Columns("JA_bankName").IsVisible = False
+
+            Gv1.Columns("JA_ifsc").HeaderText = "JA IFSC"
+            Gv1.Columns("JA_ifsc").IsVisible = False
+
+            Gv1.Columns("JA_caste").HeaderText = "JA Caste"
+            Gv1.Columns("JA_caste").IsVisible = False
+
+            Gv1.Columns("JA_categoryDescEng").HeaderText = "JA Category Desc Eng"
+            Gv1.Columns("JA_categoryDescEng").IsVisible = False
+
+            Gv1.Columns("JA_disability").HeaderText = "JA Disability"
+            Gv1.Columns("JA_disability").IsVisible = False
+
+            Gv1.Columns("JA_disabilityPercentage").HeaderText = "JA Disability Percentage"
+            Gv1.Columns("JA_disabilityPercentage").IsVisible = False
+
+            Gv1.Columns("JA_disabilityType").HeaderText = "JA Disability Type"
+            Gv1.Columns("JA_disabilityType").IsVisible = False
+
+            Gv1.Columns("JA_dlNo").HeaderText = "JA DL No"
+            Gv1.Columns("JA_dlNo").IsVisible = False
+
+            Gv1.Columns("JA_dob").HeaderText = "JA DOB"
+            Gv1.Columns("JA_dob").IsVisible = False
+
+            Gv1.Columns("JA_eid").HeaderText = "JA EID"
+            Gv1.Columns("JA_eid").IsVisible = False
+
+            Gv1.Columns("JA_email").HeaderText = "JA Email"
+            Gv1.Columns("JA_email").IsVisible = False
+
+            Gv1.Columns("JA_enrId").HeaderText = "JA Enr ID"
+            Gv1.Columns("JA_enrId").IsVisible = False
+
+            Gv1.Columns("JA_fnameEng").HeaderText = "JA FName Eng"
+            Gv1.Columns("JA_fnameEng").IsVisible = False
+
+            Gv1.Columns("JA_fnameHnd").HeaderText = "JA Fname Hnd"
+            Gv1.Columns("JA_fnameHnd").IsVisible = False
+
+            Gv1.Columns("JA_gender").HeaderText = "JA Gender"
+            Gv1.Columns("JA_gender").IsVisible = False
+
+            Gv1.Columns("JA_income").HeaderText = "JA Income"
+            Gv1.Columns("JA_income").IsVisible = False
+
+            Gv1.Columns("JA_isorphan").HeaderText = "JA Isorphan"
+            Gv1.Columns("JA_isorphan").IsVisible = False
+
+            Gv1.Columns("JA_isStateGovtEmp").HeaderText = "JA Is State Govt Emp"
+            Gv1.Columns("JA_isStateGovtEmp").IsVisible = False
+
+            Gv1.Columns("JA_jan_mid").HeaderText = "JA Jan Mid"
+            Gv1.Columns("JA_jan_mid").IsVisible = False
+
+            Gv1.Columns("JA_janaadhaarId").HeaderText = "JA Janaadhaar Id"
+            Gv1.Columns("JA_janaadhaarId").IsVisible = False
+
+            Gv1.Columns("JA_maritalStatus").HeaderText = "JA Marital Status"
+            Gv1.Columns("JA_maritalStatus").IsVisible = False
+
+            Gv1.Columns("JA_micr").HeaderText = "JA MICR"
+            Gv1.Columns("JA_micr").IsVisible = False
+
+            Gv1.Columns("JA_mobile").HeaderText = "JA Mobile"
+            Gv1.Columns("JA_mobile").IsVisible = False
+
+            Gv1.Columns("JA_nameEng").HeaderText = "JA Name Eng"
+            Gv1.Columns("JA_nameEng").IsVisible = False
+
+            Gv1.Columns("JA_nameHnd").HeaderText = "JA Name Hnd"
+            Gv1.Columns("JA_nameHnd").IsVisible = False
+
+            Gv1.Columns("JA_occupation").HeaderText = "JA Occupation"
+            Gv1.Columns("JA_occupation").IsVisible = False
+
+            Gv1.Columns("JA_relationTyp").HeaderText = "JA Relation Type"
+            Gv1.Columns("JA_relationTyp").IsVisible = False
+
+            Gv1.Columns("JA_panNo").HeaderText = "JA Pan No"
+            Gv1.Columns("JA_panNo").IsVisible = False
+
+            Gv1.Columns("JA_passport").HeaderText = "JA Passport"
+            Gv1.Columns("JA_passport").IsVisible = False
+
+            Gv1.Columns("JA_qualification").HeaderText = "JA Qualification"
+            Gv1.Columns("JA_qualification").IsVisible = False
+
+            Gv1.Columns("JA_snameEng").HeaderText = "JA SName Eng"
+            Gv1.Columns("JA_snameEng").IsVisible = False
+
+            Gv1.Columns("JA_snameHnd").HeaderText = "JA SName Hnd"
+            Gv1.Columns("JA_snameHnd").IsVisible = False
+
+            Gv1.Columns("JA_voterId").HeaderText = "JA Voter ID"
+            Gv1.Columns("JA_voterId").IsVisible = False
 
 
 
