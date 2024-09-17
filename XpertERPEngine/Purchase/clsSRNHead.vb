@@ -2966,9 +2966,22 @@ select Against_TenderNo as DocumentCode,Against_Tender_Schedule_PK_Id as PK_Id,n
     End Function
 
     Public Shared Function GetBaseQeryTenderPenalty(ByVal strTender As String, ByVal strItem As String, ByVal strVendor As String, ByVal strLocation As String, ByVal UserStaus As String, ByVal WhrCls As String) As String
-        Dim qry As String = "select  cast(" + UserStaus + " as bit) as UserStatus, TSPL_GRN_HEAD.GRN_No,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_GRN_HEAD.VehicleNo,isnull(TSPL_GRN_HEAD.Status,0) as GRNStatus,TSPL_SRN_HEAD.SRN_No,convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  SRN_Date,isnull(TSPL_SRN_HEAD.Status,0) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight,TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty
-,TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,TSPL_SRN_DEDUCTION.Ded_Per as QualityDeductionPer,TSPL_SRN_DEDUCTION.Ded_Amt as QualityDeductionAmt,case when isnull(TSPL_SRN_TENDER_CALC.Penalty,0)=0 then null else TSPL_SRN_TENDER_CALC.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER_CALC.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER_CALC.Penalty as LatePenaltyAmt
-,(case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=0 then 1 else (case when (isnull(TSPL_NIR_QC.QC_Status,0)=1 and isnull(TSPL_NIR_QC.Status,0)=1 and TSPL_QC_CHECK_HEAD.Posted=1) then 1 else 0 end) end) as NIRQCStatus
+        Return GetBaseQeryTenderPenalty(strTender, strItem, strVendor, strLocation, UserStaus, WhrCls, 0, 0)
+    End Function
+
+    Public Shared Function GetBaseQeryTenderPenalty(ByVal strTender As String, ByVal strItem As String, ByVal strVendor As String, ByVal strLocation As String, ByVal UserStaus As String, ByVal WhrCls As String, ByVal isSkipSecurityDed As Integer, ByVal isSkipPenaltyDed As Integer) As String
+        Dim qry As String = "select  cast(" + UserStaus + " as bit) as UserStatus, TSPL_GRN_HEAD.GRN_No,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_GRN_HEAD.VehicleNo,isnull(TSPL_GRN_HEAD.Status,0) as GRNStatus,TSPL_SRN_HEAD.SRN_No,convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  SRN_Date,isnull(TSPL_SRN_HEAD.Status,0) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight,TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty ,"
+        If isSkipSecurityDed > 0 Then
+            qry += "TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt, TSPL_SRN_DEDUCTION.Ded_Per As QualityDeductionPer, TSPL_SRN_DEDUCTION.Ded_Amt As QualityDeductionAmt,"
+        Else
+            qry += " 0 As SecurityDeductionAmt,0 As QualityDeductionPer,0 As QualityDeductionAmt,"
+        End If
+        If isSkipPenaltyDed > 0 Then
+            qry += "case when isnull(TSPL_SRN_TENDER_CALC.Penalty, 0)=0 then null else TSPL_SRN_TENDER_CALC.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER_CALC.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER_CALC.Penalty as LatePenaltyAmt,"
+        Else
+            qry += " 0 As LatePenaltyQty,0 As LatePenaltyPer, 0 As LatePenaltyAmt,"
+        End If
+        qry += "(case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=0 then 1 else (case when (isnull(TSPL_NIR_QC.QC_Status,0)=1 And isnull(TSPL_NIR_QC.Status,0)=1 And TSPL_QC_CHECK_HEAD.Posted=1) then 1 else 0 end) end) as NIRQCStatus
 ," + UserStaus + " as FinalStatus
 from TSPL_GRN_DETAIL
 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No

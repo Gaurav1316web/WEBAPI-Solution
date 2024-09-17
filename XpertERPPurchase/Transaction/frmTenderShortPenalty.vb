@@ -10,6 +10,10 @@ Public Class frmTenderShortPenalty
     Private isInsideLoadData As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Private isCellValueChangedTaxOpen As Boolean = False
+    Dim isSkipSecurityDedVendor As Integer = 0
+    Dim isSkipSecurityDedItem As Integer = 0
+    Dim isSkipPenaltyDedVendor As Integer = 0
+    Dim isSkipPenaltyDedItem As Integer = 0
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -415,6 +419,8 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             Dim whr As String = " TSPL_VENDOR_MASTER.Status='N' and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode='" + txtTenderNo.Value + "' and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "' and TSPL_TENDER_DETAIL.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code) "
             txtVendorNo.Value = clsVendorMaster.getFinder(whr, txtVendorNo.Value, isButtonClicked)
             lblVendorName.Text = clsVendorMaster.GetName(txtVendorNo.Value, Nothing)
+            isSkipSecurityDedVendor = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsNull(isSecurityDeduction,0) from TSPL_VENDOR_MASTER Where Vendor_Code='" + txtVendorNo.Value + "'"))
+            isSkipPenaltyDedVendor = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsNull(isPenaltyDeduction,0) from TSPL_VENDOR_MASTER Where Vendor_Code='" + txtVendorNo.Value + "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtVendorNo.Value = ""
@@ -434,6 +440,8 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             Dim whr As String = "  exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode='" + txtTenderNo.Value + "' and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "' and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) "
             txtItem.Value = clsItemMaster.getFinder(whr, txtItem.Value, isButtonClicked)
             lblItem.Text = clsItemMaster.GetItemName(txtItem.Value, Nothing)
+            isSkipSecurityDedItem = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsNull(isSecurityDeduction,0) from TSPL_ITEM_MASTER Where ITEM_Code='" + txtItem.Value + "'"))
+            isSkipPenaltyDedItem = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsNull(isPenaltyDeduction,0) from TSPL_ITEM_MASTER Where ITEM_Code='" + txtItem.Value + "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtItem.Value = ""
@@ -585,9 +593,20 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
                 txtItem.Focus()
                 Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
             End If
+
+            Dim IsSecurity As Integer = 0
+            Dim IsPenalty As Integer = 0
+            If isSkipSecurityDedVendor > 0 AndAlso isSkipSecurityDedItem > 0 Then
+                IsSecurity = 1
+            End If
+
+            If isSkipPenaltyDedVendor > 0 AndAlso isSkipPenaltyDedItem > 0 Then
+                IsPenalty = 1
+            End If
+
             Dim qry As String = "and not exists(select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No)
 and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
-            qry = clsSRNHead.GetBaseQeryTenderPenalty(txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value, "0", qry)
+            qry = clsSRNHead.GetBaseQeryTenderPenalty(txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value, "0", qry, IsSecurity, IsPenalty)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim arrSRN As New ArrayList
             For ii As Integer = 0 To dt.Rows.Count - 1

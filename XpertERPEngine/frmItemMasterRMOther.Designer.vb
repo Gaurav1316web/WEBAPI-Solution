@@ -310,6 +310,8 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.chkFGPL = New common.Controls.MyCheckBox()
         Me.chkSFGCF = New common.Controls.MyCheckBox()
+        Me.chkSkipSecurityDed = New common.Controls.MyCheckBox()
+        Me.chkSkipPenaltyDed = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -548,6 +550,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -597,6 +601,8 @@ Partial Class FrmItemMasterRMOther
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.chkSFGCF)
+        Me.RadPageViewPage1.Controls.Add(Me.chkSkipSecurityDed)
+        Me.RadPageViewPage1.Controls.Add(Me.chkSkipPenaltyDed)
         Me.RadPageViewPage1.Controls.Add(Me.chkFGPL)
         Me.RadPageViewPage1.Controls.Add(Me.txtUploaderSeq)
         Me.RadPageViewPage1.Controls.Add(Me.lblUploaderSeq)
@@ -2908,7 +2914,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtDeductiontype.Location = New System.Drawing.Point(425, 415)
         Me.txtDeductiontype.MendatroryField = True
         Me.txtDeductiontype.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDeductiontype.MyLinkLable1 = Me.MyLabel47
+        Me.txtDeductiontype.MyLinkLable1 = Me.myLabel47
         Me.txtDeductiontype.MyLinkLable2 = Nothing
         Me.txtDeductiontype.MyReadOnly = False
         Me.txtDeductiontype.MyShowMasterFormButton = False
@@ -2922,9 +2928,9 @@ Partial Class FrmItemMasterRMOther
         '
         'MYLABEL47
         '
-        Me.MyLabel47.FieldName = Nothing
+        Me.myLabel47.FieldName = Nothing
         Me.myLabel47.Location = New System.Drawing.Point(301, 415)
-        Me.MyLabel47.Name = "MyLabel47"
+        Me.myLabel47.Name = "MyLabel47"
         Me.myLabel47.Size = New System.Drawing.Size(86, 18)
         Me.myLabel47.TabIndex = 211
         Me.myLabel47.Text = "Deduction Type"
@@ -4510,6 +4516,28 @@ Partial Class FrmItemMasterRMOther
         Me.chkSFGCF.Tag1 = Nothing
         Me.chkSFGCF.Text = "SFG For CF "
         '
+        'chkSkipSecurityDed
+        '
+        Me.chkSkipSecurityDed.Location = New System.Drawing.Point(961, 120)
+        Me.chkSkipSecurityDed.MyLinkLable1 = Nothing
+        Me.chkSkipSecurityDed.MyLinkLable2 = Nothing
+        Me.chkSkipSecurityDed.Name = "chkSkipSecurityDed"
+        Me.chkSkipSecurityDed.Size = New System.Drawing.Size(77, 18)
+        Me.chkSkipSecurityDed.TabIndex = 216
+        Me.chkSkipSecurityDed.Tag1 = Nothing
+        Me.chkSkipSecurityDed.Text = "Skip Security Deduction"
+        '
+        'chkSkipPenaltyDed
+        '
+        Me.chkSkipPenaltyDed.Location = New System.Drawing.Point(961, 140)
+        Me.chkSkipPenaltyDed.MyLinkLable1 = Nothing
+        Me.chkSkipPenaltyDed.MyLinkLable2 = Nothing
+        Me.chkSkipPenaltyDed.Name = "chkSkipPenaltyDed"
+        Me.chkSkipPenaltyDed.Size = New System.Drawing.Size(77, 18)
+        Me.chkSkipPenaltyDed.TabIndex = 216
+        Me.chkSkipPenaltyDed.Tag1 = Nothing
+        Me.chkSkipPenaltyDed.Text = "Skip Penalty Deduction"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4673,7 +4701,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.lblStructurer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.myLabel47, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4774,6 +4802,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkskipSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkskipPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5041,5 +5071,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents lblUploaderSeq As Controls.MyLabel
     Friend WithEvents chkFGPL As Controls.MyCheckBox
     Friend WithEvents chkSFGCF As Controls.MyCheckBox
+    Friend WithEvents chkSkipSecurityDed As Controls.MyCheckBox
+    Friend WithEvents chkSkipPenaltyDed As Controls.MyCheckBox
 End Class
 

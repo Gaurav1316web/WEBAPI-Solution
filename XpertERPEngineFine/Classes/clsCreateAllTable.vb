@@ -2345,6 +2345,8 @@ Public Class clsCreateAllTable
             coll.Add("AllowEntryInDecimal", "Integer null")
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("Deduction_Type_Hindi", "nvarchar(100) null")
+            coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
+            coll.Add("isPenaltyDeduction", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -13952,7 +13954,8 @@ Public Class clsCreateAllTable
             coll.Add("OEM", "integer null")
             coll.Add("Is_Provisional", "Integer not null default 0")
             coll.Add("Is_Default_Grower", "Integer null default 0")
-
+            coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
+            coll.Add("isPenaltyDeduction", "integer Not Null DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
