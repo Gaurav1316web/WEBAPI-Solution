@@ -680,7 +680,7 @@ Public Class clsProductionShiftMgmtOpen
 
     Public Shared Function GetData(ByVal DocumentNo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsProductionShiftMgmtOpen)
         Dim arr As List(Of clsProductionShiftMgmtOpen) = Nothing
-        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_OPEN.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_LOCATION_MASTER.Location_Desc as Location_Name FROM TSPL_SHIFT_MGMT_OPEN 
+        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_OPEN.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_LOCATION_MASTER.Location_Desc  FROM TSPL_SHIFT_MGMT_OPEN 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_OPEN.Item_Code 
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SHIFT_MGMT_OPEN.Location_Code 
 where  TSPL_SHIFT_MGMT_OPEN.Document_No='" + DocumentNo + "' "
