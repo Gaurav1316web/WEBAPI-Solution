@@ -1,6 +1,6 @@
 ﻿Imports common
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmProductionShiftMgmtAdd
+Partial Class frmProductionShiftMgmtRemove
     Inherits Telerik.WinControls.UI.RadForm
 
     'Form overrides dispose to clean up the component list.
@@ -106,19 +106,19 @@ Partial Class frmProductionShiftMgmtAdd
         Me.RadButton1.TabIndex = 0
         Me.RadButton1.Text = "Cancel"
         '
-        'frmProductionShiftMgmtAdd
+        'frmProductionShiftMgmtRemove
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(851, 425)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmProductionShiftMgmtAdd"
+        Me.Name = "frmProductionShiftMgmtRemove"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Add Items"
+        Me.Text = "Remove Items"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)

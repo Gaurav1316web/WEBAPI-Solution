@@ -2543,13 +2543,18 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvPro.CurrentRow.Cells(ColProAdd).Tag = Nothing
                     End If
                 ElseIf gvPro.CurrentColumn Is gvPro.Columns(ColProRemove) Then
-                    clsCommon.MyMessageBoxShow(Me, "Remove button", Me.Text)
-                    'Dim frm As New frmPriceChartPlanMasterTSDDCFDeduction()
-                    'frm.ArrAdd = gvPro.CurrentRow.Cells(ColProRemove).Tag
-                    'frm.ShowDialog()
-                    'If frm.isOK Then
-                    '    gvPro.CurrentRow.Cells(ColProRemove).Tag = frm.ArrDed
-                    'End If
+                    Dim frm As New frmProductionShiftMgmtRemove()
+                    frm.Arr = TryCast(gvPro.CurrentRow.Cells(ColProRemove).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
+                    Dim ShiftFromDate As DateTime
+                    frm.FilterDate = clsShiftMaster.GetShiftTime(clsCommon.myCstr(cboShift.SelectedValue), txtDate.Value, ShiftFromDate)
+                    frm.FilterLocationCode = txtLocation.Value
+                    frm.WindowState = FormWindowState.Normal
+                    frm.ShowDialog()
+                    If frm.isOKClicked = 1 Then
+                        gvPro.CurrentRow.Cells(ColProRemove).Tag = frm.Arr
+                    ElseIf frm.isOKClicked = 2 Then
+                        gvPro.CurrentRow.Cells(ColProRemove).Tag = Nothing
+                    End If
                 End If
             End If
         Catch ex As Exception
