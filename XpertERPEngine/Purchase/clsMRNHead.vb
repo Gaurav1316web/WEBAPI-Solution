@@ -144,6 +144,7 @@ Public Class clsMRNHead
     Public Total_Item_Insurance_Amt As Decimal = 0
     Public Total_Add_Charge_Insurance As Decimal = 0
     Public Nir_QC As Integer = Nothing
+    Public isHighClass As Integer = 0
     Public Arr_ACInsurance As List(Of clsMRNAdditionChargeInsurance) = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsMRNHead, ByVal isNewEntry As Boolean, Optional ByVal isamendment As Boolean = False) As Boolean
@@ -331,31 +332,24 @@ Public Class clsMRNHead
             clsCommon.AddColumnsForChange(coll, "Add_Charge_Code10", obj.Add_Charge_Code10)
             clsCommon.AddColumnsForChange(coll, "Add_Charge_Name10", obj.Add_Charge_Name10)
             clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt10", obj.Add_Charge_Amt10)
-
             clsCommon.AddColumnsForChange(coll, "Total_Add_Charge", obj.Total_Add_Charge)
-
-
-
-
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MM/yyyy"))
             Else
                 clsCommon.AddColumnsForChange(coll, "Due_Date", Nothing, True)
             End If
-
             clsCommon.AddColumnsForChange(coll, "Dept", obj.Dept)
             clsCommon.AddColumnsForChange(coll, "Dept_Desc", obj.Dept_Desc)
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type)
-
             clsCommon.AddColumnsForChange(coll, "Against_Requisition", obj.Against_Requisition, True)
             clsCommon.AddColumnsForChange(coll, "Against_PO", obj.Against_PO, True)
             clsCommon.AddColumnsForChange(coll, "Against_GRN", obj.Against_GRN, True)
             clsCommon.AddColumnsForChange(coll, "PurchaseOrder_Type", obj.PurchaseOrder_Type)
             clsCommon.AddColumnsForChange(coll, "Against_Schedule_Code", obj.Against_Schedule_Code, True)
             clsCommon.AddColumnsForChange(coll, "Against_RGP_No", obj.Against_RGP_No, True)
-
             clsCommon.AddColumnsForChange(coll, "Terms_Code", obj.Terms_Code)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
+            clsCommon.AddColumnsForChange(coll, "isHighClass", obj.isHighClass)
             If isamendment Then
                 Dim AmendmentCode As String = Nothing
                 AmendmentCode = obj.MRN_No + "$" + clsCommon.myCstr(obj.Amendment_No + 1)
@@ -401,7 +395,7 @@ Public Class clsMRNHead
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MRN_HEAD", OMInsertOrUpdate.Update, "TSPL_MRN_HEAD.MRN_No='" + obj.MRN_No + "'", trans)
             End If
-            isSaved = isSaved AndAlso clsMRNDetail.SaveData(obj.MRN_No, Arr, trans)
+            isSaved = isSaved AndAlso clsMRNDetail.SaveData(obj.MRN_No, Arr, obj.isHighClass, trans)
             isSaved = isSaved AndAlso clsMRNAdditionChargeInsurance.SaveData(obj.MRN_No, obj.MRN_Date, obj.Arr_ACInsurance, trans)
 
 
@@ -625,6 +619,7 @@ Public Class clsMRNHead
             obj.Total_Add_Charge_Insurance = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge_Insurance"))
             obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Item_Insurance_Amt"))
             obj.Nir_QC = clsCommon.myCdbl(dt.Rows(0)("NIR_QC"))
+            obj.isHighClass = clsCommon.myCdbl(dt.Rows(0)("isHighClass"))
             Dim Sum_Max As String = String.Empty
             If clsFixedParameter.GetData(clsFixedParameterType.ShowQtySum_in_GRN_MRN_SRN, clsFixedParameterCode.ShowQtySum_in_GRN_MRN_SRN, trans) = "1" Then
                 Sum_Max = "Sum"
@@ -1337,7 +1332,7 @@ Public Class clsMRNDetail
 
 #End Region
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMRNDetail), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMRNDetail), ByVal isHighClass As Integer, ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMRNDetail In Arr
                 Dim coll As New Hashtable()
@@ -1350,11 +1345,19 @@ Public Class clsMRNDetail
                 clsCommon.AddColumnsForChange(coll, "Row_Type", obj.Row_Type)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Item_Desc", obj.Item_Desc)
-                clsCommon.AddColumnsForChange(coll, "MRN_Qty", obj.MRN_Qty)
-                clsCommon.AddColumnsForChange(coll, "Leak_Qty", obj.Leak_Qty)
-                clsCommon.AddColumnsForChange(coll, "Burst_Qty", obj.Burst_Qty)
-                clsCommon.AddColumnsForChange(coll, "Short_Qty", obj.Short_Qty)
-                clsCommon.AddColumnsForChange(coll, "Excess_Qty", obj.Excess_Qty)
+                If isHighClass > 0 Then
+                    clsCommon.AddColumnsForChange(coll, "MRN_Qty", obj.MRN_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Leak_Qty", 0)
+                    clsCommon.AddColumnsForChange(coll, "Burst_Qty", 0)
+                    clsCommon.AddColumnsForChange(coll, "Short_Qty", 0)
+                    clsCommon.AddColumnsForChange(coll, "Excess_Qty", 0)
+                Else
+                    clsCommon.AddColumnsForChange(coll, "MRN_Qty", obj.MRN_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Leak_Qty", obj.Leak_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Burst_Qty", obj.Burst_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Short_Qty", obj.Short_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Excess_Qty", obj.Excess_Qty)
+                End If
                 clsCommon.AddColumnsForChange(coll, "GRN_Id", obj.GRN_Id, True)
                 clsCommon.AddColumnsForChange(coll, "PO_ID", obj.PO_ID, True)
                 clsCommon.AddColumnsForChange(coll, "RGP_No", obj.RGP_No, True)

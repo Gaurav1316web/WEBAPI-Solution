@@ -750,6 +750,7 @@ Partial Class frmPOWeighment
         Me.gv1.Size = New System.Drawing.Size(976, 235)
         Me.gv1.TabIndex = 1521
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'GunnyBag
         '
@@ -785,6 +786,7 @@ Partial Class frmPOWeighment
         Me.MyRadGridView1.Size = New System.Drawing.Size(976, 235)
         Me.MyRadGridView1.TabIndex = 1521
         Me.MyRadGridView1.TabStop = False
+        Me.MyRadGridView1.VarID = ""
         '
         'gv2
         '
@@ -810,12 +812,13 @@ Partial Class frmPOWeighment
         Me.gv2.Size = New System.Drawing.Size(976, 235)
         Me.gv2.TabIndex = 1522
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'btnCancel
         '
         Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCancel.Location = New System.Drawing.Point(499, 7)
+        Me.btnCancel.Location = New System.Drawing.Point(489, 7)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(66, 21)
         Me.btnCancel.TabIndex = 7
@@ -823,7 +826,7 @@ Partial Class frmPOWeighment
         '
         'btnhistory
         '
-        Me.btnhistory.Location = New System.Drawing.Point(427, 7)
+        Me.btnhistory.Location = New System.Drawing.Point(420, 7)
         Me.btnhistory.Name = "btnhistory"
         Me.btnhistory.Size = New System.Drawing.Size(66, 21)
         Me.btnhistory.TabIndex = 6
@@ -831,7 +834,7 @@ Partial Class frmPOWeighment
         '
         'btnPrintWithGunnyBags
         '
-        Me.btnPrintWithGunnyBags.Location = New System.Drawing.Point(285, 7)
+        Me.btnPrintWithGunnyBags.Location = New System.Drawing.Point(281, 7)
         Me.btnPrintWithGunnyBags.Name = "btnPrintWithGunnyBags"
         Me.btnPrintWithGunnyBags.Size = New System.Drawing.Size(136, 21)
         Me.btnPrintWithGunnyBags.TabIndex = 5
@@ -839,7 +842,7 @@ Partial Class frmPOWeighment
         '
         'btnPrint
         '
-        Me.btnPrint.Location = New System.Drawing.Point(213, 7)
+        Me.btnPrint.Location = New System.Drawing.Point(212, 7)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(66, 21)
         Me.btnPrint.TabIndex = 4
