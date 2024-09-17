@@ -124,6 +124,22 @@ Public Class frmProductionShiftMgmt
 #End Region
 
     Private Sub frmDairyProductionUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        Dim coll = New Dictionary(Of String, String)
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
+        coll.Add("Type", "integer not null ") ''1-Add;2-Remove
+        coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Qty", "Decimal(18,2) null")
+        coll.Add("UOM", "Varchar(20) null")
+        coll.Add("FAT", "Decimal(18,2) null")
+        coll.Add("SNF", "Decimal(18,2) null")
+        coll.Add("FAT_KG", "Decimal(18,3) null")
+        coll.Add("SNF_KG", "Decimal(18,3) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
         RadPageView1.SelectedPage = RadPageViewPage1
         RadPageView2.SelectedPage = RadPageViewPage5
         RadPageView3.SelectedPage = RadPageViewPage7
@@ -2043,6 +2059,13 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
 
                         objTr.ArrRM = New List(Of clsProductionShiftMgmtProductionRM)
                         objTr.ArrRM = TryCast(gvPro.Rows(ii).Cells(ColProBOMCode).Tag, List(Of clsProductionShiftMgmtProductionRM))
+
+                        objTr.ArrAdd = New List(Of clsProductionShiftMgmtProductionItemAddRemove)
+                        objTr.ArrAdd = TryCast(gvPro.Rows(ii).Cells(ColProAdd).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
+
+                        objTr.ArrRemove = New List(Of clsProductionShiftMgmtProductionItemAddRemove)
+                        objTr.ArrRemove = TryCast(gvPro.Rows(ii).Cells(ColProRemove).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
+
                         obj.ArrPro.Add(objTr)
                     End If
                 Next
@@ -2213,6 +2236,8 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProBOMCode).Value = objTr.BOM_Code
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProEnteredUOM).Value = objTr.Entered_UOM
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProBOMCode).Tag = objTr.ArrRM
+                        gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProAdd).Tag = objTr.ArrAdd
+                        gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProRemove).Tag = objTr.ArrRemove
                         gvPro.Rows.AddNew()
                     Next
                 End If
@@ -2463,7 +2488,6 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
         End Try
     End Sub
 
-
     Private Sub CalculateClosing()
         For jj As Integer = 0 To gvCL.Rows.Count - 1
             gvCL.Rows(jj).Cells(colCLQtyLtr).Value = 0
@@ -2504,22 +2528,29 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
 
     Private Sub gvPro_CommandCellClick(sender As Object, e As EventArgs) Handles gvPro.CommandCellClick
         Try
-            If gvPro.CurrentColumn Is gvPro.Columns(ColProAdd) Then
-                clsCommon.MyMessageBoxShow(Me, "Add button", Me.Text)
-                'Dim frm As New frmPriceChartPlanMasterTSDDCFDeduction()
-                'frm.ArrAdd = gvPro.CurrentRow.Cells(ColProAdd).Tag
-                'frm.ShowDialog()
-                'If frm.isOK Then
-                '    gvPro.CurrentRow.Cells(ColProAdd).Tag = frm.ArrDed
-                'End If
-            ElseIf gvPro.CurrentColumn Is gvPro.Columns(ColProRemove) Then
-                clsCommon.MyMessageBoxShow(Me, "Remove button", Me.Text)
-                'Dim frm As New frmPriceChartPlanMasterTSDDCFDeduction()
-                'frm.ArrAdd = gvPro.CurrentRow.Cells(ColProRemove).Tag
-                'frm.ShowDialog()
-                'If frm.isOK Then
-                '    gvPro.CurrentRow.Cells(ColProRemove).Tag = frm.ArrDed
-                'End If
+            If clsCommon.myLen(gvPro.CurrentRow.Cells(ColProItemCode).Value) > 0 Then
+                If gvPro.CurrentColumn Is gvPro.Columns(ColProAdd) Then
+                    Dim frm As New frmProductionShiftMgmtAdd()
+                    frm.Arr = TryCast(gvPro.CurrentRow.Cells(ColProAdd).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
+                    Dim ShiftFromDate As DateTime
+                    frm.FilterDate = clsShiftMaster.GetShiftTime(clsCommon.myCstr(cboShift.SelectedValue), txtDate.Value, ShiftFromDate)
+                    frm.FilterLocationCode = txtLocation.Value
+                    frm.WindowState = FormWindowState.Normal
+                    frm.ShowDialog()
+                    If frm.isOKClicked = 1 Then
+                        gvPro.CurrentRow.Cells(ColProAdd).Tag = frm.Arr
+                    ElseIf frm.isOKClicked = 2 Then
+                        gvPro.CurrentRow.Cells(ColProAdd).Tag = Nothing
+                    End If
+                ElseIf gvPro.CurrentColumn Is gvPro.Columns(ColProRemove) Then
+                    clsCommon.MyMessageBoxShow(Me, "Remove button", Me.Text)
+                    'Dim frm As New frmPriceChartPlanMasterTSDDCFDeduction()
+                    'frm.ArrAdd = gvPro.CurrentRow.Cells(ColProRemove).Tag
+                    'frm.ShowDialog()
+                    'If frm.isOK Then
+                    '    gvPro.CurrentRow.Cells(ColProRemove).Tag = frm.ArrDed
+                    'End If
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

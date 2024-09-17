@@ -729,6 +729,12 @@
     <Compile Include="ShiftMgmt\frmProductionShiftMgmt.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ShiftMgmt\frmProductionShiftMgmtAdd.Designer.vb">
+      <DependentUpon>frmProductionShiftMgmtAdd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ShiftMgmt\frmProductionShiftMgmtAdd.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProcessProduction\Master\frmBreakDownMaster.resx">
@@ -1061,6 +1067,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ShiftMgmt\frmProductionShiftMgmt.resx">
       <DependentUpon>frmProductionShiftMgmt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShiftMgmt\frmProductionShiftMgmtAdd.resx">
+      <DependentUpon>frmProductionShiftMgmtAdd.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
