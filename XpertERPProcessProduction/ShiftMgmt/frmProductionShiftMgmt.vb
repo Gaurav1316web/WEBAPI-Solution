@@ -71,6 +71,8 @@ Public Class frmProductionShiftMgmt
     Const ColProSNF As String = "ColProSNF"
     Const ColProFATKG As String = "ColProFATKG"
     Const ColProSNFKG As String = "ColProSNFKG"
+    Const ColProAdd As String = "ColProAdd"
+    Const ColProRemove As String = "ColProRemove"
     Const ColProTemp As String = "ColProTemp"
     Const ColProAcidity As String = "ColProAcidity"
     Const ColProCOB As String = "ColProCOB"
@@ -89,6 +91,7 @@ Public Class frmProductionShiftMgmt
     Const ColProRMSNF As String = "ColProRMSNF"
     Const ColProRMFATKG As String = "ColProRMFATKG"
     Const ColProRMSNFKG As String = "ColProRMSNFKG"
+    Const ColProRMIssue As String = "ColProRMIssue"
 
     Const colCLPKID As String = "colCLPKID"
     Const colCLSNo As String = "colCLSNo"
@@ -982,6 +985,8 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         gvPro.DataSource = Nothing
         gvPro.Rows.Clear()
 
+
+
         Dim repoTextBox As New GridViewTextBoxColumn()
         repoTextBox.FormatString = ""
         repoTextBox.HeaderText = "PK ID"
@@ -1100,6 +1105,27 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvPro.MasterTemplate.Columns.Add(repoNumBox)
 
+        Dim ShowBtn As New GridViewCommandColumn()
+        ShowBtn.FormatString = ""
+        ShowBtn.UseDefaultText = True
+        ShowBtn.DefaultText = "Add"
+        ShowBtn.HeaderText = ""
+        ShowBtn.Name = ColProAdd
+        ShowBtn.FieldName = ColProAdd
+        ShowBtn.Width = 80
+        ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvPro.MasterTemplate.Columns.Add(ShowBtn)
+
+        ShowBtn = New GridViewCommandColumn()
+        ShowBtn.FormatString = ""
+        ShowBtn.UseDefaultText = True
+        ShowBtn.DefaultText = "Remove"
+        ShowBtn.HeaderText = ""
+        ShowBtn.Name = ColProRemove
+        ShowBtn.FieldName = ColProRemove
+        ShowBtn.Width = 80
+        ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvPro.MasterTemplate.Columns.Add(ShowBtn)
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = ""
@@ -1305,6 +1331,17 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvProRM.MasterTemplate.Columns.Add(repoNumBox)
+
+        Dim ShowBtn As New GridViewCommandColumn()
+        ShowBtn.FormatString = ""
+        ShowBtn.UseDefaultText = True
+        ShowBtn.DefaultText = "Issue Items"
+        ShowBtn.HeaderText = ""
+        ShowBtn.Name = ColProRMIssue
+        ShowBtn.FieldName = ColProRMIssue
+        ShowBtn.Width = 80
+        ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvProRM.MasterTemplate.Columns.Add(ShowBtn)
 
         gvProRM.AllowAddNewRow = False
         gvProRM.ShowGroupPanel = False
@@ -2006,6 +2043,13 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
 
                         objTr.ArrRM = New List(Of clsProductionShiftMgmtProductionRM)
                         objTr.ArrRM = TryCast(gvPro.Rows(ii).Cells(ColProBOMCode).Tag, List(Of clsProductionShiftMgmtProductionRM))
+
+                        objTr.ArrAdd = New List(Of clsProductionShiftMgmtProductionItemAddRemove)
+                        objTr.ArrAdd = TryCast(gvPro.Rows(ii).Cells(ColProAdd).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
+
+                        objTr.ArrRemove = New List(Of clsProductionShiftMgmtProductionItemAddRemove)
+                        objTr.ArrRemove = TryCast(gvPro.Rows(ii).Cells(ColProRemove).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
+
                         obj.ArrPro.Add(objTr)
                     End If
                 Next
@@ -2023,7 +2067,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         objTr.SNF_KG = clsCommon.myCDecimal(gvProRM.Rows(ii).Cells(ColProRMSNFKG).Value)
 
                         objTr.Arr = New List(Of clsProductionShiftMgmtProductionRMIssue)
-                        objTr.Arr = TryCast(gvProRM.Rows(ii).Cells(ColProRMItemCode).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
+                        objTr.Arr = TryCast(gvProRM.Rows(ii).Cells(ColProRMIssue).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
                         obj.ArrProRMSummary.Add(objTr)
                     End If
                 Next
@@ -2176,6 +2220,8 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProBOMCode).Value = objTr.BOM_Code
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProEnteredUOM).Value = objTr.Entered_UOM
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProBOMCode).Tag = objTr.ArrRM
+                        gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProAdd).Tag = objTr.ArrAdd
+                        gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProRemove).Tag = objTr.ArrRemove
                         gvPro.Rows.AddNew()
                     Next
                 End If
@@ -2193,7 +2239,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvProRM.Rows(gvProRM.Rows.Count - 1).Cells(ColProRMSNF).Value = objTr.SNF
                         gvProRM.Rows(gvProRM.Rows.Count - 1).Cells(ColProRMFATKG).Value = objTr.FAT_KG
                         gvProRM.Rows(gvProRM.Rows.Count - 1).Cells(ColProRMSNFKG).Value = objTr.SNF_KG
-                        gvProRM.Rows(gvProRM.Rows.Count - 1).Cells(ColProRMItemCode).Tag = objTr.Arr
+                        gvProRM.Rows(gvProRM.Rows.Count - 1).Cells(ColProRMIssue).Tag = objTr.Arr
                     Next
                 End If
 
@@ -2397,28 +2443,29 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub gvProRM_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gvProRM.CellDoubleClick
+    Private Sub gvProRM_CommandCellClick(sender As Object, e As EventArgs) Handles gvProRM.CommandCellClick
         Try
-            If clsCommon.myLen(gvProRM.CurrentRow.Cells(ColProRMItemCode).Value) > 0 Then
-                Dim frm As New frmStockBalance
-                frm.ArrRMIssue = TryCast(gvProRM.CurrentRow.Cells(ColProRMItemCode).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
-                frm.FilterItemCode = clsCommon.myCstr(gvProRM.CurrentRow.Cells(ColProRMItemCode).Value)
-                frm.FilterUOM = clsCommon.myCstr(gvProRM.CurrentRow.Cells(ColProRMUOM).Value)
-                frm.FilterReqQty = clsCommon.myCDecimal(gvProRM.CurrentRow.Cells(ColProRMQty).Value)
-                frm.FilterReqFATKg = clsCommon.myCDecimal(gvProRM.CurrentRow.Cells(ColProRMFATKG).Value)
-                frm.FilterReqSNFKg = clsCommon.myCDecimal(gvProRM.CurrentRow.Cells(ColProRMSNFKG).Value)
-                frm.FilterLocationCode = txtLocation.Value
-                Dim ShiftFromDate As DateTime
-                frm.FilterDate = clsShiftMaster.GetShiftTime(clsCommon.myCstr(cboShift.SelectedValue), txtDate.Value, ShiftFromDate)
-                frm.WindowState = FormWindowState.Normal
-                frm.ShowDialog()
-                If frm.isOKClicked = 1 Then
-                    gvProRM.CurrentRow.Cells(ColProRMItemCode).Tag = frm.ArrRMIssue
-                ElseIf frm.isOKClicked = 2 Then
-                    gvProRM.CurrentRow.Cells(ColProRMItemCode).Tag = Nothing
+            If gvProRM.CurrentColumn Is gvProRM.Columns(ColProRMIssue) Then
+                If clsCommon.myLen(gvProRM.CurrentRow.Cells(ColProRMItemCode).Value) > 0 Then
+                    Dim frm As New frmStockBalance
+                    frm.ArrRMIssue = TryCast(gvProRM.CurrentRow.Cells(ColProRMIssue).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
+                    frm.FilterItemCode = clsCommon.myCstr(gvProRM.CurrentRow.Cells(ColProRMItemCode).Value)
+                    frm.FilterUOM = clsCommon.myCstr(gvProRM.CurrentRow.Cells(ColProRMUOM).Value)
+                    frm.FilterReqQty = clsCommon.myCDecimal(gvProRM.CurrentRow.Cells(ColProRMQty).Value)
+                    frm.FilterReqFATKg = clsCommon.myCDecimal(gvProRM.CurrentRow.Cells(ColProRMFATKG).Value)
+                    frm.FilterReqSNFKg = clsCommon.myCDecimal(gvProRM.CurrentRow.Cells(ColProRMSNFKG).Value)
+                    frm.FilterLocationCode = txtLocation.Value
+                    Dim ShiftFromDate As DateTime
+                    frm.FilterDate = clsShiftMaster.GetShiftTime(clsCommon.myCstr(cboShift.SelectedValue), txtDate.Value, ShiftFromDate)
+                    frm.WindowState = FormWindowState.Normal
+                    frm.ShowDialog()
+                    If frm.isOKClicked = 1 Then
+                        gvProRM.CurrentRow.Cells(ColProRMIssue).Tag = frm.ArrRMIssue
+                    ElseIf frm.isOKClicked = 2 Then
+                        gvProRM.CurrentRow.Cells(ColProRMIssue).Tag = Nothing
+                    End If
+                    CalculateClosing()
                 End If
-                CalculateClosing()
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2434,7 +2481,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
         Next
         For ii As Integer = 0 To gvProRM.RowCount - 1
             If clsCommon.myLen(gvProRM.Rows(ii).Cells(ColProRMItemCode).Value) > 0 Then
-                Dim ARR As List(Of clsProductionShiftMgmtProductionRMIssue) = TryCast(gvProRM.Rows(ii).Cells(ColProRMItemCode).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
+                Dim ARR As List(Of clsProductionShiftMgmtProductionRMIssue) = TryCast(gvProRM.Rows(ii).Cells(ColProRMIssue).Tag, List(Of clsProductionShiftMgmtProductionRMIssue))
                 If ARR IsNot Nothing AndAlso ARR.Count > 0 Then
                     For Each obj As clsProductionShiftMgmtProductionRMIssue In ARR
                         For jj As Integer = 0 To gvCL.Rows.Count - 1
@@ -2461,5 +2508,41 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             gvCL.Rows(jj).Cells(colCLFATKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPFATKG).Value) - clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLFATKG).Value)
             gvCL.Rows(jj).Cells(colCLSNFKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPSNFKG).Value) - clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLSNFKG).Value)
         Next
+    End Sub
+
+    Private Sub gvPro_CommandCellClick(sender As Object, e As EventArgs) Handles gvPro.CommandCellClick
+        Try
+            If clsCommon.myLen(gvPro.CurrentRow.Cells(ColProItemCode).Value) > 0 Then
+                If gvPro.CurrentColumn Is gvPro.Columns(ColProAdd) Then
+                    Dim frm As New frmProductionShiftMgmtAdd()
+                    frm.Arr = TryCast(gvPro.CurrentRow.Cells(ColProAdd).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
+                    Dim ShiftFromDate As DateTime
+                    frm.FilterDate = clsShiftMaster.GetShiftTime(clsCommon.myCstr(cboShift.SelectedValue), txtDate.Value, ShiftFromDate)
+                    frm.FilterLocationCode = txtLocation.Value
+                    frm.WindowState = FormWindowState.Normal
+                    frm.ShowDialog()
+                    If frm.isOKClicked = 1 Then
+                        gvPro.CurrentRow.Cells(ColProAdd).Tag = frm.Arr
+                    ElseIf frm.isOKClicked = 2 Then
+                        gvPro.CurrentRow.Cells(ColProAdd).Tag = Nothing
+                    End If
+                ElseIf gvPro.CurrentColumn Is gvPro.Columns(ColProRemove) Then
+                    Dim frm As New frmProductionShiftMgmtRemove()
+                    frm.Arr = TryCast(gvPro.CurrentRow.Cells(ColProRemove).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
+                    Dim ShiftFromDate As DateTime
+                    frm.FilterDate = clsShiftMaster.GetShiftTime(clsCommon.myCstr(cboShift.SelectedValue), txtDate.Value, ShiftFromDate)
+                    frm.FilterLocationCode = txtLocation.Value
+                    frm.WindowState = FormWindowState.Normal
+                    frm.ShowDialog()
+                    If frm.isOKClicked = 1 Then
+                        gvPro.CurrentRow.Cells(ColProRemove).Tag = frm.Arr
+                    ElseIf frm.isOKClicked = 2 Then
+                        gvPro.CurrentRow.Cells(ColProRemove).Tag = Nothing
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

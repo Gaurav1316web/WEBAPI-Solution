@@ -29,6 +29,7 @@ Partial Class frmMRN
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkHighClass = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkJobWorkOutward = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblSubLocation = New common.Controls.MyLabel()
         Me.MyLabel43 = New common.Controls.MyLabel()
@@ -161,6 +162,7 @@ Partial Class frmMRN
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkHighClass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -337,6 +339,7 @@ Partial Class frmMRN
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkHighClass)
         Me.RadPageViewPage1.Controls.Add(Me.chkJobWorkOutward)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel43)
@@ -401,6 +404,16 @@ Partial Class frmMRN
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(967, 358)
         Me.RadPageViewPage1.Text = "Material Received Note"
+        '
+        'chkHighClass
+        '
+        Me.chkHighClass.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkHighClass.Location = New System.Drawing.Point(747, 175)
+        Me.chkHighClass.Name = "chkHighClass"
+        Me.chkHighClass.ReadOnly = True
+        Me.chkHighClass.Size = New System.Drawing.Size(75, 16)
+        Me.chkHighClass.TabIndex = 356
+        Me.chkHighClass.Text = "High Class"
         '
         'chkJobWorkOutward
         '
@@ -1079,6 +1092,7 @@ Partial Class frmMRN
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(942, 115)
         Me.gv1.TabIndex = 0
+        Me.gv1.VarID = ""
         '
         'RadLabel7
         '
@@ -1659,6 +1673,7 @@ Partial Class frmMRN
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(962, 216)
         Me.gv2.TabIndex = 1
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1721,6 +1736,7 @@ Partial Class frmMRN
         Me.gvAC.ShowHeaderCellButtons = True
         Me.gvAC.Size = New System.Drawing.Size(567, 312)
         Me.gvAC.TabIndex = 3
+        Me.gvAC.VarID = ""
         '
         'RadPanel1
         '
@@ -1792,6 +1808,7 @@ Partial Class frmMRN
         Me.gvACInsurance.Size = New System.Drawing.Size(384, 312)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
+        Me.gvACInsurance.VarID = ""
         '
         'RadPanel2
         '
@@ -2301,6 +2318,7 @@ Partial Class frmMRN
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkHighClass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2565,5 +2583,6 @@ Partial Class frmMRN
     Friend WithEvents MyLabel62 As common.Controls.MyLabel
     Friend WithEvents TxtRetention As common.Controls.MyTextBox
     Friend WithEvents btnhistory As RadButton
+    Friend WithEvents chkHighClass As RadCheckBox
 End Class
 

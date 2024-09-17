@@ -364,6 +364,7 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             objMRN.InvoiceNo = objGRN.Invoiceno
             objMRN.InvoiceDate = objGRN.InvoiceDate
             objMRN.Total_Taxable_Amount = objGRN.Total_Taxable_Amount
+            objMRN.isHighClass = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select isHighClass from TSPL_VENDOR_MASTER where Vendor_Code='" + objGRN.Vendor_Code + "'", trans))
             objMRN.Arr = New List(Of clsMRNDetail)
             For Each objGRNTR As clsGRNDetail In objGRN.Arr
                 Dim objMRNTR As New clsMRNDetail
@@ -440,20 +441,24 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
                 objMRNTR.Remarks = objGRNTR.Remarks
                 objMRNTR.Assessable = objGRNTR.Assessable
                 objMRNTR.AssessableAmt = objGRNTR.AssessableAmt
-                If clsCommon.CompairString(objGRNTR.Row_Type, "Item") = CompairStringResult.Equal Then ''VIJ/11/12/19-000117 by balwinder on 18/12/2019
-                    If objGRNTR.GRN_Qty > obj.Arr(objGRNTR.Line_No - 1).Net_Weight Then
-                        objMRNTR.Accept_Qty = obj.Arr(objGRNTR.Line_No - 1).Net_Weight
-                        objMRNTR.Short_Qty = Math.Round(objGRNTR.GRN_Qty - obj.Arr(objGRNTR.Line_No - 1).Net_Weight, 3)
-                    ElseIf objGRNTR.GRN_Qty < obj.Arr(objGRNTR.Line_No - 1).Net_Weight Then
-                        objMRNTR.Excess_Qty = Math.Round(obj.Arr(objGRNTR.Line_No - 1).Net_Weight - objGRNTR.GRN_Qty, 3)
-                    Else
-                        objMRNTR.Accept_Qty = obj.Arr(objGRNTR.Line_No - 1).Net_Weight
-                    End If
-                    Dim dbNetWeight As String = clsDBFuncationality.getSingleValue("select Net_Weight from TSPL_PO_WEIGHTMENT_DETAIL where Weighment_Code='" & obj.Weighment_Code & "' and item_code='" + objGRNTR.Item_Code + "' ", trans) ''VIJ/11/12/19-000117 by balwinder on 29/01/2020
-                    If clsCommon.myCstr(dbNetWeight) > 0 Then
-                        objMRNTR.OrgGRNQty = dbNetWeight
-                        objMRNTR.Accept_Qty = dbNetWeight
-                        objMRNTR.MRN_Qty = dbNetWeight
+                If objMRN.isHighClass > 0 Then
+                    objMRNTR.MRN_Qty = objGRNTR.GRN_Qty
+                Else
+                    If clsCommon.CompairString(objGRNTR.Row_Type, "Item") = CompairStringResult.Equal Then ''VIJ/11/12/19-000117 by balwinder on 18/12/2019
+                        If objGRNTR.GRN_Qty > obj.Arr(objGRNTR.Line_No - 1).Net_Weight Then
+                            objMRNTR.Accept_Qty = obj.Arr(objGRNTR.Line_No - 1).Net_Weight
+                            objMRNTR.Short_Qty = Math.Round(objGRNTR.GRN_Qty - obj.Arr(objGRNTR.Line_No - 1).Net_Weight, 3)
+                        ElseIf objGRNTR.GRN_Qty < obj.Arr(objGRNTR.Line_No - 1).Net_Weight Then
+                            objMRNTR.Excess_Qty = Math.Round(obj.Arr(objGRNTR.Line_No - 1).Net_Weight - objGRNTR.GRN_Qty, 3)
+                        Else
+                            objMRNTR.Accept_Qty = obj.Arr(objGRNTR.Line_No - 1).Net_Weight
+                        End If
+                        Dim dbNetWeight As String = clsDBFuncationality.getSingleValue("select Net_Weight from TSPL_PO_WEIGHTMENT_DETAIL where Weighment_Code='" & obj.Weighment_Code & "' and item_code='" + objGRNTR.Item_Code + "' ", trans) ''VIJ/11/12/19-000117 by balwinder on 29/01/2020
+                        If clsCommon.myCstr(dbNetWeight) > 0 Then
+                            objMRNTR.OrgGRNQty = dbNetWeight
+                            objMRNTR.Accept_Qty = dbNetWeight
+                            objMRNTR.MRN_Qty = dbNetWeight
+                        End If
                     End If
                 End If
                 objMRNTR.ItemAdd_Charge_Code1 = objGRNTR.ItemAdd_Charge_Code1

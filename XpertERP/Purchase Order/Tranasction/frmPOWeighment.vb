@@ -3,6 +3,7 @@
 Public Class frmPOWeighment
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim isHighClass As Integer = 0
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim tenp_unloding As Boolean = False
@@ -765,6 +766,7 @@ Public Class frmPOWeighment
                     lblGDShipToLocation.Text = obj.Ship_To_Location
                     lbRALTender.Text = obj.Ref_No
                     lblGDShipToLocationName.Text = obj.ShipToLocationName
+                    isHighClass = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isHighClass from TSPL_MRN_HEAD where Against_GRN='" + obj.GRN_No + "'"))
                     If FillDetailData Then
                         Try
                             isInsideLoadData = True
@@ -932,14 +934,20 @@ Public Class frmPOWeighment
 							max(TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE) AS ITEM_CODE,
 							MAX(TSPL_ITEM_MASTER.Item_Desc) AS ITEM_NAME,
 											MAX(TSPL_PO_WEIGHTMENT_GUNNY.JuteBagWeight) AS JuteBagWeight,
-							MAX(TSPL_PO_WEIGHTMENT_GUNNY.PPBagWeight) AS PPBagWeight
-                            from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code  
+							MAX(TSPL_PO_WEIGHTMENT_GUNNY.PPBagWeight) AS PPBagWeight "
+                If isHighClass > 0 Then
+                    strQuery += " ,Max(TSPL_MRN_HEAD.isHighClass)isHighClass "
+                End If
+                strQuery += " from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code  
                             left join TSPL_GRN_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No  
                             left join TSPL_COMPANY_MASTER on TSPL_GRN_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  
                             left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_HEAD.Bill_To_Location				
                             LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_STATE_MASTER.STATE_CODE  =TSPL_LOCATION_MASTER.State 	
-							LEFT OUTER JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
-							LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE
+							LEFT OUTER JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No "
+                If isHighClass > 0 Then
+                    strQuery += " LEFT outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No "
+                End If
+                strQuery += " LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE
 							LEFT OUTER JOIN (SELECT Weighment_Code, ISNULL([PM0001],0) AS 'JuteBagWeight',ISNULL([PM0002],0) AS 'PPBagWeight'  FROM (SELECT TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code,TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,CAST(ISNULL(TSPL_PO_WEIGHTMENT_GUNNY.Qty,0)*ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)/100 AS decimal(18,2)) AS QTY FROM   TSPL_PO_WEIGHTMENT_GUNNY
 					        left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PO_WEIGHTMENT_GUNNY.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='KG' ) AS PO_WEIGHTMENT_GUNNY
 					        PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
@@ -947,16 +955,19 @@ Public Class frmPOWeighment
                             group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type"
             Else
                 strQuery = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar(13),TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No,convert(varchar(13),TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date," &
-                 "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &
-                 "left join TSPL_GRN_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No " &
-                 "left join TSPL_COMPANY_MASTER on TSPL_GRN_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code='" + StrCode + " '"
+             "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &
+             "left join TSPL_GRN_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No " &
+             "left join TSPL_COMPANY_MASTER on TSPL_GRN_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code='" + StrCode + " '"
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-
-                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip", "Tanker Weighment Slip")
+                If isHighClass > 0 Then
+                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip2", "Tanker Weighment Slip")
+                Else
+                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptTankerWeighmentSlip", "Tanker Weighment Slip")
+                End If
                 frmCRV = Nothing
             End If
         Else
@@ -1285,7 +1296,6 @@ Public Class frmPOWeighment
             CancelPOWeighmentData()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
     End Sub
 End Class
