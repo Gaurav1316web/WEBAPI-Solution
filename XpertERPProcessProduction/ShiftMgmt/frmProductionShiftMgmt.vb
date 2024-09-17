@@ -579,6 +579,23 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         gvOP.MasterTemplate.ShowRowHeaderColumn = False
         gvOP.TableElement.TableHeaderHeight = 40
 
+        gvOP.MasterTemplate.SummaryRowsBottom.Clear()
+
+
+
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem(ColOPQtyLtr, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColOPQtyKG, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColOPFATKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColOPSNFKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        gvOP.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvOP.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
         gvOP.AllowDeleteRow = False
     End Sub
     Sub LoadBlankGridRecPlant()
@@ -738,6 +755,22 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
 
         gvRecPlant.AllowDeleteRow = True
 
+        gvRecPlant.MasterTemplate.SummaryRowsBottom.Clear()
+
+
+
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem(ColRecPlantQtyLtr, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColRecPlantQtyKG, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColRecPlantFATKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColRecPlantSNFKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        gvRecPlant.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvRecPlant.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadBlankGridRecBulk()
         gvRecBulk.Columns.Clear()
@@ -979,6 +1012,23 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         gvRecBulk.TableElement.TableHeaderHeight = 40
 
         gvRecBulk.AllowDeleteRow = True
+
+        gvRecBulk.MasterTemplate.SummaryRowsBottom.Clear()
+
+
+
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem(ColRecBulkQtyLtr, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColRecBulkQtyKG, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColRecBulkFATKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColRecBulkSNFKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        gvRecBulk.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvRecBulk.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadBlankGridPro()
         gvPro.Columns.Clear()
@@ -1213,6 +1263,23 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
 
         gvPro.Rows.AddNew()
 
+
+        gvPro.MasterTemplate.SummaryRowsBottom.Clear()
+
+
+
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem(ColProQtyKG, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColProQtyLTR, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColProFATKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColProSNFKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        gvPro.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvPro.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadBlankGridProRM()
         gvProRM.Columns.Clear()
@@ -1354,6 +1421,15 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
 
         gvProRM.AllowDeleteRow = False
 
+        gvProRM.MasterTemplate.SummaryRowsBottom.Clear()
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem(ColProRMFATKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(ColProRMSNFKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        gvProRM.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvProRM.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Sub LoadBlankGridCL()
         gvCL.Columns.Clear()
@@ -1644,6 +1720,32 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         gvCL.TableElement.TableHeaderHeight = 40
 
         gvCL.AllowDeleteRow = False
+
+
+        gvCL.MasterTemplate.SummaryRowsBottom.Clear()
+
+
+
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem(colCLOPQtyLtr, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colCLOPQtyKG, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colCLOPFATKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colCLOPSNFKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colCLQtyLtr, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colCLQtyKG, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colCLFATKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colCLSNFKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        gvCL.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvCL.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvPro.CellValueChanged
         Try
