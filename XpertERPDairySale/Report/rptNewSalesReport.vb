@@ -353,7 +353,7 @@ Public Class rptNewSalesReport
 
 
                 FinalQuery += " " & Environment.NewLine & " --AVG " & Environment.NewLine & " union all " & Environment.NewLine & " Select 5 As SNO,max(route_no) As Route_No,max(Shift_Type)Shift_Type,'AVG' as Document_Date, " & qry3 & " select Days,route_no,Document_Date,Shift_Type,Fresh_Item,Fresh_Item_Amt,Uom,Qty,Fresh_Qty,Product_Qty,KG_QTY,LTR_QTY,Product_Amount,Fresh_Amount,
-                (" & AmountAvg & ") AS Amount,Product_Item,Product_Item_Amt,Receipt_Amount , case when cast(LTR_QTY as int) = 0 or Days = 0 then 0 else  convert( decimal(18,2),(LTR_QTY/Days )) end as Fresh_Avg ,  case when cast(KG_QTY as int) = 0 or Days = 0 then 0 else convert( decimal(18,2),(KG_QTY /  Days))end as Product_Avg  from ( " & qry & " " & Environment.NewLine & " )xxx"
+                (" & AmountAvg & ") AS Amount,Product_Item,Product_Item_Amt,Receipt_Amount , case when cast(LTR_QTY as int) = 0  then 0 else  convert( decimal(18,2),(LTR_QTY/Days )) end as Fresh_Avg ,  case when cast(KG_QTY as int) = 0  then 0 else convert( decimal(18,2),(KG_QTY /  Days))end as Product_Avg  from ( " & qry & " " & Environment.NewLine & " )xxx"
 
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " pivot (sum(Fresh_Avg) FOR  Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh "
