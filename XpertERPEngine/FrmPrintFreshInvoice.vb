@@ -877,11 +877,17 @@ Public Class FrmPrintFreshInvoice
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Qry += " , isnull(TSPL_COMPANY_MASTER.Comp_Name,'') as Company_Name,  isnull(TSPL_COMPANY_MASTER.Add2,'') as Address2,TSPL_COMPANY_MASTER.Regn_No,
-  isnull(TSPL_COMPANY_MASTER.Access_Officer,'') as FSSAI_NO,TSPL_RECEIPT_HEADER.Receipt_No,TSPL_RECEIPT_HEADER.Receipt_Date,TSPL_RECEIPT_HEADER.Receipt_Amount,TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEADER.Cheque_Date, '" + clsCommon.myCstr(OpeningBal) + "' as OpeningBal,'" + clsCommon.myCstr(ClosingBal) + "' as ClosingBal "
+  isnull(TSPL_COMPANY_MASTER.Access_Officer,'') as FSSAI_NO,
+
+TSPL_RECEIPT_HEADER.Receipt_No,TSPL_RECEIPT_HEADER.Receipt_Date,TSPL_RECEIPT_HEADER.Receipt_Amount,
+
+TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEADER.Cheque_Date, '" + clsCommon.myCstr(OpeningBal) + "' as OpeningBal,'" + clsCommon.myCstr(ClosingBal) + "' as ClosingBal "
             End If
 
             Qry += "  from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC,Item_Desc+'   '+isnull(batchNO,'') as Particulars from (  
-select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,TSPL_BOOKING_MATSER.Payment_Terms,TSPL_BOOKING_MATSER.ReceiverName,TSPL_BOOKING_MATSER.Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,convert(varchar(12),TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)Supply_Date,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type, "
+select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,
+TSPL_SD_SHIPMENT_HEAD.ManualVehicle as Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.ReceiverName,
+TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,convert(varchar(12),TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)Supply_Date,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type, "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                 Qry += " TSPL_ITEM_PRICE_MASTER.Item_MRP as MRP ,TSPL_SD_sale_invoice_DETAIL.Balance_Qty, "
             End If
@@ -908,7 +914,6 @@ case when TSPL_ITEM_PRICE_MASTER.Price_Comp1='DIS-MARGIN' then isnull(TSPL_SD_sa
 TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin, (case when isnull(TSPL_LOCATION_MASTER.Phone1,'')<>'' then TSPL_LOCATION_MASTER.Phone1  when  isnull(TSPL_LOCATION_MASTER.Phone2,'')<>'' then + ', '+ TSPL_LOCATION_MASTER.Phone2 end) as Loc_Phone , 
 TSPL_LOCATION_MASTER.Email as Loc_Eamil,'' as Loc_Website,TSPL_COMPANY_MASTER.ISO_No, 
 TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_No,convert(varchar(12),TSPL_SD_SALE_INVOICE_HEAD.Document_date,103) as Invoice_Date, 
-TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No as DO_No,convert(varchar(12),TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_Date,103) as Do_Date, 
 customer_city_master.city_name as Cust_City,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No ,CUSTOMER_STATE_MASTER.GST_STATE_Code AS Cust_Gst_StateCode, TSPL_SD_SALE_INVOICE_HEAD.Electronic_Ref_No, Tspl_customer_master.gstno as CustGSTNo,TSPL_STATE_MASTER.gst_state_code,tspl_location_master.gstno as LocGstNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_ITEM_MASTER.HSN_Code,TSPL_SD_SALE_INVOICE_HEAD.Remarks as InvRemarks,TSPL_SD_sale_invoice_DETAIL.Delivery_Code ,ITEMDETAIL.Conversion_factor,  
 (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then case when coalesce(ITEMDETAIL.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(ITEMDETAIL.Conversion_factor,1)) end else 0 end) end) as QTY_Box ,  
 TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Sale_Invoice_No,  Case When ISNULL(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')<>'' Then TSPL_SD_SHIPMENT_HEAD.ManualVehicle WHEN  
@@ -974,13 +979,12 @@ TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.AlternateVehicle"
 and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and TSPL_ITEM_PRICE_MASTER.UOM=TSPL_SD_sale_invoice_DETAIL.Unit_code
 and  len(isnull( TSPL_SD_shipment_head.Price_code  ,''))>0 "
             Else
-                Qry += "left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_sale_invoice_DETAIL.Location
+                Qry += " left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_sale_invoice_DETAIL.Location
 and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and  len(isnull( TSPL_SD_sale_invoice_DETAIL.Price_code  ,''))>0  "
             End If
 
 
-            Qry += "left outer join TSPL_DELIVERY_NOTE_master_FRESHSALE on TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code
-left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No
+            Qry += "
 left outer join (select Document_Code,Parent_Line_No,STRING_AGG(Batch_No+'('+convert(varchar(8),Qty)+')', ',') as Batch_No  from (
 SELECT Document_Code,Batch_No,Qty,Parent_Line_No FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
 )x group by Document_Code,Parent_Line_No)TabBatch on TabBatch.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code and TabBatch.Parent_Line_No=TSPL_SD_SALE_INVOICE_DETAIL.Line_No	 
