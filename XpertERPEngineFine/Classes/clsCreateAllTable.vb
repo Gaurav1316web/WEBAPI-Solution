@@ -55954,6 +55954,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Document_No", "Varchar(30) not null Primary key")
             coll.Add("Document_Date", "date NOT NULL")
             coll.Add("Shift_Code", "Varchar(30) not null references tspl_shift_master(SHIFT_CODE)")
+            coll.Add("Shift_Start_Date", "Datetime NOT NULL")
+            coll.Add("Shift_End_Date", "Datetime NOT NULL")
             coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Remarks", "varchar(250) NULL")
             coll.Add("Comment", "varchar(250) NULL")
