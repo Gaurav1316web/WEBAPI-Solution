@@ -161,7 +161,7 @@ Public Class clsERPFuncationality
                                 strPrefix += "-" + strLocatinSegmentCode
                             End If
                             If clsCommon.myLen(strRouteNo) > 0 Then
-                                strPrefix += "-" + strRouteNo
+                                strPrefix += "-" + strRouteNo.Substring(0, 3)
                             End If
                             dr("Doc_Prfeix") = strPrefix.ToUpper()
                             dr("Separator") = "/"

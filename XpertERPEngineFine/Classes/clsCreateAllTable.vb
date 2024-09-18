@@ -2207,6 +2207,23 @@ Public Class clsCreateAllTable
             'Catch ex As Exception
             'End Try
 
+            Try
+                Dim sql As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_ITEM_MASTER' AND COLUMN_NAME = 'Deduction_Type_Hindi' "
+                Dim CodeExists = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sql))
+                If CodeExists = 1 Then
+                    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER Drop Column Deduction_Type_Hindi ")
+                End If
+                ''        Dim qrys As String = "select count(1) from TSPL_BULL_SHED_PARAMETER_DETAIL"
+                ''        Dim DataExists = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qrys))
+                ''        Dim is_Identity As Integer = clsDBFuncationality.getSingleValue("SELECT  is_identity FROM sys.columns WHERE [object_id] = object_id('TSPL_BULL_SHED_PARAMETER_DETAIL') and name = 'PK_Id'")
+                ''        If is_Identity = 0 Then
+                ''            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BULL_SHED_PARAMETER_Detail Add PRIMARY KEY (PK_Id)")
+                ''        End If
+                ''    End If
+            Catch ex As Exception
+
+            End Try
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Short_Description", "Varchar(200)")
             coll.Add("tech_shelf_life", "varchar(60) null")
@@ -2344,8 +2361,14 @@ Public Class clsCreateAllTable
             coll.Add("Report_Name", "varchar(50) NULL")
             coll.Add("AllowEntryInDecimal", "Integer null")
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
-            coll.Add("Deduction_Type_Hindi", "nvarchar(100) null")
+            'coll.Add("Deduction_Type_Hindi", "nvarchar(100) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
+            'Try
+            '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
+            'Catch ex As Exception
+
+            'End Try
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("SNO", "integer NUll")
@@ -55931,6 +55954,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Document_No", "Varchar(30) not null Primary key")
             coll.Add("Document_Date", "date NOT NULL")
             coll.Add("Shift_Code", "Varchar(30) not null references tspl_shift_master(SHIFT_CODE)")
+            coll.Add("Shift_Start_Date", "Datetime NOT NULL")
+            coll.Add("Shift_End_Date", "Datetime NOT NULL")
             coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Remarks", "varchar(250) NULL")
             coll.Add("Comment", "varchar(250) NULL")
@@ -56056,6 +56081,21 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("FAT_KG", "Decimal(18,3) null")
             coll.Add("SNF_KG", "Decimal(18,3) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
+            coll.Add("Type", "integer not null ") ''1-Add;2-Remove
+            coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("UOM", "Varchar(20) null")
+            coll.Add("FAT", "Decimal(18,2) null")
+            coll.Add("SNF", "Decimal(18,2) null")
+            coll.Add("FAT_KG", "Decimal(18,3) null")
+            coll.Add("SNF_KG", "Decimal(18,3) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
 
 
             coll = New Dictionary(Of String, String)

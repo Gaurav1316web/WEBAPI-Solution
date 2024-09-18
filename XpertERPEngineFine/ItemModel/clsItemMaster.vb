@@ -1563,8 +1563,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             clsCommon.AddColumnsForChange(coll, "Alies_Name_Hindi", obj.Alies_Name_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "BuyBackType", obj.BuyBackType, True, True)
             clsCommon.AddColumnsForChange(coll, "BuyBackValue", obj.BuyBackValue, True, True)
-            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type)
-            clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
+            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
+            'clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
 
             If isNewEntry Then
                 ' If clsCommon.myLen(obj.Item_Code) <= 0 Then 
@@ -1669,7 +1669,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Item_Desc = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
                 obj.Item_Desc_Hindi = clsCommon.myCstr(dt.Rows(0)("Item_Desc_Hindi"))
                 obj.Deduction_Type = clsCommon.myCstr(dt.Rows(0)("Deduction_Type"))
-                obj.Deduction_Type_Hindi = clsCommon.myCstr(dt.Rows(0)("Deduction_Type_Hindi"))
+                'obj.Deduction_Type_Hindi = clsCommon.myCstr(dt.Rows(0)("Deduction_Type_Hindi"))
                 obj.Part_No = clsCommon.myCstr(dt.Rows(0)("Part_No"))
                 obj.Drawing_No = clsCommon.myCstr(dt.Rows(0)("Drawing_No"))
                 obj.Item_Short_Desc = clsCommon.myCstr(dt.Rows(0)("Short_Description"))
