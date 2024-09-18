@@ -8150,6 +8150,9 @@ from
                     obj.Box = txtBox.Text
                     'obj.Against_Delivery_Code = Against_Delivery_Code 'clsDBFuncationality.getSingleValue("select Delivery_No from TSPL_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "' ", trans)
                     obj.Against_Booking_No = txtDocNo.Value
+                    obj.Payment_Terms = cmbPaymentType.Text
+                    obj.Vehicle_Manual_No = txtManualVehicle.Text
+                    obj.ReceiverName = txtReceiverName.Text
                     obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text)
                     obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
                     obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
@@ -8184,7 +8187,7 @@ from
                     obj.Bill_To_Location = txtLocation.Value
                     obj.Ship_To_Location = txtShipToLocation.Value
                     obj.Trans_Type = "FS"
-                    obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
+                    'obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
                     obj.Is_Create_Auto_Invoice = 1
                     obj.Supply_Date = txtDate.Value
