@@ -1,6 +1,8 @@
 ﻿Public Class clsDemandCustItem
 #Region "Variable"
     Public Cust_Code As String = ""
+    Public FreshItem_QtyInLitres As String = ""
+    Public FreshItem_QtyInCrate As String = ""
     Public ItemCode As String = ""
     Public UnitCode As String = ""
     Public ItemRate As Double = 0

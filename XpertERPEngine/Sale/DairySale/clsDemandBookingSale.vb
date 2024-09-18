@@ -1730,10 +1730,10 @@ Public Class clsDemandBookingSaleDetail
 
                 Dim coll As New Hashtable()
                     If isUploader Then
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Uploader, "", False, True, False, False, strRouteNo)
-                    Else
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "", False, True, False, False, strRouteNo)
-                    End If
+                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
+                Else
+                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+                End If
                     clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                     clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                     clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
