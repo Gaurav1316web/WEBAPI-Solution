@@ -9794,7 +9794,8 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
         'SetTaxDetails()
         SetTermDetails()
         If gv1.Rows.Count > 0 Then
-            strOrginalCust = clsDBFuncationality.getSingleValue("select Customer_Code from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
+            'strOrginalCust = clsDBFuncationality.getSingleValue("select Customer_Code from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
+            strOrginalCust = txtVendorNo.Value
         End If
         LoadDemandData(Nothing)
     End Sub
@@ -14815,6 +14816,10 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnPrintInvoice_Click_1(sender As Object, e As EventArgs) Handles btnPrintInvoice.Click
+        PrintInvoiveForAll()
     End Sub
 End Class
 Class tempSchemStructrue

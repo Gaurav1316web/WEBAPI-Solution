@@ -66,7 +66,7 @@ Public Class frmProductionShiftMgmtAdd
          from TSPL_INVENTORY_MOVEMENT_NEW 
         left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code
         left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT_NEW.Location_Code
-        where TSPL_INVENTORY_MOVEMENT_NEW.Item_Code='" + clsCommon.myCstr(gv1.Rows(idx).Cells(ColItemCode).Value) + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG') and TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_INVENTORY_MOVEMENT.Location_Code='" + clsCommon.myCstr(gv1.Rows(idx).Cells(ColLocationCode).Value) + "' and Punching_Date<='" + clsCommon.GetPrintDate(FilterDate, "dd/MMM/yyyy hh:mm tt") + "' 
+        where TSPL_INVENTORY_MOVEMENT_NEW.Item_Code='" + clsCommon.myCstr(gv1.Rows(idx).Cells(ColItemCode).Value) + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG') and TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_INVENTORY_MOVEMENT_NEW.Location_Code='" + clsCommon.myCstr(gv1.Rows(idx).Cells(ColLocationCode).Value) + "' and Punching_Date<='" + clsCommon.GetPrintDate(FilterDate, "dd/MMM/yyyy hh:mm tt") + "' 
         )xx group by Location_Code,Item_Code,Stock_UOM
         )xxx 
         left outer join TSPL_ITEM_UOM_DETAIL as TabUOMKG on TabUOMKG.Item_Code=xxx.Item_Code and TabUOMKG.UOM_Code='KG'

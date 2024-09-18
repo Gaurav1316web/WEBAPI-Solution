@@ -485,7 +485,6 @@ Partial Class rptVSPMilkNotSold
         Me.dtpToDate.MyLinkLable2 = Nothing
         Me.dtpToDate.Name = "dtpToDate"
         Me.dtpToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToDate.ReadOnly = True
         Me.dtpToDate.ReferenceFieldDesc = Nothing
         Me.dtpToDate.ReferenceFieldName = Nothing
         Me.dtpToDate.ReferenceTableName = Nothing
@@ -536,6 +535,7 @@ Partial Class rptVSPMilkNotSold
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(671, 278)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'RadSplitExp
         '
