@@ -22,12 +22,13 @@ Partial Class frmProductionShiftMgmt
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnPrintNew = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
@@ -38,6 +39,10 @@ Partial Class frmProductionShiftMgmt
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtShiftEnd = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtShiftStart = New common.Controls.MyDateTimePicker()
         Me.Remarks = New common.Controls.MyLabel()
         Me.txtRemarks = New common.Controls.MyTextBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -69,9 +74,10 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvProRM = New common.UserControls.MyRadGridView()
-        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCL = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage9 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvDisBulk = New common.UserControls.MyRadGridView()
         Me.Panel2.SuspendLayout()
         CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,6 +88,10 @@ Partial Class frmProductionShiftMgmt
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtShiftEnd, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtShiftStart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Remarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -118,10 +128,12 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage8.SuspendLayout()
         CType(Me.gvProRM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvProRM.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
         CType(Me.gvCL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage9.SuspendLayout()
+        CType(Me.gvDisBulk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDisBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -225,6 +237,10 @@ Partial Class frmProductionShiftMgmt
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.MyLabel2)
+        Me.Panel1.Controls.Add(Me.txtShiftEnd)
+        Me.Panel1.Controls.Add(Me.MyLabel1)
+        Me.Panel1.Controls.Add(Me.txtShiftStart)
         Me.Panel1.Controls.Add(Me.Remarks)
         Me.Panel1.Controls.Add(Me.txtRemarks)
         Me.Panel1.Controls.Add(Me.RadButton1)
@@ -244,14 +260,96 @@ Partial Class frmProductionShiftMgmt
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(784, 91)
+        Me.Panel1.Size = New System.Drawing.Size(784, 122)
         Me.Panel1.TabIndex = 0
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(526, 27)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel2.TabIndex = 65
+        Me.MyLabel2.Text = "Shift End Date"
+        '
+        'txtShiftEnd
+        '
+        Me.txtShiftEnd.CalculationExpression = Nothing
+        Me.txtShiftEnd.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtShiftEnd.FieldCode = Nothing
+        Me.txtShiftEnd.FieldDesc = Nothing
+        Me.txtShiftEnd.FieldMaxLength = 0
+        Me.txtShiftEnd.FieldName = Nothing
+        Me.txtShiftEnd.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtShiftEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtShiftEnd.isCalculatedField = False
+        Me.txtShiftEnd.IsSourceFromTable = False
+        Me.txtShiftEnd.IsSourceFromValueList = False
+        Me.txtShiftEnd.IsUnique = False
+        Me.txtShiftEnd.Location = New System.Drawing.Point(613, 26)
+        Me.txtShiftEnd.MendatroryField = False
+        Me.txtShiftEnd.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShiftEnd.MyLinkLable1 = Me.MyLabel2
+        Me.txtShiftEnd.MyLinkLable2 = Nothing
+        Me.txtShiftEnd.Name = "txtShiftEnd"
+        Me.txtShiftEnd.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShiftEnd.ReadOnly = True
+        Me.txtShiftEnd.ReferenceFieldDesc = Nothing
+        Me.txtShiftEnd.ReferenceFieldName = Nothing
+        Me.txtShiftEnd.ReferenceTableName = Nothing
+        Me.txtShiftEnd.Size = New System.Drawing.Size(123, 18)
+        Me.txtShiftEnd.TabIndex = 64
+        Me.txtShiftEnd.TabStop = False
+        Me.txtShiftEnd.Text = "13/06/2011 11:29 AM"
+        Me.txtShiftEnd.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(308, 27)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(83, 16)
+        Me.MyLabel1.TabIndex = 63
+        Me.MyLabel1.Text = "Shift Start Date"
+        '
+        'txtShiftStart
+        '
+        Me.txtShiftStart.CalculationExpression = Nothing
+        Me.txtShiftStart.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtShiftStart.FieldCode = Nothing
+        Me.txtShiftStart.FieldDesc = Nothing
+        Me.txtShiftStart.FieldMaxLength = 0
+        Me.txtShiftStart.FieldName = Nothing
+        Me.txtShiftStart.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtShiftStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtShiftStart.isCalculatedField = False
+        Me.txtShiftStart.IsSourceFromTable = False
+        Me.txtShiftStart.IsSourceFromValueList = False
+        Me.txtShiftStart.IsUnique = False
+        Me.txtShiftStart.Location = New System.Drawing.Point(394, 26)
+        Me.txtShiftStart.MendatroryField = False
+        Me.txtShiftStart.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShiftStart.MyLinkLable1 = Me.MyLabel1
+        Me.txtShiftStart.MyLinkLable2 = Nothing
+        Me.txtShiftStart.Name = "txtShiftStart"
+        Me.txtShiftStart.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShiftStart.ReadOnly = True
+        Me.txtShiftStart.ReferenceFieldDesc = Nothing
+        Me.txtShiftStart.ReferenceFieldName = Nothing
+        Me.txtShiftStart.ReferenceTableName = Nothing
+        Me.txtShiftStart.Size = New System.Drawing.Size(126, 18)
+        Me.txtShiftStart.TabIndex = 62
+        Me.txtShiftStart.TabStop = False
+        Me.txtShiftStart.Text = "13/06/2011 11:29 AM"
+        Me.txtShiftStart.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
         'Remarks
         '
         Me.Remarks.FieldName = Nothing
         Me.Remarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Remarks.Location = New System.Drawing.Point(4, 69)
+        Me.Remarks.Location = New System.Drawing.Point(7, 92)
         Me.Remarks.Name = "Remarks"
         Me.Remarks.Size = New System.Drawing.Size(51, 16)
         Me.Remarks.TabIndex = 61
@@ -269,7 +367,7 @@ Partial Class frmProductionShiftMgmt
         Me.txtRemarks.IsSourceFromTable = False
         Me.txtRemarks.IsSourceFromValueList = False
         Me.txtRemarks.IsUnique = False
-        Me.txtRemarks.Location = New System.Drawing.Point(113, 68)
+        Me.txtRemarks.Location = New System.Drawing.Point(86, 91)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.MyLinkLable1 = Me.Remarks
@@ -285,9 +383,9 @@ Partial Class frmProductionShiftMgmt
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(645, 43)
+        Me.RadButton1.Location = New System.Drawing.Point(613, 70)
         Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(98, 42)
+        Me.RadButton1.Size = New System.Drawing.Size(123, 42)
         Me.RadButton1.TabIndex = 59
         Me.RadButton1.Text = ">>>"
         '
@@ -308,7 +406,7 @@ Partial Class frmProductionShiftMgmt
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        Me.cboShift.Location = New System.Drawing.Point(539, 5)
+        Me.cboShift.Location = New System.Drawing.Point(86, 26)
         Me.cboShift.MendatroryField = False
         Me.cboShift.MyLinkLable1 = Me.MyLabel4
         Me.cboShift.MyLinkLable2 = Nothing
@@ -316,14 +414,14 @@ Partial Class frmProductionShiftMgmt
         Me.cboShift.ReferenceFieldDesc = Nothing
         Me.cboShift.ReferenceFieldName = Nothing
         Me.cboShift.ReferenceTableName = Nothing
-        Me.cboShift.Size = New System.Drawing.Size(100, 18)
+        Me.cboShift.Size = New System.Drawing.Size(209, 18)
         Me.cboShift.TabIndex = 57
         '
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(509, 6)
+        Me.MyLabel4.Location = New System.Drawing.Point(7, 27)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel4.TabIndex = 58
@@ -334,16 +432,16 @@ Partial Class frmProductionShiftMgmt
         Me.lblLocationFG.AutoSize = False
         Me.lblLocationFG.BorderVisible = True
         Me.lblLocationFG.FieldName = Nothing
-        Me.lblLocationFG.Location = New System.Drawing.Point(324, 26)
+        Me.lblLocationFG.Location = New System.Drawing.Point(297, 49)
         Me.lblLocationFG.Name = "lblLocationFG"
-        Me.lblLocationFG.Size = New System.Drawing.Size(315, 19)
+        Me.lblLocationFG.Size = New System.Drawing.Size(438, 19)
         Me.lblLocationFG.TabIndex = 56
         '
         'MyLabel5
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(4, 27)
+        Me.MyLabel5.Location = New System.Drawing.Point(7, 50)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(49, 16)
         Me.MyLabel5.TabIndex = 55
@@ -360,7 +458,7 @@ Partial Class frmProductionShiftMgmt
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(113, 26)
+        Me.txtLocation.Location = New System.Drawing.Point(86, 49)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Me.MyLabel5
@@ -378,10 +476,10 @@ Partial Class frmProductionShiftMgmt
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(645, 4)
+        Me.UsLock1.Location = New System.Drawing.Point(613, 4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(98, 20)
+        Me.UsLock1.Size = New System.Drawing.Size(123, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 10
         '
@@ -389,7 +487,7 @@ Partial Class frmProductionShiftMgmt
         '
         Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(4, 49)
+        Me.RadLabel3.Location = New System.Drawing.Point(7, 72)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(55, 16)
         Me.RadLabel3.TabIndex = 4
@@ -399,7 +497,7 @@ Partial Class frmProductionShiftMgmt
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(388, 6)
+        Me.RadLabel4.Location = New System.Drawing.Point(361, 6)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 9
@@ -409,7 +507,7 @@ Partial Class frmProductionShiftMgmt
         '
         Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(4, 6)
+        Me.RadLabel1.Location = New System.Drawing.Point(7, 6)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(75, 16)
         Me.RadLabel1.TabIndex = 7
@@ -418,7 +516,7 @@ Partial Class frmProductionShiftMgmt
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(113, 4)
+        Me.txtDocNo.Location = New System.Drawing.Point(86, 4)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -427,7 +525,7 @@ Partial Class frmProductionShiftMgmt
         Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
-        Me.txtDocNo.Size = New System.Drawing.Size(250, 20)
+        Me.txtDocNo.Size = New System.Drawing.Size(255, 20)
         Me.txtDocNo.TabIndex = 49
         Me.txtDocNo.Value = ""
         '
@@ -445,7 +543,7 @@ Partial Class frmProductionShiftMgmt
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(421, 5)
+        Me.txtDate.Location = New System.Drawing.Point(394, 5)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -473,7 +571,7 @@ Partial Class frmProductionShiftMgmt
         Me.txtComment.IsSourceFromTable = False
         Me.txtComment.IsSourceFromValueList = False
         Me.txtComment.IsUnique = False
-        Me.txtComment.Location = New System.Drawing.Point(113, 48)
+        Me.txtComment.Location = New System.Drawing.Point(86, 71)
         Me.txtComment.MaxLength = 200
         Me.txtComment.MendatroryField = False
         Me.txtComment.MyLinkLable1 = Me.RadLabel3
@@ -490,7 +588,7 @@ Partial Class frmProductionShiftMgmt
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPProcessProduction.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(362, 4)
+        Me.btnAddNew.Location = New System.Drawing.Point(341, 4)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
         Me.btnAddNew.TabIndex = 8
@@ -511,13 +609,13 @@ Partial Class frmProductionShiftMgmt
         Me.gvPro.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvPro.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPro.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPro.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPro.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvPro.MyStopExport = False
         Me.gvPro.Name = "gvPro"
         Me.gvPro.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPro.ShowGroupPanel = False
         Me.gvPro.ShowHeaderCellButtons = True
-        Me.gvPro.Size = New System.Drawing.Size(742, 161)
+        Me.gvPro.Size = New System.Drawing.Size(742, 130)
         Me.gvPro.TabIndex = 2
         Me.gvPro.VarID = ""
         '
@@ -528,10 +626,10 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 91)
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 122)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(784, 257)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.Size = New System.Drawing.Size(784, 226)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -542,7 +640,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(101.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(763, 209)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(763, 178)
         Me.RadPageViewPage1.Text = "Opening Balance"
         '
         'gvOP
@@ -561,13 +659,13 @@ Partial Class frmProductionShiftMgmt
         Me.gvOP.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvOP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOP.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOP.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvOP.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvOP.MyStopExport = False
         Me.gvOP.Name = "gvOP"
         Me.gvOP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvOP.ShowGroupPanel = False
         Me.gvOP.ShowHeaderCellButtons = True
-        Me.gvOP.Size = New System.Drawing.Size(763, 209)
+        Me.gvOP.Size = New System.Drawing.Size(763, 178)
         Me.gvOP.TabIndex = 3
         Me.gvOP.VarID = ""
         '
@@ -577,7 +675,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(763, 209)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(763, 178)
         Me.RadPageViewPage2.Text = "Receipt"
         '
         'RadPageView2
@@ -588,7 +686,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView2.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView2.Name = "RadPageView2"
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage5
-        Me.RadPageView2.Size = New System.Drawing.Size(763, 209)
+        Me.RadPageView2.Size = New System.Drawing.Size(763, 178)
         Me.RadPageView2.TabIndex = 0
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Center
@@ -599,7 +697,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(742, 161)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(742, 130)
         Me.RadPageViewPage5.Text = "Plant BMC"
         '
         'gvRecPlant
@@ -618,13 +716,13 @@ Partial Class frmProductionShiftMgmt
         Me.gvRecPlant.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvRecPlant.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRecPlant.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRecPlant.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRecPlant.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvRecPlant.MyStopExport = False
         Me.gvRecPlant.Name = "gvRecPlant"
         Me.gvRecPlant.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvRecPlant.ShowGroupPanel = False
         Me.gvRecPlant.ShowHeaderCellButtons = True
-        Me.gvRecPlant.Size = New System.Drawing.Size(742, 161)
+        Me.gvRecPlant.Size = New System.Drawing.Size(742, 130)
         Me.gvRecPlant.TabIndex = 4
         Me.gvRecPlant.VarID = ""
         '
@@ -634,7 +732,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(108.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(742, 161)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(742, 130)
         Me.RadPageViewPage6.Text = "Tanker and Sweep"
         '
         'gvRecBulk
@@ -653,13 +751,13 @@ Partial Class frmProductionShiftMgmt
         Me.gvRecBulk.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvRecBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRecBulk.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRecBulk.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvRecBulk.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvRecBulk.MyStopExport = False
         Me.gvRecBulk.Name = "gvRecBulk"
         Me.gvRecBulk.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvRecBulk.ShowGroupPanel = False
         Me.gvRecBulk.ShowHeaderCellButtons = True
-        Me.gvRecBulk.Size = New System.Drawing.Size(742, 161)
+        Me.gvRecBulk.Size = New System.Drawing.Size(742, 130)
         Me.gvRecBulk.TabIndex = 4
         Me.gvRecBulk.VarID = ""
         '
@@ -670,7 +768,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(58.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(763, 209)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(763, 178)
         Me.RadPageViewPage3.Text = "Disposal"
         Me.RadPageViewPage3.Title = "Disposal"
         '
@@ -678,11 +776,12 @@ Partial Class frmProductionShiftMgmt
         '
         Me.RadPageView3.Controls.Add(Me.RadPageViewPage7)
         Me.RadPageView3.Controls.Add(Me.RadPageViewPage8)
+        Me.RadPageView3.Controls.Add(Me.RadPageViewPage9)
         Me.RadPageView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView3.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView3.Name = "RadPageView3"
-        Me.RadPageView3.SelectedPage = Me.RadPageViewPage8
-        Me.RadPageView3.Size = New System.Drawing.Size(763, 209)
+        Me.RadPageView3.SelectedPage = Me.RadPageViewPage9
+        Me.RadPageView3.Size = New System.Drawing.Size(763, 178)
         Me.RadPageView3.TabIndex = 1
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Center
@@ -693,18 +792,17 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(88.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(742, 161)
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(742, 130)
         Me.RadPageViewPage7.Text = "Produce Items"
         '
         'RadPageViewPage8
         '
         Me.RadPageViewPage8.Controls.Add(Me.gvProRM)
-        Me.RadPageViewPage8.Controls.Add(Me.RadLabel12)
-        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(67.0!, 28.0!)
+        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
-        Me.RadPageViewPage8.Size = New System.Drawing.Size(742, 161)
-        Me.RadPageViewPage8.Text = "Raw Items"
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(742, 130)
+        Me.RadPageViewPage8.Text = "Issue Raw Items"
         '
         'gvProRM
         '
@@ -722,27 +820,15 @@ Partial Class frmProductionShiftMgmt
         Me.gvProRM.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvProRM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProRM.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProRM.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvProRM.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvProRM.MyStopExport = False
         Me.gvProRM.Name = "gvProRM"
         Me.gvProRM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProRM.ShowGroupPanel = False
         Me.gvProRM.ShowHeaderCellButtons = True
-        Me.gvProRM.Size = New System.Drawing.Size(742, 148)
+        Me.gvProRM.Size = New System.Drawing.Size(742, 130)
         Me.gvProRM.TabIndex = 4
         Me.gvProRM.VarID = ""
-        '
-        'RadLabel12
-        '
-        Me.RadLabel12.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.RadLabel12.FieldName = Nothing
-        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(0, 148)
-        Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(742, 13)
-        Me.RadLabel12.TabIndex = 68
-        Me.RadLabel12.Text = "Double Click to issue Item"
         '
         'RadPageViewPage4
         '
@@ -750,7 +836,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(763, 209)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(763, 178)
         Me.RadPageViewPage4.Text = "Closing Balance"
         '
         'gvCL
@@ -769,15 +855,50 @@ Partial Class frmProductionShiftMgmt
         Me.gvCL.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvCL.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCL.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCL.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvCL.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gvCL.MyStopExport = False
         Me.gvCL.Name = "gvCL"
         Me.gvCL.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCL.ShowGroupPanel = False
         Me.gvCL.ShowHeaderCellButtons = True
-        Me.gvCL.Size = New System.Drawing.Size(763, 209)
+        Me.gvCL.Size = New System.Drawing.Size(763, 178)
         Me.gvCL.TabIndex = 4
         Me.gvCL.VarID = ""
+        '
+        'RadPageViewPage9
+        '
+        Me.RadPageViewPage9.Controls.Add(Me.gvDisBulk)
+        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage9.Name = "RadPageViewPage9"
+        Me.RadPageViewPage9.Size = New System.Drawing.Size(742, 130)
+        Me.RadPageViewPage9.Text = "Tanker"
+        '
+        'gvDisBulk
+        '
+        Me.gvDisBulk.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvDisBulk.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvDisBulk.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvDisBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvDisBulk.ForeColor = System.Drawing.Color.Black
+        Me.gvDisBulk.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvDisBulk.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvDisBulk.MasterTemplate.AllowDeleteRow = False
+        Me.gvDisBulk.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvDisBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDisBulk.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDisBulk.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvDisBulk.MyStopExport = False
+        Me.gvDisBulk.Name = "gvDisBulk"
+        Me.gvDisBulk.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvDisBulk.ShowGroupPanel = False
+        Me.gvDisBulk.ShowHeaderCellButtons = True
+        Me.gvDisBulk.Size = New System.Drawing.Size(742, 130)
+        Me.gvDisBulk.TabIndex = 5
+        Me.gvDisBulk.VarID = ""
         '
         'frmProductionShiftMgmt
         '
@@ -806,6 +927,10 @@ Partial Class frmProductionShiftMgmt
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtShiftEnd, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtShiftStart, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Remarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -840,13 +965,14 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView3.ResumeLayout(False)
         Me.RadPageViewPage7.ResumeLayout(False)
         Me.RadPageViewPage8.ResumeLayout(False)
-        Me.RadPageViewPage8.PerformLayout()
         CType(Me.gvProRM.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProRM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
         CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCL, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage9.ResumeLayout(False)
+        CType(Me.gvDisBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDisBulk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -894,6 +1020,11 @@ Partial Class frmProductionShiftMgmt
     Friend WithEvents RadPageViewPage7 As RadPageViewPage
     Friend WithEvents RadPageViewPage8 As RadPageViewPage
     Friend WithEvents gvProRM As common.UserControls.MyRadGridView
-    Friend WithEvents RadLabel12 As common.Controls.MyLabel
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtShiftStart As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents txtShiftEnd As common.Controls.MyDateTimePicker
+    Friend WithEvents RadPageViewPage9 As RadPageViewPage
+    Friend WithEvents gvDisBulk As common.UserControls.MyRadGridView
 End Class
 
