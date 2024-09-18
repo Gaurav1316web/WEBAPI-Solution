@@ -31,7 +31,7 @@ Public Class clsItemMaster
     Public uom_code As String = ""
     Public Structure_Code As String = ""
     Public Structure_Desc As String = ""
-    Public Deduction_Type As String=""
+    Public Deduction_Type As String = ""
     Public Deduction_Type_Hindi As String = ""
     Public Purchase_Class_Code As String = ""
     Public Sale_Class_Code As String = ""
@@ -1565,8 +1565,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             clsCommon.AddColumnsForChange(coll, "Alies_Name_Hindi", obj.Alies_Name_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "BuyBackType", obj.BuyBackType, True, True)
             clsCommon.AddColumnsForChange(coll, "BuyBackValue", obj.BuyBackValue, True, True)
-            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type)
-            clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
+            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
+            'clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "isSecurityDeduction", obj.isSecurityDeduction)
             clsCommon.AddColumnsForChange(coll, "isPenaltyDeduction", obj.isPenaltyDeduction)
             If isNewEntry Then
@@ -1672,7 +1672,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Item_Desc = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
                 obj.Item_Desc_Hindi = clsCommon.myCstr(dt.Rows(0)("Item_Desc_Hindi"))
                 obj.Deduction_Type = clsCommon.myCstr(dt.Rows(0)("Deduction_Type"))
-                obj.Deduction_Type_Hindi = clsCommon.myCstr(dt.Rows(0)("Deduction_Type_Hindi"))
+                'obj.Deduction_Type_Hindi = clsCommon.myCstr(dt.Rows(0)("Deduction_Type_Hindi"))
                 obj.Part_No = clsCommon.myCstr(dt.Rows(0)("Part_No"))
                 obj.Drawing_No = clsCommon.myCstr(dt.Rows(0)("Drawing_No"))
                 obj.Item_Short_Desc = clsCommon.myCstr(dt.Rows(0)("Short_Description"))

@@ -521,8 +521,8 @@ Public Class RptMatrixFreshSalesReport
             Dim strWhrRoutSummaryPrint As String = String.Empty
             itemCode = " and 2=2 "
             Dim strDate As String = "Document_Date"
-            strWhrClause = " and convert(date, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE." + strDate + ",103) >= ''" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'' and  convert(date, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE." + strDate + ",103) <= ''" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'' "
-            strWhrClause2 = " and convert(date, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
+            strWhrClause = " and convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) >= ''" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'' and  convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) <= ''" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'' "
+            strWhrClause2 = " and convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
             Dim ShiftType As String = Nothing
             If rbtnMrng.Checked Then
                 ShiftType = "'Morning'"
@@ -583,14 +583,14 @@ Public Class RptMatrixFreshSalesReport
             If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
                 Dim ss As String = clsCommon.GetMulcallString(TxtRoute.arrValueMember)
                 Dim sss As String = ss.Replace("'", "''")
-                strWhrClause += " and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in (" + sss + ")  "
-                strWhrClause2 += " and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in (" + ss + ")  "
+                strWhrClause += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in (" + ss + ")  "
             End If
             If TxtUOM.arrValueMember IsNot Nothing AndAlso TxtUOM.arrValueMember.Count > 0 Then
                 Dim ss As String = clsCommon.GetMulcallString(TxtUOM.arrValueMember)
                 Dim sss As String = ss.Replace("'", "''")
-                strWhrClause += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code in (" + sss + ")  "
-                strWhrClause2 += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code in (" + ss + ")  "
+                strWhrClause += " and TSPL_DEMAND_BOOKING_DETAIL.Unit_code in (" + sss + ")  "
+                strWhrClause2 += " and TSPL_DEMAND_BOOKING_DETAIL.Unit_code in (" + ss + ")  "
             End If
             Dim ItemInUse As String = ""
             Dim itemqry As String = Nothing
@@ -620,29 +620,28 @@ Public Class RptMatrixFreshSalesReport
                 Next
             End If
             Dim query As String = ""
-            MainQuery = " select [Route No],[Route Desc] " + itemNames + ",Sum(" + itemamt + ") As Total from (Select [Route No],[Route Desc],Conversion_Factor,CFinLTR,CFinPouch" + itemName + "
+            MainQuery = " select [Route No],[Route Desc] " + itemNames + ",Sum(" + itemamt + ") As Total from
+                         (Select [Route No],[Route Desc],Conversion_Factor,CFinLTR,CFinPouch" + itemName + "
                         from 
                               (Select ItemConversionInLTR.Conversion_Factor AS 'CFinLTR',ItemConversionInPouch.Conversion_Factor As CFinPouch,
-                              CurrentUnit.Conversion_Factor,ItemConversionInKG.Conversion_Factor as CFinKG, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No as [Route No],tspl_route_master.Route_Desc as [Route Desc],
-                              TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code as Item_Code, TSPL_ITEM_MASTER.Alies_Name As [Description] ,
-                              TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty as Qty From TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE
-                              Left Outer Join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE On TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No
-                              Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code
-                              Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code
-                              left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.item_code and 	CurrentUnit.uom_code=	TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.unit_code 
-						      left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.item_code  and 	CrateUnit.uom_code=	TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.unit_code 
-							  left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code
-							  left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code 
-                              left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code
-                              Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Lorry_No
-                              left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No
-                              LEFT OUTER JOIN TSPL_BOOKING_DETAIL ON TSPL_BOOKING_DETAIL.Document_No=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No AND TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No=TSPL_BOOKING_DETAIL.Line_No
-                              LEFT OUTER JOIN TSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_BOOKING_DETAIL.Against_DemandBooking_No AND TSPL_BOOKING_DETAIL.Line_No= TSPL_DEMAND_BOOKING_DETAIL.Line_No
-                              Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code
+                              CurrentUnit.Conversion_Factor,ItemConversionInKG.Conversion_Factor as CFinKG, TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],tspl_route_master.Route_Desc as [Route Desc],
+                              TSPL_DEMAND_BOOKING_DETAIL.Item_Code as Item_Code, TSPL_ITEM_MASTER.Alies_Name As [Description] ,
+                              sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) as Qty as Qty From TSPL_DEMAND_BOOKING_DETAIL
+                              Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                              Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                              Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                              left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DEMAND_BOOKING_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_DEMAND_BOOKING_DETAIL.unit_code 
+						      left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DEMAND_BOOKING_DETAIL.item_code  and 	CrateUnit.uom_code=	TSPL_DEMAND_BOOKING_DETAIL.unit_code 
+							  left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+							  left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+                              left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                              Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id =  TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
+                              left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
+                              Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_DEMAND_BOOKING_MASTER.Location_Code
                               left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code
                               where 2=2 " + strWhrClause2 + " and TSPL_ITEM_MASTER.Is_Ambient=1  and TSPL_ITEM_MASTER. Item_Type='F'   " + whrcls + "   group by TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No,
 							 				TSPL_ITEM_MASTER.Alies_Name,TSPL_ROUTE_MASTER.[Route_Desc],TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code,
-                              TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty,  ItemConversionInLTR.Conversion_Factor,ItemConversionInPouch.Conversion_Factor ,CurrentUnit.Conversion_Factor,ItemConversionInKG.Conversion_Factor  )tab1  
+                              ItemConversionInLTR.Conversion_Factor,ItemConversionInPouch.Conversion_Factor ,CurrentUnit.Conversion_Factor,ItemConversionInKG.Conversion_Factor  )tab1  
                               pivot( sum(Qty) for Description in (" + itemName1 + ") ) as Tab2  group by [Route No],[Route Desc],Conversion_Factor,CFinLTR,CFinPouch,CFinKG)tmp
                                 group by [Route No],[Route Desc]"
             query = MainQuery
@@ -1220,7 +1219,8 @@ Public Class RptMatrixFreshSalesReport
             ' group by zpivot.Document_No, zpivot.[VEHICLE NO], zpivot.[WdName], zpivot.[Group], zpivot.[Route No], zpivot.[DO NO], zpivot.[Short Close]"
             MainQuery = "select  Document_No as [Document No],max(Document_Date) as [Document Date],max([Time]) as [Time],max([Customer Code]) as [Customer Code],[WdName] as [Customer Name], 
   [Group],[Route No], max([Booking Time(AM / PM) ]) as [Booking Time(AM / PM) ], Max(Created_By) as [Created By], max(Created_Date) as [Created Date],max(Modified_By) as [Modified By],
-max(Modified_Date) as [Modified Date],max(Total_Amt) - isnull(max(TCSAmount),0) as [TCS Base Amount],cast(isnull(((isnull(max(TCSAmount),0) * 100)/ max(Total_Amt)),0) as decimal(18, 2)) as [TCS % ],
+max(Modified_Date) as [Modified Date],max(Total_Amt) - isnull(max(TCSAmount),0) as [TCS Base Amount],
+case when max(Total_Amt)=0 then 0 else cast(isnull(((isnull(max(TCSAmount),0) * 100)/ max(Total_Amt)),0) as decimal(18, 2))end as [TCS % ],
 isnull(sum(TCSAmount),0) as [TCS Amount],(sum(DocumentAmount) ) as [Total Amount] 
 from (select max(zzz.item_code) as item_code,zzz.Document_No,max(Document_Date) as Document_Date,max([Time]) as [Time],max(GatePass_Type) as [Booking Time(AM / PM) ],
 Max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Modified_By) as Modified_By,max(Modified_Date) as Modified_Date,
@@ -1955,8 +1955,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 strWhrClause2 = "  and convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
 
             Else
-                strWhrClause = " and convert(date, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE." + strDate + ",103) >= ''" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'' and  convert(date, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE." + strDate + ",103) <= ''" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'' "
-                strWhrClause2 = " and convert(date, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
+                strWhrClause = " and convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) >= ''" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'' and  convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) <= ''" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'' "
+                strWhrClause2 = " and convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_DEMAND_BOOKING_MASTER." + strDate + ",103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
             End If
             Dim chkCustCategoryMappInUserMaster As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count ( distinct CUSTOMER_CATEGORY) as CUSTOMER_CATEGORY from TSPL_CUSTOMER_MASTER where TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY in (select Customer_Category from TSPL_USER_CUSTOMER_CATEGORY where USER_Code = '" + objCommonVar.CurrentUserCode + "')"))
             If chkCustCategoryMappInUserMaster = True Then
@@ -2013,8 +2013,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 If TxtUOM.arrValueMember IsNot Nothing AndAlso TxtUOM.arrValueMember.Count > 0 Then
                     Dim ss As String = clsCommon.GetMulcallString(TxtUOM.arrValueMember)
                     Dim sss As String = ss.Replace("'", "''")
-                    strWhrClause += " and TSPL_BOOKING_DETAIL.Unit_code in (" + sss + ")  "
-                    strWhrClause2 += " and TSPL_BOOKING_DETAIL.Unit_code in (" + ss + ")  "
+                    strWhrClause += " and TSPL_DEMAND_BOOKING_DETAIL.Unit_code in (" + sss + ")  "
+                    strWhrClause2 += " and TSPL_DEMAND_BOOKING_DETAIL.Unit_code in (" + ss + ")  "
                 End If
                 If txtBookingType.arrValueMember IsNot Nothing AndAlso txtBookingType.arrValueMember.Count > 0 Then
                     Dim ss As String = clsCommon.GetMulcallString(txtBookingType.arrValueMember)
@@ -2057,14 +2057,14 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
                     Dim ss As String = clsCommon.GetMulcallString(TxtRoute.arrValueMember)
                     Dim sss As String = ss.Replace("'", "''")
-                    strWhrClause += " and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in (" + sss + ")  "
-                    strWhrClause2 += " and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in (" + ss + ")  "
+                    strWhrClause += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in (" + sss + ")  "
+                    strWhrClause2 += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in (" + ss + ")  "
                 End If
                 If TxtUOM.arrValueMember IsNot Nothing AndAlso TxtUOM.arrValueMember.Count > 0 Then
                     Dim ss As String = clsCommon.GetMulcallString(TxtUOM.arrValueMember)
                     Dim sss As String = ss.Replace("'", "''")
-                    strWhrClause += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code in (" + sss + ")  "
-                    strWhrClause2 += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code in (" + ss + ")  "
+                    strWhrClause += " and TSPL_DEMAND_BOOKING_DETAIL.Unit_code in (" + sss + ")  "
+                    strWhrClause2 += " and TSPL_DEMAND_BOOKING_DETAIL.Unit_code in (" + ss + ")  "
                 End If
             End If
             If chkBookingWise.Checked = True AndAlso chkGatePass.Checked = True Then
@@ -2147,10 +2147,19 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                     ItemInUse += strWhrClause2
                     ItemInUse += " order by Alies_Name "
                 Else
-                    ItemInUse = " TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE Left Outer Join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE On TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Lorry_No Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where (TSPL_ITEM_MASTER.Alies_Name !='' or TSPL_ITEM_MASTER.Alies_Name is null) "
-                    If isSchemeItem = False Then
-                        ItemInUse += " and Scheme_Item='N' "
-                    End If
+                    'ItemInUse = " TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE Left Outer Join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE On TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Lorry_No Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where (TSPL_ITEM_MASTER.Alies_Name !='' or TSPL_ITEM_MASTER.Alies_Name is null) "
+                    ItemInUse = "  TSPL_DEMAND_BOOKING_DETAIL
+  Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+  Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
+  Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+  Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code 
+  Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_DEMAND_BOOKING_MASTER.Location_Code 
+  left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code 
+  where (TSPL_ITEM_MASTER.Alies_Name !='' or TSPL_ITEM_MASTER.Alies_Name is null) "
+
+                    'If isSchemeItem = False Then
+                    '    ItemInUse += " and Scheme_Item='N' "
+                    'End If
                     ItemInUse += strWhrClause2
                     ItemInUse += " order by Alies_Name "
                 End If
@@ -2435,7 +2444,25 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                     ElseIf chkSaleInvoiceWise.Checked = True Then
                         MainQuery = " select  Document_No as [Document No],[VEHICLE NO],[WdName],[Group],[Cust Group Desc], [Customer Category Code],[Zone],[Route No],UOM , " + strItem2WithSum + " , (" + strGrandTotalWithoutScheme + ") as [Grand Total], case WHEN upper(UOM)='CAN' THEN (" + strGrandTotalWithoutScheme + ") else 0 END AS [Can total], case WHEN upper(UOM)='CRATE' THEN (" + strGrandTotalWithoutScheme + ") else 0 END AS [Crate total], case WHEN upper(UOM)='BOX' THEN (" + strGrandTotalWithoutScheme + ") else 0 END AS [Box total] from (select zzz.Document_No,zzz.[VEHICLE NO],zzz.[Customer Category Code],zzz.[WdName],zzz.Description,zzz.Cust_Group_Code as [Group], max(zzz.[Cust Group Desc]) as [Cust Group Desc],zzz.Zone_Code as [Zone] ,zzz.UOM,zzz.[Route No] ,sum(qty) as qty from  (Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS Document_No,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item, TSPL_ITEM_MASTER.Sku_Seq, TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS Location_Code, TSPL_LOCATION_MASTER.Location_Desc,isnull(TSPL_CUSTOMER_MASTER.cust_category_code,'') as [Customer Category Code], TSPL_SD_SALE_INVOICE_HEAD.Customer_Code As [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name As WdName, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as UOM,TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No] ,TSPL_ITEM_MASTER.Alies_Name As [Description] ,TSPL_VEHICLE_MASTER.Description [Lorry_No],TSPL_CUSTOMER_MASTER.Cust_Group_Code,TSPL_CUSTOMER_MASTER.Zone_Code ,IsNull(TSPL_VEHICLE_MASTER.Description, '''') As [VEHICLE NO], TSPL_SD_SALE_INVOICE_DETAIL.Qty  as Qty, TSPL_SD_SALE_INVOICE_HEAD.Document_Date As [Order Date],TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc as [Cust Group Desc] From TSPL_SD_SALE_INVOICE_DETAIL Left Outer Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code  = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code  Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code  Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where 2=2 " + strWhrClause2 + " )zzz where 1=1 group by zzz.Document_No,zzz.[VEHICLE NO] ,zzz.WdName,zzz.Description,zzz.Cust_Group_Code,zzz.[Customer Category Code],zzz.Zone_Code,zzz.[Route No],zzz.UOM 	) as s pivot (  sum(Qty) for Description in ( " + strItem2 + " ) ) as zpivot group by zpivot.Document_No,zpivot.[VEHICLE NO],zpivot.[WdName],zpivot.[Group],zpivot.[Cust Group Desc],zpivot.[Customer Category Code],zpivot.[Zone],zpivot.[Route No],zpivot.UOM "
                     Else
-                        MainQuery = " select  [VEHICLE NO],[WdName],[Group],[Cust Group Desc], [Customer Category Code],[Zone],[Route No],UOM  , " + strItem2WithSum + " , (" + strGrandTotalWithoutScheme + ") as [Grand Total]  from (select zzz.[VEHICLE NO],zzz.[WdName],zzz.Description,zzz.Cust_Group_Code as [Group], max(zzz.[Cust Group Desc]) as [Cust Group Desc], zzz.[Customer Category Code],zzz.Zone_Code as [Zone] ,zzz.[Route No],zzz.UOM  ,sum(qty) as qty from  (Select TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item, TSPL_ITEM_MASTER.Sku_Seq, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code, TSPL_LOCATION_MASTER.Location_Desc, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code As [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name As WdName,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No as [Route No],TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code as UOM, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code as Item_Code, TSPL_ITEM_MASTER.Alies_Name As [Description] ,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Lorry_No,TSPL_CUSTOMER_MASTER.Cust_Group_Code,isnull(TSPL_CUSTOMER_MASTER.cust_category_code,'') as [Customer Category Code],TSPL_CUSTOMER_MASTER.Zone_Code ,IsNull(TSPL_VEHICLE_MASTER.Description, '''') As [VEHICLE NO], TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty as Qty, TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date As [Order Date],TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc as [Cust Group Desc] From TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE Left Outer Join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE On TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Lorry_No Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where 2=2 " + strWhrClause2 + " )zzz where zzz.Scheme_Item='N'  group by zzz.[VEHICLE NO] ,zzz.WdName,zzz.Description,zzz.Cust_Group_Code,zzz.[Customer Category Code],zzz.Zone_Code,zzz.[Route No] ,zzz.UOM ) as s pivot (  sum(Qty) for Description in ( " + strItem2 + " ) ) as zpivot group by zpivot.[VEHICLE NO],zpivot.[WdName],zpivot.[Group],zpivot.[Cust Group Desc],zpivot.[Customer Category Code],zpivot.[Zone],zpivot.[Route No],zpivot.UOM "
+                        MainQuery = " select  [VEHICLE NO],[WdName],[Group],[Cust Group Desc], [Customer Category Code],[Zone],[Route No],
+                                      UOM  , " + strItem2WithSum + " , (" + strGrandTotalWithoutScheme + ") as [Grand Total] 
+                                      from (select zzz.[VEHICLE NO],zzz.[WdName],zzz.Description,zzz.Cust_Group_Code as [Group], max(zzz.[Cust Group Desc]) as [Cust Group Desc],
+                                      zzz.[Customer Category Code],zzz.Zone_Code as [Zone] ,zzz.[Route No],zzz.UOM  ,sum(qty) as qty 
+                                      from  (Select  TSPL_ITEM_MASTER.Sku_Seq, TSPL_DEMAND_BOOKING_MASTER.Location_Code,
+                                      TSPL_LOCATION_MASTER.Location_Desc, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code As [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name As WdName,
+                                      TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_DETAIL.Unit_code as UOM, TSPL_DEMAND_BOOKING_DETAIL.Item_Code as Item_Code,
+                                      TSPL_ITEM_MASTER.Alies_Name As [Description] ,TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
+                                      isnull(TSPL_CUSTOMER_MASTER.cust_category_code,'') as [Customer Category Code],TSPL_CUSTOMER_MASTER.Zone_Code ,IsNull(TSPL_VEHICLE_MASTER.Description, '''') As [VEHICLE NO],
+                                      TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty, TSPL_DEMAND_BOOKING_MASTER.Document_Date As [Order Date],TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc as [Cust Group Desc]
+                                      From TSPL_DEMAND_BOOKING_DETAIL 
+                                     Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+                                     Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                                     Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                                     Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code 
+                                     Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_DEMAND_BOOKING_MASTER.Location_Code
+                                     left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code
+                                      where 2=2 " + strWhrClause2 + " )zzz
+                                      group by zzz.[VEHICLE NO] ,zzz.WdName,zzz.Description,zzz.Cust_Group_Code,zzz.[Customer Category Code],zzz.Zone_Code,zzz.[Route No] ,zzz.UOM ) as s pivot (  sum(Qty) for Description in ( " + strItem2 + " ) ) as zpivot group by zpivot.[VEHICLE NO],zpivot.[WdName],zpivot.[Group],zpivot.[Cust Group Desc],zpivot.[Customer Category Code],zpivot.[Zone],zpivot.[Route No],zpivot.UOM "
                     End If
                     query = MainQuery
                 Else

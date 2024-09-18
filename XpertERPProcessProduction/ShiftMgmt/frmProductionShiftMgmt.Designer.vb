@@ -22,12 +22,12 @@ Partial Class frmProductionShiftMgmt
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnPrintNew = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
@@ -69,7 +69,6 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvProRM = New common.UserControls.MyRadGridView()
-        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCL = New common.UserControls.MyRadGridView()
         Me.Panel2.SuspendLayout()
@@ -118,7 +117,6 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage8.SuspendLayout()
         CType(Me.gvProRM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvProRM.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
         CType(Me.gvCL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -511,7 +509,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvPro.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvPro.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPro.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPro.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPro.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gvPro.MyStopExport = False
         Me.gvPro.Name = "gvPro"
         Me.gvPro.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -530,7 +528,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 91)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(784, 257)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -561,7 +559,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvOP.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvOP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOP.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOP.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvOP.MasterTemplate.ViewDefinition = TableViewDefinition14
         Me.gvOP.MyStopExport = False
         Me.gvOP.Name = "gvOP"
         Me.gvOP.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -596,7 +594,6 @@ Partial Class frmProductionShiftMgmt
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.gvRecPlant)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(742, 161)
@@ -618,7 +615,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvRecPlant.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvRecPlant.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRecPlant.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRecPlant.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRecPlant.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gvRecPlant.MyStopExport = False
         Me.gvRecPlant.Name = "gvRecPlant"
         Me.gvRecPlant.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -631,7 +628,6 @@ Partial Class frmProductionShiftMgmt
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.gvRecBulk)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(108.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(742, 161)
@@ -653,7 +649,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvRecBulk.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvRecBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRecBulk.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRecBulk.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvRecBulk.MasterTemplate.ViewDefinition = TableViewDefinition16
         Me.gvRecBulk.MyStopExport = False
         Me.gvRecBulk.Name = "gvRecBulk"
         Me.gvRecBulk.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -681,7 +677,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView3.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView3.Name = "RadPageView3"
-        Me.RadPageView3.SelectedPage = Me.RadPageViewPage8
+        Me.RadPageView3.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView3.Size = New System.Drawing.Size(763, 209)
         Me.RadPageView3.TabIndex = 1
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -699,7 +695,6 @@ Partial Class frmProductionShiftMgmt
         'RadPageViewPage8
         '
         Me.RadPageViewPage8.Controls.Add(Me.gvProRM)
-        Me.RadPageViewPage8.Controls.Add(Me.RadLabel12)
         Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(67.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
@@ -722,27 +717,15 @@ Partial Class frmProductionShiftMgmt
         Me.gvProRM.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvProRM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProRM.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProRM.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvProRM.MasterTemplate.ViewDefinition = TableViewDefinition17
         Me.gvProRM.MyStopExport = False
         Me.gvProRM.Name = "gvProRM"
         Me.gvProRM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProRM.ShowGroupPanel = False
         Me.gvProRM.ShowHeaderCellButtons = True
-        Me.gvProRM.Size = New System.Drawing.Size(742, 148)
+        Me.gvProRM.Size = New System.Drawing.Size(742, 161)
         Me.gvProRM.TabIndex = 4
         Me.gvProRM.VarID = ""
-        '
-        'RadLabel12
-        '
-        Me.RadLabel12.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.RadLabel12.FieldName = Nothing
-        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(0, 148)
-        Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(742, 13)
-        Me.RadLabel12.TabIndex = 68
-        Me.RadLabel12.Text = "Double Click to issue Item"
         '
         'RadPageViewPage4
         '
@@ -769,7 +752,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvCL.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvCL.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCL.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCL.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvCL.MasterTemplate.ViewDefinition = TableViewDefinition18
         Me.gvCL.MyStopExport = False
         Me.gvCL.Name = "gvCL"
         Me.gvCL.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -840,10 +823,8 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView3.ResumeLayout(False)
         Me.RadPageViewPage7.ResumeLayout(False)
         Me.RadPageViewPage8.ResumeLayout(False)
-        Me.RadPageViewPage8.PerformLayout()
         CType(Me.gvProRM.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProRM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
         CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCL, System.ComponentModel.ISupportInitialize).EndInit()
@@ -894,6 +875,5 @@ Partial Class frmProductionShiftMgmt
     Friend WithEvents RadPageViewPage7 As RadPageViewPage
     Friend WithEvents RadPageViewPage8 As RadPageViewPage
     Friend WithEvents gvProRM As common.UserControls.MyRadGridView
-    Friend WithEvents RadLabel12 As common.Controls.MyLabel
 End Class
 
