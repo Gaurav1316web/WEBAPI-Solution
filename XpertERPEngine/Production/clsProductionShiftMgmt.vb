@@ -6,6 +6,8 @@ Public Class clsProductionShiftMgmt
     Public Location_Code As String
     Public Location_Name As String
     Public Shift_Code As String
+    Public Shift_Start_Date As DateTime
+    Public Shift_End_Date As DateTime
     Public Remarks As String
     Public Comment As String
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
@@ -52,6 +54,8 @@ Public Class clsProductionShiftMgmt
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             clsCommon.AddColumnsForChange(coll, "Shift_Code", obj.Shift_Code)
+            clsCommon.AddColumnsForChange(coll, "Shift_Start_Date", clsCommon.GetPrintDate(obj.Shift_Start_Date, "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommon.AddColumnsForChange(coll, "Shift_End_Date", clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Comment", obj.Comment)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -108,6 +112,8 @@ where 2=2 "
             obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
             obj.Location_Name = clsCommon.myCstr(dt.Rows(0)("Location_Name"))
             obj.Shift_Code = clsCommon.myCstr(dt.Rows(0)("Shift_Code"))
+            obj.Shift_Start_Date = clsCommon.myCDate(dt.Rows(0)("Shift_Start_Date"))
+            obj.Shift_End_Date = clsCommon.myCDate(dt.Rows(0)("Shift_End_Date"))
             obj.Comment = clsCommon.myCstr(dt.Rows(0)("Comment"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)

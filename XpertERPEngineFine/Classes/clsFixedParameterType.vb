@@ -1251,6 +1251,7 @@ Public Class clsFixedParameterType
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "VSP Milk Not Sold"
+    Public Const ApplyMonthlyYearly = "Apply Monthly Yearly"
     Public Const SeparateDemandMilkandProduct = "Separate Demand Milk & Product"
     Public Const ShowDemandDoc = "Show Demand Document In Customer Booking"
     Public Const ApplyCommission = "Apply Distributor/Transpoter Commission"
@@ -2655,6 +2656,7 @@ Public Class clsFixedParameterCode
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "Pick All BMC"
+    Public Const ApplyMonthlyYearly = "Apply Monthly Yearly"
     Public Const SeparateDemandMilkandProduct = "Separate Demand Milk & Product"
     Public Const ShowDemandDoc = "Show Demand Document In Customer Booking"
     Public Const ApplyCommission = "Apply Distributor/Transpoter Commission"
@@ -4231,6 +4233,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMonthlyYearly, clsFixedParameterCode.ApplyMonthlyYearly, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, "0", "0:Don't Show, 1:Show;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, "0", "0:Off, 1:On;")
@@ -6016,6 +6019,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.EnableResetDemand, clsFixedParameterCode.EnableResetDemand, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.ApplyMonthlyYearly, clsFixedParameterCode.ApplyMonthlyYearly, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, EnumControlType.CheckBox)

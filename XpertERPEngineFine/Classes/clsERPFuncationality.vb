@@ -27,13 +27,13 @@ Public Class clsERPFuncationality
         Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, False)
     End Function
     Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean) As String
-        Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, isMonthlyChange, False, "")
+        Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, isMonthlyChange, False)
     End Function
-    Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal strRouteNo As String) As String
-        Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, isMonthlyChange, False, strRouteNo)
+    Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal isLocationCodeisMCC As Boolean) As String
+        Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, isMonthlyChange, isLocationCodeisMCC, False)
     End Function
 
-    Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal isLocationCodeisMCC As Boolean, ByVal strRouteNo As String) As String
+    Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal isLocationCodeisMCC As Boolean, ByVal isLocationCodeisRoute As Boolean) As String
         Dim qry As String = ""
         Dim strRetCode As String = ""
         Dim strLocatinSegmentCode As String = ""
@@ -71,6 +71,13 @@ Public Class clsERPFuncationality
                 Throw New Exception(strLocationCode + " is not a state")
             End If
             strLocatinSegmentCode = strLocationCode
+        ElseIf isLocationCodeisRoute Then
+            qry = "select 1 from TSPL_ROUTE_MASTER where Route_No='" + strLocationCode + "'"
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception(strLocationCode + " is not a Route")
+            End If
+            strLocatinSegmentCode = strLocationCode
         Else
             If clsCommon.myLen(strLocationCode) > 0 Then
                 strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code='" + strLocationCode + "'", trans))
@@ -85,10 +92,10 @@ Public Class clsERPFuncationality
             IntFiscalYear -= 1
         End If
 
-        qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, False, isMasterPrefix, strRouteNo)
+        qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, False, isMasterPrefix)
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            qry = GetQryOFDOCPrefix(trans, dtDocDate.AddMonths(-1), strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, True, isMasterPrefix, strRouteNo)
+            qry = GetQryOFDOCPrefix(trans, dtDocDate.AddMonths(-1), strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, True, isMasterPrefix)
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             Dim flag As Boolean = False
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso (clsCommon.myCdbl(dt.Rows(0)("Is_Change_monthly")) = 1 OrElse clsCommon.myCdbl(dt.Rows(0)("Is_Change_Daily")) = 1) Then
@@ -96,7 +103,7 @@ Public Class clsERPFuncationality
             End If
             If Not flag Then
                 If objCommonVar.AutoGeneratePrefix Then
-                    qry = GetQryOFDOCPrefix(trans, dtDocDate.AddYears(-1), strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear - 1, False, isMasterPrefix, strRouteNo)
+                    qry = GetQryOFDOCPrefix(trans, dtDocDate.AddYears(-1), strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear - 1, False, isMasterPrefix)
                     dt = clsDBFuncationality.GetDataTable(qry, trans)
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                         Dim dr As DataRow = dt.NewRow()
@@ -106,62 +113,13 @@ Public Class clsERPFuncationality
                             If clsCommon.myLen(strTransType) > 0 Then
                                 strAddDOC += " " + strTransType
                             End If
-                            Dim strBreak As String() = clsCommon.myCstr(strAddDOC).Split(New String() {" "}, StringSplitOptions.None)
-                            If strBreak.Length >= 5 Then
-                                strPrefix += strBreak(0).ToString().Substring(0, 1)
-                                strPrefix += strBreak(2).ToString().Substring(0, 1)
-                                strPrefix += strBreak(4).ToString().Substring(0, 1)
-                            ElseIf strBreak.Length >= 4 Then
-                                strPrefix += strBreak(0).ToString().Substring(0, 1)
-                                strPrefix += strBreak(2).ToString().Substring(0, 1)
-                                strPrefix += strBreak(3).ToString().Substring(0, 1)
-                            ElseIf strBreak.Length >= 3 Then
-                                strPrefix += strBreak(0).ToString().Substring(0, 1)
-                                strPrefix += strBreak(1).ToString().Substring(0, 1)
-                                strPrefix += strBreak(2).ToString().Substring(0, 1)
-                            ElseIf strBreak.Length >= 2 Then
-                                strPrefix += strBreak(0).ToString().Substring(0, 1)
-                                strPrefix += strBreak(1).ToString().Substring(0, 2)
-                            ElseIf strBreak.Length >= 1 Then
-                                Try
-                                    strBreak = clsCommon.myCstr(strBreak(0)).Split(New String() {"_"}, StringSplitOptions.None)
-                                    If strBreak.Length >= 5 Then
-                                        strPrefix += strBreak(0).ToString().Substring(0, 1)
-                                        strPrefix += strBreak(2).ToString().Substring(0, 1)
-                                        strPrefix += strBreak(4).ToString().Substring(0, 1)
-                                    ElseIf strBreak.Length >= 4 Then
-                                        strPrefix += strBreak(0).ToString().Substring(0, 1)
-                                        strPrefix += strBreak(2).ToString().Substring(0, 1)
-                                        strPrefix += strBreak(3).ToString().Substring(0, 1)
-                                    ElseIf strBreak.Length >= 3 Then
-                                        strPrefix += strBreak(0).ToString().Substring(0, 1)
-                                        strPrefix += strBreak(1).ToString().Substring(0, 1)
-                                        strPrefix += strBreak(2).ToString().Substring(0, 1)
-                                    ElseIf strBreak.Length >= 2 Then
-                                        strPrefix += strBreak(0).ToString().Substring(0, 1)
-                                        strPrefix += strBreak(1).ToString().Substring(0, 2)
-                                    ElseIf strBreak.Length >= 1 Then
-                                        Dim mc2 As System.Text.RegularExpressions.MatchCollection = System.Text.RegularExpressions.Regex.Matches(strBreak(0).ToString(), "[A-Z]")
-                                        Dim ii As Integer = 0
-                                        For Each m As System.Text.RegularExpressions.Match In mc2
-                                            strPrefix += m.Value
-                                            If ii = 2 Then
-                                                Exit For
-                                            End If
-                                            ii += 1
-                                        Next
-                                    Else
-                                        Throw New Exception("BSP")
-                                    End If
-                                Catch ex As Exception
-                                    strPrefix += strBreak(0).ToString().Substring(0, 3)
-                                End Try
-                            End If
+                            strPrefix += BreakTheString(strAddDOC)
                             If clsCommon.myLen(strLocatinSegmentCode) > 0 Then
-                                strPrefix += "-" + strLocatinSegmentCode
-                            End If
-                            If clsCommon.myLen(strRouteNo) > 0 Then
-                                strPrefix += "-" + strRouteNo.Substring(0, 3)
+                                If isLocationCodeisRoute Then
+                                    strPrefix += "-" + BreakTheString(strLocatinSegmentCode)
+                                Else
+                                    strPrefix += "-" + strLocatinSegmentCode
+                                End If
                             End If
                             dr("Doc_Prfeix") = strPrefix.ToUpper()
                             dr("Separator") = "/"
@@ -184,7 +142,6 @@ Public Class clsERPFuncationality
                 clsCommon.AddColumnsForChange(coll, "Doc_Type", strDocType)
                 clsCommon.AddColumnsForChange(coll, "Doc_Trans_Type", strTransType)
                 clsCommon.AddColumnsForChange(coll, "Location_Code", strLocatinSegmentCode)
-                clsCommon.AddColumnsForChange(coll, "RouteNo", strRouteNo)
                 clsCommon.AddColumnsForChange(coll, "Doc_Prfeix", clsCommon.myCstr(dt.Rows(0)("Doc_Prfeix")))
                 clsCommon.AddColumnsForChange(coll, "Dont_Add_Prefix", clsCommon.myCDecimal(dt.Rows(0)("Dont_Add_Prefix")))
                 If clsCommon.myCdbl(dt.Rows(0)("dontDisplayYearInSeries")) = 1 OrElse clsCommon.myCDecimal(dt.Rows(0)("Dont_Add_Prefix")) = 1 Then
@@ -193,16 +150,12 @@ Public Class clsERPFuncationality
                     clsCommon.AddColumnsForChange(coll, "Next_Number", 1)
                 End If
                 clsCommon.AddColumnsForChange(coll, "Fin_Year", IntFiscalYear)
-
-
                 clsCommon.AddColumnsForChange(coll, "Separator", clsCommon.myCstr(dt.Rows(0)("Separator")))
-
                 clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
-
                 clsCommon.AddColumnsForChange(coll, "Is_Change_Monthly", clsCommon.myCdbl(dt.Rows(0)("Is_Change_monthly")))
                 If clsCommon.myCdbl(dt.Rows(0)("Is_Change_monthly")) = 1 Then
                     clsCommon.AddColumnsForChange(coll, "Curr_Month", dtDocDate.Month)
@@ -217,7 +170,7 @@ Public Class clsERPFuncationality
                 clsCommon.AddColumnsForChange(coll, "MinSizeofSeries", clsCommon.myCdbl(dt.Rows(0)("MinSizeofSeries")))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DOCPREFIX_MASTER", OMInsertOrUpdate.Insert, "", trans)
 
-                qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, False, isMasterPrefix, strRouteNo)
+                qry = GetQryOFDOCPrefix(trans, dtDocDate, strDocType, strTransType, strLocatinSegmentCode, IntFiscalYear, False, isMasterPrefix)
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
             End If
 
@@ -319,19 +272,77 @@ Public Class clsERPFuncationality
 
     End Function
 
-    Private Shared Function GetQryOFDOCPrefix(ByVal tran As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocatinSegmentCode As String, ByVal IntFiscalYear As Integer, ByVal isTakingTopOne As Boolean, ByVal isMasterPrefix As Boolean, ByVal strRouteNo As String) As String
-        Dim whr As String = "select  PK_ID from TSPL_DOCPREFIX_MASTER where Doc_Type='" + strDocType + "' and  isnull(Doc_Trans_Type,'')='" + strTransType + "' and isnull(Location_Code,'')='" + strLocatinSegmentCode + "'"
-        If clsCommon.myLen(strRouteNo) > 0 Then
-            whr += " and isnull(RouteNo,'')='" + strRouteNo + "' "
+    Private Shared Function BreakTheString(strAddDOC As String) As String
+        Dim strPrefix As String = ""
+        Dim strBreak As String() = clsCommon.myCstr(strAddDOC).Split(New String() {" "}, StringSplitOptions.None)
+        If strBreak.Length >= 5 Then
+            strPrefix += strBreak(0).ToString().Substring(0, 1)
+            strPrefix += strBreak(2).ToString().Substring(0, 1)
+            strPrefix += strBreak(4).ToString().Substring(0, 1)
+        ElseIf strBreak.Length >= 4 Then
+            strPrefix += strBreak(0).ToString().Substring(0, 1)
+            strPrefix += strBreak(2).ToString().Substring(0, 1)
+            strPrefix += strBreak(3).ToString().Substring(0, 1)
+        ElseIf strBreak.Length >= 3 Then
+            strPrefix += strBreak(0).ToString().Substring(0, 1)
+            strPrefix += strBreak(1).ToString().Substring(0, 1)
+            strPrefix += strBreak(2).ToString().Substring(0, 1)
+        ElseIf strBreak.Length >= 2 Then
+            strPrefix += strBreak(0).ToString().Substring(0, 1)
+            strPrefix += strBreak(1).ToString().Substring(0, 2)
+        ElseIf strBreak.Length >= 1 Then
+            Try
+                Dim varchar As Char = "_"
+                If strBreak(0).Contains("-") Then
+                    varchar = "-"
+                End If
+                strBreak = clsCommon.myCstr(strBreak(0)).Split(New String() {varchar}, StringSplitOptions.None)
+                If strBreak.Length >= 5 Then
+                    strPrefix += strBreak(0).ToString().Substring(0, 1)
+                    strPrefix += strBreak(2).ToString().Substring(0, 1)
+                    strPrefix += strBreak(4).ToString().Substring(0, 1)
+                ElseIf strBreak.Length >= 4 Then
+                    strPrefix += strBreak(0).ToString().Substring(0, 1)
+                    strPrefix += strBreak(2).ToString().Substring(0, 1)
+                    strPrefix += strBreak(3).ToString().Substring(0, 1)
+                ElseIf strBreak.Length >= 3 Then
+                    strPrefix += strBreak(0).ToString().Substring(0, 1)
+                    strPrefix += strBreak(1).ToString().Substring(0, 1)
+                    strPrefix += strBreak(2).ToString().Substring(0, 1)
+                ElseIf strBreak.Length >= 2 Then
+                    strPrefix += strBreak(0).ToString().Substring(0, 1)
+                    strPrefix += strBreak(1).ToString().Substring(0, 2)
+                ElseIf strBreak.Length >= 1 Then
+                    Dim mc2 As System.Text.RegularExpressions.MatchCollection = System.Text.RegularExpressions.Regex.Matches(strBreak(0).ToString(), "[A-Z]")
+                    Dim ii As Integer = 0
+                    For Each m As System.Text.RegularExpressions.Match In mc2
+                        strPrefix += m.Value
+                        If ii = 2 Then
+                            Exit For
+                        End If
+                        ii += 1
+                    Next
+                Else
+                    Throw New Exception("BSP")
+                End If
+            Catch ex As Exception
+                strPrefix += strBreak(0).ToString().Substring(0, 3)
+            End Try
         End If
+        If clsCommon.myLen(strPrefix) <= 0 Then
+            strPrefix = strBreak(0)
+        End If
+        Return strPrefix.ToUpper()
+    End Function
+
+    Private Shared Function GetQryOFDOCPrefix(ByVal tran As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocatinSegmentCode As String, ByVal IntFiscalYear As Integer, ByVal isTakingTopOne As Boolean, ByVal isMasterPrefix As Boolean) As String
+        Dim whr As String = "select  PK_ID from TSPL_DOCPREFIX_MASTER where Doc_Type='" + strDocType + "' and  isnull(Doc_Trans_Type,'')='" + strTransType + "' and isnull(Location_Code,'')='" + strLocatinSegmentCode + "'"
         If Not isMasterPrefix Then
             whr += " and Fin_Year='" + clsCommon.myCstr(IntFiscalYear) + "'"
         End If
         If Not isTakingTopOne Then
             whr += " and 2=(case when Is_Change_Daily=1 then case when Curr_Date= '" + clsCommon.GetPrintDate(dtDocDate, "dd/MMM/yyyy") + "'  then 2 else 3  end   else   case when Is_Change_monthly=1 then case when Curr_Month= " + clsCommon.myCstr(dtDocDate.Month) + "  then 2 else 3  end else 2 end end)"
         End If
-
-
         Dim qry As String = "select " + IIf(isTakingTopOne, " Top 1", "") + " PK_ID,Doc_Prfeix,Dont_Add_Prefix,Fin_Year,Next_Number,Separator,Is_Change_monthly,Curr_Month,Is_Change_Daily,Curr_Date,dontDisplayYearInSeries,Short_Fiscal_Year,MinSizeofSeries,Year_Separator from TSPL_DOCPREFIX_MASTER  WITH ( UPDLOCK ) " + Environment.NewLine +
           " where PK_ID in (" + whr + ")"
         Dim Order As String = ""
