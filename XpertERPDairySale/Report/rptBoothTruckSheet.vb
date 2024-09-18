@@ -118,7 +118,7 @@ Public Class rptBoothTruckSheet
             Else
                 BaseQry += "TSPL_CUSTOMER_MASTER.customer_name_hindi as [Boothname],"
 
-            End if
+            End If
 
             BaseQry += "  TSPL_BOOKING_DETAIL.Route_No,TSPL_ROUTE_MASTER.Route_Desc,Case When isnull(TSPL_BOOKING_MATSER.GatePass_Type,'') = 'AM' THEN 'AM' else 'PM'   END AS Shift_Type,TSPL_BOOKING_MATSER.Document_Date, TSPL_ITEM_MASTER.Item_Desc,TSPL_BOOKING_DETAIL.Amount_with_Tax as Amount,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
          TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Booking_Qty as CRATE,0 AS Receipt_Amount FROM TSPL_BOOKING_DETAIL LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DETAIL.Item_Code LEFT OUTER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_BOOKING_DETAIL.Document_No
@@ -126,11 +126,11 @@ Public Class rptBoothTruckSheet
          where 2 = 2   and TSPL_BOOKING_MATSER.Posted = 1 " & whrcls & " " & whrclsShift & ""
 
             BaseQry += "And  convert(date,Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
-                If rbtnMorning.IsChecked Then
-                    FinalQuery += " and Shift_Type = 'AM' "
-                ElseIf rbtnEvening.IsChecked Then
-                    FinalQuery += " and Shift_Type = 'PM'"
-                End If
+            If rbtnMorning.IsChecked Then
+                FinalQuery += " and Shift_Type = 'AM' "
+            ElseIf rbtnEvening.IsChecked Then
+                FinalQuery += " and Shift_Type = 'PM'"
+            End If
 
             BaseQry += ") AS xx PIVOT (SUM(CRATE)  FOR Short_Description IN (" & itemNames1 & ") ) AS pivot_crate PIVOT (SUM(Amount)  FOR Item_Description IN (" & itemNames2 & ") ) AS pivot_net_amt  "
             If rbtnMorning.IsChecked Then
@@ -953,7 +953,7 @@ Public Class rptBoothTruckSheet
                     frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindi", "Dairy Sale Booth Truck Sheet In Hindi")
                 End If
             End If
-                frmCRV = Nothing
+            frmCRV = Nothing
             Return
             'ElseIf
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)

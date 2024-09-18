@@ -17,6 +17,7 @@ Public Class clsProductionShiftMgmt
     Public ArrRecBulk As List(Of clsProductionShiftMgmtReceiptBulkMilk) = Nothing
     Public ArrPro As List(Of clsProductionShiftMgmtProduction) = Nothing
     Public ArrProRMSummary As List(Of clsProductionShiftMgmtProductionRMSummary) = Nothing
+    Public ArrDisBulk As List(Of clsProductionShiftMgmtDisposalBulkMilk) = Nothing
     Public ArrCL As List(Of clsProductionShiftMgmtClose) = Nothing
 
 #End Region
@@ -24,6 +25,8 @@ Public Class clsProductionShiftMgmt
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim qry As String = "delete from TSPL_SHIFT_MGMT_CLOSE where Document_No='" + obj.Document_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -77,6 +80,7 @@ Public Class clsProductionShiftMgmt
             clsProductionShiftMgmtReceiptBulkMilk.SaveData(obj.Document_No, obj.ArrRecBulk, trans)
             clsProductionShiftMgmtProduction.SaveData(obj.Document_No, obj.ArrPro, trans)
             clsProductionShiftMgmtProductionRMSummary.SaveData(obj.Document_No, obj.ArrProRMSummary, trans)
+            clsProductionShiftMgmtDisposalBulkMilk.SaveData(obj.Document_No, obj.ArrDisBulk, trans)
             clsProductionShiftMgmtClose.SaveData(obj.Document_No, obj.ArrCL, trans)
             HistoryUpdate(obj.Document_No, trans)
             trans.Commit()
@@ -125,6 +129,7 @@ where 2=2 "
             obj.ArrRecBulk = clsProductionShiftMgmtReceiptBulkMilk.GetData(obj.Document_No, "", trans)
             obj.ArrPro = clsProductionShiftMgmtProduction.GetData(obj.Document_No, "", trans)
             obj.ArrProRMSummary = clsProductionShiftMgmtProductionRMSummary.GetData(obj.Document_No, "", trans)
+            obj.ArrDisBulk = clsProductionShiftMgmtDisposalBulkMilk.GetData(obj.Document_No, "", trans)
             obj.ArrCL = clsProductionShiftMgmtClose.GetData(obj.Document_No, "", trans)
         End If
         Return obj
@@ -148,6 +153,7 @@ where 2=2 "
             End If
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_CLOSE where Document_No='" + obj.Document_No + "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY where Document_No='" + obj.Document_No + "'", trans)
@@ -1255,6 +1261,92 @@ where  TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No='" + strPONo + "' 
                 objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
                 objTr.FAT_KG = clsCommon.myCDecimal(dr("FAT_KG"))
                 objTr.SNF_KG = clsCommon.myCDecimal(dr("SNF_KG"))
+                arr.Add(objTr)
+            Next
+        End If
+        Return arr
+    End Function
+End Class
+Public Class clsProductionShiftMgmtDisposalBulkMilk
+#Region "Variables"
+    Public PK_ID As Integer
+    Public Document_No As String
+    Public Trans_Type As String
+    Public Against_JWOTransferMilk As String
+    Public Against_BulkDispatch As String
+    Public Item_Code As String
+    Public Item_Name As String
+    Public Qty_KG As Decimal
+    Public Qty_LTR As Decimal
+    Public FAT As Decimal
+    Public SNF As Decimal
+    Public FAT_KG As Decimal
+    Public SNF_KG As Decimal
+    Public Temp As Decimal
+    Public Acidity As Decimal
+    Public COB As Integer
+    Public Alcohol_Test As String
+    Public Remarks As String
+
+#End Region
+    Public Shared Function SaveData(ByVal DocumentNo As String, ByVal Arr As List(Of clsProductionShiftMgmtDisposalBulkMilk), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each objTR As clsProductionShiftMgmtDisposalBulkMilk In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_No", DocumentNo)
+                clsCommon.AddColumnsForChange(coll, "Trans_Type", objTR.Trans_Type)
+                clsCommon.AddColumnsForChange(coll, "Against_JWOTransferMilk", objTR.Against_JWOTransferMilk, True)
+                clsCommon.AddColumnsForChange(coll, "Against_BulkDispatch", objTR.Against_BulkDispatch, True)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", objTR.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Qty_KG", objTR.Qty_KG)
+                clsCommon.AddColumnsForChange(coll, "Qty_LTR", objTR.Qty_LTR)
+                clsCommon.AddColumnsForChange(coll, "FAT", objTR.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", objTR.SNF)
+                clsCommon.AddColumnsForChange(coll, "FAT_KG", objTR.FAT_KG)
+                clsCommon.AddColumnsForChange(coll, "SNF_KG", objTR.SNF_KG)
+                clsCommon.AddColumnsForChange(coll, "Temp ", objTR.Temp)
+                clsCommon.AddColumnsForChange(coll, "Acidity", objTR.Acidity)
+                clsCommon.AddColumnsForChange(coll, "COB", objTR.COB)
+                clsCommon.AddColumnsForChange(coll, "Alcohol_Test", objTR.Alcohol_Test)
+                clsCommon.AddColumnsForChange(coll, "Remarks", objTR.Remarks)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+    Public Shared Function GetData(ByVal DocumentNo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsProductionShiftMgmtDisposalBulkMilk)
+        Dim arr As List(Of clsProductionShiftMgmtDisposalBulkMilk) = Nothing
+        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.*,TSPL_ITEM_MASTER.Item_Desc FROM TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Item_Code 
+where  TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Document_No='" + DocumentNo + "' "
+        If clsCommon.myLen(strExtraWhrclas) > 0 Then
+            qry += " and " + strExtraWhrclas
+        End If
+        qry += " ORDER BY TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.PK_ID"
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            arr = New List(Of clsProductionShiftMgmtDisposalBulkMilk)
+            Dim objTr As clsProductionShiftMgmtDisposalBulkMilk
+            For Each dr As DataRow In dt.Rows
+                objTr = New clsProductionShiftMgmtDisposalBulkMilk
+                objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
+                objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                objTr.Against_JWOTransferMilk = clsCommon.myCstr(dr("Against_JWOTransferMilk"))
+                objTr.Against_BulkDispatch = clsCommon.myCstr(dr("Against_BulkDispatch"))
+                objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+                objTr.Qty_KG = clsCommon.myCDecimal(dr("Qty_KG"))
+                objTr.Qty_LTR = clsCommon.myCDecimal(dr("Qty_LTR"))
+                objTr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
+                objTr.FAT_KG = clsCommon.myCDecimal(dr("FAT_KG"))
+                objTr.SNF_KG = clsCommon.myCDecimal(dr("SNF_KG"))
+                objTr.Temp = clsCommon.myCDecimal(dr("Temp"))
+                objTr.Acidity = clsCommon.myCDecimal(dr("Acidity"))
+                objTr.COB = clsCommon.myCDecimal(dt.Rows(0)("COB"))
+                objTr.Alcohol_Test = clsCommon.myCstr(dr("Alcohol_Test"))
+                objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
                 arr.Add(objTr)
             Next
         End If

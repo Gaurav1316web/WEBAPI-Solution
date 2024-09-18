@@ -484,14 +484,14 @@ Public Class frmVendorMaster
                      "Contact_Person_Fax ,Contact_Person_Website ,Contact_Person_Email ,Terms_Code ,Terms_Code_Desc ,Vendor_Account ,Vendor_Account_Desc ," &
                      "Payment_Code,Payment_Code_Desc ,Ven_Type_Code ,Ven_Type_Desc ,Bank_Code ,Bank_Code_Desc ,Service_Tax_No ,Lst_No ,Tin_No ,	Credit_Limit," &
                      "Tax_Group ,Tax_Group_Desc ,TAX1 ,TAX1_Rate ,TAX2,TAX2_Rate ,TAX3 ,TAX3_Rate ,TAX4 ,TAX4_Rate ,TAX5 ,TAX5_Rate ,TAX6 ,TAX6_Rate ," &
-                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,Parent_Vendor_Code,Is_Parent_Vendor,Category_Struct_Code,branch_code,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Vendor_Type,Pin_Code,Is_Chilling_Vendor,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,csa_type,ISNULL(Alies_Name,'') As [Alies Name],ISNULL(Vendor_Type_CHA,'') As Vendor_Type_CHA,IsVendorInvoiceNo,cha_doc_no,Is_TC_Certified,TC_Certified,ISNULL(Other_For_Pan,0) AS Other_For_Pan,Cheque_In_Favour_Of,tspl_vendor_master.PC_CODE,tspl_vendor_master.Vendor_Distance,tspl_vendor_master.Industry_Type,tspl_vendor_master.oldname,tspl_vendor_master.SSI_No,tspl_vendor_master.Is_Blacklist,weight,JWPriceCode,IsEmployee,isHighClass , Bulk_ROUTE_NO,EMP_CODE,Registration_No,TSPL_VENDOR_MASTER.IsTCSnotApplicable,TSPL_VENDOR_MASTER.Isbuyerfilereturninlasttwoyears,TSPL_VENDOR_MASTER.IsTCS_TDSamountgreaterthan50KpreviousYear,Deduction_Code_Service,TDS_State_Code_Service,TDS_Branch_Code_Service,TDS_Vendor_Type_Service,TDS_Status_Service,TSPL_VENDOR_MASTER.IsAllowSkipPurchaseQC,TSPL_VENDOR_MASTER.OEM,TSPL_VENDOR_MASTER.Is_Provisional,Is_Default_Grower,In_Active_CF  from tspl_vendor_master where vendor_code='" + fndvendorNo.Value + "' " 'and form_type='ALL'	"
+                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,Parent_Vendor_Code,Is_Parent_Vendor,Category_Struct_Code,branch_code,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Vendor_Type,Pin_Code,Is_Chilling_Vendor,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,csa_type,ISNULL(Alies_Name,'') As [Alies Name],ISNULL(Vendor_Type_CHA,'') As Vendor_Type_CHA,IsVendorInvoiceNo,cha_doc_no,Is_TC_Certified,TC_Certified,ISNULL(Other_For_Pan,0) AS Other_For_Pan,Cheque_In_Favour_Of,tspl_vendor_master.PC_CODE,tspl_vendor_master.Vendor_Distance,tspl_vendor_master.Industry_Type,tspl_vendor_master.oldname,tspl_vendor_master.SSI_No,tspl_vendor_master.Is_Blacklist,weight,JWPriceCode,IsEmployee,isHighClass , Bulk_ROUTE_NO,EMP_CODE,Registration_No,TSPL_VENDOR_MASTER.IsTCSnotApplicable,TSPL_VENDOR_MASTER.Isbuyerfilereturninlasttwoyears,TSPL_VENDOR_MASTER.IsTCS_TDSamountgreaterthan50KpreviousYear,Deduction_Code_Service,TDS_State_Code_Service,TDS_Branch_Code_Service,TDS_Vendor_Type_Service,TDS_Status_Service,TSPL_VENDOR_MASTER.IsAllowSkipPurchaseQC,TSPL_VENDOR_MASTER.OEM,TSPL_VENDOR_MASTER.Is_Provisional,Is_Default_Grower,In_Active_CF,isSecurityDeduction,isPenaltyDeduction  from tspl_vendor_master where vendor_code='" + fndvendorNo.Value + "' " 'and form_type='ALL'	"
             Else
                 strCmd = " Select Vendor_Name, Vendor_Group_Code,  Vendor_Group_Code_Desc,  Status ,OnHold  ,Convert(Date,Closing_Date,103) ,Add1 ,	Add2 ,Add3 ," &
                      "City_Code ,City_Code_Desc ,State ,Country ,	Phone1 ,Phone2 ,Fax,Email ,WebSite ,Contact_Person_Name ,Contact_Person_Phone ," &
                      "Contact_Person_Fax ,Contact_Person_Website ,Contact_Person_Email ,Terms_Code ,Terms_Code_Desc ,Vendor_Account ,Vendor_Account_Desc ," &
                      "Payment_Code,Payment_Code_Desc ,Ven_Type_Code ,Ven_Type_Desc ,Bank_Code ,Bank_Code_Desc ,Service_Tax_No ,Lst_No ,Tin_No ,	Credit_Limit ," &
                      "Tax_Group ,Tax_Group_Desc ,TAX1 ,TAX1_Rate ,TAX2,TAX2_Rate ,TAX3 ,TAX3_Rate ,TAX4 ,TAX4_Rate ,TAX5 ,TAX5_Rate ,TAX6 ,TAX6_Rate ," &
-                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,Parent_Vendor_Code,Is_Parent_Vendor,Category_Struct_Code,branch_code,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Vendor_Type,Pin_Code,Vendor_Code,Is_Chilling_Vendor,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,csa_type,ISNULL(Alies_Name,'') As [Alies Name],ISNULL(Vendor_Type_CHA,'') As Vendor_Type_CHA,IsVendorInvoiceNo,cha_doc_no,Is_TC_Certified,TC_Certified,ISNULL(Other_For_Pan,0) AS Other_For_Pan,Cheque_In_Favour_Of,tspl_vendor_master.PC_CODE,tspl_vendor_master.Vendor_Distance,tspl_vendor_master.Industry_Type,tspl_vendor_master.oldname,tspl_vendor_master.SSI_No,tspl_vendor_master.Is_Blacklist,DFOption,BusinessCondition,GSTRegistered,GST_Composition_scheme,GSTEntity,GSTLastEntity,GSTFinalNo,weight,JWPriceCode,IsEmployee, isHighClass , Bulk_ROUTE_NO,EMP_CODE,Registration_No,TSPL_VENDOR_MASTER.IsTCSnotApplicable,TSPL_VENDOR_MASTER.Isbuyerfilereturninlasttwoyears,TSPL_VENDOR_MASTER.IsTCS_TDSamountgreaterthan50KpreviousYear,Deduction_Code_Service,TDS_State_Code_Service,TDS_Branch_Code_Service,TDS_Vendor_Type_Service,TDS_Status_Service,TSPL_VENDOR_MASTER.IsAllowSkipPurchaseQC,TSPL_VENDOR_MASTER.OEM,TSPL_VENDOR_MASTER.Is_Provisional,Is_Default_Grower,In_Active_CF  from TSPL_VENDOR_MASTER where vendor_code='" + VCode + "'" ' and form_type='ALL'	"
+                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,Parent_Vendor_Code,Is_Parent_Vendor,Category_Struct_Code,branch_code,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Vendor_Type,Pin_Code,Vendor_Code,Is_Chilling_Vendor,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,csa_type,ISNULL(Alies_Name,'') As [Alies Name],ISNULL(Vendor_Type_CHA,'') As Vendor_Type_CHA,IsVendorInvoiceNo,cha_doc_no,Is_TC_Certified,TC_Certified,ISNULL(Other_For_Pan,0) AS Other_For_Pan,Cheque_In_Favour_Of,tspl_vendor_master.PC_CODE,tspl_vendor_master.Vendor_Distance,tspl_vendor_master.Industry_Type,tspl_vendor_master.oldname,tspl_vendor_master.SSI_No,tspl_vendor_master.Is_Blacklist,DFOption,BusinessCondition,GSTRegistered,GST_Composition_scheme,GSTEntity,GSTLastEntity,GSTFinalNo,weight,JWPriceCode,IsEmployee, isHighClass , Bulk_ROUTE_NO,EMP_CODE,Registration_No,TSPL_VENDOR_MASTER.IsTCSnotApplicable,TSPL_VENDOR_MASTER.Isbuyerfilereturninlasttwoyears,TSPL_VENDOR_MASTER.IsTCS_TDSamountgreaterthan50KpreviousYear,Deduction_Code_Service,TDS_State_Code_Service,TDS_Branch_Code_Service,TDS_Vendor_Type_Service,TDS_Status_Service,TSPL_VENDOR_MASTER.IsAllowSkipPurchaseQC,TSPL_VENDOR_MASTER.OEM,TSPL_VENDOR_MASTER.Is_Provisional,Is_Default_Grower,In_Active_CF,isSecurityDeduction,isPenaltyDeduction  from TSPL_VENDOR_MASTER where vendor_code='" + VCode + "'" ' and form_type='ALL'	"
             End If
 
 
@@ -542,6 +542,8 @@ Public Class frmVendorMaster
                 Else
                     InActiveCF.Checked = False
                 End If
+                chkSecurityDed.Checked = IIf(clsCommon.myCdbl(myDr("isSecurityDeduction")) = 1, True, False)
+                chkPenaltyDed.Checked = IIf(clsCommon.myCdbl(myDr("isPenaltyDeduction")) = 1, True, False)
                 chkOEM.Checked = (clsCommon.myCDecimal(myDr("OEM")) = 1)
                 chkProvisional.Checked = IIf(clsCommon.myCdbl(myDr("Is_Provisional")) = 1, True, False)
                 chkDefaultGrower.Checked = IIf(clsCommon.myCdbl(myDr("Is_Default_Grower")) = 1, True, False)
@@ -1732,6 +1734,23 @@ Public Class frmVendorMaster
             clsDBFuncationality.ExecuteNonQuery(QryRegistration, trans)
         End If
 
+        Dim QryDed As String = ""
+        If chkSecurityDed.Checked Then
+            QryDed = "Update TSPL_VENDOR_MASTER set isSecurityDeduction =1 where Vendor_Code='" + fndvendorNo.Value + "'"
+            clsDBFuncationality.ExecuteNonQuery(QryDed, trans)
+        Else
+            QryDed = "Update TSPL_VENDOR_MASTER set isSecurityDeduction =0 where Vendor_Code='" + fndvendorNo.Value + "'"
+            clsDBFuncationality.ExecuteNonQuery(QryDed, trans)
+        End If
+
+        QryDed = ""
+        If chkSecurityDed.Checked Then
+            QryDed = "Update TSPL_VENDOR_MASTER set isPenaltyDeduction =1 where Vendor_Code='" + fndvendorNo.Value + "'"
+            clsDBFuncationality.ExecuteNonQuery(QryDed, trans)
+        Else
+            QryDed = "Update TSPL_VENDOR_MASTER set isPenaltyDeduction =0 where Vendor_Code='" + fndvendorNo.Value + "'"
+            clsDBFuncationality.ExecuteNonQuery(QryDed, trans)
+        End If
         '****************************************************
     End Sub
 
@@ -1778,6 +1797,8 @@ Public Class frmVendorMaster
     'this function will reset all the fields for new entry
     Public Sub funreset()
         'chkcsa.Checked = False
+        chkSecurityDed.Checked = False
+        chkPenaltyDed.Checked = False
         chkIsAllowSkipPurchaseQC.Checked = False
         chkTCSTDSamountgreater50KpreviousYear.Checked = False
         chkbuyerfilereturnlasttwoyear.Checked = False

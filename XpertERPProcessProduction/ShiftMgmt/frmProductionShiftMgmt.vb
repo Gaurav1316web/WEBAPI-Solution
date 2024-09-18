@@ -93,6 +93,28 @@ Public Class frmProductionShiftMgmt
     Const ColProRMSNFKG As String = "ColProRMSNFKG"
     Const ColProRMIssue As String = "ColProRMIssue"
 
+    Const colDisBulkPKID As String = "colDisBulkPKID"
+    Const colDisBulkSNo As String = "colDisBulkSNo"
+    Const colDisBulkTranType As String = "colDisBulkTranType"
+    Const colDisBulkTranTypeName As String = "colDisBulkTranTypeName"
+    Const colDisBulkTranNo As String = "colDisBulkTranNo"
+    Const colDisBulkTankerNo As String = "colDisBulkTankerNo"
+    Const colDisBulkReciveFrom As String = "colDisBulkReciveFrom"
+    Const colDisBulkReciveFromName As String = "colDisBulkReciveFromName"
+    Const colDisBulkItemCode As String = "colDisBulkItemCode"
+    Const colDisBulkItemName As String = "colDisBulkItemName"
+    Const colDisBulkQtyLtr As String = "colDisBulkQtyLtr"
+    Const colDisBulkQtyKG As String = "colDisBulkQtyKG"
+    Const colDisBulkFAT As String = "colDisBulkFAT"
+    Const colDisBulkSNF As String = "colDisBulkSNF"
+    Const colDisBulkFATKG As String = "colDisBulkFATKG"
+    Const colDisBulkSNFKG As String = "colDisBulkSNFKG"
+    Const colDisBulkTemp As String = "colDisBulkTemp"
+    Const colDisBulkAcidity As String = "colDisBulkAcidity"
+    Const colDisBulkCOB As String = "colDisBulkCOB"
+    Const colDisBulkAlcohol As String = "colDisBulkAlcohol"
+    Const colDisBulkRemarks As String = "colDisBulkRemarks"
+
     Const colCLPKID As String = "colCLPKID"
     Const colCLSNo As String = "colCLSNo"
     Const colCLLocationCode As String = "colCLLocationCode"
@@ -271,6 +293,26 @@ Public Class frmProductionShiftMgmt
         coll.Add("FAT_KG", "Decimal(18,3) null")
         coll.Add("SNF_KG", "Decimal(18,3) null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
+        coll.Add("Trans_Type", "Varchar(20) not null references TSPL_INVENTORY_SOURCE_CODE(Code)")
+        coll.Add("Against_JWOTransferMilk", "Varchar(30) null references TSPL_MILK_JOBWORK_TRANSFER_HEAD(Document_Code)")
+        coll.Add("Against_BulkDispatch", "Varchar(30) null references TSPL_DISPATCH_BULKSALE(Document_No)")
+        coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Qty_KG", "Decimal(18,2) null")
+        coll.Add("Qty_LTR", "Decimal(18,2) null")
+        coll.Add("FAT", "Decimal(18,2) null")
+        coll.Add("SNF", "Decimal(18,2) null")
+        coll.Add("FAT_KG", "Decimal(18,3) null")
+        coll.Add("SNF_KG", "Decimal(18,3) null")
+        coll.Add("Temp", "Decimal(18,3) null")
+        coll.Add("Acidity", "Decimal(18,3) null")
+        coll.Add("COB", "integer null")
+        coll.Add("Alcohol_Test", "Varchar(20) null")
+        coll.Add("Remarks", "Varchar(200) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
 
 
         coll = New Dictionary(Of String, String)
@@ -484,6 +526,57 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
                     gvRecBulk.Columns(ColRecBulkFATKG).FieldName = "Fat_KG"
                     gvRecBulk.Columns(ColRecBulkSNFKG).FieldName = "SNF_KG"
                 End If
+                '                aa
+                '                qry = "select ROW_NUMBER() OVER(ORDER BY Trans_Type,Source_Doc_No) AS SNo,xxxx.*,case when Stock_Qty_KG>0 then cast((Fat_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end FAT,case when Stock_Qty_KG>0 then cast((SNF_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end SNF from (
+                'select xxx.Trans_Type,xxx.Trans_Name,xxx.Source_Doc_No,xxx.Tanker_No, xxx.ReciveFrom,xxx.ReciveFromName,xxx.Item_Code,xxx.Item_Desc
+                ',case when xxx.Stock_UOM='LTR' then xxx.Stock_Qty else cast(xxx.Stock_Qty/TabUOMLTR.Conversion_Factor as decimal(18,2)) end as Stock_Qty_LTR
+                ',case when xxx.Stock_UOM='KG' then xxx.Stock_Qty else cast(xxx.Stock_Qty/TabUOMKG.Conversion_Factor as decimal(18,2)) end as Stock_Qty_KG
+                ',xxx.Fat_KG,xxx.SNF_KG  from (
+                'select TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type, TSPL_INVENTORY_SOURCE_CODE.Name as  Trans_Name,TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
+                ',(case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='BulkSRN' then TSPL_Bulk_MILK_SRN.Tanker_No else (case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='MilkTransferIn' then Tspl_Gate_Entry_Details.Tanker_No else '' end) end) as Tanker_No
+                ',(case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='BulkSRN' then TSPL_Bulk_MILK_SRN.Vendor_Code else (case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='MilkTransferIn' then Tspl_Gate_Entry_Details.ROUTE_NO else '' end) end) as ReciveFrom
+                ',(case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='BulkSRN' then TSPL_VENDOR_MASTER.Vendor_Name else (case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='MilkTransferIn' then TSPL_BULK_ROUTE_MASTER.ROUTE_NAME else '' end) end) as ReciveFromName
+                ',TSPL_INVENTORY_MOVEMENT_NEW.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,TSPL_ITEM_MASTER.Item_Desc,case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='I' then 1 else -1 end as RI,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Stock_Qty,TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM,
+                'cast(TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG as decimal(18,3)) as Fat_KG ,cast(TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG as decimal(18,3)) as SNF_KG
+                'from TSPL_INVENTORY_MOVEMENT_NEW 
+                'left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code
+                'left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT_NEW.Location_Code
+                'left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.Code=TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type
+                'left outer join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No  
+                'left outer join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Receipt_Challan_No=TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
+                'left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Gate_Entry_No=TSPL_MILK_TRANSFER_IN.Gate_Entry_no
+                'left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=Tspl_Gate_Entry_Details.ROUTE_NO
+                'left outer join TSPL_Bulk_MILK_SRN on TSPL_Bulk_MILK_SRN.SRN_NO=TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
+                'left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code
+                'where TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_LOCATION_MASTER.Main_Location_Code='" + txtLocation.Value + "' 
+                'and Punching_Date>='" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<='" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
+                'and 2= (case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('MilkTransferIn','BulkSRN') then 2 else case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type ='IC-AD' and TSPL_ADJUSTMENT_HEADER.Adjustment_Type='FLG' then 2 else 3 end end )
+                ') xxx 
+                'left outer join TSPL_ITEM_UOM_DETAIL as TabUOMLTR on TabUOMLTR.Item_Code=xxx.Item_Code and TabUOMLTR.UOM_Code='LTR'
+                'left outer join TSPL_ITEM_UOM_DETAIL as TabUOMKG on TabUOMKG.Item_Code=xxx.Item_Code and TabUOMKG.UOM_Code='KG'
+                'where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
+                ') xxxx"
+                '                dt = clsDBFuncationality.GetDataTable(qry)
+                '                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                '                    gvDisBulk.DataSource = Nothing
+                '                    gvDisBulk.AutoGenerateColumns = False
+                '                    gvDisBulk.DataSource = dt
+                '                    gvDisBulk.Columns(colDisBulkSNo).FieldName = "SNo"
+                '                    gvDisBulk.Columns(colDisBulkTranType).FieldName = "Trans_Type"
+                '                    gvDisBulk.Columns(colDisBulkTranTypeName).FieldName = "Trans_Name"
+                '                    gvDisBulk.Columns(colDisBulkTranNo).FieldName = "Source_Doc_No"
+                '                    gvDisBulk.Columns(colDisBulkTankerNo).FieldName = "Tanker_No"
+                '                    gvDisBulk.Columns(colDisBulkReciveFrom).FieldName = "ReciveFrom"
+                '                    gvDisBulk.Columns(colDisBulkReciveFromName).FieldName = "ReciveFromName"
+                '                    gvDisBulk.Columns(colDisBulkItemCode).FieldName = "Item_Code"
+                '                    gvDisBulk.Columns(colDisBulkItemName).FieldName = "Item_Desc"
+                '                    gvDisBulk.Columns(colDisBulkQtyLtr).FieldName = "Stock_Qty_LTR"
+                '                    gvDisBulk.Columns(colDisBulkQtyKG).FieldName = "Stock_Qty_KG"
+                '                    gvDisBulk.Columns(colDisBulkFAT).FieldName = "FAT"
+                '                    gvDisBulk.Columns(colDisBulkSNF).FieldName = "SNF"
+                '                    gvDisBulk.Columns(colDisBulkFATKG).FieldName = "Fat_KG"
+                '                    gvDisBulk.Columns(colDisBulkSNFKG).FieldName = "SNF_KG"
+                '                End If
             Else
                 LoadData(clsCommon.myCstr(dt.Rows(0)("Document_No")), NavigatorType.Current)
             End If
@@ -549,6 +642,7 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         LoadBlankGridRecPlant()
         LoadBlankGridRecBulk()
         LoadBlankGridPro()
+        LoadBlankGridDisBulk()
         LoadBlankGridCL()
     End Sub
     Sub LoadBlankGridOP()
@@ -1605,6 +1699,264 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         gvProRM.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gvProRM.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
+    Sub LoadBlankGridDisBulk()
+        gvDisBulk.Columns.Clear()
+        gvDisBulk.DataSource = Nothing
+        gvDisBulk.Rows.Clear()
+        Dim repoTextBox As New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "PK ID"
+        repoTextBox.Name = colDisBulkPKID
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.Width = 200
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = False
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        Dim repoNumBox As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "SNo"
+        repoNumBox.Name = colDisBulkSNo
+        repoNumBox.Width = 40
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Trans Type"
+        repoTextBox.Name = colDisBulkTranType
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = False
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Transaction"
+        repoTextBox.Name = colDisBulkTranTypeName
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = True
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Transaction No"
+        repoTextBox.Name = colDisBulkTranNo
+        repoTextBox.Width = 150
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = True
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Tanker No"
+        repoTextBox.Name = colDisBulkTankerNo
+        repoTextBox.Width = 150
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = True
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Receive Route/Vendor"
+        repoTextBox.Name = colDisBulkReciveFrom
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = False
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Receive From"
+        repoTextBox.Name = colDisBulkReciveFromName
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = True
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Item Code"
+        repoTextBox.Name = colDisBulkItemCode
+        repoTextBox.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = False
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Item"
+        repoTextBox.Name = colDisBulkItemName
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "LTR Qty"
+        repoNumBox.Name = colDisBulkQtyLtr
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "Kg Qty"
+        repoNumBox.Name = colDisBulkQtyKG
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "FAT %"
+        repoNumBox.Name = colDisBulkFAT
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "FAT KG"
+        repoNumBox.Name = colDisBulkFATKG
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "SNF %"
+        repoNumBox.Name = colDisBulkSNF
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "SNF KG"
+        repoNumBox.Name = colDisBulkSNFKG
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "Temp."
+        repoNumBox.Name = colDisBulkTemp
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 2
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "Acidity"
+        repoNumBox.Name = colDisBulkAcidity
+        repoNumBox.Width = 100
+        repoNumBox.Minimum = 0
+        repoNumBox.ShowUpDownButtons = False
+        repoNumBox.Step = 0
+        repoNumBox.DecimalPlaces = 3
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDisBulk.MasterTemplate.Columns.Add(repoNumBox)
+
+        Dim repoRowType As GridViewComboBoxColumn = New GridViewComboBoxColumn()
+        repoRowType.FormatString = ""
+        repoRowType.HeaderText = "MBRT COB"
+        repoRowType.Name = colDisBulkCOB
+        repoRowType.Width = 100
+        repoRowType.ReadOnly = False
+        repoRowType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        repoRowType.DataSource = GetCOBType()
+        repoRowType.ValueMember = "Code"
+        repoRowType.DisplayMember = "Name"
+        gvDisBulk.MasterTemplate.Columns.Add(repoRowType) '2
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Alcohol Test"
+        repoTextBox.Name = colDisBulkAlcohol
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = False
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Remarks"
+        repoTextBox.Name = colDisBulkRemarks
+        repoTextBox.Width = 150
+        repoTextBox.ReadOnly = False
+        gvDisBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        gvDisBulk.AllowAddNewRow = False
+        gvDisBulk.ShowGroupPanel = False
+        gvDisBulk.AllowColumnReorder = True
+        gvDisBulk.AllowRowReorder = False
+        gvDisBulk.EnableSorting = False
+        gvDisBulk.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvDisBulk.MasterTemplate.ShowRowHeaderColumn = False
+        gvDisBulk.TableElement.TableHeaderHeight = 40
+
+        gvDisBulk.AllowDeleteRow = True
+
+        gvDisBulk.MasterTemplate.SummaryRowsBottom.Clear()
+
+
+
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem(colDisBulkQtyLtr, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colDisBulkQtyKG, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colDisBulkFATKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        item1 = New GridViewSummaryItem(colDisBulkSNFKG, "{0:F3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        gvDisBulk.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvDisBulk.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
     Sub LoadBlankGridCL()
         gvCL.Columns.Clear()
         gvCL.DataSource = Nothing
@@ -2350,6 +2702,32 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                     End If
                 Next
 
+                obj.ArrDisBulk = New List(Of clsProductionShiftMgmtDisposalBulkMilk)
+                For ii As Integer = 0 To gvDisBulk.RowCount - 1
+                    If clsCommon.myLen(gvDisBulk.Rows(ii).Cells(colDisBulkItemCode).Value) > 0 Then
+                        Dim objTr As New clsProductionShiftMgmtDisposalBulkMilk()
+                        objTr.Trans_Type = clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkTranType).Value)
+                        If clsCommon.CompairString(objTr.Trans_Type, "DispatchBS") = CompairStringResult.Equal Then
+                            objTr.Against_BulkDispatch = clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkTranNo).Value)
+                        ElseIf clsCommon.CompairString(objTr.Trans_Type, "MilkTransferJobWork") = CompairStringResult.Equal Then
+                            objTr.Against_JWOTransferMilk = clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkTranNo).Value)
+                        End If
+                        objTr.Item_Code = clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkItemCode).Value)
+                        objTr.Qty_KG = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkQtyKG).Value)
+                        objTr.Qty_LTR = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkQtyLtr).Value)
+                        objTr.FAT = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkFAT).Value)
+                        objTr.SNF = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkSNF).Value)
+                        objTr.FAT_KG = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkFATKG).Value)
+                        objTr.SNF_KG = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkSNFKG).Value)
+                        objTr.Temp = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkTemp).Value)
+                        objTr.Acidity = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkAcidity).Value)
+                        objTr.COB = clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkCOB).Value)
+                        objTr.Alcohol_Test = clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkAlcohol).Value)
+                        objTr.Remarks = clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkRemarks).Value)
+                        obj.ArrDisBulk.Add(objTr)
+                    End If
+                Next
+
                 obj.ArrCL = New List(Of clsProductionShiftMgmtClose)
                 For ii As Integer = 0 To gvCL.RowCount - 1
                     If clsCommon.myLen(gvCL.Rows(ii).Cells(colCLItemCode).Value) > 0 Then
@@ -2521,6 +2899,33 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvProRM.Rows(gvProRM.Rows.Count - 1).Cells(ColProRMFATKG).Value = objTr.FAT_KG
                         gvProRM.Rows(gvProRM.Rows.Count - 1).Cells(ColProRMSNFKG).Value = objTr.SNF_KG
                         gvProRM.Rows(gvProRM.Rows.Count - 1).Cells(ColProRMIssue).Tag = objTr.Arr
+                    Next
+                End If
+
+                If obj.ArrDisBulk IsNot Nothing AndAlso obj.ArrDisBulk.Count > 0 Then
+                    For Each objTr As clsProductionShiftMgmtDisposalBulkMilk In obj.ArrDisBulk
+                        gvDisBulk.Rows.AddNew()
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkPKID).Value = objTr.PK_ID
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkSNo).Value = gvDisBulk.Rows.Count
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkTranType).Value = objTr.Trans_Type
+                        If clsCommon.myLen(objTr.Against_BulkDispatch) > 0 Then
+                            gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkTranNo).Value = objTr.Against_BulkDispatch
+                        ElseIf clsCommon.myLen(objTr.Against_JWOTransferMilk) > 0 Then
+                            gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkTranNo).Value = objTr.Against_JWOTransferMilk
+                        End If
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkItemCode).Value = objTr.Item_Code
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkItemName).Value = objTr.Item_Name
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkQtyKG).Value = objTr.Qty_KG
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkQtyLtr).Value = objTr.Qty_LTR
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkFAT).Value = objTr.FAT
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkSNF).Value = objTr.SNF
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkFATKG).Value = objTr.FAT_KG
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkSNFKG).Value = objTr.SNF_KG
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkTemp).Value = objTr.Temp
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkAcidity).Value = objTr.Acidity
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkCOB).Value = objTr.COB
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkAlcohol).Value = objTr.Alcohol_Test
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkRemarks).Value = objTr.Remarks
                     Next
                 End If
 
@@ -2823,6 +3228,26 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                 Next
             End If
         Next
+
+
+        'For ii As Integer = 0 To gvRecPlant.RowCount - 1
+        '    For jj As Integer = 0 To gvCL.Rows.Count - 1
+        '        If clsCommon.CompairString(clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantItemCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
+        '                    clsCommon.CompairString(clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantl).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
+        '            If clsCommon.CompairString(obj.UOM, "KG") = CompairStringResult.Equal Then
+        '                gvCL.Rows(jj).Cells(colCLQtyKG).Value += obj.Qty
+        '                gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
+        '            Else
+        '                gvCL.Rows(jj).Cells(colCLQtyLtr).Value += obj.Qty
+        '                gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
+        '            End If
+        '            gvCL.Rows(jj).Cells(colCLFATKG).Value += obj.FAT_KG
+        '            gvCL.Rows(jj).Cells(colCLSNFKG).Value += obj.SNF_KG
+        '        End If
+        '    Next
+        'Next
+
+
         For jj As Integer = 0 To gvCL.Rows.Count - 1
             gvCL.Rows(jj).Cells(colCLQtyLtr).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value) - clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyLtr).Value)
             gvCL.Rows(jj).Cells(colCLQtyKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value) - clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyKG).Value)
