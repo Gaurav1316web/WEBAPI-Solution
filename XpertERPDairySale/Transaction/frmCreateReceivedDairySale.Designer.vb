@@ -22,9 +22,9 @@ Partial Class frmCreateReceivedDairySale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCreateReceivedDairySale))
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -89,6 +89,8 @@ Partial Class frmCreateReceivedDairySale
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -773,7 +775,7 @@ Partial Class frmCreateReceivedDairySale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -782,6 +784,7 @@ Partial Class frmCreateReceivedDairySale
         Me.gv1.Size = New System.Drawing.Size(1197, 295)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'lblCustomerName
         '
@@ -1003,7 +1006,7 @@ Partial Class frmCreateReceivedDairySale
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.EmailSmsSetting, Me.rmExport, Me.rmImport})
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.EmailSmsSetting, Me.rmExport, Me.rmImport, Me.RadMenuItem5, Me.RadMenuItem6})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
@@ -1049,9 +1052,19 @@ Partial Class frmCreateReceivedDairySale
         Me.RadMenuItem2.TabIndex = 5
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        '
+        'RadMenuItem5
+        '
+        Me.RadMenuItem5.Name = "RadMenuItem5"
+        Me.RadMenuItem5.Text = "Export Crate In"
+        '
+        'RadMenuItem6
+        '
+        Me.RadMenuItem6.Name = "RadMenuItem6"
+        Me.RadMenuItem6.Text = "Import Crate In"
         '
         'frmCreateReceivedDairySale
         '
@@ -1191,5 +1204,7 @@ Partial Class frmCreateReceivedDairySale
     Friend WithEvents RadGroupBox7 As RadGroupBox
     Friend WithEvents rbtnMrng As RadioButton
     Friend WithEvents rbtnEvng As RadioButton
+    Friend WithEvents RadMenuItem5 As RadMenuItem
+    Friend WithEvents RadMenuItem6 As RadMenuItem
 End Class
 
