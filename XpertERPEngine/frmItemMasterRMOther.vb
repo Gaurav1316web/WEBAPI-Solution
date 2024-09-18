@@ -377,7 +377,7 @@ Public Class FrmItemMasterRMOther
         txtStructurer.Value = ""
         lblStructurer.Text = ""
         txtDeductiontype.Value = ""
-        lblDeduction.Text = ""
+        'lblDeduction.Text = ""
         txtPurchaseACSet.Value = ""
         lblPurchaseACSet.Text = ""
         txtSaleAcSet.Value = ""
@@ -1284,6 +1284,8 @@ Public Class FrmItemMasterRMOther
         '' Anubhooti 10-Sep-2014 BM00000003847
         ItemShortDesp()
         ' BM00000007910
+        chkSkipSecurityDed.Checked = False
+        chkSkipPenaltyDed.Checked = False
         fndScrapItem.Visible = False
         chkScrapItem.Checked = False
         chkMilkPouch.Checked = False
@@ -1353,7 +1355,7 @@ Public Class FrmItemMasterRMOther
     Private Sub txtDeductionType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDeductiontype._MYValidating
         Dim Qry As String = "SELECT Document_No,Description	 FROM TSPL_DEDUCTION_TYPE_MASTER "
         txtDeductiontype.Value = clsCommon.ShowSelectForm("txtDeductionType", Qry, "Document_No", "", txtDeductiontype.Value, "Document_No", isButtonClicked)
-        lblDeduction.Text = clsDBFuncationality.getSingleValue("Select isnull(Description_Hindi,'') as Description_Hindi  from TSPL_DEDUCTION_TYPE_MASTER Where Document_No='" + txtDeductiontype.Value + "' ")
+        'lblDeduction.Text = clsDBFuncationality.getSingleValue("Select isnull(Description_Hindi,'') as Description_Hindi  from TSPL_DEDUCTION_TYPE_MASTER Where Document_No='" + txtDeductiontype.Value + "' ")
     End Sub
     Private Sub txtPurchaseACSet__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPurchaseACSet._MYValidating
         Dim qry As String = "select Purchase_Class_Code as [Code], Purchase_Class_Desc as [Description] from dbo.TSPL_PURCHASE_ACCOUNTS"
@@ -1438,7 +1440,7 @@ Public Class FrmItemMasterRMOther
                 obj.Structure_Code = txtStructurer.Value
                 obj.Structure_Desc = txtStructurer.Value
                 obj.Deduction_Type = txtDeductiontype.Value
-                obj.Deduction_Type_Hindi = lblDeduction.Text
+                'obj.Deduction_Type_Hindi = lblDeduction.Text
                 obj.Purchase_Class_Code = txtPurchaseACSet.Value
                 obj.Cost = txtCost.Value
                 obj.Tolerance = txt_tolerance.Value
@@ -1474,6 +1476,8 @@ Public Class FrmItemMasterRMOther
                 obj.ApplyRoundingInStdProd = chkApplyRounding.Checked
                 obj.Visual_QC = chkApplyVisualQC.Checked
                 obj.Security_Deduction = txtSecurityDedPer.Value
+                obj.isSecurityDeduction = clsCommon.myCdbl(IIf(chkSkipSecurityDed.Checked, 1, 0))
+                obj.isPenaltyDeduction = clsCommon.myCdbl(IIf(chkSkipPenaltyDed.Checked, 1, 0))
                 If rbtnBBNA.IsChecked Then
                     obj.BuyBackType = 0
 
@@ -2561,6 +2565,8 @@ Public Class FrmItemMasterRMOther
                 txtstnd_pur_rate.Text = obj.std_pur_rate
                 txtUOM.Value = obj.Unit_Code
                 txtCost.Value = obj.Cost
+                chkSkipSecurityDed.Checked = IIf(obj.isSecurityDeduction = 1, True, False)
+                chkSkipPenaltyDed.Checked = IIf(obj.isPenaltyDeduction = 1, True, False)
                 'Load buyBackTye and Value
                 If obj.BuyBackType = 1 Then
                     rbtnBBAmount.IsChecked = True
@@ -2617,7 +2623,7 @@ Public Class FrmItemMasterRMOther
                 txtStructurer.Value = obj.Structure_Code
                 lblStructurer.Text = obj.Structure_Desc
                 txtDeductiontype.Value = obj.Deduction_Type
-                lblDeduction.Text = obj.Deduction_Type_Hindi
+                'lblDeduction.Text = obj.Deduction_Type_Hindi
                 txtPurchaseACSet.Value = obj.Purchase_Class_Code
                 lblPurchaseACSet.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Purchase_Class_Desc  from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code ='" + txtPurchaseACSet.Value + "'"))
                 txtSaleAcSet.Value = obj.Sale_Class_Code

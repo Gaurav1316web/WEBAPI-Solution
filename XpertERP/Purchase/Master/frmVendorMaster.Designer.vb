@@ -44,6 +44,8 @@ Partial Class frmVendorMaster
         Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.vendorgrpbox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkPenaltyDed = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSecurityDed = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkDefaultGrower = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkProvisional = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkOEM = New Telerik.WinControls.UI.RadCheckBox()
@@ -303,6 +305,8 @@ Partial Class frmVendorMaster
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.vendorgrpbox.SuspendLayout()
+        CType(Me.chkPenaltyDed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOEM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -550,6 +554,8 @@ Partial Class frmVendorMaster
         'vendorgrpbox
         '
         Me.vendorgrpbox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.vendorgrpbox.Controls.Add(Me.chkPenaltyDed)
+        Me.vendorgrpbox.Controls.Add(Me.chkSecurityDed)
         Me.vendorgrpbox.Controls.Add(Me.chkDefaultGrower)
         Me.vendorgrpbox.Controls.Add(Me.chkProvisional)
         Me.vendorgrpbox.Controls.Add(Me.chkOEM)
@@ -594,6 +600,24 @@ Partial Class frmVendorMaster
         Me.vendorgrpbox.TabIndex = 0
         Me.vendorgrpbox.ThemeName = "ControlDefault"
         '
+        'chkPenaltyDed
+        '
+        Me.chkPenaltyDed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkPenaltyDed.Location = New System.Drawing.Point(880, 73)
+        Me.chkPenaltyDed.Name = "chkPenaltyDed"
+        Me.chkPenaltyDed.Size = New System.Drawing.Size(110, 16)
+        Me.chkPenaltyDed.TabIndex = 1375
+        Me.chkPenaltyDed.Text = "Skip Penalty Ded."
+        '
+        'chkSecurityDed
+        '
+        Me.chkSecurityDed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSecurityDed.Location = New System.Drawing.Point(880, 53)
+        Me.chkSecurityDed.Name = "chkSecurityDed"
+        Me.chkSecurityDed.Size = New System.Drawing.Size(113, 16)
+        Me.chkSecurityDed.TabIndex = 1374
+        Me.chkSecurityDed.Text = "Skip Security Ded."
+        '
         'chkDefaultGrower
         '
         Me.chkDefaultGrower.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -632,7 +656,7 @@ Partial Class frmVendorMaster
         Me.TxtOldname.IsSourceFromTable = False
         Me.TxtOldname.IsSourceFromValueList = False
         Me.TxtOldname.IsUnique = False
-        Me.TxtOldname.Location = New System.Drawing.Point(717, 51)
+        Me.TxtOldname.Location = New System.Drawing.Point(687, 51)
         Me.TxtOldname.MaxLength = 50
         Me.TxtOldname.MendatroryField = False
         Me.TxtOldname.MyLinkLable1 = Me.MyLabel16
@@ -773,7 +797,7 @@ Partial Class frmVendorMaster
         Me.txtWeight.IsSourceFromTable = False
         Me.txtWeight.IsSourceFromValueList = False
         Me.txtWeight.IsUnique = False
-        Me.txtWeight.Location = New System.Drawing.Point(717, 73)
+        Me.txtWeight.Location = New System.Drawing.Point(687, 73)
         Me.txtWeight.MaxLength = 50
         Me.txtWeight.MendatroryField = False
         Me.txtWeight.MyLinkLable1 = Me.MyLabel20
@@ -3085,6 +3109,7 @@ Partial Class frmVendorMaster
         Me.grdTax.Size = New System.Drawing.Size(684, 93)
         Me.grdTax.TabIndex = 1
         Me.grdTax.TabStop = False
+        Me.grdTax.VarID = ""
         '
         'RadLabel35
         '
@@ -4347,6 +4372,7 @@ Partial Class frmVendorMaster
         Me.gvCategory.Size = New System.Drawing.Size(964, 308)
         Me.gvCategory.TabIndex = 4
         Me.gvCategory.TabStop = False
+        Me.gvCategory.VarID = ""
         '
         'Panel1
         '
@@ -4789,6 +4815,8 @@ Partial Class frmVendorMaster
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.vendorgrpbox.ResumeLayout(False)
         Me.vendorgrpbox.PerformLayout()
+        CType(Me.chkPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOEM, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5309,5 +5337,7 @@ Partial Class frmVendorMaster
     Friend WithEvents chkProvisional As RadCheckBox
     Friend WithEvents InActiveCF As RadCheckBox
     Friend WithEvents chkDefaultGrower As RadCheckBox
+    Friend WithEvents chkSecurityDed As RadCheckBox
+    Friend WithEvents chkPenaltyDed As RadCheckBox
 End Class
 

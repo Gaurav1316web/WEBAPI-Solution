@@ -3709,20 +3709,15 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If DonotIncludeSecurityInCustomerOutstanding = False Then
                     dblSecurityAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select case when isnull(SUM(Receipt_Amount),0)>=0 then -abs(isnull(SUM(Receipt_Amount),0)) else abs(isnull(SUM(Receipt_Amount),0)) end as SecurityAmount from TSPL_RECEIPT_HEADER where Receipt_Type='P' and  SecurityDeposit='Y'  and Posted='Y' and Cust_Code='" & strCustomer & "'", trans))
                 End If
-                qry = "select ISNULL(sum(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Total_Amt),0) from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE 
-INNER  JOIN (SELECT DISTINCT TSPL_BOOKING_DETAIL.DELIVERY_NO,TSPL_BOOKING_MATSER.From_Screen_Code FROM TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON  TSPL_BOOKING_MATSER.dOCUMENT_nO=TSPL_BOOKING_DETAIL.Document_No  where TSPL_BOOKING_MATSER.From_Screen_Code<>'BOOK-DS_FSH' AND TSPL_BOOKING_DETAIL.CUST_CODE='" & strCustomer & "' AND ISNULL(TSPL_BOOKING_DETAIL.DELIVERY_NO,'')<>'' ) CASHINDENTBOOKING ON CASHINDENTBOOKING.DELIVERY_NO= TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No
-where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.posted=1 and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No not in (Select isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code,'') from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on 
-TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.Customer_Code='" & strCustomer & "')
-and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.customer_code='" & strCustomer & "' and  
-isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
+                qry = "select isnull(sum(TSPL_BOOKING_MATSER.Total_Amt),0) from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No 
+where TSPL_BOOKING_DETAIL.CUST_CODE = '" & strCustomer & "' and TSPL_BOOKING_MATSER.Posted=1 and TSPL_BOOKING_DETAIL.PK_ID not in(Select isnull(TSPL_SD_SHIPMENT_DETAIL.Against_Booking_PK_ID,'') from 
+TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status = 1 and TSPL_SD_SHIPMENT_HEAD.Customer_Code = '" & strCustomer & "')"
                 dblPendingDeliveryAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-                qry = "select SUM(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0) ) as OutStandingAmt , 1 as RI from TSPL_SD_SHIPMENT_HEAD  " &
-                "left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
-                "left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No " &
-                "where  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code='" & strCustomer & "' and  " &
-                "isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='Y' and  TSPL_SD_SHIPMENT_HEAD.Status=0  " &
-                " and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_No in " &
-                " ( SELECT DISTINCT TSPL_BOOKING_DETAIL.DELIVERY_NO FROM TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON  TSPL_BOOKING_MATSER.dOCUMENT_nO=TSPL_BOOKING_DETAIL.Document_No  where TSPL_BOOKING_MATSER.From_Screen_Code<>'BOOK-DS_FSH' AND TSPL_BOOKING_DETAIL.CUST_CODE='" & strCustomer & "' AND ISNULL(TSPL_BOOKING_DETAIL.DELIVERY_NO,'')<>'' )"
+                qry = "select SUM( isnull( TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt, 0 ) ) as OutStandingAmt, 1 as RI 
+from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.document_code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
+left outer join TSPL_BOOKING_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Against_Booking_PK_ID = TSPL_BOOKING_DETAIL.PK_ID 
+where TSPL_BOOKING_DETAIL.Cust_Code = '" & strCustomer & "' and TSPL_SD_SHIPMENT_HEAD.Status = 0 
+and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Document_No FROM TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.dOCUMENT_nO = TSPL_BOOKING_DETAIL.Document_No where TSPL_BOOKING_MATSER.From_Screen_Code <> 'BOOK-DS_FSH' AND TSPL_BOOKING_DETAIL.CUST_CODE = '" & strCustomer & "' )"
                 dblShortCloseDoDispatch = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
             Else
                 'qry = "Select  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt From ( " &
@@ -3741,20 +3736,28 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 If DonotIncludeSecurityInCustomerOutstanding = False Then
                     dblSecurityAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select case when isnull(SUM(Receipt_Amount),0)>=0 then -abs(isnull(SUM(Receipt_Amount),0)) else abs(isnull(SUM(Receipt_Amount),0)) end as SecurityAmount  from TSPL_RECEIPT_HEADER where Receipt_Type='P' and SecurityDeposit='Y'  and Posted='Y' and Cust_Code='" & strCustomer & "'", trans))
                 End If
-                qry = "select ISNULL(sum(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Total_Amt),0) from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE 
-INNER  JOIN (SELECT DISTINCT TSPL_BOOKING_DETAIL.DELIVERY_NO,TSPL_BOOKING_MATSER.From_Screen_Code FROM TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON  TSPL_BOOKING_MATSER.dOCUMENT_nO=TSPL_BOOKING_DETAIL.Document_No  where TSPL_BOOKING_MATSER.From_Screen_Code<>'BOOK-DS_FSH' AND TSPL_BOOKING_DETAIL.CUST_CODE='" & strCustomer & "' AND ISNULL(TSPL_BOOKING_DETAIL.DELIVERY_NO,'')<>'' ) CASHINDENTBOOKING ON CASHINDENTBOOKING.DELIVERY_NO= TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No
-where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.posted=1 and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No not in (Select isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code,'') from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on 
-TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.Customer_Code='" & strCustomer & "' )
-and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.customer_code='" & strCustomer & "' and  
-isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
+                qry = "select isnull(sum(TSPL_BOOKING_MATSER.Total_Amt),0) from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No 
+where TSPL_BOOKING_DETAIL.CUST_CODE = '" & strCustomer & "' and TSPL_BOOKING_MATSER.Posted=1 and TSPL_BOOKING_DETAIL.PK_ID not in(Select isnull(TSPL_SD_SHIPMENT_DETAIL.Against_Booking_PK_ID,'') from 
+TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status = 1 and TSPL_SD_SHIPMENT_HEAD.Customer_Code = '" & strCustomer & "')"
+                '                qry = "select ISNULL(sum(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Total_Amt),0) from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE 
+                'INNER  JOIN (SELECT DISTINCT TSPL_BOOKING_DETAIL.DELIVERY_NO,TSPL_BOOKING_MATSER.From_Screen_Code FROM TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON  TSPL_BOOKING_MATSER.dOCUMENT_nO=TSPL_BOOKING_DETAIL.Document_No  where TSPL_BOOKING_MATSER.From_Screen_Code<>'BOOK-DS_FSH' AND TSPL_BOOKING_DETAIL.CUST_CODE='" & strCustomer & "' AND ISNULL(TSPL_BOOKING_DETAIL.DELIVERY_NO,'')<>'' ) CASHINDENTBOOKING ON CASHINDENTBOOKING.DELIVERY_NO= TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No
+                'where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.posted=1 and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No not in (Select isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code,'') from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on 
+                'TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.Customer_Code='" & strCustomer & "' )
+                'and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.customer_code='" & strCustomer & "' and  
+                'isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 dblPendingDeliveryAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-                qry = "select SUM(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0) ) as OutStandingAmt , 1 as RI from TSPL_SD_SHIPMENT_HEAD  " &
-                "left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
-                "left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No " &
-                "where  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code='" & strCustomer & "' and  " &
-                "isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='Y' and  TSPL_SD_SHIPMENT_HEAD.Status=0  " &
-                " and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_No in " &
-                " ( SELECT DISTINCT TSPL_BOOKING_DETAIL.DELIVERY_NO FROM TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON  TSPL_BOOKING_MATSER.dOCUMENT_nO=TSPL_BOOKING_DETAIL.Document_No  where TSPL_BOOKING_MATSER.From_Screen_Code<>'BOOK-DS_FSH' AND TSPL_BOOKING_DETAIL.CUST_CODE='" & strCustomer & "' AND ISNULL(TSPL_BOOKING_DETAIL.DELIVERY_NO,'')<>'' )"
+                qry = "select SUM( isnull( TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt, 0 ) ) as OutStandingAmt, 1 as RI 
+from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.document_code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
+left outer join TSPL_BOOKING_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Against_Booking_PK_ID = TSPL_BOOKING_DETAIL.PK_ID 
+where TSPL_BOOKING_DETAIL.Cust_Code = '" & strCustomer & "' and TSPL_SD_SHIPMENT_HEAD.Status = 0 
+and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Document_No FROM TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.dOCUMENT_nO = TSPL_BOOKING_DETAIL.Document_No where TSPL_BOOKING_MATSER.From_Screen_Code <> 'BOOK-DS_FSH' AND TSPL_BOOKING_DETAIL.CUST_CODE = '" & strCustomer & "' )"
+                'qry = "select SUM(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0) ) as OutStandingAmt , 1 as RI from TSPL_SD_SHIPMENT_HEAD  " &
+                '"left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
+                '"left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No " &
+                '"where  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code='" & strCustomer & "' and  " &
+                '"isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='Y' and  TSPL_SD_SHIPMENT_HEAD.Status=0  " &
+                '" and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_No in " &
+                '" ( SELECT DISTINCT TSPL_BOOKING_DETAIL.DELIVERY_NO FROM TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON  TSPL_BOOKING_MATSER.dOCUMENT_nO=TSPL_BOOKING_DETAIL.Document_No  where TSPL_BOOKING_MATSER.From_Screen_Code<>'BOOK-DS_FSH' AND TSPL_BOOKING_DETAIL.CUST_CODE='" & strCustomer & "' AND ISNULL(TSPL_BOOKING_DETAIL.DELIVERY_NO,'')<>'' )"
                 dblShortCloseDoDispatch = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
             End If
             dblBookingAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull( sum(TSPL_BOOKING_DETAIL.Booking_Qty * TSPL_BOOKING_DETAIL.Item_Rate) ,0 ) from TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON  TSPL_BOOKING_MATSER.dOCUMENT_nO=TSPL_BOOKING_DETAIL.Document_No where TSPL_BOOKING_DETAIL.Booking_Status=4 and isnull(TSPL_BOOKING_DETAIL.DO_Posted,0)=0 and  TSPL_BOOKING_DETAIL.Cust_Code='" & strCustomer & "'  and " &
@@ -4200,7 +4203,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     rbtnTaxCalManual.IsChecked = True
                 End If
                 ''richa agarwal ERO/21/05/19-000609 21 May,2019 add updated vehicle No according to DO
-                LblUpdatedVehicleCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Lorry_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No ='" + txtDocNo.Value + "'"))
+                LblUpdatedVehicleCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Vehicle_Code from TSPL_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "'"))
                 LblUpdatedVehicleDesc.Text = clsCommon.myCstr(ClsVehicleMaster.GetName(LblUpdatedVehicleCode.Text, Nothing))
                 'setRouteDetail(txtVendorNo.Value, lblroutecode.Text)
                 GetUnbilledAmt(obj.Document_Date, txtVendorNo.Value)
