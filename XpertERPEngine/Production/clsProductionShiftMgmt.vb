@@ -810,6 +810,11 @@ Public Class clsProductionShiftMgmtReceiptBulkMilk
     Public Against_MilkTransferIn As String
     Public Against_BulkMilkSRN As String
     Public Against_Adjustment As String
+
+    Public TankerNo As String ''Not a Table Column
+    Public ReciveFrom As String ''Not a Table Column
+    Public ReciveFromName As String ''Not a Table Column
+
     Public Item_Code As String
     Public Item_Name As String
     Public Qty_KG As Decimal
@@ -853,8 +858,18 @@ Public Class clsProductionShiftMgmtReceiptBulkMilk
     End Function
     Public Shared Function GetData(ByVal DocumentNo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsProductionShiftMgmtReceiptBulkMilk)
         Dim arr As List(Of clsProductionShiftMgmtReceiptBulkMilk) = Nothing
-        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.*,TSPL_ITEM_MASTER.Item_Desc FROM TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK 
+        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.*,TSPL_ITEM_MASTER.Item_Desc 
+,(case when TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Trans_Type='BulkSRN' then TSPL_Bulk_MILK_SRN.Tanker_No else (case when TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Trans_Type='MilkTransferIn' then Tspl_Gate_Entry_Details.Tanker_No else '' end) end) as Tanker_No
+,(case when TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Trans_Type='BulkSRN' then TSPL_Bulk_MILK_SRN.Vendor_Code else (case when TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Trans_Type='MilkTransferIn' then Tspl_Gate_Entry_Details.ROUTE_NO else '' end) end) as ReciveFrom
+,(case when TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Trans_Type='BulkSRN' then TSPL_VENDOR_MASTER.Vendor_Name else (case when TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Trans_Type='MilkTransferIn' then TSPL_BULK_ROUTE_MASTER.ROUTE_NAME else '' end) end) as ReciveFromName
+FROM TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Item_Code 
+left outer join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Against_Adjustment  
+left outer join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Receipt_Challan_No=TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Against_MilkTransferIn
+left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Gate_Entry_No=TSPL_MILK_TRANSFER_IN.Gate_Entry_no
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=Tspl_Gate_Entry_Details.ROUTE_NO
+left outer join TSPL_Bulk_MILK_SRN on TSPL_Bulk_MILK_SRN.SRN_NO=TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Against_BulkMilkSRN
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code
 where  TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Document_No='" + DocumentNo + "' "
         If clsCommon.myLen(strExtraWhrclas) > 0 Then
             qry += " and " + strExtraWhrclas
@@ -872,6 +887,12 @@ where  TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Document_No='" + DocumentNo + "' "
                 objTr.Against_MilkTransferIn = clsCommon.myCstr(dr("Against_MilkTransferIn"))
                 objTr.Against_BulkMilkSRN = clsCommon.myCstr(dr("Against_BulkMilkSRN"))
                 objTr.Against_Adjustment = clsCommon.myCstr(dr("Against_Adjustment"))
+                objTr.Trans_Type = clsCommon.myCstr(dr("Trans_Type"))
+
+                objTr.TankerNo = clsCommon.myCstr(dr("Tanker_No"))
+                objTr.ReciveFrom = clsCommon.myCstr(dr("ReciveFrom"))
+                objTr.ReciveFromName = clsCommon.myCstr(dr("ReciveFromName"))
+
                 objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                 objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
                 objTr.Qty_KG = clsCommon.myCDecimal(dr("Qty_KG"))
@@ -1274,6 +1295,11 @@ Public Class clsProductionShiftMgmtDisposalBulkMilk
     Public Trans_Type As String
     Public Against_JWOTransferMilk As String
     Public Against_BulkDispatch As String
+    Public Location_Code As String
+    Public Location_Name As String
+    Public TankerNo As String ''Not a Table Column
+    Public SendTo As String ''Not a Table Column
+    Public SendToName As String ''Not a Table Column
     Public Item_Code As String
     Public Item_Name As String
     Public Qty_KG As Decimal
@@ -1297,6 +1323,7 @@ Public Class clsProductionShiftMgmtDisposalBulkMilk
                 clsCommon.AddColumnsForChange(coll, "Trans_Type", objTR.Trans_Type)
                 clsCommon.AddColumnsForChange(coll, "Against_JWOTransferMilk", objTR.Against_JWOTransferMilk, True)
                 clsCommon.AddColumnsForChange(coll, "Against_BulkDispatch", objTR.Against_BulkDispatch, True)
+                clsCommon.AddColumnsForChange(coll, "Location_Code", objTR.Location_Code)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", objTR.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Qty_KG", objTR.Qty_KG)
                 clsCommon.AddColumnsForChange(coll, "Qty_LTR", objTR.Qty_LTR)
@@ -1316,8 +1343,17 @@ Public Class clsProductionShiftMgmtDisposalBulkMilk
     End Function
     Public Shared Function GetData(ByVal DocumentNo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsProductionShiftMgmtDisposalBulkMilk)
         Dim arr As List(Of clsProductionShiftMgmtDisposalBulkMilk) = Nothing
-        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.*,TSPL_ITEM_MASTER.Item_Desc FROM TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK 
+        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.*,TSPL_ITEM_MASTER.Item_Desc ,TSPL_LOCATION_MASTER.Location_Desc 
+,(case when TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Trans_Type='DispatchBS' then TSPL_DISPATCH_BULKSALE.Tanker_Code else (case when TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Trans_Type='MilkTransferJobWork' then TSPL_MILK_JOBWORK_TRANSFER_HEAD.Tanker_No else '' end) end) as Tanker_No
+,(case when TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Trans_Type='DispatchBS' then TSPL_DISPATCH_BULKSALE.Customer_Code else (case when TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Trans_Type='MilkTransferJobWork' then TSPL_MILK_JOBWORK_TRANSFER_HEAD.JobWork_location else '' end) end) as SendTo
+,(case when TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Trans_Type='DispatchBS' then TSPL_CUSTOMER_MASTER.Customer_Name else (case when TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Trans_Type='MilkTransferJobWork' then TabJobLocation.Location_Desc else '' end) end) as SendToName
+FROM TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Item_Code 
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Location_Code
+left outer join TSPL_DISPATCH_BULKSALE on TSPL_DISPATCH_BULKSALE.Document_No=TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Against_BulkDispatch 
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DISPATCH_BULKSALE.Customer_Code
+left outer join TSPL_MILK_JOBWORK_TRANSFER_HEAD on TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Code=TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Against_JWOTransferMilk
+left outer join TSPL_LOCATION_MASTER as TabJobLocation on TabJobLocation.Location_Code=TSPL_MILK_JOBWORK_TRANSFER_HEAD.JobWork_location
 where  TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Document_No='" + DocumentNo + "' "
         If clsCommon.myLen(strExtraWhrclas) > 0 Then
             qry += " and " + strExtraWhrclas
@@ -1332,8 +1368,14 @@ where  TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Document_No='" + DocumentNo + "' "
                 objTr = New clsProductionShiftMgmtDisposalBulkMilk
                 objTr.PK_ID = clsCommon.myCstr(dr("PK_ID"))
                 objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                objTr.Trans_Type = clsCommon.myCstr(dr("Trans_Type"))
                 objTr.Against_JWOTransferMilk = clsCommon.myCstr(dr("Against_JWOTransferMilk"))
                 objTr.Against_BulkDispatch = clsCommon.myCstr(dr("Against_BulkDispatch"))
+                objTr.TankerNo = clsCommon.myCstr(dr("Tanker_No"))
+                objTr.SendTo = clsCommon.myCstr(dr("SendTo"))
+                objTr.SendToName = clsCommon.myCstr(dr("SendToName"))
+                objTr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
+                objTr.Location_Name = clsCommon.myCstr(dr("Location_Desc"))
                 objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                 objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
                 objTr.Qty_KG = clsCommon.myCDecimal(dr("Qty_KG"))

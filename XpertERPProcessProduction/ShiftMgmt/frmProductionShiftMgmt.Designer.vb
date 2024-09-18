@@ -74,10 +74,10 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvProRM = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvCL = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage9 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvDisBulk = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvCL = New common.UserControls.MyRadGridView()
         Me.Panel2.SuspendLayout()
         CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -128,12 +128,12 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage8.SuspendLayout()
         CType(Me.gvProRM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvProRM.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage4.SuspendLayout()
-        CType(Me.gvCL, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage9.SuspendLayout()
         CType(Me.gvDisBulk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvDisBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.gvCL, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -628,7 +628,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 122)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(784, 226)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -830,41 +830,6 @@ Partial Class frmProductionShiftMgmt
         Me.gvProRM.TabIndex = 4
         Me.gvProRM.VarID = ""
         '
-        'RadPageViewPage4
-        '
-        Me.RadPageViewPage4.Controls.Add(Me.gvCL)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(763, 178)
-        Me.RadPageViewPage4.Text = "Closing Balance"
-        '
-        'gvCL
-        '
-        Me.gvCL.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gvCL.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvCL.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvCL.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvCL.ForeColor = System.Drawing.Color.Black
-        Me.gvCL.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvCL.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvCL.MasterTemplate.AllowDeleteRow = False
-        Me.gvCL.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvCL.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvCL.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCL.MasterTemplate.ViewDefinition = TableViewDefinition13
-        Me.gvCL.MyStopExport = False
-        Me.gvCL.Name = "gvCL"
-        Me.gvCL.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvCL.ShowGroupPanel = False
-        Me.gvCL.ShowHeaderCellButtons = True
-        Me.gvCL.Size = New System.Drawing.Size(763, 178)
-        Me.gvCL.TabIndex = 4
-        Me.gvCL.VarID = ""
-        '
         'RadPageViewPage9
         '
         Me.RadPageViewPage9.Controls.Add(Me.gvDisBulk)
@@ -890,7 +855,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvDisBulk.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvDisBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDisBulk.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDisBulk.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvDisBulk.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gvDisBulk.MyStopExport = False
         Me.gvDisBulk.Name = "gvDisBulk"
         Me.gvDisBulk.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -899,6 +864,41 @@ Partial Class frmProductionShiftMgmt
         Me.gvDisBulk.Size = New System.Drawing.Size(742, 130)
         Me.gvDisBulk.TabIndex = 5
         Me.gvDisBulk.VarID = ""
+        '
+        'RadPageViewPage4
+        '
+        Me.RadPageViewPage4.Controls.Add(Me.gvCL)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage4.Name = "RadPageViewPage4"
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(763, 178)
+        Me.RadPageViewPage4.Text = "Closing Balance"
+        '
+        'gvCL
+        '
+        Me.gvCL.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvCL.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvCL.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvCL.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvCL.ForeColor = System.Drawing.Color.Black
+        Me.gvCL.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvCL.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvCL.MasterTemplate.AllowDeleteRow = False
+        Me.gvCL.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvCL.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvCL.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCL.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvCL.MyStopExport = False
+        Me.gvCL.Name = "gvCL"
+        Me.gvCL.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvCL.ShowGroupPanel = False
+        Me.gvCL.ShowHeaderCellButtons = True
+        Me.gvCL.Size = New System.Drawing.Size(763, 178)
+        Me.gvCL.TabIndex = 4
+        Me.gvCL.VarID = ""
         '
         'frmProductionShiftMgmt
         '
@@ -967,12 +967,12 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage8.ResumeLayout(False)
         CType(Me.gvProRM.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProRM, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage4.ResumeLayout(False)
-        CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvCL, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage9.ResumeLayout(False)
         CType(Me.gvDisBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvDisBulk, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage4.ResumeLayout(False)
+        CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvCL, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
