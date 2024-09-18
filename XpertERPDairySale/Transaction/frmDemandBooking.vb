@@ -994,23 +994,23 @@ Public Class frmDemandBooking
                                                 objTr.TAX10_Rate = clsCommon.myCdbl(obj2.TAX10_Rate)
                                                 objTr.TAX10_Amt = clsCommon.myCdbl(obj2.TAX10_Amt)
                                                 objTr.TAX10_Base_Amt = clsCommon.myCdbl(obj2.TAX10_Base_Amt)
-
+                                                If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
+                                                    If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
+                                                        objTr.TotalCrates_ItemWise = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                                    Else
+                                                        Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
+                                                        If ItemCrateType = 1 Then
+                                                            objTr.TotalCrates_ItemWise = clsCommon.myCdbl(obj2.FreshItem_QtyInCrate)
+                                                        End If
+                                                    End If
+                                                    objTr.TotalLtr_ItemWise = clsCommon.myCdbl(obj2.FreshItem_QtyInLitres)
+                                                End If
 
                                             End If
                                         Next
 
                                         objTr.Vehicle_Code = clsCommon.myCstr(txtVehicleNo.Value)
-                                        If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
-                                            If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
-                                                objTr.TotalCrates_ItemWise = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
-                                            Else
-                                                Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
-                                                If ItemCrateType = 1 Then
-                                                    objTr.TotalCrates_ItemWise = clsCommon.myCdbl(obj1.FreshItem_QtyInCrates)
-                                                End If
-                                            End If
-                                            objTr.TotalLtr_ItemWise = clsCommon.myCdbl(obj1.FreshItem_QtyInLitres)
-                                        End If
+
                                         qry = "select Customer_Name,vehicle_code,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_ROUTE_MASTER.Zone_Code,TSPL_CUSTOMER_MASTER.Route_No,Number,TSPL_ROUTE_MASTER.Route_Desc,tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER left outer join " &
                            "TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No left outer join TSPL_VEHICLE_MASTER on " &
                            "TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id where Cust_Code='" & clsCommon.myCstr(objTr.Cust_Code) & "'"
@@ -2255,6 +2255,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 obj1.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
                                 dblTotalDocAmtRowWise = dblTotalDocAmtRowWise + obj1.ItemTotAmt
                                 objCustItem.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
+                                objCustItem.FreshItem_QtyInLitres = obj1.FreshItem_QtyInLitres
+                                objCustItem.FreshItem_QtyInCrate = obj1.FreshItem_QtyInCrates
                                 objCustItem.ItemCode = obj1.itemCode
                                 objCustItem.UnitCode = obj1.Unit_code
                                 objCustItem.ItemTotAmt = obj1.ItemTotAmt
