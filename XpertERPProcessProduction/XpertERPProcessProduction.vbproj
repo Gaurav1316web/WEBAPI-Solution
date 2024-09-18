@@ -132,7 +132,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="XpertCommon">
-      <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngine">
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
@@ -1094,6 +1094,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XpertERP\XpertERP.vbproj">
+      <Project>{96881043-0dea-4212-b6a3-afe09d11e081}</Project>
+      <Name>XpertERP</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
