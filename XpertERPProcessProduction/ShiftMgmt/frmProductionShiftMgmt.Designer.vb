@@ -22,12 +22,12 @@ Partial Class frmProductionShiftMgmt
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnPrintNew = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
@@ -38,6 +38,10 @@ Partial Class frmProductionShiftMgmt
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtShiftEnd = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtShiftStart = New common.Controls.MyDateTimePicker()
         Me.Remarks = New common.Controls.MyLabel()
         Me.txtRemarks = New common.Controls.MyTextBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -71,10 +75,6 @@ Partial Class frmProductionShiftMgmt
         Me.gvProRM = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCL = New common.UserControls.MyRadGridView()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtShiftStart = New common.Controls.MyDateTimePicker()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtShiftEnd = New common.Controls.MyDateTimePicker()
         Me.Panel2.SuspendLayout()
         CType(Me.btnPrintNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,6 +85,10 @@ Partial Class frmProductionShiftMgmt
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtShiftEnd, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtShiftStart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Remarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,10 +128,6 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage4.SuspendLayout()
         CType(Me.gvCL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtShiftStart, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtShiftEnd, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -256,6 +256,88 @@ Partial Class frmProductionShiftMgmt
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(784, 122)
         Me.Panel1.TabIndex = 0
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(526, 27)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel2.TabIndex = 65
+        Me.MyLabel2.Text = "Shift End Date"
+        '
+        'txtShiftEnd
+        '
+        Me.txtShiftEnd.CalculationExpression = Nothing
+        Me.txtShiftEnd.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtShiftEnd.FieldCode = Nothing
+        Me.txtShiftEnd.FieldDesc = Nothing
+        Me.txtShiftEnd.FieldMaxLength = 0
+        Me.txtShiftEnd.FieldName = Nothing
+        Me.txtShiftEnd.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtShiftEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtShiftEnd.isCalculatedField = False
+        Me.txtShiftEnd.IsSourceFromTable = False
+        Me.txtShiftEnd.IsSourceFromValueList = False
+        Me.txtShiftEnd.IsUnique = False
+        Me.txtShiftEnd.Location = New System.Drawing.Point(613, 26)
+        Me.txtShiftEnd.MendatroryField = False
+        Me.txtShiftEnd.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShiftEnd.MyLinkLable1 = Me.MyLabel2
+        Me.txtShiftEnd.MyLinkLable2 = Nothing
+        Me.txtShiftEnd.Name = "txtShiftEnd"
+        Me.txtShiftEnd.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShiftEnd.ReadOnly = True
+        Me.txtShiftEnd.ReferenceFieldDesc = Nothing
+        Me.txtShiftEnd.ReferenceFieldName = Nothing
+        Me.txtShiftEnd.ReferenceTableName = Nothing
+        Me.txtShiftEnd.Size = New System.Drawing.Size(123, 18)
+        Me.txtShiftEnd.TabIndex = 64
+        Me.txtShiftEnd.TabStop = False
+        Me.txtShiftEnd.Text = "13/06/2011 11:29 AM"
+        Me.txtShiftEnd.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(308, 27)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(83, 16)
+        Me.MyLabel1.TabIndex = 63
+        Me.MyLabel1.Text = "Shift Start Date"
+        '
+        'txtShiftStart
+        '
+        Me.txtShiftStart.CalculationExpression = Nothing
+        Me.txtShiftStart.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtShiftStart.FieldCode = Nothing
+        Me.txtShiftStart.FieldDesc = Nothing
+        Me.txtShiftStart.FieldMaxLength = 0
+        Me.txtShiftStart.FieldName = Nothing
+        Me.txtShiftStart.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtShiftStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtShiftStart.isCalculatedField = False
+        Me.txtShiftStart.IsSourceFromTable = False
+        Me.txtShiftStart.IsSourceFromValueList = False
+        Me.txtShiftStart.IsUnique = False
+        Me.txtShiftStart.Location = New System.Drawing.Point(394, 26)
+        Me.txtShiftStart.MendatroryField = False
+        Me.txtShiftStart.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShiftStart.MyLinkLable1 = Me.MyLabel1
+        Me.txtShiftStart.MyLinkLable2 = Nothing
+        Me.txtShiftStart.Name = "txtShiftStart"
+        Me.txtShiftStart.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtShiftStart.ReadOnly = True
+        Me.txtShiftStart.ReferenceFieldDesc = Nothing
+        Me.txtShiftStart.ReferenceFieldName = Nothing
+        Me.txtShiftStart.ReferenceTableName = Nothing
+        Me.txtShiftStart.Size = New System.Drawing.Size(126, 18)
+        Me.txtShiftStart.TabIndex = 62
+        Me.txtShiftStart.TabStop = False
+        Me.txtShiftStart.Text = "13/06/2011 11:29 AM"
+        Me.txtShiftStart.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
         'Remarks
         '
@@ -521,7 +603,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvPro.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvPro.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPro.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPro.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvPro.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvPro.MyStopExport = False
         Me.gvPro.Name = "gvPro"
         Me.gvPro.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -540,7 +622,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 122)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(784, 226)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -571,7 +653,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvOP.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvOP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOP.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOP.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvOP.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvOP.MyStopExport = False
         Me.gvOP.Name = "gvOP"
         Me.gvOP.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -628,7 +710,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvRecPlant.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvRecPlant.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRecPlant.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRecPlant.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvRecPlant.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvRecPlant.MyStopExport = False
         Me.gvRecPlant.Name = "gvRecPlant"
         Me.gvRecPlant.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -663,7 +745,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvRecBulk.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvRecBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRecBulk.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRecBulk.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvRecBulk.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvRecBulk.MyStopExport = False
         Me.gvRecBulk.Name = "gvRecBulk"
         Me.gvRecBulk.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -731,7 +813,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvProRM.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvProRM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProRM.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProRM.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvProRM.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvProRM.MyStopExport = False
         Me.gvProRM.Name = "gvProRM"
         Me.gvProRM.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -766,7 +848,7 @@ Partial Class frmProductionShiftMgmt
         Me.gvCL.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvCL.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCL.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCL.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvCL.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvCL.MyStopExport = False
         Me.gvCL.Name = "gvCL"
         Me.gvCL.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -775,88 +857,6 @@ Partial Class frmProductionShiftMgmt
         Me.gvCL.Size = New System.Drawing.Size(763, 178)
         Me.gvCL.TabIndex = 4
         Me.gvCL.VarID = ""
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(308, 27)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(83, 16)
-        Me.MyLabel1.TabIndex = 63
-        Me.MyLabel1.Text = "Shift Start Date"
-        '
-        'txtShiftStart
-        '
-        Me.txtShiftStart.CalculationExpression = Nothing
-        Me.txtShiftStart.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.txtShiftStart.FieldCode = Nothing
-        Me.txtShiftStart.FieldDesc = Nothing
-        Me.txtShiftStart.FieldMaxLength = 0
-        Me.txtShiftStart.FieldName = Nothing
-        Me.txtShiftStart.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtShiftStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtShiftStart.isCalculatedField = False
-        Me.txtShiftStart.IsSourceFromTable = False
-        Me.txtShiftStart.IsSourceFromValueList = False
-        Me.txtShiftStart.IsUnique = False
-        Me.txtShiftStart.Location = New System.Drawing.Point(394, 26)
-        Me.txtShiftStart.MendatroryField = False
-        Me.txtShiftStart.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtShiftStart.MyLinkLable1 = Me.MyLabel1
-        Me.txtShiftStart.MyLinkLable2 = Nothing
-        Me.txtShiftStart.Name = "txtShiftStart"
-        Me.txtShiftStart.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtShiftStart.ReadOnly = True
-        Me.txtShiftStart.ReferenceFieldDesc = Nothing
-        Me.txtShiftStart.ReferenceFieldName = Nothing
-        Me.txtShiftStart.ReferenceTableName = Nothing
-        Me.txtShiftStart.Size = New System.Drawing.Size(126, 18)
-        Me.txtShiftStart.TabIndex = 62
-        Me.txtShiftStart.TabStop = False
-        Me.txtShiftStart.Text = "13/06/2011 11:29 AM"
-        Me.txtShiftStart.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(526, 27)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(79, 16)
-        Me.MyLabel2.TabIndex = 65
-        Me.MyLabel2.Text = "Shift End Date"
-        '
-        'txtShiftEnd
-        '
-        Me.txtShiftEnd.CalculationExpression = Nothing
-        Me.txtShiftEnd.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.txtShiftEnd.FieldCode = Nothing
-        Me.txtShiftEnd.FieldDesc = Nothing
-        Me.txtShiftEnd.FieldMaxLength = 0
-        Me.txtShiftEnd.FieldName = Nothing
-        Me.txtShiftEnd.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtShiftEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtShiftEnd.isCalculatedField = False
-        Me.txtShiftEnd.IsSourceFromTable = False
-        Me.txtShiftEnd.IsSourceFromValueList = False
-        Me.txtShiftEnd.IsUnique = False
-        Me.txtShiftEnd.Location = New System.Drawing.Point(613, 26)
-        Me.txtShiftEnd.MendatroryField = False
-        Me.txtShiftEnd.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtShiftEnd.MyLinkLable1 = Me.MyLabel2
-        Me.txtShiftEnd.MyLinkLable2 = Nothing
-        Me.txtShiftEnd.Name = "txtShiftEnd"
-        Me.txtShiftEnd.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtShiftEnd.ReadOnly = True
-        Me.txtShiftEnd.ReferenceFieldDesc = Nothing
-        Me.txtShiftEnd.ReferenceFieldName = Nothing
-        Me.txtShiftEnd.ReferenceTableName = Nothing
-        Me.txtShiftEnd.Size = New System.Drawing.Size(123, 18)
-        Me.txtShiftEnd.TabIndex = 64
-        Me.txtShiftEnd.TabStop = False
-        Me.txtShiftEnd.Text = "13/06/2011 11:29 AM"
-        Me.txtShiftEnd.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
         'frmProductionShiftMgmt
         '
@@ -885,6 +885,10 @@ Partial Class frmProductionShiftMgmt
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtShiftEnd, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtShiftStart, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Remarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -924,10 +928,6 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageViewPage4.ResumeLayout(False)
         CType(Me.gvCL.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCL, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtShiftStart, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtShiftEnd, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -2219,7 +2219,7 @@ from TSPL_SHIFT_MGMT
 left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION_MASTER_FG.Location_Code=TSPL_SHIFT_MGMT.Location_Code"
         LoadData(clsCommon.ShowSelectForm("PUFINDOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "Document_Date"), NavigatorType.Current)
     End Sub
-    Public Function SaveData() As Boolean
+    Public Sub SaveData()
         Try
             If (AllowToSave()) Then
                 Dim obj As New clsProductionShiftMgmt()
@@ -2380,7 +2380,8 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
-    End Function
+
+    End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             isInsideLoadData = True

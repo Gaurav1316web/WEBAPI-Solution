@@ -156,9 +156,9 @@ Public Class clsDemandBookingSale
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
                 If IsDemandUploader Then
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBookingUploader, "", obj.Location_Code, False, True, False, False, obj.Route_No)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBookingUploader, "", obj.Route_No, False, True, False, False, False, True)
                 Else
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Location_Code, False, True, False, False, obj.Route_No)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Route_No, False, True, False, False, False, True)
                 End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")
@@ -1607,9 +1607,9 @@ Public Class clsDemandBookingSaleDetail
                 If obj.Qty > 0 Then
                     Dim coll As New Hashtable()
                     If isUploader Then
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Uploader, "", False, True, False, False, strRouteNo)
+                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
                     Else
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "", False, True, False, False, strRouteNo)
+                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
                     End If
                     clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                     clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
