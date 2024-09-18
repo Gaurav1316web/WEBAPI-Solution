@@ -1343,6 +1343,10 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
                         ArrInventoryMovement.Add(objInventoryMovemnt)
 
+                        If objTr.Rejected_Qty > 0 AndAlso Not obj.is_Srn_rejQty_goes_in_Rejstore Then
+                            Throw New Exception("Please apply rejection setting on SRN")
+                        End If
+
                         If objTr.Rejected_Qty > 0 AndAlso obj.is_Srn_rejQty_goes_in_Rejstore Then
                             'Comment by balwider on 02/06/2021 becuase if location is not defined it return 1 and Condition will always false.
                             'Dim RejLoc As Integer = clsDBFuncationality.getSingleValue("select count(Rejected_Location) from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
