@@ -2566,7 +2566,7 @@ Public Class FrmItemMasterRMOther
                 txtUOM.Value = obj.Unit_Code
                 txtCost.Value = obj.Cost
                 chkSkipSecurityDed.Checked = IIf(obj.isSecurityDeduction = 1, True, False)
-                chkSkipSecurityDed.Checked = IIf(obj.isPenaltyDeduction = 1, True, False)
+                chkSkipPenaltyDed.Checked = IIf(obj.isPenaltyDeduction = 1, True, False)
                 'Load buyBackTye and Value
                 If obj.BuyBackType = 1 Then
                     rbtnBBAmount.IsChecked = True

@@ -2759,6 +2759,11 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
     End Function
 
     Public Shared Function GenerateSRNDeduction(ByVal strSRNNo As String, ByVal strICode As String, ByVal ApplyQCDed As Boolean, ByVal ApplySecDed As Boolean, ByVal ApplyRALPenalty As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Return GenerateSRNDeduction(strSRNNo, strICode, ApplyQCDed, ApplySecDed, ApplyRALPenalty, trans, 0, 0)
+    End Function
+
+
+    Public Shared Function GenerateSRNDeduction(ByVal strSRNNo As String, ByVal strICode As String, ByVal ApplyQCDed As Boolean, ByVal ApplySecDed As Boolean, ByVal ApplyRALPenalty As Boolean, ByVal trans As SqlTransaction, ByVal isSkipSecurityDed As Integer, ByVal isSkipPenaltyDed As Integer) As Boolean
         Dim qry1 As String = Nothing
         Dim qry As String = "select TSPL_QC_CHECK_HEAD.Document_Code as Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt,TSPL_TENDER_HEADER.Tender_Type 
 from TSPL_SRN_DETAIL
@@ -2789,9 +2794,10 @@ where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "' and TSPL_SRN_DETAIL.Item_Code='" +
 #End Region
 
 #Region "Security Dedution"
-            If ApplySecDed Then
-                If clsCommon.myCDecimal(dtSRN.Rows(0)("isExemptSecurityDedution")) = 0 Then
-                    qry = "insert into TSPL_SRN_DEDUCTION_SECURITY (SRN_No,Item_Code,Amt,Ded_Per,Ded_Amt)
+            If isSkipSecurityDed <= 0 Then
+                If ApplySecDed Then
+                    If clsCommon.myCDecimal(dtSRN.Rows(0)("isExemptSecurityDedution")) = 0 Then
+                        qry = "insert into TSPL_SRN_DEDUCTION_SECURITY (SRN_No,Item_Code,Amt,Ded_Per,Ded_Amt)
 select SRN_No,Item_Code,Amount,Security_Deduction,round((Amount*Security_Deduction/100),0) as DedAmt  from (
 select SRN_No,Item_Code,max(Amount) as Amount,sum(isnull(Security_Deduction,0)) as Security_Deduction from (
 select TSPL_SRN_DETAIL.SRN_No,TSPL_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Item_Net_Amt as Amount,isnull(TSPL_ITEM_MASTER.Security_Deduction,0) as Security_Deduction from TSPL_SRN_DETAIL 
@@ -2799,20 +2805,22 @@ inner join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_SRN_DETAIL.Item_C
 where TSPL_SRN_DETAIL.SRN_No='" + strSRNNo + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and isnull(TSPL_ITEM_MASTER.Security_Deduction,0)>0
 )x group by SRN_No,Item_Code
 )xx where (Amount*Security_Deduction/100)>0 "
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    End If
                 End If
             End If
 #End Region
 
 #Region "Apply Tender Penalty"
-            If ApplyRALPenalty Then
-                If clsCommon.myLen(clsCommon.myCstr(dtSRN.Rows(0)("PO_ID"))) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(dtSRN.Rows(0)("Row_Type")), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty")) > 0 Then
-                    qry = "select GRN_Date from TSPL_GRN_HEAD where GRN_No='" + clsCommon.myCstr(dtSRN.Rows(0)("GRN_ID")) + "'"
-                    Dim GRNDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue(qry, trans))
-                    Dim dclSRNQty As Decimal = clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty"))
+            If isSkipPenaltyDed <= 0 Then
+                If ApplyRALPenalty Then
+                    If clsCommon.myLen(clsCommon.myCstr(dtSRN.Rows(0)("PO_ID"))) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(dtSRN.Rows(0)("Row_Type")), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty")) > 0 Then
+                        qry = "select GRN_Date from TSPL_GRN_HEAD where GRN_No='" + clsCommon.myCstr(dtSRN.Rows(0)("GRN_ID")) + "'"
+                        Dim GRNDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue(qry, trans))
+                        Dim dclSRNQty As Decimal = clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty"))
 
-                    If clsCommon.myCDecimal(dtSRN.Rows(0)("Tender_Type")) = 2 OrElse clsCommon.myCDecimal(dtSRN.Rows(0)("Tender_Type")) = 3 Then
-                        qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty,max(schedule_no) as  schedule_no  from (
+                        If clsCommon.myCDecimal(dtSRN.Rows(0)("Tender_Type")) = 2 OrElse clsCommon.myCDecimal(dtSRN.Rows(0)("Tender_Type")) = 3 Then
+                            qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty,max(schedule_no) as  schedule_no  from (
 select TSPL_TENDER_SCHEDULE_PO.DocumentCode,TSPL_TENDER_SCHEDULE_PO.PK_Id
 ,DATEADD(day,isnull(TSPL_TENDER_SCHEDULE_PO.Extension_Days,0),TSPL_TENDER_SCHEDULE_PO.To_Date) as To_Date
 ,TSPL_TENDER_SCHEDULE_PO.Item_Code,TSPL_TENDER_SCHEDULE_PO.Schedule_Qty as Qty,1 AS RI ,1 as Chk ,TSPL_TENDER_SCHEDULE_PO.schedule_no
@@ -2822,69 +2830,69 @@ where  TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.
 union all
 select Against_PO as DocumentCode,Against_Tender_Schedule_PK_Id_PO as PK_Id,null as To_Date,Item_Code ,Qty,-1 as RI,0 as chk, 0 as schedule_no from TSPL_SRN_TENDER_CALC
 )xx group by DocumentCode,PK_Id,Item_Code having sum(Chk)>0 order by PK_Id"
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            For kk As Integer = 0 To dt.Rows.Count - 1
-                                Dim dclBalanceQty As Decimal = clsCommon.myCDecimal(dt.Rows(kk)("Qty"))
-                                Dim isLastSchedule As Boolean = False
-                                If kk + 1 = dt.Rows.Count Then
-                                    isLastSchedule = True
-                                End If
-                                Dim coll As New Hashtable()
-                                clsCommon.AddColumnsForChange(coll, "Against_PO", clsCommon.myCstr(dt.Rows(kk)("DocumentCode")))
-                                clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_PK_Id_PO", clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")))
-                                clsCommon.AddColumnsForChange(coll, "SRN_No", strSRNNo)
-                                clsCommon.AddColumnsForChange(coll, "Item_Code", strICode)
-                                Dim dclApplyQty As Decimal = 0
-                                If isLastSchedule Then
-                                    If dclSRNQty <= dclBalanceQty Then
-                                        dclApplyQty = dclSRNQty
-                                        dclSRNQty = 0
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                For kk As Integer = 0 To dt.Rows.Count - 1
+                                    Dim dclBalanceQty As Decimal = clsCommon.myCDecimal(dt.Rows(kk)("Qty"))
+                                    Dim isLastSchedule As Boolean = False
+                                    If kk + 1 = dt.Rows.Count Then
+                                        isLastSchedule = True
+                                    End If
+                                    Dim coll As New Hashtable()
+                                    clsCommon.AddColumnsForChange(coll, "Against_PO", clsCommon.myCstr(dt.Rows(kk)("DocumentCode")))
+                                    clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_PK_Id_PO", clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")))
+                                    clsCommon.AddColumnsForChange(coll, "SRN_No", strSRNNo)
+                                    clsCommon.AddColumnsForChange(coll, "Item_Code", strICode)
+                                    Dim dclApplyQty As Decimal = 0
+                                    If isLastSchedule Then
+                                        If dclSRNQty <= dclBalanceQty Then
+                                            dclApplyQty = dclSRNQty
+                                            dclSRNQty = 0
+                                        Else
+                                            dclApplyQty = dclSRNQty
+                                            dclSRNQty = 0
+                                        End If
                                     Else
-                                        dclApplyQty = dclSRNQty
-                                        dclSRNQty = 0
-                                    End If
-                                Else
-                                    If dclBalanceQty <= 0 Then
-                                        Continue For
-                                    End If
-                                    If dclSRNQty <= dclBalanceQty Then
-                                        dclApplyQty = dclSRNQty
-                                        dclSRNQty = 0
-                                    Else
-                                        dclApplyQty = dclBalanceQty
-                                        dclSRNQty = dclSRNQty - dclApplyQty
-                                    End If
-                                End If
-                                clsCommon.AddColumnsForChange(coll, "Qty", dclApplyQty)
-                                If clsCommon.GetDateWithStartTime(GRNDate) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(kk)("To_Date"))) Then
-                                    Dim isPenaltyApply As Boolean = False
-                                    Dim ArrPenalty As List(Of clsTenderSchedulePeneltyPO) = clsTenderSchedulePeneltyPO.GetData(clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")), True, trans)
-                                    If ArrPenalty IsNot Nothing AndAlso ArrPenalty.Count > 0 Then
-                                        For ll As Integer = 0 To ArrPenalty.Count - 1
-                                            If ll = ArrPenalty.Count - 1 OrElse
-                                                   clsCommon.GetDateWithStartTime(GRNDate) <= clsCommon.GetDateWithStartTime(ArrPenalty(ll).Penalty_Date) Then
-                                                isPenaltyApply = True
-                                                clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_Penalty_PK_Id_PO", ArrPenalty(ll).PK_Id)
-                                                clsCommon.AddColumnsForChange(coll, "Penalty", Math.Round(((dclApplyQty * clsCommon.myCDecimal(clsCommon.myCDivide(clsCommon.myCDecimal(dtSRN.Rows(0)("Item_Net_Amt")), (clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Leak_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Burst_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Short_Qty"))))) * ArrPenalty(ll).Penalty) / 100), 2, MidpointRounding.AwayFromZero))
-                                                Exit For
-                                            End If
-                                        Next
-                                    End If
-                                    If Not isPenaltyApply Then
-                                        If kk = dt.Rows.Count - 1 Then
-                                            Throw New Exception("Tender [" + clsCommon.myCstr(dt.Rows(kk)("DocumentCode")) + "] PO [" + clsCommon.myCstr(dtSRN.Rows(0)("PO_ID")) + "] Item [" + strICode + "] Exeed the Last Date.Can't Accept it")
+                                        If dclBalanceQty <= 0 Then
+                                            Continue For
+                                        End If
+                                        If dclSRNQty <= dclBalanceQty Then
+                                            dclApplyQty = dclSRNQty
+                                            dclSRNQty = 0
+                                        Else
+                                            dclApplyQty = dclBalanceQty
+                                            dclSRNQty = dclSRNQty - dclApplyQty
                                         End If
                                     End If
-                                End If
-                                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_TENDER_CALC", OMInsertOrUpdate.Insert, "", trans)
-                                If dclSRNQty <= 0 Then
-                                    Exit For
-                                End If
-                            Next
-                        End If
-                    Else
-                        qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty,MAX(Schedule_No) AS Schedule_No  from (
+                                    clsCommon.AddColumnsForChange(coll, "Qty", dclApplyQty)
+                                    If clsCommon.GetDateWithStartTime(GRNDate) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(kk)("To_Date"))) Then
+                                        Dim isPenaltyApply As Boolean = False
+                                        Dim ArrPenalty As List(Of clsTenderSchedulePeneltyPO) = clsTenderSchedulePeneltyPO.GetData(clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")), True, trans)
+                                        If ArrPenalty IsNot Nothing AndAlso ArrPenalty.Count > 0 Then
+                                            For ll As Integer = 0 To ArrPenalty.Count - 1
+                                                If ll = ArrPenalty.Count - 1 OrElse
+                                                   clsCommon.GetDateWithStartTime(GRNDate) <= clsCommon.GetDateWithStartTime(ArrPenalty(ll).Penalty_Date) Then
+                                                    isPenaltyApply = True
+                                                    clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_Penalty_PK_Id_PO", ArrPenalty(ll).PK_Id)
+                                                    clsCommon.AddColumnsForChange(coll, "Penalty", Math.Round(((dclApplyQty * clsCommon.myCDecimal(clsCommon.myCDivide(clsCommon.myCDecimal(dtSRN.Rows(0)("Item_Net_Amt")), (clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Leak_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Burst_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Short_Qty"))))) * ArrPenalty(ll).Penalty) / 100), 2, MidpointRounding.AwayFromZero))
+                                                    Exit For
+                                                End If
+                                            Next
+                                        End If
+                                        If Not isPenaltyApply Then
+                                            If kk = dt.Rows.Count - 1 Then
+                                                Throw New Exception("Tender [" + clsCommon.myCstr(dt.Rows(kk)("DocumentCode")) + "] PO [" + clsCommon.myCstr(dtSRN.Rows(0)("PO_ID")) + "] Item [" + strICode + "] Exeed the Last Date.Can't Accept it")
+                                            End If
+                                        End If
+                                    End If
+                                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_TENDER_CALC", OMInsertOrUpdate.Insert, "", trans)
+                                    If dclSRNQty <= 0 Then
+                                        Exit For
+                                    End If
+                                Next
+                            End If
+                        Else
+                            qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty,MAX(Schedule_No) AS Schedule_No  from (
 select TSPL_TENDER_SCHEDULE.DocumentCode,TSPL_TENDER_SCHEDULE.PK_Id
 ,DATEADD(day,isnull(TSPL_TENDER_SCHEDULE.Extension_Days,0),TSPL_TENDER_SCHEDULE.To_Date) as To_Date
 ,TSPL_TENDER_DETAIL.Item_Code,TSPL_TENDER_SCHEDULE.Schedule_Qty as Qty,1 AS RI ,1 as Chk ,TSPL_TENDER_SCHEDULE.Schedule_No as Schedule_No
@@ -2895,74 +2903,75 @@ where  TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.
 union all
 select Against_TenderNo as DocumentCode,Against_Tender_Schedule_PK_Id as PK_Id,null as To_Date,Item_Code ,Qty,-1 as RI,0 as chk,0 as line_no from TSPL_SRN_TENDER_CALC
 )xx group by DocumentCode,PK_Id,Item_Code having sum(Chk)>0 order by PK_Id"
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            For kk As Integer = 0 To dt.Rows.Count - 1
-                                Dim dclBalanceQty As Decimal = clsCommon.myCDecimal(dt.Rows(kk)("Qty"))
-                                Dim isLastSchedule As Boolean = False
-                                If kk + 1 = dt.Rows.Count Then
-                                    isLastSchedule = True
-                                End If
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                For kk As Integer = 0 To dt.Rows.Count - 1
+                                    Dim dclBalanceQty As Decimal = clsCommon.myCDecimal(dt.Rows(kk)("Qty"))
+                                    Dim isLastSchedule As Boolean = False
+                                    If kk + 1 = dt.Rows.Count Then
+                                        isLastSchedule = True
+                                    End If
 
-                                Dim coll As New Hashtable()
-                                clsCommon.AddColumnsForChange(coll, "Against_TenderNo", clsCommon.myCstr(dt.Rows(kk)("DocumentCode")))
-                                clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_PK_Id", clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")))
-                                clsCommon.AddColumnsForChange(coll, "SRN_No", strSRNNo)
-                                clsCommon.AddColumnsForChange(coll, "Item_Code", strICode)
-                                Dim dclApplyQty As Decimal = 0
-                                If isLastSchedule Then
-                                    If dclSRNQty <= dclBalanceQty Then
-                                        dclApplyQty = dclSRNQty
-                                        dclSRNQty = 0
+                                    Dim coll As New Hashtable()
+                                    clsCommon.AddColumnsForChange(coll, "Against_TenderNo", clsCommon.myCstr(dt.Rows(kk)("DocumentCode")))
+                                    clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_PK_Id", clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")))
+                                    clsCommon.AddColumnsForChange(coll, "SRN_No", strSRNNo)
+                                    clsCommon.AddColumnsForChange(coll, "Item_Code", strICode)
+                                    Dim dclApplyQty As Decimal = 0
+                                    If isLastSchedule Then
+                                        If dclSRNQty <= dclBalanceQty Then
+                                            dclApplyQty = dclSRNQty
+                                            dclSRNQty = 0
+                                        Else
+                                            dclApplyQty = dclSRNQty
+                                            dclSRNQty = 0
+                                        End If
                                     Else
-                                        dclApplyQty = dclSRNQty
-                                        dclSRNQty = 0
-                                    End If
-                                Else
-                                    If dclBalanceQty <= 0 Then
-                                        Continue For
-                                    End If
-                                    If dclSRNQty <= dclBalanceQty Then
-                                        dclApplyQty = dclSRNQty
-                                        dclSRNQty = 0
-                                    Else
-                                        dclApplyQty = dclBalanceQty
-                                        dclSRNQty = dclSRNQty - dclApplyQty
-                                    End If
-                                End If
-                                clsCommon.AddColumnsForChange(coll, "Qty", dclApplyQty)
-                                If clsCommon.GetDateWithStartTime(GRNDate) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(kk)("To_Date"))) Then
-                                    Dim isPenaltyApply As Boolean = False
-                                    Dim ArrPenalty As List(Of clsTenderSchedulePenelty) = clsTenderSchedulePenelty.GetData(clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")), True, trans)
-                                    If ArrPenalty IsNot Nothing AndAlso ArrPenalty.Count > 0 Then
-                                        For ll As Integer = 0 To ArrPenalty.Count - 1
-                                            If ll = ArrPenalty.Count - 1 OrElse
-                                                   clsCommon.GetDateWithStartTime(GRNDate) <= clsCommon.GetDateWithStartTime(ArrPenalty(ll).Penalty_Date) Then
-                                                isPenaltyApply = True
-                                                clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_Penalty_PK_Id", ArrPenalty(ll).PK_Id)
-                                                clsCommon.AddColumnsForChange(coll, "Penalty", Math.Round(((dclApplyQty * clsCommon.myCDecimal(clsCommon.myCDivide(clsCommon.myCDecimal(dtSRN.Rows(0)("Item_Net_Amt")), (clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Leak_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Burst_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Short_Qty"))))) * ArrPenalty(ll).Penalty) / 100), 2, MidpointRounding.AwayFromZero))
-                                                Exit For
-                                            End If
-                                        Next
-                                    End If
-                                    If Not isPenaltyApply Then
-                                        If kk = dt.Rows.Count - 1 Then
-                                            Throw New Exception("Tender [" + clsCommon.myCstr(dt.Rows(kk)("DocumentCode")) + "] Item [" + strICode + "] Exeed the Last Date.Can't Accept it")
+                                        If dclBalanceQty <= 0 Then
+                                            Continue For
+                                        End If
+                                        If dclSRNQty <= dclBalanceQty Then
+                                            dclApplyQty = dclSRNQty
+                                            dclSRNQty = 0
+                                        Else
+                                            dclApplyQty = dclBalanceQty
+                                            dclSRNQty = dclSRNQty - dclApplyQty
                                         End If
                                     End If
-                                End If
-                                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_TENDER_CALC", OMInsertOrUpdate.Insert, "", trans)
-                                If dclSRNQty <= 0 Then
-                                    Exit For
-                                End If
-                            Next
+                                    clsCommon.AddColumnsForChange(coll, "Qty", dclApplyQty)
+                                    If clsCommon.GetDateWithStartTime(GRNDate) > clsCommon.GetDateWithStartTime(clsCommon.myCDate(dt.Rows(kk)("To_Date"))) Then
+                                        Dim isPenaltyApply As Boolean = False
+                                        Dim ArrPenalty As List(Of clsTenderSchedulePenelty) = clsTenderSchedulePenelty.GetData(clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")), True, trans)
+                                        If ArrPenalty IsNot Nothing AndAlso ArrPenalty.Count > 0 Then
+                                            For ll As Integer = 0 To ArrPenalty.Count - 1
+                                                If ll = ArrPenalty.Count - 1 OrElse
+                                                   clsCommon.GetDateWithStartTime(GRNDate) <= clsCommon.GetDateWithStartTime(ArrPenalty(ll).Penalty_Date) Then
+                                                    isPenaltyApply = True
+                                                    clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_Penalty_PK_Id", ArrPenalty(ll).PK_Id)
+                                                    clsCommon.AddColumnsForChange(coll, "Penalty", Math.Round(((dclApplyQty * clsCommon.myCDecimal(clsCommon.myCDivide(clsCommon.myCDecimal(dtSRN.Rows(0)("Item_Net_Amt")), (clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Leak_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Burst_Qty")) + clsCommon.myCDecimal(dtSRN.Rows(0)("Short_Qty"))))) * ArrPenalty(ll).Penalty) / 100), 2, MidpointRounding.AwayFromZero))
+                                                    Exit For
+                                                End If
+                                            Next
+                                        End If
+                                        If Not isPenaltyApply Then
+                                            If kk = dt.Rows.Count - 1 Then
+                                                Throw New Exception("Tender [" + clsCommon.myCstr(dt.Rows(kk)("DocumentCode")) + "] Item [" + strICode + "] Exeed the Last Date.Can't Accept it")
+                                            End If
+                                        End If
+                                    End If
+                                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SRN_TENDER_CALC", OMInsertOrUpdate.Insert, "", trans)
+                                    If dclSRNQty <= 0 Then
+                                        Exit For
+                                    End If
+                                Next
+                            End If
                         End If
                     End If
                 End If
             End If
 #End Region
         End If
-        Return True
+            Return True
     End Function
 
     Public Shared Function GetBaseQeryTenderPenalty(ByVal strTender As String, ByVal strItem As String, ByVal strVendor As String, ByVal strLocation As String, ByVal UserStaus As String, ByVal WhrCls As String) As String
@@ -2970,16 +2979,16 @@ select Against_TenderNo as DocumentCode,Against_Tender_Schedule_PK_Id as PK_Id,n
     End Function
 
     Public Shared Function GetBaseQeryTenderPenalty(ByVal strTender As String, ByVal strItem As String, ByVal strVendor As String, ByVal strLocation As String, ByVal UserStaus As String, ByVal WhrCls As String, ByVal isSkipSecurityDed As Integer, ByVal isSkipPenaltyDed As Integer) As String
-        Dim qry As String = "select  cast(" + UserStaus + " as bit) as UserStatus, TSPL_GRN_HEAD.GRN_No,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_GRN_HEAD.VehicleNo,isnull(TSPL_GRN_HEAD.Status,0) as GRNStatus,TSPL_SRN_HEAD.SRN_No,convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  SRN_Date,isnull(TSPL_SRN_HEAD.Status,0) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight,TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty ,"
+        Dim qry As String = "select  cast(" + UserStaus + " as bit) as UserStatus, TSPL_GRN_HEAD.GRN_No,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_GRN_HEAD.VehicleNo,isnull(TSPL_GRN_HEAD.Status,0) as GRNStatus,TSPL_SRN_HEAD.SRN_No,convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  SRN_Date,isnull(TSPL_SRN_HEAD.Status,0) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight,TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty , TSPL_SRN_DEDUCTION.Ded_Per As QualityDeductionPer, TSPL_SRN_DEDUCTION.Ded_Amt As QualityDeductionAmt,"
         If isSkipSecurityDed > 0 Then
-            qry += "TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt, TSPL_SRN_DEDUCTION.Ded_Per As QualityDeductionPer, TSPL_SRN_DEDUCTION.Ded_Amt As QualityDeductionAmt,"
+            qry += " 0 As SecurityDeductionAmt,"
         Else
-            qry += " 0 As SecurityDeductionAmt,0 As QualityDeductionPer,0 As QualityDeductionAmt,"
+            qry += "TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,"
         End If
         If isSkipPenaltyDed > 0 Then
-            qry += "case when isnull(TSPL_SRN_TENDER_CALC.Penalty, 0)=0 then null else TSPL_SRN_TENDER_CALC.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER_CALC.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER_CALC.Penalty as LatePenaltyAmt,"
-        Else
             qry += " 0 As LatePenaltyQty,0 As LatePenaltyPer, 0 As LatePenaltyAmt,"
+        Else
+            qry += "case when isnull(TSPL_SRN_TENDER_CALC.Penalty, 0)=0 then null else TSPL_SRN_TENDER_CALC.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER_CALC.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER_CALC.Penalty as LatePenaltyAmt,"
         End If
         qry += "(case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=0 then 1 else (case when (isnull(TSPL_NIR_QC.QC_Status,0)=1 And isnull(TSPL_NIR_QC.Status,0)=1 And TSPL_QC_CHECK_HEAD.Posted=1) then 1 else 0 end) end) as NIRQCStatus
 ," + UserStaus + " as FinalStatus

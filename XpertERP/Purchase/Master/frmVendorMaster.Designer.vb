@@ -44,6 +44,8 @@ Partial Class frmVendorMaster
         Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.vendorgrpbox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkPenaltyDed = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSecurityDed = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkDefaultGrower = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkProvisional = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkOEM = New Telerik.WinControls.UI.RadCheckBox()
@@ -301,10 +303,10 @@ Partial Class frmVendorMaster
         Me.ToolTipvendor = New System.Windows.Forms.ToolTip(Me.components)
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.chkSecurityDed = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkPenaltyDed = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.vendorgrpbox.SuspendLayout()
+        CType(Me.chkPenaltyDed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOEM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -546,8 +548,6 @@ Partial Class frmVendorMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkPenaltyDed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -599,6 +599,24 @@ Partial Class frmVendorMaster
         Me.vendorgrpbox.Size = New System.Drawing.Size(1003, 490)
         Me.vendorgrpbox.TabIndex = 0
         Me.vendorgrpbox.ThemeName = "ControlDefault"
+        '
+        'chkPenaltyDed
+        '
+        Me.chkPenaltyDed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkPenaltyDed.Location = New System.Drawing.Point(880, 73)
+        Me.chkPenaltyDed.Name = "chkPenaltyDed"
+        Me.chkPenaltyDed.Size = New System.Drawing.Size(110, 16)
+        Me.chkPenaltyDed.TabIndex = 1375
+        Me.chkPenaltyDed.Text = "Skip Penalty Ded."
+        '
+        'chkSecurityDed
+        '
+        Me.chkSecurityDed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSecurityDed.Location = New System.Drawing.Point(880, 53)
+        Me.chkSecurityDed.Name = "chkSecurityDed"
+        Me.chkSecurityDed.Size = New System.Drawing.Size(113, 16)
+        Me.chkSecurityDed.TabIndex = 1374
+        Me.chkSecurityDed.Text = "Skip Security Ded."
         '
         'chkDefaultGrower
         '
@@ -4780,24 +4798,6 @@ Partial Class frmVendorMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "Show History"
         '
-        'chkSecurityDed
-        '
-        Me.chkSecurityDed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkSecurityDed.Location = New System.Drawing.Point(880, 53)
-        Me.chkSecurityDed.Name = "chkSecurityDed"
-        Me.chkSecurityDed.Size = New System.Drawing.Size(110, 16)
-        Me.chkSecurityDed.TabIndex = 1374
-        Me.chkSecurityDed.Text = "Skip Security Ded."
-        '
-        'chkPenaltyDed
-        '
-        Me.chkPenaltyDed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkPenaltyDed.Location = New System.Drawing.Point(880, 73)
-        Me.chkPenaltyDed.Name = "chkPenaltyDed"
-        Me.chkPenaltyDed.Size = New System.Drawing.Size(110, 16)
-        Me.chkPenaltyDed.TabIndex = 1375
-        Me.chkPenaltyDed.Text = "Skip Penalty Ded."
-        '
         'frmVendorMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4815,6 +4815,8 @@ Partial Class frmVendorMaster
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.vendorgrpbox.ResumeLayout(False)
         Me.vendorgrpbox.PerformLayout()
+        CType(Me.chkPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOEM, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5072,8 +5074,6 @@ Partial Class frmVendorMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
