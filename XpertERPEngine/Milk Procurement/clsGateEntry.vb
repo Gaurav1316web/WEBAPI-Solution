@@ -153,7 +153,7 @@ Public Class clsGateEntry
             clsCommon.AddColumnsForChange(coll, "openingKM", obj.openingKM)
             clsCommon.AddColumnsForChange(coll, "closingKM", obj.closingKM)
             clsCommon.AddColumnsForChange(coll, "Toll_Amount", obj.Toll_Amount)
-            clsCommon.AddColumnsForChange(coll, "MCC", obj.MCC)
+            clsCommon.AddColumnsForChange(coll, "MCC", obj.MCC, True)
             If Not isAmendment Then
                 clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
