@@ -2457,7 +2457,7 @@ where  TSPL_PP_BOM_HEAD.BOM_CODE='" + clsCommon.myCstr(gvPro.CurrentRow.Cells(Co
     Sub CalcuateProuctionRawMilk()
         LoadBlankGridProRM()
         For ii As Integer = 0 To gvPro.Rows.Count - 1
-            Dim ArrRM As List(Of clsProductionShiftMgmtProductionRM) = TryCast(gvPro.CurrentRow.Cells(ColProBOMCode).Tag, List(Of clsProductionShiftMgmtProductionRM))
+            Dim ArrRM As List(Of clsProductionShiftMgmtProductionRM) = TryCast(gvPro.Rows(ii).Cells(ColProBOMCode).Tag, List(Of clsProductionShiftMgmtProductionRM))
             If ArrRM IsNot Nothing AndAlso ArrRM.Count > 0 Then
                 For Each objtr As clsProductionShiftMgmtProductionRM In ArrRM
                     Dim idx As Integer = -1
@@ -3263,14 +3263,14 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                             If clsCommon.CompairString(obj.Item_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
                                 clsCommon.CompairString(obj.Location_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(obj.UOM, "KG") = CompairStringResult.Equal Then
-                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += obj.Qty
-                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
                                 Else
-                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += obj.Qty
-                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
                                 End If
-                                gvCL.Rows(jj).Cells(colCLFATKG).Value += obj.FAT_KG
-                                gvCL.Rows(jj).Cells(colCLSNFKG).Value += obj.SNF_KG
+                                gvCL.Rows(jj).Cells(colCLFATKG).Value -= obj.FAT_KG
+                                gvCL.Rows(jj).Cells(colCLSNFKG).Value -= obj.SNF_KG
                             End If
                         Next
                     Next
@@ -3323,10 +3323,10 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             For jj As Integer = 0 To gvCL.Rows.Count - 1
                 If clsCommon.CompairString(clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkItemCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
                             clsCommon.CompairString(clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkLocationCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
-                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkQtyLtr).Value)
-                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkQtyKG).Value)
-                    gvCL.Rows(jj).Cells(colCLFATKG).Value += clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkFATKG).Value)
-                    gvCL.Rows(jj).Cells(colCLSNFKG).Value += clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkSNFKG).Value)
+                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkQtyLtr).Value)
+                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkQtyKG).Value)
+                    gvCL.Rows(jj).Cells(colCLFATKG).Value -= clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkFATKG).Value)
+                    gvCL.Rows(jj).Cells(colCLSNFKG).Value -= clsCommon.myCDecimal(gvDisBulk.Rows(ii).Cells(colDisBulkSNFKG).Value)
                 End If
             Next
         Next
@@ -3335,10 +3335,10 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             For jj As Integer = 0 To gvCL.Rows.Count - 1
                 If clsCommon.CompairString(clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantItemCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
                             clsCommon.CompairString(clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantLocationCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
-                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantQtyLtr).Value)
-                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantQtyKG).Value)
-                    gvCL.Rows(jj).Cells(colCLFATKG).Value -= clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantFATKG).Value)
-                    gvCL.Rows(jj).Cells(colCLSNFKG).Value -= clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantSNFKG).Value)
+                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantQtyLtr).Value)
+                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantQtyKG).Value)
+                    gvCL.Rows(jj).Cells(colCLFATKG).Value += clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantFATKG).Value)
+                    gvCL.Rows(jj).Cells(colCLSNFKG).Value += clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantSNFKG).Value)
                 End If
             Next
         Next
@@ -3346,10 +3346,10 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             For jj As Integer = 0 To gvCL.Rows.Count - 1
                 If clsCommon.CompairString(clsCommon.myCstr(gvRecBulk.Rows(ii).Cells(ColRecBulkItemCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
                             clsCommon.CompairString(clsCommon.myCstr(gvRecBulk.Rows(ii).Cells(ColRecBulkLocationCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
-                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkQtyLtr).Value)
-                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkQtyKG).Value)
-                    gvCL.Rows(jj).Cells(colCLFATKG).Value -= clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkFATKG).Value)
-                    gvCL.Rows(jj).Cells(colCLSNFKG).Value -= clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkSNFKG).Value)
+                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkQtyLtr).Value)
+                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkQtyKG).Value)
+                    gvCL.Rows(jj).Cells(colCLFATKG).Value += clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkFATKG).Value)
+                    gvCL.Rows(jj).Cells(colCLSNFKG).Value += clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkSNFKG).Value)
                 End If
             Next
         Next
