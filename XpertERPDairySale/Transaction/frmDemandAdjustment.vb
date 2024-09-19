@@ -334,13 +334,13 @@ left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MAS
 where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" + txtItemCode.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "' "
                 If txtZoneCode.arrValueMember IsNot Nothing Then
                     If txtRouteCode.arrValueMember IsNot Nothing Then
-                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in('" + clsCommon.GetMulcallStringWithComma(txtRouteCode.arrValueMember) + "')"
+                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
                     Else
-                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(select Route_No from TSPL_ROUTE_MASTER where Zone_Code in(" + clsCommon.GetMulcallStringWithComma(txtZoneCode.arrValueMember) + ") and Zone_Code is not null)"
+                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(select Route_No from TSPL_ROUTE_MASTER where Zone_Code in(" + clsCommon.GetMulcallString(txtZoneCode.arrValueMember) + ") and Zone_Code is not null)"
                     End If
                 Else
                     If txtRouteCode.arrValueMember IsNot Nothing Then
-                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in('" + clsCommon.GetMulcallStringWithComma(txtRouteCode.arrValueMember) + "')"
+                        whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
                     End If
                 End If
                 If rbtnMorning.IsChecked Then
