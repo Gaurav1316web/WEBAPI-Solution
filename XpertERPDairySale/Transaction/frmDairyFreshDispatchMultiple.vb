@@ -44,7 +44,7 @@ Public Class frmDairyFreshDispatchMultiple
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            Dim whrcls As String = "  convert( date, TSPL_Demand_Booking_Master.document_date, 103 )>='" & clsCommon.GetPrintDate(txtFromDate.Value) & "' and convert( date, TSPL_Demand_Booking_Master.document_date, 103 )<='" & clsCommon.GetPrintDate(txtToDate.Value) & "' and TSPL_Demand_Booking_Master.Location_Code '" & txtLocation.Value & "' and TSPL_Demand_Booking_Master.Posted = 1 "
+            Dim whrcls As String = "  convert( date, TSPL_Demand_Booking_Master.document_date, 103 )>='" & clsCommon.GetPrintDate(txtFromDate.Value) & "' and convert( date, TSPL_Demand_Booking_Master.document_date, 103 )<='" & clsCommon.GetPrintDate(txtToDate.Value) & "' and TSPL_Demand_Booking_Master.Location_Code ='" & txtLocation.Value & "' and TSPL_Demand_Booking_Master.Posted = 1 "
             If rbtnMorning.Checked Then
                 whrcls += " and TSPL_Demand_Booking_Master.ShiftType = 'Morning' "
             ElseIf rbtnEvening.Checked Then
@@ -58,7 +58,7 @@ Public Class frmDairyFreshDispatchMultiple
             whrcls += " and TSPL_Demand_Booking_DETAIL.TR_Code is not null and not exists( select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code = TSPL_Demand_Booking_DETAIL.TR_Code ) "
             Dim qry As String = "select Final.Document_Date, Final.route_no, max(Final.ShiftType) as ShiftType, max(Final.LocationCode) as LocationCode, max(Final.IsTaxable) as IsTaxable from ( select convert( date, TSPL_Demand_Booking_Master.Document_Date, 103 ) as Document_Date, TSPL_Demand_Booking_Master.route_no, max( TSPL_Demand_Booking_Master.ShiftType ) as ShiftType, max( TSPL_Demand_Booking_Master.Location_Code ) as LocationCode, max(TSPL_ITEM_MASTER.IsTaxable) as IsTaxable from TSPL_Demand_Booking_Master 
 left join TSPL_Demand_Booking_DETAIL on TSPL_Demand_Booking_Master.Document_No = TSPL_Demand_Booking_DETAIL.Document_No
-left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_DETAIL.Item_Code " & whrcls & " group by TSPL_Demand_Booking_Master.document_date, TSPL_Demand_Booking_Master.route_no ) Final group by Final.Document_Date, Final.route_no "
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_DETAIL.Item_Code where" & whrcls & " group by TSPL_Demand_Booking_Master.document_date, TSPL_Demand_Booking_Master.route_no ) Final group by Final.Document_Date, Final.route_no "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarShow()
