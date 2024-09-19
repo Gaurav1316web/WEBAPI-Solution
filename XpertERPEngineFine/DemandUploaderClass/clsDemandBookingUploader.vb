@@ -66,11 +66,9 @@ Public Class clsDemandBookingUploader
 
             If isNewEntry Then
                 If IsDemandUploader Then
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBookingUploader, "", obj.Location_Code)
-
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBookingUploader, "", obj.Route_No, False, True, False, False, False, True)
                 Else
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Location_Code)
-
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Route_No, False, True, False, False, False, True)
                 End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")

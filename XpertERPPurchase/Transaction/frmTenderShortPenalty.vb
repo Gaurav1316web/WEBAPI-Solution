@@ -10,6 +10,13 @@ Public Class frmTenderShortPenalty
     Private isInsideLoadData As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Private isCellValueChangedTaxOpen As Boolean = False
+    Dim isSkipSecurityDedVendor As Integer = 0
+    Dim isSkipSecurityDedItem As Integer = 0
+    Dim isSkipPenaltyDedVendor As Integer = 0
+    Dim isSkipPenaltyDedItem As Integer = 0
+    Dim isLoad As Boolean = False
+    Dim IsSecurity As Integer = 0
+    Dim IsPenalty As Integer = 0
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -195,14 +202,12 @@ Public Class frmTenderShortPenalty
                 lblBillToLocation.Text = obj.LocationName
                 txtRemarks.Text = obj.Remarks
 
-
+                SkipSecurityPenalityDed()
                 EnableDisableControls(False)
 
                 Dim qry As String = " and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
                 qry = clsSRNHead.GetBaseQeryTenderPenalty(txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value, "1", qry)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
-
                 SetGridFormation(dt)
             End If
         Catch ex As Exception
@@ -213,6 +218,28 @@ Public Class frmTenderShortPenalty
             obj = Nothing
         End Try
     End Sub
+
+    Sub SkipSecurityPenalityDed()
+        If isLoad Then
+            isSkipSecurityDedVendor = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsNull(isSecurityDeduction,0) from TSPL_VENDOR_MASTER Where Vendor_Code='" + txtVendorNo.Value + "'"))
+            isSkipPenaltyDedVendor = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsNull(isPenaltyDeduction,0) from TSPL_VENDOR_MASTER Where Vendor_Code='" + txtVendorNo.Value + "'"))
+
+            isSkipSecurityDedItem = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsNull(isSecurityDeduction,0) from TSPL_ITEM_MASTER Where ITEM_Code='" + txtItem.Value + "'"))
+            isSkipPenaltyDedItem = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsNull(isPenaltyDeduction,0) from TSPL_ITEM_MASTER Where ITEM_Code='" + txtItem.Value + "'"))
+        End If
+        If isSkipSecurityDedVendor > 0 AndAlso isSkipSecurityDedItem > 0 Then
+            IsSecurity = 1
+        Else
+            IsSecurity = 0
+        End If
+
+        If isSkipPenaltyDedVendor > 0 AndAlso isSkipPenaltyDedItem > 0 Then
+            IsPenalty = 1
+        Else
+            IsPenalty = 0
+        End If
+    End Sub
+
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         CloseForm()
     End Sub
@@ -312,7 +339,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas += " and TSPL_TENDER_PENALTY.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-
+        isLoad = False
         LoadData(clsCommon.ShowSelectForm("TSP@Fnd", qry, "Document_No", whrClas, txtDocNo.Value, "TSPL_TENDER_PENALTY.Document_Date desc", isButtonClicked), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -438,13 +465,12 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtItem.Value = ""
         End Try
-
     End Sub
 
-
-
     Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
+        isLoad = True
         Calculate()
+        isLoad = False
     End Sub
 
     Sub SetGridFormation(ByVal dt As DataTable)
@@ -569,6 +595,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
     Private Sub Calculate()
         Try
+            SkipSecurityPenalityDed()
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
                 txtBillToLocation.Focus()
                 Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
@@ -585,9 +612,10 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
                 txtItem.Focus()
                 Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
             End If
+
             Dim qry As String = "and not exists(select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No)
 and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
-            qry = clsSRNHead.GetBaseQeryTenderPenalty(txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value, "0", qry)
+            qry = clsSRNHead.GetBaseQeryTenderPenalty(txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value, "0", qry, IsSecurity, IsPenalty)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim arrSRN As New ArrayList
             For ii As Integer = 0 To dt.Rows.Count - 1
@@ -602,7 +630,7 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
                         If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
-                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran)
+                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran, IsSecurity, IsPenalty)
                             arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                         End If
                     Else

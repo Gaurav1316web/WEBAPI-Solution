@@ -715,6 +715,7 @@ Public Class clsDocType
     Public Const IncentiveEntry As String = "Incentive Entry"
     Public Const CustomerIncentiveEntry As String = "Customer Incentive Entry"
     Public Const Detail As String = "Detail"
+    Public Const DetailSale As String = "Detail Sale"
     Public Const CustomerDeduction As String = "Customer Deduction"
     Public Const IncomeTaxSlab As String = "Income Tax Slab"
     Public Const IncomeTaxCalculation As String = "Income Tax Calculation"
@@ -1193,8 +1194,8 @@ Public Class clsDocType
             'added by preeti gupta===06/10/2016
             InsertDefaultValue(clsDocType.frmPerformaInvoiceBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleDeliveryOrder, "", False, True)
-            InsertDefaultValue(clsDocType.frmDemandBooking, "", False, True)
-            InsertDefaultValue(clsDocType.frmDemandBookingUploader, "", False, True)
+            InsertDefaultValue(clsDocType.frmDemandBooking, "", False, False, False, False, True)
+            InsertDefaultValue(clsDocType.frmDemandBookingUploader, "", False, False, False, False, True)
             InsertDefaultValue(clsDocType.frmDemandAdjustment, "", False, False)
             InsertDefaultValue(clsDocType.frmDemandUploader, "", False, False)
             InsertDefaultValue(clsDocType.FrmMCCMaterialSalePriceChart, "", False, False)
@@ -1983,7 +1984,9 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.IncentiveEntry, clsDocTransactionType.Transaction, False, True)
             InsertDefaultValue(clsDocType.Detail, clsDocTransactionType.Detail, False, False)
-            InsertDefaultValue(clsDocType.Detail, clsDocTransactionType.Uploader, False, False)
+
+            InsertDefaultValue(clsDocType.DetailSale, clsDocTransactionType.Detail, False, False, False, False, True)
+            InsertDefaultValue(clsDocType.DetailSale, clsDocTransactionType.Uploader, False, False, False, False, True)
             InsertDefaultValue(clsDocType.CustomerDeduction, "", False, False)
             InsertDefaultValue(clsDocType.CustomerIncentiveEntry, clsDocTransactionType.Transaction, False, True)
             InsertDefaultValue(clsDocType.IncomeTaxSlab, "", False, False)
@@ -2039,6 +2042,9 @@ Public Class clsDocType
         Return InsertDefaultValue(strDocType, strDocTransactinType, IsStateWise, IsLocationWise, Master_Prefix, False)
     End Function
     Private Shared Function InsertDefaultValue(ByVal strDocType As String, ByVal strDocTransactinType As String, ByVal IsStateWise As Boolean, ByVal IsLocationWise As Boolean, ByVal Master_Prefix As Boolean, ByVal IsMCCWise As Boolean) As Boolean
+        Return InsertDefaultValue(strDocType, strDocTransactinType, IsStateWise, IsLocationWise, Master_Prefix, IsMCCWise, False)
+    End Function
+    Private Shared Function InsertDefaultValue(ByVal strDocType As String, ByVal strDocTransactinType As String, ByVal IsStateWise As Boolean, ByVal IsLocationWise As Boolean, ByVal Master_Prefix As Boolean, ByVal IsMCCWise As Boolean, ByVal IsRouteWise As Boolean) As Boolean
         'If Master_Prefix = True Then
         '    Dim qry As String = ""
         '    qry = "update TSPL_DOCPREFIX_MASTER set Next_Number=(select max(Next_Number) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "') where Doc_Type='" + strDocType + "' AND PK_ID IN (SELECT MAX(PK_ID) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "')"
@@ -2053,6 +2059,7 @@ Public Class clsDocType
         clsCommon.AddColumnsForChange(coll, "Is_Location_Wise", IIf(IsLocationWise, 1, 0))
         clsCommon.AddColumnsForChange(coll, "Master_Prefix", IIf(Master_Prefix, 1, 0))
         clsCommon.AddColumnsForChange(coll, "Is_MCC_Wise", IIf(IsMCCWise, 1, 0))
+        clsCommon.AddColumnsForChange(coll, "Is_Route_Wise", IIf(IsRouteWise, 1, 0))
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DOCUMENT_TYPE", OMInsertOrUpdate.Insert, "")
         Return True
     End Function

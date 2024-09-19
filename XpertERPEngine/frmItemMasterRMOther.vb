@@ -1284,6 +1284,8 @@ Public Class FrmItemMasterRMOther
         '' Anubhooti 10-Sep-2014 BM00000003847
         ItemShortDesp()
         ' BM00000007910
+        chkSkipSecurityDed.Checked = False
+        chkSkipPenaltyDed.Checked = False
         fndScrapItem.Visible = False
         chkScrapItem.Checked = False
         chkMilkPouch.Checked = False
@@ -1474,6 +1476,8 @@ Public Class FrmItemMasterRMOther
                 obj.ApplyRoundingInStdProd = chkApplyRounding.Checked
                 obj.Visual_QC = chkApplyVisualQC.Checked
                 obj.Security_Deduction = txtSecurityDedPer.Value
+                obj.isSecurityDeduction = clsCommon.myCdbl(IIf(chkSkipSecurityDed.Checked, 1, 0))
+                obj.isPenaltyDeduction = clsCommon.myCdbl(IIf(chkSkipPenaltyDed.Checked, 1, 0))
                 If rbtnBBNA.IsChecked Then
                     obj.BuyBackType = 0
 
@@ -2561,6 +2565,8 @@ Public Class FrmItemMasterRMOther
                 txtstnd_pur_rate.Text = obj.std_pur_rate
                 txtUOM.Value = obj.Unit_Code
                 txtCost.Value = obj.Cost
+                chkSkipSecurityDed.Checked = IIf(obj.isSecurityDeduction = 1, True, False)
+                chkSkipPenaltyDed.Checked = IIf(obj.isPenaltyDeduction = 1, True, False)
                 'Load buyBackTye and Value
                 If obj.BuyBackType = 1 Then
                     rbtnBBAmount.IsChecked = True

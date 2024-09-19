@@ -156,9 +156,9 @@ Public Class clsDemandBookingSale
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
                 If IsDemandUploader Then
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBookingUploader, "", obj.Location_Code, False, True, False, False, obj.Route_No)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBookingUploader, "", obj.Route_No, False, True, False, False, False, True)
                 Else
-                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Location_Code, False, True, False, False, obj.Route_No)
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Route_No, False, True, False, False, False, True)
                 End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")
@@ -726,7 +726,50 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     objTr.TotalLtr_ItemWise = clsCommon.myCdbl(dr("TotalLtr_ItemWise"))
                     objTr.IsTruckSheetGenerated = clsCommon.myCstr(dr("IsTruckSheetGenerated"))
                     objTr.IsGatePassGenerated = clsCommon.myCstr(dr("IsGatePassGenerated"))
-                    objTr.Is_Posted = clsCommon.myCstr(dr("Is_Posted"))
+                    objTr.TAX_Group = clsCommon.myCstr(dr("TAX_Group"))
+                    objTr.TAX1 = clsCommon.myCstr(dr("TAX1"))
+                    objTr.TAX1_Amt = clsCommon.myCdbl(dr("TAX1_Amt"))
+                    objTr.TAX1_Rate = clsCommon.myCdbl(dr("TAX1_Rate"))
+                    objTr.TAX1_Base_Amt = clsCommon.myCdbl(dr("TAX1_Base_Amt"))
+                    objTr.TAX2 = clsCommon.myCstr(dr("Tax2"))
+                    objTr.TAX2_Amt = clsCommon.myCdbl(dr("Tax2_Amt"))
+                    objTr.TAX2_Rate = clsCommon.myCdbl(dr("Tax2_Rate"))
+                    objTr.TAX2_Base_Amt = clsCommon.myCdbl(dr("Tax2_Base_Amt"))
+                    objTr.TAX3 = clsCommon.myCstr(dr("Tax3"))
+                    objTr.TAX3_Amt = clsCommon.myCdbl(dr("Tax3_Amt"))
+                    objTr.TAX3_Rate = clsCommon.myCdbl(dr("Tax3_Rate"))
+                    objTr.TAX3_Base_Amt = clsCommon.myCdbl(dr("Tax3_Base_Amt"))
+                    objTr.TAX4 = clsCommon.myCstr(dr("Tax4"))
+                    objTr.TAX4_Amt = clsCommon.myCdbl(dr("Tax4_Amt"))
+                    objTr.TAX4_Rate = clsCommon.myCdbl(dr("Tax4_Rate"))
+                    objTr.TAX4_Base_Amt = clsCommon.myCdbl(dr("Tax4_Base_Amt"))
+                    objTr.TAX5 = clsCommon.myCstr(dr("Tax5"))
+                    objTr.TAX5_Amt = clsCommon.myCdbl(dr("Tax5_Amt"))
+                    objTr.TAX5_Rate = clsCommon.myCdbl(dr("Tax5_Rate"))
+                    objTr.TAX5_Base_Amt = clsCommon.myCdbl(dr("Tax5_Base_Amt"))
+                    objTr.TAX6 = clsCommon.myCstr(dr("Tax6"))
+                    objTr.TAX6_Amt = clsCommon.myCdbl(dr("Tax6_Amt"))
+                    objTr.TAX6_Rate = clsCommon.myCdbl(dr("Tax6_Rate"))
+                    objTr.TAX6_Base_Amt = clsCommon.myCdbl(dr("Tax6_Base_Amt"))
+                    objTr.TAX7 = clsCommon.myCstr(dr("Tax7"))
+                    objTr.TAX7_Amt = clsCommon.myCdbl(dr("Tax7_Amt"))
+                    objTr.TAX7_Rate = clsCommon.myCdbl(dr("Tax7_Rate"))
+                    objTr.TAX7_Base_Amt = clsCommon.myCdbl(dr("Tax7_Base_Amt"))
+                    objTr.TAX8 = clsCommon.myCstr(dr("Tax8"))
+                    objTr.TAX8_Amt = clsCommon.myCdbl(dr("Tax8_Amt"))
+                    objTr.TAX8_Rate = clsCommon.myCdbl(dr("Tax8_Rate"))
+                    objTr.TAX8_Base_Amt = clsCommon.myCdbl(dr("Tax8_Base_Amt"))
+                    objTr.TAX9 = clsCommon.myCstr(dr("Tax9"))
+                    objTr.TAX9_Amt = clsCommon.myCdbl(dr("Tax9_Amt"))
+                    objTr.TAX9_Rate = clsCommon.myCdbl(dr("Tax9_Rate"))
+                    objTr.TAX9_Base_Amt = clsCommon.myCdbl(dr("Tax9_Base_Amt"))
+                    objTr.TAX10 = clsCommon.myCstr(dr("Tax10"))
+                    objTr.TAX10_Amt = clsCommon.myCdbl(dr("Tax10_Amt"))
+                    objTr.TAX10_Rate = clsCommon.myCdbl(dr("Tax10_Rate"))
+                    objTr.TAX10_Base_Amt = clsCommon.myCdbl(dr("Tax10_Base_Amt"))
+
+
+
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -1294,16 +1337,10 @@ TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0 as PrevItemNetAmount,TSPL_DEMAND_BOOK
 TSPL_COMPANY_MASTER.Comp_Name as CompanyName,TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
 TSPL_DEMAND_BOOKING_DETAIL.Item_Rate,ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,Convert(decimal(18, 2),(TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ ITEMDETAIL.CFForLTR) As QTYLtr,
 TSPL_CUSTOMER_MASTER.Credit_Customer as CreditCust,
-CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1_Amt) ELSE 0 END +
-    CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2_Amt) ELSE 0 END +
-    CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3_Amt) ELSE 0 END +
-    CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4_Amt) ELSE 0 END +
-    CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5_Amt) ELSE 0 END +
-    CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6_Amt) ELSE 0 END +
-    CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX7) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX7_Amt) ELSE 0 END +
-	CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX8) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX8_Amt) ELSE 0 END +
-	CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9_Amt) ELSE 0 END +
-	CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10_Amt) ELSE 0 END 
+CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4_Amt) 
+ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5_Amt) 
+ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX7) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX7_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX8) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX8_Amt) 
+ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10_Amt) ELSE 0 END) END) END) END) END) END) END) END) END) END 
     AS TCSAmount
 from TSPL_DEMAND_BOOKING_DETAIL 
 Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
@@ -1607,9 +1644,9 @@ Public Class clsDemandBookingSaleDetail
                 If obj.Qty > 0 Then
                     Dim coll As New Hashtable()
                     If isUploader Then
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Uploader, "", False, True, False, False, strRouteNo)
+                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
                     Else
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "", False, True, False, False, strRouteNo)
+                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
                     End If
                     clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                     clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
@@ -1687,10 +1724,10 @@ Public Class clsDemandBookingSaleDetail
 
                 Dim coll As New Hashtable()
                     If isUploader Then
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Uploader, "", False, True, False, False, strRouteNo)
-                    Else
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "", False, True, False, False, strRouteNo)
-                    End If
+                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
+                Else
+                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+                End If
                     clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                     clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                     clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)

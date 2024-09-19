@@ -2361,7 +2361,8 @@ Public Class clsCreateAllTable
             coll.Add("Report_Name", "varchar(50) NULL")
             coll.Add("AllowEntryInDecimal", "Integer null")
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
-            'coll.Add("Deduction_Type_Hindi", "nvarchar(100) null")
+            coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
+            coll.Add("isPenaltyDeduction", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -4198,7 +4199,6 @@ Public Class clsCreateAllTable
             coll.Add("Doc_Type", "varchar(30) NOT NULL")
             coll.Add("Doc_Trans_Type", "varchar(30) NULL")
             coll.Add("Location_Code", "varchar(12) NULL")
-            coll.Add("RouteNo", "varchar(12) NULL")
             coll.Add("Doc_Prfeix", "varchar(16) NOT NULL")
             coll.Add("Fin_Year", "int NOT NULL")
             coll.Add("Next_Number", "int NOT NULL")
@@ -13975,7 +13975,8 @@ Public Class clsCreateAllTable
             coll.Add("OEM", "integer null")
             coll.Add("Is_Provisional", "Integer not null default 0")
             coll.Add("Is_Default_Grower", "Integer null default 0")
-
+            coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
+            coll.Add("isPenaltyDeduction", "integer Not Null DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
@@ -55954,6 +55955,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Document_No", "Varchar(30) not null Primary key")
             coll.Add("Document_Date", "date NOT NULL")
             coll.Add("Shift_Code", "Varchar(30) not null references tspl_shift_master(SHIFT_CODE)")
+            coll.Add("Shift_Start_Date", "Datetime NOT NULL")
+            coll.Add("Shift_End_Date", "Datetime NOT NULL")
             coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Remarks", "varchar(250) NULL")
             coll.Add("Comment", "varchar(250) NULL")

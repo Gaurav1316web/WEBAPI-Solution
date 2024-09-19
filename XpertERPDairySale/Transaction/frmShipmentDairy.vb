@@ -14817,6 +14817,10 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnPrintInvoice_Click_1(sender As Object, e As EventArgs) Handles btnPrintInvoice.Click
+        PrintInvoiveForAll()
+    End Sub
 End Class
 Class tempSchemStructrue
     Public StructureCode As String

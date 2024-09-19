@@ -1,6 +1,8 @@
 ﻿Imports System.Data.SqlClient
 Public Class clsItemMaster
 #Region "Variables"
+    Public isSecurityDeduction As Integer = 0
+    Public isPenaltyDeduction As Integer = 0
     Public FG_for_CF As Integer = 0
     Public BomBuildQty As Double = 0
     Public NIR_QC As Boolean = False
@@ -29,7 +31,7 @@ Public Class clsItemMaster
     Public uom_code As String = ""
     Public Structure_Code As String = ""
     Public Structure_Desc As String = ""
-    Public Deduction_Type As String=""
+    Public Deduction_Type As String = ""
     Public Deduction_Type_Hindi As String = ""
     Public Purchase_Class_Code As String = ""
     Public Sale_Class_Code As String = ""
@@ -1565,7 +1567,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             clsCommon.AddColumnsForChange(coll, "BuyBackValue", obj.BuyBackValue, True, True)
             clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
             'clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
-
+            clsCommon.AddColumnsForChange(coll, "isSecurityDeduction", obj.isSecurityDeduction)
+            clsCommon.AddColumnsForChange(coll, "isPenaltyDeduction", obj.isPenaltyDeduction)
             If isNewEntry Then
                 ' If clsCommon.myLen(obj.Item_Code) <= 0 Then 
                 ' Ticket No : ERO/11/07/19-000679 By Prabhakar
@@ -1788,6 +1791,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Visual_QC = (clsCommon.myCDecimal(dt.Rows(0)("Visual_QC")) = 1)
                 obj.Security_Deduction = clsCommon.myCDecimal(dt.Rows(0)("Security_Deduction"))
                 obj.ApplyRoundingInStdProd = (clsCommon.myCDecimal(dt.Rows(0)("ApplyRoundingInStdProd")) = 1)
+                obj.isSecurityDeduction = clsCommon.myCdbl(dt.Rows(0)("isSecurityDeduction"))
+                obj.isPenaltyDeduction = clsCommon.myCdbl(dt.Rows(0)("isPenaltyDeduction"))
                 ''richa agarwal TEC/19/12/18-000383 27 Dec,2018
                 qry = " select Item_Code,UOM_Code,UOM_Description,Conversion_Factor,Stocking_Unit,Default_UOM,Print_UOM,ProcessLoss_UOM,Gross_Weight,Net_Weight,Job_Work_Rate,pieces,Item_Cost,Custom_Conversion from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "' order by Stocking_Unit desc"
                 dt = clsDBFuncationality.GetDataTable(qry)
