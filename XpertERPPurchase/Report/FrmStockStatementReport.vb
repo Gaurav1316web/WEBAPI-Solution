@@ -77,7 +77,7 @@ Public Class FrmStockStatementReport
     End Sub
 
     Sub LoadLocation()
-        Dim qry As String = " select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER where Location_Type='Physical' "
+        Dim qry As String = " select Location_Code as Code,Location_Desc as Description from TSPL_LOCATION_MASTER where Location_Type='Physical' AND Rejected_Type='N'"
         'Dim qry As String = " select Segment_code as Code, Description  from TSPL_GL_SEGMENT_CODE where Seg_No='7' "
         cbgLocation.DataSource = clsDBFuncationality.GetDataTable(qry)
         cbgLocation.ValueMember = "Code"
