@@ -417,7 +417,7 @@ Public Class frmRptUnpostedPO
 
 
     Private Sub TxtMultiSelectFinder1__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
-        Dim qry As String = " select Location_Code as Code, Location_Desc as Name from TSPL_LOCATION_MASTER Where Location_Type='Physical'"
+        Dim qry As String = " select Location_Code as Code, Location_Desc as Name from TSPL_LOCATION_MASTER Where Location_Type='Physical' and Rejected_Type='N'"
         txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSelLUP", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
     End Sub
 

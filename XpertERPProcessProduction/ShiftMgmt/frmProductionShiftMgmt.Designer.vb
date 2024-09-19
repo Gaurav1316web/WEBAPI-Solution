@@ -628,7 +628,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 122)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(784, 226)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -685,7 +685,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView2.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView2.Name = "RadPageView2"
-        Me.RadPageView2.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView2.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView2.Size = New System.Drawing.Size(763, 178)
         Me.RadPageView2.TabIndex = 0
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -694,7 +694,6 @@ Partial Class frmProductionShiftMgmt
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.gvRecPlant)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(742, 130)
@@ -729,7 +728,6 @@ Partial Class frmProductionShiftMgmt
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.gvRecBulk)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(108.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(742, 130)
@@ -780,7 +778,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView3.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView3.Name = "RadPageView3"
-        Me.RadPageView3.SelectedPage = Me.RadPageViewPage9
+        Me.RadPageView3.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView3.Size = New System.Drawing.Size(763, 178)
         Me.RadPageView3.TabIndex = 1
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None

@@ -1073,8 +1073,8 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType='BOK-CRD' and TSPL_VENDOR_INVOICE_HEAD
 
             dt = Nothing
             '' to check Delivery order
-            Qry = " select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "'"
-            dt = clsDBFuncationality.GetDataTable(Qry, trans)
+            'Qry = " select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "'"
+            'dt = clsDBFuncationality.GetDataTable(Qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(dt.Rows(0)("Document_No")), "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE", "Document_No", "TSPL_DELIVERY_NOTE_detail_FRESHSALE", "Document_No", trans)
                 Qry = " select distinct document_code from TSPL_SD_SHIPMENT_DETAIL where TSPL_SD_SHIPMENT_DETAIL.Delivery_Code in (select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "')"
@@ -1086,14 +1086,14 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType='BOK-CRD' and TSPL_VENDOR_INVOICE_HEAD
                     Next
                     Throw New Exception(Qry)
                 Else
-                    Qry = "delete from TSPL_TRANSACTION_APPROVAL where Document_No in (select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "')  and Program_Code ='DEL-NOTE-FS' "
-                    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                    'Qry = "delete from TSPL_TRANSACTION_APPROVAL where Document_No in (select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "')  and Program_Code ='DEL-NOTE-FS' "
+                    'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-                    Qry = "delete from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No in (select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "')"
-                    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                    'Qry = "delete from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No in (select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "')"
+                    'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-                    Qry = "delete from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Document_No  in (select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "')"
-                    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                    'Qry = "delete from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Document_No  in (select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "')"
+                    'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
                     Qry = "delete from TSPL_CUSTOM_FIELD_VALUES where Program_Code='DEL-NOTE-FS' and Transaction_Code  in (select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no='" & strCode & "') "
                     clsDBFuncationality.ExecuteNonQuery(Qry, trans)
