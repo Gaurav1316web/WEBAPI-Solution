@@ -947,9 +947,9 @@ Public Class frmDemandBooking
                                             If clsCommon.CompairString(objTr.Cust_Code, obj2.Cust_Code) = CompairStringResult.Equal AndAlso (clsCommon.CompairString(obj1.itemCode, obj2.ItemCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj1.Unit_code, obj2.UnitCode) = CompairStringResult.Equal) Then
                                                 objTr.Item_Code = clsCommon.myCstr(obj1.itemCode)
                                                 objTr.Unit_code = clsCommon.myCstr(obj1.Unit_code)
-                                                objTr.Rate = clsCommon.myCdbl(obj1.ItemRate)
+                                                objTr.Rate = clsCommon.myCdbl(obj2.ItemRate)
                                                 objTr.ItemNetAmount = clsCommon.myCdbl(obj2.ItemTotAmt)
-                                                objTr.TAX_Group = clsCommon.myCstr(obj1.TAX_Group)
+                                                objTr.TAX_Group = clsCommon.myCstr(obj2.TAX_Group)
                                                 objTr.TAX1 = clsCommon.myCstr(obj2.TAX1)
                                                 objTr.TAX1_Rate = obj2.TAX1_Rate
                                                 objTr.TAX1_Amt = obj2.TAX1_Amt
@@ -2233,7 +2233,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                         "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & obj1.Unit_code & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & obj1.itemCode & "' AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
                         ") XXXE WHERE RowNo=1  "
                             Else
-                                qry = "select item_Rate as Item_Basic_Price,tax_group,TAX1,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7,TAX8,TAX9,TAX10,TAX1_Rate,TAX2_Rate,TAX3_Rate,TAX4_Rate, TAX5_Rate,TAX6_Rate,TAX7_Rate,TAX8_Rate,TAX9_Rate,TAX10_Rate,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt from TSPL_DEMAND_BOOKING_DETAIL where  Document_No='" + txtDocNo.Value + "' and Item_Code='" + obj1.itemCode + "' and Unit_code='" + obj1.Unit_code + "'"
+                                qry = "select item_Rate as Item_Basic_Price,tax_group,TAX1,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7,TAX8,TAX9,TAX10,TAX1_Rate,TAX2_Rate,TAX3_Rate,TAX4_Rate, TAX5_Rate,TAX6_Rate,TAX7_Rate,TAX8_Rate,TAX9_Rate,TAX10_Rate,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt from TSPL_DEMAND_BOOKING_DETAIL where  Document_No='" + txtDocNo.Value + "' and Item_Code='" + obj1.itemCode + "' and Unit_code='" + obj1.Unit_code + "' and Cust_Code='" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) & "'"
                             End If
                             dt = clsDBFuncationality.GetDataTable(qry)
                             If dt.Rows.Count > 0 Then
@@ -2251,96 +2251,97 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                     'obj1.ItemRate = dblRate
                                     dblTotalPAmt = dblTotalPAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
                                 End If
-                                obj1.ItemRate = dblRate
-                                obj1.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
-                                dblTotalDocAmtRowWise = dblTotalDocAmtRowWise + obj1.ItemTotAmt
+                                objCustItem.ItemRate = dblRate
+                                'obj1.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
                                 objCustItem.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
                                 objCustItem.FreshItem_QtyInLitres = obj1.FreshItem_QtyInLitres
                                 objCustItem.FreshItem_QtyInCrate = obj1.FreshItem_QtyInCrates
                                 objCustItem.ItemCode = obj1.itemCode
                                 objCustItem.UnitCode = obj1.Unit_code
-                                objCustItem.ItemTotAmt = obj1.ItemTotAmt
+                                objCustItem.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
                                 objCustItem.TAX_Group = clsCommon.myCstr(dt.Rows(0).Item("TAX_Group"))
+                                dblTotalDocAmtRowWise = dblTotalDocAmtRowWise + objCustItem.ItemTotAmt
+
                                 objCustItem.TAX1 = clsCommon.myCstr(dt.Rows(0).Item("TAX1"))
                                 If clsCommon.CompairString(objCustItem.TAX1, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX1_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Rate"))
                                 End If
-                                objCustItem.TAX1_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX1_Rate / 100), 2)
-                                objCustItem.TAX1_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX1_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX1_Rate / 100), 2)
+                                objCustItem.TAX1_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX2 = clsCommon.myCstr(dt.Rows(0).Item("TAX2"))
                                 If clsCommon.CompairString(objCustItem.TAX2, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX2_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX2_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX2_Rate"))
                                 End If
-                                objCustItem.TAX2_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX2_Rate / 100), 2)
-                                objCustItem.TAX2_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX2_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX2_Rate / 100), 2)
+                                objCustItem.TAX2_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX3 = clsCommon.myCstr(dt.Rows(0).Item("TAX3"))
                                 If clsCommon.CompairString(objCustItem.TAX3, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX3_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX3_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX3_Rate"))
                                 End If
-                                objCustItem.TAX3_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX3_Rate / 100), 2)
-                                objCustItem.TAX3_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX3_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX3_Rate / 100), 2)
+                                objCustItem.TAX3_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX4 = clsCommon.myCstr(dt.Rows(0).Item("TAX4"))
                                 If clsCommon.CompairString(objCustItem.TAX4, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX4_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX4_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX4_Rate"))
                                 End If
-                                objCustItem.TAX4_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX4_Rate / 100), 2)
-                                objCustItem.TAX4_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX4_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX4_Rate / 100), 2)
+                                objCustItem.TAX4_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX5 = clsCommon.myCstr(dt.Rows(0).Item("TAX5"))
                                 If clsCommon.CompairString(objCustItem.TAX5, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX5_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX5_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX5_Rate"))
                                 End If
-                                objCustItem.TAX5_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX5_Rate / 100), 2)
-                                objCustItem.TAX5_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX5_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX5_Rate / 100), 2)
+                                objCustItem.TAX5_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX6 = clsCommon.myCstr(dt.Rows(0).Item("TAX6"))
                                 If clsCommon.CompairString(objCustItem.TAX6, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX6_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX6_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX6_Rate"))
                                 End If
-                                objCustItem.TAX6_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX6_Rate / 100), 2)
-                                objCustItem.TAX6_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX6_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX6_Rate / 100), 2)
+                                objCustItem.TAX6_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX7 = clsCommon.myCstr(dt.Rows(0).Item("TAX7"))
                                 If clsCommon.CompairString(objCustItem.TAX7, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX7_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX7_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX7_Rate"))
                                 End If
-                                objCustItem.TAX7_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX7_Rate / 100), 2)
-                                objCustItem.TAX7_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX7_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX7_Rate / 100), 2)
+                                objCustItem.TAX7_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX8 = clsCommon.myCstr(dt.Rows(0).Item("TAX8"))
                                 If clsCommon.CompairString(objCustItem.TAX8, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX8_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX8_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX8_Rate"))
                                 End If
-                                objCustItem.TAX8_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX8_Rate / 100), 2)
-                                objCustItem.TAX8_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX8_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX8_Rate / 100), 2)
+                                objCustItem.TAX8_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX9 = clsCommon.myCstr(dt.Rows(0).Item("TAX9"))
                                 If clsCommon.CompairString(objCustItem.TAX9, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX9_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX9_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX9_Rate"))
                                 End If
-                                objCustItem.TAX9_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX9_Rate / 100), 2)
-                                objCustItem.TAX9_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX9_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX9_Rate / 100), 2)
+                                objCustItem.TAX9_Base_Amt = objCustItem.ItemTotAmt
                                 objCustItem.TAX10 = clsCommon.myCstr(dt.Rows(0).Item("TAX10"))
                                 If clsCommon.CompairString(objCustItem.TAX10, "TCS") = CompairStringResult.Equal Then
                                     objCustItem.TAX10_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
                                 Else
                                     objCustItem.TAX10_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX10_Rate"))
                                 End If
-                                objCustItem.TAX10_Amt = Math.Round(obj1.ItemTotAmt * (objCustItem.TAX10_Rate / 100), 2)
-                                objCustItem.TAX10_Base_Amt = obj1.ItemTotAmt
+                                objCustItem.TAX10_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX10_Rate / 100), 2)
+                                objCustItem.TAX10_Base_Amt = objCustItem.ItemTotAmt
                                 lstCustItem.Add(objCustItem)
                             Else
                                 gv1.Rows(dblrows).Cells(dblcolumns).Value = 0
