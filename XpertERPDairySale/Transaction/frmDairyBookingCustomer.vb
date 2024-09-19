@@ -8150,6 +8150,9 @@ from
                     obj.Box = txtBox.Text
                     'obj.Against_Delivery_Code = Against_Delivery_Code 'clsDBFuncationality.getSingleValue("select Delivery_No from TSPL_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "' ", trans)
                     obj.Against_Booking_No = txtDocNo.Value
+                    obj.Payment_Terms = cmbPaymentType.Text
+                    obj.Vehicle_Manual_No = txtManualVehicle.Text
+                    obj.ReceiverName = txtReceiverName.Text
                     obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text)
                     obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
                     obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
