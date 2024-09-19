@@ -37,8 +37,10 @@ Public Class RptDcsPaymentReport
             Dim strQry As String = " Select xy.SNo,xy.DocDate,xy.Milk_Purchase_Invoice_Date,xy.Dcs_Uploader,xy.Dcs_name,xy.Milk_Qty,
                                     xy.FATKg,xy.SNFKg,xy.Milk_Amount,xy.Head_Load_Amount,case when xy.PEAmt=0 then xy.CRAmt  else xy.PEAmt end as PEAmt,xy.OBEAmt,
                                     xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount,xy.TotalAmt,xy.CRAmts,
+                                    xy.CommisiionAmt as CommissionAmt,
+                                    (xy.ShareCapAmt+xy.ShareCapitalAmt) As ShareCapitalAmt,
                                     xy.DAYS_Total,FORMAT(xy.AVG_QTY, 'N2') AS AVG_QTY from
-                                    (select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
+                                    (select max(x.SNo)SNo ,(format(max(Doc_Date), 'dd-MM-yyyy'))DocDate,(format(max(Milk_Purchase_Invoice_Date), 'dd-MM-yyyy'))Milk_Purchase_Invoice_Date ,max(x.Dcs_Uploader)Dcs_Uploader,MAX(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(x.Dcs_name)Dcs_name,max(x.Milk_Qty)Milk_Qty
                                     ,max(x.FATKg)FATKg,max(x.SNFKg)SNFKg,max(x.Milk_Amount)Milk_Amount,max(x.Head_Load_Amount)Head_Load_Amount
                                     ,max(isnull(x.CRAmt,0)+ isnull(x.PURCHASEEXPENSE,0)) as PEAmt,max(isnull(x.OBEAmt,0))OBEAmt,max(x.Credit_Note_Amount)CRAmt,max(x.Reduce_Deduc_Amt)Reduce_Deduc_Amt
                                     ,max(x.Deduction_Amount)Deduction_Amount,isnull(max(x.PURCHASEEXPENSE),0)PURCHASEEXPENSE
@@ -46,14 +48,15 @@ Public Class RptDcsPaymentReport
 									,max(x.Payable_Amount)Payable_Amount ,isnull(max(x.Saving_Amount),0)Saving_Amount,max(isnull(x.Payable_Amount,0) + isnull(x.Saving_Amount,0)) as TotalAmt
 									,sum(isnull(x.CRAmt,0))CRAmts,max(isnull(x.DAYS_Total,0))DAYS_Total,
 									case when max(x.Milk_Qty) = 0 then 0 else max(x.Milk_Qty) /  " & Days & "  end as AVG_QTY
+                                    ,max(ISNULL(x.CommisiionAmt,0))CommisiionAmt,max(ISNULL(x.ShareCapitalAmt,0))ShareCapitalAmt,max(ISNULL(x.ShareCapAmt,0))ShareCapAmt
                                     from  
                                     (select TSPL_PAYMENT_PROCESS_DETAIL.SNo ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date ,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_Date,TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Code
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Bank_Name,TSPL_VLC_MASTER_HEAD.Route_Code as Route,TSPL_MCC_MASTER.MCC_NAME as Bmc_name 
-                                    ,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  as Dcs_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as Dcs_name,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  as Dcs_Uploader,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as Dcs_name,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
                                     ,TabFATSNFDetail.FATKg,TabFATSNFDetail.SNFKg,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount
                                     ,TSPL_PAYMENT_PROCESS_DETAIL.Reduce_Deduc_Amt,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount 
-                                    ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount ,TabDCSdrcr.PURCHASEEXPENSE,TSPL_VLC_MASTER_HEAD.isOwnBMC
-									,TabDCSCreditNote.CRAmt as CRAmt,TabDCSCreditNote.OBEAmt as OBEAmt,DaysCount.DAYS_Total as DAYS_Total,DATEDIFF(DAY, '" + fromDate.Value + "', '" + dtpToDate.Value + "') + 1 AS TotalDays
+                                    ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount ,TabDCSdrcr.PURCHASEEXPENSE,TabDCSdrcr.ShareCapitalAmt as ShareCapAmt,TSPL_VLC_MASTER_HEAD.isOwnBMC
+									,TabDCSCreditNote.CRAmt as CRAmt,TabDCSCreditNote.OBEAmt as OBEAmt,DaysCount.DAYS_Total as DAYS_Total,TABDeduction.CommisiionAmt,TABDeduction.ShareCapitalAmt
                                     from   TSPL_PAYMENT_PROCESS_DETAIL
                                     Inner Join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
 
@@ -78,7 +81,9 @@ Public Class RptDcsPaymentReport
 									 group by VSP_CODE,DOC_DATE
                                     ) XY GROUP BY VSP_CODE) as DaysCount on DaysCount.DOC_CODE= TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
 
-				                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN Amount ELSE 0 END AS PURCHASEEXPENSE,x.InvoiceNo,x.DCSDescription from(
+				                    left outer join (select case when DCSDescription='PURCHASE EXP.' THEN Amount ELSE 0 END AS PURCHASEEXPENSE,
+                                         case when DCSDescription='SHARE CAPITAL' THEN Amount ELSE 0 END AS ShareCapitalAmt,
+                                         x.InvoiceNo,x.DCSDescription from(
 				                    select TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo,TSPL_DCS_ADDITION_DEDUCTION.Description As DCSDescription,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE
 				                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.DCS_Addition_Deduction)x
 				                    ) As TabDCSdrcr on TabDCSdrcr.InvoiceNo = TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
@@ -95,6 +100,20 @@ Public Class RptDcsPaymentReport
 									)x
 				                   ) As TabDCSCreditNote on TabDCSCreditNote.InvoiceNo = TSPL_PAYMENT_PROCESS_DETAIL.AP_Invoice_No 
 									
+                                    LEFT OUTER JOIN (select case when DCSDescription='.Commision' THEN VendorAmt ELSE 0 END AS CommisiionAmt,
+                                    case when DCSDescription='SHARE CAPITAL' THEN VendorAmt 
+                                    ELSE 0 END AS ShareCapitalAmt
+									,Y.Doc_No,Y.DCSDescription 
+									,Y.InvoiceNo,Y.Vendor_CODE from(
+																		SELECT TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No,TSPL_DCS_ADDITION_DEDUCTION.Description as DCSDescription,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+																		TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,
+																		TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No as InvoiceNo ,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE FROM TSPL_PAYMENT_PROCESS_DEDUCTION
+									left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+				                    left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+									)Y) As TABDeduction On TABDeduction.Vendor_CODE = TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE and TABDeduction.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+
+
 				                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_CODE=TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code
 				                    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code
 				                    Where convert(date, TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103)>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'   
@@ -237,6 +256,14 @@ Public Class RptDcsPaymentReport
         Gv1.Columns("Saving_Amount").Width = 200
         Gv1.Columns("Saving_Amount").IsVisible = True
 
+        Gv1.Columns("CommissionAmt").HeaderText = "Commission Amount"
+        Gv1.Columns("CommissionAmt").Width = 200
+        Gv1.Columns("CommissionAmt").IsVisible = True
+
+        Gv1.Columns("ShareCapitalAmt").HeaderText = "Share Capital Amount"
+        Gv1.Columns("ShareCapitalAmt").Width = 200
+        Gv1.Columns("ShareCapitalAmt").IsVisible = True
+
         Gv1.Columns("TotalAmt").HeaderText = "Total Amount"
         Gv1.Columns("TotalAmt").Width = 200
         Gv1.Columns("TotalAmt").IsVisible = True
@@ -277,6 +304,10 @@ Public Class RptDcsPaymentReport
         summaryRowItem.Add(item11)
         Dim item12 As New GridViewSummaryItem("OBEAmt", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item12)
+        Dim item13 As New GridViewSummaryItem("CommissionAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item13)
+        Dim item14 As New GridViewSummaryItem("ShareCapitalAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item14)
 
         Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True
