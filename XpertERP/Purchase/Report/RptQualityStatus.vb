@@ -344,7 +344,7 @@ Public Class RptQualityStatus
 
     End Sub
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
-        Dim qry As String = "select Location_Code as Code,Location_Desc  as Name from TSPL_LOCATION_MASTER    "
+        Dim qry As String = "select Location_Code as Code,Location_Desc  as Name from TSPL_LOCATION_MASTER  where Rejected_Type='N'  "
         txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
         FrmPendingRequisitionQty.SetDiplayMember(txtLocation, "Location_Desc", "TSPL_LOCATION_MASTER", "Location_Code")
     End Sub
