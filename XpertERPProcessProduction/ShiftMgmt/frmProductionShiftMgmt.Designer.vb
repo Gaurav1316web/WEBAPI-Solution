@@ -162,7 +162,6 @@ Partial Class frmProductionShiftMgmt
         Me.btnPrintNew.Size = New System.Drawing.Size(69, 22)
         Me.btnPrintNew.TabIndex = 68
         Me.btnPrintNew.Text = "Print"
-        Me.btnPrintNew.Visible = False
         '
         'btnShowInventory
         '
@@ -780,7 +779,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView3.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView3.Name = "RadPageView3"
-        Me.RadPageView3.SelectedPage = Me.RadPageViewPage7
+        Me.RadPageView3.SelectedPage = Me.RadPageViewPage9
         Me.RadPageView3.Size = New System.Drawing.Size(763, 178)
         Me.RadPageView3.TabIndex = 1
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None

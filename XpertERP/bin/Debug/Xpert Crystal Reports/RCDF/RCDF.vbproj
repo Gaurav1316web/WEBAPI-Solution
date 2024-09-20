@@ -1532,6 +1532,7 @@
     <None Include="Crystal Reports\PRODUCTION\crptPPBOMPrint.rpt" />
     <None Include="Crystal Reports\PRODUCTION\crptProductionPlan.rpt" />
     <None Include="Crystal Reports\PRODUCTION\crptProductionUploaderPrint.rpt" />
+    <None Include="Crystal Reports\PRODUCTION\crptShiftManagement.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionIssue.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionRequisition.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionReturn.rpt" />

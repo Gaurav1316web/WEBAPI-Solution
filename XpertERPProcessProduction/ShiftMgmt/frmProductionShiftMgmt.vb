@@ -3215,6 +3215,63 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             'Else
             '    clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
             'End If
+
+            Dim qry As String = " select tspl_company_master.Comp_Name,tspl_company_master.City_Code,convert(varchar,TSPL_SHIFT_MGMT.Document_Date,103) as Date,Shift_Code from TSPL_SHIFT_MGMT  left join tspl_company_master on 1 = 1 where TSPL_SHIFT_MGMT.Document_No = '" & txtDocNo.Value & "'"
+            Dim dt As New DataTable()
+            Dim dtOpening As New DataTable()
+            Dim dtClosing As New DataTable()
+            Dim dtReceipt As New DataTable()
+            Dim dtDisposal As New DataTable()
+            dt = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select TSPL_SHIFT_MGMT_OPEN.Location_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_OPEN.Item_Code,	isnull(Qty_KG,0)Qty_KG	,isnull(Qty_LTR,0)Qty_LTR,	isnull(FAT,0) as FAT,	ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(FAT_KG,0)FAT_KG,isnull(SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,TSPL_SHIFT_MGMT_OPEN.Remarks from TSPL_SHIFT_MGMT_OPEN left outer join TSPL_SHIFT_MGMT on TSPL_SHIFT_MGMT.Document_No = TSPL_SHIFT_MGMT_OPEN.Document_No
+        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_OPEN.Item_Code where TSPL_SHIFT_MGMT.Document_No = '" & txtDocNo.Value & "' "
+            dtOpening = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_PRODUCTION.Item_Code,isnull(Qty_KG,0)Qty_KG,isnull(Qty_LTR,0)Qty_LTR,	isnull(FAT,0) as FAT,	ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(FAT_KG,0)FAT_KG,isnull(SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,TSPL_SHIFT_MGMT_PRODUCTION.Remarks from TSPL_SHIFT_MGMT_PRODUCTION left outer join TSPL_SHIFT_MGMT on TSPL_SHIFT_MGMT.Document_No = TSPL_SHIFT_MGMT_PRODUCTION.Document_No
+        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_PRODUCTION.Item_Code where TSPL_SHIFT_MGMT.Document_No = '" & txtDocNo.Value & "'"
+            qry += "" & Environment.NewLine & " union all select TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Item_Code,isnull(Qty_KG,0)Qty_KG,isnull(Qty_LTR,0)Qty_LTR,isnull(FAT,0) as FAT,ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.FAT_KG,0)FAT_KG,isnull(TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,(case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispatchBS' then TSPL_CUSTOMER_MASTER.Customer_Name else (case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='MilkTransferJobWork' then TabJobLocation.Location_Desc else '' end) end) as Remarks from TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type=TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Trans_Type
+        left outer join TSPL_DISPATCH_BULKSALE on TSPL_DISPATCH_BULKSALE.Document_No=TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DISPATCH_BULKSALE.Customer_Code left outer join TSPL_MILK_JOBWORK_TRANSFER_HEAD on TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Code=TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No left outer join TSPL_LOCATION_MASTER as TabJobLocation on TabJobLocation.Location_Code=TSPL_MILK_JOBWORK_TRANSFER_HEAD.JobWork_location
+        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Item_Code where TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Document_No = '" & txtDocNo.Value & "' and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('DispatchBS','MilkTransferJobWork') and TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'"
+            dtDisposal = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Reject_Type as Vendor,TSPL_ITEM_MASTER.Short_Description,	TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Item_Code,	isnull(Qty_KG,0)Qty_KG	,isnull(Qty_LTR,0)Qty_LTR,	isnull(FAT,0) as FAT,	ISNULL(SNF,0) AS SNF,0 AS Acidity,0 AS Temp,isnull(FAT_KG,0)FAT_KG,isnull(SNF_KG,0)SNF_KG, '' as  COB,'' as Alcohol_Test,TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Remarks from TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK left outer join TSPL_SHIFT_MGMT on TSPL_SHIFT_MGMT.Document_No = TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Document_No
+        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Item_Code union all select case when Against_Adjustment is null and Tspl_Gate_Entry_Details.Doc_Type = 'MccProc' then TSPL_BULK_ROUTE_MASTER.ROUTE_NAME  when Against_Adjustment is null and Tspl_Gate_Entry_Details.Doc_Type = 'BulkProc' then TSPL_VENDOR_MASTER.Vendor_Name when Against_Adjustment is not null then 'SMP Sweeping RECONST.' end as Vendor,TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Item_Code,isnull(Qty_KG,0)Qty_KG,isnull(Qty_LTR,0)Qty_LTR,
+        isnull(FAT,0) as FAT,ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.FAT_KG,0)FAT_KG	,isnull(TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Remarks from TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Item_Code left outer join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Receipt_Challan_No = TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Against_MilkTransferIn
+        left outer join TSPL_Bulk_MILK_SRN on TSPL_Bulk_MILK_SRN.SRN_NO = TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Against_BulkMilkSRN left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Gate_Entry_No = TSPL_Bulk_MILK_SRN.Gate_Entry_No or TSPL_MILK_TRANSFER_IN.Gate_Entry_no = Tspl_Gate_Entry_Details.Gate_Entry_No left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = Tspl_Gate_Entry_Details.Vendor_Code left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.Route_No = Tspl_Gate_Entry_Details.ROUTE_NO where Document_No = '" & txtDocNo.Value & "' "
+            dtReceipt = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select TSPL_SHIFT_MGMT_CLOSE.Location_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_CLOSE.Item_Code,isnull(Qty_KG,0)Qty_KG	,isnull(Qty_LTR,0)Qty_LTR,isnull(FAT,0) as FAT,ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(FAT_KG,0)FAT_KG,isnull(SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,TSPL_SHIFT_MGMT_CLOSE.Remarks from TSPL_SHIFT_MGMT_CLOSE  LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_CLOSE.Item_Code
+       where TSPL_SHIFT_MGMT_CLOSE.Document_No = '" & txtDocNo.Value & "'"
+            dtClosing = clsDBFuncationality.GetDataTable(qry)
+
+            If dt.Rows.Count > 0 Then
+                If dtOpening.Rows.Count > dtDisposal.Rows.Count Then
+                    For ii As Integer = 1 To dtOpening.Rows.Count - dtDisposal.Rows.Count
+                        dtDisposal.Rows.Add()
+                    Next
+                ElseIf dtDisposal.Rows.Count > dtOpening.Rows.Count Then
+                    For ii As Integer = 1 To dtDisposal.Rows.Count - dtOpening.Rows.Count
+                        dtOpening.Rows.Add()
+                    Next
+                End If
+
+                If dtReceipt.Rows.Count > dtClosing.Rows.Count Then
+                    For ii As Integer = 1 To dtReceipt.Rows.Count - dtClosing.Rows.Count
+                        dtClosing.Rows.Add()
+                    Next
+                ElseIf dtClosing.Rows.Count > dtReceipt.Rows.Count Then
+                    For ii As Integer = 1 To dtClosing.Rows.Count - dtReceipt.Rows.Count
+                        dtReceipt.Rows.Add()
+                    Next
+                End If
+            End If
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(CrystalReportFolder.PRODUCTION, dt, dtOpening, "crptShiftManagement", "ShiftReport", "rptOpeningShiftMngmnt", "rptSubReceiptShiftDispatchIssue", dtDisposal, "rptSubReceiptShiftBulkMilk", dtReceipt, "rptSubShiftClosingBal", dtClosing)
+            Else
+                common.clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
