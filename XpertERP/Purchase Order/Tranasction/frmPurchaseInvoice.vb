@@ -5083,6 +5083,8 @@ Public Class frmPurchaseInvoice
             btnDelete.Enabled = True
             isInsideLoadData = True
             isNewEntry = False
+            btncancel.Enabled = True
+
             btnSave.Text = "Update"
             BlankAllControls()
             LoadBlankGrid()
@@ -5103,13 +5105,14 @@ Public Class frmPurchaseInvoice
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btncancel.Enabled = True
-                    btncancel.Visible = True
+                    'btncancel.Visible = True
+                    btncancel.Enabled = True
 
                 Else
                     btnprintjvl.Enabled = False
                     btncancel.Enabled = False
                 End If
-                btncancel.Visible = True
+                'btncancel.Visible = True
 
                 chkJobWorkOutward.Checked = IIf(obj.isJobWorkOutward = 1, True, False)
                 cmbDocType.SelectedValue = obj.Document_Type
@@ -5960,7 +5963,7 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
             ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
             PostData()
         Catch ex As Exception
-        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub PostData()
