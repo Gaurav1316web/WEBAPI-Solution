@@ -693,7 +693,6 @@ Partial Class frmProductionShiftMgmt
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.gvRecPlant)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(742, 130)
@@ -728,7 +727,6 @@ Partial Class frmProductionShiftMgmt
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.gvRecBulk)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(108.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(742, 130)
@@ -779,7 +777,7 @@ Partial Class frmProductionShiftMgmt
         Me.RadPageView3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView3.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView3.Name = "RadPageView3"
-        Me.RadPageView3.SelectedPage = Me.RadPageViewPage9
+        Me.RadPageView3.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView3.Size = New System.Drawing.Size(763, 178)
         Me.RadPageView3.TabIndex = 1
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None

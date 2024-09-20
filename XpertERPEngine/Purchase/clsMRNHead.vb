@@ -349,7 +349,7 @@ Public Class clsMRNHead
             clsCommon.AddColumnsForChange(coll, "Against_RGP_No", obj.Against_RGP_No, True)
             clsCommon.AddColumnsForChange(coll, "Terms_Code", obj.Terms_Code)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
-            clsCommon.AddColumnsForChange(coll, "isHighClass", obj.isHighClass)
+            'clsCommon.AddColumnsForChange(coll, "isHighClass", obj.isHighClass)
             If isamendment Then
                 Dim AmendmentCode As String = Nothing
                 AmendmentCode = obj.MRN_No + "$" + clsCommon.myCstr(obj.Amendment_No + 1)
@@ -619,7 +619,6 @@ Public Class clsMRNHead
             obj.Total_Add_Charge_Insurance = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge_Insurance"))
             obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Item_Insurance_Amt"))
             obj.Nir_QC = clsCommon.myCdbl(dt.Rows(0)("NIR_QC"))
-            obj.isHighClass = clsCommon.myCdbl(dt.Rows(0)("isHighClass"))
             Dim Sum_Max As String = String.Empty
             If clsFixedParameter.GetData(clsFixedParameterType.ShowQtySum_in_GRN_MRN_SRN, clsFixedParameterCode.ShowQtySum_in_GRN_MRN_SRN, trans) = "1" Then
                 Sum_Max = "Sum"
@@ -773,7 +772,7 @@ Public Class clsMRNHead
                     objTr.Item_Insurance_Rate = clsCommon.myCdbl(dr("Item_Insurance_Rate"))
                     objTr.Item_Insurance_Amt = clsCommon.myCdbl(dr("Item_Insurance_Amt"))
                     objTr.Item_Amt_After_Insurance = clsCommon.myCdbl(dr("Item_Amt_After_Insurance"))
-
+                    objTr.isHighClass = clsCommon.myCdbl(dr("isHighClass"))
                     obj.Arr.Add(objTr)
                 Next
 
@@ -1329,6 +1328,7 @@ Public Class clsMRNDetail
     Public Item_Insurance_Rate As Decimal = 0
     Public Item_Insurance_Amt As Decimal = 0
     Public Item_Amt_After_Insurance As Decimal = 0
+    Public isHighClass As Integer = 0
 
 #End Region
 
@@ -1345,7 +1345,7 @@ Public Class clsMRNDetail
                 clsCommon.AddColumnsForChange(coll, "Row_Type", obj.Row_Type)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Item_Desc", obj.Item_Desc)
-                If isHighClass > 0 Then
+                If isHighClass > 0 AndAlso obj.isHighClass > 0 Then
                     clsCommon.AddColumnsForChange(coll, "MRN_Qty", obj.MRN_Qty)
                     clsCommon.AddColumnsForChange(coll, "Leak_Qty", 0)
                     clsCommon.AddColumnsForChange(coll, "Burst_Qty", 0)
@@ -1481,7 +1481,7 @@ Public Class clsMRNDetail
                 clsCommon.AddColumnsForChange(coll, "Item_Insurance_Rate", obj.Item_Insurance_Rate)
                 clsCommon.AddColumnsForChange(coll, "Item_Insurance_Amt", obj.Item_Insurance_Amt)
                 clsCommon.AddColumnsForChange(coll, "Item_Amt_After_Insurance", obj.Item_Amt_After_Insurance)
-
+                clsCommon.AddColumnsForChange(coll, "isHighClass", obj.isHighClass)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MRN_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If

@@ -385,7 +385,8 @@ And TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & " " & whrclsShift & "  "
         End If
         qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,'" + Shift + "' AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_ITEM_MASTER.Item_Desc,
 TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
-         TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty as CRATE,
+         TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,
+                    Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,
 		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,
 		 0 AS Receipt_Amount 
 FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL 

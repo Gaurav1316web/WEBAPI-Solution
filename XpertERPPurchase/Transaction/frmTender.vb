@@ -91,7 +91,6 @@ Public Class frmTender
         AddNew()
         isPageLoadData = False
         Cancel_btn.Enabled = False
-
     End Sub
     Sub LoadTenderOn()
         Dim dt As DataTable = New DataTable()
@@ -497,7 +496,7 @@ Public Class frmTender
         AddNew()
     End Sub
     Sub AddNew()
-
+        chkMonthEndDate.Checked = True
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtScheduleStartDate.Value = txtDate.Value
         BlankAllControls()
@@ -1752,9 +1751,25 @@ Public Class frmTender
                                 gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
                                 gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
                                 gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
+                                Dim fromDate As Date = clsCommon.myCDate(dtRunningDate)
                                 dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
-                                dtRunningDate = dtRunningDate.AddDays(1)
+                                If chkMonthEndDate.Checked Then
+                                    Dim endDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("SELECT EOMONTH(convert(Date,'" + fromDate + "',103)) AS LastDayOfMonth"))
+                                    Dim dayCount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select DATEDIFF(DAY,Convert(Date,'" + dtRunningDate + "',103),convert(Date,'" + endDate + "',103))"))
+                                    If dayCount > 0 AndAlso dayCount < 2 Then
+                                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
+                                        dtRunningDate = endDate.AddDays(1)
+                                    ElseIf dayCount < 0 AndAlso dayCount > -2 Then
+                                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
+                                        dtRunningDate = endDate.AddDays(1)
+                                    Else
+                                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                        dtRunningDate = dtRunningDate.AddDays(1)
+                                    End If
+                                Else
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                    dtRunningDate = dtRunningDate.AddDays(1)
+                                End If
                                 gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colLineNo).Value)
                                 gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
                                 gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVName).Value)
@@ -1924,7 +1939,7 @@ Public Class frmTender
                     isCellValueChangedOpen = True
                     If e.Column Is gvSchedule.Columns(colScheduleToDate) Then
                         If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
-                            Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PK_Id from (select ROW_NUMBER() over (Partition by Item_Code order by PK_Id) as SNO, * from TSPL_ITEM_SCHEDULE where Item_Code= '" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleICode).Value) + "' )xx where SNO=" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleSNo).Value) + ""))
+                            Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PK_Id from (select ROW_NUMBER() over (Partition by Item_Code order by PK_Id) as SNO, * from TSPL_ITEM_SCHEDULE where Item_Code= '" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleICode).Value) + "' )xx where SNO=" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleNo).Value) + ""))
                             If clsCommon.myLen(PKID) > 0 Then
                                 Dim Arr As List(Of clsItemSchedulePenalty) = clsItemSchedulePenalty.GetData(PKID, Nothing)
                                 gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = SetSchedulePenalty(Arr, clsCommon.myCDate(gvSchedule.CurrentRow.Cells(colScheduleToDate).Value).AddDays(1))
