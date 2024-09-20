@@ -1891,7 +1891,7 @@ Public Class frmStanderdProductionEntry
     End Sub
     Private Sub txtLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtLocation._MYValidating
         Try
-            Dim WhrCls As String = " Location_Type='Physical'  "
+            Dim WhrCls As String = " Location_Type='Physical'  and  Rejected_Type='N'"
             If clsCommon.myLen(arrLoc) > 0 Then
                 WhrCls += "  and  Location_Code in (" + arrLoc + ")"
             End If
@@ -2693,7 +2693,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
     Private Sub txtConsmLocOther__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtConsmLocOther._MYValidating
         'Dim WhrCls As String = "" '" Location_Type='Physical' "      
         'WhrCls += "(((Is_Section='Y' or Is_Sub_Location='Y') and Main_Location_Code='" & txtLocation.Value & "') or Location_Code='" & txtLocation.Value & "' )"
-        Dim WhrCls As String = " Location_Type='Physical'  "
+        Dim WhrCls As String = " Location_Type='Physical' and Rejected_Type='N' "
         If clsCommon.myLen(arrLoc) > 0 Then
             WhrCls += "  and  Location_Code in (" + arrLoc + ")"
         End If

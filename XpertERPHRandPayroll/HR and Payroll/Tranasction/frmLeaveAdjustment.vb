@@ -333,6 +333,7 @@ Public Class frmLeaveAdjustment
         Else
             whrcls = "  Emp_Status<>'Inactive'"
         End If
+        whrcls = " Rejected_Type='N'"
         Dim qry As String = " select EMP_CODE as LVADJUSTMENT_CODE,  Emp_Name as Name, LOCATION_CODE As 'LOCATION CODE' from TSPL_EMPLOYEE_MASTER "
         txtEmpCode.Value = clsCommon.ShowSelectForm("EMP_FND", qry, "LVADJUSTMENT_CODE", whrcls, txtEmpCode.Value, "EMP_CODE", isButtonClicked)
         lblEmpName.Text = clsEmployeeMaster.GetName(txtEmpCode.Value, Nothing)
@@ -387,6 +388,8 @@ Public Class frmLeaveAdjustment
                     whrcls = " LOCATION_CODE='" + LocCode + "'"
                 End If
             End If
+
+            whrcls = " Rejected_Type='N'"
             Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
             ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)

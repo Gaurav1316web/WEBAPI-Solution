@@ -614,10 +614,10 @@ Public Class frmShipmentDairy
             txtSupplyDate.Value = Supplydate
             txtDate.Value = Supplydate
         End If
-        If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
-            cmbShift.SelectedValue = Shifttype
-        ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
-            cmbShift.SelectedValue = Shifttype
+        If clsCommon.CompairString(Shifttype, "Morning") = CompairStringResult.Equal Then
+            cmbShift.SelectedValue = "AM"
+        ElseIf clsCommon.CompairString(Shifttype, "Evening") = CompairStringResult.Equal Then
+            cmbShift.SelectedValue = "PM"
         End If
         If clsCommon.CompairString(IsTaxable, "0") = CompairStringResult.Equal Then
             cmbDisItemType.SelectedValue = "NT"

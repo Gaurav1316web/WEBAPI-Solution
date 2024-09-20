@@ -29,6 +29,8 @@ Public Class frmProductionShiftMgmt
     Const ColRecPlantSNo As String = "ColRecPlantSNo"
     Const ColRecPlantShift As String = "ColRecPlantShift"
     Const ColRecPlantRejectType As String = "ColRecPlantRejectType"
+    Const ColRecPlantLocationCode As String = "ColRecPlantLocationCode"
+    Const ColRecPlantLocationName As String = "ColRecPlantLocationName"
     Const ColRecPlantItemCode As String = "ColRecPlantItemCode"
     Const ColRecPlantItemName As String = "ColRecPlantItemName"
     Const ColRecPlantQtyLtr As String = "ColRecPlantQtyLtr"
@@ -47,6 +49,8 @@ Public Class frmProductionShiftMgmt
     Const ColRecBulkTankerNo As String = "ColRecBulkTankerNo"
     Const ColRecBulkReciveFrom As String = "ColRecBulkReciveFrom"
     Const ColRecBulkReciveFromName As String = "ColRecBulkReciveFromName"
+    Const ColRecBulkLocationCode As String = "ColRecBulkLocationCode"
+    Const ColRecBulkLocationName As String = "ColRecBulkLocationName"
     Const ColRecBulkItemCode As String = "ColRecBulkItemCode"
     Const ColRecBulkItemName As String = "ColRecBulkItemName"
     Const ColRecBulkQtyLtr As String = "ColRecBulkQtyLtr"
@@ -65,6 +69,7 @@ Public Class frmProductionShiftMgmt
     Const ColProSNo As String = "ColProSNo"
     Const ColProItemCode As String = "ColProItemCode"
     Const ColProItemName As String = "ColProItemName"
+    Const ColProBatchNo As String = "ColProBatchNo"
     Const ColProQtyKG As String = "ColProQtyKG"
     Const ColProQtyLTR As String = "ColProQtyLTR"
     Const ColProFAT As String = "ColProFAT"
@@ -190,6 +195,7 @@ Public Class frmProductionShiftMgmt
         coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
         coll.Add("Shift", "char(1) not null")
         coll.Add("Reject_Type", "Varchar(30) null")
+        coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
         coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Qty_KG", "Decimal(18,2) null")
         coll.Add("Qty_LTR", "Decimal(18,2) null")
@@ -207,6 +213,7 @@ Public Class frmProductionShiftMgmt
         coll.Add("Against_MilkTransferIn", "Varchar(30) null references TSPL_MILK_TRANSFER_IN(Receipt_Challan_No)")
         coll.Add("Against_BulkMilkSRN", "Varchar(30) null references TSPL_Bulk_MILK_SRN(SRN_NO)")
         coll.Add("Against_Adjustment", "Varchar(30) null references TSPL_ADJUSTMENT_HEADER(Adjustment_No)")
+        coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
         coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Qty_KG", "Decimal(18,2) null")
         coll.Add("Qty_LTR", "Decimal(18,2) null")
@@ -227,6 +234,7 @@ Public Class frmProductionShiftMgmt
         coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
         coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Batch_No", "Varchar(50) null")
         coll.Add("Qty_KG", "Decimal(18,2) null")
         coll.Add("Qty_LTR", "Decimal(18,2) null")
         coll.Add("FAT", "Decimal(18,2) null")
@@ -390,7 +398,7 @@ cast( TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG as decimal(18,3)) as Fat_KG ,cast(TSPL_
  from TSPL_INVENTORY_MOVEMENT_NEW 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT_NEW.Location_Code
-where TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_LOCATION_MASTER.Main_Location_Code='" + txtLocation.Value + "' and Punching_Date<'" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm tt") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
+where TSPL_ITEM_MASTER.Product_Type='MI' and TSPL_LOCATION_MASTER.Main_Location_Code='" + txtLocation.Value + "' and isnull(TSPL_LOCATION_MASTER.csa_type,'N')<>'Y' and isnull(TSPL_LOCATION_MASTER.Is_Section,'N')<>'Y'  and TSPL_LOCATION_MASTER.Location_Category<>'MCC' and  isnull(TSPL_LOCATION_MASTER.Is_Jobwork,0)=0 and isnull(TSPL_LOCATION_MASTER.GIT_Type,'N')='N' and Punching_Date<'" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm tt") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
 )xx group by Location_Code,Item_Code,Stock_UOM
 )xxx 
 left outer join TSPL_ITEM_UOM_DETAIL as TabUOMLTR on TabUOMLTR.Item_Code=xxx.Item_Code and TabUOMLTR.UOM_Code='LTR'
@@ -431,16 +439,16 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
                     gvCL.Columns(colCLOPSNFKG).FieldName = "SNF_KG"
                 End If
 
-                qry = "select ROW_NUMBER() OVER(ORDER BY SHIFT,Reject_Type,Item_Code) AS SNo, xxxx.*,case when Stock_Qty_KG>0 then cast((Fat_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end FAT,case when Stock_Qty_KG>0 then cast((SNF_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end SNF from (
-select xxx.SHIFT,xxx.Reject_Type,xxx.Item_Code,xxx.Item_Desc
+                qry = "select ROW_NUMBER() OVER(ORDER BY xxxx.SHIFT,xxxx.Reject_Type,xxxx.Location_Code,xxxx.Item_Code) AS SNo, xxxx.*,case when Stock_Qty_KG>0 then cast((Fat_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end FAT,case when Stock_Qty_KG>0 then cast((SNF_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end SNF,TSPL_LOCATION_MASTER.Location_Desc from (
+select xxx.SHIFT,xxx.Reject_Type,xxx.Location_Code,xxx.Item_Code,xxx.Item_Desc
 ,case when xxx.Stock_UOM='LTR' then xxx.Stock_Qty else xxx.Stock_Qty/TabUOMLTR.Conversion_Factor end as Stock_Qty_LTR
 ,case when xxx.Stock_UOM='KG' then xxx.Stock_Qty else xxx.Stock_Qty/TabUOMKG.Conversion_Factor end as Stock_Qty_KG
 ,xxx.Fat_KG,xxx.SNF_KG  from (
-select SHIFT,Reject_Type,Item_Code,max(Item_Desc) as Item_Desc,sum(Stock_Qty*RI) as Stock_Qty,Stock_UOM,sum(Fat_KG*RI) as Fat_KG,sum(SNF_KG*RI) as SNF_KG from (
+select SHIFT,Reject_Type,Location_Code,Item_Code,max(Item_Desc) as Item_Desc,sum(Stock_Qty*RI) as Stock_Qty,Stock_UOM,sum(Fat_KG*RI) as Fat_KG,sum(SNF_KG*RI) as SNF_KG from (
 select * from (
 select case when TSPL_MILK_SRN_HEAD.SHIFT='M' then  cast( replace(convert(varchar,TSPL_INVENTORY_MOVEMENT_NEW.Punching_Date,106),' ','/') +' '+TSPL_MCC_MASTER.Shift_Closing_Time as datetime)  else cast( replace( convert(varchar,TSPL_INVENTORY_MOVEMENT_NEW.Punching_Date,106),' ','/') +' '+TSPL_MCC_MASTER.Shift_Eve_Closing_Time as datetime) end as MCC_Shift_Time,
 TSPL_MILK_SRN_HEAD.SHIFT,isnull((case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type else TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type end),'Good') as Reject_Type,TSPL_INVENTORY_MOVEMENT_NEW.Punching_Date,TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,TSPL_ITEM_MASTER.Item_Desc,case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='I' then 1 else -1 end as RI,TSPL_INVENTORY_MOVEMENT_NEW.Avg_Cost,TSPL_INVENTORY_MOVEMENT_NEW.Stock_Qty,TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM,
-cast( TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG as decimal(18,3)) as Fat_KG ,cast(TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG as decimal(18,3)) as SNF_KG
+cast( TSPL_INVENTORY_MOVEMENT_NEW.Fat_KG as decimal(18,3)) as Fat_KG ,cast(TSPL_INVENTORY_MOVEMENT_NEW.SNF_KG as decimal(18,3)) as SNF_KG,TSPL_INVENTORY_MOVEMENT_NEW.Location_Code
  from TSPL_INVENTORY_MOVEMENT_NEW 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code
 inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
@@ -452,12 +460,14 @@ where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type ='MCC-MSRN' and TSPL_MCC_MASTER.MCC
 and  TSPL_ITEM_MASTER.Product_Type='MI' and convert(date, Punching_Date)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and TSPL_INVENTORY_MOVEMENT_NEW.Stock_UOM in ('LTR','KG')
 ) xx where  2=(case when MCC_Shift_Time>='" + clsCommon.GetPrintDate(txtShiftStart.Value, "dd/MMM/yyyy hh:mm:ss tt") + "' and MCC_Shift_Time<='" + clsCommon.GetPrintDate(txtShiftEnd.Value, "dd/MMM/yyyy hh:mm:ss tt") + "' then 2 else 3 end )
 )x
-group by SHIFT,Reject_Type,Item_Code,Stock_UOM
+group by SHIFT,Reject_Type,Item_Code,Stock_UOM,Location_Code
 ) xxx 
 left outer join TSPL_ITEM_UOM_DETAIL as TabUOMLTR on TabUOMLTR.Item_Code=xxx.Item_Code and TabUOMLTR.UOM_Code='LTR'
 left outer join TSPL_ITEM_UOM_DETAIL as TabUOMKG on TabUOMKG.Item_Code=xxx.Item_Code and TabUOMKG.UOM_Code='KG'
 where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
-)xxxx"
+)xxxx
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=xxxx.Location_Code
+"
                 dt = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     gvRecPlant.DataSource = Nothing
@@ -466,6 +476,8 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
                     gvRecPlant.Columns(ColRecPlantSNo).FieldName = "SNo"
                     gvRecPlant.Columns(ColRecPlantShift).FieldName = "SHIFT"
                     gvRecPlant.Columns(ColRecPlantRejectType).FieldName = "Reject_Type"
+                    gvRecPlant.Columns(ColRecPlantLocationCode).FieldName = "Location_Code"
+                    gvRecPlant.Columns(ColRecPlantLocationName).FieldName = "Location_Desc"
                     gvRecPlant.Columns(ColRecPlantItemCode).FieldName = "Item_Code"
                     gvRecPlant.Columns(ColRecPlantItemName).FieldName = "Item_Desc"
                     gvRecPlant.Columns(ColRecPlantQtyLtr).FieldName = "Stock_Qty_LTR"
@@ -479,7 +491,7 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
 
 
                 qry = "select ROW_NUMBER() OVER(ORDER BY Trans_Type,Source_Doc_No) AS SNo,xxxx.*,case when Stock_Qty_KG>0 then cast((Fat_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end FAT,case when Stock_Qty_KG>0 then cast((SNF_KG*100/Stock_Qty_KG) as decimal(18,2)) else 0 end SNF from (
-select xxx.Trans_Type,xxx.Trans_Name,xxx.Source_Doc_No,xxx.Tanker_No, xxx.ReciveFrom,xxx.ReciveFromName,xxx.Item_Code,xxx.Item_Desc
+select xxx.Trans_Type,xxx.Trans_Name,xxx.Source_Doc_No,xxx.Tanker_No, xxx.ReciveFrom,xxx.ReciveFromName,xxx.Location_Code,xxx.Location_Desc,xxx.Item_Code,xxx.Item_Desc
 ,case when xxx.Stock_UOM='LTR' then xxx.Stock_Qty else cast(xxx.Stock_Qty/TabUOMLTR.Conversion_Factor as decimal(18,2)) end as Stock_Qty_LTR
 ,case when xxx.Stock_UOM='KG' then xxx.Stock_Qty else cast(xxx.Stock_Qty/TabUOMKG.Conversion_Factor as decimal(18,2)) end as Stock_Qty_KG
 ,xxx.Fat_KG,xxx.SNF_KG  from (
@@ -519,6 +531,8 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
                     gvRecBulk.Columns(ColRecBulkTankerNo).FieldName = "Tanker_No"
                     gvRecBulk.Columns(ColRecBulkReciveFrom).FieldName = "ReciveFrom"
                     gvRecBulk.Columns(ColRecBulkReciveFromName).FieldName = "ReciveFromName"
+                    gvRecBulk.Columns(ColRecBulkLocationCode).FieldName = "Location_Code"
+                    gvRecBulk.Columns(ColRecBulkLocationName).FieldName = "Location_Desc"
                     gvRecBulk.Columns(ColRecBulkItemCode).FieldName = "Item_Code"
                     gvRecBulk.Columns(ColRecBulkItemName).FieldName = "Item_Desc"
                     gvRecBulk.Columns(ColRecBulkQtyLtr).FieldName = "Stock_Qty_LTR"
@@ -910,6 +924,25 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
 
         repoTextBox = New GridViewTextBoxColumn()
         repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Location Code"
+        repoTextBox.Name = ColRecPlantLocationCode
+        repoTextBox.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = False
+        gvRecPlant.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Location"
+        repoTextBox.Name = ColRecPlantLocationName
+        repoTextBox.Width = 150
+        repoTextBox.ReadOnly = True
+        gvRecPlant.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
         repoTextBox.HeaderText = "Item Code"
         repoTextBox.Name = ColRecPlantItemCode
         repoTextBox.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
@@ -1119,6 +1152,25 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         repoTextBox.Width = 100
         repoTextBox.ReadOnly = True
         repoTextBox.IsVisible = True
+        gvRecBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Location Code"
+        repoTextBox.Name = ColRecBulkLocationCode
+        repoTextBox.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = False
+        gvRecBulk.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Location"
+        repoTextBox.Name = ColRecBulkLocationName
+        repoTextBox.Width = 150
+        repoTextBox.ReadOnly = True
         gvRecBulk.MasterTemplate.Columns.Add(repoTextBox)
 
         repoTextBox = New GridViewTextBoxColumn()
@@ -1342,6 +1394,15 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         repoTextBox.Name = ColProItemName
         repoTextBox.Width = 150
         repoTextBox.ReadOnly = True
+        gvPro.MasterTemplate.Columns.Add(repoTextBox)
+
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Batch No"
+        repoTextBox.Name = ColProBatchNo
+        repoTextBox.Width = 100
+        repoTextBox.IsVisible = True
         gvPro.MasterTemplate.Columns.Add(repoTextBox)
 
         repoNumBox = New GridViewDecimalColumn()
@@ -2344,7 +2405,7 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
             End If
             gvPro.CurrentRow.Cells(ColProBOMCode).Value = clsCommon.myCstr(dt.Rows(0)("BOM_CODE"))
 
-            qry = "select xx.ITEM_CODE,xx.Item_Desc,xx.Item_Type,xx.UNIT_CODE,xx.Product_Type,(xx.prod_qty * (xx.quantity/xx.build_qty)) as Qty,xx.fat,xx.snf,xx.fat_kg,xx.snf_kg from (
+            qry = "select xx.ITEM_CODE,xx.Item_Desc,xx.Item_Type,xx.UNIT_CODE,xx.Product_Type,(xx.prod_qty * (xx.quantity/xx.build_qty)) as Qty,xx.fat,xx.snf,(xx.fat_kg*xx.Prod_Qty/xx.build_qty) as fat_kg,(xx.snf_kg*xx.prod_qty/xx.build_qty) as snf_kg from (
 select  (" + clsCommon.myCstr(clsCommon.myCDecimal(gvPro.CurrentRow.Cells(strColumn).Value)) + " * TabConvFatMul.Conversion_Factor/ TabConvFatDiv.Conversion_Factor) as Prod_Qty,tspl_pp_bom_head.bom_code,tspl_pp_bom_head.prod_item_code,tspl_pp_bom_head.prod_quantity as build_qty,TSPL_PP_BOM_ITEM_DETAIL.deactive,TSPL_PP_BOM_ITEM_DETAIL.effective_date
 ,TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Type,TSPL_PP_BOM_ITEM_DETAIL.UNIT_CODE,TSPL_ITEM_MASTER.Product_Type
 ,(TSPL_PP_BOM_ITEM_DETAIL.QUANTITY+TSPL_PP_BOM_ITEM_DETAIL.QUANTITY*coalesce(TSPL_PP_BOM_ITEM_DETAIL.ProcessLossPer,0)/100) as QUANTITY
@@ -2407,7 +2468,7 @@ where  TSPL_PP_BOM_HEAD.BOM_CODE='" + clsCommon.myCstr(gvPro.CurrentRow.Cells(Co
     Sub CalcuateProuctionRawMilk()
         LoadBlankGridProRM()
         For ii As Integer = 0 To gvPro.Rows.Count - 1
-            Dim ArrRM As List(Of clsProductionShiftMgmtProductionRM) = TryCast(gvPro.CurrentRow.Cells(ColProBOMCode).Tag, List(Of clsProductionShiftMgmtProductionRM))
+            Dim ArrRM As List(Of clsProductionShiftMgmtProductionRM) = TryCast(gvPro.Rows(ii).Cells(ColProBOMCode).Tag, List(Of clsProductionShiftMgmtProductionRM))
             If ArrRM IsNot Nothing AndAlso ArrRM.Count > 0 Then
                 For Each objtr As clsProductionShiftMgmtProductionRM In ArrRM
                     Dim idx As Integer = -1
@@ -2495,6 +2556,7 @@ where  TSPL_PP_BOM_HEAD.BOM_CODE='" + clsCommon.myCstr(gvPro.CurrentRow.Cells(Co
 
         '    End If
         'Next
+        CalculateClosing()
         Return True
     End Function
     Private Sub RadMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -2634,6 +2696,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         Dim objTr As New clsProductionShiftMgmtReceiptPlantMilk()
                         objTr.Shift = clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantShift).Value)
                         objTr.Reject_Type = clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantRejectType).Value)
+                        objTr.Location_Code = clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantLocationCode).Value)
                         objTr.Item_Code = clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantItemCode).Value)
                         objTr.Qty_KG = clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantQtyKG).Value)
                         objTr.Qty_LTR = clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantQtyLtr).Value)
@@ -2658,6 +2721,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         ElseIf clsCommon.CompairString(objTr.Trans_Type, "IC-AD") = CompairStringResult.Equal Then
                             objTr.Against_Adjustment = clsCommon.myCstr(gvRecBulk.Rows(ii).Cells(ColRecBulkTranNo).Value)
                         End If
+                        objTr.Location_Code = clsCommon.myCstr(gvRecBulk.Rows(ii).Cells(ColRecBulkLocationCode).Value)
                         objTr.Item_Code = clsCommon.myCstr(gvRecBulk.Rows(ii).Cells(ColRecBulkItemCode).Value)
                         objTr.Qty_KG = clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkQtyKG).Value)
                         objTr.Qty_LTR = clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkQtyLtr).Value)
@@ -2679,6 +2743,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                     If clsCommon.myLen(gvPro.Rows(ii).Cells(ColProItemCode).Value) > 0 Then
                         Dim objTr As New clsProductionShiftMgmtProduction()
                         objTr.Item_Code = clsCommon.myCstr(gvPro.Rows(ii).Cells(ColProItemCode).Value)
+                        objTr.Batch_No = clsCommon.myCstr(gvPro.Rows(ii).Cells(ColProBatchNo).Value)
                         objTr.Qty_KG = clsCommon.myCDecimal(gvPro.Rows(ii).Cells(ColProQtyKG).Value)
                         objTr.Qty_LTR = clsCommon.myCDecimal(gvPro.Rows(ii).Cells(ColProQtyLTR).Value)
                         objTr.FAT = clsCommon.myCDecimal(gvPro.Rows(ii).Cells(ColProFAT).Value)
@@ -2841,6 +2906,8 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvRecPlant.Rows(gvRecPlant.Rows.Count - 1).Cells(ColRecPlantSNo).Value = gvRecPlant.Rows.Count
                         gvRecPlant.Rows(gvRecPlant.Rows.Count - 1).Cells(ColRecPlantShift).Value = objTr.Shift
                         gvRecPlant.Rows(gvRecPlant.Rows.Count - 1).Cells(ColRecPlantRejectType).Value = objTr.Reject_Type
+                        gvRecPlant.Rows(gvRecPlant.Rows.Count - 1).Cells(ColRecPlantLocationCode).Value = objTr.Location_Code
+                        gvRecPlant.Rows(gvRecPlant.Rows.Count - 1).Cells(ColRecPlantLocationName).Value = objTr.Location_Name
                         gvRecPlant.Rows(gvRecPlant.Rows.Count - 1).Cells(ColRecPlantItemCode).Value = objTr.Item_Code
                         gvRecPlant.Rows(gvRecPlant.Rows.Count - 1).Cells(ColRecPlantItemName).Value = objTr.Item_Name
                         gvRecPlant.Rows(gvRecPlant.Rows.Count - 1).Cells(ColRecPlantQtyKG).Value = objTr.Qty_KG
@@ -2859,6 +2926,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkPKID).Value = objTr.PK_ID
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkSNo).Value = gvRecBulk.Rows.Count
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkTranType).Value = objTr.Trans_Type
+                        gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkTranTypeName).Value = objTr.Trans_Name
                         If clsCommon.myLen(objTr.Against_Adjustment) > 0 Then
                             gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkTranNo).Value = objTr.Against_Adjustment
                         ElseIf clsCommon.myLen(objTr.Against_BulkMilkSRN) > 0 Then
@@ -2869,6 +2937,8 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkTankerNo).Value = objTr.TankerNo
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkReciveFrom).Value = objTr.ReciveFrom
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkReciveFromName).Value = objTr.ReciveFromName
+                        gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkLocationCode).Value = objTr.Location_Code
+                        gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkLocationName).Value = objTr.Location_Name
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkItemCode).Value = objTr.Item_Code
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkItemName).Value = objTr.Item_Name
                         gvRecBulk.Rows(gvRecBulk.Rows.Count - 1).Cells(ColRecBulkQtyKG).Value = objTr.Qty_KG
@@ -2891,6 +2961,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProSNo).Value = gvPro.Rows.Count
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProItemCode).Value = objTr.Item_Code
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProItemName).Value = objTr.Item_Name
+                        gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProBatchNo).Value = objTr.Batch_No
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProQtyKG).Value = objTr.Qty_KG
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProQtyLTR).Value = objTr.Qty_LTR
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProFAT).Value = objTr.FAT
@@ -2934,6 +3005,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkPKID).Value = objTr.PK_ID
                         gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkSNo).Value = gvDisBulk.Rows.Count
                         gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkTranType).Value = objTr.Trans_Type
+                        gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkTranTypeName).Value = objTr.Trans_Name
                         If clsCommon.myLen(objTr.Against_BulkDispatch) > 0 Then
                             gvDisBulk.Rows(gvDisBulk.Rows.Count - 1).Cells(colDisBulkTranNo).Value = objTr.Against_BulkDispatch
                         ElseIf clsCommon.myLen(objTr.Against_JWOTransferMilk) > 0 Then
@@ -3156,6 +3228,63 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             'Else
             '    clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
             'End If
+
+            Dim qry As String = " select tspl_company_master.Comp_Name,tspl_company_master.City_Code,convert(varchar,TSPL_SHIFT_MGMT.Document_Date,103) as Date,Shift_Code from TSPL_SHIFT_MGMT  left join tspl_company_master on 1 = 1 where TSPL_SHIFT_MGMT.Document_No = '" & txtDocNo.Value & "'"
+            Dim dt As New DataTable()
+            Dim dtOpening As New DataTable()
+            Dim dtClosing As New DataTable()
+            Dim dtReceipt As New DataTable()
+            Dim dtDisposal As New DataTable()
+            dt = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select TSPL_SHIFT_MGMT_OPEN.Location_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_OPEN.Item_Code,	isnull(Qty_KG,0)Qty_KG	,isnull(Qty_LTR,0)Qty_LTR,	isnull(FAT,0) as FAT,	ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(FAT_KG,0)FAT_KG,isnull(SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,TSPL_SHIFT_MGMT_OPEN.Remarks from TSPL_SHIFT_MGMT_OPEN left outer join TSPL_SHIFT_MGMT on TSPL_SHIFT_MGMT.Document_No = TSPL_SHIFT_MGMT_OPEN.Document_No
+        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_OPEN.Item_Code where TSPL_SHIFT_MGMT.Document_No = '" & txtDocNo.Value & "' "
+            dtOpening = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_PRODUCTION.Item_Code,isnull(Qty_KG,0)Qty_KG,isnull(Qty_LTR,0)Qty_LTR,	isnull(FAT,0) as FAT,	ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(FAT_KG,0)FAT_KG,isnull(SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,TSPL_SHIFT_MGMT_PRODUCTION.Remarks from TSPL_SHIFT_MGMT_PRODUCTION left outer join TSPL_SHIFT_MGMT on TSPL_SHIFT_MGMT.Document_No = TSPL_SHIFT_MGMT_PRODUCTION.Document_No
+        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_PRODUCTION.Item_Code where TSPL_SHIFT_MGMT.Document_No = '" & txtDocNo.Value & "'"
+            qry += "" & Environment.NewLine & " union all select TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Item_Code,isnull(Qty_KG,0)Qty_KG,isnull(Qty_LTR,0)Qty_LTR,isnull(FAT,0) as FAT,ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.FAT_KG,0)FAT_KG,isnull(TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,(case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DispatchBS' then TSPL_CUSTOMER_MASTER.Customer_Name else (case when TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='MilkTransferJobWork' then TabJobLocation.Location_Desc else '' end) end) as Remarks from TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type=TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Trans_Type
+        left outer join TSPL_DISPATCH_BULKSALE on TSPL_DISPATCH_BULKSALE.Document_No=TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DISPATCH_BULKSALE.Customer_Code left outer join TSPL_MILK_JOBWORK_TRANSFER_HEAD on TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Code=TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No left outer join TSPL_LOCATION_MASTER as TabJobLocation on TabJobLocation.Location_Code=TSPL_MILK_JOBWORK_TRANSFER_HEAD.JobWork_location
+        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Item_Code where TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK.Document_No = '" & txtDocNo.Value & "' and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('DispatchBS','MilkTransferJobWork') and TSPL_INVENTORY_MOVEMENT_NEW.InOut='O'"
+            dtDisposal = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Reject_Type as Vendor,TSPL_ITEM_MASTER.Short_Description,	TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Item_Code,	isnull(Qty_KG,0)Qty_KG	,isnull(Qty_LTR,0)Qty_LTR,	isnull(FAT,0) as FAT,	ISNULL(SNF,0) AS SNF,0 AS Acidity,0 AS Temp,isnull(FAT_KG,0)FAT_KG,isnull(SNF_KG,0)SNF_KG, '' as  COB,'' as Alcohol_Test,TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Remarks from TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK left outer join TSPL_SHIFT_MGMT on TSPL_SHIFT_MGMT.Document_No = TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Document_No
+        LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_RECEIPT_PLANT_MILK.Item_Code union all select case when Against_Adjustment is null and Tspl_Gate_Entry_Details.Doc_Type = 'MccProc' then TSPL_BULK_ROUTE_MASTER.ROUTE_NAME  when Against_Adjustment is null and Tspl_Gate_Entry_Details.Doc_Type = 'BulkProc' then TSPL_VENDOR_MASTER.Vendor_Name when Against_Adjustment is not null then 'SMP Sweeping RECONST.' end as Vendor,TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Item_Code,isnull(Qty_KG,0)Qty_KG,isnull(Qty_LTR,0)Qty_LTR,
+        isnull(FAT,0) as FAT,ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.FAT_KG,0)FAT_KG	,isnull(TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Remarks from TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Item_Code left outer join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Receipt_Challan_No = TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Against_MilkTransferIn
+        left outer join TSPL_Bulk_MILK_SRN on TSPL_Bulk_MILK_SRN.SRN_NO = TSPL_SHIFT_MGMT_RECEIPT_BULK_MILK.Against_BulkMilkSRN left outer join Tspl_Gate_Entry_Details on Tspl_Gate_Entry_Details.Gate_Entry_No = TSPL_Bulk_MILK_SRN.Gate_Entry_No or TSPL_MILK_TRANSFER_IN.Gate_Entry_no = Tspl_Gate_Entry_Details.Gate_Entry_No left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = Tspl_Gate_Entry_Details.Vendor_Code left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.Route_No = Tspl_Gate_Entry_Details.ROUTE_NO where Document_No = '" & txtDocNo.Value & "' "
+            dtReceipt = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select TSPL_SHIFT_MGMT_CLOSE.Location_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SHIFT_MGMT_CLOSE.Item_Code,isnull(Qty_KG,0)Qty_KG	,isnull(Qty_LTR,0)Qty_LTR,isnull(FAT,0) as FAT,ISNULL(SNF,0) AS SNF,ISNULL(Acidity,0) AS Acidity,ISNULL(Temp,0) AS Temp,isnull(FAT_KG,0)FAT_KG,isnull(SNF_KG,0)SNF_KG, case when Cob = 1 then '+ve' else '-ve' end as COB,Alcohol_Test,TSPL_SHIFT_MGMT_CLOSE.Remarks from TSPL_SHIFT_MGMT_CLOSE  LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SHIFT_MGMT_CLOSE.Item_Code
+       where TSPL_SHIFT_MGMT_CLOSE.Document_No = '" & txtDocNo.Value & "'"
+            dtClosing = clsDBFuncationality.GetDataTable(qry)
+
+            If dt.Rows.Count > 0 Then
+                If dtOpening.Rows.Count > dtDisposal.Rows.Count Then
+                    For ii As Integer = 1 To dtOpening.Rows.Count - dtDisposal.Rows.Count
+                        dtDisposal.Rows.Add()
+                    Next
+                ElseIf dtDisposal.Rows.Count > dtOpening.Rows.Count Then
+                    For ii As Integer = 1 To dtDisposal.Rows.Count - dtOpening.Rows.Count
+                        dtOpening.Rows.Add()
+                    Next
+                End If
+
+                If dtReceipt.Rows.Count > dtClosing.Rows.Count Then
+                    For ii As Integer = 1 To dtReceipt.Rows.Count - dtClosing.Rows.Count
+                        dtClosing.Rows.Add()
+                    Next
+                ElseIf dtClosing.Rows.Count > dtReceipt.Rows.Count Then
+                    For ii As Integer = 1 To dtClosing.Rows.Count - dtReceipt.Rows.Count
+                        dtReceipt.Rows.Add()
+                    Next
+                End If
+            End If
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(CrystalReportFolder.PRODUCTION, dt, dtOpening, "crptShiftManagement", "ShiftReport", "rptOpeningShiftMngmnt", "rptSubReceiptShiftDispatchIssue", dtDisposal, "rptSubReceiptShiftBulkMilk", dtReceipt, "rptSubShiftClosingBal", dtClosing)
+            Else
+                common.clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -3204,14 +3333,14 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                             If clsCommon.CompairString(obj.Item_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
                                 clsCommon.CompairString(obj.Location_Code, clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(obj.UOM, "KG") = CompairStringResult.Equal Then
-                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += obj.Qty
-                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value)) * obj.Qty
                                 Else
-                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += obj.Qty
-                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value -= obj.Qty
+                                    gvCL.Rows(jj).Cells(colCLQtyKG).Value -= clsCommon.myCDivide(clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value), clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value)) * obj.Qty
                                 End If
-                                gvCL.Rows(jj).Cells(colCLFATKG).Value += obj.FAT_KG
-                                gvCL.Rows(jj).Cells(colCLSNFKG).Value += obj.SNF_KG
+                                gvCL.Rows(jj).Cells(colCLFATKG).Value -= obj.FAT_KG
+                                gvCL.Rows(jj).Cells(colCLSNFKG).Value -= obj.SNF_KG
                             End If
                         Next
                     Next
@@ -3260,7 +3389,6 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             End If
         Next
 
-
         For ii As Integer = 0 To gvDisBulk.RowCount - 1
             For jj As Integer = 0 To gvCL.Rows.Count - 1
                 If clsCommon.CompairString(clsCommon.myCstr(gvDisBulk.Rows(ii).Cells(colDisBulkItemCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
@@ -3273,12 +3401,34 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             Next
         Next
 
+        For ii As Integer = 0 To gvRecPlant.RowCount - 1
+            For jj As Integer = 0 To gvCL.Rows.Count - 1
+                If clsCommon.CompairString(clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantItemCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
+                            clsCommon.CompairString(clsCommon.myCstr(gvRecPlant.Rows(ii).Cells(ColRecPlantLocationCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
+                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantQtyLtr).Value)
+                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantQtyKG).Value)
+                    gvCL.Rows(jj).Cells(colCLFATKG).Value += clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantFATKG).Value)
+                    gvCL.Rows(jj).Cells(colCLSNFKG).Value += clsCommon.myCDecimal(gvRecPlant.Rows(ii).Cells(ColRecPlantSNFKG).Value)
+                End If
+            Next
+        Next
+        For ii As Integer = 0 To gvRecBulk.RowCount - 1
+            For jj As Integer = 0 To gvCL.Rows.Count - 1
+                If clsCommon.CompairString(clsCommon.myCstr(gvRecBulk.Rows(ii).Cells(ColRecBulkItemCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLItemCode).Value)) = CompairStringResult.Equal AndAlso
+                            clsCommon.CompairString(clsCommon.myCstr(gvRecBulk.Rows(ii).Cells(ColRecBulkLocationCode).Value), clsCommon.myCstr(gvCL.Rows(jj).Cells(colCLLocationCode).Value)) = CompairStringResult.Equal Then
+                    gvCL.Rows(jj).Cells(colCLQtyLtr).Value += clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkQtyLtr).Value)
+                    gvCL.Rows(jj).Cells(colCLQtyKG).Value += clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkQtyKG).Value)
+                    gvCL.Rows(jj).Cells(colCLFATKG).Value += clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkFATKG).Value)
+                    gvCL.Rows(jj).Cells(colCLSNFKG).Value += clsCommon.myCDecimal(gvRecBulk.Rows(ii).Cells(ColRecBulkSNFKG).Value)
+                End If
+            Next
+        Next
 
         For jj As Integer = 0 To gvCL.Rows.Count - 1
-            gvCL.Rows(jj).Cells(colCLQtyLtr).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value) - clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyLtr).Value)
-            gvCL.Rows(jj).Cells(colCLQtyKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value) - clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyKG).Value)
-            gvCL.Rows(jj).Cells(colCLFATKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPFATKG).Value) - clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLFATKG).Value)
-            gvCL.Rows(jj).Cells(colCLSNFKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPSNFKG).Value) - clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLSNFKG).Value)
+            gvCL.Rows(jj).Cells(colCLQtyLtr).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyLtr).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyLtr).Value)
+            gvCL.Rows(jj).Cells(colCLQtyKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPQtyKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLQtyKG).Value)
+            gvCL.Rows(jj).Cells(colCLFATKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPFATKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLFATKG).Value)
+            gvCL.Rows(jj).Cells(colCLSNFKG).Value = clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLOPSNFKG).Value) + clsCommon.myCDecimal(gvCL.Rows(jj).Cells(colCLSNFKG).Value)
         Next
     End Sub
 
@@ -3297,6 +3447,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                     ElseIf frm.isOKClicked = 2 Then
                         gvPro.CurrentRow.Cells(ColProAdd).Tag = Nothing
                     End If
+                    CalculateClosing()
                 ElseIf gvPro.CurrentColumn Is gvPro.Columns(ColProRemove) Then
                     Dim frm As New frmProductionShiftMgmtRemove()
                     frm.Arr = TryCast(gvPro.CurrentRow.Cells(ColProRemove).Tag, List(Of clsProductionShiftMgmtProductionItemAddRemove))
@@ -3309,6 +3460,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                     ElseIf frm.isOKClicked = 2 Then
                         gvPro.CurrentRow.Cells(ColProRemove).Tag = Nothing
                     End If
+                    CalculateClosing()
                 End If
             End If
         Catch ex As Exception

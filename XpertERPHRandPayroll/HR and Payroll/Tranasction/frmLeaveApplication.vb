@@ -850,6 +850,7 @@ Public Class frmLeaveApplication
                     whrcls = " LOCATION_CODE='" + LocCode + "'"
                 End If
             End If
+            whrcls = " Rejected_Type='N'"
             Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
             ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)

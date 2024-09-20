@@ -1049,13 +1049,13 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
             If strCount > 0 Then
                 Throw New Exception("Demand cannot be reverse because its Dispatch has generated.")
             End If
-            Dim dtBooking As DataTable = clsDBFuncationality.GetDataTable("select Document_no from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" & strCode & "'", trans)
-            If dtBooking IsNot Nothing AndAlso dtBooking.Rows.Count > 0 Then
-                For Each dr As DataRow In dtBooking.Rows
-                    clsBookingEntryDairySale.ReverseAndUnpost(clsCommon.myCstr(dr("Document_no")), trans)
-                    ''clsBookingEntryDairySale.DeleteData(clsCommon.myCstr(dr("Document_no")), trans)
-                Next
-            End If
+            'Dim dtBooking As DataTable = clsDBFuncationality.GetDataTable("select Document_no from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" & strCode & "'", trans)
+            'If dtBooking IsNot Nothing AndAlso dtBooking.Rows.Count > 0 Then
+            '    For Each dr As DataRow In dtBooking.Rows
+            '        clsBookingEntryDairySale.ReverseAndUnpost(clsCommon.myCstr(dr("Document_no")), trans)
+            '        ''clsBookingEntryDairySale.DeleteData(clsCommon.myCstr(dr("Document_no")), trans)
+            '    Next
+            'End If
             Qry = "Update TSPL_Demand_BOOKING_MAstER set Posted = 0,Posted_Morning=null,Posted_Evening=null where Document_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
         Catch ex As Exception
@@ -1724,9 +1724,9 @@ Public Class clsDemandBookingSaleDetail
 
                 Dim coll As New Hashtable()
                     If isUploader Then
-                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
+                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
                 Else
-                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
                 End If
                     clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                     clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
