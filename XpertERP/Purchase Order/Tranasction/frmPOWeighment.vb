@@ -766,7 +766,7 @@ Public Class frmPOWeighment
                     lblGDShipToLocation.Text = obj.Ship_To_Location
                     lbRALTender.Text = obj.Ref_No
                     lblGDShipToLocationName.Text = obj.ShipToLocationName
-                    isHighClass = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isHighClass from TSPL_MRN_HEAD where Against_GRN='" + obj.GRN_No + "'"))
+                    'isHighClass = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isHighClass from TSPL_MRN_HEAD where Against_GRN='" + obj.GRN_No + "'"))
                     If FillDetailData Then
                         Try
                             isInsideLoadData = True
@@ -901,6 +901,7 @@ Public Class frmPOWeighment
     Public Sub PrintData(ByVal StrCode As String)
         If clsCommon.myLen(StrCode) > 0 Then
             Dim strQuery As String = Nothing
+            isHighClass = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select IsNull(TSPL_MRN_DETAIL.isHighClass,0)isHighClass from TSPL_MRN_HEAD Left Outer Join TSPL_MRN_DETAIL On TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No Where TSPL_MRN_HEAD.Against_GRN In (select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD Where Weighment_Code='" + StrCode + "')"))
             If objCommonVar.RCDFCFP = True Then
                 strQuery = "select FORMAT(getdate(),'dd/MMM/yyyy') as Print_Date,FORMAT(getdate(),'hh:mm:ss tt') as Print_Time
                             ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code 
@@ -936,7 +937,7 @@ Public Class frmPOWeighment
 											MAX(TSPL_PO_WEIGHTMENT_GUNNY.JuteBagWeight) AS JuteBagWeight,
 							MAX(TSPL_PO_WEIGHTMENT_GUNNY.PPBagWeight) AS PPBagWeight "
                 If isHighClass > 0 Then
-                    strQuery += " ,Max(TSPL_MRN_HEAD.isHighClass)isHighClass "
+                    strQuery += " ,Max(TSPL_MRN_Detail.isHighClass)isHighClass "
                 End If
                 strQuery += " from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code  
                             left join TSPL_GRN_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No  
@@ -945,7 +946,8 @@ Public Class frmPOWeighment
                             LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_STATE_MASTER.STATE_CODE  =TSPL_LOCATION_MASTER.State 	
 							LEFT OUTER JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No "
                 If isHighClass > 0 Then
-                    strQuery += " LEFT outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No "
+                    strQuery += " LEFT outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No
+                                   Left Outer Join TSPL_MRN_Detail On TSPL_MRN_Detail.MRN_No=TSPL_MRN_HEAD.MRN_No"
                 End If
                 strQuery += " LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE
 							LEFT OUTER JOIN (SELECT Weighment_Code, ISNULL([PM0001],0) AS 'JuteBagWeight',ISNULL([PM0002],0) AS 'PPBagWeight'  FROM (SELECT TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code,TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,CAST(ISNULL(TSPL_PO_WEIGHTMENT_GUNNY.Qty,0)*ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)/100 AS decimal(18,2)) AS QTY FROM   TSPL_PO_WEIGHTMENT_GUNNY

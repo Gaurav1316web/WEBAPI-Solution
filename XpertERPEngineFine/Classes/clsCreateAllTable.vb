@@ -2363,6 +2363,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
             coll.Add("isPenaltyDeduction", "integer Not Null  DEFAULT 0")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -21950,7 +21951,7 @@ Public Class clsCreateAllTable
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("Retention", "decimal(18,2) NULL")
-            coll.Add("isHighClass", "Integer NOT NULL Default 0")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, True, True, "", "MRN_No", "MRN_Date")
 
 
@@ -22218,6 +22219,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Insurance_Rate", "decimal(18,2) NULL")
             coll.Add("Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_DETAIL", coll, Nothing, True, True, "TSPL_MRN_HEAD", "MRN_No", "")
 
 
