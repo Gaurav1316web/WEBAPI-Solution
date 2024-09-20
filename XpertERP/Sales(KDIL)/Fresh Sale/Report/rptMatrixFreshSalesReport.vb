@@ -1207,7 +1207,7 @@ Public Class RptMatrixFreshSalesReport
                 strWhrClause2 += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in (" + ss + ")  "
             End If
             If clsCommon.CompairString(rddlTCSShift.Text, "Morning") = CompairStringResult.Equal Then
-                strWhrClause2 += " and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' "
+                strWhrClause2 += " and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' "
             ElseIf clsCommon.CompairString(rddlTCSShift.Text, "Evening") = CompairStringResult.Equal Then
                 strWhrClause2 += " and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' "
             End If
@@ -1219,24 +1219,20 @@ Public Class RptMatrixFreshSalesReport
             ' group by zpivot.Document_No, zpivot.[VEHICLE NO], zpivot.[WdName], zpivot.[Group], zpivot.[Route No], zpivot.[DO NO], zpivot.[Short Close]"
             MainQuery = "select  Document_No as [Document No],max(Document_Date) as [Document Date],max([Time]) as [Time],max([Customer Code]) as [Customer Code],[WdName] as [Customer Name], 
   [Group],[Route No], max([Booking Time(AM / PM) ]) as [Booking Time(AM / PM) ], Max(Created_By) as [Created By], max(Created_Date) as [Created Date],max(Modified_By) as [Modified By],
-max(Modified_Date) as [Modified Date],max(Total_Amt) - isnull(max(TCSAmount),0) as [TCS Base Amount],
+max(Modified_Date) as [Modified Date],
+(sum(DocumentAmount) ) as [TCS Base Amount],
 case when max(Total_Amt)=0 then 0 else cast(isnull(((isnull(max(TCSAmount),0) * 100)/ max(Total_Amt)),0) as decimal(18, 2))end as [TCS % ],
-isnull(sum(TCSAmount),0) as [TCS Amount],(sum(DocumentAmount) ) as [Total Amount] 
+isnull(sum(TCSAmount),0) as [TCS Amount],
+isnull(sum(DocumentAmount),0) + isnull(sum(TCSAmount),0)  as [Total Amount]  
 from (select max(zzz.item_code) as item_code,zzz.Document_No,max(Document_Date) as Document_Date,max([Time]) as [Time],max(GatePass_Type) as [Booking Time(AM / PM) ],
 Max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Modified_By) as Modified_By,max(Modified_Date) as Modified_Date,
 sum(ItemNetAmount) as DocumentAmount,max(zzz.DocumentAmount) as Total_Amt,max([Customer Code]) as [Customer Code],zzz.[VEHICLE NO],zzz.[WdName],zzz.Description, 
 zzz.Cust_Group_Code as [Group],zzz.[Route No],sum(qty) as qty,sum(QtyLtr) as QtyLtr,sum(zzz.TCSAmount) as TCSAmount
   from ( Select isnull( TSPL_DEMAND_BOOKING_MASTER.ShiftType, '' ) as GatePass_Type,
-  CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX1 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX1_Amt ELSE 0 END +
-    CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX2 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX2_Amt ELSE 0 END +
-    CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX3 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX3_Amt ELSE 0 END +
-    CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX4 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX4_Amt ELSE 0 END +
-    CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX5 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX5_Amt ELSE 0 END +
-    CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX6 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX6_Amt ELSE 0 END +
-    CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX7 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX7_Amt ELSE 0 END +
-	CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX7 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX8_Amt ELSE 0 END +
-	CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX7 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX9_Amt ELSE 0 END +
-	CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.TAX7 = 'TCS' THEN TSPL_DEMAND_BOOKING_DETAIL.TAX10_Amt ELSE 0 END 
+CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4_Amt) 
+ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5_Amt) 
+ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX7) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX7_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX8) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX8_Amt) 
+ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10_Amt) ELSE 0 END) END) END) END) END) END) END) END) END) END 
     AS TCSAmount,
 
 TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_DEMAND_BOOKING_MASTER.DocumentAmount,
