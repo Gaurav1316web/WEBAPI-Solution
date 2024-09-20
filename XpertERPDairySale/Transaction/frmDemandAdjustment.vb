@@ -760,6 +760,8 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         coll.Add("Demand_Qty", "Decimal(18,0) Not NULL")
         coll.Add("Adjust_Qty", "Decimal(18,0) Not NULL")
         coll.Add("Final_Qty", "Decimal(18,0) Not NULL")
+        coll.Add("TotalCrates_ItemWise", "Decimal(18,0) Not NULL")
+        coll.Add("TotalLtr_ItemWise", "Decimal(18,0) Not NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_ADJUSTMENT_DETAIL", coll, "", True, False, "TSPL_DEMAND_ADJUSTMENT_HEAD", "Document_Code", "")
     End Sub
     Function AllowToSave() As Boolean
@@ -835,8 +837,43 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                         objTr.Demand_Qty = clsCommon.myCdbl(grow.Cells(colDemandQty).Value)
                         objTr.Adjust_Qty = clsCommon.myCdbl(grow.Cells(colAdjustedQty).Value)
                         objTr.Final_Qty = clsCommon.myCdbl(grow.Cells(colFinalQty).Value)
+                        If clsCommon.CompairString(objTr.Unit_Code, "Crate") = CompairStringResult.Equal Then
+                            objTr.TotalCrates_ItemWise = clsCommon.myCdbl(grow.Cells(colFinalQty).Value)
+                        Else
+                            Dim dblTotalCrateRowWise As Double = 0
+                            Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(objTr.Item_Code) & "'"))
+                            If ItemCrateType = 1 Then
+                                Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(objTr.Item_Code) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(objTr.Unit_Code) & "'"))
+                                Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(objTr.Item_Code) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                                Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(objTr.Item_Code) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(objTr.Unit_Code) & "' "))
+                                If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                    If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                                        Dim DispatchQty As Double = clsCommon.myCdbl(objTr.Final_Qty) * ItemConvFactor
+
+                                        If DispatchQty > (CrateConvFactor / 2) Then
+                                                dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                            Else
+                                                dblTotalCrateRowWise = 0
+                                            End If
+
+                                        End If
+                                End If
+                                objTr.TotalCrates_ItemWise = clsCommon.myCdbl(dblTotalCrateRowWise)
+                            End If
+
+                        End If
+                        ''to convert into litre
+                        Dim dblTotalLitreRowWise As Double = 0
+                        Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(objTr.Item_Code) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
+                        Dim ItemConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(objTr.Item_Code) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(objTr.Unit_Code) & "' "))
+                        If CrateConvFactor_Ltr > 0 And ItemConvFactor_Ltr > 0 Then
+                            Dim DispatchQty As Double = clsCommon.myCdbl(objTr.Final_Qty) * ItemConvFactor_Ltr
+                            dblTotalLitreRowWise = (DispatchQty / CrateConvFactor_Ltr)
+                        End If
+                        objTr.TotalLtr_ItemWise = clsCommon.myCdbl(dblTotalLitreRowWise)
+                        ''---------end of litre conversion
                         obj.Arr.Add(objTr)
-                    End If
+                        End If
                 Next
                 If (obj.SaveData(obj, isNewEntry)) = True Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)

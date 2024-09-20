@@ -180,7 +180,7 @@ Public Class clsDemandAdjustment
                         '    End If
                         'Next
                         'clsDemandBookingSale.SaveData(obj1, False, trans)
-                        Qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty='" + clsCommon.myCstr(objTr.Final_Qty) + "' where TR_Code='" + objTr.TR_Code + "'"
+                        Qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty='" + clsCommon.myCstr(objTr.Final_Qty) + "',TotalCrates_ItemWise='" + clsCommon.myCstr(objTr.TotalCrates_ItemWise) + "',TotalLtr_ItemWise='" + clsCommon.myCstr(objTr.TotalLtr_ItemWise) + "' where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
                         clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                         Dim DcoNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select document_no from TSPL_DEMAND_BOOKING_DETAIL where TR_Code='" + objTr.TR_Code + "'", trans))
                         If Not lstDocNO.Contains(DcoNo) Then
@@ -246,6 +246,8 @@ Public Class clsDemandAdjustmentDetail
     Public Demand_Qty As Double = 0
     Public Adjust_Qty As Double = 0
     Public Final_Qty As Double = 0
+    Public TotalCrates_ItemWise As Double = 0
+    Public TotalLtr_ItemWise As Double = 0
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandAdjustmentDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
@@ -262,6 +264,8 @@ Public Class clsDemandAdjustmentDetail
                     clsCommon.AddColumnsForChange(coll, "Demand_Qty", obj.Demand_Qty)
                     clsCommon.AddColumnsForChange(coll, "Adjust_Qty", obj.Adjust_Qty)
                     clsCommon.AddColumnsForChange(coll, "Final_Qty", obj.Final_Qty)
+                    clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
+                    clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_ADJUSTMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 End If
             Next
