@@ -930,6 +930,7 @@ Public Class clsProductionShiftMgmtProduction
     Public Document_No As String
     Public Item_Code As String
     Public Item_Name As String
+    Public Batch_No As String
     Public Qty_KG As Decimal
     Public Qty_LTR As Decimal
     Public FAT As Decimal
@@ -954,6 +955,7 @@ Public Class clsProductionShiftMgmtProduction
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_No", DocumentNo)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", objTR.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Batch_No", objTR.Batch_No)
                 clsCommon.AddColumnsForChange(coll, "Qty_KG", objTR.Qty_KG)
                 clsCommon.AddColumnsForChange(coll, "Qty_LTR", objTR.Qty_LTR)
                 clsCommon.AddColumnsForChange(coll, "FAT", objTR.FAT)
@@ -996,6 +998,7 @@ Public Class clsProductionShiftMgmtProduction
                 objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                 objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                 objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+                objTr.Batch_No = clsCommon.myCstr(dr("Batch_No"))
                 objTr.Qty_LTR = clsCommon.myCDecimal(dr("Qty_LTR"))
                 objTr.Qty_KG = clsCommon.myCDecimal(dr("Qty_KG"))
                 objTr.FAT = clsCommon.myCDecimal(dr("FAT"))
