@@ -411,19 +411,19 @@ Public Class frmDemandUploader
                 clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
                 strTQery = " insert INTO  TSPL_DEMAND_BOOKING_DETAIL SELECT * FROM TSPL_TEMP_DEMAND_BOOKING_DETAIL"
                 clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
-                strTQery = " insert INTO  TSPL_BOOKING_MATSER SELECT * FROM TSPL_TEMP_BOOKING_MATSER"
-                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
-                strTQery = " insert INTO  TSPL_BOOKING_DETAIL SELECT * FROM TSPL_TEMP_BOOKING_DETAIL"
-                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
-                strTQery = " insert INTO  TSPL_BOOKING_PAYMENT_MODE_DETAIL SELECT * FROM TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
-                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                'strTQery = " insert INTO  TSPL_BOOKING_MATSER SELECT * FROM TSPL_TEMP_BOOKING_MATSER"
+                'clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                'strTQery = " insert INTO  TSPL_BOOKING_DETAIL SELECT * FROM TSPL_TEMP_BOOKING_DETAIL"
+                'clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                'strTQery = " insert INTO  TSPL_BOOKING_PAYMENT_MODE_DETAIL SELECT * FROM TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
+                'clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
 
-                strTQery = " truncate table TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
-                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
-                strTQery = "truncate table TSPL_TEMP_BOOKING_DETAIL "
-                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
-                strTQery = " delete TSPL_TEMP_BOOKING_MATSER"
-                clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                'strTQery = " truncate table TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
+                'clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                'strTQery = "truncate table TSPL_TEMP_BOOKING_DETAIL "
+                'clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
+                'strTQery = " delete TSPL_TEMP_BOOKING_MATSER"
+                'clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
                 strTQery = " delete TSPL_TEMP_DEMAND_BOOKING_DETAIL"
                 clsDBFuncationality.ExecuteNonQuery(strTQery, trans)
                 strTQery = " delete TSPL_TEMP_DEMAND_BOOKING_MASTER"
@@ -432,6 +432,7 @@ Public Class frmDemandUploader
             End If
             clsCommon.ProgressBarHide()
             trans.Commit()
+
             clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             'btnSavePost.Enabled = False
         Catch ex As Exception
@@ -613,12 +614,12 @@ Public Class frmDemandUploader
             Dim strqry As String = ""
         Dim count As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'TSPL_TEMP_Demand_Booking_Master'"))
             If count > 0 Then
-                strqry = " drop table TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL "
-                clsDBFuncationality.ExecuteNonQuery(strqry)
-                strqry = "  drop table TSPL_TEMP_BOOKING_DETAIL"
-                clsDBFuncationality.ExecuteNonQuery(strqry)
-                strqry = "drop table TSPL_TEMP_BOOKING_MATSER  "
-                clsDBFuncationality.ExecuteNonQuery(strqry)
+                'strqry = " drop table TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL "
+                'clsDBFuncationality.ExecuteNonQuery(strqry)
+                'strqry = "  drop table TSPL_TEMP_BOOKING_DETAIL"
+                'clsDBFuncationality.ExecuteNonQuery(strqry)
+                'strqry = "drop table TSPL_TEMP_BOOKING_MATSER  "
+                'clsDBFuncationality.ExecuteNonQuery(strqry)
                 strqry = "drop table TSPL_TEMP_DEMAND_BOOKING_DETAIL"
                 clsDBFuncationality.ExecuteNonQuery(strqry)
                 strqry = "drop table TSPL_TEMP_DEMAND_BOOKING_MASTER"
@@ -629,20 +630,20 @@ Public Class frmDemandUploader
             clsDBFuncationality.ExecuteNonQuery(strqry)
             strqry = "SELECT * INTO TSPL_TEMP_DEMAND_BOOKING_DETAIL FROM TSPL_DEMAND_BOOKING_DETAIL"
             clsDBFuncationality.ExecuteNonQuery(strqry)
-            strqry = "SELECT * INTO TSPL_TEMP_BOOKING_MATSER FROM TSPL_BOOKING_MATSER"
-            clsDBFuncationality.ExecuteNonQuery(strqry)
-            strqry = "SELECT * INTO TSPL_TEMP_BOOKING_DETAIL FROM TSPL_BOOKING_DETAIL"
-            clsDBFuncationality.ExecuteNonQuery(strqry)
-            strqry = "SELECT * INTO TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL FROM TSPL_BOOKING_PAYMENT_MODE_DETAIL"
-            clsDBFuncationality.ExecuteNonQuery(strqry)
+            'strqry = "SELECT * INTO TSPL_TEMP_BOOKING_MATSER FROM TSPL_BOOKING_MATSER"
+            'clsDBFuncationality.ExecuteNonQuery(strqry)
+            'strqry = "SELECT * INTO TSPL_TEMP_BOOKING_DETAIL FROM TSPL_BOOKING_DETAIL"
+            'clsDBFuncationality.ExecuteNonQuery(strqry)
+            'strqry = "SELECT * INTO TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL FROM TSPL_BOOKING_PAYMENT_MODE_DETAIL"
+            'clsDBFuncationality.ExecuteNonQuery(strqry)
 
-            strqry = " delete TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
-        clsDBFuncationality.ExecuteNonQuery(strqry)
-        strqry = "delete TSPL_TEMP_BOOKING_DETAIL "
-        clsDBFuncationality.ExecuteNonQuery(strqry)
-        strqry = " delete TSPL_TEMP_BOOKING_MATSER"
-        clsDBFuncationality.ExecuteNonQuery(strqry)
-        strqry = " delete TSPL_TEMP_DEMAND_BOOKING_DETAIL"
+            '    strqry = " delete TSPL_TEMP_BOOKING_PAYMENT_MODE_DETAIL"
+            'clsDBFuncationality.ExecuteNonQuery(strqry)
+            'strqry = "delete TSPL_TEMP_BOOKING_DETAIL "
+            'clsDBFuncationality.ExecuteNonQuery(strqry)
+            'strqry = " delete TSPL_TEMP_BOOKING_MATSER"
+            'clsDBFuncationality.ExecuteNonQuery(strqry)
+            strqry = " delete TSPL_TEMP_DEMAND_BOOKING_DETAIL"
         clsDBFuncationality.ExecuteNonQuery(strqry)
         strqry = " delete TSPL_TEMP_DEMAND_BOOKING_MASTER"
         clsDBFuncationality.ExecuteNonQuery(strqry)

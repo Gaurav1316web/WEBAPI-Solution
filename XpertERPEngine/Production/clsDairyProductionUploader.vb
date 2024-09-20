@@ -206,7 +206,7 @@ where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' and 
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
-            qry = "select PK_ID,xx.ITEM_CODE,xx.Item_Desc,xx.Item_Type,xx.UNIT_CODE,xx.Product_Type,(xx.prod_qty * (xx.quantity/xx.build_qty)) as Qty,xx.fat,xx.snf,xx.fat_kg,xx.snf_kg,Batch_No,Is_Batch_Item,Batch_Date from (
+            qry = "select PK_ID,xx.ITEM_CODE,xx.Item_Desc,xx.Item_Type,xx.UNIT_CODE,xx.Product_Type,(xx.prod_qty * (xx.quantity/xx.build_qty)) as Qty,xx.fat,xx.snf,(xx.fat_kg*xx.Prod_Qty/xx.build_qty) as fat_kg,(xx.snf_kg*xx.prod_qty/xx.build_qty) as snf_kg,Batch_No,Is_Batch_Item,Batch_Date from (
 select TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID,(TSPL_PRODUCTION_UPLOADER_DETAIL.Qty * TabConvFatMul.Conversion_Factor/ TabConvFatDiv.Conversion_Factor) as Prod_Qty,tspl_pp_bom_head.bom_code,tspl_pp_bom_head.prod_item_code,tspl_pp_bom_head.prod_quantity as build_qty,TSPL_PP_BOM_ITEM_DETAIL.deactive,TSPL_PP_BOM_ITEM_DETAIL.effective_date
 ,TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Type,TSPL_PP_BOM_ITEM_DETAIL.UNIT_CODE,TSPL_ITEM_MASTER.Product_Type
 ,(TSPL_PP_BOM_ITEM_DETAIL.QUANTITY+TSPL_PP_BOM_ITEM_DETAIL.QUANTITY*coalesce(TSPL_PP_BOM_ITEM_DETAIL.ProcessLossPer,0)/100) as QUANTITY

@@ -258,7 +258,7 @@ Public Class frmGeneralHolidays
     End Sub
 
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
-        fndLocation.Value = clsLocation.getFinder("Location_Type='Physical'", Me.fndLocation.Value, isButtonClicked)
+        fndLocation.Value = clsLocation.getFinder("Location_Type='Physical' and Rejected_Type='N'", Me.fndLocation.Value, isButtonClicked)
         lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
     End Sub
 
