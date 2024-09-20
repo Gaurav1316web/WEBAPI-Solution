@@ -69,6 +69,7 @@ Public Class frmProductionShiftMgmt
     Const ColProSNo As String = "ColProSNo"
     Const ColProItemCode As String = "ColProItemCode"
     Const ColProItemName As String = "ColProItemName"
+    Const ColProBatchNo As String = "ColProBatchNo"
     Const ColProQtyKG As String = "ColProQtyKG"
     Const ColProQtyLTR As String = "ColProQtyLTR"
     Const ColProFAT As String = "ColProFAT"
@@ -233,6 +234,7 @@ Public Class frmProductionShiftMgmt
         coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
         coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Batch_No", "Varchar(50) null")
         coll.Add("Qty_KG", "Decimal(18,2) null")
         coll.Add("Qty_LTR", "Decimal(18,2) null")
         coll.Add("FAT", "Decimal(18,2) null")
@@ -1392,6 +1394,15 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
         repoTextBox.Name = ColProItemName
         repoTextBox.Width = 150
         repoTextBox.ReadOnly = True
+        gvPro.MasterTemplate.Columns.Add(repoTextBox)
+
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Batch No"
+        repoTextBox.Name = ColProBatchNo
+        repoTextBox.Width = 100
+        repoTextBox.IsVisible = True
         gvPro.MasterTemplate.Columns.Add(repoTextBox)
 
         repoNumBox = New GridViewDecimalColumn()
@@ -2732,6 +2743,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                     If clsCommon.myLen(gvPro.Rows(ii).Cells(ColProItemCode).Value) > 0 Then
                         Dim objTr As New clsProductionShiftMgmtProduction()
                         objTr.Item_Code = clsCommon.myCstr(gvPro.Rows(ii).Cells(ColProItemCode).Value)
+                        objTr.Batch_No = clsCommon.myCstr(gvPro.Rows(ii).Cells(ColProBatchNo).Value)
                         objTr.Qty_KG = clsCommon.myCDecimal(gvPro.Rows(ii).Cells(ColProQtyKG).Value)
                         objTr.Qty_LTR = clsCommon.myCDecimal(gvPro.Rows(ii).Cells(ColProQtyLTR).Value)
                         objTr.FAT = clsCommon.myCDecimal(gvPro.Rows(ii).Cells(ColProFAT).Value)
@@ -2949,6 +2961,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProSNo).Value = gvPro.Rows.Count
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProItemCode).Value = objTr.Item_Code
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProItemName).Value = objTr.Item_Name
+                        gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProBatchNo).Value = objTr.Batch_No
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProQtyKG).Value = objTr.Qty_KG
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProQtyLTR).Value = objTr.Qty_LTR
                         gvPro.Rows(gvPro.Rows.Count - 1).Cells(ColProFAT).Value = objTr.FAT
