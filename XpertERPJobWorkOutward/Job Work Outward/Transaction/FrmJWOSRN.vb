@@ -8,6 +8,7 @@ Public Class FrmJWOSRN
     Inherits FrmMainTranScreen
 
 #Region "Varibales"
+    Public JWOutWardForRCDF As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim isInsideLoadData As Boolean = False
     Dim isNewEntery As Boolean = True
@@ -21,6 +22,7 @@ Public Class FrmJWOSRN
     Public Const colNetWeight As String = "colNetWeight"
     Public Const colEstimateQty As String = "colEstimateQty"
     Public Const colQty As String = "Qty"
+    Public Const colEstimateQtyUOM As String = "colEstimateQtyUOM"
     Public Const colUOM As String = "UOM"
     Public Const colFat As String = "colFAT"
     Public Const colSNF As String = "colSNF"
@@ -45,7 +47,7 @@ Public Class FrmJWOSRN
         coll.Add("TransferSNFAmt", "decimal(18,2) null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_SRN_HEAD", coll, Nothing, True, False)
 
-
+        JWOutWardForRCDF = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.JWOutWardForRCDF, clsFixedParameterCode.JWOutWardForRCDF, Nothing)) = "1", True, False)
 
         SetUserMgmtNew()
         settJobWorkOutwardComsumeItemAccordingToBOM = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.JobWorkOutwardComsumeItemAccordingToBOM, clsFixedParameterCode.JobWorkOutwardComsumeItemAccordingToBOM, Nothing)) = 1)
@@ -63,6 +65,12 @@ Public Class FrmJWOSRN
         End If
         lblVendor.Visible = True
         RadPageView1.SelectedPage = pvpCustomFields
+        If JWOutWardForRCDF Then
+            grpGateEntryType.Visible = False
+            rbtnManual.IsChecked = True
+        Else
+            grpGateEntryType.Visible = True
+        End If
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -168,6 +176,10 @@ Public Class FrmJWOSRN
         gvItem.Columns(colEstimateQty).ReadOnly = True
         gvItem.Columns(colEstimateQty).TextAlignment = ContentAlignment.MiddleRight
 
+        gvItem.Columns.Add(colEstimateQtyUOM, "Estimate Qty UOM")
+        gvItem.Columns(colEstimateQtyUOM).Width = 100
+        gvItem.Columns(colEstimateQtyUOM).ReadOnly = True
+
         gvItem.Columns.Add(colQty, "Qty")
         gvItem.Columns(colQty).Width = 100
         gvItem.Columns(colQty).ReadOnly = (rbtnTanker.IsChecked OrElse chkSKU.IsChecked)
@@ -264,6 +276,7 @@ Public Class FrmJWOSRN
                 objtr.Tare_Weight = clsCommon.myCdbl(gvItem.Rows(ii).Cells(colTareWeight).Value)
                 objtr.Net_Weight = clsCommon.myCdbl(gvItem.Rows(ii).Cells(colNetWeight).Value)
                 objtr.Estimate_Qty = clsCommon.myCdbl(gvItem.Rows(ii).Cells(colEstimateQty).Value)
+                objtr.Estimate_Qty_UOM = clsCommon.myCstr(gvItem.Rows(ii).Cells(colEstimateQtyUOM).Value)
                 objtr.Qty = clsCommon.myCdbl(gvItem.Rows(ii).Cells(colQty).Value)
                 objtr.FAT_Per = clsCommon.myCdbl(gvItem.Rows(ii).Cells(colFat).Value)
                 objtr.SNF_Per = clsCommon.myCdbl(gvItem.Rows(ii).Cells(colSNF).Value)
@@ -849,6 +862,19 @@ Public Class FrmJWOSRN
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
         Dim whrcls As String = ""
         Dim obj As clsItemMaster
+        Dim check As List(Of String) = New List(Of String)
+        If JWOutWardForRCDF Then
+            If gvItem.Rows.Count > 1 Then
+                If gvItem.CurrentRow.Index > 0 Then
+                    For ii As Integer = 0 To gvItem.CurrentRow.Index - 1
+                        check.Add(clsCommon.myCstr(gvItem.Rows(ii).Cells(colICode).Value))
+                    Next
+                End If
+            End If
+            If check IsNot Nothing AndAlso check.Count > 0 Then
+                whrcls = "  Item_Code not in (" + clsCommon.GetMulcallString(check) + ")"
+            End If
+        End If
         obj = clsItemMaster.FinderForItem(clsCommon.myCstr(gvItem.CurrentRow.Cells(colICode).Value), "", isButtonClick, Nothing, whrcls)
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
             gvItem.CurrentRow.Cells(colICode).Value = obj.Item_Code
@@ -1037,20 +1063,40 @@ Public Class FrmJWOSRN
                 Throw New Exception("Please select Vendor")
             End If
             Dim qry As String = "select Document_NO,Document_Date,Location_Code,Vendor_Code,Item_Structure_FAT,Item_Structure_SNF from TSPL_JWO_ESTIMATION_HEAD  "
-            Dim Whrclas As String = "status=1 and vendor_code='" + txtVendor.Value + "' and not exists(select 1 from TSPL_JWO_SRN_HEAD where TSPL_JWO_SRN_HEAD.Against_Estimate=TSPL_JWO_ESTIMATION_HEAD.Document_NO)"
+            Dim Whrclas As String = "status=1 and vendor_code='" + txtVendor.Value + "' "
+            If JWOutWardForRCDF Then
+                Whrclas += "  and Is_Close = 0 "
+            Else
+                Whrclas += " And Not exists(select 1 from TSPL_JWO_SRN_HEAD where TSPL_JWO_SRN_HEAD.Against_Estimate=TSPL_JWO_ESTIMATION_HEAD.Document_NO)"
+            End If
             txtJWOEstimate.Value = clsCommon.ShowSelectForm("Ojowenkerfi", qry, "Document_NO", Whrclas, txtJWOEstimate.Value, "", isButtonClicked)
-
             If clsCommon.myLen(txtJWOEstimate.Value) > 0 Then
-                qry = "select Item_code,qty from TSPL_JWO_ESTIMATION_FAT_PRODUCTION where Document_NO='" + txtJWOEstimate.Value + "'" + Environment.NewLine +
-                "union all" + Environment.NewLine +
-                "select Item_code,qty from TSPL_JWO_ESTIMATION_SNF_PRODUCTION where Document_NO='" + txtJWOEstimate.Value + "'"
+                If JWOutWardForRCDF Then
+                    qry = " select xx.Item_Code,xx.UOM,qty,Srn_Qty,case when Srn_Qty is null then qty else (qty-Srn_Qty) end as FinalQty  from ( Select  Item_code,sum(qty)qty,MAX(UOM)UOM from TSPL_JWO_ESTIMATION_FAT_PRODUCTION where Document_NO='" + txtJWOEstimate.Value + "' group by Item_Code" + Environment.NewLine +
+                    "union all" + Environment.NewLine +
+                    " Select  Item_code,sum(qty)qty,MAX(UOM)UOM from TSPL_JWO_ESTIMATION_SNF_PRODUCTION where Document_NO='" + txtJWOEstimate.Value + "' group by Item_Code )xx left join (select item_code, sum(qty)Srn_Qty from TSPL_JWO_SRN_DETAIL left outer join  TSPL_JWO_SRN_HEAD on TSPL_JWO_SRN_HEAD.Document_No = TSPL_JWO_SRN_DETAIL.Document_No
+                    left outer join TSPL_JWO_ESTIMATION_HEAD on TSPL_JWO_SRN_HEAD.Against_Estimate=TSPL_JWO_ESTIMATION_HEAD.Document_NO group by Item_Code) srn on srn.Item_Code = xx.Item_Code"
+                End If
+
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows
                         For ii As Integer = 0 To gvItem.Rows.Count - 1
-                            If clsCommon.CompairString(clsCommon.myCstr(gvItem.Rows(ii).Cells(colICode).Value), clsCommon.myCstr(dr("Item_code"))) = CompairStringResult.Equal Then
-                                gvItem.Rows(ii).Cells(colEstimateQty).Value = clsCommon.myCdbl(dr("qty"))
-                                Exit For
+                            If clsCommon.myLen(gvItem.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(dr("Item_code")) > 0 Then
+                                If clsCommon.CompairString(clsCommon.myCstr(gvItem.Rows(ii).Cells(colICode).Value), clsCommon.myCstr(dr("Item_code"))) = CompairStringResult.Equal Then
+                                    gvItem.Rows(ii).Cells(colEstimateQtyUOM).Value = clsCommon.myCstr(dr("UOM"))
+                                    If JWOutWardForRCDF Then
+                                        If clsCommon.myCdbl(dr("FinalQty")) > 0 Then
+                                            gvItem.Rows(ii).Cells(colEstimateQty).Value = clsCommon.myCdbl(dr("FinalQty"))
+                                        ElseIf clsCommon.myCdbl(dr("FinalQty")) <= 0 Then
+                                            gvItem.Rows(ii).Cells(colEstimateQty).Value = 0
+                                            clsCommon.MyMessageBoxShow(Me, "This item " & clsCommon.myCstr(gvItem.Rows(ii).Cells(colICode).Value) & " estimation quantity is 0 ", Me.Text)
+                                        End If
+                                    Else
+                                        gvItem.Rows(ii).Cells(colEstimateQty).Value = clsCommon.myCdbl(dr("qty"))
+                                    End If
+                                    Exit For
+                                End If
                             End If
                         Next
                     Next

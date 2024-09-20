@@ -50293,6 +50293,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Status", "integer not null default 0")
             coll.Add("Post_By", "varchar(12) NULL")
             coll.Add("Post_Date", "Datetime NULL")
+            coll.Add("Is_Close", "integer not null default 0")
+            coll.Add("Type", "char(3) not null Default 'All'")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_ESTIMATION_HEAD", coll, Nothing, False, False, "", "Document_NO", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -50439,6 +50441,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Job_Amount", "decimal(18,2) null")
             coll.Add("Rate", "decimal(18,2) null")
             coll.Add("Amount", "decimal(18,2) null")
+            coll.Add("Estimate_Qty_UOM", "varchar(12) NULL references TSPL_UNIT_MASTER(Unit_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_SRN_DETAIL", coll, Nothing, True, False, "TSPL_JWO_SRN_HEAD", "Document_No", "")
 
             coll = New Dictionary(Of String, String)()

@@ -22,7 +22,8 @@ Public Class clsJWOEstimate
     Public FAT_KG_Raw_Item As Decimal = 0
     Public SNF_KG_Raw_Item As Decimal = 0
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
-
+    Public Is_Close As Integer = Nothing
+    Public Type As String = String.Empty
     Public ArrWeighment As List(Of clsJWOEstimateTransfer) = Nothing
     Public ArrFATProduction As List(Of clsJWOEstimateFATProduction) = Nothing
     Public ArrSNFProducion As List(Of clsJWOEstimateSNFProduction) = Nothing
@@ -70,6 +71,8 @@ Public Class clsJWOEstimate
             clsCommon.AddColumnsForChange(coll, "Estimated_SNF_KG_Weighment", obj.Estimated_SNF_KG_Weighment)
             clsCommon.AddColumnsForChange(coll, "FAT_KG_Raw_Item", obj.FAT_KG_Raw_Item)
             clsCommon.AddColumnsForChange(coll, "SNF_KG_Raw_Item", obj.SNF_KG_Raw_Item)
+            clsCommon.AddColumnsForChange(coll, "Is_Close", obj.Is_Close)
+            clsCommon.AddColumnsForChange(coll, "Type", obj.Type)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -148,6 +151,8 @@ Public Class clsJWOEstimate
             obj.FAT_KG_Raw_Item = clsCommon.myCdbl(dt.Rows(0)("FAT_KG_Raw_Item"))
             obj.SNF_KG_Raw_Item = clsCommon.myCdbl(dt.Rows(0)("SNF_KG_Raw_Item"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) > 0, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
+            obj.Is_Close = CInt(clsCommon.myCdbl(dt.Rows(0)("Is_Close")))
+            obj.Type = clsCommon.myCstr(dt.Rows(0)("Type"))
 
             obj.ArrWeighment = clsJWOEstimateTransfer.GetData(obj.Document_NO, trans)
             obj.ArrFATProduction = clsJWOEstimateFATProduction.GetData(obj.Document_NO, trans)
@@ -801,6 +806,7 @@ Public Class clsJWOEstimateTransfer
         Dim arrObj As List(Of clsJWOEstimateTransfer) = Nothing
         Try
             Dim obj As clsJWOEstimateTransfer = Nothing
+            Dim JWOutWardForRCDF As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.JWOutWardForRCDF, clsFixedParameterCode.JWOutWardForRCDF, trans)) = "1", True, False)
             Dim qry As String = "select TSPL_JWO_ESTIMATION_TRANSFER.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_GENERAL_WEIGHMENT_DETAIL.Vehicle_No_Manual from TSPL_JWO_ESTIMATION_TRANSFER left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_JWO_ESTIMATION_TRANSFER.item_code left outer join TSPL_GENERAL_WEIGHMENT_DETAIL on TSPL_GENERAL_WEIGHMENT_DETAIL.Weighment_No=TSPL_JWO_ESTIMATION_TRANSFER.Transfer_Code where Document_NO='" & strQCNo & "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -813,7 +819,11 @@ Public Class clsJWOEstimateTransfer
                     obj.Parent_SNo = clsCommon.myCdbl(dt.Rows(i)("Parent_SNo"))
                     obj.Transfer_Code = clsCommon.myCstr(dt.Rows(i)("Transfer_Code"))
                     obj.Transfer_Date = clsCommon.myCDate(dt.Rows(i)("Transfer_Date"))
-                    obj.Tanker_No = clsCommon.myCstr(dt.Rows(i)("Vehicle_No_Manual"))
+                    If JWOutWardForRCDF Then
+                        obj.Tanker_No = clsCommon.myCstr(dt.Rows(i)("Tanker_No"))
+                    Else
+                        obj.Tanker_No = clsCommon.myCstr(dt.Rows(i)("Vehicle_No_Manual"))
+                    End If
                     obj.Item_Code = clsCommon.myCstr(dt.Rows(i)("Item_Code"))
                     obj.Item_Name = clsCommon.myCstr(dt.Rows(i)("Item_Desc"))
                     obj.Qty = clsCommon.myCdbl(dt.Rows(i)("Qty"))

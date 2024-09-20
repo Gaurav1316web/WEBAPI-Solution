@@ -22,10 +22,19 @@ Partial Class frmJWOEstimate
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkClose = New System.Windows.Forms.CheckBox()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnFat = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnAll = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnSnf = New Telerik.WinControls.UI.RadRadioButton()
         Me.lblVendorCode = New common.Controls.MyLabel()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBoxSnf = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblFormulaCodeSNF = New common.Controls.MyLabel()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.lblItemStructureSNF = New common.Controls.MyLabel()
@@ -36,7 +45,7 @@ Partial Class frmJWOEstimate
         Me.lblFormulaNameSNF = New common.Controls.MyLabel()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.lblFormulaDateSNF = New common.Controls.MyLabel()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupFat = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblFormulaCodeFAT = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.lblItemStructureFAT = New common.Controls.MyLabel()
@@ -108,9 +117,14 @@ Partial Class frmJWOEstimate
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnFat, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSnf, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.RadGroupBoxSnf, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBoxSnf.SuspendLayout()
         CType(Me.lblFormulaCodeSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemStructureSNF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -120,8 +134,8 @@ Partial Class frmJWOEstimate
         CType(Me.lblFormulaNameSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFormulaDateSNF, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadGroupFat, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupFat.SuspendLayout()
         CType(Me.lblFormulaCodeFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemStructureFAT, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -229,9 +243,11 @@ Partial Class frmJWOEstimate
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkClose)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBox5)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblVendorCode)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBox1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBoxSnf)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupFat)
         Me.SplitContainer2.Panel1.Controls.Add(Me.ucStatus)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblSRNNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnReset)
@@ -253,6 +269,56 @@ Partial Class frmJWOEstimate
         Me.SplitContainer2.SplitterDistance = 184
         Me.SplitContainer2.TabIndex = 390
         '
+        'chkClose
+        '
+        Me.chkClose.AutoSize = True
+        Me.chkClose.Location = New System.Drawing.Point(708, 56)
+        Me.chkClose.Name = "chkClose"
+        Me.chkClose.Size = New System.Drawing.Size(54, 17)
+        Me.chkClose.TabIndex = 403
+        Me.chkClose.Text = "Close"
+        Me.chkClose.UseVisualStyleBackColor = True
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnFat)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnAll)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnSnf)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(708, 10)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Size = New System.Drawing.Size(179, 40)
+        Me.RadGroupBox5.TabIndex = 402
+        '
+        'rbtnFat
+        '
+        Me.rbtnFat.Location = New System.Drawing.Point(5, 5)
+        Me.rbtnFat.Name = "rbtnFat"
+        Me.rbtnFat.Size = New System.Drawing.Size(35, 18)
+        Me.rbtnFat.TabIndex = 397
+        Me.rbtnFat.TabStop = False
+        Me.rbtnFat.Text = "Fat"
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnAll.Location = New System.Drawing.Point(124, 5)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(33, 18)
+        Me.rbtnAll.TabIndex = 399
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnSnf
+        '
+        Me.rbtnSnf.Location = New System.Drawing.Point(65, 5)
+        Me.rbtnSnf.Name = "rbtnSnf"
+        Me.rbtnSnf.Size = New System.Drawing.Size(36, 18)
+        Me.rbtnSnf.TabIndex = 398
+        Me.rbtnSnf.TabStop = False
+        Me.rbtnSnf.Text = "Snf"
+        '
         'lblVendorCode
         '
         Me.lblVendorCode.AutoSize = False
@@ -262,28 +328,27 @@ Partial Class frmJWOEstimate
         Me.lblVendorCode.Name = "lblVendorCode"
         Me.lblVendorCode.Size = New System.Drawing.Size(225, 20)
         Me.lblVendorCode.TabIndex = 396
-        Me.lblVendorCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorCode.TextWrap = False
         '
-        'RadGroupBox2
+        'RadGroupBoxSnf
         '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.lblFormulaCodeSNF)
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel8)
-        Me.RadGroupBox2.Controls.Add(Me.lblItemStructureSNF)
-        Me.RadGroupBox2.Controls.Add(Me.txtItemStructureSNF)
-        Me.RadGroupBox2.Controls.Add(Me.lblFormulaSNF)
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel12)
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel14)
-        Me.RadGroupBox2.Controls.Add(Me.lblFormulaNameSNF)
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel16)
-        Me.RadGroupBox2.Controls.Add(Me.lblFormulaDateSNF)
-        Me.RadGroupBox2.HeaderText = "SNF Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(472, 73)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(473, 108)
-        Me.RadGroupBox2.TabIndex = 395
-        Me.RadGroupBox2.Text = "SNF Details"
+        Me.RadGroupBoxSnf.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBoxSnf.Controls.Add(Me.lblFormulaCodeSNF)
+        Me.RadGroupBoxSnf.Controls.Add(Me.MyLabel8)
+        Me.RadGroupBoxSnf.Controls.Add(Me.lblItemStructureSNF)
+        Me.RadGroupBoxSnf.Controls.Add(Me.txtItemStructureSNF)
+        Me.RadGroupBoxSnf.Controls.Add(Me.lblFormulaSNF)
+        Me.RadGroupBoxSnf.Controls.Add(Me.MyLabel12)
+        Me.RadGroupBoxSnf.Controls.Add(Me.MyLabel14)
+        Me.RadGroupBoxSnf.Controls.Add(Me.lblFormulaNameSNF)
+        Me.RadGroupBoxSnf.Controls.Add(Me.MyLabel16)
+        Me.RadGroupBoxSnf.Controls.Add(Me.lblFormulaDateSNF)
+        Me.RadGroupBoxSnf.HeaderText = "SNF Details"
+        Me.RadGroupBoxSnf.Location = New System.Drawing.Point(472, 73)
+        Me.RadGroupBoxSnf.Name = "RadGroupBoxSnf"
+        Me.RadGroupBoxSnf.Size = New System.Drawing.Size(473, 108)
+        Me.RadGroupBoxSnf.TabIndex = 395
+        Me.RadGroupBoxSnf.Text = "SNF Details"
         '
         'lblFormulaCodeSNF
         '
@@ -294,7 +359,6 @@ Partial Class frmJWOEstimate
         Me.lblFormulaCodeSNF.Name = "lblFormulaCodeSNF"
         Me.lblFormulaCodeSNF.Size = New System.Drawing.Size(137, 20)
         Me.lblFormulaCodeSNF.TabIndex = 389
-        Me.lblFormulaCodeSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaCodeSNF.TextWrap = False
         '
         'MyLabel8
@@ -315,7 +379,6 @@ Partial Class frmJWOEstimate
         Me.lblItemStructureSNF.Name = "lblItemStructureSNF"
         Me.lblItemStructureSNF.Size = New System.Drawing.Size(232, 20)
         Me.lblItemStructureSNF.TabIndex = 385
-        Me.lblItemStructureSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemStructureSNF.TextWrap = False
         '
         'txtItemStructureSNF
@@ -353,7 +416,6 @@ Partial Class frmJWOEstimate
         Me.lblFormulaSNF.Name = "lblFormulaSNF"
         Me.lblFormulaSNF.Size = New System.Drawing.Size(372, 20)
         Me.lblFormulaSNF.TabIndex = 387
-        Me.lblFormulaSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaSNF.TextWrap = False
         '
         'MyLabel12
@@ -383,7 +445,6 @@ Partial Class frmJWOEstimate
         Me.lblFormulaNameSNF.Name = "lblFormulaNameSNF"
         Me.lblFormulaNameSNF.Size = New System.Drawing.Size(232, 20)
         Me.lblFormulaNameSNF.TabIndex = 380
-        Me.lblFormulaNameSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaNameSNF.TextWrap = False
         '
         'MyLabel16
@@ -404,28 +465,27 @@ Partial Class frmJWOEstimate
         Me.lblFormulaDateSNF.Name = "lblFormulaDateSNF"
         Me.lblFormulaDateSNF.Size = New System.Drawing.Size(137, 20)
         Me.lblFormulaDateSNF.TabIndex = 382
-        Me.lblFormulaDateSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaDateSNF.TextWrap = False
         '
-        'RadGroupBox1
+        'RadGroupFat
         '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.lblFormulaCodeFAT)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
-        Me.RadGroupBox1.Controls.Add(Me.lblItemStructureFAT)
-        Me.RadGroupBox1.Controls.Add(Me.txtItemStructureFAT)
-        Me.RadGroupBox1.Controls.Add(Me.lblFormulaFAT)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
-        Me.RadGroupBox1.Controls.Add(Me.lblFormulaNameFAT)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
-        Me.RadGroupBox1.Controls.Add(Me.lblFormulaDateFAT)
-        Me.RadGroupBox1.HeaderText = "FAT Details"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 73)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(473, 108)
-        Me.RadGroupBox1.TabIndex = 394
-        Me.RadGroupBox1.Text = "FAT Details"
+        Me.RadGroupFat.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupFat.Controls.Add(Me.lblFormulaCodeFAT)
+        Me.RadGroupFat.Controls.Add(Me.MyLabel5)
+        Me.RadGroupFat.Controls.Add(Me.lblItemStructureFAT)
+        Me.RadGroupFat.Controls.Add(Me.txtItemStructureFAT)
+        Me.RadGroupFat.Controls.Add(Me.lblFormulaFAT)
+        Me.RadGroupFat.Controls.Add(Me.MyLabel3)
+        Me.RadGroupFat.Controls.Add(Me.MyLabel2)
+        Me.RadGroupFat.Controls.Add(Me.lblFormulaNameFAT)
+        Me.RadGroupFat.Controls.Add(Me.MyLabel1)
+        Me.RadGroupFat.Controls.Add(Me.lblFormulaDateFAT)
+        Me.RadGroupFat.HeaderText = "FAT Details"
+        Me.RadGroupFat.Location = New System.Drawing.Point(0, 73)
+        Me.RadGroupFat.Name = "RadGroupFat"
+        Me.RadGroupFat.Size = New System.Drawing.Size(473, 108)
+        Me.RadGroupFat.TabIndex = 394
+        Me.RadGroupFat.Text = "FAT Details"
         '
         'lblFormulaCodeFAT
         '
@@ -436,7 +496,6 @@ Partial Class frmJWOEstimate
         Me.lblFormulaCodeFAT.Name = "lblFormulaCodeFAT"
         Me.lblFormulaCodeFAT.Size = New System.Drawing.Size(137, 20)
         Me.lblFormulaCodeFAT.TabIndex = 389
-        Me.lblFormulaCodeFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaCodeFAT.TextWrap = False
         '
         'MyLabel5
@@ -457,7 +516,6 @@ Partial Class frmJWOEstimate
         Me.lblItemStructureFAT.Name = "lblItemStructureFAT"
         Me.lblItemStructureFAT.Size = New System.Drawing.Size(232, 20)
         Me.lblItemStructureFAT.TabIndex = 385
-        Me.lblItemStructureFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemStructureFAT.TextWrap = False
         '
         'txtItemStructureFAT
@@ -495,7 +553,6 @@ Partial Class frmJWOEstimate
         Me.lblFormulaFAT.Name = "lblFormulaFAT"
         Me.lblFormulaFAT.Size = New System.Drawing.Size(372, 20)
         Me.lblFormulaFAT.TabIndex = 387
-        Me.lblFormulaFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaFAT.TextWrap = False
         '
         'MyLabel3
@@ -525,7 +582,6 @@ Partial Class frmJWOEstimate
         Me.lblFormulaNameFAT.Name = "lblFormulaNameFAT"
         Me.lblFormulaNameFAT.Size = New System.Drawing.Size(232, 20)
         Me.lblFormulaNameFAT.TabIndex = 380
-        Me.lblFormulaNameFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaNameFAT.TextWrap = False
         '
         'MyLabel1
@@ -546,7 +602,6 @@ Partial Class frmJWOEstimate
         Me.lblFormulaDateFAT.Name = "lblFormulaDateFAT"
         Me.lblFormulaDateFAT.Size = New System.Drawing.Size(137, 20)
         Me.lblFormulaDateFAT.TabIndex = 382
-        Me.lblFormulaDateFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaDateFAT.TextWrap = False
         '
         'ucStatus
@@ -652,7 +707,6 @@ Partial Class frmJWOEstimate
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(354, 20)
         Me.lblLocation.TabIndex = 374
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtLocation
@@ -699,7 +753,6 @@ Partial Class frmJWOEstimate
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(354, 20)
         Me.lblVendorName.TabIndex = 378
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'RadPageView1
@@ -715,7 +768,6 @@ Partial Class frmJWOEstimate
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(952, 238)
         Me.RadPageView1.TabIndex = 218
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -738,10 +790,13 @@ Partial Class frmJWOEstimate
         Me.gvWeighment.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvWeighment.Location = New System.Drawing.Point(0, 33)
         '
-        'gvWeighment
+        '
         '
         Me.gvWeighment.MasterTemplate.AllowDeleteRow = False
+        Me.gvWeighment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvWeighment.MyStopExport = False
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvWeighment.ShowGroupPanel = False
@@ -749,7 +804,7 @@ Partial Class frmJWOEstimate
         Me.gvWeighment.Size = New System.Drawing.Size(931, 157)
         Me.gvWeighment.TabIndex = 365
         Me.gvWeighment.TabStop = False
-        Me.gvWeighment.Text = "RadGridView1"
+        Me.gvWeighment.VarID = ""
         '
         'Panel1
         '
@@ -870,10 +925,13 @@ Partial Class frmJWOEstimate
         Me.gvFAT.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvFAT.Location = New System.Drawing.Point(0, 0)
         '
-        'gvFAT
+        '
         '
         Me.gvFAT.MasterTemplate.AllowDeleteRow = False
+        Me.gvFAT.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFAT.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvFAT.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvFAT.MyStopExport = False
         Me.gvFAT.Name = "gvFAT"
         Me.gvFAT.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvFAT.ShowGroupPanel = False
@@ -881,7 +939,7 @@ Partial Class frmJWOEstimate
         Me.gvFAT.Size = New System.Drawing.Size(931, 190)
         Me.gvFAT.TabIndex = 366
         Me.gvFAT.TabStop = False
-        Me.gvFAT.Text = "RadGridView1"
+        Me.gvFAT.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -905,7 +963,10 @@ Partial Class frmJWOEstimate
         '
         '
         Me.gvSNF.MasterTemplate.AllowDeleteRow = False
+        Me.gvSNF.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSNF.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSNF.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvSNF.MyStopExport = False
         Me.gvSNF.Name = "gvSNF"
         Me.gvSNF.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSNF.ShowGroupPanel = False
@@ -913,7 +974,7 @@ Partial Class frmJWOEstimate
         Me.gvSNF.Size = New System.Drawing.Size(931, 190)
         Me.gvSNF.TabIndex = 366
         Me.gvSNF.TabStop = False
-        Me.gvSNF.Text = "RadGridView1"
+        Me.gvSNF.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -937,7 +998,10 @@ Partial Class frmJWOEstimate
         '
         '
         Me.gvRawItem.MasterTemplate.AllowDeleteRow = False
+        Me.gvRawItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRawItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvRawItem.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvRawItem.MyStopExport = False
         Me.gvRawItem.Name = "gvRawItem"
         Me.gvRawItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvRawItem.ShowGroupPanel = False
@@ -945,7 +1009,7 @@ Partial Class frmJWOEstimate
         Me.gvRawItem.Size = New System.Drawing.Size(931, 190)
         Me.gvRawItem.TabIndex = 366
         Me.gvRawItem.TabStop = False
-        Me.gvRawItem.Text = "RadGridView1"
+        Me.gvRawItem.VarID = ""
         '
         'RadPageViewPage5
         '
@@ -1271,10 +1335,16 @@ Partial Class frmJWOEstimate
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnFat, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSnf, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
+        CType(Me.RadGroupBoxSnf, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBoxSnf.ResumeLayout(False)
+        Me.RadGroupBoxSnf.PerformLayout()
         CType(Me.lblFormulaCodeSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemStructureSNF, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1284,9 +1354,9 @@ Partial Class frmJWOEstimate
         CType(Me.lblFormulaNameSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblFormulaDateSNF, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadGroupFat, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupFat.ResumeLayout(False)
+        Me.RadGroupFat.PerformLayout()
         CType(Me.lblFormulaCodeFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemStructureFAT, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1401,7 +1471,7 @@ Partial Class frmJWOEstimate
     Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadGroupBox4 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents ucStatus As common.usLock
-    Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents RadGroupBoxSnf As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents lblFormulaCodeSNF As common.Controls.MyLabel
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents lblItemStructureSNF As common.Controls.MyLabel
@@ -1412,7 +1482,7 @@ Partial Class frmJWOEstimate
     Friend WithEvents lblFormulaNameSNF As common.Controls.MyLabel
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents lblFormulaDateSNF As common.Controls.MyLabel
-    Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents RadGroupFat As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents lblFormulaCodeFAT As common.Controls.MyLabel
     Friend WithEvents lblVendorCode As common.Controls.MyLabel
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
@@ -1439,5 +1509,10 @@ Partial Class frmJWOEstimate
     Friend WithEvents RadButton291 As RadButton
     Friend WithEvents RadButton292 As RadButton
     Friend WithEvents RadButton293 As RadButton
+    Friend WithEvents chkClose As CheckBox
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnFat As RadRadioButton
+    Friend WithEvents rbtnAll As RadRadioButton
+    Friend WithEvents rbtnSnf As RadRadioButton
 End Class
 

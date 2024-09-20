@@ -108,9 +108,6 @@ Public Class frmMilkJobWorkTransfer
         coll.Add("Receipt_SNF_KG", "decimal(18,3) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_JOBWORK_TRANSFER_DETAILS", coll, Nothing, False, False, "TSPL_MILK_JOBWORK_TRANSFER_HEAD", "Document_Code", "")
 
-
-
-
         AllowManualRateonPO = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualPriceONBulkPO, clsFixedParameterCode.AllowManualPriceONBulkPO, Nothing))
         AllowRandomOnlyOneSecondaryQC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowRandomOnlyOneSecondaryQC, clsFixedParameterCode.AllowRandomOnlyOneSecondaryQC, Nothing))
         AllowNLevel = clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.frmMilkJobWorkTransfer)
