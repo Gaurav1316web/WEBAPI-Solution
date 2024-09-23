@@ -23,7 +23,7 @@ Public Class frmJWOEstimate
     Const colWeightSNFPer As String = "colWeightSNFPer"
     Const colWeightSNFKG As String = "colWeightSNFKG"
     Const colWeightSNFKGEst As String = "colWeightSNFKGEst"
-
+    Public JWOutWardForRCDF As Boolean = False
 
     Const colFATSNo As String = "colFATSNo"
     Const colFATTRDate As String = "colTRDate"
@@ -87,6 +87,7 @@ Public Class frmJWOEstimate
 #End Region
 
     Private Sub FrmSRNJobWorkEstimate_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        JWOutWardForRCDF = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.JWOutWardForRCDF, clsFixedParameterCode.JWOutWardForRCDF, Nothing)) = "1", True, False)
         settSNFFromCLRAndCorrectionFactorInJWIEst = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SNFFromCLRAndCorrectionFactorInJWIEst, clsFixedParameterCode.SNFFromCLRAndCorrectionFactorInJWIEst, Nothing) = 1))
         settJOBdefaultCorrectionFactorBS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.JOBdefaultCorrectionFactorBS, clsFixedParameterCode.JOBdefaultCorrectionFactorBS, Nothing))
         settAutoCalculateProduceQty = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoCalculateProduceQty, clsFixedParameterCode.AutoCalculateProduceQty, Nothing) = 1))
@@ -208,7 +209,7 @@ Public Class frmJWOEstimate
         repoNumBox.Name = colWeightGEFATPer
         repoNumBox.Width = 80
         repoNumBox.ReadOnly = True
-        repoNumBox.IsVisible = True
+        repoNumBox.IsVisible = Not JWOutWardForRCDF
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvWeighment.MasterTemplate.Columns.Add(repoNumBox)
         '======================================================================================
@@ -272,7 +273,7 @@ Public Class frmJWOEstimate
         repoNumBox.Name = colWeightGESNFPer
         repoNumBox.Width = 80
         repoNumBox.ReadOnly = True
-        repoNumBox.IsVisible = True
+        repoNumBox.IsVisible = Not JWOutWardForRCDF
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvWeighment.MasterTemplate.Columns.Add(repoNumBox)
         '=================================================================================
@@ -389,6 +390,7 @@ Public Class frmJWOEstimate
         repoTxtBox.HeaderImage = Global.XpertERPJobWorkOutward.My.Resources.Resources.search4
         repoTxtBox.TextImageRelation = TextImageRelation.TextBeforeImage
         repoTxtBox.Width = 100
+        repoTxtBox.ReadOnly = JWOutWardForRCDF
         gvFAT.MasterTemplate.Columns.Add(repoTxtBox)
 
         repoNumBox = New GridViewDecimalColumn()
@@ -611,6 +613,7 @@ Public Class frmJWOEstimate
         repoTxtBox.HeaderImage = Global.XpertERPJobWorkOutward.My.Resources.Resources.search4
         repoTxtBox.TextImageRelation = TextImageRelation.TextBeforeImage
         repoTxtBox.Width = 100
+        repoTxtBox.ReadOnly = JWOutWardForRCDF
         gvSNF.MasterTemplate.Columns.Add(repoTxtBox)
 
         repoNumBox = New GridViewDecimalColumn()
@@ -1020,6 +1023,11 @@ Public Class frmJWOEstimate
 
     Sub AddNew()
         GroupBox92.Visible = False
+        rbtnFat.IsChecked = False
+        rbtnSnf.IsChecked = False
+        rbtnAll.IsChecked = True
+        RadGroupFat.Visible = True
+        RadGroupBoxSnf.Visible = True
         txtDocumentNo.Value = ""
         txtDocumentDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = txtDocumentDate.Value
@@ -1077,11 +1085,17 @@ Public Class frmJWOEstimate
                 txtLocation.Focus()
                 Throw New Exception("Please select locatioin")
             End If
-            Dim BaseQry As String = "select   TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Receipt_snf_Per as GE_SNF_Per,TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Receipt_fat_per as GE_FAT_Per ,TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Code,TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Date,TSPL_MILK_JOBWORK_TRANSFER_HEAD.Tanker_No,TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Receipt_Net_Weight as Net_Weight,TSPL_MILK_JOBWORK_TRANSFER_DETAILS.UOM " + Environment.NewLine +
+            Dim BaseQry As String = ""
+            If JWOutWardForRCDF Then
+                BaseQry = " Select TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Net_Weight As Net_Weight, TSPL_MILK_JOBWORK_TRANSFER_DETAILS.snf_Per As GE_SNF_Per,TSPL_MILK_JOBWORK_TRANSFER_DETAILS.fat_per As GE_FAT_Per "
+            Else
+                BaseQry = "Select TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Receipt_Net_Weight As Net_Weight, TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Receipt_snf_Per As GE_SNF_Per,TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Receipt_fat_per As GE_FAT_Per "
+            End If
+            BaseQry += "  ,TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Code,TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Date,TSPL_MILK_JOBWORK_TRANSFER_HEAD.Tanker_No,TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_JOBWORK_TRANSFER_DETAILS.UOM " + Environment.NewLine +
 "from TSPL_MILK_JOBWORK_TRANSFER_DETAILS " + Environment.NewLine +
-"left join TSPL_MILK_JOBWORK_TRANSFER_HEAD on TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Code =TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Document_Code " + Environment.NewLine +
-"left outer join tspl_item_master on tspl_item_master.Item_Code=TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Item_Code" + Environment.NewLine +
-"where 2=2 and TSPL_MILK_JOBWORK_TRANSFER_HEAD.isPosted=1 and TSPL_MILK_JOBWORK_TRANSFER_HEAD.JobWork_location='" + txtLocation.Value + "' and  " + Environment.NewLine +
+"left join TSPL_MILK_JOBWORK_TRANSFER_HEAD On TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Code =TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Document_Code " + Environment.NewLine +
+"left outer join tspl_item_master On tspl_item_master.Item_Code=TSPL_MILK_JOBWORK_TRANSFER_DETAILS.Item_Code" + Environment.NewLine +
+"where 2=2 And TSPL_MILK_JOBWORK_TRANSFER_HEAD.isPosted=1 And TSPL_MILK_JOBWORK_TRANSFER_HEAD.JobWork_location='" + txtLocation.Value + "' and  " + Environment.NewLine +
 "not exists (select 1 from TSPL_JWO_ESTIMATION_TRANSFER where TSPL_JWO_ESTIMATION_TRANSFER.Transfer_Code=TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Code and TSPL_JWO_ESTIMATION_TRANSFER.Document_NO not in ('" + txtDocumentNo.Value + "')) " + Environment.NewLine +
 "and TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_JOBWORK_TRANSFER_HEAD.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
 
@@ -1401,6 +1415,10 @@ Public Class frmJWOEstimate
                         OpenFATBOMCode(False)
                     ElseIf (e.Column Is gvFAT.Columns(colFATItemCode)) Then
                         OpenFATICode(False)
+                        If JWOutWardForRCDF Then
+                            OpenFATBOMCode(False)
+                        End If
+
                     ElseIf (e.Column Is gvFAT.Columns(colFATUOM)) Then
                         OpenFATUOM(False)
                     End If
@@ -1416,40 +1434,59 @@ Public Class frmJWOEstimate
         Dim icode As String = ""
         Dim whrCls As String = ""
         Dim bomcode As String = ""
-        icode = clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATItemCode).Value)
-        If clsCommon.myLen(icode) > 0 Then
-            whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)=1 and TSPL_PP_BOM_HEAD.Vendor_Code='" + lblVendorCode.Text + "' and TSPL_PP_BOM_HEAD.prod_item_code='" + icode + "' and TSPL_PP_BOM_HEAD.item_category_code='" + txtItemStructureFAT.Value + "' and tspl_item_master.Structure_Code='" + txtItemStructureFAT.Value + "' and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' "
-        Else
-            whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)=1 and TSPL_PP_BOM_HEAD.Vendor_Code='" + lblVendorCode.Text + "' and tspl_item_master.Structure_Code='" + txtItemStructureFAT.Value + "' and TSPL_PP_BOM_HEAD.item_category_code='" + txtItemStructureFAT.Value + "' and tspl_item_master.item_type in ('F','S') and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' "
-        End If
-        Dim oldbomcode As String = clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATBOMCode).Value)
-        bomcode = clsBOM.GetBOMFinderWithValidityCheck(whrCls, oldbomcode, txtDocumentDate.Value, isButtonClicked)
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select prod_item_unit_code,prod_quantity,prod_item_code from tspl_pp_bom_head where bom_code='" + bomcode + "'")
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            gvFAT.CurrentRow.Cells(colFATBOMCode).Value = bomcode
-            gvFAT.CurrentRow.Cells(colFATUOM).Value = clsCommon.myCstr(dt.Rows(0)("prod_item_unit_code"))
-            If clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATQty).Value) <= 0 Then
-                gvFAT.CurrentRow.Cells(colFATQty).Value = Math.Round(clsCommon.myCdbl(dt.Rows(0)("prod_quantity")), 2)
-            End If
-            If clsCommon.myLen(icode) <= 0 Then
-                gvFAT.CurrentRow.Cells(colFATItemCode).Value = clsCommon.myCstr(dt.Rows(0)("prod_item_code"))
-                gvFAT.CurrentRow.Cells(colFATItemName).Value = clsItemMaster.GetItemName(clsCommon.myCstr(dt.Rows(0)("prod_item_code")), Nothing)
-                gvFAT.CurrentRow.Cells(colFATFATPer).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvFAT.CurrentRow.Cells(colFATItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
-                gvFAT.CurrentRow.Cells(colFATFATKg).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATItemCode).Value), clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATUOM).Value), clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATQty).Value), clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATFATPer).Value), Nothing)
-
-                gvFAT.CurrentRow.Cells(colFATFATKg).Value = clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATFATKgEst).Value)
+        Try
+            icode = clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATItemCode).Value)
+            If clsCommon.myLen(icode) > 0 Then
+                whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)=1 and TSPL_PP_BOM_HEAD.Vendor_Code='" + lblVendorCode.Text + "' and TSPL_PP_BOM_HEAD.prod_item_code='" + icode + "' and TSPL_PP_BOM_HEAD.item_category_code='" + txtItemStructureFAT.Value + "' and tspl_item_master.Structure_Code='" + txtItemStructureFAT.Value + "' and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' "
             Else
-                gvFAT.CurrentRow.Cells(colFATFATPer).Value = clsBOM.GetFAT_PERS(clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATItemCode).Value))
+                whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)=1 and TSPL_PP_BOM_HEAD.Vendor_Code='" + lblVendorCode.Text + "' and tspl_item_master.Structure_Code='" + txtItemStructureFAT.Value + "' and TSPL_PP_BOM_HEAD.item_category_code='" + txtItemStructureFAT.Value + "' and tspl_item_master.item_type in ('F','S') and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' "
             End If
-        Else
-            gvFAT.CurrentRow.Cells(colFATBOMCode).Value = ""
-            If clsCommon.myLen(icode) <= 0 Then
-                gvFAT.CurrentRow.Cells(colFATItemCode).Value = ""
-                gvFAT.CurrentRow.Cells(colFATItemName).Value = ""
-                gvFAT.CurrentRow.Cells(colFATUOM).Value = ""
-                gvFAT.CurrentRow.Cells(colFATQty).Value = 0
+            Dim oldbomcode As String = clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATBOMCode).Value)
+            If JWOutWardForRCDF Then
+                If clsCommon.myLen(icode) <= 0 Then
+                    clsCommon.MyMessageBoxShow("Please select Item code first")
+                End If
+                bomcode = clsDBFuncationality.getSingleValue("select top 1 BOM_CODE from TSPL_PP_BOM_HEAD  where PROD_ITEM_CODE ='" & icode & "' and Vendor_Code = '" & lblVendorCode.Text & "' and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' order by BOM_DATE desc ")
+            Else
+                bomcode = clsBOM.GetBOMFinderWithValidityCheck(whrCls, oldbomcode, txtDocumentDate.Value, isButtonClicked)
             End If
-        End If
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select prod_item_unit_code,prod_quantity,prod_item_code from tspl_pp_bom_head where bom_code='" + bomcode + "'")
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                gvFAT.CurrentRow.Cells(colFATBOMCode).Value = bomcode
+                gvFAT.CurrentRow.Cells(colFATUOM).Value = clsCommon.myCstr(dt.Rows(0)("prod_item_unit_code"))
+                If JWOutWardForRCDF Then
+                    If clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATQty).Value) <= 0 Then
+                        gvFAT.CurrentRow.Cells(colFATQty).Value = clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATFATKgEst).Value)
+                    End If
+                Else
+                    If clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATQty).Value) <= 0 Then
+                        gvFAT.CurrentRow.Cells(colFATQty).Value = Math.Round(clsCommon.myCdbl(dt.Rows(0)("prod_quantity")), 2)
+                    End If
+                End If
+
+                If clsCommon.myLen(icode) <= 0 Then
+                    gvFAT.CurrentRow.Cells(colFATItemCode).Value = clsCommon.myCstr(dt.Rows(0)("prod_item_code"))
+                    gvFAT.CurrentRow.Cells(colFATItemName).Value = clsItemMaster.GetItemName(clsCommon.myCstr(dt.Rows(0)("prod_item_code")), Nothing)
+                    gvFAT.CurrentRow.Cells(colFATFATPer).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvFAT.CurrentRow.Cells(colFATItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
+                    gvFAT.CurrentRow.Cells(colFATFATKg).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATItemCode).Value), clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATUOM).Value), clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATQty).Value), clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATFATPer).Value), Nothing)
+
+                    gvFAT.CurrentRow.Cells(colFATFATKg).Value = clsCommon.myCdbl(gvFAT.CurrentRow.Cells(colFATFATKgEst).Value)
+                Else
+                    gvFAT.CurrentRow.Cells(colFATFATPer).Value = clsBOM.GetFAT_PERS(clsCommon.myCstr(gvFAT.CurrentRow.Cells(colFATItemCode).Value))
+                End If
+            Else
+                gvFAT.CurrentRow.Cells(colFATBOMCode).Value = ""
+                If clsCommon.myLen(icode) <= 0 Then
+                    gvFAT.CurrentRow.Cells(colFATItemCode).Value = ""
+                    gvFAT.CurrentRow.Cells(colFATItemName).Value = ""
+                    gvFAT.CurrentRow.Cells(colFATUOM).Value = ""
+                    gvFAT.CurrentRow.Cells(colFATQty).Value = 0
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub OpenFATICode(ByVal isButtonClicked As Boolean)
@@ -1502,6 +1539,9 @@ Public Class frmJWOEstimate
                         OpenSNFBOMCode(False)
                     ElseIf (e.Column Is gvSNF.Columns(colSNFItemCode)) Then
                         OpenSNFICode(False)
+                        If JWOutWardForRCDF Then
+                            OpenSNFBOMCode(False)
+                        End If
                     ElseIf (e.Column Is gvSNF.Columns(colSNFUOM)) Then
                         OpenSNFUOM(False)
                     End If
@@ -1514,44 +1554,60 @@ Public Class frmJWOEstimate
     End Sub
 
     Sub OpenSNFBOMCode(ByVal isButtonClicked As Boolean)
-        Dim icode As String = ""
-        Dim whrCls As String = ""
-        Dim bomcode As String = ""
-        icode = clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFItemCode).Value)
-        If clsCommon.myLen(icode) > 0 Then
-            whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)=1 and TSPL_PP_BOM_HEAD.Vendor_Code='" + lblVendorCode.Text + "' and TSPL_PP_BOM_HEAD.prod_item_code='" + icode + "' and TSPL_PP_BOM_HEAD.item_category_code='" + txtItemStructureSNF.Value + "' and tspl_item_master.Structure_Code='" + txtItemStructureSNF.Value + "' and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' "
-        Else
-            whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)=1 and TSPL_PP_BOM_HEAD.Vendor_Code='" + lblVendorCode.Text + "' and tspl_item_master.Structure_Code='" + txtItemStructureSNF.Value + "' and TSPL_PP_BOM_HEAD.item_category_code='" + txtItemStructureSNF.Value + "' and tspl_item_master.item_type in ('F','S') and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' "
-        End If
-        Dim oldbomcode As String = clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFBOMCode).Value)
-        bomcode = clsBOM.GetBOMFinderWithValidityCheck(whrCls, oldbomcode, txtDocumentDate.Value, isButtonClicked)
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select prod_item_unit_code,prod_quantity,prod_item_code from tspl_pp_bom_head where bom_code='" + bomcode + "'")
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            gvSNF.CurrentRow.Cells(colSNFBOMCode).Value = bomcode
-            gvSNF.CurrentRow.Cells(colSNFUOM).Value = clsCommon.myCstr(dt.Rows(0)("prod_item_unit_code"))
-            If clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFQty).Value) <= 0 Then
-                gvSNF.CurrentRow.Cells(colSNFQty).Value = Math.Round(clsCommon.myCdbl(dt.Rows(0)("prod_quantity")), 2)
-
-            End If
-            If clsCommon.myLen(icode) <= 0 Then
-                gvSNF.CurrentRow.Cells(colSNFItemCode).Value = clsCommon.myCstr(dt.Rows(0)("prod_item_code"))
-                gvSNF.CurrentRow.Cells(colSNFItemName).Value = clsItemMaster.GetItemName(clsCommon.myCstr(dt.Rows(0)("prod_item_code")), Nothing)
-                gvSNF.CurrentRow.Cells(colSNFSNFPer).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvSNF.CurrentRow.Cells(colSNFItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
-                gvSNF.CurrentRow.Cells(colSNFSNFKg).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFItemCode).Value), clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFUOM).Value), clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFQty).Value), clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFSNFPer).Value), Nothing)
-
-                gvSNF.CurrentRow.Cells(colSNFSNFKg).Value = clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFSNFKgEst).Value)
+        Try
+            Dim icode As String = ""
+            Dim whrCls As String = ""
+            Dim bomcode As String = ""
+            icode = clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFItemCode).Value)
+            If clsCommon.myLen(icode) > 0 Then
+                whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)=1 and TSPL_PP_BOM_HEAD.Vendor_Code='" + lblVendorCode.Text + "' and TSPL_PP_BOM_HEAD.prod_item_code='" + icode + "' and TSPL_PP_BOM_HEAD.item_category_code='" + txtItemStructureSNF.Value + "' and tspl_item_master.Structure_Code='" + txtItemStructureSNF.Value + "' and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' "
             Else
-                gvSNF.CurrentRow.Cells(colSNFSNFPer).Value = clsBOM.GetSNF_PERS(clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFItemCode).Value))
+                whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)=1 and TSPL_PP_BOM_HEAD.Vendor_Code='" + lblVendorCode.Text + "' and tspl_item_master.Structure_Code='" + txtItemStructureSNF.Value + "' and TSPL_PP_BOM_HEAD.item_category_code='" + txtItemStructureSNF.Value + "' and tspl_item_master.item_type in ('F','S') and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' "
             End If
-        Else
-            gvSNF.CurrentRow.Cells(colSNFBOMCode).Value = ""
-            If clsCommon.myLen(icode) <= 0 Then
-                gvSNF.CurrentRow.Cells(colSNFItemCode).Value = ""
-                gvSNF.CurrentRow.Cells(colSNFItemName).Value = ""
-                gvSNF.CurrentRow.Cells(colSNFUOM).Value = ""
-                gvSNF.CurrentRow.Cells(colSNFQty).Value = 0
+            Dim oldbomcode As String = clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFBOMCode).Value)
+            If JWOutWardForRCDF Then
+                If clsCommon.myLen(icode) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please select Item code first", Me.Text)
+                End If
+                bomcode = clsDBFuncationality.getSingleValue("select top 1 BOM_CODE from TSPL_PP_BOM_HEAD  where PROD_ITEM_CODE ='" & icode & "' and Vendor_Code = '" & lblVendorCode.Text & "' and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1' order by BOM_DATE desc ")
+            Else
+                bomcode = clsBOM.GetBOMFinderWithValidityCheck(whrCls, oldbomcode, txtDocumentDate.Value, isButtonClicked)
             End If
-        End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select prod_item_unit_code,prod_quantity,prod_item_code from tspl_pp_bom_head where bom_code='" + bomcode + "'")
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                gvSNF.CurrentRow.Cells(colSNFBOMCode).Value = bomcode
+                gvSNF.CurrentRow.Cells(colSNFUOM).Value = clsCommon.myCstr(dt.Rows(0)("prod_item_unit_code"))
+                If JWOutWardForRCDF Then
+                    If clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFQty).Value) <= 0 Then
+                        gvSNF.CurrentRow.Cells(colSNFQty).Value = clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFSNFKgEst).Value)
+                    End If
+                Else
+                    If clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFQty).Value) <= 0 Then
+                        gvSNF.CurrentRow.Cells(colSNFQty).Value = Math.Round(clsCommon.myCdbl(dt.Rows(0)("prod_quantity")), 2)
+                    End If
+                End If
+                If clsCommon.myLen(icode) <= 0 Then
+                    gvSNF.CurrentRow.Cells(colSNFItemCode).Value = clsCommon.myCstr(dt.Rows(0)("prod_item_code"))
+                    gvSNF.CurrentRow.Cells(colSNFItemName).Value = clsItemMaster.GetItemName(clsCommon.myCstr(dt.Rows(0)("prod_item_code")), Nothing)
+                    gvSNF.CurrentRow.Cells(colSNFSNFPer).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvSNF.CurrentRow.Cells(colSNFItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
+                    gvSNF.CurrentRow.Cells(colSNFSNFKg).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFItemCode).Value), clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFUOM).Value), clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFQty).Value), clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFSNFPer).Value), Nothing)
+
+                    gvSNF.CurrentRow.Cells(colSNFSNFKg).Value = clsCommon.myCdbl(gvSNF.CurrentRow.Cells(colSNFSNFKgEst).Value)
+                Else
+                    gvSNF.CurrentRow.Cells(colSNFSNFPer).Value = clsBOM.GetSNF_PERS(clsCommon.myCstr(gvSNF.CurrentRow.Cells(colSNFItemCode).Value))
+                End If
+            Else
+                gvSNF.CurrentRow.Cells(colSNFBOMCode).Value = ""
+                If clsCommon.myLen(icode) <= 0 Then
+                    gvSNF.CurrentRow.Cells(colSNFItemCode).Value = ""
+                    gvSNF.CurrentRow.Cells(colSNFItemName).Value = ""
+                    gvSNF.CurrentRow.Cells(colSNFUOM).Value = ""
+                    gvSNF.CurrentRow.Cells(colSNFQty).Value = 0
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub OpenSNFICode(ByVal isButtonClicked As Boolean)
@@ -1705,22 +1761,33 @@ Public Class frmJWOEstimate
             txtLocation.Focus()
             Throw New Exception("Vendor not found")
         End If
-        If clsCommon.myLen(txtItemStructureFAT.Value) <= 0 Then
-            txtItemStructureFAT.Focus()
-            Throw New Exception("Please select FAT Item Structure")
+
+        If rbtnFat.IsChecked OrElse rbtnAll.IsChecked Then
+            If clsCommon.myLen(txtItemStructureFAT.Value) <= 0 Then
+                txtItemStructureFAT.Focus()
+                Throw New Exception("Please select FAT Item Structure")
+            End If
         End If
-        If clsCommon.myLen(txtItemStructureSNF.Value) <= 0 Then
-            txtItemStructureSNF.Focus()
-            Throw New Exception("Please select SNF Item Structure")
+
+        If rbtnSnf.IsChecked OrElse rbtnAll.IsChecked Then
+            If clsCommon.myLen(txtItemStructureSNF.Value) <= 0 Then
+                txtItemStructureSNF.Focus()
+                Throw New Exception("Please select SNF Item Structure")
+            End If
         End If
         FillFormula()
-        If clsCommon.myLen(lblFormulaCodeFAT.Text) <= 0 Then
-            txtItemStructureFAT.Focus()
-            Throw New Exception("Formula is not avilable for FAT Item Structure Code - " + txtItemStructureFAT.Value + "")
+        If rbtnFat.IsChecked OrElse rbtnAll.IsChecked Then
+            If clsCommon.myLen(lblFormulaCodeFAT.Text) <= 0 Then
+                txtItemStructureFAT.Focus()
+                Throw New Exception("Formula is not avilable for FAT Item Structure Code - " + txtItemStructureFAT.Value + "")
+            End If
         End If
-        If clsCommon.myLen(lblFormulaCodeSNF.Text) <= 0 Then
-            txtItemStructureFAT.Focus()
-            Throw New Exception("Formula is not avilable for SNF Item Structure Code - " + txtItemStructureSNF.Value + "")
+
+        If rbtnSnf.IsChecked OrElse rbtnAll.IsChecked Then
+            If clsCommon.myLen(lblFormulaCodeSNF.Text) <= 0 Then
+                txtItemStructureFAT.Focus()
+                Throw New Exception("Formula is not avilable for SNF Item Structure Code - " + txtItemStructureSNF.Value + "")
+            End If
         End If
         If gvWeighment.Rows.Count <= 0 Then
             Throw New Exception("SRN Document Not Available between " + clsCommon.myCstr(txtFromDate.Value) + " to " + clsCommon.myCstr(txtToDate.Value) + "")
@@ -1728,6 +1795,30 @@ Public Class frmJWOEstimate
         For ii As Integer = 0 To gvWeighment.Rows.Count - 1
             calculateWeighmentFATSNFKG(ii)
         Next
+
+        If rbtnFat.IsChecked Then
+            For ii As Integer = 0 To gvFAT.Rows.Count - 1
+                If clsCommon.myLen(gvFAT.Rows(ii).Cells(colFATItemCode).Value) <= 0 Then
+                    Throw New Exception("Fat Production detail is blank")
+                End If
+            Next
+        ElseIf rbtnSnf.IsChecked Then
+            For ii As Integer = 0 To gvSNF.Rows.Count - 1
+                If clsCommon.myLen(gvSNF.Rows(ii).Cells(colSNFItemCode).Value) <= 0 Then
+                    Throw New Exception("Snf Production detail is blank")
+                End If
+            Next
+        ElseIf rbtnAll.IsChecked Then
+            For ii As Integer = 0 To gvFAT.Rows.Count - 1
+                If clsCommon.myLen(gvFAT.Rows(ii).Cells(colFATItemCode).Value) <= 0 AndAlso clsCommon.myLen(gvSNF.Rows(ii).Cells(colSNFItemCode).Value) <= 0 Then
+                    Throw New Exception("Fat and Snf Production details is blank")
+                ElseIf clsCommon.myLen(gvFAT.Rows(ii).Cells(colFATItemCode).Value) <= 0 AndAlso clsCommon.myLen(gvSNF.Rows(ii).Cells(colSNFItemCode).Value) > 0 Then
+                    Throw New Exception("Fat Production detail is blank")
+                ElseIf clsCommon.myLen(gvFAT.Rows(ii).Cells(colFATItemCode).Value) > 0 AndAlso clsCommon.myLen(gvSNF.Rows(ii).Cells(colSNFItemCode).Value) <= 0 Then
+                    Throw New Exception("Snf Production detail is blank")
+                End If
+            Next
+        End If
         'If clsCommon.myCdbl(lblFATKGWeighmentEst.Text) = 0 AndAlso clsCommon.myCdbl(lblFATKGRawItem.Text) > 0 Then
         '    Throw New Exception("Raw Item FAT KG Should be Zero" + Environment.NewLine + " Total Estimated FAT Kg [" + clsCommon.myCstr(lblFATKGWeighmentEst.Text) + "] but Raw Item FAT KG [" + clsCommon.myCstr(lblFATKGRawItem.Text) + "]")
         'End If
@@ -1754,19 +1845,35 @@ Public Class frmJWOEstimate
                 obj.Vendor_Code = lblVendorCode.Text
                 obj.Item_Structure_FAT = txtItemStructureFAT.Value
                 obj.Formula_code_FAT = lblFormulaCodeFAT.Text
-                obj.Formula_Date_FAT = clsCommon.myCDate(lblFormulaDateFAT.Text)
+                If rbtnFat.IsChecked OrElse rbtnAll.IsChecked Then
+                    obj.Formula_Date_FAT = clsCommon.GetPrintDate(lblFormulaDateFAT.Text, "dd/MMM/yyyy hh:mm:ss tt ")
+                End If
                 obj.Formula_FAT = lblFormulaFAT.Text
                 obj.Item_Structure_SNF = txtItemStructureSNF.Value
                 obj.Formula_code_SNF = lblFormulaCodeSNF.Text
-                obj.Formula_Date_SNF = clsCommon.myCDate(lblFormulaDateSNF.Text)
+                If rbtnSnf.IsChecked OrElse rbtnAll.IsChecked Then
+                    obj.Formula_Date_SNF = clsCommon.GetPrintDate(lblFormulaDateSNF.Text, "dd/MMM/yyyy hh:mm:ss tt ")
+                End If
                 obj.Formula_SNF = lblFormulaSNF.Text
                 obj.Qty_Weighment = clsCommon.myCdbl(lblQtyWeighment.Text)
                 obj.FAT_KG_Weighment = clsCommon.myCdbl(lblFATKGWeighment.Text)
                 obj.SNF_KG_Weighment = clsCommon.myCdbl(lblSNFKGWeighment.Text)
                 obj.Estimated_FAT_KG_Weighment = clsCommon.myCdbl(lblFATKGWeighmentEst.Text)
                 obj.Estimated_SNF_KG_Weighment = clsCommon.myCdbl(lblSNFKGWeighmentEst.Text)
-                obj.FAT_KG_Raw_Item = clsCommon.myCdbl(lblFATKGRawItem.Text)
-                obj.SNF_KG_Raw_Item = clsCommon.myCdbl(lblSNFKGRawItem.Text)
+                obj.Is_Close = CInt(clsCommon.myCdbl(IIf(chkClose.Checked, "1", "0")))
+                If rbtnFat.IsChecked Then
+                    obj.Type = "Fat"
+                ElseIf rbtnSnf.IsChecked Then
+                    obj.Type = "Snf"
+                ElseIf rbtnAll.IsChecked Then
+                    obj.Type = "All"
+                End If
+                If rbtnFat.IsChecked OrElse rbtnAll.IsChecked Then
+                    obj.FAT_KG_Raw_Item = clsCommon.myCdbl(lblFATKGRawItem.Text)
+                End If
+                If rbtnSnf.IsChecked OrElse rbtnAll.IsChecked Then
+                    obj.SNF_KG_Raw_Item = clsCommon.myCdbl(lblSNFKGRawItem.Text)
+                End If
 
                 obj.ArrWeighment = New List(Of clsJWOEstimateTransfer)
                 For ii As Integer = 0 To gvWeighment.Rows.Count - 1
@@ -1931,7 +2038,14 @@ Public Class frmJWOEstimate
                 lblSNFKGWeighmentEst.Text = clsCommon.myFormat(obj.Estimated_SNF_KG_Weighment)
                 lblFATKGRawItem.Text = clsCommon.myFormat(obj.FAT_KG_Raw_Item)
                 lblSNFKGRawItem.Text = clsCommon.myFormat(obj.SNF_KG_Raw_Item)
-
+                chkClose.Checked = IIf(obj.Is_Close = 1, True, False)
+                If clsCommon.CompairString(obj.Type, "Fat") = CompairStringResult.Equal Then
+                    rbtnFat.IsChecked = True
+                ElseIf clsCommon.CompairString(obj.Type, "Snf") = CompairStringResult.Equal Then
+                    rbtnSnf.IsChecked = True
+                Else
+                    rbtnAll.IsChecked = True
+                End If
                 For ii As Integer = 0 To obj.ArrWeighment.Count - 1
                     If ii = 0 Then
                         txtFromDate.Value = obj.ArrWeighment(ii).Transfer_Date
@@ -2144,20 +2258,26 @@ Public Class frmJWOEstimate
                 Errorcontrol.ResetError(txtDocumentNo)
             End If
 
-            If clsCommon.myCdbl(lblFATKGWeighmentEst.Text) = 0 AndAlso clsCommon.myCdbl(lblFATKGRawItem.Text) > 0 Then
-                Throw New Exception("Raw Item FAT KG Should be Zero" + Environment.NewLine + " Total Estimated FAT Kg [" + clsCommon.myCstr(lblFATKGWeighmentEst.Text) + "] but Raw Item FAT KG [" + clsCommon.myCstr(lblFATKGRawItem.Text) + "]")
+            If rbtnFat.IsChecked OrElse rbtnAll.IsChecked Then
+                If clsCommon.myCdbl(lblFATKGWeighmentEst.Text) = 0 AndAlso clsCommon.myCdbl(lblFATKGRawItem.Text) > 0 Then
+                    Throw New Exception("Raw Item FAT KG Should be Zero" + Environment.NewLine + " Total Estimated FAT Kg [" + clsCommon.myCstr(lblFATKGWeighmentEst.Text) + "] but Raw Item FAT KG [" + clsCommon.myCstr(lblFATKGRawItem.Text) + "]")
+                End If
             End If
-            If clsCommon.myCdbl(lblSNFKGWeighmentEst.Text) = 0 AndAlso clsCommon.myCdbl(lblSNFKGRawItem.Text) > 0 Then
-                Throw New Exception("Raw Item SNF KG Should be Zero" + Environment.NewLine + "Total Estimated SNF Kg [" + clsCommon.myCstr(lblSNFKGWeighmentEst.Text) + "] but Raw Item SNF KG [" + clsCommon.myCstr(lblSNFKGRawItem.Text) + "]")
+            If rbtnSnf.IsChecked OrElse rbtnAll.IsChecked Then
+                If clsCommon.myCdbl(lblSNFKGWeighmentEst.Text) = 0 AndAlso clsCommon.myCdbl(lblSNFKGRawItem.Text) > 0 Then
+                    Throw New Exception("Raw Item SNF KG Should be Zero" + Environment.NewLine + "Total Estimated SNF Kg [" + clsCommon.myCstr(lblSNFKGWeighmentEst.Text) + "] but Raw Item SNF KG [" + clsCommon.myCstr(lblSNFKGRawItem.Text) + "]")
+                End If
             End If
-
-            If clsCommon.myCdbl(lblFATKGWeighmentEst.Text) > 0 AndAlso clsCommon.myCdbl(lblFATKGRawItem.Text) = 0 Then
-                Throw New Exception("Raw Item FAT KG Should be above Zero" + Environment.NewLine + "Total Estimated FAT Kg [" + clsCommon.myCstr(lblFATKGWeighmentEst.Text) + "] but Raw Item FAT KG [" + clsCommon.myCstr(lblFATKGRawItem.Text) + "]")
+            If rbtnFat.IsChecked OrElse rbtnAll.IsChecked Then
+                If clsCommon.myCdbl(lblFATKGWeighmentEst.Text) > 0 AndAlso clsCommon.myCdbl(lblFATKGRawItem.Text) = 0 Then
+                    Throw New Exception("Raw Item FAT KG Should be above Zero" + Environment.NewLine + "Total Estimated FAT Kg [" + clsCommon.myCstr(lblFATKGWeighmentEst.Text) + "] but Raw Item FAT KG [" + clsCommon.myCstr(lblFATKGRawItem.Text) + "]")
+                End If
             End If
-            If clsCommon.myCdbl(lblSNFKGWeighmentEst.Text) > 0 AndAlso clsCommon.myCdbl(lblSNFKGRawItem.Text) = 0 Then
-                Throw New Exception("Estimated SNF KG Should be above Zero" + Environment.NewLine + "Total Estimated SNF Kg [" + clsCommon.myCstr(lblSNFKGWeighmentEst.Text) + "] but Raw Item SNF KG [" + clsCommon.myCstr(lblSNFKGRawItem.Text) + "]")
+            If rbtnSnf.IsChecked OrElse rbtnAll.IsChecked Then
+                If clsCommon.myCdbl(lblSNFKGWeighmentEst.Text) > 0 AndAlso clsCommon.myCdbl(lblSNFKGRawItem.Text) = 0 Then
+                    Throw New Exception("Estimated SNF KG Should be above Zero" + Environment.NewLine + "Total Estimated SNF Kg [" + clsCommon.myCstr(lblSNFKGWeighmentEst.Text) + "] but Raw Item SNF KG [" + clsCommon.myCstr(lblSNFKGRawItem.Text) + "]")
+                End If
             End If
-
             If clsCommon.MyMessageBoxShow("Post the current Document No [" + txtDocumentNo.Value + "]", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 If clsJWOEstimate.PostData(txtDocumentNo.Value) Then
                     myMessages.post()
@@ -2418,6 +2538,27 @@ Public Class frmJWOEstimate
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub rbtnFat_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnFat.ToggleStateChanged, rbtnSnf.ToggleStateChanged, rbtnAll.ToggleStateChanged
+        If RadPageView1.Pages.Count > 0 Then
+            If rbtnFat.IsChecked Then
+                RadGroupFat.Visible = True
+                RadGroupBoxSnf.Visible = False
+                RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Visible
+                RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
+            ElseIf rbtnSnf.IsChecked Then
+                RadGroupFat.Visible = False
+                RadGroupBoxSnf.Visible = True
+                RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
+                RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Visible
+            ElseIf rbtnAll.IsChecked Then
+                RadGroupFat.Visible = True
+                RadGroupBoxSnf.Visible = True
+                RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Visible
+                RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Visible
+            End If
+        End If
+
     End Sub
 
 End Class

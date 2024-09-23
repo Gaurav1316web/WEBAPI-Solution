@@ -50,6 +50,7 @@ Public Class clsSalaryGeneration
         If clsCommon.myLen(whrcls) <= 0 Then
             whrcls = " LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY )"
         End If
+        whrcls = " Rejected_Type='N'"
         Dim str As String = clsCommon.ShowSelectForm("Locmst", qry, "Code", whrcls, curcode, "Location_Code", isButtonClicked)
         Return str
     End Function

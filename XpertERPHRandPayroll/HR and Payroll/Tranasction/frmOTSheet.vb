@@ -466,7 +466,9 @@ Public Class frmOTSheet
                 Else
                     whrcls = " Location_Type='Physical' "
                 End If
+
             End If
+            whrcls = " Rejected_Type='N'"
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
             lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Catch ex As Exception

@@ -2363,6 +2363,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
             coll.Add("isPenaltyDeduction", "integer Not Null  DEFAULT 0")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -8351,7 +8352,7 @@ Public Class clsCreateAllTable
             coll.Add("isBookingCreatedForNextDay", "Integer not null default 0")
             coll.Add("Is_CustomerChanged", "Integer Default 0")
             coll.Add("GatePass_Type", "varchar(2) NUll")
-            coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
+            coll.Add("Against_DemandBooking_No", "varchar(30)  NULL ")
             coll.Add("Against_DCSBooking_No", "varchar(30)  NULL REFERENCES TSPL_DCS_DEMAND_BOOKING_MASTER(Document_No)")
             coll.Add("Is_DCS", "Integer Default 0")
             coll.Add("Is_BPL", "Integer Default 0")
@@ -8505,8 +8506,8 @@ Public Class clsCreateAllTable
             coll.Add("PricePlanNo", "varchar(30) null")
             coll.Add("IsKKFTax", "varchar(30) null")
             coll.Add("IsMNDTax", "varchar(30) null")
-            coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
-            coll.Add("Against_DemandBooking_TR_Code", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("Against_DemandBooking_No", "varchar(30)  NULL ")
+            coll.Add("Against_DemandBooking_TR_Code", "varchar(30)  NULL")
             coll.Add("TAX_Group", "varchar(12) NULL")
             coll.Add("TAX1", "varchar(12) NULL")
             coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
@@ -13665,8 +13666,10 @@ Public Class clsCreateAllTable
             coll.Add("JA_AADHAR_REF_NO", "varchar(20) NULL")
             coll.Add("Aadhar_No_Verified", " integer null")
             coll.Add("DBT_Capping_Qty", " integer null")
+            coll.Add("Jan_Aadhar_No_Verified_On", "datetime NULL")
             clsDBFuncationality.ExecuteNonQuery("delete  from  TSPL_MP_MASTER_Hist_Data where MP_Code+convert(varchar, Hist_Version) in (select MP_Code+convert(varchar, Hist_Version) from(select LEN([MP_Code_VLC_Uploader]) as Lenth,MP_Code,Hist_Version from TSPL_MP_MASTER_Hist_Data)xx where Lenth > 7)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER", coll, Nothing, True)
+            clsDBFuncationality.ExecuteNonQuery("update TSPL_MP_MASTER set Jan_Aadhar_No_Verified_ON=Modified_Date where  ISNULL(Jan_Aadhar_No_Verified,0) =1 and Jan_Aadhar_No_Verified_ON is null")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
@@ -21950,7 +21953,7 @@ Public Class clsCreateAllTable
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("Retention", "decimal(18,2) NULL")
-            coll.Add("isHighClass", "Integer NOT NULL Default 0")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, True, True, "", "MRN_No", "MRN_Date")
 
 
@@ -22218,6 +22221,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Insurance_Rate", "decimal(18,2) NULL")
             coll.Add("Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_DETAIL", coll, Nothing, True, True, "TSPL_MRN_HEAD", "MRN_No", "")
 
 
@@ -50293,6 +50297,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Status", "integer not null default 0")
             coll.Add("Post_By", "varchar(12) NULL")
             coll.Add("Post_Date", "Datetime NULL")
+            coll.Add("Is_Close", "integer not null default 0")
+            coll.Add("Type", "char(3) not null Default 'All'")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_ESTIMATION_HEAD", coll, Nothing, False, False, "", "Document_NO", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -50439,6 +50445,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Job_Amount", "decimal(18,2) null")
             coll.Add("Rate", "decimal(18,2) null")
             coll.Add("Amount", "decimal(18,2) null")
+            coll.Add("Estimate_Qty_UOM", "varchar(12) NULL references TSPL_UNIT_MASTER(Unit_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_SRN_DETAIL", coll, Nothing, True, False, "TSPL_JWO_SRN_HEAD", "Document_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -55992,6 +55999,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
             coll.Add("Shift", "char(1) not null")
             coll.Add("Reject_Type", "Varchar(30) null")
+            coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty_KG", "Decimal(18,2) null")
             coll.Add("Qty_LTR", "Decimal(18,2) null")
@@ -56009,6 +56017,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Against_MilkTransferIn", "Varchar(30) null references TSPL_MILK_TRANSFER_IN(Receipt_Challan_No)")
             coll.Add("Against_BulkMilkSRN", "Varchar(30) null references TSPL_Bulk_MILK_SRN(SRN_NO)")
             coll.Add("Against_Adjustment", "Varchar(30) null references TSPL_ADJUSTMENT_HEADER(Adjustment_No)")
+            coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty_KG", "Decimal(18,2) null")
             coll.Add("Qty_LTR", "Decimal(18,2) null")
@@ -56029,6 +56038,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
             coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Batch_No", "Varchar(50) null")
             coll.Add("Qty_KG", "Decimal(18,2) null")
             coll.Add("Qty_LTR", "Decimal(18,2) null")
             coll.Add("FAT", "Decimal(18,2) null")
@@ -56098,6 +56108,27 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("SNF_KG", "Decimal(18,3) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
+            coll.Add("Trans_Type", "Varchar(20) not null references TSPL_INVENTORY_SOURCE_CODE(Code)")
+            coll.Add("Against_JWOTransferMilk", "Varchar(30) null references TSPL_MILK_JOBWORK_TRANSFER_HEAD(Document_Code)")
+            coll.Add("Against_BulkDispatch", "Varchar(30) null references TSPL_DISPATCH_BULKSALE(Document_No)")
+            coll.Add("Location_Code", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Qty_KG", "Decimal(18,2) null")
+            coll.Add("Qty_LTR", "Decimal(18,2) null")
+            coll.Add("FAT", "Decimal(18,2) null")
+            coll.Add("SNF", "Decimal(18,2) null")
+            coll.Add("FAT_KG", "Decimal(18,3) null")
+            coll.Add("SNF_KG", "Decimal(18,3) null")
+            coll.Add("Temp", "Decimal(18,3) null")
+            coll.Add("Acidity", "Decimal(18,3) null")
+            coll.Add("COB", "integer null")
+            coll.Add("Alcohol_Test", "Varchar(20) null")
+            coll.Add("Remarks", "Varchar(200) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_DISPOSAL_BULK_MILK", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -56116,6 +56147,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Alcohol_Test", "Varchar(20) null")
             coll.Add("Remarks", "Varchar(200) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_CLOSE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
 
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception

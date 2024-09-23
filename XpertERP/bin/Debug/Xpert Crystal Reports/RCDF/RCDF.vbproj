@@ -1480,6 +1480,7 @@
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillMCCSale.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillRejection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubTankerProfitLoss.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\TemTruckSheetCollectionReport.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CANARA BANK.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CheckPrintDemo.rpt" />
     <None Include="Crystal Reports\New Sales Reports\CheckPrintFormatDemo.rpt" />
@@ -1532,6 +1533,7 @@
     <None Include="Crystal Reports\PRODUCTION\crptPPBOMPrint.rpt" />
     <None Include="Crystal Reports\PRODUCTION\crptProductionPlan.rpt" />
     <None Include="Crystal Reports\PRODUCTION\crptProductionUploaderPrint.rpt" />
+    <None Include="Crystal Reports\PRODUCTION\crptShiftManagement.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionIssue.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionRequisition.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionReturn.rpt" />

@@ -312,6 +312,7 @@ Partial Class FrmItemMasterRMOther
         Me.chkSFGCF = New common.Controls.MyCheckBox()
         Me.chkSkipSecurityDed = New common.Controls.MyCheckBox()
         Me.chkSkipPenaltyDed = New common.Controls.MyCheckBox()
+        Me.chkHighClass = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -552,6 +553,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkHighClass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -603,6 +605,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Controls.Add(Me.chkSFGCF)
         Me.RadPageViewPage1.Controls.Add(Me.chkSkipSecurityDed)
         Me.RadPageViewPage1.Controls.Add(Me.chkSkipPenaltyDed)
+        Me.RadPageViewPage1.Controls.Add(Me.chkHighClass)
         Me.RadPageViewPage1.Controls.Add(Me.chkFGPL)
         Me.RadPageViewPage1.Controls.Add(Me.txtUploaderSeq)
         Me.RadPageViewPage1.Controls.Add(Me.lblUploaderSeq)
@@ -4538,6 +4541,17 @@ Partial Class FrmItemMasterRMOther
         Me.chkSkipPenaltyDed.Tag1 = Nothing
         Me.chkSkipPenaltyDed.Text = "Skip Penalty Deduction"
         '
+        'chkHighClass
+        '
+        Me.chkHighClass.Location = New System.Drawing.Point(961, 160)
+        Me.chkHighClass.MyLinkLable1 = Nothing
+        Me.chkHighClass.MyLinkLable2 = Nothing
+        Me.chkHighClass.Name = "chkHighClass"
+        Me.chkHighClass.Size = New System.Drawing.Size(77, 18)
+        Me.chkHighClass.TabIndex = 216
+        Me.chkHighClass.Tag1 = Nothing
+        Me.chkHighClass.Text = "High Class"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4803,7 +4817,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkskipSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkskipPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkHighClass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5073,5 +5088,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents chkSFGCF As Controls.MyCheckBox
     Friend WithEvents chkSkipSecurityDed As Controls.MyCheckBox
     Friend WithEvents chkSkipPenaltyDed As Controls.MyCheckBox
+    Friend WithEvents chkHighClass As Controls.MyCheckBox
 End Class
 

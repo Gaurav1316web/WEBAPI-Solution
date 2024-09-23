@@ -494,9 +494,15 @@ Public Class clsMilkSRNMCC
                 Throw New Exception("No Data found to Post")
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "MIlk Procurement", "Milk Store receipt Note", obj.MCC_CODE, obj.DOC_DATE, trans)
-            Dim Mcc_Name As String = clsDBFuncationality.getSingleValue("select MCC_NAME from tspl_MCC_MASTER where MCC_CODE='" & obj.MCC_CODE & "'", trans)
+            Dim dtMCC As DataTable = clsDBFuncationality.GetDataTable("select MCC_NAME,AllowAutoMilkIn,AutoIn_Location,SILOIn_Location from tspl_MCC_MASTER where MCC_CODE='" & obj.MCC_CODE & "'", trans)
+            Dim Mcc_Name As String = clsCommon.myCstr(dtMCC.Rows(0)("MCC_NAME"))
             Dim settRejectedMilkSendToRejectLocation As Boolean = False
             Dim strRejectLocation As String = ""
+            If clsCommon.myCDecimal(dtMCC.Rows(0)("AllowAutoMilkIn")) = 1 Then
+                settRejectedMilkSendToRejectLocation = True
+                strRejectLocation = clsCommon.myCstr(dtMCC.Rows(0)("SILOIn_Location"))
+            End If
+
             'If clsCommon.myLen(obj.Against_Reject_No) > 0 Then
             '    settRejectedMilkSendToRejectLocation = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RejectedMilkSendToRejectLocation, clsFixedParameterCode.RejectedMilkSendToRejectLocation, trans)) = 1)
             '    If settRejectedMilkSendToRejectLocation Then

@@ -72,6 +72,7 @@ Public Class frmEPF
                 whrcls = " Location_Type='Physical' "
             End If
         End If
+        whrcls = " Rejected_Type='N'"
         txtLocation.Value = clsLocation.getFinder(whrcls, Me.txtLocation.Value, isButtonClicked)
         lblLocationDesc.Text = clsLocation.GetName(txtLocation.Value, Nothing)
     End Sub

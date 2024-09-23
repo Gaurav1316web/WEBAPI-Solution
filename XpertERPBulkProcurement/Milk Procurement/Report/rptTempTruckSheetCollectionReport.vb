@@ -337,4 +337,37 @@ order by ROUTE_CODE asc "
         End If
     End Sub
 
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            Dim Qry As String = "select YYY.CURD_Qty,yyy.Qty,yyy.ROUTE_CODE,YYY.ROUTE_NAME,yyy.thedate,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.City_Code,'" + clsCommon.GetPrintDate(fromDate.Value) + "' as FromDate,'" + clsCommon.GetPrintDate(dtpToDate.Value) + "' as ToDate from (
+                            Select thedate, isnull (ROUTE_CODE,'') as ROUTE_CODE, isnull ( ROUTE_NAME,'') as ROUTE_NAME, isnull (Qty,0) as Qty , isnull (CURD_Qty,0) as CURD_Qty  from (  select convert (varchar, thedate,103) as thedate from ExplodeDates( convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103), convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) ) ) as AllDate
+                            left outer join (
+                            select XXX.ROUTE_CODE, XXX.DOC_DATE , max(ROUTE_NAME) as  ROUTE_NAME, Sum (Qty) as Qty , Sum (CURD_Qty) as CURD_Qty from  (
+                            select convert (varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103) as DOC_DATE , Tab.ROUTE_CODE,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME, case when TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type <> 'CURD' then TSPL_MILK_COLLECTION_DCS_DETAIL.Qty else 0 end  as Qty, case when TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type = 'CURD' then TSPL_MILK_COLLECTION_DCS_DETAIL.Qty else 0 end as CURD_Qty  
+                            from TSPL_MILK_COLLECTION_DCS_DETAIL
+                            left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+                            left outer join (select Document_No,max(MCC_Code) as MCC_Code,max(Route_Code) as Route_Code from (select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Route_Code 
+                            from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL 
+                            inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail 
+                            inner join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+                            )xx group by Document_No )Tab on Tab.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No   
+                            left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=Tab.Route_Code
+                            where  TSPL_MILK_COLLECTION_DCS.Document_Date > = '" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_DCS.Document_Date <= '" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+                            ) XXX group by XXX.ROUTE_CODE, XXX.DOC_DATE
+                            ) as XXXData on XXXData.DOC_DATE = AllDate.thedate
+                            )YYY left outer join TSPL_COMPANY_MASTER on 2=2"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "TemTruckSheetCollectionReport", "Tem TruckSheet Coll")
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+    End Sub
 End Class
