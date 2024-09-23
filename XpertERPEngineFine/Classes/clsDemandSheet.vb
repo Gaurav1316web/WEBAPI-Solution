@@ -393,44 +393,96 @@ ORDER BY TSPL_BOOKING_MATSER_Hist_Data.Hist_On DESC;"
 
 
             Dim StrQry As String = "WITH MaxHistVersions AS (
-   SELECT 
-        TR_Code,Document_No,
-        (Hist_Version) AS Max_Hist_Version
-    FROM TSPL_DEMAND_BOOKING_Detail_Hist_Data
-    GROUP BY Document_No,TR_Code,Hist_Version
-)
+               SELECT 
+                    TR_Code,Document_No,
+                    (Hist_Version) AS Max_Hist_Version
+                FROM TSPL_DEMAND_BOOKING_Detail_Hist_Data
+                GROUP BY Document_No,TR_Code,Hist_Version
+            )
 
-SELECT 
-    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No AS Document_No,
-   TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code AS TR_Code,
-    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.route_no AS Route_No,
-    TSPL_ITEM_MASTER.Item_Code AS Item_Name,
-    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.ItemNetAmount AS Amount,
-    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Qty AS Qty,
-    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Unit_code AS Unit_Code,
-    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_By AS History_By,
-    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_On AS History_ON,
-    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code AS Cust_Code,
-    TSPL_CUSTOMER_MASTER.Customer_Name AS Customer_Name,
-    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType AS ShiftType,
-    TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Item_Code,
-    TSPL_ITEM_MASTER.Short_Description AS Item_Desc,
-    TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version AS Hist_Version
-FROM TSPL_DEMAND_BOOKING_MASTER_Hist_Data
-LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL_Hist_Data 
-    ON TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No = TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No
-LEFT JOIN TSPL_ITEM_MASTER 
-    ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Item_Code = TSPL_ITEM_MASTER.Item_Code
-LEFT JOIN TSPL_CUSTOMER_MASTER 
-    ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code
-INNER JOIN MaxHistVersions 
-    ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code = MaxHistVersions.TR_Code
-    AND TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version = MaxHistVersions.Max_Hist_Version
-WHERE CONVERT(date, TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_Date, 103) = '" + clsCommon.GetPrintDate(DocDate) + "'
-  AND TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType = '" + Shift + "'
-  AND TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code = '" + Booth + "'
-ORDER BY TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_On DESC"
+            SELECT 
+                TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No AS Document_No,
+               TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code AS TR_Code,
+                TSPL_DEMAND_BOOKING_MASTER_Hist_Data.route_no AS Route_No,
+                TSPL_ITEM_MASTER.Item_Code AS Item_Name,
+                TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.ItemNetAmount AS Amount,
+                TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Qty AS Qty,
+                TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Unit_code AS Unit_Code,
+                TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_By AS History_By,
+                TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_On AS History_ON,
+                TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code AS Cust_Code,
+                TSPL_CUSTOMER_MASTER.Customer_Name AS Customer_Name,
+                TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType AS ShiftType,
+                TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Item_Code,
+                TSPL_ITEM_MASTER.Short_Description AS Item_Desc,
+                TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version AS Hist_Version
+            FROM TSPL_DEMAND_BOOKING_MASTER_Hist_Data
+            LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL_Hist_Data 
+                ON TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No = TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No
+            LEFT JOIN TSPL_ITEM_MASTER 
+                ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Item_Code = TSPL_ITEM_MASTER.Item_Code
+            LEFT JOIN TSPL_CUSTOMER_MASTER 
+                ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code
+            INNER JOIN MaxHistVersions 
+                ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code = MaxHistVersions.TR_Code
+                AND TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version = MaxHistVersions.Max_Hist_Version
+            WHERE CONVERT(date, TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_Date, 103) = '" + clsCommon.GetPrintDate(DocDate) + "'
+              AND TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType = '" + Shift + "'
+              AND TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code = '" + Booth + "'
+            ORDER BY TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_On DESC"
 
+            '            Dim StrQry As String = "WITH MaxHistVersions AS (
+            '                SELECT 
+            '                    TR_Code, Document_No,
+            '                    MAX(Hist_Version) AS Max_Hist_Version
+            '                FROM TSPL_DEMAND_BOOKING_DETAIL_Hist_Data
+            '                GROUP BY Document_No, TR_Code
+            '            ),
+            '            PreviousVersions AS (
+            '                SELECT 
+            '                    a.Document_No, a.TR_Code, a.Hist_Version,
+            '                    ROW_NUMBER() OVER (PARTITION BY a.Document_No, a.TR_Code ORDER BY a.Hist_Version DESC) AS RowNum,
+            '                    a.Qty AS Previous_Qty
+            '                FROM TSPL_DEMAND_BOOKING_DETAIL_Hist_Data a
+            '            )
+
+            '            SELECT 
+            '                MD.Document_No AS Document_No,
+            '                DD.TR_Code AS TR_Code,
+            '                MD.route_no AS Route_No,
+            '                IM.Item_Code AS Item_Name,
+            '                DD.ItemNetAmount AS Amount,
+            '                DD.Qty AS Qty,
+            '                DD.Unit_code AS Unit_Code,
+            '                MD.Hist_By AS History_By,
+            '                MD.Hist_On AS History_ON,
+            '                DD.Cust_Code AS Cust_Code,
+            '                CM.Customer_Name AS Customer_Name,
+            '                MD.ShiftType AS ShiftType,
+            '                DD.Item_Code,
+            '                IM.Short_Description AS Item_Desc,
+            '                MD.Hist_Version AS Hist_Version
+            '            FROM TSPL_DEMAND_BOOKING_MASTER_Hist_Data MD
+            '            LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL_Hist_Data DD 
+            '                ON MD.Document_No = DD.Document_No
+            '            LEFT JOIN TSPL_ITEM_MASTER IM
+            '                ON DD.Item_Code = IM.Item_Code
+            '            LEFT JOIN TSPL_CUSTOMER_MASTER CM 
+            '                ON DD.Cust_Code = CM.Cust_Code
+            '            INNER JOIN MaxHistVersions MH
+            '                ON DD.TR_Code = MH.TR_Code
+            '                AND MD.Hist_Version = MH.Max_Hist_Version
+            '            LEFT JOIN PreviousVersions PV
+            '                ON DD.Document_No = PV.Document_No
+            '                AND DD.TR_Code = PV.TR_Code
+            '                AND PV.RowNum >= (select top 1TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_Version from TSPL_DEMAND_BOOKING_DETAIL_Hist_Data left join TSPL_DEMAND_BOOKING_MASTER_Hist_Data on TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No=TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No
+            'where  Cust_Code='" + Booth + "' order by Hist_Version desc)
+            '            WHERE CONVERT(date, MD.Document_Date, 103) = '" + clsCommon.GetPrintDate(DocDate) + "'
+            '              AND MD.ShiftType = '" + Shift + "'
+            '              AND DD.Cust_Code = '" + Booth + "'
+            '              AND (DD.Qty <> PV.Previous_Qty OR PV.Previous_Qty IS NULL)
+            '            ORDER BY MD.Hist_On DESC;
+            '            "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -461,12 +513,12 @@ ORDER BY TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_On DESC"
     FROM TSPL_DEMAND_BOOKING_Detail_Hist_Data
     GROUP BY Document_No,TR_Code,Hist_Version
 )
-select TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code,Cust_Code,Item_Code,Unit_code,Qty,ItemNetAmount from TSPL_DEMAND_BOOKING_DETAIL_Hist_Data
+select TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code,Cust_Code,Item_Code,Unit_code,Qty,ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_By from TSPL_DEMAND_BOOKING_DETAIL_Hist_Data
 left join TSPL_DEMAND_BOOKING_MASTER_Hist_Data on TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No=TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No
 INNER JOIN MaxHistVersions 
     ON TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.TR_Code = MaxHistVersions.TR_Code
     AND TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version = MaxHistVersions.Max_Hist_Version
-where TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version='" + clsCommon.myCstr(obj.Hist_Version) + "' and TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No='" + obj.Demand_No + "'"
+where TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version='" + clsCommon.myCstr(obj.Hist_Version) + "' and TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Document_No='" + obj.Demand_No + "' and TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code='" + obj.Cust_Code + "'"
                         'Else
                         '    StrQry = "select Document_No,Cust_Code,Item_Code,Unit_code,Booking_Qty,Amount_with_Tax from TSPL_BOOKING_DETAIL where Document_No='" + obj.Document_No + "'"
                     End If
@@ -482,6 +534,7 @@ where TSPL_DEMAND_BOOKING_MASTER_Hist_Data.Hist_Version='" + clsCommon.myCstr(ob
                             objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                             objTr.Unit_Code = clsCommon.myCstr(dr("Unit_code"))
                             objTr.Qty = clsCommon.myCdbl(dr("Qty"))
+                            objTr.Hist_By = clsCommon.myCstr(dr("Hist_By"))
                             objTr.Amount = clsCommon.myCdbl(dr("ItemNetAmount"))
                             obj.Arr.Add(objTr)
                         Next
@@ -502,6 +555,7 @@ End Class
 Public Class clsDemandHistoryDetail
 #Region "Variable"
     Public Document_No As String = Nothing
+    Public Hist_By As String = Nothing
     Public Cust_Code As String = Nothing
     Public Item_Code As String = Nothing
     Public Unit_Code As String = Nothing

@@ -60,6 +60,7 @@ Public Class frmDemandAdjustment
         rbtnMorning.IsChecked = True
         chkChangeItem.Checked = False
         chkChangeItem.Enabled = True
+        chkChangeItem.Visible = False
         rbtnAutomatic.IsChecked = True
         txtQty.Text = 0
         txtMinCrate.Text = ""

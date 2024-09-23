@@ -8236,6 +8236,7 @@ Public Class clsCreateAllTable
             coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+            coll.Add("Created_By", "varchar(30) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "")
 
