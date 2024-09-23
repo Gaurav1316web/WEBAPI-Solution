@@ -2363,6 +2363,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
             coll.Add("isPenaltyDeduction", "integer Not Null  DEFAULT 0")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -8236,6 +8237,7 @@ Public Class clsCreateAllTable
             coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+            coll.Add("Created_By", "varchar(30) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "")
 
@@ -13665,8 +13667,10 @@ Public Class clsCreateAllTable
             coll.Add("JA_AADHAR_REF_NO", "varchar(20) NULL")
             coll.Add("Aadhar_No_Verified", " integer null")
             coll.Add("DBT_Capping_Qty", " integer null")
+            coll.Add("Jan_Aadhar_No_Verified_On", "datetime NULL")
             clsDBFuncationality.ExecuteNonQuery("delete  from  TSPL_MP_MASTER_Hist_Data where MP_Code+convert(varchar, Hist_Version) in (select MP_Code+convert(varchar, Hist_Version) from(select LEN([MP_Code_VLC_Uploader]) as Lenth,MP_Code,Hist_Version from TSPL_MP_MASTER_Hist_Data)xx where Lenth > 7)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER", coll, Nothing, True)
+            clsDBFuncationality.ExecuteNonQuery("update TSPL_MP_MASTER set Jan_Aadhar_No_Verified_ON=Modified_Date where  ISNULL(Jan_Aadhar_No_Verified,0) =1 and Jan_Aadhar_No_Verified_ON is null")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
@@ -21950,7 +21954,7 @@ Public Class clsCreateAllTable
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("Retention", "decimal(18,2) NULL")
-            coll.Add("isHighClass", "Integer NOT NULL Default 0")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, True, True, "", "MRN_No", "MRN_Date")
 
 
@@ -22218,6 +22222,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Insurance_Rate", "decimal(18,2) NULL")
             coll.Add("Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
+            coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_DETAIL", coll, Nothing, True, True, "TSPL_MRN_HEAD", "MRN_No", "")
 
 
@@ -33799,6 +33804,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Is_MandiTax", "Integer not null default 0")
             coll.Add("For_Repair", "Integer not null default 0")
             coll.Add("InternalTransfer", "Integer not null default 0")
+            coll.Add("JobWorkTransfer", "Integer not null default 0")
             coll.Add("GLVoucher_No", "varchar(30) NULL")
             coll.Add("Requisition_Id", "Varchar(30) null References TSPL_REQUISITION_HEAD(Requisition_Id)")
             coll.Add("Loading_Advice_No", "varchar(70) NULL")
@@ -50293,6 +50299,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Status", "integer not null default 0")
             coll.Add("Post_By", "varchar(12) NULL")
             coll.Add("Post_Date", "Datetime NULL")
+            coll.Add("Is_Close", "integer not null default 0")
+            coll.Add("Type", "char(3) not null Default 'All'")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_ESTIMATION_HEAD", coll, Nothing, False, False, "", "Document_NO", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -50439,6 +50447,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Job_Amount", "decimal(18,2) null")
             coll.Add("Rate", "decimal(18,2) null")
             coll.Add("Amount", "decimal(18,2) null")
+            coll.Add("Estimate_Qty_UOM", "varchar(12) NULL references TSPL_UNIT_MASTER(Unit_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_JWO_SRN_DETAIL", coll, Nothing, True, False, "TSPL_JWO_SRN_HEAD", "Document_No", "")
 
             coll = New Dictionary(Of String, String)()

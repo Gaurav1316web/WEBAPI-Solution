@@ -6,6 +6,7 @@ Public Class frmDemandAdjustment
     Dim isNewEntry As Boolean = False
     Dim LimitIncreaseDecreseQty As Double = 0
     Dim LimitIncreaseDecresePer As Double = 0
+    Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
     Dim IncraseOrder As Boolean = False
     Dim DecreaseOrder As Boolean = False
     Private isInsideLoadData As Boolean = False
@@ -13,6 +14,7 @@ Public Class frmDemandAdjustment
     Const ColSNo As String = "ColSNo"
     Const colZoneCode As String = "colZoneCode"
     Const colRouteCode As String = "colRouteCode"
+    Const colLocationCode As String = "colLocationCode"
     Const colBoothCode As String = "colBoothCode"
     Const colBoothName As String = "colBoothName"
     Const colItemcode As String = "colItemcode"
@@ -35,6 +37,7 @@ Public Class frmDemandAdjustment
         CreateTable()
         LimitIncreaseDecreseQty = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DemandIncreaseDecreaseQty, clsFixedParameterCode.DemandIncreaseDecreaseQty, Nothing))
         LimitIncreaseDecresePer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DemandIncreaseDecreasePer, clsFixedParameterCode.DemandIncreaseDecreasePer, Nothing))
+        AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
         SetUserMgmtNew()
         AddNew()
     End Sub
@@ -57,6 +60,7 @@ Public Class frmDemandAdjustment
         rbtnMorning.IsChecked = True
         chkChangeItem.Checked = False
         chkChangeItem.Enabled = True
+        chkChangeItem.Visible = False
         rbtnAutomatic.IsChecked = True
         txtQty.Text = 0
         txtMinCrate.Text = ""
@@ -111,6 +115,15 @@ Public Class frmDemandAdjustment
         repoBoothCode.ReadOnly = True
         repoBoothCode.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoBoothCode)
+        Dim repoLocationCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoLocationCode.FormatString = ""
+        repoLocationCode.HeaderText = "Locaiton Code"
+        repoLocationCode.Name = colLocationCode
+        repoLocationCode.Width = 150
+        repoLocationCode.IsVisible = False
+        repoLocationCode.ReadOnly = True
+        repoLocationCode.TextImageRelation = TextImageRelation.TextBeforeImage
+        gv1.MasterTemplate.Columns.Add(repoLocationCode)
         Dim repoBoothName = New GridViewTextBoxColumn()
         repoBoothName.FormatString = ""
         repoBoothName.HeaderText = "Booth Name"
@@ -325,7 +338,7 @@ Public Class frmDemandAdjustment
                 LoadBlankGrid()
                 isInsideLoadData = True
                 Dim whrcls As String = ""
-                Dim qry As String = "select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty
+                Dim qry As String = "select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty
 from TSPL_DEMAND_BOOKING_MASTER 
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
@@ -357,6 +370,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                         gv1.Rows(introw).Cells(ColSNo).Value = introw + 1
                         gv1.Rows(introw).Cells(colZoneCode).Value = clsCommon.myCstr(dr("Zone_Code"))
                         gv1.Rows(introw).Cells(colRouteCode).Value = clsCommon.myCstr(dr("Route_No"))
+                        gv1.Rows(introw).Cells(colLocationCode).Value = clsCommon.myCstr(dr("Location_Code"))
                         gv1.Rows(introw).Cells(colBoothCode).Value = clsCommon.myCstr(dr("Cust_Code"))
                         gv1.Rows(introw).Cells(colBoothName).Value = clsCommon.myCstr(dr("Customer_Name"))
                         gv1.Rows(introw).Cells(colItemcode).Value = clsCommon.myCstr(dr("Item_Code"))
@@ -649,7 +663,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
             isInsideLoadData = True
             Dim whrcls As String = " where 2=2 and TSPL_DEMAND_BOOKING_MASTER.Posted=0 "
             Dim qry As String = ""
-            Dim mainQry As String = " select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty
+            Dim mainQry As String = " select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty
 from TSPL_DEMAND_BOOKING_MASTER 
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
@@ -686,6 +700,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                     gv1.Rows(introw).Cells(ColSNo).Value = introw + 1
                     gv1.Rows(introw).Cells(colZoneCode).Value = clsCommon.myCstr(dr("Zone_Code"))
                     gv1.Rows(introw).Cells(colRouteCode).Value = clsCommon.myCstr(dr("Route_No"))
+                    gv1.Rows(introw).Cells(colLocationCode).Value = clsCommon.myCstr(dr("Location_Code"))
                     gv1.Rows(introw).Cells(colBoothCode).Value = clsCommon.myCstr(dr("Cust_Code"))
                     gv1.Rows(introw).Cells(colBoothName).Value = clsCommon.myCstr(dr("Customer_Name"))
                     gv1.Rows(introw).Cells(colItemcode).Value = clsCommon.myCstr(dr("Item_Code"))
@@ -730,6 +745,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         coll.Add("Demand_Date", "Datetime NOT NULL")
         coll.Add("Zone_Code", "VARCHAR(50) NULL")
         coll.Add("Route_Code", "VARCHAR(50) NULL")
+        coll.Add("Location_Code", "VARCHAR(50) NULL")
         coll.Add("Item_Code", "Varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Unit_Code", "varchar(12) NOT NULL")
         coll.Add("Shift_Type", "VARCHAR(10) NOT NULL")
@@ -760,8 +776,52 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         coll.Add("Demand_Qty", "Decimal(18,0) Not NULL")
         coll.Add("Adjust_Qty", "Decimal(18,0) Not NULL")
         coll.Add("Final_Qty", "Decimal(18,0) Not NULL")
-        coll.Add("TotalCrates_ItemWise", "Decimal(18,0) Not NULL")
-        coll.Add("TotalLtr_ItemWise", "Decimal(18,0) Not NULL")
+        coll.Add("TotalCrates_ItemWise", "Decimal(18,2) NULL")
+        coll.Add("TotalLtr_ItemWise", "Decimal(18,2) NULL")
+        coll.Add("Item_Rate", "Decimal(18,6) NULL")
+        coll.Add("ItemNetAmount", "Decimal(18,2) NULL")
+        coll.Add("TAX_Group", "varchar(30) NULL")
+        coll.Add("TAX1", "varchar(30) NULL")
+        coll.Add("TAX1_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX1_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX1_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX2", "varchar(30) NULL")
+        coll.Add("TAX2_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX2_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX2_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX3", "varchar(30) NULL")
+        coll.Add("TAX3_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX3_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX3_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX4", "varchar(30) NULL")
+        coll.Add("TAX4_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX4_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX4_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX5", "varchar(30) NULL")
+        coll.Add("TAX5_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX5_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX5_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX6", "varchar(30) NULL")
+        coll.Add("TAX6_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX6_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX6_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX7", "varchar(30) NULL")
+        coll.Add("TAX7_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX7_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX7_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX8", "varchar(30) NULL")
+        coll.Add("TAX8_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX8_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX8_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX9", "varchar(30) NULL")
+        coll.Add("TAX9_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX9_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX9_Base_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX10", "varchar(30) NULL")
+        coll.Add("TAX10_Rate", "Decimal(18,2) NULL")
+        coll.Add("TAX10_Amt", "Decimal(18,2) NULL")
+        coll.Add("TAX10_Base_Amt", "Decimal(18,2) NULL")
+
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_ADJUSTMENT_DETAIL", coll, "", True, False, "TSPL_DEMAND_ADJUSTMENT_HEAD", "Document_Code", "")
     End Sub
     Function AllowToSave() As Boolean
@@ -831,6 +891,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                         objTr.TR_Code = clsCommon.myCstr(grow.Cells(colTRCode).Value)
                         objTr.Zone_Code = clsCommon.myCstr(grow.Cells(colZoneCode).Value)
                         objTr.Route_Code = clsCommon.myCstr(grow.Cells(colRouteCode).Value)
+                        obj.Location_Code = clsCommon.myCstr(grow.Cells(colLocationCode).Value)
                         objTr.Booth_Code = clsCommon.myCstr(grow.Cells(colBoothCode).Value)
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colItemcode).Value)
                         objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUOM).Value)
@@ -851,12 +912,12 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                                         Dim DispatchQty As Double = clsCommon.myCdbl(objTr.Final_Qty) * ItemConvFactor
 
                                         If DispatchQty > (CrateConvFactor / 2) Then
-                                                dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
-                                            Else
-                                                dblTotalCrateRowWise = 0
-                                            End If
-
+                                            dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                        Else
+                                            dblTotalCrateRowWise = 0
                                         End If
+
+                                    End If
                                 End If
                                 objTr.TotalCrates_ItemWise = clsCommon.myCdbl(dblTotalCrateRowWise)
                             End If
@@ -871,9 +932,55 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                             dblTotalLitreRowWise = (DispatchQty / CrateConvFactor_Ltr)
                         End If
                         objTr.TotalLtr_ItemWise = clsCommon.myCdbl(dblTotalLitreRowWise)
+                        Dim objItemRates As New clsDemandAdjustmentDetail()
+                        objItemRates = getItemRate(objTr.Booth_Code, objTr.Item_Code, objTr.Unit_Code, obj.Location_Code, txtDemandDate.Value, objTr.Final_Qty)
+                        objTr.Item_Rate = objItemRates.Item_Rate
+                        objTr.ItemNetAmount = objItemRates.ItemNetAmount
+                        objTr.TAX_Group = objItemRates.TAX_Group
+                        objTr.TAX1 = objItemRates.TAX1
+                        objTr.TAX1_Rate = objItemRates.TAX1_Rate
+                        objTr.TAX1_Amt = objItemRates.TAX1_Amt
+                        objTr.TAX1_Base_Amt = objItemRates.TAX1_Base_Amt
+                        objTr.TAX2 = objItemRates.TAX2
+                        objTr.TAX2_Rate = objItemRates.TAX2_Rate
+                        objTr.TAX2_Amt = objItemRates.TAX2_Amt
+                        objTr.TAX2_Base_Amt = objItemRates.TAX2_Base_Amt
+                        objTr.TAX3 = objItemRates.TAX3
+                        objTr.TAX3_Rate = objItemRates.TAX3_Rate
+                        objTr.TAX3_Amt = objItemRates.TAX3_Amt
+                        objTr.TAX3_Base_Amt = objItemRates.TAX3_Base_Amt
+                        objTr.TAX4 = objItemRates.TAX4
+                        objTr.TAX4_Rate = objItemRates.TAX4_Rate
+                        objTr.TAX4_Amt = objItemRates.TAX4_Amt
+                        objTr.TAX4_Base_Amt = objItemRates.TAX4_Base_Amt
+                        objTr.TAX5 = objItemRates.TAX5
+                        objTr.TAX5_Rate = objItemRates.TAX5_Rate
+                        objTr.TAX5_Amt = objItemRates.TAX5_Amt
+                        objTr.TAX5_Base_Amt = objItemRates.TAX5_Base_Amt
+                        objTr.TAX6 = objItemRates.TAX6
+                        objTr.TAX6_Rate = objItemRates.TAX6_Rate
+                        objTr.TAX6_Amt = objItemRates.TAX6_Amt
+                        objTr.TAX6_Base_Amt = objItemRates.TAX6_Base_Amt
+                        objTr.TAX7 = objItemRates.TAX7
+                        objTr.TAX7_Rate = objItemRates.TAX7_Rate
+                        objTr.TAX7_Amt = objItemRates.TAX7_Amt
+                        objTr.TAX7_Base_Amt = objItemRates.TAX7_Base_Amt
+                        objTr.TAX8 = objItemRates.TAX8
+                        objTr.TAX8_Rate = objItemRates.TAX8_Rate
+                        objTr.TAX8_Amt = objItemRates.TAX8_Amt
+                        objTr.TAX8_Base_Amt = objItemRates.TAX8_Base_Amt
+                        objTr.TAX9 = objItemRates.TAX9
+                        objTr.TAX9_Rate = objItemRates.TAX9_Rate
+                        objTr.TAX9_Amt = objItemRates.TAX9_Amt
+                        objTr.TAX9_Base_Amt = objItemRates.TAX9_Base_Amt
+                        objTr.TAX10 = objItemRates.TAX10
+                        objTr.TAX10_Rate = objItemRates.TAX10_Rate
+                        objTr.TAX10_Amt = objItemRates.TAX10_Amt
+                        objTr.TAX10_Base_Amt = objItemRates.TAX10_Base_Amt
+
                         ''---------end of litre conversion
                         obj.Arr.Add(objTr)
-                        End If
+                    End If
                 Next
                 If (obj.SaveData(obj, isNewEntry)) = True Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -884,6 +991,167 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
             Throw New Exception(ex.Message)
         End Try
     End Sub
+    Public Function getItemRate(ByVal strCustCode As String, ByVal strItemCode As String, ByVal strUnitCode As String, ByVal strLocation As String, ByVal strdate As DateTime, ByVal itemQty As Double) As clsDemandAdjustmentDetail
+        Dim dblRate As Double = 0
+        Dim strPriceCode As String = ""
+        Dim obj As clsDemandAdjustmentDetail = New clsDemandAdjustmentDetail()
+        Dim qry As String = "select tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER where Cust_Code='" & clsCommon.myCstr(strCustCode) & "'"
+        strPriceCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+        If clsCommon.myLen(strPriceCode) <= 0 Then
+            Throw New Exception("price_CodeNon not found for Customer " & clsCommon.myCstr(strCustCode) & "")
+        End If
+
+        qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, XXXE.Tax_group,XXXE.TAX1_Rate, " &
+    " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
+    "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
+    " XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, " &
+    " XXXE.TAX4,XXXE.TAX5,XXXE.TAX6,XXXE.TAX7, " &
+    " XXXE.TAX8,XXXE.TAX9,XXXE.TAX10,XXXE.TAX1_Amt, " &
+    " XXXE.TAX2_Amt,XXXE.TAX3_Amt,XXXE.TAX4_Amt, XXXE.TAX5_Amt,XXXE.TAX6_Amt,XXXE.TAX7_Amt,XXXE.TAX8_Amt,XXXE.TAX9_Amt,XXXE.TAX10_Amt,XXXE.Against_Plan_TR_Code  from ( " &
+    "Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
+    "Start_Date Desc) as RowNo,Is_With_Tax, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
+    "Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, TSPL_ITEM_PRICE_MASTER.Tax_group,TSPL_ITEM_PRICE_MASTER.TAX1_Rate,  " &
+    "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate,  " &
+    " TSPL_ITEM_PRICE_MASTER.TAX6_Rate, TSPL_ITEM_PRICE_MASTER.TAX7_Rate, TSPL_ITEM_PRICE_MASTER.TAX8_Rate, TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+    " TSPL_ITEM_PRICE_MASTER.TAX10_Rate, TSPL_ITEM_PRICE_MASTER.TAX1, TSPL_ITEM_PRICE_MASTER.TAX2, TSPL_ITEM_PRICE_MASTER.TAX3, " &
+    " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
+    " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.TAX5_Amt,TSPL_ITEM_PRICE_MASTER.TAX6_Amt,TSPL_ITEM_PRICE_MASTER.TAX7_Amt,   TSPL_ITEM_PRICE_MASTER.TAX8_Amt,TSPL_ITEM_PRICE_MASTER.TAX9_Amt,TSPL_ITEM_PRICE_MASTER.TAX10_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
+    "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
+    "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
+    "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & strUnitCode & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & strItemCode & "' AND Location_Code='" & clsCommon.myCstr(strLocation) & "'  " &
+    ") XXXE WHERE RowNo=1  "
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            obj.Item_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
+            obj.ItemNetAmount = itemQty * obj.Item_Rate
+            obj.TAX_Group = clsCommon.myCstr(dt.Rows(0).Item("TAX_Group"))
+            obj.TAX1 = clsCommon.myCstr(dt.Rows(0).Item("TAX1"))
+            If clsCommon.CompairString(obj.TAX1, "TCS") = CompairStringResult.Equal Then
+                obj.TAX1_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Rate"))
+            End If
+            obj.TAX1_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX1_Rate / 100), 2)
+            obj.TAX1_Base_Amt = obj.ItemNetAmount
+            obj.TAX2 = clsCommon.myCstr(dt.Rows(0).Item("Tax2"))
+            If clsCommon.CompairString(obj.TAX2, "TCS") = CompairStringResult.Equal Then
+                obj.TAX2_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX2_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax2_Rate"))
+            End If
+            obj.TAX2_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX2_Rate / 100), 2)
+            obj.TAX2_Base_Amt = obj.ItemNetAmount
+            obj.TAX3 = clsCommon.myCstr(dt.Rows(0).Item("Tax3"))
+            If clsCommon.CompairString(obj.TAX3, "TCS") = CompairStringResult.Equal Then
+                obj.TAX3_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX3_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax3_Rate"))
+            End If
+            obj.TAX3_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX3_Rate / 100), 2)
+            obj.TAX3_Base_Amt = obj.ItemNetAmount
+            obj.TAX4 = clsCommon.myCstr(dt.Rows(0).Item("Tax4"))
+            If clsCommon.CompairString(obj.TAX4, "TCS") = CompairStringResult.Equal Then
+                obj.TAX4_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX4_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax4_Rate"))
+            End If
+            obj.TAX4_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX4_Rate / 100), 2)
+            obj.TAX4_Base_Amt = obj.ItemNetAmount
+            obj.TAX5 = clsCommon.myCstr(dt.Rows(0).Item("Tax5"))
+            If clsCommon.CompairString(obj.TAX5, "TCS") = CompairStringResult.Equal Then
+                obj.TAX5_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX5_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax5_Rate"))
+            End If
+            obj.TAX5_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX5_Rate / 100), 2)
+            obj.TAX5_Base_Amt = obj.ItemNetAmount
+            obj.TAX6 = clsCommon.myCstr(dt.Rows(0).Item("Tax6"))
+            If clsCommon.CompairString(obj.TAX6, "TCS") = CompairStringResult.Equal Then
+                obj.TAX6_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX6_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax6_Rate"))
+            End If
+            obj.TAX6_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX6_Rate / 100), 2)
+            obj.TAX6_Base_Amt = obj.ItemNetAmount
+            obj.TAX7 = clsCommon.myCstr(dt.Rows(0).Item("Tax7"))
+            If clsCommon.CompairString(obj.TAX7, "TCS") = CompairStringResult.Equal Then
+                obj.TAX7_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX7_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax7_Rate"))
+            End If
+            obj.TAX7_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX7_Rate / 100), 2)
+            obj.TAX7_Base_Amt = obj.ItemNetAmount
+            obj.TAX8 = clsCommon.myCstr(dt.Rows(0).Item("Tax8"))
+            If clsCommon.CompairString(obj.TAX8, "TCS") = CompairStringResult.Equal Then
+                obj.TAX8_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX8_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax8_Rate"))
+            End If
+            obj.TAX8_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX8_Rate / 100), 2)
+            obj.TAX8_Base_Amt = obj.ItemNetAmount
+            obj.TAX9 = clsCommon.myCstr(dt.Rows(0).Item("Tax9"))
+            If clsCommon.CompairString(obj.TAX9, "TCS") = CompairStringResult.Equal Then
+                obj.TAX9_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX9_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax9_Rate"))
+            End If
+            obj.TAX9_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX9_Rate / 100), 2)
+            obj.TAX9_Base_Amt = obj.ItemNetAmount
+            obj.TAX10 = clsCommon.myCstr(dt.Rows(0).Item("Tax10"))
+            If clsCommon.CompairString(obj.TAX10, "TCS") = CompairStringResult.Equal Then
+                obj.TAX10_Rate = CalculateTCS(clsCommon.myCstr(strCustCode))
+            Else
+                obj.TAX10_Rate = clsCommon.myCdbl(dt.Rows(0).Item("Tax10_Rate"))
+            End If
+            obj.TAX10_Amt = Math.Round(obj.ItemNetAmount * (obj.TAX10_Rate / 100), 2)
+            obj.TAX10_Base_Amt = obj.ItemNetAmount
+        End If
+        Return obj
+    End Function
+    Function CalculateTCS(ByVal CustCode As String) As Double
+        Dim TCSBaseAmount As Double = 0
+        Dim TCSTaxRate As Double = 0
+
+        Dim balanceAmt As Double = 0
+        Dim OPInvoice_Sale_Amt As Double = 0
+        Dim CurrFinYR As String = String.Empty
+        Dim FinancialYear As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT CASE WHEN DatePart(Month, '" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "') >= 4 THEN DatePart(Year, '" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "') + 1 ELSE DatePart(Year, '" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "') END AS Fiscal_Year"))
+        Dim strStartDate As Date = "01/Apr/" + clsCommon.myCstr(clsCommon.myCdbl(FinancialYear - 1))
+        Dim strEndDate As Date = "31/Mar/" + FinancialYear
+        CurrFinYR = clsCommon.myCstr(clsCommon.myCdbl(FinancialYear - 1)) + "-" + FinancialYear
+        TCSBaseAmount = 0
+        Dim strqry As String = "select sum(ItemNetAmount) from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + clsCommon.myCstr(CustCode) + "' and convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(strStartDate) + "' and convert(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(strEndDate) + "' "
+        balanceAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strqry))
+        OPInvoice_Sale_Amt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Sale_amt from TSPL_OP_INVOICE_FOR_TCS where Customer_Code='" + clsCommon.myCstr(CustCode) + "' and Financial_Year_Code='" + clsCommon.myCstr(CurrFinYR) + "'"))
+        TCSBaseAmount = OPInvoice_Sale_Amt + balanceAmt
+        If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
+            If TCSBaseAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+
+                If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing)) = 1 Then
+                    Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" + clsCommon.myCstr(CustCode) + "'")) = 1, True, False)
+                    If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
+                        TCSTaxRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                    Else
+                        TCSTaxRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                    End If
+                Else
+                    Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" + clsCommon.myCstr(CustCode) + "'"))
+                    If clsCommon.myLen(panno) > 0 Then
+                        TCSTaxRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                    Else
+                        TCSTaxRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                    End If
+                End If
+            Else
+                TCSTaxRate = 0
+            End If
+        Else
+            TCSTaxRate = 0
+        End If
+        Return TCSTaxRate
+    End Function
+
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             Dim obj As New clsDemandAdjustment

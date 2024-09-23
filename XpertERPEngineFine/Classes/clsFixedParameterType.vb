@@ -127,6 +127,7 @@ Public Class clsFixedParameterType
     Public Const MilkSRNFATSNFDecimalPlaces = "Milk SRN FAT SNF Decimal Places"
     Public Const TankerDispatchIntermittentSingleGateIn = "Tanker Dispatch Intermittent Single Gate In"
     Public Const JobWorkOutwardComsumeItemAccordingToBOM = "Job Work Outward Comsume Item According to BOM"
+    Public Const JWOutWardForRCDF As String = "Job Work Out Ward For RCDF"
     Public Const CreateARAdjAPDebitnoteforEmployeesinMCCMS = "CreateARAdjAPDebitnoteforEmployeesinMCCMS"
     Public Const ApplyCardSaleInvoiceOnlyWithCardSaleAdvance = "ApplyCardSaleInvoiceOnlyWithCardSaleAdvance"
     Public Const StartDateforDispatchSchedular = "StartDateforDispatchSchedular"
@@ -987,6 +988,7 @@ Public Class clsFixedParameterType
     Public Const TDSRoundOffAmount As String = "TDS Round Off Amount"
     Public Const RoundOffPaiseAmount As String = "Round Off Paise Amount"
     Public Const EnableInternalTransfer As String = "Enable Internal Transfer for UDL"
+    Public Const JobWorkTransfer As String = "Job Work Transfer"
     Public Const FreightProvisionAccount As String = "Freight Provision Account"
     Public Const FreightProvisionAccountInward As String = "Freight Provision Account Inward"
     Public Const TreatUnregisteredVendorAsRegisteredVendor As String = "Treat Unregistered Vendor As Registered Vendor"
@@ -1442,6 +1444,7 @@ Public Class clsFixedParameterCode
     Public Const TankerDispatchIntermittentSingleGateIn = "Tanker Dispatch Intermittent Single Gate In"
     Public Const MilkSRNFATSNFDecimalPlaces = "Milk SRN FAT SNF Decimal Places"
     Public Const JobWorkOutwardComsumeItemAccordingToBOM = "Job Work Outward Comsume Item According to BOM"
+    Public Const JWOutWardForRCDF As String = "Job Work Out Ward For RCDF"
     Public Const CreateARAdjAPDebitnoteforEmployeesinMCCMS = "CreateARAdjAPDebitnoteforEmployeesinMCCMS"
     Public Const ApplyCardSaleInvoiceOnlyWithCardSaleAdvance = "ApplyCardSaleInvoiceOnlyWithCardSaleAdvance"
     Public Const StartDateforDispatchSchedular = "StartDateforDispatchSchedular"
@@ -2390,6 +2393,7 @@ Public Class clsFixedParameterCode
     Public Const TDSRoundOffAmount As String = "TDS Round Off Amount"
     Public Const RoundOffPaiseAmount As String = "Round Off Paise Amount"
     Public Const EnableInternalTransfer As String = "Enable Internal Transfer for UDL"
+    Public Const JobWorkTransfer As String = "Job Work Transfer"
     Public Const FreightProvisionAccount As String = "Freight Provision Account"
     Public Const FreightProvisionAccountInward As String = "Freight Provision Account Inward"
     Public Const TreatUnregisteredVendorAsRegisteredVendor As String = "Treat Unregistered Vendor As Registered Vendor"
@@ -2916,6 +2920,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkSRNFATSNFDecimalPlaces, clsFixedParameterCode.MilkSRNFATSNFDecimalPlaces, "3", "FAT SNF KG Decimal Places [1-3]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TankerDispatchIntermittentSingleGateIn, clsFixedParameterCode.TankerDispatchIntermittentSingleGateIn, "0", "0-OFF;1-ON Make Single Gate In for Intermittent type Tanker Dispatch")
         InsertDefaultValueFixedParameter(clsFixedParameterType.JobWorkOutwardComsumeItemAccordingToBOM, clsFixedParameterCode.JobWorkOutwardComsumeItemAccordingToBOM, "1", "0-OFF;1-ON Consume Items accoding to BOM")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.JWOutWardForRCDF, clsFixedParameterCode.JWOutWardForRCDF, "0", "0-OFF;1-ON ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StartDateforDispatchSchedular, clsFixedParameterCode.StartDateforDispatchSchedular, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE().AddDays(-1), "dd/MMM/yyyy"), "StartDateforDispatchSchedular format should be dd/MMM/yyyy")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StockRecoRateTunning, clsFixedParameterCode.StockRecoRateTunning, "0.11", "Stock Reco Rate Tunning")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankRecoCheckFutureDocuments, clsFixedParameterCode.BankRecoCheckFutureDocuments, "1", "0-OFF;1-ON On Reverse and Unpost Check future Transaction exists")
@@ -3924,6 +3929,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, "1", "0:OFF(Amount in Ruppes and paisa),1:ON(Amount in Ruppes)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, "0", "0:Off,1:ON,Remove paise and add in Round off")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableInternalTransfer, clsFixedParameterCode.EnableInternalTransfer, "0", "0:Off,1:ON,Enable Internal Transfer for UDL")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.JobWorkTransfer, clsFixedParameterCode.JobWorkTransfer, "0", "0:Off,1:ON,Enable Job Work Transfer")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FreightProvisionAccount, clsFixedParameterCode.FreightProvisionAccount, "", "Set Freight Provision Account From GL Account")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FreightProvisionAccountInward, clsFixedParameterCode.FreightProvisionAccountInward, "", "Set Freight Inward Provision Account From GL Account")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TreatUnregisteredVendorAsRegisteredVendor, clsFixedParameterCode.TreatUnregisteredVendorAsRegisteredVendor, "1", "0:Off,1:ON,Treat Unregistered Vendor Same As Registered Vendor")
@@ -4402,6 +4408,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.MilkSRNFATSNFDecimalPlaces, clsFixedParameterCode.MilkSRNFATSNFDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.TankerDispatchIntermittentSingleGateIn, clsFixedParameterCode.TankerDispatchIntermittentSingleGateIn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkJobWorkTransferOther, clsFixedParameterType.JobWorkOutwardComsumeItemAccordingToBOM, clsFixedParameterCode.JobWorkOutwardComsumeItemAccordingToBOM, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMilkJobWorkTransfer, clsFixedParameterType.JWOutWardForRCDF, clsFixedParameterCode.JWOutWardForRCDF, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProcessProductionStandardization, clsFixedParameterType.ProductionRemoveFATSNFKgTollerance, clsFixedParameterCode.ProductionRemoveFATSNFKgTollerance, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmProcessProductionStandardization, clsFixedParameterType.ProductionCheckFATKg, clsFixedParameterCode.ProductionCheckFATKg, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmProcessProductionStandardization, clsFixedParameterType.ProductionCheckSNFKg, clsFixedParameterCode.ProductionCheckSNFKg, EnumControlType.NumericBox)
@@ -4628,6 +4635,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.locationMaster, clsFixedParameterType.PlantDepotMappingMandatory, clsFixedParameterCode.PlantDepotMappingMandatory, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.AllowThreeFormatByDefaultForPrint, clsFixedParameterCode.AllowThreeFormatByDefaultForPrint, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.AllowOneFormatByDefaultForPrint, clsFixedParameterCode.AllowOneFormatByDefaultForPrint, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.JobWorkTransfer, clsFixedParameterCode.JobWorkTransfer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleInvoicedairy, clsFixedParameterType.AllowThreeFormatByDefaultForPrint, clsFixedParameterCode.AllowThreeFormatByDefaultForPrint, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.AllowBackDateEntry, clsFixedParameterCode.AllowBackDateEntry, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.DipMarkingMendatory, clsFixedParameterCode.DipMarkingMendatory, EnumControlType.CheckBox)
@@ -5906,7 +5914,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMilkReceipt, clsFixedParameterType.MCCDefaultMilkItemCow, clsFixedParameterCode.MilkSetting, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkReceipt, clsFixedParameterType.MCCDefaultMilkItemBuffalo, clsFixedParameterCode.MilkSetting, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmVSPMaster, clsFixedParameterType.EnableBankFromMaster, clsFixedParameterCode.EnableBankFromMaster, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmVSPMaster, clsFixedParameterType.Autoadjustdebitcreditnote, clsFixedParameterCode.Autoadjustdebitcreditnote, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.PaymentEntryNew, clsFixedParameterType.Autoadjustdebitcreditnote, clsFixedParameterCode.Autoadjustdebitcreditnote, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.UpdateItemMasterWithoutTransactionValidation, clsFixedParameterCode.UpdateItemMasterWithoutTransactionValidation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleInvoicedairy, clsFixedParameterType.AddItemAliasInSMS, clsFixedParameterCode.AddItemAliasInSMS, EnumControlType.CheckBox)

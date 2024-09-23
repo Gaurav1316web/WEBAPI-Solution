@@ -3,6 +3,7 @@ Public Class clsItemMaster
 #Region "Variables"
     Public isSecurityDeduction As Integer = 0
     Public isPenaltyDeduction As Integer = 0
+    Public isHighClass As Integer = 0
     Public FG_for_CF As Integer = 0
     Public BomBuildQty As Double = 0
     Public NIR_QC As Boolean = False
@@ -1569,6 +1570,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             'clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "isSecurityDeduction", obj.isSecurityDeduction)
             clsCommon.AddColumnsForChange(coll, "isPenaltyDeduction", obj.isPenaltyDeduction)
+            clsCommon.AddColumnsForChange(coll, "isHighClass", obj.isHighClass)
             If isNewEntry Then
                 ' If clsCommon.myLen(obj.Item_Code) <= 0 Then 
                 ' Ticket No : ERO/11/07/19-000679 By Prabhakar
@@ -1793,6 +1795,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.ApplyRoundingInStdProd = (clsCommon.myCDecimal(dt.Rows(0)("ApplyRoundingInStdProd")) = 1)
                 obj.isSecurityDeduction = clsCommon.myCdbl(dt.Rows(0)("isSecurityDeduction"))
                 obj.isPenaltyDeduction = clsCommon.myCdbl(dt.Rows(0)("isPenaltyDeduction"))
+                obj.isHighClass = clsCommon.myCdbl(dt.Rows(0)("isHighClass"))
                 ''richa agarwal TEC/19/12/18-000383 27 Dec,2018
                 qry = " select Item_Code,UOM_Code,UOM_Description,Conversion_Factor,Stocking_Unit,Default_UOM,Print_UOM,ProcessLoss_UOM,Gross_Weight,Net_Weight,Job_Work_Rate,pieces,Item_Cost,Custom_Conversion from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "' order by Stocking_Unit desc"
                 dt = clsDBFuncationality.GetDataTable(qry)

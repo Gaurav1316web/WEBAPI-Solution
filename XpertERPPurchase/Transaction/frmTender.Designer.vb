@@ -127,6 +127,7 @@ Partial Class frmTender
         Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
         Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkMonthEndDate = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -901,6 +902,7 @@ Partial Class frmTender
         Me.gv1.Size = New System.Drawing.Size(1057, 135)
         Me.gv1.TabIndex = 17
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadGroupBox1
         '
@@ -940,6 +942,7 @@ Partial Class frmTender
         Me.gv2.Size = New System.Drawing.Size(1057, 125)
         Me.gv2.TabIndex = 17
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -1184,9 +1187,11 @@ Partial Class frmTender
         Me.gvSchedule.Size = New System.Drawing.Size(1077, 405)
         Me.gvSchedule.TabIndex = 18
         Me.gvSchedule.TabStop = False
+        Me.gvSchedule.VarID = ""
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.chkMonthEndDate)
         Me.Panel1.Controls.Add(Me.lblExtensionDays)
         Me.Panel1.Controls.Add(Me.txtExtensionDays)
         Me.Panel1.Controls.Add(Me.btnExtensionUpdate)
@@ -1318,7 +1323,7 @@ Partial Class frmTender
         Me.MyLabel38.ForeColor = System.Drawing.SystemColors.Highlight
         Me.MyLabel38.Location = New System.Drawing.Point(0, 433)
         Me.MyLabel38.Name = "MyLabel38"
-        Me.MyLabel38.Size = New System.Drawing.Size(150, 13)
+        Me.MyLabel38.Size = New System.Drawing.Size(1077, 13)
         Me.MyLabel38.TabIndex = 1521
         Me.MyLabel38.Text = "Press F5 To View Penelty Details"
         '
@@ -1559,6 +1564,16 @@ Partial Class frmTender
         Me.RadMenuItem6.Text = "Close"
         Me.RadMenuItem6.UseCompatibleTextRendering = False
         '
+        'chkMonthEndDate
+        '
+        Me.chkMonthEndDate.AutoSize = True
+        Me.chkMonthEndDate.Location = New System.Drawing.Point(280, 5)
+        Me.chkMonthEndDate.Name = "chkMonthEndDate"
+        Me.chkMonthEndDate.Size = New System.Drawing.Size(116, 18)
+        Me.chkMonthEndDate.TabIndex = 1525
+        Me.chkMonthEndDate.Text = "End Date Of Month"
+        Me.chkMonthEndDate.UseVisualStyleBackColor = True
+        '
         'frmTender
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1771,5 +1786,6 @@ Partial Class frmTender
     Friend WithEvents Cancel_btn As RadButton
     Friend WithEvents MyLabel21 As common.Controls.MyLabel
     Friend WithEvents cboRALOn As common.Controls.MyComboBox
+    Friend WithEvents chkMonthEndDate As CheckBox
 End Class
 

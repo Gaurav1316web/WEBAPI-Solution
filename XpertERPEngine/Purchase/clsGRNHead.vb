@@ -830,7 +830,7 @@ Public Class clsGRNHead
                 obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Item_Insurance_Amt"))
                 obj.Retention = clsCommon.myCdbl(dt.Rows(0)("Retention"))
                 obj.Arr_ACInsurance = clsGRNAdditionChargeInsurance.GetData(obj.GRN_No, trans)
-                qry = "SELECT TSPL_GRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName,(case when len(isnull(TSPL_GRN_DETAIL.PO_Id,''))>0 then (select MAX(PurchaseOrder_Qty) from TSPL_PURCHASE_ORDER_DETAIL where TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id and TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Unit_code=TSPL_GRN_DETAIL.Unit_code and ISNULL(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)=isnull(TSPL_GRN_DETAIL.MRP,0) and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)=isnull(TSPL_GRN_DETAIL.Assessable,0))  else 0 end) as OriginalROQty FROM TSPL_GRN_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_DETAIL.Location where TSPL_GRN_DETAIL.GRN_No='" + obj.GRN_No + "' ORDER BY TSPL_GRN_DETAIL.Line_No"
+                qry = "SELECT TSPL_GRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName,(case when len(isnull(TSPL_GRN_DETAIL.PO_Id,''))>0 then (select MAX(PurchaseOrder_Qty) from TSPL_PURCHASE_ORDER_DETAIL where TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id and TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Unit_code=TSPL_GRN_DETAIL.Unit_code and ISNULL(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)=isnull(TSPL_GRN_DETAIL.MRP,0) and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)=isnull(TSPL_GRN_DETAIL.Assessable,0))  else 0 end) as OriginalROQty,IsNull(TSPL_ITEM_MASTER.isHighClass,0)isHighClass FROM TSPL_GRN_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_DETAIL.Location Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code where TSPL_GRN_DETAIL.GRN_No='" + obj.GRN_No + "' ORDER BY TSPL_GRN_DETAIL.Line_No"
                 'qry = "SELECT TSPL_GRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName,(case when len(isnull(TSPL_GRN_DETAIL.PO_Id,''))>0 then (select MAX(PurchaseOrder_Qty) from TSPL_PURCHASE_ORDER_DETAIL where TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id and TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Unit_code=TSPL_GRN_DETAIL.Unit_code and ISNULL(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)=isnull(TSPL_GRN_DETAIL.MRP,0) and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)=isnull(TSPL_GRN_DETAIL.Assessable,0))  else 0 end) as OriginalROQty FROM TSPL_GRN_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_DETAIL.Location where TSPL_GRN_DETAIL.GRN_No='" + obj.GRN_No + "' "
                 'If chkAutoWeighment Then
                 '    qry += " And TSPL_GRN_DETAIL.Item_Code Not In (Select Item_Code From TSPL_ITEM_MASTER Where Item_Code=TSPL_GRN_DETAIL.Item_Code And Is_Auto_Weighment=0)"
@@ -984,6 +984,7 @@ Public Class clsGRNHead
                         objTr.Item_Insurance_Rate = clsCommon.myCdbl(dr("Item_Insurance_Rate"))
                         objTr.Item_Insurance_Amt = clsCommon.myCdbl(dr("Item_Insurance_Amt"))
                         objTr.Item_Amt_After_Insurance = clsCommon.myCdbl(dr("Item_Amt_After_Insurance"))
+                        objTr.isHighClass = clsCommon.myCdbl(dr("isHighClass"))
                         obj.Arr.Add(objTr)
                     Next
                 End If
@@ -1986,6 +1987,7 @@ Public Class clsGRNDetail
     Public Item_Insurance_Rate As Decimal = 0
     Public Item_Insurance_Amt As Decimal = 0
     Public Item_Amt_After_Insurance As Decimal = 0
+    Public isHighClass As Integer = 0
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsGRNDetail), ByVal trans As SqlTransaction) As Boolean
