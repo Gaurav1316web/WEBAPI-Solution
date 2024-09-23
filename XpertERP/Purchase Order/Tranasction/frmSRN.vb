@@ -3407,13 +3407,13 @@ Public Class frmSRN
                     End If
                     isCellValueChangedOpen = False
 
-                        If clsCommon.myLen(txtPONo.Value) > 0 Then
-                            gv1.Columns(colDisAmt).ReadOnly = True
-                            gv1.Columns(colDisPer).ReadOnly = True
-                        End If
-
+                    If clsCommon.myLen(txtPONo.Value) > 0 Then
+                        gv1.Columns(colDisAmt).ReadOnly = True
+                        gv1.Columns(colDisPer).ReadOnly = True
                     End If
+
                 End If
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpen = False
@@ -4536,6 +4536,17 @@ Public Class frmSRN
                 End If
                 'End If
                 '' End Function
+
+
+
+                If clsCommon.CompairString(QC_Status, "Rejected") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colOrgMRNQty).Value) <> clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedQty).Value) AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) <= 0 AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedQty).Value) > 0 Then
+                    If clsCommon.MyMessageBoxShow("Received Quantity( " + clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(ii).Cells(colOrgMRNQty).Value)) + " ) of Item " + strICode + "( " + strIName.Trim() + " ) not equal to Rejected Qty(" + clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedQty).Value)) + ").At Line No:  " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + "" + Environment.NewLine + "Are you sure to proceed?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                        Return False
+                    End If
+                End If
+
+                'Dim str As String = "Received Quantity( " + clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(ii).Cells(colOrgMRNQty).Value)) + " )Then of Item " + strICode + "( " + strIName.Trim() + " ) not equal to Rejected Qty(" + clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedQty).Value) + ").At Line No:  " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " "
+
 
 
                 Dim dblPendingQty As Double = 0
@@ -6188,7 +6199,11 @@ Public Class frmSRN
 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal AndAlso objTr.SRN_Qty = 0 AndAlso obj.Status = ERPTransactionStatus.Pending Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.MRN_Qty
+                            If clsCommon.CompairString(obj.QC_Status, "Rejected") = CompairStringResult.Equal Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.SRN_Qty
+                            Else
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.MRN_Qty
+                            End If
                         Else
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.SRN_Qty
                         End If
@@ -8710,7 +8725,6 @@ Public Class frmSRN
         If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
-
     End Sub
     Private Sub gv1_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserDeletedRow
         UpdateAllTotals()

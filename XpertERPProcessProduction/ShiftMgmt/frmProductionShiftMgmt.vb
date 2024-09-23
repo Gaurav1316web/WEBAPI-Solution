@@ -252,6 +252,15 @@ Public Class frmProductionShiftMgmt
 
         coll = New Dictionary(Of String, String)
         coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
+        coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
+        coll.Add("Cost_Code", "Varchar(30) not null references TSPL_OVERHEAD_COST(COST_CODE)")
+        coll.Add("Amount", "Decimal(18,2) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_OVERHEAD_COST_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
+
+
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
         coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
         coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
@@ -2405,7 +2414,8 @@ where (xxx.Stock_Qty>0 and (xxx.Fat_KG>0 or xxx.SNF_KG>0))
             End If
             gvPro.CurrentRow.Cells(ColProBOMCode).Value = clsCommon.myCstr(dt.Rows(0)("BOM_CODE"))
 
-            qry = "select xx.ITEM_CODE,xx.Item_Desc,xx.Item_Type,xx.UNIT_CODE,xx.Product_Type,(xx.prod_qty * (xx.quantity/xx.build_qty)) as Qty,xx.fat,xx.snf,(xx.fat_kg*xx.Prod_Qty/xx.build_qty) as fat_kg,(xx.snf_kg*xx.prod_qty/xx.build_qty) as snf_kg from (
+            qry = "select xxx.ITEM_CODE,xxx.Item_Desc,xxx.Item_Type,TabStockUOM.UOM_Code as UNIT_CODE,xxx.Product_Type,(xxx.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as Qty,xxx.fat,xxx.snf,xxx.fat_kg,xxx.snf_kg from (
+select xx.ITEM_CODE,xx.Item_Desc,xx.Item_Type,xx.UNIT_CODE,xx.Product_Type,(xx.prod_qty * (xx.quantity/xx.build_qty)) as Qty,xx.fat,xx.snf,(xx.fat_kg*xx.Prod_Qty/xx.build_qty) as fat_kg,(xx.snf_kg*xx.prod_qty/xx.build_qty) as snf_kg from (
 select  (" + clsCommon.myCstr(clsCommon.myCDecimal(gvPro.CurrentRow.Cells(strColumn).Value)) + " * TabConvFatMul.Conversion_Factor/ TabConvFatDiv.Conversion_Factor) as Prod_Qty,tspl_pp_bom_head.bom_code,tspl_pp_bom_head.prod_item_code,tspl_pp_bom_head.prod_quantity as build_qty,TSPL_PP_BOM_ITEM_DETAIL.deactive,TSPL_PP_BOM_ITEM_DETAIL.effective_date
 ,TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Item_Type,TSPL_PP_BOM_ITEM_DETAIL.UNIT_CODE,TSPL_ITEM_MASTER.Product_Type
 ,(TSPL_PP_BOM_ITEM_DETAIL.QUANTITY+TSPL_PP_BOM_ITEM_DETAIL.QUANTITY*coalesce(TSPL_PP_BOM_ITEM_DETAIL.ProcessLossPer,0)/100) as QUANTITY
@@ -2418,7 +2428,10 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PP_BOM_ITEM_
 left outer join TSPL_ITEM_UOM_DETAIL as  TabConvFatDiv on TabConvFatDiv.Item_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and TabConvFatDiv.UOM_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE 
 left outer join TSPL_ITEM_UOM_DETAIL as  TabConvFatMul on TabConvFatMul.item_code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and TabConvFatMul.UOM_Code='" + strUOM + "'
 where  TSPL_PP_BOM_HEAD.BOM_CODE='" + clsCommon.myCstr(gvPro.CurrentRow.Cells(ColProBOMCode).Value) + "'
-)xx  "
+)xx  
+)xxx 
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xxx.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code=xxx.UNIT_CODE 
+left outer join TSPL_ITEM_UOM_DETAIL as TabStockUOM on TabStockUOM.item_code=xxx.ITEM_CODE and TabStockUOM.Stocking_Unit='Y'"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("Raw items for BOM [" + clsCommon.myCstr(gvPro.CurrentRow.Cells(ColProBOMCode).Value) + "] not found")
@@ -2483,14 +2496,14 @@ where  TSPL_PP_BOM_HEAD.BOM_CODE='" + clsCommon.myCstr(gvPro.CurrentRow.Cells(Co
                         gvProRM.Rows(idx).Cells(ColProRMSNo).Value = idx + 1
                         gvProRM.Rows(idx).Cells(ColProRMItemCode).Value = objtr.Item_Code
                         gvProRM.Rows(idx).Cells(ColProRMItemName).Value = objtr.Item_Name
-                        gvProRM.Rows(idx).Cells(ColProRMUOM).Value = clsItemMaster.GetStockUnit(objtr.Item_Code, Nothing)
+                        gvProRM.Rows(idx).Cells(ColProRMUOM).Value = objtr.UOM
                         gvProRM.Rows(idx).Cells(ColProRMQty).Value = 0
                         gvProRM.Rows(idx).Cells(ColProRMFAT).Value = 0
                         gvProRM.Rows(idx).Cells(ColProRMSNF).Value = 0
                         gvProRM.Rows(idx).Cells(ColProRMFATKG).Value = 0
                         gvProRM.Rows(idx).Cells(ColProRMSNFKG).Value = 0
                     End If
-                    gvProRM.Rows(idx).Cells(ColProRMQty).Value += clsItemMaster.Convert(objtr.Item_Code, objtr.Qty, objtr.UOM, clsCommon.myCstr(gvProRM.Rows(idx).Cells(ColProRMUOM).Value))
+                    gvProRM.Rows(idx).Cells(ColProRMQty).Value += objtr.Qty
                     gvProRM.Rows(idx).Cells(ColProRMFATKG).Value += objtr.FAT_KG
                     gvProRM.Rows(idx).Cells(ColProRMSNFKG).Value += objtr.SNF_KG
 
@@ -3157,60 +3170,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
     Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
         clsOpenInventory.ShowInventoryDatails(txtDocNo.Value)
     End Sub
-    Private Sub gvPro_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gvPro.CellDoubleClick
-        '        Try
-        '            Dim qry As String
-        '            If e.Column Is gvDisposal.Columns(ColQCStatus) Then
-        '                If clsCommon.myLen(gvDisposal.CurrentRow.Cells(ColProItemCode).Value) > 0 Then
-        '                    Dim Arr As List(Of clsDairyProductionUploaderQC) = TryCast(gvDisposal.CurrentRow.Cells(ColQCStatus).Tag, List(Of clsDairyProductionUploaderQC))
-        '                    qry = "select Code as [QC Code],cast(Actual_Range as varchar) as [Standard Range],'' as [Value] From TSPL_ITEM_QC_PARAMETER_MASTER where Item_Code like '" + clsCommon.myCstr(gvDisposal.CurrentRow.Cells(ColProItemCode).Value) + "'
-        'union all
-        'select 'QC Status' as  [QC Code],'Y/N' as [Standard Range],'" + IIf(clsCommon.myCBool(gvDisposal.CurrentRow.Cells(ColQCStatus).Value), "Y", "N") + "' as [Value] "
-        '                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        '                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-        '                        Throw New Exception("QC Parameter not defined for item [" + clsCommon.myCstr(gvDisposal.CurrentRow.Cells(ColProItemCode).Value) + "]")
-        '                    End If
-        '                    If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
-        '                        For ii As Integer = 0 To dt.Rows.Count - 1
-        '                            For Each objtr As clsDairyProductionUploaderQC In Arr
-        '                                If clsCommon.CompairString(objtr.QC_Code, clsCommon.myCstr(dt.Rows(ii)("QC Code"))) = CompairStringResult.Equal Then
-        '                                    dt.Rows(ii)("Value") = objtr.Value
-        '                                    Exit For
-        '                                End If
-        '                            Next
-        '                        Next
-        '                    End If
-        '                    Dim frm As New FrmFreeGrid
-        '                    frm.dt = dt
-        '                    frm.arrEditableColumn = New List(Of String)
-        '                    frm.arrEditableColumn.Add("Value")
-        '                    frm.strFormName = "Fill QC Details of item [" + clsCommon.myCstr(gvDisposal.CurrentRow.Cells(ColProItemCode).Value) + "]"
-        '                    frm.ReportID = Me.Form_ID
-        '                    frm.WindowState = FormWindowState.Normal
-        '                    frm.ShowDialog()
-        '                    If frm.dt IsNot Nothing AndAlso frm.dt.Rows.Count > 0 Then
-        '                        Dim ArrTemp As New List(Of clsDairyProductionUploaderQC)
-        '                        Dim obj As clsDairyProductionUploaderQC = Nothing
-        '                        For ii As Integer = 0 To frm.dt.Rows.Count - 1
-        '                            If ii = frm.dt.Rows.Count - 1 Then
-        '                                gvDisposal.CurrentRow.Cells(ColQCStatus).Value = (clsCommon.CompairString(clsCommon.myCstr(frm.dt.Rows(ii)("Value")), "Y") = CompairStringResult.Equal)
-        '                                Exit For
-        '                            End If
-        '                            obj = New clsDairyProductionUploaderQC()
-        '                            obj.QC_Code = clsCommon.myCstr(frm.dt.Rows(ii)("QC Code"))
-        '                            obj.Value = clsCommon.myCstr(frm.dt.Rows(ii)("Value"))
-        '                            ArrTemp.Add(obj)
-        '                        Next
-        '                        gvDisposal.CurrentRow.Cells(ColQCStatus).Tag = ArrTemp
-        '                    Else
-        '                        gvDisposal.CurrentRow.Cells(ColQCStatus).Tag = Nothing
-        '                    End If
-        '                End If
-        '            End If
-        '        Catch ex As Exception
-        '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        '        End Try
-    End Sub
+
     Private Sub btnPrintNew_Click(sender As Object, e As EventArgs) Handles btnPrintNew.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)

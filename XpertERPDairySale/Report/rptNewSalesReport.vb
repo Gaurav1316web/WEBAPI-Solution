@@ -334,7 +334,7 @@ Public Class rptNewSalesReport
                     FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
                 End If
 
-                FinalQuery += "  " & Environment.NewLine & " --RATE " & Environment.NewLine & " union all " & Environment.NewLine & " Select 3 as SNO,	max(route_no) as Route_No,max(Shift_Type)Shift_Type,'Rate' as Document_Date, " & MaxQry & "select * , convert( decimal(18,2),(Fresh_Amount/ LTR_QTY)) as Fresh_Rate ,  case when isnull(Product_Amount,0) = 0 then 0 when  isnull(KG_QTY,0) = 0 then 0 else convert( decimal(18,2),(Product_Amount /  KG_QTY)) end as Product_Rate  from (" & qry & " " & Environment.NewLine & " )xxx "
+                FinalQuery += "  " & Environment.NewLine & " --RATE " & Environment.NewLine & " union all " & Environment.NewLine & " Select 3 as SNO,	max(route_no) as Route_No,max(Shift_Type)Shift_Type,'Rate' as Document_Date, " & MaxQry & "select * , case when isnull(Fresh_Amount,0) = 0  then 0 when  isnull(LTR_QTY,0) = 0 then 0 else   convert( decimal(18,2),(Fresh_Amount/ LTR_QTY)) end as Fresh_Rate ,  case when isnull(Product_Amount,0) = 0 then 0 when  isnull(KG_QTY,0) = 0 then 0 else convert( decimal(18,2),(Product_Amount /  KG_QTY)) end as Product_Rate  from (" & qry & " " & Environment.NewLine & " )xxx "
 
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (avg(Fresh_Rate)  FOR Fresh_Item IN (" & FreshItemsName & ") ) AS pivot_fresh "

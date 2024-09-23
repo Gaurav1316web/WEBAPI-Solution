@@ -441,9 +441,17 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
                 objMRNTR.Remarks = objGRNTR.Remarks
                 objMRNTR.Assessable = objGRNTR.Assessable
                 objMRNTR.AssessableAmt = objGRNTR.AssessableAmt
-                If objMRN.isHighClass > 0 Then
+                If objMRN.isHighClass > 0 AndAlso objGRNTR.isHighClass > 0 Then
+                    objMRNTR.isHighClass = 1
                     objMRNTR.MRN_Qty = objGRNTR.GRN_Qty
+                    Dim ExtraWeight As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight From TSPL_PO_WEIGHTMENT_DETAIL Left Outer Join TSPL_PO_WEIGHTMENT_HEAD On TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code Where TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No='" + obj.Against_GRN_No + "' And TSPL_PO_WEIGHTMENT_DETAIL.Item_Code='" + objGRNTR.Item_Code + "'", trans))
+                    If ExtraWeight > 0 Then
+                        objMRNTR.MRN_Qty = objGRNTR.GRN_Qty - ExtraWeight
+                    Else
+                        objMRNTR.MRN_Qty = objGRNTR.GRN_Qty
+                    End If
                 Else
+                    objMRNTR.isHighClass = 0
                     If clsCommon.CompairString(objGRNTR.Row_Type, "Item") = CompairStringResult.Equal Then ''VIJ/11/12/19-000117 by balwinder on 18/12/2019
                         If objGRNTR.GRN_Qty > obj.Arr(objGRNTR.Line_No - 1).Net_Weight Then
                             objMRNTR.Accept_Qty = obj.Arr(objGRNTR.Line_No - 1).Net_Weight

@@ -26,7 +26,7 @@ Public Class frmLocationMaster
     Const CatcolCodeDesc As String = "CatcolCodeDesc"
     Const CatcolValue As String = "CatcolValue"
     Const CatcolValueDesc As String = "CatcolValueDesc"
-
+    Public JWOutWardForRCDF As Boolean = False
     Dim isEdit As Boolean = False
     Dim userCode, companyCode As String
     Dim sql As String
@@ -151,7 +151,7 @@ Public Class frmLocationMaster
     Private Sub RadForm1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         InterState = "IGST"
         LocalState = "SGST,'CGST','UGST'"
-
+        JWOutWardForRCDF = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.JWOutWardForRCDF, clsFixedParameterCode.JWOutWardForRCDF, Nothing)) = "1", True, False)
         '= KUNAL > TICKET : BM00000009585 ===
         checkCommissonReq.Visible = False
         txtcsa_commision.Enabled = False
@@ -475,12 +475,14 @@ Public Class frmLocationMaster
             SubLocState = clsCommon.myCstr(fndstateprovince.Value)
             ' If clsCommon.myCstr(TxtMainLoc.Value) <> clsCommon.myCstr(fndLocationSegmentCode.Value) Then'
             If ChkIsJobwork.Checked = True Then
-                If clsCommon.CompairString(clsCommon.myCstr(fndLocationSegmentCode.Value), MainLocSegmentCode) = CompairStringResult.Equal Then
-                    RadPageView1.SelectedPage = Details
-                    common.clsCommon.MyMessageBoxShow(Me, "Please check ! Main location segment code and location segment code should not be same", Me.Text)
-                    TxtMainLoc.Focus()
-                    TxtMainLoc.Select()
-                    Return False
+                If clsCommon.CompairString(JWOutWardForRCDF, "False") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(clsCommon.myCstr(fndLocationSegmentCode.Value), MainLocSegmentCode) = CompairStringResult.Equal Then
+                        RadPageView1.SelectedPage = Details
+                        common.clsCommon.MyMessageBoxShow("Please check ! Main location segment code and location segment code should not be same", Me.Text)
+                        TxtMainLoc.Focus()
+                        TxtMainLoc.Select()
+                        Return False
+                    End If
                 End If
                 If clsCommon.CompairString(SubLocVendorState, SubLocState) <> CompairStringResult.Equal Then
                     common.clsCommon.MyMessageBoxShow(Me, "Please check ! Job Work Vendor State and State/Provience should be same.", Me.Text)

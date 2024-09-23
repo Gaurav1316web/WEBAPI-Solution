@@ -258,6 +258,7 @@ Public Class frmSNSaleInvoice
         'Else
         '    btnReverseAndUnpost.Enabled = False
         'End If
+        btnCancel.Visible = MyBase.isCancel_Flag
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

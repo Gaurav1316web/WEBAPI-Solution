@@ -11,6 +11,7 @@ Public Class FrmTransferKDIL
 #Region "Variables"
     'done by stuti on 05/10/2016 against ticket no BM00000009942
     Dim blnUpdateLoadInwithLoadOut As Boolean
+    Public JobWorkTransfer As Boolean = False
     Dim GSTOn As Integer = 0
     Public EnableInternalTransfer As Boolean = False
     Dim strTaxType As String = Nothing
@@ -296,6 +297,12 @@ Public Class FrmTransferKDIL
             fndSRNO.Visible = False
         End If
         LoadModeOfTrasport()
+        JobWorkTransfer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.JobWorkTransfer, clsFixedParameterCode.JobWorkTransfer, Nothing)) = "1", True, False)
+
+        If JobWorkTransfer Then
+            chkJobWorkTransfer.Visible = True
+
+        End If
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
@@ -2370,7 +2377,7 @@ Public Class FrmTransferKDIL
         btnDelete.Enabled = True
         btnPrintNew.Enabled = True
         ' BtnPrintChallan.Enabled = True
-        If chkInternalTransfer.Checked Then
+        If chkInternalTransfer.Checked OrElse chkJobWorkTransfer.Checked Then
             BtnPrintChallan.Enabled = False
             ' rbtnPrintExcisable.Enabled = False
         Else
@@ -2466,6 +2473,8 @@ Public Class FrmTransferKDIL
         End If
         chkInternalTransfer.Checked = False
         chkInternalTransfer.Enabled = True
+        chkJobWorkTransfer.Enabled = True
+        chkJobWorkTransfer.Checked = False
         chkProductionRequest.Checked = False
         chkProductionRequest.Enabled = False
         fndSRNO.Value = ""
@@ -7364,4 +7373,24 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No='" + clsCommon.myCstr(txtDocNo.Value)
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub chkJobWorkTransfer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkJobWorkTransfer.ToggleStateChanged
+        Try
+            txtFromLocation.Value = ""
+            txtToLoc.Value = ""
+            lblFromLoc.Text = ""
+            lblToLoc.Text = ""
+            If clsCommon.myLen(fndSRNO.Value) > 0 Then
+                AddNew()
+            End If
+            If chkJobWorkTransfer.Checked Then
+                If chkInternalTransfer.Checked Then
+                    chkJobWorkTransfer.Checked = False
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
 End Class

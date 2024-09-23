@@ -188,7 +188,7 @@ Public Class frmMRN
     Const colEmergency As String = "COLEMERGENCY"
     Const colCapexSubCode As String = "COLCAPEXSUBCODE"
     Const colCapexCode As String = "COLCAPEXCODE"
-
+    Const colHighClass As String = "COLHIGHCLASS"
     Const colACInsuranceCode As String = "colACInsuranceCode"
     Const colACInsuranceName As String = "colACInsuranceName"
     Const colACInsuranceAmount As String = "colACInsuranceAmount"
@@ -2227,6 +2227,15 @@ Public Class frmMRN
         repoCapexCode.IsVisible = ShowCapexCodeandSubCode
         repoCapexCode.VisibleInColumnChooser = ShowCapexCodeandSubCode
         gv1.MasterTemplate.Columns.Add(repoCapexCode)
+
+        Dim repoHighClass As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoHighClass.Checked = ToggleState.Off
+        repoHighClass.HeaderText = "High Class"
+        repoHighClass.Name = colHighClass
+        repoHighClass.Width = 50
+        repoHighClass.ReadOnly = True
+        repoHighClass.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoHighClass)
         ''==============================================================================================
 
         gv1.AllowDeleteRow = True
@@ -3784,7 +3793,6 @@ Public Class frmMRN
                 cboMRNType.SelectedValue = obj.PurchaseOrder_Type
                 txtRGPType.Text = obj.RGP_Type
                 TxtRetention.Text = obj.Retention
-                chkHighClass.Checked = IIf(obj.isHighClass = 1, True, False)
                 'stuti
                 If obj.RoadPermit_Date IsNot Nothing AndAlso clsCommon.myLen(obj.RoadPermit_Date) > 0 AndAlso IsDate(obj.RoadPermit_Date) Then
                     txt_RoadPermitDate.Text = obj.RoadPermit_Date
@@ -4097,10 +4105,6 @@ Public Class frmMRN
                 lblAddChargesForInsurance1.Text = clsCommon.myFormat(obj.Total_Add_Charge_Insurance)
                 lblTotalInsuranceAmt.Text = clsCommon.myFormat(obj.Total_Item_Insurance_Amt)
 
-
-
-
-
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsMRNDetail In obj.Arr
                         gv1.Rows.AddNew()
@@ -4280,7 +4284,7 @@ Public Class frmMRN
 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInsuranceBaseAmt).Value = objTr.Insurance_Base_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colInsurancePer).Value = objTr.Insurance_Per
-
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHighClass).Value = objTr.isHighClass
                     Next
                     UcAttachment1.LoadData(obj.MRN_No)
                     If obj.Status = ERPTransactionStatus.Pending Then

@@ -407,7 +407,7 @@ Public Class rptSalesLedgerReport
                 If rbtnMorning.IsChecked Then
                     FinalQuery += " and XXX.Shift_Type = 'AM' "
                 ElseIf rbtnEvening.IsChecked Then
-                    FinalQuery += " and XXX.Shift_Type df= 'PM'"
+                    FinalQuery += " and XXX.Shift_Type = 'PM'"
                 End If
                 FinalQuery += "order by xxx.Document_Date,xxx.Shift_Type desc"
             Else

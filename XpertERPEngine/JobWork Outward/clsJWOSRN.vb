@@ -233,6 +233,7 @@ Public Class clsJWOSRNHead
                 obj.TransferSNFRate = 0
                 obj.TransferSNFAmt = 0
 
+                Dim SrnQty As Double = 0
                 objEst = clsJWOEstimate.GetData(obj.Against_Estimate, NavigatorType.Current, trans)
                 If objEst.ArrWeighment IsNot Nothing AndAlso objEst.ArrWeighment.Count > 0 Then
                     For Each objtr As clsJWOEstimateTransfer In objEst.ArrWeighment
@@ -241,54 +242,64 @@ Public Class clsJWOSRNHead
                         End If
                         qry = "select * from TSPL_INVENTORY_MOVEMENT_new where source_doc_no='" + objtr.Transfer_Code + "' and inout='I' and Trans_Type='MilkTransferJobWork'"
                         Dim dtInv As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                        If dtInv IsNot Nothing AndAlso dtInv.Rows.Count > 0 Then
-                            For Each drInve As DataRow In dtInv.Rows
-                                Dim objInventoryMovemnt As New clsInventoryMovementNew()
-                                objInventoryMovemnt.InOut = "O"
-                                objInventoryMovemnt.main_location = clsCommon.myCstr(drInve("main_location"))
-                                objInventoryMovemnt.Location_Code = clsCommon.myCstr(drInve("Location_Code"))
-                                objInventoryMovemnt.Item_Code = clsCommon.myCstr(drInve("Item_Code"))
-                                objInventoryMovemnt.Item_Desc = clsCommon.myCstr(drInve("Item_Desc"))
-                                objInventoryMovemnt.Qty = clsCommon.myCdbl(drInve("Qty"))
-                                objInventoryMovemnt.UOM = clsCommon.myCstr(drInve("UOM"))
-                                objInventoryMovemnt.MRP = Nothing
-                                objInventoryMovemnt.Add_Cost = Nothing
-                                objInventoryMovemnt.Net_Cost = Nothing
-                                objInventoryMovemnt.ItemType = clsCommon.myCstr(drInve("ItemType"))
+                        If objEst.ArrRawItem IsNot Nothing AndAlso objEst.ArrRawItem.Count > 0 Then
 
-                                objInventoryMovemnt.Basic_Cost = Nothing
+                            If dtInv IsNot Nothing AndAlso dtInv.Rows.Count > 0 Then
+                                For Each drInve As DataRow In dtInv.Rows
+                                    For Each objrawitem As clsJWOEstimateRawItem In objEst.ArrRawItem
+                                        SrnQty = clsDBFuncationality.getSingleValue("select Qty from TSPL_JWO_SRN_DETAIL where Document_No = '" & obj.Document_No & "' and Item_Code = '" & objrawitem.Main_Item_Code & "'", trans)
+                                        Dim objInventoryMovemnt As New clsInventoryMovementNew()
+                                        If clsCommon.CompairString(objrawitem.Raw_Item_Code, clsCommon.myCstr(drInve("Item_Code"))) = CompairStringResult.Equal Then
+                                            objInventoryMovemnt.InOut = "O"
+                                            objInventoryMovemnt.main_location = clsCommon.myCstr(drInve("main_location"))
+                                            objInventoryMovemnt.Location_Code = clsCommon.myCstr(drInve("Location_Code"))
+                                            objInventoryMovemnt.Item_Code = clsCommon.myCstr(drInve("Item_Code"))
+                                            objInventoryMovemnt.Item_Desc = clsCommon.myCstr(drInve("Item_Desc"))
+                                            objInventoryMovemnt.Qty = clsCommon.myCdbl((objrawitem.Raw_Item_Qty / objrawitem.Main_Item_Qty) * SrnQty)
 
-                                objInventoryMovemnt.MFG_Date = Nothing
-                                objInventoryMovemnt.Expiry_Date = Nothing
+                                            'objInventoryMovemnt.Qty = clsCommon.myCdbl(drInve("Qty"))
+                                            objInventoryMovemnt.UOM = clsCommon.myCstr(drInve("UOM"))
+                                            objInventoryMovemnt.MRP = Nothing
+                                            objInventoryMovemnt.Add_Cost = Nothing
+                                            objInventoryMovemnt.Net_Cost = Nothing
+                                            objInventoryMovemnt.ItemType = clsCommon.myCstr(drInve("ItemType"))
 
-                                objInventoryMovemnt.FAT_KG = clsCommon.myCdbl(drInve("FAT_KG"))
-                                objInventoryMovemnt.FAT_Per = clsCommon.myCdbl(drInve("FAT_Per"))
-                                objInventoryMovemnt.SNF_KG = clsCommon.myCdbl(drInve("SNF_KG"))
-                                objInventoryMovemnt.SNF_Per = clsCommon.myCdbl(drInve("SNF_Per"))
+                                            objInventoryMovemnt.Basic_Cost = Nothing
 
-                                objInventoryMovemnt.Fat_Rate = clsCommon.myCdbl(drInve("Fat_Rate"))
-                                objInventoryMovemnt.SNF_Rate = clsCommon.myCdbl(drInve("SNF_Rate"))
-                                objInventoryMovemnt.Fat_Amt = clsCommon.myCdbl(drInve("Fat_Amt"))
-                                objInventoryMovemnt.SNF_Amt = clsCommon.myCdbl(drInve("SNF_Amt"))
+                                            objInventoryMovemnt.MFG_Date = Nothing
+                                            objInventoryMovemnt.Expiry_Date = Nothing
 
-                                objInventoryMovemnt.FIFO_Cost = clsCommon.myCdbl(drInve("FIFO_Cost"))
-                                objInventoryMovemnt.Avg_Cost = clsCommon.myCdbl(drInve("Avg_Cost"))
-                                objInventoryMovemnt.LIFO_Cost = clsCommon.myCdbl(drInve("LIFO_Cost"))
-                                objInventoryMovemnt.CalculateAvgCost = False
-                                objInventoryMovemnt.DonNotCalculateAvgFATSNFCost = True
+                                            objInventoryMovemnt.FAT_KG = clsCommon.myCdbl(drInve("FAT_KG"))
+                                            objInventoryMovemnt.FAT_Per = clsCommon.myCdbl(drInve("FAT_Per"))
+                                            objInventoryMovemnt.SNF_KG = clsCommon.myCdbl(drInve("SNF_KG"))
+                                            objInventoryMovemnt.SNF_Per = clsCommon.myCdbl(drInve("SNF_Per"))
 
-                                'objInventoryMovemnt.Batch_No = objtr.Item_Code
-                                'objInventoryMovemnt.Ref_Line_No = objtr.SNo
-                                objInventoryMovemnt.IS_CONSUMPTION = 1
+                                            objInventoryMovemnt.Fat_Rate = clsCommon.myCdbl(drInve("Fat_Rate"))
+                                            objInventoryMovemnt.SNF_Rate = clsCommon.myCdbl(drInve("SNF_Rate"))
+                                            objInventoryMovemnt.Fat_Amt = clsCommon.myCdbl(drInve("Fat_Amt"))
+                                            objInventoryMovemnt.SNF_Amt = clsCommon.myCdbl(drInve("SNF_Amt"))
 
-                                ArrInventoryMovementNew.Add(objInventoryMovemnt)
+                                            objInventoryMovemnt.FIFO_Cost = clsCommon.myCdbl(drInve("FIFO_Cost"))
+                                            objInventoryMovemnt.Avg_Cost = clsCommon.myCdbl(drInve("Avg_Cost"))
+                                            objInventoryMovemnt.LIFO_Cost = clsCommon.myCdbl(drInve("LIFO_Cost"))
+                                            objInventoryMovemnt.CalculateAvgCost = False
+                                            objInventoryMovemnt.DonNotCalculateAvgFATSNFCost = True
 
-                                obj.TransferFATKG += clsCommon.myCdbl(drInve("FAT_KG"))
-                                obj.TransferFATAmt += clsCommon.myCdbl(drInve("Fat_Amt"))
+                                            'objInventoryMovemnt.Batch_No = objtr.Item_Code
+                                            'objInventoryMovemnt.Ref_Line_No = objtr.SNo
+                                            objInventoryMovemnt.IS_CONSUMPTION = 1
 
-                                obj.TransferSNFKG += clsCommon.myCdbl(drInve("SNF_KG"))
-                                obj.TransferSNFAmt += clsCommon.myCdbl(drInve("SNF_Amt"))
-                            Next
+                                            ArrInventoryMovementNew.Add(objInventoryMovemnt)
+                                        End If
+                                        obj.TransferFATKG += clsCommon.myCdbl(drInve("FAT_KG"))
+                                        obj.TransferFATAmt += clsCommon.myCdbl(drInve("Fat_Amt"))
+
+                                        obj.TransferSNFKG += clsCommon.myCdbl(drInve("SNF_KG"))
+                                        obj.TransferSNFAmt += clsCommon.myCdbl(drInve("SNF_Amt"))
+                                        Exit For
+                                    Next
+                                Next
+                            End If
                         End If
                     Next
                     If obj.TransferFATKG > 0 Then
@@ -362,7 +373,7 @@ Public Class clsJWOSRNHead
                                 'objInventoryMovemnt.Other_Location_Desc = obj.Arr(ii).to_loc_desc
                                 objInventoryMovemnt.Item_Code = objtr.Raw_Item_Code
                                 objInventoryMovemnt.Item_Desc = clsItemMaster.GetItemName(objtr.Raw_Item_Code, trans)
-                                objInventoryMovemnt.Qty = objtr.Raw_Item_Qty
+                                objInventoryMovemnt.Qty = ((objtr.Raw_Item_Qty / objtr.Main_Item_Qty) * SrnQty)
                                 objInventoryMovemnt.UOM = objtr.Raw_Item_UOM
                                 objInventoryMovemnt.MRP = Nothing
                                 objInventoryMovemnt.Add_Cost = Nothing
@@ -416,7 +427,7 @@ Public Class clsJWOSRNHead
                                 'objInventoryMovemnt.Other_Location_Desc = obj.Arr(ii).to_loc_desc
                                 objInventoryMovemnt.Item_Code = objtr.Raw_Item_Code
                                 objInventoryMovemnt.Item_Desc = clsItemMaster.GetItemName(objtr.Raw_Item_Code, trans)
-                                objInventoryMovemnt.Qty = objtr.Raw_Item_Qty
+                                objInventoryMovemnt.Qty = ((objtr.Raw_Item_Qty / objtr.Main_Item_Qty) * SrnQty)
                                 objInventoryMovemnt.UOM = objtr.Raw_Item_UOM
                                 objInventoryMovemnt.MRP = Nothing
                                 objInventoryMovemnt.Add_Cost = Nothing
@@ -1103,6 +1114,7 @@ Public Class clsJWOSRNDetail
     Public Tare_Weight As Double = 0
     Public Net_Weight As Double = 0
     Public Estimate_Qty As Double = 0
+    Public Estimate_Qty_UOM As String = String.Empty
     Public Qty As Double = 0
     Public FAT_Per As Double = 0
     Public SNF_Per As Double = 0
@@ -1134,6 +1146,7 @@ Public Class clsJWOSRNDetail
                 clsCommon.AddColumnsForChange(coll, "Tare_Weight", obj.Tare_Weight)
                 clsCommon.AddColumnsForChange(coll, "Net_Weight", obj.Net_Weight)
                 clsCommon.AddColumnsForChange(coll, "Estimate_Qty", obj.Estimate_Qty)
+                clsCommon.AddColumnsForChange(coll, "Estimate_Qty_UOM", obj.Estimate_Qty_UOM)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "FAT_Per", obj.FAT_Per)
                 clsCommon.AddColumnsForChange(coll, "SNF_Per", obj.SNF_Per)
@@ -1173,6 +1186,7 @@ Public Class clsJWOSRNDetail
                     obj.Tare_Weight = clsCommon.myCdbl(dt.Rows(i)("Tare_Weight"))
                     obj.Net_Weight = clsCommon.myCdbl(dt.Rows(i)("Net_Weight"))
                     obj.Estimate_Qty = clsCommon.myCdbl(dt.Rows(i)("Estimate_Qty"))
+                    obj.Estimate_Qty_UOM = clsCommon.myCstr(dt.Rows(i)("Estimate_Qty_UOM"))
                     obj.Qty = clsCommon.myCdbl(dt.Rows(i)("Qty"))
                     obj.FAT_Per = clsCommon.myCdbl(dt.Rows(i)("FAT_Per"))
                     obj.SNF_Per = clsCommon.myCdbl(dt.Rows(i)("SNF_Per"))

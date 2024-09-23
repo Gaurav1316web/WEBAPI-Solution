@@ -246,6 +246,7 @@ Public Class frmSNSaleReturn
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnCancel.Visible = MyBase.isCancel_Flag
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -3758,6 +3759,8 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                 isInsideLoadData = True
                 isNewEntry = False
                 btnSave.Text = "Update"
+                btnCancel.Enabled = True
+
                 BlankAllControls()
                 LoadBlankGrid()
                 LoadBlankGridTax()

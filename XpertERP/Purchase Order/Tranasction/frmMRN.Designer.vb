@@ -414,6 +414,7 @@ Partial Class frmMRN
         Me.chkHighClass.Size = New System.Drawing.Size(75, 16)
         Me.chkHighClass.TabIndex = 356
         Me.chkHighClass.Text = "High Class"
+        Me.chkHighClass.Visible = False
         '
         'chkJobWorkOutward
         '
