@@ -5914,7 +5914,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMilkReceipt, clsFixedParameterType.MCCDefaultMilkItemCow, clsFixedParameterCode.MilkSetting, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkReceipt, clsFixedParameterType.MCCDefaultMilkItemBuffalo, clsFixedParameterCode.MilkSetting, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmVSPMaster, clsFixedParameterType.EnableBankFromMaster, clsFixedParameterCode.EnableBankFromMaster, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmVSPMaster, clsFixedParameterType.Autoadjustdebitcreditnote, clsFixedParameterCode.Autoadjustdebitcreditnote, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.PaymentEntryNew, clsFixedParameterType.Autoadjustdebitcreditnote, clsFixedParameterCode.Autoadjustdebitcreditnote, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.UpdateItemMasterWithoutTransactionValidation, clsFixedParameterCode.UpdateItemMasterWithoutTransactionValidation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleInvoicedairy, clsFixedParameterType.AddItemAliasInSMS, clsFixedParameterCode.AddItemAliasInSMS, EnumControlType.CheckBox)

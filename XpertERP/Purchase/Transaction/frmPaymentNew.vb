@@ -590,6 +590,13 @@ Public Class FrmPaymentNew
             btnViewTDSDetails.Enabled = False
             chkCheckPrint.Visible = True
             btnOk.Visible = False
+            If autoadjustdebitcreditnote = True Then
+                txtmulPI.Visible = True
+                MyLabel15.Visible = True
+            Else
+                txtmulPI.Visible = False
+                MyLabel15.Visible = False
+            End If
         End If
     End Sub
     Private Sub ddlPaymentType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles ddlPaymentType.SelectedIndexChanged
@@ -641,9 +648,10 @@ Public Class FrmPaymentNew
                 btnOk.Visible = False
                 If autoadjustdebitcreditnote = True Then
                     txtmulPI.Visible = True
+                    MyLabel15.Visible = True
                 End If
-                MyLabel15.Visible = True
-                ElseIf clsCommon.CompairString(ddlPaymentType.SelectedValue, "AD") = CompairStringResult.Equal Then
+
+            ElseIf clsCommon.CompairString(ddlPaymentType.SelectedValue, "AD") = CompairStringResult.Equal Then
                     lblTotPayment.Text = "Total Payment"
                     txtPaymentAmt.ReadOnly = True
                     gvDetails.Visible = True
@@ -663,12 +671,12 @@ Public Class FrmPaymentNew
                     txtBankCharges.Text = "0"
                     ChkAdvSalary.Visible = False
                 ChkAdvSalary.Checked = False
-                If autoadjustdebitcreditnote = True Then
-                    txtmulPI.Visible = True
-                End If
+                ' If autoadjustdebitcreditnote = True Then
+                txtmulPI.Visible = False
+                'End If
 
-                MyLabel15.Visible = True
-                ElseIf clsCommon.CompairString(ddlPaymentType.SelectedValue, "AV") = CompairStringResult.Equal Or clsCommon.CompairString(ddlPaymentType.SelectedValue, "OA") = CompairStringResult.Equal Then
+                MyLabel15.Visible = False
+            ElseIf clsCommon.CompairString(ddlPaymentType.SelectedValue, "AV") = CompairStringResult.Equal Or clsCommon.CompairString(ddlPaymentType.SelectedValue, "OA") = CompairStringResult.Equal Then
                     pnlAdvance.Visible = True
                     lblTotPayment.Text = "Payment Amount"
                     lblpaymentcode.Visible = True
@@ -775,11 +783,11 @@ Public Class FrmPaymentNew
                 pnlCheque.Visible = True
                 txtBankCharges.Visible = True
                 MyLabel3.Visible = True
-                If autoadjustdebitcreditnote = True Then
-                    txtmulPI.Visible = True
-                End If
-                MyLabel15.Visible = True
-                    txtPaymentAmt.ReadOnly = False
+
+                txtmulPI.Visible = False
+
+                MyLabel15.Visible = False
+                txtPaymentAmt.ReadOnly = False
                     gvDetails.Visible = True
                     btnViewTDSDetails.Enabled = False
                     pnlVendor.Visible = False
@@ -1588,20 +1596,21 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
     End Sub
 
     Private Sub gvDetails_CellDoubleClick(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvDetails.CellDoubleClick
-        If (e.Column Is gvDetails.Columns(colApply)) Then
-            If gvDetails.CurrentRow.Cells(colApply).Value = "No" Then
-                gvDetails.CurrentRow.Cells(colApply).Value = "Yes"
-                gvDetails.CurrentRow.Cells(colAppliedAmt).ReadOnly = False
-            Else
-                gvDetails.CurrentRow.Cells(colApply).Value = "No"
-                gvDetails.CurrentRow.Cells(colAppliedAmt).ReadOnly = True
+        If autoadjustdebitcreditnote = False Then
+            If (e.Column Is gvDetails.Columns(colApply)) Then
+                If gvDetails.CurrentRow.Cells(colApply).Value = "No" Then
+                    gvDetails.CurrentRow.Cells(colApply).Value = "Yes"
+                    gvDetails.CurrentRow.Cells(colAppliedAmt).ReadOnly = False
+                Else
+                    gvDetails.CurrentRow.Cells(colApply).Value = "No"
+                    gvDetails.CurrentRow.Cells(colAppliedAmt).ReadOnly = True
+                End If
+            End If
+            If gvDetails.CurrentColumn Is gvDetails.Columns(colDocNo) AndAlso clsCommon.myLen(gvDetails.CurrentRow.Cells(colDocNo).Value) > 0 AndAlso ddlPaymentType.SelectedValue = "PY" Then
+
+                clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnAPInvoiceEntryTDS, gvDetails.CurrentRow.Cells(colDocNo).Value)
             End If
         End If
-        If gvDetails.CurrentColumn Is gvDetails.Columns(colDocNo) AndAlso clsCommon.myLen(gvDetails.CurrentRow.Cells(colDocNo).Value) > 0 AndAlso ddlPaymentType.SelectedValue = "PY" Then
-
-            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnAPInvoiceEntryTDS, gvDetails.CurrentRow.Cells(colDocNo).Value)
-        End If
-
     End Sub
 
     Dim IsCellValueChanged As Boolean = True
@@ -7710,7 +7719,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
             query += " And TSPL_VENDOR_INVOICE_HEAD.RefDocType <>'REVALUATION ENTRY' and isnull(TSPL_VENDOR_INVOICE_HEAD.Employee_Type,'')=''  and isnull(TSPL_VENDOR_INVOICE_HEAD.posting_date,'')<>''
                          And TSPL_VENDOR_INVOICE_HEAD.Document_No In (
                                                     select Document_No
-                                                    from TSPL_VENDOR_INVOICE_HEAD where RefDocType in ('QC-DED','SCH-PNT','RE-TEN','REV-SPT')  and        RefDocNo in ('" + strcode + "')  )
+                                                    from TSPL_VENDOR_INVOICE_HEAD where RefDocType in ('QC-DED','SCH-PNT','RE-TEN','REV-SPT','SEC-DED')  and        RefDocNo in ('" + strcode + "')  )
                                                     OR
                                                      TSPL_VENDOR_INVOICE_HEAD.Document_No IN 
                                                     (select Document_No
@@ -7734,7 +7743,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                         select case when ab.Document_Type<>'C' then ab.NEWFIELD else abc.RefDocNo end FINAL_PI,AB.Document_No from (
                         select Against_POInvoice_No AS NEWFIELD,Against_POInvoice_No,Document_No,RefDocNo,Document_Type,RefDocType from TSPL_VENDOR_INVOICE_HEAD where Against_POInvoice_No IN ('" + strcode + "') and Document_Type='I'
                         union all
-                        select RefDocNo AS NEWFIELD,Against_POInvoice_No,Document_No,RefDocNo,Document_Type,RefDocType from TSPL_VENDOR_INVOICE_HEAD where RefDocNo IN ('" + strcode + "') AND RefDocType in ('QC-DED','SCH-PNT','RE-TEN') AND Document_Type='D'
+                        select RefDocNo AS NEWFIELD,Against_POInvoice_No,Document_No,RefDocNo,Document_Type,RefDocType from TSPL_VENDOR_INVOICE_HEAD where RefDocNo IN ('" + strcode + "') AND RefDocType in ('QC-DED','SCH-PNT','RE-TEN','SEC-DED') AND Document_Type='D'
                         UNION ALL
 
                         SELECT RefDocNo AS NEWFIELD,Against_POInvoice_No,Document_No,RefDocNo,Document_Type,RefDocType FROM TSPL_VENDOR_INVOICE_HEAD WHERE RefDocNo IN (SELECT Document_No FROM TSPL_VENDOR_INVOICE_HEAD WHERE RefDocNo IN ('" + strcode + "') )) ab
@@ -7742,7 +7751,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
 
                         SELECT Document_No,RefDocNo,Document_Type,RefDocType  FROM TSPL_VENDOR_INVOICE_HEAD WHERE Document_No IN (select Against_POInvoice_No AS NEWFILED from TSPL_VENDOR_INVOICE_HEAD where Against_POInvoice_No IN ('" + strcode + "') and Document_Type='I'
                         union all
-                        select RefDocNo AS NEWFIELD from TSPL_VENDOR_INVOICE_HEAD where RefDocNo IN ('" + strcode + "') AND  RefDocType in ('QC-DED','SCH-PNT','RE-TEN') AND Document_Type='D'
+                        select RefDocNo AS NEWFIELD from TSPL_VENDOR_INVOICE_HEAD where RefDocNo IN ('" + strcode + "') AND  RefDocType in ('QC-DED','SCH-PNT','RE-TEN','SEC-DED') AND Document_Type='D'
                         UNION ALL
 
                         SELECT RefDocNo AS NEWFIELD FROM TSPL_VENDOR_INVOICE_HEAD WHERE RefDocNo IN (SELECT Document_No FROM TSPL_VENDOR_INVOICE_HEAD WHERE RefDocNo IN ('" + strcode + "') ))) abc
