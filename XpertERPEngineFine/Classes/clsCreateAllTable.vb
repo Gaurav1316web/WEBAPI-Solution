@@ -33803,6 +33803,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Is_MandiTax", "Integer not null default 0")
             coll.Add("For_Repair", "Integer not null default 0")
             coll.Add("InternalTransfer", "Integer not null default 0")
+            coll.Add("JobWorkTransfer", "Integer not null default 0")
             coll.Add("GLVoucher_No", "varchar(30) NULL")
             coll.Add("Requisition_Id", "Varchar(30) null References TSPL_REQUISITION_HEAD(Requisition_Id)")
             coll.Add("Loading_Advice_No", "varchar(70) NULL")

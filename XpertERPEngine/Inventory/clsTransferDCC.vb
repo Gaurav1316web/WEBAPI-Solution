@@ -8,6 +8,7 @@ Public Class clsTransferDCC
     Public For_Repair As Integer = 0
     Public TransferIndent_No As String = String.Empty
     Public InternalTransfer As Integer = 0
+    Public JobWorkTransfer As Integer = 0
     Public ProdRequestTransfer As Integer = 0
     Public IsJobWorkType As Integer = 0
     Public Electronic_Ref_No As String = Nothing
@@ -418,7 +419,14 @@ Public Class clsTransferDCC
                     Throw New Exception("This document is already posted.")
                 End If
             End If
-            Dim trans_Type As String = If(obj.InternalTransfer = 1, "ITransfer", "Transfer")
+            Dim trans_Type As String = ""
+            If obj.InternalTransfer = 1 Then
+                trans_Type = "ITransfer"
+            ElseIf obj.JobWorkTransfer = 1 Then
+                trans_Type = "JTransfer"
+            Else
+                trans_Type = "Transfer"
+            End If
             'clsSerializeInvenotry.DeleteData(trans_Type, obj.Document_No, trans)
             'clsBatchInventory.DeleteData(trans_Type, obj.Document_No, trans)
             'Dim qry As String = "delete from TSPL_Transfer_ORDER_DETAIL where Document_No='" + obj.Document_No + "'"
@@ -437,6 +445,8 @@ Public Class clsTransferDCC
                                     Else
                                         obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.InternalTransfer, obj.From_Location)
                                     End If
+                                ElseIf clsCommon.CompairString(obj.JobWorkTransfer, "1") = CompairStringResult.Equal Then
+                                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.JWTransfer, obj.From_Location)
                                 Else
                                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmTransferGST, clsDocTransactionType.GSTIn, obj.To_Location)
                                 End If
@@ -477,6 +487,8 @@ Public Class clsTransferDCC
                                         Else
                                             obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.InternalTransfer, obj.From_Location)
                                         End If
+                                    ElseIf clsCommon.CompairString(obj.JobWorkTransfer, "1") = CompairStringResult.Equal Then
+                                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.JWTransfer, obj.From_Location)
                                     Else
                                         obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmTransferGST, clsDocTransactionType.GSTIn, obj.To_Location)
                                     End If
@@ -493,6 +505,10 @@ Public Class clsTransferDCC
                                             Else
                                                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.InternalTransferOut, obj.From_Location)
                                             End If
+                                        End If
+                                    ElseIf clsCommon.CompairString(obj.JobWorkTransfer, "1") = CompairStringResult.Equal Then
+                                        If clsCommon.CompairString(obj.Transfer_Type, "O") = CompairStringResult.Equal Then
+                                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.JWTransferOut, obj.From_Location)
                                         End If
                                     Else
                                         obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmTransferGST, clsDocTransactionType.GSTNonTaxable, obj.From_Location)
@@ -514,6 +530,8 @@ Public Class clsTransferDCC
                                     Else
                                         obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.InternalTransfer, obj.From_Location)
                                     End If
+                                ElseIf clsCommon.CompairString(obj.JobWorkTransfer, "1") = CompairStringResult.Equal Then
+                                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.JWTransfer, obj.From_Location)
                                 Else
                                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmTransferGST, clsDocTransactionType.GSTIn, obj.To_Location)
 
@@ -553,6 +571,8 @@ Public Class clsTransferDCC
                                         Else
                                             obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.InternalTransfer, obj.From_Location)
                                         End If
+                                    ElseIf clsCommon.CompairString(obj.JobWorkTransfer, "1") = CompairStringResult.Equal Then
+                                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.JWTransfer, obj.From_Location)
 
                                     Else
                                         obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmTransferGST, clsDocTransactionType.GSTIn, obj.To_Location)
@@ -571,6 +591,10 @@ Public Class clsTransferDCC
                                                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.InternalTransferOut, obj.From_Location)
                                             End If
 
+                                        End If
+                                    ElseIf clsCommon.CompairString(obj.JobWorkTransfer, "1") = CompairStringResult.Equal Then
+                                        If clsCommon.CompairString(obj.Transfer_Type, "O") = CompairStringResult.Equal Then
+                                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.JWTransferOut, obj.From_Location)
                                         End If
                                     Else
                                         obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.CommonSaleSeries, clsDocTransactionType.GSTDeliveryChallan, obj.From_Location)
@@ -599,6 +623,8 @@ Public Class clsTransferDCC
                                 Else
                                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.InternalTransferOut, obj.From_Location)
                                 End If
+                            ElseIf clsCommon.CompairString(obj.JobWorkTransfer, "1") = CompairStringResult.Equal Then
+                                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.TransferDCC, clsDocTransactionType.JWTransferOut, obj.From_Location)
 
                             Else
                                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleInvoice, clsDocTransactionType.SaleInvoiceExcise, obj.From_Location)
@@ -761,6 +787,7 @@ Public Class clsTransferDCC
 
             clsCommon.AddColumnsForChange(coll, "For_Repair", IIf(obj.For_Repair, 1, 0))
             clsCommon.AddColumnsForChange(coll, "InternalTRansfer", IIf(obj.InternalTransfer, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "JobWorkTransfer", IIf(obj.JobWorkTransfer, 1, 0))
             clsCommon.AddColumnsForChange(coll, "ProdRequestTransfer", IIf(obj.ProdRequestTransfer, 1, 0))
             clsCommon.AddColumnsForChange(coll, "IsJobWorkType", IIf(obj.IsJobWorkType, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Requisition_Id", clsCommon.myCstr(obj.Requisition_Id), True)
@@ -834,7 +861,7 @@ Public Class clsTransferDCC
                 isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_TRANSFER_ORDER_HEAD", "DOCUMENT_NO", "TSPL_TRANSFER_ORDER_DETAIL", "DOCUMENT_NO", trans)
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSFER_ORDER_HEAD", OMInsertOrUpdate.Update, "TSPL_TRANSFER_ORDER_HEAD.Document_No='" + obj.Document_No + "'", trans)
             End If
-            isSaved = isSaved AndAlso clsTransferDCCDetail.SaveData(obj.Document_No, Arr, trans, obj.Document_Date, obj.From_Location, obj.To_Location, trans_Type, obj.Transfer_Type, obj.IsJobWorkType, obj.InternalTransfer)
+            isSaved = isSaved AndAlso clsTransferDCCDetail.SaveData(obj.Document_No, Arr, trans, obj.Document_Date, obj.From_Location, obj.To_Location, trans_Type, obj.Transfer_Type, obj.IsJobWorkType, obj.InternalTransfer, obj.JobWorkTransfer)
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_No, obj.arrCustomFields, trans)
             If clsCommon.CompairString(obj.Transfer_Type, "O") = CompairStringResult.Equal And clsCommon.myLen(obj.GLVoucher_No) > 0 Then
                 Dim strLoadInNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_TRANSFER_ORDER_HEAD where TransferOutNo='" & obj.Document_No & "'", trans)
@@ -957,7 +984,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
         " TSPL_TRANSFER_ORDER_HEAD.Delivery_date, TSPL_TRANSFER_ORDER_HEAD.Delivery_Duration,TSPL_TRANSFER_ORDER_HEAD.Item_Type, " &
         " TSPL_TRANSFER_ORDER_HEAD.Modify_By,TSPL_TRANSFER_ORDER_HEAD.Modify_Date,TSPL_TRANSFER_ORDER_HEAD.Created_By, " &
         " TSPL_TRANSFER_ORDER_HEAD.Created_Date,TSPL_TRANSFER_ORDER_HEAD.Tax_Calculation_Type, " &
-        " TSPL_TRANSFER_ORDER_HEAD.CURRENCY_CODE,TSPL_TRANSFER_ORDER_HEAD.CONVRATE,TSPL_TRANSFER_ORDER_HEAD.ApplicableFrom,TSPL_TRANSFER_ORDER_HEAD.RMDA_Code,ISNULL(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,'') AS Transporter_Name_Manual,TSPL_Transfer_ORDER_Head.For_Repair,TSPL_TRANSFER_ORDER_HEAD.InternalTransfer,TSPL_TRANSFER_ORDER_HEAD.ProdRequestTransfer,TSPL_TRANSFER_ORDER_HEAD.IsJobWorkType,Requisition_Id,TSPL_TRANSFER_ORDER_HEAD.Freight_Distance FROM TSPL_TRANSFER_ORDER_HEAD left " &
+        " TSPL_TRANSFER_ORDER_HEAD.CURRENCY_CODE,TSPL_TRANSFER_ORDER_HEAD.CONVRATE,TSPL_TRANSFER_ORDER_HEAD.ApplicableFrom,TSPL_TRANSFER_ORDER_HEAD.RMDA_Code,ISNULL(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual,'') AS Transporter_Name_Manual,TSPL_Transfer_ORDER_Head.For_Repair,TSPL_TRANSFER_ORDER_HEAD.InternalTransfer,TSPL_TRANSFER_ORDER_HEAD.JobWorkTransfer,TSPL_TRANSFER_ORDER_HEAD.ProdRequestTransfer,TSPL_TRANSFER_ORDER_HEAD.IsJobWorkType,Requisition_Id,TSPL_TRANSFER_ORDER_HEAD.Freight_Distance FROM TSPL_TRANSFER_ORDER_HEAD left " &
         " outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_TRANSFER_ORDER_HEAD.From_Location " &
         " left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_1 on TSPL_LOCATION_MASTER_1.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location " &
         " left outer join  TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_2 on TSPL_LOCATION_MASTER_2.GIT_Location=TSPL_TRANSFER_ORDER_HEAD.To_Location" &
@@ -1152,6 +1179,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             obj.GLVoucher_No = clsCommon.myCstr(dt.Rows(0)("GLVoucher_No"))
             obj.Loading_Advice_No = clsCommon.myCstr(dt.Rows(0)("Loading_Advice_No"))
             obj.InternalTransfer = clsCommon.myCdbl(dt.Rows(0)("InternalTransfer"))
+            obj.JobWorkTransfer = clsCommon.myCdbl(dt.Rows(0)("JobWorkTransfer"))
             obj.ProdRequestTransfer = clsCommon.myCdbl(dt.Rows(0)("ProdRequestTransfer"))
             obj.IsJobWorkType = clsCommon.myCdbl(dt.Rows(0)("IsJobWorkType"))
             obj.Requisition_Id = clsCommon.myCstr(dt.Rows(0)("Requisition_Id"))
@@ -1324,8 +1352,16 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                     objTr.Item_Net_Wt = clsCommon.myCdbl(dr("Item_Net_Wt"))
                     objTr.Item_Net_MT_Wt = clsCommon.myCdbl(dr("Item_Net_MT_Wt"))
                     objTr.Bin_No = clsCommon.myCstr(dr("Bin_No"))
-                    objTr.arrSrItem = clsSerializeInvenotry.GetData(If(obj.InternalTransfer = 1, "ITransfer", "Transfer"), objTr.Document_No, objTr.Item_Code, objTr.Line_No, trans)
-                    objTr.arrBatchItem = clsBatchInventory.GetData(If(obj.InternalTransfer = 1, "ITransfer", "Transfer"), objTr.Document_No, objTr.Item_Code, objTr.Line_No, trans)
+                    Dim DocType As String = ""
+                    If obj.JobWorkTransfer = 1 Then
+                        DocType = "JTransfer"
+                    ElseIf obj.InternalTransfer Then
+                        DocType = "ITransfer"
+                    Else
+                        DocType = "Transfer"
+                    End If
+                    objTr.arrSrItem = clsSerializeInvenotry.GetData(DocType, objTr.Document_No, objTr.Item_Code, objTr.Line_No, trans)
+                    objTr.arrBatchItem = clsBatchInventory.GetData(DocType, objTr.Document_No, objTr.Item_Code, objTr.Line_No, trans)
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -4107,7 +4143,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             objInventoryMovemnt.Location_Code = obj.From_Location
 
             If clsCommon.CompairString(obj.Transfer_Type, "O") = CompairStringResult.Equal Then
-                If clsCommon.CompairString(obj.InternalTransfer, 1) = CompairStringResult.Equal Then
+                If clsCommon.CompairString(obj.InternalTransfer, 1) = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.JobWorkTransfer, 1) = CompairStringResult.Equal Then
                     objInventoryMovemnt.Other_Location_Code = obj.To_Location
                     objInventoryMovemnt.Other_Location_Desc = obj.To_LocationName
                 Else
@@ -4179,8 +4215,16 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 ArrInventoryMovementIn.Add(objInventoryMovemnt1)
             End If
         Next
-        clsInventoryMovement.SaveData(If(obj.InternalTransfer = 1, "ITransfer", "Transfer"), obj.Document_No, PunchingTime, clsCommon.GetPrintDate(PunchingTime, "dd/MM/yyyy"), ArrInventoryMovementOut, trans)
-        clsInventoryMovement.SaveData(If(obj.InternalTransfer = 1, "ITransfer", "Transfer"), obj.Document_No, PunchingTime, clsCommon.GetPrintDate(PunchingTime, "dd/MM/yyyy"), ArrInventoryMovementIn, trans)
+        Dim TransType As String = ""
+        If obj.JobWorkTransfer = 1 Then
+            TransType = "JTransfer"
+        ElseIf obj.InternalTransfer Then
+            TransType = "ITransfer"
+        Else
+            TransType = "Transfer"
+        End If
+        clsInventoryMovement.SaveData(TransType, obj.Document_No, PunchingTime, clsCommon.GetPrintDate(PunchingTime, "dd/MM/yyyy"), ArrInventoryMovementOut, trans)
+        clsInventoryMovement.SaveData(TransType, obj.Document_No, PunchingTime, clsCommon.GetPrintDate(PunchingTime, "dd/MM/yyyy"), ArrInventoryMovementIn, trans)
 
         Return True
     End Function
@@ -4217,8 +4261,16 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
-                clsSerializeInvenotry.DeleteData(If(obj.InternalTransfer = 1, "ITransfer", "Transfer"), obj.Document_No, trans)
-                clsBatchInventory.DeleteData(If(obj.InternalTransfer = 1, "ITransfer", "Transfer"), obj.Document_No, trans)
+                Dim DocType As String = ""
+                If obj.JobWorkTransfer = 1 Then
+                    DocType = "JTransfer"
+                ElseIf obj.InternalTransfer Then
+                    DocType = "ITransfer"
+                Else
+                    DocType = "Transfer"
+                End If
+                clsSerializeInvenotry.DeleteData(DocType, obj.Document_No, trans)
+                clsBatchInventory.DeleteData(DocType, obj.Document_No, trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_TRANSFER_ORDER_HEAD", "Document_No", "TSPL_TRANSFER_ORDER_DETAIL", "Document_No", trans)
                 Dim qry As String = "delete from TSPL_TRANSFER_ORDER_DETAIL where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -4331,7 +4383,15 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
             End If
 
             Dim InternalTransfer As Integer = clsCommon.myCdbl(dt.Rows(0)("InternalTransfer"))
-            Dim transType As String = If(InternalTransfer = 1, "ITransfer", "Transfer")
+            Dim JobWorkTransfer As Integer = clsCommon.myCdbl(dt.Rows(0)("JobWorkTransfer"))
+            Dim transType As String = ""
+            If JobWorkTransfer = 1 Then
+                transType = "JTransfer"
+            ElseIf InternalTransfer Then
+                transType = "ITransfer"
+            Else
+                transType = "Transfer"
+            End If
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='MM-TF' and Source_Doc_No='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
@@ -4677,7 +4737,7 @@ Public Class clsTransferDCCDetail
 #End Region
 
     ''Note Very Important If any change mad in PO Head or PO Detail table allso update it's History table.
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsTransferDCCDetail), ByVal trans As SqlTransaction, ByVal DocDate As DateTime, ByVal strFromLoc As String, ByVal strToLoc As String, ByVal Trans_Type As String, ByVal Transfer_Type As String, ByVal IsJobWorkType As Int16, ByVal IsInternalTransfer As Int16) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsTransferDCCDetail), ByVal trans As SqlTransaction, ByVal DocDate As DateTime, ByVal strFromLoc As String, ByVal strToLoc As String, ByVal Trans_Type As String, ByVal Transfer_Type As String, ByVal IsJobWorkType As Int16, ByVal IsInternalTransfer As Int16, ByVal isJobWorkTransfer As Int16) As Boolean
         clsSerializeInvenotry.DeleteData(Trans_Type, strDocNo, trans)
         clsBatchInventory.DeleteData(Trans_Type, strDocNo, trans)
         Dim qry As String = "delete from TSPL_Transfer_ORDER_DETAIL where Document_No='" + strDocNo + "'"
@@ -4759,7 +4819,7 @@ Public Class clsTransferDCCDetail
                 clsCommon.AddColumnsForChange(coll, "Bin_No", obj.Bin_No)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSFER_ORDER_DETAIL", OMInsertOrUpdate.Insert, "", trans)
 
-                If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyFEFO, clsFixedParameterCode.ApplyFEFO, trans)) = 1 And IsInternalTransfer = 1) Then
+                If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyFEFO, clsFixedParameterCode.ApplyFEFO, trans)) = 1 And (IsInternalTransfer = 1 OrElse isJobWorkTransfer = 1)) Then
                     If clsCommon.CompairString(Transfer_Type, "O") = CompairStringResult.Equal Then
                         clsSerializeInvenotry.SaveData(Trans_Type, strDocNo, DocDate, "O", obj.Item_Code, strFromLoc, obj.Line_No, obj.arrSrItem, trans)
                         clsBatchInventory.SaveData(Trans_Type, strDocNo, DocDate, "O", obj.Item_Code, strFromLoc, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
