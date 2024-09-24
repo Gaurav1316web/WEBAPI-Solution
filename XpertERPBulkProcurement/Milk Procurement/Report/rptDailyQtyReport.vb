@@ -2604,9 +2604,19 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                           sum(ppp.FAT_Tolerence) as FAT_Tolerence, case when sum(ppp.FATKG_Recovered)<=0 then 0 else sum(ppp.FATKG_Recovered) end   as FATKG_Recovered
 						  , case when sum(ppp.FATKG_Recovered)<=0 then 0 else  Sum(FAT_AMT) end as FAT_AMT,
                         sum(PPP.DiffMCCVsEntered_SNFKG)DiffMCCVsEntered_SNFKG,sum(SNF_Tolerence) as SNF_Tolerence,
-						Sum(ppp.SNFKG_Recovered)  as SNFKG_Recovered
-						,Sum(ppp.SNF_AMT) as SNF_AMT
-						,Sum(AMOUNT) AMOUNT,max(PPP.GainLoss_Code) as GainLoss_Code,
+						  case when Sum(ppp.SNFKG_Recovered)<= 0 then 0 else Sum(ppp.SNFKG_Recovered) end as SNFKG_Recovered, 
+                          Case when Sum(ppp.SNF_AMT)<= 0 then 0 else Sum(ppp.SNF_AMT) end as SNF_AMT, 
+                          CASE WHEN SUM(FAT_AMT) >= 0 
+                          AND SUM(SNF_AMT) >= 0 THEN ISNULL(
+                            SUM(FAT_AMT), 
+                            0
+                          ) + ISNULL(
+                            SUM(SNF_AMT), 
+                            0
+                          ) WHEN SUM(FAT_AMT) >= 0 
+                          AND SUM(SNF_AMT) <= 0 THEN SUM(FAT_AMT) WHEN SUM(FAT_AMT) <= 0 
+                          AND SUM(SNF_AMT) >= 0 THEN SUM(SNF_AMT) ELSE 0 END AS AMOUNT
+                        ,max(PPP.GainLoss_Code) as GainLoss_Code,
                            sum(PPP.Loss_FAT_Rate) as Loss_FAT_Rate,
                            sum(PPP.Loss_SNF_Rate) as Loss_SNF_Rate,
                            max(PPP.Start_Date) as Start_Date,max(Comp_Name)Comp_Name,max(Add1)Add1,max(Add2)Add2
