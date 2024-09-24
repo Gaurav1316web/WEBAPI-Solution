@@ -30041,6 +30041,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("ReceiptAmt", "decimal(18,2) NULL")
             coll.Add("ReceiverName", "varchar(50) NULL")
             coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
+            coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             coll.Add("Against_Booking_No", "varchar(30) NULL REFERENCES TSPL_BOOKING_MATSER(Document_No)")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
@@ -30228,6 +30229,20 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Against_Booking_PK_ID", "int null References TSPL_BOOKING_DETAIL(PK_ID)")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
+
+            qry = "alter table TSPL_SD_SHIPMENT_detail alter column Amount Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX1_Base_Amt Decimal(18,6) null "
+            qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX1_Amt Decimal(18,6) null  alter table TSPL_SD_SHIPMENT_detail  alter column TAX2_Base_Amt Decimal(18,6) null "
+ qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX2_Amt Decimal(18,6) null  alter table TSPL_SD_SHIPMENT_detail  alter column TAX3_Base_Amt Decimal(18,6) null "
+            qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX3_Amt Decimal(18,6) null   alter table TSPL_SD_SHIPMENT_detail  alter column TAX4_Base_Amt Decimal(18,6) null"
+            qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX4_Amt Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX5_Base_Amt Decimal(18,6) null"
+            qry += "  alter table TSPL_SD_SHIPMENT_detail  alter column TAX5_Amt Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX6_Base_Amt Decimal(18,6) null"
+            qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX6_Amt Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX7_Base_Amt Decimal(18,6) null"
+            qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX7_Amt Decimal(18,6) null  alter table TSPL_SD_SHIPMENT_detail  alter column TAX8_Base_Amt Decimal(18,6) null "
+            qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX8_Amt Decimal(18,6) null  alter table TSPL_SD_SHIPMENT_detail  alter column TAX9_Base_Amt Decimal(18,6) null "
+            qry += "   alter table TSPL_SD_SHIPMENT_detail  alter column TAX9_Amt Decimal(18,6) null  alter table TSPL_SD_SHIPMENT_detail  alter column TAX10_Base_Amt Decimal(18,6) null"
+            qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX10_Amt Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column Item_Tax Decimal(18,6) null
+     alter table TSPL_SD_SHIPMENT_detail  alter column Total_Tax_Amt Decimal(18,6) null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL REFERENCES TSPL_SD_SHIPMENT_DETAIL(PK_ID)")
@@ -40864,6 +40879,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Price", "Decimal(18,2) null")
             coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MCC_RATE_UPLOADER_Detail", coll, "Primary Key (Code,PK_Id)", True)
+            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_MCC_RATE_UPLOADER_Detail alter column Price Decimal(18,6) null")
+
             '===============================================================
             '==================TSPL_FAT_SNF_UPLOADER_Chart_Detail====================
 
@@ -43864,7 +43881,6 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("ManualCan", "integer null")
             coll.Add("ItemLeakageAmount", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL_History", coll, Nothing, False, False)
-
 
             coll = New Dictionary(Of String, String)
             coll.Add("GRN_No", "varchar(30) NOT NULL ")
