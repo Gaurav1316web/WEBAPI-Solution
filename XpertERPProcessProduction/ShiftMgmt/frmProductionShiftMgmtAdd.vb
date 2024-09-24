@@ -38,7 +38,7 @@ Public Class frmProductionShiftMgmtAdd
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColLocationName).Value = obj.Location_Name
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemCode).Value = obj.Item_Code
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColItemName).Value = obj.Item_Name
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColProductType).Value = obj.Product_Type
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColProductType).Value = obj.ItemProductType
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColUOM).Value = obj.UOM
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredQty).Value = obj.Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColEnteredFATKG).Value = obj.FAT_KG
@@ -320,7 +320,7 @@ Public Class frmProductionShiftMgmtAdd
                     obj.Location_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColLocationName).Value)
                     obj.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemCode).Value)
                     obj.Item_Name = clsCommon.myCstr(gv1.Rows(ii).Cells(ColItemName).Value)
-                    obj.Product_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value)
+                    obj.ItemProductType = clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value)
                     obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColEnteredQty).Value)
                     obj.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(ColUOM).Value)
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(ColProductType).Value), "MI") = CompairStringResult.Equal Then

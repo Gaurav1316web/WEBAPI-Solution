@@ -544,7 +544,7 @@ where Document_No='" + obj.Document_No + "'
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.myLen(dr("GL_Acc")) <= 0 Then
-                        Throw New Exception("GL Account not found for cost code " & clsCommon.myCstr(dr("Item_Code")) & "")
+                        Throw New Exception("GL Account not found for cost code " & clsCommon.myCstr(dr("Cost_Code")) & "")
                     End If
                     Dim GLAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(dr("GL_Acc")), obj.Location_FG, trans)
                     If clsCommon.myLen(GLAcc) > 0 Then

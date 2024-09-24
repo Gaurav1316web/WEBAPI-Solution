@@ -25,6 +25,8 @@ Partial Class frmTenderShortPenalty
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.SRN_PI = New common.Controls.MyLabel()
+        Me.txtSRN_PI = New common.UserControls.txtFinder()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -47,6 +49,7 @@ Partial Class frmTenderShortPenalty
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.BtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnRecalculate = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
@@ -54,13 +57,13 @@ Partial Class frmTenderShortPenalty
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.BtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.SRN_PI, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -79,6 +82,7 @@ Partial Class frmTenderShortPenalty
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,7 +90,6 @@ Partial Class frmTenderShortPenalty
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -129,6 +132,8 @@ Partial Class frmTenderShortPenalty
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.SRN_PI)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtSRN_PI)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadButton2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
@@ -156,6 +161,42 @@ Partial Class frmTenderShortPenalty
         Me.SplitContainer2.Size = New System.Drawing.Size(749, 404)
         Me.SplitContainer2.SplitterDistance = 139
         Me.SplitContainer2.TabIndex = 1
+        '
+        'SRN_PI
+        '
+        Me.SRN_PI.FieldName = Nothing
+        Me.SRN_PI.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SRN_PI.Location = New System.Drawing.Point(531, 30)
+        Me.SRN_PI.Name = "SRN_PI"
+        Me.SRN_PI.Size = New System.Drawing.Size(44, 16)
+        Me.SRN_PI.TabIndex = 148
+        Me.SRN_PI.Text = "SRN PI"
+        '
+        'txtSRN_PI
+        '
+        Me.txtSRN_PI.CalculationExpression = Nothing
+        Me.txtSRN_PI.FieldCode = Nothing
+        Me.txtSRN_PI.FieldDesc = Nothing
+        Me.txtSRN_PI.FieldMaxLength = 0
+        Me.txtSRN_PI.FieldName = Nothing
+        Me.txtSRN_PI.isCalculatedField = False
+        Me.txtSRN_PI.IsSourceFromTable = False
+        Me.txtSRN_PI.IsSourceFromValueList = False
+        Me.txtSRN_PI.IsUnique = False
+        Me.txtSRN_PI.Location = New System.Drawing.Point(581, 28)
+        Me.txtSRN_PI.MendatroryField = False
+        Me.txtSRN_PI.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSRN_PI.MyLinkLable1 = Nothing
+        Me.txtSRN_PI.MyLinkLable2 = Nothing
+        Me.txtSRN_PI.MyReadOnly = False
+        Me.txtSRN_PI.MyShowMasterFormButton = False
+        Me.txtSRN_PI.Name = "txtSRN_PI"
+        Me.txtSRN_PI.ReferenceFieldDesc = Nothing
+        Me.txtSRN_PI.ReferenceFieldName = Nothing
+        Me.txtSRN_PI.ReferenceTableName = Nothing
+        Me.txtSRN_PI.Size = New System.Drawing.Size(88, 18)
+        Me.txtSRN_PI.TabIndex = 147
+        Me.txtSRN_PI.Value = ""
         '
         'RadButton2
         '
@@ -502,6 +543,16 @@ Partial Class frmTenderShortPenalty
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(729, 231)
         Me.gv1.TabIndex = 0
+        Me.gv1.VarID = ""
+        '
+        'BtnCancel
+        '
+        Me.BtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCancel.Location = New System.Drawing.Point(222, 4)
+        Me.BtnCancel.Name = "BtnCancel"
+        Me.BtnCancel.Size = New System.Drawing.Size(69, 22)
+        Me.BtnCancel.TabIndex = 7
+        Me.BtnCancel.Text = "Cancel"
         '
         'btnRecalculate
         '
@@ -570,15 +621,6 @@ Partial Class frmTenderShortPenalty
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'BtnCancel
-        '
-        Me.BtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCancel.Location = New System.Drawing.Point(222, 4)
-        Me.BtnCancel.Name = "BtnCancel"
-        Me.BtnCancel.Size = New System.Drawing.Size(69, 22)
-        Me.BtnCancel.TabIndex = 7
-        Me.BtnCancel.Text = "Cancel"
-        '
         'frmTenderShortPenalty
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -598,6 +640,7 @@ Partial Class frmTenderShortPenalty
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.SRN_PI, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -616,6 +659,7 @@ Partial Class frmTenderShortPenalty
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -623,7 +667,6 @@ Partial Class frmTenderShortPenalty
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -660,5 +703,7 @@ Partial Class frmTenderShortPenalty
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents btnRecalculate As RadButton
     Friend WithEvents BtnCancel As RadButton
+    Friend WithEvents txtSRN_PI As common.UserControls.txtFinder
+    Friend WithEvents SRN_PI As common.Controls.MyLabel
 End Class
 

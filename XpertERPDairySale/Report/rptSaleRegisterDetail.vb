@@ -226,18 +226,18 @@ Public Class rptSaleRegisterDetail
 
                     'SANJAY
 
-                    Sql += ",isnull(TSPL_EMPLOYEE_MASTER.Emp_Name,'') as Executive,isnull(TSPL_ZONE_MASTER.Description,'') as Zone,isnull(TSPL_CUSTOMER_MASTER.cust_category_code,'') as [Customer Category] " & _
-                   " from TSPL_SD_SALE_INVOICE_DETAIL  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE  left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code  left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code  left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & _
-                    " LEFT JOIN TSPL_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State=TSPL_STATE_MASTER.STATE_CODE " & _
-                    " LEFT JOIN TSPL_EX_COMMERCIAL_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Against_Com_Inv_No=TSPL_EX_COMMERCIAL_INVOICE_HEAD.Document_Code  LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD SupplInvoice ON TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary=SupplInvoice.Document_Code  LEFT JOIN TSPL_TAX_MASTER TAXM1 ON TSPL_SD_SALE_INVOICE_DETAIL.TAX1=TAXM1.TAX_CODE  LEFT JOIN TSPL_TAX_MASTER TAXM2 ON TSPL_SD_SALE_INVOICE_DETAIL.TAX2=TAXM2.TAX_CODE  LEFT JOIN TSPL_TAX_MASTER TAXM3 ON TSPL_SD_SALE_INVOICE_DETAIL.TAX3=TAXM3.TAX_CODE  " & _
-                   " left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  " & _
-                   " and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_Code " & _
-                   " left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE= tspl_customer_master.Service_Dealer_Code " & _
-                   " left join TSPL_ZONE_MASTER on TSPL_CUSTOMER_MASTER.Zone_Code=TSPL_ZONE_MASTER.Zone_Code " & _
-                   " left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & _
-                   " left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" & _
-                   " left join ( " & _
-                   " SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I " & _
+                    Sql += ",isnull(TSPL_EMPLOYEE_MASTER.Emp_Name,'') as Executive,isnull(TSPL_ZONE_MASTER.Description,'') as Zone,isnull(TSPL_CUSTOMER_MASTER.cust_category_code,'') as [Customer Category] " &
+                   " from TSPL_SD_SALE_INVOICE_DETAIL  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE  left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code   left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " &
+                    " LEFT JOIN TSPL_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State=TSPL_STATE_MASTER.STATE_CODE " &
+                    " LEFT JOIN TSPL_EX_COMMERCIAL_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Against_Com_Inv_No=TSPL_EX_COMMERCIAL_INVOICE_HEAD.Document_Code  LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD SupplInvoice ON TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary=SupplInvoice.Document_Code  LEFT JOIN TSPL_TAX_MASTER TAXM1 ON TSPL_SD_SALE_INVOICE_DETAIL.TAX1=TAXM1.TAX_CODE  LEFT JOIN TSPL_TAX_MASTER TAXM2 ON TSPL_SD_SALE_INVOICE_DETAIL.TAX2=TAXM2.TAX_CODE  LEFT JOIN TSPL_TAX_MASTER TAXM3 ON TSPL_SD_SALE_INVOICE_DETAIL.TAX3=TAXM3.TAX_CODE  " &
+                   " left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  " &
+                   " and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_Code " &
+                   " left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE= tspl_customer_master.Service_Dealer_Code " &
+                   " left join TSPL_ZONE_MASTER on TSPL_CUSTOMER_MASTER.Zone_Code=TSPL_ZONE_MASTER.Zone_Code " &
+                   " left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " &
+                   " left join (SELECT item_code,conversion_factor from TSPL_ITEM_UOM_DETAIL where Default_UOM=1) J ON J.item_code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" &
+                   " left join ( " &
+                   " SELECT * FROM (select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I " &
                    " PIVOT (Max(conversion_factor) FOR uom_code IN ( "
                     Sql += str_UOM
                     Sql += " )) P ) I ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = I.item_code " & _
