@@ -250,13 +250,6 @@ Public Class frmProductionShiftMgmt
         coll.Add("Entered_UOM", "integer null") ''1 LTR 2'KG
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
 
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
-        coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
-        coll.Add("Cost_Code", "Varchar(30) not null references TSPL_OVERHEAD_COST(COST_CODE)")
-        coll.Add("Amount", "Decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_OVERHEAD_COST_DETAIL", coll, Nothing, True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
 
 
         coll = New Dictionary(Of String, String)
@@ -352,6 +345,27 @@ Public Class frmProductionShiftMgmt
         coll.Add("Alcohol_Test", "Varchar(20) null")
         coll.Add("Remarks", "Varchar(200) null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_CLOSE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
+        coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
+        coll.Add("Source_ID", "integer not null") ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other),8-Produce(Milk),9-Produce(Other)
+        coll.Add("Source_Code", "Varchar(50) null")
+        coll.Add("Qty", "Decimal(18,6) null")
+        coll.Add("UOM", "Varchar(20) null")
+        coll.Add("FAT_KG", "Decimal(18,6) null")
+        coll.Add("SNF_KG", "Decimal(18,6) null")
+        coll.Add("FAT_AMT", "Decimal(18,6) null")
+        coll.Add("SNF_AMT", "Decimal(18,6) null")
+        coll.Add("AMT", "Decimal(18,6) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Ref_ID_Type", "Varchar(3) null")
+        coll.Add("Ref_ID", "integer NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVENTORY_MOVEMENT_NEW", coll, "Primary Key (Source_Doc_No,Trans_Id)", True, False, "", "Trans_Id", "Posting_Date", True)
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVENTORY_MOVEMENT", coll, Nothing, True, False, "", "Trans_Id", "Posting_Date", True)
 
 
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -2870,6 +2884,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_FG on TSPL_LOCATION
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 isNewEntry = False
                 EnableDisableControl(False)
+                UsLock1.Status = obj.Status
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
