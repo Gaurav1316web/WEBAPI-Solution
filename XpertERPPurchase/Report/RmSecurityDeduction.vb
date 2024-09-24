@@ -142,7 +142,6 @@ Public Class RmSecurityDeduction
 
             Dim strqry As String = " select Location,TSPL_PI_HEAD.Ref_No as Tendor,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.PI_Date,Vendor_Code,Vendor_name,TSPL_PI_DETAIL.Item_Code,Item_Desc as Item_name,SUM(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt) AS SECURITY_AMT from TSPL_PI_HEAD
                                      left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.PI_No=TSPL_PI_HEAD.PI_No
-                                     left outer join TSPL_SRN_TENDER_CALC on TSPL_SRN_TENDER_CALC.SRN_No=TSPL_PI_DETAIL.SRN_Id
                                      left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_PI_DETAIL.SRN_Id
                                      where 2=2 "
             If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
@@ -248,7 +247,6 @@ Public Class RmSecurityDeduction
         Try
             qry = " select  convert(date,('" + txtFromDate.Value + "'),103) as from_date, convert(date,('" + txtToDate.Value + "'),103) as To_date,Location,Location_Desc,Add1,Add2,Add3,TSPL_PI_HEAD.Ref_No,TSPL_PI_HEAD.PI_No,TSPL_PI_HEAD.PI_Date,TSPL_PI_HEAD.Vendor_Code,Vendor_Name,TSPL_PI_DETAIL.Item_Code,Item_Desc,SUM(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt) AS SECURITY_AMT from TSPL_PI_HEAD
                                      left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.PI_No=TSPL_PI_HEAD.PI_No
-                                     left outer join TSPL_SRN_TENDER_CALC on TSPL_SRN_TENDER_CALC.SRN_No=TSPL_PI_DETAIL.SRN_Id
                                      left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_PI_DETAIL.SRN_Id
                                      left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PI_HEAD.Bill_To_Location
                                      where 2=2 "

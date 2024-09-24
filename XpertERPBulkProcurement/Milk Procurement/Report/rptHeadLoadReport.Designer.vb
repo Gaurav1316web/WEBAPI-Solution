@@ -22,7 +22,7 @@ Partial Class rptHeadLoadReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -49,6 +49,7 @@ Partial Class rptHeadLoadReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.chkRoute = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -71,6 +72,7 @@ Partial Class rptHeadLoadReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,6 +137,7 @@ Partial Class rptHeadLoadReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkRoute)
         Me.RadPageViewPage1.Controls.Add(Me.lblArea)
         Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel16)
@@ -312,13 +315,14 @@ Partial Class rptHeadLoadReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(794, 278)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnExp
         '
@@ -370,6 +374,14 @@ Partial Class rptHeadLoadReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'chkRoute
+        '
+        Me.chkRoute.Location = New System.Drawing.Point(408, 9)
+        Me.chkRoute.Name = "chkRoute"
+        Me.chkRoute.Size = New System.Drawing.Size(50, 18)
+        Me.chkRoute.TabIndex = 1517
+        Me.chkRoute.Text = "Route"
+        '
         'rptHeadLoadReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -406,6 +418,7 @@ Partial Class rptHeadLoadReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -437,4 +450,5 @@ Partial Class rptHeadLoadReport
     Friend WithEvents fndArea As common.UserControls.txtFinder
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents txtMCC As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents chkRoute As RadCheckBox
 End Class

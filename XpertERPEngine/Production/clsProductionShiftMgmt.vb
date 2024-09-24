@@ -187,7 +187,7 @@ where 2=2 "
                 Throw New Exception("Already Posted on :" + obj.Posted_Date)
             End If
 
-            'MilkProductionUploader(obj, trans)
+            HitInventoryAndJV(obj, trans)
 
 
             Dim coll As New Hashtable()
@@ -203,7 +203,7 @@ where 2=2 "
         End Try
         Return True
     End Function
-    Private Shared Function MilkProductionUploader(ByVal obj As clsProductionShiftMgmt, ByVal trans As SqlTransaction) As Boolean
+    Private Shared Function HitInventoryAndJV(ByVal obj As clsProductionShiftMgmt, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
@@ -220,21 +220,6 @@ where 2=2 "
                     Throw New Exception("Please issue raw item [" + objtr.Item_Code + "(" + objtr.Item_Name + ")] , Qty [" + clsCommon.myCstr(objtr.Qty) + "] and UOM [" + objtr.UOM + "] ")
                 End If
             Next
-
-            qry = "insert into TSPL_SHIFT_MGMT_PRODUCTION_OVERHEAD_COST_DETAIL (Document_No,Against_PK_ID,Cost_Code,Amount)  
-        select '" + obj.Document_No + "' as Document_No,PK_ID,xx.COST_CODE,(xx.prod_qty * (xx.OverHead_Cost/xx.build_qty)) as Amount from (
-        select TSPL_SHIFT_MGMT_PRODUCTION.PK_ID,(TSPL_SHIFT_MGMT_PRODUCTION.Qty * TabConvFatMul.Conversion_Factor/ TabConvFatDiv.Conversion_Factor) as Prod_Qty,tspl_pp_bom_head.bom_code,tspl_pp_bom_head.prod_item_code,tspl_pp_bom_head.prod_quantity as build_qty
-        ,TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS.COST_CODE,TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS.OverHead_Cost
-         from TSPL_SHIFT_MGMT_PRODUCTION
-        left outer join TSPL_PP_BOM_HEAD on TSPL_PP_BOM_HEAD.BOM_CODE=TSPL_SHIFT_MGMT_PRODUCTION.BOM_Code
-        inner join TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS on TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS.Document_Code=TSPL_PP_BOM_HEAD.BOM_CODE
-        left outer join TSPL_ITEM_UOM_DETAIL as  TabConvFatDiv on TabConvFatDiv.Item_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and TabConvFatDiv.UOM_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE 
-        left outer join TSPL_ITEM_UOM_DETAIL as  TabConvFatMul on TabConvFatMul.item_code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and TabConvFatMul.UOM_Code=TSPL_SHIFT_MGMT_PRODUCTION.UOM 
-        where TSPL_SHIFT_MGMT_PRODUCTION.Document_No='" + obj.Document_No + "'
-        ) xx  "
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-
 
             If True Then
                 Dim ArrInventoryMovement As New List(Of clsInventoryMovement)
@@ -286,7 +271,7 @@ where 2=2 "
                             objInventoryMovemnt.Source_Doc_Date = obj.Shift_Start_Date
                             objInventoryMovemnt.InOut = "O"
                             objInventoryMovemnt.main_location = ""
-                            objInventoryMovemnt.Location_Code = obj.Shift_Code
+                            objInventoryMovemnt.Location_Code = objRMSIssue.Location_Code
                             objInventoryMovemnt.Other_Location_Code = ""
                             objInventoryMovemnt.Other_Location_Desc = ""
                             objInventoryMovemnt.Item_Code = objRMSIssue.Item_Code
@@ -313,7 +298,7 @@ where 2=2 "
                             objInventoryMovemnt.SNF_KG = objRMSIssue.SNF_KG
 
 
-                            Dim objCost As MIlkComponentType = clsInventoryMovementNew.GetAvgCost(True, False, False, False, "", objRMSIssue.ItemProductType, objRMSIssue.Item_Code, obj.Shift_Code, objRMSIssue.Qty, objRMSIssue.UOM, objRMSIssue.FAT_KG, objRMSIssue.SNF_KG, obj.Shift_Start_Date, obj.Shift_Start_Date, False, trans)
+                            Dim objCost As MIlkComponentType = clsInventoryMovementNew.GetAvgCost(True, False, False, False, "", objRMSIssue.ItemProductType, objRMSIssue.Item_Code, objRMSIssue.Location_Code, objRMSIssue.Qty, objRMSIssue.UOM, objRMSIssue.FAT_KG, objRMSIssue.SNF_KG, obj.Shift_Start_Date, obj.Shift_Start_Date, False, trans)
                             objInventoryMovemnt.Fat_Rate = If(objInventoryMovemnt.FAT_KG <= 0, 0, objCost.FAT_Cost / objInventoryMovemnt.FAT_KG)
                             objInventoryMovemnt.SNF_Rate = If(objInventoryMovemnt.SNF_KG <= 0, 0, objCost.SNF_Cost / objInventoryMovemnt.SNF_KG)
                             objInventoryMovemnt.Fat_Amt = objCost.FAT_Cost
@@ -323,7 +308,8 @@ where 2=2 "
                             objInventoryMovemnt.Avg_Cost = cost
                             objInventoryMovemnt.LIFO_Cost = cost
                             objInventoryMovemnt.CalculateAvgCost = False
-                            objInventoryMovemnt.Ref_Line_No = objRMSIssue.PK_ID
+                            objInventoryMovemnt.Ref_ID_Type = "1" ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other)
+                            objInventoryMovemnt.Ref_ID = objRMSIssue.PK_ID
                             ArrInvetoryMovementNew.Add(objInventoryMovemnt)
                         Else
                             Dim objInventoryMovemnt As New clsInventoryMovement()
@@ -364,7 +350,8 @@ where 2=2 "
                             objInventoryMovemnt.LIFO_Cost = cost
                             'objInventoryMovemnt.Basic_Cost = If(objtr.issue_qty <= 0, 0, cost / objtr.issue_qty)
                             objInventoryMovemnt.CalculateAvgCost = False
-                            objInventoryMovemnt.Ref_Line_No = objRMSIssue.PK_ID
+                            objInventoryMovemnt.Ref_ID_Type = "2" ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other)
+                            objInventoryMovemnt.Ref_ID = objRMSIssue.PK_ID
                             ArrInventoryMovement.Add(objInventoryMovemnt)
                         End If
                     Next
@@ -376,33 +363,351 @@ where 2=2 "
                     clsInventoryMovement.SaveData(clsUserMgtCode.ProductionShiftMgmt, obj.Document_No, obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
                 End If
 
+                For Each objPro As clsProductionShiftMgmtProduction In obj.ArrPro
+                    ArrInventoryMovement = New List(Of clsInventoryMovement)
+                    ArrInvetoryMovementNew = New List(Of clsInventoryMovementNew)
+                    If objPro.ArrAdd IsNot Nothing AndAlso objPro.ArrAdd.Count > 0 Then
+                        For Each objAdd As clsProductionShiftMgmtProductionItemAddRemove In objPro.ArrAdd
+                            If Not settAllowNegativeStockInDairyProduction Then
+                                Dim CheckStockServerDate As Boolean
+                                If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CheckLiveStockInProductionDuringTrans, clsFixedParameterCode.CheckLiveStockInProductionDuringTrans, trans)), "1") = CompairStringResult.Equal Then
+                                    CheckStockServerDate = True
+                                Else
+                                    CheckStockServerDate = False
+                                End If
+                                If clsCommon.CompairString(objAdd.ItemProductType, "MI") = CompairStringResult.Equal Then
+                                    Dim strMainLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select main_location_code from tspl_location_master where Location_Code='" + objAdd.Location_Code + "'", trans))
+                                    dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(objAdd.Item_Code, strMainLocation, objAdd.Location_Code, IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), obj.Shift_Start_Date), trans, objAdd.UOM, 1)
+                                Else
+                                    dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(objAdd.Item_Code, objAdd.Location_Code, "", IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), obj.Shift_Start_Date), trans, objAdd.UOM, 2)
+                                End If
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    If objAdd.Qty > clsCommon.myCDecimal(dt.Rows(0)("qty")) Then
+                                        If Math.Abs(objAdd.Qty - clsCommon.myCDecimal(dt.Rows(0)("qty"))) > 0.01 Then
+                                            Throw New Exception("Item [" + objAdd.Item_Code + "] Location [" + objAdd.Location_Code + "] Issue Qty [" + clsCommon.myCstr(objAdd.Qty) + "] is more than Balance Qty [" + clsCommon.myCstr(clsCommon.myCDecimal(dt.Rows(0)("qty"))) + "]")
+                                        End If
+                                    End If
+                                End If
+                                'If isCheckFutureBalance Then
+                                '    Dim Product_Type As String = clsItemMaster.GetItemProductType(objAdd.Item_Code, trans)
+                                '    Dim FutureBalanceQty As Decimal = 0
+                                '    If clsCommon.CompairString(Product_Type, "MI") = CompairStringResult.Equal Then
+                                '        FutureBalanceQty = clsInventoryMovementNew.getBalance(objAdd.Item_Code, clsLocation.GetMainLocationMilk(objtr.frm_loc_code, trans), objtr.frm_loc_code, "", obj.Shift_Start_Date, trans, objAdd.UOM)
+                                '    Else
+                                '        FutureBalanceQty = clsItemLocationDetails.getBalance(objAdd.Item_Code, objtr.frm_loc_code, "", obj.Shift_Start_Date, trans, objAdd.UOM, 0)
+                                '    End If
+                                '    FutureBalanceQty = Math.Round(Math.Round(FutureBalanceQty, 3, MidpointRounding.AwayFromZero), 2, MidpointRounding.AwayFromZero)
+                                '    If objAdd.Qty > FutureBalanceQty Then
+                                '        If Math.Abs(objAdd.Qty - FutureBalanceQty) > 0.01 Then
+                                '            Throw New Exception("Item [" + objAdd.Item_Code + "] Location [" + objtr.frm_loc_code + "] Issue Qty [" + clsCommon.myCstr(objAdd.Qty) + "] is more than Future Mininium Balance Qty [" + clsCommon.myCstr(FutureBalanceQty) + "]")
+                                '        End If
+                                '    End If
+                                'End If
+                            End If
+                            If clsCommon.CompairString(objAdd.ItemProductType, "MI") = CompairStringResult.Equal Then
+                                Dim objInventoryMovemnt As New clsInventoryMovementNew()
+                                objInventoryMovemnt.Source_Doc_Date = obj.Shift_Start_Date
+                                objInventoryMovemnt.InOut = "O"
+                                objInventoryMovemnt.main_location = ""
+                                objInventoryMovemnt.Location_Code = objAdd.Location_Code
+                                objInventoryMovemnt.Other_Location_Code = ""
+                                objInventoryMovemnt.Other_Location_Desc = ""
+                                objInventoryMovemnt.Item_Code = objAdd.Item_Code
+                                objInventoryMovemnt.Item_Desc = objAdd.Item_Name
+                                objInventoryMovemnt.Qty = objAdd.Qty
+                                objInventoryMovemnt.UOM = objAdd.UOM
+                                objInventoryMovemnt.MRP = Nothing
+                                objInventoryMovemnt.Add_Cost = Nothing
+                                objInventoryMovemnt.Net_Cost = Nothing
+                                If clsCommon.CompairString(objAdd.ItemItemType, "R") = CompairStringResult.Equal Then
+                                    objInventoryMovemnt.ItemType = "RM"
+                                ElseIf clsCommon.CompairString(objAdd.ItemItemType, "F") = CompairStringResult.Equal Then
+                                    objInventoryMovemnt.ItemType = "FT"
+                                Else
+                                    objInventoryMovemnt.ItemType = objAdd.ItemItemType
+                                End If
+                                objInventoryMovemnt.Basic_Cost = Nothing
+                                objInventoryMovemnt.Batch_No = ""
+                                objInventoryMovemnt.MFG_Date = Nothing
+                                objInventoryMovemnt.Expiry_Date = Nothing
+                                objInventoryMovemnt.FAT_Per = objAdd.FAT
+                                objInventoryMovemnt.FAT_KG = objAdd.FAT_KG
+                                objInventoryMovemnt.SNF_Per = objAdd.SNF
+                                objInventoryMovemnt.SNF_KG = objAdd.SNF_KG
+
+
+                                Dim objCost As MIlkComponentType = clsInventoryMovementNew.GetAvgCost(True, False, False, False, "", objAdd.ItemProductType, objAdd.Item_Code, objAdd.Location_Code, objAdd.Qty, objAdd.UOM, objAdd.FAT_KG, objAdd.SNF_KG, obj.Shift_Start_Date, obj.Shift_Start_Date, False, trans)
+                                objInventoryMovemnt.Fat_Rate = If(objInventoryMovemnt.FAT_KG <= 0, 0, objCost.FAT_Cost / objInventoryMovemnt.FAT_KG)
+                                objInventoryMovemnt.SNF_Rate = If(objInventoryMovemnt.SNF_KG <= 0, 0, objCost.SNF_Cost / objInventoryMovemnt.SNF_KG)
+                                objInventoryMovemnt.Fat_Amt = objCost.FAT_Cost
+                                objInventoryMovemnt.SNF_Amt = objCost.SNF_Cost
+                                Dim cost As Decimal = objInventoryMovemnt.Fat_Amt + objInventoryMovemnt.SNF_Amt
+                                objInventoryMovemnt.FIFO_Cost = cost
+                                objInventoryMovemnt.Avg_Cost = cost
+                                objInventoryMovemnt.LIFO_Cost = cost
+                                objInventoryMovemnt.CalculateAvgCost = False
+                                objInventoryMovemnt.Ref_ID_Type = "4" ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other)
+                                objInventoryMovemnt.Ref_ID = objAdd.PK_ID
+                                ArrInvetoryMovementNew.Add(objInventoryMovemnt)
+                            Else
+                                Dim objInventoryMovemnt As New clsInventoryMovement()
+                                objInventoryMovemnt.InOut = "O"
+                                objInventoryMovemnt.Location_Code = objAdd.Location_Code
+                                objInventoryMovemnt.Other_Location_Code = ""
+                                objInventoryMovemnt.Other_Location_Desc = ""
+                                objInventoryMovemnt.Item_Code = objAdd.Item_Code
+                                objInventoryMovemnt.Item_Desc = objAdd.Item_Name
+                                objInventoryMovemnt.Qty = objAdd.Qty
+                                objInventoryMovemnt.UOM = objAdd.UOM
+                                objInventoryMovemnt.MRP = Nothing
+                                objInventoryMovemnt.Add_Cost = Nothing
+                                objInventoryMovemnt.Net_Cost = Nothing
+                                If clsCommon.CompairString(objAdd.ItemItemType, "R") = CompairStringResult.Equal Then
+                                    objInventoryMovemnt.ItemType = "RM"
+                                ElseIf clsCommon.CompairString(objAdd.ItemItemType, "F") = CompairStringResult.Equal Then
+                                    objInventoryMovemnt.ItemType = "FT"
+                                Else
+                                    objInventoryMovemnt.ItemType = objAdd.ItemItemType
+                                End If
+                                objInventoryMovemnt.Batch_No = ""
+                                objInventoryMovemnt.MFG_Date = Nothing
+                                objInventoryMovemnt.Expiry_Date = Nothing
+                                objInventoryMovemnt.FAT_Per = objAdd.FAT
+                                objInventoryMovemnt.FAT_KG = objAdd.FAT_KG
+                                objInventoryMovemnt.SNF_Per = objAdd.SNF
+                                objInventoryMovemnt.SNF_KG = objAdd.SNF_KG
+
+                                Dim objCost As MIlkComponentType = clsInventoryMovementNew.GetAvgCost(True, False, False, False, "", objAdd.ItemProductType, objAdd.Item_Code, objAdd.Location_Code, objAdd.Qty, objAdd.UOM, objAdd.FAT_KG, objAdd.SNF_KG, obj.Shift_Start_Date, obj.Shift_Start_Date, False, trans)
+                                objInventoryMovemnt.Fat_Rate = If(objInventoryMovemnt.FAT_KG <= 0, 0, objCost.FAT_Cost / objInventoryMovemnt.FAT_KG)
+                                objInventoryMovemnt.SNF_Rate = If(objInventoryMovemnt.SNF_KG <= 0, 0, objCost.SNF_Cost / objInventoryMovemnt.SNF_KG)
+                                objInventoryMovemnt.Fat_Amt = objCost.FAT_Cost
+                                objInventoryMovemnt.SNF_Amt = objCost.SNF_Cost
+                                Dim cost As Decimal = objInventoryMovemnt.Fat_Amt + objInventoryMovemnt.SNF_Amt
+                                objInventoryMovemnt.FIFO_Cost = cost
+                                objInventoryMovemnt.Avg_Cost = cost
+                                objInventoryMovemnt.LIFO_Cost = cost
+                                'objInventoryMovemnt.Basic_Cost = If(objtr.issue_qty <= 0, 0, cost / objtr.issue_qty)
+                                objInventoryMovemnt.CalculateAvgCost = False
+                                objInventoryMovemnt.Ref_ID_Type = "5" ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other)
+                                objInventoryMovemnt.Ref_ID = objAdd.PK_ID
+                                ArrInventoryMovement.Add(objInventoryMovemnt)
+                            End If
+                        Next
+                    End If
+
+                    If ArrInvetoryMovementNew.Count > 0 Then
+                        clsInventoryMovementNew.SaveData(clsUserMgtCode.ProductionShiftMgmt, obj.Document_No, obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInvetoryMovementNew, trans)
+                    End If
+                    If ArrInventoryMovement.Count > 0 Then
+                        clsInventoryMovement.SaveData(clsUserMgtCode.ProductionShiftMgmt, obj.Document_No, obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+                    End If
+                Next
+
+                ''Consumption Raw Items Source_ID=1
+                qry = "insert into TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION( Document_No,Against_PK_ID,Source_ID,Source_Code,Qty,UOM,FAT_KG,SNF_KG,FAT_AMT,SNF_AMT,AMT)  
+( select Document_No,Against_PK_ID,Source_ID,Item_Code as Source_Code
+,case when Summry_Qty=0 then 0 else Issue_Qty*Qty/Summry_Qty end as Qty,UOM
+,case when Summry_FAT_KG=0 then 0 else Issue_FAT_KG*FAT_KG/Summry_FAT_KG end as FAT_KG 
+,case when Summry_SNF_KG=0 then 0 else Issue_SNF_KG*SNF_KG/Summry_SNF_KG end as SNF_KG 
+,case when Summry_FAT_KG=0 then 0 else Issue_FAT_Amt*FAT_KG/Summry_FAT_KG end as FAT_Amt
+,case when Summry_SNF_KG=0 then 0 else Issue_SNF_Amt*SNF_KG/Summry_SNF_KG end as SNF_Amt 
+,case when Summry_Qty=0 then 0 else Issue_Amt*Qty/Summry_Qty end as Amt
+from (
+select TSPL_SHIFT_MGMT_PRODUCTION_RM.Document_No,TSPL_SHIFT_MGMT_PRODUCTION_RM.Against_PK_ID
+,case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID_Type else TSPL_INVENTORY_MOVEMENT.Ref_ID_Type end as Source_ID
+,TSPL_SHIFT_MGMT_PRODUCTION_RM.Item_Code,TSPL_ITEM_MASTER.Product_Type,TSPL_SHIFT_MGMT_PRODUCTION_RM.Qty,TSPL_SHIFT_MGMT_PRODUCTION_RM.UOM,TSPL_SHIFT_MGMT_PRODUCTION_RM.FAT_KG,TSPL_SHIFT_MGMT_PRODUCTION_RM.SNF_KG,TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY.Qty as Summry_Qty,TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY.FAT_KG as Summry_FAT_KG,TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY.SNF_KG as Summry_SNF_KG,TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE.PK_ID as Issue_PK_ID,TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE.Qty as Issue_Qty,TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE.FAT_KG as Issue_FAT_KG,TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE.SNF_KG as Issue_SNF_KG
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.Fat_Amt else 0 end ,0) as Issue_FAT_Amt
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.SNF_Amt else 0 end ,0) as Issue_SNF_Amt
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then (TSPL_INVENTORY_MOVEMENT_NEW.Fat_Amt+TSPL_INVENTORY_MOVEMENT_NEW.SNF_Amt) else TSPL_INVENTORY_MOVEMENT.Avg_Cost end,0) as Issue_Amt
+from TSPL_SHIFT_MGMT_PRODUCTION_RM
+left outer join TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY on TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY.Document_No=TSPL_SHIFT_MGMT_PRODUCTION_RM.Document_No and TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY.Item_Code=TSPL_SHIFT_MGMT_PRODUCTION_RM.Item_Code
+left outer join TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE on TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE.Against_RM_Summary=TSPL_SHIFT_MGMT_PRODUCTION_RM_SUMMARY.PK_ID
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE.Item_Code
+left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_SHIFT_MGMT_PRODUCTION_RM.Document_No and TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID_Type='1' and TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID=TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE.PK_ID
+left outer join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_SHIFT_MGMT_PRODUCTION_RM.Document_No and TSPL_INVENTORY_MOVEMENT.Ref_ID_Type='2' and TSPL_INVENTORY_MOVEMENT.Ref_ID=TSPL_SHIFT_MGMT_PRODUCTION_RM_ISSUE.PK_ID 
+where TSPL_SHIFT_MGMT_PRODUCTION_RM.Document_No='" + obj.Document_No + "'
+) xx
+)"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                ''Consumption Overhead Cost Source_ID=3
+                qry = "insert into TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION (Document_No,Against_PK_ID,Source_ID,Source_Code,Amt)  
+select '" + obj.Document_No + "' as Document_No,PK_ID,3 as Source_ID,xx.COST_CODE,(xx.prod_qty * (xx.OverHead_Cost/xx.build_qty)) as Amt from (
+select TSPL_SHIFT_MGMT_PRODUCTION.PK_ID,(TSPL_SHIFT_MGMT_PRODUCTION.Qty_LTR * TabConvFatMul.Conversion_Factor/ TabConvFatDiv.Conversion_Factor) as Prod_Qty,tspl_pp_bom_head.bom_code,tspl_pp_bom_head.prod_item_code,tspl_pp_bom_head.prod_quantity as build_qty
+,TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS.COST_CODE,TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS.OverHead_Cost
+from TSPL_SHIFT_MGMT_PRODUCTION
+left outer join TSPL_PP_BOM_HEAD on TSPL_PP_BOM_HEAD.BOM_CODE=TSPL_SHIFT_MGMT_PRODUCTION.BOM_Code
+inner join TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS on TSPL_BOM_OVERHEAD_COST_MAPPING_DETAILS.Document_Code=TSPL_PP_BOM_HEAD.BOM_CODE
+left outer join TSPL_ITEM_UOM_DETAIL as  TabConvFatDiv on TabConvFatDiv.Item_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and TabConvFatDiv.UOM_Code=TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE 
+left outer join TSPL_ITEM_UOM_DETAIL as  TabConvFatMul on TabConvFatMul.item_code=TSPL_PP_BOM_HEAD.PROD_ITEM_CODE and TabConvFatMul.UOM_Code='LTR' 
+where TSPL_SHIFT_MGMT_PRODUCTION.Document_No='" + obj.Document_No + "'
+) xx"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+
+
+                qry = "insert into TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION( Document_No,Against_PK_ID,Source_ID,Source_Code,Qty,UOM,FAT_KG,SNF_KG,FAT_AMT,SNF_AMT,AMT)  
+select TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Against_PK_ID
+,case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID_Type else TSPL_INVENTORY_MOVEMENT.Ref_ID_Type end as Source_ID
+,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Item_Code as Source_Code ,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Qty,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.UOM
+,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.FAT_KG,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.SNF_KG
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.Fat_Amt else 0 end ,0) as FAT_Amt
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.SNF_Amt else 0 end ,0) as SNF_Amt
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then (TSPL_INVENTORY_MOVEMENT_NEW.Fat_Amt+TSPL_INVENTORY_MOVEMENT_NEW.SNF_Amt) else TSPL_INVENTORY_MOVEMENT.Avg_Cost end,0) as AMT
+from TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Item_Code
+left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No 
+and TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID_Type='4' and TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.PK_ID
+left outer join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No 
+and TSPL_INVENTORY_MOVEMENT.Ref_ID_Type='5' and TSPL_INVENTORY_MOVEMENT.Ref_ID=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.PK_ID 
+where  TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Type=1 and TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No='" + obj.Document_No + "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                ''In Remove Item
+                ArrInventoryMovement = New List(Of clsInventoryMovement)
+                ArrInvetoryMovementNew = New List(Of clsInventoryMovementNew)
+                For Each objPro As clsProductionShiftMgmtProduction In obj.ArrPro
+                    If objPro.ArrRemove IsNot Nothing AndAlso objPro.ArrRemove.Count > 0 Then
+                        ArrInventoryMovement = New List(Of clsInventoryMovement)
+                        ArrInvetoryMovementNew = New List(Of clsInventoryMovementNew)
+                        For Each objRemove As clsProductionShiftMgmtProductionItemAddRemove In objPro.ArrRemove
+                            If clsCommon.CompairString(objRemove.ItemProductType, "MI") = CompairStringResult.Equal Then
+                                Dim objInventoryMovemnt As New clsInventoryMovementNew()
+                                objInventoryMovemnt.Source_Doc_Date = obj.Shift_Start_Date
+                                objInventoryMovemnt.InOut = "I"
+                                objInventoryMovemnt.main_location = ""
+                                objInventoryMovemnt.Location_Code = objRemove.Location_Code
+                                objInventoryMovemnt.Other_Location_Code = ""
+                                objInventoryMovemnt.Other_Location_Desc = ""
+                                objInventoryMovemnt.Item_Code = objRemove.Item_Code
+                                objInventoryMovemnt.Item_Desc = objRemove.Item_Name
+                                objInventoryMovemnt.Qty = objRemove.Qty
+                                objInventoryMovemnt.UOM = objRemove.UOM
+                                objInventoryMovemnt.MRP = Nothing
+                                objInventoryMovemnt.Add_Cost = Nothing
+                                objInventoryMovemnt.Net_Cost = Nothing
+                                If clsCommon.CompairString(objRemove.ItemItemType, "R") = CompairStringResult.Equal Then
+                                    objInventoryMovemnt.ItemType = "RM"
+                                ElseIf clsCommon.CompairString(objRemove.ItemItemType, "F") = CompairStringResult.Equal Then
+                                    objInventoryMovemnt.ItemType = "FT"
+                                Else
+                                    objInventoryMovemnt.ItemType = objRemove.ItemItemType
+                                End If
+                                objInventoryMovemnt.Basic_Cost = Nothing
+                                objInventoryMovemnt.Batch_No = ""
+                                objInventoryMovemnt.MFG_Date = Nothing
+                                objInventoryMovemnt.Expiry_Date = Nothing
+                                objInventoryMovemnt.FAT_Per = objRemove.FAT
+                                objInventoryMovemnt.FAT_KG = objRemove.FAT_KG
+                                objInventoryMovemnt.SNF_Per = objRemove.SNF
+                                objInventoryMovemnt.SNF_KG = objRemove.SNF_KG
+                                objInventoryMovemnt.Ref_ID_Type = "6"
+                                objInventoryMovemnt.Ref_ID = objRemove.PK_ID
+                                qry = "select sum(FAT_KG) as FAT_KG,sum(SNF_KG) as SNF_KG,sum(FAT_AMT) as FAT_AMT,sum(SNF_AMT) as SNF_AMT from TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION where Document_No='" + obj.Document_No + "' and Against_PK_ID=" + clsCommon.myCstr(objPro.PK_ID) + " and Source_ID in (1,4)"
+                                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    objInventoryMovemnt.Fat_Rate = If(objInventoryMovemnt.FAT_KG <= 0, 0, clsCommon.myCDecimal(dt.Rows(0)("FAT_AMT")) / clsCommon.myCDecimal(dt.Rows(0)("FAT_KG")))
+                                    objInventoryMovemnt.SNF_Rate = If(objInventoryMovemnt.SNF_KG <= 0, 0, clsCommon.myCDecimal(dt.Rows(0)("SNF_AMT")) / clsCommon.myCDecimal(dt.Rows(0)("SNF_KG")))
+                                    objInventoryMovemnt.Fat_Amt = objInventoryMovemnt.Fat_Rate * objInventoryMovemnt.FAT_KG
+                                    objInventoryMovemnt.SNF_Amt = objInventoryMovemnt.SNF_Rate * objInventoryMovemnt.SNF_KG
+                                    Dim cost As Decimal = objInventoryMovemnt.Fat_Amt + objInventoryMovemnt.SNF_Amt
+                                    objInventoryMovemnt.FIFO_Cost = cost
+                                    objInventoryMovemnt.Avg_Cost = cost
+                                    objInventoryMovemnt.LIFO_Cost = cost
+                                    objInventoryMovemnt.CalculateAvgCost = False
+                                End If
+                                ArrInvetoryMovementNew.Add(objInventoryMovemnt)
+                            Else
+                                Throw New Exception("Please remove item of Product Type- MI only")
+                                'Dim objInventoryMovemnt As New clsInventoryMovement()
+                                'objInventoryMovemnt.InOut = "I"
+                                'objInventoryMovemnt.Location_Code = objRemove.Location_Code
+                                'objInventoryMovemnt.Other_Location_Code = ""
+                                'objInventoryMovemnt.Other_Location_Desc = ""
+                                'objInventoryMovemnt.Item_Code = objRemove.Item_Code
+                                'objInventoryMovemnt.Item_Desc = objRemove.Item_Name
+                                'objInventoryMovemnt.Qty = objRemove.Qty
+                                'objInventoryMovemnt.UOM = objRemove.UOM
+                                'objInventoryMovemnt.MRP = Nothing
+                                'objInventoryMovemnt.Add_Cost = Nothing
+                                'objInventoryMovemnt.Net_Cost = Nothing
+                                'If clsCommon.CompairString(objRemove.ItemItemType, "R") = CompairStringResult.Equal Then
+                                '    objInventoryMovemnt.ItemType = "RM"
+                                'ElseIf clsCommon.CompairString(objRemove.ItemItemType, "F") = CompairStringResult.Equal Then
+                                '    objInventoryMovemnt.ItemType = "FT"
+                                'Else
+                                '    objInventoryMovemnt.ItemType = objRemove.ItemItemType
+                                'End If
+                                'objInventoryMovemnt.Batch_No = ""
+                                'objInventoryMovemnt.MFG_Date = Nothing
+                                'objInventoryMovemnt.Expiry_Date = Nothing
+                                'objInventoryMovemnt.FAT_Per = objRemove.FAT
+                                'objInventoryMovemnt.FAT_KG = objRemove.FAT_KG
+                                'objInventoryMovemnt.SNF_Per = objRemove.SNF
+                                'objInventoryMovemnt.SNF_KG = objRemove.SNF_KG
+                                'objInventoryMovemnt.Item_Status = "7" ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other)
+                                'objInventoryMovemnt.Ref_ID = objRemove.PK_ID
+                                'qry = "select sum(FAT_KG) as FAT_KG,sum(SNF_KG) as SNF_KG,sum(FAT_AMT) as FAT_AMT,sum(SNF_AMT) as SNF_AMT from TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION where Document_No='" + obj.Document_No + "' and Against_PK_ID=" + clsCommon.myCstr(objPro.PK_ID) + " Source_ID in (1,4)"
+                                'dt = clsDBFuncationality.GetDataTable(qry, trans)
+                                'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                '    Dim cost As Decimal = objInventoryMovemnt.Fat_Amt + objInventoryMovemnt.SNF_Amt
+                                '    objInventoryMovemnt.FIFO_Cost = cost
+                                '    objInventoryMovemnt.Avg_Cost = cost
+                                '    objInventoryMovemnt.LIFO_Cost = cost
+                                '    'objInventoryMovemnt.Basic_Cost = If(objtr.issue_qty <= 0, 0, cost / objtr.issue_qty)
+                                '    objInventoryMovemnt.CalculateAvgCost = False
+                                '    objInventoryMovemnt.Ref_ID_Type = "7" ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other)
+                                '    ArrInventoryMovement.Add(objInventoryMovemnt)
+                                'End If
+                            End If
+                        Next
+                        If ArrInvetoryMovementNew.Count > 0 Then
+                            clsInventoryMovementNew.SaveData(clsUserMgtCode.ProductionShiftMgmt, obj.Document_No, obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInvetoryMovementNew, trans)
+                        End If
+                        If ArrInventoryMovement.Count > 0 Then
+                            clsInventoryMovement.SaveData(clsUserMgtCode.ProductionShiftMgmt, obj.Document_No, obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+                        End If
+                    End If
+                Next
+
+                qry = "insert into TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION( Document_No,Against_PK_ID,Source_ID,Source_Code,Qty,UOM,FAT_KG,SNF_KG,FAT_AMT,SNF_AMT,AMT)  
+select TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Against_PK_ID
+,case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID_Type else TSPL_INVENTORY_MOVEMENT.Ref_ID_Type end as Source_ID
+,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Item_Code as Source_Code ,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Qty,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.UOM
+,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.FAT_KG,TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.SNF_KG
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.Fat_Amt else 0 end ,0) as FAT_Amt
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then TSPL_INVENTORY_MOVEMENT_NEW.SNF_Amt else 0 end ,0) as SNF_Amt
+,isnull(case when TSPL_ITEM_MASTER.Product_Type='MI' then (TSPL_INVENTORY_MOVEMENT_NEW.Fat_Amt+TSPL_INVENTORY_MOVEMENT_NEW.SNF_Amt) else TSPL_INVENTORY_MOVEMENT.Avg_Cost end,0) as AMT
+from TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Item_Code
+left outer join TSPL_INVENTORY_MOVEMENT_NEW on TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No 
+and TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID_Type='6' and TSPL_INVENTORY_MOVEMENT_NEW.Ref_ID=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.PK_ID
+left outer join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No 
+and TSPL_INVENTORY_MOVEMENT.Ref_ID_Type='7' and TSPL_INVENTORY_MOVEMENT.Ref_ID=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.PK_ID 
+where  TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Type=2 and TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No='" + obj.Document_No + "' "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                 ''In the Finish Goods Item
                 ArrInventoryMovement = New List(Of clsInventoryMovement)
                 ArrInvetoryMovementNew = New List(Of clsInventoryMovementNew)
-                For Each objtr As clsProductionShiftMgmtProduction In obj.ArrPro
-                    qry = "select sum(Fat_KG)as Fat_KG,sum(SNF_KG)as SNF_KG,sum(Fat_Amt)as Fat_Amt,sum(SNF_Amt)as SNF_Amt,sum(Avg_Cost) as Avg_Cost  from(
-        select Fat_KG,SNF_KG,Fat_Amt,SNF_Amt,Avg_Cost from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + clsCommon.myCstr(objtr.PK_ID) + "' and Trans_Type='" + clsUserMgtCode.ProductionShiftMgmt + "'
-        union all
-        select Fat_KG,SNF_KG,Fat_Amt,SNF_Amt,Avg_Cost from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No='" + clsCommon.myCstr(objtr.PK_ID) + "' and Trans_Type='" + clsUserMgtCode.ProductionShiftMgmt + "'
-        union all
-        select 0 as Fat_KG,0 as SNF_KG,0 as Fat_Amt,0 as SNF_Amt,Amount as Avg_Cost from TSPL_SHIFT_MGMT_PRODUCTION_OVERHEAD_COST_DETAIL where Against_PKID='" + clsCommon.myCstr(objtr.PK_ID) + "'
-        )xx"
+                For Each objPro As clsProductionShiftMgmtProduction In obj.ArrPro
+                    qry = "select sum(Fat_KG) as Fat_KG,sum(SNF_KG)as SNF_KG,sum(Fat_Amt)as Fat_Amt,sum(SNF_Amt)as SNF_Amt,sum(AMT) as Avg_Cost  from TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION where Document_No='" + obj.Document_No + "' and Against_PK_ID=" + clsCommon.myCstr(objPro.PK_ID) + ""
                     dt = clsDBFuncationality.GetDataTable(qry, trans)
-                    Dim strProductType As String = clsItemMaster.GetItemProductType(objtr.Item_Code, trans)
+                    Dim strProductType As String = clsItemMaster.GetItemProductType(objPro.Item_Code, trans)
                     Dim strItemType As String
                     If clsCommon.CompairString(strProductType, "MI") = CompairStringResult.Equal Then
                         Dim objInventoryMovemnt = New clsInventoryMovementNew
                         objInventoryMovemnt.Trans_Type = "Production"
                         objInventoryMovemnt.InOut = "I"
                         objInventoryMovemnt.Location_Code = obj.Location_Code
-                        objInventoryMovemnt.Item_Code = objtr.Item_Code
-                        objInventoryMovemnt.Item_Desc = objtr.Item_Name
-                        objInventoryMovemnt.Qty = objtr.Qty_LTR
+                        objInventoryMovemnt.Item_Code = objPro.Item_Code
+                        objInventoryMovemnt.Item_Desc = objPro.Item_Name
+                        objInventoryMovemnt.Qty = objPro.Qty_LTR
                         objInventoryMovemnt.UOM = "LTR"
                         objInventoryMovemnt.Source_Doc_No = obj.Document_No
                         objInventoryMovemnt.Source_Doc_Date = obj.Shift_Start_Date
                         objInventoryMovemnt.CalculateAvgCost = False
-                        objInventoryMovemnt.Batch_No = objtr.Batch_No
+                        objInventoryMovemnt.Batch_No = objPro.Batch_No
 
                         'objInventoryMovemnt.FAT_Per = objProd.FAT_Per
                         'objInventoryMovemnt.SNF_Per = objProd.SNF_Per
@@ -417,11 +722,11 @@ where 2=2 "
                         objInventoryMovemnt.FIFO_Cost = AvgCost
                         objInventoryMovemnt.LIFO_Cost = AvgCost
                         If clsCommon.CompairString(objInventoryMovemnt.InOut, "I") = CompairStringResult.Equal Then
-                            objInventoryMovemnt.Basic_Cost = clsCommon.myCDivide(AvgCost, objtr.Qty_LTR)
+                            objInventoryMovemnt.Basic_Cost = clsCommon.myCDivide(AvgCost, objPro.Qty_LTR)
                             objInventoryMovemnt.Net_Cost = AvgCost
                         End If
 
-                        strItemType = clsItemMaster.GetItemType(objtr.Item_Code, trans)
+                        strItemType = clsItemMaster.GetItemType(objPro.Item_Code, trans)
                         If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
                             strItemType = "RM"
                         ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
@@ -432,20 +737,21 @@ where 2=2 "
                         End If
                         objInventoryMovemnt.ItemType = strItemType
                         objInventoryMovemnt.MFG_Date = obj.Shift_End_Date
+                        objInventoryMovemnt.Ref_ID_Type = "8"
+                        objInventoryMovemnt.Ref_ID = objPro.PK_ID
                         ArrInvetoryMovementNew.Add(objInventoryMovemnt)
                     Else
                         Dim objInventoryMovemnt As New clsInventoryMovement
                         objInventoryMovemnt.Trans_Type = "Production"
                         objInventoryMovemnt.InOut = "I"
                         objInventoryMovemnt.Location_Code = obj.Location_Code
-                        objInventoryMovemnt.Item_Code = objtr.Item_Code
-                        objInventoryMovemnt.Item_Desc = objtr.Item_Name
-                        objInventoryMovemnt.Qty = objtr.Qty_LTR
+                        objInventoryMovemnt.Item_Code = objPro.Item_Code
+                        objInventoryMovemnt.Item_Desc = objPro.Item_Name
+                        objInventoryMovemnt.Qty = objPro.Qty_LTR
                         objInventoryMovemnt.UOM = "LTR"
-                        objInventoryMovemnt.Source_Doc_No = objtr.PK_ID
                         objInventoryMovemnt.Source_Doc_Date = obj.Shift_End_Date
                         objInventoryMovemnt.CalculateAvgCost = False
-                        strItemType = clsItemMaster.GetItemType(objtr.Item_Code, trans)
+                        strItemType = clsItemMaster.GetItemType(objPro.Item_Code, trans)
                         If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
                             strItemType = "RM"
                         ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
@@ -454,7 +760,7 @@ where 2=2 "
                             strItemType = "FT"
                         End If
                         objInventoryMovemnt.ItemType = strItemType
-                        objInventoryMovemnt.Batch_No = objtr.Batch_No
+                        objInventoryMovemnt.Batch_No = objPro.Batch_No
 
                         objInventoryMovemnt.FAT_KG = clsCommon.myCDecimal(dt.Rows(0)("Fat_KG"))
                         objInventoryMovemnt.SNF_KG = clsCommon.myCDecimal(dt.Rows(0)("SNF_KG"))
@@ -467,56 +773,64 @@ where 2=2 "
                         objInventoryMovemnt.FIFO_Cost = AvgCost
                         objInventoryMovemnt.LIFO_Cost = AvgCost
                         If clsCommon.CompairString(objInventoryMovemnt.InOut, "I") = CompairStringResult.Equal Then
-                            objInventoryMovemnt.Basic_Cost = clsCommon.myCDivide(AvgCost, objtr.Qty_LTR)
+                            objInventoryMovemnt.Basic_Cost = clsCommon.myCDivide(AvgCost, objPro.Qty_LTR)
                             objInventoryMovemnt.Net_Cost = AvgCost
                         End If
                         objInventoryMovemnt.MFG_Date = obj.Shift_End_Date
+                        objInventoryMovemnt.Ref_ID_Type = "9"
+                        objInventoryMovemnt.Ref_ID = objPro.PK_ID
                         ArrInventoryMovement.Add(objInventoryMovemnt)
 
-                        If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
+                        If clsItemMaster.IsBatchItem(objPro.Item_Code, trans) Then
                             Dim arrBatchItem As New List(Of clsBatchInventory)
                             Dim objBatchItem As clsBatchInventory = New clsBatchInventory()
-                            objBatchItem.Batch_No = objtr.Batch_No
+                            objBatchItem.Batch_No = objPro.Batch_No
                             objBatchItem.Manufacture_Date = obj.Shift_End_Date
-                            objBatchItem.Expiry_Date = obj.Shift_End_Date.AddDays(clsItemMaster.GetSelfLife(objtr.Item_Code, trans))
-                            objBatchItem.Qty = objtr.Qty_LTR
-                            objBatchItem.Manual_BatchNo = objtr.Batch_No
+                            objBatchItem.Expiry_Date = obj.Shift_End_Date.AddDays(clsItemMaster.GetSelfLife(objPro.Item_Code, trans))
+                            objBatchItem.Qty = objPro.Qty_LTR
+                            objBatchItem.Manual_BatchNo = objPro.Batch_No
                             If clsCommon.myLen(objBatchItem.Batch_No) > 0 AndAlso objBatchItem.Qty <> 0 Then
                                 arrBatchItem.Add(objBatchItem)
                             End If
-                            clsBatchInventory.SaveData(clsUserMgtCode.ProductionShiftMgmt, clsCommon.myCstr(objtr.PK_ID), obj.Shift_End_Date, "I", objtr.Item_Code, obj.Location_Code, 1, 0, "LTR", arrBatchItem, trans)
+                            clsBatchInventory.SaveData(clsUserMgtCode.ProductionShiftMgmt, obj.Document_No, obj.Shift_End_Date, "I", objPro.Item_Code, obj.Location_Code, 1, 0, "LTR", arrBatchItem, trans)
                         End If
                     End If
-
-                    If ArrInvetoryMovementNew.Count > 0 Then
-                        clsInventoryMovementNew.SaveData(clsUserMgtCode.ProductionShiftMgmt, clsCommon.myCstr(objtr.PK_ID), obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInvetoryMovementNew, trans)
-                    End If
-                    If ArrInventoryMovement.Count > 0 Then
-                        clsInventoryMovement.SaveData(clsUserMgtCode.ProductionShiftMgmt, clsCommon.myCstr(objtr.PK_ID), obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
-                    End If
                 Next
+                If ArrInvetoryMovementNew.Count > 0 Then
+                    clsInventoryMovementNew.SaveData(clsUserMgtCode.ProductionShiftMgmt, obj.Document_No, obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInvetoryMovementNew, trans)
+                End If
+                If ArrInventoryMovement.Count > 0 Then
+                    clsInventoryMovement.SaveData(clsUserMgtCode.ProductionShiftMgmt, obj.Document_No, obj.Shift_End_Date, clsCommon.GetPrintDate(obj.Shift_End_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+                End If
             End If
 
 
 
             Dim ArryLstGLAC As ArrayList = New ArrayList()
-            qry = "select xxx.InOut,xxx.Item_Code,TSPL_PURCHASE_ACCOUNTS.Inv_Control_Account,xxx.Avg_Cost from (
-        select InOut,Item_Code,sum(Avg_Cost) as Avg_Cost  from(
-        select InOut,Item_Code,Avg_Cost from TSPL_INVENTORY_MOVEMENT where Source_Doc_No in ('" + obj.Document_No + "') 
-        and Trans_Type='" + clsUserMgtCode.ProductionShiftMgmt + "'
-        union all
-        select InOut,Item_Code,Avg_Cost from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No in ('" + obj.Document_No + "') 
-        and Trans_Type='" + clsUserMgtCode.ProductionShiftMgmt + "'
-        ) xx group by Item_Code,InOut 
-        ) xxx
-        left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=xxx.Item_Code
-        left join TSPL_PURCHASE_ACCOUNTS on TSPL_ITEM_MASTER.Purchase_Class_Code=TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code
-        order by InOut desc"
+            qry = "select xxx.InOut,xxx.Item_Code,TSPL_PURCHASE_ACCOUNTS.Inv_Control_Account,xxx.Avg_Cost,TSPL_PURCHASE_ACCOUNTS.Loss_Ac from (
+select InOut,Item_Code,sum(Avg_Cost) as Avg_Cost  from(
+select InOut,Item_Code,Avg_Cost from TSPL_INVENTORY_MOVEMENT where Source_Doc_No in ('" + obj.Document_No + "') 
+and Trans_Type='" + clsUserMgtCode.ProductionShiftMgmt + "'
+union all
+select InOut,Item_Code,Avg_Cost from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No in ('" + obj.Document_No + "') 
+and Trans_Type='" + clsUserMgtCode.ProductionShiftMgmt + "'
+) xx group by Item_Code,InOut 
+) xxx
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=xxx.Item_Code
+left join TSPL_PURCHASE_ACCOUNTS on TSPL_ITEM_MASTER.Purchase_Class_Code=TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code
+order by InOut desc"
             dt = clsDBFuncationality.GetDataTable(qry, trans)
+            Dim dclGainLoss As Decimal = 0
+            Dim strGainLossAccount As String = ""
+            Dim strGainLossItem As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.myLen(dr("Inv_Control_Account")) <= 0 Then
                         Throw New Exception("Inventory control Account not found for Item " & clsCommon.myCstr(dr("Item_Code")) & "")
+                    End If
+                    If clsCommon.myLen(strGainLossAccount) <= 0 Then
+                        strGainLossItem = clsCommon.myCstr(dr("Item_Code"))
+                        strGainLossAccount = clsCommon.myCstr(dr("Loss_Ac"))
                     End If
                     Dim InvCtrlAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(dr("Inv_Control_Account")), obj.Location_Code, trans)
                     Dim RI As Integer = -1
@@ -527,25 +841,36 @@ where 2=2 "
                         Dim Acc1() As String = {InvCtrlAcc, RI * clsCommon.myCDecimal(dr("Avg_Cost"))}
                         ArryLstGLAC.Add(Acc1)
                     End If
+                    dclGainLoss += RI * clsCommon.myCDecimal(dr("Avg_Cost"))
                 Next
             End If
             qry = "select Cost_Code,max(GL_Acc) as GL_Acc,sum(Amount) as Amount from (
-        select TSPL_SHIFT_MGMT_PRODUCTION_OVERHEAD_COST_DETAIL.Cost_Code,TSPL_OVERHEAD_COST.GL_Acc,Amount from TSPL_SHIFT_MGMT_PRODUCTION_OVERHEAD_COST_DETAIL
-        left outer join TSPL_OVERHEAD_COST on TSPL_OVERHEAD_COST.COST_CODE=TSPL_SHIFT_MGMT_PRODUCTION_OVERHEAD_COST_DETAIL.Cost_Code
-        where Document_No='" + obj.Document_No + "' 
-        )x group by Cost_Code"
+select TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION.Source_Code as Cost_Code,TSPL_OVERHEAD_COST.GL_Acc,TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION.AMT as Amount
+from TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION
+left outer join TSPL_OVERHEAD_COST on TSPL_OVERHEAD_COST.COST_CODE=TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION.Source_Code
+where TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION.Document_No='" + obj.Document_No + "' and TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION.Source_ID=3
+)x group by Cost_Code"
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.myLen(dr("GL_Acc")) <= 0 Then
-                        Throw New Exception("GL Account not found for cost code " & clsCommon.myCstr(dr("Item_Code")) & "")
+                        Throw New Exception("GL Account not found for cost code " & clsCommon.myCstr(dr("Cost_Code")) & "")
                     End If
                     Dim GLAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(dr("GL_Acc")), obj.Location_Code, trans)
                     If clsCommon.myLen(GLAcc) > 0 Then
                         Dim Acc2() As String = {GLAcc, -1 * clsCommon.myCDecimal(dr("Amount"))}
                         ArryLstGLAC.Add(Acc2)
                     End If
+                    dclGainLoss += (-1 * clsCommon.myCDecimal(dr("Amount")))
                 Next
+            End If
+            If dclGainLoss <> 0 Then
+                If clsCommon.myLen(strGainLossAccount) <= 0 Then
+                    Throw New Exception("Gain/Loss control Account not found for Item " & strGainLossItem & "")
+                End If
+                Dim GLAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(strGainLossAccount, obj.Location_Code, trans)
+                Dim Acc2() As String = {GLAcc, -1 * dclGainLoss}
+                ArryLstGLAC.Add(Acc2)
             End If
             If ArryLstGLAC IsNot Nothing AndAlso ArryLstGLAC.Count > 0 Then
                 clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Shift_End_Date, "Shift Mgmt", "SF-MG", "Shift Mgmt", obj.Document_No, obj.Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "Journal Entry Against Production Uploader Entry- Doc No." & obj.Document_No & "", "")
@@ -567,49 +892,41 @@ where 2=2 "
         Return True
     End Function
     Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
-        'Try
-        '    Dim Qry As String = "select Status from TSPL_SHIFT_MGMT where Document_No='" + strCode + "'"
-        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
-        '    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-        '        Throw New Exception("Document No [" + strCode + "] not found for reverse and unpost")
-        '    End If
+        Try
+            Dim Qry As String = "select Status from TSPL_SHIFT_MGMT where Document_No='" + strCode + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("Document No [" + strCode + "] not found for reverse and unpost")
+            End If
 
-        '    If Not clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1 Then
-        '        Throw New Exception("Transaction status should be posted for reverse and unpost")
-        '    End If
+            If Not clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1 Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
 
+            Qry = "delete from TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION where Document_No='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-        '    Qry = "delete from TSPL_SHIFT_MGMT_PRODUCTION_OVERHEAD_COST_DETAIL where Document_No='" + strCode + "'"
-        '    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='SF-MG' and Source_Doc_No='" + strCode + "'", trans)
+            If clsCommon.myLen(VoucherNo) > 0 Then
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+                Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" + VoucherNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                Qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            End If
 
-        '    Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PR-UP' and Source_Doc_No='" + strCode + "'", trans)
-        '    If clsCommon.myLen(VoucherNo) > 0 Then
-        '        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
-        '        Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" + VoucherNo + "'"
-        '        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-        '        Qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
-        '        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-        '    End If
+            Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='" + clsUserMgtCode.ProductionShiftMgmt + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-        '    Dim arr As List(Of clsProductionShiftMgmtProduction) = clsProductionShiftMgmtProduction.GetData(strCode, "", trans)
-        '    If arr IsNot Nothing AndAlso arr.Count > 0 Then
-        '        For Each objtr As clsProductionShiftMgmtProduction In arr
-        '            clsBatchInventory.ReverseAndUnpost(clsUserMgtCode.DariyProductionUploader, clsCommon.myCstr(objtr.PK_ID), trans)
+            Qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No='" + strCode + "' and Trans_Type='" + clsUserMgtCode.ProductionShiftMgmt + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-        '            Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + clsCommon.myCstr(objtr.PK_ID) + "' and Trans_Type='" + clsUserMgtCode.DariyProductionUploader + "'"
-        '            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            Qry = "Update TSPL_SHIFT_MGMT set Status = 0 where Document_No='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-        '            Qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No='" + clsCommon.myCstr(objtr.PK_ID) + "' and Trans_Type='" + clsUserMgtCode.DariyProductionUploader + "'"
-        '            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-        '        Next
-        '    End If
-
-        '    Qry = "Update TSPL_SHIFT_MGMT set Status = 0 where Document_No='" + strCode + "'"
-        '    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
-        'Catch ex As Exception
-        '    Throw New Exception(ex.Message)
-        'End Try
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
         Return True
     End Function
 End Class
@@ -1210,7 +1527,8 @@ Public Class clsProductionShiftMgmtProductionItemAddRemove
     Public Location_Name As String
     Public Item_Code As String
     Public Item_Name As String
-    Public Product_Type As String
+    Public ItemProductType As String
+    Public ItemItemType As String
     Public Qty As Decimal
     Public UOM As String
     Public FAT As Decimal
@@ -1240,7 +1558,7 @@ Public Class clsProductionShiftMgmtProductionItemAddRemove
     End Function
     Public Shared Function GetData(ByVal strPONo As String, ByVal AgainstPKID As Integer, ByVal Type As Integer, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsProductionShiftMgmtProductionItemAddRemove)
         Dim arr As List(Of clsProductionShiftMgmtProductionItemAddRemove) = Nothing
-        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Product_Type,TSPL_LOCATION_MASTER.Location_Desc FROM TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE 
+        Dim qry As String = "SELECT TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.*,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Product_Type,TSPL_ITEM_MASTER.Item_Type,TSPL_LOCATION_MASTER.Location_Desc FROM TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Item_Code 
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Location_Code 
 where  TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No='" + strPONo + "' and TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Against_PK_ID=" + clsCommon.myCstr(AgainstPKID) + " and TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Type=" + clsCommon.myCstr(Type) + " "
@@ -1259,7 +1577,8 @@ where  TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE.Document_No='" + strPONo + "' 
                 objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                 objTr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
                 objTr.Location_Name = clsCommon.myCstr(dr("Location_Desc"))
-                objTr.Product_Type = clsCommon.myCstr(dr("Product_Type"))
+                objTr.ItemProductType = clsCommon.myCstr(dr("Product_Type"))
+                objTr.ItemItemType = clsCommon.myCstr(dr("Item_Type"))
                 objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                 objTr.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
                 objTr.Qty = clsCommon.myCDecimal(dr("Qty"))

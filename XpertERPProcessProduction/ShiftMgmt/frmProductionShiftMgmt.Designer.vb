@@ -157,18 +157,18 @@ Partial Class frmProductionShiftMgmt
         '
         Me.btnPrintNew.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintNew.Location = New System.Drawing.Point(400, 13)
+        Me.btnPrintNew.Location = New System.Drawing.Point(283, 8)
         Me.btnPrintNew.Name = "btnPrintNew"
-        Me.btnPrintNew.Size = New System.Drawing.Size(69, 22)
+        Me.btnPrintNew.Size = New System.Drawing.Size(92, 22)
         Me.btnPrintNew.TabIndex = 68
         Me.btnPrintNew.Text = "Print"
         '
         'btnShowInventory
         '
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(571, 13)
+        Me.btnShowInventory.Location = New System.Drawing.Point(376, 8)
         Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(95, 22)
+        Me.btnShowInventory.Size = New System.Drawing.Size(92, 22)
         Me.btnShowInventory.TabIndex = 41
         Me.btnShowInventory.Text = "Show Inventory"
         Me.btnShowInventory.Visible = False
@@ -177,9 +177,9 @@ Partial Class frmProductionShiftMgmt
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(301, 13)
+        Me.btnReverse.Location = New System.Drawing.Point(469, 8)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(97, 22)
+        Me.btnReverse.Size = New System.Drawing.Size(92, 22)
         Me.btnReverse.TabIndex = 40
         Me.btnReverse.Text = "Reverse"
         Me.btnReverse.Visible = False
@@ -187,9 +187,9 @@ Partial Class frmProductionShiftMgmt
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(471, 13)
+        Me.btnHistory.Location = New System.Drawing.Point(562, 8)
         Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(97, 22)
+        Me.btnHistory.Size = New System.Drawing.Size(92, 22)
         Me.btnHistory.TabIndex = 39
         Me.btnHistory.Text = "&History"
         Me.btnHistory.Visible = False
@@ -198,9 +198,9 @@ Partial Class frmProductionShiftMgmt
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(202, 13)
+        Me.btnPost.Location = New System.Drawing.Point(190, 8)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(97, 22)
+        Me.btnPost.Size = New System.Drawing.Size(92, 22)
         Me.btnPost.TabIndex = 3
         Me.btnPost.Text = "Post"
         '
@@ -208,9 +208,9 @@ Partial Class frmProductionShiftMgmt
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(103, 13)
+        Me.btnDelete.Location = New System.Drawing.Point(97, 8)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(97, 22)
+        Me.btnDelete.Size = New System.Drawing.Size(92, 22)
         Me.btnDelete.TabIndex = 2
         Me.btnDelete.Text = "Delete"
         '
@@ -218,7 +218,7 @@ Partial Class frmProductionShiftMgmt
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(684, 13)
+        Me.btnClose.Location = New System.Drawing.Point(684, 8)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(97, 22)
         Me.btnClose.TabIndex = 1
@@ -228,9 +228,9 @@ Partial Class frmProductionShiftMgmt
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(4, 13)
+        Me.btnSave.Location = New System.Drawing.Point(4, 8)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(97, 22)
+        Me.btnSave.Size = New System.Drawing.Size(92, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
