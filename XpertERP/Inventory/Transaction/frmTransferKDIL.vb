@@ -2621,6 +2621,7 @@ Public Class FrmTransferKDIL
                 Throw New Exception("To location can't be the GIT location of from locaion")
             End If
             If chkInternalTransfer.Checked = True Then
+            ElseIf chkJobWorkTransfer.Checked Then
             ElseIf chkOwnVehicle.Checked = True AndAlso clsCommon.myLen(clsCommon.myCstr(TxtTransportorMName.Text)) <= 0 Then
                 TxtTransportorMName.Focus()
                 Throw New Exception("Please fill transpoter name")
@@ -2967,7 +2968,15 @@ Public Class FrmTransferKDIL
     '' Anubhooti 09-Sep-2014 BM00000003735
     Private Function FinYrCheck(ByVal Save As Boolean, ByVal Post As Boolean) As Boolean
         If (Save = True And Post = False Or Save = False And Post = True) Then
-            If FrmMainTranScreen.ValidateTransactionAccToFinYear(If(chkInternalTransfer.Checked = True, "ITransfer", "Transfer"), txtDate.Value) = False Then
+            Dim FormName As String = ""
+            If chkInternalTransfer.Checked Then
+                FormName = "ITransfer"
+            ElseIf chkJobWorkTransfer.Checked Then
+                FormName = "JTransfer"
+            Else
+                FormName = "Transfer"
+            End If
+            If FrmMainTranScreen.ValidateTransactionAccToFinYear(FormName, txtDate.Value) = False Then
                 Return False
             End If
         End If
@@ -3008,7 +3017,7 @@ Public Class FrmTransferKDIL
                 obj.Total_Tax_Amt = clsCommon.myCdbl(lblTaxAmt.Text)
                 obj.Remarks = txtRemarks.Text
                 obj.From_Location = txtFromLocation.Value
-                If clsCommon.myCBool(chkInternalTransfer.Checked) = True Then
+                If clsCommon.myCBool(chkInternalTransfer.Checked) = True OrElse chkJobWorkTransfer.Checked Then
                     obj.To_Location = txtToLoc.Value
                 Else
                     obj.To_Location = clsCommon.myCstr(lblToLoc.Tag)
@@ -3022,6 +3031,7 @@ Public Class FrmTransferKDIL
                 obj.For_Repair = IIf(chkForRepair.Checked, 1, 0)
                 ''--end
                 obj.InternalTransfer = IIf(chkInternalTransfer.Checked, 1, 0)
+                obj.JobWorkTransfer = IIf(chkJobWorkTransfer.Checked, 1, 0)
                 obj.ProdRequestTransfer = IIf(chkProductionRequest.Checked, 1, 0)
                 obj.IsJobWorkType = IIf(chkJobWork.Checked, 1, 0)
                 obj.Requisition_Id = clsCommon.myCstr(fndSRNO.Value)
@@ -3343,6 +3353,7 @@ Public Class FrmTransferKDIL
                 chkTaxable.Checked = IIf(obj.Is_Taxable = 1, True, False)
                 chkIsManditax.Checked = IIf(obj.Is_MandiTax = 1, True, False)
                 chkInternalTransfer.Checked = IIf(obj.InternalTransfer = 1, True, False)
+                chkJobWorkTransfer.Checked = IIf(obj.JobWorkTransfer = 1, True, False)
                 chkProductionRequest.Checked = IIf(obj.ProdRequestTransfer = 1, True, False)
                 If chkInternalTransfer.Checked Then
                     BtnPrintChallan.Enabled = False
@@ -4399,11 +4410,12 @@ Public Class FrmTransferKDIL
     End Sub
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtToLoc._MYValidating
         Dim qry As String = ""
-        If clsCommon.myCBool(EnableInternalTransfer) = True AndAlso (chkInternalTransfer.Checked) = True Then
+        If (clsCommon.myCBool(EnableInternalTransfer) = True AndAlso (chkInternalTransfer.Checked) = True) OrElse (clsCommon.myCBool(JobWorkTransfer) = True AndAlso (chkJobWorkTransfer.Checked) = True) Then
             If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please Select From Location", Me.Text)
                 Exit Sub
             End If
+
             Dim locSub As String = clsDBFuncationality.getSingleValue("select is_sub_location from TSPL_LOCATION_MASTER where Location_Code='" & txtFromLocation.Value & "'")
             If clsCommon.CompairString(locSub, "Y") = CompairStringResult.Equal Then
                 qry = "Select LM.Location_Code as Code,lm.Main_Location_Code as [Main Location Code],LM.Location_Desc as Description,LM.Loc_Short_Name as [Short Name],Location_type as 'Location Type',(case LM.Excisable when 'T'then 'Excisable'else 'Non-Excisable'end) as 'Excisable',GIT_Location as GITLocation from TSPL_LOCATION_MASTER as LM "
@@ -6499,7 +6511,13 @@ Public Class FrmTransferKDIL
                 'frm.strBinNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colBinNo).Value)
                 frm.strLocationCode = txtFromLocation.Value
                 frm.strCurrDocNo = txtDocNo.Value
-                frm.strCurrDocType = If(chkInternalTransfer.Checked = True, "ITransfer", "Transfer")
+                If chkInternalTransfer.Checked Then
+                    frm.strCurrDocType = "ITransfer"
+                ElseIf chkJobWorkTransfer.Checked Then
+                    frm.strCurrDocType = "JTransfer"
+                Else
+                    frm.strCurrDocType = "Transfer"
+                End If
                 frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colInQty).Value)
                 frm.strItemType = Item_type
                 frm.arr = TryCast(gv1.CurrentRow.Tag, List(Of clsSerializeInvenotry))
@@ -6514,7 +6532,13 @@ Public Class FrmTransferKDIL
                 frm.strBinNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colBinNo).Value)
                 frm.strLocationCode = txtFromLocation.Value
                 frm.strCurrDocNo = txtDocNo.Value
-                frm.strCurrDocType = If(chkInternalTransfer.Checked = True, "ITransfer", "Transfer")
+                If chkInternalTransfer.Checked Then
+                    frm.strCurrDocType = "ITransfer"
+                ElseIf chkJobWorkTransfer.Checked Then
+                    frm.strCurrDocType = "JTransfer"
+                Else
+                    frm.strCurrDocType = "Transfer"
+                End If
                 frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colOutQty).Value)
                 frm.strItemType = Item_type
                 frm.arr = TryCast(gv1.CurrentRow.Tag, List(Of clsSerializeInvenotry))
@@ -6548,7 +6572,7 @@ Public Class FrmTransferKDIL
             OpenSerialItem()
             'ElseIf e.KeyCode = Keys.F5 Then
             '    '======update by preeti gupta 16/10/2018
-            '    If ApplyFEFO = True And chkInternalTransfer.Checked = True Then
+            '    If ApplyFEFO = True And (chkInternalTransfer.Checked = True OrElse chkJobWorkTransfer.Checked) Then
             '        OpenBatchItemIfFIFIOSettingON()
             '    ElseIf RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
             '        OpenBatchItem()
@@ -6791,7 +6815,13 @@ Public Class FrmTransferKDIL
                     frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
                     frm.strLocationCode = txtFromLocation.Value
                     frm.strCurrDocNo = txtDocNo.Value
-                    frm.strCurrDocType = If(chkInternalTransfer.Checked = True, "ITransfer", "Transfer")
+                    If chkInternalTransfer.Checked Then
+                        frm.strCurrDocType = "ITransfer"
+                    ElseIf chkJobWorkTransfer.Checked Then
+                        frm.strCurrDocType = "JTransfer"
+                    Else
+                        frm.strCurrDocType = "Transfer"
+                    End If
                     frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
                     frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
                     If clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
@@ -6821,7 +6851,7 @@ Public Class FrmTransferKDIL
                             gv1.CurrentRow.Cells(colICode).Tag = frm.arr
                         End If
                     Else
-                        If ApplyFEFO = True AndAlso chkInternalTransfer.Checked = True Then
+                        If ApplyFEFO = True AndAlso (chkInternalTransfer.Checked = True OrElse chkJobWorkTransfer.Checked) Then
                             frm.OpenSerialList(0, "", "", True)
                             gv1.CurrentRow.Cells(colICode).Tag = frm.arr
                         Else
@@ -6861,7 +6891,13 @@ Public Class FrmTransferKDIL
                     frm.strLocationCode = txtToLoc.Value
                     frm.strAgaintsDocNo = txtTransferOutNo.Value
                     frm.strCurrDocNo = txtDocNo.Value
-                    frm.strCurrDocType = If(chkInternalTransfer.Checked = True, "ITransfer", "Transfer")
+                    If chkInternalTransfer.Checked Then
+                        frm.strCurrDocType = "ITransfer"
+                    ElseIf chkJobWorkTransfer.Checked Then
+                        frm.strCurrDocType = "JTransfer"
+                    Else
+                        frm.strCurrDocType = "Transfer"
+                    End If
                     frm.strSplTransaction = "TransferIN"
                     frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
                     frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
@@ -6963,6 +6999,12 @@ Public Class FrmTransferKDIL
             Else
                 chkProductionRequest.Enabled = False
                 chkProductionRequest.Checked = False
+            End If
+
+            If chkInternalTransfer.Checked Then
+                If chkJobWorkTransfer.Checked Then
+                    chkInternalTransfer.Checked = False
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7151,7 +7193,7 @@ Public Class FrmTransferKDIL
                 Else
                     LoadBlankGrid()
                 End If
-            ElseIf chkProductionRequest.Checked = True AndAlso clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal AndAlso chkInternalTransfer.Checked = True Then
+            ElseIf chkProductionRequest.Checked = True AndAlso clsCommon.CompairString(cboTransferType.SelectedValue, "O") = CompairStringResult.Equal AndAlso (chkInternalTransfer.Checked = True OrElse chkJobWorkTransfer.Checked) Then
                 Dim strQuery As String = " Select TSPL_PP_REQUISITION_HEAD.Requisition_Id  as IndentNo, convert (varchar, TSPL_PP_REQUISITION_HEAD.Requisition_Date,103) as [InvoiceDate] ,TSPL_PP_REQUISITION_HEAD.Location  as [Location Code] , TSPL_Location_Master.Location_Desc  as [Location Name] from TSPL_PP_REQUISITION_HEAD 
                                            Left Outer Join TSPL_Location_Master on (TSPL_Location_Master.Location_Code = TSPL_PP_REQUISITION_HEAD.Location or TSPL_Location_Master.Main_Location_Code = TSPL_PP_REQUISITION_HEAD.Location ) "
                 Dim whr As String = " TSPL_PP_REQUISITION_HEAD.close_yn = 'N' and TSPL_PP_REQUISITION_HEAD.Status = 1 and  TSPL_Location_Master.Location_Code  ='" & clsCommon.myCstr(txtToLoc.Value) & "'  and TSPL_PP_REQUISITION_HEAD.Requisition_Id not in ( select TransferIndent_No from tspl_transfer_order_head where isnull(TransferIndent_No,'')<>'' ) "
