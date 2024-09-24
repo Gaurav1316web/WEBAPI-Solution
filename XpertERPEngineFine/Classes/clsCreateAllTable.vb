@@ -14968,6 +14968,8 @@ Public Class clsCreateAllTable
 
             coll.Add("Custom_UOM", "VARCHAR(12) NULL")
             coll.Add("Custom_Coversion_Factor", "decimal(18,6) NULL")
+            coll.Add("Ref_ID_Type", "Varchar(3) null")
+            coll.Add("Ref_ID", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVENTORY_MOVEMENT_NEW", coll, "Primary Key (Source_Doc_No,Trans_Id)", True, False, "", "Trans_Id", "Posting_Date", True)
             clsCommonFunctionality.CreateOrAlterTable("TSPL_INVENTORY_MOVEMENT_NEW_SYNC", coll, "Primary Key (Source_Doc_No,Trans_Id)")
 
@@ -33643,6 +33645,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Location_Code", "Varchar(12) not null REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("QC_Complete", "VARCHAR(1) NULL")
             coll.Add("Auto_Bin_No", "VARCHAR(50) NULL")
+            coll.Add("Ref_ID_Type", "Varchar(3) null")
+            coll.Add("Ref_ID", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SERIAL_ITEM", coll, Nothing, True, False, "TSPL_INVENTORY_MOVEMENT", "Against_Inv_Movement_Trans_Id", "")
 
 
@@ -56056,6 +56060,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Entered_UOM", "integer null") ''1 LTR 2'KG
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
 
+
+
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
@@ -56149,6 +56155,21 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Alcohol_Test", "Varchar(20) null")
             coll.Add("Remarks", "Varchar(200) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_CLOSE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_SHIFT_MGMT(Document_No)")
+            coll.Add("Against_PK_ID", "integer not null references TSPL_SHIFT_MGMT_PRODUCTION(PK_ID)")
+            coll.Add("Source_ID", "integer not null") ''1-RM(Milk),2-RM(Other),3-OverheadCost,4-Add(Milk),5-Add(Other),6-Remove(Milk),7-Remove(Other),8-Produce(Milk),9-Produce(Other)
+            coll.Add("Source_Code", "Varchar(50) null")
+            coll.Add("Qty", "Decimal(18,6) null")
+            coll.Add("UOM", "Varchar(20) null")
+            coll.Add("FAT_KG", "Decimal(18,6) null")
+            coll.Add("SNF_KG", "Decimal(18,6) null")
+            coll.Add("FAT_AMT", "Decimal(18,6) null")
+            coll.Add("SNF_AMT", "Decimal(18,6) null")
+            coll.Add("AMT", "Decimal(18,6) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
 
 
             clsCommon.ProgressBarPercentHide()
