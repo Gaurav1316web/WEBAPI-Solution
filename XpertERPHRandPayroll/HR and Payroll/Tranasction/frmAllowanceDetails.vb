@@ -714,6 +714,7 @@ Public Class frmAllowanceDetails
                 whrcls = " Location_Type='Physical' "
             End If
         End If
+        whrcls = " Rejected_Type='N'"
         txtBranch.Value = clsLocation.getFinder(whrcls, Me.txtBranch.Value, isButtonClicked)
         lblLocationDesc.Text = clsLocation.GetName(txtBranch.Value, Nothing)
     End Sub
@@ -773,5 +774,6 @@ Public Class frmAllowanceDetails
             btnUnSelect.Text = "UnSelect All"
         End If
     End Sub
+
 
 End Class

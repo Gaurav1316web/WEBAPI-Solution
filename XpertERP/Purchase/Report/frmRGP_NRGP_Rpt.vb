@@ -53,7 +53,7 @@ Public Class frmRGP_NRGP_Rpt
     End Sub
 
     Sub LoadLocation()
-        Dim qry As String = "Select Location_Code as Code, Location_Desc as Description from TSPL_LOCATION_MASTER Where Location_Type='Physical'"
+        Dim qry As String = "Select Location_Code as Code, Location_Desc as Description from TSPL_LOCATION_MASTER Where Location_Type='Physical' and Rejected_Type='N'"
         cbgLocation.DataSource = clsDBFuncationality.GetDataTable(qry)
         cbgLocation.ValueMember = "Code"
         cbgLocation.DisplayMember = "Date"

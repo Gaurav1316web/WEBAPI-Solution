@@ -3,7 +3,6 @@ Imports common
 Imports System.IO
 Imports XpertERPEngine
 Imports Telerik.WinControls.UI
-
 Public Class frmEmployee_Salary
     Inherits FrmMainTranScreen
     Const colLineNo As String = "LineNo"
@@ -17,7 +16,6 @@ Public Class frmEmployee_Salary
     Const ColPayheadtype As String = "ColPayheadtype"
     Const ColPayhead As String = "ColPayhead"
     Public sal_structure_code As String = String.Empty
-
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isNewEntry As Boolean = True
     'Private Obj As clsmo
@@ -26,12 +24,9 @@ Public Class frmEmployee_Salary
     Private isCellValueChangedOpen As Boolean = False
     Public isInsideLoadData As Boolean = False
     Public isCellValueChanged As Boolean = False
-
-
     Sub LoadGridColumns()
         gvSalary.Rows.Clear()
         gvSalary.Columns.Clear()
-
         Dim LineNo As New GridViewTextBoxColumn
         Dim payHeadCode As New GridViewTextBoxColumn
         Dim payHeadtype As New GridViewTextBoxColumn
@@ -43,7 +38,6 @@ Public Class frmEmployee_Salary
         Dim Max_Amount As New GridViewDecimalColumn
         Dim PAYPERIOD_Amount As New GridViewDecimalColumn
         Dim LocationCode As New GridViewDecimalColumn
-
         LineNo.FormatString = ""
         LineNo.HeaderText = "Line No"
         LineNo.Name = colLineNo
@@ -51,7 +45,6 @@ Public Class frmEmployee_Salary
         LineNo.ReadOnly = True
         LineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(LineNo)
-
         payHeadCode.FormatString = ""
         payHeadCode.HeaderText = "Pay Head Code"
         payHeadCode.Name = colpayHeadCode
@@ -59,7 +52,6 @@ Public Class frmEmployee_Salary
         payHeadCode.ReadOnly = True
         payHeadCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(payHeadCode)
-
         PayHeadName.FormatString = ""
         PayHeadName.HeaderText = "Pay Head Name"
         PayHeadName.Name = colpayHeadName
@@ -67,7 +59,6 @@ Public Class frmEmployee_Salary
         PayHeadName.ReadOnly = True
         PayHeadName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(PayHeadName)
-
         Formula.FormatString = ""
         Formula.HeaderText = "Formula"
         Formula.Name = colPayHeadFormula
@@ -75,36 +66,31 @@ Public Class frmEmployee_Salary
         Formula.ReadOnly = True
         Formula.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(Formula)
-
         RateAmount.FormatString = ""
         RateAmount.HeaderText = "Rate/Amount"
         RateAmount.Name = colRateAmount
         RateAmount.Width = 100
         RateAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvSalary.Columns.Add(RateAmount)
-
         IsHiddenComponent = New GridViewCheckBoxColumn()
         IsHiddenComponent.HeaderText = "Is Hidden Component"
         IsHiddenComponent.Name = colHiddenComponent
         IsHiddenComponent.Width = 50
         IsHiddenComponent.ReadOnly = True
         gvSalary.Columns.Add(IsHiddenComponent)
-
         Max_Amount.FormatString = ""
         Max_Amount.HeaderText = "Maximum Amount Limit"
         Max_Amount.Name = colMax_Amount
         Max_Amount.Width = 100
         Max_Amount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvSalary.Columns.Add(Max_Amount)
-
-        Payheadtype.FormatString = ""
+        payHeadtype.FormatString = ""
         payHeadtype.HeaderText = "Pay Head Mode"
         payHeadtype.Name = ColPayheadtype
         payHeadtype.Width = 100
         payHeadtype.ReadOnly = True
         payHeadtype.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        gvSalary.Columns.Add(Payheadtype)
-
+        gvSalary.Columns.Add(payHeadtype)
         PAYPERIOD_Amount.FormatString = ""
         PAYPERIOD_Amount.HeaderText = "Pay Period Amount"
         PAYPERIOD_Amount.Name = colPAYPERIOD_Amount
@@ -112,7 +98,6 @@ Public Class frmEmployee_Salary
         PAYPERIOD_Amount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         PAYPERIOD_Amount.ReadOnly = True
         gvSalary.Columns.Add(PAYPERIOD_Amount)
-
         Payhead.FormatString = ""
         Payhead.HeaderText = "Pay Head Type"
         Payhead.Name = ColPayhead
@@ -121,8 +106,6 @@ Public Class frmEmployee_Salary
         Payhead.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(Payhead)
     End Sub
-
-
     Private Sub frmReimbursementDetails_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnNew.Enabled Then
             funReset()
@@ -138,7 +121,6 @@ Public Class frmEmployee_Salary
             PostData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
-
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = "SIRC"
                 frm.strCode = "SIReversAndCreate"
@@ -167,7 +149,6 @@ Public Class frmEmployee_Salary
     Sub funClose()
         Me.Close()
     End Sub
-
     Private Sub frmMonthlyAttendance_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         LoadGridColumns()
@@ -185,7 +166,6 @@ Public Class frmEmployee_Salary
             btnsave.Text = "Save"
             isNewEntry = True
         End If
-
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
             txtRevisionNo.Text = clsCommon.myCdbl(txtRevisionNo.Text) + 1
@@ -198,7 +178,6 @@ Public Class frmEmployee_Salary
                 btnsave.Text = "Save"
                 isNewEntry = True
             End If
-
         End If
         btnReverse.Visible = False
         If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
@@ -220,7 +199,6 @@ Public Class frmEmployee_Salary
         btndelete.Visible = MyBase.isDeleteFlag
         'RadMenu2.Visible = MyBase.isExport
         btnReverse.Visible = False
-
         'If MyBase.isReverse Then
         '    btnReverse.Enabled = True
         'Else
@@ -234,23 +212,19 @@ Public Class frmEmployee_Salary
             MenuItemExport.Enabled = False
         End If
     End Sub
-
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         funClose()
         If clsCommon.myLen(sal_structure_code) > 0 Then
             FrmEmployeeTransfer.save_structure_code = clsCommon.myCstr(obj.EMP_SAL_CODE)
             ' FrmEmployeeTransfer.lblSalaryCode.Text = clsCommon.myCstr(obj.EMP_SAL_CODE)
-
         End If
     End Sub
-
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
         Try
             funReset()
         Catch ex As Exception
         End Try
     End Sub
-
     Sub funReset()
         isNewEntry = True
         txtCode.MyReadOnly = False
@@ -280,7 +254,6 @@ Public Class frmEmployee_Salary
             lblLocation.Text = ""
         End If
     End Sub
-
     Private Sub txtCode__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType)
         Try
             LoadData(txtCode.Value, NavType)
@@ -297,7 +270,6 @@ Public Class frmEmployee_Salary
         btndelete.Enabled = True
         obj = clsEmployeeSalary.GetData(strCode, NavTyep)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.SALARY_STRUCT_CODE) > 0) Then
-
             isNewEntry = False
             btnsave.Text = "Update"
             If obj.POSTED Then
@@ -387,9 +359,7 @@ Public Class frmEmployee_Salary
                 gvSalary.Rows.AddNew()
             End If
         End If
-
     End Sub
-
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean)
         Dim str As String = "select count(*) from TSPL_EMPLOYEE_SALARY where EMP_SAL_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
@@ -410,7 +380,6 @@ Public Class frmEmployee_Salary
             End If
         End If
     End Sub
-
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
         SavingData(False)
     End Sub
@@ -456,7 +425,6 @@ Public Class frmEmployee_Salary
         Return False
     End Function
     Function AllowToSave() As Boolean
-
         If btnsave.Text = "Update" Then
             Dim QryStr As String = "select POSTED from TSPL_EMPLOYEE_SALARY where EMP_SAL_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
@@ -465,13 +433,11 @@ Public Class frmEmployee_Salary
                 Return False
             End If
         End If
-
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
             myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         End If
-
         'If clsCommon.myLen(txtCode.Value) <= 0 Then
         '    myMessages.blankValue("Salary Code")
         '    txtCode.Focus()
@@ -498,15 +464,12 @@ Public Class frmEmployee_Salary
                 'End If
                 'ObjList.Add(obj)
             End If
-
         Next
         If ii = 0 Then
             Return False
         End If
         Return True
     End Function
-
-
     Private Sub gvMonthlyAttendance_CellEndEdit(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs)
         If Not isCellValueChangedOpen Then
             isCellValueChangedOpen = True
@@ -524,7 +487,6 @@ Public Class frmEmployee_Salary
             isCellValueChangedOpen = False
         End If
     End Sub
-
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         DeleteData()
     End Sub
@@ -535,7 +497,6 @@ Public Class frmEmployee_Salary
         End If
         funDelete()
     End Sub
-
     Sub funDelete()
         Try
             Dim Reason As String = ""
@@ -560,7 +521,6 @@ Public Class frmEmployee_Salary
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
-
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
@@ -570,7 +530,6 @@ Public Class frmEmployee_Salary
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
-
     Private Sub txtEmpCode__MYValidating1(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtEmpCode._MYValidating
         Try
             Dim whrcls As String = Nothing
@@ -583,7 +542,6 @@ Public Class frmEmployee_Salary
             Else
                 whrcls += " Emp_Status<>'Inactive'"
             End If
-
             Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name,TSPL_EMPLOYEE_MASTER.PF_NO as [PF No] FROM TSPL_EMPLOYEE_MASTER "
             txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER1", qry, "Code", whrcls, txtEmpCode.Value, "", isButtonClicked)
             Dim clsemp As clsEmployeeMaster
@@ -595,13 +553,11 @@ Public Class frmEmployee_Salary
                 Try
                     Me.txtRevisionNo.Text = clsDBFuncationality.GetDataTable("select (coalesce(max(revision_no),0)+1) AS revision_no from TSPL_EMPLOYEE_SALARY where EMP_CODE='" & Me.txtEmpCode.Value & "'").Rows(0).Item("revision_no")
                 Catch ex As Exception
-
                 End Try
             End If
         Catch ex As Exception
         End Try
     End Sub
-
     Private Sub txtSalaryStruct__MYValidating1(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtSalaryStruct._MYValidating
         Try
             Dim whrcls As String = Nothing
@@ -618,17 +574,14 @@ Public Class frmEmployee_Salary
             'Dim clsemp As clsSalaryStructure
             'clsemp = clsSalaryStructure.GetData(txtSalaryStruct.Value, Nothing)
             'lblSalStructName.Text = clsemp.SALARY_STRUCTURE_NAME
-
             Show_salary_struct(txtSalaryStruct.Value, NavigatorType.Current)
             gvSalary.Rows.AddNew()
             gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colLineNo).Value = "TOTAL"
             setGridTotalRate()
             isInsideLoadData = False
         Catch ex As Exception
-
         End Try
     End Sub
-
     Private Sub txtCode__MYNavigator1(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
         Try
             LoadData(txtCode.Value, NavType)
@@ -636,9 +589,7 @@ Public Class frmEmployee_Salary
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtCode__MYValidating1(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
-
         Dim whrcls As String = Nothing
         Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -657,10 +608,8 @@ Public Class frmEmployee_Salary
             txtCode.MyReadOnly = True
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
-
             'Dim qry As String = "select T1.EMP_SAL_CODE AS Code,T3.SALARY_STRUCTURE_NAME,T1.EMP_CODE,T2.EMP_NAME AS EMPLOYEE_NAME,T1.APPLICABLE_FROM,T1.REVISION_NO AS [Revision No], T1.POSTED  from TSPL_EMPLOYEE_SALARY T1 " _
             '& " LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE LEFT JOIN TSPL_SALARY_STRUCTURE T3 ON T1.SALARY_STRUCTURE_CODE=T3.SALARY_STRUCTURE_CODE"
-
             txtCode.Value = clsEmployeeSalary.GetFinder(whrcls, Me.chkShowAll.Checked, txtCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_SALARY", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
             If clsCommon.myLen(txtCode.Value) > 0 Then
                 LoadData(txtCode.Value, NavigatorType.Current)
@@ -668,14 +617,10 @@ Public Class frmEmployee_Salary
                 funReset()
             End If
         End If
-
-
     End Sub
-
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
         PostData()
     End Sub
-
     Sub PostData()
         Try
             If (myMessages.postConfirm()) Then
@@ -689,7 +634,6 @@ Public Class frmEmployee_Salary
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub SavingData(ByVal ChekBtnPost As Boolean)
         If (Save()) Then
             If ChekBtnPost = False Then
@@ -722,26 +666,20 @@ Public Class frmEmployee_Salary
             ReDim Preserve arrParam(arrParam.Length)
             arrParam(arrParam.Length - 1) = strarr
         Next
-
-
         If importExcelSalary(gv, arrParam) Then
             Try
                 clsCommon.ProgressBarShow()
-
                 Dim obj As clsEmployeeSalary
                 Dim obj1 As clsEmpSalaryPayHeadDetails
                 Dim EMP_SAL_Code As New List(Of String)
-
                 For Each grow As GridViewRowInfo In gv.Rows
                     obj = New clsEmployeeSalary
                     ObjList = New List(Of clsEmpSalaryPayHeadDetails)
-
                     Dim strCode As String = clsCommon.myCstr(grow.Cells("Emp ID").Value)
                     If strCode.Length > 30 Or (String.IsNullOrEmpty(strCode)) Then
                         Throw New Exception("Emp_id not be blank or incorrect.")
                     End If
                     obj.EMP_CODE = strCode
-
                     Dim strSalStruct As String = clsCommon.myCstr(grow.Cells("Salary Structure Code").Value)
                     If strSalStruct.Length > 100 Or (String.IsNullOrEmpty(strSalStruct)) Then
                         Throw New Exception("Salary Structure Code can not be blank or incorrect.")
@@ -750,16 +688,13 @@ Public Class frmEmployee_Salary
                         Throw New Exception("In Screen Selected [Salary Structure Code] should be same Import Sheet.")
                     End If
                     obj.SALARY_STRUCT_CODE = strSalStruct
-
                     obj.REVISION_NO = clsEmployeeSalary.GetRevisionNo(obj.EMP_CODE) ''clsCommon.myCstr(grow.Cells("REVISION NO").Value)
-
                     Dim strDate As Date = clsCommon.myCDate(grow.Cells("Applicable Date").Value)
                     If strDate.Year < 2000 Or (String.IsNullOrEmpty(strDate)) Then
                         Throw New Exception("Applicable Date can not be blank or incorrect for Emp Id : " + clsCommon.myCstr(grow.Cells("Emp ID").Value) + "")
                     End If
                     obj.APPLICABLE_FROM = clsCommon.GetPrintDate(strDate, "dd/MMM/yyyy")
                     obj.Location_Code = clsCommon.myCstr(grow.Cells("Location_Code").Value)
-
                     ''''''''''''''''''''''''''Detail part''''''''''''''''''''''''''''''''''
                     Dim intLoop As Integer = 1
                     For Each strarr As String In arr
@@ -774,19 +709,13 @@ Public Class frmEmployee_Salary
                         ObjList.Add(obj1)
                         intLoop = intLoop + 1
                     Next
-
                     obj.SaveData(obj, ObjList, True, "")
                     EMP_SAL_Code.Add(obj.EMP_SAL_CODE)
-
                 Next
-
                 Dim UP_QRY As String = ""
-
                 UP_QRY = " UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET ISHIDDENCOMPONENT=T1.ISHIDDENCOMPONENT FROM TSPL_PAYHEAD_MASTER T1 "
                 UP_QRY += " WHERE T1.PAY_HEAD_CODE=TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE and TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE in (" & clsCommon.GetMulcallString(EMP_SAL_Code) & ") "
-
                 clsDBFuncationality.ExecuteNonQuery(UP_QRY)
-
                 UP_QRY = ""
                 UP_QRY = " UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET TSPL_EMPLOYEE_SALARY_PAYHEADS.LINE_NO=TSPL_SALSTRUCT_PAYHEADS.LINE_NO FROM " &
                          " TSPL_SALSTRUCT_PAYHEADS INNER JOIN TSPL_EMPLOYEE_SALARY " &
@@ -799,12 +728,9 @@ Public Class frmEmployee_Salary
                 'clsDBFuncationality.ExecuteNonQuery(UP_QRY)
                 'UP_QRY = String.Empty
                 'UP_QRY = " SELECT DISTINCT LINE_NO FROM TSPL_EMPLOYEE_SALARY_PAYHEADS WHERE LINE_NO IS NOT NULL AND EMP_SAL_CODE in (" & clsCommon.GetMulcallString(EMP_SAL_Code) & ")  ORDER BY LINE_NO"
-
                 'Dim dtSeq As DataTable
                 'dtSeq = clsDBFuncationality.GetDataTable(UP_QRY)
                 'UP_QRY = String.Empty
-
-
                 'For Each drSeq As DataRow In dtSeq.Rows
                 '    UP_QRY = "UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS " _
                 '            & " SET FORMULA_AMT = '(' + REPLACE(PAYHEAD_FORMULA,'[' + T5.PAY_HEAD_CODE + ']',COALESCE(T5.FORMULA_AMT, '0')) + ')*(' + CAST(RATE_AMOUNT as VARCHAR(10)) + '/100.00)' " _
@@ -817,19 +743,15 @@ Public Class frmEmployee_Salary
                 '            & " ) AS T5 " _
                 '            & " WHERE TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE = T5.EMP_SAL_CODE AND TSPL_EMPLOYEE_SALARY_PAYHEADS.LINE_NO > " & drSeq.Item("LINE_NO") & "" _
                 '            & " AND LEN(TSPL_EMPLOYEE_SALARY_PAYHEADS.PAYHEAD_FORMULA)>0  AND EMP_SAL_CODE in (" & clsCommon.GetMulcallString(EMP_SAL_Code) & ")"
-
                 '    clsDBFuncationality.GetDataTable(UP_QRY)
                 'Next
-
                 'UP_QRY = "UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET FORMULA_AMT = '0' WHERE (LTRIM(PAYHEAD_FORMULA) = '' OR PAYHEAD_FORMULA IS NULL) AND EMP_SAL_CODE in (" & clsCommon.GetMulcallString(EMP_SAL_Code) & ")"
                 'clsDBFuncationality.GetDataTable(UP_QRY)
-
                 'Dim dtSal As DataTable
                 'dtSal = clsDBFuncationality.GetDataTable("select * from TSPL_EMPLOYEE_SALARY_PAYHEADS WHERE LINE_NO IS NOT NULL and HEAD_TYPE='F' AND EMP_SAL_CODE in (" & clsCommon.GetMulcallString(EMP_SAL_Code) & ") ORDER BY EMP_SAL_CODE")
                 'For Each drSal As DataRow In dtSal.Rows
                 '    UP_QRY = "UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET FORMULA_VALUE = (select " & drSal.Item("FORMULA_AMOUNT") & ")," _
                 '    & " HEAD_VALUE=(select " & drSal.Item("PAYHEAD_FORMULA") & ") where SALARY_CALCULATION_CODE= " & drSal.Item("SALARY_CALCULATION_CODE") & ""
-
                 '    If clsDBFuncationality.ExecuteNonQuery(strq) = True Then
                 '        'Me.ProgressBar1.Value = Me.ProgressBar1.Value + 1
                 '    Else
@@ -838,11 +760,7 @@ Public Class frmEmployee_Salary
                 '        Return False
                 '        Exit Sub
                 '    End If
-
                 'Next
-
-
-
                 'strq = "UPDATE TSPL_SALARY_CALCULATION SET FORMULA_AMOUNT=0 where COALESCE(FORMULA_AMOUNT,'')='' or FORMULA_AMOUNT=''"
                 'If clsDBFuncationality.ExecuteNonQuery(strq) = True Then
                 '    'Me.ProgressBar1.Value = Me.ProgressBar1.Value + 1
@@ -857,23 +775,17 @@ Public Class frmEmployee_Salary
                 '    Return False
                 '    Exit Sub
                 'End If
-
-
-
                 clsCommon.ProgressBarHide()
                 common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
             End Try
-
         End If
         Me.Controls.Remove(gv)
-
     End Sub
     Public Function importExcelSalary(ByVal gv As RadGridView, ByVal ParamArray fieldNames As String()) As Boolean
         Try
-
             'Dim ofd As OpenFileDialog = New OpenFileDialog()
             'Dim filePath As String
             ''ofd.Filter = "Excel (*.xls;*.xlsx)|*.xls;*.xlsx"
@@ -884,16 +796,11 @@ Public Class frmEmployee_Salary
             'End If
             'Dim Extension As String = Path.GetExtension(filePath)
             'Dim conStr As String = ""
-
-
             ''Dim oApp As Excel.Application
             ''Dim oWB As Excel.Workbook
             ''oApp = New Excel.Application
             ''oWB = oApp.Workbooks.Open(filePath)
             ''MessageBox.Show(oWB.FileFormat.ToString)
-
-
-
             'Select Case Extension
             '    Case ".xls"
             '        '        'Excel 97-03 
@@ -906,20 +813,17 @@ Public Class frmEmployee_Salary
             'End Select
             ''conStr = "provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & filePath & ";Extended Properties=""Excel 8.0;HDR=NO;IMEX=1"";"
             'conStr = [String].Format(conStr, filePath)
-
             'Dim connExcel As New System.Data.OleDb.OleDbConnection(conStr)
             'Dim cmdExcel As New System.Data.OleDb.OleDbCommand()
             'Dim oda As New System.Data.OleDb.OleDbDataAdapter()
             'Dim ds As New DataTable()
             'cmdExcel.Connection = connExcel
-
             ''Get the name of First Sheet  
             'connExcel.Open()
             'Dim dtExcelSchema As DataTable
             'dtExcelSchema = connExcel.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, Nothing)
             'Dim SheetName As String = dtExcelSchema.Rows(0)("TABLE_NAME").ToString()
             'connExcel.Close()
-
             ''Read Data from First Sheet  
             'connExcel.Open()
             'cmdExcel.CommandText = "SELECT * From [" & SheetName & "]"
@@ -936,7 +840,6 @@ Public Class frmEmployee_Salary
             For Each field As String In fieldNames
                 strfields = strfields + field + ","
             Next
-
             If gv.ColumnCount > 4 Then
                 Dim i As Integer = 0
                 Dim arr As ArrayList = New ArrayList()
@@ -960,7 +863,6 @@ Public Class frmEmployee_Salary
                     End If
                     i = i + 1
                 Next
-
                 '' adding extra columns 
                 For Each payhead As String In arrExtraPayHead
                     For Each gvColumn As GridViewColumn In gv.Columns
@@ -989,42 +891,31 @@ Public Class frmEmployee_Salary
                 common.clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format. It should have the columns named - " + strfields, Me.Text)
                 Return False
             End If
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
         Return True
     End Function
-
-
     Private Sub MenuItemExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemExport.Click
         'clsCommon.MyMessageBoxShow("Option under Development !")
         If clsCommon.myLen(Me.txtSalaryStruct.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please Select any Salary Structure.", Me.Text)
             Exit Sub
         End If
-
         Dim str As String
         str = clsEmployeeSalary.ExportEmployeeSalary(Me.txtSalaryStruct.Value, Me, dtpApplicableFrom.Text)
         'transportSql.ExporttoExcelNew(str, Me)
-
     End Sub
-
     Private Sub MenuItemClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemClose.Click
         funClose()
     End Sub
     Private Sub setGridTotalRate()
         Try
-
-
             Dim intCurrRow As Integer? = Nothing
             Dim dblAmount As Double = 0
             Dim DedAmount As Double = 0
             Dim dblPayHeadAmount As Double = 0
             For ii As Integer = 0 To gvSalary.Rows.Count - 1
-
                 If (clsCommon.myLen(gvSalary.Rows(ii).Cells(colLineNo).Value) > 0) AndAlso clsCommon.CompairString(clsCommon.myCstr(gvSalary.Rows(ii).Cells(colLineNo).Value), "TOTAL") <> CompairStringResult.Equal Then
                     If clsCommon.myCstr(gvSalary.Rows(ii).Cells(colPayHeadFormula).Value) = "" Then
                         dblAmount = dblAmount + clsCommon.myCdbl(gvSalary.Rows(ii).Cells(colRateAmount).Value)
@@ -1047,25 +938,32 @@ Public Class frmEmployee_Salary
     End Sub
     Private Sub gvSalary_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSalary.CellValueChanged
         Try
+            Dim HrrCode As String = ""
+            Dim percent As String = ""
+            Dim qry As String = ""
             If Not isInsideLoadData Then
-
                 If Not isCellValueChanged Then
                     isCellValueChanged = True
                     If e.Column Is gvSalary.Columns(colRateAmount) Then
-
                         gvSalary.CurrentRow.Cells(colPAYPERIOD_Amount).Value = GetPayperiodAmount(gvSalary.CurrentRow.Index)
                         setGridTotalRate()
-
+                        For ii As Integer = 0 To gvSalary.Rows.Count - 1
+                            If (clsCommon.myLen(gvSalary.Rows(ii).Cells(colRateAmount).Value) > 0) Then
+                                If clsCommon.CompairString(clsCommon.myCstr(gvSalary.Rows(ii).Cells(colpayHeadCode).Value), "HRR") = CompairStringResult.Equal Then
+                                    HrrCode = clsDBFuncationality.getSingleValue("select  top 1 HRR_CODE from TSPL_HRR_RULE_MASTER ORDER BY Created_Date DESC ")
+                                    percent = clsDBFuncationality.getSingleValue("SELECT Percentage FROM TSPL_HRR_DETAIL WHERE HRR_CODE = '" + HrrCode + "' AND '" + clsCommon.myCstr(gvSalary.CurrentRow.Cells(colRateAmount).Value) + "' BETWEEN SLAB_FROM AND SLAB_TO")
+                                    gvSalary.Rows(ii).Cells(colRateAmount).Value = clsCommon.myCdbl(percent)
+                                End If
+                            End If
+                        Next
                     End If
                     isCellValueChanged = False
                 End If
             End If
-
         Catch ex As Exception
             isCellValueChanged = False
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
     Function GetPayperiodAmount(ByVal Rowno As Integer) As Decimal
         Dim PayPeriodAmount As Decimal = 0
@@ -1087,7 +985,6 @@ Public Class frmEmployee_Salary
         End If
         Return PayPeriodAmount
     End Function
-
     Private Sub gvSalary_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles gvSalary.DoubleClick
         If gvSalary.Rows.Count > 0 AndAlso gvSalary.CurrentColumn.Name Is gvSalary.Columns(colPayHeadFormula).Name Then
             Try
@@ -1095,7 +992,6 @@ Public Class frmEmployee_Salary
                 For kk As Int16 = 0 To gvSalary.CurrentRow.Index - 1
                     ListOp.Add(clsCommon.myCstr(gvSalary.Rows(kk).Cells(colpayHeadCode).Value))
                 Next
-
                 Dim FFS As New frmFormulaSelection
                 FFS.ListOperand = ListOp
                 FFS.OldFormula = gvSalary.CurrentRow.Cells(colPayHeadFormula).Value
@@ -1118,8 +1014,6 @@ Public Class frmEmployee_Salary
                 Dim qry As String = "select TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE from TSPL_EMPLOYEE_SALARY where TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE = '" + txtCopySalaryCode.Value + "'"
                 strCopySalaryStructureCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             End If
-
-
             Fill_salary_struct_for_Copy_Button(strCopySalaryStructureCode, NavigatorType.Current)
             '---------------------------------------------------------------------------------------------------------------------------------------------------------------
             LoadData_For_Copy(txtCopySalaryCode.Value, NavigatorType.Current)
@@ -1134,7 +1028,6 @@ Public Class frmEmployee_Salary
             UsLock1.Status = ERPTransactionStatus.Pending
         End If
     End Sub
-
     Sub Fill_salary_struct_for_Copy_Button(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Dim obj1 As clsMapPayHeadsToSalaStructure
         obj1 = clsMapPayHeadsToSalaStructure.GetData(strCode, NavTyep)
@@ -1157,7 +1050,6 @@ Public Class frmEmployee_Salary
             End If
         End If
     End Sub
-
     Public Sub LoadData_For_Copy(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         isInsideLoadData = True
         'funReset()
@@ -1166,7 +1058,6 @@ Public Class frmEmployee_Salary
         btndelete.Enabled = True
         obj = clsEmployeeSalary.GetData(strCode, NavTyep)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.SALARY_STRUCT_CODE) > 0) Then
-
             isNewEntry = False
             btnsave.Text = "Update"
             If obj.POSTED Then
@@ -1197,7 +1088,6 @@ Public Class frmEmployee_Salary
             If (clsEmployeeSalary.ObjList IsNot Nothing AndAlso clsEmployeeSalary.ObjList.Count > 0) Then
                 For Each obj1 As clsEmpSalaryPayHeadDetails In clsEmployeeSalary.ObjList
                     'gvSalary.Rows.AddNew()
-
                     'gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colLineNo).Value = obj1.Line_No
                     'gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colpayHeadCode).Value = obj1.PayHeadCode
                     'gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colpayHeadName).Value = obj1.PayHeadName
@@ -1213,7 +1103,6 @@ Public Class frmEmployee_Salary
                     ' gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colRateAmount).Value = obj1.Rate_Amount
                     ' gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colHiddenComponent).Value = obj1.IsHiddenComponent
                     ' gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colMax_Amount).Value = obj1.MAX_AMOUNT
-
                 Next
             Else
                 gvSalary.Rows.AddNew()
@@ -1224,7 +1113,6 @@ Public Class frmEmployee_Salary
         setGridTotalRate()
         isInsideLoadData = False
     End Sub
-
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
         Try
             Dim whrcls As String = Nothing
@@ -1235,6 +1123,7 @@ Public Class frmEmployee_Salary
                     whrcls = " LOCATION_CODE='" + LocCode + "'"
                 End If
             End If
+            whrcls = " Rejected_Type='N'"
             Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
             ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)

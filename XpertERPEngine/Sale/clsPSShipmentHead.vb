@@ -77,6 +77,7 @@ Public Class clsPSShipmentHead
     Public Dispatch_date As Date?
     Public Dispatch_Terms As String = Nothing
     Public Payment_Terms As String = Nothing
+    Public ReceiverName As String = Nothing
     Public Dispatch_Period As Integer = 0
     Public Vehicle_Capacity As Integer = 0
     Public Road_Permit_No As String = Nothing
@@ -820,6 +821,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Vehicle_Capacity", obj.Vehicle_Capacity)
             clsCommon.AddColumnsForChange(coll, "Dispatch_Terms", obj.Dispatch_Terms)
             clsCommon.AddColumnsForChange(coll, "Payment_Terms", obj.Payment_Terms)
+            clsCommon.AddColumnsForChange(coll, "ReceiverName", obj.ReceiverName)
             clsCommon.AddColumnsForChange(coll, "Dispatch_Period", obj.Dispatch_Period)
             clsCommon.AddColumnsForChange(coll, "Road_Permit_No", obj.Road_Permit_No)
             clsCommon.AddColumnsForChange(coll, "WayBillNo", obj.WayBillNo)

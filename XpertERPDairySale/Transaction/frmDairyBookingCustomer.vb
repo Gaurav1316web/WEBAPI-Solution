@@ -8150,6 +8150,9 @@ from
                     obj.Box = txtBox.Text
                     'obj.Against_Delivery_Code = Against_Delivery_Code 'clsDBFuncationality.getSingleValue("select Delivery_No from TSPL_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "' ", trans)
                     obj.Against_Booking_No = txtDocNo.Value
+                    obj.Payment_Terms = cmbPaymentType.Text
+                    obj.Vehicle_Manual_No = txtManualVehicle.Text
+                    obj.ReceiverName = txtReceiverName.Text
                     obj.Discount_Base = clsCommon.myCdbl(lblAmtWithDiscount.Text)
                     obj.Discount_Amt = clsCommon.myCdbl(lblDiscountAmt.Text)
                     obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
@@ -8184,7 +8187,7 @@ from
                     obj.Bill_To_Location = txtLocation.Value
                     obj.Ship_To_Location = txtShipToLocation.Value
                     obj.Trans_Type = "FS"
-                    obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
+                    'obj.Against_Delivery_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DELIVERY_NOTE_MASTER_FRESHSALE where Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
                     obj.Is_Create_Auto_Invoice = 1
                     obj.Supply_Date = txtDate.Value
@@ -8858,7 +8861,7 @@ left join TSPL_LOCATION_MASTER  on TSPL_BOOKING_MATSER.location_code=TSPL_LOCATI
 left outer join TSPL_STATE_MASTER   On TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.state 
 left join TSPL_VENDOR_MASTER on TSPL_VEHICLE_MASTER.Transport_Id=TSPL_VENDOR_MASTER.Vendor_Code
 left join TSPL_COMPANY_MASTER on TSPL_BOOKING_MATSER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code
-left join TSPL_SD_SHIPMENT_HEAD on TSPL_BOOKING_DETAIL.Delivery_No=TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_BOOKING_DETAIL.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
 left join TSPL_BATCH_ITEM on TSPL_BOOKING_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_BATCH_ITEM.Document_Code
 left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 

@@ -384,7 +384,7 @@
     <Reference Include="XpertERPParavetServices">
       <HintPath>..\XpertERPParavetServices\bin\Debug\XpertERPParavetServices.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPProcessProduction, Version=5.2.1.85, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertERPProcessProduction, Version=7.1.3.14, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPProcessProduction\bin\Debug\XpertERPProcessProduction.dll</HintPath>
     </Reference>

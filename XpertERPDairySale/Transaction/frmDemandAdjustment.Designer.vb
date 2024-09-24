@@ -58,6 +58,11 @@ Partial Class frmDemandAdjustment
         Me.rgbIncreaseOrder = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnIncrease1 = New Telerik.WinControls.UI.RadButton()
         Me.rgbIDOrder = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblFixedQty = New common.Controls.MyLabel()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.TxtFinder9 = New common.UserControls.txtFinder()
+        Me.txtFixedQty = New Telerik.WinControls.UI.RadTextBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.MyLabel18 = New common.Controls.MyLabel()
@@ -106,11 +111,6 @@ Partial Class frmDemandAdjustment
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.lblFixedQty = New common.Controls.MyLabel()
-        Me.MyLabel19 = New common.Controls.MyLabel()
-        Me.MyLabel20 = New common.Controls.MyLabel()
-        Me.TxtFinder9 = New common.UserControls.txtFinder()
-        Me.txtFixedQty = New Telerik.WinControls.UI.RadTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -149,6 +149,11 @@ Partial Class frmDemandAdjustment
         CType(Me.btnIncrease1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbIDOrder, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbIDOrder.SuspendLayout()
+        CType(Me.lblFixedQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblFixedQty.SuspendLayout()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFixedQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MyLabel16.SuspendLayout()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -197,11 +202,6 @@ Partial Class frmDemandAdjustment
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblFixedQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.lblFixedQty.SuspendLayout()
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFixedQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -672,6 +672,72 @@ Partial Class frmDemandAdjustment
         Me.rgbIDOrder.Size = New System.Drawing.Size(409, 48)
         Me.rgbIDOrder.TabIndex = 1594
         Me.rgbIDOrder.Text = "Increase/Decrease Order"
+        '
+        'lblFixedQty
+        '
+        Me.lblFixedQty.Controls.Add(Me.MyLabel19)
+        Me.lblFixedQty.Controls.Add(Me.MyLabel20)
+        Me.lblFixedQty.Controls.Add(Me.TxtFinder9)
+        Me.lblFixedQty.FieldName = Nothing
+        Me.lblFixedQty.Location = New System.Drawing.Point(278, 21)
+        Me.lblFixedQty.Name = "lblFixedQty"
+        Me.lblFixedQty.Size = New System.Drawing.Size(53, 18)
+        Me.lblFixedQty.TabIndex = 1595
+        Me.lblFixedQty.Text = "Fixed Qty"
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.AutoSize = False
+        Me.MyLabel19.BorderVisible = True
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel19.Location = New System.Drawing.Point(211, 26)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(152, 19)
+        Me.MyLabel19.TabIndex = 1542
+        Me.MyLabel19.TextWrap = False
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Location = New System.Drawing.Point(0, 24)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(54, 18)
+        Me.MyLabel20.TabIndex = 1541
+        Me.MyLabel20.Text = "Route No"
+        '
+        'TxtFinder9
+        '
+        Me.TxtFinder9.CalculationExpression = Nothing
+        Me.TxtFinder9.FieldCode = Nothing
+        Me.TxtFinder9.FieldDesc = Nothing
+        Me.TxtFinder9.FieldMaxLength = 0
+        Me.TxtFinder9.FieldName = Nothing
+        Me.TxtFinder9.isCalculatedField = False
+        Me.TxtFinder9.IsSourceFromTable = False
+        Me.TxtFinder9.IsSourceFromValueList = False
+        Me.TxtFinder9.IsUnique = False
+        Me.TxtFinder9.Location = New System.Drawing.Point(93, 26)
+        Me.TxtFinder9.MendatroryField = False
+        Me.TxtFinder9.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtFinder9.MyLinkLable1 = Me.MyLabel20
+        Me.TxtFinder9.MyLinkLable2 = Nothing
+        Me.TxtFinder9.MyReadOnly = False
+        Me.TxtFinder9.MyShowMasterFormButton = False
+        Me.TxtFinder9.Name = "TxtFinder9"
+        Me.TxtFinder9.ReferenceFieldDesc = Nothing
+        Me.TxtFinder9.ReferenceFieldName = Nothing
+        Me.TxtFinder9.ReferenceTableName = Nothing
+        Me.TxtFinder9.Size = New System.Drawing.Size(115, 19)
+        Me.TxtFinder9.TabIndex = 1540
+        Me.TxtFinder9.Value = ""
+        '
+        'txtFixedQty
+        '
+        Me.txtFixedQty.Location = New System.Drawing.Point(344, 20)
+        Me.txtFixedQty.Name = "txtFixedQty"
+        Me.txtFixedQty.Size = New System.Drawing.Size(60, 20)
+        Me.txtFixedQty.TabIndex = 1594
         '
         'MyLabel16
         '
@@ -1313,72 +1379,6 @@ Partial Class frmDemandAdjustment
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'lblFixedQty
-        '
-        Me.lblFixedQty.Controls.Add(Me.MyLabel19)
-        Me.lblFixedQty.Controls.Add(Me.MyLabel20)
-        Me.lblFixedQty.Controls.Add(Me.TxtFinder9)
-        Me.lblFixedQty.FieldName = Nothing
-        Me.lblFixedQty.Location = New System.Drawing.Point(278, 21)
-        Me.lblFixedQty.Name = "lblFixedQty"
-        Me.lblFixedQty.Size = New System.Drawing.Size(53, 18)
-        Me.lblFixedQty.TabIndex = 1595
-        Me.lblFixedQty.Text = "Fixed Qty"
-        '
-        'MyLabel19
-        '
-        Me.MyLabel19.AutoSize = False
-        Me.MyLabel19.BorderVisible = True
-        Me.MyLabel19.FieldName = Nothing
-        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel19.Location = New System.Drawing.Point(211, 26)
-        Me.MyLabel19.Name = "MyLabel19"
-        Me.MyLabel19.Size = New System.Drawing.Size(152, 19)
-        Me.MyLabel19.TabIndex = 1542
-        Me.MyLabel19.TextWrap = False
-        '
-        'MyLabel20
-        '
-        Me.MyLabel20.FieldName = Nothing
-        Me.MyLabel20.Location = New System.Drawing.Point(0, 24)
-        Me.MyLabel20.Name = "MyLabel20"
-        Me.MyLabel20.Size = New System.Drawing.Size(54, 18)
-        Me.MyLabel20.TabIndex = 1541
-        Me.MyLabel20.Text = "Route No"
-        '
-        'TxtFinder9
-        '
-        Me.TxtFinder9.CalculationExpression = Nothing
-        Me.TxtFinder9.FieldCode = Nothing
-        Me.TxtFinder9.FieldDesc = Nothing
-        Me.TxtFinder9.FieldMaxLength = 0
-        Me.TxtFinder9.FieldName = Nothing
-        Me.TxtFinder9.isCalculatedField = False
-        Me.TxtFinder9.IsSourceFromTable = False
-        Me.TxtFinder9.IsSourceFromValueList = False
-        Me.TxtFinder9.IsUnique = False
-        Me.TxtFinder9.Location = New System.Drawing.Point(93, 26)
-        Me.TxtFinder9.MendatroryField = False
-        Me.TxtFinder9.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtFinder9.MyLinkLable1 = Me.MyLabel20
-        Me.TxtFinder9.MyLinkLable2 = Nothing
-        Me.TxtFinder9.MyReadOnly = False
-        Me.TxtFinder9.MyShowMasterFormButton = False
-        Me.TxtFinder9.Name = "TxtFinder9"
-        Me.TxtFinder9.ReferenceFieldDesc = Nothing
-        Me.TxtFinder9.ReferenceFieldName = Nothing
-        Me.TxtFinder9.ReferenceTableName = Nothing
-        Me.TxtFinder9.Size = New System.Drawing.Size(115, 19)
-        Me.TxtFinder9.TabIndex = 1540
-        Me.TxtFinder9.Value = ""
-        '
-        'txtFixedQty
-        '
-        Me.txtFixedQty.Location = New System.Drawing.Point(344, 20)
-        Me.txtFixedQty.Name = "txtFixedQty"
-        Me.txtFixedQty.Size = New System.Drawing.Size(60, 20)
-        Me.txtFixedQty.TabIndex = 1594
-        '
         'frmDemandAdjustment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1436,6 +1436,12 @@ Partial Class frmDemandAdjustment
         CType(Me.rgbIDOrder, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbIDOrder.ResumeLayout(False)
         Me.rgbIDOrder.PerformLayout()
+        CType(Me.lblFixedQty, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.lblFixedQty.ResumeLayout(False)
+        Me.lblFixedQty.PerformLayout()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFixedQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MyLabel16.ResumeLayout(False)
         Me.MyLabel16.PerformLayout()
@@ -1491,12 +1497,6 @@ Partial Class frmDemandAdjustment
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblFixedQty, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.lblFixedQty.ResumeLayout(False)
-        Me.lblFixedQty.PerformLayout()
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFixedQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -226,6 +226,7 @@ Partial Class FrmTransferKDIL
         Me.radExportTransferIn = New Telerik.WinControls.UI.RadMenuItem()
         Me.radImportTransferOut = New Telerik.WinControls.UI.RadMenuItem()
         Me.radImportTransferIn = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkJobWorkTransfer = New Telerik.WinControls.UI.RadCheckBox()
         Me.pnlRMDA.SuspendLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
@@ -403,6 +404,7 @@ Partial Class FrmTransferKDIL
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkJobWorkTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1215,6 +1217,7 @@ Partial Class FrmTransferKDIL
         Me.gv1.Size = New System.Drawing.Size(1226, 69)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadLabel7
         '
@@ -1417,6 +1420,7 @@ Partial Class FrmTransferKDIL
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkJobWorkTransfer)
         Me.RadPageViewPage1.Controls.Add(Me.chkProductionRequest)
         Me.RadPageViewPage1.Controls.Add(Me.fndPriceCode)
         Me.RadPageViewPage1.Controls.Add(Me.lblpricecode)
@@ -3200,6 +3204,7 @@ Partial Class FrmTransferKDIL
         Me.gv2.Size = New System.Drawing.Size(1246, 246)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'pvpCustomFields
         '
@@ -3369,6 +3374,16 @@ Partial Class FrmTransferKDIL
         '
         Me.radImportTransferIn.Name = "radImportTransferIn"
         Me.radImportTransferIn.Text = "Import Transfer In"
+        '
+        'chkJobWorkTransfer
+        '
+        Me.chkJobWorkTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkJobWorkTransfer.Location = New System.Drawing.Point(1138, 66)
+        Me.chkJobWorkTransfer.Name = "chkJobWorkTransfer"
+        Me.chkJobWorkTransfer.Size = New System.Drawing.Size(113, 16)
+        Me.chkJobWorkTransfer.TabIndex = 1477
+        Me.chkJobWorkTransfer.Text = "Job Work Transfer"
+        Me.chkJobWorkTransfer.Visible = False
         '
         'FrmTransferKDIL
         '
@@ -3572,6 +3587,7 @@ Partial Class FrmTransferKDIL
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkJobWorkTransfer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3771,5 +3787,6 @@ Partial Class FrmTransferKDIL
     Friend WithEvents btnSTAPrint As RadButton
     Friend WithEvents btnSTAMilkPrint As RadButton
     Friend WithEvents btnSTAProductPrint As RadButton
+    Friend WithEvents chkJobWorkTransfer As RadCheckBox
 End Class
 
