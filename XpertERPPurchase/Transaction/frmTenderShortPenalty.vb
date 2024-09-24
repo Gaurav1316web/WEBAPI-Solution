@@ -17,6 +17,7 @@ Public Class frmTenderShortPenalty
     Dim isLoad As Boolean = False
     Dim IsSecurity As Integer = 0
     Dim IsPenalty As Integer = 0
+    Dim qryy As String
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -40,7 +41,13 @@ Public Class frmTenderShortPenalty
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
         ButtonToolTip.SetToolTip(BtnCancel, "Press Alt+L Cancel The Trasnaction")
-
+        If clsCommon.CompairString(objCommonVar.CurrentUser, "Administrator") = CompairStringResult.Equal Then
+            SRN_PI.Visible = True
+            txtSRN_PI.Visible = True
+        Else
+            SRN_PI.Visible = False
+            txtSRN_PI.Visible = False
+        End If
         AddNew()
         SetLength()
         If clsCommon.myLen(Me.Tag) > 0 Then
@@ -844,5 +851,17 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
+    End Sub
+
+    Private Sub txtSRN_PI__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSRN_PI._MYValidating
+        Dim qryy As String = "SELECT TSPL_TENDER_PENALTY.Document_No,TSPL_TENDER_PENALTY.Document_Date,TSPL_TENDER_PENALTY.Tender_No, TSPL_TENDER_PENALTY.Location_Code as Location, TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_TENDER_PENALTY.Vendor_Code as Vendor,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_PENALTY.Item_Code as Item, TSPL_ITEM_MASTER.Item_Desc as ItemName,TSPL_TENDER_PENALTY.Remarks,case when TSPL_TENDER_PENALTY.Status='0' then 'Pending' else 'Approved' end as [Status],TSPL_PI_HEAD.PI_No,TSPL_TENDER_PENALTY_DETAIL.SRN_No 
+                FROM TSPL_TENDER_PENALTY 
+                left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_TENDER_PENALTY.Location_Code 
+                left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_TENDER_PENALTY.Vendor_Code 
+                left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENALTY.Item_Code
+                left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.Document_No=TSPL_TENDER_PENALTY.Document_No
+                left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.Against_SRN=TSPL_TENDER_PENALTY_DETAIL.SRN_No"
+        Dim whr As String = " TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "' and  TSPL_ITEM_MASTER.Item_Code='" + txtItem.Value + "' and TSPL_TENDER_PENALTY.Tender_No='" + txtTenderNo.Value + "'  and TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "' "
+        txtSRN_PI.Value = clsCommon.ShowSelectForm("Transporter@PI", qryy, "Document_No", whr, txtSRN_PI.Value, "", isButtonClicked)
     End Sub
 End Class

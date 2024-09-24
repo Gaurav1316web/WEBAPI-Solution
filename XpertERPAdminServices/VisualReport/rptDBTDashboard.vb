@@ -96,15 +96,14 @@ Public Class rptDBTDashboard
                     End If
 
                     query += " SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_Person) as [Union Contact Person],max([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER.Union_Contact_PhoneNo) as [Union Contact Phone No],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
-                                    COUNT(DISTINCT X.MP_Code) AS [No of Farmer],
+                                    COUNT(DISTINCT mm.MP_Code) AS [No of Farmer],
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS [Jan Aadhar Verified No],
 									 COALESCE(SUM(CASE WHEN ISNULL(mm.Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS [Aadhar Verified],
 									  (SELECT  CONVERT(varchar, MAX(From_Date), 23) + ' - ' +  CONVERT(varchar, MAX(To_Date), 23) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE 2=2 " + status1 + " ) AS [Last DBT Cycle],
 									  (select MAX(Post_By) from [RCDF].[dbo].TSPL_DBT_NEFT_RCDF where DB_Name='" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "' " + status2 + " ) as [Last DBT Approved by RCDF],
 									  (SELECT MAX(Post_Date) FROM [RCDF].[dbo].TSPL_DBT_NEFT_RCDF where DB_Name='" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "' " + status2 + ") as [Last DBT App. Month]
-                                FROM (SELECT MP_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL GROUP BY MP_Code  ) X
-                                left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm ON mm.MP_Code = X.MP_Code
-							   left  join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 2=2"
+                                FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm 
+							   left  join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_COMPANY_MASTER on 2=2 where mm.Active=0"
 
                 Next
                 dtJanAdh = clsDBFuncationality.GetDataTable(query)

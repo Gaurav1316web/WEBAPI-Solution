@@ -3791,7 +3791,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                 " left join TSPL_Customer_Invoice_Head on TSPL_SD_SALE_RETURN_HEAD.Document_Code=  case when len(isnull(TSPL_Customer_Invoice_Head.Against_Sale_Return_No,''))>0  then TSPL_Customer_Invoice_Head.Against_Sale_Return_No else TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return end " &
                                 " left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code " &
                                 " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
-                                " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code " &
+                                "  " &
                                 " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code " &
                                 " LEFT JOIN TSPL_TAX_MASTER TAXM1 ON TSPL_SD_SALE_RETURN_DETAIL.TAX1=TAXM1.TAX_CODE " &
                                 " LEFT JOIN TSPL_TAX_MASTER TAXM2 ON TSPL_SD_SALE_RETURN_DETAIL.TAX2=TAXM2.TAX_CODE " &
@@ -5002,7 +5002,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " &
                                " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
                                " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " &
-                               " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code " &
+                               "  " &
                                " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " &
                                " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " &
                                " LEFT JOIN TSPL_EX_COMMERCIAL_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Against_Com_Inv_No=TSPL_EX_COMMERCIAL_INVOICE_HEAD.Document_Code " &
@@ -5461,8 +5461,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " &
                            " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
                            " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " &
-                           " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code " &
-                           " left join TSPL_DELIVERY_NOTE_Detail_FRESHSALE on TSPL_DELIVERY_NOTE_Detail_FRESHSALE.document_no=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_no  and TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Item_Code =TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " &
+                           " " &
                            " left join tspl_item_price_master on tspl_item_price_master.Item_Price_ID in (Select  Item_Price_ID from  ( " &
                            " Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
                            " Start_Date Desc) as RowNo, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
@@ -5837,7 +5836,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                             " left join TSPL_Customer_Invoice_Head on TSPL_SD_SALE_RETURN_HEAD.Document_Code=  case when len(isnull(TSPL_Customer_Invoice_Head.Against_Sale_Return_No,''))>0  then TSPL_Customer_Invoice_Head.Against_Sale_Return_No else TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return end " &
                             " left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code " &
                             " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
-                            " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code " &
+                            "  " &
                             " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code WHERE 2=2 " &
                             " AND (case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='FS' then 'Fresh Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='CSA' then 'CSA Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' then 'Product Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'MCC Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='EXP' then 'Export Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='SS' then 'Misc Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type in ('SD','All') then 'General Sale Return' else TSPL_SD_SALE_RETURN_HEAD.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                             " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
@@ -6905,26 +6904,25 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                             "case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Modify_By  when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Modify_By else '' end  as Modify_By , " & _
                             " case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Modify_date when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Modify_Date else NULL end  as Modify_date ,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,tspl_sd_sale_invoice_detail.Sampling,tspl_sd_sale_invoice_detail.Scheme_Item ,"
 
-        strSDEndQry = " from TSPL_SD_SALE_INVOICE_DETAIL " & _
-                           " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " & _
-                           " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " & _
-                           " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & _
-                           " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code " & _
-                           " left join TSPL_DELIVERY_NOTE_Detail_FRESHSALE on TSPL_DELIVERY_NOTE_Detail_FRESHSALE.document_no=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_no  and TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Item_Code =TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & _
-                           " left join tspl_item_price_master on tspl_item_price_master.Item_Price_ID in (Select  Item_Price_ID from  ( " & _
-                           " Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " & _
-                           " Start_Date Desc) as RowNo, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " & _
-                           " Item_Basic_Price,Item_Basic_Net,Price_Code from TSPL_ITEM_PRICE_MASTER  left  outer join " & _
-                           " TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " & _
-                           " TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date and  " & _
-                           " TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Price_code and UOM=TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Unit_code and TSPL_ITEM_PRICE_MASTER.item_code=TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Item_Code AND Location_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code ) XXXE WHERE RowNo=1  )" & _
-                           " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " & _
-                           " left join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code =TSPL_SD_SHIPMENT_head.Delivery_Code_ps " & _
-                           " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " & _
-                           " where  2=2 " & _
-                           " and (case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='FS' then 'Fresh Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' then 'Product Sale' " & _
-                           " when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='MCC' then 'MCC Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.Document_Type <>'MT' then 'Export Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.Document_Type ='MT' then 'Merchant Trade' WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='SD' then 'General Sale' " & _
-                           " else  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDEndQry = " from TSPL_SD_SALE_INVOICE_DETAIL " &
+                           " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " &
+                           " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
+                           " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " &
+                           "  " &
+                           " left join tspl_item_price_master on tspl_item_price_master.Item_Price_ID in (Select  Item_Price_ID from  ( " &
+                           " Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
+                           " Start_Date Desc) as RowNo, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
+                           " Item_Basic_Price,Item_Basic_Net,Price_Code from TSPL_ITEM_PRICE_MASTER  left  outer join " &
+                           " TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
+                           " TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date and  " &
+                           " TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Price_code and UOM=TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Unit_code and TSPL_ITEM_PRICE_MASTER.item_code=TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Item_Code AND Location_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code ) XXXE WHERE RowNo=1  )" &
+                           " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " &
+                           " left join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code =TSPL_SD_SHIPMENT_head.Delivery_Code_ps " &
+                           " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " &
+                           " where  2=2 " &
+                           " and (case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='FS' then 'Fresh Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' then 'Product Sale' " &
+                           " when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='MCC' then 'MCC Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.Document_Type <>'MT' then 'Export Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.Document_Type ='MT' then 'Merchant Trade' WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='SD' then 'General Sale' " &
+                           " else  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                            " and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         '' filter conditions
@@ -7269,15 +7267,15 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                           " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " & _
                           " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No as [Booking No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modify_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,"
-        strSDEndQry = " from TSPL_SD_SALE_RETURN_DETAIL " & _
-                            " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE " & _
-                            " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_RETURN_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " & _
-                            " left join TSPL_Customer_Invoice_Head on TSPL_SD_SALE_RETURN_HEAD.Document_Code=  case when len(isnull(TSPL_Customer_Invoice_Head.Against_Sale_Return_No,''))>0  then TSPL_Customer_Invoice_Head.Against_Sale_Return_No else TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return end " & _
-                            " left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code " & _
-                            " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " & _
-                            " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code " & _
-                            " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code WHERE 2=2 " & _
-                            " AND (case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='FS' then 'Fresh Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='CSA' then 'CSA Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' then 'Product Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'MCC Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='EXP' then 'Export Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='SS' then 'Misc Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type in ('SD','All') then 'General Sale Return' else TSPL_SD_SALE_RETURN_HEAD.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDEndQry = " from TSPL_SD_SALE_RETURN_DETAIL " &
+                            " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE " &
+                            " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_RETURN_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
+                            " left join TSPL_Customer_Invoice_Head on TSPL_SD_SALE_RETURN_HEAD.Document_Code=  case when len(isnull(TSPL_Customer_Invoice_Head.Against_Sale_Return_No,''))>0  then TSPL_Customer_Invoice_Head.Against_Sale_Return_No else TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return end " &
+                            " left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code " &
+                            " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
+                            "  " &
+                            " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code WHERE 2=2 " &
+                            " AND (case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='FS' then 'Fresh Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='CSA' then 'CSA Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' then 'Product Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'MCC Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='EXP' then 'Export Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='SS' then 'Misc Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type in ('SD','All') then 'General Sale Return' else TSPL_SD_SALE_RETURN_HEAD.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                             " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         '' filter conditions
@@ -7897,12 +7895,12 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                            " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
                            " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],tspl_sd_shipment_head.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code],case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no as [Booking No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Amount as [Cash Scheme Amount], TSPL_SD_SALE_INVOICE_DETAIL.Price_code as [Price Code],'' as Created_By,'' as Modify_By ,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,tspl_sd_sale_invoice_detail.Sampling,tspl_sd_sale_invoice_detail.Scheme_Item ,"
 
-        strSDEndQry = " from TSPL_SD_SALE_INVOICE_DETAIL " & _
-                           " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " & _
-                           " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " & _
-                           " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & _
-                           " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code " & _
-                           " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " & _
+        strSDEndQry = " from TSPL_SD_SALE_INVOICE_DETAIL " &
+                           " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " &
+                           " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
+                           " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " &
+                           " " &
+                           " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " &
                            " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code "
 
         strSDJoinQry = "  where  2=2 " & _
@@ -8295,15 +8293,15 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                           " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " & _
                           " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No as [Booking No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Created_By ,'' as Modify_By,NULL as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,"
-        strSDEndQry = " from TSPL_SD_SALE_RETURN_DETAIL " & _
-                            " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE " & _
-                            " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_RETURN_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " & _
-                            " left join TSPL_Customer_Invoice_Head on TSPL_SD_SALE_RETURN_HEAD.Document_Code=  case when len(isnull(TSPL_Customer_Invoice_Head.Against_Sale_Return_No,''))>0  then TSPL_Customer_Invoice_Head.Against_Sale_Return_No else TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return end " & _
-                            " left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code " & _
-                            " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " & _
-                            " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No = TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code " & _
+        strSDEndQry = " from TSPL_SD_SALE_RETURN_DETAIL " &
+                            " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE " &
+                            " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_RETURN_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
+                            " left join TSPL_Customer_Invoice_Head on TSPL_SD_SALE_RETURN_HEAD.Document_Code=  case when len(isnull(TSPL_Customer_Invoice_Head.Against_Sale_Return_No,''))>0  then TSPL_Customer_Invoice_Head.Against_Sale_Return_No else TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return end " &
+                            " left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code " &
+                            " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
+                            "  " &
                             " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code "
- _
+
         strSDJoinQry = " WHERE 2=2 AND (case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='FS' then 'Fresh Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='CSA' then 'CSA Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' then 'Product Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'MCC Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='EXP' then 'Export Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='SS' then 'Misc Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type in ('SD','All') then 'General Sale Return' else TSPL_SD_SALE_RETURN_HEAD.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
                         " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 

@@ -283,20 +283,27 @@ Public Class frmDemandHistory
                 LoadBlankGrid()
                 Dim dblrows As Integer = 0
                 Dim dblAmt As Decimal = 0
+                Dim str As String = ""
+                Dim lststr As New List(Of String)
+                Dim isNewRow As Boolean = True
                 For Each obj As clsDemandHistoryMaster In lstobj
+                    If isNewRow Then
+                        gv1.Rows(dblrows).Cells(colSLNo).Value = dblrows + 1
+                        gv1.Rows(dblrows).Cells(colHistVer).Value = obj.History_Version
+                        gv1.Rows(dblrows).Cells(colDemandNo).Value = obj.Demand_No
+                        gv1.Rows(dblrows).Cells(colDocumentNo).Value = obj.Document_No
+                        gv1.Rows(dblrows).Cells(colRouteNo).Value = obj.Route_No
+                        gv1.Rows(dblrows).Cells(colCustCode).Value = obj.Cust_Code
+                        gv1.Rows(dblrows).Cells(colCustName).Value = obj.Cust_Name
+                        gv1.Rows(dblrows).Cells(colShiftName).Value = obj.ShiftType
+                        ' gv1.Rows(dblrows).Cells(colHistBy).Value = obj.History_By
+                        gv1.Rows(dblrows).Cells(colHistOn).Value = obj.History_ON
 
-                    gv1.Rows(dblrows).Cells(colSLNo).Value = dblrows + 1
-                    gv1.Rows(dblrows).Cells(colHistVer).Value = obj.History_Version
-                    gv1.Rows(dblrows).Cells(colDemandNo).Value = obj.Demand_No
-                    gv1.Rows(dblrows).Cells(colDocumentNo).Value = obj.Document_No
-                    gv1.Rows(dblrows).Cells(colRouteNo).Value = obj.Route_No
-                    gv1.Rows(dblrows).Cells(colCustCode).Value = obj.Cust_Code
-                    gv1.Rows(dblrows).Cells(colCustName).Value = obj.Cust_Name
-                    gv1.Rows(dblrows).Cells(colShiftName).Value = obj.ShiftType
-                    gv1.Rows(dblrows).Cells(colHistBy).Value = obj.History_By
-                    gv1.Rows(dblrows).Cells(colHistOn).Value = obj.History_ON
+                    End If
+                    isNewRow = False
 
                     If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+
                         For Each objTr As clsDemandHistoryDetail In obj.Arr
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
@@ -304,7 +311,13 @@ Public Class frmDemandHistory
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_Code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
-                                        gv1.Rows(dblrows).Cells(columns).Value = clsCommon.myCDecimal(objTr.Qty)
+                                        str = objTr.Item_Code + "~" + objTr.Unit_Code + "~" + clsCommon.myCstr(objTr.Qty)
+                                        If Not lststr.Contains(str) Then
+                                            gv1.Rows(dblrows).Cells(columns).Value = clsCommon.myCDecimal(objTr.Qty)
+                                            gv1.Rows(dblrows).Cells(colHistBy).Value = objTr.Hist_By
+                                            lststr.Add(str)
+                                            isNewRow = True
+                                        End If
                                     End If
                                     dblAmt = objTr.Amount
                                 Next
@@ -312,9 +325,12 @@ Public Class frmDemandHistory
                             End If
                         Next
                     End If
-                    gv1.Rows(dblrows).Cells(colAmt).Value = dblAmt
-                    dblrows += 1
-                    gv1.Rows.AddNew()
+                    If isNewRow Then
+                        gv1.Rows(dblrows).Cells(colAmt).Value = dblAmt
+                        dblrows += 1
+
+                        gv1.Rows.AddNew()
+                    End If
 
                 Next
 

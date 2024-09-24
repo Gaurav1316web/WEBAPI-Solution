@@ -4610,14 +4610,14 @@ a:      Next
 
         Dim qry As String = "select xx.VSP_CODE as Code,TSPL_VENDOR_MASTER.Vendor_Name as Name,xx.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,xx.ROUTE_CODE,TSPL_MCC_ROUTE_MASTER.Route_Name from (" + Environment.NewLine +
             " select VSP_CODE,max(VLC_CODE)as VLC_CODE,ROUTE_CODE from (" + Environment.NewLine +
-            " select VSP_CODE,VLC_CODE as VLC_CODE,ROUTE_CODE from TSPL_MILK_SRN_Head where 2=2  " + Environment.NewLine
-
-        qry += " and MCC_CODE in (" + clsCommon.GetMulcallString(arrMCC) + ")"
-
+            " select TSPL_MILK_SRN_Head.VSP_CODE,TSPL_MILK_SRN_Head.VLC_CODE as VLC_CODE,TSPL_MILK_SRN_Head.ROUTE_CODE 
+ from TSPL_MILK_SRN_Head 
+ inner join TSPL_VLC_MASTER_HEAD on tspl_vlc_master_head.vlc_code=TSPL_MILK_SRN_Head.vlc_code where 2=2  " + Environment.NewLine
+        qry += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(arrMCC) + ")"
         If Not isPickPendingMilkSRNinNextPaymentCycle Then
-            qry += " and DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "'"
+            qry += " and TSPL_MILK_SRN_Head.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "'"
         End If
-        qry += " and DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine +
+        qry += " and TSPL_MILK_SRN_Head.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine +
         " )x group by VSP_CODE,ROUTE_CODE " + Environment.NewLine
         If arrVSP IsNot Nothing AndAlso arrVSP.Count > 0 Then
             qry += " having VSP_CODE in (" + clsCommon.GetMulcallString(arrVSP) + ") "

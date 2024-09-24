@@ -70,17 +70,39 @@ Public Class rptHeadLoadReport
             If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
                 wherecls += " and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arrMCC) + ") "
             End If
-            qry = " select ROW_NUMBER() over(order by ([VLC_Code_VLC_Uploader])) as 'SNo',max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) As [DCS Code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) As [DCS Name],Sum(TSPL_MILK_SRN_DETAIL.Qty) As [Milk Qty],Convert(decimal(18,2),Sum(TSPL_MILK_SRN_DETAIL.AMOUNT)) As [Milk Amount],Sum(TSPL_MILK_SRN_DETAIL.Head_Load_Amount) as[Head Load Amount] from TSPL_MILK_SRN_DETAIL
+            qry = " select ROW_NUMBER() over(order by ([VLC_Code_VLC_Uploader])) as 'SNo',max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) As [DCS Code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) As [DCS Name] "
+            If chkRoute.Checked = True Then
+                qry += " ,max(RATE)RATE,(TSPL_MCC_MASTER.mcc_code_vlc_uploader)ROUTE_CODE,max(Route_Desc)Route_Desc,  MAX(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,MAX(TSPL_COMPANY_MASTER.ADD1)ADD1,MAX(TSPL_COMPANY_MASTER.ADD2)ADD2,MAX(TSPL_COMPANY_MASTER.ADD3)ADD3,MAX(TSPL_COMPANY_MASTER.Pincode)Pincode, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader"
+            End If
+            qry += " ,Sum(TSPL_MILK_SRN_DETAIL.Qty) As [Milk Qty],Convert(decimal(18,2),Sum(TSPL_MILK_SRN_DETAIL.AMOUNT)) As [Milk Amount],Sum(TSPL_MILK_SRN_DETAIL.Head_Load_Amount) as[Head Load Amount] From TSPL_MILK_SRN_DETAIL
               Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE  
               Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE 
-              Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE  where  Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + wherecls + "
-                group by  TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
-                order by VLC_Code_VLC_Uploader"
+              Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE "
+            If chkRoute.Checked = True Then
+                qry += "  left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_MILK_SRN_HEAD.ROUTE_CODE
+             left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_SRN_HEAD.Comp_Code"
+            End If
+            qry += " where  Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + wherecls + "
+                group by  TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
+            If chkRoute.Checked = True Then
+                qry += " ,TSPL_MCC_MASTER.mcc_code_vlc_uploader,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader HAVING 
+    SUM(TSPL_MILK_SRN_DETAIL.Head_Load_Amount) <> 0"
+            End If
 
+            If chkRoute.Checked = True Then
+                qry += "order by CAST (TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader AS int) "
+            Else
+                qry += " order by VLC_Code_VLC_Uploader"
+            End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
+                If chkRoute.Checked = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptRouteWiseHeadLoad", "Route Wise Head Load")
+                    frmCRV = Nothing
+                End If
                 Gv1.DataSource = Nothing
                 Gv1.Rows.Clear()
                 Gv1.Columns.Clear()
@@ -138,7 +160,17 @@ Public Class rptHeadLoadReport
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
         Next
+        If chkRoute.Checked = True Then
 
+
+            Gv1.Columns("Comp_Name").IsVisible = False
+            Gv1.Columns("Route_desc").IsVisible = False
+            Gv1.Columns("ADD1").IsVisible = False
+            Gv1.Columns("ADD2").IsVisible = False
+            Gv1.Columns("ADD3").IsVisible = False
+            Gv1.Columns("Pincode").IsVisible = False
+            Gv1.Columns("Mcc_Code_Vlc_Uploader").IsVisible = False
+        End If
         Gv1.Columns("Milk Qty").FormatString = "{0:n2}"
         Gv1.Columns("Milk Amount").FormatString = "{0:n2}"
         Gv1.Columns("Head Load Amount").FormatString = "{0:n2}"

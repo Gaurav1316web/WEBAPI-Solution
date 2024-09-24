@@ -55,6 +55,8 @@ Public Class clsInventoryMovement
     Public PI_Cost As Decimal
     Public Item_Status As String
     Public Assmbly_Status As String
+    Public Ref_ID_Type As String
+    Public Ref_ID As Integer
     Public Shared Function DeepCopyObject(ByVal obj As clsInventoryMovement) As clsInventoryMovement
         Dim objNew As clsInventoryMovement = New clsInventoryMovement()
         objNew.Trans_Type = obj.Trans_Type
@@ -358,6 +360,8 @@ Public Class clsInventoryMovement
                     clsCommon.AddColumnsForChange(coll, "Inventory_CrAcc", obj.Inventory_CrAcc, True)
                     clsCommon.AddColumnsForChange(coll, "Inventory_DrAcc", obj.Inventory_DrAcc, True)
                     ''======================================================================================
+                    clsCommon.AddColumnsForChange(coll, "Ref_ID_Type", obj.Ref_ID_Type, True)
+                    clsCommon.AddColumnsForChange(coll, "Ref_ID", obj.Ref_ID, True)
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVENTORY_MOVEMENT", OMInsertOrUpdate.Insert, "", trans)
                     If obj.Ref_Line_No > 0 Then ''for special condition,where on screen line no is not refreshed ,so pass line no in obj,otherwise incremented default line no applied.
                         LineNo = obj.Ref_Line_No

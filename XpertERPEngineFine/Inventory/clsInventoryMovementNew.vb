@@ -63,6 +63,9 @@ Public Class clsInventoryMovementNew
     Public PI_Cost As Decimal
     Public Item_Status As String
     Public Assmbly_Status As String
+
+    Public Ref_ID_Type As String
+    Public Ref_ID As Integer
 #End Region
 
     Public Shared Function DeepCopyObject(ByVal obj As clsInventoryMovementNew) As clsInventoryMovementNew
@@ -276,6 +279,7 @@ Public Class clsInventoryMovementNew
                     clsCommon.AddColumnsForChange(coll, "Punching_Date", clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy hh:mm tt"))
                 End If
 
+
                 clsCommon.AddColumnsForChange(coll, "fat_per", obj.FAT_Per)
                 clsCommon.AddColumnsForChange(coll, "snf_per", obj.SNF_Per)
                 clsCommon.AddColumnsForChange(coll, "fat_kg", obj.FAT_KG)
@@ -421,7 +425,9 @@ Public Class clsInventoryMovementNew
                 clsCommon.AddColumnsForChange(coll, "Is_Scheme_Item", obj.Is_Scheme_Item, True)
                 clsCommon.AddColumnsForChange(coll, "Inventory_CrAcc", obj.Inventory_CrAcc, True)
                 clsCommon.AddColumnsForChange(coll, "Inventory_DrAcc", obj.Inventory_DrAcc, True)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVENTORY_MOVEMENT_new", OMInsertOrUpdate.Insert, "", trans)
+                clsCommon.AddColumnsForChange(coll, "Ref_ID_Type", obj.Ref_ID_Type, True)
+                clsCommon.AddColumnsForChange(coll, "Ref_ID", obj.Ref_ID, True)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVENTORY_MOVEMENT_NEW", OMInsertOrUpdate.Insert, "", trans)
                 If obj.Ref_Line_No > 0 Then ''for special condition,where on screen line no is not refreshed ,so pass line no in obj,otherwise incremented default line no applied.
                     LineNo = obj.Ref_Line_No
                 End If
