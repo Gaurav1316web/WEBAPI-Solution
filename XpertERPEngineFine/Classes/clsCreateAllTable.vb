@@ -14851,6 +14851,8 @@ Public Class clsCreateAllTable
             coll.Add("Inventory_DrAcc", "varchar(50) NULL ")
             coll.Add("Inventory_CrAcc", "varchar(50) NULL ")
             coll.Add("Is_Scheme_Item", "char(1) null")
+            coll.Add("Ref_ID_Type", "Varchar(3) null")
+            coll.Add("Ref_ID", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVENTORY_MOVEMENT", coll, Nothing, True, False, "", "Trans_Id", "Posting_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -18482,7 +18484,8 @@ Public Class clsCreateAllTable
             coll.Add("Tare_Weight_Manual_Date", "Datetime  NULL")
             coll.Add("Gross_Weight_Manual_By", "varchar(12)  NULL")
             coll.Add("Gross_Weight_Manual_Date", "Datetime  NULL")
-
+            coll.Add("Extra_Weight", "Decimal(18,2) NULL")
+            coll.Add("Material_Weight", "Decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)
@@ -18495,6 +18498,15 @@ Public Class clsCreateAllTable
             coll.Add("Rate", "Decimal(18,2) null")
             coll.Add("Amount", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN_ITEM", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "Varchar(30) not null references TSPL_RCDF_LOAD_IN(Document_Code)")
+            coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("UOM", "varchar(12) NULL")
+            coll.Add("Qty", "Decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN_GUNNY", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("UnApplied_Balance", "decimal(18,2) null")

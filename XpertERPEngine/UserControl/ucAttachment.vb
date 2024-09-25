@@ -97,24 +97,24 @@ Public Class ucAttachment
                         If RunServiceForUploadFolder Then
                             FileNo = clsAttachDocument.UploadWithHttpRequest(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName, Form_ID, Transaction_ID)
                         End If
+
+                        Dim bData As Byte()
+                        Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value)))
+                        bData = br.ReadBytes(br.BaseStream.Length)
+
+                        str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData "
                         If FileNo > 0 Then
-                            Dim bData As Byte()
-                            Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value)))
-                            bData = br.ReadBytes(br.BaseStream.Length)
-
-                            str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData "
-                            If FileNo > 0 Then
-                                str += " ,FILE_INFO=" + clsCommon.myCstr(FileNo) + ""
-                            End If
-                            str += " where CODE='" + obj.CODE + "'"
-
-                            Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
-                            Dim prm As New SqlParameter("@BLOBData", bData)
-                            cmd.Transaction = trans
-                            cmd.Parameters.Add(prm)
-                            cmd.ExecuteNonQuery()
-                            br.Close() ' done by stuti reagrding memory leakage
+                            str += " ,FILE_INFO=" + clsCommon.myCstr(FileNo) + ""
                         End If
+                        str += " where CODE='" + obj.CODE + "'"
+
+                        Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
+                        Dim prm As New SqlParameter("@BLOBData", bData)
+                        cmd.Transaction = trans
+                        cmd.Parameters.Add(prm)
+                        cmd.ExecuteNonQuery()
+                        br.Close() ' done by stuti reagrding memory leakage
+
                     End If
                 End If
             Next
