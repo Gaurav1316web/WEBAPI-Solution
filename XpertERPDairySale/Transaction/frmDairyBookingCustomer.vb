@@ -1748,7 +1748,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             Dim dblCustDiscPercentage As Double = 0
             Dim dblApplyCustDisc As Double = 0
             Dim dblTotCustDisc As Double = 0
-            GetDCDetails()
+            If chkTPT.Checked Then
+                GetDCDetails()
+            End If
+
             Dim dblTotalDCAmt As Double = 0
             Dim dblTotalTCAmt As Double = 0
             Dim dblTotTaxRate As Double = GetCurrentRowTotalTaxRate(IntRowNo)
@@ -2550,6 +2553,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         IsTotalQtyinKG = False
         rgbItemType.Visible = True
         rgbItemType.Enabled = True
+        chkTPT.Checked = True
         lblShiftType.Text = ""
         btnGatePassPrint.Visible = False
         lblCancelStatus.Text = ""

@@ -24,7 +24,7 @@ Partial Class frmRouteMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.rlblRouteid = New common.Controls.MyLabel()
         Me.rlblDescription = New common.Controls.MyLabel()
         Me.rlblType = New common.Controls.MyLabel()
@@ -96,6 +96,7 @@ Partial Class frmRouteMaster
         Me.btnStatus = New Telerik.WinControls.UI.RadButton()
         Me.fndZone = New common.UserControls.txtFinder()
         Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtZone = New common.Controls.MyTextBox()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -153,6 +154,7 @@ Partial Class frmRouteMaster
         CType(Me.txtLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtZone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -974,7 +976,7 @@ Partial Class frmRouteMaster
         Me.dgv.MasterTemplate.EnableFiltering = True
         Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.dgv.MyStopExport = False
         Me.dgv.Name = "dgv"
         Me.dgv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -983,6 +985,7 @@ Partial Class frmRouteMaster
         Me.dgv.Size = New System.Drawing.Size(850, 106)
         Me.dgv.TabIndex = 1
         Me.dgv.TabStop = False
+        Me.dgv.VarID = ""
         '
         'txtTollAmount
         '
@@ -1261,11 +1264,36 @@ Partial Class frmRouteMaster
         Me.MyLabel8.TabIndex = 1407
         Me.MyLabel8.Text = "Zone"
         '
+        'txtZone
+        '
+        Me.txtZone.CalculationExpression = Nothing
+        Me.txtZone.FieldCode = Nothing
+        Me.txtZone.FieldDesc = Nothing
+        Me.txtZone.FieldMaxLength = 0
+        Me.txtZone.FieldName = Nothing
+        Me.txtZone.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtZone.isCalculatedField = False
+        Me.txtZone.IsSourceFromTable = False
+        Me.txtZone.IsSourceFromValueList = False
+        Me.txtZone.IsUnique = False
+        Me.txtZone.Location = New System.Drawing.Point(719, 72)
+        Me.txtZone.MaxLength = 8
+        Me.txtZone.MendatroryField = False
+        Me.txtZone.MyLinkLable1 = Me.rlblRouteLength
+        Me.txtZone.MyLinkLable2 = Nothing
+        Me.txtZone.Name = "txtZone"
+        Me.txtZone.ReferenceFieldDesc = Nothing
+        Me.txtZone.ReferenceFieldName = Nothing
+        Me.txtZone.ReferenceTableName = Nothing
+        Me.txtZone.Size = New System.Drawing.Size(139, 18)
+        Me.txtZone.TabIndex = 1409
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(887, 511)
+        Me.Controls.Add(Me.txtZone)
         Me.Controls.Add(Me.fndZone)
         Me.Controls.Add(Me.MyLabel8)
         Me.Controls.Add(Me.btnStatus)
@@ -1393,6 +1421,7 @@ Partial Class frmRouteMaster
         CType(Me.txtLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtZone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1469,5 +1498,6 @@ Partial Class frmRouteMaster
     Friend WithEvents btnStatus As RadButton
     Friend WithEvents fndZone As common.UserControls.txtFinder
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents txtZone As common.Controls.MyTextBox
 End Class
 
