@@ -598,7 +598,7 @@ Public Class frmMilkShiftUploaderUCDF
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Dim arrLoc As String = ""
-        Dim whrcls As String = ""
+        Dim whrcls As String = Nothing
         Dim obj As New clsMCCCodes()
         obj = clsMCCCodes.GetData(True)
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
@@ -606,8 +606,11 @@ Public Class frmMilkShiftUploaderUCDF
         Else
             arrLoc = obj.arrLocCodes
         End If
+        'whrcls = "  Cast(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' "
+
         If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
-            whrcls = " tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
+            whrcls = " Cast(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "'  and
+tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
         End If
 
         Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103) as Shift_Date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Description,case when TSPL_MILK_SHIFT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" &
@@ -619,6 +622,11 @@ Public Class frmMilkShiftUploaderUCDF
         " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.mcc_code" &
         " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" &
         " left join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.code=TSPL_MILK_SHIFT_UPLOADER_HEAD.dock_code"
+        'If clsCommon.myLen(whrcls) > 0 Then
+        '    whrcls += " and Cast(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' "
+        'Else
+        '    whrcls = "  Cast(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' "
+        'End If
         LoadData(clsCommon.ShowSelectForm("SMPUFINOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked, "Shift_Date"), NavigatorType.Current)
     End Sub
 

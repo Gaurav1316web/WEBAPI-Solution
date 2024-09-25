@@ -487,7 +487,7 @@ Public Class frmDBTRecoVsIncentiveReport
 
         qry = "select TSPL_USER_CUSTOMER_ZONE.Zone_Code as Code  from TSPL_USER_CUSTOMER_ZONE 
                             left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_USER_CUSTOMER_ZONE.Zone_Code "
-        Dim whrcls As String
+        Dim whrcls As String = ""
         If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
             whrcls = " where 2=2 And TSPL_USER_CUSTOMER_ZONE.USER_Code= ('" + objCommonVar.CurrentUserCode + "')"
         End If

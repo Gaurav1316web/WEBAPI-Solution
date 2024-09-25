@@ -2066,39 +2066,19 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
     '        End Try
     '    End Sub
 
-    Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
-        Try
-            If clsCommon.myLen(txtCode.Value) > 0 Then
-
-
-                Dim qry As String = " select 
-
-XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
-
-sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,'" + objCommonVar.CurrentUser + "' as UserName,
-max(XXFinal.CompanyName) as CompanyName, '" + txtDistributorName.Text + "' as TranspoterName,'" + txtDriverName.Text + "' as DriverName,'" + txtDriverMobNo.Text + "' as DMobNo,'" + clsCommon.myCstr(lblVehicleDesc.Text) + "' as Vehicle_No,'" + fndRouteNo.Value + "' as Route_No,'" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' as DocumentDate
-
-from 
-(
-select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,
-TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
-,TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
-,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
-   TSPL_DEMAND_BOOKING_MASTER.Route_No,
-   TSPL_ROUTE_MASTER.Route_Desc,
-    TSPL_COMPANY_MASTER.Comp_Name
-  as CompanyName,
-  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
-  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No
-from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
+    Public Function GetBoothData() As String
+        Dim qry As String = " select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
+sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,'" + objCommonVar.CurrentUser + "' as UserName,max(XXFinal.CompanyName) as CompanyName, '" + txtDistributorName.Text + "' as TranspoterName,'" + txtDriverName.Text + "' as DriverName,'" + txtDriverMobNo.Text + "' as DMobNo,'" + clsCommon.myCstr(lblVehicleDesc.Text) + "' as Vehicle_No,'" + fndRouteNo.Value + "' as Route_No,'" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' as DocumentDate
+from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL.Unit_code ,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+   TSPL_DEMAND_BOOKING_MASTER.Route_No,   TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
 left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
 left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
   Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
-  And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
- 
+  And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code  
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
   Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
@@ -2107,19 +2087,26 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
 where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
 )XXFinal
 group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+        Return qry
+    End Function
+
+
+
+    Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBoothData())
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBoothSlip", "Booth Demand Sheet")
                 Else
-                    Throw New Exception(" Data not Found!")
+                    Throw New Exception("Data not Found!")
                 End If
             Else
                 Throw New Exception("Document not Found!")
             End If
-
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -2130,39 +2117,43 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
     End Sub
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
-            If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
-                Exit Sub
+
+            'If Gv1.Rows.Count <= 0 Then
+            '    clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+            '    Exit Sub
+            'End If
+            'Dim arrHeader As List(Of String) = New List(Of String)()
+            'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptBookingQtyAmtReport & "'"))
+            'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+
+            'arrHeader.Add(("Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "  "))
+            'arrHeader.Add(("Route No: " + clsCommon.myCstr(fndRouteNo.Value) + "  "))
+            'arrHeader.Add(("Route Name: " + clsCommon.myCstr(txtRouteName.Text) + "  "))
+            'arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
+
+
+            ''If txtLocation.arrDispalyMember IsNot Nothing AndAlso txtLocation.arrDispalyMember.Count > 0 Then
+            ''    arrHeader.Add("Location : " + clsCommon.GetMulcallStringWithComma(txtLocation.arrDispalyMember))
+            ''End If
+            ''If txtItem.arrDispalyMember IsNot Nothing AndAlso txtItem.arrDispalyMember.Count > 0 Then
+            ''    arrHeader.Add("Item : " + clsCommon.GetMulcallStringWithComma(txtItem.arrDispalyMember))
+            ''End If
+            ''If txtTransaction.arrDispalyMember IsNot Nothing AndAlso txtTransaction.arrDispalyMember.Count > 0 Then
+            ''    arrHeader.Add("Transaction : " + clsCommon.GetMulcallStringWithComma(txtTransaction.arrDispalyMember))
+            ''End If
+            'If exporter = EnumExportTo.Excel Then
+            '    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+            '    'clsCommon.MyExportToExcelGrid("Demand Booking Report", Gv1, arrHeader, Me.Text)
+            '    transportSql.exportdata(Gv1, "GATEPASS DETAIL", Me.Text, False, arrHeader, False, False, False)
+            'Else
+            '    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+            '    'clsCommon.MyExportToPDF("Demand Booking Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            '    clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, True)
+            'End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBoothData())
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                transportSql.ExporttoExcel(dt, Me)
             End If
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptBookingQtyAmtReport & "'"))
-            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-
-            arrHeader.Add(("Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "  "))
-            arrHeader.Add(("Route No: " + clsCommon.myCstr(fndRouteNo.Value) + "  "))
-            arrHeader.Add(("Route Name: " + clsCommon.myCstr(txtRouteName.Text) + "  "))
-            arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
-
-
-            'If txtLocation.arrDispalyMember IsNot Nothing AndAlso txtLocation.arrDispalyMember.Count > 0 Then
-            '    arrHeader.Add("Location : " + clsCommon.GetMulcallStringWithComma(txtLocation.arrDispalyMember))
-            'End If
-            'If txtItem.arrDispalyMember IsNot Nothing AndAlso txtItem.arrDispalyMember.Count > 0 Then
-            '    arrHeader.Add("Item : " + clsCommon.GetMulcallStringWithComma(txtItem.arrDispalyMember))
-            'End If
-            'If txtTransaction.arrDispalyMember IsNot Nothing AndAlso txtTransaction.arrDispalyMember.Count > 0 Then
-            '    arrHeader.Add("Transaction : " + clsCommon.GetMulcallStringWithComma(txtTransaction.arrDispalyMember))
-            'End If
-            If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                'clsCommon.MyExportToExcelGrid("Demand Booking Report", Gv1, arrHeader, Me.Text)
-                transportSql.exportdata(Gv1, "GATEPASS DETAIL", Me.Text, False, arrHeader, False, False, False)
-            Else
-                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                'clsCommon.MyExportToPDF("Demand Booking Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
-                clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, True)
-            End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
