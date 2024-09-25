@@ -4528,7 +4528,7 @@ Public Class FrmMCCMilkRegister
             'End If
             ''End If
 
-            Dim arr As List(Of String)
+            'Dim arr As List(Of String)
             If isShowTreeView Then
                 'If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
                 '    arr = cbtMCCRouteVLCC.CheckedText(1)
@@ -4685,7 +4685,7 @@ Public Class FrmMCCMilkRegister
 
 
             'If rbtnMCCRouteVLCCSelect.IsChecked Then
-            Dim arr As List(Of String)
+            'Dim arr As List(Of String)
             If isShowTreeView Then
                 'If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
                 '    arr = cbtMCCRouteVLCC.CheckedText(1)
@@ -4748,7 +4748,7 @@ Public Class FrmMCCMilkRegister
             Dim strMCCVLCRoute As String = ""
             Dim strRoute As String = ""
             Dim strVLC As String = Nothing
-            Dim arr As List(Of String)
+            'Dim arr As List(Of String)
             If isShowTreeView Then
                 'If cbtMCCRouteVLCC.CheckedText.Count > 0 Then
                 '    arr = cbtMCCRouteVLCC.CheckedText(1)
