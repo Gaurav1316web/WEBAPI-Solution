@@ -474,6 +474,7 @@ Public Class clsFixedParameterType
     Public Const IsItemRateEditableOnTransfer As String = "IsItemRateEditableOnTransfer"
     Public Const GLACAccordingToTaxRate As String = "GLACAccordingToTaxRate"
     Public Const AutoSchemeOn As String = "AutoSchemeOn"
+    Public Const MultiplySubsidyWithQuantity As String = "Multiply Subsidy With Quantity"
     Public Const IsTransferQtyEditableOnAutoSTN As String = "IsTransferQtyEditableOnAutoSTN"
     Public Const IsItemRateEditableOnSales As String = "IsItemRateEditableOnSales"
     Public Const IsItemMRPEditableOnSales As String = "IsItemMRPEditableOnSales"
@@ -944,6 +945,7 @@ Public Class clsFixedParameterType
     Public Const AllowRoundInFixedAsset As String = "Allow Round In Fixed Asset"
     Public Const AllowDecimalInFixedAsset As String = "Allow Decimal In Fixed Asset"
     Public Const OpenPriceChartPlanningScreenOnTotalSolid As String = "Open Price Chart Planning on Total Solid"
+    Public Const MaxFATSNFPerForRate As String = "Max FAT SNF Per For Rate "
     Public Const AllowZeroQtyFATSNFInOpenMCCShift As String = "Allow Zero Qty FAT SNF In Open MCC Shift"
     Public Const AllowZeroQtyFATSNFInCloseMCCShift As String = "Allow Zero Qty FAT SNF In Close MCC Shift"
     Public Const POLimit As String = "POLimit"
@@ -1845,6 +1847,7 @@ Public Class clsFixedParameterCode
     Public Const IsItemRateEditableOnTransfer As String = "IsItemRateEditableOnTransfer"
     Public Const GLACAccordingToTaxRate As String = "GLACAccordingToTaxRate"
     Public Const AutoSchemeOn As String = "AutoSchemeOn"
+    Public Const MultiplySubsidyWithQuantity As String = "Multiply Subsidy With Quantity"
     Public Const IsTransferQtyEditableOnAutoSTN As String = "IsTransferQtyEditableOnAutoSTN"
     Public Const IsItemRateEditableOnSales As String = "IsItemRateEditableOnSales"
     Public Const IsItemMRPEditableOnSales As String = "IsItemMRPEditableOnSales"
@@ -3215,6 +3218,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateInvoicewithShipmentonAutoSTN, clsFixedParameterCode.CreateInvoicewithShipmentonAutoSTN, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsItemRateEditableOnTransfer, clsFixedParameterCode.IsItemRateEditableOnTransfer, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, "0", "0-Off 1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsTransferQtyEditableOnAutoSTN, clsFixedParameterCode.IsTransferQtyEditableOnAutoSTN, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsItemRateEditableOnSales, clsFixedParameterCode.IsItemRateEditableOnSales, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsItemMRPEditableOnSales, clsFixedParameterCode.IsItemMRPEditableOnSales, "0", "0-Off 1-ON")
@@ -3881,6 +3885,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowDecimalInFixedAsset, clsFixedParameterCode.AllowDecimalInFixedAsset, "2", "Apply Decimal In Fixed Asset Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyStdFATSNFRate, clsFixedParameterCode.ApplyStdFATSNFRate, "1", "Apply FAT/SNF Rate = (Std Rate*FAT/SNFWeightage)/(FAT/SNF Ratio)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OpenPriceChartPlanningScreenOnTotalSolid, clsFixedParameterCode.OpenPriceChartPlanningScreenOnTotalSolid, "1", " 1)Total Solid 2)Standard Price With Deduction")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxFATPerLimit, "10", "For Rate if FAT % above this limit than It will apply")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxSNFPerLimit, "10", "For Rate if SNF % above this limit than It will apply")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowZeroQtyFATSNFInOpenMCCShift, clsFixedParameterCode.AllowZeroQtyFATSNFInOpenMCCShift, "1", "If Off then mendatory to fill Qty,FAT% and SNF% ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowZeroQtyFATSNFInCloseMCCShift, clsFixedParameterCode.AllowZeroQtyFATSNFInCloseMCCShift, "1", "If Off then mendatory to fill Qty,FAT% and SNF%")
         InsertDefaultValueFixedParameter(clsFixedParameterType.POLimit, clsFixedParameterCode.POLimit, "5000", "")
@@ -4904,6 +4910,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmPriceChartUploader, clsFixedParameterType.SepratePriceChartForCowMilk, clsFixedParameterCode.SepratePriceChartForCowMilk, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkPricePlanning, clsFixedParameterType.OpenPriceChartPlanningScreenOnTotalSolid, clsFixedParameterCode.OpenPriceChartPlanningScreenOnTotalSolid, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkPricePlanning, clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkPricePlanning, clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
+
         InsertDefaultValue(clsUserMgtCode.frmOpenMCCShiftManual, clsFixedParameterType.AllowZeroQtyFATSNFInOpenMCCShift, clsFixedParameterCode.AllowZeroQtyFATSNFInOpenMCCShift, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkShiftEndMCC, clsFixedParameterType.AllowZeroQtyFATSNFInCloseMCCShift, clsFixedParameterCode.AllowZeroQtyFATSNFInCloseMCCShift, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.RequiredPOLimit, clsFixedParameterCode.RequiredPOLimit, EnumControlType.CheckBox)
@@ -5787,6 +5796,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmProfitAndLossPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupDesc, clsFixedParameterCode.BalanceSheetProftAndLossGroupDesc, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.rptBalanceSheet, clsFixedParameterType.BalanceSheetProftAndLossGroupDesc, clsFixedParameterCode.BalanceSheetProftAndLossGroupDesc, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmCSADeliveryOrder, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmCSATransfer, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSalesOrderMT, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)

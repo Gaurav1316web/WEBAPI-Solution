@@ -254,7 +254,7 @@ where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
                             'Dim obj1 As New clsDemandBookingSale
                             ' obj1 = clsDemandBookingSale.GetData(item, NavigatorType.Current, trans)
                             'clsDemandBookingSale.SaveData(obj1, False, False, trans)
-                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, item, "TSPL_Demand_Adjustment_Head", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, item, "TSPL_DEMAND_BOOKING_MASTER", "Document_Code", "TSPL_DEMAND_BOOKING_DETAIL", "Document_Code", trans)
 
 
                         Next
@@ -262,7 +262,7 @@ where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
 
                     clsDBFuncationality.ExecuteNonQuery("Update TSPL_Demand_Adjustment_Head set Status=1 where Document_Code='" + obj.Document_Code + "'", trans)
                 End If
-                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_Demand_Adjustment_Head", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_Demand_Adjustment_Head", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
