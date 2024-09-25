@@ -14851,6 +14851,8 @@ Public Class clsCreateAllTable
             coll.Add("Inventory_DrAcc", "varchar(50) NULL ")
             coll.Add("Inventory_CrAcc", "varchar(50) NULL ")
             coll.Add("Is_Scheme_Item", "char(1) null")
+            coll.Add("Ref_ID_Type", "Varchar(3) null")
+            coll.Add("Ref_ID", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVENTORY_MOVEMENT", coll, Nothing, True, False, "", "Trans_Id", "Posting_Date", True)
 
             coll = New Dictionary(Of String, String)()
