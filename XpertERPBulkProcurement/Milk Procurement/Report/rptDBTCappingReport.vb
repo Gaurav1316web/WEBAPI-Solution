@@ -46,8 +46,8 @@ Public Class rptDBTCappingReport
 
     Private Sub Print(ByVal print As Boolean)
         Try
-            Dim requiredCapping As String
-            Dim cappingApproved As String
+            Dim requiredCapping As String = ""
+            Dim cappingApproved As String = ""
             If rbtnCappingRequired.Checked Then
                 requiredCapping = " and isnull(TSPL_DBT_CAPING_DETAIL.Capping_Status,0)=0 "
             End If
