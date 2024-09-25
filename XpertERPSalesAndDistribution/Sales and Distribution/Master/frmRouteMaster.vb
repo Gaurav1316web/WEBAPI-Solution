@@ -27,6 +27,7 @@ Public Class frmRouteMaster
     End Sub
     Private Sub RouteMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         isInsideLoadData = True
+        funReset()
         LoadBlankGrid()
         FunAddHandler()
         SetUserMgmtNew()
@@ -383,6 +384,8 @@ Public Class frmRouteMaster
     Private Sub funReset()
         Try
             fndRouteid.Value = ""
+            txtZone.Text = ""
+            txtZone.Visible = False
             fndRouteid.MyReadOnly = False
             ddltype.Text = ""
             rddl_route_offday.Text = ""
@@ -570,6 +573,7 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommon.AddColumnsForChange(coll1, "Area_Code", fndZone.Value, True)
+        clsCommon.AddColumnsForChange(coll1, "Zone_Code", txtZone.Text, True)
         clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
     End Sub
     'This is Update Function Used To Update Records In TSPL_ROUTE_MASTER
@@ -1408,7 +1412,7 @@ Public Class frmRouteMaster
     Private Sub fndZone__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndZone._MYValidating
         Dim qry As String = "select TSPL_AREA_MASTER.Code,TSPL_AREA_MASTER.Name,TSPL_AREA_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as ZoneName from TSPL_AREA_MASTER  left outer join  TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_AREA_MASTER.Zone_Code"
         fndZone.Value = clsCommon.ShowSelectForm("ZoneFND", qry, "Code", "", fndZone.Value, "", isButtonClicked)
-
+        txtZone.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_AREA_MASTER.Zone_Code from TSPL_AREA_MASTER  left outer join  TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_AREA_MASTER.Zone_Code where TSPL_AREA_MASTER.Code='" + fndZone.Value + "' "))
     End Sub
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged
         If dgv.RowCount > 0 Then
