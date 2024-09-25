@@ -2321,6 +2321,12 @@ Public Class clsEkoPro
         If Qty <= 0 Then
             Return 0
         End If
+        If FatPer > objCommonVar.MaxFATPerForRate Then
+            FatPer = objCommonVar.MaxFATPerForRate
+        End If
+        If SNFPer > objCommonVar.MaxSNFPerForRate Then
+            SNFPer = objCommonVar.MaxSNFPerForRate
+        End If
         Dim qry As String = ""
         Dim dt As DataTable = Nothing
         Dim ApplyMixMilk As Boolean = True

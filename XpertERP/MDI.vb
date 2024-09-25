@@ -2677,7 +2677,7 @@ Public Class MDI
         ElseIf e.Control AndAlso e.Alt AndAlso e.Shift AndAlso e.KeyCode = Keys.C AndAlso clsCommon.CompairString(objCommonVar.CurrentUserCode, "pankajjha") = CompairStringResult.Equal Then
             Dim s As String = InputBox("Enter Query")
             clsCommon.MyMessageBoxShow(MSSQLTOORACLE.Covert(s))
-        ElseIf e.Control AndAlso e.Alt AndAlso e.Shift AndAlso e.KeyCode = Keys.M Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.KeyCode = Keys.M Then
             Dim dbpwd As String = clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='USERPWD' and TYPE='PWD'")
             Dim pwd As New FrmPWD(Nothing)
             pwd.strCode = "USERPWD"
