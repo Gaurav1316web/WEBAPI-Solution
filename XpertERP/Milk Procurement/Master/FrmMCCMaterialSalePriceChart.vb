@@ -36,16 +36,22 @@ Public Class FrmMCCMaterialSalePriceChart
         gv.Columns.Add("Item Name")
         gv.Columns.Add("Unit Code")
         gv.Columns.Add("Unit Desc")
-        gv.Columns.Add("Price")
-        gv.Columns.Add("Issaved")
+        Dim repoPrice As GridViewDecimalColumn
+        repoPrice = New GridViewDecimalColumn()
+        repoPrice.HeaderText = "Price"
+        repoPrice.Name = "Price"
+        repoPrice.Width = 100
+        repoPrice.DecimalPlaces = 6
+        repoPrice.Minimum = 0
+        gv.MasterTemplate.Columns.Add(repoPrice)
 
+        gv.Columns.Add("Issaved")
         gv.Columns("Item Code").Width = 100
         gv.Columns("Item Name").Width = 300
         gv.Columns("Item Name").ReadOnly = True
         gv.Columns("Unit Code").Width = 100
         gv.Columns("Unit Desc").Width = 100
         gv.Columns("Unit Desc").ReadOnly = True
-        gv.Columns("Price").Width = 100
         gv.Columns("Issaved").Width = 0
         gv.Columns("Issaved").IsVisible = False
 
@@ -180,7 +186,7 @@ Public Class FrmMCCMaterialSalePriceChart
             If (AllowToSave()) Then
                 Dim obj As New clsMCCMaterailSalePriceChat()
                 obj.Code = clsCommon.myCstr(txtDocNo.Value)
-                obj.DOCDate = clsCommon.myCDate(txtdate.Value)
+                obj.DOCDate = clsCommon.myCDate(txtdate.Text)
                 obj.Effective_Date = clsCommon.myCDate(txtEndDate.Value)
                 If txtMCC_Code.arrValueMember IsNot Nothing AndAlso txtMCC_Code.arrDispalyMember IsNot Nothing Then
                     obj.ArrMCCRate = txtMCC_Code.arrDispalyMember
