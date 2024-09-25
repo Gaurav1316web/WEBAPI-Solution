@@ -265,7 +265,7 @@ Partial Class FrmMCCMaterialSalePriceChart
         Me.txtdate.TabIndex = 0
         Me.txtdate.TabStop = False
         Me.txtdate.Text = "28/05/2014"
-        Me.txtdate.Value = New Date(2014, 5, 28, 15, 5, 19, 923)
+        'Me.txtdate.Value = New Date(2014, 5, 28, 15, 5, 19, 923)
         '
         'RadPageView1
         '
