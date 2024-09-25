@@ -327,8 +327,7 @@
       <HintPath>lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon, Version=2.1.6.77, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="XpertCommon">
       <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPAdminServices">
@@ -358,16 +357,11 @@
     <Reference Include="XpertERPElectrical">
       <HintPath>..\XpertERPElectrical\bin\Debug\XpertERPElectrical.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine, Version=7.1.3.19, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="XpertERPEngine">
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineeringAndPlantManagement">
       <HintPath>..\XpertERPEngineeringAndPlantManagement\bin\Debug\XpertERPEngineeringAndPlantManagement.dll</HintPath>
-    </Reference>
-    <Reference Include="XpertERPEngineFine, Version=7.1.3.19, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPFarmerPayment">
       <HintPath>..\XpertERPFarmerPayment\bin\Debug\XpertERPFarmerPayment.dll</HintPath>
@@ -390,7 +384,7 @@
     <Reference Include="XpertERPParavetServices">
       <HintPath>..\XpertERPParavetServices\bin\Debug\XpertERPParavetServices.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPProcessProduction, Version=7.1.3.19, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertERPProcessProduction, Version=7.1.3.14, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPProcessProduction\bin\Debug\XpertERPProcessProduction.dll</HintPath>
     </Reference>
@@ -7889,6 +7883,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XpertERPEngineFine\XpertERPEngineFine.vbproj">
+      <Project>{ab38a7f1-75cb-41f0-ae56-6ad1cec5193b}</Project>
+      <Name>XpertERPEngineFine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
