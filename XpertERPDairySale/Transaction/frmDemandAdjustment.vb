@@ -745,7 +745,6 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         coll.Add("Demand_Date", "Datetime NOT NULL")
         coll.Add("Zone_Code", "VARCHAR(50) NULL")
         coll.Add("Route_Code", "VARCHAR(50) NULL")
-        coll.Add("Location_Code", "VARCHAR(50) NULL")
         coll.Add("Item_Code", "Varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Unit_Code", "varchar(12) NOT NULL")
         coll.Add("Shift_Type", "VARCHAR(10) NOT NULL")
@@ -770,6 +769,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
         coll.Add("TR_Code", "varchar(30) Not NULL")
         coll.Add("Zone_Code", "varchar(30) Not NULL")
         coll.Add("Route_Code", "varchar(12)  NOT NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+        coll.Add("Location_Code", "VARCHAR(50) NULL")
         coll.Add("Booth_Code", "varchar(12) NULL references TSPL_CUSTOMER_MASTER(Cust_Code)")
         coll.Add("Item_Code", "Varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Unit_Code", "varchar(12) null REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
@@ -891,7 +891,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                         objTr.TR_Code = clsCommon.myCstr(grow.Cells(colTRCode).Value)
                         objTr.Zone_Code = clsCommon.myCstr(grow.Cells(colZoneCode).Value)
                         objTr.Route_Code = clsCommon.myCstr(grow.Cells(colRouteCode).Value)
-                        obj.Location_Code = clsCommon.myCstr(grow.Cells(colLocationCode).Value)
+                        objTr.Location_Code = clsCommon.myCstr(grow.Cells(colLocationCode).Value)
                         objTr.Booth_Code = clsCommon.myCstr(grow.Cells(colBoothCode).Value)
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colItemcode).Value)
                         objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUOM).Value)
@@ -933,7 +933,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                         End If
                         objTr.TotalLtr_ItemWise = clsCommon.myCdbl(dblTotalLitreRowWise)
                         Dim objItemRates As New clsDemandAdjustmentDetail()
-                        objItemRates = getItemRate(objTr.Booth_Code, objTr.Item_Code, objTr.Unit_Code, obj.Location_Code, txtDemandDate.Value, objTr.Final_Qty)
+                        objItemRates = getItemRate(objTr.Booth_Code, objTr.Item_Code, objTr.Unit_Code, objTr.Location_Code, txtDemandDate.Value, objTr.Final_Qty)
                         objTr.Item_Rate = objItemRates.Item_Rate
                         objTr.ItemNetAmount = objItemRates.ItemNetAmount
                         objTr.TAX_Group = objItemRates.TAX_Group
@@ -1227,6 +1227,7 @@ from(" + mainQry + " )XX  order by xx.Qty desc"
                         gv1.Rows(dblrows).Cells(ColSNo).Value = dblrows + 1
                         gv1.Rows(dblrows).Cells(colZoneCode).Value = objTr.Zone_Code
                         gv1.Rows(dblrows).Cells(colTRCode).Value = objTr.TR_Code
+                        gv1.Rows(dblrows).Cells(colLocationCode).Value = objTr.Location_Code
                         gv1.Rows(dblrows).Cells(colRouteCode).Value = objTr.Route_Code
                         gv1.Rows(dblrows).Cells(colBoothCode).Value = objTr.Booth_Code
                         gv1.Rows(dblrows).Cells(colBoothName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name  from TSPL_CUSTOMER_MASTER where CUST_CODE='" + objTr.Booth_Code + "'"))
