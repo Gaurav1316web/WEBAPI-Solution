@@ -516,24 +516,9 @@
     <Compile Include="Payroll\clsLTAClaim.vb" />
     <Compile Include="Payroll\clsMediclaimEntry.vb" />
     <Compile Include="Payroll\clsMonthAttendance.vb" />
-    <Compile Include="Payroll\clsODMaster.vb" />
-    <Compile Include="Payroll\clsODSheet.vb" />
-    <Compile Include="Payroll\clsOTMaster.vb" />
-    <Compile Include="Payroll\clsOTSheet.vb" />
-    <Compile Include="Payroll\clsOTSlab.vb" />
-    <Compile Include="Payroll\clsPayPeriodMaster.vb" />
-    <Compile Include="Payroll\clsPayrollPaymentMode.vb" />
-    <Compile Include="Payroll\clsPayrollSetting.vb" />
-    <Compile Include="Payroll\clsPFRulesMaster.vb" />
-    <Compile Include="Payroll\clsPTSlab.vb" />
     <Compile Include="Payroll\clsReimbursementDetails.vb" />
-    <Compile Include="Payroll\ClsReimbursementTypeMaster.vb" />
     <Compile Include="Payroll\ClsSalaryFitment.vb" />
     <Compile Include="Payroll\clsSalaryGeneration.vb" />
-    <Compile Include="Payroll\clsSalaryStructure.vb" />
-    <Compile Include="Payroll\ClsSentMailSlip.vb" />
-    <Compile Include="Payroll\clsSlabRangeDetail.vb" />
-    <Compile Include="Payroll\clsWeeklyHolidays.vb" />
     <Compile Include="Production\ClsBreakDownMaster.vb" />
     <Compile Include="Production\clsDairyProductionUploader.vb" />
     <Compile Include="Production\clsProcessProductionStandardizationFinalQC.vb" />
@@ -1018,23 +1003,6 @@
     <Compile Include="Sale\ProductSale\clsDispatchChecklist.vb" />
     <Compile Include="Sale\ProductSale\clsPSDispatchAdvice.vb" />
     <Compile Include="Sale\ProductSale\ClsUDLSalesQuery.vb" />
-    <Compile Include="ServiceAndWarranty\ClsActivityType.vb" />
-    <Compile Include="ServiceAndWarranty\ClsCallType.vb" />
-    <Compile Include="ServiceAndWarranty\ClsFaultCategory.vb" />
-    <Compile Include="ServiceAndWarranty\ClsFaultMaster.vb" />
-    <Compile Include="ServiceAndWarranty\ClsProblemType.vb" />
-    <Compile Include="ServiceAndWarranty\ClsServiceAllocation.vb" />
-    <Compile Include="ServiceAndWarranty\ClsServiceCall.vb" />
-    <Compile Include="ServiceAndWarranty\ClsServiceChargeMaster.vb" />
-    <Compile Include="ServiceAndWarranty\ClsServiceEnquiry.vb" />
-    <Compile Include="ServiceAndWarranty\ClsServiceVisitDetails.vb" />
-    <Compile Include="ServiceAndWarranty\ClsSolutionKnowledgeBase.vb" />
-    <Compile Include="TDS Module\ClsHouseRentDeclaration.vb" />
-    <Compile Include="TDS Module\ClsHRAExemptionRule.vb" />
-    <Compile Include="TDS Module\ClsIncomeTaxSlab.vb" />
-    <Compile Include="TDS Module\ClsInvestmentDeclaration.vb" />
-    <Compile Include="TDS Module\clsInvestmentType.vb" />
-    <Compile Include="TDS Module\clsITSection.vb" />
     <Compile Include="TDS\clsRemitanceEntry.vb" />
     <Compile Include="TDS\clsRemittance.vb" />
     <Compile Include="Finance\clsGLEntry.vb" />
@@ -1657,6 +1625,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ServiceAndWarranty\" />
+    <Folder Include="TDS Module\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
