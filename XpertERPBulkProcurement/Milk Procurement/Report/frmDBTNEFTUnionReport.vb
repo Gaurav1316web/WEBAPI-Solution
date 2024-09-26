@@ -87,9 +87,7 @@ Public Class frmDBTNEFTUnionReport
         Dim BaseQry As String = Nothing
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
         If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-            'Gv.DataSource = Nothing
-            Exit Function
+            Throw New Exception("Database[TSPL_MASTER] not found")
         End If
         query = ""
         Dim Qry As String = Nothing

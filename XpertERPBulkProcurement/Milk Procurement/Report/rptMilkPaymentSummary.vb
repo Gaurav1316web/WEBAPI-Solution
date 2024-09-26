@@ -1,8 +1,4 @@
-﻿Imports CrystalDecisions.CrystalReports.Engine
-Imports CrystalDecisions.Shared
-Imports CrystalDecisions.Windows.Forms
-Imports common
-Imports System.IO
+﻿Imports common
 
 Public Class rptMilkPaymentSummary
     Inherits FrmMainTranScreen

@@ -891,7 +891,7 @@ TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,convert(varchar(12),TSPL_SD_SHIPMENT_HEA
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                 Qry += " TSPL_ITEM_PRICE_MASTER.Item_MRP as MRP ,TSPL_SD_sale_invoice_DETAIL.Balance_Qty, "
             End If
-
+            Qry += " Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_sale_invoice_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_sale_invoice_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end  as QTY_LTRKG, "
 
             Qry += " TSPL_SD_SALE_INVOICE_DETAIL.TAX1 as ITAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_RATE AS   ITAX1_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as ITAX1_Amt , 
 TSPL_SD_SALE_INVOICE_DETAIL.TAX2 as ITAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_RATE AS ITAX2_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt  as ITAX2_Amt , 
@@ -961,6 +961,8 @@ left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITE
                 Qry += " (select case when Is_FreshItem=1 then 'LTR' else 'KG' end from TSPL_ITEM_MASTER where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_code) "
             End If
             Qry += " ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  
+
+left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) ITEMDETAIL3 ON TSPL_SD_sale_invoice_DETAIL.Item_Code = ITEMDETAIL3.item_code 
 left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where ITEM_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_code='Crate') as ITEMDETAIL2 on ITEMDETAIL2.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_SD_SALE_INVOICE_HEAD.Comp_Code  
 left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER .Cust_Code  =TSPL_SD_SALE_INVOICE_HEAD .Customer_Code 
