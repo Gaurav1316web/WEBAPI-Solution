@@ -22,10 +22,14 @@ Partial Class JanaadharStatusReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtUnion = New common.UserControls.txtMultiSelectFinder()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.rbtnTransaction = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnMaster = New Telerik.WinControls.UI.RadRadioButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbdAllTrans = New System.Windows.Forms.RadioButton()
@@ -46,14 +50,15 @@ Partial Class JanaadharStatusReport
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnTransaction = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnMaster = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnTransaction, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnMaster, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
@@ -71,8 +76,6 @@ Partial Class JanaadharStatusReport
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnTransaction, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnMaster, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -113,6 +116,8 @@ Partial Class JanaadharStatusReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtUnion)
+        Me.RadPageViewPage1.Controls.Add(Me.lblLocation)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnTransaction)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnMaster)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
@@ -128,11 +133,50 @@ Partial Class JanaadharStatusReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'txtUnion
+        '
+        Me.txtUnion.arrDispalyMember = Nothing
+        Me.txtUnion.arrValueMember = Nothing
+        Me.txtUnion.Location = New System.Drawing.Point(72, 38)
+        Me.txtUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtUnion.MyLinkLable1 = Me.lblLocation
+        Me.txtUnion.MyLinkLable2 = Nothing
+        Me.txtUnion.MyNullText = "All"
+        Me.txtUnion.Name = "txtUnion"
+        Me.txtUnion.Size = New System.Drawing.Size(223, 19)
+        Me.txtUnion.TabIndex = 389
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(7, 39)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(36, 18)
+        Me.lblLocation.TabIndex = 390
+        Me.lblLocation.Text = "Union"
+        '
+        'rbtnTransaction
+        '
+        Me.rbtnTransaction.Location = New System.Drawing.Point(323, 37)
+        Me.rbtnTransaction.Name = "rbtnTransaction"
+        Me.rbtnTransaction.Size = New System.Drawing.Size(78, 18)
+        Me.rbtnTransaction.TabIndex = 3
+        Me.rbtnTransaction.Text = "Transaction"
+        '
+        'rbtnMaster
+        '
+        Me.rbtnMaster.Location = New System.Drawing.Point(324, 15)
+        Me.rbtnMaster.Name = "rbtnMaster"
+        Me.rbtnMaster.Size = New System.Drawing.Size(55, 18)
+        Me.rbtnMaster.TabIndex = 2
+        Me.rbtnMaster.Text = "Master"
+        '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(7, 37)
+        Me.MyLabel1.Location = New System.Drawing.Point(7, 72)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(160, 21)
         Me.MyLabel1.TabIndex = 445
@@ -290,7 +334,7 @@ Partial Class JanaadharStatusReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -368,22 +412,6 @@ Partial Class JanaadharStatusReport
         Me.btnclose.TabIndex = 338
         Me.btnclose.Text = "Close"
         '
-        'rbtnTransaction
-        '
-        Me.rbtnTransaction.Location = New System.Drawing.Point(323, 37)
-        Me.rbtnTransaction.Name = "rbtnTransaction"
-        Me.rbtnTransaction.Size = New System.Drawing.Size(78, 18)
-        Me.rbtnTransaction.TabIndex = 3
-        Me.rbtnTransaction.Text = "Transaction"
-        '
-        'rbtnMaster
-        '
-        Me.rbtnMaster.Location = New System.Drawing.Point(324, 15)
-        Me.rbtnMaster.Name = "rbtnMaster"
-        Me.rbtnMaster.Size = New System.Drawing.Size(55, 18)
-        Me.rbtnMaster.TabIndex = 2
-        Me.rbtnMaster.Text = "Master"
-        '
         'JanaadharStatusReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -404,6 +432,9 @@ Partial Class JanaadharStatusReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnTransaction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnMaster, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
@@ -422,8 +453,6 @@ Partial Class JanaadharStatusReport
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnTransaction, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnMaster, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -454,4 +483,6 @@ Partial Class JanaadharStatusReport
     Friend WithEvents RadLabel12 As common.Controls.MyLabel
     Friend WithEvents rbtnTransaction As RadRadioButton
     Friend WithEvents rbtnMaster As RadRadioButton
+    Friend WithEvents txtUnion As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblLocation As common.Controls.MyLabel
 End Class
