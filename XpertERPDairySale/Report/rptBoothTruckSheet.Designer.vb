@@ -22,10 +22,14 @@ Partial Class rptBoothTruckSheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDispatch = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnDemand = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkPouch = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
@@ -53,13 +57,18 @@ Partial Class rptBoothTruckSheet
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.chkPouch = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkPouch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,7 +100,7 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkPouch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -130,6 +139,8 @@ Partial Class rptBoothTruckSheet
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.chkPouch)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
@@ -146,6 +157,46 @@ Partial Class rptBoothTruckSheet
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 350)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnDispatch)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnDemand)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(132, 142)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(303, 36)
+        Me.RadGroupBox1.TabIndex = 449
+        '
+        'rbtnDispatch
+        '
+        Me.rbtnDispatch.Location = New System.Drawing.Point(94, 9)
+        Me.rbtnDispatch.Name = "rbtnDispatch"
+        Me.rbtnDispatch.Size = New System.Drawing.Size(64, 18)
+        Me.rbtnDispatch.TabIndex = 312
+        Me.rbtnDispatch.TabStop = False
+        Me.rbtnDispatch.Text = "Dispatch"
+        '
+        'rbtnDemand
+        '
+        Me.rbtnDemand.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDemand.Location = New System.Drawing.Point(6, 9)
+        Me.rbtnDemand.Name = "rbtnDemand"
+        Me.rbtnDemand.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnDemand.TabIndex = 311
+        Me.rbtnDemand.TabStop = False
+        Me.rbtnDemand.Text = "Demand"
+        Me.rbtnDemand.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'chkPouch
+        '
+        Me.chkPouch.Location = New System.Drawing.Point(411, 25)
+        Me.chkPouch.Name = "chkPouch"
+        Me.chkPouch.Size = New System.Drawing.Size(51, 18)
+        Me.chkPouch.TabIndex = 448
+        Me.chkPouch.Text = "Pouch"
+        '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
@@ -160,7 +211,7 @@ Partial Class rptBoothTruckSheet
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(19, 85)
+        Me.MyLabel4.Location = New System.Drawing.Point(21, 85)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
         Me.MyLabel4.TabIndex = 446
@@ -302,7 +353,7 @@ Partial Class rptBoothTruckSheet
         '
         Me.lblRoute.FieldName = Nothing
         Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoute.Location = New System.Drawing.Point(19, 54)
+        Me.lblRoute.Location = New System.Drawing.Point(21, 54)
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(36, 18)
         Me.lblRoute.TabIndex = 397
@@ -425,7 +476,7 @@ Partial Class rptBoothTruckSheet
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -474,13 +525,15 @@ Partial Class rptBoothTruckSheet
         Me.btnReset.TabIndex = 155
         Me.btnReset.Text = "Reset"
         '
-        'chkPouch
+        'MyLabel2
         '
-        Me.chkPouch.Location = New System.Drawing.Point(411, 25)
-        Me.chkPouch.Name = "chkPouch"
-        Me.chkPouch.Size = New System.Drawing.Size(51, 18)
-        Me.chkPouch.TabIndex = 448
-        Me.chkPouch.Text = "Pouch"
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(21, 150)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(91, 18)
+        Me.MyLabel2.TabIndex = 450
+        Me.MyLabel2.Text = "Transaction Type"
         '
         'rptBoothTruckSheet
         '
@@ -501,6 +554,12 @@ Partial Class rptBoothTruckSheet
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.rbtnDispatch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDemand, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkPouch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -536,7 +595,7 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkPouch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -573,4 +632,8 @@ Partial Class rptBoothTruckSheet
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents chkPouch As RadCheckBox
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents rbtnDispatch As RadRadioButton
+    Friend WithEvents rbtnDemand As RadRadioButton
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
 End Class
