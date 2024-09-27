@@ -80,16 +80,16 @@ Public Class frmDemandHistory
         repoDemandNo.Name = colDemandNo
         repoDemandNo.Width = 50
         repoDemandNo.ReadOnly = True
+        If clsCommon.CompairString(cmbScreenType.Text, "Demand") = CompairStringResult.Equal Then
+            repoDemandNo.IsVisible = False
+        Else
+            repoDemandNo.IsVisible = True
+        End If
         gv1.MasterTemplate.Columns.Add(repoDemandNo)
 
         Dim repoDocumentNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoDocumentNo.FormatString = ""
-        If clsCommon.CompairString(cmbScreenType.Text, "Demand") = CompairStringResult.Equal Then
-            repoDocumentNo.HeaderText = "TR Code"
-        Else
-            repoDocumentNo.HeaderText = "Document No"
-
-        End If
+        repoDocumentNo.HeaderText = "Document No"
         repoDocumentNo.Name = colDocumentNo
         repoDocumentNo.Width = 50
         repoDocumentNo.ReadOnly = True
@@ -260,7 +260,7 @@ Public Class frmDemandHistory
 
     Private Sub LoadGridData(ByVal frmdate As Date, ByVal Shift As String, ByVal BoothCode As String, ByVal ScreenName As String)
         Try
-            Dim lstobj As List(Of clsDemandHistoryMaster)
+            Dim lstobj As List(Of clsDemandHistoryMaster) = New List(Of clsDemandHistoryMaster)
             gv1.DataSource = Nothing
             gv1.Visible = False
             Dim shiftType As String = ""
@@ -278,16 +278,18 @@ Public Class frmDemandHistory
                 lstobj = clsDemandHistoryMaster.GetDataFromBooking(frmdate, shiftType, BoothCode, Nothing)
 
             End If
+
             If (lstobj IsNot Nothing AndAlso lstobj.Count > 0) Then
-                gv1.Visible = True
-                LoadBlankGrid()
-                Dim dblrows As Integer = 0
-                Dim dblAmt As Decimal = 0
-                Dim str As String = ""
-                Dim lststr As New List(Of String)
-                Dim isNewRow As Boolean = True
-                For Each obj As clsDemandHistoryMaster In lstobj
-                    If isNewRow Then
+                    gv1.Visible = True
+                    LoadBlankGrid()
+                    Dim dblrows As Integer = 0
+                    Dim dblAmt As Decimal = 0
+                    'Dim str As String = ""
+                    'Dim lststr As List(Of String) = New List(Of String)
+                    'Dim isNewRow As Boolean = True
+                    'lststr = Nothing
+                    For Each obj As clsDemandHistoryMaster In lstobj
+                        'If isNewRow Then'
                         gv1.Rows(dblrows).Cells(colSLNo).Value = dblrows + 1
                         gv1.Rows(dblrows).Cells(colHistVer).Value = obj.History_Version
                         gv1.Rows(dblrows).Cells(colDemandNo).Value = obj.Demand_No
@@ -296,53 +298,46 @@ Public Class frmDemandHistory
                         gv1.Rows(dblrows).Cells(colCustCode).Value = obj.Cust_Code
                         gv1.Rows(dblrows).Cells(colCustName).Value = obj.Cust_Name
                         gv1.Rows(dblrows).Cells(colShiftName).Value = obj.ShiftType
-                        ' gv1.Rows(dblrows).Cells(colHistBy).Value = obj.History_By
+                        gv1.Rows(dblrows).Cells(colHistBy).Value = obj.History_By
                         gv1.Rows(dblrows).Cells(colHistOn).Value = obj.History_ON
 
-                    End If
-                    isNewRow = False
 
                     If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
 
-                        For Each objTr As clsDemandHistoryDetail In obj.Arr
-                            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
-                                Dim k As Integer = 1
-                                For columns = 8 To gv1.Columns.Count - 4
-                                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
-                                    k = k + 1
-                                    If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_Code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
-                                        str = objTr.Item_Code + "~" + objTr.Unit_Code + "~" + clsCommon.myCstr(objTr.Qty)
-                                        If Not lststr.Contains(str) Then
-                                            gv1.Rows(dblrows).Cells(columns).Value = clsCommon.myCDecimal(objTr.Qty)
-                                            gv1.Rows(dblrows).Cells(colHistBy).Value = objTr.Hist_By
-                                            lststr.Add(str)
-                                            isNewRow = True
-                                        End If
-                                    End If
-                                    dblAmt = objTr.Amount
-                                Next
+                            For Each objTr As clsDemandHistoryDetail In obj.Arr
+                                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal Then
+                                    Dim k As Integer = 1
+                                    For columns = 8 To gv1.Columns.Count - 4
+                                        Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                                        k = k + 1
+                                        If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_Code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
 
-                            End If
-                        Next
-                    End If
-                    If isNewRow Then
-                        gv1.Rows(dblrows).Cells(colAmt).Value = dblAmt
-                        dblrows += 1
+                                        gv1.Rows(dblrows).Cells(columns).Value = clsCommon.myCDecimal(objTr.Qty)
+
+                                    End If
+                                        dblAmt = objTr.Amount
+                                    Next
+
+                                End If
+                            Next
+                        End If
+                    gv1.Rows(dblrows).Cells(colAmt).Value = dblAmt
+                    dblrows += 1
 
                         gv1.Rows.AddNew()
-                    End If
 
                 Next
 
-                gv1.BestFitColumns()
+                    gv1.BestFitColumns()
 
-                gv1.ReadOnly = True
-                SetRouteColumns()
-                ReStoreGridLayout()
-            Else
-                common.clsCommon.MyMessageBoxShow(Me, "No Data Found for this Booth  ", Me.Text)
-                gv1.DataSource = Nothing
-            End If
+                    gv1.ReadOnly = True
+                    SetRouteColumns()
+                    ReStoreGridLayout()
+                Else
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found for this Booth  ", Me.Text)
+                    gv1.DataSource = Nothing
+                End If
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

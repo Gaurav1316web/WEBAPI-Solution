@@ -8,6 +8,17 @@ Public Class JanaadharStatusReport
 
     Dim frmP As New FarmerDetails()
 
+    Private Sub JanaadharStatusReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtToDate.Value = clsCommon.GETSERVERDATE()
+        rbtnMaster.IsChecked = True
+        chkRJSBNS.Visible = False
+        chkRJSBNS.Checked = True
+        If Not objCommonVar.RCDFCFP Then
+            UnionName()
+        End If
+    End Sub
+
     Sub FarmerDetail()
         Try
             Dim query As String = ""
@@ -19,23 +30,34 @@ Public Class JanaadharStatusReport
 
             Dim docNo As String = ""
 
-            dt = clsMilkUnion.UnionDBName()
+            dt = clsMilkUnion.UnionDBName1(txtUnion.arrValueMember)
             query = ""
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
                         query += " UNION ALL "
                     End If
-
-                    query += "  SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                    If rbtnTransaction.IsChecked Then
+                        query += "  SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                                     COUNT(DISTINCT X.MP_Code) AS Total_MP_Codes,
 	                                count(ISNULL(mm.Jan_Aadhar_No_Verified,0)) as Jan_Aadhar_No_Verified, 
-                                    count(ISNULL(mm.JA_aadhar,0)) as JA_aadhar,
+                                    sum(case when Active=0 and len(mm.fax)>1 then 1 else 0 end) as JA_aadhar,
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 0 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Unverified_Count,
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Verified_Count
                                 FROM (SELECT MP_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL GROUP BY MP_Code ) X
                                 LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm ON mm.MP_Code = X.MP_Code"
+                    Else
+                        query += "SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                                    COUNT(DISTINCT mm.MP_Code) AS Total_MP_Codes,
+	                                count(ISNULL(mm.Jan_Aadhar_No_Verified,0)) as Jan_Aadhar_No_Verified, 
+                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 0 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Unverified_Count,
+                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Verified_Count,sum(case when Active=0 and len(mm.fax)>1 then 1 else 0 end) as JA_aadhar,
+                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 and convert(date,Jan_Aadhar_No_Verified_On,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "' THEN 1 ELSE 0 END),0) AS DateWise_Verified_Count
+                                FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm where Active=0 "
+                    End If
+
                 Next
             End If
 
@@ -95,14 +117,20 @@ Public Class JanaadharStatusReport
         gv1.Columns("Jan_Aadhar_No_Verified").HeaderText = "Jan_Aadhar_No_Verified"
         gv1.Columns("Jan_Aadhar_No_Verified").IsVisible = False
 
-        gv1.Columns("JA_aadhar").HeaderText = "Count Of AADHAR"
-        gv1.Columns("JA_aadhar").IsVisible = True
 
         gv1.Columns("Jan_Aadhar_Unverified_Count").HeaderText = "Count Of Unverified Farmer"
         gv1.Columns("Jan_Aadhar_Unverified_Count").IsVisible = True
 
         gv1.Columns("Jan_Aadhar_Verified_Count").HeaderText = "Count Of verified Farmer"
         gv1.Columns("Jan_Aadhar_Verified_Count").IsVisible = True
+
+        gv1.Columns("JA_aadhar").HeaderText = "Count Of AADHAR"
+        gv1.Columns("JA_aadhar").IsVisible = True
+
+        If rbtnMaster.IsChecked Then
+            gv1.Columns("DateWise_Verified_Count").HeaderText = "Date Wise verified Farmer "
+            gv1.Columns("DateWise_Verified_Count").IsVisible = True
+        End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Total_MP_Codes", "{0:f0}", GridAggregateFunction.Sum)
@@ -121,11 +149,7 @@ Public Class JanaadharStatusReport
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
-    Private Sub JanaadharStatusReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        chkRJSBNS.Visible = False
-        chkRJSBNS.Checked = True
-    End Sub
+
 
     Private Sub BtnGo_Click_1(sender As Object, e As EventArgs) Handles BtnGo.Click
         FarmerDetail()
@@ -153,6 +177,7 @@ Public Class JanaadharStatusReport
     Sub Reset()
         gv1.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
+        rbtnMaster.IsChecked = True
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
@@ -235,5 +260,42 @@ Public Class JanaadharStatusReport
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
     End Sub
-    'Inherits FrmMainTranScreen
+
+    Private Sub txtUnion__My_Click(sender As Object, e As EventArgs) Handles txtUnion._My_Click
+        UnionName()
+    End Sub
+    Public Sub UnionName()
+        Try
+            If objCommonVar.RCDFCFP Then
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                    Exit Sub
+                End If
+                Dim qry As String = ""
+                qry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+                txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("JanAStatus", qry, "DataBase_Name", "Location_Name", txtUnion.arrValueMember, txtUnion.arrDispalyMember)
+
+            Else
+                Dim DatabaseName As New ArrayList()
+                DatabaseName.Add(objCommonVar.CurrComp_Code1)
+                txtUnion.arrValueMember = DatabaseName
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnTransaction_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTransaction.CheckStateChanged
+        If rbtnTransaction.IsChecked = False Then
+            txtFromDate.Enabled = True
+            txtToDate.Enabled = True
+        Else
+            txtFromDate.Enabled = False
+            txtToDate.Enabled = False
+        End If
+    End Sub
+
 End Class

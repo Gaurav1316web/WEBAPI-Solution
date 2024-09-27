@@ -204,8 +204,8 @@ Public Class rptmilkunion
     End Sub
     Public Sub Griddata(ByVal print As Boolean)
         Try
-            Dim query As String
-            Dim qry As String
+            Dim query As String = ""
+            Dim qry As String = ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
             If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")

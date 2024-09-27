@@ -4413,7 +4413,7 @@ TSPL_MILK_COLLECTION_MCC
                     clsCommon.MyMessageBoxShow(Me, "To Date can't be greater then selected finacial year end date.", Me.Text)
                     Exit Sub
                 End If
-                Dim MCCName As String
+                Dim MCCName As String = ""
                 If fndMultDCS.arrValueMember IsNot Nothing AndAlso fndMultMCC.arrValueMember.Count = 1 Then
                     MCCName = clsDBFuncationality.getSingleValue("Select ', '+MCC_NAME from TSPL_MCC_MASTER Where MCC_Code IN ('" + clsCommon.myCstr(fndMultMCC.arrValueMember(0)) + "')")
                 End If

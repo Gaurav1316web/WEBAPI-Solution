@@ -253,13 +253,13 @@ Public Class clsRMProcessLoss
         Dim strShipmentClearingAC As String = ""
         Dim dblTotalCost As Double = 0
 
-        strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+        strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Loss_Ac FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
           " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
            " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr_Pd.Item(0).item_code.ToString() + "'", trans)
         strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, obj.Location, trans)
 
         If clsCommon.myLen(strShipmentClearingAC) = 0 Then
-            Throw New Exception("Please set Shipment clearing Account for first item")
+            Throw New Exception("Please set Loss Account for first item")
         End If
 
         Dim dblCogsCost As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & obj.document_code & "'", trans))

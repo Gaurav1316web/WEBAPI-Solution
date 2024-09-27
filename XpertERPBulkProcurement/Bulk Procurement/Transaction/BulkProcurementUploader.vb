@@ -785,7 +785,7 @@ Public Class BulkProcurementUploader
         End Try
 
     End Sub
-    Public Function SaveData() As Boolean
+    Public Sub SaveData()
         Dim trans As SqlTransaction = Nothing
         Dim CurrentUserCode As String = objCommonVar.CurrentUserCode
         Dim j As Integer = 0
@@ -1206,7 +1206,7 @@ Public Class BulkProcurementUploader
             trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-    End Function
+    End Sub
 
 
 #Region "Import"

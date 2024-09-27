@@ -2934,6 +2934,7 @@ Public Class FrmGateEntry
             Return clsCancelLog.SaveData(obj, True, trans)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Return False
         End Try
     End Function
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click

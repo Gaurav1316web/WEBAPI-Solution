@@ -324,7 +324,7 @@ Public Class frmCorrection
     Private Sub frmMilkGateEntryIn_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
             CloseForm()
-        ElseIf e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.L Then
+        ElseIf e.Shift AndAlso e.Alt AndAlso e.KeyCode = Keys.D Then
             Dim pwd As New FrmPWD(Nothing)
             pwd.strCode = clsFixedParameterCode.DeleteMccMilkShiftPassword
             pwd.strType = clsFixedParameterType.DeleteMccMilkShiftPassword

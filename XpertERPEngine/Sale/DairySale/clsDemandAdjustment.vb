@@ -18,7 +18,7 @@ Public Class clsDemandAdjustment
     Public FixedQty As Double = 0
     Public Deduct_Qty As Double = 0
     Public Change_Item_Code As String = ""
-    Public Location_Code As String = ""
+    'Public Location_Code As String = ""
     Public Add_Qty As Double = 0
     Public Status As Integer = 0
     Public Modified_By As String = ""
@@ -109,7 +109,7 @@ Public Class clsDemandAdjustment
             obj.Shift_Type = clsCommon.myCstr(dt.Rows(0)("Shift_Type"))
             obj.Zone_Code = clsCommon.myCstr(dt.Rows(0)("Zone_Code"))
             obj.Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
-            obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+
             obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
             obj.Unit_Code = clsCommon.myCstr(dt.Rows(0)("Unit_Code"))
             obj.Minimum_Qty = clsCommon.myCdbl(dt.Rows(0)("Minimum_Qty"))
@@ -135,6 +135,7 @@ Public Class clsDemandAdjustment
                     objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
                     objTr.Zone_Code = clsCommon.myCstr(dr("Zone_Code"))
                     objTr.Route_Code = clsCommon.myCstr(dr("Route_Code"))
+                    objTr.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
                     objTr.Booth_Code = clsCommon.myCstr(dr("Booth_Code"))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                     objTr.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
@@ -254,7 +255,7 @@ where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
                             'Dim obj1 As New clsDemandBookingSale
                             ' obj1 = clsDemandBookingSale.GetData(item, NavigatorType.Current, trans)
                             'clsDemandBookingSale.SaveData(obj1, False, False, trans)
-                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, item, "TSPL_Demand_Adjustment_Head", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
+                            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, item, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
 
 
                         Next
@@ -262,7 +263,7 @@ where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
 
                     clsDBFuncationality.ExecuteNonQuery("Update TSPL_Demand_Adjustment_Head set Status=1 where Document_Code='" + obj.Document_Code + "'", trans)
                 End If
-                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_Demand_Adjustment_Head", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_Demand_Adjustment_Head", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -288,7 +289,7 @@ where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
             End If
             Dim StrQry As String = "delete from TSPL_DEMAND_ADJUSTMENT_DETAIL where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
-            Dim StrQry1 As String = "delete from TSPL_DEMAND_ADJUSTMENT_Head where Document_Code='" + strCode + "'"
+            StrQry = "delete from TSPL_DEMAND_ADJUSTMENT_Head where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -302,6 +303,7 @@ Public Class clsDemandAdjustmentDetail
     Public TR_Code As String = ""
     Public Zone_Code As String = ""
     Public Route_Code As String = ""
+    Public Location_Code As String = ""
     Public Booth_Code As String = ""
     Public Item_Code As String = ""
     Public Unit_Code As String = ""
@@ -363,6 +365,7 @@ Public Class clsDemandAdjustmentDetail
                     clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
                     clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code)
                     clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code)
+                    clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
                     clsCommon.AddColumnsForChange(coll, "Booth_Code", obj.Booth_Code)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
