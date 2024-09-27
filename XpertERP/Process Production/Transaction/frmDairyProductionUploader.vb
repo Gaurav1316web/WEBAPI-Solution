@@ -441,8 +441,7 @@ left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PK on TSPL_LOCATION
                             Throw New Exception("Please select Shift at line no [" + clsCommon.myCstr(ii + 1) + "]")
                         End If
                         objTr.QC_Status = clsCommon.myCBool(gv1.Rows(ii).Cells(ColQCStatus).Value)
-
-                        objTr.ArrQC = TryCast(gv1.CurrentRow.Cells(ColQCStatus).Tag, List(Of clsDairyProductionUploaderQC))
+                        objTr.ArrQC = TryCast(gv1.Rows(ii).Cells(ColQCStatus).Tag, List(Of clsDairyProductionUploaderQC))
                         obj.Arr.Add(objTr)
                     End If
                 Next
