@@ -256,10 +256,10 @@ Public Class clsPSInvoiceHead
                 obj.Is_Taxable = clsCommon.myCdbl(dtInvoice.Rows(0)("Is_Taxable"))
 
                 If clsCommon.CompairString(obj.Supplementary_Type, "C") = CompairStringResult.Equal Then
-                    qry = "select sum(Total_Amt* RI ) as Amt from (" + Environment.NewLine + _
-                    " select Total_Amt,1 as RI from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + obj.Invoice_No_For_Supplementary + "'" + Environment.NewLine + _
-                    " union all" + Environment.NewLine + _
-                    "select Total_Amt,-1 as RI from TSPL_SD_SALE_INVOICE_HEAD where  Supplementary_Type='C' and Invoice_No_For_Supplementary='" + obj.Invoice_No_For_Supplementary + "' and TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in ('" + obj.Document_Code + "')" + Environment.NewLine + _
+                    qry = "select sum(Total_Amt* RI ) as Amt from (" + Environment.NewLine +
+                    " select Total_Amt,1 as RI from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + obj.Invoice_No_For_Supplementary + "'" + Environment.NewLine +
+                    " union all" + Environment.NewLine +
+                    "select Total_Amt,-1 as RI from TSPL_SD_SALE_INVOICE_HEAD where  Supplementary_Type='C' and Invoice_No_For_Supplementary='" + obj.Invoice_No_For_Supplementary + "' and TSPL_SD_SALE_INVOICE_HEAD.Document_Code not in ('" + obj.Document_Code + "')" + Environment.NewLine +
                     ")x"
                     Dim dblInvoiceBalAmt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
                     If obj.Total_Amt > dblInvoiceBalAmt Then
@@ -741,10 +741,10 @@ Public Class clsPSInvoiceHead
         Dim qry As String = Nothing
         Dim strInvoiceType As String = Nothing
         strloc = Location
-        qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " & _
-          "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " & _
-          "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " & _
-          "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' " & _
+        qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
+          "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
+          "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
+          "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' " &
           "WHERE TSPL_LOCATION_MASTER.Location_Code = '" + strloc + "'"
 
 
@@ -778,12 +778,12 @@ Public Class clsPSInvoiceHead
             For Each dr As DataRow In dt.Rows
                 'Criteria, Notification, Validation
                 If clsCommon.CompairString(dr("Criteria"), "Credit days") = CompairStringResult.Equal Then
-                    qry = "Select COUNT(*) as Days From(" & _
-            " Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Balance_Amt from TSPL_SD_SALE_INVOICE_HEAD" & _
-            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" & _
-            " WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1 AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "' AND TSPL_SD_SALE_INVOICE_HEAD.Due_Date<'" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' AND TSPL_Customer_Invoice_Head.Balance_Amt<>0" & _
-                    " UNION ALL" & _
-            " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND CONVERT(Date, TSPL_SD_SALE_INVOICE_HEAD.Due_Date,103)<='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' AND Document_Code<>'" + obj.Document_Code + "' AND Total_Amt>0" & _
+                    qry = "Select COUNT(*) as Days From(" &
+            " Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Balance_Amt from TSPL_SD_SALE_INVOICE_HEAD" &
+            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" &
+            " WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1 AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "' AND TSPL_SD_SALE_INVOICE_HEAD.Due_Date<'" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' AND TSPL_Customer_Invoice_Head.Balance_Amt<>0" &
+                    " UNION ALL" &
+            " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND CONVERT(Date, TSPL_SD_SALE_INVOICE_HEAD.Due_Date,103)<='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' AND Document_Code<>'" + obj.Document_Code + "' AND Total_Amt>0" &
             " ) XXX"
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
                         If clsCommon.CompairString(dr("Validation"), "Required Approval") = CompairStringResult.Equal Then
@@ -805,12 +805,12 @@ Public Class clsPSInvoiceHead
                     End If
 
                 ElseIf clsCommon.CompairString(dr("Criteria"), "Credit Amount") = CompairStringResult.Equal Then
-                    qry = "Select SUM(Balance_Amt) From(" & _
-        " Select TSPL_Customer_Invoice_Head.Document_No, Against_Sale_No, TSPL_Customer_Invoice_Head.Balance_Amt, TSPL_Customer_Invoice_Head.Customer_Code" & _
-        " from TSPL_Customer_Invoice_Head WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1" & _
-        " AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "'" & _
-             " UNION ALL" & _
-        " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt, TSPL_SD_SALE_INVOICE_HEAD.Customer_Code from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND Document_Code<>'" + obj.Document_Code + "'" & _
+                    qry = "Select SUM(Balance_Amt) From(" &
+        " Select TSPL_Customer_Invoice_Head.Document_No, Against_Sale_No, TSPL_Customer_Invoice_Head.Balance_Amt, TSPL_Customer_Invoice_Head.Customer_Code" &
+        " from TSPL_Customer_Invoice_Head WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1" &
+        " AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "'" &
+             " UNION ALL" &
+        " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt, TSPL_SD_SALE_INVOICE_HEAD.Customer_Code from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND Document_Code<>'" + obj.Document_Code + "'" &
         " ) XXX"
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > CreditLimit Then
                         If clsCommon.CompairString(dr("Validation"), "Required Approval") = CompairStringResult.Equal Then
@@ -1651,12 +1651,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             Dim dtParty As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
             Dim qry1 As String = "select TSPL_SD_Sale_invoice_head.Crate,TSPL_SD_Sale_invoice_head.TotalCAN,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_ITEM_MASTER.Short_Description "
-            qry1 += " ,convert(varchar(12),TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_Date,103) as Do_Date"
             qry1 += " ,ISNULL(tspl_item_master.Alies_Name,'') AS Alies_Name from TSPL_SD_Sale_invoice_head"
             qry1 += " left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_Sale_invoice_head.Document_Code"
             qry1 += " left outer join TSPL_ITEM_MASTER on TSPL_SD_SALE_INVOICE_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code"
             qry1 += " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code"
-            qry1 += " left outer join TSPL_DELIVERY_NOTE_master_FRESHSALE on TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code"
             qry1 += "  where TSPL_SD_Sale_invoice_head.Document_Code='" & obj.Document_Code & "' and TSPL_SD_Sale_invoice_head.Screen_Type='DS' "
             Dim dtDocWise As DataTable = clsDBFuncationality.GetDataTable(qry1, trans)
 
@@ -1736,18 +1734,18 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             BaseqryfromDate_Crate = clsCrateReceivedHead.getCustomerOutstandingCrateWithOPeningAndClosing(strCustomer, strfromdate, strfromdate, ConvRate)
             BaseqryToDate_Crate = clsCrateReceivedHead.getCustomerOutstandingCrateWithOPeningAndClosing(strCustomer, strtodate, strtodate, ConvRate)
 
-            BaseQry = "  Select convert(varchar,FinalGroup.DocDate,103) as Date ,FinalGroup.acode as Cust_code ,max(FinalGroup.AName) as Name,sum(FinalGroup.OpngBal) as OpngBal,sum(FinalGroup.DrAmt) as DrAmt,sum(FinalGroup.CrAmt) as CrAmt,sum(FinalGroup.BalAmt) as BalAmt,sum(FinalGroup.CrateOpng) as CrateOpng,sum(FinalGroup.CrateReceived) as CrateReceived,sum(FinalGroup.CrateIssue) as CrateIssue,sum(FinalGroup.CrateClosing) as CrateClosing,sum(FinalGroup.OpenCanQty) as OpenCanQty ,sum(FinalGroup.CanQtyRecd) as CanQtyRecd  ,sum(FinalGroup.CanOutQty) as CanOutQty ,sum(FinalGroup.CanAdjQty) as CanAdjQty ,sum(FinalGroup.CanQtyClosing) as CanQtyClosing  from  ( " & Environment.NewLine & _
-            " Select  DocDate, ACode, AName, OpngBal, DrAmt, CrAmt, BalAmt,0 as CrateOpng,0 as CrateReceived,0 as CrateIssue,0 as CrateClosing,0 as OpenCanQty ,0 as CanQtyRecd  ,0 as CanOutQty ,0 as CanAdjQty ,0 as CanQtyClosing  from (" & BaseqryfromDate_Amount & ") Z " & Environment.NewLine & _
-            " Union All " & Environment.NewLine & _
-            " Select  DocDate, ACode, AName, OpngBal, DrAmt, CrAmt, BalAmt,0 as CrateOpng,0 as CrateReceived,0 as CrateIssue,0 as CrateClosing,0 as OpenCanQty ,0 as CanQtyRecd  ,0 as CanOutQty ,0 as CanAdjQty ,0 as CanQtyClosing  from (" & BaseqryToDate_Amount & ") X " & Environment.NewLine & _
-            " Union All " & Environment.NewLine & _
-            " Select Doc_Date,Customer_Code,Customer_Name,0 as OpngBal, 0 as DrAmt, 0 as  CrAmt, 0 as  BalAmt,  OpencrateQty, CrateQtyRecd ,CrateOutQty, CrateQtyClosing ,OpenCanQty , CanQtyRecd  ,CanOutQty , CanAdjQty ,CanQtyClosing from (" & BaseqryfromDate_Crate & ") Y " & Environment.NewLine & _
-            " Union All " & Environment.NewLine & _
-            " Select Doc_Date,Customer_Code,Customer_Name,0 as OpngBal, 0 as DrAmt, 0 as  CrAmt, 0 as  BalAmt,  OpencrateQty, CrateQtyRecd ,CrateOutQty, CrateQtyClosing ,OpenCanQty , CanQtyRecd  ,CanOutQty , CanAdjQty ,CanQtyClosing from (" & BaseqryToDate_Crate & ") S " & Environment.NewLine & _
-            " Union All " & Environment.NewLine & _
-            " select '" + clsCommon.GetPrintDate(strfromdate, "dd/MM/yyyy") + "' as Date,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name  as Name ,0 as OpngBal, 0 as DrAmt, 0 as  CrAmt, 0 as  BalAmt,0 as CrateOpng,0 as CrateReceived,0 as CrateIssue,0 as CrateClosing,0 as OpenCanQty ,0 as CanQtyRecd  ,0 as CanOutQty ,0 as CanAdjQty ,0 as CanQtyClosing  from TSPL_CUSTOMER_MASTER where  TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") " & Environment.NewLine & _
-            " Union All " & Environment.NewLine & _
-            " select '" + clsCommon.GetPrintDate(strtodate, "dd/MM/yyyy") + "'   as Date ,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name  as Name ,0 as OpngBal, 0 as DrAmt, 0 as  CrAmt, 0 as  BalAmt,0 as CrateOpng,0 as CrateReceived,0 as CrateIssue,0 as CrateClosing,0 as OpenCanQty ,0 as CanQtyRecd  ,0 as CanOutQty ,0 as CanAdjQty ,0 as CanQtyClosing   from TSPL_CUSTOMER_MASTER where  TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")" & Environment.NewLine & _
+            BaseQry = "  Select convert(varchar,FinalGroup.DocDate,103) as Date ,FinalGroup.acode as Cust_code ,max(FinalGroup.AName) as Name,sum(FinalGroup.OpngBal) as OpngBal,sum(FinalGroup.DrAmt) as DrAmt,sum(FinalGroup.CrAmt) as CrAmt,sum(FinalGroup.BalAmt) as BalAmt,sum(FinalGroup.CrateOpng) as CrateOpng,sum(FinalGroup.CrateReceived) as CrateReceived,sum(FinalGroup.CrateIssue) as CrateIssue,sum(FinalGroup.CrateClosing) as CrateClosing,sum(FinalGroup.OpenCanQty) as OpenCanQty ,sum(FinalGroup.CanQtyRecd) as CanQtyRecd  ,sum(FinalGroup.CanOutQty) as CanOutQty ,sum(FinalGroup.CanAdjQty) as CanAdjQty ,sum(FinalGroup.CanQtyClosing) as CanQtyClosing  from  ( " & Environment.NewLine &
+            " Select  DocDate, ACode, AName, OpngBal, DrAmt, CrAmt, BalAmt,0 as CrateOpng,0 as CrateReceived,0 as CrateIssue,0 as CrateClosing,0 as OpenCanQty ,0 as CanQtyRecd  ,0 as CanOutQty ,0 as CanAdjQty ,0 as CanQtyClosing  from (" & BaseqryfromDate_Amount & ") Z " & Environment.NewLine &
+            " Union All " & Environment.NewLine &
+            " Select  DocDate, ACode, AName, OpngBal, DrAmt, CrAmt, BalAmt,0 as CrateOpng,0 as CrateReceived,0 as CrateIssue,0 as CrateClosing,0 as OpenCanQty ,0 as CanQtyRecd  ,0 as CanOutQty ,0 as CanAdjQty ,0 as CanQtyClosing  from (" & BaseqryToDate_Amount & ") X " & Environment.NewLine &
+            " Union All " & Environment.NewLine &
+            " Select Doc_Date,Customer_Code,Customer_Name,0 as OpngBal, 0 as DrAmt, 0 as  CrAmt, 0 as  BalAmt,  OpencrateQty, CrateQtyRecd ,CrateOutQty, CrateQtyClosing ,OpenCanQty , CanQtyRecd  ,CanOutQty , CanAdjQty ,CanQtyClosing from (" & BaseqryfromDate_Crate & ") Y " & Environment.NewLine &
+            " Union All " & Environment.NewLine &
+            " Select Doc_Date,Customer_Code,Customer_Name,0 as OpngBal, 0 as DrAmt, 0 as  CrAmt, 0 as  BalAmt,  OpencrateQty, CrateQtyRecd ,CrateOutQty, CrateQtyClosing ,OpenCanQty , CanQtyRecd  ,CanOutQty , CanAdjQty ,CanQtyClosing from (" & BaseqryToDate_Crate & ") S " & Environment.NewLine &
+            " Union All " & Environment.NewLine &
+            " select '" + clsCommon.GetPrintDate(strfromdate, "dd/MM/yyyy") + "' as Date,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name  as Name ,0 as OpngBal, 0 as DrAmt, 0 as  CrAmt, 0 as  BalAmt,0 as CrateOpng,0 as CrateReceived,0 as CrateIssue,0 as CrateClosing,0 as OpenCanQty ,0 as CanQtyRecd  ,0 as CanOutQty ,0 as CanAdjQty ,0 as CanQtyClosing  from TSPL_CUSTOMER_MASTER where  TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ") " & Environment.NewLine &
+            " Union All " & Environment.NewLine &
+            " select '" + clsCommon.GetPrintDate(strtodate, "dd/MM/yyyy") + "'   as Date ,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name  as Name ,0 as OpngBal, 0 as DrAmt, 0 as  CrAmt, 0 as  BalAmt,0 as CrateOpng,0 as CrateReceived,0 as CrateIssue,0 as CrateClosing,0 as OpenCanQty ,0 as CanQtyRecd  ,0 as CanOutQty ,0 as CanAdjQty ,0 as CanQtyClosing   from TSPL_CUSTOMER_MASTER where  TSPL_CUSTOMER_MASTER.Cust_Code in (" & strCustomer & ")" & Environment.NewLine &
                 " ) FinalGroup group by FinalGroup.DocDate ,FinalGroup.acode order by FinalGroup.DocDate desc"
 
             Return clsDBFuncationality.GetDataTable(BaseQry, Trans)
@@ -1766,12 +1764,12 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             BaseQryForCustomer = clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, ConvRate, strCustomer, False, strfromdate, strtodate, False, False, False, Trans)
             BaseQryForCustomerforOpening = clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, ConvRate, strCustomer, True, strfromdate, strtodate, False, False, False, Trans)
 
-            BaseQry = " Select '" + clsCommon.GetPrintDate(strtodate, "dd/MM/yyyy") + "' as DocDate, ACode,  MAX(AName) as AName, SUM(convert(decimal(18,2),OpngBal)) as OpngBal, SUM(convert(decimal(18,2),DrAmt)) as DrAmt, SUM(convert(decimal(18,2),CrAmt)) as CrAmt,  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt  From (" + Environment.NewLine & _
-            "  Select max(DocDate) as DocDate, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName,  '' as CurrencyCode, null as ConvRate, SUM(DrAmt*ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt from  ( " + BaseQryForCustomerforOpening + " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where  CONVERT(DATE,final.DocDate,103) < '" + strfromdate + "' AND LEN(ACode)>0 AND TSPL_CUSTOMER_MASTER.Status='N'  GROUP BY ACode" + Environment.NewLine & _
-            Environment.NewLine + " UNION ALL" + Environment.NewLine & _
-            " Select  max(DocDate) as DocDate, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName,  MAX(Final.Currency_Code) as Currency_Code, MAX(Final.ConvRate) as ConvRate, 0 as OpngBal, SUM(convert(decimal(18,2),DrAmt*  Final.ConvRate)) as DrAmt, " & Environment.NewLine & _
-            " SUM(convert(decimal(18,2),CrAmt)) as CrAmt FROM ( " + BaseQryForCustomer + " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " + Environment.NewLine & _
-            " Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " + Environment.NewLine & _
+            BaseQry = " Select '" + clsCommon.GetPrintDate(strtodate, "dd/MM/yyyy") + "' as DocDate, ACode,  MAX(AName) as AName, SUM(convert(decimal(18,2),OpngBal)) as OpngBal, SUM(convert(decimal(18,2),DrAmt)) as DrAmt, SUM(convert(decimal(18,2),CrAmt)) as CrAmt,  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt  From (" + Environment.NewLine &
+            "  Select max(DocDate) as DocDate, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName,  '' as CurrencyCode, null as ConvRate, SUM(DrAmt*ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt from  ( " + BaseQryForCustomerforOpening + " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where  CONVERT(DATE,final.DocDate,103) < '" + strfromdate + "' AND LEN(ACode)>0 AND TSPL_CUSTOMER_MASTER.Status='N'  GROUP BY ACode" + Environment.NewLine &
+            Environment.NewLine + " UNION ALL" + Environment.NewLine &
+            " Select  max(DocDate) as DocDate, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName,  MAX(Final.Currency_Code) as Currency_Code, MAX(Final.ConvRate) as ConvRate, 0 as OpngBal, SUM(convert(decimal(18,2),DrAmt*  Final.ConvRate)) as DrAmt, " & Environment.NewLine &
+            " SUM(convert(decimal(18,2),CrAmt)) as CrAmt FROM ( " + BaseQryForCustomer + " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " + Environment.NewLine &
+            " Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " + Environment.NewLine &
             "where  CONVERT(DATE,final.DocDate,103) >= '" + strfromdate + "' AND CONVERT(DATE,final.DocDate,103) <= '" + strtodate + "' AND LEN(ACode)>0 AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode ) XXX GROUP BY ACode  " + Environment.NewLine
 
             Return BaseQry
@@ -1816,302 +1814,220 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
             ''''''''''''''''''''''''''''''''''For Making AR Invoice
             Dim objCustInv As New clsCustomerInvoiceHead()
-        ''objCustInv.Document_No ''Will be Generateed
-        objCustInv.RoundOffAmount = obj.RoundOffAmount
-        objCustInv.Document_Date = obj.Document_Date
-        If clsCommon.myLen(obj.Invoice_No_For_Supplementary) > 0 AndAlso clsCommon.CompairString(obj.Supplementary_Type, "C") = CompairStringResult.Equal Then
-            objCustInv.Document_Type = "C"
-        ElseIf clsCommon.myLen(obj.Invoice_No_For_Supplementary) > 0 Then
-            objCustInv.Document_Type = "D"
-        Else
-            objCustInv.Document_Type = "I"
-        End If
-
-
-        objCustInv.Trans_Type = obj.Trans_type '"PS"
-
-        objCustInv.Document_Total = obj.Total_Amt
-        objCustInv.isCardSale = obj.isCardSale
-        objCustInv.Customer_Code = obj.Customer_Code
-        objCustInv.Customer_Name = obj.Customer_Name
-        objCustInv.Posting_Date = obj.Document_Date
-        Dim qry As String = " select Cust_Account from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'"
-        objCustInv.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-        If clsCommon.myLen(objCustInv.Account_Set) <= 0 Then
-            Throw New Exception("Please set account set of customer :" + obj.Customer_Code)
-        End If
-
-        ''objCustInv.Order_No
-        objCustInv.loc_code = clsLocation.GetSegmentCode(obj.Bill_To_Location, trans)
-        objCustInv.On_Hold = 0
-        objCustInv.Remarks = obj.Remarks
-        objCustInv.Description = obj.Description
-        objCustInv.Tax_Group = obj.Tax_Group
-        objCustInv.TAX1 = obj.TAX1
-        objCustInv.TAX1_Rate = obj.TAX1_Rate
-        objCustInv.TAX1_Amt = obj.TAX1_Amt
-        objCustInv.TAX2 = obj.TAX2
-        objCustInv.TAX2_Rate = obj.TAX2_Rate
-        objCustInv.TAX2_Amt = obj.TAX2_Amt
-        objCustInv.TAX3 = obj.TAX3
-        objCustInv.TAX3_Rate = obj.TAX3_Rate
-        objCustInv.TAX3_Amt = obj.TAX3_Amt
-        objCustInv.TAX4 = obj.TAX4
-        objCustInv.TAX4_Rate = obj.TAX4_Rate
-        objCustInv.TAX4_Amt = obj.TAX4_Amt
-        objCustInv.TAX5 = obj.TAX5
-        objCustInv.TAX5_Rate = obj.TAX5_Rate
-        objCustInv.TAX5_Amt = obj.TAX5_Amt
-        objCustInv.TAX6 = obj.TAX6
-        objCustInv.TAX6_Rate = obj.TAX6_Rate
-        objCustInv.TAX6_Amt = obj.TAX6_Amt
-        objCustInv.TAX7 = obj.TAX7
-        objCustInv.TAX7_Rate = obj.TAX7_Rate
-        objCustInv.TAX7_Amt = obj.TAX7_Amt
-        objCustInv.TAX8 = obj.TAX8
-        objCustInv.TAX8_Rate = obj.TAX8_Rate
-        objCustInv.TAX8_Amt = obj.TAX8_Amt
-        objCustInv.TAX9 = obj.TAX9
-        objCustInv.TAX9_Rate = obj.TAX9_Rate
-        objCustInv.TAX9_Amt = obj.TAX9_Amt
-        objCustInv.TAX10 = obj.TAX10
-        objCustInv.TAX10_Rate = obj.TAX10_Rate
-        objCustInv.TAX10_Amt = obj.TAX10_Amt
-        objCustInv.Total_Tax = obj.Total_Tax_Amt
-        objCustInv.Tax1_BAmount = obj.TAX1_Base_Amt
-        objCustInv.Tax2_BAmount = obj.TAX2_Base_Amt
-        objCustInv.Tax3_BAmount = obj.TAX3_Base_Amt
-        objCustInv.Tax4_BAmount = obj.TAX4_Base_Amt
-        objCustInv.Tax5_BAmount = obj.TAX5_Base_Amt
-        objCustInv.Tax6_BAmount = obj.TAX6_Base_Amt
-        objCustInv.Tax7_BAmount = obj.TAX7_Base_Amt
-        objCustInv.Tax8_BAmount = obj.TAX8_Base_Amt
-        objCustInv.Tax9_BAmount = obj.TAX9_Base_Amt
-        objCustInv.Tax10_BAmount = obj.TAX10_Base_Amt
-        objCustInv.Balance_Amt = obj.Total_Amt
-        objCustInv.Terms_Code = obj.Terms_Code
-        objCustInv.PROJECT_ID = obj.PROJECT_ID
-
-        '' currency details
-        objCustInv.CURRENCY_CODE = obj.CURRENCY_CODE
-        objCustInv.ConvRate = obj.ConvRate
-        objCustInv.ApplicableFrom = obj.ApplicableFrom
-
-        qry = "select Terms_Code,Terms_Desc,No_Days from TSPL_TERMS_MASTER where Terms_Code='" + obj.Terms_Code + "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-            objCustInv.Terms_Description = clsCommon.myCstr(dt.Rows(0)("Terms_Desc"))
-            objCustInv.Due_Date = obj.Document_Date.AddDays(clsCommon.myCdbl(dt.Rows(0)("No_Days")))
-        End If
-
-        objCustInv.Discount_Percentage = IIf(obj.Discount_Base > 0, obj.Discount_Amt * 100 / obj.Discount_Base, 0)
-        objCustInv.Discount_Base = obj.Discount_Base
-        objCustInv.Discount_Amount = obj.Discount_Amt + obj.HeadDisc_Amt + obj.HeadDisc_PerAmt
-        ''objCustInv.Amount_Less_Discount = 
-        dt = clsDBFuncationality.GetDataTable("select Receivable_Control_acct,Receipts_Discount_acct from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" + objCustInv.Account_Set + "'", trans)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            objCustInv.Customer_Control_AC = clsCommon.myCstr(dt.Rows(0)("Receivable_Control_acct"))
-            If clsCommon.myCdbl(obj.Discount_Amt) > 0 Then
-                objCustInv.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Receipts_Discount_acct"))
+            ''objCustInv.Document_No ''Will be Generateed
+            objCustInv.RoundOffAmount = obj.RoundOffAmount
+            objCustInv.Document_Date = obj.Document_Date
+            If clsCommon.myLen(obj.Invoice_No_For_Supplementary) > 0 AndAlso clsCommon.CompairString(obj.Supplementary_Type, "C") = CompairStringResult.Equal Then
+                objCustInv.Document_Type = "C"
+            ElseIf clsCommon.myLen(obj.Invoice_No_For_Supplementary) > 0 Then
+                objCustInv.Document_Type = "D"
+            Else
+                objCustInv.Document_Type = "I"
             End If
-        End If
 
-        If obj.TAX1_Amt > 0 AndAlso clsCommon.myLen(obj.TAX1) > 0 Then
-            objCustInv.TAX1_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX1, trans)
-            objCustInv.TAX1_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX1_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX2_Amt > 0 AndAlso clsCommon.myLen(obj.TAX2) > 0 Then
-            objCustInv.TAX2_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX2, trans)
-            objCustInv.TAX2_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX2_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX3_Amt > 0 AndAlso clsCommon.myLen(obj.TAX3) > 0 Then
-            objCustInv.TAX3_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX3, trans)
-            objCustInv.TAX3_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX3_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX4_Amt > 0 AndAlso clsCommon.myLen(obj.TAX4) > 0 Then
-            objCustInv.TAX4_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX4, trans)
-            objCustInv.TAX4_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX4_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX5_Amt > 0 AndAlso clsCommon.myLen(obj.TAX5) > 0 Then
-            objCustInv.TAX5_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX5, trans)
-            objCustInv.TAX5_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX5_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX6_Amt > 0 AndAlso clsCommon.myLen(obj.TAX6) > 0 Then
-            objCustInv.TAX6_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX6, trans)
-            objCustInv.TAX6_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX6_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX7_Amt > 0 AndAlso clsCommon.myLen(obj.TAX7) > 0 Then
-            objCustInv.TAX7_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX7, trans)
-            objCustInv.TAX7_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX7_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX8_Amt > 0 AndAlso clsCommon.myLen(obj.TAX8) > 0 Then
-            objCustInv.TAX8_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX8, trans)
-            objCustInv.TAX8_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX8_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX9_Amt > 0 AndAlso clsCommon.myLen(obj.TAX9) > 0 Then
-            objCustInv.TAX9_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX9, trans)
-            objCustInv.TAX9_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX9_GLAC, obj.Bill_To_Location, trans)
-        End If
-        If obj.TAX10_Amt > 0 AndAlso clsCommon.myLen(obj.TAX10) > 0 Then
-            objCustInv.TAX10_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX10, trans)
-            objCustInv.TAX10_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX10_GLAC, obj.Bill_To_Location, trans)
-        End If
 
-        'objCustInv.RefDocType=
-        'objCustInv.RefDocNo
-        objCustInv.Add_Charge_Code1 = obj.Add_Charge_Code1
-        objCustInv.Add_Charge_Name1 = obj.Add_Charge_Name1
-        objCustInv.Add_Charge_Amt1 = obj.Add_Charge_Amt1
-        objCustInv.Add_Charge_Code2 = obj.Add_Charge_Code2
-        objCustInv.Add_Charge_Name2 = obj.Add_Charge_Name2
-        objCustInv.Add_Charge_Amt2 = obj.Add_Charge_Amt2
-        objCustInv.Add_Charge_Code3 = obj.Add_Charge_Code3
-        objCustInv.Add_Charge_Name3 = obj.Add_Charge_Name3
-        objCustInv.Add_Charge_Amt3 = obj.Add_Charge_Amt3
-        objCustInv.Add_Charge_Code4 = obj.Add_Charge_Code4
-        objCustInv.Add_Charge_Name4 = obj.Add_Charge_Name4
-        objCustInv.Add_Charge_Amt4 = obj.Add_Charge_Amt4
-        objCustInv.Add_Charge_Code5 = obj.Add_Charge_Code5
-        objCustInv.Add_Charge_Name5 = obj.Add_Charge_Name5
-        objCustInv.Add_Charge_Amt5 = obj.Add_Charge_Amt5
-        objCustInv.Add_Charge_Code6 = obj.Add_Charge_Code6
-        objCustInv.Add_Charge_Name6 = obj.Add_Charge_Name6
-        objCustInv.Add_Charge_Amt6 = obj.Add_Charge_Amt6
-        objCustInv.Add_Charge_Code7 = obj.Add_Charge_Code7
-        objCustInv.Add_Charge_Name7 = obj.Add_Charge_Name7
-        objCustInv.Add_Charge_Amt7 = obj.Add_Charge_Amt7
-        objCustInv.Add_Charge_Code8 = obj.Add_Charge_Code8
-        objCustInv.Add_Charge_Name8 = obj.Add_Charge_Name8
-        objCustInv.Add_Charge_Amt8 = obj.Add_Charge_Amt8
-        objCustInv.Add_Charge_Code9 = obj.Add_Charge_Code9
-        objCustInv.Add_Charge_Name9 = obj.Add_Charge_Name9
-        objCustInv.Add_Charge_Amt9 = obj.Add_Charge_Amt9
-        objCustInv.Add_Charge_Code10 = obj.Add_Charge_Code10
-        objCustInv.Add_Charge_Name10 = obj.Add_Charge_Name10
-        objCustInv.Add_Charge_Amt10 = obj.Add_Charge_Amt10
-        objCustInv.Total_Add_Charge = obj.Total_Add_Charge
-        objCustInv.Tax_Calculation_Type = obj.Tax_Calculation_Type
-        ''objCustInv.Status
-        ''objCustInv.AgainstScrap
-        objCustInv.Against_Sale_No = obj.Document_Code
-        Dim counter As Integer = 1
-        objCustInv.Arr = New List(Of clsCustomerInvoiceDetail)
-        For Each objTr As clsPSInvoiceHeadDetail In obj.Arr
+            objCustInv.Trans_Type = obj.Trans_type '"PS"
 
-            If (clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal OrElse (IsDairyModule = True AndAlso clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal)) Then
-                Dim objCustInvTR As clsCustomerInvoiceDetail = New clsCustomerInvoiceDetail()
-                objCustInvTR.SNo = counter
-                If clsCommon.CompairString(objTr.Row_Type, "Item") = CompairStringResult.Equal And (clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal OrElse (IsDairyModule = True AndAlso clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal)) Then
-                    dt = clsItemMaster.GetSaleAccGLAC(objTr.Item_Code, trans)
-                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                        Throw New Exception("Please set sale account for item" + objTr.Item_Code)
-                    End If
-                    objCustInvTR.GL_Account_Code = clsCommon.myCstr(dt.Rows(0)("Sales_Account"))
-                    objCustInvTR.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInvTR.GL_Account_Code, obj.Bill_To_Location, trans)
-                    objCustInvTR.GL_Account_Desc = clsGLAccount.GetName(objCustInvTR.GL_Account_Code, trans)
-                    objCustInvTR.Reco_Control_Account = "S"
-                Else ''for row type misl.
-                    If clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal Then
-                        Dim objAC As clsAdditionalCharge = clsAdditionalCharge.GetData(objTr.Item_Code, NavigatorType.Current, trans)
-                        If objAC Is Nothing Then
-                            Throw New Exception("Please set GL Ac from addition charge" + objTr.Item_Code)
-                        End If
-                        objCustInvTR.GL_Account_Code = objAC.Account_Code
-                        objCustInvTR.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInvTR.GL_Account_Code, objTr.Location, trans)
-                        objCustInvTR.GL_Account_Desc = clsGLAccount.GetName(objCustInvTR.GL_Account_Code, trans)
-                    End If
+            objCustInv.Document_Total = obj.Total_Amt
+            objCustInv.isCardSale = obj.isCardSale
+            objCustInv.Customer_Code = obj.Customer_Code
+            objCustInv.Customer_Name = obj.Customer_Name
+            objCustInv.Posting_Date = obj.Document_Date
+            Dim qry As String = " select Cust_Account from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'"
+            objCustInv.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(objCustInv.Account_Set) <= 0 Then
+                Throw New Exception("Please set account set of customer :" + obj.Customer_Code)
+            End If
+
+            ''objCustInv.Order_No
+            objCustInv.loc_code = clsLocation.GetSegmentCode(obj.Bill_To_Location, trans)
+            objCustInv.On_Hold = 0
+            objCustInv.Remarks = obj.Remarks
+            objCustInv.Description = obj.Description
+            objCustInv.Tax_Group = obj.Tax_Group
+            objCustInv.TAX1 = obj.TAX1
+            objCustInv.TAX1_Rate = obj.TAX1_Rate
+            objCustInv.TAX1_Amt = obj.TAX1_Amt
+            objCustInv.TAX2 = obj.TAX2
+            objCustInv.TAX2_Rate = obj.TAX2_Rate
+            objCustInv.TAX2_Amt = obj.TAX2_Amt
+            objCustInv.TAX3 = obj.TAX3
+            objCustInv.TAX3_Rate = obj.TAX3_Rate
+            objCustInv.TAX3_Amt = obj.TAX3_Amt
+            objCustInv.TAX4 = obj.TAX4
+            objCustInv.TAX4_Rate = obj.TAX4_Rate
+            objCustInv.TAX4_Amt = obj.TAX4_Amt
+            objCustInv.TAX5 = obj.TAX5
+            objCustInv.TAX5_Rate = obj.TAX5_Rate
+            objCustInv.TAX5_Amt = obj.TAX5_Amt
+            objCustInv.TAX6 = obj.TAX6
+            objCustInv.TAX6_Rate = obj.TAX6_Rate
+            objCustInv.TAX6_Amt = obj.TAX6_Amt
+            objCustInv.TAX7 = obj.TAX7
+            objCustInv.TAX7_Rate = obj.TAX7_Rate
+            objCustInv.TAX7_Amt = obj.TAX7_Amt
+            objCustInv.TAX8 = obj.TAX8
+            objCustInv.TAX8_Rate = obj.TAX8_Rate
+            objCustInv.TAX8_Amt = obj.TAX8_Amt
+            objCustInv.TAX9 = obj.TAX9
+            objCustInv.TAX9_Rate = obj.TAX9_Rate
+            objCustInv.TAX9_Amt = obj.TAX9_Amt
+            objCustInv.TAX10 = obj.TAX10
+            objCustInv.TAX10_Rate = obj.TAX10_Rate
+            objCustInv.TAX10_Amt = obj.TAX10_Amt
+            objCustInv.Total_Tax = obj.Total_Tax_Amt
+            objCustInv.Tax1_BAmount = obj.TAX1_Base_Amt
+            objCustInv.Tax2_BAmount = obj.TAX2_Base_Amt
+            objCustInv.Tax3_BAmount = obj.TAX3_Base_Amt
+            objCustInv.Tax4_BAmount = obj.TAX4_Base_Amt
+            objCustInv.Tax5_BAmount = obj.TAX5_Base_Amt
+            objCustInv.Tax6_BAmount = obj.TAX6_Base_Amt
+            objCustInv.Tax7_BAmount = obj.TAX7_Base_Amt
+            objCustInv.Tax8_BAmount = obj.TAX8_Base_Amt
+            objCustInv.Tax9_BAmount = obj.TAX9_Base_Amt
+            objCustInv.Tax10_BAmount = obj.TAX10_Base_Amt
+            objCustInv.Balance_Amt = obj.Total_Amt
+            objCustInv.Terms_Code = obj.Terms_Code
+            objCustInv.PROJECT_ID = obj.PROJECT_ID
+
+            '' currency details
+            objCustInv.CURRENCY_CODE = obj.CURRENCY_CODE
+            objCustInv.ConvRate = obj.ConvRate
+            objCustInv.ApplicableFrom = obj.ApplicableFrom
+
+            qry = "select Terms_Code,Terms_Desc,No_Days from TSPL_TERMS_MASTER where Terms_Code='" + obj.Terms_Code + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                objCustInv.Terms_Description = clsCommon.myCstr(dt.Rows(0)("Terms_Desc"))
+                objCustInv.Due_Date = obj.Document_Date.AddDays(clsCommon.myCdbl(dt.Rows(0)("No_Days")))
+            End If
+
+            objCustInv.Discount_Percentage = IIf(obj.Discount_Base > 0, obj.Discount_Amt * 100 / obj.Discount_Base, 0)
+            objCustInv.Discount_Base = obj.Discount_Base
+            objCustInv.Discount_Amount = obj.Discount_Amt + obj.HeadDisc_Amt + obj.HeadDisc_PerAmt
+            ''objCustInv.Amount_Less_Discount = 
+            dt = clsDBFuncationality.GetDataTable("select Receivable_Control_acct,Receipts_Discount_acct from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" + objCustInv.Account_Set + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                objCustInv.Customer_Control_AC = clsCommon.myCstr(dt.Rows(0)("Receivable_Control_acct"))
+                If clsCommon.myCdbl(obj.Discount_Amt) > 0 Then
+                    objCustInv.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Receipts_Discount_acct"))
                 End If
-                If clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal Then
-                    objCustInvTR.Amount = objTr.Amount
-                Else
-                    objCustInvTR.Amount = 0
-                End If
+            End If
 
-                'objCustInvTR.Discount_Per = objTr.Disc_Per
-                'objCustInvTR.Discount = objTr.Disc_Amt
-                objCustInvTR.Amount_less_Discount = objTr.Amt_Less_Discount
-                objCustInvTR.TAX1 = objTr.TAX1
-                objCustInvTR.TAX1_Rate = objTr.TAX1_Rate
-                objCustInvTR.TAX1_Amt = objTr.TAX1_Amt
-                objCustInvTR.TAX1_Base_Amt = objTr.TAX1_Base_Amt
-                objCustInvTR.TAX2 = objTr.TAX2
-                objCustInvTR.TAX2_Rate = objTr.TAX2_Rate
-                objCustInvTR.TAX2_Amt = objTr.TAX2_Amt
-                objCustInvTR.TAX2_Base_Amt = objTr.TAX2_Base_Amt
-                objCustInvTR.TAX3 = objTr.TAX3
-                objCustInvTR.TAX3_Rate = objTr.TAX3_Rate
-                objCustInvTR.TAX3_Amt = objTr.TAX3_Amt
-                objCustInvTR.TAX3_Base_Amt = objTr.TAX3_Base_Amt
-                objCustInvTR.TAX4 = objTr.TAX4
-                objCustInvTR.TAX4_Rate = objTr.TAX4_Rate
-                objCustInvTR.TAX4_Amt = objTr.TAX4_Amt
-                objCustInvTR.TAX4_Base_Amt = objTr.TAX4_Base_Amt
-                objCustInvTR.TAX5 = objTr.TAX5
-                objCustInvTR.TAX5_Rate = objTr.TAX5_Rate
-                objCustInvTR.TAX5_Amt = objTr.TAX5_Amt
-                objCustInvTR.TAX5_Base_Amt = objTr.TAX5_Base_Amt
-                objCustInvTR.TAX6 = objTr.TAX6
-                objCustInvTR.TAX6_Rate = objTr.TAX6_Rate
-                objCustInvTR.TAX6_Amt = objTr.TAX6_Amt
-                objCustInvTR.TAX6_Base_Amt = objTr.TAX6_Base_Amt
-                objCustInvTR.TAX7 = objTr.TAX7
-                objCustInvTR.TAX7_Rate = objTr.TAX7_Rate
-                objCustInvTR.TAX7_Amt = objTr.TAX7_Amt
-                objCustInvTR.TAX7_Base_Amt = objTr.TAX7_Base_Amt
-                objCustInvTR.TAX8 = objTr.TAX8
-                objCustInvTR.TAX8_Rate = objTr.TAX8_Rate
-                objCustInvTR.TAX8_Amt = objTr.TAX8_Amt
-                objCustInvTR.TAX8_Base_Amt = objTr.TAX8_Base_Amt
-                objCustInvTR.TAX9 = objTr.TAX9
-                objCustInvTR.TAX9_Rate = objTr.TAX9_Rate
-                objCustInvTR.TAX9_Amt = objTr.TAX9_Amt
-                objCustInvTR.TAX9_Base_Amt = objTr.TAX9_Base_Amt
-                objCustInvTR.TAX10 = objTr.TAX10
-                objCustInvTR.TAX10_Rate = objTr.TAX10_Rate
-                objCustInvTR.TAX10_Amt = objTr.TAX10_Amt
-                objCustInvTR.TAX10_Base_Amt = objTr.TAX10_Base_Amt
-                objCustInvTR.Total_Tax = objTr.Total_Tax_Amt
-                objCustInvTR.Total_Amount = objTr.Item_Net_Amt
-                objCustInvTR.Remarks = objTr.Remarks
-                objCustInvTR.TAX1_Base_Amt = objTr.TAX1_Base_Amt
-                objCustInvTR.TAX2_Base_Amt = objTr.TAX2_Base_Amt
-                objCustInvTR.TAX3_Base_Amt = objTr.TAX3_Base_Amt
-                objCustInvTR.TAX4_Base_Amt = objTr.TAX4_Base_Amt
-                objCustInvTR.TAX5_Base_Amt = objTr.TAX5_Base_Amt
-                objCustInvTR.TAX6_Base_Amt = objTr.TAX6_Base_Amt
-                objCustInvTR.TAX7_Base_Amt = objTr.TAX7_Base_Amt
-                objCustInvTR.TAX8_Base_Amt = objTr.TAX8_Base_Amt
-                objCustInvTR.TAX9_Base_Amt = objTr.TAX9_Base_Amt
-                objCustInvTR.TAX10_Base_Amt = objTr.TAX10_Base_Amt
-                'objCustInvTR.Comments=objTr.Comments
-                objCustInv.Arr.Add(objCustInvTR)
-                counter += 1
+            If obj.TAX1_Amt > 0 AndAlso clsCommon.myLen(obj.TAX1) > 0 Then
+                objCustInv.TAX1_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX1, trans)
+                objCustInv.TAX1_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX1_GLAC, obj.Bill_To_Location, trans)
             End If
-            If clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal AndAlso IsDairyModule = False Then
-                objCustInv.TAX1_ExciseFOCAmt += objTr.TAX1_Amt
-                objCustInv.TAX2_ExciseFOCAmt += objTr.TAX2_Amt
-                objCustInv.TAX3_ExciseFOCAmt += objTr.TAX3_Amt
-                objCustInv.TAX4_ExciseFOCAmt += objTr.TAX4_Amt
+            If obj.TAX2_Amt > 0 AndAlso clsCommon.myLen(obj.TAX2) > 0 Then
+                objCustInv.TAX2_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX2, trans)
+                objCustInv.TAX2_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX2_GLAC, obj.Bill_To_Location, trans)
             End If
-            If IsDairyModule Then
-                If clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal Then
+            If obj.TAX3_Amt > 0 AndAlso clsCommon.myLen(obj.TAX3) > 0 Then
+                objCustInv.TAX3_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX3, trans)
+                objCustInv.TAX3_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX3_GLAC, obj.Bill_To_Location, trans)
+            End If
+            If obj.TAX4_Amt > 0 AndAlso clsCommon.myLen(obj.TAX4) > 0 Then
+                objCustInv.TAX4_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX4, trans)
+                objCustInv.TAX4_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX4_GLAC, obj.Bill_To_Location, trans)
+            End If
+            If obj.TAX5_Amt > 0 AndAlso clsCommon.myLen(obj.TAX5) > 0 Then
+                objCustInv.TAX5_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX5, trans)
+                objCustInv.TAX5_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX5_GLAC, obj.Bill_To_Location, trans)
+            End If
+            If obj.TAX6_Amt > 0 AndAlso clsCommon.myLen(obj.TAX6) > 0 Then
+                objCustInv.TAX6_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX6, trans)
+                objCustInv.TAX6_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX6_GLAC, obj.Bill_To_Location, trans)
+            End If
+            If obj.TAX7_Amt > 0 AndAlso clsCommon.myLen(obj.TAX7) > 0 Then
+                objCustInv.TAX7_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX7, trans)
+                objCustInv.TAX7_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX7_GLAC, obj.Bill_To_Location, trans)
+            End If
+            If obj.TAX8_Amt > 0 AndAlso clsCommon.myLen(obj.TAX8) > 0 Then
+                objCustInv.TAX8_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX8, trans)
+                objCustInv.TAX8_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX8_GLAC, obj.Bill_To_Location, trans)
+            End If
+            If obj.TAX9_Amt > 0 AndAlso clsCommon.myLen(obj.TAX9) > 0 Then
+                objCustInv.TAX9_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX9, trans)
+                objCustInv.TAX9_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX9_GLAC, obj.Bill_To_Location, trans)
+            End If
+            If obj.TAX10_Amt > 0 AndAlso clsCommon.myLen(obj.TAX10) > 0 Then
+                objCustInv.TAX10_GLAC = clsTaxMaster.GetTaxPayAC(obj.TAX10, trans)
+                objCustInv.TAX10_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInv.TAX10_GLAC, obj.Bill_To_Location, trans)
+            End If
+
+            'objCustInv.RefDocType=
+            'objCustInv.RefDocNo
+            objCustInv.Add_Charge_Code1 = obj.Add_Charge_Code1
+            objCustInv.Add_Charge_Name1 = obj.Add_Charge_Name1
+            objCustInv.Add_Charge_Amt1 = obj.Add_Charge_Amt1
+            objCustInv.Add_Charge_Code2 = obj.Add_Charge_Code2
+            objCustInv.Add_Charge_Name2 = obj.Add_Charge_Name2
+            objCustInv.Add_Charge_Amt2 = obj.Add_Charge_Amt2
+            objCustInv.Add_Charge_Code3 = obj.Add_Charge_Code3
+            objCustInv.Add_Charge_Name3 = obj.Add_Charge_Name3
+            objCustInv.Add_Charge_Amt3 = obj.Add_Charge_Amt3
+            objCustInv.Add_Charge_Code4 = obj.Add_Charge_Code4
+            objCustInv.Add_Charge_Name4 = obj.Add_Charge_Name4
+            objCustInv.Add_Charge_Amt4 = obj.Add_Charge_Amt4
+            objCustInv.Add_Charge_Code5 = obj.Add_Charge_Code5
+            objCustInv.Add_Charge_Name5 = obj.Add_Charge_Name5
+            objCustInv.Add_Charge_Amt5 = obj.Add_Charge_Amt5
+            objCustInv.Add_Charge_Code6 = obj.Add_Charge_Code6
+            objCustInv.Add_Charge_Name6 = obj.Add_Charge_Name6
+            objCustInv.Add_Charge_Amt6 = obj.Add_Charge_Amt6
+            objCustInv.Add_Charge_Code7 = obj.Add_Charge_Code7
+            objCustInv.Add_Charge_Name7 = obj.Add_Charge_Name7
+            objCustInv.Add_Charge_Amt7 = obj.Add_Charge_Amt7
+            objCustInv.Add_Charge_Code8 = obj.Add_Charge_Code8
+            objCustInv.Add_Charge_Name8 = obj.Add_Charge_Name8
+            objCustInv.Add_Charge_Amt8 = obj.Add_Charge_Amt8
+            objCustInv.Add_Charge_Code9 = obj.Add_Charge_Code9
+            objCustInv.Add_Charge_Name9 = obj.Add_Charge_Name9
+            objCustInv.Add_Charge_Amt9 = obj.Add_Charge_Amt9
+            objCustInv.Add_Charge_Code10 = obj.Add_Charge_Code10
+            objCustInv.Add_Charge_Name10 = obj.Add_Charge_Name10
+            objCustInv.Add_Charge_Amt10 = obj.Add_Charge_Amt10
+            objCustInv.Total_Add_Charge = obj.Total_Add_Charge
+            objCustInv.Tax_Calculation_Type = obj.Tax_Calculation_Type
+            ''objCustInv.Status
+            ''objCustInv.AgainstScrap
+            objCustInv.Against_Sale_No = obj.Document_Code
+            Dim counter As Integer = 1
+            objCustInv.Arr = New List(Of clsCustomerInvoiceDetail)
+            For Each objTr As clsPSInvoiceHeadDetail In obj.Arr
+
+                If (clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal OrElse (IsDairyModule = True AndAlso clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal)) Then
                     Dim objCustInvTR As clsCustomerInvoiceDetail = New clsCustomerInvoiceDetail()
                     objCustInvTR.SNo = counter
-                    If clsCommon.CompairString(objTr.Row_Type, "Item") = CompairStringResult.Equal And clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal Then
-                        dt = clsItemMaster.GetSchemeAccGLAC(objTr.Item_Code, trans)
-                            If dt Is Nothing OrElse dt.Rows.Count <= 0 OrElse clsCommon.myLen(dt.Rows(0)("Schemes")) <= 0 Then
-                                Throw New Exception("Please set scheme account for item" + objTr.Item_Code)
-                            End If
-                            objCustInvTR.GL_Account_Code = clsCommon.myCstr(dt.Rows(0)("Schemes"))
-                            objCustInvTR.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInvTR.GL_Account_Code, obj.Bill_To_Location, trans)
-                            objCustInvTR.GL_Account_Desc = clsGLAccount.GetName(objCustInvTR.GL_Account_Code, trans)
-
+                    If clsCommon.CompairString(objTr.Row_Type, "Item") = CompairStringResult.Equal And (clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal OrElse (IsDairyModule = True AndAlso clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal)) Then
+                        dt = clsItemMaster.GetSaleAccGLAC(objTr.Item_Code, trans)
+                        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                            Throw New Exception("Please set sale account for item" + objTr.Item_Code)
                         End If
+                        objCustInvTR.GL_Account_Code = clsCommon.myCstr(dt.Rows(0)("Sales_Account"))
+                        objCustInvTR.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInvTR.GL_Account_Code, obj.Bill_To_Location, trans)
+                        objCustInvTR.GL_Account_Desc = clsGLAccount.GetName(objCustInvTR.GL_Account_Code, trans)
+                        objCustInvTR.Reco_Control_Account = "S"
+                    Else ''for row type misl.
+                        If clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal Then
+                            Dim objAC As clsAdditionalCharge = clsAdditionalCharge.GetData(objTr.Item_Code, NavigatorType.Current, trans)
+                            If objAC Is Nothing Then
+                                Throw New Exception("Please set GL Ac from addition charge" + objTr.Item_Code)
+                            End If
+                            objCustInvTR.GL_Account_Code = objAC.Account_Code
+                            objCustInvTR.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInvTR.GL_Account_Code, objTr.Location, trans)
+                            objCustInvTR.GL_Account_Desc = clsGLAccount.GetName(objCustInvTR.GL_Account_Code, trans)
+                        End If
+                    End If
+                    If clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal Then
+                        objCustInvTR.Amount = objTr.Amount
+                    Else
+                        objCustInvTR.Amount = 0
+                    End If
 
-                    objCustInvTR.Amount = objTr.Amount
-                    objCustInvTR.Discount_Per = objTr.Disc_Per
-                    objCustInvTR.Discount = objTr.Amount
-                    objCustInvTR.Amount_less_Discount = 0
+                    'objCustInvTR.Discount_Per = objTr.Disc_Per
+                    'objCustInvTR.Discount = objTr.Disc_Amt
+                    objCustInvTR.Amount_less_Discount = objTr.Amt_Less_Discount
                     objCustInvTR.TAX1 = objTr.TAX1
                     objCustInvTR.TAX1_Rate = objTr.TAX1_Rate
                     objCustInvTR.TAX1_Amt = objTr.TAX1_Amt
@@ -2169,10 +2085,92 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                     objCustInv.Arr.Add(objCustInvTR)
                     counter += 1
                 End If
-            End If
-        Next
+                If clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal AndAlso IsDairyModule = False Then
+                    objCustInv.TAX1_ExciseFOCAmt += objTr.TAX1_Amt
+                    objCustInv.TAX2_ExciseFOCAmt += objTr.TAX2_Amt
+                    objCustInv.TAX3_ExciseFOCAmt += objTr.TAX3_Amt
+                    objCustInv.TAX4_ExciseFOCAmt += objTr.TAX4_Amt
+                End If
+                If IsDairyModule Then
+                    If clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal Then
+                        Dim objCustInvTR As clsCustomerInvoiceDetail = New clsCustomerInvoiceDetail()
+                        objCustInvTR.SNo = counter
+                        If clsCommon.CompairString(objTr.Row_Type, "Item") = CompairStringResult.Equal And clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal Then
+                            dt = clsItemMaster.GetSchemeAccGLAC(objTr.Item_Code, trans)
+                            If dt Is Nothing OrElse dt.Rows.Count <= 0 OrElse clsCommon.myLen(dt.Rows(0)("Schemes")) <= 0 Then
+                                Throw New Exception("Please set scheme account for item" + objTr.Item_Code)
+                            End If
+                            objCustInvTR.GL_Account_Code = clsCommon.myCstr(dt.Rows(0)("Schemes"))
+                            objCustInvTR.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInvTR.GL_Account_Code, obj.Bill_To_Location, trans)
+                            objCustInvTR.GL_Account_Desc = clsGLAccount.GetName(objCustInvTR.GL_Account_Code, trans)
 
-        objCustInv.SaveData(objCustInv, True, trans, strFormID, strVoucherNoRecreate, strARNoForRecreate)
+                        End If
+
+                        objCustInvTR.Amount = objTr.Amount
+                        objCustInvTR.Discount_Per = objTr.Disc_Per
+                        objCustInvTR.Discount = objTr.Amount
+                        objCustInvTR.Amount_less_Discount = 0
+                        objCustInvTR.TAX1 = objTr.TAX1
+                        objCustInvTR.TAX1_Rate = objTr.TAX1_Rate
+                        objCustInvTR.TAX1_Amt = objTr.TAX1_Amt
+                        objCustInvTR.TAX1_Base_Amt = objTr.TAX1_Base_Amt
+                        objCustInvTR.TAX2 = objTr.TAX2
+                        objCustInvTR.TAX2_Rate = objTr.TAX2_Rate
+                        objCustInvTR.TAX2_Amt = objTr.TAX2_Amt
+                        objCustInvTR.TAX2_Base_Amt = objTr.TAX2_Base_Amt
+                        objCustInvTR.TAX3 = objTr.TAX3
+                        objCustInvTR.TAX3_Rate = objTr.TAX3_Rate
+                        objCustInvTR.TAX3_Amt = objTr.TAX3_Amt
+                        objCustInvTR.TAX3_Base_Amt = objTr.TAX3_Base_Amt
+                        objCustInvTR.TAX4 = objTr.TAX4
+                        objCustInvTR.TAX4_Rate = objTr.TAX4_Rate
+                        objCustInvTR.TAX4_Amt = objTr.TAX4_Amt
+                        objCustInvTR.TAX4_Base_Amt = objTr.TAX4_Base_Amt
+                        objCustInvTR.TAX5 = objTr.TAX5
+                        objCustInvTR.TAX5_Rate = objTr.TAX5_Rate
+                        objCustInvTR.TAX5_Amt = objTr.TAX5_Amt
+                        objCustInvTR.TAX5_Base_Amt = objTr.TAX5_Base_Amt
+                        objCustInvTR.TAX6 = objTr.TAX6
+                        objCustInvTR.TAX6_Rate = objTr.TAX6_Rate
+                        objCustInvTR.TAX6_Amt = objTr.TAX6_Amt
+                        objCustInvTR.TAX6_Base_Amt = objTr.TAX6_Base_Amt
+                        objCustInvTR.TAX7 = objTr.TAX7
+                        objCustInvTR.TAX7_Rate = objTr.TAX7_Rate
+                        objCustInvTR.TAX7_Amt = objTr.TAX7_Amt
+                        objCustInvTR.TAX7_Base_Amt = objTr.TAX7_Base_Amt
+                        objCustInvTR.TAX8 = objTr.TAX8
+                        objCustInvTR.TAX8_Rate = objTr.TAX8_Rate
+                        objCustInvTR.TAX8_Amt = objTr.TAX8_Amt
+                        objCustInvTR.TAX8_Base_Amt = objTr.TAX8_Base_Amt
+                        objCustInvTR.TAX9 = objTr.TAX9
+                        objCustInvTR.TAX9_Rate = objTr.TAX9_Rate
+                        objCustInvTR.TAX9_Amt = objTr.TAX9_Amt
+                        objCustInvTR.TAX9_Base_Amt = objTr.TAX9_Base_Amt
+                        objCustInvTR.TAX10 = objTr.TAX10
+                        objCustInvTR.TAX10_Rate = objTr.TAX10_Rate
+                        objCustInvTR.TAX10_Amt = objTr.TAX10_Amt
+                        objCustInvTR.TAX10_Base_Amt = objTr.TAX10_Base_Amt
+                        objCustInvTR.Total_Tax = objTr.Total_Tax_Amt
+                        objCustInvTR.Total_Amount = objTr.Item_Net_Amt
+                        objCustInvTR.Remarks = objTr.Remarks
+                        objCustInvTR.TAX1_Base_Amt = objTr.TAX1_Base_Amt
+                        objCustInvTR.TAX2_Base_Amt = objTr.TAX2_Base_Amt
+                        objCustInvTR.TAX3_Base_Amt = objTr.TAX3_Base_Amt
+                        objCustInvTR.TAX4_Base_Amt = objTr.TAX4_Base_Amt
+                        objCustInvTR.TAX5_Base_Amt = objTr.TAX5_Base_Amt
+                        objCustInvTR.TAX6_Base_Amt = objTr.TAX6_Base_Amt
+                        objCustInvTR.TAX7_Base_Amt = objTr.TAX7_Base_Amt
+                        objCustInvTR.TAX8_Base_Amt = objTr.TAX8_Base_Amt
+                        objCustInvTR.TAX9_Base_Amt = objTr.TAX9_Base_Amt
+                        objCustInvTR.TAX10_Base_Amt = objTr.TAX10_Base_Amt
+                        'objCustInvTR.Comments=objTr.Comments
+                        objCustInv.Arr.Add(objCustInvTR)
+                        counter += 1
+                    End If
+                End If
+            Next
+
+            objCustInv.SaveData(objCustInv, True, trans, strFormID, strVoucherNoRecreate, strARNoForRecreate)
             clsCustomerInvoiceHead.PostData(strFormID, objCustInv.Document_No, "", trans)
 
         Catch ex As Exception
@@ -2571,7 +2569,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 qry = qry & " Union All "
             End If
             FirstQuery = True
-            qry = qry & " select DISTINCT Item_Code from TSPL_SCRAPINVOICE_DETAIL INNER JOIN TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_DETAIL.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No" & _
+            qry = qry & " select DISTINCT Item_Code from TSPL_SCRAPINVOICE_DETAIL INNER JOIN TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_DETAIL.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No" &
                   " WHERE CAST(TSPL_SCRAPINVOICE_HEAD.shipment_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
         End If
 
@@ -2580,7 +2578,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 qry = qry & " Union All "
             End If
             FirstQuery = True
-            qry = qry & " select DISTINCT Item_Code from TSPL_SCRAPINVOICE_DETAIL INNER JOIN TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_DETAIL.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No" & _
+            qry = qry & " select DISTINCT Item_Code from TSPL_SCRAPINVOICE_DETAIL INNER JOIN TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_DETAIL.invoice_No=TSPL_SCRAPINVOICE_HEAD.invoice_No" &
                   " WHERE CAST(TSPL_SCRAPINVOICE_HEAD.shipment_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
         End If
         '======Added by preeti Gupta Against Ticket No[ADV/30/04/18-000027]==========
@@ -2673,103 +2671,103 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
     Public Shared Function GetAllSaleTransactionTypeQuery(Optional ByVal DocFinder As Boolean = False) As String
         Dim qry As String
         If DocFinder = True Then
-            qry = " SELECT DISTINCT xxx.Code,  xxx.Name " & If(DocFinder = False, "", ",xxx.[Document Code],xxx.[Document Date],xxx.[Customer Code]") & " FROM (" + Environment.NewLine & _
-                       " SELECT DISTINCT 'SD' As Code , 'General Sale' As Name " & If(DocFinder = False, "", ",Document_Code as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " From  TSPL_SD_SALE_INVOICE_HEAD Where Trans_Type='ALL' " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT Trans_Type+ISNULL(Document_Type,'')  As Code ,CASE " & _
-                       " WHEN Trans_Type ='CSA' THEN 'CSA Sale' " & _
-                       " WHEN Trans_Type ='EXP' AND Document_Type ='EX' THEN 'Export Sale' " & _
-                       " WHEN Trans_Type ='FS' THEN 'Fresh Sale'  " & _
-                       " WHEN Trans_Type ='MCC' THEN 'MCC Sale' " & _
-                       " WHEN Trans_Type ='PS' THEN 'Product Sale' " & _
-                       " WHEN Trans_Type ='EXP' AND Document_Type ='MT' THEN 'Merchant Trade' " & _
-                       " WHEN Trans_Type ='ALL' THEN 'Standard Sale' " & _
-                       " End " & _
-                       " As Name " & If(DocFinder = False, "", ",Document_Code as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_SD_SALE_INVOICE_HEAD Where Trans_Type <>'ALL'  union all select distinct 'CSA' as Code,'CSA Sale' as Name " & If(DocFinder = False, "", ",DOC_CODE as [Document Code],TRANSFER_DATE  as [Document Date],CUST_CODE as [Customer Code]") & " from tspl_csa_transfer_head " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT 'BS'  As Code ,'Bulk Sale' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_INVOICE_MASTER_BULKSALE  " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT 'BST'  As Code ,'Bulk Sale Trade' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_INVOICE_MASTER_BULKSALE " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " Select DISTINCT 'SS'  As Code ,'Misc Sale' As Name " & If(DocFinder = False, "", ",invoice_No as [Document Code],posting_Date  as [Document Date],cust_Code as [Customer Code]") & " FROM TSPL_SCRAPINVOICE_HEAD " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT 'BSR'  As Code ,'Bulk Sale Return' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_SALE_RETURN_MASTER_BULKSALE " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT  DISTINCT 'SDR'  As Code ,'General Sale Return'  As Name " & If(DocFinder = False, "", ",Document_Code as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " From TSPL_SD_SALE_RETURN_HEAD Where Trans_Type='ALL' " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT Trans_Type+'R' As Code ,CASE " & _
-                       " WHEN Trans_Type ='CSA' THEN 'CSA Sale Return' " & _
-                       " WHEN Trans_Type ='EXP' THEN 'Export Sale Return' " & _
-                       " WHEN Trans_Type ='FS'  THEN 'Fresh Sale Return'  " & _
-                       " WHEN Trans_Type ='MCC' THEN 'MCC Sale Return' " & _
-                       " WHEN Trans_Type ='PS'  THEN 'Product Sale Return' " & _
-                       " WHEN Trans_Type ='CPR'  THEN 'CSA Sale Patti Return' " & _
-                       " END " & _
-                       " As Name " & If(DocFinder = False, "", ",Document_Code as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_SD_SALE_RETURN_HEAD Where Trans_Type not in ('ALL','CPR') " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT 'Transfer'  As Code ,'Transfer' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_TRANSFER_ORDER_HEAD " & _
-                        " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT 'Transfer Return'  As Code ,'Transfer Return' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_TRANSFER_RETURN " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT 'MCC Transfer' As Code ,'MCC Transfer' As Name " & If(DocFinder = False, "", ",Receipt_Challan_No as [Document Code],Receipt_Challan_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_MILK_TRANSFER_IN " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT 'Tanker Dispatch Return' As Code ,'Tanker Dispatch Return' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_MCC_Dispatch_Challan_Return " & _
-                       " UNION ALL " + Environment.NewLine & _
-                       " SELECT DISTINCT 'MCC Tanker Dispatch Return' As Code ,'MCC Tanker Dispatch Return' As Name " & If(DocFinder = False, "", ",Return_NO as [Document Code],Return_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_MCC_Tanker_Dispatch_Return_head " & _
+            qry = " SELECT DISTINCT xxx.Code,  xxx.Name " & If(DocFinder = False, "", ",xxx.[Document Code],xxx.[Document Date],xxx.[Customer Code]") & " FROM (" + Environment.NewLine &
+                       " SELECT DISTINCT 'SD' As Code , 'General Sale' As Name " & If(DocFinder = False, "", ",Document_Code as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " From  TSPL_SD_SALE_INVOICE_HEAD Where Trans_Type='ALL' " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT Trans_Type+ISNULL(Document_Type,'')  As Code ,CASE " &
+                       " WHEN Trans_Type ='CSA' THEN 'CSA Sale' " &
+                       " WHEN Trans_Type ='EXP' AND Document_Type ='EX' THEN 'Export Sale' " &
+                       " WHEN Trans_Type ='FS' THEN 'Fresh Sale'  " &
+                       " WHEN Trans_Type ='MCC' THEN 'MCC Sale' " &
+                       " WHEN Trans_Type ='PS' THEN 'Product Sale' " &
+                       " WHEN Trans_Type ='EXP' AND Document_Type ='MT' THEN 'Merchant Trade' " &
+                       " WHEN Trans_Type ='ALL' THEN 'Standard Sale' " &
+                       " End " &
+                       " As Name " & If(DocFinder = False, "", ",Document_Code as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_SD_SALE_INVOICE_HEAD Where Trans_Type <>'ALL'  union all select distinct 'CSA' as Code,'CSA Sale' as Name " & If(DocFinder = False, "", ",DOC_CODE as [Document Code],TRANSFER_DATE  as [Document Date],CUST_CODE as [Customer Code]") & " from tspl_csa_transfer_head " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT 'BS'  As Code ,'Bulk Sale' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_INVOICE_MASTER_BULKSALE  " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT 'BST'  As Code ,'Bulk Sale Trade' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_INVOICE_MASTER_BULKSALE " &
+                       " UNION ALL " + Environment.NewLine &
+                       " Select DISTINCT 'SS'  As Code ,'Misc Sale' As Name " & If(DocFinder = False, "", ",invoice_No as [Document Code],posting_Date  as [Document Date],cust_Code as [Customer Code]") & " FROM TSPL_SCRAPINVOICE_HEAD " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT 'BSR'  As Code ,'Bulk Sale Return' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_SALE_RETURN_MASTER_BULKSALE " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT  DISTINCT 'SDR'  As Code ,'General Sale Return'  As Name " & If(DocFinder = False, "", ",Document_Code as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " From TSPL_SD_SALE_RETURN_HEAD Where Trans_Type='ALL' " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT Trans_Type+'R' As Code ,CASE " &
+                       " WHEN Trans_Type ='CSA' THEN 'CSA Sale Return' " &
+                       " WHEN Trans_Type ='EXP' THEN 'Export Sale Return' " &
+                       " WHEN Trans_Type ='FS'  THEN 'Fresh Sale Return'  " &
+                       " WHEN Trans_Type ='MCC' THEN 'MCC Sale Return' " &
+                       " WHEN Trans_Type ='PS'  THEN 'Product Sale Return' " &
+                       " WHEN Trans_Type ='CPR'  THEN 'CSA Sale Patti Return' " &
+                       " END " &
+                       " As Name " & If(DocFinder = False, "", ",Document_Code as [Document Code],Document_Date  as [Document Date],Customer_Code as [Customer Code]") & " FROM TSPL_SD_SALE_RETURN_HEAD Where Trans_Type not in ('ALL','CPR') " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT 'Transfer'  As Code ,'Transfer' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_TRANSFER_ORDER_HEAD " &
+                        " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT 'Transfer Return'  As Code ,'Transfer Return' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_TRANSFER_RETURN " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT 'MCC Transfer' As Code ,'MCC Transfer' As Name " & If(DocFinder = False, "", ",Receipt_Challan_No as [Document Code],Receipt_Challan_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_MILK_TRANSFER_IN " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT 'Tanker Dispatch Return' As Code ,'Tanker Dispatch Return' As Name " & If(DocFinder = False, "", ",Document_No as [Document Code],Document_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_MCC_Dispatch_Challan_Return " &
+                       " UNION ALL " + Environment.NewLine &
+                       " SELECT DISTINCT 'MCC Tanker Dispatch Return' As Code ,'MCC Tanker Dispatch Return' As Name " & If(DocFinder = False, "", ",Return_NO as [Document Code],Return_Date  as [Document Date],'' as [Customer Code]") & " FROM TSPL_MCC_Tanker_Dispatch_Return_head " &
                        " ) xxx "
         Else
             qry = " select 'BS' as Code,'Bulk Sale' as Name " & Environment.NewLine &
-                  " union all" & Environment.NewLine & _
-                  " select 'BSR','Bulk Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'BST' as Code,'Bulk Sale Trade' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'CSA' as Code,'CSA Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'CSAR' as Code,'CSA Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'EXPEX','Export Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'EXPMT' as Code,'Merchant Trade' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'FS' as Code,'Fresh Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'FSR','Fresh Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'MCC','MCC Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                 " select 'MCCR','MCC Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'PS' as Code,'Product Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'PSR','Product Sale Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'SS' as Code,'Misc Sale' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                    " select 'MCC Tanker Dispatch Return','MCC Tanker Dispatch Return' as Name " & Environment.NewLine & _
-                  " Union All" & Environment.NewLine & _
-                  " select 'MCCFS' as Code,'MCC Sale Farmer' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'MCCFSR' as Code,'MCC Sale Return Farmer' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'MS-SR' as Code,'Misc Sale Return' as Name " & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'SD' as Code,'General Sale' as Name " & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'SDR' as Code,'General Sale Return' as Name " & Environment.NewLine & _
-                    " Union All " & Environment.NewLine & _
+                  " union all" & Environment.NewLine &
+                  " select 'BSR','Bulk Sale Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'BST' as Code,'Bulk Sale Trade' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'CSA' as Code,'CSA Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'CSAR' as Code,'CSA Sale Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'EXPEX','Export Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'EXPMT' as Code,'Merchant Trade' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'FS' as Code,'Fresh Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'FSR','Fresh Sale Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'MCC','MCC Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                 " select 'MCCR','MCC Sale Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'PS' as Code,'Product Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'PSR','Product Sale Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'SS' as Code,'Misc Sale' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                    " select 'MCC Tanker Dispatch Return','MCC Tanker Dispatch Return' as Name " & Environment.NewLine &
+                  " Union All" & Environment.NewLine &
+                  " select 'MCCFS' as Code,'MCC Sale Farmer' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'MCCFSR' as Code,'MCC Sale Return Farmer' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'MS-SR' as Code,'Misc Sale Return' as Name " &
+                  " Union All " & Environment.NewLine &
+                  " select 'SD' as Code,'General Sale' as Name " &
+                  " Union All " & Environment.NewLine &
+                  " select 'SDR' as Code,'General Sale Return' as Name " & Environment.NewLine &
+                    " Union All " & Environment.NewLine &
                   " select 'CanSaleInvoice' as Code,'Can Sale' as Name "
 
             Dim Donotshowtrasnfertransactionsbydefault As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Donotshowtrasnfertransactionsbydefault, clsFixedParameterCode.Donotshowtrasnfertransactionsbydefault, Nothing)) = "1", True, False))
             ''richa agarwal 16 Aug,2019
             If Donotshowtrasnfertransactionsbydefault = True Then
-                qry += " Union All " & Environment.NewLine & _
-                  " select 'MCC Transfer','MCC Transfer' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                  " select 'Tanker Dispatch Return','Tanker Dispatch Return' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
-                   " select 'Transfer' as Code,'Transfer' as Name " & Environment.NewLine & _
-                  " Union All " & Environment.NewLine & _
+                qry += " Union All " & Environment.NewLine &
+                  " select 'MCC Transfer','MCC Transfer' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                  " select 'Tanker Dispatch Return','Tanker Dispatch Return' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
+                   " select 'Transfer' as Code,'Transfer' as Name " & Environment.NewLine &
+                  " Union All " & Environment.NewLine &
                   " select 'Transfer Return' as Code,'Transfer Return' as Name " & Environment.NewLine
             End If
         End If
@@ -3159,7 +3157,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             "when [trans type] in ('Fresh Sale Return','Bulk Sale Return','Product Sale Return','MCC Sale Return','Misc Sale Return','Export Sale Return','Product Sale Return Cancelled') then left(Item.RetrunAccount, Len(Item.RetrunAccount)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  " &
             "when [trans type] in ('MCC Transfer','Tanker Dispatch Return','MCC Tanker Dispatch Return') then case when (TransferEntryOnInventoryControlAccount=1 or TankerDispatchFinancialImpactInTransferIn=1) then left(Item.Inv_Control_Account, Len(Item.Inv_Control_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end " &
             "else left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code end  end as [Sales Account], " &
-            " [GR No],case when len (isnull([GR No],''))>0 then convert(varchar,[GR Date],103) else '' end as [GR Date],[WayBill No],[EWayBill No],[EWayBill Date],[Ack No],[Ack Date],Route_Table.IRN_No As [IRN No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling, Scheme_Item as [Scheme Type],[Invoice Type GST], " &
+            " [GR No],case when len (isnull([GR No],''))>0 then convert(varchar,[GR Date],103) else '' end as [GR Date],[WayBill No],[EWayBill No],[EWayBill Date],[Ack No],[Ack Date],Route_Table.IRN_No As [IRN No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling, Scheme_Item as [Scheme Type],[Invoice Type GST], " &
             " '" & CompGstinNo & "' [GSTIN No Company],[GSTIN no Customer],[Nill Rate Amount],cast(Additional_Charge as numeric(18,2))+ [Exempted Amount] as [Exempted Amount],"
 
             If EnableGSTRelatedfields = 0 Then
@@ -3196,7 +3194,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                               " coalesce(TSPL_CSA_TRANSFER_DETAIL.transfer_Rate*TSPL_CSA_TRANSFER_DETAIL.Qty,0)*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) as Amount ,coalesce(TSPL_CSA_TRANSFER_DETAIL.Disc_Per,0) as Disc_Per ,coalesce(TSPL_CSA_TRANSFER_DETAIL.Disc_Amt,0)*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) as Disc_Amt ,0 as [Scheme Amount] " &
                                               ", (coalesce(TSPL_CSA_TRANSFER_DETAIL.transfer_Rate*TSPL_CSA_TRANSFER_DETAIL.Qty,0)-coalesce(TSPL_CSA_TRANSFER_DETAIL.Disc_Amt,0))*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) as Amt_Less_Discount ,0 as Total_Tax_Amt ,cast((TSPL_CSA_TRANSFER_DETAIL.Transfer_Rate * TSPL_CSA_TRANSFER_DETAIL.Qty) as Numeric(18,2))*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) as Total_Amt, " &
                                               " TSPL_CSA_TRANSFER_HEAD.Vehicle_Id as Vehicle_Code,TSPL_VEHICLE_MASTER.Number as Vehicle_No,0 as Additional_Charge, " &
-                                              " '' as [AR Document No],0 as [AR Document Amt],0 as [AR Document Discount Amt], 0 as [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_CSA_TRANSFER_HEAD.GR_No as [GR No],TSPL_CSA_TRANSFER_HEAD.gr_date as [GR Date],TSPL_CSA_TRANSFER_HEAD.WayBill_No as [WayBill No],TSPL_CSA_TRANSFER_HEAD.EWayBillNo as [EWayBill No],convert(varchar,TSPL_CSA_TRANSFER_HEAD.EWayBillDate,103) as [EwayBill Date],TSPL_CSA_TRANSFER_HEAD.Transport_Id as [Transporter Code] , case when len(TSPL_CSA_TRANSFER_HEAD.transporter_name_manual) > 0 then TSPL_CSA_TRANSFER_HEAD.transporter_name_manual else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],TSPL_CSA_TRANSFER_DETAIL.MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_CSA_TRANSFER_HEAD.Created_By ,TSPL_CSA_TRANSFER_HEAD.Modify_By,TSPL_CSA_TRANSFER_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor, " &
+                                              " '' as [AR Document No],0 as [AR Document Amt],0 as [AR Document Discount Amt], 0 as [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_CSA_TRANSFER_HEAD.GR_No as [GR No],TSPL_CSA_TRANSFER_HEAD.gr_date as [GR Date],TSPL_CSA_TRANSFER_HEAD.WayBill_No as [WayBill No],TSPL_CSA_TRANSFER_HEAD.EWayBillNo as [EWayBill No],convert(varchar,TSPL_CSA_TRANSFER_HEAD.EWayBillDate,103) as [EwayBill Date],TSPL_CSA_TRANSFER_HEAD.Transport_Id as [Transporter Code] , case when len(TSPL_CSA_TRANSFER_HEAD.transporter_name_manual) > 0 then TSPL_CSA_TRANSFER_HEAD.transporter_name_manual else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],TSPL_CSA_TRANSFER_DETAIL.MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_CSA_TRANSFER_HEAD.Created_By ,TSPL_CSA_TRANSFER_HEAD.Modify_By,TSPL_CSA_TRANSFER_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor, " &
                                               " 'Delivery Challan' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN No Customer],(case when TSPL_CSA_TRANSFER_HEAD.Total_Tax_Amt<=0 and TSPL_CSA_TRANSFER_HEAD.Tax_Group<>'EXEMPTED' then coalesce(TSPL_CSA_TRANSFER_DETAIL.transfer_Rate*TSPL_CSA_TRANSFER_DETAIL.Qty,0)*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) else 0 end) as [Nill Rate Amount],(case when TSPL_CSA_TRANSFER_HEAD.Tax_Group='EXEMPTED' then coalesce(TSPL_CSA_TRANSFER_DETAIL.transfer_Rate*TSPL_CSA_TRANSFER_DETAIL.Qty,0)*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) else 0 end) as [Exempted Amount],cast(null as numeric(18,2)) as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],(CASE WHEN TAXM1.TYPE='M' THEN TSPL_CSA_TRANSFER_DETAIL.TAX1_AMT ELSE 0 END+CASE WHEN TAXM2.TYPE='M' THEN TSPL_CSA_TRANSFER_DETAIL.TAX2_AMT ELSE 0 END+CASE WHEN TAXM3.TYPE='M' THEN TSPL_CSA_TRANSFER_DETAIL.TAX3_AMT ELSE 0 END) AS MANDI_TAX_AMT, "
 
             strSDEndQry = " from TSPL_CSA_TRANSFER_DETAIL " &
@@ -3231,7 +3229,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             strMCCMaterial += " select max([Ack No])[Ack No],max([Ack Date])[Ack Date],max(final._Type) as _Type, max(final.FormType) as [Form Type],Trans_Type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],max(final.Narration) as [Narration],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name],max(TSPL_CUSTOMER_MASTER .GST_Registered) as [Registered],max(TSPL_CUSTOMER_MASTER .GST_COMPOSITION) as [Composition],max(TSPL_CUSTOMER_MASTER .City_Code) as [City Code],max(TSPL_CITY_MASTER .City_Name) as [Place of Supply],max(TSPL_STATE_MASTER.GST_STATE_Code) as [Customer GST State Code] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],max(tspl_item_master.HSN_Code) as [HSN Code],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost],   "
 
             strMCCMaterial += " 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " &
-                              " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item, " &
+                              " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item, " &
                               " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,0 as TCSBaseAmount"
             strMCCMaterial += " from ("
             'strTaxColumns = " TSPL_CSA_TRANSFER_DETAIL.TAX1 ,0 as TAX1_Amt, TSPL_CSA_TRANSFER_DETAIL.TAX1_Rate,TSPL_CSA_TRANSFER_DETAIL.TAX1+'%' as Tax1Rate"
@@ -3305,7 +3303,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strMCCMaterial += " and final.Customer_Code in (" + clsCommon.GetMulcallString(obj.Customer_Code_List) + ") "
             End If
 
-            strMCCMaterial += " group by  final.Trans_Type,final.Status  ,final.Document_Code ,final.Item_Code ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor" '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
+            strMCCMaterial += " group by  final.Trans_Type,final.Status  ,final.Document_Code ,final.Item_Code ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP , [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor" '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
         End If
         '' end of csa transfer
 
@@ -3369,7 +3367,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             strMCCMaterial += " select max([Ack No])[Ack No],max([Ack Date])[Ack Date],max(final._Type) as _Type,max(final.Formtype) as [Form Type],case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='Exp' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' WHEN (Trans_Type ='SD' or Trans_Type ='ALL') then 'General Sale' else Trans_Type  end  as [Trans Type],final.Loc_Code  as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.shipment_No  as [Document No],final.Document_Date as [Document_date],max(final.Narration) as [Narration],Vehicle_Code,Vehicle_No,0 as Additional_Charge,final.cust_Code  as [Customer Code],MAX(final.CustAdd ) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name],max(TSPL_CUSTOMER_MASTER .GST_Registered) as [Registered],max(TSPL_CUSTOMER_MASTER .GST_COMPOSITION) as [Composition],max(TSPL_CUSTOMER_MASTER .City_Code) as [City Code],max(TSPL_CITY_MASTER .City_Name) as [Place of Supply],max(TSPL_STATE_MASTER.GST_STATE_Code) as [Customer GST State Code] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],max(tspl_item_master.HSN_Code) as [HSN Code],final.shipped_Qty  as [Quantity],final.Unit_code as [UOM],final.price  as [Item Cost], "
 
             strMCCMaterial += " max([Fat Per]) as [Fat Per],max([SNF Per]) as [SNF Per],max([Fat Kg]) as [Fat Kg],max([snf Kg]) as [SNF KG],final.ItemAmt as Amount ,final.DiscountPer  as [Discount Per],final.TotalDiscountAmt   as [Discount Amount],final.[Scheme Amount]   as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.TotalTaxAmt  as [Total Tax Amount],final.Doc_Amt  as [Total Amount], " &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount " &
                 " " & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.RptBulkSaleRegister) = CompairStringResult.Equal, ", sum(isnull(Fat_Amt,0)) as Fat_Amt,sum(isnull(SNF_Amt,0)) as SNF_Amt,sum(isnull(Standard_Rate ,0)) as Standard_Rate", "") & " " &
                 " from ("
@@ -3385,7 +3383,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
     " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
     " (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
     " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],null as [GR Date],'' as [WayBill No],
-    TSPL_INVOICE_Master_BULKSALE.EWayBillNo as [EWayBill No],convert(Varchar,TSPL_INVOICE_Master_BULKSALE.EWayBillDate,103) as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_INVOICE_Master_BULKSALE.Created_By as Created_By ,TSPL_INVOICE_Master_BULKSALE.Modified_By as Modify_By,TSPL_INVOICE_DETAIL_BULKSALE.Unit_code as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
+    TSPL_INVOICE_Master_BULKSALE.EWayBillNo as [EWayBill No],convert(Varchar,TSPL_INVOICE_Master_BULKSALE.EWayBillDate,103) as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_INVOICE_Master_BULKSALE.Created_By as Created_By ,TSPL_INVOICE_Master_BULKSALE.Modified_By as Modify_By,TSPL_INVOICE_DETAIL_BULKSALE.Unit_code as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
     " 'Bill of Supply' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN No Customer],(TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount) as [Nill Rate Amount],cast(null as numeric(18,2)) as [Exempted Amount],cast(null as numeric(18,2)) as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT, " &
     " " & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.RptBulkSaleRegister) = CompairStringResult.Equal, " (case when TSPL_INVOICE_Master_BULKSALE.InvoiceAgainst='Against Dispatch Trade' then TSPL_Dispatch_Detail_BulkSale_Trade.FatAmount " &
     " else  TSPL_Dispatch_Detail_BulkSale.FatAmount end) as Fat_Amt, " &
@@ -3479,7 +3477,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strMCCMaterial += " and final.cust_Code in (" + clsCommon.GetMulcallString(obj.Customer_Code_List) + ") "
             End If
 
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No] ,MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final.RATE_UOM,final. Conv_Factor "
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final.RATE_UOM,final. Conv_Factor "
             strMCCMaterial += Environment.NewLine + "-- End of Bulk Sale Start" + Environment.NewLine
         End If
 
@@ -3496,7 +3494,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
             ''Monika QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per]
             strMCCMaterial += " 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.ItemAmt as Amount ,final.DiscountPer  as [Discount Per],final.TotalDiscountAmt   as [Discount Amount],final.[Scheme Amount]   as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.TotalTaxAmt  as [Total Tax Amount],final.Doc_Amt  as [Total Amount], " &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(ISNULL(final.TCSBaseAmount,0)) as TCSBaseAmount " &
                 " from ("
 
@@ -3510,7 +3508,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                               " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
                               " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
                               " (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
-                              " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],null as [GR Date],'' as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_CANSALE_INVOICE_HEAD.Created_By as Created_By ,TSPL_CANSALE_INVOICE_HEAD.Modified_By as Modify_By,TSPL_CANSALE_INVOICE_DETAIL.UOM as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
+                              " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],null as [GR Date],'' as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_CANSALE_INVOICE_HEAD.Created_By as Created_By ,TSPL_CANSALE_INVOICE_HEAD.Modified_By as Modify_By,TSPL_CANSALE_INVOICE_DETAIL.UOM as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
                               " 'Bill of Supply' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN No Customer],(TSPL_CANSALE_INVOICE_DETAIL.TotalAmount) as [Nill Rate Amount],cast(null as numeric(18,2)) as [Exempted Amount],cast(null as numeric(18,2)) as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT, " &
                               " " & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.FrmCanSale) = CompairStringResult.Equal, " TSPL_CANSALE_INVOICE_DETAIL.FatAmount as Fat_Amt, " &
                               " TSPL_CANSALE_INVOICE_DETAIL.SNFAmount as SNF_Amt, TSPL_CANSALE_INVOICE_HEAD.Standard_Rate as Standard_Rate,", "") + Environment.NewLine
@@ -3594,7 +3592,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strMCCMaterial += " and final.cust_Code in (" + clsCommon.GetMulcallString(obj.Customer_Code_List) + ") "
             End If
 
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No] ,MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final.RATE_UOM,final. Conv_Factor "
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final.RATE_UOM,final. Conv_Factor "
             strMCCMaterial += Environment.NewLine + "-- End of Can Sale Start" + Environment.NewLine
         End If
 
@@ -3607,7 +3605,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             strMCCMaterial += " select Max([Ack No])[Ack No],Max([Ack Date])[Ack Date],max(final._Type) as _Type,max(final.Formtype) as [Form Type],case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='Exp' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' WHEN (Trans_Type ='SD' or Trans_Type ='ALL') then 'General Sale' else Trans_Type  end  as [Trans Type],final.Loc_Code  as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.shipment_No  as [Document No],final.Document_Date as [Document_date],max(final.Narration) as [Narration],'' as Vehicle_Code,'' as Vehicle_No,0 as Additional_Charge,final.cust_Code  as [Customer Code],MAX(final.CustAdd ) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name],max(TSPL_CUSTOMER_MASTER .GST_Registered) as [Registered],max(TSPL_CUSTOMER_MASTER .GST_COMPOSITION) as [Composition],max(TSPL_CUSTOMER_MASTER .City_Code) as [City Code],max(TSPL_CITY_MASTER .City_Name) as [Place of Supply],max(TSPL_STATE_MASTER.GST_STATE_Code) as [Customer GST State Code] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],max(tspl_item_master.HSN_Code) as [HSN Code],final.shipped_Qty  as [Quantity],final.Unit_code as [UOM],final.price  as [Item Cost], "
 
             strMCCMaterial += " 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.ItemAmt as Amount ,final.DiscountPer  as [Discount Per],final.TotalDiscountAmt   as [Discount Amount],final.[Scheme Amount]   as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.TotalTaxAmt  as [Total Tax Amount],final.Doc_Amt  as [Total Amount], " &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount " &
                 " from ("
 
@@ -3626,7 +3624,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                 " TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
                                 " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
                                 " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
-                                " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],NULL as [GR Date],'' as [WayBill No],TSPL_SCRAPINVOICE_HEAD.EWayBillNo as [EWayBill No],convert(varchar,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,103) as [EWayBill Date],'' as [Transporter Code] ,'' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP,  '' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code], '' as Created_By ,'' as Modify_By ,TSPL_SCRAPINVOICE_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor," &
+                                " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],NULL as [GR Date],'' as [WayBill No],TSPL_SCRAPINVOICE_HEAD.EWayBillNo as [EWayBill No],convert(varchar,TSPL_SCRAPINVOICE_HEAD.EWayBillDate,103) as [EWayBill Date],'' as [Transporter Code] ,'' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP,  '' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code], '' as Created_By ,'' as Modify_By ,TSPL_SCRAPINVOICE_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor," &
                                 " (case when TSPL_SCRAPINVOICE_HEAD.Is_Taxable=1 then 'Tax Invoice' else 'Bill Of Supply' end) as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN no Customer],(case when TSPL_SCRAPINVOICE_HEAD.Total_Tax_Amt<=0 and TSPL_SCRAPINVOICE_HEAD.Tax_Group<>'EXEMPTED' then (TSPL_SCRAPINVOICE_DETAIL.TotalAmt+Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end) else null end) as [Nill Rate Amount],(case when TSPL_SCRAPINVOICE_HEAD.Tax_Group='EXEMPTED' then (TSPL_SCRAPINVOICE_DETAIL.TotalAmt+Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end) else null end) as [Exempted Amount],0 as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT, "
 
 
@@ -3763,7 +3761,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             End If
             ''==end here
 
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No] ,MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final.RATE_UOM,final. Conv_Factor " ' ," + strPivotFoGrouprOuterQuery + "  ,QC.FAT_Per,QC.SNF_Per
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final.RATE_UOM,final. Conv_Factor " ' ," + strPivotFoGrouprOuterQuery + "  ,QC.FAT_Per,QC.SNF_Per
             '' query for return
         End If
         If obj.Trans_Type_List.Contains("Fresh Sale Return") OrElse obj.Trans_Type_List.Contains("CSA Sale Return") OrElse obj.Trans_Type_List.Contains("Product Sale Return") OrElse obj.Trans_Type_List.Contains("MCC Sale Return") OrElse obj.Trans_Type_List.Contains("Export Sale Return") OrElse obj.Trans_Type_List.Contains("General Sale Return") Then
@@ -3781,7 +3779,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                               " -TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],-TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
                               " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
                               " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
-                              " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No as [Booking No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Created_By ,'' as Modify_By,TSPL_SD_SALE_RETURN_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item," &
+                              " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Created_By ,'' as Modify_By,TSPL_SD_SALE_RETURN_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item," &
                               " 'Credit Note' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN no Customer],(case when TSPL_SD_SALE_RETURN_HEAD.Total_Tax_Amt<=0 and TSPL_SD_SALE_RETURN_HEAD.Tax_Group<>'EXEMPTED' then -(Amount+coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0)- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then 0 else coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end ) else null end) as [Nill Rate Amount],(case when TSPL_SD_SALE_RETURN_HEAD.Tax_Group='EXEMPTED' then -(Amount+coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0)- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then 0 else coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end ) else null end) as [Exempted Amount],0 as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date], " &
                               "  case  when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='CSA' then  TSPL_SD_SALE_RETURN_DETAIL.Transfer_No else  TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code end  as [Original Invoice No],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as [Original Invoice Date],TSPL_SD_SALE_RETURN_HEAD.Description as [Reason for Revision],'' as [LUT No],(CASE WHEN TAXM1.TYPE='M' THEN TSPL_SD_SALE_RETURN_DETAIL.TAX1_AMT ELSE 0 END+CASE WHEN TAXM2.TYPE='M' THEN TSPL_SD_SALE_RETURN_DETAIL.TAX2_AMT ELSE 0 END+CASE WHEN TAXM3.TYPE='M' THEN TSPL_SD_SALE_RETURN_DETAIL.TAX3_AMT ELSE 0 END) AS MANDI_TAX_AMT,"
 
@@ -3829,7 +3827,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             strMCCMaterial += " select Max([Ack No])[Ack No],Max([Ack Date])[Ack Date],max(final._Type) as _Type, max(final.Formtype) as [Form Type],case when Trans_Type ='FSR' then 'Fresh Sale Return' when Trans_Type ='CSAR' then 'CSA Transfer Return' when Trans_Type = 'CPRR' then 'CSA Sale Return' when Trans_Type='PSR' then 'Product Sale Return' when Trans_Type='MCCR' then 'MCC Sale Return' when Trans_Type='EXPR' then 'Export Sale Return'  when Trans_Type='PSRC' then 'Product Sale Return Cancelled' when Trans_Type='Bulk Sale' then 'Bulk Sale Return' when Trans_Type ='SSR' then 'Misc Sale' when Trans_Type ='SDR' then 'General Sale Return' else trans_Type  end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],max(final.Narration) as [Narration],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name],max(TSPL_CUSTOMER_MASTER .GST_Registered) as [Registered],max(TSPL_CUSTOMER_MASTER .GST_COMPOSITION) as [Composition],max(TSPL_CUSTOMER_MASTER .City_Code) as [City Code],max(TSPL_CITY_MASTER .City_Name) as [Place of Supply],max(TSPL_STATE_MASTER.GST_STATE_Code) as [Customer GST State Code] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],max(tspl_item_master.HSN_Code) as [HSN Code],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost],"
 
             strMCCMaterial += "  0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount], " &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, Scheme_Code as [Scheme Code] ,Cash_Scheme_Code as [Cash Scheme Code], Cash_Scheme_Amount as [Cash Scheme Amount] ,final.Price_code as [Price Code] ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item," &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], MRP, Scheme_Code as [Scheme Code] ,Cash_Scheme_Code as [Cash Scheme Code], Cash_Scheme_Amount as [Cash Scheme Amount] ,final.Price_code as [Price Code] ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item," &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount" &
                 " from ( "
 
@@ -3925,7 +3923,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             End If
             ''======end here
 
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
         End If
         '' base union 6
         If obj.Trans_Type_List.Contains("Bulk Sale Return") Then
@@ -3942,7 +3940,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-1 * TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
                                " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
                                " -1 * (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
-                               " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [EwayBill No],'' as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as  [Shipment No],'' as  [Booking No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Created_By as Created_By,TSPL_SALE_RETURN_MASTER_BULKSALE.Modified_By as Modify_By,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item," &
+                               " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [EwayBill No],'' as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as  [Shipment No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Created_By as Created_By,TSPL_SALE_RETURN_MASTER_BULKSALE.Modified_By as Modify_By,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item," &
                                " 'Credit Note' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN No Customer],-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as [Nill Rate Amount],0 as [Exempted Amount],0 as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],TSPL_SALE_RETURN_MASTER_BULKSALE.InvoiceNo as [Original Invoice No],convert(varchar,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,103) as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT," &
                                "(CASE WHEN TAXM1.Is_TCS='Y' THEN -isnull(TSPL_SALE_RETURN_DETAIL_BULKSALE.TAX1_Base_Amt,0) WHEN TAXM2.Is_TCS='Y' THEN -isnull(TSPL_SALE_RETURN_DETAIL_BULKSALE.TAX2_Base_Amt,0) WHEN TAXM3.Is_TCS='Y' THEN -isnull(TSPL_SALE_RETURN_DETAIL_BULKSALE.TAX3_Base_Amt,0) ELSE 0 END) AS TCSBaseAmount " &
                                " " & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.RptBulkSaleRegister) = CompairStringResult.Equal, ", (case when TSPL_INVOICE_Master_BULKSALE.InvoiceAgainst='Against Dispatch Trade' then TSPL_Dispatch_Detail_BulkSale_Trade.FatAmount " &
@@ -4000,7 +3998,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                               " -TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],-TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
                               " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
                               " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
-                              " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],'' as [GR Date],'' as [WayBill No],TSPL_SCRAPSALE_HEAD_RETURN.EWayBillNo as [EWayBill No],convert(varchar,TSPL_SCRAPSALE_HEAD_RETURN.EWayBillDate,103) as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No],TSPL_SCRAPSALE_HEAD_RETURN.shipment_No as [Shipment No],'' as [Booking No],0 as MRP, '' as Scheme_Code ,'' as Cash_Scheme_Code ,0 as Cash_Scheme_Amount ,'' as Price_code ,'' as Created_By ,'' as Modify_By,TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code as RATE_UOM,0 as Conv_Factor, '' as Sampling,'' as Scheme_Item," &
+                              " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],'' as [GR Date],'' as [WayBill No],TSPL_SCRAPSALE_HEAD_RETURN.EWayBillNo as [EWayBill No],convert(varchar,TSPL_SCRAPSALE_HEAD_RETURN.EWayBillDate,103) as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No],TSPL_SCRAPSALE_HEAD_RETURN.shipment_No as [Shipment No],0 as MRP, '' as Scheme_Code ,'' as Cash_Scheme_Code ,0 as Cash_Scheme_Amount ,'' as Price_code ,'' as Created_By ,'' as Modify_By,TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code as RATE_UOM,0 as Conv_Factor, '' as Sampling,'' as Scheme_Item," &
                               " 'Credit Note' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN no Customer],(case when TSPL_SCRAPSALE_HEAD_RETURN.Total_Tax_Amt<=0 and TSPL_SCRAPSALE_HEAD_RETURN.Tax_Group<>'EXEMPTED' then -(TSPL_SCRAPSALE_DETAIL_RETURN.ItemAmt+coalesce(TSPL_SCRAPSALE_DETAIL_RETURN.TotalTaxAmt,0)- coalesce(TSPL_SCRAPSALE_DETAIL_RETURN.TotalDiscountAmt,0)) else null end) as [Nill Rate Amount],(case when TSPL_SCRAPSALE_HEAD_RETURN.Tax_Group='EXEMPTED' then -(TSPL_SCRAPSALE_DETAIL_RETURN.ItemAmt+coalesce(TSPL_SCRAPSALE_DETAIL_RETURN.TotalTaxAmt,0)- coalesce(TSPL_SCRAPSALE_DETAIL_RETURN.TotalDiscountAmt,0)) else null end) as [Exempted Amount],0 as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],TSPL_SCRAPSALE_HEAD_RETURN.invoice_No as [Original Invoice No],convert(varchar,TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date,103) as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No] " &
                               ",(CASE WHEN TAXM1.TYPE='M' THEN TSPL_SCRAPSALE_DETAIL_RETURN.TAX1_AMT ELSE 0 END+CASE WHEN TAXM2.TYPE='M' THEN TSPL_SCRAPSALE_DETAIL_RETURN.TAX2_AMT ELSE 0 END+CASE WHEN TAXM3.TYPE='M' THEN TSPL_SCRAPSALE_DETAIL_RETURN.TAX3_AMT ELSE 0 END) AS MANDI_TAX_AMT,"
 
@@ -4049,7 +4047,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             strMCCMaterial += " select Max([Ack No])[Ack No],Max([Ack Date])[Ack Date],max(final._Type) as _Type, max(final.Formtype) as [Form Type],'Misc Sale Return' as [Trans Type],final.Loc_code as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],max(final.Narration) as [Narration],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name],max(TSPL_CUSTOMER_MASTER .GST_Registered) as [Registered],max(TSPL_CUSTOMER_MASTER .GST_COMPOSITION) as [Composition],max(TSPL_CUSTOMER_MASTER .City_Code) as [City Code],max(TSPL_CITY_MASTER .City_Name) as [Place of Supply],max(TSPL_STATE_MASTER.GST_STATE_Code) as [Customer GST State Code] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],max(tspl_item_master.HSN_Code) as [HSN Code],final.Qty as [Quantity],final.Unit_code as [UOM],final.price as [Item Cost],"
 
             strMCCMaterial += "  0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],- final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount], " &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, Scheme_Code as [Scheme Code] ,Cash_Scheme_Code as [Cash Scheme Code], Cash_Scheme_Amount as [Cash Scheme Amount] ,final.Price_code as [Price Code] ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item," &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], MRP, Scheme_Code as [Scheme Code] ,Cash_Scheme_Code as [Cash Scheme Code], Cash_Scheme_Amount as [Cash Scheme Amount] ,final.Price_code as [Price Code] ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item," &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount " &
                 " from ( "
 
@@ -4142,7 +4140,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             End If
 
 
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No,final.Item_Code,final.Line_No ,final.Loc_Code,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code,final.price,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item "
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No,final.Item_Code,final.Line_No ,final.Loc_Code,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code,final.price,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item "
 
             strMCCMaterial += Environment.NewLine + " ------------------------- SANJAY END------------" + Environment.NewLine
         End If
@@ -4172,7 +4170,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 & " ,amount as   [Total Amount],'' as [AR Document No],0 as [AR Document Amt]" _
                 & " ,0 as [AR Document Discount Amt],0 as [AR Amount Before Tax]," _
                 & " 0 as [AR Total Tax],0 as [AR Total Add Charge],'' as [GR No],null as [GR Date],'' as [WayBill No],TSPL_MCC_Dispatch_Challan.EWayBillNo as [EWayBill No],convert(varchar,TSPL_MCC_Dispatch_Challan.EWayBillDate,103) as [EWayBill Date]," _
-                & " TSPL_MCC_Dispatch_Challan.tanker_No as [Transporter Code],tm.description as [Transporter Name],'' as  [Delivery No],'' as [Shipment No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Created_By ,'' as Modify_By ,TSPL_MCC_Dispatch_Challan.UOM_Code as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item, " &
+                & " TSPL_MCC_Dispatch_Challan.tanker_No as [Transporter Code],tm.description as [Transporter Name],'' as  [Delivery No],'' as [Shipment No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Created_By ,'' as Modify_By ,TSPL_MCC_Dispatch_Challan.UOM_Code as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item, " &
                 " case when TSPL_MCC_Dispatch_Challan.GSTStatus='L'  then  'Delivery Challan' else 'Bill of Supply' end  as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],recv.GstNo as  [GSTIN No Customer],cast(null as numeric(18,2)) as [Nill Rate Amount],cast(null as numeric(18,2)) as [Exempted Amount],cast(null as numeric(18,2)) as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT,0 as TCSBaseAmount from TSPL_MCC_Dispatch_Challan " _
                 & "   LEFT JOIN tspl_location_Master  sendr ON sendr.Location_Code=TSPL_MCC_Dispatch_Challan.MCC_CODE " _
                 & " left join tspl_Location_master on tspl_Location_master.location_code=TSPL_MCC_Dispatch_Challan.mcc_Code left join tspl_Location_master recv on " _
@@ -4210,7 +4208,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 & " ,amount * -1 as   [Total Amount],'' as [AR Document No],0 as  [AR Document Amt]" _
                 & " ,0 as [AR Document Discount Amt],0 as [AR Amount Before Tax]," _
                 & " 0 as [AR Total Tax],0 as [AR Total Add Charge],'' as [GR No],null as [GR Date],'' as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date]," _
-                & " TSPL_MCC_Dispatch_Challan.tanker_No as [Transporter Code],tm.description as [Transporter Name],'' as  [Delivery No],'' as [Shipment No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Created_By ,'' as Modify_By,TSPL_MCC_Dispatch_Challan.UOM_Code as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item,'Credit Note' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],recv.GSTNO as [GSTIN No Customer],cast(null as numeric(18,2)) as [Nill Rate Amount],cast(null as numeric(18,2)) as [Exempted Amount],cast(null as numeric(18,2)) as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT,0 as TCSBaseAmount from TSPL_MCC_Dispatch_Challan  " _
+                & " TSPL_MCC_Dispatch_Challan.tanker_No as [Transporter Code],tm.description as [Transporter Name],'' as  [Delivery No],'' as [Shipment No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Created_By ,'' as Modify_By,TSPL_MCC_Dispatch_Challan.UOM_Code as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item,'Credit Note' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],recv.GSTNO as [GSTIN No Customer],cast(null as numeric(18,2)) as [Nill Rate Amount],cast(null as numeric(18,2)) as [Exempted Amount],cast(null as numeric(18,2)) as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT,0 as TCSBaseAmount from TSPL_MCC_Dispatch_Challan  " _
                 & " LEFT JOIN tspl_location_Master  sendr ON sendr.Location_Code=TSPL_MCC_Dispatch_Challan.MCC_CODE " _
                 & " left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code=sendr.state left join tspl_Location_master recv on " _
                 & " recv.location_code=TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MCC_Dispatch_Challan.Item_Code " _
@@ -4246,7 +4244,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 & " ,TSPL_MCC_Tanker_Dispatch_Return_head.Amount * -1 as   [Total Amount],'' as [AR Document No],0 as  [AR Document Amt]" _
                 & " ,0 as [AR Document Discount Amt],0 as [AR Amount Before Tax]," _
                 & " 0 as [AR Total Tax],0 as [AR Total Add Charge],'' as [GR No],null as [GR Date],'' as [WayBill No],''as [EWayBill No],'' as [EWayBill Date]," _
-                & " TSPL_MCC_Tanker_Dispatch_Return_head.tanker_No as [Transporter Code],tm.description as [Transporter Name],'' as  [Delivery No],'' as [Shipment No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Created_By ,'' as Modify_By,TSPL_MCC_Tanker_Dispatch_Return_head.UOM_Code as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item,'Credit Note' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],recv.GSTNO as [GSTIN no Customer],cast(null as numeric(18,2)) as [Nill Rate Amount],cast(null as numeric(18,2)) as [Exempted Amount],cast(null as numeric(18,2)) as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT,0 as TCSBaseAmount from TSPL_MCC_Dispatch_Challan  " _
+                & " TSPL_MCC_Tanker_Dispatch_Return_head.tanker_No as [Transporter Code],tm.description as [Transporter Name],'' as  [Delivery No],'' as [Shipment No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Created_By ,'' as Modify_By,TSPL_MCC_Tanker_Dispatch_Return_head.UOM_Code as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item,'Credit Note' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],recv.GSTNO as [GSTIN no Customer],cast(null as numeric(18,2)) as [Nill Rate Amount],cast(null as numeric(18,2)) as [Exempted Amount],cast(null as numeric(18,2)) as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],0 AS MANDI_TAX_AMT,0 as TCSBaseAmount from TSPL_MCC_Dispatch_Challan  " _
                 & "  LEFT JOIN tspl_location_Master  sendr ON sendr.Location_Code=TSPL_MCC_Dispatch_Challan.MCC_CODE " _
                 & " left join TSPL_STATE_MASTER on sendr.State=TSPL_STATE_MASTER.STATE_CODE left join tspl_Location_master recv on " _
                 & " recv.location_code=TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code " _
@@ -4271,7 +4269,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                     " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " &
                                     " TSPL_TRANSFER_ORDER_DETAIL.Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " &
                                     " (TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,TSPL_TRANSFER_ORDER_DETAIL.Total_Tax_Amt ,(TSPL_TRANSFER_ORDER_DETAIL.Amount+TSPL_TRANSFER_ORDER_DETAIL.Total_Tax_Amt-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " &
-                                    " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.EWayBillNo as [EWayBill No],convert(varchar,TSPL_TRANSFER_ORDER_HEAD.EWayBillDate,103) as [EWayBill Date],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual else TSPL_TRANSPORT_MASTER.Transporter_Name end  as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Created_By,'' as Modified_By,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor, " &
+                                    " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.EWayBillNo as [EWayBill No],convert(varchar,TSPL_TRANSFER_ORDER_HEAD.EWayBillDate,103) as [EWayBill Date],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual else TSPL_TRANSPORT_MASTER.Transporter_Name end  as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Created_By,'' as Modified_By,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor, " &
                                     " (CASE WHEN TSPL_TRANSFER_ORDER_HEAD.For_Repair=1 then 'Delivery Challan'  " &
                                     " when From_LOC.STATE=GIT_Main_Loc.TO_STATE THEN  'Delivery Challan' " &
                                     " WHEN TSPL_TRANSFER_ORDER_HEAD.TOTAL_TAX_AMT>0 AND TSPL_TAX_MASTER.TYPE='IGST' then 'Tax Invoice-Stock Transfer' else 'Bill of Supply' end) as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],'' as [GSTIN no Customer],(case when TSPL_TRANSFER_ORDER_Head.Total_Tax_Amt<=0 and TSPL_TRANSFER_ORDER_Head.Tax_Group<>'EXEMPTED' then (TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) else null end) as [Nill Rate Amount],(case when TSPL_TRANSFER_ORDER_HEAD.Tax_Group='EXEMPTED' then (TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) else null end) as [Exempted Amount],0 as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],'' as [Original Invoice No],'' as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],(CASE WHEN TAXM1.TYPE='M' THEN TSPL_TRANSFER_ORDER_DETAIL.TAX1_AMT ELSE 0 END+CASE WHEN TAXM2.TYPE='M' THEN TSPL_TRANSFER_ORDER_DETAIL.TAX2_AMT ELSE 0 END+CASE WHEN TAXM3.TYPE='M' THEN TSPL_TRANSFER_ORDER_DETAIL.TAX3_AMT ELSE 0 END) AS MANDI_TAX_AMT,"
@@ -4314,7 +4312,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             strMCCMaterial += " select Max([Ack No])[Ack No],Max([Ack Date])[Ack Date],max(final._Type) as _Type, max(Formtype) as [Form Type],Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],max(Narration) as [Narration],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.To_Location as [Customer Code],max(TSPL_CUSTOMER_MASTER.add1+  ' ' + TSPL_CUSTOMER_MASTER.add2 + ' ' + ' ' + TSPL_CUSTOMER_MASTER.Add3) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Location_Desc) as [Customer Name],max(TSPL_CUSTOMER_MASTER.Registered) as [Registered],'' as [Composition],max(TSPL_CUSTOMER_MASTER .City_Code) as [City Code],max(TSPL_CUSTOMER_MASTER .City_Code) as [Place of Supply],max(TSPL_STATE_MASTER.GST_STATE_Code) as [Customer GST State Code] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],max(tspl_item_master.HSN_Code) as [HSN Code],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], "
 
             strMCCMaterial += " 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Created_By as Created_By ,final.Modified_By as Modify_By,final.RATE_UOM,final.Conv_Factor,0 as Sampling,'N' as Scheme_Item, " &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Created_By as Created_By ,final.Modified_By as Modify_By,final.RATE_UOM,final.Conv_Factor,0 as Sampling,'N' as Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max(TSPL_CUSTOMER_MASTER.GSTNO) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,0 as TCSBaseAmount " &
                 " from ( "
             'strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX1 ,0 as TAX1_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX1+'%' as tax1rate  "
@@ -4392,7 +4390,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             End If
             ''end here
 
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,[Scheme Code] ,[Cash Scheme Code] ,[Cash Scheme Amount], [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final.Conv_Factor" '',QC.FAT_Per,QC.SNF_Per
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP,[Scheme Code] ,[Cash Scheme Code] ,[Cash Scheme Amount], [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final.Conv_Factor" '',QC.FAT_Per,QC.SNF_Per
         End If
         strMCCMaterial += Environment.NewLine + " --- QUERY FOR TRANSFER RETURN---------------------- ADDED BY RICHA AGARWAL ------------" + Environment.NewLine
 
@@ -4406,7 +4404,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                     " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " &
                                     " -TSPL_TRANSFER_ORDER_DETAIL.Amount AS Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt as Disc_Amt ,0 as [Scheme Amount], " &
                                     " -(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,-TSPL_TRANSFER_ORDER_DETAIL.Total_Tax_Amt as Total_Tax_Amt ,-(TSPL_TRANSFER_ORDER_DETAIL.Amount+TSPL_TRANSFER_ORDER_DETAIL.Total_Tax_Amt-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " &
-                                    " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP, '' as [Scheme Code] , '' as [Cash Scheme Code] ,0 as   [Cash Scheme Amount],  '' as [Price Code],'' as Created_By ,'' as Modified_By,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor," &
+                                    " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP, '' as [Scheme Code] , '' as [Cash Scheme Code] ,0 as   [Cash Scheme Amount],  '' as [Price Code],'' as Created_By ,'' as Modified_By,TSPL_TRANSFER_ORDER_DETAIL.Unit_code as RATE_UOM,0 as Conv_Factor," &
                                     " (CASE WHEN From_LOC.STATE=GIT_Main_Loc.TO_STATE THEN  'Delivery Challan' WHEN TSPL_TRANSFER_ORDER_HEAD.TOTAL_TAX_AMT>0 AND TSPL_TAX_MASTER.TYPE='IGST' then 'Tax Invoice-Stock Transfer' else 'Bill of Supply' end) as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],'' as [GSTIN no Customer],(case when TSPL_TRANSFER_ORDER_Head.Total_Tax_Amt<=0 and TSPL_TRANSFER_ORDER_Head.Tax_Group<>'EXEMPTED' then -(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) else null end) as [Nill Rate Amount],(case when TSPL_TRANSFER_ORDER_HEAD.Tax_Group='EXEMPTED' then -(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) else null end) as [Exempted Amount],0 as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],TSPL_TRANSFER_ORDER_HEAD.Document_No as [Original Invoice No],Convert(varchar,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) as [Original Invoice Date],'' as [Reason for Revision],'' as [LUT No],(CASE WHEN TAXM1.TYPE='M' THEN TSPL_TRANSFER_ORDER_DETAIL.TAX1_AMT ELSE 0 END+CASE WHEN TAXM2.TYPE='M' THEN TSPL_TRANSFER_ORDER_DETAIL.TAX2_AMT ELSE 0 END+CASE WHEN TAXM3.TYPE='M' THEN TSPL_TRANSFER_ORDER_DETAIL.TAX3_AMT ELSE 0 END) AS MANDI_TAX_AMT,"
 
             strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " &
@@ -4447,7 +4445,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             strMCCMaterial += " select Max([Ack No])[Ack No],max([Ack Date])[Ack Date],max(final._Type) as _Type,max(Formtype) as [Form Type],Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER.Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],max(Narration) as [Narration],Vehicle_Code,Vehicle_No,final.Additional_Charge, final.To_Location as [Customer Code],max(TSPL_CUSTOMER_MASTER.add1+  ' ' + TSPL_CUSTOMER_MASTER.add2 + ' ' + ' ' + TSPL_CUSTOMER_MASTER.Add3) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER.Location_Desc) as [Customer Name],max(TSPL_LOCATION_MASTER.Registered) as [Registered],'' as [Composition],max(TSPL_LOCATION_MASTER.City_Code) as [City Code],max(TSPL_LOCATION_MASTER.City_Code) as [Place of Supply],max(TSPL_STATE_MASTER.GST_STATE_Code) as [Customer GST State Code] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],max(tspl_item_master.HSN_Code) as [HSN Code],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], "
 
             strMCCMaterial += " 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code] ,final.Created_By as Created_By ,final.Modified_By as Modify_By,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item, " &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code] ,final.Created_By as Created_By ,final.Modified_By as Modify_By,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max(TSPL_LOCATION_MASTER.GSTNO) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,0 as TCSBaseAmount " &
                 " from ( "
 
@@ -4522,7 +4520,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
                 strMCCMaterial += " and final.Item_Code in (" + clsCommon.GetMulcallString(obj.Item_Code_List) + ") "
             End If
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,  [Scheme Code] ,  [Cash Scheme Code] , [Cash Scheme Amount],  [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final.Conv_Factor" + Environment.NewLine '',QC.FAT_Per,QC.SNF_Per
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP,  [Scheme Code] ,  [Cash Scheme Code] , [Cash Scheme Amount],  [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final.Conv_Factor" + Environment.NewLine '',QC.FAT_Per,QC.SNF_Per
         End If
         strMCCMaterial += Environment.NewLine + " --- QUERY FOR TRANSFER RETURN END---------------------- ADDED BY RICHA AGARWAL ------------" + Environment.NewLine
         If obj.Include_MCCFarmerSale = True Then
@@ -4551,7 +4549,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                    " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
                                    " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_MCC_SALE_FARMER_HEAD.GRNo as [GR No]," &
                                    " cast(null as date) as [GR Date],TSPL_MCC_SALE_FARMER_HEAD.WayBillNo as [WayBill No],TSPL_MCC_SALE_FARMER_HEAD.EWayBillNo as [EWayBill No],convert(varchar,TSPL_MCC_SALE_FARMER_HEAD.EWayBillDate,103) as [EWayBill Date],'' as [Transporter Code]," &
-                                   " '' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No], " &
+                                   " '' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No], " &
                                    " TSPL_MCC_Sale_Farmer_Detail.MRP ,TSPL_MCC_Sale_Farmer_Detail.Scheme_Code as [Scheme Code] ," &
                                    " TSPL_MCC_Sale_Farmer_Detail.Cash_Scheme_Code as [Cash Scheme Code] ,TSPL_MCC_Sale_Farmer_Detail.Cash_Scheme_Amount as [Cash Scheme Amount],TSPL_MCC_Sale_Farmer_Detail.Price_code as [Price Code],'' as Created_By, " &
                                    " '' as  Modify_By ,TSPL_MCC_Sale_Farmer_Detail.RATE_UOM,TSPL_MCC_Sale_Farmer_Detail.Conv_Factor,TSPL_MCC_Sale_Farmer_Detail.Sampling," &
@@ -4603,7 +4601,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
                 ''Monika  QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per]
                 strMCCMaterial += " 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " &
-                    " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item, " &
+                    " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item, " &
                     " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,0 as TCSBaseAmount"
                 strMCCMaterial += " from ("
                 'strTaxColumns = " TSPL_MCC_SALE_FARMER_HEAD.TAX1 ,(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) * TSPL_MCC_SALE_FARMER_HEAD.TAX1_Amt as Tax1_Amt, TSPL_MCC_SALE_FARMER_HEAD.TAX1_Rate,TSPL_MCC_SALE_FARMER_HEAD.TAX1+'%' as Tax1Rate"
@@ -4682,7 +4680,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 End If
                 ''end here
 
-                strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Created_By,final.Modify_By,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item" '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
+                strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Created_By,final.Modify_By,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item" '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
 
             End If
             If obj.Trans_Type_List.Contains("MCC Sale Return Farmer") Then
@@ -4700,7 +4698,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                   " 0 as [AR Amount Before Tax],0 as [AR Total Tax], " &
                                   " 0 as [AR Total Add Charge], " &
                                   " '' as Against_Sale_No,'' as Against_Sale_Return_No,'' as AgainstScrap, " &
-                                  " '' as Against_VCGL,'' as Against_MCC_Material_Sale_Return,TSPL_MCC_Sale_Return_Head_Farmer.GRNo as [GR No],cast(null as date) as [GR Date],'' as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],TSPL_MCC_Sale_Return_Detail_Farmer.Delivery_Code as [Delivery No],'' as [Shipment No],'' as [Booking No],TSPL_MCC_Sale_Return_Detail_Farmer.MRP, TSPL_MCC_Sale_Return_Detail_Farmer.Scheme_Code ,TSPL_MCC_Sale_Return_Detail_Farmer.Cash_Scheme_Code ,TSPL_MCC_Sale_Return_Detail_Farmer.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_MCC_Sale_Return_Detail_Farmer.Price_code ,'' as Created_By ,'' as Modify_By,TSPL_MCC_Sale_Return_Detail_Farmer.Unit_code as RATE_UOM,0 as Conv_Factor, TSPL_MCC_Sale_Return_Detail_Farmer.Sampling,TSPL_MCC_Sale_Return_Detail_Farmer.Scheme_Item," &
+                                  " '' as Against_VCGL,'' as Against_MCC_Material_Sale_Return,TSPL_MCC_Sale_Return_Head_Farmer.GRNo as [GR No],cast(null as date) as [GR Date],'' as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],'' as [Transporter Code],'' as [Transporter Name],TSPL_MCC_Sale_Return_Detail_Farmer.Delivery_Code as [Delivery No],'' as [Shipment No],TSPL_MCC_Sale_Return_Detail_Farmer.MRP, TSPL_MCC_Sale_Return_Detail_Farmer.Scheme_Code ,TSPL_MCC_Sale_Return_Detail_Farmer.Cash_Scheme_Code ,TSPL_MCC_Sale_Return_Detail_Farmer.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_MCC_Sale_Return_Detail_Farmer.Price_code ,'' as Created_By ,'' as Modify_By,TSPL_MCC_Sale_Return_Detail_Farmer.Unit_code as RATE_UOM,0 as Conv_Factor, TSPL_MCC_Sale_Return_Detail_Farmer.Sampling,TSPL_MCC_Sale_Return_Detail_Farmer.Scheme_Item," &
                                   " 'Credit Note' as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],'' as [GSTIN no Customer],(case when TSPL_MCC_Sale_Return_Head_Farmer.Total_Tax_Amt<=0 and TSPL_MCC_Sale_Return_Head_Farmer.Tax_Group<>'EXEMPTED' then -(Amount+coalesce(TSPL_MCC_Sale_Return_Detail_Farmer.Total_Tax_Amt,0)- case when TSPL_MCC_Sale_Return_Head_Farmer.Trans_Type='FS' then 0 else coalesce(TSPL_MCC_Sale_Return_Detail_Farmer.Total_Disc_Amt,0) end ) else null end) as [Nill Rate Amount],(case when TSPL_MCC_Sale_Return_Head_Farmer.Tax_Group='EXEMPTED' then -(Amount+coalesce(TSPL_MCC_Sale_Return_Detail_Farmer.Total_Tax_Amt,0)- case when TSPL_MCC_Sale_Return_Head_Farmer.Trans_Type='FS' then 0 else coalesce(TSPL_MCC_Sale_Return_Detail_Farmer.Total_Disc_Amt,0) end ) else null end) as [Exempted Amount],0 as [Non GST Supply],'N' as [Reverse Charge],'' as [Export Type],'' as Port,'' as [Shipping Bill No],'' as [Shipping Bill Date],TSPL_MCC_Sale_Return_Detail_Farmer.Invoice_Code as [Original Invoice No],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as [Original Invoice Date],TSPL_MCC_Sale_Return_Head_Farmer.Description as [Reason for Revision],'' as [LUT No],(CASE WHEN TAXM1.TYPE='M' THEN TSPL_MCC_Sale_Return_Detail_Farmer.TAX1_AMT ELSE 0 END+CASE WHEN TAXM2.TYPE='M' THEN TSPL_MCC_Sale_Return_Detail_Farmer.TAX2_AMT ELSE 0 END+CASE WHEN TAXM3.TYPE='M' THEN TSPL_MCC_Sale_Return_Detail_Farmer.TAX3_AMT ELSE 0 END) AS MANDI_TAX_AMT,"
                 strSDEndQry = " from TSPL_MCC_Sale_Return_Detail_Farmer " &
                                     " left outer join TSPL_MCC_Sale_Return_Head_Farmer on TSPL_MCC_Sale_Return_Head_Farmer.Document_Code =TSPL_MCC_Sale_Return_Detail_Farmer.DOCUMENT_CODE " &
@@ -4735,7 +4733,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
                 ''Monika QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per]
                 strMCCMaterial += "  0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount], " &
-                    " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, Scheme_Code as [Scheme Code] ,Cash_Scheme_Code as [Cash Scheme Code], Cash_Scheme_Amount as [Cash Scheme Amount] ,final.Price_code as [Price Code] ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item," &
+                    " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], MRP, Scheme_Code as [Scheme Code] ,Cash_Scheme_Code as [Cash Scheme Code], Cash_Scheme_Amount as [Cash Scheme Amount] ,final.Price_code as [Price Code] ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item," &
                     " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,0 as TCSBaseAmount " &
                     " from ( "
 
@@ -4821,7 +4819,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 End If
                 ''======end here
 
-                strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
+                strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
 
             End If
         End If
@@ -4844,7 +4842,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                         " TSPL_Customer_Invoice_Head.total_tax*(case when TSPL_Customer_Invoice_Head.Document_Type='D' then 1 else -1 end)*(case when coalesce(TSPL_Customer_Invoice_Head.convrate,0)<=0  then 1 else coalesce(TSPL_Customer_Invoice_Head.convrate,0) end) as [AR Total Tax], " &
                                         " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount)*(case when TSPL_Customer_Invoice_Head.Document_Type='D' then 1 else -1 end)*(case when coalesce(TSPL_Customer_Invoice_Head.convrate,0)<=0  then 1 else coalesce(TSPL_Customer_Invoice_Head.convrate,0) end) as [AR Total Add Charge], " &
                                         " '' as Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'' as AgainstScrap,'' as Against_VCGL,'' as Against_MCC_Material_Sale_Return,'' as [GR No],'' as [GR Date],'' as [WayBill No],'' as [EWayBill No],'' as [EWayBill Date],'' as [Transporter Code]," &
-                                        " '' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No], 0 as MRP ,'' as [Scheme Code] ,0 as [Cash Scheme Code] ,0 as [Cash Scheme Amount],'' as [Price Code],TSPL_Customer_Invoice_Head.Created_By as Created_By,TSPL_Customer_Invoice_Head.Modify_By as Modify_By ," &
+                                        " '' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No], 0 as MRP ,'' as [Scheme Code] ,0 as [Cash Scheme Code] ,0 as [Cash Scheme Amount],'' as [Price Code],TSPL_Customer_Invoice_Head.Created_By as Created_By,TSPL_Customer_Invoice_Head.Modify_By as Modify_By ," &
                                         " '' as RATE_UOM,0 as Conv_Factor,'' as Sampling,'' as Scheme_Item , (case when TSPL_Customer_Invoice_Head.Document_Type='D' then 'Debit Note' when TSPL_Customer_Invoice_Head.Document_Type='C' then 'Credit Note' else 'Invoice' end) as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN No Customer], " &
                                         " (case when TSPL_Customer_Invoice_Head.Total_Tax<=0 and TSPL_Customer_Invoice_Head.Tax_Group<>'EXEMPTED' then ((Amount+TSPL_Customer_Invoice_detail.Total_Tax-TSPL_Customer_Invoice_detail.Discount)*(case when TSPL_Customer_Invoice_Head.Document_Type='D' then 1 else -1 end)*(case when coalesce(TSPL_Customer_Invoice_Head.convrate,0)<=0  then 1 else coalesce(TSPL_Customer_Invoice_Head.convrate,0) end)) else null end) as [Nill Rate Amount]," &
                                         " (case when TSPL_Customer_Invoice_Head.Tax_Group='EXEMPTED' then ((Amount+TSPL_Customer_Invoice_detail.Total_Tax-TSPL_Customer_Invoice_detail.Discount)*(case when TSPL_Customer_Invoice_Head.Document_Type='D' then 1 else -1 end)*(case when coalesce(TSPL_Customer_Invoice_Head.convrate,0)<=0  then 1 else coalesce(TSPL_Customer_Invoice_Head.convrate,0) end)) else null end) as [Exempted Amount], " &
@@ -4890,7 +4888,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
             ''Monika  QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per]
             strMCCMaterial += " 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date] ,final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item, " &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date] ,final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,0 as TCSBaseAmount " &
                 " from ( "
             'strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX1 ,0 as TAX1_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX1+'%' as tax1rate  "
@@ -4958,7 +4956,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
              " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER .City_Code =TSPL_CUSTOMER_MASTER.City_Code " &
              " left join TSPL_STATE_MASTER on TSPL_LOCATION_MASTER.State=TSPL_STATE_MASTER.STATE_CODE "
 
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Created_By,final.Modify_By,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item" '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Created_By,final.Modify_By,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item" '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
 
         End If
         Dim strExportType As String = Nothing
@@ -4988,7 +4986,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                            " TSPL_Customer_Invoice_Head.total_tax*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as [AR Total Tax], " &
                            " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as [AR Total Add Charge], " &
                            " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
-                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],tspl_sd_shipment_head.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo as [EWaybill No],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,103) as [EWayBill Date],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code],case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no as [Booking No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ," &
+                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],tspl_sd_shipment_head.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo as [EWaybill No],convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,103) as [EWayBill Date],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code],case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ," &
                            " TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Amount*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as [Cash Scheme Amount], TSPL_SD_SALE_INVOICE_DETAIL.Price_code as [Price Code],'' as Created_By,'' as Modify_By ,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,tspl_sd_sale_invoice_detail.Sampling,tspl_sd_sale_invoice_detail.Scheme_Item ," &
                            " (case when TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='S' then 'Supplementry Invoice' when TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then 'Credit Note' when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=1 then 'Tax Invoice' else 'Bill Of Supply' end) as [Invoice Type GST],'" & CompGstinNo & "' as [GSTIN No Company],TSPL_CUSTOMER_MASTER.GSTNO as [GSTIN no Customer], " &
                            " (case when TSPL_SD_SALE_INVOICE_HEAD.Total_Tax_Amt<=0 and TSPL_SD_SALE_INVOICE_HEAD.Tax_Group<>'EXEMPTED' then ((Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt-isnull(TSPL_SD_SALE_INVOICE_DETAIL.ItemLeakageAmount ,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end)) else null end) as [Nill Rate Amount]," &
@@ -5044,7 +5042,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
             ''Monika  QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per]
             strMCCMaterial += " 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " &
-                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item, " &
+                " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],max([LUT No]) as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount"
             strMCCMaterial += " from ("
             'strTaxColumns = " TSPL_SD_SALE_INVOICE_DETAIL.TAX1 ,(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) * TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as Tax1_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX1+'%' as Tax1Rate"
@@ -5131,7 +5129,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strMCCMaterial += " and final.Customer_Code in (" + clsCommon.GetMulcallString(obj.Customer_Code_List) + ") "
             End If
 
-            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location , final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Created_By,final.Modify_By,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item" '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
+            strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location , final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Created_By,final.Modify_By,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item" '', " + strPivotFoGrouprOuterQuery + " ,QC.FAT_Per,QC.SNF_Per
         End If
         Dim TransferEntryOnInventoryControlAccount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where code='Transfer Entry On Inventory Control Account'"))
         Dim TankerDispatchFinancialImpactInTransferIn As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where code='Tanker Dispatch Financial Impact In Transfer In'"))
@@ -5450,9 +5448,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                            " TSPL_Customer_Invoice_Head.amount_less_Discount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Tax], " &
                            " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Add Charge], " &
                            " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
-                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code] ,case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no as [Booking No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Amount as [Cash Scheme Amount], TSPL_SD_SALE_INVOICE_DETAIL.Price_code as [Price Code],case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code else case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_no  else '' end end   as Ref_Doc_no," &
+                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code] ,case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Amount as [Cash Scheme Amount], TSPL_SD_SALE_INVOICE_DETAIL.Price_code as [Price Code],case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code else case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then ''  else '' end end   as Ref_Doc_no," &
                             " case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then  TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_date  " &
-                             " when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_date else NULL end  as Ref_doc_date," &
+                             " when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then NULL else NULL end  as Ref_doc_date," &
                             "  case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Created_By  when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Created_By else '' end  Created_By , " &
                             "case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Modify_By  when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Modify_By else '' end  as Modify_By , " &
                             " case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Modify_date when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Modify_Date else NULL end  as Modify_date ,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,tspl_sd_sale_invoice_detail.Sampling,tspl_sd_sale_invoice_detail.Scheme_Item "
@@ -5462,13 +5460,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                            " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
                            " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " &
                            " " &
-                           " left join tspl_item_price_master on tspl_item_price_master.Item_Price_ID in (Select  Item_Price_ID from  ( " &
-                           " Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
-                           " Start_Date Desc) as RowNo, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
-                           " Item_Basic_Price,Item_Basic_Net,Price_Code from TSPL_ITEM_PRICE_MASTER  left  outer join " &
-                           " TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-                           " TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date and  " &
-                           " TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Price_code and UOM=TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Unit_code and TSPL_ITEM_PRICE_MASTER.item_code=TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Item_Code AND Location_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code ) XXXE WHERE RowNo=1  )" &
+                           " " &
                            " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " &
                            " left join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code =TSPL_SD_SHIPMENT_head.Delivery_Code_ps " &
                            " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " &
@@ -5527,13 +5519,13 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             ''richa agarwal change to show csa sales account for csa sale and csa sale return
             'left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code as [Sales Account],
             strMCCMaterial += "  case when [trans type] in ('CSA Sale','CSA Sale Return') then case when item.GSOC_Acct<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end  else  left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end as [Sales Account], " &
-            " xx.[GR No],case when convert(date,xx.[GR Date],103)='01/Jan/1990' or convert(date,xx.[GR Date],103)='01/Jan/0001' then NULL else  convert(varchar,xx.[GR Date],103) end as [GR Date]  ,[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling, Scheme_Item as [Scheme Type],xx.Ref_Doc_no as [Ref Doc No],convert(varchar,xx.Ref_doc_date,103) as [Ref Doc Date],Created_By.User_Name as [Created By],Modify_By.User_Name as [Posted By],Convert(varchar,xx.Modify_date,103) as [Modify date] "
+            " xx.[GR No],case when convert(date,xx.[GR Date],103)='01/Jan/1990' or convert(date,xx.[GR Date],103)='01/Jan/0001' then NULL else  convert(varchar,xx.[GR Date],103) end as [GR Date]  ,[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling, Scheme_Item as [Scheme Type],xx.Ref_Doc_no as [Ref Doc No],convert(varchar,xx.Ref_doc_date,103) as [Ref Doc Date],Created_By.User_Name as [Created By],Modify_By.User_Name as [Posted By],Convert(varchar,xx.Modify_date,103) as [Modify date] "
         End If
 
 
         ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also)
         strMCCMaterial += " from (select case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='EX' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' when Trans_Type='MT' then 'Merchant Trade' WHEN Trans_Type ='SD' then 'General Sale' else  Trans_Type end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) AS [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQueryMAX + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " &
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By,final.Modify_By,final.Modify_date ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item "
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By,final.Modify_By,final.Modify_date ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item "
         strMCCMaterial += " from ("
         'strTaxColumns = " TSPL_SD_SALE_INVOICE_DETAIL.TAX1 ,(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) * TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as Tax1_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX1+'%' as Tax1Rate"
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
@@ -5586,7 +5578,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         'added by stuti on 01/05/2017
         strMCCMaterial += " where convert(date,final.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,final.Document_Date,103) <= convert(date,('" & To_Date & "'),103)"
 
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By,final.Modify_By,final.Modify_date,final.Ref_Doc_no,final.Ref_doc_date,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + "
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By,final.Modify_By,final.Modify_date,final.Ref_Doc_no,final.Ref_doc_date,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + "
 
         '' add csa transfer 
         Dim stCSACommonQuery As String = " select  'CSA Sale' as  Trans_Type,TSPL_CSA_TRANSFER_HEAD.Status ,TSPL_CSA_TRANSFER_HEAD.From_Location_Code as Bill_To_Location," &
@@ -5596,7 +5588,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                           " coalesce(TSPL_CSA_TRANSFER_DETAIL.transfer_Rate*TSPL_CSA_TRANSFER_DETAIL.Qty,0)*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) as Amount ,coalesce(TSPL_CSA_TRANSFER_DETAIL.Disc_Per,0) as Disc_Per ,coalesce(TSPL_CSA_TRANSFER_DETAIL.Disc_Amt,0)*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) as Disc_Amt ,0 as [Scheme Amount] " &
                                           ", (coalesce(TSPL_CSA_TRANSFER_DETAIL.transfer_Rate*TSPL_CSA_TRANSFER_DETAIL.Qty,0)-coalesce(TSPL_CSA_TRANSFER_DETAIL.Disc_Amt,0))*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) as Amt_Less_Discount ,0 as Total_Tax_Amt ,cast((TSPL_CSA_TRANSFER_DETAIL.Transfer_Rate * TSPL_CSA_TRANSFER_DETAIL.Qty) as Numeric(18,2))*(case when coalesce(TSPL_CSA_TRANSFER_Head.convrate,0)<=0  then 1 else coalesce(TSPL_CSA_TRANSFER_Head.convrate,0) end) as Total_Amt, " &
                                           " TSPL_CSA_TRANSFER_HEAD.Vehicle_Id as Vehicle_Code,TSPL_VEHICLE_MASTER.Number as Vehicle_No,0 as Additional_Charge, " &
-                                          " '' as [AR Document No],0 as [AR Document Amt],0 as [AR Document Discount Amt], 0 as [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_CSA_TRANSFER_HEAD.GR_No as [GR No],TSPL_CSA_TRANSFER_HEAD.gr_date as [GR Date],TSPL_CSA_TRANSFER_HEAD.WayBill_No as [WayBill No],TSPL_CSA_TRANSFER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_CSA_TRANSFER_HEAD.transporter_name_manual) > 0 then TSPL_CSA_TRANSFER_HEAD.transporter_name_manual else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],TSPL_CSA_TRANSFER_DETAIL.MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_CSA_TRANSFER_HEAD.DOC_CODE as Ref_Doc_no,TSPL_CSA_TRANSFER_HEAD.Transfer_Date as Ref_doc_date,TSPL_CSA_TRANSFER_HEAD.Created_By ,TSPL_CSA_TRANSFER_HEAD.Modify_By,TSPL_CSA_TRANSFER_HEAD.Modify_date,NULL as RATE_UOM,0 as Conv_Factor, "
+                                          " '' as [AR Document No],0 as [AR Document Amt],0 as [AR Document Discount Amt], 0 as [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_CSA_TRANSFER_HEAD.GR_No as [GR No],TSPL_CSA_TRANSFER_HEAD.gr_date as [GR Date],TSPL_CSA_TRANSFER_HEAD.WayBill_No as [WayBill No],TSPL_CSA_TRANSFER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_CSA_TRANSFER_HEAD.transporter_name_manual) > 0 then TSPL_CSA_TRANSFER_HEAD.transporter_name_manual else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],TSPL_CSA_TRANSFER_DETAIL.MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_CSA_TRANSFER_HEAD.DOC_CODE as Ref_Doc_no,TSPL_CSA_TRANSFER_HEAD.Transfer_Date as Ref_doc_date,TSPL_CSA_TRANSFER_HEAD.Created_By ,TSPL_CSA_TRANSFER_HEAD.Modify_By,TSPL_CSA_TRANSFER_HEAD.Modify_date,NULL as RATE_UOM,0 as Conv_Factor, "
 
         strSDEndQry = " from TSPL_CSA_TRANSFER_DETAIL " &
                     " left outer join TSPL_CSA_TRANSFER_HEAD on TSPL_CSA_TRANSFER_HEAD.DOC_CODE =TSPL_CSA_TRANSFER_DETAIL.DOC_CODE " &
@@ -5622,7 +5614,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
         strMCCMaterial += " union all "
         strMCCMaterial += " select Trans_Type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " &
-                          " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item "
+                          " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item "
         strMCCMaterial += " from ("
         'strTaxColumns = " TSPL_CSA_TRANSFER_DETAIL.TAX1 ,0 as TAX1_Amt, TSPL_CSA_TRANSFER_DETAIL.TAX1_Rate,TSPL_CSA_TRANSFER_DETAIL.TAX1+'%' as Tax1Rate"
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
@@ -5673,7 +5665,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         'added by stuti on 01/05/2017
         strMCCMaterial += " where convert(date,final.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,final.Document_Date,103) <= convert(date,('" & To_Date & "'),103)"
 
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor" '', " + strPivotFoGrouprOuterQuery + "
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP , [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor" '', " + strPivotFoGrouprOuterQuery + "
 
         '' end of csa transfer
 
@@ -5686,7 +5678,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
                           " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
                           " (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
-                          " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_Dispatch_BulkSale.Document_No as Ref_Doc_no ,TSPL_Dispatch_BulkSale.Document_Date as Ref_doc_date,TSPL_BulkSalePrice_MASTER.Created_By ,TSPL_BulkSalePrice_MASTER.Modified_By ,TSPL_BulkSalePrice_MASTER.Modified_Date ,NULL as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item " &
+                          " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_Dispatch_BulkSale.Document_No as Ref_Doc_no ,TSPL_Dispatch_BulkSale.Document_Date as Ref_doc_date,TSPL_BulkSalePrice_MASTER.Created_By ,TSPL_BulkSalePrice_MASTER.Modified_By ,TSPL_BulkSalePrice_MASTER.Modified_Date ,NULL as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item " &
                           " from TSPL_INVOICE_DETAIL_BULKSALE "
 
         strMCCMaterial += " left outer join TSPL_INVOICE_Master_BULKSALE on TSPL_INVOICE_Master_BULKSALE.Document_No =TSPL_INVOICE_DETAIL_BULKSALE.Document_No "
@@ -5702,7 +5694,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                             " and convert(date,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
         strMCCMaterial += " union all"
         strMCCMaterial += " select case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='Exp' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' WHEN Trans_Type ='SD' then 'General Sale' else Trans_Type  end  as [Trans Type],final.Loc_Code  as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.shipment_No  as [Document No],final.Document_Date as [Document_date],'' as Vehicle_Code,'' as Vehicle_No,0 as Additional_Charge,final.cust_Code  as [Customer Code],MAX(final.CustAdd ) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.shipped_Qty  as [Quantity],final.Unit_code as [UOM],final.price  as [Item Cost], 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.ItemAmt ,final.DiscountPer  as [Discount Per],final.TotalDiscountAmt   as [Discount Amount],final.[Scheme Amount]   as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.TotalTaxAmt  as [Total Tax Amount],final.Doc_Amt  as [Total Amount], " &
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item  from ("
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item  from ("
 
         Dim strScarpCommonQry As String = ""
         strScarpCommonQry = " select 'SS' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.ispost as Status ,TSPL_SCRAPINVOICE_HEAD.Loc_Code,TSPL_SCRAPINVOICE_HEAD.cust_Code " &
@@ -5718,7 +5710,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                             " TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
                             " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
                             " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
-                            " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP,  '' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date, '' as Created_By ,'' as Modify_By,NULL as Modify_date ,NULL as RATE_UOM,0 as Conv_Factor,"
+                            " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP,  '' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date, '' as Created_By ,'' as Modify_By,NULL as Modify_date ,NULL as RATE_UOM,0 as Conv_Factor,"
 
         strSDEndQry = " from TSPL_SCRAPINVOICE_DETAIL  " &
                       " left outer join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.invoice_No =TSPL_SCRAPINVOICE_DETAIL.invoice_No " &
@@ -5799,7 +5791,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         'added by stuti on 01/05/2017
         strMCCMaterial += " where convert(date,final.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,final.Document_Date,103) <= convert(date,('" & To_Date & "'),103)"
 
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No] ,MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final.RATE_UOM,final. Conv_Factor " ' ," + strPivotFoGrouprOuterQuery + " 
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final.RATE_UOM,final. Conv_Factor " ' ," + strPivotFoGrouprOuterQuery + " 
         '' query for return
 
         Dim strSDRCommonQuery As String = ""
@@ -5829,7 +5821,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                           " -TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],-TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
                           " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
                           " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
-                          " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No as [Booking No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modify_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,"
+                          " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modify_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,"
         strSDEndQry = " from TSPL_SD_SALE_RETURN_DETAIL " &
                             " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE " &
                             " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_RETURN_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
@@ -5859,7 +5851,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " union all "
 
         strMCCMaterial += " select case when Trans_Type ='FSR' then 'Fresh Sale Return' when Trans_Type ='CSAR' then 'CSA Sale Return' when Trans_Type='PSR' then 'Product Sale Return' when Trans_Type='MCCR' then 'MCC Sale Return' when Trans_Type='EXPR' then 'Export Sale Return'when Trans_Type='Bulk Sale' then 'Bulk Sale Return' when Trans_Type ='SSR' then 'Misc Sale' when Trans_Type ='SDR' then 'General Sale Return' else trans_Type  end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount], " &
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code,final.Ref_Doc_no,final.Ref_doc_date ,final.Created_By ,final.Modify_By,final.Modify_date,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item from ( "
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code,final.Ref_Doc_no,final.Ref_doc_date ,final.Created_By ,final.Modify_By,final.Modify_date,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item from ( "
 
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
         '' query for no tax applied
@@ -5916,7 +5908,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         'added by stuti on 01/05/2017
         strMCCMaterial += " where convert(date,final.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,final.Document_Date,103) <= convert(date,('" & To_Date & "'),103)"
 
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " 
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " 
 
         strMCCMaterial += " union all "
 
@@ -5928,7 +5920,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                            " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-1 * TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
                            " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
                            " -1 * (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
-                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as  [Shipment No],'' as  [Booking No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date ,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item" &
+                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as  [Shipment No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date ,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item" &
                            " from TSPL_SALE_RETURN_DETAIL_BULKSALE "
 
         strMCCMaterial += " left outer join TSPL_SALE_RETURN_MASTER_BULKSALE on TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No =TSPL_SALE_RETURN_DETAIL_BULKSALE.Document_No "
@@ -5948,7 +5940,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                 " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " &
                                 " TSPL_TRANSFER_ORDER_DETAIL.Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " &
                                 " (TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " &
-                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual  else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, "
+                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual  else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, "
 
         strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " &
                       " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " &
@@ -5987,7 +5979,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             & " ,amount as   Total_Amt,TSPL_vendor_Invoice_Head.Document_No as [AR Document No],TSPL_vendor_Invoice_Head.Document_Total [AR Document Amt]" _
             & " ,TSPL_vendor_Invoice_Head.Discount_Amount as [AR Document Discount Amt],TSPL_vendor_Invoice_Head.amount_less_Discount as [AR Amount Before Tax]," _
             & " TSPL_vendor_Invoice_Head.total_tax as [AR Total Tax],TSPL_vendor_Invoice_Head.total_Add_Charge as [AR Total Add Charge],'' as [GRNO],null as [GRN Date],'' as Way_BillNo," _
-            & "  TSPL_MCC_Dispatch_Challan.tanker_No,tm.description,'' as  [delivery No],'' as [Shiping No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor from TSPL_MCC_Dispatch_Challan  left outer  join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No " _
+            & "  TSPL_MCC_Dispatch_Challan.tanker_No,tm.description,'' as  [delivery No],'' as [Shiping No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor from TSPL_MCC_Dispatch_Challan  left outer  join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No " _
             & " =TSPL_MCC_Dispatch_Challan.Chalan_NO  LEFT JOIN tspl_location_Master  sendr ON sendr.Location_Code=TSPL_MCC_Dispatch_Challan.MCC_CODE " _
             & " left join tspl_Location_master on tspl_Location_master.location_code=TSPL_MCC_Dispatch_Challan.mcc_Code left join tspl_Location_master recv on " _
             & " recv.location_code=TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code  left join TSPL_vendor_Invoice_Head on  TSPL_vendor_Invoice_Head.vendor_Invoice_No" _
@@ -6003,7 +5995,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         '' transaction unit conversion
         strMCCMaterial += " union all "
         strMCCMaterial += " select Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," &
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final.RATE_UOM,final.Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final.RATE_UOM,final.Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
         'strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX1 ,0 as TAX1_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX1+'%' as tax1rate  "
 
         '' query for no tax applied
@@ -6062,7 +6054,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         'added by stuti on 01/05/2017
         strMCCMaterial += " where convert(date,final.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,final.Document_Date,103) <= convert(date,('" & To_Date & "'),103)"
 
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,[Scheme Code] ,[Cash Scheme Code] ,[Cash Scheme Amount], [Price Code] ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor"
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP,[Scheme Code] ,[Cash Scheme Code] ,[Cash Scheme Amount], [Price Code] ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor"
         ''richa
 
         strMCCMaterial += Environment.NewLine + " --- QUERY FOR TRANSFER RETURN---------------------- ADDED BY RICHA AGARWAL ------------" + Environment.NewLine
@@ -6076,7 +6068,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                                 " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " &
                                 " -TSPL_TRANSFER_ORDER_DETAIL.Amount AS Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " &
                                 " -(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,-(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " &
-                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual  else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP, '' as [Scheme Code] , '' as [Cash Scheme Code] ,0 as   [Cash Scheme Amount],  '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor,"
+                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual  else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP, '' as [Scheme Code] , '' as [Cash Scheme Code] ,0 as   [Cash Scheme Amount],  '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor,"
 
         strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " &
             " Left Outer Join TSPL_TRANSFER_RETURN on TSPL_TRANSFER_RETURN.Transfer_No=TSPL_TRANSFER_ORDER_HEAD.Document_No " &
@@ -6104,7 +6096,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
         strMCCMaterial += " union all "
         strMCCMaterial += " select Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER.Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge, final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER.Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], 0 as [Fat Per],0 as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," &
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Ref_Doc_no,final. Ref_doc_date ,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP, [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Ref_Doc_no,final. Ref_doc_date ,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
         'strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX1 ,0 as TAX1_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX1+'%' as tax1rate  "
 
         '' query for no tax applied
@@ -6160,7 +6152,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         'added by stuti on 01/05/2017
         strMCCMaterial += " where convert(date,final.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,final.Document_Date,103) <= convert(date,('" & To_Date & "'),103)"
 
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,  [Scheme Code] ,  [Cash Scheme Code] , [Cash Scheme Amount],  [Price Code] ,final.Ref_Doc_no,final. Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor" + Environment.NewLine
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP,  [Scheme Code] ,  [Cash Scheme Code] , [Cash Scheme Amount],  [Price Code] ,final.Ref_Doc_no,final. Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor" + Environment.NewLine
 
         strMCCMaterial += Environment.NewLine + " --- QUERY FOR TRANSFER RETURN END---------------------- ADDED BY RICHA AGARWAL ------------" + Environment.NewLine
 
@@ -6695,24 +6687,24 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strCodeDescColumn += "[" + clsCommon.myCstr(dtCategory.Rows(ii)("CodeDescColumn")) + "]"
                 strCodeDescColumnMax += "max([" + clsCommon.myCstr(dtCategory.Rows(ii)("CodeDescColumn")).Trim() + "]) as [" + clsCommon.myCstr(dtCategory.Rows(ii)("CodeDescColumn")).Trim() + "]"
             Next
-            strCategoryTable = "select Item_Code," + strCodeColumnMax + "," + strCodeDescColumnMax + "  from (" + Environment.NewLine & _
-            " select * from ( " + Environment.NewLine & _
-            " select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code " + Environment.NewLine & _
-            " ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+' Description' as Item_Category_CodeDesc " + Environment.NewLine & _
-            " ,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " + Environment.NewLine & _
-            " ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc " + Environment.NewLine & _
-            " from  TSPL_ITEM_MASTER  " + Environment.NewLine & _
-            " left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code " + Environment.NewLine & _
-            " left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values" + Environment.NewLine & _
-            " where 2=2 " + Environment.NewLine & _
-            " )xx" + Environment.NewLine & _
-            " Pivot " + Environment.NewLine & _
-            " ( max(Item_Cagetory_Values) for Item_Category_Code   in ( " + strCodeColumn + ")" + Environment.NewLine & _
-            " ) Pivt" + Environment.NewLine & _
-            " Pivot " + Environment.NewLine & _
-            " (" + Environment.NewLine & _
-            " max(Category_Value_Desc) for Item_Category_CodeDesc in (" + strCodeDescColumn + ")" + Environment.NewLine & _
-            " ) Pivt1 " + Environment.NewLine & _
+            strCategoryTable = "select Item_Code," + strCodeColumnMax + "," + strCodeDescColumnMax + "  from (" + Environment.NewLine &
+            " select * from ( " + Environment.NewLine &
+            " select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code " + Environment.NewLine &
+            " ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+' Description' as Item_Category_CodeDesc " + Environment.NewLine &
+            " ,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " + Environment.NewLine &
+            " ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc " + Environment.NewLine &
+            " from  TSPL_ITEM_MASTER  " + Environment.NewLine &
+            " left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code " + Environment.NewLine &
+            " left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values" + Environment.NewLine &
+            " where 2=2 " + Environment.NewLine &
+            " )xx" + Environment.NewLine &
+            " Pivot " + Environment.NewLine &
+            " ( max(Item_Cagetory_Values) for Item_Category_Code   in ( " + strCodeColumn + ")" + Environment.NewLine &
+            " ) Pivt" + Environment.NewLine &
+            " Pivot " + Environment.NewLine &
+            " (" + Environment.NewLine &
+            " max(Category_Value_Desc) for Item_Category_CodeDesc in (" + strCodeDescColumn + ")" + Environment.NewLine &
+            " ) Pivt1 " + Environment.NewLine &
             " ) xxx group by Item_Code "
             ''End of Category Table start now.
         End If
@@ -6828,9 +6820,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
 
         Dim qryQC As String = ""
-        qryQC = " select Item_Code,MAX(Fat_Per) as Fat_Per,MAX(SNF_Per) as SNF_Per from (" & _
-                " select Item_QCP.Item_Code,Item_QCP.Code as Parameter_Code,(case when QCP.Type='FAT' then Item_QCP.Actual_Range end) as Fat_Per," & _
-                " (case when QCP.Type='SNF' then Item_QCP.Actual_Range  end) as SNF_Per from TSPL_ITEM_QC_PARAMETER_MASTER Item_QCP " & _
+        qryQC = " select Item_Code,MAX(Fat_Per) as Fat_Per,MAX(SNF_Per) as SNF_Per from (" &
+                " select Item_QCP.Item_Code,Item_QCP.Code as Parameter_Code,(case when QCP.Type='FAT' then Item_QCP.Actual_Range end) as Fat_Per," &
+                " (case when QCP.Type='SNF' then Item_QCP.Actual_Range  end) as SNF_Per from TSPL_ITEM_QC_PARAMETER_MASTER Item_QCP " &
                 " left join TSPL_PARAMETER_MASTER QCP  on Item_QCP.Code=QCP.Code) as QC group by Item_Code"
 
         Dim qryKG As String = ""
@@ -6847,16 +6839,16 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         '        " where  2=2 and coalesce(Weigt1.Container_UOM,Weigt2.Container_UOM) is not null and coalesce(Weigt1.Container_UOM,Weigt2.Container_UOM) in ('KG','Ltr')"
 
         '' done by Panch Raj from Preeti User Id
-        qryKG = " select distinct TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Weight_UOM," & _
-                " max(case when TSPL_ITEM_MASTER.Weight_UOM='KG' then 1 " & _
-                " else  coalesce(Weigt1.Contained_Qty/Weigt1.Container_Qty,Weigt2.Container_Qty/Weigt2.Contained_Qty)end)*TSPL_ITEM_MASTER.Weight_Value " & _
-                " as Conversion_Factor from TSPL_ITEM_MASTER " & _
-                " left join (select distinct Container_Qty,Container_UOM,Contained_Qty,Contained_UOM,Product_Type from TSPL_WEIGHT_CONVERSION ) Weigt1 " & _
-                " on TSPL_ITEM_MASTER.Weight_UOM=Weigt1.Container_UOM and Weigt1.Contained_UOM='KG'  " & _
-                " and (TSPL_ITEM_MASTER.Product_Type=Weigt1.Product_Type or Weigt1.Product_Type='All') " & _
-                " left join (select distinct Container_Qty,Container_UOM,Contained_Qty,Contained_UOM,Product_Type from TSPL_WEIGHT_CONVERSION ) Weigt2 " & _
-                " on TSPL_ITEM_MASTER.Weight_UOM=Weigt2.Contained_UOM and  Weigt2.Container_UOM='KG' " & _
-                " and (TSPL_ITEM_MASTER.Product_Type=Weigt2.Product_Type or Weigt2.Product_Type='All')" & _
+        qryKG = " select distinct TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Weight_UOM," &
+                " max(case when TSPL_ITEM_MASTER.Weight_UOM='KG' then 1 " &
+                " else  coalesce(Weigt1.Contained_Qty/Weigt1.Container_Qty,Weigt2.Container_Qty/Weigt2.Contained_Qty)end)*TSPL_ITEM_MASTER.Weight_Value " &
+                " as Conversion_Factor from TSPL_ITEM_MASTER " &
+                " left join (select distinct Container_Qty,Container_UOM,Contained_Qty,Contained_UOM,Product_Type from TSPL_WEIGHT_CONVERSION ) Weigt1 " &
+                " on TSPL_ITEM_MASTER.Weight_UOM=Weigt1.Container_UOM and Weigt1.Contained_UOM='KG'  " &
+                " and (TSPL_ITEM_MASTER.Product_Type=Weigt1.Product_Type or Weigt1.Product_Type='All') " &
+                " left join (select distinct Container_Qty,Container_UOM,Contained_Qty,Contained_UOM,Product_Type from TSPL_WEIGHT_CONVERSION ) Weigt2 " &
+                " on TSPL_ITEM_MASTER.Weight_UOM=Weigt2.Contained_UOM and  Weigt2.Container_UOM='KG' " &
+                " and (TSPL_ITEM_MASTER.Product_Type=Weigt2.Product_Type or Weigt2.Product_Type='All')" &
                 " where  2=2 and len(coalesce(TSPL_ITEM_MASTER.Weight_UOM,''))>0 group by TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Weight_UOM,TSPL_ITEM_MASTER.Weight_Value"
         Dim qryStock As String = ""
         qryStock = "select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL "
@@ -6877,31 +6869,31 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         '' query for structure and item group custom field========================BM00000008352
         '==============added by preeti Gupta against ticket No[BM00000009864,BM00000007115]
         Dim strItemGroup As String = ""
-        strItemGroup = " select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join (" & _
-                       " select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='" & clsUserMgtCode.itemStructure & "'  " & _
-                       " and Custom_Field_Code='" & MIS_Item_Group & "') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code" & _
+        strItemGroup = " select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join (" &
+                       " select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='" & clsUserMgtCode.itemStructure & "'  " &
+                       " and Custom_Field_Code='" & MIS_Item_Group & "') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code" &
                        " left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='" & MIS_Item_Group & "') as StructDtl on Struct_Val.Value=StructDtl.Value "
 
         Dim strSDCommonQuery As String = ""
         Dim strTaxColumns As String = ""
         Dim strSDEndQry As String = ",TSPL_SD_SALE_INVOICE_DETAIL.TAX1+'%' as Tax1_Rate"
-        strSDCommonQuery = " select case when ISNUll(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,'')<>'' then TSPL_SD_SALE_INVOICE_HEAD.Document_Type else  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='ALL' THEN 'SD' ELSE TSPL_SD_SALE_INVOICE_HEAD.Trans_Type END end as Trans_Type  ,TSPL_SD_SALE_INVOICE_HEAD.Status ,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location, " & _
-                           " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_INVOICE_HEAD.Document_Code , " & _
-                           " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No , " & _
-                           " TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code , TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Item_Cost , " & _
-                           " TSPL_SD_SALE_INVOICE_DETAIL.Amount *(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as AMount,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per ,TSPL_SD_SALE_INVOICE_detail.Total_Disc_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) - case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Disc_Amt,case when coalesce(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.sampling,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,'')='Y' then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) end as [Scheme Amount] , " & _
-                           " (TSPL_SD_SALE_INVOICE_detail.Amount-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='AS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Amt_Less_Discount , " & _
-                           " TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Tax_AMt ,(TSPL_SD_SALE_INVOICE_DETAIL.Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Amt,case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then '' else TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code end as Vehicle_Code , case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then TSPL_SD_SALE_INVOICE_HEAD.VehicleNo else COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_SD_SALE_INVOICE_HEAD.VEHICLENO) end as Vehicle_No,(case when TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 then (TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge+coalesce(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end) as  Additional_Charge, " & _
-                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Amt]," & _
-                           " TSPL_Customer_Invoice_Head.Discount_Amount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Discount Amt], " & _
-                           " TSPL_Customer_Invoice_Head.amount_less_Discount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Tax], " & _
-                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Add Charge], " & _
-                           " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
-                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code] ,case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no as [Booking No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Amount as [Cash Scheme Amount], TSPL_SD_SALE_INVOICE_DETAIL.Price_code as [Price Code],case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code else case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_no  else '' end end   as Ref_Doc_no," & _
-                            " case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then  TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_date  " & _
-                             " when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_date else NULL end  as Ref_doc_date," & _
-                            "  case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Created_By  when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Created_By else '' end  Created_By , " & _
-                            "case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Modify_By  when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Modify_By else '' end  as Modify_By , " & _
+        strSDCommonQuery = " select case when ISNUll(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,'')<>'' then TSPL_SD_SALE_INVOICE_HEAD.Document_Type else  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='ALL' THEN 'SD' ELSE TSPL_SD_SALE_INVOICE_HEAD.Trans_Type END end as Trans_Type  ,TSPL_SD_SALE_INVOICE_HEAD.Status ,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location, " &
+                           " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_INVOICE_HEAD.Document_Code , " &
+                           " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No , " &
+                           " TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code , TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Item_Cost , " &
+                           " TSPL_SD_SALE_INVOICE_DETAIL.Amount *(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as AMount,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per ,TSPL_SD_SALE_INVOICE_detail.Total_Disc_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) - case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Disc_Amt,case when coalesce(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.sampling,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,'')='Y' then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) end as [Scheme Amount] , " &
+                           " (TSPL_SD_SALE_INVOICE_detail.Amount-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='AS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Amt_Less_Discount , " &
+                           " TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Tax_AMt ,(TSPL_SD_SALE_INVOICE_DETAIL.Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Amt,case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then '' else TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code end as Vehicle_Code , case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then TSPL_SD_SALE_INVOICE_HEAD.VehicleNo else COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_SD_SALE_INVOICE_HEAD.VEHICLENO) end as Vehicle_No,(case when TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 then (TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge+coalesce(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end) as  Additional_Charge, " &
+                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Amt]," &
+                           " TSPL_Customer_Invoice_Head.Discount_Amount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Discount Amt], " &
+                           " TSPL_Customer_Invoice_Head.amount_less_Discount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Tax], " &
+                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Add Charge], " &
+                           " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
+                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code] ,case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Amount as [Cash Scheme Amount], TSPL_SD_SALE_INVOICE_DETAIL.Price_code as [Price Code],case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code else case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then '' else '' end end   as Ref_Doc_no," &
+                            " case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then  TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_date  " &
+                             " when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then NULL  else NULL end  as Ref_doc_date," &
+                            "  case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Created_By  when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Created_By else '' end  Created_By , " &
+                            "case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Modify_By  when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Modify_By else '' end  as Modify_By , " &
                             " case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Modify_date when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then tspl_item_price_master.Modify_Date else NULL end  as Modify_date ,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,tspl_sd_sale_invoice_detail.Sampling,tspl_sd_sale_invoice_detail.Scheme_Item ,"
 
         strSDEndQry = " from TSPL_SD_SALE_INVOICE_DETAIL " &
@@ -6909,13 +6901,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                            " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_INVOICE_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
                            " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " &
                            "  " &
-                           " left join tspl_item_price_master on tspl_item_price_master.Item_Price_ID in (Select  Item_Price_ID from  ( " &
-                           " Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
-                           " Start_Date Desc) as RowNo, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
-                           " Item_Basic_Price,Item_Basic_Net,Price_Code from TSPL_ITEM_PRICE_MASTER  left  outer join " &
-                           " TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-                           " TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date and  " &
-                           " TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Price_code and UOM=TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Unit_code and TSPL_ITEM_PRICE_MASTER.item_code=TSPL_DELIVERY_NOTE_Detail_FRESHSALE.Item_Code AND Location_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code ) XXXE WHERE RowNo=1  )" &
+                           "  " &
                            " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " &
                            " left join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code =TSPL_SD_SHIPMENT_head.Delivery_Code_ps " &
                            " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " &
@@ -6968,26 +6954,26 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strMCCMaterial += "  cast(( case when isnull(Rate_Stock_SU.Conversion_Factor,0)<=0 then ([Item Cost]) else ([Item Cost] * Rate_select_SU.Conversion_Factor)/ Rate_Stock_SU.Conversion_Factor end )"
                 strMCCMaterial += " as Numeric(18,3)) as [Item Rate]"
             End If
-            strMCCMaterial += " , [Fat Per] as [FAT %],[SNF Per] as [SNF %],cast(([Quantity]*[Fat Per]*Stock_SU.Conversion_Factor)*coalesce(StockKG.Conversion_Factor,1)/(100) as numeric(18,3)) as [FAT KG],cast(([Quantity]*[SNF Per]*Stock_SU.Conversion_Factor)*coalesce(StockKG.Conversion_Factor,1)/(100) as Numeric(18,3)) as [SNF KG],Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],[Amount Less Discount]  as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ",case when [trans type]='Fresh Sale Return' then [Amount Less Discount]  else ([Total Amount]-[Total Tax Amount] + case when coalesce([Total Tax Amount],0)>0 then 0 else coalesce( [Scheme Amount],0) end) end as [Sale Amount],[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount], " & _
+            strMCCMaterial += " , [Fat Per] as [FAT %],[SNF Per] as [SNF %],cast(([Quantity]*[Fat Per]*Stock_SU.Conversion_Factor)*coalesce(StockKG.Conversion_Factor,1)/(100) as numeric(18,3)) as [FAT KG],cast(([Quantity]*[SNF Per]*Stock_SU.Conversion_Factor)*coalesce(StockKG.Conversion_Factor,1)/(100) as Numeric(18,3)) as [SNF KG],Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],[Amount Less Discount]  as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ",case when [trans type]='Fresh Sale Return' then [Amount Less Discount]  else ([Total Amount]-[Total Tax Amount] + case when coalesce([Total Tax Amount],0)>0 then 0 else coalesce( [Scheme Amount],0) end) end as [Sale Amount],[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount], " &
             " [AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], "
             ''richa agarwal change to show csa sales account for csa sale and csa sale return
             'left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code as [Sales Account],
-            strMCCMaterial += "  case when [trans type] in ('CSA Sale','CSA Sale Return') then case when item.GSOC_Acct<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end  else  left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end as [Sales Account], " & _
-            " xx.[GR No],case when convert(date,xx.[GR Date],103)='01/Jan/1990' or convert(date,xx.[GR Date],103)='01/Jan/0001' then NULL else  convert(varchar,xx.[GR Date],103) end as [GR Date]  ,[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling, Scheme_Item as [Scheme Type],xx.Ref_Doc_no as [Ref Doc No],convert(varchar,xx.Ref_doc_date,103) as [Ref Doc Date],Created_By.User_Name as [Created By],Modify_By.User_Name as [Posted By],Convert(varchar,xx.Modify_date,103) as [Modify date] "
+            strMCCMaterial += "  case when [trans type] in ('CSA Sale','CSA Sale Return') then case when item.GSOC_Acct<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end  else  left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end as [Sales Account], " &
+            " xx.[GR No],case when convert(date,xx.[GR Date],103)='01/Jan/1990' or convert(date,xx.[GR Date],103)='01/Jan/0001' then NULL else  convert(varchar,xx.[GR Date],103) end as [GR Date]  ,[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling, Scheme_Item as [Scheme Type],xx.Ref_Doc_no as [Ref Doc No],convert(varchar,xx.Ref_doc_date,103) as [Ref Doc Date],Created_By.User_Name as [Created By],Modify_By.User_Name as [Posted By],Convert(varchar,xx.Modify_date,103) as [Modify date] "
         End If
 
 
         ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also)
-        strMCCMaterial += " from (select case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='EX' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' when Trans_Type='MT' then 'Merchant Trade' WHEN Trans_Type ='SD' then 'General Sale' else  Trans_Type end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) AS [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQueryMAX + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By,final.Modify_By,final.Modify_date ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item "
+        strMCCMaterial += " from (select case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='EX' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' when Trans_Type='MT' then 'Merchant Trade' WHEN Trans_Type ='SD' then 'General Sale' else  Trans_Type end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) AS [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQueryMAX + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By,final.Modify_By,final.Modify_date ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item "
         strMCCMaterial += " from ("
         'strTaxColumns = " TSPL_SD_SALE_INVOICE_DETAIL.TAX1 ,(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) * TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as Tax1_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX1+'%' as Tax1Rate"
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
         '' query for no tax applied
-        strMCCMaterial += " select * from (" & strSDCommonQuery & strTaxColumns & strSDEndQry & "  and (coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax3,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax5,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax7,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strSDCommonQuery & strTaxColumns & strSDEndQry & "  and (coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax3,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax5,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax7,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax9,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax10,'')='') )t "
 
         '" pivot (sum(tax1_amt) for tax1 in (" + strPivotForInnerQuery + "))t pivot (min(tax1_rate) for Tax1Rate in (" + strDoublePivotForInnerQuery + ") " & _
@@ -7029,7 +7015,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
         strMCCMaterial += " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code "
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By,final.Modify_By,final.Modify_date,final.Ref_Doc_no,final.Ref_doc_date,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + "
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By,final.Modify_By,final.Modify_date,final.Ref_Doc_no,final.Ref_doc_date,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + "
 
         ' '' add csa transfer 
         'Dim stCSACommonQuery As String = " select  'CSA Sale' as  Trans_Type,TSPL_CSA_TRANSFER_HEAD.Status ,TSPL_CSA_TRANSFER_HEAD.From_Location_Code as Bill_To_Location," & _
@@ -7119,14 +7105,14 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
 
         strMCCMaterial += " union all"
-        strMCCMaterial += " select case when InvoiceAgainst='Against Dispatch Trade' then 'Bulk Sale Trade'  else 'Bulk Sale' end as Trans_Type ,coalesce(TSPL_LOCATION_MASTER.Main_Location_Code,TSPL_LOCATION_MASTER.Location_Code) as Bill_To_Location,TSPL_INVOICE_Master_BULKSALE.Posted,coalesce(Main_Loc.Location_Desc,TSPL_LOCATION_MASTER.location_desc) as Location_Desc ,'Invoice' as Invoice_type ,TSPL_INVOICE_Master_BULKSALE.Document_No as Document_code ,convert(varchar,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) Document_Date,case when isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')='' then TSPL_INVOICE_DETAIL_BULKSALE.TradeTanker_No else isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')  end as Vehicle_Code,case when isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')='' then TSPL_INVOICE_DETAIL_BULKSALE.TradeTanker_No else isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')  end as Vehicle_No,(case when ROW_NUMBER() over (partition by TSPL_INVOICE_Master_BULKSALE.Document_No order by TSPL_INVOICE_DETAIL_BULKSALE.Item_Code )=1 then coalesce(TSPL_INVOICE_Master_BULKSALE.RoundOffAmount,0) else 0 end) as Additional_Charge, " & _
+        strMCCMaterial += " select case when InvoiceAgainst='Against Dispatch Trade' then 'Bulk Sale Trade'  else 'Bulk Sale' end as Trans_Type ,coalesce(TSPL_LOCATION_MASTER.Main_Location_Code,TSPL_LOCATION_MASTER.Location_Code) as Bill_To_Location,TSPL_INVOICE_Master_BULKSALE.Posted,coalesce(Main_Loc.Location_Desc,TSPL_LOCATION_MASTER.location_desc) as Location_Desc ,'Invoice' as Invoice_type ,TSPL_INVOICE_Master_BULKSALE.Document_No as Document_code ,convert(varchar,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) Document_Date,case when isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')='' then TSPL_INVOICE_DETAIL_BULKSALE.TradeTanker_No else isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')  end as Vehicle_Code,case when isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')='' then TSPL_INVOICE_DETAIL_BULKSALE.TradeTanker_No else isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')  end as Vehicle_No,(case when ROW_NUMBER() over (partition by TSPL_INVOICE_Master_BULKSALE.Document_No order by TSPL_INVOICE_DETAIL_BULKSALE.Item_Code )=1 then coalesce(TSPL_INVOICE_Master_BULKSALE.RoundOffAmount,0) else 0 end) as Additional_Charge, " &
                           " TSPL_INVOICE_Master_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Parent_Customer_No,"
         strMCCMaterial += " Parent_Master.Cust_Code as Parent_Customer_Code,Parent_Master.Customer_Name as Parent_Cust_Name, "
-        strMCCMaterial += " TSPL_INVOICE_DETAIL_BULKSALE.Item_Code,tspl_item_master.Item_Desc ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceQty as Qty ,TSPL_INVOICE_DETAIL_BULKSALE.Unit_code,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceRate as Item_cost,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceFatPer ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceSNFPer ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceFatKG ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceSNFKG  ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as Disc_per,0 as Disc_Amt,0 as [Scheme Amount],TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount as Amt_less_Discount,0 as Total_tax_amt " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",(TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount) as Total_Amt, " & _
-                          " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," & _
-                          " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " & _
-                          " (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " & _
-                          " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_Dispatch_BulkSale.Document_No as Ref_Doc_no ,TSPL_Dispatch_BulkSale.Document_Date as Ref_doc_date,TSPL_BulkSalePrice_MASTER.Created_By ,TSPL_BulkSalePrice_MASTER.Modified_By ,TSPL_BulkSalePrice_MASTER.Modified_Date ,NULL as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item " & _
+        strMCCMaterial += " TSPL_INVOICE_DETAIL_BULKSALE.Item_Code,tspl_item_master.Item_Desc ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceQty as Qty ,TSPL_INVOICE_DETAIL_BULKSALE.Unit_code,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceRate as Item_cost,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceFatPer ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceSNFPer ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceFatKG ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceSNFKG  ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as Disc_per,0 as Disc_Amt,0 as [Scheme Amount],TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount as Amt_less_Discount,0 as Total_tax_amt " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",(TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount) as Total_Amt, " &
+                          " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
+                          " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
+                          " (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
+                          " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_Dispatch_BulkSale.Document_No as Ref_Doc_no ,TSPL_Dispatch_BulkSale.Document_Date as Ref_doc_date,TSPL_BulkSalePrice_MASTER.Created_By ,TSPL_BulkSalePrice_MASTER.Modified_By ,TSPL_BulkSalePrice_MASTER.Modified_Date ,NULL as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item " &
                           " from TSPL_INVOICE_DETAIL_BULKSALE "
 
         strMCCMaterial += " left outer join TSPL_INVOICE_Master_BULKSALE on TSPL_INVOICE_Master_BULKSALE.Document_No =TSPL_INVOICE_DETAIL_BULKSALE.Document_No "
@@ -7137,34 +7123,34 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =TSPL_INVOICE_DETAIL_BULKSALE.Item_Code"
         strMCCMaterial += " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_INVOICE_Master_BULKSALE.Document_No "
         strMCCMaterial += " left join TSPL_Dispatch_BulkSale on TSPL_Dispatch_BulkSale.Document_No =TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code "
-        strMCCMaterial += " left join TSPL_BulkSalePrice_MASTER on TSPL_BulkSalePrice_MASTER.Price_Code =TSPL_Dispatch_BulkSale.Price_Code  where 2=2 " & _
-                            " and (case when InvoiceAgainst='Against Dispatch Trade' then 'Bulk Sale Trade'  else 'Bulk Sale' end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strMCCMaterial += " left join TSPL_BulkSalePrice_MASTER on TSPL_BulkSalePrice_MASTER.Price_Code =TSPL_Dispatch_BulkSale.Price_Code  where 2=2 " &
+                            " and (case when InvoiceAgainst='Against Dispatch Trade' then 'Bulk Sale Trade'  else 'Bulk Sale' end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                             " and convert(date,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
         strMCCMaterial += " union all"
-        strMCCMaterial += " select case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='Exp' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' WHEN Trans_Type ='SD' then 'General Sale' else Trans_Type  end  as [Trans Type],final.Loc_Code  as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.shipment_No  as [Document No],final.Document_Date as [Document_date],'' as Vehicle_Code,'' as Vehicle_No,0 as Additional_Charge,final.cust_Code  as [Customer Code],MAX(final.CustAdd ) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.shipped_Qty  as [Quantity],final.Unit_code as [UOM],final.price  as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.ItemAmt ,final.DiscountPer  as [Discount Per],final.TotalDiscountAmt   as [Discount Amount],final.[Scheme Amount]   as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.TotalTaxAmt  as [Total Tax Amount],final.Doc_Amt  as [Total Amount], " & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item  from ("
+        strMCCMaterial += " select case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='Exp' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' WHEN Trans_Type ='SD' then 'General Sale' else Trans_Type  end  as [Trans Type],final.Loc_Code  as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.shipment_No  as [Document No],final.Document_Date as [Document_date],'' as Vehicle_Code,'' as Vehicle_No,0 as Additional_Charge,final.cust_Code  as [Customer Code],MAX(final.CustAdd ) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.shipped_Qty  as [Quantity],final.Unit_code as [UOM],final.price  as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.ItemAmt ,final.DiscountPer  as [Discount Per],final.TotalDiscountAmt   as [Discount Amount],final.[Scheme Amount]   as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.TotalTaxAmt  as [Total Tax Amount],final.Doc_Amt  as [Total Amount], " &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item  from ("
 
         Dim strScarpCommonQry As String = ""
-        strScarpCommonQry = " select 'SS' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.ispost as Status ,TSPL_SCRAPINVOICE_HEAD.Loc_Code,TSPL_SCRAPINVOICE_HEAD.cust_Code " & _
-                            " ,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd, " & _
-                            " TSPL_SCRAPINVOICE_HEAD.Invoice_Type,TSPL_SCRAPINVOICE_HEAD.invoice_No as shipment_No ,convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103 ) as Document_Date , " & _
-                            " TSPL_SCRAPINVOICE_DETAIL.Item_Code ,TSPL_SCRAPINVOICE_DETAIL.shipped_Qty ,TSPL_SCRAPINVOICE_DETAIL.Unit_code ," & _
-                            " TSPL_SCRAPINVOICE_DETAIL.price ,0 as InvoiceFatPer ,0 as InvoiceSNFPer ,0 as InvoiceFatKG ,0 as InvoiceSNFKG , " & _
-                            " TSPL_SCRAPINVOICE_DETAIL.ItemAmt ,TSPL_SCRAPINVOICE_DETAIL.DiscountPer,0 as [Scheme Amount] ,TSPL_SCRAPINVOICE_DETAIL.ItemNetAmt as Amt_less_Discount, " & _
-                            " TSPL_SCRAPINVOICE_DETAIL.TotalDiscountAmt , " & _
-                            " TSPL_SCRAPINVOICE_DETAIL.TotalTaxAmt ,TSPL_SCRAPINVOICE_DETAIL.TotalAmt+Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end as Doc_Amt,'' as Vehicle_Code,'' as Vehicle_No,Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end as Additional_Charge," & _
-                            " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," & _
-                            " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " & _
-                            " TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " & _
-                            " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " & _
-                            " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
-                            " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP,  '' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date, '' as Created_By ,'' as Modify_By,NULL as Modify_date ,NULL as RATE_UOM,0 as Conv_Factor,"
+        strScarpCommonQry = " select 'SS' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.ispost as Status ,TSPL_SCRAPINVOICE_HEAD.Loc_Code,TSPL_SCRAPINVOICE_HEAD.cust_Code " &
+                            " ,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd, " &
+                            " TSPL_SCRAPINVOICE_HEAD.Invoice_Type,TSPL_SCRAPINVOICE_HEAD.invoice_No as shipment_No ,convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103 ) as Document_Date , " &
+                            " TSPL_SCRAPINVOICE_DETAIL.Item_Code ,TSPL_SCRAPINVOICE_DETAIL.shipped_Qty ,TSPL_SCRAPINVOICE_DETAIL.Unit_code ," &
+                            " TSPL_SCRAPINVOICE_DETAIL.price ,0 as InvoiceFatPer ,0 as InvoiceSNFPer ,0 as InvoiceFatKG ,0 as InvoiceSNFKG , " &
+                            " TSPL_SCRAPINVOICE_DETAIL.ItemAmt ,TSPL_SCRAPINVOICE_DETAIL.DiscountPer,0 as [Scheme Amount] ,TSPL_SCRAPINVOICE_DETAIL.ItemNetAmt as Amt_less_Discount, " &
+                            " TSPL_SCRAPINVOICE_DETAIL.TotalDiscountAmt , " &
+                            " TSPL_SCRAPINVOICE_DETAIL.TotalTaxAmt ,TSPL_SCRAPINVOICE_DETAIL.TotalAmt+Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end as Doc_Amt,'' as Vehicle_Code,'' as Vehicle_No,Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end as Additional_Charge," &
+                            " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
+                            " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
+                            " TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
+                            " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
+                            " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
+                            " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP,  '' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date, '' as Created_By ,'' as Modify_By,NULL as Modify_date ,NULL as RATE_UOM,0 as Conv_Factor,"
 
-        strSDEndQry = " from TSPL_SCRAPINVOICE_DETAIL  " & _
-                      " left outer join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.invoice_No =TSPL_SCRAPINVOICE_DETAIL.invoice_No " & _
-                      " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.AgainstScrap=TSPL_SCRAPINVOICE_HEAD.invoice_No " & _
-                      " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SCRAPINVOICE_HEAD.Cust_Code  where 2=2 " & _
-                      " AND 'Misc Sale' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDEndQry = " from TSPL_SCRAPINVOICE_DETAIL  " &
+                      " left outer join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.invoice_No =TSPL_SCRAPINVOICE_DETAIL.invoice_No " &
+                      " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.AgainstScrap=TSPL_SCRAPINVOICE_HEAD.invoice_No " &
+                      " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SCRAPINVOICE_HEAD.Cust_Code  where 2=2 " &
+                      " AND 'Misc Sale' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                       " and convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         '' filter conditions
@@ -7184,10 +7170,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
         '' query for no tax applied
 
-        strMCCMaterial += " select * from (" & strScarpCommonQry & strTaxColumns & strSDEndQry & " and (coalesce(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax3,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax5,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax7,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strScarpCommonQry & strTaxColumns & strSDEndQry & " and (coalesce(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax3,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax5,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax7,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax9,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax10,'')='') )t "
         '" pivot (sum(tax1_amt) for tax1 in (" + strPivotForInnerQuery + "))t pivot (min(tax1_rate) for tax1rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " union all "
@@ -7236,7 +7222,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
         strMCCMaterial += " ) final left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Loc_Code  left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
         strMCCMaterial += " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code "
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No] ,MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final.RATE_UOM,final. Conv_Factor " ' ," + strPivotFoGrouprOuterQuery + " 
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date,final.RATE_UOM,final. Conv_Factor " ' ," + strPivotFoGrouprOuterQuery + " 
         '' query for return
 
         Dim strSDRCommonQuery As String = ""
@@ -7254,19 +7240,19 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         '                    " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
         '                    " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],'' as [WayBill No],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No as [Booking No],TSPL_SD_SALE_RETURN_DETAIL.MRP, "
 
-        strSDRCommonQuery = " select (CASE WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='ALL' THEN 'SDR' ELSE TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'R' END) as Trans_Type,TSPL_SD_SALE_RETURN_HEAD.Status ,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location, " & _
-                          " TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_RETURN_HEAD.Document_Type,TSPL_SD_SALE_RETURN_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.Document_Code , " & _
-                          " convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_RETURN_DETAIL.Item_Code,TSPL_SD_SALE_RETURN_DETAIL.Line_No , " & _
-                          " -TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code ,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost , " & _
-                          " -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Amount,0) as Amount ,TSPL_SD_SALE_RETURN_DETAIL.Disc_Per ,case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0)=0 then -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0)  + case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then 1*coalesce(Item_Net_Amt,0)*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) else 0 end else -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end as Disc_Amt,case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then -1*coalesce(Item_Net_Amt,0)*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) end  as [Scheme Amount] , " & _
-                          " -(Amount- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then Total_Disc_Amt else Total_Disc_Amt end  + case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type<>'FS' then case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) else 0 end else 0 end)  as Amt_Less_Discount , " & _
-                          " -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0) as Total_Tax_Amt ,-(Amount+coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0)- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then 0 else coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end )  as Total_Amt,TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code,TSPL_VEHICLE_MASTER.Number as Vehicle_No,-(case when TSPL_SD_SALE_RETURN_DETAIL.Line_No=1 then (coalesce(TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge,0)+coalesce(TSPL_SD_SALE_RETURN_HEAD.RoundOffAmount,0)) else 0 end) as Additional_Charge, " & _
-                          " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," & _
-                          " -TSPL_Customer_Invoice_Head.Discount_Amount-coalesce(TSPL_SD_SALE_RETURN_HEAD.headDisc_AMt,0) as [AR Document Discount Amt], " & _
-                          " -TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],-TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " & _
-                          " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " & _
-                          " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
-                          " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No as [Booking No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modify_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,"
+        strSDRCommonQuery = " select (CASE WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='ALL' THEN 'SDR' ELSE TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'R' END) as Trans_Type,TSPL_SD_SALE_RETURN_HEAD.Status ,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location, " &
+                          " TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_RETURN_HEAD.Document_Type,TSPL_SD_SALE_RETURN_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.Document_Code , " &
+                          " convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_RETURN_DETAIL.Item_Code,TSPL_SD_SALE_RETURN_DETAIL.Line_No , " &
+                          " -TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code ,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost , " &
+                          " -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Amount,0) as Amount ,TSPL_SD_SALE_RETURN_DETAIL.Disc_Per ,case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0)=0 then -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0)  + case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then 1*coalesce(Item_Net_Amt,0)*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) else 0 end else -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end as Disc_Amt,case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then -1*coalesce(Item_Net_Amt,0)*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) end  as [Scheme Amount] , " &
+                          " -(Amount- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then Total_Disc_Amt else Total_Disc_Amt end  + case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type<>'FS' then case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) else 0 end else 0 end)  as Amt_Less_Discount , " &
+                          " -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0) as Total_Tax_Amt ,-(Amount+coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0)- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then 0 else coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end )  as Total_Amt,TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code,TSPL_VEHICLE_MASTER.Number as Vehicle_No,-(case when TSPL_SD_SALE_RETURN_DETAIL.Line_No=1 then (coalesce(TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge,0)+coalesce(TSPL_SD_SALE_RETURN_HEAD.RoundOffAmount,0)) else 0 end) as Additional_Charge, " &
+                          " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
+                          " -TSPL_Customer_Invoice_Head.Discount_Amount-coalesce(TSPL_SD_SALE_RETURN_HEAD.headDisc_AMt,0) as [AR Document Discount Amt], " &
+                          " -TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],-TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
+                          " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
+                          " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
+                          " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modify_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,"
         strSDEndQry = " from TSPL_SD_SALE_RETURN_DETAIL " &
                             " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE " &
                             " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_RETURN_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
@@ -7295,15 +7281,15 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
         strMCCMaterial += " union all "
 
-        strMCCMaterial += " select case when Trans_Type ='FSR' then 'Fresh Sale Return' when Trans_Type ='CSAR' then 'CSA Sale Return' when Trans_Type='PSR' then 'Product Sale Return' when Trans_Type='MCCR' then 'MCC Sale Return' when Trans_Type='EXPR' then 'Export Sale Return'when Trans_Type='Bulk Sale' then 'Bulk Sale Return' when Trans_Type ='SSR' then 'Misc Sale' when Trans_Type ='SDR' then 'General Sale Return' else trans_Type  end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount], " & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code,final.Ref_Doc_no,final.Ref_doc_date ,final.Created_By ,final.Modify_By,final.Modify_date,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item from ( "
+        strMCCMaterial += " select case when Trans_Type ='FSR' then 'Fresh Sale Return' when Trans_Type ='CSAR' then 'CSA Sale Return' when Trans_Type='PSR' then 'Product Sale Return' when Trans_Type='MCCR' then 'MCC Sale Return' when Trans_Type='EXPR' then 'Export Sale Return'when Trans_Type='Bulk Sale' then 'Bulk Sale Return' when Trans_Type ='SSR' then 'Misc Sale' when Trans_Type ='SDR' then 'General Sale Return' else trans_Type  end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount], " &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code,final.Ref_Doc_no,final.Ref_doc_date ,final.Created_By ,final.Modify_By,final.Modify_date,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item from ( "
 
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
         '' query for no tax applied
-        strMCCMaterial += " select * from (" & strSDRCommonQuery & strTaxColumns & strSDEndQry & " and (coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax3,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax5,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax7,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strSDRCommonQuery & strTaxColumns & strSDEndQry & " and (coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax3,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax5,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax7,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax9,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax10,'')='') )t "
 
         strMCCMaterial += "   union all"
@@ -7350,19 +7336,19 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
         strMCCMaterial += " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code "
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " 
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modify_By,final.Modify_date ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " 
 
         strMCCMaterial += " union all "
 
         '''' bulk sale return 
-        strMCCMaterial += "  select 'Bulk Sale Return' as Trans_Type ,TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code as Bill_To_Location,TSPL_SALE_RETURN_MASTER_BULKSALE.Posted,TSPL_LOCATION_MASTER.Location_Desc ,'Invoice' as Invoice_type ,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No as Document_code ,convert(varchar,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) Document_Date,'' as Vehicle_Code,'' as Vehicle_No,coalesce(-1 * TSPL_SALE_RETURN_MASTER_BULKSALE.roundoffamount,0) as Additional_Charge, " & _
-                           " TSPL_SALE_RETURN_MASTER_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Parent_Customer_No," & _
-                           " Parent_Master.Cust_Code as Parent_Customer_Code,Parent_Master.Customer_Name as Parent_Cust_Name ," & _
-                           " TSPL_SALE_RETURN_DETAIL_BULKSALE.Item_Code,tspl_item_master.Item_Desc ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceQty as Qty ,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceRate as Item_cost,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatPer ,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFPer ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatKG as InvoiceFatKG ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFKG as InvoiceSNFKG  ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as Disc_per,0 as Disc_Amt,0 as [Scheme Amount],-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amt_less_Discount,0 as Total_tax_amt " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Total_Amt, " & _
-                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-1 * TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," & _
-                           " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " & _
-                           " -1 * (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " & _
-                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as  [Shipment No],'' as  [Booking No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date ,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item" & _
+        strMCCMaterial += "  select 'Bulk Sale Return' as Trans_Type ,TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code as Bill_To_Location,TSPL_SALE_RETURN_MASTER_BULKSALE.Posted,TSPL_LOCATION_MASTER.Location_Desc ,'Invoice' as Invoice_type ,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No as Document_code ,convert(varchar,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) Document_Date,'' as Vehicle_Code,'' as Vehicle_No,coalesce(-1 * TSPL_SALE_RETURN_MASTER_BULKSALE.roundoffamount,0) as Additional_Charge, " &
+                           " TSPL_SALE_RETURN_MASTER_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Parent_Customer_No," &
+                           " Parent_Master.Cust_Code as Parent_Customer_Code,Parent_Master.Customer_Name as Parent_Cust_Name ," &
+                           " TSPL_SALE_RETURN_DETAIL_BULKSALE.Item_Code,tspl_item_master.Item_Desc ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceQty as Qty ,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceRate as Item_cost,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatPer ,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFPer ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatKG as InvoiceFatKG ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFKG as InvoiceSNFKG  ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as Disc_per,0 as Disc_Amt,0 as [Scheme Amount],-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amt_less_Discount,0 as Total_tax_amt " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Total_Amt, " &
+                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-1 * TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
+                           " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
+                           " -1 * (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
+                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as  [Shipment No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date ,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item" &
                            " from TSPL_SALE_RETURN_DETAIL_BULKSALE "
 
         strMCCMaterial += " left outer join TSPL_SALE_RETURN_MASTER_BULKSALE on TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No =TSPL_SALE_RETURN_DETAIL_BULKSALE.Document_No "
@@ -7370,26 +7356,26 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =TSPL_SALE_RETURN_MASTER_BULKSALE.Customer_Code"
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =TSPL_SALE_RETURN_DETAIL_BULKSALE.Item_Code"
-        strMCCMaterial += " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_Return_No=TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No  where 2=2 " & _
-                            " and 'Bulk Sale Return' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strMCCMaterial += " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_Return_No=TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No  where 2=2 " &
+                            " and 'Bulk Sale Return' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                             " and convert(date,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         Dim strTranferCommonQuery As String = ""
-        strTranferCommonQuery = " select 'Transfer' as Trans_Type,TSPL_TRANSFER_ORDER_HEAD.Status ,TSPL_TRANSFER_ORDER_HEAD.From_Location as Bill_To_Location, " & _
-                                " GIT_Main_Loc.Location_Code as To_Location,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as Invoice_Type,TSPL_TRANSFER_ORDER_HEAD.Document_No , " & _
-                                " convert(varchar,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103 ) as Document_Date , TSPL_TRANSFER_ORDER_DETAIL.Item_Code , " & _
-                                " (case when TSPL_TRANSFER_ORDER_DETAIL.In_Qty>0 then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_TRANSFER_ORDER_DETAIL.Out_Qty end) as Qty, " & _
-                                " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " & _
-                                " TSPL_TRANSFER_ORDER_DETAIL.Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " & _
-                                " (TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " & _
-                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual  else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, "
+        strTranferCommonQuery = " select 'Transfer' as Trans_Type,TSPL_TRANSFER_ORDER_HEAD.Status ,TSPL_TRANSFER_ORDER_HEAD.From_Location as Bill_To_Location, " &
+                                " GIT_Main_Loc.Location_Code as To_Location,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as Invoice_Type,TSPL_TRANSFER_ORDER_HEAD.Document_No , " &
+                                " convert(varchar,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103 ) as Document_Date , TSPL_TRANSFER_ORDER_DETAIL.Item_Code , " &
+                                " (case when TSPL_TRANSFER_ORDER_DETAIL.In_Qty>0 then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_TRANSFER_ORDER_DETAIL.Out_Qty end) as Qty, " &
+                                " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " &
+                                " TSPL_TRANSFER_ORDER_DETAIL.Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " &
+                                " (TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " &
+                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual  else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor, "
 
-        strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " & _
-                      " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " & _
-                      " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSFER_ORDER_HEAD.Transport_Id=TSPL_TRANSPORT_MASTER.Transport_Id " & _
-                      " left join ( select  max(Location_Code) as Location_Code,GIT_Location from TSPL_LOCATION_MASTER where GIT_Location is not null " & _
-                      " group by GIT_Location ) GIT_Main_Loc on TSPL_TRANSFER_ORDER_HEAD.To_Location=GIT_Main_Loc.GIT_Location  where Transfer_Type <>'I' " & _
-                      " AND 'Transfer' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " &
+                      " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " &
+                      " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSFER_ORDER_HEAD.Transport_Id=TSPL_TRANSPORT_MASTER.Transport_Id " &
+                      " left join ( select  max(Location_Code) as Location_Code,GIT_Location from TSPL_LOCATION_MASTER where GIT_Location is not null " &
+                      " group by GIT_Location ) GIT_Main_Loc on TSPL_TRANSFER_ORDER_HEAD.To_Location=GIT_Main_Loc.GIT_Location  where Transfer_Type <>'I' " &
+                      " AND 'Transfer' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                       " and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         '' filter conditions
@@ -7421,7 +7407,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             & " ,amount as   Total_Amt,TSPL_vendor_Invoice_Head.Document_No as [AR Document No],TSPL_vendor_Invoice_Head.Document_Total [AR Document Amt]" _
             & " ,TSPL_vendor_Invoice_Head.Discount_Amount as [AR Document Discount Amt],TSPL_vendor_Invoice_Head.amount_less_Discount as [AR Amount Before Tax]," _
             & " TSPL_vendor_Invoice_Head.total_tax as [AR Total Tax],TSPL_vendor_Invoice_Head.total_Add_Charge as [AR Total Add Charge],'' as [GRNO],null as [GRN Date],'' as Way_BillNo," _
-            & "  TSPL_MCC_Dispatch_Challan.tanker_No,tm.description,'' as  [delivery No],'' as [Shiping No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor from TSPL_MCC_Dispatch_Challan  left outer  join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No " _
+            & "  TSPL_MCC_Dispatch_Challan.tanker_No,tm.description,'' as  [delivery No],'' as [Shiping No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor from TSPL_MCC_Dispatch_Challan  left outer  join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No " _
             & " =TSPL_MCC_Dispatch_Challan.Chalan_NO  LEFT JOIN tspl_location_Master  sendr ON sendr.Location_Code=TSPL_MCC_Dispatch_Challan.MCC_CODE " _
             & " left join tspl_Location_master on tspl_Location_master.location_code=TSPL_MCC_Dispatch_Challan.mcc_Code left join tspl_Location_master recv on " _
             & " recv.location_code=TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code left join TSPL_vendor_Invoice_Head on  TSPL_vendor_Invoice_Head.vendor_Invoice_No" _
@@ -7431,22 +7417,22 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             & " t_SNF_Recd On t_SNF_Recd.Chalan_NO   = TSPL_MCC_Dispatch_Challan.Chalan_NO   Left Outer Join (Select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.*" _
             & " From TSPL_MCC_Dispatch_Challan Left Outer Join TSPL_Mcc_Dispatch_Chalan_Parameter_Detail On TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.Chalan_No  = " _
             & " TSPL_MCC_Dispatch_Challan.Chalan_NO  where TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.Param_Type = 'FAT' ) t_FAT_Recd On t_FAT_Recd.Chalan_No " _
-            & " = TSPL_MCC_Dispatch_Challan.Chalan_NO where 2=2 " & _
-              " AND 'MCC Transfer' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+            & " = TSPL_MCC_Dispatch_Challan.Chalan_NO where 2=2 " &
+              " AND 'MCC Transfer' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
               " and convert(date,TSPL_MCC_Dispatch_Challan.Dispatch_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_MCC_Dispatch_Challan.Dispatch_Date,103) <= convert(date,('" & To_Date & "'),103) )t "
         '' transaction unit conversion
 
         strMCCMaterial += " union all "
-        strMCCMaterial += " select Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final.RATE_UOM,final.Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
+        strMCCMaterial += " select Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final.RATE_UOM,final.Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
         'strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX1 ,0 as TAX1_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX1+'%' as tax1rate  "
 
         '' query for no tax applied
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
-        strMCCMaterial += " select * from (" & strTranferCommonQuery & strTaxColumns & strSDEndQry & " and (coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax1,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax3,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax5,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax7,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strTranferCommonQuery & strTaxColumns & strSDEndQry & " and (coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax1,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax3,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax5,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax7,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax9,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax10,'')='') )t "
         '" pivot (sum(tax1_amt) for tax1 in (" + strPivotForInnerQuery + "))t pivot (min(tax1_rate) for tax1rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " union all "
@@ -7494,29 +7480,29 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_LOCATION_MASTER as TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Location_Code =final.To_location "
         strMCCMaterial += " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code "
         'strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,[Scheme Code] ,[Cash Scheme Code] ,[Cash Scheme Amount], [Price Code] ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor"
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP,[Scheme Code] ,[Cash Scheme Code] ,[Cash Scheme Amount], [Price Code] ,final.Ref_Doc_no,final.Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor"
         ''richa
 
         strMCCMaterial += Environment.NewLine + " --- QUERY FOR TRANSFER RETURN---------------------- ADDED BY RICHA AGARWAL ------------" + Environment.NewLine
 
 
         Dim strTranferReturnCommonQuery As String = ""
-        strTranferReturnCommonQuery = " select 'Transfer Return' as Trans_Type,TSPL_TRANSFER_ORDER_HEAD.Status ,  TSPL_TRANSFER_ORDER_HEAD.From_Location as Bill_To_Location, " & _
-                                " GIT_Main_Loc.Location_Code as To_Location,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as Invoice_Type,TSPL_TRANSFER_RETURN.Document_No , " & _
-                                " convert(varchar,TSPL_TRANSFER_RETURN.Document_Date,103 ) as Document_Date , TSPL_TRANSFER_ORDER_DETAIL.Item_Code , " & _
-                                " -(case when TSPL_TRANSFER_ORDER_DETAIL.In_Qty>0 then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_TRANSFER_ORDER_DETAIL.Out_Qty end) as Qty, " & _
-                                " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " & _
-                                " -TSPL_TRANSFER_ORDER_DETAIL.Amount AS Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " & _
-                                " -(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,-(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " & _
-                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual  else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP, '' as [Scheme Code] , '' as [Cash Scheme Code] ,0 as   [Cash Scheme Amount],  '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor,"
+        strTranferReturnCommonQuery = " select 'Transfer Return' as Trans_Type,TSPL_TRANSFER_ORDER_HEAD.Status ,  TSPL_TRANSFER_ORDER_HEAD.From_Location as Bill_To_Location, " &
+                                " GIT_Main_Loc.Location_Code as To_Location,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as Invoice_Type,TSPL_TRANSFER_RETURN.Document_No , " &
+                                " convert(varchar,TSPL_TRANSFER_RETURN.Document_Date,103 ) as Document_Date , TSPL_TRANSFER_ORDER_DETAIL.Item_Code , " &
+                                " -(case when TSPL_TRANSFER_ORDER_DETAIL.In_Qty>0 then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_TRANSFER_ORDER_DETAIL.Out_Qty end) as Qty, " &
+                                " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " &
+                                " -TSPL_TRANSFER_ORDER_DETAIL.Amount AS Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " &
+                                " -(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,-(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " &
+                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual  else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP, '' as [Scheme Code] , '' as [Cash Scheme Code] ,0 as   [Cash Scheme Amount],  '' as [Price Code],'' as Ref_Doc_no,NULL as Ref_doc_date,'' as Created_By ,'' as Modified_By,NULL as Modify_date,NULL as RATE_UOM,0 as Conv_Factor,"
 
-        strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " & _
-            " Left Outer Join TSPL_TRANSFER_RETURN on TSPL_TRANSFER_RETURN.Transfer_No=TSPL_TRANSFER_ORDER_HEAD.Document_No " & _
-                      " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " & _
-                      " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSFER_ORDER_HEAD.Transport_Id=TSPL_TRANSPORT_MASTER.Transport_Id " & _
-                      " left join ( select  max(Location_Code) as Location_Code,GIT_Location from TSPL_LOCATION_MASTER where GIT_Location is not null " & _
-                      " group by GIT_Location ) GIT_Main_Loc on TSPL_TRANSFER_ORDER_HEAD.To_Location=GIT_Main_Loc.GIT_Location  where TSPL_TRANSFER_ORDER_HEAD.Transfer_Type ='O'  " & _
-                      " AND 'Transfer Return' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " &
+            " Left Outer Join TSPL_TRANSFER_RETURN on TSPL_TRANSFER_RETURN.Transfer_No=TSPL_TRANSFER_ORDER_HEAD.Document_No " &
+                      " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " &
+                      " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSFER_ORDER_HEAD.Transport_Id=TSPL_TRANSPORT_MASTER.Transport_Id " &
+                      " left join ( select  max(Location_Code) as Location_Code,GIT_Location from TSPL_LOCATION_MASTER where GIT_Location is not null " &
+                      " group by GIT_Location ) GIT_Main_Loc on TSPL_TRANSFER_ORDER_HEAD.To_Location=GIT_Main_Loc.GIT_Location  where TSPL_TRANSFER_ORDER_HEAD.Transfer_Type ='O'  " &
+                      " AND 'Transfer Return' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                       " and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) AND ISNULL(TSPL_TRANSFER_RETURN.Document_No ,'')<>'' "
 
         '' filter conditions
@@ -7535,16 +7521,16 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         End If
 
         strMCCMaterial += " union all "
-        strMCCMaterial += " select Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER.Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge, final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER.Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Ref_Doc_no,final. Ref_doc_date ,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
+        strMCCMaterial += " select Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER.Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge, final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER.Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP, [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Ref_Doc_no,final. Ref_doc_date ,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
         'strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX1 ,0 as TAX1_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX1+'%' as tax1rate  "
 
         '' query for no tax applied
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
-        strMCCMaterial += " select * from (" & strTranferReturnCommonQuery & strTaxColumns & strSDEndQry & " and (coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax1,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax3,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax5,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax7,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strTranferReturnCommonQuery & strTaxColumns & strSDEndQry & " and (coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax1,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax3,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax5,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax7,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax9,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax10,'')='') )t "
 
         strMCCMaterial += Environment.NewLine + " union all "
@@ -7583,13 +7569,13 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += "  union all"
 
         strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX10 ,-TSPL_TRANSFER_ORDER_DETAIL.TAX10_Amt AS TAX10_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX10_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX10+'%' as tax10rate  "
-        strMCCMaterial += " select * from (" & strTranferReturnCommonQuery & strTaxColumns & strSDEndQry & " and TSPL_TRANSFER_ORDER_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t" & _
-         " )final" & _
-        " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location " & _
-         " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code " & _
-         " left outer join TSPL_LOCATION_MASTER as TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Location_Code =final.To_location " & _
-         " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code " & _
-         " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,  [Scheme Code] ,  [Cash Scheme Code] , [Cash Scheme Amount],  [Price Code] ,final.Ref_Doc_no,final. Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor" + Environment.NewLine
+        strMCCMaterial += " select * from (" & strTranferReturnCommonQuery & strTaxColumns & strSDEndQry & " and TSPL_TRANSFER_ORDER_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t" &
+         " )final" &
+        " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location " &
+         " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code " &
+         " left outer join TSPL_LOCATION_MASTER as TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Location_Code =final.To_location " &
+         " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code " &
+         " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP,  [Scheme Code] ,  [Cash Scheme Code] , [Cash Scheme Amount],  [Price Code] ,final.Ref_Doc_no,final. Ref_doc_date,final.Created_By ,final.Modified_By,final.Modify_date,final. RATE_UOM,final.Conv_Factor" + Environment.NewLine
 
         strMCCMaterial += Environment.NewLine + " --- QUERY FOR TRANSFER RETURN END---------------------- ADDED BY RICHA AGARWAL ------------" + Environment.NewLine
 
@@ -7617,7 +7603,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left join (" & qryKG & ") as StockKG on xx.[Item Code]=StockKG.Item_Code  "
         strMCCMaterial += " left join (select Cust_Code,Cust_Group_Code,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_CUSTOMER_MASTER.Struct_Code,TSPL_CUSTOMER_MASTER.Tin_No,TSPL_CUSTOMER_MASTER.state as State_Code,tspl_State_Master.State_Name from TSPL_CUSTOMER_MASTER left join tspl_State_Master on tspl_State_Master.state_Code=TSPL_CUSTOMER_MASTER.state) as Cust on xx.[Customer Code]=Cust.Cust_Code  left join (select location_Code as Cust_Code,Tin_No,State_Code,State_Name from TSPL_location_MASTER left join tspl_State_Master on tspl_State_Master.state_Code=TSPL_location_MASTER.state) as Cust_Loc on xx.[Customer Code]=Cust_Loc.Cust_Code  "
         strMCCMaterial += " left join (select Cust_Group_Code,Cust_Group_Desc from TSPL_CUSTOMER_GROUP_MASTER) as Cust_Group on Cust.Cust_Group_Code=Cust_Group.Cust_Group_Code "
-        strMCCMaterial += " left join (select Zone_Code,Description from TSPL_ZONE_MASTER) as Zone on Cust.Zone_Code=Zone.Zone_Code " & _
+        strMCCMaterial += " left join (select Zone_Code,Description from TSPL_ZONE_MASTER) as Zone on Cust.Zone_Code=Zone.Zone_Code " &
                           " left join TSPL_LOCATION_MASTER as Loc on Loc.Location_Code=xx.[Location Code] "
         If clsCommon.myLen(strCategoryTable) > 0 Then
             strMCCMaterial += " left outer join (" + strCategoryTable + ") as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=xx.[Item Code]"
@@ -7657,17 +7643,17 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         If clsCommon.CompairString(formType, "MISPrdLocWis") = CompairStringResult.Equal Then
             dtCategory = clsDBFuncationality.GetDataTable("select ITEM_CATEGORY_CODE AS CodeColumn,ITEM_CATEGORY_CODE+' Description' as CodeDescColumn,DESCRIPTION as DescColumn  from TSPL_ITEM_CATEGORY_LEVEL where CATEGORY_LEVEL=3 order by CATEGORY_LEVEL")
 
-            strCategoryTable = "( select Item_Code,max(Item_Category_Code) as Item_Category_Code,max(Item_Category_CodeDesc) as Item_Category_CodeDesc,max(Item_Cagetory_Values) as Item_Cagetory_Values,max(Category_Value_Desc) as Category_Value_Desc from " + Environment.NewLine & _
-                " ( " + Environment.NewLine & _
-                " select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code " + Environment.NewLine & _
-                " ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+' Description' as Item_Category_CodeDesc " + Environment.NewLine & _
-                " ,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " + Environment.NewLine & _
-                " ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc " + Environment.NewLine & _
-                " from  TSPL_ITEM_MASTER  " + Environment.NewLine & _
-                " left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code " + Environment.NewLine & _
-                " left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values" + Environment.NewLine & _
-               " left join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.Item_Category_Code=TSPL_ITEM_CATEGORY_LEVEL_VALUES.Item_Category_Code" + Environment.NewLine & _
-                " where 2=2  and TSPL_ITEM_CATEGORY_LEVEL.CATEGORY_LEVEL=3 " + Environment.NewLine & _
+            strCategoryTable = "( select Item_Code,max(Item_Category_Code) as Item_Category_Code,max(Item_Category_CodeDesc) as Item_Category_CodeDesc,max(Item_Cagetory_Values) as Item_Cagetory_Values,max(Category_Value_Desc) as Category_Value_Desc from " + Environment.NewLine &
+                " ( " + Environment.NewLine &
+                " select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code " + Environment.NewLine &
+                " ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+' Description' as Item_Category_CodeDesc " + Environment.NewLine &
+                " ,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " + Environment.NewLine &
+                " ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc " + Environment.NewLine &
+                " from  TSPL_ITEM_MASTER  " + Environment.NewLine &
+                " left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code " + Environment.NewLine &
+                " left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values" + Environment.NewLine &
+               " left join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.Item_Category_Code=TSPL_ITEM_CATEGORY_LEVEL_VALUES.Item_Category_Code" + Environment.NewLine &
+                " where 2=2  and TSPL_ITEM_CATEGORY_LEVEL.CATEGORY_LEVEL=3 " + Environment.NewLine &
                  " )xx group by Item_Code)"
             ''End of Category Table start now.
 
@@ -7689,24 +7675,24 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                     strCodeDescColumn += "[" + clsCommon.myCstr(dtCategory.Rows(ii)("CodeDescColumn")) + "]"
                     strCodeDescColumnMax += "max([" + clsCommon.myCstr(dtCategory.Rows(ii)("CodeDescColumn")).Trim() + "]) as [" + clsCommon.myCstr(dtCategory.Rows(ii)("CodeDescColumn")).Trim() + "]"
                 Next
-                strCategoryTable = "select Item_Code," + strCodeColumnMax + "," + strCodeDescColumnMax + "  from (" + Environment.NewLine & _
-                " select * from ( " + Environment.NewLine & _
-                " select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code " + Environment.NewLine & _
-                " ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+' Description' as Item_Category_CodeDesc " + Environment.NewLine & _
-                " ,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " + Environment.NewLine & _
-                " ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc " + Environment.NewLine & _
-                " from  TSPL_ITEM_MASTER  " + Environment.NewLine & _
-                " left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code " + Environment.NewLine & _
-                " left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values" + Environment.NewLine & _
-                " where 2=2 " + Environment.NewLine & _
-                " )xx" + Environment.NewLine & _
-                " Pivot " + Environment.NewLine & _
-                " ( max(Item_Cagetory_Values) for Item_Category_Code   in ( " + strCodeColumn + ")" + Environment.NewLine & _
-                " ) Pivt" + Environment.NewLine & _
-                " Pivot " + Environment.NewLine & _
-                " (" + Environment.NewLine & _
-                " max(Category_Value_Desc) for Item_Category_CodeDesc in (" + strCodeDescColumn + ")" + Environment.NewLine & _
-                " ) Pivt1 " + Environment.NewLine & _
+                strCategoryTable = "select Item_Code," + strCodeColumnMax + "," + strCodeDescColumnMax + "  from (" + Environment.NewLine &
+                " select * from ( " + Environment.NewLine &
+                " select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code " + Environment.NewLine &
+                " ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+' Description' as Item_Category_CodeDesc " + Environment.NewLine &
+                " ,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values " + Environment.NewLine &
+                " ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc " + Environment.NewLine &
+                " from  TSPL_ITEM_MASTER  " + Environment.NewLine &
+                " left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code " + Environment.NewLine &
+                " left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values" + Environment.NewLine &
+                " where 2=2 " + Environment.NewLine &
+                " )xx" + Environment.NewLine &
+                " Pivot " + Environment.NewLine &
+                " ( max(Item_Cagetory_Values) for Item_Category_Code   in ( " + strCodeColumn + ")" + Environment.NewLine &
+                " ) Pivt" + Environment.NewLine &
+                " Pivot " + Environment.NewLine &
+                " (" + Environment.NewLine &
+                " max(Category_Value_Desc) for Item_Category_CodeDesc in (" + strCodeDescColumn + ")" + Environment.NewLine &
+                " ) Pivt1 " + Environment.NewLine &
                 " ) xxx group by Item_Code "
                 ''End of Category Table start now.
             End If
@@ -7819,9 +7805,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
 
         Dim qryQC As String = ""
-        qryQC = " select Item_Code,MAX(Fat_Per) as Fat_Per,MAX(SNF_Per) as SNF_Per from (" & _
-                " select Item_QCP.Item_Code,Item_QCP.Code as Parameter_Code,(case when QCP.Type='FAT' then Item_QCP.Actual_Range end) as Fat_Per," & _
-                " (case when QCP.Type='SNF' then Item_QCP.Actual_Range  end) as SNF_Per from TSPL_ITEM_QC_PARAMETER_MASTER Item_QCP " & _
+        qryQC = " select Item_Code,MAX(Fat_Per) as Fat_Per,MAX(SNF_Per) as SNF_Per from (" &
+                " select Item_QCP.Item_Code,Item_QCP.Code as Parameter_Code,(case when QCP.Type='FAT' then Item_QCP.Actual_Range end) as Fat_Per," &
+                " (case when QCP.Type='SNF' then Item_QCP.Actual_Range  end) as SNF_Per from TSPL_ITEM_QC_PARAMETER_MASTER Item_QCP " &
                 " left join TSPL_PARAMETER_MASTER QCP  on Item_QCP.Code=QCP.Code) as QC group by Item_Code"
 
         Dim qryKG As String = ""
@@ -7837,16 +7823,16 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         '        " on TSPL_ITEM_MASTER.Weight_UOM=Weigt2.Contained_UOM and (TSPL_ITEM_MASTER.Product_Type=Weigt2.Product_Type or Weigt2.Product_Type='All')  " & _
         '        " where  2=2 and coalesce(Weigt1.Container_UOM,Weigt2.Container_UOM) is not null and coalesce(Weigt1.Container_UOM,Weigt2.Container_UOM) in ('KG','Ltr')"
         '' done by Panch Raj from Preeti User Id
-        qryKG = " select distinct TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Weight_UOM," & _
-                " max(case when TSPL_ITEM_MASTER.Weight_UOM='KG' then 1 " & _
-                " else  coalesce(Weigt1.Contained_Qty/Weigt1.Container_Qty,Weigt2.Container_Qty/Weigt2.Contained_Qty)end)*TSPL_ITEM_MASTER.Weight_Value " & _
-                " as Conversion_Factor from TSPL_ITEM_MASTER " & _
-                " left join (select distinct Container_Qty,Container_UOM,Contained_Qty,Contained_UOM,Product_Type from TSPL_WEIGHT_CONVERSION ) Weigt1 " & _
-                " on TSPL_ITEM_MASTER.Weight_UOM=Weigt1.Container_UOM and Weigt1.Contained_UOM='KG'  " & _
-                " and (TSPL_ITEM_MASTER.Product_Type=Weigt1.Product_Type or Weigt1.Product_Type='All') " & _
-                " left join (select distinct Container_Qty,Container_UOM,Contained_Qty,Contained_UOM,Product_Type from TSPL_WEIGHT_CONVERSION ) Weigt2 " & _
-                " on TSPL_ITEM_MASTER.Weight_UOM=Weigt2.Contained_UOM and  Weigt2.Container_UOM='KG' " & _
-                " and (TSPL_ITEM_MASTER.Product_Type=Weigt2.Product_Type or Weigt2.Product_Type='All')" & _
+        qryKG = " select distinct TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Weight_UOM," &
+                " max(case when TSPL_ITEM_MASTER.Weight_UOM='KG' then 1 " &
+                " else  coalesce(Weigt1.Contained_Qty/Weigt1.Container_Qty,Weigt2.Container_Qty/Weigt2.Contained_Qty)end)*TSPL_ITEM_MASTER.Weight_Value " &
+                " as Conversion_Factor from TSPL_ITEM_MASTER " &
+                " left join (select distinct Container_Qty,Container_UOM,Contained_Qty,Contained_UOM,Product_Type from TSPL_WEIGHT_CONVERSION ) Weigt1 " &
+                " on TSPL_ITEM_MASTER.Weight_UOM=Weigt1.Container_UOM and Weigt1.Contained_UOM='KG'  " &
+                " and (TSPL_ITEM_MASTER.Product_Type=Weigt1.Product_Type or Weigt1.Product_Type='All') " &
+                " left join (select distinct Container_Qty,Container_UOM,Contained_Qty,Contained_UOM,Product_Type from TSPL_WEIGHT_CONVERSION ) Weigt2 " &
+                " on TSPL_ITEM_MASTER.Weight_UOM=Weigt2.Contained_UOM and  Weigt2.Container_UOM='KG' " &
+                " and (TSPL_ITEM_MASTER.Product_Type=Weigt2.Product_Type or Weigt2.Product_Type='All')" &
                 " where  2=2 and len(coalesce(TSPL_ITEM_MASTER.Weight_UOM,''))>0 group by TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Weight_UOM,TSPL_ITEM_MASTER.Weight_Value"
         Dim qryStock As String = ""
         qryStock = "select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL "
@@ -7867,9 +7853,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         '' query for structure and item group custom field========================BM00000008352
         '==============added by preeti Gupta against ticket No[BM00000009864]
         Dim strItemGroup As String = ""
-        strItemGroup = " select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join (" & _
-                       " select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='" & clsUserMgtCode.itemStructure & "'  " & _
-                       " and Custom_Field_Code='" & MIS_Item_Group & "') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code" & _
+        strItemGroup = " select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join (" &
+                       " select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='" & clsUserMgtCode.itemStructure & "'  " &
+                       " and Custom_Field_Code='" & MIS_Item_Group & "') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code" &
                        " left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='" & MIS_Item_Group & "') as StructDtl on Struct_Val.Value=StructDtl.Value "
 
         Dim strSDCommonQuery As String = ""
@@ -7881,19 +7867,19 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strSDTaxRateBlankColumn = " '' as _Type ,"
         strSDTaxRateColumn = "  ttr._Type ,"
         Dim strSDEndQry As String = ",TSPL_SD_SALE_INVOICE_DETAIL.TAX1+'%' as Tax1_Rate"
-        strSDCommonQuery = " select case when TSPL_SD_SALE_INVOICE_HEAD.Against_C_Form = 1 then 'C' else '' End as Formtype,case when ISNUll(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,'')<>'' then TSPL_SD_SALE_INVOICE_HEAD.Document_Type else  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='ALL' THEN 'SD' ELSE TSPL_SD_SALE_INVOICE_HEAD.Trans_Type END end as Trans_Type  ,TSPL_SD_SALE_INVOICE_HEAD.Status ,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location, " & _
-                           " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_INVOICE_HEAD.Document_Code , " & _
-                           " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No , " & _
-                           " TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code , TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Item_Cost , " & _
-                           " TSPL_SD_SALE_INVOICE_DETAIL.Amount *(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as AMount,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per ,TSPL_SD_SALE_INVOICE_detail.Total_Disc_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) - case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Disc_Amt,case when coalesce(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.sampling,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,'')='Y' then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) end as [Scheme Amount] , " & _
-                           " (Amount-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='AS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Amt_Less_Discount , " & _
-                           " TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Tax_AMt ,(Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Amt,case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then ''  when ManualVehicle <> '' then '' else TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code end as Vehicle_Code , case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then TSPL_SD_SALE_INVOICE_HEAD.VehicleNo  when ManualVehicle <> '' then ManualVehicle else COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_SD_SALE_INVOICE_HEAD.VEHICLENO) end as Vehicle_No,(case when TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 then (TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge+coalesce(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end) as  Additional_Charge, " & _
-                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Amt]," & _
-                           " TSPL_Customer_Invoice_Head.Discount_Amount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Discount Amt], " & _
-                           " TSPL_Customer_Invoice_Head.amount_less_Discount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Tax], " & _
-                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Add Charge], " & _
-                           " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
-                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],tspl_sd_shipment_head.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code],case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.booking_no as [Booking No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Amount as [Cash Scheme Amount], TSPL_SD_SALE_INVOICE_DETAIL.Price_code as [Price Code],'' as Created_By,'' as Modify_By ,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,tspl_sd_sale_invoice_detail.Sampling,tspl_sd_sale_invoice_detail.Scheme_Item ,"
+        strSDCommonQuery = " select case when TSPL_SD_SALE_INVOICE_HEAD.Against_C_Form = 1 then 'C' else '' End as Formtype,case when ISNUll(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,'')<>'' then TSPL_SD_SALE_INVOICE_HEAD.Document_Type else  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='ALL' THEN 'SD' ELSE TSPL_SD_SALE_INVOICE_HEAD.Trans_Type END end as Trans_Type  ,TSPL_SD_SALE_INVOICE_HEAD.Status ,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location, " &
+                           " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_INVOICE_HEAD.Document_Code , " &
+                           " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No , " &
+                           " TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code , TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Item_Cost , " &
+                           " TSPL_SD_SALE_INVOICE_DETAIL.Amount *(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as AMount,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per ,TSPL_SD_SALE_INVOICE_detail.Total_Disc_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) - case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Disc_Amt,case when coalesce(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.sampling,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,'')='Y' then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) end as [Scheme Amount] , " &
+                           " (Amount-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='AS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Amt_Less_Discount , " &
+                           " TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Tax_AMt ,(Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Amt,case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then ''  when ManualVehicle <> '' then '' else TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code end as Vehicle_Code , case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then TSPL_SD_SALE_INVOICE_HEAD.VehicleNo  when ManualVehicle <> '' then ManualVehicle else COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_SD_SALE_INVOICE_HEAD.VEHICLENO) end as Vehicle_No,(case when TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 then (TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge+coalesce(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end) as  Additional_Charge, " &
+                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Amt]," &
+                           " TSPL_Customer_Invoice_Head.Discount_Amount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Discount Amt], " &
+                           " TSPL_Customer_Invoice_Head.amount_less_Discount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Tax], " &
+                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Add Charge], " &
+                           " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
+                           " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_INVOICE_HEAD.GRNo as [GR No],tspl_sd_shipment_head.gr_date as [GR Date],TSPL_SD_SALE_INVOICE_HEAD.WayBillNo as [WayBill No],TSPL_SD_SHIPMENT_HEAD.transport_id as [Transporter Code],case when len(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual) > 0 then TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual else TSPL_SD_SHIPMENT_HEAD.Transporter_Name end as [Transporter Name],(case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='PS' then TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS else  TSPL_SD_SALE_INVOICE_DETAIL.Delivery_Code end) as [Delivery No]  ,Shipment_Code as [Shipment No], TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code as [Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Code as [Cash Scheme Code] ,TSPL_SD_SALE_INVOICE_DETAIL.Cash_Scheme_Amount as [Cash Scheme Amount], TSPL_SD_SALE_INVOICE_DETAIL.Price_code as [Price Code],'' as Created_By,'' as Modify_By ,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,tspl_sd_sale_invoice_detail.Sampling,tspl_sd_sale_invoice_detail.Scheme_Item ,"
 
         strSDEndQry = " from TSPL_SD_SALE_INVOICE_DETAIL " &
                            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " &
@@ -7903,10 +7889,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                            " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " &
                            " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code "
 
-        strSDJoinQry = "  where  2=2 " & _
-                           " and (case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='FS' then 'Fresh Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' then 'Product Sale' " & _
-                           " when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='MCC' then 'MCC Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.Document_Type <>'MT' then 'Export Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.Document_Type ='MT' then 'Merchant Trade' WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='SD' then 'General Sale' WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='CSA' then 'CSA Sale' " & _
-                           " else  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDJoinQry = "  where  2=2 " &
+                           " and (case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='FS' then 'Fresh Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' then 'Product Sale' " &
+                           " when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='MCC' then 'MCC Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.Document_Type <>'MT' then 'Export Sale' when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.Document_Type ='MT' then 'Merchant Trade' WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='SD' then 'General Sale' WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='CSA' then 'CSA Sale' " &
+                           " else  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                            " and  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         '' filter conditions
@@ -7957,27 +7943,27 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                 strMCCMaterial += "  cast(( case when isnull(Rate_Stock_SU.Conversion_Factor,0)<=0 then ([Item Cost]) else ([Item Cost] * Rate_select_SU.Conversion_Factor)/ Rate_Stock_SU.Conversion_Factor end )"
                 strMCCMaterial += " as Numeric(18,3)) as [Item Rate]"
             End If
-            strMCCMaterial += " , [Fat Per] as [FAT %],[SNF Per] as [SNF %],cast(([Quantity]*[Fat Per]*Stock_SU.Conversion_Factor)*coalesce(StockKG.Conversion_Factor,1)/(100) as numeric(18,3)) as [FAT KG],cast(([Quantity]*[SNF Per]*Stock_SU.Conversion_Factor)*coalesce(StockKG.Conversion_Factor,1)/(100) as Numeric(18,3)) as [SNF KG],Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],[Amount Less Discount]  as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ",case when [trans type]='Fresh Sale Return' then [Amount Less Discount]  else ([Total Amount]-[Total Tax Amount] + case when coalesce([Total Tax Amount],0)>0 then 0 else coalesce( [Scheme Amount],0) end) end as [Sale Amount],[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount], " & _
+            strMCCMaterial += " , [Fat Per] as [FAT %],[SNF Per] as [SNF %],cast(([Quantity]*[Fat Per]*Stock_SU.Conversion_Factor)*coalesce(StockKG.Conversion_Factor,1)/(100) as numeric(18,3)) as [FAT KG],cast(([Quantity]*[SNF Per]*Stock_SU.Conversion_Factor)*coalesce(StockKG.Conversion_Factor,1)/(100) as Numeric(18,3)) as [SNF KG],Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],[Amount Less Discount]  as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ",case when [trans type]='Fresh Sale Return' then [Amount Less Discount]  else ([Total Amount]-[Total Tax Amount] + case when coalesce([Total Tax Amount],0)>0 then 0 else coalesce( [Scheme Amount],0) end) end as [Sale Amount],[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount], " &
             " [AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], "
             ''richa agarwal change to show csa sales account for csa sale and csa sale return
             'left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code as [Sales Account],
-            strMCCMaterial += "  case when [trans type] in ('CSA Sale','CSA Sale Return') then (case when coalesce(item.GSOC_Acct,'')<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end) else left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end as [Sales Account], " & _
-            " [GR No],convert(varchar,[GR Date],103) as [GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling, Scheme_Item as [Scheme Type],isnull(TSPL_ITEM_UOM_DETAIL.Net_Weight,0)*cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Net Weight]  "
+            strMCCMaterial += "  case when [trans type] in ('CSA Sale','CSA Sale Return') then (case when coalesce(item.GSOC_Acct,'')<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end) else left(Item.Sales_Account, Len(Item.Sales_Account)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code  end as [Sales Account], " &
+            " [GR No],convert(varchar,[GR Date],103) as [GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling, Scheme_Item as [Scheme Type],isnull(TSPL_ITEM_UOM_DETAIL.Net_Weight,0)*cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Net Weight]  "
         End If
 
 
         ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also)
-        strMCCMaterial += " from (select max(final._Type) as _Type , max(final.FormType) as [Form Type],case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='EX' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' when Trans_Type='MT' then 'Merchant Trade' WHEN Trans_Type ='SD' then 'General Sale' else  Trans_Type end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) AS [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item"
+        strMCCMaterial += " from (select max(final._Type) as _Type , max(final.FormType) as [Form Type],case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='EX' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' when Trans_Type='MT' then 'Merchant Trade' WHEN Trans_Type ='SD' then 'General Sale' else  Trans_Type end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) AS [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount],   " &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item"
         strMCCMaterial += " from ("
         'strTaxColumns = " TSPL_SD_SALE_INVOICE_DETAIL.TAX1 ,(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) * TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as Tax1_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX1+'%' as Tax1Rate"
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
         '' query for no tax applied
 
-        strMCCMaterial += " select * from (" & strSDCommonQuery & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & "  and (coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax3,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax5,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax7,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strSDCommonQuery & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & "  and (coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax3,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax5,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax7,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax9,'')='' and coalesce(TSPL_SD_SALE_INVOICE_DETAIL.tax10,'')='') )t "
 
         '" pivot (sum(tax1_amt) for tax1 in (" + strPivotForInnerQuery + "))t pivot (min(tax1_rate) for Tax1Rate in (" + strDoublePivotForInnerQuery + ") " & _
@@ -8030,7 +8016,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
         strMCCMaterial += " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code "
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Created_By,final.Modify_By,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + "
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP , [Scheme Code] , [Cash Scheme Code] , [Cash Scheme Amount] , [Price Code] ,final.Created_By,final.Modify_By,final.RATE_UOM,final.Conv_Factor,final.Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + "
 
         '' add csa transfer 
 
@@ -8133,14 +8119,14 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
 
         strMCCMaterial += " union all"
-        strMCCMaterial += " select '' as _Type,'' as Formtype, case when InvoiceAgainst='Against Dispatch Trade' then 'Bulk Sale Trade'  else 'Bulk Sale' end as Trans_Type ,coalesce(TSPL_LOCATION_MASTER.Main_Location_Code,TSPL_LOCATION_MASTER.Location_Code) as Bill_To_Location,TSPL_INVOICE_Master_BULKSALE.Posted,coalesce(Main_Loc.Location_Desc,TSPL_LOCATION_MASTER.location_desc) as Location_Desc ,'Invoice' as Invoice_type ,TSPL_INVOICE_Master_BULKSALE.Document_No as Document_code ,convert(varchar,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) Document_Date,case when isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')='' then TSPL_INVOICE_DETAIL_BULKSALE.TradeTanker_No else isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')  end as Vehicle_Code,case when isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')='' then TSPL_INVOICE_DETAIL_BULKSALE.TradeTanker_No else isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')  end as Vehicle_No,(case when ROW_NUMBER() over (partition by TSPL_INVOICE_Master_BULKSALE.Document_No order by TSPL_INVOICE_DETAIL_BULKSALE.Item_Code )=1 then coalesce(TSPL_INVOICE_Master_BULKSALE.RoundOffAmount,0) else 0 end) as Additional_Charge, " & _
+        strMCCMaterial += " select '' as _Type,'' as Formtype, case when InvoiceAgainst='Against Dispatch Trade' then 'Bulk Sale Trade'  else 'Bulk Sale' end as Trans_Type ,coalesce(TSPL_LOCATION_MASTER.Main_Location_Code,TSPL_LOCATION_MASTER.Location_Code) as Bill_To_Location,TSPL_INVOICE_Master_BULKSALE.Posted,coalesce(Main_Loc.Location_Desc,TSPL_LOCATION_MASTER.location_desc) as Location_Desc ,'Invoice' as Invoice_type ,TSPL_INVOICE_Master_BULKSALE.Document_No as Document_code ,convert(varchar,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) Document_Date,case when isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')='' then TSPL_INVOICE_DETAIL_BULKSALE.TradeTanker_No else isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')  end as Vehicle_Code,case when isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')='' then TSPL_INVOICE_DETAIL_BULKSALE.TradeTanker_No else isnull(TSPL_INVOICE_DETAIL_BULKSALE.Tanker_Code ,'')  end as Vehicle_No,(case when ROW_NUMBER() over (partition by TSPL_INVOICE_Master_BULKSALE.Document_No order by TSPL_INVOICE_DETAIL_BULKSALE.Item_Code )=1 then coalesce(TSPL_INVOICE_Master_BULKSALE.RoundOffAmount,0) else 0 end) as Additional_Charge, " &
                           " TSPL_INVOICE_Master_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Parent_Customer_No,"
         strMCCMaterial += " Parent_Master.Cust_Code as Parent_Customer_Code,Parent_Master.Customer_Name as Parent_Cust_Name, "
-        strMCCMaterial += " TSPL_INVOICE_DETAIL_BULKSALE.Item_Code,tspl_item_master.Item_Desc ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceQty as Qty ,TSPL_INVOICE_DETAIL_BULKSALE.Unit_code,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceRate as Item_cost,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceFatPer ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceSNFPer ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceFatKG ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceSNFKG  ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as Disc_per,0 as Disc_Amt,0 as [Scheme Amount],TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount as Amt_less_Discount,0 as Total_tax_amt " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",(TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount) as Total_Amt, " & _
-                          " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," & _
-                          " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " & _
-                          " (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " & _
-                          " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],null as [GRN Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_INVOICE_Master_BULKSALE.Created_By ,TSPL_INVOICE_Master_BULKSALE.Modified_By,NULL as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item " & _
+        strMCCMaterial += " TSPL_INVOICE_DETAIL_BULKSALE.Item_Code,tspl_item_master.Item_Desc ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceQty as Qty ,TSPL_INVOICE_DETAIL_BULKSALE.Unit_code,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceRate as Item_cost,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceFatPer ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceSNFPer ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceFatKG ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceSNFKG  ,TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as Disc_per,0 as Disc_Amt,0 as [Scheme Amount],TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount as Amt_less_Discount,0 as Total_tax_amt " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",(TSPL_INVOICE_DETAIL_BULKSALE.InvoiceAmount) as Total_Amt, " &
+                          " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
+                          " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
+                          " (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
+                          " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],null as [GRN Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as  [Delivery No]  ,'' as  [Shipment No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],TSPL_INVOICE_Master_BULKSALE.Created_By ,TSPL_INVOICE_Master_BULKSALE.Modified_By,NULL as RATE_UOM,0 as Conv_Factor ,0 as Sampling,'N' as Scheme_Item " &
                           " from TSPL_INVOICE_DETAIL_BULKSALE "
 
         strMCCMaterial += " left outer join TSPL_INVOICE_Master_BULKSALE on TSPL_INVOICE_Master_BULKSALE.Document_No =TSPL_INVOICE_DETAIL_BULKSALE.Document_No "
@@ -8149,36 +8135,36 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =TSPL_INVOICE_Master_BULKSALE.Customer_Code"
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =TSPL_INVOICE_DETAIL_BULKSALE.Item_Code"
-        strMCCMaterial += " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_INVOICE_Master_BULKSALE.Document_No  where 2=2 " & _
-                            " and (case when InvoiceAgainst='Against Dispatch Trade' then 'Bulk Sale Trade'  else 'Bulk Sale' end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strMCCMaterial += " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_INVOICE_Master_BULKSALE.Document_No  where 2=2 " &
+                            " and (case when InvoiceAgainst='Against Dispatch Trade' then 'Bulk Sale Trade'  else 'Bulk Sale' end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                             " and convert(date,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_INVOICE_Master_BULKSALE.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
         strMCCMaterial += " union all"
-        strMCCMaterial += " select max(final._Type) as _Type,max(final.Formtype) as [Form Type],case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='Exp' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' WHEN Trans_Type ='SD' then 'General Sale' else Trans_Type  end  as [Trans Type],final.Loc_Code  as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.shipment_No  as [Document No],final.Document_Date as [Document_date],'' as Vehicle_Code,'' as Vehicle_No,0 as Additional_Charge,final.cust_Code  as [Customer Code],MAX(final.CustAdd ) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.shipped_Qty  as [Quantity],final.Unit_code as [UOM],final.price  as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.ItemAmt ,final.DiscountPer  as [Discount Per],final.TotalDiscountAmt   as [Discount Amount],final.[Scheme Amount]   as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.TotalTaxAmt  as [Total Tax Amount],final.Doc_Amt  as [Total Amount], " & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item  from ("
+        strMCCMaterial += " select max(final._Type) as _Type,max(final.Formtype) as [Form Type],case when Trans_Type ='FS' then 'Fresh Sale' when Trans_Type ='CSA' then 'CSA Sale' when Trans_Type='PS' then 'Product Sale' when Trans_Type='MCC' then 'MCC Sale' when Trans_Type='Exp' then 'Export Sale'when Trans_Type='Bulk Sale' then 'Bulk Sale' when Trans_Type ='SS' then 'Misc Sale' WHEN Trans_Type ='SD' then 'General Sale' else Trans_Type  end  as [Trans Type],final.Loc_Code  as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.shipment_No  as [Document No],final.Document_Date as [Document_date],'' as Vehicle_Code,'' as Vehicle_No,0 as Additional_Charge,final.cust_Code  as [Customer Code],MAX(final.CustAdd ) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.shipped_Qty  as [Quantity],final.Unit_code as [UOM],final.price  as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.ItemAmt ,final.DiscountPer  as [Discount Per],final.TotalDiscountAmt   as [Discount Amount],final.[Scheme Amount]   as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.TotalTaxAmt  as [Total Tax Amount],final.Doc_Amt  as [Total Amount], " &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item  from ("
 
         Dim strScarpCommonQry As String = ""
-        strScarpCommonQry = " select '' as Formtype,'SS' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.ispost as Status ,TSPL_SCRAPINVOICE_HEAD.Loc_Code,TSPL_SCRAPINVOICE_HEAD.cust_Code " & _
-                            " ,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd, " & _
-                            " case when isnull(Is_CashSale,'N')='Y' then 'Cash Sale Invoice' when isnull(Is_Scrap,'N')='Y' then 'Scrap Sale Invoice' else 'Misc Sale Invoice' end as Invoice_Type,TSPL_SCRAPINVOICE_HEAD.invoice_No as shipment_No ,convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103 ) as Document_Date , " & _
-                            " TSPL_SCRAPINVOICE_DETAIL.Item_Code ,TSPL_SCRAPINVOICE_DETAIL.shipped_Qty ,TSPL_SCRAPINVOICE_DETAIL.Unit_code ," & _
-                            " TSPL_SCRAPINVOICE_DETAIL.price ,0 as InvoiceFatPer ,0 as InvoiceSNFPer ,0 as InvoiceFatKG ,0 as InvoiceSNFKG , " & _
-                            " TSPL_SCRAPINVOICE_DETAIL.ItemAmt ,TSPL_SCRAPINVOICE_DETAIL.DiscountPer,0 as [Scheme Amount] ,TSPL_SCRAPINVOICE_DETAIL.ItemNetAmt as Amt_less_Discount, " & _
-                            " TSPL_SCRAPINVOICE_DETAIL.TotalDiscountAmt , " & _
-                            " TSPL_SCRAPINVOICE_DETAIL.TotalTaxAmt ,TSPL_SCRAPINVOICE_DETAIL.TotalAmt+Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end as Doc_Amt,'' as Vehicle_Code,'' as Vehicle_No,Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end as Additional_Charge," & _
-                            " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," & _
-                            " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " & _
-                            " TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " & _
-                            " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " & _
-                            " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
-                            " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code] ,'' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP,  '' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code], '' as Created_By ,'' as Modify_By ,NULL as RATE_UOM,0 as Conv_Factor,"
+        strScarpCommonQry = " select '' as Formtype,'SS' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.ispost as Status ,TSPL_SCRAPINVOICE_HEAD.Loc_Code,TSPL_SCRAPINVOICE_HEAD.cust_Code " &
+                            " ,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd, " &
+                            " case when isnull(Is_CashSale,'N')='Y' then 'Cash Sale Invoice' when isnull(Is_Scrap,'N')='Y' then 'Scrap Sale Invoice' else 'Misc Sale Invoice' end as Invoice_Type,TSPL_SCRAPINVOICE_HEAD.invoice_No as shipment_No ,convert(varchar,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103 ) as Document_Date , " &
+                            " TSPL_SCRAPINVOICE_DETAIL.Item_Code ,TSPL_SCRAPINVOICE_DETAIL.shipped_Qty ,TSPL_SCRAPINVOICE_DETAIL.Unit_code ," &
+                            " TSPL_SCRAPINVOICE_DETAIL.price ,0 as InvoiceFatPer ,0 as InvoiceSNFPer ,0 as InvoiceFatKG ,0 as InvoiceSNFKG , " &
+                            " TSPL_SCRAPINVOICE_DETAIL.ItemAmt ,TSPL_SCRAPINVOICE_DETAIL.DiscountPer,0 as [Scheme Amount] ,TSPL_SCRAPINVOICE_DETAIL.ItemNetAmt as Amt_less_Discount, " &
+                            " TSPL_SCRAPINVOICE_DETAIL.TotalDiscountAmt , " &
+                            " TSPL_SCRAPINVOICE_DETAIL.TotalTaxAmt ,TSPL_SCRAPINVOICE_DETAIL.TotalAmt+Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end as Doc_Amt,'' as Vehicle_Code,'' as Vehicle_No,Case when TSPL_SCRAPINVOICE_DETAIL.line_No=1 then coalesce(TSPL_SCRAPINVOICE_HEAD.add_Amt,0) else 0 end as Additional_Charge," &
+                            " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
+                            " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
+                            " TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
+                            " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
+                            " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
+                            " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code] ,'' as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP,  '' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code], '' as Created_By ,'' as Modify_By ,NULL as RATE_UOM,0 as Conv_Factor,"
 
-        strSDEndQry = " from TSPL_SCRAPINVOICE_DETAIL  " & _
-                      " left outer join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.invoice_No =TSPL_SCRAPINVOICE_DETAIL.invoice_No " & _
-                      " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.AgainstScrap=TSPL_SCRAPINVOICE_HEAD.invoice_No " & _
-                      " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SCRAPINVOICE_HEAD.Cust_Code " & _
+        strSDEndQry = " from TSPL_SCRAPINVOICE_DETAIL  " &
+                      " left outer join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.invoice_No =TSPL_SCRAPINVOICE_DETAIL.invoice_No " &
+                      " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.AgainstScrap=TSPL_SCRAPINVOICE_HEAD.invoice_No " &
+                      " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SCRAPINVOICE_HEAD.Cust_Code " &
                       " left outer join TSPL_SCRAPSALE_HEAD on TSPL_SCRAPINVOICE_HEAD.shipment_No=TSPL_SCRAPSALE_HEAD.shipment_No "
 
-        strSDJoinQry = " where 2 = 2 AND 'Misc Sale' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDJoinQry = " where 2 = 2 AND 'Misc Sale' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                       " and convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         '' filter conditions
@@ -8200,10 +8186,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
 
 
-        strMCCMaterial += " select * from (" & strScarpCommonQry & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & " and (coalesce(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax3,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax5,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax7,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strScarpCommonQry & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & " and (coalesce(TSPL_SCRAPINVOICE_DETAIL.tax1,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax3,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax5,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax7,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_SCRAPINVOICE_DETAIL.tax9,'')='' and coalesce(TSPL_SCRAPINVOICE_DETAIL.tax10,'')='') )t "
         '" pivot (sum(tax1_amt) for tax1 in (" + strPivotForInnerQuery + "))t pivot (min(tax1_rate) for tax1rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " union all "
@@ -8262,7 +8248,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
         strMCCMaterial += " ) final left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Loc_Code  left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
         strMCCMaterial += " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code "
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], [Booking No] ,MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final.RATE_UOM,final. Conv_Factor " ' ," + strPivotFoGrouprOuterQuery + " 
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.shipment_No  ,final.Item_Code ,final.Loc_Code  ,final.cust_Code  ,final.shipped_Qty  ,final.TotalTaxAmt  ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.price  ,final.ItemAmt  ,final.DiscountPer,final.TotalDiscountAmt  ,final.Amt_less_Discount   ,final.Amt_Less_Discount ,final.Doc_Amt,final.[Scheme Amount],QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP ,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final.RATE_UOM,final. Conv_Factor " ' ," + strPivotFoGrouprOuterQuery + " 
         '' query for return
 
         Dim strSDRCommonQuery As String = ""
@@ -8280,19 +8266,19 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         '                    " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
         '                    " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],'' as [WayBill No],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No as [Booking No],TSPL_SD_SALE_RETURN_DETAIL.MRP, "
 
-        strSDRCommonQuery = " select '' as Formtype,(CASE WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='ALL' THEN 'SDR' ELSE TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'R' END) as Trans_Type,TSPL_SD_SALE_RETURN_HEAD.Status ,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location, " & _
-                          " TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_RETURN_HEAD.Document_Type,TSPL_SD_SALE_RETURN_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.Document_Code , " & _
-                          " convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_RETURN_DETAIL.Item_Code,TSPL_SD_SALE_RETURN_DETAIL.Line_No , " & _
-                          " -TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code ,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost , " & _
-                          " -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Amount,0) as Amount ,TSPL_SD_SALE_RETURN_DETAIL.Disc_Per ,case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0)=0 then -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0)  + case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then 1*coalesce(Item_Net_Amt,0)*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) else 0 end else -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end as Disc_Amt,case when coalesce(FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then -1*coalesce(Item_Net_Amt,0)*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) end  as [Scheme Amount] , " & _
-                          " -(Amount- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then Total_Disc_Amt else Total_Disc_Amt end  + case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type<>'FS' then case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) else 0 end else 0 end)  as Amt_Less_Discount , " & _
-                          " -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0) as Total_Tax_Amt ,-(Amount+coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0)- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then 0 else coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end )  as Total_Amt,TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code,TSPL_VEHICLE_MASTER.Number as Vehicle_No,-(case when TSPL_SD_SALE_RETURN_DETAIL.Line_No=1 then (coalesce(TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge,0)+coalesce(TSPL_SD_SALE_RETURN_HEAD.RoundOffAmount,0)) else 0 end) as Additional_Charge, " & _
-                          " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," & _
-                          " -TSPL_Customer_Invoice_Head.Discount_Amount-coalesce(TSPL_SD_SALE_RETURN_HEAD.headDisc_AMt,0) as [AR Document Discount Amt], " & _
-                          " -TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],-TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " & _
-                          " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " & _
-                          " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " & _
-                          " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No as [Booking No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Created_By ,'' as Modify_By,NULL as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,"
+        strSDRCommonQuery = " select '' as Formtype,(CASE WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='ALL' THEN 'SDR' ELSE TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'R' END) as Trans_Type,TSPL_SD_SALE_RETURN_HEAD.Status ,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location, " &
+                          " TSPL_SD_SALE_RETURN_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd,COALESCE(TSPL_SD_SALE_RETURN_HEAD.Document_Type,TSPL_SD_SALE_RETURN_HEAD.Invoice_Type) AS Invoice_Type,TSPL_SD_SALE_RETURN_HEAD.Document_Code , " &
+                          " convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103 ) as Document_Date , TSPL_SD_SALE_RETURN_DETAIL.Item_Code,TSPL_SD_SALE_RETURN_DETAIL.Line_No , " &
+                          " -TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code ,TSPL_SD_SALE_RETURN_DETAIL.Item_Cost , " &
+                          " -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Amount,0) as Amount ,TSPL_SD_SALE_RETURN_DETAIL.Disc_Per ,case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0)=0 then -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0)  + case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then 1*coalesce(Item_Net_Amt,0)*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) else 0 end else -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end as Disc_Amt,case when coalesce(FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then -1*coalesce(Item_Net_Amt,0)*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) end  as [Scheme Amount] , " &
+                          " -(Amount- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then Total_Disc_Amt else Total_Disc_Amt end  + case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type<>'FS' then case when coalesce(TSPL_SD_SALE_RETURN_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_RETURN_DETAIL.sampling,0)=1  then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_RETURN_Head.convrate,0) end) else 0 end else 0 end)  as Amt_Less_Discount , " &
+                          " -coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0) as Total_Tax_Amt ,-(Amount+coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Tax_Amt,0)- case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='FS' then 0 else coalesce(TSPL_SD_SALE_RETURN_DETAIL.Total_Disc_Amt,0) end )  as Total_Amt,TSPL_SD_SALE_RETURN_HEAD.Vehicle_Code,TSPL_VEHICLE_MASTER.Number as Vehicle_No,-(case when TSPL_SD_SALE_RETURN_DETAIL.Line_No=1 then (coalesce(TSPL_SD_SALE_RETURN_HEAD.Total_Add_Charge,0)+coalesce(TSPL_SD_SALE_RETURN_HEAD.RoundOffAmount,0)) else 0 end) as Additional_Charge, " &
+                          " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
+                          " -TSPL_Customer_Invoice_Head.Discount_Amount-coalesce(TSPL_SD_SALE_RETURN_HEAD.headDisc_AMt,0) as [AR Document Discount Amt], " &
+                          " -TSPL_Customer_Invoice_Head.amount_less_Discount as [AR Amount Before Tax],-TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
+                          " -(TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge], " &
+                          " TSPL_Customer_Invoice_Head.Against_Sale_No,TSPL_Customer_Invoice_Head.Against_Sale_Return_No,TSPL_Customer_Invoice_Head.AgainstScrap, " &
+                          " TSPL_Customer_Invoice_Head.Against_VCGL,TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,TSPL_SD_SALE_RETURN_HEAD.GRNo as [GR No],TSPL_SD_SHIPMENT_HEAD.gr_date as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],TSPL_SD_SALE_RETURN_DETAIL.Delivery_Code as [Delivery No],Against_Shipment_No as [Shipment No],TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Code ,TSPL_SD_SALE_RETURN_DETAIL.Cash_Scheme_Amount*(-1) as Cash_Scheme_Amount ,TSPL_SD_SALE_RETURN_DETAIL.Price_code ,'' as Created_By ,'' as Modify_By,NULL as RATE_UOM,0 as Conv_Factor, TSPL_SD_SALE_RETURN_DETAIL.Sampling,TSPL_SD_SALE_RETURN_DETAIL.Scheme_Item,"
         strSDEndQry = " from TSPL_SD_SALE_RETURN_DETAIL " &
                             " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE " &
                             " left join TSPL_VEHICLE_MASTER on TSPL_SD_SALE_RETURN_HEAD.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id " &
@@ -8302,7 +8288,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                             "  " &
                             " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code "
 
-        strSDJoinQry = " WHERE 2=2 AND (case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='FS' then 'Fresh Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='CSA' then 'CSA Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' then 'Product Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'MCC Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='EXP' then 'Export Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='SS' then 'Misc Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type in ('SD','All') then 'General Sale Return' else TSPL_SD_SALE_RETURN_HEAD.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDJoinQry = " WHERE 2=2 AND (case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='FS' then 'Fresh Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='CSA' then 'CSA Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' then 'Product Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'MCC Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='EXP' then 'Export Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='SS' then 'Misc Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type in ('SD','All') then 'General Sale Return' else TSPL_SD_SALE_RETURN_HEAD.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                         " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         '' filter conditions
@@ -8322,15 +8308,15 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
         strMCCMaterial += " union all "
 
-        strMCCMaterial += " select max(final._Type) as _Type, max(final.Formtype) as [Form Type],case when Trans_Type ='FSR' then 'Fresh Sale Return' when Trans_Type ='CSAR' then 'CSA Sale Return' when Trans_Type='PSR' then 'Product Sale Return' when Trans_Type='MCCR' then 'MCC Sale Return' when Trans_Type='EXPR' then 'Export Sale Return'when Trans_Type='Bulk Sale' then 'Bulk Sale Return' when Trans_Type ='SSR' then 'Misc Sale' when Trans_Type ='SDR' then 'General Sale Return' else trans_Type  end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount], " & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item from ( "
+        strMCCMaterial += " select max(final._Type) as _Type, max(final.Formtype) as [Form Type],case when Trans_Type ='FSR' then 'Fresh Sale Return' when Trans_Type ='CSAR' then 'CSA Sale Return' when Trans_Type='PSR' then 'Product Sale Return' when Trans_Type='MCCR' then 'MCC Sale Return' when Trans_Type='EXPR' then 'Export Sale Return'when Trans_Type='Bulk Sale' then 'Bulk Sale Return' when Trans_Type ='SSR' then 'Misc Sale' when Trans_Type ='SDR' then 'General Sale Return' else trans_Type  end  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_Code as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.Customer_Code as [Customer Code],MAX(final.CustAdd) As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Customer_Name) as [Customer Name] ,max(TSPL_CUSTOMER_MASTER .Parent_Customer_No) as [Parent Customer No] ,max(Parent_Master.Cust_Code) as [Parent Customer Code],max(Parent_Master.Customer_Name) as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount], " &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], MRP, Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item from ( "
 
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
         '' query for no tax applied
-        strMCCMaterial += " select * from (" & strSDRCommonQuery & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & " and (coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax3,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax5,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax7,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strSDRCommonQuery & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & " and (coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax1,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax3,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax5,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax7,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax9,'')='' and coalesce(TSPL_SD_SALE_RETURN_DETAIL.tax10,'')='') )t "
 
         strMCCMaterial += "   union all"
@@ -8388,19 +8374,19 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
         strMCCMaterial += " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code "
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " 
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_Code ,final.Item_Code,final.Line_No ,final.Bill_To_Location ,final.Customer_Code ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP , Scheme_Code ,Cash_Scheme_Code , Cash_Scheme_Amount ,final.Price_code ,final.Created_By ,final.Modify_By ,final.RATE_UOM,final.Conv_Factor ,final. Sampling,final.Scheme_Item " '', " + strPivotFoGrouprOuterQuery + " 
 
         strMCCMaterial += " union all "
 
         '''' bulk sale return 
-        strMCCMaterial += "  select '' as _Type,'' as Formtype,'Bulk Sale Return' as Trans_Type ,TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code as Bill_To_Location,TSPL_SALE_RETURN_MASTER_BULKSALE.Posted,TSPL_LOCATION_MASTER.Location_Desc ,'Invoice' as Invoice_type ,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No as Document_code ,convert(varchar,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) Document_Date,'' as Vehicle_Code,'' as Vehicle_No,coalesce(-1 * TSPL_SALE_RETURN_MASTER_BULKSALE.roundoffamount,0) as Additional_Charge, " & _
-                           " TSPL_SALE_RETURN_MASTER_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Parent_Customer_No," & _
-                           " Parent_Master.Cust_Code as Parent_Customer_Code,Parent_Master.Customer_Name as Parent_Cust_Name ," & _
-                           " TSPL_SALE_RETURN_DETAIL_BULKSALE.Item_Code,tspl_item_master.Item_Desc ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceQty as Qty ,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceRate as Item_cost,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatPer ,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFPer ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatKG as InvoiceFatKG ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFKG as InvoiceSNFKG  ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as Disc_per,0 as Disc_Amt,0 as [Scheme Amount],-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amt_less_Discount,0 as Total_tax_amt " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Total_Amt, " & _
-                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-1 * TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," & _
-                           " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " & _
-                           " -1 * (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " & _
-                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as  [Shipment No],'' as  [Booking No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Created_By ,TSPL_SALE_RETURN_MASTER_BULKSALE.Modified_By,NULL as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item" & _
+        strMCCMaterial += "  select '' as _Type,'' as Formtype,'Bulk Sale Return' as Trans_Type ,TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code as Bill_To_Location,TSPL_SALE_RETURN_MASTER_BULKSALE.Posted,TSPL_LOCATION_MASTER.Location_Desc ,'Invoice' as Invoice_type ,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No as Document_code ,convert(varchar,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) Document_Date,'' as Vehicle_Code,'' as Vehicle_No,coalesce(-1 * TSPL_SALE_RETURN_MASTER_BULKSALE.roundoffamount,0) as Additional_Charge, " &
+                           " TSPL_SALE_RETURN_MASTER_BULKSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Add1 + ' ' + TSPL_CUSTOMER_MASTER.Add2 + ' ' + TSPL_CUSTOMER_MASTER.Add3 As CustAdd ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Parent_Customer_No," &
+                           " Parent_Master.Cust_Code as Parent_Customer_Code,Parent_Master.Customer_Name as Parent_Cust_Name ," &
+                           " TSPL_SALE_RETURN_DETAIL_BULKSALE.Item_Code,tspl_item_master.Item_Desc ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceQty as Qty ,TSPL_SALE_RETURN_DETAIL_BULKSALE.Unit_code,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceRate as Item_cost,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatPer ,TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFPer ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceFatKG as InvoiceFatKG ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceSNFKG as InvoiceSNFKG  ,-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amount,0 as Disc_per,0 as Disc_Amt,0 as [Scheme Amount],-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Amt_less_Discount,0 as Total_tax_amt " + strPivotForOuterQueryforBulk + " " + strDoublePivotForOuterQueryforBulk + ",-TSPL_SALE_RETURN_DETAIL_BULKSALE.InvoiceAmount as Total_Amt, " &
+                           " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],-1 * TSPL_Customer_Invoice_Head.Document_Total [AR Document Amt]," &
+                           " TSPL_Customer_Invoice_Head.Discount_Amount as [AR Document Discount Amt], " &
+                           " -1 * (TSPL_Customer_Invoice_Head.Document_Total-TSPL_Customer_Invoice_Head.total_tax-TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax as [AR Total Tax], " &
+                           " (TSPL_Customer_Invoice_Head.total_Add_Charge+TSPL_Customer_Invoice_Head.RoundOffAmount) as [AR Total Add Charge],'' as [GR No],NULL as [GR Date],'' as [WayBill No],'' as [Transporter Code],'' as [Transporter Name],'' as [Delivery No]  ,'' as  [Shipment No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Created_By ,TSPL_SALE_RETURN_MASTER_BULKSALE.Modified_By,NULL as RATE_UOM,0 as Conv_Factor,0 as Sampling,'N' as Scheme_Item" &
                            " from TSPL_SALE_RETURN_DETAIL_BULKSALE "
 
         strMCCMaterial += " left outer join TSPL_SALE_RETURN_MASTER_BULKSALE on TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No =TSPL_SALE_RETURN_DETAIL_BULKSALE.Document_No "
@@ -8408,27 +8394,27 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =TSPL_SALE_RETURN_MASTER_BULKSALE.Customer_Code"
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =TSPL_SALE_RETURN_DETAIL_BULKSALE.Item_Code"
-        strMCCMaterial += " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_Return_No=TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No  where 2=2 " & _
-                            " and 'Bulk Sale Return' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strMCCMaterial += " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_Return_No=TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No  where 2=2 " &
+                            " and 'Bulk Sale Return' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                             " and convert(date,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         Dim strTranferCommonQuery As String = ""
-        strTranferCommonQuery = " select case when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF = 1 then 'F' else '' End as Formtype,'Transfer' as Trans_Type,TSPL_TRANSFER_ORDER_HEAD.Status ,TSPL_TRANSFER_ORDER_HEAD.From_Location as Bill_To_Location, " & _
-                                " GIT_Main_Loc.Location_Code as To_Location,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as Invoice_Type,TSPL_TRANSFER_ORDER_HEAD.Document_No , " & _
-                                " convert(varchar,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103 ) as Document_Date , TSPL_TRANSFER_ORDER_DETAIL.Item_Code , " & _
-                                " (case when TSPL_TRANSFER_ORDER_DETAIL.In_Qty>0 then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_TRANSFER_ORDER_DETAIL.Out_Qty end) as Qty, " & _
-                                " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " & _
-                                " TSPL_TRANSFER_ORDER_DETAIL.Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " & _
-                                " (TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " & _
-                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual else TSPL_TRANSPORT_MASTER.Transporter_Name end  as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Created_By,'' as Modified_By,NULL as RATE_UOM,0 as Conv_Factor, "
+        strTranferCommonQuery = " select case when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF = 1 then 'F' else '' End as Formtype,'Transfer' as Trans_Type,TSPL_TRANSFER_ORDER_HEAD.Status ,TSPL_TRANSFER_ORDER_HEAD.From_Location as Bill_To_Location, " &
+                                " GIT_Main_Loc.Location_Code as To_Location,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as Invoice_Type,TSPL_TRANSFER_ORDER_HEAD.Document_No , " &
+                                " convert(varchar,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103 ) as Document_Date , TSPL_TRANSFER_ORDER_DETAIL.Item_Code , " &
+                                " (case when TSPL_TRANSFER_ORDER_DETAIL.In_Qty>0 then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_TRANSFER_ORDER_DETAIL.Out_Qty end) as Qty, " &
+                                " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " &
+                                " TSPL_TRANSFER_ORDER_DETAIL.Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " &
+                                " (TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " &
+                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual else TSPL_TRANSPORT_MASTER.Transporter_Name end  as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP, '' as [Scheme Code] ,'' as  [Cash Scheme Code] , 0 as [Cash Scheme Amount], '' as [Price Code],'' as Created_By,'' as Modified_By,NULL as RATE_UOM,0 as Conv_Factor, "
 
-        strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " & _
-                      " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " & _
-                      " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSFER_ORDER_HEAD.Transport_Id=TSPL_TRANSPORT_MASTER.Transport_Id " & _
-                      " left join ( select  max(Location_Code) as Location_Code,GIT_Location from TSPL_LOCATION_MASTER where GIT_Location is not null " & _
+        strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " &
+                      " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " &
+                      " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSFER_ORDER_HEAD.Transport_Id=TSPL_TRANSPORT_MASTER.Transport_Id " &
+                      " left join ( select  max(Location_Code) as Location_Code,GIT_Location from TSPL_LOCATION_MASTER where GIT_Location is not null " &
                       " group by GIT_Location ) GIT_Main_Loc on TSPL_TRANSFER_ORDER_HEAD.To_Location=GIT_Main_Loc.GIT_Location  "
 
-        strSDJoinQry = "  where Transfer_Type <>'I' AND 'Transfer' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDJoinQry = "  where Transfer_Type <>'I' AND 'Transfer' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                       " and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
 
         '' filter conditions
@@ -8460,7 +8446,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             & " ,amount as   Total_Amt,TSPL_vendor_Invoice_Head.Document_No as [AR Document No],TSPL_vendor_Invoice_Head.Document_Total [AR Document Amt]" _
             & " ,TSPL_vendor_Invoice_Head.Discount_Amount as [AR Document Discount Amt],TSPL_vendor_Invoice_Head.amount_less_Discount as [AR Amount Before Tax]," _
             & " TSPL_vendor_Invoice_Head.total_tax as [AR Total Tax],TSPL_vendor_Invoice_Head.total_Add_Charge as [AR Total Add Charge],'' as [GRNO],null as [GRN Date],'' as Way_BillNo," _
-            & " TSPL_MCC_Dispatch_Challan.tanker_No,tm.description,'' as  [delivery No],'' as [Shiping No],'' as [Booking No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Created_By ,'' as Modified_By,NULL as RATE_UOM,0 as Conv_Factor from TSPL_MCC_Dispatch_Challan  left outer  join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No " _
+            & " TSPL_MCC_Dispatch_Challan.tanker_No,tm.description,'' as  [delivery No],'' as [Shiping No],0 AS MRP,'' as  [Scheme Code] ,'' as [Cash Scheme Code] , 0 as [Cash Scheme Amount],'' as [Price Code],'' as Created_By ,'' as Modified_By,NULL as RATE_UOM,0 as Conv_Factor from TSPL_MCC_Dispatch_Challan  left outer  join TSPL_MILK_TRANSFER_IN on TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No " _
             & " =TSPL_MCC_Dispatch_Challan.Chalan_NO  LEFT JOIN tspl_location_Master  sendr ON sendr.Location_Code=TSPL_MCC_Dispatch_Challan.MCC_CODE " _
             & " left join tspl_Location_master on tspl_Location_master.location_code=TSPL_MCC_Dispatch_Challan.mcc_Code left join tspl_Location_master recv on " _
             & " recv.location_code=TSPL_MCC_Dispatch_Challan.Mcc_Or_Plant_Code left join TSPL_vendor_Invoice_Head on  TSPL_vendor_Invoice_Head.vendor_Invoice_No" _
@@ -8470,21 +8456,21 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             & " t_SNF_Recd On t_SNF_Recd.Chalan_NO   = TSPL_MCC_Dispatch_Challan.Chalan_NO   Left Outer Join (Select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.*" _
             & " From TSPL_MCC_Dispatch_Challan Left Outer Join TSPL_Mcc_Dispatch_Chalan_Parameter_Detail On TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.Chalan_No  = " _
             & " TSPL_MCC_Dispatch_Challan.Chalan_NO  where TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.Param_Type = 'FAT' ) t_FAT_Recd On t_FAT_Recd.Chalan_No " _
-            & " = TSPL_MCC_Dispatch_Challan.Chalan_NO where 2=2 " & _
-              " AND 'MCC Transfer' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+            & " = TSPL_MCC_Dispatch_Challan.Chalan_NO where 2=2 " &
+              " AND 'MCC Transfer' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
               " and convert(date,TSPL_MCC_Dispatch_Challan.Dispatch_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_MCC_Dispatch_Challan.Dispatch_Date,103) <= convert(date,('" & To_Date & "'),103) )t "
         '' transaction unit conversion
         strMCCMaterial += " union all "
-        strMCCMaterial += " select max(final._Type) as _Type, max(Formtype) as [Form Type],Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Created_By ,final.Modified_By,final.RATE_UOM,final.Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
+        strMCCMaterial += " select max(final._Type) as _Type, max(Formtype) as [Form Type],Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER .Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge,final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER .Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP,  [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code],final.Created_By ,final.Modified_By,final.RATE_UOM,final.Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
         'strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX1 ,0 as TAX1_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX1+'%' as tax1rate  "
 
         '' query for no tax applied
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
-        strMCCMaterial += " select * from (" & strTranferCommonQuery & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & " and (coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax1,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax3,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax5,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax7,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strTranferCommonQuery & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & " and (coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax1,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax3,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax5,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax7,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax9,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax10,'')='') )t "
         '" pivot (sum(tax1_amt) for tax1 in (" + strPivotForInnerQuery + "))t pivot (min(tax1_rate) for tax1rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " union all "
@@ -8542,30 +8528,30 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left outer join TSPL_LOCATION_MASTER as TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Location_Code =final.To_location "
         strMCCMaterial += " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code "
         'strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
-        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,[Scheme Code] ,[Cash Scheme Code] ,[Cash Scheme Amount], [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final.Conv_Factor"
+        strMCCMaterial += " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP,[Scheme Code] ,[Cash Scheme Code] ,[Cash Scheme Amount], [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final.Conv_Factor"
         ''richa
 
         strMCCMaterial += Environment.NewLine + " --- QUERY FOR TRANSFER RETURN---------------------- ADDED BY RICHA AGARWAL ------------" + Environment.NewLine
 
 
         Dim strTranferReturnCommonQuery As String = ""
-        strTranferReturnCommonQuery = " select case	when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF = 1 then 'F' else '' End as Formtype,'Transfer Return' as Trans_Type,TSPL_TRANSFER_ORDER_HEAD.Status ,  TSPL_TRANSFER_ORDER_HEAD.From_Location as Bill_To_Location, " & _
-                                " GIT_Main_Loc.Location_Code as To_Location,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as Invoice_Type,TSPL_TRANSFER_RETURN.Document_No , " & _
-                                " convert(varchar,TSPL_TRANSFER_RETURN.Document_Date,103 ) as Document_Date , TSPL_TRANSFER_ORDER_DETAIL.Item_Code , " & _
-                                " -(case when TSPL_TRANSFER_ORDER_DETAIL.In_Qty>0 then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_TRANSFER_ORDER_DETAIL.Out_Qty end) as Qty, " & _
-                                " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " & _
-                                " -TSPL_TRANSFER_ORDER_DETAIL.Amount AS Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " & _
-                                " -(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,-(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " & _
-                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],'' as [Booking No],0 AS MRP, '' as [Scheme Code] , '' as [Cash Scheme Code] ,0 as   [Cash Scheme Amount],  '' as [Price Code],'' as Created_By ,'' as Modified_By,NULL as RATE_UOM,0 as Conv_Factor,"
+        strTranferReturnCommonQuery = " select case	when TSPL_TRANSFER_ORDER_HEAD.Is_AgainstFormF = 1 then 'F' else '' End as Formtype,'Transfer Return' as Trans_Type,TSPL_TRANSFER_ORDER_HEAD.Status ,  TSPL_TRANSFER_ORDER_HEAD.From_Location as Bill_To_Location, " &
+                                " GIT_Main_Loc.Location_Code as To_Location,TSPL_TRANSFER_ORDER_HEAD.Transfer_Type as Invoice_Type,TSPL_TRANSFER_RETURN.Document_No , " &
+                                " convert(varchar,TSPL_TRANSFER_RETURN.Document_Date,103 ) as Document_Date , TSPL_TRANSFER_ORDER_DETAIL.Item_Code , " &
+                                " -(case when TSPL_TRANSFER_ORDER_DETAIL.In_Qty>0 then TSPL_TRANSFER_ORDER_DETAIL.In_Qty else TSPL_TRANSFER_ORDER_DETAIL.Out_Qty end) as Qty, " &
+                                " TSPL_TRANSFER_ORDER_DETAIL.Unit_code ,TSPL_TRANSFER_ORDER_DETAIL.Item_Cost , " &
+                                " -TSPL_TRANSFER_ORDER_DETAIL.Amount AS Amount ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Per ,TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt ,0 as [Scheme Amount], " &
+                                " -(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Amt_Less_Discount ,0 as Total_Tax_Amt ,-(TSPL_TRANSFER_ORDER_DETAIL.Amount-TSPL_TRANSFER_ORDER_DETAIL.Disc_Amt) as Total_Amt,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code,COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_TRANSFER_ORDER_HEAD.Vehicle_Mannual_No) as Vehicle_No,0 as Additional_Charge, " &
+                                " '' as [AR Document No],0 as  [AR Document Amt],0 as [AR Document Discount Amt],0 as  [AR Amount Before Tax],0 as [AR Total Tax],0 as [AR Total Add Charge],TSPL_TRANSFER_ORDER_HEAD.GR_No as [GR No],TSPL_TRANSFER_ORDER_HEAD.gr_date as [GR Date],TSPL_TRANSFER_ORDER_HEAD.WayBill_No as [WayBill No],TSPL_TRANSFER_ORDER_HEAD.Transport_Id as [Transporter Code],case when len(TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual) > 0 then TSPL_TRANSFER_ORDER_HEAD.Transporter_Name_Manual else TSPL_TRANSPORT_MASTER.Transporter_Name end as [Transporter Name],'' as [Delivery No]  ,'' as [Shipment No],0 AS MRP, '' as [Scheme Code] , '' as [Cash Scheme Code] ,0 as   [Cash Scheme Amount],  '' as [Price Code],'' as Created_By ,'' as Modified_By,NULL as RATE_UOM,0 as Conv_Factor,"
 
-        strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " & _
-            " Left Outer Join TSPL_TRANSFER_RETURN on TSPL_TRANSFER_RETURN.Transfer_No=TSPL_TRANSFER_ORDER_HEAD.Document_No " & _
-                      " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " & _
-                      " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSFER_ORDER_HEAD.Transport_Id=TSPL_TRANSPORT_MASTER.Transport_Id " & _
-                      " left join ( select  max(Location_Code) as Location_Code,GIT_Location from TSPL_LOCATION_MASTER where GIT_Location is not null " & _
+        strSDEndQry = " from TSPL_TRANSFER_ORDER_DETAIL left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No =TSPL_TRANSFER_ORDER_DETAIL.Document_No " &
+            " Left Outer Join TSPL_TRANSFER_RETURN on TSPL_TRANSFER_RETURN.Transfer_No=TSPL_TRANSFER_ORDER_HEAD.Document_No " &
+                      " left join TSPL_VEHICLE_MASTER on TSPL_TRANSFER_ORDER_Head.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id  " &
+                      " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSFER_ORDER_HEAD.Transport_Id=TSPL_TRANSPORT_MASTER.Transport_Id " &
+                      " left join ( select  max(Location_Code) as Location_Code,GIT_Location from TSPL_LOCATION_MASTER where GIT_Location is not null " &
                       " group by GIT_Location ) GIT_Main_Loc on TSPL_TRANSFER_ORDER_HEAD.To_Location=GIT_Main_Loc.GIT_Location  "
 
-        strSDJoinQry = " where TSPL_TRANSFER_ORDER_HEAD.Transfer_Type ='O' AND 'Transfer Return' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+        strSDJoinQry = " where TSPL_TRANSFER_ORDER_HEAD.Transfer_Type ='O' AND 'Transfer Return' in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                       " and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) AND ISNULL(TSPL_TRANSFER_RETURN.Document_No ,'')<>'' "
 
         '' filter conditions
@@ -8584,16 +8570,16 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         End If
 
         strMCCMaterial += " union all "
-        strMCCMaterial += " select max(final._Type) as _Type,max(Formtype) as [Form Type],Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER.Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge, final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER.Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," & _
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP, [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
+        strMCCMaterial += " select max(final._Type) as _Type,max(Formtype) as [Form Type],Trans_type  as [Trans Type],final.Bill_To_Location as [Location Code],final.Status  ,max(TSPL_LOCATION_MASTER.Location_Desc) as [Location Name] ,(final.Invoice_Type) as [Invoice Type],final.Document_No as [Document No],final.Document_Date as [Document_date],Vehicle_Code,Vehicle_No,final.Additional_Charge, final.To_Location as [Customer Code],'' As [Customer Address] ,max(TSPL_CUSTOMER_MASTER.Location_Desc) as [Customer Name] ,'' as [Parent Customer No] ,'' as [Parent Customer Code],'' as [Parent Customer Name], final.Item_Code as [Item Code],max(tspl_item_master.Item_Desc) as [Item Name],final.Qty as [Quantity],final.Unit_code as [UOM],final.Item_Cost as [Item Cost], QC.FAT_Per as [Fat Per],QC.SNF_Per as [SNF Per],0 as [Fat Kg],0 as [SNF KG],final.Amount,final.Disc_Per as [Discount Per],final.Disc_Amt as [Discount Amount],final.[Scheme Amount] as [Scheme Amount],final.Amt_Less_Discount  as [Amount Less Discount] " + strPivotForOuterQuery + ", " + strPivotFoGrouprOuterQuery + " ,final.Total_Tax_Amt as [Total Tax Amount],final.Total_Amt as [Total Amount]," &
+            " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] , [Cash Scheme Code] ,  [Cash Scheme Amount],  [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final. Conv_Factor,0 as Sampling,'N' as Scheme_Item from ( "
         'strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX1 ,0 as TAX1_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX1_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX1+'%' as tax1rate  "
 
         '' query for no tax applied
         strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
-        strMCCMaterial += " select * from (" & strTranferReturnCommonQuery & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & " and (coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax1,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax2,'')='' " & _
-                          " and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax3,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax4,'')='' and " & _
-                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax5,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax6,'')='' and " & _
-                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax7,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax8,'')='' and " & _
+        strMCCMaterial += " select * from (" & strTranferReturnCommonQuery & strSDTaxRateBlankColumn & strTaxColumns & strSDEndQry & strSDJoinQry & " and (coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax1,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax2,'')='' " &
+                          " and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax3,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax4,'')='' and " &
+                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax5,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax6,'')='' and " &
+                          " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax7,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax8,'')='' and " &
                           " coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax9,'')='' and coalesce(TSPL_TRANSFER_ORDER_DETAIL.tax10,'')='') )t "
 
         strMCCMaterial += Environment.NewLine + " union all "
@@ -8642,13 +8628,13 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
         strTaxColumns = " TSPL_TRANSFER_ORDER_DETAIL.TAX10 ,-TSPL_TRANSFER_ORDER_DETAIL.TAX10_Amt AS TAX10_Amt,TSPL_TRANSFER_ORDER_DETAIL.TAX10_Rate ,TSPL_TRANSFER_ORDER_DETAIL.TAX10+'%' as tax10rate  "
         strSDTaxRate = " left join TSPL_TAX_RATES ttr  on ttr.tax_Code=TSPL_TRANSFER_ORDER_DETAIL.tax10 and ttr.tax_Rate=TSPL_TRANSFER_ORDER_DETAIL.TAX10_Rate and ttr._type<>'OH'"
-        strMCCMaterial += " select * from (" & strTranferReturnCommonQuery & strSDTaxRateColumn & strTaxColumns & strSDEndQry & strSDTaxRate & strSDJoinQry & " and TSPL_TRANSFER_ORDER_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t" & _
-         " )final" & _
-        " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location " & _
-         " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code " & _
-         " left outer join TSPL_LOCATION_MASTER as TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Location_Code =final.To_location " & _
-         " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code " & _
-         " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], [Booking No],MRP,  [Scheme Code] ,  [Cash Scheme Code] , [Cash Scheme Amount],  [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final.Conv_Factor" + Environment.NewLine
+        strMCCMaterial += " select * from (" & strTranferReturnCommonQuery & strSDTaxRateColumn & strTaxColumns & strSDEndQry & strSDTaxRate & strSDJoinQry & " and TSPL_TRANSFER_ORDER_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t" &
+         " )final" &
+        " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location " &
+         " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code " &
+         " left outer join TSPL_LOCATION_MASTER as TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Location_Code =final.To_location " &
+         " left outer join " & "(" & qryQC & ") as QC" & " on QC.Item_Code =final.Item_Code " &
+         " group by  final.Trans_Type,final .Status  ,final.Document_No ,final.Item_Code ,final.Bill_To_Location ,final.To_Location ,final.Qty ,final.Total_Tax_Amt ,final.Invoice_Type ,final.Document_Date ,final.Unit_code ,final.Item_Cost ,final.Amount ,final.Disc_Per ,final.Disc_Amt,final.[Scheme Amount] ,final.Amt_Less_Discount ,final.Total_Amt,QC.FAT_Per,QC.SNF_Per,Vehicle_Code,Vehicle_No,final.Additional_Charge,[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP,  [Scheme Code] ,  [Cash Scheme Code] , [Cash Scheme Amount],  [Price Code] ,final.Created_By ,final.Modified_By,final. RATE_UOM,final.Conv_Factor" + Environment.NewLine
 
         strMCCMaterial += Environment.NewLine + " --- QUERY FOR TRANSFER RETURN END---------------------- ADDED BY RICHA AGARWAL ------------" + Environment.NewLine
 
@@ -8675,7 +8661,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         strMCCMaterial += " left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code =xx.[Item Code]  and TSPL_ITEM_UOM_DETAIL.uom_code=xx.[uom]"
         strMCCMaterial += " left join (select Cust_Code,Cust_Group_Code,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_CUSTOMER_MASTER.Struct_Code,TSPL_CUSTOMER_MASTER.Tin_No,TSPL_CUSTOMER_MASTER.state as State_Code,tspl_State_Master.State_Name from TSPL_CUSTOMER_MASTER left join tspl_State_Master on tspl_State_Master.state_Code=TSPL_CUSTOMER_MASTER.state) as Cust on xx.[Customer Code]=Cust.Cust_Code  left join (select location_Code as Cust_Code,Tin_No,State_Code,State_Name from TSPL_location_MASTER left join tspl_State_Master on tspl_State_Master.state_Code=TSPL_location_MASTER.state) as Cust_Loc on xx.[Customer Code]=Cust_Loc.Cust_Code  "
         strMCCMaterial += " left join (select Cust_Group_Code,Cust_Group_Desc from TSPL_CUSTOMER_GROUP_MASTER) as Cust_Group on Cust.Cust_Group_Code=Cust_Group.Cust_Group_Code "
-        strMCCMaterial += " left join (select Zone_Code,Description from TSPL_ZONE_MASTER) as Zone on Cust.Zone_Code=Zone.Zone_Code " & _
+        strMCCMaterial += " left join (select Zone_Code,Description from TSPL_ZONE_MASTER) as Zone on Cust.Zone_Code=Zone.Zone_Code " &
                           " left join TSPL_LOCATION_MASTER as Loc on Loc.Location_Code=xx.[Location Code] "
         If clsCommon.myLen(strCategoryTable) > 0 Then
             strMCCMaterial += " left outer join (" + strCategoryTable + ") as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=xx.[Item Code]"
@@ -8704,8 +8690,8 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         '' Worked on query b Panch Raj against ticket: UDL/27/04/18-000137,TEC/21/05/18-000241
 
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And obj.Trans_Type_List.Contains("General Sale") = True Then
-            qry = qry & " SELECT DISTINCT 'SD' As Code , 'General Sale' As Name ,SIH.Document_Code as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Status,SIH.Amount_Less_Discount as Sale_Amount " & _
-                   " From TSPL_SD_SALE_INVOICE_DETAIL SID INNER JOIN TSPL_SD_SALE_INVOICE_HEAD SIH ON SID.Document_Code=SIH.Document_Code " & _
+            qry = qry & " SELECT DISTINCT 'SD' As Code , 'General Sale' As Name ,SIH.Document_Code as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Status,SIH.Amount_Less_Discount as Sale_Amount " &
+                   " From TSPL_SD_SALE_INVOICE_DETAIL SID INNER JOIN TSPL_SD_SALE_INVOICE_HEAD SIH ON SID.Document_Code=SIH.Document_Code " &
                    " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_Code=AR.Against_Sale_No Where SIH.Trans_Type='ALL' and SIH.Status=1  AND CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -8730,21 +8716,21 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("CSA Sale") = True Or obj.Trans_Type_List.Contains("Export Sale") = True Or obj.Trans_Type_List.Contains("Fresh Sale") = True Or obj.Trans_Type_List.Contains("MCC Sale") = True Or obj.Trans_Type_List.Contains("Product Sale") = True Or obj.Trans_Type_List.Contains("Merchant Trade") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                          " SELECT DISTINCT SIH.Trans_Type+ISNULL(SIH.Document_Type,'')  As Code ,CASE " & _
-                          " WHEN SIH.Trans_Type ='CSA' THEN 'CSA Sale' " & _
-                          " WHEN SIH.Trans_Type ='EXP' AND SIH.Document_Type ='EX' THEN 'Export Sale' " & _
-                          " WHEN SIH.Trans_Type ='FS' THEN 'Fresh Sale'  " & _
-                          " WHEN SIH.Trans_Type ='MCC' THEN 'MCC Sale' " & _
-                          " WHEN SIH.Trans_Type ='PS' THEN 'Product Sale' " & _
-                          " WHEN SIH.Trans_Type ='EXP' AND SIH.Document_Type ='MT' THEN 'Merchant Trade' " & _
-                          " End " & _
-                          " As Name, SIH.Document_Code as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Status,SIH.Amount_Less_Discount*(case when coalesce(SIH.ConvRate,0)<=0 then 1 else coalesce(SIH.ConvRate,0) end) as Sale_Amount " & _
-                          " FROM TSPL_SD_SALE_INVOICE_DETAIL SID INNER JOIN TSPL_SD_SALE_INVOICE_HEAD SIH ON SID.Document_Code=SIH.Document_Code " & _
-                          " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_Code=AR.Against_Sale_No" & _
-                          " where  (case when SIH.Trans_Type ='FS' then 'Fresh Sale' when SIH.Trans_Type='PS' then 'Product Sale' " & _
-                          " when SIH.Trans_Type='MCC' then 'MCC Sale' when SIH.Trans_Type='EXP' and SIH.Document_Type <>'MT' then 'Export Sale' when SIH.Trans_Type='EXP' and SIH.Document_Type ='MT' then 'Merchant Trade' WHEN (SIH.Trans_Type ='SD' or SIH.Trans_Type ='ALl') then 'General Sale' when SIH.Trans_Type ='CSA' then 'CSA Sale' " & _
-                          " else  SIH.Trans_Type end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                          " SELECT DISTINCT SIH.Trans_Type+ISNULL(SIH.Document_Type,'')  As Code ,CASE " &
+                          " WHEN SIH.Trans_Type ='CSA' THEN 'CSA Sale' " &
+                          " WHEN SIH.Trans_Type ='EXP' AND SIH.Document_Type ='EX' THEN 'Export Sale' " &
+                          " WHEN SIH.Trans_Type ='FS' THEN 'Fresh Sale'  " &
+                          " WHEN SIH.Trans_Type ='MCC' THEN 'MCC Sale' " &
+                          " WHEN SIH.Trans_Type ='PS' THEN 'Product Sale' " &
+                          " WHEN SIH.Trans_Type ='EXP' AND SIH.Document_Type ='MT' THEN 'Merchant Trade' " &
+                          " End " &
+                          " As Name, SIH.Document_Code as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Status,SIH.Amount_Less_Discount*(case when coalesce(SIH.ConvRate,0)<=0 then 1 else coalesce(SIH.ConvRate,0) end) as Sale_Amount " &
+                          " FROM TSPL_SD_SALE_INVOICE_DETAIL SID INNER JOIN TSPL_SD_SALE_INVOICE_HEAD SIH ON SID.Document_Code=SIH.Document_Code " &
+                          " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_Code=AR.Against_Sale_No" &
+                          " where  (case when SIH.Trans_Type ='FS' then 'Fresh Sale' when SIH.Trans_Type='PS' then 'Product Sale' " &
+                          " when SIH.Trans_Type='MCC' then 'MCC Sale' when SIH.Trans_Type='EXP' and SIH.Document_Type <>'MT' then 'Export Sale' when SIH.Trans_Type='EXP' and SIH.Document_Type ='MT' then 'Merchant Trade' WHEN (SIH.Trans_Type ='SD' or SIH.Trans_Type ='ALl') then 'General Sale' when SIH.Trans_Type ='CSA' then 'CSA Sale' " &
+                          " else  SIH.Trans_Type end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                           " and SIH.Trans_Type not in (" & If(obj.PickCSASaleFromSalePatti = False, "'ALL','CSA'", "'ALL'") & ") and SIH.Status=1 AND CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -8769,9 +8755,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("CSA Sale") = True AndAlso obj.PickCSASaleFromSalePatti = False) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "select distinct 'CSA Transfer' as Code,'CSA Transfer' as Name ,SIH.DOC_CODE as [Document Code]," & _
-                " SIH.TRANSFER_DATE  as [Document Date],SIH.CUST_CODE as [Customer Code],null AS AR_DOC_NO,SIH.Status,SIH.Document_Amount as Sale_Amount from TSPL_CSA_TRANSFER_DETAIL SID " & _
-                " INNER JOIN TSPL_CSA_TRANSFER_HEAD SIH ON SID.DOC_CODE=SIH.DOC_CODE " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "select distinct 'CSA Transfer' as Code,'CSA Transfer' as Name ,SIH.DOC_CODE as [Document Code]," &
+                " SIH.TRANSFER_DATE  as [Document Date],SIH.CUST_CODE as [Customer Code],null AS AR_DOC_NO,SIH.Status,SIH.Document_Amount as Sale_Amount from TSPL_CSA_TRANSFER_DETAIL SID " &
+                " INNER JOIN TSPL_CSA_TRANSFER_HEAD SIH ON SID.DOC_CODE=SIH.DOC_CODE " &
                 " where SIH.status=1 and CAST(SIH.TRANSFER_DATE AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
                 qry += " and SID.ITEM_CODE in (" + clsCommon.GetMulcallString(obj.Item_Code_List) + ") "
@@ -8795,10 +8781,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Bulk Sale") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT DISTINCT 'BS'  As Code ,'Bulk Sale' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Posted AS Status,(SIH.Total_Amt-SIH.RoundOffAmount) as Sale_Amount " & _
-                        " FROM TSPL_INVOICE_DETAIL_BULKSALE SID INNER JOIN TSPL_INVOICE_MASTER_BULKSALE SIH ON SID.Document_No=SIH.Document_No " & _
-                        " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_No=AR.Against_Sale_No" & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT DISTINCT 'BS'  As Code ,'Bulk Sale' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Posted AS Status,(SIH.Total_Amt-SIH.RoundOffAmount) as Sale_Amount " &
+                        " FROM TSPL_INVOICE_DETAIL_BULKSALE SID INNER JOIN TSPL_INVOICE_MASTER_BULKSALE SIH ON SID.Document_No=SIH.Document_No " &
+                        " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_No=AR.Against_Sale_No" &
                         " WHERE SIH.InvoiceAgainst='Against Dispatch' and SIH.Posted=1 and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
                 qry += " and SID.ITEM_CODE in (" + clsCommon.GetMulcallString(obj.Item_Code_List) + ") "
@@ -8822,10 +8808,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Can Sale") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT DISTINCT 'CanSaleInvoice'  As Code ,'Can Sale' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Posted AS Status,(SIH.DocumentAmount-SIH.RoundOffAmount) as Sale_Amount " & _
-                        " FROM TSPL_CANSALE_INVOICE_DETAIL SID INNER JOIN TSPL_CANSALE_INVOICE_HEAD SIH ON SID.Document_No=SIH.Document_No " & _
-                        " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_No=AR.Against_Sale_No" & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT DISTINCT 'CanSaleInvoice'  As Code ,'Can Sale' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Posted AS Status,(SIH.DocumentAmount-SIH.RoundOffAmount) as Sale_Amount " &
+                        " FROM TSPL_CANSALE_INVOICE_DETAIL SID INNER JOIN TSPL_CANSALE_INVOICE_HEAD SIH ON SID.Document_No=SIH.Document_No " &
+                        " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_No=AR.Against_Sale_No" &
                         " WHERE SIH.Posted=1 and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
                 qry += " and SID.ItemCode in (" + clsCommon.GetMulcallString(obj.Item_Code_List) + ") "
@@ -8848,10 +8834,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
 
 
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Bulk Sale Trade") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT DISTINCT 'BST'  As Code ,'Bulk Sale Trade' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Posted AS Status,(SIH.Total_Amt-SIH.RoundOffAmount) as Sale_Amount " & _
-                        " FROM TSPL_INVOICE_DETAIL_BULKSALE SID INNER JOIN TSPL_INVOICE_MASTER_BULKSALE SIH ON SID.Document_No=SIH.Document_No " & _
-                         " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_No=AR.Against_Sale_No" & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT DISTINCT 'BST'  As Code ,'Bulk Sale Trade' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Posted AS Status,(SIH.Total_Amt-SIH.RoundOffAmount) as Sale_Amount " &
+                        " FROM TSPL_INVOICE_DETAIL_BULKSALE SID INNER JOIN TSPL_INVOICE_MASTER_BULKSALE SIH ON SID.Document_No=SIH.Document_No " &
+                         " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_No=AR.Against_Sale_No" &
                         " WHERE SIH.InvoiceAgainst='Against Dispatch Trade' and SIH.Posted=1 and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "' "
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -8876,9 +8862,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Misc Sale") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " Select DISTINCT 'SS'  As Code ,'Misc Sale' As Name ,SIH.invoice_No as [Document Code],SIH.posting_Date  as [Document Date],SIH.cust_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.ispost as Status,SIH.Amount_Less_Discount as Sale_Amount " & _
-                        " FROM TSPL_SCRAPINVOICE_DETAIL SID INNER JOIN TSPL_SCRAPINVOICE_HEAD SIH ON SID.invoice_No=SIH.invoice_No " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " Select DISTINCT 'SS'  As Code ,'Misc Sale' As Name ,SIH.invoice_No as [Document Code],SIH.posting_Date  as [Document Date],SIH.cust_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.ispost as Status,SIH.Amount_Less_Discount as Sale_Amount " &
+                        " FROM TSPL_SCRAPINVOICE_DETAIL SID INNER JOIN TSPL_SCRAPINVOICE_HEAD SIH ON SID.invoice_No=SIH.invoice_No " &
                         " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.invoice_No=AR.AgainstScrap where SIH.ispost=1 and CAST(SIH.shipment_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -8903,10 +8889,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Bulk Sale Return") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT DISTINCT 'BSR'  As Code ,'Bulk Sale Return' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Posted AS Status,(SIH.Total_Amt-SIH.RoundOffAmount) as Sale_Amount " & _
-                        " FROM TSPL_SALE_RETURN_DETAIL_BULKSALE SID INNER JOIN TSPL_SALE_RETURN_MASTER_BULKSALE SIH ON SID.Document_No=SIH.Document_No " & _
-                        " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_No=AR.Against_Sale_Return_No " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT DISTINCT 'BSR'  As Code ,'Bulk Sale Return' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Posted AS Status,(SIH.Total_Amt-SIH.RoundOffAmount) as Sale_Amount " &
+                        " FROM TSPL_SALE_RETURN_DETAIL_BULKSALE SID INNER JOIN TSPL_SALE_RETURN_MASTER_BULKSALE SIH ON SID.Document_No=SIH.Document_No " &
+                        " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_No=AR.Against_Sale_Return_No " &
                         " where SIH.Posted=1 and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -8932,10 +8918,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         End If
         '=====================Added by preeti Gupta Against Ticket No [ADV/30/04/18-000027]=================
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("General Sale Return") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT  DISTINCT 'SDR'  As Code ,'General Sale Return'  As Name ,SIH.Document_Code as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Status,SIH.Amount_Less_Discount*(case when coalesce(SIH.ConvRate,0)<=0 then 1 else coalesce(SIH.ConvRate,0) end) as Sale_Amount " & _
-                        " From TSPL_SD_SALE_RETURN_DETAIL SID INNER JOIN TSPL_SD_SALE_RETURN_HEAD SIH ON SID.DOCUMENT_CODE=SIH.DOCUMENT_CODE " & _
-                        " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_Code=AR.Against_Sale_No" & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT  DISTINCT 'SDR'  As Code ,'General Sale Return'  As Name ,SIH.Document_Code as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],AR.Document_No AS AR_DOC_NO,SIH.Status,SIH.Amount_Less_Discount*(case when coalesce(SIH.ConvRate,0)<=0 then 1 else coalesce(SIH.ConvRate,0) end) as Sale_Amount " &
+                        " From TSPL_SD_SALE_RETURN_DETAIL SID INNER JOIN TSPL_SD_SALE_RETURN_HEAD SIH ON SID.DOCUMENT_CODE=SIH.DOCUMENT_CODE " &
+                        " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_Code=AR.Against_Sale_No" &
                         " Where SIH.Trans_Type='ALL' and SIH.Status=1 and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -8961,23 +8947,23 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         End If
         '=====================Added by preeti Gupta Against Ticket No [ADV/30/04/18-000027]=================
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("CSA Sale Return") = True Or obj.Trans_Type_List.Contains("Export Sale Return") = True Or obj.Trans_Type_List.Contains("Fresh Sale Return") = True Or obj.Trans_Type_List.Contains("MCC Sale Return") = True Or obj.Trans_Type_List.Contains("Product Sale Return") = True Or obj.Trans_Type_List.Contains("CSA Sale Patti Return") = True Or obj.Trans_Type_List.Contains("Misc Sale Return") = True Or obj.Trans_Type_List.Contains("General Sale Return") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                          " SELECT DISTINCT SIH.Trans_Type+'R' As Code ,CASE " & _
-                          " WHEN SIH.Trans_Type ='CSA' THEN 'CSA Transfer Return' " & _
-                          " WHEN SIH.Trans_Type ='EXP' THEN 'Export Sale Return' " & _
-                          " WHEN SIH.Trans_Type ='FS'  THEN 'Fresh Sale Return'  " & _
-                          " WHEN SIH.Trans_Type ='MCC' THEN 'MCC Sale Return' " & _
-                          " WHEN SIH.Trans_Type ='PS'  THEN 'Product Sale Return' " & _
-                          " WHEN SIH.Trans_Type ='CPR'  THEN 'CSA Sale Return' " & _
-                          " when SIH.Trans_Type ='SS' then 'Misc Sale Return' " & _
-                          " else 'General Sale Return' " & _
-                          " END " & _
-                          " As Name ,SIH.Document_Code as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],(case when SIH.Trans_Type ='MCC' THEN  ARH1.Document_No when SIH.Trans_Type ='SS' then ARH2.Document_No else AR.Document_No end) AS AR_DOC_NO,SIH.Status,(case when SIH.Trans_Type ='CSA' THEN (SIH.Total_Amt-coalesce(SIH.total_Tax_Amt,0)) ELSE  SIH.Amount_Less_Discount END)*(case when coalesce(SIH.ConvRate,0)<=0 then 1 else coalesce(SIH.ConvRate,0) end) AS Sale_Amount " & _
-                          " FROM TSPL_SD_SALE_RETURN_DETAIL SID inner join TSPL_SD_SALE_RETURN_HEAD SIH on SID.DOCUMENT_CODE=SIH.Document_Code " & _
-                          " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_Code=AR.Against_Sale_Return_No" & _
-                          " left join TSPL_Customer_Invoice_Head ARH1 on SIH.DOCUMENT_CODE=ARH1.Against_MCC_Material_Sale_Return " & _
-                          " left join TSPL_Customer_Invoice_Head ARH2 on SIH.DOCUMENT_CODE=ARH2.AgainstScrapReturn " & _
-                          " Where (case when SIH.Trans_Type ='FS' then 'Fresh Sale Return' when " & If(obj.PickCSASaleFromSalePatti = False, " SIH.Trans_Type ='CSA' then 'CSA Sale Return'", " SIH.Trans_Type ='CPR' then 'CSA Sale Return'") & "  when SIH.Trans_Type='PS' then 'Product Sale Return' when SIH.Trans_Type='MCC' then 'MCC Sale Return' when SIH.Trans_Type='EXP' then 'Export Sale Return' when SIH.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when SIH.Trans_Type ='SS' then 'Misc Sale Return' when SIH.Trans_Type in ('SD','All') then 'General Sale Return' else SIH.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                          " SELECT DISTINCT SIH.Trans_Type+'R' As Code ,CASE " &
+                          " WHEN SIH.Trans_Type ='CSA' THEN 'CSA Transfer Return' " &
+                          " WHEN SIH.Trans_Type ='EXP' THEN 'Export Sale Return' " &
+                          " WHEN SIH.Trans_Type ='FS'  THEN 'Fresh Sale Return'  " &
+                          " WHEN SIH.Trans_Type ='MCC' THEN 'MCC Sale Return' " &
+                          " WHEN SIH.Trans_Type ='PS'  THEN 'Product Sale Return' " &
+                          " WHEN SIH.Trans_Type ='CPR'  THEN 'CSA Sale Return' " &
+                          " when SIH.Trans_Type ='SS' then 'Misc Sale Return' " &
+                          " else 'General Sale Return' " &
+                          " END " &
+                          " As Name ,SIH.Document_Code as [Document Code],SIH.Document_Date  as [Document Date],SIH.Customer_Code as [Customer Code],(case when SIH.Trans_Type ='MCC' THEN  ARH1.Document_No when SIH.Trans_Type ='SS' then ARH2.Document_No else AR.Document_No end) AS AR_DOC_NO,SIH.Status,(case when SIH.Trans_Type ='CSA' THEN (SIH.Total_Amt-coalesce(SIH.total_Tax_Amt,0)) ELSE  SIH.Amount_Less_Discount END)*(case when coalesce(SIH.ConvRate,0)<=0 then 1 else coalesce(SIH.ConvRate,0) end) AS Sale_Amount " &
+                          " FROM TSPL_SD_SALE_RETURN_DETAIL SID inner join TSPL_SD_SALE_RETURN_HEAD SIH on SID.DOCUMENT_CODE=SIH.Document_Code " &
+                          " LEFT JOIN TSPL_Customer_Invoice_Head AR ON SIH.Document_Code=AR.Against_Sale_Return_No" &
+                          " left join TSPL_Customer_Invoice_Head ARH1 on SIH.DOCUMENT_CODE=ARH1.Against_MCC_Material_Sale_Return " &
+                          " left join TSPL_Customer_Invoice_Head ARH2 on SIH.DOCUMENT_CODE=ARH2.AgainstScrapReturn " &
+                          " Where (case when SIH.Trans_Type ='FS' then 'Fresh Sale Return' when " & If(obj.PickCSASaleFromSalePatti = False, " SIH.Trans_Type ='CSA' then 'CSA Sale Return'", " SIH.Trans_Type ='CPR' then 'CSA Sale Return'") & "  when SIH.Trans_Type='PS' then 'Product Sale Return' when SIH.Trans_Type='MCC' then 'MCC Sale Return' when SIH.Trans_Type='EXP' then 'Export Sale Return' when SIH.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when SIH.Trans_Type ='SS' then 'Misc Sale Return' when SIH.Trans_Type in ('SD','All') then 'General Sale Return' else SIH.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                           " and " & If(obj.PickCSASaleFromSalePatti = False, " SIH.Trans_Type not in ('ALL','CPR')", " SIH.Trans_Type not in ('ALL','CSA')") & "  and SIH.Status=1 and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -9003,12 +8989,12 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         End If
         '' change by Panch Raj against ticket No: UDL/27/04/18-000137
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Misc Sale Return") = True) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                          " SELECT DISTINCT 'MS-SR' As Code ,'Misc Sale Return' as Name, " & _
-                          " SIH.Document_No as [Document Code],convert(date,SIH.Created_Date,103)  as [Document Date],SIH.Cust_Code as [Customer Code]," & _
-                          " ARH2.Document_No AS AR_DOC_NO,SIH.ispost as Status,(SIH.Amount_Less_Discount)*1 AS Sale_Amount " & _
-                          " FROM TSPL_SCRAPSALE_DETAIL_RETURN SID inner join TSPL_SCRAPSALE_HEAD_RETURN SIH on SID.Document_No=SIH.Document_No " & _
-                          " left join TSPL_Customer_Invoice_Head ARH2 on SIH.Document_No=ARH2.AgainstScrapReturn " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                          " SELECT DISTINCT 'MS-SR' As Code ,'Misc Sale Return' as Name, " &
+                          " SIH.Document_No as [Document Code],convert(date,SIH.Created_Date,103)  as [Document Date],SIH.Cust_Code as [Customer Code]," &
+                          " ARH2.Document_No AS AR_DOC_NO,SIH.ispost as Status,(SIH.Amount_Less_Discount)*1 AS Sale_Amount " &
+                          " FROM TSPL_SCRAPSALE_DETAIL_RETURN SID inner join TSPL_SCRAPSALE_HEAD_RETURN SIH on SID.Document_No=SIH.Document_No " &
+                          " left join TSPL_Customer_Invoice_Head ARH2 on SIH.Document_No=ARH2.AgainstScrapReturn " &
                           " Where 2=2 and SIH.ispost=1 and convert(date,SIH.Created_Date,103) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -9033,8 +9019,8 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Transfer") = True) AndAlso (obj.Customer_Code_List Is Nothing OrElse clsCommon.myLen(clsCommon.GetMulcallString(obj.Customer_Code_List).Replace("'", "")) <= 0) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                      " SELECT DISTINCT 'Transfer'  As Code ,'Transfer' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],null as [Customer Code],null AS AR_DOC_NO,SIH.Status,SIH.Total_Amt_Less_Tax as Sale_Amount " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                      " SELECT DISTINCT 'Transfer'  As Code ,'Transfer' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date],null as [Customer Code],null AS AR_DOC_NO,SIH.Status,SIH.Total_Amt_Less_Tax as Sale_Amount " &
                       " FROM TSPL_TRANSFER_ORDER_DETAIL SID inner join TSPL_TRANSFER_ORDER_HEAD SIH ON SID.Document_No=SIH.Document_No where SIH.Status=1 and SIH.Transfer_Type <>'I' and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -9059,9 +9045,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Transfer Return") = True) AndAlso (obj.Customer_Code_List Is Nothing OrElse clsCommon.myLen(clsCommon.GetMulcallString(obj.Customer_Code_List).Replace("'", "")) <= 0) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT DISTINCT 'Transfer Return'  As Code ,'Transfer Return' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date], " & _
-                        " null as [Customer Code],null AS AR_DOC_NO,1 AS Status,SIH1.Total_Amt_Less_Tax as Sale_Amount FROM TSPL_TRANSFER_RETURN SIH " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT DISTINCT 'Transfer Return'  As Code ,'Transfer Return' As Name ,SIH.Document_No as [Document Code],SIH.Document_Date  as [Document Date], " &
+                        " null as [Customer Code],null AS AR_DOC_NO,1 AS Status,SIH1.Total_Amt_Less_Tax as Sale_Amount FROM TSPL_TRANSFER_RETURN SIH " &
                         " inner join TSPL_TRANSFER_ORDER_HEAD SIH1  ON SIH.Transfer_No=SIH1.Document_No where SIH1.Transfer_Type <>'I' and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
                 qry += " and SID.ITEM_CODE in (" + clsCommon.GetMulcallString(obj.Item_Code_List) + ") "
@@ -9085,10 +9071,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("MCC Transfer") = True) AndAlso (obj.Customer_Code_List Is Nothing OrElse clsCommon.myLen(clsCommon.GetMulcallString(obj.Customer_Code_List).Replace("'", "")) <= 0) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT DISTINCT 'MCC Transfer' As Code ,'MCC Transfer' As Name ,SIH.Chalan_NO as [Document Code], " & _
-                        " SIH.Dispatch_Date  as [Document Date],null as [Customer Code],null AS AR_DOC_NO,SIH.isPosted AS Status,SIH.Amount as Sale_Amount " & _
-                        " FROM  TSPL_MCC_Dispatch_Challan SIH " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT DISTINCT 'MCC Transfer' As Code ,'MCC Transfer' As Name ,SIH.Chalan_NO as [Document Code], " &
+                        " SIH.Dispatch_Date  as [Document Date],null as [Customer Code],null AS AR_DOC_NO,SIH.isPosted AS Status,SIH.Amount as Sale_Amount " &
+                        " FROM  TSPL_MCC_Dispatch_Challan SIH " &
                         " where SIH.isPosted=1 and CAST(SIH.Dispatch_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
 
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
@@ -9113,9 +9099,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("Tanker Dispatch Return") = True) AndAlso (obj.Customer_Code_List Is Nothing OrElse clsCommon.myLen(clsCommon.GetMulcallString(obj.Customer_Code_List).Replace("'", "")) <= 0) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT DISTINCT 'Tanker Dispatch Return' As Code ,'Tanker Dispatch Return' As Name ,SIH.Document_No as [Document Code]," & _
-                        " SIH.Document_Date  as [Document Date],null as [Customer Code],null AS AR_DOC_NO,1 as Status,SID.Amount as Sale_Amount FROM TSPL_MCC_Dispatch_Challan_Return SIH " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT DISTINCT 'Tanker Dispatch Return' As Code ,'Tanker Dispatch Return' As Name ,SIH.Document_No as [Document Code]," &
+                        " SIH.Document_Date  as [Document Date],null as [Customer Code],null AS AR_DOC_NO,1 as Status,SID.Amount as Sale_Amount FROM TSPL_MCC_Dispatch_Challan_Return SIH " &
                         " INNER JOIN TSPL_MCC_Dispatch_Challan SID ON SIH.CHALLAN_NO=SID.Chalan_NO where SID.isPosted=1 and CAST(SIH.Document_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
                 qry += " and SID.ITEM_CODE in (" + clsCommon.GetMulcallString(obj.Item_Code_List) + ") "
@@ -9139,10 +9125,10 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'End If
         End If
         If obj.Trans_Type_List IsNot Nothing AndAlso obj.Trans_Type_List.Count > 0 And (obj.Trans_Type_List.Contains("MCC Tanker Dispatch Return") = True) AndAlso (obj.Customer_Code_List Is Nothing OrElse clsCommon.myLen(clsCommon.GetMulcallString(obj.Customer_Code_List).Replace("'", "")) <= 0) Then
-            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine & _
-                        " SELECT DISTINCT 'MCC Tanker Dispatch Return' As Code ,'MCC Tanker Dispatch Return' As Name ,SIH.Return_NO as [Document Code], " & _
-                        " SIH.Return_Date  as [Document Date],null as [Customer Code],null AS AR_DOC_NO,SIH.isPosted AS Status,SIH.Amount as Sale_Amount " & _
-                        " FROM TSPL_MCC_Tanker_Dispatch_Return_head SIH INNER JOIN TSPL_MCC_Dispatch_Challan SID ON SIH.Chalan_No=SID.Chalan_NO " & _
+            qry = qry & " " & If(clsCommon.myLen(qry) > 0, " UNION ALL ", "") & "" + Environment.NewLine &
+                        " SELECT DISTINCT 'MCC Tanker Dispatch Return' As Code ,'MCC Tanker Dispatch Return' As Name ,SIH.Return_NO as [Document Code], " &
+                        " SIH.Return_Date  as [Document Date],null as [Customer Code],null AS AR_DOC_NO,SIH.isPosted AS Status,SIH.Amount as Sale_Amount " &
+                        " FROM TSPL_MCC_Tanker_Dispatch_Return_head SIH INNER JOIN TSPL_MCC_Dispatch_Challan SID ON SIH.Chalan_No=SID.Chalan_NO " &
                         " where SIH.isPosted=1 and CAST(SIH.Return_Date AS DATE) BETWEEN '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "'"
             If obj.Item_Code_List IsNot Nothing AndAlso obj.Item_Code_List.Count > 0 Then
                 qry += " and SID.ITEM_CODE in (" + clsCommon.GetMulcallString(obj.Item_Code_List) + ") "
@@ -9169,12 +9155,12 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
         If clsCommon.myLen(obj.Other_Cond) > 0 Then
             strSale += obj.Other_Cond
         End If
-        Dim qryAR As String = " select ARID.Document_No AS AR_Doc_No,ARIH.Document_Type,ARIH.Customer_Code,ARIH.Document_Date, " & _
-                              " JED.Voucher_No,JEH.Source_Doc_No,JEH.Voucher_Date,JED.Account_code,JED.Account_Desc,(case when JED.Amount>=0 then 1 else 0 end)*coalesce(ARID.Amount_less_Discount,(case when JED.Amount>=0 then null else 0 end))*(case when coalesce(ARIH.ConvRate,0)<=0 then 1 else coalesce(ARIH.ConvRate,0) end) as Sale_Amount_Debit,(case when JED.Amount<0 then -1 else 0 end)*coalesce(ARID.Amount_less_Discount,(case when JED.Amount<0 then null else 0 end))*(case when coalesce(ARIH.ConvRate,0)<=0 then 1 else coalesce(ARIH.ConvRate,0) end) as Sale_Amount_Credit,(case when JED.Amount>=0 then 1 else 0 end)*JED.Amount as Trial_Amount_Debit,(case when JED.Amount<0 then -1 else 0 end)*JED.Amount as Trial_Amount_Credit from TSPL_JOURNAL_DETAILS JED " & _
-                              " left JOIN TSPL_JOURNAL_MASTER JEH ON JEH.VOUCHER_NO=JED.VOUCHER_NO " & _
-                              " left join (select Document_No,GL_Account_Code,sum(Amount_less_Discount) as Amount_less_Discount from TSPL_Customer_Invoice_Detail group by Document_No,GL_Account_Code) ARID  on ARID.Document_No=JEH.Source_Doc_No AND ARID.GL_Account_Code=JED.Account_code " & _
-                              " left JOIN TSPL_Customer_Invoice_Head ARIH ON ARID.Document_No=ARIH.Document_No " & _
-                              " where 2=2 and JED.Reco_Control_Account ='S' " & _
+        Dim qryAR As String = " select ARID.Document_No AS AR_Doc_No,ARIH.Document_Type,ARIH.Customer_Code,ARIH.Document_Date, " &
+                              " JED.Voucher_No,JEH.Source_Doc_No,JEH.Voucher_Date,JED.Account_code,JED.Account_Desc,(case when JED.Amount>=0 then 1 else 0 end)*coalesce(ARID.Amount_less_Discount,(case when JED.Amount>=0 then null else 0 end))*(case when coalesce(ARIH.ConvRate,0)<=0 then 1 else coalesce(ARIH.ConvRate,0) end) as Sale_Amount_Debit,(case when JED.Amount<0 then -1 else 0 end)*coalesce(ARID.Amount_less_Discount,(case when JED.Amount<0 then null else 0 end))*(case when coalesce(ARIH.ConvRate,0)<=0 then 1 else coalesce(ARIH.ConvRate,0) end) as Sale_Amount_Credit,(case when JED.Amount>=0 then 1 else 0 end)*JED.Amount as Trial_Amount_Debit,(case when JED.Amount<0 then -1 else 0 end)*JED.Amount as Trial_Amount_Credit from TSPL_JOURNAL_DETAILS JED " &
+                              " left JOIN TSPL_JOURNAL_MASTER JEH ON JEH.VOUCHER_NO=JED.VOUCHER_NO " &
+                              " left join (select Document_No,GL_Account_Code,sum(Amount_less_Discount) as Amount_less_Discount from TSPL_Customer_Invoice_Detail group by Document_No,GL_Account_Code) ARID  on ARID.Document_No=JEH.Source_Doc_No AND ARID.GL_Account_Code=JED.Account_code " &
+                              " left JOIN TSPL_Customer_Invoice_Head ARIH ON ARID.Document_No=ARIH.Document_No " &
+                              " where 2=2 and JED.Reco_Control_Account ='S' " &
                               " and JEH.Voucher_Date between '" & clsCommon.GetPrintDate(obj.From_Date, "dd-MMM-yyyy") & "' and '" & clsCommon.GetPrintDate(obj.To_Date, "dd-MMM-yyyy") & "' "
 
         If obj.Acc_Code_List IsNot Nothing AndAlso obj.Acc_Code_List.Count > 0 AndAlso clsCommon.myLen(clsCommon.GetMulcallString(obj.Acc_Code_List).Replace("'", "")) > 0 Then
@@ -9184,16 +9170,16 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             qryAR += " and ARIH.Customer_Code in (" + clsCommon.GetMulcallString(obj.Customer_Code_List) + ") "
         End If
         ''RICHA 02 mAY,2019
-        qryAR = " SELECT AR_Doc_No,Document_Type,Customer_Code,Document_Date , Voucher_No ,MAX(Source_Doc_No) AS Source_Doc_No,MAX(Voucher_Date) AS Voucher_Date,Account_code,Account_Desc,MAX(Sale_Amount_Debit ) AS Sale_Amount_Debit,MAX(Sale_Amount_Credit) AS Sale_Amount_Credit,SUM(Trial_Amount_Debit) AS Trial_Amount_Debit,SUM(Trial_Amount_Credit) AS Trial_Amount_Credit FROM ( " & qryAR & ") " & _
+        qryAR = " SELECT AR_Doc_No,Document_Type,Customer_Code,Document_Date , Voucher_No ,MAX(Source_Doc_No) AS Source_Doc_No,MAX(Voucher_Date) AS Voucher_Date,Account_code,Account_Desc,MAX(Sale_Amount_Debit ) AS Sale_Amount_Debit,MAX(Sale_Amount_Credit) AS Sale_Amount_Credit,SUM(Trial_Amount_Debit) AS Trial_Amount_Debit,SUM(Trial_Amount_Credit) AS Trial_Amount_Credit FROM ( " & qryAR & ") " &
             "  XYZ GROUP BY XYZ.AR_DOC_NO,XYZ.SOURCE_DOC_NO,XYZ.Account_code,XYZ.Account_Desc  ,xyz.Document_Type ,xyz.Document_Date ,XYZ.Customer_Code ,XYZ.Voucher_No "
         ''---------------------- 
         Dim strRunFinalQry As String = ""
 
-        strRunFinalQry = "select Sale.[Document Code],convert(varchar,Sale.[Document Date],103) as [Document Date],Sale.Name as Trans_Type,Sale.[Customer Code],Cust.Customer_Name,Cust.Cust_Group_Code,Cust_Group.Cust_Group_Desc,coalesce(AR.AR_Doc_No,Sale.[Document Code]) as JE_Source_Doc_No,AR.Voucher_No,convert(varchar,AR.Voucher_Date,103) as Voucher_Date," & _
-            " AR.Account_Code,AR.Account_Desc,abs((case when Sale.Name like '%Return%' or coalesce(AR.Document_Type,'')='C' then abs(coalesce(AR.Sale_Amount_Debit,Sale.Sale_Amount)) else 0 end)) as Sale_Amount_Debit,abs((case when Sale.Name like '%Return%' or coalesce(AR.Document_Type,'')='C' then 0 else abs(coalesce(AR.Sale_Amount_Credit,Sale.Sale_Amount)) end)) as Sale_Amount_Credit,(abs((case when Sale.Name like '%Return%' or coalesce(AR.Document_Type,'')='C' then abs(coalesce(AR.Sale_Amount_Debit,Sale.Sale_Amount)) else 0 end))-abs((case when Sale.Name like '%Return%' or coalesce(AR.Document_Type,'')='C' then 0 else abs(coalesce(AR.Sale_Amount_Credit,Sale.Sale_Amount)) end))) as Net_Sale_Amount,abs(AR.Trial_Amount_Debit) as Trial_Amount_Debit,abs(AR.Trial_Amount_Credit) as Trial_Amount_Credit,(abs(AR.Trial_Amount_Debit)-abs(AR.Trial_Amount_Credit)) as Net_Trial_Amount,((abs(coalesce(AR.Sale_Amount_Debit,Sale.Sale_Amount))-abs(coalesce(AR.Sale_Amount_Credit,Sale.Sale_Amount)))-(abs(AR.Trial_Amount_Debit)-abs(AR.Trial_Amount_Credit))) as DiffAmount " & _
-            " from (" & qry & ") Sale " & _
-            " left join (" & qryAR & ") AR on COALESCE(Sale.AR_DOC_NO,Sale.[Document Code])=coalesce(AR.AR_Doc_No,AR.Source_Doc_No) " & _
-            " left join TSPL_CUSTOMER_MASTER Cust on Sale.[Customer Code]=Cust.Cust_Code " & _
+        strRunFinalQry = "select Sale.[Document Code],convert(varchar,Sale.[Document Date],103) as [Document Date],Sale.Name as Trans_Type,Sale.[Customer Code],Cust.Customer_Name,Cust.Cust_Group_Code,Cust_Group.Cust_Group_Desc,coalesce(AR.AR_Doc_No,Sale.[Document Code]) as JE_Source_Doc_No,AR.Voucher_No,convert(varchar,AR.Voucher_Date,103) as Voucher_Date," &
+            " AR.Account_Code,AR.Account_Desc,abs((case when Sale.Name like '%Return%' or coalesce(AR.Document_Type,'')='C' then abs(coalesce(AR.Sale_Amount_Debit,Sale.Sale_Amount)) else 0 end)) as Sale_Amount_Debit,abs((case when Sale.Name like '%Return%' or coalesce(AR.Document_Type,'')='C' then 0 else abs(coalesce(AR.Sale_Amount_Credit,Sale.Sale_Amount)) end)) as Sale_Amount_Credit,(abs((case when Sale.Name like '%Return%' or coalesce(AR.Document_Type,'')='C' then abs(coalesce(AR.Sale_Amount_Debit,Sale.Sale_Amount)) else 0 end))-abs((case when Sale.Name like '%Return%' or coalesce(AR.Document_Type,'')='C' then 0 else abs(coalesce(AR.Sale_Amount_Credit,Sale.Sale_Amount)) end))) as Net_Sale_Amount,abs(AR.Trial_Amount_Debit) as Trial_Amount_Debit,abs(AR.Trial_Amount_Credit) as Trial_Amount_Credit,(abs(AR.Trial_Amount_Debit)-abs(AR.Trial_Amount_Credit)) as Net_Trial_Amount,((abs(coalesce(AR.Sale_Amount_Debit,Sale.Sale_Amount))-abs(coalesce(AR.Sale_Amount_Credit,Sale.Sale_Amount)))-(abs(AR.Trial_Amount_Debit)-abs(AR.Trial_Amount_Credit))) as DiffAmount " &
+            " from (" & qry & ") Sale " &
+            " left join (" & qryAR & ") AR on COALESCE(Sale.AR_DOC_NO,Sale.[Document Code])=coalesce(AR.AR_Doc_No,AR.Source_Doc_No) " &
+            " left join TSPL_CUSTOMER_MASTER Cust on Sale.[Customer Code]=Cust.Cust_Code " &
             " left join TSPL_CUSTOMER_GROUP_MASTER Cust_Group on Cust.Cust_Group_Code=Cust_Group.Cust_Group_Code where 2=2 "
         If obj.Acc_Code_List IsNot Nothing AndAlso obj.Acc_Code_List.Count > 0 Then
             strRunFinalQry = strRunFinalQry & " AND coalesce(AR.Account_Code,'') in (" & clsCommon.GetMulcallString(obj.Acc_Code_List) & ") "
@@ -9510,11 +9496,11 @@ Public Class clsPSInvoiceHeadDetail
                 clsCommon.AddColumnsForChange(coll, "AssessableAmt", obj.AssessableAmt)
                 'clsCommon.AddColumnsForChange(coll, "Delivery_Code", obj.Delivery_Code, True)
 
-                Dim strSql As String = "select top 1 TSPL_ITEM_PRICE_MASTER.Price_Amount1 ,TSPL_ITEM_PRICE_MASTER.Price_Amount2 , " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Amount3 ,TSPL_ITEM_PRICE_MASTER.Price_Amount4 ,TSPL_ITEM_PRICE_MASTER.Price_Amount5 , " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Amount6 ,TSPL_ITEM_PRICE_MASTER.Price_Amount7 ,TSPL_ITEM_PRICE_MASTER.Price_Amount8 , " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Amount9 ,TSPL_ITEM_PRICE_MASTER.Price_Amount10 from TSPL_ITEM_PRICE_MASTER " & _
-            "where  TSPL_ITEM_PRICE_MASTER.Price_Code='" & obj.Price_code & "' and  TSPL_ITEM_PRICE_MASTER.Item_Code='" & obj.Item_Code & "' and  " & _
+                Dim strSql As String = "select top 1 TSPL_ITEM_PRICE_MASTER.Price_Amount1 ,TSPL_ITEM_PRICE_MASTER.Price_Amount2 , " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Amount3 ,TSPL_ITEM_PRICE_MASTER.Price_Amount4 ,TSPL_ITEM_PRICE_MASTER.Price_Amount5 , " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Amount6 ,TSPL_ITEM_PRICE_MASTER.Price_Amount7 ,TSPL_ITEM_PRICE_MASTER.Price_Amount8 , " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Amount9 ,TSPL_ITEM_PRICE_MASTER.Price_Amount10 from TSPL_ITEM_PRICE_MASTER " &
+            "where  TSPL_ITEM_PRICE_MASTER.Price_Code='" & obj.Price_code & "' and  TSPL_ITEM_PRICE_MASTER.Item_Code='" & obj.Item_Code & "' and  " &
             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Net=" & obj.MRP & " and TSPL_ITEM_PRICE_MASTER.UOM='" & obj.Unit_code & "' "
                 Dim dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(strSql, trans)
@@ -9579,10 +9565,10 @@ Public Class clsPSInvoiceHeadDetail
     End Function
 
     Public Shared Function GetBalanceSRNQty(ByVal strSRNCode As String, ByVal strICode As String, ByVal strCurrPINNo As String, ByVal strUOM As String, ByVal dblMRP As Double, ByVal dblAssessable As Double) As Double
-        Dim qry As String = "select SUM(qty * RI) as Balance from(  " & _
-            " select TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_SD_SALE_INVOICE_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code where TSPL_SD_SALE_INVOICE_DETAIL.Status=0 and TSPL_SD_SALE_INVOICE_HEAD.Status=1 and TSPL_SD_SALE_INVOICE_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SALE_INVOICE_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SALE_INVOICE_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " & _
-            " union all " & _
-            " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " & _
+        Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
+            " select TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_SD_SALE_INVOICE_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code where TSPL_SD_SALE_INVOICE_DETAIL.Status=0 and TSPL_SD_SALE_INVOICE_HEAD.Status=1 and TSPL_SD_SALE_INVOICE_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SALE_INVOICE_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SALE_INVOICE_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " &
+            " union all " &
+            " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " &
             " )Final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
     End Function

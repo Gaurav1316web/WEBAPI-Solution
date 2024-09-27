@@ -2308,6 +2308,7 @@ Public Class clsFixedParameterCode
     Public Const StopForRepeatedFATSNF As String = "Stop Repeat FAT SNF"
     Public Const SampleFONTSize As String = "Font Size"
     Public Const SMSPrefix As String = "SMS Prefix"
+    Public Const InstantSendTheSMS As String = "Instant Send The SMS"
     Public Const PickPendingMilkSRNinNextPaymentCycle As String = "Pick Pending Milk-SRN in Next Payment Cycle"
     '======================Preeti Gupta[29/12/2016]===========================
     Public Const TreatChequeClearDateAsRecoDate As String = "TreatChequeClearDateAsRecoDate"
@@ -3847,6 +3848,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SampleFONTSize, clsFixedParameterCode.SampleFONTSize, "15", "Milk sample of grid Font size")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkProcurementCounterOnEntryType, clsFixedParameterCode.BulkProcurementCounterOnEntryType, "0", "1:ON;0 OFF Prefixe Generation of Bulk Procurement")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.SMSPrefix, "SMS", "SMS Prefix")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.InstantSendTheSMS, "0", "1:ON;0:OFF Send SMS While saving in SMS table")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, "0", "1:ON;0 OFF In Milk Purchase Invoice Pick Pending SRN")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TreatChequeClearDateAsRecoDate, clsFixedParameterCode.TreatChequeClearDateAsRecoDate, "0", "1:ON;0 OFF Treat Cheque Clear Date As Reco Date")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BookWreckageFromSublocationOrSection, clsFixedParameterCode.BookWreckageFromSublocationOrSection, "1", "1:ON;0 OFF Book Wreckage From Sublocation/Section")
