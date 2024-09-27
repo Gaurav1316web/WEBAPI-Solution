@@ -2481,6 +2481,7 @@ Public Class clsUserMgtCode
     '=========================================Preeti===========
     Public Const frmLocationItemMapping As String = "Loc_ITM_MAP"
     Public Const frmDistributorRouteTagging As String = "DIS-R-T"
+    Public Const frmDailyDemand As String = "DAI-DEM"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"

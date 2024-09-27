@@ -191,6 +191,12 @@
     <Compile Include="Master\frmCustomerDeduction.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\frmDailyDemand.Designer.vb">
+      <DependentUpon>frmDailyDemand.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmDailyDemand.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmDistributorRouteTagging.Designer.vb">
       <DependentUpon>frmDistributorRouteTagging.vb</DependentUpon>
     </Compile>
@@ -868,6 +874,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmCustomerDeduction.resx">
       <DependentUpon>frmCustomerDeduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmDailyDemand.resx">
+      <DependentUpon>frmDailyDemand.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmDistributorRouteTagging.resx">
       <DependentUpon>frmDistributorRouteTagging.vb</DependentUpon>
