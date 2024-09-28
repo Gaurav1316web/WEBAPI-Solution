@@ -273,6 +273,12 @@
     <Compile Include="Report\frmCrateJaliReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\frmDailyDemandReport.Designer.vb">
+      <DependentUpon>frmDailyDemandReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDailyDemandReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\FrmDairySaleSchemeReport.Designer.vb">
       <DependentUpon>FrmDairySaleSchemeReport.vb</DependentUpon>
     </Compile>
@@ -914,6 +920,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmCrateJaliReport.resx">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailyDemandReport.resx">
+      <DependentUpon>frmDailyDemandReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmDairySaleSchemeReport.resx">
       <DependentUpon>FrmDairySaleSchemeReport.vb</DependentUpon>

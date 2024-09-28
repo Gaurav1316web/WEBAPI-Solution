@@ -2660,6 +2660,7 @@ Public Class clsUserMgtCode
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"
     Public Const frmDemandUploader As String = "DEM_UPL_TRN"
+    Public Const frmDailyDemandReport As String = "DAI-DE-RE"
 
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 

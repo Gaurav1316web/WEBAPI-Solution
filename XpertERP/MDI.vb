@@ -9089,6 +9089,11 @@ Public Class MDI
                     Case clsUserMgtCode.frmDailyDemand
                         frm = New frmDailyDemand()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDailyDemandReport
+                        frm = New frmDailyDemandReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
                     Case clsUserMgtCode.SaleIncentiveMaster
                         frm = New frmSaleIncentiveMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

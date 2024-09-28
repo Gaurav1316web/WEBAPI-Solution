@@ -2329,6 +2329,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDCSDEmandBooking, "DCS Demand", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBoothDispatch, "Booth Dispatch", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandUploader, "Demand Uploader", "1.36.02.30", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDailyDemandReport, "Daily Demand Report", "1.36.02.31", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         '' end of transaction
 
