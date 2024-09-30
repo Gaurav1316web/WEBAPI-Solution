@@ -2192,6 +2192,7 @@ Public Class clsUserMgtCode
     Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
     Public Const rptMilkPaymentSummary As String = "Milk-PS"
     Public Const rptMilkUnion As String = "UNN_MLK_RPT"
+    Public Const latestPaymentProcess As String = "LA_PA_PRS"
     Public Const rptCattleFeedSaleReport As String = "Cattle-F-S"
     Public Const rptTransferToSavingReport As String = "Tran-Sv-Rt"
     Public Const rptDcsPaymentReport As String = "Dcs-Pyt-Rpt"

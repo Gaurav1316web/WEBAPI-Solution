@@ -8500,6 +8500,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptMilkUnion
                         frm = New rptmilkunion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.latestPaymentProcess
+                        frm = New latestPaymentProcess
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptExeVersionReport
                         frm = New rptExeVersionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

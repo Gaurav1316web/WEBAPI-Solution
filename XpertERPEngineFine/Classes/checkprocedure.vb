@@ -2890,11 +2890,12 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.ModuleMilkUnion, "Milk Union", "1.49", clsUserMgtCode.ExpertERP, "M", 23)
         InsertDefaultValue(clsUserMgtCode.SubModuleMilkUnion, "Report", "1.49.03", clsUserMgtCode.ModuleMilkUnion, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptMilkUnion, "Milk Union Report", "1.49.03.01", clsUserMgtCode.SubModuleMilkUnion, 8)
-        InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "DBT Union Report", "1.49.03.02", clsUserMgtCode.SubModuleMilkUnion, 8)
-        InsertDefaultValue(clsUserMgtCode.frmDBTStatusAndLastDPTStatus, "DBT Status And Last DPT Status", "1.49.03.03", clsUserMgtCode.SubModuleMilkUnion, 8)
-        InsertDefaultValue(clsUserMgtCode.frmDBTApprovalStatus, "DBT Approval Status", "1.49.03.04", clsUserMgtCode.SubModuleMilkUnion, 8)
-        InsertDefaultValue(clsUserMgtCode.rptDBTNEFTPaymentDetailReport, "DBT NEFT Payment Detail Report", "1.49.03.05", clsUserMgtCode.SubModuleMilkUnion, 8)
-        InsertDefaultValue(clsUserMgtCode.rptExeVersionReport, "Exe Version Report", "1.49.03.06", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.latestPaymentProcess, "latest Payment Process", "1.49.03.02", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "DBT Union Report", "1.49.03.03", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDBTStatusAndLastDPTStatus, "DBT Status And Last DPT Status", "1.49.03.04", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDBTApprovalStatus, "DBT Approval Status", "1.49.03.05", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptDBTNEFTPaymentDetailReport, "DBT NEFT Payment Detail Report", "1.49.03.06", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptExeVersionReport, "Exe Version Report", "1.49.03.07", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

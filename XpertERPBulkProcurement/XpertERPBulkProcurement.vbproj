@@ -246,6 +246,12 @@
     <Compile Include="Milk Procurement\Report\frmDCSSavingLedger.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\latestPaymentProcess.Designer.vb">
+      <DependentUpon>latestPaymentProcess.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\latestPaymentProcess.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCCapacityUtilizationReport.Designer.vb">
       <DependentUpon>rptBMCCapacityUtilizationReport.vb</DependentUpon>
     </Compile>
@@ -952,6 +958,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\latestPaymentProcess.resx">
+      <DependentUpon>latestPaymentProcess.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptAutoMultipleAdditionDeduction.resx">
       <DependentUpon>rptAutoMultipleAdditionDeduction.vb</DependentUpon>
