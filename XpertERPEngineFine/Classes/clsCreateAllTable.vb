@@ -14213,6 +14213,7 @@ Public Class clsCreateAllTable
             coll.Add("Entry_UOM", "integer null")
             coll.Add("Entry_UOM_Mobile", "integer null")
             coll.Add("OTP_TYPE", "varchar(12) null references TSPL_PROGRAM_MASTER(Program_Code)")
+            coll.Add("SSO", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
