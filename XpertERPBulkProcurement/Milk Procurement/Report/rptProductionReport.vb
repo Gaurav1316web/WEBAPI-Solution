@@ -59,7 +59,7 @@ Public Class rptProductionReport
                     dtFinal.Merge(dt)
                 Next
             End If
-            gv1.DataSource = Not
+            gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
             gv1.GroupDescriptors.Clear()
