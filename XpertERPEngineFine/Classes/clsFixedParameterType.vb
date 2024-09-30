@@ -460,6 +460,7 @@ Public Class clsFixedParameterType
     Public Const AutoPOAtSRN As String = "AUTOPOATSRN"
     Public Const DisableShipToLocation As String = "Disable Ship_To_Location For (PO,PI,SRN)"
     Public Const AllowLargerItemCostThenVendorItemCost As String = "Allow Larger Item Cost Then Vendor Item Cost"
+    Public Const AcceptQtyWithoutConsiderRejectQty As String = "Accept Qty Without Consider Reject Qty"
     Public Const PurchasePickItemFromVendorItemDetails As String = "PurchasePickItemFromVendorItemDetails"
     Public Const PurchaseOneItemOneVendor As String = "PurchaseOneItemOneVendor"
     Public Const PostShipmentonAutoSTN As String = "PostShipmentonAutoSTN"
@@ -1832,6 +1833,7 @@ Public Class clsFixedParameterCode
     Public Const PurchasePickItemFromVendorItemDetails As String = "PurchasePickItemFromVendorItemDetails"
     Public Const PurchaseOneItemOneVendor As String = "PurchaseOneItemOneVendor"
     Public Const AllowLargerItemCostThenVendorItemCost As String = "AllowLargerItemCostThenVendorItemCost"
+    Public Const AcceptQtyWithoutConsiderRejectQty As String = "Accept Qty Without Consider Reject Qty"
     Public Const ShowGRN As String = "ShowGRN"
     Public Const SkipMRNGRNinCaseofMT As String = "SkipMRNGRNinCaseofMT"
     Public Const AutoGenerateMRN As String = "AutoGenerateMRN"
@@ -3300,6 +3302,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DisableShipToLocation, clsFixedParameterCode.DisableShipToLocation, "", "If Setting Is On Then Ship To Location Will be Inactive for Purchase Order, Purchase Invoice, SRN Otherwise Active")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowSingleInvoiceAgainstSingleOrder, clsFixedParameterCode.AllowSingleInvoiceAgainstSingleOrder, "0", "If This Setting Is On Then Only Single Sale Invoice can be Created against Single Sale Order")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowLargerItemCostThenVendorItemCost, clsFixedParameterCode.AllowLargerItemCostThenVendorItemCost, "", "If Setting Is On Then Item Price Will be accepted larger then vendor Item Price for  Purchase Invoice and SRN .It will only work when vendor item detail price is ON ")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AcceptQtyWithoutConsiderRejectQty, clsFixedParameterCode.AcceptQtyWithoutConsiderRejectQty, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, "", "If Setting Is On Then GRN (Gate Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, "", "If Setting Is On Then MRN (Material Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SkipMRNGRNinCaseofMT, clsFixedParameterCode.SkipMRNGRNinCaseofMT, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
@@ -5221,6 +5224,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.PurchasePickItemFromVendorItemDetails, clsFixedParameterCode.PurchasePickItemFromVendorItemDetails, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnMRN, clsFixedParameterType.IsQCColumnRequiredonMRN, clsFixedParameterCode.IsQCColumnRequiredonMRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnSRN, clsFixedParameterType.AllowLargerItemCostThenVendorItemCost, clsFixedParameterCode.AllowLargerItemCostThenVendorItemCost, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnSRN, clsFixedParameterType.AcceptQtyWithoutConsiderRejectQty, clsFixedParameterCode.AcceptQtyWithoutConsiderRejectQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnSRN, clsFixedParameterType.IsRateEditableOnSRN, clsFixedParameterCode.IsRateEditableOnSRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnSRN, clsFixedParameterType.AutoPOAtSRN, clsFixedParameterCode.AutoPOAtSRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnSRN, clsFixedParameterType.EnableRackBin, clsFixedParameterCode.EnableRackBin, EnumControlType.CheckBox)

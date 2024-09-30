@@ -179,6 +179,11 @@ Public Class frmDCSAdditionDeduction
                 ElseIf rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.IsChecked Then
                     obj.Applicable_DCS_Type = 8
                 End If
+
+                If obj.Applicable_DCS_Type <= 4 Then
+                    obj.Consider_Negative_Amt = chkNegativeAmt.Checked
+                End If
+
                 obj.Conversion = txtConvertsion.Value
                 If rbtnNatureTypeAddition.IsChecked Then
                     obj.Nature_Type = 0
@@ -215,6 +220,7 @@ Public Class frmDCSAdditionDeduction
                 Else
                     obj.Check_Saving_AC = 0
                 End If
+
                 obj.Applicable_Value = txtApplyValue.Value
                 obj.GL_Account = txtGLAccount.Value
                 obj.MappingCode = txtMappingCode.Value
@@ -312,7 +318,6 @@ Public Class frmDCSAdditionDeduction
                 chkDontGenerateDRCRNote.Checked = obj.Dont_Generate_DR_CR_Note
                 If obj.Check_Saving_AC > 0 Then
                     chkSavingAC.Checked = True
-
                     If obj.Check_Saving_AC = 1 Then
                         rbtnACExists.IsChecked = True
                     ElseIf obj.Check_Saving_AC = 2 Then
@@ -320,9 +325,8 @@ Public Class frmDCSAdditionDeduction
                     End If
                 Else
                     chkSavingAC.Checked = False
-
                 End If
-
+                chkNegativeAmt.Checked = obj.Consider_Negative_Amt
                 txtApplyValue.Value = obj.Applicable_Value
                 txtGLAccount.Value = obj.GL_Account
                 lblGLAcctName.Text = clsGLAccount.GetName(obj.GL_Account)
@@ -516,6 +520,7 @@ Public Class frmDCSAdditionDeduction
         rbtnACExists.Visible = False
         rbtnACNotExists.Visible = False
         txtConvertsion.Value = 1
+        chkNegativeAmt.Checked = False
     End Sub
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso rdbtnreset.Enabled Then
@@ -655,6 +660,7 @@ Public Class frmDCSAdditionDeduction
 
     Sub setGrpQtyUOM()
         grpQtyUOM.Visible = (clsCommon.CompairString(clsCommon.myCstr(cboApplyOn.SelectedValue), "0") = CompairStringResult.Equal)
+        chkNegativeAmt.Visible = (clsCommon.CompairString(clsCommon.myCstr(cboApplyOn.SelectedValue), "1") = CompairStringResult.Equal)
     End Sub
 
     Private Sub txtMilkType__My_Click(sender As Object, e As EventArgs) Handles txtMilkType._My_Click
@@ -672,9 +678,7 @@ Public Class frmDCSAdditionDeduction
         Else
             rbtnACExists.Visible = False
             rbtnACNotExists.Visible = False
-
         End If
-
     End Sub
 
     Private Sub txtExcludeDCS__My_Click(sender As Object, e As EventArgs) Handles txtExcludeDCS._My_Click

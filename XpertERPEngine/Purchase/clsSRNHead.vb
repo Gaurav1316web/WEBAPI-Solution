@@ -1214,10 +1214,10 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         Return True
     End Function
 
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String) As Boolean
+    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, Optional ByVal IsRejectQty As Boolean = False) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            PostData(FormId, strDocNo, trans, True)
+            PostData(FormId, strDocNo, trans, True, IsRejectQty)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -1225,7 +1225,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         End Try
         Return True
     End Function
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal IsapprovalRequired As Boolean, Optional ByVal strVoucherNoRecreateOnly As String = Nothing) As Boolean
+    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal IsapprovalRequired As Boolean, ByVal WithoutRejection As Boolean, Optional ByVal strVoucherNoRecreateOnly As String = Nothing) As Boolean
         ' Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim isSaved As Boolean = True
@@ -1343,7 +1343,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
                         ArrInventoryMovement.Add(objInventoryMovemnt)
 
-                        If objTr.Rejected_Qty > 0 AndAlso Not obj.is_Srn_rejQty_goes_in_Rejstore Then
+                        If objTr.Rejected_Qty > 0 AndAlso obj.is_Srn_rejQty_goes_in_Rejstore Then
                             Throw New Exception("Please apply rejection setting on SRN")
                         End If
 
@@ -1432,7 +1432,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 '=========end here================================================================================================================
             End If
 
-            CreateJournalEntry(obj, strVoucherNoRecreateOnly, trans)
+            CreateJournalEntry(obj, strVoucherNoRecreateOnly, trans, WithoutRejection)
 
             If obj.isJobWorkOutward = 1 Then
                 CreateAutoJobWorkTransferOut(trans, obj)
@@ -1918,7 +1918,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         Return True
     End Function
 
-    Public Shared Function CreateJournalEntry(ByVal obj As clsSRNHead, ByVal strVoucherNoRecreateOnly As String, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function CreateJournalEntry(ByVal obj As clsSRNHead, ByVal strVoucherNoRecreateOnly As String, ByVal trans As SqlTransaction, Optional ByVal WithoutRejection As Boolean = False) As Boolean
         Try
             Dim qry As String = ""
             Dim ArryLstGLAC As ArrayList = New ArrayList()
@@ -2016,23 +2016,31 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
 
                         ''4
-                        If objTr.Rejected_Amount > 0 Then
-                            Dim strRejectedAcc As String = clsCommon.myCstr(dt.Rows(0)("Other_1"))
-                            If clsCommon.myLen(strRejectedAcc) <= 0 Then
-                                Throw New Exception("Please set [Rejected Inventory Account] for Purchase Account set Code :" + clsCommon.myCstr(dt.Rows(0)("Purchase_Class_Code")) + " and Item: " + objTr.Item_Code + "(" + objTr.Item_Desc + ") ")
+                        If WithoutRejection = False Then
+                            If objTr.Rejected_Amount > 0 Then
+                                Dim strRejectedAcc As String = clsCommon.myCstr(dt.Rows(0)("Other_1"))
+                                If clsCommon.myLen(strRejectedAcc) <= 0 Then
+                                    Throw New Exception("Please set [Rejected Inventory Account] for Purchase Account set Code :" + clsCommon.myCstr(dt.Rows(0)("Purchase_Class_Code")) + " and Item: " + objTr.Item_Code + "(" + objTr.Item_Desc + ") ")
+                                End If
+                                strRejectedAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strRejectedAcc, IIf(clsCommon.myLen(obj.Ship_To_Location) > 0, obj.Ship_To_Location, obj.Bill_To_Location), trans)
+                                Dim AccDrRej() As String = {strRejectedAcc, Math.Round(objTr.Rejected_Amount, 2, MidpointRounding.ToEven)}
+                                ArryLstGLAC.Add(AccDrRej)
                             End If
-                            strRejectedAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strRejectedAcc, IIf(clsCommon.myLen(obj.Ship_To_Location) > 0, obj.Ship_To_Location, obj.Bill_To_Location), trans)
-                            Dim AccDrRej() As String = {strRejectedAcc, Math.Round(objTr.Rejected_Amount, 2, MidpointRounding.ToEven)}
-                            ArryLstGLAC.Add(AccDrRej)
                         End If
 
                         ''5
+                        Dim AccCr() As String = Nothing
                         Dim strPaybleCleanigCtrlAC As String = clsCommon.myCstr(dt.Rows(0)("Inv_Payable_Clearing"))
                         If clsCommon.myLen(strInvCtrlAC) <= 0 Then
                             Throw New Exception("Please set Payable Clearing Account for Purchase Account set Code :" + clsCommon.myCstr(dt.Rows(0)("Purchase_Class_Code")) + " and Item: " + objTr.Item_Code + "(" + objTr.Item_Desc + ") ")
                         End If
                         strPaybleCleanigCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleCleanigCtrlAC, IIf(clsCommon.myLen(obj.Ship_To_Location) > 0, obj.Ship_To_Location, obj.Bill_To_Location), trans)
-                        Dim AccCr() As String = {strPaybleCleanigCtrlAC, -1 * Math.Round(((objTr.Accepted_Amount + objTr.Leak_Amount + objTr.Burst_Amount + IIf(isAgainstTender, 0, objTr.Shortage_Amount) + objTr.Rejected_Amount)), 2, MidpointRounding.ToEven), "", "", "", "", "", "", "Y"}
+                        If WithoutRejection = False Then
+                            AccCr = {strPaybleCleanigCtrlAC, -1 * Math.Round(((objTr.Accepted_Amount + objTr.Leak_Amount + objTr.Burst_Amount + IIf(isAgainstTender, 0, objTr.Shortage_Amount) + objTr.Rejected_Amount)), 2, MidpointRounding.ToEven), "", "", "", "", "", "", "Y"}
+                        Else
+                            AccCr = {strPaybleCleanigCtrlAC, -1 * Math.Round(((objTr.Accepted_Amount + objTr.Leak_Amount + objTr.Burst_Amount + IIf(isAgainstTender, 0, objTr.Shortage_Amount))), 2, MidpointRounding.ToEven), "", "", "", "", "", "", "Y"}
+
+                        End If
                         ArryLstGLAC.Add(AccCr)
                         ''6
                         If clsCommon.myLen(obj.Ship_To_Location) > 0 Then

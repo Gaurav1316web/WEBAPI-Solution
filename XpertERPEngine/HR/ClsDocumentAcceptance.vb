@@ -190,7 +190,7 @@ Public Class ClsDocumentAcceptance
 
                     Dim objSRN As clsSRNHead = ConvertDAToSRN(obj2, trans)
                     objSRN.SaveData(objSRN, True, trans)
-                    clsSRNHead.PostData("", objSRN.SRN_No, trans, False)
+                    clsSRNHead.PostData("", objSRN.SRN_No, trans, False, Nothing)
 
                     qry = "Update TSPL_DOCUMENT_ACCEPTANCE_MT set SRN_No='" & objSRN.SRN_No & "' " & _
                      " where DocumentAcceptanceNo='" + strDocNo + "'"
@@ -200,7 +200,7 @@ Public Class ClsDocumentAcceptance
                 Else
                     Dim objSRN As clsSRNHead = ConvertDAToDirectSRN(obj, trans)
                     objSRN.SaveData(objSRN, True, trans)
-                    clsSRNHead.PostData("", objSRN.SRN_No, trans, False)
+                    clsSRNHead.PostData("", objSRN.SRN_No, trans, False, Nothing)
                     qry = "Update TSPL_DOCUMENT_ACCEPTANCE_MT set SRN_No='" & objSRN.SRN_No & "' " & _
                      " where DocumentAcceptanceNo='" + strDocNo + "'"
                     isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

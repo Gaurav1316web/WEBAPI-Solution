@@ -22,6 +22,7 @@ Public Class frmSRN
     Const ReportID As String = "SRNItemGrid"
     Public strSRNno As String = Nothing
     Public isVendorItemDetailSetting As Boolean = False
+    Public AcceptQtyWithoutReject As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
     Private isCellValueChangedTaxOpen As Boolean = False
     Dim iStxtTaxGroup_TxtChangedComplete As Boolean = True
@@ -404,6 +405,8 @@ Public Class frmSRN
 
         isItemfromVendorItemDetails = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchasePickItemFromVendorItemDetails, clsFixedParameterCode.PurchasePickItemFromVendorItemDetails, Nothing)) = 1, True, False)
         isVendorItemDetailSetting = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowLargerItemCostThenVendorItemCost, clsFixedParameterCode.AllowLargerItemCostThenVendorItemCost, Nothing)) = 1, True, False)
+        AcceptQtyWithoutReject = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AcceptQtyWithoutConsiderRejectQty, clsFixedParameterCode.AcceptQtyWithoutConsiderRejectQty, Nothing)) = 1, True, False)
+
         isPO_GRN_MRN_Editable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
         If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
             is_Load_MRN = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, Nothing)) = 1 And clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, Nothing)) = 1, True, False)
@@ -4964,10 +4967,18 @@ Public Class frmSRN
                         dblLandedRate = IIf(dblQty = 0, 0, dblLandedCost / dblQty)
                         gv1.Rows(ii).Cells(colLandedAmt).Value = Math.Round(dblLandedCost, 2)
                         gv1.Rows(ii).Cells(colLandedRate).Value = Math.Round(dblLandedRate, 4)
-                        gv1.Rows(ii).Cells(colAcceptedAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value), 2)
-                        gv1.Rows(ii).Cells(colRejectedAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedQty).Value), 2)
-                        gv1.Rows(ii).Cells(colLeakAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colLeakQty).Value), 2)
-                        gv1.Rows(ii).Cells(colBurstAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colBurstQty).Value), 2)
+                        If AcceptQtyWithoutReject Then
+                            gv1.Rows(ii).Cells(colAcceptedAmount).Value = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) * clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value), 2)
+                            gv1.Rows(ii).Cells(colRejectedAmount).Value = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) * clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedQty).Value), 2)
+                        Else
+                            gv1.Rows(ii).Cells(colRejectedAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedQty).Value), 2)
+                            gv1.Rows(ii).Cells(colAcceptedAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value), 2)
+                            gv1.Rows(ii).Cells(colLeakAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colLeakQty).Value), 2)
+                            gv1.Rows(ii).Cells(colBurstAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colBurstQty).Value), 2)
+                        End If
+
+
+
                         If chkShorategeIncludeInLandedCost.Checked Then
                             gv1.Rows(ii).Cells(colShortageAmount).Value = Math.Round(dblLandedRate * clsCommon.myCdbl(gv1.Rows(ii).Cells(colShortQty).Value), 2)
                         End If
@@ -4980,12 +4991,16 @@ Public Class frmSRN
                 dblTotalBurstAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colBurstAmount).Value)
             End If
         Next
-
-        lblAcceptedAmt.Text = clsCommon.myFormat(dblTotalAcceptedAmt)
-        lblRejectedAmt.Text = clsCommon.myFormat(dblTotalRejectedAmt)
-        lblShortageAmt.Text = clsCommon.myFormat(dblTotalShortageAmt)
-        lblLeakAmt.Text = clsCommon.myFormat(dblTotalLeakAmt)
-        lblBurstAmt.Text = clsCommon.myFormat(dblTotalBurstAmt)
+        If AcceptQtyWithoutReject Then
+            lblAcceptedAmt.Text = clsCommon.myFormat(dblTotalAcceptedAmt)
+            lblRejectedAmt.Text = clsCommon.myFormat(dblTotalRejectedAmt)
+        Else
+            lblAcceptedAmt.Text = clsCommon.myFormat(dblTotalAcceptedAmt)
+            lblRejectedAmt.Text = clsCommon.myFormat(dblTotalRejectedAmt)
+            lblShortageAmt.Text = clsCommon.myFormat(dblTotalShortageAmt)
+            lblLeakAmt.Text = clsCommon.myFormat(dblTotalLeakAmt)
+            lblBurstAmt.Text = clsCommon.myFormat(dblTotalBurstAmt)
+        End If
     End Sub
     Function GetNonRecoverableTax(ByVal rowNo As Integer) As Double
         Dim dblAdditionalAmt As Double = 0
@@ -6679,7 +6694,7 @@ Public Class frmSRN
                             End If
                         End If
                         '----------------------------------------------------------------
-                        If (clsSRNHead.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
+                        If (clsSRNHead.PostData(MyBase.Form_ID, txtDocNo.Value, AcceptQtyWithoutReject)) Then
                             msg = "Successfully Posted"
                             Dim autoclose As Boolean = False
                             Dim SHOWGRN As Boolean = False
