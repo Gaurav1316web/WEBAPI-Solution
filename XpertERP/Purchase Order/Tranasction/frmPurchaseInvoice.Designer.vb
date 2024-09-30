@@ -527,7 +527,7 @@ Partial Class frmPurchaseInvoice
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(974, 484)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1938,6 +1938,7 @@ Partial Class frmPurchaseInvoice
         Me.gv1.Size = New System.Drawing.Size(928, 54)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadLabel23
         '
@@ -2608,6 +2609,7 @@ Partial Class frmPurchaseInvoice
         Me.gv2.Size = New System.Drawing.Size(948, 296)
         Me.gv2.TabIndex = 4
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -2671,6 +2673,7 @@ Partial Class frmPurchaseInvoice
         Me.gvAC.Size = New System.Drawing.Size(602, 393)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
+        Me.gvAC.VarID = ""
         '
         'Panel2
         '
@@ -2742,6 +2745,7 @@ Partial Class frmPurchaseInvoice
         Me.gvACInsurance.Size = New System.Drawing.Size(335, 392)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
+        Me.gvACInsurance.VarID = ""
         '
         'RadPanel2
         '
@@ -3567,9 +3571,9 @@ Partial Class frmPurchaseInvoice
         '
         Me.TabDedDetail.Controls.Add(Me.SplitContainer3)
         Me.TabDedDetail.ItemSize = New System.Drawing.SizeF(95.0!, 22.0!)
-        Me.TabDedDetail.Location = New System.Drawing.Point(10, 35)
+        Me.TabDedDetail.Location = New System.Drawing.Point(10, 31)
         Me.TabDedDetail.Name = "TabDedDetail"
-        Me.TabDedDetail.Size = New System.Drawing.Size(953, 438)
+        Me.TabDedDetail.Size = New System.Drawing.Size(953, 442)
         Me.TabDedDetail.Text = "Deduction Detail"
         '
         'SplitContainer3
@@ -3586,8 +3590,8 @@ Partial Class frmPurchaseInvoice
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.gvAPInvoice)
-        Me.SplitContainer3.Size = New System.Drawing.Size(953, 438)
-        Me.SplitContainer3.SplitterDistance = 219
+        Me.SplitContainer3.Size = New System.Drawing.Size(953, 442)
+        Me.SplitContainer3.SplitterDistance = 221
         Me.SplitContainer3.TabIndex = 2
         '
         'gvDeduction
@@ -3611,9 +3615,10 @@ Partial Class frmPurchaseInvoice
         Me.gvDeduction.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDeduction.ShowGroupPanel = False
         Me.gvDeduction.ShowHeaderCellButtons = True
-        Me.gvDeduction.Size = New System.Drawing.Size(953, 219)
+        Me.gvDeduction.Size = New System.Drawing.Size(953, 221)
         Me.gvDeduction.TabIndex = 1
         Me.gvDeduction.TabStop = False
+        Me.gvDeduction.VarID = ""
         '
         'gvAPInvoice
         '
@@ -3636,9 +3641,10 @@ Partial Class frmPurchaseInvoice
         Me.gvAPInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAPInvoice.ShowGroupPanel = False
         Me.gvAPInvoice.ShowHeaderCellButtons = True
-        Me.gvAPInvoice.Size = New System.Drawing.Size(953, 215)
+        Me.gvAPInvoice.Size = New System.Drawing.Size(953, 217)
         Me.gvAPInvoice.TabIndex = 2
         Me.gvAPInvoice.TabStop = False
+        Me.gvAPInvoice.VarID = ""
         '
         'btnPrintInv
         '

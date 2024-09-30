@@ -312,6 +312,14 @@ Public Class MDI
         OLDshortDate = myCulture.DateTimeFormat.ShortDatePattern
         Microsoft.Win32.Registry.SetValue("HKEY_CURRENT_USER\Control Panel\International", "sShortDate", "dd/MM/yyyy")
         txtUserName.Focus()
+
+        Dim qry As String = "Select User_Code,Password from TSPL_USER_MASTER where User_Code='" + System.Environment.UserName + "' and isnull(SSO,0)=1"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, Nothing)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            txtUserName.Text = clsCommon.myCstr(dt.Rows(0)("User_Code"))
+            txtPassword.Text = clsCommon.DecryptString(clsCommon.myCstr(dt.Rows(0)("Password")))
+            CheckAndLogin()
+        End If
     End Sub
 
     Private Const LOCALE_USER_DEFAULT = &H400
@@ -8505,6 +8513,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptExeVersionReport
                         frm = New rptExeVersionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptProductionReport
+                        frm = New rptProductionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 

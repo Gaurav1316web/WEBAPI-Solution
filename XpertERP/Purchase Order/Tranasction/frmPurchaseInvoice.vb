@@ -8,6 +8,7 @@ Public Class frmPurchaseInvoice
     Private PurchaseModulePickFixTaxRate As Boolean = False
     Dim ShowCapexCodeandSubCode As Boolean = False
     Dim SkipJobWorkSRN As Boolean = False
+    Dim AcceptQtyWithoutReject As Boolean = False
     Public AllowModifcationByApprovalUser As Boolean = False
     Dim ShowMessageTDS As Boolean = False
     Dim qry As String
@@ -357,7 +358,7 @@ Public Class frmPurchaseInvoice
         AllowtoChangeTCSBaseAmountPurchase = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeTCSBaseAmountPurchase, clsFixedParameterCode.AllowtoChangeTCSBaseAmountPurchase, Nothing)) > 0)
         ItemCostTolerancePercentage = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ItemCostTolerancePercentage, clsFixedParameterCode.ItemCostTolerancePercentage, Nothing))
         ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
-
+        AcceptQtyWithoutReject = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AcceptQtyWithoutConsiderRejectQty, clsFixedParameterCode.AcceptQtyWithoutConsiderRejectQty, Nothing)) = 1, True, False)
         SettRateDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, Nothing))
         SettingAutoRoundOffSeprateAccountOnVendorTransaction = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoRoundOffSeprateAccountOnVendorTransaction, clsFixedParameterCode.AutoRoundOffSeprateAccountOnVendorTransaction, Nothing)) = 1)
         ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
@@ -4964,11 +4965,13 @@ Public Class frmPurchaseInvoice
                     End If
                 End If
                 dblTotalAcceptedAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colAcceptedAmount).Value)
-                dblTotalRejectedAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedAmount).Value)
+                If AcceptQtyWithoutReject = False Then
+                    dblTotalRejectedAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colRejectedAmount).Value)
+                End If
                 dblTotalShortageAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colShortageAmount).Value)
-                dblTotalLeakAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colLeakAmount).Value)
-                dblTotalBurstAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colBurstAmount).Value)
-            End If
+                    dblTotalLeakAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colLeakAmount).Value)
+                    dblTotalBurstAmt += clsCommon.myCdbl(gv1.Rows(ii).Cells(colBurstAmount).Value)
+                End If
         Next
 
         lblAcceptedAmt.Text = clsCommon.myFormat(dblTotalAcceptedAmt)
@@ -5981,7 +5984,7 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
                 ''
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
 
-                If (clsPurchaseInvoiceHead.PostData(MyBase.Form_ID, txtDocNo.Value, arrLoc)) Then
+                If (clsPurchaseInvoiceHead.PostData(MyBase.Form_ID, txtDocNo.Value, arrLoc, AcceptQtyWithoutReject)) Then
                     msg = "Successfully Posted"
                 Else
                     qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
@@ -6736,45 +6739,47 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLeakQty).Value = obj.Leak_Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBurstQty).Value = obj.Burst_Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colShortQty).Value = obj.Short_Qty
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRejectQty).Value = obj.Rejected_Qty
+                    If AcceptQtyWithoutReject = False Then
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRejectQty).Value = obj.Rejected_Qty
+                    End If
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDisType).Value = obj.Disc_Type
-                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
 
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingSRN.Load_discount_for_PI(obj.SRN_No, obj.Item_Code)
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingSRN.Load_discount_per_unit_for_PI(obj.SRN_No, obj.Item_Code)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingSRN.Load_discount_for_PI(obj.SRN_No, obj.Item_Code)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingSRN.Load_discount_per_unit_for_PI(obj.SRN_No, obj.Item_Code)
 
 
 
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
-                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colAssessableRate).Value = obj.Assessable
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = obj.Batch_No
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBinNo).Value = obj.Bin_No
-                    If obj.MFG_Date.HasValue Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colManufactureDate).Value = obj.MFG_Date
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
+                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colAssessableRate).Value = obj.Assessable
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = obj.Batch_No
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBinNo).Value = obj.Bin_No
+                        If obj.MFG_Date.HasValue Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colManufactureDate).Value = obj.MFG_Date
+                        End If
+                        If obj.Expiry_Date.HasValue Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colExpiry).Value = obj.Expiry_Date
+                        End If
+
+                        If obj.Is_Mannual_Amt = 1 Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIsMannualAmt).Value = obj.Is_Mannual_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = obj.Amount
+                        End If
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = obj.Header_Discount_Per
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementRate).Value = obj.AbatementRate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAssesableMRP).Value = obj.AssessableMRP
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalAssesableMRP).Value = obj.TotalAssessableMRP
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAgainstItemWiseTaxCode).Value = obj.Against_Item_Wise_Tax_Rate
+
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceApplyOn).Value = obj.Item_Insurance_Apply_On
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsurancePer).Value = obj.Item_Insurance_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceAmt).Value = obj.Item_Insurance_Amt
+                        If objCommonVar.RCDFCFP AndAlso Not ListSRN_No.Contains(obj.SRN_No) Then
+                            ListSRN_No.Add(obj.SRN_No)
+                        End If
                     End If
-                    If obj.Expiry_Date.HasValue Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colExpiry).Value = obj.Expiry_Date
-                    End If
-
-                    If obj.Is_Mannual_Amt = 1 Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsMannualAmt).Value = obj.Is_Mannual_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = obj.Amount
-                    End If
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = obj.Header_Discount_Per
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementRate).Value = obj.AbatementRate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAssesableMRP).Value = obj.AssessableMRP
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalAssesableMRP).Value = obj.TotalAssessableMRP
-
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAgainstItemWiseTaxCode).Value = obj.Against_Item_Wise_Tax_Rate
-
-
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceApplyOn).Value = obj.Item_Insurance_Apply_On
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsurancePer).Value = obj.Item_Insurance_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceAmt).Value = obj.Item_Insurance_Amt
-                    If objCommonVar.RCDFCFP AndAlso Not ListSRN_No.Contains(obj.SRN_No) Then
-                        ListSRN_No.Add(obj.SRN_No)
-                    End If
-                End If
             Next
         End If
         ''For Filling Additional Charges

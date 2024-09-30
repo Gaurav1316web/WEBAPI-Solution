@@ -1127,7 +1127,7 @@ Public Class clsApprovalAlert_Child
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSaleReturnProductSale) = CompairStringResult.Equal Then
                         isSaved = isSaved AndAlso clsPSSalesReturnHead.PostData(clsUserMgtCode.frmSaleReturnProductSale, obj.Document_Code, trans)
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnPurchaseInvoice) = CompairStringResult.Equal Then
-                        isSaved = isSaved AndAlso clsPurchaseInvoiceHead.PostData(clsUserMgtCode.mbtnPurchaseInvoice, obj.Document_Code, "", True, trans, False)
+                        isSaved = isSaved AndAlso clsPurchaseInvoiceHead.PostData(clsUserMgtCode.mbtnPurchaseInvoice, obj.Document_Code, "", True, trans, False, "")
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
                         isSaved = isSaved AndAlso clsPSSalesReturnHead.PostData(clsUserMgtCode.frmSaleReturndairy, obj.Document_Code, trans)
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.ReceiptEntry) = CompairStringResult.Equal Then
