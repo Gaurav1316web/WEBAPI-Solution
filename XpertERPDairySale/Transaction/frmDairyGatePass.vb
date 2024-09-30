@@ -1423,7 +1423,7 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
     Public Sub funPrint2(ByVal Code As String)
         Try
             If CreateGatePassFromDemand = True Then
-                frmDemandBooking.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+                frmDemandBooking.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"), Nothing, Nothing)
             Else
                 Dim dt2 As DataTable = Nothing
                 Dim subrptqry As String = ""
@@ -1472,7 +1472,7 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
     Public Sub funPrint(ByVal Code As String)
         Try
             If CreateGatePassFromDemand = True Then
-                frmDemandBooking.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+                frmDemandBooking.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"), Nothing, Nothing)
             Else
                 atchqry = GetAttachQry(Code)
                 Dim subrptqry As String = CrateInOut()

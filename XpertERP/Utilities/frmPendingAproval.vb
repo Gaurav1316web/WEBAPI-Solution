@@ -4768,7 +4768,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                     Try
                         clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
                         strDocNo = trnsLst.Item(j)
-                        clsPurchaseInvoiceHead.PostData("", strDocNo, "")
+                        clsPurchaseInvoiceHead.PostData("", strDocNo, "", Nothing)
                         countPostedDoc = countPostedDoc + 1 '  Added By [Pankaj Kumar]-for Counting Posted Documents, And Creating Error Record-18/06/2012
                     Catch ex As Exception
                         dr = DtError.NewRow()
