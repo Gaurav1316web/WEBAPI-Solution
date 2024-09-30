@@ -8503,6 +8503,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptExeVersionReport
                         frm = New rptExeVersionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptProductionReport
+                        frm = New rptProductionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
                     Case clsUserMgtCode.frmPaymentProcessFarmer
