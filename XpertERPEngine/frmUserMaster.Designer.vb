@@ -131,6 +131,7 @@ Partial Class FrmUserMaster
         Me.gvUser = New common.UserControls.MyRadGridView()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.chkSSO = New common.Controls.MyCheckBox()
         CType(Me.lblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUserType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -212,6 +213,7 @@ Partial Class FrmUserMaster
         CType(Me.gvUser.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSSO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -452,6 +454,7 @@ Partial Class FrmUserMaster
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.BackColor = System.Drawing.Color.Transparent
+        Me.RadGroupBox1.Controls.Add(Me.chkSSO)
         Me.RadGroupBox1.Controls.Add(Me.txtBulkRoute)
         Me.RadGroupBox1.Controls.Add(Me.chkHRAdmin)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel14)
@@ -500,7 +503,7 @@ Partial Class FrmUserMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(590, 431)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(601, 431)
         Me.RadGroupBox1.TabIndex = 0
         '
         'txtBulkRoute
@@ -518,7 +521,7 @@ Partial Class FrmUserMaster
         '
         'chkHRAdmin
         '
-        Me.chkHRAdmin.Location = New System.Drawing.Point(500, 135)
+        Me.chkHRAdmin.Location = New System.Drawing.Point(496, 135)
         Me.chkHRAdmin.MyLinkLable1 = Nothing
         Me.chkHRAdmin.MyLinkLable2 = Nothing
         Me.chkHRAdmin.Name = "chkHRAdmin"
@@ -1232,7 +1235,7 @@ Partial Class FrmUserMaster
         Me.txtUserName.ReferenceFieldDesc = Nothing
         Me.txtUserName.ReferenceFieldName = Nothing
         Me.txtUserName.ReferenceTableName = Nothing
-        Me.txtUserName.Size = New System.Drawing.Size(246, 20)
+        Me.txtUserName.Size = New System.Drawing.Size(202, 20)
         Me.txtUserName.TabIndex = 2
         '
         'fndUserCode
@@ -1566,6 +1569,7 @@ Partial Class FrmUserMaster
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCustomer.ShowGroupPanel = False
@@ -1573,6 +1577,7 @@ Partial Class FrmUserMaster
         Me.gvCustomer.Size = New System.Drawing.Size(698, 475)
         Me.gvCustomer.TabIndex = 1
         Me.gvCustomer.TabStop = False
+        Me.gvCustomer.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1599,6 +1604,7 @@ Partial Class FrmUserMaster
         Me.gvUser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUser.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUser.MyStopExport = False
         Me.gvUser.Name = "gvUser"
         Me.gvUser.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvUser.ShowGroupPanel = False
@@ -1606,6 +1612,7 @@ Partial Class FrmUserMaster
         Me.gvUser.Size = New System.Drawing.Size(698, 495)
         Me.gvUser.TabIndex = 2
         Me.gvUser.TabStop = False
+        Me.gvUser.VarID = ""
         '
         'btnGetHistory
         '
@@ -1625,6 +1632,17 @@ Partial Class FrmUserMaster
         Me.RadButton1.Size = New System.Drawing.Size(134, 23)
         Me.RadButton1.TabIndex = 3
         Me.RadButton1.Text = "Add Biometric Login"
+        '
+        'chkSSO
+        '
+        Me.chkSSO.Location = New System.Drawing.Point(533, 4)
+        Me.chkSSO.MyLinkLable1 = Nothing
+        Me.chkSSO.MyLinkLable2 = Nothing
+        Me.chkSSO.Name = "chkSSO"
+        Me.chkSSO.Size = New System.Drawing.Size(41, 18)
+        Me.chkSSO.TabIndex = 401
+        Me.chkSSO.Tag1 = Nothing
+        Me.chkSSO.Text = "SSO"
         '
         'FrmUserMaster
         '
@@ -1738,6 +1756,7 @@ Partial Class FrmUserMaster
         CType(Me.gvUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSSO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1846,5 +1865,6 @@ Partial Class FrmUserMaster
     Friend WithEvents MyLabel12 As Controls.MyLabel
     Friend WithEvents txtBulkRoute As UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel14 As Controls.MyLabel
+    Friend WithEvents chkSSO As Controls.MyCheckBox
 End Class
 

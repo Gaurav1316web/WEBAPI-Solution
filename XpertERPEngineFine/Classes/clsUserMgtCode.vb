@@ -2193,6 +2193,7 @@ Public Class clsUserMgtCode
     Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
     Public Const rptMilkPaymentSummary As String = "Milk-PS"
     Public Const rptMilkUnion As String = "UNN_MLK_RPT"
+    Public Const latestPaymentProcess As String = "LA_PA_PRS"
     Public Const rptCattleFeedSaleReport As String = "Cattle-F-S"
     Public Const rptTransferToSavingReport As String = "Tran-Sv-Rt"
     Public Const rptDcsPaymentReport As String = "Dcs-Pyt-Rpt"
@@ -2482,6 +2483,7 @@ Public Class clsUserMgtCode
     '=========================================Preeti===========
     Public Const frmLocationItemMapping As String = "Loc_ITM_MAP"
     Public Const frmDistributorRouteTagging As String = "DIS-R-T"
+    Public Const frmDailyDemand As String = "DAI-DEM"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"
@@ -2660,6 +2662,7 @@ Public Class clsUserMgtCode
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"
     Public Const frmDemandUploader As String = "DEM_UPL_TRN"
+    Public Const frmDailyDemandReport As String = "DAI-DE-RE"
 
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 

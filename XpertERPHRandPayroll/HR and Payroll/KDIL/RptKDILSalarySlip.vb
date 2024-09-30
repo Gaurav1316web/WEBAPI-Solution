@@ -64,6 +64,9 @@ Public Class RptKDILSalarySlip
     '==========Update by preeti gupta Against ticket no[MIL/17/04/19-000064,BHA/07/05/19-000882]
     Sub PrintData()
         Try
+            Dim LocAddress As String = ""
+            Dim dtsub As DataTable = Nothing
+            Dim dtsub2 As DataTable = Nothing
             If clsCommon.myLen(txtFromPP.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
                 Return
@@ -255,7 +258,55 @@ Public Class RptKDILSalarySlip
                     End If
 
                     Dim dt4 As DataTable = clsDBFuncationality.GetDataTable(Qry)
-
+                    Dim qrySub As String = " select '" + objCommonVar.CurrentUser + "' As PrintBy,Logo_Img,* from( SELECT  '" & LocAddress & "' as  Location_Desc,T2.PAY_PERIOD_CODE,T3.PAY_HEAD_NAME AS EARNING_HEAD,SUM(T1.ACTUAL_AMOUNT) AS EARNING_AMOUNT  ,max(TSPL_EMPLOYEE_MASTER.Comp_Code)as  Comp_Code FROM TSPL_GENERATE_SALARY_PAYHEADS T1 
+                                            INNER JOIN  TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE  
+                                            INNER JOIN TSPL_PAYHEAD_MASTER T3 ON T1.PAY_HEAD_CODE=T3.PAY_HEAD_CODE  
+                                            left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =T2.LOCATION_CODE 
+                                            Left Outer Join TSPL_EMPLOYEE_MASTER On TSPL_EMPLOYEE_MASTER.EMP_CODE =t1.EMP_CODE  
+                                            WHERE T2.PAY_PERIOD_CODE='" & txtFromPP.Value & "' AND T3.ISEARNING=1 and T1.ACTUAL_AMOUNT>0  GROUP BY T2.PAY_PERIOD_CODE,T3.PAY_HEAD_NAME  )as t   
+                                            left join TSPL_company_Master on TSPL_company_Master.comp_Code=t.Comp_Code"
+                    Dim qrySub2 As String = " select '" + objCommonVar.CurrentUser + "' As PrintBy,Logo_Img,* from( SELECT  '" & LocAddress & "' as  Location_Desc,T2.PAY_PERIOD_CODE,T3.PAY_HEAD_NAME AS EARNING_HEAD,SUM(T1.ACTUAL_AMOUNT) AS EARNING_AMOUNT  ,max(TSPL_EMPLOYEE_MASTER.Comp_Code)as  Comp_Code FROM TSPL_GENERATE_SALARY_PAYHEADS T1 
+                                            INNER JOIN  TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE=T2.SALARY_GENERATION_CODE  
+                                            INNER JOIN TSPL_PAYHEAD_MASTER T3 ON T1.PAY_HEAD_CODE=T3.PAY_HEAD_CODE  
+                                            left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =T2.LOCATION_CODE 
+                                            Left Outer Join TSPL_EMPLOYEE_MASTER On TSPL_EMPLOYEE_MASTER.EMP_CODE =t1.EMP_CODE  
+                                            WHERE T2.PAY_PERIOD_CODE='" & txtFromPP.Value & "' AND T3.ISEARNING=0 and T1.ACTUAL_AMOUNT>0  GROUP BY T2.PAY_PERIOD_CODE,T3.PAY_HEAD_NAME  )as t   
+                                            left join TSPL_company_Master on TSPL_company_Master.comp_Code=t.Comp_Code"
+                    'Dim qrySub As String = "select * from (
+                    '                        SELECT '" & LocAddress & "' AS Location_Desc,
+                    '                               T2.PAY_PERIOD_CODE,
+                    '                           '' as DEDUCTION_HEAD,
+                    '                           0 as DEDUCTION_AMOUNT,
+                    '                               T3.PAY_HEAD_NAME AS EARNING_HEAD,
+                    '                               SUM(T1.ACTUAL_AMOUNT) AS EARNING_AMOUNT,
+                    '                               MAX(TSPL_EMPLOYEE_MASTER.Comp_Code) AS Comp_Code
+                    '                        FROM TSPL_GENERATE_SALARY_PAYHEADS T1
+                    '                        INNER JOIN TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE = T2.SALARY_GENERATION_CODE
+                    '                        INNER JOIN TSPL_PAYHEAD_MASTER T3 ON T1.PAY_HEAD_CODE = T3.PAY_HEAD_CODE
+                    '                        LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = T2.LOCATION_CODE
+                    '                        LEFT OUTER JOIN TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE = T1.EMP_CODE
+                    '                        WHERE T2.PAY_PERIOD_CODE = '" & txtFromPP.Value & "' 
+                    '                        AND T3.ISEARNING = 1
+                    '                        GROUP BY T2.PAY_PERIOD_CODE, T3.PAY_HEAD_NAME
+                    '                        UNION all
+                    '                        SELECT '" & LocAddress & "' AS Location_Desc,
+                    '                               T2.PAY_PERIOD_CODE,
+                    '                               T3.PAY_HEAD_NAME AS Deduction_HEAD,
+                    '                               SUM(T1.ACTUAL_AMOUNT) AS Deduction_AMOUNT,
+                    '                         '' as EARNING_HEAD,
+                    '                         0 as EARNING_AMOUNT,
+                    '                               MAX(TSPL_EMPLOYEE_MASTER.Comp_Code) AS Comp_Code
+                    '                        FROM TSPL_GENERATE_SALARY_PAYHEADS T1
+                    '                        INNER JOIN TSPL_GENERATE_SALARY T2 ON T1.SALARY_GENERATION_CODE = T2.SALARY_GENERATION_CODE
+                    '                        INNER JOIN TSPL_PAYHEAD_MASTER T3 ON T1.PAY_HEAD_CODE = T3.PAY_HEAD_CODE
+                    '                        LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = T2.LOCATION_CODE
+                    '                        LEFT OUTER JOIN TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE = T1.EMP_CODE
+                    '                        WHERE T2.PAY_PERIOD_CODE = '" & txtFromPP.Value & "' 
+                    '                        AND T3.ISEARNING = 0
+                    '                        GROUP BY T2.PAY_PERIOD_CODE, T3.PAY_HEAD_NAME
+                    '                     )yy"
+                    dtsub = clsDBFuncationality.GetDataTable(qrySub)
+                    dtsub2 = clsDBFuncationality.GetDataTable(qrySub2)
 
                     '===============================
                     Dim MyDataRow As DataRow
@@ -411,7 +462,7 @@ Public Class RptKDILSalarySlip
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                         frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1_CHU", "Employee Salary Slip Report")
                     Else
-                        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report")
+                        frmcrystal.funsubreportWithdt(CrystalReportFolder.HRPayroll, dtFinal, dtsub, "crptKDILSalarySlipFormat1", "Employee Salary Slip Report", "CrpSalaryAbstractReport", "subDeductionReport", dtsub2)
                     End If
                     frmcrystal = Nothing
                 Else

@@ -96,6 +96,7 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.chkNegativeAmt = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -166,6 +167,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkNegativeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -180,6 +182,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkNegativeAmt)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkDontGenerateDRCRNote)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkApplyFormula)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel12)
@@ -1221,6 +1224,15 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
+        'chkNegativeAmt
+        '
+        Me.chkNegativeAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkNegativeAmt.Location = New System.Drawing.Point(263, 363)
+        Me.chkNegativeAmt.Name = "chkNegativeAmt"
+        Me.chkNegativeAmt.Size = New System.Drawing.Size(183, 16)
+        Me.chkNegativeAmt.TabIndex = 389
+        Me.chkNegativeAmt.Text = "Consider SRN Negative Amount"
+        '
         'frmDCSAdditionDeduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1309,6 +1321,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkNegativeAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1388,4 +1401,5 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents rbtnDCSTypeDCSTruckSheetMultipleDays As common.Controls.MyRadioButton
     Friend WithEvents chkDontGenerateDRCRNote As RadCheckBox
     Friend WithEvents rbtnDCSTypeDCSTruckSheetMultipleDaysDetail As common.Controls.MyRadioButton
+    Friend WithEvents chkNegativeAmt As RadCheckBox
 End Class
