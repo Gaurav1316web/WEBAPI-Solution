@@ -1250,6 +1250,7 @@ Public Class clsFixedParameterType
     Public Const ApplyTolerance = "ApplyTolerance"
     Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
+    Public Const AllowToSelectShift = "Allow To Select Shift"
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
     Public Const EnableLocation = "EnableLocation"
     Public Const EnableResetDemand = "EnableResetDemand"
@@ -2660,6 +2661,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyTolerance = "ApplyTolerance"
     Public Const ApplyOrderByNumeric = "ApplyOrderByNumeric"
     Public Const SetShiftTimeOut = "SetShiftTimeOut"
+    Public Const AllowToSelectShift = "Allow To Select Shift"
     Public Const ApplyRoundOffZero = "ApplyRoundOffZero"
     Public Const EnableLocation = "EnableLocation"
     Public Const EnableResetDemand = "EnableResetDemand"
@@ -4243,6 +4245,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, "0", "Enter Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, "10:05 AM", "Enter Shift Time Out")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToSelectShift, clsFixedParameterCode.AllowToSelectShift, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, "0", "0:Off, 1:On;")
@@ -6037,6 +6040,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPriceChartBulkProc, clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, clsFixedParameterType.AllowToSelectShift, clsFixedParameterCode.AllowToSelectShift, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRouteMasterDS, clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, EnumControlType.CheckBox)
