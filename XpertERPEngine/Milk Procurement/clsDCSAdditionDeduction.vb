@@ -30,6 +30,7 @@ Public Class clsDCSAdditionDeduction
     Public Check_Saving_AC As Integer = 0
     Public Conversion As Decimal = 0
     Public Dont_Generate_DR_CR_Note As Boolean
+    Public Consider_Negative_Amt As Boolean
     Public Arr As ArrayList = Nothing
     Public ArrDCSExclude As ArrayList = Nothing
 #End Region
@@ -83,6 +84,7 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Subtract", IIf(obj.Subtract, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Apply_Formula", IIf(obj.Apply_Formula, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Dont_Generate_DR_CR_Note", IIf(obj.Dont_Generate_DR_CR_Note, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Consider_Negative_Amt", IIf(obj.Consider_Negative_Amt, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Check_Saving_AC", obj.Check_Saving_AC)
@@ -238,6 +240,7 @@ Public Class clsDCSAdditionDeduction
             obj.Subtract = IIf(clsCommon.myCdbl(dt.Rows(0)("Subtract")) = 1, True, False)
             obj.Apply_Formula = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Formula")) = 1, True, False)
             obj.Dont_Generate_DR_CR_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Dont_Generate_DR_CR_Note")) = 1, True, False)
+            obj.Consider_Negative_Amt = IIf(clsCommon.myCdbl(dt.Rows(0)("Consider_Negative_Amt")) = 1, True, False)
             obj.Check_Saving_AC = clsCommon.myCdbl(dt.Rows(0)("Check_Saving_AC"))
             obj.Conversion = clsCommon.myCdbl(dt.Rows(0)("Conversion"))
 
