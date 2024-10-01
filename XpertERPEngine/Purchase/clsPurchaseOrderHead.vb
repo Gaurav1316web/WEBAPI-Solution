@@ -8,7 +8,7 @@ Imports Telerik.WinControls
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.IO
 
-<Serializable()> _
+<Serializable()>
 Public Class clsPurchaseOrderHead
     Implements ICloneable
 #Region "Variables"
@@ -5648,52 +5648,52 @@ a:
             " from TSPL_PURCHASE_ORDER_DETAIL " & Environment.NewLine +
             " left outer join TSPL_PURCHASE_ORDER_HEAD  on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No =TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                    strQuery += "   left outer join TSPL_TENDER_HEADER  on TSPL_TENDER_HEADER.DocumentCode =TSPL_PURCHASE_ORDER_HEAD.RefTendorNo"
-             END If
-        strQuery +=
-            " left outer join tspl_Gl_segment_code on tspl_Gl_segment_code.Segment_code=TSPL_PURCHASE_ORDER_HEAD.Dept and tspl_Gl_segment_code.Seg_No=3 " & Environment.NewLine +
-            " Left Outer Join TSPL_VENDOR_ITEM_DETAIL ON TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_PURCHASE_ORDER_DETAIL.Item_Code AND TSPL_VENDOR_ITEM_DETAIL.vendor_code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code AND TSPL_VENDOR_ITEM_DETAIL.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine +
-            " left outer join TSPL_REQUISITION_HEAD on TSPL_REQUISITION_HEAD.Requisition_Id=TSPL_PURCHASE_ORDER_HEAD.Against_Requisition" & Environment.NewLine +
-            " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1" & Environment.NewLine +
-            " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_PURCHASE_ORDER_HEAD.tax2" & Environment.NewLine +
-            " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .TAX3" & Environment.NewLine +
-            " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_PURCHASE_ORDER_HEAD .tax4" & Environment.NewLine +
-            " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .tax5" & Environment.NewLine +
-            " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX6" & Environment.NewLine +
-            " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX7" & Environment.NewLine +
-            " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX8" & Environment.NewLine +
-            " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX9" & Environment.NewLine +
-            " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX10" & Environment.NewLine +
-            " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_PURCHASE_ORDER_HEAD.comp_code" & Environment.NewLine +
-            " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_PURCHASE_ORDER_HEAD.Vendor_Code" & Environment.NewLine +
-            " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine +
-            " left outer join TSPL_SHIP_TO_LOCATION on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =TSPL_SHIP_TO_LOCATION.Ship_To_Code" & Environment.NewLine +
-            " left outer join TSPL_TERMS_MASTER on TSPL_PURCHASE_ORDER_HEAD.Terms_Code =TSPL_TERMS_MASTER.Terms_Code " & Environment.NewLine +
-            " left join tspl_currency_master on tspl_currency_master.CURRENCY_CODE =TSPL_PURCHASE_ORDER_HEAD.CURRENCY_CODE" & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate1 on taxRate1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1 and taxRate1.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX1_Rate and taxRate1.Tax_Type='P' " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate2 on taxRate2.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax2 and taxRate2.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX2_Rate and taxRate2.Tax_Type='P'  " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate3 on taxRate3.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax3 and taxRate3.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX3_Rate and taxRate3.Tax_Type='P'  " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate4 on taxRate4.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax4 and taxRate4.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX4_Rate and taxRate4.Tax_Type='P' " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate5 on taxRate5.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax5 and taxRate5.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX5_Rate and taxRate5.Tax_Type='P' " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate6 on taxRate6.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax6 and taxRate6.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX6_Rate and taxRate6.Tax_Type='P' " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate7 on taxRate7.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax7 and taxRate7.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX7_Rate and taxRate7.Tax_Type='P'  " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate8 on taxRate8.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax8 and taxRate8.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX8_Rate and taxRate8.Tax_Type='P' " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate9 on taxRate9.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax9 and taxRate9.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX9_Rate and taxRate9.Tax_Type='P'  " & Environment.NewLine +
-            " left outer join TSPL_TAX_rates as taxRate10 on taxRate10.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax10 and taxRate10.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX10_Rate and taxRate10.Tax_Type='P'    " & Environment.NewLine +
-             " left outer join tspl_delivery_terms_master on tspl_delivery_terms_master.code=TSPL_PURCHASE_ORDER_HEAD.Delivery_Terms_Code" & Environment.NewLine +
-            " left outer join tspl_state_master as tspl_state_master_for_location_state on   tspl_state_master_for_location_state.state_code=tspl_location_master.state" & Environment.NewLine +
-             " left outer join TSPL_EX_PI_HEAD  on TSPL_EX_PI_HEAD.Document_Code =TSPL_PURCHASE_ORDER_HEAD.MT_PI_No" & Environment.NewLine +
-             " left outer join TSPL_CURRENCY_MASTER as CurrencyMaster on CurrencyMaster.CURRENCY_CODE =TSPL_VENDOR_MASTER.CURRENCY_CODE" & Environment.NewLine +
-             " left outer join TSPL_USER_MASTER as createdUser on createdUser.User_Code =TSPL_PURCHASE_ORDER_HEAD.Created_By " & Environment.NewLine +
-              " left outer join TSPL_USER_MASTER as ModifyUser on ModifyUser.User_Code =TSPL_PURCHASE_ORDER_HEAD.Modify_By " & Environment.NewLine +
-              " left outer join TSPL_USER_MASTER as PostedUser  on   PostedUser.User_Code =   TSPL_PURCHASE_ORDER_HEAD.Posted_By   " & Environment.NewLine +
-                "left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_FOR_VENDOR ON TSPL_VENDOR_MASTER.State_Code=TSPL_STATE_MASTER_FOR_VENDOR.STATE_CODE " & Environment.NewLine +
-                "LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & Environment.NewLine +
-                " left outer join TSPL_VENDOR_QUOTATION_HEAD on TSPL_VENDOR_QUOTATION_HEAD.Code = TSPL_PURCHASE_ORDER_HEAD.Against_Vendor_Quotation " & Environment.NewLine +
-                "left outer join tspl_location_master as Ship_Location on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =Ship_Location.location_code  " & Environment.NewLine +
-                " left outer join TSPL_Additional_Charges on TSPL_Additional_Charges.Code = TSPL_PURCHASE_ORDER_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Row_Type='Misc' " & Environment.NewLine +
-            " where 2=2"
-        strQuery += " and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No in ('" + StrDocNo + "') "
+                strQuery += "   left outer join TSPL_TENDER_HEADER  on TSPL_TENDER_HEADER.DocumentCode =TSPL_PURCHASE_ORDER_HEAD.RefTendorNo"
+            End If
+            strQuery +=
+                " left outer join tspl_Gl_segment_code on tspl_Gl_segment_code.Segment_code=TSPL_PURCHASE_ORDER_HEAD.Dept and tspl_Gl_segment_code.Seg_No=3 " & Environment.NewLine +
+                " Left Outer Join TSPL_VENDOR_ITEM_DETAIL ON TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_PURCHASE_ORDER_DETAIL.Item_Code AND TSPL_VENDOR_ITEM_DETAIL.vendor_code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code AND TSPL_VENDOR_ITEM_DETAIL.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine +
+                " left outer join TSPL_REQUISITION_HEAD on TSPL_REQUISITION_HEAD.Requisition_Id=TSPL_PURCHASE_ORDER_HEAD.Against_Requisition" & Environment.NewLine +
+                " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1" & Environment.NewLine +
+                " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_PURCHASE_ORDER_HEAD.tax2" & Environment.NewLine +
+                " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .TAX3" & Environment.NewLine +
+                " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_PURCHASE_ORDER_HEAD .tax4" & Environment.NewLine +
+                " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .tax5" & Environment.NewLine +
+                " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX6" & Environment.NewLine +
+                " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX7" & Environment.NewLine +
+                " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX8" & Environment.NewLine +
+                " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX9" & Environment.NewLine +
+                " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX10" & Environment.NewLine +
+                " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_PURCHASE_ORDER_HEAD.comp_code" & Environment.NewLine +
+                " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_PURCHASE_ORDER_HEAD.Vendor_Code" & Environment.NewLine +
+                " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine +
+                " left outer join TSPL_SHIP_TO_LOCATION on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =TSPL_SHIP_TO_LOCATION.Ship_To_Code" & Environment.NewLine +
+                " left outer join TSPL_TERMS_MASTER on TSPL_PURCHASE_ORDER_HEAD.Terms_Code =TSPL_TERMS_MASTER.Terms_Code " & Environment.NewLine +
+                " left join tspl_currency_master on tspl_currency_master.CURRENCY_CODE =TSPL_PURCHASE_ORDER_HEAD.CURRENCY_CODE" & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate1 on taxRate1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1 and taxRate1.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX1_Rate and taxRate1.Tax_Type='P' " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate2 on taxRate2.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax2 and taxRate2.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX2_Rate and taxRate2.Tax_Type='P'  " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate3 on taxRate3.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax3 and taxRate3.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX3_Rate and taxRate3.Tax_Type='P'  " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate4 on taxRate4.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax4 and taxRate4.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX4_Rate and taxRate4.Tax_Type='P' " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate5 on taxRate5.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax5 and taxRate5.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX5_Rate and taxRate5.Tax_Type='P' " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate6 on taxRate6.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax6 and taxRate6.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX6_Rate and taxRate6.Tax_Type='P' " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate7 on taxRate7.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax7 and taxRate7.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX7_Rate and taxRate7.Tax_Type='P'  " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate8 on taxRate8.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax8 and taxRate8.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX8_Rate and taxRate8.Tax_Type='P' " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate9 on taxRate9.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax9 and taxRate9.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX9_Rate and taxRate9.Tax_Type='P'  " & Environment.NewLine +
+                " left outer join TSPL_TAX_rates as taxRate10 on taxRate10.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax10 and taxRate10.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX10_Rate and taxRate10.Tax_Type='P'    " & Environment.NewLine +
+                 " left outer join tspl_delivery_terms_master on tspl_delivery_terms_master.code=TSPL_PURCHASE_ORDER_HEAD.Delivery_Terms_Code" & Environment.NewLine +
+                " left outer join tspl_state_master as tspl_state_master_for_location_state on   tspl_state_master_for_location_state.state_code=tspl_location_master.state" & Environment.NewLine +
+                 " left outer join TSPL_EX_PI_HEAD  on TSPL_EX_PI_HEAD.Document_Code =TSPL_PURCHASE_ORDER_HEAD.MT_PI_No" & Environment.NewLine +
+                 " left outer join TSPL_CURRENCY_MASTER as CurrencyMaster on CurrencyMaster.CURRENCY_CODE =TSPL_VENDOR_MASTER.CURRENCY_CODE" & Environment.NewLine +
+                 " left outer join TSPL_USER_MASTER as createdUser on createdUser.User_Code =TSPL_PURCHASE_ORDER_HEAD.Created_By " & Environment.NewLine +
+                  " left outer join TSPL_USER_MASTER as ModifyUser on ModifyUser.User_Code =TSPL_PURCHASE_ORDER_HEAD.Modify_By " & Environment.NewLine +
+                  " left outer join TSPL_USER_MASTER as PostedUser  on   PostedUser.User_Code =   TSPL_PURCHASE_ORDER_HEAD.Posted_By   " & Environment.NewLine +
+                    "left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_FOR_VENDOR ON TSPL_VENDOR_MASTER.State_Code=TSPL_STATE_MASTER_FOR_VENDOR.STATE_CODE " & Environment.NewLine +
+                    "LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & Environment.NewLine +
+                    " left outer join TSPL_VENDOR_QUOTATION_HEAD on TSPL_VENDOR_QUOTATION_HEAD.Code = TSPL_PURCHASE_ORDER_HEAD.Against_Vendor_Quotation " & Environment.NewLine +
+                    "left outer join tspl_location_master as Ship_Location on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =Ship_Location.location_code  " & Environment.NewLine +
+                    " left outer join TSPL_Additional_Charges on TSPL_Additional_Charges.Code = TSPL_PURCHASE_ORDER_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Row_Type='Misc' " & Environment.NewLine +
+                " where 2=2"
+            strQuery += " and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No in ('" + StrDocNo + "') "
             strQuery += " order by TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_No ,TSPL_PURCHASE_ORDER_DETAIL .Line_No"
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery, tran)
@@ -6424,7 +6424,11 @@ Public Class clsPurchaseOrderDetail
         qry += " )Final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
     End Function
+
     Public Shared Function GetBalancePOQtyByGRN(ByVal strPOCode As String, ByVal strICode As String, ByVal strCurrGRNNo As String, ByVal strUOM As String, ByVal dblMRP As Double, ByVal dblAssessable As Double, Optional ByVal trans As SqlTransaction = Nothing) As Double
+        Return GetBalancePOQtyByGRN(strPOCode, strICode, strCurrGRNNo, strUOM, dblMRP, dblAssessable, trans, Nothing)
+    End Function
+    Public Shared Function GetBalancePOQtyByGRN(ByVal strPOCode As String, ByVal strICode As String, ByVal strCurrGRNNo As String, ByVal strUOM As String, ByVal dblMRP As Double, ByVal dblAssessable As Double, Optional ByVal trans As SqlTransaction = Nothing, Optional ByVal CompCode As String = Nothing) As Double
         Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
             " select TSPL_PURCHASE_ORDER_DETAIL.Item_Code as ICode,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty"
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, trans)) = 1 Then
@@ -6433,17 +6437,31 @@ Public Class clsPurchaseOrderDetail
         qry += " as Qty,1 as RI from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No 
                 left outer join tspl_item_master on tspl_item_master.item_code=TSPL_PURCHASE_ORDER_DETAIL.item_code
                 where TSPL_PURCHASE_ORDER_DETAIL.Status=0 and TSPL_PURCHASE_ORDER_HEAD.Status=1 and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No ='" + strPOCode + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + strICode + "' and  TSPL_PURCHASE_ORDER_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'" &
-            " union all " +
-         "   select  TSPL_GRN_DETAIL.Item_Code as ICode,((TSPL_GRN_DETAIL.GRN_Qty-TSPL_GRN_DETAIL.Tolerence_Qty)+(TSPL_GRN_DETAIL.Leak_Qty)+(TSPL_GRN_DETAIL.Burst_Qty)+(TSPL_GRN_DETAIL.Short_Qty)) as Qty,-1 as RI from TSPL_GRN_DETAIL left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No where TSPL_GRN_DETAIL.PO_Id='" + strPOCode + "' and TSPL_GRN_HEAD.IsCancel=0   and TSPL_GRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_GRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_GRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_GRN_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' and TSPL_GRN_DETAIL.GRN_No not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_GRN_DETAIL.Against_RGP_No,''))<=0 and len(isnull(TSPL_GRN_DETAIL.Against_Schedule_Code,''))<=0   " &
-               "   union all select TSPL_PO_SCH_DETAIL.Item_Code as ICode,TSPL_PO_SCH_DETAIL.schedule_qty as Qty,-1 as RI from TSPL_PO_SCH_DETAIL left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code where TSPL_PO_SCH_DETAIL.PO_code='" + strPOCode + "'   and TSPL_PO_SCH_DETAIL.Item_Code='" + strICode + "' and  TSPL_PO_SCH_DETAIL.Unit_code='" + strUOM + "' and TSPL_PO_SCH_DETAIL.document_code not in ('" + strCurrGRNNo + "')   " &
-               "   union all select TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,(TSPL_RGP_JOB_WORK_DETAIL.rgp_qty) as Qty,-1 as RI from TSPL_RGP_JOB_WORK_DETAIL left outer join TSPL_RGP_HEAD on TSPL_RGP_HEAD.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no where TSPL_RGP_JOB_WORK_DETAIL.PO_id='" + strPOCode + "' and TSPL_RGP_JOB_WORK_DETAIL.Item_Code='" + strICode + "' and  TSPL_RGP_JOB_WORK_DETAIL.Unit_code='" + strUOM + "' and TSPL_RGP_JOB_WORK_DETAIL.rgp_no not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.Against_Schedule_Code,''))<=0   "
+            " union all "
+        If clsCommon.CompairString(CompCode, "RCDFCF") = CompairStringResult.Equal Then
+            qry += "select  TSPL_GRN_DETAIL.Item_Code as ICode,CASE WHEN ISNULL(TSPL_SRN_DETAIL.SRN_Qty, 0) > 0 or  TSPL_QC_CHECK_HEAD.QC_Status='REJECTED' THEN TSPL_SRN_DETAIL.SRN_Qty ELSE (CASE WHEN ISNULL(TSPL_MRN_DETAIL.MRN_Qty, 0) > 0 THEN CASE WHEN TSPL_NIR_QC.QC_Status = 0 THEN 0 ELSE TSPL_MRN_DETAIL.MRN_Qty END ELSE (CASE WHEN (tspl_grn_head.VisualQCStatusSecond = 3 OR tspl_grn_head.VisualQCStatus = 3) THEN 0 ELSE TSPL_GRN_DETAIL.GRN_Qty END )END ) END AS Qty,-1 as RI from TSPL_GRN_DETAIL 
+                left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No 
+                left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_DETAIL.GRN_No
+                left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
+                left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No and TSPL_MRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
+				left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
+                left outer join tspl_srn_head on tspl_srn_head.Against_GRN = TSPL_GRN_HEAD.GRN_No
+                left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No=tspl_srn_head.SRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code
+                left outer join tspl_item_master on tspl_item_master.item_code=TSPL_GRN_DETAIL.item_code 
+                where TSPL_GRN_DETAIL.PO_Id='" + strPOCode + "' and TSPL_GRN_HEAD.IsCancel=0   and TSPL_GRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_GRN_DETAIL.Unit_code='" + strUOM + "' and TSPL_GRN_DETAIL.GRN_No not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_GRN_DETAIL.Against_RGP_No,''))<=0 and len(isnull(TSPL_GRN_DETAIL.Against_Schedule_Code,''))<=0   "
+        Else
+            qry += "   select  TSPL_GRN_DETAIL.Item_Code as ICode,((TSPL_GRN_DETAIL.GRN_Qty-TSPL_GRN_DETAIL.Tolerence_Qty)+(TSPL_GRN_DETAIL.Leak_Qty)+(TSPL_GRN_DETAIL.Burst_Qty)+(TSPL_GRN_DETAIL.Short_Qty)) as Qty,-1 as RI from TSPL_GRN_DETAIL left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No where TSPL_GRN_DETAIL.PO_Id='" + strPOCode + "' and TSPL_GRN_HEAD.IsCancel=0   and TSPL_GRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_GRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_GRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_GRN_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' and TSPL_GRN_DETAIL.GRN_No not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_GRN_DETAIL.Against_RGP_No,''))<=0 and len(isnull(TSPL_GRN_DETAIL.Against_Schedule_Code,''))<=0   " &
+                   "   union all select TSPL_PO_SCH_DETAIL.Item_Code as ICode,TSPL_PO_SCH_DETAIL.schedule_qty as Qty,-1 as RI from TSPL_PO_SCH_DETAIL left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code where TSPL_PO_SCH_DETAIL.PO_code='" + strPOCode + "'   and TSPL_PO_SCH_DETAIL.Item_Code='" + strICode + "' and  TSPL_PO_SCH_DETAIL.Unit_code='" + strUOM + "' and TSPL_PO_SCH_DETAIL.document_code not in ('" + strCurrGRNNo + "')   " &
+                   "   union all select TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,(TSPL_RGP_JOB_WORK_DETAIL.rgp_qty) as Qty,-1 as RI from TSPL_RGP_JOB_WORK_DETAIL left outer join TSPL_RGP_HEAD on TSPL_RGP_HEAD.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no where TSPL_RGP_JOB_WORK_DETAIL.PO_id='" + strPOCode + "' and TSPL_RGP_JOB_WORK_DETAIL.Item_Code='" + strICode + "' and  TSPL_RGP_JOB_WORK_DETAIL.Unit_code='" + strUOM + "' and TSPL_RGP_JOB_WORK_DETAIL.rgp_no not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.Against_Schedule_Code,''))<=0   "
+        End If
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OpenPOforRejectShortageQty, clsFixedParameterCode.OpenPOforRejectShortageQty, trans)) = 1 Then
             qry += "union all " + Environment.NewLine +
-            " select TSPL_SRN_DETAIL.Item_Code as ICode,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as Qty,1 as RI from TSPL_SRN_DETAIL   left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No " + Environment.NewLine +
-            " where  TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and TSPL_SRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and TSPL_SRN_DETAIL.PO_ID='" + strPOCode + "'" + Environment.NewLine +
-            " and TSPL_SRN_DETAIL.GRN_ID not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_SRN_DETAIL.PO_ID,''))>0 "
+        " select TSPL_SRN_DETAIL.Item_Code as ICode,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as Qty,1 as RI from TSPL_SRN_DETAIL   left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No " + Environment.NewLine +
+        " where  TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and TSPL_SRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and TSPL_SRN_DETAIL.PO_ID='" + strPOCode + "'" + Environment.NewLine +
+        " and TSPL_SRN_DETAIL.GRN_ID not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_SRN_DETAIL.PO_ID,''))>0 "
         End If
-        qry += " union all " + Environment.NewLine +
+        If clsCommon.CompairString(CompCode, "RCDFCF") <> CompairStringResult.Equal Then
+            qry += " union all " + Environment.NewLine +
                " select  TSPL_QC_CHECK_SRN_DETAIL.Item_Code as ICode,(coalesce(TSPL_GRN_DETAIL.GRN_Qty,0)-coalesce(TSPL_QC_CHECK_SRN_DETAIL.Reject_Qty,0)) as Qty,1 as RI from TSPL_QC_CHECK_SRN_DETAIL " &
                " left join TSPL_MRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No=TSPL_MRN_DETAIL.MRN_No and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code " &
                " and TSPL_QC_CHECK_SRN_DETAIL.Unit_Code=TSPL_MRN_DETAIL.Unit_code " &
@@ -6452,6 +6470,7 @@ Public Class clsPurchaseOrderDetail
                " left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code=TSPL_QC_CHECK_SRN_DETAIL.Document_Code " &
                " where TSPL_QC_CHECK_SRN_DETAIL.PO_No='" & strPOCode & "' and TSPL_QC_CHECK_HEAD.IsCancel=0 " &
                " and TSPL_QC_CHECK_SRN_DETAIL.Item_Code='" & strICode & "' and TSPL_GRN_DETAIL.GRN_No not in ('" + strCurrGRNNo + "') and  TSPL_QC_CHECK_SRN_DETAIL.Unit_code='" & strUOM & "' and (TSPL_QC_CHECK_SRN_DETAIL.Reject_Qty>0 or TSPL_QC_CHECK_SRN_DETAIL.OK_Qty<=0) and not exists (select TSPL_QC_CHECK_SRN_DETAIL.* from TSPL_QC_CHECK_APPROVAL_ENTRY where TSPL_QC_CHECK_SRN_DETAIL.Document_Code=TSPL_QC_CHECK_APPROVAL_ENTRY.Document_Code)"
+        End If
         qry += " )Final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
     End Function

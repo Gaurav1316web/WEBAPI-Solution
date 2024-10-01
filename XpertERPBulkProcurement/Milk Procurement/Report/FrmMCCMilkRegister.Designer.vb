@@ -38,6 +38,7 @@ Partial Class FrmMCCMilkRegister
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkRouteWiseDateWise = New System.Windows.Forms.CheckBox()
         Me.chkRouteWisePrint = New System.Windows.Forms.CheckBox()
         Me.chkRouteShiftWise = New System.Windows.Forms.CheckBox()
         Me.chkDairyMilkReportPrint = New System.Windows.Forms.CheckBox()
@@ -50,6 +51,7 @@ Partial Class FrmMCCMilkRegister
         Me.chkShiftWise = New System.Windows.Forms.CheckBox()
         Me.chkRejection = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnShiftWiseTotal = New System.Windows.Forms.RadioButton()
         Me.chkDateShift = New Telerik.WinControls.UI.RadCheckBox()
         Me.rbtnTotal = New System.Windows.Forms.RadioButton()
         Me.rbtnRoute = New System.Windows.Forms.RadioButton()
@@ -80,6 +82,7 @@ Partial Class FrmMCCMilkRegister
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnRoutePrint = New Telerik.WinControls.UI.RadButton()
         Me.btnBack = New Telerik.WinControls.UI.RadButton()
         Me.btnLock = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintMccDetails = New Telerik.WinControls.UI.RadButton()
@@ -92,7 +95,6 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnShiftWiseTotal = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -133,6 +135,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRoutePrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintMccDetails, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -158,6 +161,7 @@ Partial Class FrmMCCMilkRegister
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnRoutePrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnBack)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnLock)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintMccDetails)
@@ -369,6 +373,7 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.chkRouteWiseDateWise)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteWisePrint)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteShiftWise)
         Me.RadGroupBox6.Controls.Add(Me.chkDairyMilkReportPrint)
@@ -376,9 +381,19 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox6.Location = New System.Drawing.Point(494, 116)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 72)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 101)
         Me.RadGroupBox6.TabIndex = 405
         Me.RadGroupBox6.Text = "Print"
+        '
+        'chkRouteWiseDateWise
+        '
+        Me.chkRouteWiseDateWise.AutoSize = True
+        Me.chkRouteWiseDateWise.Location = New System.Drawing.Point(13, 71)
+        Me.chkRouteWiseDateWise.Name = "chkRouteWiseDateWise"
+        Me.chkRouteWiseDateWise.Size = New System.Drawing.Size(143, 17)
+        Me.chkRouteWiseDateWise.TabIndex = 396
+        Me.chkRouteWiseDateWise.Text = "Route Wise & Date Wise"
+        Me.chkRouteWiseDateWise.UseVisualStyleBackColor = True
         '
         'chkRouteWisePrint
         '
@@ -511,6 +526,16 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox7.Size = New System.Drawing.Size(472, 50)
         Me.RadGroupBox7.TabIndex = 332
+        '
+        'rbtnShiftWiseTotal
+        '
+        Me.rbtnShiftWiseTotal.AutoSize = True
+        Me.rbtnShiftWiseTotal.Location = New System.Drawing.Point(323, 27)
+        Me.rbtnShiftWiseTotal.Name = "rbtnShiftWiseTotal"
+        Me.rbtnShiftWiseTotal.Size = New System.Drawing.Size(105, 17)
+        Me.rbtnShiftWiseTotal.TabIndex = 17
+        Me.rbtnShiftWiseTotal.Text = "Shift Wise Total"
+        Me.rbtnShiftWiseTotal.UseVisualStyleBackColor = True
         '
         'chkDateShift
         '
@@ -855,6 +880,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1050, 354)
         Me.gv.TabIndex = 4
+        Me.gv.VarID = ""
         '
         'RadMenu1
         '
@@ -879,6 +905,17 @@ Partial Class FrmMCCMilkRegister
         '
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
+        '
+        'btnRoutePrint
+        '
+        Me.btnRoutePrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRoutePrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnRoutePrint.Location = New System.Drawing.Point(726, 3)
+        Me.btnRoutePrint.Name = "btnRoutePrint"
+        Me.btnRoutePrint.Size = New System.Drawing.Size(83, 22)
+        Me.btnRoutePrint.TabIndex = 165
+        Me.btnRoutePrint.Text = "Route Print"
+        Me.btnRoutePrint.Visible = False
         '
         'btnBack
         '
@@ -984,16 +1021,6 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
-        'rbtnShiftWiseTotal
-        '
-        Me.rbtnShiftWiseTotal.AutoSize = True
-        Me.rbtnShiftWiseTotal.Location = New System.Drawing.Point(323, 27)
-        Me.rbtnShiftWiseTotal.Name = "rbtnShiftWiseTotal"
-        Me.rbtnShiftWiseTotal.Size = New System.Drawing.Size(105, 17)
-        Me.rbtnShiftWiseTotal.TabIndex = 17
-        Me.rbtnShiftWiseTotal.Text = "Shift Wise Total"
-        Me.rbtnShiftWiseTotal.UseVisualStyleBackColor = True
-        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1054,6 +1081,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRoutePrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBack, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintMccDetails, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1136,5 +1164,7 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents rbtnCollectionSummary As RadioButton
     Friend WithEvents rbtnZoneWise As RadioButton
     Friend WithEvents rbtnShiftWiseTotal As RadioButton
+    Friend WithEvents chkRouteWiseDateWise As CheckBox
+    Friend WithEvents btnRoutePrint As RadButton
 End Class
 

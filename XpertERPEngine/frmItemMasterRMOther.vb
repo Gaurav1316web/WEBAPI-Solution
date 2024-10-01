@@ -1285,8 +1285,11 @@ Public Class FrmItemMasterRMOther
         ItemShortDesp()
         ' BM00000007910
         chkHighClass.Checked = False
+        chkHighClass.Visible = False
         chkSkipSecurityDed.Checked = False
+        'chkSkipSecurityDed.Visible = False
         chkSkipPenaltyDed.Checked = False
+        'chkSkipPenaltyDed.Visible = False
         fndScrapItem.Visible = False
         chkScrapItem.Checked = False
         chkMilkPouch.Checked = False
