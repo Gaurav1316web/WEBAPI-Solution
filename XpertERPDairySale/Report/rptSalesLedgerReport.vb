@@ -315,6 +315,9 @@ Public Class rptSalesLedgerReport
             Else
                 gv1.DataSource = Nothing
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.DataSource = Nothing
                 Exit Sub
             End If
 
@@ -394,7 +397,8 @@ Public Class rptSalesLedgerReport
                 FinalQuery = "With CTE as (SELECT XXFINAL.Document_Date, XXFINAL.Shift_Type, case when max(Shift_Type) = 'AM' THEN 'M' ELSE 'E' END AS Shift,max(Zone_Code)Zone_Code, max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,"
                 If rbtnDispatch.IsChecked Then
                     If rbtnMilkType.IsChecked OrElse rbtnProductType.IsChecked Then
-                        FinalQuery += " max(Sale_Invoice_No)Sale_Invoice_No,"
+                        Dim Invqry As String = ShowInvoiceNo()
+                        FinalQuery += " ( SELECT STUFF(( SELECT ',' + Sale_Invoice_No FROM ( " & Invqry & " ) sub FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 1, '')) AS [Sale Invoice No],"
                     End If
                 End If
                 FinalQuery += "" & FinalItemNamesQty & "SUM(XXFINAL.[Total Qty])[Total Qty]," & FinalItemNamesAmt & "
@@ -429,6 +433,21 @@ Public Class rptSalesLedgerReport
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             If dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
+                If rbtnDetail.IsChecked Then
+                    If rbtnDispatch.IsChecked Then
+                        Dim InvoiceBtn As New GridViewCommandColumn()
+                        InvoiceBtn.FormatString = ""
+                        InvoiceBtn.UseDefaultText = True
+                        InvoiceBtn.DefaultText = "Click to Show Invoice No"
+                        InvoiceBtn.HeaderText = "InvoiceNo"
+                        InvoiceBtn.Name = "InvoiceNo"
+                        InvoiceBtn.FieldName = "InvoiceNo"
+                        InvoiceBtn.Width = 80
+                        InvoiceBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                        gv1.MasterTemplate.Columns.Insert(9, InvoiceBtn)
+                    End If
+                End If
+
                 gv1.BestFitColumns()
                 View()
                 SetGridFormation()
@@ -504,8 +523,9 @@ Public Class rptSalesLedgerReport
             gv1.Columns("Customer_Name").IsVisible = False
             gv1.Columns("Zone_Code").IsVisible = False
             gv1.Columns("Zone Name").IsVisible = False
-            If clsCommon.myLen(gv1.Columns("Sale_Invoice_No")) > 0 Then
-                gv1.Columns("Sale_Invoice_No").HeaderText = "Invoice No"
+            If clsCommon.myLen(gv1.Columns("Sale Invoice No")) > 0 Then
+                gv1.Columns("Sale Invoice No").HeaderText = "Sale Invoice No"
+                gv1.Columns("Sale Invoice No").IsVisible = False
             End If
             If rbtnBothShift.IsChecked Then
                 gv1.Columns("Shift").IsVisible = False
@@ -645,5 +665,71 @@ Public Class rptSalesLedgerReport
     Sub CancelPressed()
         Me.Close()
     End Sub
+
+    Private Sub gv1_CommandCellClick(sender As Object, e As EventArgs) Handles gv1.CommandCellClick
+        Try
+            If gv1.CurrentColumn Is gv1.Columns("InvoiceNo") Then
+                Dim frm As New frmShowInvoiceNo()
+                If rbtnRoute.IsChecked Then
+                    frm.FilterColumn = "Route_No"
+                ElseIf rbtnCustomer.IsChecked Then
+                    frm.FilterColumn = "Cust_Code"
+                ElseIf rbtnZone.IsChecked Then
+                    frm.FilterColumn = "Zone_Code"
+                End If
+                frm.Query = ShowInvoiceNo()
+                frm.WindowState = FormWindowState.Normal
+                frm.ShowDialog()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Function ShowInvoiceNo()
+        Dim query As String = ""
+        Try
+            Dim whrcls As String = "  "
+            Dim GroupByCol As String = ""
+            If rbtnMilkType.IsChecked Then
+                whrcls = " and TSPL_ITEM_MASTER.Is_FreshItem = 1 "
+            ElseIf rbtnProductType.IsChecked Then
+                whrcls = " TSPL_ITEM_MASTER.Is_Ambient = 1 "
+            End If
+            If rbtnMorning.IsChecked Then
+                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'AM' "
+            ElseIf rbtnEvening.IsChecked Then
+                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
+            End If
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+            End If
+            If txtRoute.arrValueMember IsNot Nothing Then
+                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+            End If
+            If txtZone.arrValueMember IsNot Nothing Then
+                whrcls += " and TSPL_CUSTOMER_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ")"
+            End If
+            If rbtnRoute.IsChecked Then
+                GroupByCol = "Route_No"
+                query = " select Route_No,max(Route_Desc)Route_Desc , "
+            ElseIf rbtnCustomer.IsChecked Then
+                GroupByCol = "Cust_Code"
+                query = " select Cust_Code , max(Customer_Name)Customer_Name, "
+            ElseIf rbtnZone.IsChecked Then
+                GroupByCol = "Zone_Code"
+                query = " select Zone_Code , max([Zone Name])[Zone Name],"
+            End If
+            query += " Sale_Invoice_No from ( Select  TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SHIPMENT_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc, Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM' END AS Shift_Type,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
+         From TSPL_SD_SHIPMENT_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code Left OUTER Join TSPL_SD_SHIPMENT_HEAD On TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+         Left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No where 2 = 2  And TSPL_SD_SHIPMENT_HEAD.Status = 1 and
+		   CONVERT(DATE,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103)  and   CONVERT(DATE,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)  
+		" & whrcls & " )xx group by " & GroupByCol & ",Sale_Invoice_No "
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+        Return query
+    End Function
 End Class
 
