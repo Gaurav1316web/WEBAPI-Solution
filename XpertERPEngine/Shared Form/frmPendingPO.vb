@@ -234,7 +234,7 @@ Public Class frmPendingPO
                 '' as SaleInvoiceNo,'' as Bin_No,TSPL_SRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
 	  0 as ItemTolerenceQty,
                 '' as IType, CASE 
-  WHEN ISNULL(TSPL_SRN_DETAIL.SRN_Qty, 0) > 0 
+  WHEN ISNULL(TSPL_SRN_DETAIL.SRN_Qty, 0) > 0 OR TSPL_QC_CHECK_HEAD.QC_Status='REJECTED'
     THEN TSPL_SRN_DETAIL.SRN_Qty 
   ELSE (
     CASE 
@@ -268,6 +268,7 @@ END AS Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 a
                 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN
                 left outer join tspl_grn_detail on tspl_grn_detail.GRN_No=TSPL_GRN_HEAD.GRN_No
                 left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_SRN_HEAD.Against_MRN
+                left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
                 left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
                 left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No and TSPL_MRN_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code
                 left outer join tspl_item_master on tspl_item_master.item_code=TSPL_SRN_DETAIL.item_code
@@ -298,7 +299,7 @@ END AS Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 a
                 '' as Bin_No,TSPL_GRN_DETAIL.PO_ID as Code,null as Vendor,TSPL_GRN_DETAIL.Item_Code as ICode,tspl_item_master.Item_Desc as IName,tspl_item_master.tolerence as tolerencePer,
 	  0 as ItemTolerenceQty,
                 '' as IType,  CASE 
-  WHEN ISNULL(TSPL_SRN_DETAIL.SRN_Qty, 0) > 0 
+  WHEN ISNULL(TSPL_SRN_DETAIL.SRN_Qty, 0) > 0 OR TSPL_QC_CHECK_HEAD.QC_Status='REJECTED'
     THEN TSPL_SRN_DETAIL.SRN_Qty 
   ELSE (
     CASE 
@@ -333,6 +334,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                 left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_DETAIL.GRN_No
                 left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
                 left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No and TSPL_MRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
+             	left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
                 left outer join tspl_srn_head on tspl_srn_head.Against_GRN = TSPL_GRN_HEAD.GRN_No
                 left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No=tspl_srn_head.SRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code
                 left outer join tspl_item_master on tspl_item_master.item_code=TSPL_GRN_DETAIL.item_code 

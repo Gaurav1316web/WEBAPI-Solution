@@ -15,6 +15,8 @@ Public Class ClsTransactionApproval
     Public Approval_Remarks As String = Nothing
     Public SMS_Content As String = Nothing
     Public Email_Content As String = Nothing
+    Public Requested_Qty As Double = 0
+    Public Approved_Qty As Double = 0
 #End Region
 
     Public Shared Function SaveData(ByVal obj As ClsTransactionApproval, ByVal isnewentry As Boolean, Optional trans As SqlTransaction = Nothing) As Boolean
@@ -42,6 +44,8 @@ Public Class ClsTransactionApproval
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMMM/yyyy "))
+            clsCommon.AddColumnsForChange(coll, "Requested_Qty", obj.Requested_Qty)
+            clsCommon.AddColumnsForChange(coll, "Approved_Qty", obj.Approved_Qty)
             If isnewentry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMMM/yyyy "))
