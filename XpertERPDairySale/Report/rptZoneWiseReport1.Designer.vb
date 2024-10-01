@@ -30,6 +30,7 @@ Partial Class rptZoneWiseReport1
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
@@ -42,7 +43,11 @@ Partial Class rptZoneWiseReport1
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMorning = New common.Controls.MyRadioButton()
+        Me.rbtnEvening = New common.Controls.MyRadioButton()
+        Me.rbtnBothShift = New common.Controls.MyRadioButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -63,6 +68,12 @@ Partial Class rptZoneWiseReport1
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBothShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,6 +146,8 @@ Partial Class rptZoneWiseReport1
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.MyLabel1)
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox5)
         Me.RadPanel1.Controls.Add(Me.txtRoute)
         Me.RadPanel1.Controls.Add(Me.MyLabel3)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
@@ -143,6 +156,19 @@ Partial Class rptZoneWiseReport1
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(671, 278)
         Me.RadPanel1.TabIndex = 15
+        '
+        'txtRoute
+        '
+        Me.txtRoute.arrDispalyMember = Nothing
+        Me.txtRoute.arrValueMember = Nothing
+        Me.txtRoute.Location = New System.Drawing.Point(77, 69)
+        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoute.MyLinkLable1 = Nothing
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.MyNullText = "All"
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.Size = New System.Drawing.Size(344, 19)
+        Me.txtRoute.TabIndex = 384
         '
         'MyLabel3
         '
@@ -298,18 +324,62 @@ Partial Class rptZoneWiseReport1
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'txtRoute
+        'RadGroupBox5
         '
-        Me.txtRoute.arrDispalyMember = Nothing
-        Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(77, 69)
-        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRoute.MyLinkLable1 = Nothing
-        Me.txtRoute.MyLinkLable2 = Nothing
-        Me.txtRoute.MyNullText = "All"
-        Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(344, 19)
-        Me.txtRoute.TabIndex = 384
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnMorning)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnEvening)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnBothShift)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(78, 94)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(303, 34)
+        Me.RadGroupBox5.TabIndex = 445
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnMorning.MyLinkLable1 = Nothing
+        Me.rbtnMorning.MyLinkLable2 = Nothing
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 393
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.Location = New System.Drawing.Point(95, 9)
+        Me.rbtnEvening.MyLinkLable1 = Nothing
+        Me.rbtnEvening.MyLinkLable2 = Nothing
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 393
+        Me.rbtnEvening.TabStop = False
+        Me.rbtnEvening.Text = "Evening"
+        '
+        'rbtnBothShift
+        '
+        Me.rbtnBothShift.Location = New System.Drawing.Point(212, 9)
+        Me.rbtnBothShift.MyLinkLable1 = Nothing
+        Me.rbtnBothShift.MyLinkLable2 = Nothing
+        Me.rbtnBothShift.Name = "rbtnBothShift"
+        Me.rbtnBothShift.Size = New System.Drawing.Size(44, 18)
+        Me.rbtnBothShift.TabIndex = 395
+        Me.rbtnBothShift.TabStop = False
+        Me.rbtnBothShift.Text = "Both"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(13, 103)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(54, 18)
+        Me.MyLabel1.TabIndex = 446
+        Me.MyLabel1.Text = "Shift"
         '
         'rptZoneWiseReport1
         '
@@ -346,6 +416,13 @@ Partial Class rptZoneWiseReport1
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBothShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -372,4 +449,9 @@ Partial Class rptZoneWiseReport1
     Friend WithEvents btnRoute As RadMenuItem
     Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnMorning As common.Controls.MyRadioButton
+    Friend WithEvents rbtnEvening As common.Controls.MyRadioButton
+    Friend WithEvents rbtnBothShift As common.Controls.MyRadioButton
 End Class
