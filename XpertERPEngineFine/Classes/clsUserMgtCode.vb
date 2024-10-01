@@ -969,6 +969,7 @@ Public Class clsUserMgtCode
     Public Const frmCommissionMaster As String = "COMM-M"
     Public Const CustomerVendorMapping As String = "CST-VNDR-MAP"
     Public Const CustomerVendorMappingVendor As String = "CST-VNDR-MAV"
+    Public Const frmCustomerEmployeeMapping As String = "CST_EMO_MAP"
 
     Public Const rptDispatchChallanReport As String = "SMDptRpt"
     Public Const rptMatrixFreshReport As String = "SMMRXRpt"

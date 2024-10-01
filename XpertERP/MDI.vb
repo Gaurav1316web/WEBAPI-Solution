@@ -4562,6 +4562,10 @@ Public Class MDI
                         frm = New FrmCustomerVendorMapping()
                         frm.formtype = clsUserMgtCode.CustomerVendorMappingVendor
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCustomerEmployeeMapping
+                        frm = New frmCustomerEmployeeMapping()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.TDMTARGET
                         frm = New TDMwiseTarget()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

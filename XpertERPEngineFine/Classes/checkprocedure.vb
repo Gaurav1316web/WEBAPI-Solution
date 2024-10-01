@@ -267,6 +267,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.CustomerVendorMappingVendor, "Customer Vendor Mapping", "1.03.01.10", clsUserMgtCode.SubModulePayableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.FrmHirerachyLevelMaster, "Hierarchy Level Master", "1.03.01.11", clsUserMgtCode.SubModulePayableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.vendorSubgroup, "Vendor Sub Group", "1.03.01.12", clsUserMgtCode.SubModulePayableSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmCustomerEmployeeMapping, "Customer Employee Mapping", "1.03.01.13", clsUserMgtCode.SubModulePayableSetup, 27)
+
         ' Transaction 
         InsertDefaultValue(clsUserMgtCode.SubModulePayableTransaction, "Transaction", "1.03.02", clsUserMgtCode.ModulePayable, "SM", 26)
 
