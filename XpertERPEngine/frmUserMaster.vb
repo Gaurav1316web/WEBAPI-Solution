@@ -297,7 +297,7 @@ Public Class FrmUserMaster
                 txtBulkRoute.arrValueMember = Nothing
                 btnSave.Text = "Save"
                 btnDelete.Enabled = False
-                chkSSO.Checked = False
+                txtSSO.Text = ""
                 If isCheckCustomerType = True Then
                     lblDisRetailer.Text = "POS Details"
                     CmbLoginType.SelectedValue = ""
@@ -449,7 +449,7 @@ Public Class FrmUserMaster
             lblVendorName.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + fndVendor.Value + "'")
 
             txtMP.Value = clsCommon.myCstr(row("MP_Code"))
-            chkSSO.Checked = (clsCommon.myCDecimal(row("SSO")) = 1)
+            txtSSO.Text = clsCommon.myCstr(row("SSO"))
             lblMP.Text = clsMpMaster.GetName(txtMP.Value, Nothing)
 
             btnSave.Text = "Update"
@@ -714,7 +714,7 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "User_APP_Sale_Type", CmbAppUserSaleType.SelectedValue, True)
         clsCommon.AddColumnsForChange(coll, "MP_Code", txtMP.Value, True)
         clsCommon.AddColumnsForChange(coll, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
-        clsCommon.AddColumnsForChange(coll, "SSO", IIf(chkSSO.Checked, 1, 0), True)
+        clsCommon.AddColumnsForChange(coll, "SSO", txtSSO.Text, True)
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
     End Sub
 
@@ -1053,7 +1053,7 @@ Public Class FrmUserMaster
         LoadBlankUserGrid()
         gvUser.Rows.AddNew()
         fndUserCode.Focus()
-        chkSSO.Checked = False
+        txtSSO.Text = ""
     End Sub
     'priti added on 01-06-2011 --- To implement the access control
     'Private Function funSetUserAccess() As Boolean

@@ -14213,9 +14213,13 @@ Public Class clsCreateAllTable
             coll.Add("Entry_UOM", "integer null")
             coll.Add("Entry_UOM_Mobile", "integer null")
             coll.Add("OTP_TYPE", "varchar(12) null references TSPL_PROGRAM_MASTER(Program_Code)")
-            coll.Add("SSO", "integer null")
+            coll.Add("SSO", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
-
+            Try
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")
+                clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_SSO ON TSPL_USER_MASTER (SSO) WHERE SSO IS NOT NULL;")
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("BANK_GROUP_CODE", "varchar(12) NOT NULL PRIMARY KEY")
             coll.Add("DESCRIPTION", "varchar(60) NULL")
