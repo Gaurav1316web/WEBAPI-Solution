@@ -221,10 +221,10 @@ Public Class MDI
     End Function
 
     Sub LoadWelcomeScreen()
-        SplitPanel2.Collapsed = True
+        SplitPanel2.Collapsed = False
         SplitPanel3.Collapsed = True
         SplitPanel4.Collapsed = True
-        SplitPanel1.Collapsed = False
+        SplitPanel1.Collapsed = True
         Dim myAssembly As Assembly = Assembly.GetExecutingAssembly()
         Dim myAssemblyName As AssemblyName = myAssembly.GetName()
         lblVersion.Text = clsCommon.myCstr(myAssemblyName.Version).Trim()
@@ -232,7 +232,6 @@ Public Class MDI
         'lblCreatedDate.Text = aDescAttr.Description.ToString
         lblVersion.Text += " [" + aDescAttr.Description.ToString.Trim() + "]"
         SetConnectionWithCommonDLL("")
-
         objCommonVar.CurrentCompanyCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select comp_Code from tspl_company_master"))
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
             SplitContainer2.Panel1Collapsed = True
@@ -294,6 +293,7 @@ Public Class MDI
         ''Check Licence
         CheckLicence()
         ''End of Check Licence
+
     End Sub
 
     Private Sub llblLogin_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles llblLogin.LinkClicked
