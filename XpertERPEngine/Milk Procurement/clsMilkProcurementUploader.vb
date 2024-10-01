@@ -104,22 +104,26 @@ Public Class clsMilkProcurementUploaderHead
         End Try
         Return True
     End Function
-
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMilkProcurementUploaderHead
+        Return GetData(strPONo, NavType, trans, "")
+    End Function
+    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal WhrCls As String) As clsMilkProcurementUploaderHead
         Dim obj As clsMilkProcurementUploaderHead = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name " & _
-        " FROM TSPL_MILK_PROCUREMENT_UPLOADER_HEAD left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Dock_Code  where 2=2 "
+        Dim qry As String = "SELECT TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name 
+FROM TSPL_MILK_PROCUREMENT_UPLOADER_HEAD 
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code 
+left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Dock_Code  where 2=2 "
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select MIN(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where 1=1  )"
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select MIN(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where 1=1 " + WhrCls + " )"
             Case NavigatorType.Last
-                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select Max(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where 1=1  )"
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select Max(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where 1=1 " + WhrCls + "  )"
             Case NavigatorType.Next
-                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select Min(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No>'" + strPONo + "'  )"
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select Min(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No>'" + strPONo + "' " + WhrCls + "   )"
             Case NavigatorType.Previous
-                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select Max(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No<'" + strPONo + "'  )"
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select Max(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where Document_No<'" + strPONo + "' " + WhrCls + "   )"
             Case NavigatorType.Current
-                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = '" + strPONo + "'"
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = '" + strPONo + "' " + WhrCls + " "
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then

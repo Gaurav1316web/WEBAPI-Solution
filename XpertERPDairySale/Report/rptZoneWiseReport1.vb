@@ -31,7 +31,8 @@ Public Class rptZoneWiseReport1
     Private Sub LoadData()
         Try
             Dim qry As String = "
-select * from (select  CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS fINAL,ROW_NUMBER() OVER(PARTITION BY Structure_Code ORDER BY Structure_Code) AS SNO,*  from  (Select (Route_No)Route_No,Area_Code ,Area_Code as Code, 'Administrator' as UserName,max(Route_Desc)Route_Desc1,max(Route_Desc)Route_Desc4,(Route_Desc)Route_Desc, sum(Final_Qty)Final_Qty,
+select * from (select CASE WHEN CODE <> 'LTR'   THEN TotalCrates_ItemWise else 0 END AS fINAL1,
+CASE WHEN CODE ='LTR'  THEN TotalLtr_ItemWise else 0  END AS fINAL2, CASE WHEN CODE <> 'LTR'  THEN TotalCrates_ItemWise ELSE TotalLtr_ItemWise END AS fINAL,ROW_NUMBER() OVER(PARTITION BY Structure_Code ORDER BY Structure_Code) AS SNO,*  from  (Select (Route_No)Route_No,Area_Code ,Area_Code as Code, 'Administrator' as UserName,max(Route_Desc)Route_Desc1,max(Route_Desc)Route_Desc4,(Route_Desc)Route_Desc, sum(Final_Qty)Final_Qty,
                 Sku_Seq,max(Phone2)Phone2,max(Phone1)Phone1,max(Circle_No)Circle_No, max(Comp_Name)Comp_Name,max(City_Code)City_Code,max(State)State,Item_Code,max(Structure_Code)Structure_Code , max(Add1)Add1,max(Add2)Add2,max(Pincode)Pincode,max(Fax)Fax,max(FromDate)FromDate,MAX(ToDate)ToDate,max(Short_Description) AS Short_Description,max(Unit_Desc) as Unit_Desc,sum(TotalCrates_ItemWise) as TotalCrates_ItemWise,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise from 
 				
 				( Select TSPL_ROUTE_MASTER.Route_Desc ,TSPL_ROUTE_MASTER.Route_No,TSPL_ROUTE_MASTER.Area_Code +' ' +'CRT' Area_Code,tspl_route_master.route_desc as Customer_Name  ,TSPL_DEMAND_BOOKING_MASTER.ShiftType,
