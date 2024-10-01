@@ -408,6 +408,12 @@
     <Compile Include="Milk Procurement\Report\rptProductionReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptProductionStoreReport.Designer.vb">
+      <DependentUpon>rptProductionStoreReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptProductionStoreReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptTankerProfitLossReport.Designer.vb">
       <DependentUpon>rptTankerProfitLossReport.vb</DependentUpon>
     </Compile>
@@ -1036,6 +1042,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptProductionReport.resx">
       <DependentUpon>rptProductionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptProductionStoreReport.resx">
+      <DependentUpon>rptProductionStoreReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTankerProfitLossReport.resx">
       <DependentUpon>rptTankerProfitLossReport.vb</DependentUpon>

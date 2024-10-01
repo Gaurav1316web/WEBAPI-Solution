@@ -60,6 +60,10 @@ Public Class FrmTransactionApproval
     Public Const colAvailAmount As String = "colAvailAmount"
     Public Const colShortExcess As String = "colShortExcess"
     Public Const colCreditLimit As String = "colCreditLimit"
+
+    Public Const colRequestedQty As String = "colRequestedQty"
+    Public Const colApprovedQty As String = "colApprovedQty"
+
     Dim formtype As String = Nothing
     Dim strTranAppPass As String = ""
 #Region "User Defined Functions and Subroutines"
@@ -102,7 +106,7 @@ Public Class FrmTransactionApproval
     End Sub
     Sub LoadScreenName()
         isInsideLoadData = True
-        Dim qry As String = "select 'Select' as [Code],'Select' as [Name] union all select Program_Code as [Code] ,Program_Name as [Name]   from TSPL_PROGRAM_MASTER where  Program_Code in ('DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material','VSP-Item','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','" + clsUserMgtCode.frmCSADeliveryOrder + "','" + clsUserMgtCode.mbtnPurchaseInvoice + "','" + clsUserMgtCode.ProcessProductionStandardizationFinalQC + "','" + clsUserMgtCode.frmDemandBooking + "')"
+        Dim qry As String = "select 'Select' as [Code],'Select' as [Name] union all select Program_Code as [Code] ,Program_Name as [Name]   from TSPL_PROGRAM_MASTER where  Program_Code in ('DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material','VSP-Item','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','" + clsUserMgtCode.frmCSADeliveryOrder + "','" + clsUserMgtCode.mbtnPurchaseInvoice + "','" + clsUserMgtCode.ProcessProductionStandardizationFinalQC + "','" + clsUserMgtCode.frmDemandBooking + "','" + clsUserMgtCode.mbtnGRN + "')"
         cmbScreenName.DataSource = clsDBFuncationality.GetDataTable(qry)
         cmbScreenName.ValueMember = "Code"
         cmbScreenName.DisplayMember = "Name"
@@ -401,6 +405,9 @@ Public Class FrmTransactionApproval
             If clsCommon.CompairString(clsUserMgtCode.frmMCCMaterial, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                 qry = "   select TSPL_TRANSACTION_APPROVAL.Document_No ,TSPL_TRANSACTION_APPROVAL.Approval_type ,TSPL_TRANSACTION_APPROVAL.Doc_Date,TSPL_SD_SHIPMENT_HEAD.Customer_Code as CustCode ,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as LocCode,TSPL_CUSTOMER_MASTER.Customer_Name as CustName,TSPL_LOCATION_MASTER.Location_Desc as LocDesc   from TSPL_TRANSACTION_APPROVAL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_TRANSACTION_APPROVAL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location where  TSPL_TRANSACTION_APPROVAL.approve=0 and TSPL_TRANSACTION_APPROVAL.program_code='" + clsUserMgtCode.frmMCCMaterial + "'"
             End If
+            If clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                qry = "	select TSPL_TRANSACTION_APPROVAL.Document_No ,TSPL_TRANSACTION_APPROVAL.Approval_type ,TSPL_TRANSACTION_APPROVAL.Doc_Date,TSPL_GRN_HEAD.Vendor_Code as CustCode ,TSPL_GRN_HEAD.Bill_To_Location as LocCode,TSPL_VENDOR_MASTER.Vendor_Name as CustName,TSPL_LOCATION_MASTER.Location_Desc as LocDesc,TSPL_TRANSACTION_APPROVAL.Requested_Qty,TSPL_TRANSACTION_APPROVAL.Approved_Qty	from TSPL_TRANSACTION_APPROVAL left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_TRANSACTION_APPROVAL.Document_No left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_GRN_HEAD.Vendor_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_HEAD.Bill_To_Location where  TSPL_TRANSACTION_APPROVAL.approve=0 and TSPL_TRANSACTION_APPROVAL.program_code='" + clsUserMgtCode.mbtnGRN + "'"
+            End If
             Dim whrcls As String = ""
             If Not clsMccMaster.isCurrentUserHO() Then
                 If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -436,6 +443,9 @@ Public Class FrmTransactionApproval
                         Gv1.Rows(i).Cells(colAvailAmount).Value = clsCommon.myCdbl(dt.Rows(i)("OutStandingAmt"))
                         Gv1.Rows(i).Cells(colShortExcess).Value = clsCommon.myCdbl(dt.Rows(i)("Short"))
                         Gv1.Rows(i).Cells(colCreditLimit).Value = clsCommon.myCdbl(dt.Rows(i)("CreditLimit"))
+                    ElseIf clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                        Gv1.Rows(i).Cells(colRequestedQty).Value = dt.Rows(i)("Requested_Qty")
+                        Gv1.Rows(i).Cells(colApprovedQty).Value = dt.Rows(i)("Approved_Qty")
                     End If
                     Gv1.Rows(i).Cells(colbtnCol).Value = "Click Here..."
                 Next
@@ -453,7 +463,7 @@ Public Class FrmTransactionApproval
 
     Sub SaveData()
         Try
-
+            Dim isSaved As Boolean = False
             If MyBase.isModifyonPasswordFlag Then
                 If clsPasswordCheckForMasters.CheckMasterPwd(strTranAppPass, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                 Else
@@ -474,7 +484,7 @@ Public Class FrmTransactionApproval
                             obj1.Doc_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells(colSRNDATe).Value, "dd/MMM/yyyy")
                             obj1.Approval_Type = Gv1.Rows(i).Cells(colApprovalType).Value
                             obj1.Approval_Remarks = Gv1.Rows(i).Cells(colApprovalRemarks).Value
-
+                            obj1.Approved_Qty = clsCommon.myCdbl(Gv1.Rows(i).Cells(colApprovedQty).Value)
                             If clsCommon.CompairString(clsUserMgtCode.frmbookingdairy, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                                 obj1.Cust_Code = Gv1.Rows(i).Cells(colVendorCode).Value
                             End If
@@ -790,6 +800,48 @@ Public Class FrmTransactionApproval
                 End If
                 Exit Sub
             End If
+
+            If clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                Dim obj1 As ClsTransactionApproval
+                If Gv1.Rows.Count > 0 Then
+                    For i As Integer = 0 To Gv1.Rows.Count - 1
+                        If Gv1.Rows(i).Cells(colSelect).Value = True Then
+                            obj1 = New ClsTransactionApproval
+                            obj1.Screen_Name = cmbScreenName.Text
+                            obj1.Program_Code = cmbScreenName.SelectedValue
+                            obj1.Document_No = clsCommon.myCstr(Gv1.Rows(i).Cells(colDocNo).Value)
+                            obj1.Doc_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells(colDocDate).Value, "dd/MMM/yyyy")
+                            obj1.Cust_Code = clsCommon.myCstr(Gv1.Rows(i).Cells(colVendorCode).Value)
+                            obj1.Approval_Type = clsCommon.myCstr(Gv1.Rows(i).Cells(colApprovalType).Value)
+                            obj1.Approval_Remarks = clsCommon.myCstr(Gv1.Rows(i).Cells(colApprovalRemarks).Value)
+                            obj1.Requested_Qty = clsCommon.myCdbl(Gv1.Rows(i).Cells(colRequestedQty).Value)
+                            obj1.Approved_Qty = clsCommon.myCdbl(Gv1.Rows(i).Cells(colApprovedQty).Value)
+                            Dim qry1 As Integer = clsDBFuncationality.getSingleValue("select count(Document_No) from TSPL_TRANSACTION_APPROVAL where Document_No='" + obj1.Document_No + "'")
+                            If (qry1 = 0) Then
+                                isnewentry = True
+                            Else
+                                isnewentry = False
+                            End If
+                            If clsCommon.myLen(obj1.Document_No) > 0 Then
+                                If (ClsTransactionApproval.SaveData(obj1, isnewentry)) Then
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='1' where Document_No='" + obj1.Document_No + "'")
+                                    'clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set Status=1 where Document_Code='" & obj1.Document_No & "'")
+                                    'clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set Status=1 WHERE Document_Code=(select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD WHERE Document_Code='" & obj1.Document_No & "')")
+                                    isSaved = True
+                                End If
+                            End If
+                        End If
+                    Next
+                    If isSaved Then
+                        clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
+                        AddNew()
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found To Approve", Me.Text)
+                End If
+                Exit Sub
+            End If
+
             Dim obj As New ClsTransactionApproval()
             obj.Screen_Name = cmbScreenName.Text
             obj.Program_Code = cmbScreenName.SelectedValue
@@ -824,7 +876,7 @@ Public Class FrmTransactionApproval
             clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
             AddNew()
             'End If
-
+            isSaved = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -894,8 +946,10 @@ Public Class FrmTransactionApproval
                                 obj1.Cust_Code = Gv1.Rows(i).Cells(colVendorCode).Value
                                 obj1.Doc_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells(colDocDate).Value, "dd/MMM/yyyy")
                                 obj1.Approval_Type = Gv1.Rows(i).Cells(colApprovalType).Value
-
-
+                            ElseIf clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                                obj1.Screen_Name = cmbScreenName.Text
+                                obj1.Program_Code = cmbScreenName.SelectedValue
+                                obj1.Document_No = Gv1.Rows(i).Cells(colDocNo).Value
                             End If
 
                             obj1.Approval_Type = ddApprovalType.Text
@@ -1011,7 +1065,9 @@ Public Class FrmTransactionApproval
                                 ElseIf clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='2' where Document_No='" + obj1.Document_No + "'", trans)
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_MASTER set Posted=2 where Document_No='" + obj1.Document_No + "'", trans)
-
+                                ElseIf clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='2' where Document_No='" + obj1.Document_No + "' and Program_Code='" + obj1.Program_Code + "'", trans)
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_GRN_HEAD set IsCancel=1 where GRN_No='" + obj1.Document_No + "'", trans)
                                 End If
 
                             End If
@@ -1098,9 +1154,14 @@ Public Class FrmTransactionApproval
                 loadGridDataAll()
                 isInsideLoadData = False
                 Exit Sub
+            ElseIf clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                isInsideLoadData = True
+                loadGridDataAll()
+                isInsideLoadData = False
+                Exit Sub
             Else
                 FndDocumnetNo.Value = ""
-                LblDocDate.Text = ""
+                LblDocDate.Text = Nothing
                 FndDocumnetNo.Enabled = True
                 ddApprovalType.Text = ""
                 Gv1.Visible = False
@@ -1131,27 +1192,39 @@ Public Class FrmTransactionApproval
     End Sub
 
     Private Sub btnApprove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApprove.Click
-        If clsCommon.CompairString(cmbScreenName.Text, "Select") = CompairStringResult.Equal Then
-            clsCommon.MyMessageBoxShow(Me, "Please Select At least one document.", Me.Text)
-            Exit Sub
-        End If
-        Dim rowsCount As Integer = 0
-        Dim ExtraMsg As String = ""
-        If Gv1.Visible = True And Gv1 IsNot Nothing AndAlso Gv1.Rows.Count > 0 Then
-            For i As Integer = 0 To Gv1.Rows.Count - 1
-                If Gv1.Rows(i).Cells(colSelect).Value = True Then
-                    rowsCount = rowsCount + 1
-                End If
-            Next
-            If rowsCount > 0 Then
-                ExtraMsg = Environment.NewLine & "you are going to approve  total " & rowsCount & " " & cmbScreenName.Text & " Document(s)"
-            Else
-                ExtraMsg = ""
+        Try
+            If clsCommon.CompairString(cmbScreenName.Text, "Select") = CompairStringResult.Equal Then
+                clsCommon.MyMessageBoxShow(Me, "Please Select At least one document.", Me.Text)
+                Exit Sub
             End If
-        End If
-        If clsCommon.MyMessageBoxShow("Are you sure to approve selected document(s)." & ExtraMsg, Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-            SaveData()
-        End If
+            Dim rowsCount As Integer = 0
+            Dim ExtraMsg As String = ""
+            If Gv1.Visible = True And Gv1 IsNot Nothing AndAlso Gv1.Rows.Count > 0 Then
+                For i As Integer = 0 To Gv1.Rows.Count - 1
+                    If Gv1.Rows(i).Cells(colSelect).Value = True Then
+                        rowsCount = rowsCount + 1
+                    End If
+                    If clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                        If clsCommon.myCdbl(Gv1.Rows(i).Cells(colApprovedQty).Value) <= 0 Then
+                            clsCommon.MyMessageBoxShow(Me, "Fill Approved Quantity ! At Line No." + clsCommon.myCstr((i + 1)), Me.Text)
+                            Exit Sub
+                        End If
+                    End If
+                Next
+                If rowsCount > 0 Then
+                    ExtraMsg = Environment.NewLine & "you are going to approve  total " & rowsCount & " " & cmbScreenName.Text & " Document(s)"
+                Else
+                    'ExtraMsg = ""
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Row", Me.Text)
+                    Exit Sub
+                End If
+            End If
+            If clsCommon.MyMessageBoxShow("Are you sure to approve selected document(s)." & ExtraMsg, Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                SaveData()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
@@ -1659,7 +1732,25 @@ Public Class FrmTransactionApproval
                 repoCreditLimit.ReadOnly = True
                 Gv1.MasterTemplate.Columns.Add(repoCreditLimit)
             End If
-           
+
+            If clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                Dim RepoRequestedQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+                RepoRequestedQty.HeaderText = "Requested Qty"
+                RepoRequestedQty.Name = colRequestedQty
+                RepoRequestedQty.ReadOnly = True
+                RepoRequestedQty.Width = 150
+                RepoRequestedQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                Gv1.MasterTemplate.Columns.Add(RepoRequestedQty)
+
+                Dim RepoApprovedQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+                RepoApprovedQty.HeaderText = "Approved Qty"
+                RepoApprovedQty.Name = colApprovedQty
+                RepoApprovedQty.ReadOnly = False
+                RepoApprovedQty.Width = 150
+                RepoApprovedQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                Gv1.MasterTemplate.Columns.Add(RepoApprovedQty)
+            End If
+
             Dim RepobtnCol As GridViewCommandColumn = New GridViewCommandColumn()
             RepobtnCol.HeaderText = "Detail"
             RepobtnCol.Name = colbtnCol
@@ -1668,7 +1759,6 @@ Public Class FrmTransactionApproval
             RepobtnCol.DefaultText = "Click Here..."
             RepobtnCol.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
             Gv1.MasterTemplate.Columns.Add(RepobtnCol)
-
 
             Gv1.AllowAddNewRow = False
             Gv1.AllowColumnChooser = True
@@ -1880,6 +1970,16 @@ Public Class FrmTransactionApproval
 
             Dim OsBal As Decimal = GetOutStandingBal(Gv1.CurrentRow.Cells(colVendorCode).Value, clsCommon.GetPrintDate(Gv1.CurrentRow.Cells(colDocDate).Value))
             clsCommon.MyMessageBoxShow(Me, "OutStatnding Balance :" + clsCommon.myCstr(OsBal), Me.Text)
+        End If
+
+        If clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+            If Gv1.Rows.Count > 0 AndAlso e.RowIndex >= 0 AndAlso e.Column Is Gv1.Columns(colbtnCol) AndAlso clsCommon.myLen(Gv1.CurrentRow.Cells(colDocNo).Value) > 0 Then
+                Dim frm As New frmGRN
+                frm.SetUserMgmt(clsUserMgtCode.mbtnGRN)
+                frm.strGRN = clsCommon.myCstr(Gv1.CurrentRow.Cells(colDocNo).Value)
+                frm.WindowState = FormWindowState.Maximized
+                frm.Show()
+            End If
         End If
 
     End Sub

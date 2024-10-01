@@ -1080,6 +1080,7 @@ Partial Class MDI
         '
         'SplitPanel1
         '
+        Me.SplitPanel1.Collapsed = True
         Me.SplitPanel1.Controls.Add(Me.RadCarousel1)
         Me.SplitPanel1.Location = New System.Drawing.Point(0, 0)
         Me.SplitPanel1.Name = "SplitPanel1"
@@ -1237,18 +1238,17 @@ Partial Class MDI
         'SplitPanel2
         '
         Me.SplitPanel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.SplitPanel2.Collapsed = True
         Me.SplitPanel2.Controls.Add(Me.SplitContainer1)
         Me.SplitPanel2.Controls.Add(Me.MyLabel1)
         Me.SplitPanel2.Controls.Add(Me.chkRemember)
         Me.SplitPanel2.Controls.Add(Me.ddllocation)
-        Me.SplitPanel2.Location = New System.Drawing.Point(530, 0)
+        Me.SplitPanel2.Location = New System.Drawing.Point(0, 0)
         Me.SplitPanel2.Name = "SplitPanel2"
         '
         '
         '
         Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.SplitPanel2.Size = New System.Drawing.Size(527, 444)
+        Me.SplitPanel2.Size = New System.Drawing.Size(1057, 437)
         Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(-0.0002246182!, 0!)
         Me.SplitPanel2.TabIndex = 1
         Me.SplitPanel2.TabStop = False
@@ -1284,8 +1284,8 @@ Partial Class MDI
         Me.SplitContainer1.Panel2.Controls.Add(Me.lblPassword)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnChangePassword)
-        Me.SplitContainer1.Size = New System.Drawing.Size(527, 444)
-        Me.SplitContainer1.SplitterDistance = 158
+        Me.SplitContainer1.Size = New System.Drawing.Size(1057, 437)
+        Me.SplitContainer1.SplitterDistance = 688
         Me.SplitContainer1.TabIndex = 18
         '
         'SplitContainer2
@@ -1307,7 +1307,7 @@ Partial Class MDI
         Me.SplitContainer2.Panel2.BackgroundImage = Global.ERP.My.Resources.Resources.BackImageXpertERP
         Me.SplitContainer2.Panel2.Controls.Add(Me.PictureBox8)
         Me.SplitContainer2.Panel2.Controls.Add(Me.PictureBox7)
-        Me.SplitContainer2.Size = New System.Drawing.Size(158, 444)
+        Me.SplitContainer2.Size = New System.Drawing.Size(688, 437)
         Me.SplitContainer2.SplitterDistance = 133
         Me.SplitContainer2.TabIndex = 19
         '

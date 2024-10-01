@@ -221,10 +221,10 @@ Public Class MDI
     End Function
 
     Sub LoadWelcomeScreen()
-        SplitPanel2.Collapsed = True
+        SplitPanel2.Collapsed = False
         SplitPanel3.Collapsed = True
         SplitPanel4.Collapsed = True
-        SplitPanel1.Collapsed = False
+        SplitPanel1.Collapsed = True
         Dim myAssembly As Assembly = Assembly.GetExecutingAssembly()
         Dim myAssemblyName As AssemblyName = myAssembly.GetName()
         lblVersion.Text = clsCommon.myCstr(myAssemblyName.Version).Trim()
@@ -232,7 +232,6 @@ Public Class MDI
         'lblCreatedDate.Text = aDescAttr.Description.ToString
         lblVersion.Text += " [" + aDescAttr.Description.ToString.Trim() + "]"
         SetConnectionWithCommonDLL("")
-
         objCommonVar.CurrentCompanyCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select comp_Code from tspl_company_master"))
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
             SplitContainer2.Panel1Collapsed = True
@@ -294,6 +293,7 @@ Public Class MDI
         ''Check Licence
         CheckLicence()
         ''End of Check Licence
+
     End Sub
 
     Private Sub llblLogin_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles llblLogin.LinkClicked
@@ -313,7 +313,7 @@ Public Class MDI
         Microsoft.Win32.Registry.SetValue("HKEY_CURRENT_USER\Control Panel\International", "sShortDate", "dd/MM/yyyy")
         txtUserName.Focus()
 
-        Dim qry As String = "Select User_Code,Password from TSPL_USER_MASTER where User_Code='" + System.Environment.UserName + "' and isnull(SSO,0)=1"
+        Dim qry As String = "Select User_Code,Password from TSPL_USER_MASTER where SSO='" + System.Environment.UserName + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, Nothing)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             txtUserName.Text = clsCommon.myCstr(dt.Rows(0)("User_Code"))
@@ -8516,6 +8516,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptProductionReport
                         frm = New rptProductionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptProductionStoreReport
+                        frm = New rptProductionStoreReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
