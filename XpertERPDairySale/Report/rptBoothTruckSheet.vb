@@ -57,7 +57,7 @@ Public Class rptBoothTruckSheet
 
             If txtRouteCode.Value IsNot Nothing Then
                 'whrcls += "  And TSPL_BOOKING_DETAIL.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
-                whrcls += " and TSPL_DEMAND_BOOKING_master.Route_No in (" + clsCommon.myCstr(txtRouteCode.Value) + ")"
+                whrcls += " and TSPL_DEMAND_BOOKING_master.Route_No in ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
 
             End If
             qry = "  SELECT max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq

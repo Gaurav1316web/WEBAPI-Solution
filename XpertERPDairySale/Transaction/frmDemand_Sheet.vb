@@ -7,6 +7,7 @@ Public Class frmDemand_Sheet
     Private isNewEntry As Boolean = False
     Dim SetShiftTimeOut As String = ""
     Dim isInsideLoadData As Boolean = False
+    Dim allowtoselectShift As Boolean = False
     Dim isLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Const colLineNo As String = "colLineNo"
@@ -39,8 +40,15 @@ Public Class frmDemand_Sheet
     End Sub
     Private Sub frmDemandSheet_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetShiftTimeOut = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, Nothing))
-        txtDate.Enabled = False
-        txtShift.Enabled = False
+        allowtoselectShift = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToSelectShift, clsFixedParameterCode.AllowToSelectShift, Nothing)) = 1, True, False)
+        If allowtoselectShift = True Then
+            txtDate.Enabled = True
+            txtShift.Enabled = True
+        Else
+            txtDate.Enabled = False
+            txtShift.Enabled = False
+        End If
+
         AddNew()
         SetUserMgmtNew()
         LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode, True)

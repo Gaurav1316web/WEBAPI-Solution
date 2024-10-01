@@ -11,6 +11,8 @@ Public Class clsUserMgtCode
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
     Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
     Public Const rptExeVersionReport As String = "EXE-VER"
+    Public Const rptProductionReport As String = "PRO-RPT"
+    Public Const rptProductionStoreReport As String = "PRO-SAL-RPT"
     Public Const frmDCSSavingLedger As String = "DCS-LGR-RPT"
     Public Const frmDBTStatusAndLastDPTStatus As String = "DBT-STATUS"
     Public Const frmDBTApprovalStatus As String = "DBT-APPRO"

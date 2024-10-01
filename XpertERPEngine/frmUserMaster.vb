@@ -297,6 +297,7 @@ Public Class FrmUserMaster
                 txtBulkRoute.arrValueMember = Nothing
                 btnSave.Text = "Save"
                 btnDelete.Enabled = False
+                txtSSO.Text = ""
                 If isCheckCustomerType = True Then
                     lblDisRetailer.Text = "POS Details"
                     CmbLoginType.SelectedValue = ""
@@ -315,7 +316,7 @@ Public Class FrmUserMaster
 #Region "Methods"
     Private Sub funfill()
 
-        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
+        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
         Dim dr As DataTable
         dr = clsDBFuncationality.GetDataTable(str)
         For Each row As DataRow In dr.Rows
@@ -448,6 +449,7 @@ Public Class FrmUserMaster
             lblVendorName.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + fndVendor.Value + "'")
 
             txtMP.Value = clsCommon.myCstr(row("MP_Code"))
+            txtSSO.Text = clsCommon.myCstr(row("SSO"))
             lblMP.Text = clsMpMaster.GetName(txtMP.Value, Nothing)
 
             btnSave.Text = "Update"
@@ -712,6 +714,7 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "User_APP_Sale_Type", CmbAppUserSaleType.SelectedValue, True)
         clsCommon.AddColumnsForChange(coll, "MP_Code", txtMP.Value, True)
         clsCommon.AddColumnsForChange(coll, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
+        clsCommon.AddColumnsForChange(coll, "SSO", txtSSO.Text, True)
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
     End Sub
 
@@ -1050,6 +1053,7 @@ Public Class FrmUserMaster
         LoadBlankUserGrid()
         gvUser.Rows.AddNew()
         fndUserCode.Focus()
+        txtSSO.Text = ""
     End Sub
     'priti added on 01-06-2011 --- To implement the access control
     'Private Function funSetUserAccess() As Boolean
