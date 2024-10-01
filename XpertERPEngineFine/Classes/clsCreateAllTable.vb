@@ -14215,8 +14215,13 @@ Public Class clsCreateAllTable
             coll.Add("Entry_UOM", "integer null")
             coll.Add("Entry_UOM_Mobile", "integer null")
             coll.Add("OTP_TYPE", "varchar(12) null references TSPL_PROGRAM_MASTER(Program_Code)")
+            coll.Add("SSO", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
-
+            Try
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")
+                clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_SSO ON TSPL_USER_MASTER (SSO) WHERE SSO IS NOT NULL;")
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("BANK_GROUP_CODE", "varchar(12) NOT NULL PRIMARY KEY")
             coll.Add("DESCRIPTION", "varchar(60) NULL")
@@ -25154,6 +25159,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Description_Hindi", "nvarchar(200) NULL")
             coll.Add("Apply_Formula", "integer NULL")
             coll.Add("Dont_Generate_DR_CR_Note", "integer NULL")
+            coll.Add("Consider_Negative_Amt", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -30085,51 +30091,51 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Location", "varchar(12) NOT NULL")
             coll.Add("Item_Cost", "decimal(18,6) NULL")
             coll.Add("TAX1", "varchar(12) NULL")
-            coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX1_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX1_Rate", "decimal(18, 4) NULL")
-            coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX1_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX2", "varchar(12) NULL")
-            coll.Add("TAX2_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX2_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX2_Rate", "decimal(18, 4) NULL")
-            coll.Add("TAX2_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX2_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX3", "varchar(12) NULL")
-            coll.Add("TAX3_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX3_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX3_Rate", "decimal(18, 4) NULL")
-            coll.Add("TAX3_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX3_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX4", "varchar(12) NULL")
-            coll.Add("TAX4_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX4_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX4_Rate", "decimal(18, 4) NULL")
-            coll.Add("TAX4_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX4_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX5", "varchar(12) NULL")
-            coll.Add("TAX5_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX5_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX5_Rate", "decimal(18, 4) NULL")
-            coll.Add("TAX5_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX5_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX6", "varchar(12) NULL")
-            coll.Add("TAX6_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX6_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX6_Rate", "decimal(18, 2) NULL")
-            coll.Add("TAX6_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX6_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX7", "varchar(12) NULL")
-            coll.Add("TAX7_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX7_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX7_Rate", "decimal(18, 2) NULL")
-            coll.Add("TAX7_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX7_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX8", "varchar(12) NULL")
-            coll.Add("TAX8_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX8_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX8_Rate", "decimal(18, 2) NULL")
-            coll.Add("TAX8_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX8_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX9", "varchar(12) NULL")
-            coll.Add("TAX9_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX9_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX9_Rate", "decimal(18, 2) NULL")
-            coll.Add("TAX9_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX9_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX10", "varchar(12) NULL")
-            coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX10_Base_Amt", "decimal(18, 6) NULL")
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
-            coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
-            coll.Add("Amount", "decimal(18, 2) NULL")
+            coll.Add("TAX10_Amt", "decimal(18, 6) NULL")
+            coll.Add("Amount", "decimal(18, 6) NULL")
             coll.Add("Disc_Per", "decimal(18, 2) NULL")
             coll.Add("Disc_Amt", "decimal(18, 2) NULL")
-            coll.Add("Amt_Less_Discount", "decimal(18, 2) NULL")
-            coll.Add("Total_Tax_Amt", "decimal(18, 2) NULL")
-            coll.Add("Item_Net_Amt", "decimal(18, 2) NULL")
+            coll.Add("Amt_Less_Discount", "decimal(18, 6) NULL")
+            coll.Add("Total_Tax_Amt", "decimal(18, 6) NULL")
+            coll.Add("Item_Net_Amt", "decimal(18, 6) NULL")
             coll.Add("Status", "integer not null default 0")
             coll.Add("MRP", "decimal(18, 2) NULL")
             coll.Add("Batch_No", "varchar(30) NULL")
@@ -30248,7 +30254,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
             qry = "alter table TSPL_SD_SHIPMENT_detail alter column Amount Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX1_Base_Amt Decimal(18,6) null "
             qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX1_Amt Decimal(18,6) null  alter table TSPL_SD_SHIPMENT_detail  alter column TAX2_Base_Amt Decimal(18,6) null "
- qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX2_Amt Decimal(18,6) null  alter table TSPL_SD_SHIPMENT_detail  alter column TAX3_Base_Amt Decimal(18,6) null "
+            qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX2_Amt Decimal(18,6) null  alter table TSPL_SD_SHIPMENT_detail  alter column TAX3_Base_Amt Decimal(18,6) null "
             qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX3_Amt Decimal(18,6) null   alter table TSPL_SD_SHIPMENT_detail  alter column TAX4_Base_Amt Decimal(18,6) null"
             qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX4_Amt Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX5_Base_Amt Decimal(18,6) null"
             qry += "  alter table TSPL_SD_SHIPMENT_detail  alter column TAX5_Amt Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX6_Base_Amt Decimal(18,6) null"
@@ -53633,6 +53639,23 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ANDROID_MP_SALE", coll)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Varchar(30) not null PRIMARY KEY")
+            coll.Add("Start_Date", "Date NOT NULL")
+            coll.Add("End_Date", "Date NULL")
+            coll.Add("Document_Date", "Date NOT NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Post_By", "varchar(12)  NULL")
+            coll.Add("Post_Date", "Datetime  NULL")
+            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("Union_Name", "varchar(12)  NULL")
+            clsCommonFunctionality.CreateOrAlterTable("Tspl_Daily_Demand_Master", coll)
+
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "Varchar(30) NOT NULL primary key")
             coll.Add("Document_Date", "datetime not NULL")
             coll.Add("MCC_Code", "Varchar(30) not null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
@@ -55851,6 +55874,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
 
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", False)
 
+
             'coll = New Dictionary(Of String, String)()
             'coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
             'coll.Add("Document_Date", "DateTime not NULL")
@@ -56158,6 +56182,8 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("FAT_KG", "Decimal(18,3) null")
             coll.Add("SNF_KG", "Decimal(18,3) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_ITEM_ADD_REMOVE", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
+
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")

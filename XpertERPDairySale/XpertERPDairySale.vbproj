@@ -191,6 +191,12 @@
     <Compile Include="Master\frmCustomerDeduction.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\frmDailyDemand.Designer.vb">
+      <DependentUpon>frmDailyDemand.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmDailyDemand.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmDistributorRouteTagging.Designer.vb">
       <DependentUpon>frmDistributorRouteTagging.vb</DependentUpon>
     </Compile>
@@ -265,6 +271,12 @@
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\frmCrateJaliReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailyDemandReport.Designer.vb">
+      <DependentUpon>frmDailyDemandReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDailyDemandReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\FrmDairySaleSchemeReport.Designer.vb">
@@ -869,6 +881,9 @@
     <EmbeddedResource Include="Master\frmCustomerDeduction.resx">
       <DependentUpon>frmCustomerDeduction.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmDailyDemand.resx">
+      <DependentUpon>frmDailyDemand.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmDistributorRouteTagging.resx">
       <DependentUpon>frmDistributorRouteTagging.vb</DependentUpon>
     </EmbeddedResource>
@@ -905,6 +920,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmCrateJaliReport.resx">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailyDemandReport.resx">
+      <DependentUpon>frmDailyDemandReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmDairySaleSchemeReport.resx">
       <DependentUpon>FrmDairySaleSchemeReport.vb</DependentUpon>

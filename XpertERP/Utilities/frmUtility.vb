@@ -6788,7 +6788,7 @@ Public Class FrmUtility
                             qry = "update TSPL_PI_HEAD set Status=0 where PI_No in ('" + strDocNo + "')"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            clsPurchaseInvoiceHead.PostData("", strDocNo, strAPInvNo, strAPInvVoucherNo, trans, "")
+                            clsPurchaseInvoiceHead.PostData("", strDocNo, strAPInvNo, strAPInvVoucherNo, trans, "", Nothing)
 
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATE_PI_PJV values('" + strDocNo + "')", trans)
 

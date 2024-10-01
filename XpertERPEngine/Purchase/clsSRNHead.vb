@@ -1214,10 +1214,10 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         Return True
     End Function
 
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String) As Boolean
+    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, Optional ByVal IsRejectQty As Boolean = False) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            PostData(FormId, strDocNo, trans, True)
+            PostData(FormId, strDocNo, trans, True, IsRejectQty)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -1225,7 +1225,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         End Try
         Return True
     End Function
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal IsapprovalRequired As Boolean, Optional ByVal strVoucherNoRecreateOnly As String = Nothing) As Boolean
+    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal IsapprovalRequired As Boolean, ByVal WithoutRejection As Boolean, Optional ByVal strVoucherNoRecreateOnly As String = Nothing) As Boolean
         ' Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim isSaved As Boolean = True
@@ -1342,58 +1342,59 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                         objInventoryMovemnt.Expiry_Date = objTr.Expiry_Date
 
                         ArrInventoryMovement.Add(objInventoryMovemnt)
-
-                        If objTr.Rejected_Qty > 0 AndAlso Not obj.is_Srn_rejQty_goes_in_Rejstore Then
-                            Throw New Exception("Please apply rejection setting on SRN")
+                        If WithoutRejection = False Then
+                            If objTr.Rejected_Qty > 0 AndAlso Not obj.is_Srn_rejQty_goes_in_Rejstore Then
+                                Throw New Exception("Please apply rejection setting on SRN")
+                            End If
                         End If
 
                         If objTr.Rejected_Qty > 0 AndAlso obj.is_Srn_rejQty_goes_in_Rejstore Then
-                            'Comment by balwider on 02/06/2021 becuase if location is not defined it return 1 and Condition will always false.
-                            'Dim RejLoc As Integer = clsDBFuncationality.getSingleValue("select count(Rejected_Location) from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
-                            'If RejLoc <= 0 Then
-                            '    Throw New Exception("Rejected Location Not filled of [" + objTr.Location + "]")
-                            'End If
+                                'Comment by balwider on 02/06/2021 becuase if location is not defined it return 1 and Condition will always false.
+                                'Dim RejLoc As Integer = clsDBFuncationality.getSingleValue("select count(Rejected_Location) from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
+                                'If RejLoc <= 0 Then
+                                '    Throw New Exception("Rejected Location Not filled of [" + objTr.Location + "]")
+                                'End If
 
-                            Dim objInventoryMovemntForRej As New clsInventoryMovement()
-                            objInventoryMovemntForRej.InOut = "I"
-                            objInventoryMovemntForRej.Location_Code = clsDBFuncationality.getSingleValue("select Rejected_Location from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
-                            If clsCommon.myLen(objInventoryMovemntForRej.Location_Code) <= 0 Then
-                                Throw New Exception("Rejected Location Not filled of [" + objTr.Location + "]")
-                            End If
-                            ''richa agarwal 4 Dec,2020
-                            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(objTr.Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
-                                If obj.isJobWorkOutward = 0 Then
-                                    objInventoryMovemnt.Location_Code = obj.Sublocation_Code
+                                Dim objInventoryMovemntForRej As New clsInventoryMovement()
+                                objInventoryMovemntForRej.InOut = "I"
+                                objInventoryMovemntForRej.Location_Code = clsDBFuncationality.getSingleValue("select Rejected_Location from TSPL_LOCATION_MASTER where Location_Code='" & objTr.Location & "'", trans)
+                                If clsCommon.myLen(objInventoryMovemntForRej.Location_Code) <= 0 Then
+                                    Throw New Exception("Rejected Location Not filled of [" + objTr.Location + "]")
                                 End If
+                                ''richa agarwal 4 Dec,2020
+                                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(objTr.Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
+                                    If obj.isJobWorkOutward = 0 Then
+                                        objInventoryMovemnt.Location_Code = obj.Sublocation_Code
+                                    End If
+                                End If
+
+                                objInventoryMovemnt.Vendor_Code = obj.Vendor_Code
+                                objInventoryMovemnt.Vendor_Name = obj.Vendor_Name
+
+                                objInventoryMovemntForRej.Item_Code = objTr.Item_Code
+                                objInventoryMovemntForRej.Item_Desc = objTr.Item_Desc
+                                objInventoryMovemntForRej.Qty = objTr.Rejected_Qty
+                                objInventoryMovemntForRej.UOM = objTr.Unit_code
+                                objInventoryMovemntForRej.MRP = objTr.MRP
+                                ''BM00000007656 fo handle multicurrancy .Balwinder on 26.08.2015
+                                objInventoryMovemntForRej.Add_Cost = objTr.Total_Tax_Amt * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                                objInventoryMovemntForRej.Net_Cost = objTr.Landed_Cost_Amount * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                                    objInventoryMovemntForRej.ItemType = "RM"
+                                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                                    objInventoryMovemntForRej.ItemType = "OT"
+                                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                                    objInventoryMovemntForRej.ItemType = "FT"
+                                End If
+                                objInventoryMovemntForRej.ItemType = strItemTypeToSave
+
+                                objInventoryMovemntForRej.Basic_Cost = objTr.Landed_Cost_Rate * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
+                                objInventoryMovemntForRej.Batch_No = objTr.Batch_No
+                                objInventoryMovemntForRej.MFG_Date = objTr.MFG_Date
+                                objInventoryMovemntForRej.Expiry_Date = objTr.Expiry_Date
+                                ArrInventoryMovement.Add(objInventoryMovemntForRej)
                             End If
-
-                            objInventoryMovemnt.Vendor_Code = obj.Vendor_Code
-                            objInventoryMovemnt.Vendor_Name = obj.Vendor_Name
-
-                            objInventoryMovemntForRej.Item_Code = objTr.Item_Code
-                            objInventoryMovemntForRej.Item_Desc = objTr.Item_Desc
-                            objInventoryMovemntForRej.Qty = objTr.Rejected_Qty
-                            objInventoryMovemntForRej.UOM = objTr.Unit_code
-                            objInventoryMovemntForRej.MRP = objTr.MRP
-                            ''BM00000007656 fo handle multicurrancy .Balwinder on 26.08.2015
-                            objInventoryMovemntForRej.Add_Cost = objTr.Total_Tax_Amt * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                            objInventoryMovemntForRej.Net_Cost = objTr.Landed_Cost_Amount * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                                objInventoryMovemntForRej.ItemType = "RM"
-                            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                                objInventoryMovemntForRej.ItemType = "OT"
-                            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                                objInventoryMovemntForRej.ItemType = "FT"
-                            End If
-                            objInventoryMovemntForRej.ItemType = strItemTypeToSave
-
-                            objInventoryMovemntForRej.Basic_Cost = objTr.Landed_Cost_Rate * IIf(obj.ConvRate = 0, 1, obj.ConvRate)
-                            objInventoryMovemntForRej.Batch_No = objTr.Batch_No
-                            objInventoryMovemntForRej.MFG_Date = objTr.MFG_Date
-                            objInventoryMovemntForRej.Expiry_Date = objTr.Expiry_Date
-                            ArrInventoryMovement.Add(objInventoryMovemntForRej)
                         End If
-                    End If
                 Next
                 isSaved = isSaved AndAlso clsInventoryMovement.SaveData("SRN", obj.SRN_No, obj.SRN_Date, clsCommon.GetPrintDate(obj.SRN_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
             End If
@@ -1432,7 +1433,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 '=========end here================================================================================================================
             End If
 
-            CreateJournalEntry(obj, strVoucherNoRecreateOnly, trans)
+            CreateJournalEntry(obj, strVoucherNoRecreateOnly, trans, WithoutRejection)
 
             If obj.isJobWorkOutward = 1 Then
                 CreateAutoJobWorkTransferOut(trans, obj)
@@ -1918,7 +1919,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         Return True
     End Function
 
-    Public Shared Function CreateJournalEntry(ByVal obj As clsSRNHead, ByVal strVoucherNoRecreateOnly As String, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function CreateJournalEntry(ByVal obj As clsSRNHead, ByVal strVoucherNoRecreateOnly As String, ByVal trans As SqlTransaction, Optional ByVal WithoutRejection As Boolean = False) As Boolean
         Try
             Dim qry As String = ""
             Dim ArryLstGLAC As ArrayList = New ArrayList()
@@ -2016,23 +2017,31 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
 
                         ''4
-                        If objTr.Rejected_Amount > 0 Then
-                            Dim strRejectedAcc As String = clsCommon.myCstr(dt.Rows(0)("Other_1"))
-                            If clsCommon.myLen(strRejectedAcc) <= 0 Then
-                                Throw New Exception("Please set [Rejected Inventory Account] for Purchase Account set Code :" + clsCommon.myCstr(dt.Rows(0)("Purchase_Class_Code")) + " and Item: " + objTr.Item_Code + "(" + objTr.Item_Desc + ") ")
+                        If WithoutRejection = False Then
+                            If objTr.Rejected_Amount > 0 Then
+                                Dim strRejectedAcc As String = clsCommon.myCstr(dt.Rows(0)("Other_1"))
+                                If clsCommon.myLen(strRejectedAcc) <= 0 Then
+                                    Throw New Exception("Please set [Rejected Inventory Account] for Purchase Account set Code :" + clsCommon.myCstr(dt.Rows(0)("Purchase_Class_Code")) + " and Item: " + objTr.Item_Code + "(" + objTr.Item_Desc + ") ")
+                                End If
+                                strRejectedAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strRejectedAcc, IIf(clsCommon.myLen(obj.Ship_To_Location) > 0, obj.Ship_To_Location, obj.Bill_To_Location), trans)
+                                Dim AccDrRej() As String = {strRejectedAcc, Math.Round(objTr.Rejected_Amount, 2, MidpointRounding.ToEven)}
+                                ArryLstGLAC.Add(AccDrRej)
                             End If
-                            strRejectedAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strRejectedAcc, IIf(clsCommon.myLen(obj.Ship_To_Location) > 0, obj.Ship_To_Location, obj.Bill_To_Location), trans)
-                            Dim AccDrRej() As String = {strRejectedAcc, Math.Round(objTr.Rejected_Amount, 2, MidpointRounding.ToEven)}
-                            ArryLstGLAC.Add(AccDrRej)
                         End If
 
                         ''5
+                        Dim AccCr() As String = Nothing
                         Dim strPaybleCleanigCtrlAC As String = clsCommon.myCstr(dt.Rows(0)("Inv_Payable_Clearing"))
                         If clsCommon.myLen(strInvCtrlAC) <= 0 Then
                             Throw New Exception("Please set Payable Clearing Account for Purchase Account set Code :" + clsCommon.myCstr(dt.Rows(0)("Purchase_Class_Code")) + " and Item: " + objTr.Item_Code + "(" + objTr.Item_Desc + ") ")
                         End If
                         strPaybleCleanigCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleCleanigCtrlAC, IIf(clsCommon.myLen(obj.Ship_To_Location) > 0, obj.Ship_To_Location, obj.Bill_To_Location), trans)
-                        Dim AccCr() As String = {strPaybleCleanigCtrlAC, -1 * Math.Round(((objTr.Accepted_Amount + objTr.Leak_Amount + objTr.Burst_Amount + IIf(isAgainstTender, 0, objTr.Shortage_Amount) + objTr.Rejected_Amount)), 2, MidpointRounding.ToEven), "", "", "", "", "", "", "Y"}
+                        If WithoutRejection = False Then
+                            AccCr = {strPaybleCleanigCtrlAC, -1 * Math.Round(((objTr.Accepted_Amount + objTr.Leak_Amount + objTr.Burst_Amount + IIf(isAgainstTender, 0, objTr.Shortage_Amount) + objTr.Rejected_Amount)), 2, MidpointRounding.ToEven), "", "", "", "", "", "", "Y"}
+                        Else
+                            AccCr = {strPaybleCleanigCtrlAC, -1 * Math.Round(((objTr.Accepted_Amount + objTr.Leak_Amount + objTr.Burst_Amount + IIf(isAgainstTender, 0, objTr.Shortage_Amount))), 2, MidpointRounding.ToEven), "", "", "", "", "", "", "Y"}
+
+                        End If
                         ArryLstGLAC.Add(AccCr)
                         ''6
                         If clsCommon.myLen(obj.Ship_To_Location) > 0 Then

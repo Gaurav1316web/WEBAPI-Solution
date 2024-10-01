@@ -2884,7 +2884,7 @@ Public Class frmMCCMaterialSale
                         End If
                     Case 2
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
-                            lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1)
+                            lblActualTCSTaxBaseAmt.Text = (dblTaxBaseAmt1 + dblTaxAmt1)
                             If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
                                 dblTaxBaseAmt2 = Math.Round(txttcstaxbaseamount.Value, 6)
                             Else
@@ -2901,7 +2901,7 @@ Public Class frmMCCMaterialSale
                         End If
                     Case 3
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
-                            lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2)
+                            lblActualTCSTaxBaseAmt.Text = (dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2)
                             If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
                                 dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             Else
@@ -2918,7 +2918,7 @@ Public Class frmMCCMaterialSale
                         End If
                     Case 4
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
-                            lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3)
+                            lblActualTCSTaxBaseAmt.Text = (dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3)
                             If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
                                 dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             Else
@@ -2935,7 +2935,7 @@ Public Class frmMCCMaterialSale
                         End If
                     Case 5
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then
-                            lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3 + dblTaxAmt4)
+                            lblActualTCSTaxBaseAmt.Text = (dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3 + dblTaxAmt4)
                             If clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 Then
                                 dblTaxBaseAmt5 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             Else

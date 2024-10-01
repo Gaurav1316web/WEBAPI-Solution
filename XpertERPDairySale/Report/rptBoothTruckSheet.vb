@@ -57,7 +57,7 @@ Public Class rptBoothTruckSheet
 
             If txtRouteCode.Value IsNot Nothing Then
                 'whrcls += "  And TSPL_BOOKING_DETAIL.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
-                whrcls += " and TSPL_DEMAND_BOOKING_master.Route_No in (" + clsCommon.myCstr(txtRouteCode.Value) + ")"
+                whrcls += " and TSPL_DEMAND_BOOKING_master.Route_No in ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
 
             End If
             qry = "  SELECT max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
@@ -66,7 +66,11 @@ Public Class rptBoothTruckSheet
 			left outer join TSPL_DEMAND_BOOKING_master on TSPL_DEMAND_BOOKING_master.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 
-            where  TSPL_DEMAND_BOOKING_master.Posted = 1 AND convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
+            where 2 = 2 "
+            If rbtnDispatch.IsChecked Then
+                qry += "AND TSPL_DEMAND_BOOKING_master.Posted = 1 "
+            End If
+            qry += "  AND convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
             and convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) " & whrcls & " " & whrclsShift & ""
 
             'qry = " SELECT  max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
@@ -146,15 +150,26 @@ Public Class rptBoothTruckSheet
             BaseQry += " TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc, TSPL_DEMAND_BOOKING_MASTER.Document_Date,
 TSPL_DEMAND_BOOKING_MASTER.ShiftType,
 TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
-TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Qty as CRATE ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,0 AS Receipt_Amount,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt ,ItemNetAmount as Amount
-from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
-left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
-left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Qty as CRATE ,"
+
+            If rbtnDemand.IsChecked Then
+                BaseQry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code,0 AS Receipt_Amount,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Trip_No, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount from TSPL_DEMAND_BOOKING_DETAIL "
+            ElseIf rbtnDispatch.IsChecked Then
+                BaseQry += "TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,0 AS Receipt_Amount,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt ,ItemNetAmount as Amount
+            from  TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code "
+            End If
+
+            BaseQry += " left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-where 2 = 2  
-And TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & " " & whrclsShift & "  "
+where 2 = 2  "
+            If rbtnDispatch.IsChecked Then
+                BaseQry += " And TSPL_DEMAND_BOOKING_MASTER.Posted = 1 "
+            End If
+
+
+            BaseQry += "" & whrcls & " " & whrclsShift & "  "
             BaseQry += "And  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
             If rbtnMorning.IsChecked Then
                 FinalQuery += " and ShiftType = 'MORNING' "
@@ -188,7 +203,7 @@ And TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & " " & whrclsShift & "  "
                 Gv1.DataSource = dt
                 Gv1.BestFitColumns()
                 'View()
-                'SetGridFormation()
+                ' SetGridFormation()
                 ReStoreGridLayout()
                 Gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
@@ -384,14 +399,23 @@ And TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & " " & whrclsShift & "  "
             qry += " (TSPL_ITEM_MASTER.Alies_Name_Hindi)Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name_Hindi  as [BoothName], "
         End If
         qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,'" + Shift + "' AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_ITEM_MASTER.Item_Desc,
-TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
-         TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,
-                    Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,
+TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
+        If rbtnDispatch.IsChecked Then
+            qry += " TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,"
+        ElseIf rbtnDemand.IsChecked Then
+            qry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code,"
+        End If
+        qry += " Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,
 		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,
-		 0 AS Receipt_Amount 
-FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL 
-left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
-left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+		 0 AS Receipt_Amount "
+
+        If rbtnDispatch.IsChecked Then
+        qry += " FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code "
+        ElseIf rbtnDemand.IsChecked Then
+            qry += " FROM TSPL_DEMAND_BOOKING_DETAIL "
+        End If
+
+        qry += " left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
@@ -399,7 +423,12 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_M
 		 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_master.Comp_Code
 		  left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_DEMAND_BOOKING_DETAIL.vehicle_code
 		 left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
-         where 2 = 2   and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & "    And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')   " & whrclsShift & "  And
+         where 2 = 2 "
+        If rbtnDispatch.IsChecked Then
+            qry += " and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 "
+        End If
+
+        qry += "" & whrcls & " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')   " & whrclsShift & "  And
  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) )
 "
         Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry)

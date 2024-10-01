@@ -347,7 +347,7 @@ Public Class clsSMSHead
                     obj.arrMobilNo.Add(clsCommon.myCstr(dr("Phone")))
                 Next
             End If
-            clsSMSDetail.SaveData(obj.Code, obj.arrMobilNo, trans)
+            clsSMSDetail.SaveData(obj, obj.arrMobilNo, trans)
         Catch err As System.Exception
             Throw New System.Exception(err.Message)
         End Try
@@ -363,25 +363,82 @@ Public Class clsSMSDetail
     Public Mobile_No As String = Nothing
 #End Region
 
-    Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of String), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal obj As clsSMSHead, ByVal Arr As List(Of String), ByVal trans As SqlTransaction) As Boolean
         Try
             Dim arrRepeat As New List(Of String)
-            For Each Item As String In Arr
-                If arrRepeat.Contains(Item) Then
+            For Each MobileNo As String In Arr
+                If arrRepeat.Contains(MobileNo) Then
                     Continue For
                 Else
-                    arrRepeat.Add(Item)
+                    arrRepeat.Add(MobileNo)
                 End If
 
                 Dim coll As New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "Code", strCode)
-                clsCommon.AddColumnsForChange(coll, "Mobile_No", Item)
+                clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
+                clsCommon.AddColumnsForChange(coll, "Mobile_No", MobileNo)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SMS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                SendRemaingSMSMain(obj, MobileNo, trans)
             Next
             arrRepeat = Nothing
         Catch err As System.Exception
             Throw New System.Exception(err.Message)
         End Try
+        Return True
+    End Function
+
+    Private Shared Function SendRemaingSMSMain(ByVal obj As clsSMSHead, ByVal MobileNo As String, ByVal trans As SqlTransaction) As Boolean
+        If objCommonVar.InstantSendTheSMS Then
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select SMS_String,SplitChar from tspl_ES_config", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim SMSString As String = clsCommon.myCstr(dt.Rows(0)("SMS_String"))
+                Dim intSplitChar As Integer = clsCommon.myCDecimal(dt.Rows(0)("SplitChar"))
+                If clsCommon.myLen(SMSString) > 0 Then
+                    Dim ii As Int32 = 0
+                    Try
+                        ii += 1
+                        Dim client As System.Net.WebClient = New System.Net.WebClient()
+                        Dim strSMS As String = obj.SMS_Text
+                        Dim arr As List(Of String) = New List(Of String)()
+                        If intSplitChar = 0 Then
+                            arr.Add(strSMS)
+                        Else
+                            Dim intlimit As Integer = CInt(Math.Ceiling(clsCommon.myCdbl(clsCommon.myLen(strSMS)) / intSplitChar))
+                            For jj As Integer = 0 To intlimit - 1
+                                Dim strText As String = ""
+                                If clsCommon.myLen(strSMS) > intSplitChar Then
+                                    strText = strSMS.Substring(0, intSplitChar)
+                                    strSMS = strSMS.Substring(intSplitChar, clsCommon.myLen(strSMS) - intSplitChar)
+                                Else
+                                    strText = strSMS.Substring(0, clsCommon.myLen(strSMS))
+                                End If
+                                arr.Add(strText)
+                            Next
+                        End If
+                        Dim s As String = ""
+                        For Each str As String In arr
+                            'System.Threading.Thread.Sleep(5000)
+                            Dim strSmsText As String = str.Replace("&", " ")
+                            Dim baseurl As String = SMSString
+                            baseurl = baseurl.Replace("$#SMSTEXT#$", strSmsText)
+                            baseurl = baseurl.Replace("$#MOBILENO#$", MobileNo)
+                            Dim data As Stream = client.OpenRead(baseurl)
+                            Dim reader As StreamReader = New StreamReader(data)
+                            s = reader.ReadToEnd()
+
+                            If clsCommon.myLen(s) > 100 Then
+                                s = s.Substring(0, 100)
+                            End If
+                            data.Close()
+                            reader.Close()
+                        Next
+                        Dim qry As String = "Update TSPL_SMS_DETAIL set send_on=getdate(),Sender_Replay='" & s & "' where code='" & obj.Code & "' and mobile_no='" + MobileNo & "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    Catch ex As Exception
+                        Throw New Exception("Error while sending instant SMS " + ex.Message)
+                    End Try
+                End If
+            End If
+        End If
         Return True
     End Function
 End Class

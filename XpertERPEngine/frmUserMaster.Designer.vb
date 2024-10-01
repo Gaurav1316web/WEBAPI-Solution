@@ -131,6 +131,8 @@ Partial Class FrmUserMaster
         Me.gvUser = New common.UserControls.MyRadGridView()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.txtSSO = New common.Controls.MyTextBox()
+        Me.MyLabel15 = New common.Controls.MyLabel()
         CType(Me.lblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUserType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -212,6 +214,8 @@ Partial Class FrmUserMaster
         CType(Me.gvUser.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSSO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -452,6 +456,8 @@ Partial Class FrmUserMaster
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.BackColor = System.Drawing.Color.Transparent
+        Me.RadGroupBox1.Controls.Add(Me.txtSSO)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel15)
         Me.RadGroupBox1.Controls.Add(Me.txtBulkRoute)
         Me.RadGroupBox1.Controls.Add(Me.chkHRAdmin)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel14)
@@ -500,7 +506,7 @@ Partial Class FrmUserMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(590, 431)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(601, 446)
         Me.RadGroupBox1.TabIndex = 0
         '
         'txtBulkRoute
@@ -518,7 +524,7 @@ Partial Class FrmUserMaster
         '
         'chkHRAdmin
         '
-        Me.chkHRAdmin.Location = New System.Drawing.Point(500, 135)
+        Me.chkHRAdmin.Location = New System.Drawing.Point(496, 135)
         Me.chkHRAdmin.MyLinkLable1 = Nothing
         Me.chkHRAdmin.MyLinkLable2 = Nothing
         Me.chkHRAdmin.Name = "chkHRAdmin"
@@ -842,7 +848,7 @@ Partial Class FrmUserMaster
         Me.RadPanel1.Controls.Add(Me.fndCustCode)
         Me.RadPanel1.Controls.Add(Me.MyLabel3)
         Me.RadPanel1.Controls.Add(Me.CmbLoginType)
-        Me.RadPanel1.Location = New System.Drawing.Point(9, 327)
+        Me.RadPanel1.Location = New System.Drawing.Point(9, 347)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(578, 95)
         Me.RadPanel1.TabIndex = 1
@@ -1254,7 +1260,6 @@ Partial Class FrmUserMaster
         'btnnew
         '
         Me.btnnew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnnew.Image = Global.XpertERPEngine.My.Resources.Resources._new
         Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnnew.Location = New System.Drawing.Point(306, 4)
         Me.btnnew.Name = "btnnew"
@@ -1466,8 +1471,8 @@ Partial Class FrmUserMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(719, 588)
-        Me.SplitContainer1.SplitterDistance = 543
+        Me.SplitContainer1.Size = New System.Drawing.Size(719, 611)
+        Me.SplitContainer1.SplitterDistance = 566
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -1479,7 +1484,7 @@ Partial Class FrmUserMaster
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(719, 543)
+        Me.RadPageView1.Size = New System.Drawing.Size(719, 566)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -1491,14 +1496,14 @@ Partial Class FrmUserMaster
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(698, 495)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(698, 518)
         Me.RadPageViewPage1.Text = "General"
         '
         'GBRoute
         '
         Me.GBRoute.Controls.Add(Me.txtRoute)
         Me.GBRoute.Controls.Add(Me.MyLabel16)
-        Me.GBRoute.Location = New System.Drawing.Point(3, 424)
+        Me.GBRoute.Location = New System.Drawing.Point(3, 444)
         Me.GBRoute.Name = "GBRoute"
         Me.GBRoute.Size = New System.Drawing.Size(590, 33)
         Me.GBRoute.TabIndex = 16
@@ -1532,7 +1537,7 @@ Partial Class FrmUserMaster
         Me.lblLength.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.lblLength.FieldName = Nothing
         Me.lblLength.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblLength.Location = New System.Drawing.Point(12, 453)
+        Me.lblLength.Location = New System.Drawing.Point(12, 472)
         Me.lblLength.Name = "lblLength"
         Me.lblLength.Size = New System.Drawing.Size(471, 46)
         Me.lblLength.TabIndex = 15
@@ -1566,6 +1571,7 @@ Partial Class FrmUserMaster
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCustomer.ShowGroupPanel = False
@@ -1573,6 +1579,7 @@ Partial Class FrmUserMaster
         Me.gvCustomer.Size = New System.Drawing.Size(698, 475)
         Me.gvCustomer.TabIndex = 1
         Me.gvCustomer.TabStop = False
+        Me.gvCustomer.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1599,6 +1606,7 @@ Partial Class FrmUserMaster
         Me.gvUser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUser.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUser.MyStopExport = False
         Me.gvUser.Name = "gvUser"
         Me.gvUser.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvUser.ShowGroupPanel = False
@@ -1606,6 +1614,7 @@ Partial Class FrmUserMaster
         Me.gvUser.Size = New System.Drawing.Size(698, 495)
         Me.gvUser.TabIndex = 2
         Me.gvUser.TabStop = False
+        Me.gvUser.VarID = ""
         '
         'btnGetHistory
         '
@@ -1626,11 +1635,43 @@ Partial Class FrmUserMaster
         Me.RadButton1.TabIndex = 3
         Me.RadButton1.Text = "Add Biometric Login"
         '
+        'txtSSO
+        '
+        Me.txtSSO.CalculationExpression = Nothing
+        Me.txtSSO.FieldCode = Nothing
+        Me.txtSSO.FieldDesc = Nothing
+        Me.txtSSO.FieldMaxLength = 0
+        Me.txtSSO.FieldName = Nothing
+        Me.txtSSO.isCalculatedField = False
+        Me.txtSSO.IsSourceFromTable = False
+        Me.txtSSO.IsSourceFromValueList = False
+        Me.txtSSO.IsUnique = False
+        Me.txtSSO.Location = New System.Drawing.Point(104, 320)
+        Me.txtSSO.MendatroryField = False
+        Me.txtSSO.MyLinkLable1 = Me.MyLabel15
+        Me.txtSSO.MyLinkLable2 = Nothing
+        Me.txtSSO.Name = "txtSSO"
+        Me.txtSSO.ReferenceFieldDesc = Nothing
+        Me.txtSSO.ReferenceFieldName = Nothing
+        Me.txtSSO.ReferenceTableName = Nothing
+        Me.txtSSO.Size = New System.Drawing.Size(221, 20)
+        Me.txtSSO.TabIndex = 403
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(14, 322)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel15.TabIndex = 402
+        Me.MyLabel15.Text = "SSO User"
+        '
         'FrmUserMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(719, 608)
+        Me.ClientSize = New System.Drawing.Size(719, 631)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.fndEmployeeCode)
         Me.Controls.Add(Me.RadMenu1)
@@ -1738,6 +1779,8 @@ Partial Class FrmUserMaster
         CType(Me.gvUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSSO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1846,5 +1889,7 @@ Partial Class FrmUserMaster
     Friend WithEvents MyLabel12 As Controls.MyLabel
     Friend WithEvents txtBulkRoute As UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel14 As Controls.MyLabel
+    Friend WithEvents txtSSO As Controls.MyTextBox
+    Friend WithEvents MyLabel15 As Controls.MyLabel
 End Class
 

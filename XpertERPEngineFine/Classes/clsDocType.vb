@@ -29,7 +29,6 @@ Public Class clsDocType
     Public Const QCJWO As String = "JWO Quality Check"
     Public Const UnloadingJWO As String = "JWO Unloading"
     ''--------
-
     ''richa can sale
     Public Const CanSale As String = "Can Sale"
     Public Const CanSaleDispatch As String = "Can Sale Dispatch"
@@ -553,6 +552,9 @@ Public Class clsDocType
     Public Const DCSSale As String = "DCS Sale"
     Public Const DistributorCommission As String = "Distributor Commission"
     Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
+    Public Const DailyDemand As String = "DailyDemand"
+
+
     Public Const frmNotification As String = "Notifications screen"
     Public Const ShareMaster As String = "Share Master"
     Public Const ShareAllotment As String = "Share Allotment"
