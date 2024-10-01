@@ -13,6 +13,7 @@ Public Class frmDemandBooking
     Dim DisableRouteandVehicle As Boolean = False
     Dim EnableResetDemand As Boolean = False
     Dim ConvertPouchtoCrate As Boolean = False
+    Dim DontCreateForPouch As Boolean = False
     Dim SeparateDemandMilkandProduct As Boolean = False
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
@@ -108,6 +109,7 @@ Public Class frmDemandBooking
             DisableRouteandVehicle = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, Nothing)) = 1, True, False)
             UpdateDemandBeforePost = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UpdateDemandBeforePost, clsFixedParameterCode.UpdateDemandBeforePost, Nothing)) = 1, True, False)
             AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
+            DontCreateForPouch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DontCreateForPouch, clsFixedParameterCode.DontCreateForPouch, Nothing)) = 1, True, False)
 
             AddNew()
             SetUserMgmtNew()
@@ -2511,6 +2513,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                     Else
                                                         dblTotalCrateRowWise = 1
                                                     End If
+                                                ElseIf DontCreateForPouch Then
+                                                    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
                                                 Else
                                                     If DispatchQty > (CrateConvFactor / 2) Then
                                                         dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)

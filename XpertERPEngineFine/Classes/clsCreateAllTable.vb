@@ -1599,6 +1599,12 @@ Public Class clsCreateAllTable
             coll.Add("Vendor_Code", "Varchar(12) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_VENDOR_MAPPING", coll)
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Cust_Code", "Varchar(12) null")
+            coll.Add("Employee_Code", "Varchar(12) null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_EMPLOYEE_MAPPING", coll)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("TPT_Type", "char(1) null")
             coll.Add("Serial_Number", "int null")
@@ -10766,6 +10772,8 @@ Public Class clsCreateAllTable
             coll.Add("Approval_Remarks", "Varchar(200) null")
             coll.Add("SMS_Content", "Varchar(max) null")
             coll.Add("Email_Content", "Varchar(max) null")
+            coll.Add("Requested_Qty", "Decimal(18,2) Not Null Default 0")
+            coll.Add("Approved_QTY", "Decimal(18,2) Not Null Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSACTION_APPROVAL", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -14213,9 +14221,13 @@ Public Class clsCreateAllTable
             coll.Add("Entry_UOM", "integer null")
             coll.Add("Entry_UOM_Mobile", "integer null")
             coll.Add("OTP_TYPE", "varchar(12) null references TSPL_PROGRAM_MASTER(Program_Code)")
-            coll.Add("SSO", "integer null")
+            coll.Add("SSO", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
-
+            Try
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")
+                clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_SSO ON TSPL_USER_MASTER (SSO) WHERE SSO IS NOT NULL;")
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("BANK_GROUP_CODE", "varchar(12) NOT NULL PRIMARY KEY")
             coll.Add("DESCRIPTION", "varchar(60) NULL")
@@ -44040,6 +44052,12 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("VisualQCRemarks", "varchar(200) null")
             coll.Add("VisualQCUpdatedBy", "varchar(12) NULL")
             coll.Add("VisualQCUpdatedDate", "Date NULL")
+            coll.Add("IsSkipPurchaseQC", "Integer not null default 0")
+            coll.Add("VisualQCStatusSecond", "integer not null default 0")
+            coll.Add("VisualQCRemarksSecond", "varchar(200) null")
+            coll.Add("VisualQCUpdatedBySecond", "varchar(12) NULL")
+            coll.Add("VisualQCUpdatedDateSecond", "Date NULL")
+            coll.Add("Retention", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_HEAD_History", coll, Nothing, True, False)
 
             coll = New Dictionary(Of String, String)
@@ -44161,6 +44179,13 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Header_Discount_Per", "decimal(18,10) NULL")
             coll.Add("Header_Discount_Amount", "decimal(18,2) NULL")
             coll.Add("Detail_Discount_Amount", "decimal(18,2) NULL")
+            coll.Add("Disc_Per_Unit", "decimal(18, 2) NULL")
+            coll.Add("Disc_Amt_Per_Unit", "decimal(18, 2) NULL")
+            coll.Add("Item_Insurance_Base_Amt", "decimal(18,2) NULL")
+            coll.Add("Item_Insurance_Rate", "decimal(18,2) NULL")
+            coll.Add("Item_Insurance_Apply_On", "char(1) NULL")
+            coll.Add("Item_Insurance_Amt", "decimal(18,2) NULL")
+            coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_DETAIL_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)

@@ -267,6 +267,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.CustomerVendorMappingVendor, "Customer Vendor Mapping", "1.03.01.10", clsUserMgtCode.SubModulePayableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.FrmHirerachyLevelMaster, "Hierarchy Level Master", "1.03.01.11", clsUserMgtCode.SubModulePayableSetup, 27)
         InsertDefaultValue(clsUserMgtCode.vendorSubgroup, "Vendor Sub Group", "1.03.01.12", clsUserMgtCode.SubModulePayableSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmCustomerEmployeeMapping, "Customer Employee Mapping", "1.03.01.13", clsUserMgtCode.SubModulePayableSetup, 27)
+
         ' Transaction 
         InsertDefaultValue(clsUserMgtCode.SubModulePayableTransaction, "Transaction", "1.03.02", clsUserMgtCode.ModulePayable, "SM", 26)
 
@@ -2899,6 +2901,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTNEFTPaymentDetailReport, "DBT NEFT Payment Detail Report", "1.49.03.06", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptExeVersionReport, "Exe Version Report", "1.49.03.07", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptProductionReport, "Production Report", "1.49.03.08", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptProductionStoreReport, "Production and Store Report", "1.49.03.09", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 
