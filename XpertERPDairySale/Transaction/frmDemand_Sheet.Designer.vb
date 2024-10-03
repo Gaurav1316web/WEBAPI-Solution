@@ -22,9 +22,15 @@ Partial Class frmDemand_Sheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtAddress = New common.Controls.MyTextBox()
+        Me.lblAddress = New common.Controls.MyLabel()
+        Me.txtDistributor = New common.Controls.MyTextBox()
+        Me.lblDistributor = New common.Controls.MyLabel()
+        Me.txtBoothName = New common.Controls.MyTextBox()
+        Me.lblBoothName = New common.Controls.MyLabel()
         Me.txtShift = New common.Controls.MyTextBox()
         Me.lblShift = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -35,18 +41,19 @@ Partial Class frmDemand_Sheet
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.txtBoothName = New common.Controls.MyTextBox()
-        Me.lblBoothName = New common.Controls.MyLabel()
-        Me.txtDistributor = New common.Controls.MyTextBox()
-        Me.lblDistributor = New common.Controls.MyLabel()
-        Me.txtAddress = New common.Controls.MyTextBox()
-        Me.lblAddress = New common.Controls.MyLabel()
+        Me.cmbShift = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.txtAddress, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBoothName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBoothName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,12 +63,7 @@ Partial Class frmDemand_Sheet
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBoothName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBoothName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAddress, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -94,6 +96,7 @@ Partial Class frmDemand_Sheet
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cmbShift)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtAddress)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblAddress)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDistributor)
@@ -112,6 +115,114 @@ Partial Class frmDemand_Sheet
         Me.SplitContainer2.SplitterDistance = 66
         Me.SplitContainer2.TabIndex = 0
         '
+        'txtAddress
+        '
+        Me.txtAddress.CalculationExpression = Nothing
+        Me.txtAddress.FieldCode = Nothing
+        Me.txtAddress.FieldDesc = Nothing
+        Me.txtAddress.FieldMaxLength = 0
+        Me.txtAddress.FieldName = Nothing
+        Me.txtAddress.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAddress.isCalculatedField = False
+        Me.txtAddress.IsSourceFromTable = False
+        Me.txtAddress.IsSourceFromValueList = False
+        Me.txtAddress.IsUnique = False
+        Me.txtAddress.Location = New System.Drawing.Point(557, 41)
+        Me.txtAddress.MaxLength = 50
+        Me.txtAddress.MendatroryField = False
+        Me.txtAddress.Modified = True
+        Me.txtAddress.MyLinkLable1 = Nothing
+        Me.txtAddress.MyLinkLable2 = Nothing
+        Me.txtAddress.Name = "txtAddress"
+        Me.txtAddress.ReadOnly = True
+        Me.txtAddress.ReferenceFieldDesc = Nothing
+        Me.txtAddress.ReferenceFieldName = Nothing
+        Me.txtAddress.ReferenceTableName = Nothing
+        Me.txtAddress.Size = New System.Drawing.Size(214, 18)
+        Me.txtAddress.TabIndex = 1457
+        '
+        'lblAddress
+        '
+        Me.lblAddress.FieldName = Nothing
+        Me.lblAddress.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.Location = New System.Drawing.Point(504, 42)
+        Me.lblAddress.Name = "lblAddress"
+        Me.lblAddress.Size = New System.Drawing.Size(48, 16)
+        Me.lblAddress.TabIndex = 1456
+        Me.lblAddress.Text = "Address"
+        '
+        'txtDistributor
+        '
+        Me.txtDistributor.CalculationExpression = Nothing
+        Me.txtDistributor.FieldCode = Nothing
+        Me.txtDistributor.FieldDesc = Nothing
+        Me.txtDistributor.FieldMaxLength = 0
+        Me.txtDistributor.FieldName = Nothing
+        Me.txtDistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDistributor.isCalculatedField = False
+        Me.txtDistributor.IsSourceFromTable = False
+        Me.txtDistributor.IsSourceFromValueList = False
+        Me.txtDistributor.IsUnique = False
+        Me.txtDistributor.Location = New System.Drawing.Point(337, 40)
+        Me.txtDistributor.MaxLength = 50
+        Me.txtDistributor.MendatroryField = False
+        Me.txtDistributor.Modified = True
+        Me.txtDistributor.MyLinkLable1 = Nothing
+        Me.txtDistributor.MyLinkLable2 = Nothing
+        Me.txtDistributor.Name = "txtDistributor"
+        Me.txtDistributor.ReadOnly = True
+        Me.txtDistributor.ReferenceFieldDesc = Nothing
+        Me.txtDistributor.ReferenceFieldName = Nothing
+        Me.txtDistributor.ReferenceTableName = Nothing
+        Me.txtDistributor.Size = New System.Drawing.Size(156, 18)
+        Me.txtDistributor.TabIndex = 1455
+        '
+        'lblDistributor
+        '
+        Me.lblDistributor.FieldName = Nothing
+        Me.lblDistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDistributor.Location = New System.Drawing.Point(274, 41)
+        Me.lblDistributor.Name = "lblDistributor"
+        Me.lblDistributor.Size = New System.Drawing.Size(58, 16)
+        Me.lblDistributor.TabIndex = 1454
+        Me.lblDistributor.Text = "Distributor"
+        '
+        'txtBoothName
+        '
+        Me.txtBoothName.CalculationExpression = Nothing
+        Me.txtBoothName.FieldCode = Nothing
+        Me.txtBoothName.FieldDesc = Nothing
+        Me.txtBoothName.FieldMaxLength = 0
+        Me.txtBoothName.FieldName = Nothing
+        Me.txtBoothName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBoothName.isCalculatedField = False
+        Me.txtBoothName.IsSourceFromTable = False
+        Me.txtBoothName.IsSourceFromValueList = False
+        Me.txtBoothName.IsUnique = False
+        Me.txtBoothName.Location = New System.Drawing.Point(110, 41)
+        Me.txtBoothName.MaxLength = 50
+        Me.txtBoothName.MendatroryField = False
+        Me.txtBoothName.Modified = True
+        Me.txtBoothName.MyLinkLable1 = Nothing
+        Me.txtBoothName.MyLinkLable2 = Nothing
+        Me.txtBoothName.Name = "txtBoothName"
+        Me.txtBoothName.ReadOnly = True
+        Me.txtBoothName.ReferenceFieldDesc = Nothing
+        Me.txtBoothName.ReferenceFieldName = Nothing
+        Me.txtBoothName.ReferenceTableName = Nothing
+        Me.txtBoothName.Size = New System.Drawing.Size(134, 18)
+        Me.txtBoothName.TabIndex = 1453
+        '
+        'lblBoothName
+        '
+        Me.lblBoothName.FieldName = Nothing
+        Me.lblBoothName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBoothName.Location = New System.Drawing.Point(72, 42)
+        Me.lblBoothName.Name = "lblBoothName"
+        Me.lblBoothName.Size = New System.Drawing.Size(69, 16)
+        Me.lblBoothName.TabIndex = 1452
+        Me.lblBoothName.Text = "Booth Name"
+        '
         'txtShift
         '
         Me.txtShift.CalculationExpression = Nothing
@@ -124,7 +235,7 @@ Partial Class frmDemand_Sheet
         Me.txtShift.IsSourceFromTable = False
         Me.txtShift.IsSourceFromValueList = False
         Me.txtShift.IsUnique = False
-        Me.txtShift.Location = New System.Drawing.Point(314, 11)
+        Me.txtShift.Location = New System.Drawing.Point(430, 10)
         Me.txtShift.MaxLength = 50
         Me.txtShift.MendatroryField = False
         Me.txtShift.Modified = True
@@ -137,6 +248,7 @@ Partial Class frmDemand_Sheet
         Me.txtShift.ReferenceTableName = Nothing
         Me.txtShift.Size = New System.Drawing.Size(90, 18)
         Me.txtShift.TabIndex = 1451
+        Me.txtShift.Visible = False
         '
         'lblShift
         '
@@ -198,13 +310,15 @@ Partial Class frmDemand_Sheet
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(800, 344)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'btnclose
         '
@@ -246,113 +360,31 @@ Partial Class frmDemand_Sheet
         Me.btnSave.TabIndex = 86
         Me.btnSave.Text = "Save"
         '
-        'txtBoothName
+        'cmbShift
         '
-        Me.txtBoothName.CalculationExpression = Nothing
-        Me.txtBoothName.FieldCode = Nothing
-        Me.txtBoothName.FieldDesc = Nothing
-        Me.txtBoothName.FieldMaxLength = 0
-        Me.txtBoothName.FieldName = Nothing
-        Me.txtBoothName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBoothName.isCalculatedField = False
-        Me.txtBoothName.IsSourceFromTable = False
-        Me.txtBoothName.IsSourceFromValueList = False
-        Me.txtBoothName.IsUnique = False
-        Me.txtBoothName.Location = New System.Drawing.Point(110, 41)
-        Me.txtBoothName.MaxLength = 50
-        Me.txtBoothName.MendatroryField = False
-        Me.txtBoothName.Modified = True
-        Me.txtBoothName.MyLinkLable1 = Nothing
-        Me.txtBoothName.MyLinkLable2 = Nothing
-        Me.txtBoothName.Name = "txtBoothName"
-        Me.txtBoothName.ReadOnly = True
-        Me.txtBoothName.ReferenceFieldDesc = Nothing
-        Me.txtBoothName.ReferenceFieldName = Nothing
-        Me.txtBoothName.ReferenceTableName = Nothing
-        Me.txtBoothName.Size = New System.Drawing.Size(134, 18)
-        Me.txtBoothName.TabIndex = 1453
-        '
-        'lblBoothName
-        '
-        Me.lblBoothName.FieldName = Nothing
-        Me.lblBoothName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBoothName.Location = New System.Drawing.Point(72, 42)
-        Me.lblBoothName.Name = "lblBoothName"
-        Me.lblBoothName.Size = New System.Drawing.Size(69, 16)
-        Me.lblBoothName.TabIndex = 1452
-        Me.lblBoothName.Text = "Booth Name"
-        '
-        'txtDistributor
-        '
-        Me.txtDistributor.CalculationExpression = Nothing
-        Me.txtDistributor.FieldCode = Nothing
-        Me.txtDistributor.FieldDesc = Nothing
-        Me.txtDistributor.FieldMaxLength = 0
-        Me.txtDistributor.FieldName = Nothing
-        Me.txtDistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDistributor.isCalculatedField = False
-        Me.txtDistributor.IsSourceFromTable = False
-        Me.txtDistributor.IsSourceFromValueList = False
-        Me.txtDistributor.IsUnique = False
-        Me.txtDistributor.Location = New System.Drawing.Point(337, 40)
-        Me.txtDistributor.MaxLength = 50
-        Me.txtDistributor.MendatroryField = False
-        Me.txtDistributor.Modified = True
-        Me.txtDistributor.MyLinkLable1 = Nothing
-        Me.txtDistributor.MyLinkLable2 = Nothing
-        Me.txtDistributor.Name = "txtDistributor"
-        Me.txtDistributor.ReadOnly = True
-        Me.txtDistributor.ReferenceFieldDesc = Nothing
-        Me.txtDistributor.ReferenceFieldName = Nothing
-        Me.txtDistributor.ReferenceTableName = Nothing
-        Me.txtDistributor.Size = New System.Drawing.Size(156, 18)
-        Me.txtDistributor.TabIndex = 1455
-        '
-        'lblDistributor
-        '
-        Me.lblDistributor.FieldName = Nothing
-        Me.lblDistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDistributor.Location = New System.Drawing.Point(274, 41)
-        Me.lblDistributor.Name = "lblDistributor"
-        Me.lblDistributor.Size = New System.Drawing.Size(58, 16)
-        Me.lblDistributor.TabIndex = 1454
-        Me.lblDistributor.Text = "Distributor"
-        '
-        'txtAddress
-        '
-        Me.txtAddress.CalculationExpression = Nothing
-        Me.txtAddress.FieldCode = Nothing
-        Me.txtAddress.FieldDesc = Nothing
-        Me.txtAddress.FieldMaxLength = 0
-        Me.txtAddress.FieldName = Nothing
-        Me.txtAddress.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAddress.isCalculatedField = False
-        Me.txtAddress.IsSourceFromTable = False
-        Me.txtAddress.IsSourceFromValueList = False
-        Me.txtAddress.IsUnique = False
-        Me.txtAddress.Location = New System.Drawing.Point(557, 41)
-        Me.txtAddress.MaxLength = 50
-        Me.txtAddress.MendatroryField = False
-        Me.txtAddress.Modified = True
-        Me.txtAddress.MyLinkLable1 = Nothing
-        Me.txtAddress.MyLinkLable2 = Nothing
-        Me.txtAddress.Name = "txtAddress"
-        Me.txtAddress.ReadOnly = True
-        Me.txtAddress.ReferenceFieldDesc = Nothing
-        Me.txtAddress.ReferenceFieldName = Nothing
-        Me.txtAddress.ReferenceTableName = Nothing
-        Me.txtAddress.Size = New System.Drawing.Size(214, 18)
-        Me.txtAddress.TabIndex = 1457
-        '
-        'lblAddress
-        '
-        Me.lblAddress.FieldName = Nothing
-        Me.lblAddress.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAddress.Location = New System.Drawing.Point(504, 42)
-        Me.lblAddress.Name = "lblAddress"
-        Me.lblAddress.Size = New System.Drawing.Size(48, 16)
-        Me.lblAddress.TabIndex = 1456
-        Me.lblAddress.Text = "Address"
+        Me.cmbShift.AutoCompleteDisplayMember = Nothing
+        Me.cmbShift.AutoCompleteValueMember = Nothing
+        Me.cmbShift.CalculationExpression = Nothing
+        Me.cmbShift.DropDownAnimationEnabled = True
+        Me.cmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbShift.FieldCode = Nothing
+        Me.cmbShift.FieldDesc = Nothing
+        Me.cmbShift.FieldMaxLength = 0
+        Me.cmbShift.FieldName = Nothing
+        Me.cmbShift.isCalculatedField = False
+        Me.cmbShift.IsSourceFromTable = False
+        Me.cmbShift.IsSourceFromValueList = False
+        Me.cmbShift.IsUnique = False
+        Me.cmbShift.Location = New System.Drawing.Point(311, 10)
+        Me.cmbShift.MendatroryField = True
+        Me.cmbShift.MyLinkLable1 = Nothing
+        Me.cmbShift.MyLinkLable2 = Nothing
+        Me.cmbShift.Name = "cmbShift"
+        Me.cmbShift.ReferenceFieldDesc = Nothing
+        Me.cmbShift.ReferenceFieldName = Nothing
+        Me.cmbShift.ReferenceTableName = Nothing
+        Me.cmbShift.Size = New System.Drawing.Size(94, 20)
+        Me.cmbShift.TabIndex = 1474
         '
         'frmDemand_Sheet
         '
@@ -373,6 +405,12 @@ Partial Class frmDemand_Sheet
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.txtAddress, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBoothName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBoothName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -382,12 +420,7 @@ Partial Class frmDemand_Sheet
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBoothName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBoothName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDistributor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAddress, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblAddress, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -411,4 +444,5 @@ Partial Class frmDemand_Sheet
     Friend WithEvents lblDistributor As common.Controls.MyLabel
     Friend WithEvents txtBoothName As common.Controls.MyTextBox
     Friend WithEvents lblBoothName As common.Controls.MyLabel
+    Friend WithEvents cmbShift As common.Controls.MyComboBox
 End Class
