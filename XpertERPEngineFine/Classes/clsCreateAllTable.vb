@@ -1599,6 +1599,12 @@ Public Class clsCreateAllTable
             coll.Add("Vendor_Code", "Varchar(12) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_VENDOR_MAPPING", coll)
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Cust_Code", "Varchar(12) null")
+            coll.Add("Employee_Code", "Varchar(12) null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_EMPLOYEE_MAPPING", coll)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("TPT_Type", "char(1) null")
             coll.Add("Serial_Number", "int null")
