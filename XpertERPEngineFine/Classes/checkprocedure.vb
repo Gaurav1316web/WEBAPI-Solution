@@ -2282,7 +2282,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.VehicleMasterForDairySale, "Vehicle Master", "1.36.01.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, "Distributor Commission", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, "Distributor Route Tagging", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
-        InsertDefaultValue(clsUserMgtCode.frmDailyDemand, "Daily Demand", "1.36.01.13", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         'InsertDefaultValue(clsUserMgtCode.CardSale, "Card Sale", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         'InsertDefaultValue(clsUserMgtCode.frmCustCategoryWiseDefaultItemUomMaster, "Customer Category UOM", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
@@ -2902,6 +2901,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptExeVersionReport, "Exe Version Report", "1.49.03.07", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptProductionReport, "Production Report", "1.49.03.08", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptProductionStoreReport, "Production and Store Report", "1.49.03.09", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDailyDemand, "Daily Demand", "1.49.03.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 
