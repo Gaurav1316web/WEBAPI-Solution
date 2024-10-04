@@ -408,6 +408,8 @@ where 2 = 2  "
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
+        txtFromShift.SelectedValue = "M"
+        txtToShift.SelectedValue = "E"
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
