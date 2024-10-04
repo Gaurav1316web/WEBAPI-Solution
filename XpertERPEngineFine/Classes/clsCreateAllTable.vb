@@ -2352,6 +2352,7 @@ Public Class clsCreateAllTable
             coll.Add("RAL", "integer NUll")
             coll.Add("FG_for_CF", "integer not null default 0")
             coll.Add("Is_DisplayDemand", "integer not NULL default 0")
+            coll.Add("Is_Parlour", "integer not NULL default 0")
             coll.Add("Is_ExcludeAPP", "integer not NULL default 0")
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("BuyBackType", "integer null default 0")

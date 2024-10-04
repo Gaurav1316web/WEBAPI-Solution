@@ -102,6 +102,15 @@ Public Class frmDisplaySquenece
                 gv1.Columns.Insert(0, checkBoxColumn)
                 isSelected = False
             End If
+            Me.gv1.MasterTemplate.Columns("Parlour").Width = 100
+            Me.gv1.MasterTemplate.Columns("Parlour").ReadOnly = False
+            Me.gv1.MasterTemplate.Columns("Parlour").IsVisible = True
+            'Dim checkBoxColumn2 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+            'checkBoxColumn2.HeaderText = ""
+            'checkBoxColumn2.Width = 30
+            'checkBoxColumn2.Name = "checkBoxColumn2"
+            'checkBoxColumn2.FieldName = "Parlour"
+            'gv1.Columns.Insert(0, checkBoxColumn2)
         ElseIf isSelected = False Then
             gv1.Columns.RemoveAt(0)
             isSelected = True
@@ -163,7 +172,7 @@ Public Class frmDisplaySquenece
             IsInsieLoadData = True
             If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
                 qry = "SELECT CAST(isnull(TSPL_ITEM_MASTER.Sku_Seq,0) as integer) as Sno ,TSPL_ITEM_MASTER.Item_code [Particlar Code] 
-                    ,TSPL_ITEM_MASTER.Alies_Name [Particlar Name],TSPL_ITEM_MASTER.Is_DisplayDemand as [Display Demand] from TSPL_ITEM_MASTER where Item_Type='F' and Is_DisplayDemand=1
+                    ,TSPL_ITEM_MASTER.Alies_Name [Particlar Name],TSPL_ITEM_MASTER.Is_DisplayDemand as [Display Demand],TSPL_ITEM_MASTER.Is_Parlour as Parlour from TSPL_ITEM_MASTER where Item_Type='F' and Is_DisplayDemand=1
                      ORDER BY TSPL_ITEM_MASTER.Sku_Seq  "
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
                 qry = "SELECT CAST(isnull(Display_Seq,0) as integer) as Sno ,tspl_customer_master.cust_code [Particlar Code] 
@@ -234,6 +243,7 @@ Public Class frmDisplaySquenece
                 For irow As Integer = 0 To gv1.Rows.Count - 1
                     qry = "update TSPL_ITEM_MASTER set Sku_Seq ='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Sno").Value) + "'"
                     qry += ", Is_DisplayDemand='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Display Demand").Value) + "' "
+                    qry += ", Is_Parlour='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Parlour").Value) + "' "
                     'If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(irow).Cells("checkBoxColumn1").Value), "True") = CompairStringResult.Equal Then
                     '    qry += ", Is_DisplayDemand=1 "
                     'Else
