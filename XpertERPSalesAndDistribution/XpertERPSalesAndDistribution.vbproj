@@ -917,6 +917,12 @@
     <Compile Include="Sales and Distribution\Master\frmCustomerCategory.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerEmployeeMapping.Designer.vb">
+      <DependentUpon>frmCustomerEmployeeMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerEmployeeMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales and Distribution\Master\frmCustomerGroup.Designer.vb">
       <DependentUpon>frmCustomerGroup.vb</DependentUpon>
     </Compile>
@@ -2243,6 +2249,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerCategory.resx">
       <DependentUpon>frmCustomerCategory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerEmployeeMapping.resx">
+      <DependentUpon>frmCustomerEmployeeMapping.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerGroup.resx">
       <DependentUpon>frmCustomerGroup.vb</DependentUpon>

@@ -1266,6 +1266,7 @@ Public Class clsFixedParameterType
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
+    Public Const DontCreateForPouch = "do not calculate Crate for pouch"
     Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
     Public Const ApplyCommissionRateWithTax = "Apply Commission Rate With TAX"
     Public Const DisableRouteandVehicle = "Disable Route and Vehicle No."
@@ -2677,6 +2678,7 @@ Public Class clsFixedParameterCode
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
+    Public Const DontCreateForPouch = "do not calculate Crate for pouch"
     Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
     Public Const ApplyCommissionRateWithTax = "Apply Commission Rate With TAX"
     Public Const DisableRouteandVehicle = "Disable Route and Vehicle No."
@@ -4269,6 +4271,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DontCreateForPouch, clsFixedParameterCode.DontCreateForPouch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, "0", "0:Off, 1:On;")
@@ -6064,6 +6067,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.DontCreateForPouch, clsFixedParameterCode.DontCreateForPouch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.CreateAutoMCCPriceChat, clsFixedParameterCode.CreateAutoMCCPriceChat, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, EnumControlType.CheckBox)

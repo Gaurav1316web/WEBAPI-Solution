@@ -52,19 +52,29 @@ Public Class FrmPendingBookingReport
         If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
             whr = " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
         End If
-        qry = "  Select max(x.Customer_Code)[Distributor Code],max(x.Customer_Name)[Distributor Name],max(x.Route_No)[Route No.],max(x.Route_Desc)[Route Description],
+        qry = "  Select max(x.Customer_Code)[Distributor Code],max(x.Customer_Name)[Distributor Name],max(x.Route_No)[Route No.],max(x.Route_Desc)[Route Description],max(VehicleNo) as [Vehicle No.],
                  x.Item_Code,max(x.Item_Desc)[Item Description],max(x.Unit_code)UOM,sum(x.DemandQty)[Demand Qty],sum(x.DispatchQty)[Dispatch Qty],
                  sum(x.BalanceQty)[Balance Qty] from (
                 select TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
                 TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Route_Desc,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
                 TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty as DemandQty,
-                TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DispatchQty,TSPL_DEMAND_BOOKING_DETAIL.Qty-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty  as BalanceQty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code 
+                TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DispatchQty,TSPL_DEMAND_BOOKING_DETAIL.Qty-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty  as BalanceQty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code ,TSPL_SD_SHIPMENT_HEAD.VehicleNo
                 from TSPL_SD_SHIPMENT_HEAD
                 left join TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE
                 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_DEMAND_BOOKING_DETAIL.TR_Code
                 left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code
                 left join TSPL_CUSTOMER_MASTER ON TSPL_SD_SHIPMENT_HEAD.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code
-                where 2=2 and CONVERT(date,Supply_Date,103) >= '" + strFromDate + "' and CONVERT(date,Supply_Date,103) <= '" + strToDate + "' " + whr + " )X Group by Item_Code"
+                where 2=2 and CONVERT(date,Supply_Date,103) >= '" + strFromDate + "' and CONVERT(date,Supply_Date,103) <= '" + strToDate + "'and TSPL_DEMAND_BOOKING_DETAIL.Unit_code is not null  " + whr + " )X Group by Item_Code"
+        qry += " union all
+						select max(TSPL_BOOKING_DETAIL.Cust_Code) [Distributor Code],max(Customer_Name) as [Distributor Name],max(TSPL_BOOKING_DETAIL.route_no) as [Route No.],max(TSPL_SD_SHIPMENT_HEAD.Route_Desc) as [Route Description],max(TSPL_SD_SHIPMENT_HEAD.VehicleNo) as [Vehicle No.],
+                 (TSPL_BOOKING_DETAIL.Item_Code) as Item_Code,max(Item_Desc) as [Item Description],max(TSPL_BOOKING_DETAIL.Unit_code) as UOM,sum(TSPL_BOOKING_DETAIL.Booking_Qty)  as [Demand Qty],sum(TSPL_SD_SHIPMENT_DETAIL.qty) as [Dispatch Qty],sum(TSPL_BOOKING_DETAIL.Booking_Qty)-sum(TSPL_SD_SHIPMENT_DETAIL.qty)
+              as [Balance Qty] from TSPL_BOOKING_DETAIL
+				 left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
+				 left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Booking_No=TSPL_BOOKING_MATSER.Document_No
+				inner join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Against_Booking_PK_ID=TSPL_BOOKING_DETAIL.PK_ID
+				 left join TSPL_CUSTOMER_MASTER ON TSPL_SD_SHIPMENT_HEAD.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code
+				  left join TSPL_ITEM_MASTER on TSPL_BOOKING_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code
+				  where 2=2 and CONVERT(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= '" + strFromDate + "' and CONVERT(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" + strToDate + "'" + whr + " group by TSPL_BOOKING_DETAIL.Item_Code "
         'where 2=2 and CONVERT(date,Supply_Date,103) >= convert(date,'" + strFromDate + "',103) AND 
         'CONVERT(date,Supply_Date,103) <= convert(date,'" + strToDate + "',103) "
 
