@@ -4856,14 +4856,14 @@ Public Class frmMCCMaterialSale
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
             If (myMessages.postConfirm()) Then
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    If chkcashsale.Checked Then
-                        If clsCommon.myLen(txtReceiptNo.Value) <= 0 Then
-                            Throw New Exception("Please select Receipt No.")
-                            txtReceiptNo.Focus()
-                        End If
-                    End If
-                End If
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                '    If chkcashsale.Checked Then
+                '        If clsCommon.myLen(txtReceiptNo.Value) <= 0 Then
+                '            Throw New Exception("Please select Receipt No.")
+                '            txtReceiptNo.Focus()
+                '        End If
+                '    End If
+                'End If
                 If Not clsMCCMaterialSale.checkApprovalDocument(Form_ID, txtDocNo.Value) Then
                     btnPost.Enabled = False
                     Throw New Exception("Approval required for this Document")
