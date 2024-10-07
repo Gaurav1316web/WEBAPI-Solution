@@ -2843,6 +2843,7 @@ Public Class MDI
     End Sub
     Public Function setCountertoblockforOpenForm(ByVal strProgramCode As String)
         Try
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROGRAM_MASTER set Form_Open_Counter=Form_Open_Counter+1  where program_code ='" & strProgramCode & "' ")
             If clsCommon.myCdbl(clsFixedParameter.GetSpecification(clsFixedParameterType.BigValidity, clsFixedParameterCode.BigValidity, Nothing)) <> 1 Then
                 Qry = clsFixedParameter.GetData(clsFixedParameterType.BigValidity, clsFixedParameterCode.BigValidity, Nothing)
                 Dim BatchFileCounter As Integer = clsCommon.DecryptString(clsFixedParameter.GetData(clsFixedParameterType.BatchFileCounter, clsFixedParameterCode.BatchFileCounter, Nothing))
@@ -8296,6 +8297,10 @@ Public Class MDI
 
                     Case clsUserMgtCode.RptRouteWiseSaleRegister
                         frm = New RptRouteWiseSaleRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.SaleEinvoiceReport
+                        frm = New SaleEinvoiceReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptVSPIncentiveRegister
