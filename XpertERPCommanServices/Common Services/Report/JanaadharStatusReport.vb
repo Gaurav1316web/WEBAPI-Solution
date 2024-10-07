@@ -255,7 +255,7 @@ Public Class JanaadharStatusReport
 
             Else
                 Dim DatabaseName As New ArrayList()
-                DatabaseName.Add(objCommonVar.CurrComp_Code1)
+                DatabaseName.Add(objCommonVar.CurrDatabase)
                 txtUnion.arrValueMember = DatabaseName
             End If
 
