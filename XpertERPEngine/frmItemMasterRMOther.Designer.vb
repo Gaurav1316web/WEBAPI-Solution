@@ -2914,7 +2914,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtDeductiontype.IsSourceFromTable = False
         Me.txtDeductiontype.IsSourceFromValueList = False
         Me.txtDeductiontype.IsUnique = False
-        Me.txtDeductiontype.Location = New System.Drawing.Point(425, 415)
+        Me.txtDeductiontype.Location = New System.Drawing.Point(425, 435)
         Me.txtDeductiontype.MendatroryField = True
         Me.txtDeductiontype.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDeductiontype.MyLinkLable1 = Me.myLabel47
@@ -2932,7 +2932,7 @@ Partial Class FrmItemMasterRMOther
         'MYLABEL47
         '
         Me.myLabel47.FieldName = Nothing
-        Me.myLabel47.Location = New System.Drawing.Point(301, 415)
+        Me.myLabel47.Location = New System.Drawing.Point(301, 435)
         Me.myLabel47.Name = "MyLabel47"
         Me.myLabel47.Size = New System.Drawing.Size(86, 18)
         Me.myLabel47.TabIndex = 211

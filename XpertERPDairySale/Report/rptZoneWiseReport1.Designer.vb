@@ -30,6 +30,11 @@ Partial Class rptZoneWiseReport1
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMorning = New common.Controls.MyRadioButton()
+        Me.rbtnEvening = New common.Controls.MyRadioButton()
+        Me.rbtnBothShift = New common.Controls.MyRadioButton()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -43,11 +48,8 @@ Partial Class rptZoneWiseReport1
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnMorning = New common.Controls.MyRadioButton()
-        Me.rbtnEvening = New common.Controls.MyRadioButton()
-        Me.rbtnBothShift = New common.Controls.MyRadioButton()
-        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -57,6 +59,12 @@ Partial Class rptZoneWiseReport1
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBothShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -68,12 +76,8 @@ Partial Class rptZoneWiseReport1
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox5.SuspendLayout()
-        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnBothShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -157,6 +161,65 @@ Partial Class rptZoneWiseReport1
         Me.RadPanel1.Size = New System.Drawing.Size(671, 278)
         Me.RadPanel1.TabIndex = 15
         '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(13, 103)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel1.TabIndex = 446
+        Me.MyLabel1.Text = "Shift"
+        Me.MyLabel1.Visible = False
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rbtnMorning)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnEvening)
+        Me.RadGroupBox5.Controls.Add(Me.rbtnBothShift)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(78, 94)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(303, 34)
+        Me.RadGroupBox5.TabIndex = 445
+        Me.RadGroupBox5.Visible = False
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnMorning.MyLinkLable1 = Nothing
+        Me.rbtnMorning.MyLinkLable2 = Nothing
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 393
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.Location = New System.Drawing.Point(95, 9)
+        Me.rbtnEvening.MyLinkLable1 = Nothing
+        Me.rbtnEvening.MyLinkLable2 = Nothing
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 393
+        Me.rbtnEvening.TabStop = False
+        Me.rbtnEvening.Text = "Evening"
+        '
+        'rbtnBothShift
+        '
+        Me.rbtnBothShift.Location = New System.Drawing.Point(212, 9)
+        Me.rbtnBothShift.MyLinkLable1 = Nothing
+        Me.rbtnBothShift.MyLinkLable2 = Nothing
+        Me.rbtnBothShift.Name = "rbtnBothShift"
+        Me.rbtnBothShift.Size = New System.Drawing.Size(44, 18)
+        Me.rbtnBothShift.TabIndex = 395
+        Me.rbtnBothShift.TabStop = False
+        Me.rbtnBothShift.Text = "Both"
+        '
         'txtRoute
         '
         Me.txtRoute.arrDispalyMember = Nothing
@@ -183,6 +246,8 @@ Partial Class rptZoneWiseReport1
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtFromShift)
+        Me.RadGroupBox1.Controls.Add(Me.txtToShift)
         Me.RadGroupBox1.Controls.Add(Me.txtToDate)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
         Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
@@ -190,7 +255,7 @@ Partial Class rptZoneWiseReport1
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(336, 50)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(443, 50)
         Me.RadGroupBox1.TabIndex = 389
         '
         'txtToDate
@@ -206,7 +271,7 @@ Partial Class rptZoneWiseReport1
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(228, 12)
+        Me.txtToDate.Location = New System.Drawing.Point(292, 12)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Me.MyLabel4
@@ -216,7 +281,7 @@ Partial Class rptZoneWiseReport1
         Me.txtToDate.ReferenceFieldDesc = Nothing
         Me.txtToDate.ReferenceFieldName = Nothing
         Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(81, 20)
+        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
         Me.txtToDate.TabIndex = 394
         Me.txtToDate.TabStop = False
         Me.txtToDate.Text = "28/06/2012"
@@ -226,7 +291,7 @@ Partial Class rptZoneWiseReport1
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(169, 13)
+        Me.MyLabel4.Location = New System.Drawing.Point(233, 13)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
         Me.MyLabel4.TabIndex = 395
@@ -324,62 +389,27 @@ Partial Class rptZoneWiseReport1
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox5
+        'txtToShift
         '
-        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox5.Controls.Add(Me.rbtnMorning)
-        Me.RadGroupBox5.Controls.Add(Me.rbtnEvening)
-        Me.RadGroupBox5.Controls.Add(Me.rbtnBothShift)
-        Me.RadGroupBox5.HeaderText = ""
-        Me.RadGroupBox5.Location = New System.Drawing.Point(78, 94)
-        Me.RadGroupBox5.Name = "RadGroupBox5"
-        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox5.Size = New System.Drawing.Size(303, 34)
-        Me.RadGroupBox5.TabIndex = 445
+        Me.txtToShift.AutoCompleteDisplayMember = Nothing
+        Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
+        Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.txtToShift.Location = New System.Drawing.Point(380, 11)
+        Me.txtToShift.Name = "txtToShift"
+        Me.txtToShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtToShift.TabIndex = 454
         '
-        'rbtnMorning
+        'txtFromShift
         '
-        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnMorning.Location = New System.Drawing.Point(5, 9)
-        Me.rbtnMorning.MyLinkLable1 = Nothing
-        Me.rbtnMorning.MyLinkLable2 = Nothing
-        Me.rbtnMorning.Name = "rbtnMorning"
-        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
-        Me.rbtnMorning.TabIndex = 393
-        Me.rbtnMorning.Text = "Morning"
-        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnEvening
-        '
-        Me.rbtnEvening.Location = New System.Drawing.Point(95, 9)
-        Me.rbtnEvening.MyLinkLable1 = Nothing
-        Me.rbtnEvening.MyLinkLable2 = Nothing
-        Me.rbtnEvening.Name = "rbtnEvening"
-        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
-        Me.rbtnEvening.TabIndex = 393
-        Me.rbtnEvening.TabStop = False
-        Me.rbtnEvening.Text = "Evening"
-        '
-        'rbtnBothShift
-        '
-        Me.rbtnBothShift.Location = New System.Drawing.Point(212, 9)
-        Me.rbtnBothShift.MyLinkLable1 = Nothing
-        Me.rbtnBothShift.MyLinkLable2 = Nothing
-        Me.rbtnBothShift.Name = "rbtnBothShift"
-        Me.rbtnBothShift.Size = New System.Drawing.Size(44, 18)
-        Me.rbtnBothShift.TabIndex = 395
-        Me.rbtnBothShift.TabStop = False
-        Me.rbtnBothShift.Text = "Both"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(13, 103)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(54, 18)
-        Me.MyLabel1.TabIndex = 446
-        Me.MyLabel1.Text = "Shift"
+        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
+        Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
+        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.txtFromShift.Location = New System.Drawing.Point(169, 11)
+        Me.txtFromShift.Name = "txtFromShift"
+        Me.txtFromShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtFromShift.TabIndex = 455
         '
         'rptZoneWiseReport1
         '
@@ -404,6 +434,13 @@ Partial Class rptZoneWiseReport1
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBothShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -416,13 +453,8 @@ Partial Class rptZoneWiseReport1
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox5.ResumeLayout(False)
-        Me.RadGroupBox5.PerformLayout()
-        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnBothShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -454,4 +486,6 @@ Partial Class rptZoneWiseReport1
     Friend WithEvents rbtnMorning As common.Controls.MyRadioButton
     Friend WithEvents rbtnEvening As common.Controls.MyRadioButton
     Friend WithEvents rbtnBothShift As common.Controls.MyRadioButton
+    Friend WithEvents txtToShift As RadDropDownList
+    Friend WithEvents txtFromShift As RadDropDownList
 End Class

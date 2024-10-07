@@ -1690,7 +1690,7 @@ Public Class FrmARInvoiceEntry
                     ''If IsTaxable Then
                     dblOtherTaxAmt = GetCurrentRowOtherTaxAmtWihtRowNo(intRowNo, ii, arrTaxableAuth)
                     ''End If
-                    dblBaseAmt = (dblAmtAfterDis + dblOtherTaxAmt)
+                    dblBaseAmt = (dblAmtAfterDis)
                     dblTaxAmt = ((dblAmtAfterDis + dblOtherTaxAmt) * dblTaxRate) / 100
                 End If
                 gv1.Rows(intRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + ii)).Value = Math.Round(dblBaseAmt, 2)
@@ -1853,7 +1853,7 @@ Public Class FrmARInvoiceEntry
                     dblOtherTaxAmt = GetBaseOtherTaxableAmount(ii - 1)
                     ''End If
 
-                    dblBaseAmt = dblAmtAfterDis + dblOtherTaxAmt
+                    dblBaseAmt = dblAmtAfterDis
                 End If
                 gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = dblBaseAmt
             Next
@@ -2968,6 +2968,7 @@ Public Class FrmARInvoiceEntry
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt2).Value = objTr.TAX2_Base_Amt
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt3).Value = objTr.TAX3_Base_Amt
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt4).Value = objTr.TAX4_Base_Amt
+
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt5).Value = objTr.TAX5_Base_Amt
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt6).Value = objTr.TAX6_Base_Amt
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt7).Value = objTr.TAX7_Base_Amt

@@ -24,11 +24,53 @@ Public Class rptBoothTruckSheet
 
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtFromShift.SelectedValue = "M"
+        txtToShift.SelectedValue = "E"
+        LoadShiftFrom()
+        LoadShiftTo()
         'cboDocumentType.SelectedIndex = 0
+    End Sub
+    Sub LoadShiftTo()
+        Dim dt As DataTable = New DataTable
+        dt.Columns.Add("Code")
+        dt.Columns.Add("Shift")
+
+        Dim dr As DataRow = dt.NewRow
+        dr("Code") = "M"
+        dr("Shift") = "M"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow
+        dr("Code") = "E"
+        dr("Shift") = "E"
+        dt.Rows.Add(dr)
+
+        txtToShift.DataSource = dt
+        txtToShift.ValueMember = "Code"
+        txtToShift.DisplayMember = "Shift"
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PrintView(False)
+    End Sub
+    Sub LoadShiftFrom()
+        Dim dt As DataTable = New DataTable
+        dt.Columns.Add("Code")
+        dt.Columns.Add("Shift")
+
+        Dim dr As DataRow = dt.NewRow
+        dr("Code") = "M"
+        dr("Shift") = "M"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow
+        dr("Code") = "E"
+        dr("Shift") = "E"
+        dt.Rows.Add(dr)
+
+        txtFromShift.DataSource = dt
+        txtFromShift.ValueMember = "Code"
+        txtFromShift.DisplayMember = "Shift"
     End Sub
     Sub PrintView(ByVal isPrint As Boolean)
         Try
@@ -39,7 +81,6 @@ Public Class rptBoothTruckSheet
             Dim whrcls As String = ""
             Dim strShift As String = ""
             Dim whrclsShift As String = ""
-
 
             If rbtnMorning.IsChecked Then
                 'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
@@ -55,11 +96,11 @@ Public Class rptBoothTruckSheet
                 whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
             End If
 
-            If txtRouteCode.Value IsNot Nothing Then
-                'whrcls += "  And TSPL_BOOKING_DETAIL.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
-                whrcls += " and TSPL_DEMAND_BOOKING_master.Route_No in ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
+            'If txtRouteCode.Value IsNot Nothing Then
+            '    'whrcls += "  And TSPL_BOOKING_DETAIL.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
+            '    whrcls += " and TSPL_DEMAND_BOOKING_master.Route_No in ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
 
-            End If
+            'End If
             qry = "  SELECT max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
             FROM TSPL_DEMAND_BOOKING_DETAIL 
 			left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
@@ -169,20 +210,30 @@ where 2 = 2  "
             End If
 
 
-            BaseQry += "" & whrcls & " " & whrclsShift & "  "
-            BaseQry += "And  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
-            If rbtnMorning.IsChecked Then
-                FinalQuery += " and ShiftType = 'MORNING' "
-            ElseIf rbtnEvening.IsChecked Then
-                FinalQuery += " and ShiftType = 'Evening'"
+            'BaseQry += "" & whrcls & " " & whrclsShift & "  "
+            BaseQry += "" & whrcls & " "
+            BaseQry += " and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
+
+            If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
+                BaseQry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='M' then 3 else 2 end  )"
             End If
+            If clsCommon.CompairString(clsCommon.myCstr(txtToDate.Text), "M") = CompairStringResult.Equal Then
+                BaseQry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='E' then 3 else 2 end  )"
+            End If
+            BaseQry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')"
+            'BaseQry += "And  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
+            'If rbtnMorning.IsChecked Then
+            '    FinalQuery += " and ShiftType = 'MORNING' "
+            'ElseIf rbtnEvening.IsChecked Then
+            '    FinalQuery += " and ShiftType = 'Evening'"
+            'End If
 
             BaseQry += ") AS xx PIVOT (SUM(CRATE)  FOR Short_Description IN (" & itemNames1 & ") ) AS pivot_crate PIVOT (SUM(Amount)  FOR Item_Description IN (" & itemNames2 & ") ) AS pivot_net_amt  "
-            If rbtnMorning.IsChecked Then
-                FinalQuery += " and XXX.ShiftType = 'MORNING' "
-            ElseIf rbtnEvening.IsChecked Then
-                FinalQuery += " and XXX.ShiftType = 'Evening'"
-            End If
+            'If rbtnMorning.IsChecked Then
+            '    FinalQuery += " and XXX.ShiftType = 'MORNING' "
+            'ElseIf rbtnEvening.IsChecked Then
+            '    FinalQuery += " and XXX.ShiftType = 'Evening'"
+            'End If
 
             FinalQuery = "" & BaseQry & ""
 
@@ -357,6 +408,8 @@ where 2 = 2  "
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
+        txtFromShift.SelectedValue = "M"
+        txtToShift.SelectedValue = "E"
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -374,9 +427,15 @@ where 2 = 2  "
             whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
         ElseIf rbtnProductType.IsChecked Then
             whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
+        Else
+            whrcls += ""
         End If
         Dim whrclsShift As String = ""
         Dim Shift As String = ""
+
+        Dim FromShifts As String = ""
+        Dim ToShifts As String = ""
+
         If rbtnMorning.IsChecked Then
             ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
             whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Morning' "
@@ -405,12 +464,14 @@ TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Descri
         ElseIf rbtnDemand.IsChecked Then
             qry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code,"
         End If
-        qry += " Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,
-		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,
-		 0 AS Receipt_Amount "
+        qry += " Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount
+,Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pack' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pack "
+
+
 
         If rbtnDispatch.IsChecked Then
-        qry += " FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code "
+            qry += " FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code "
         ElseIf rbtnDemand.IsChecked Then
             qry += " FROM TSPL_DEMAND_BOOKING_DETAIL "
         End If
@@ -427,10 +488,28 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_M
         If rbtnDispatch.IsChecked Then
             qry += " and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 "
         End If
+        qry += "" & whrcls & "  "
 
-        qry += "" & whrcls & " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')   " & whrclsShift & "  And
- convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) )
-"
+        ' qry += "" & whrcls & " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')   " & whrclsShift & "  "
+        qry += " and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
+
+        '        qry += "
+        'And convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) +
+        '"
+        If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
+            qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='M' then 3 else 2 end  )"
+        End If
+        If clsCommon.CompairString(clsCommon.myCstr(txtToDate.Text), "M") = CompairStringResult.Equal Then
+            qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='E' then 3 else 2 end  )"
+        End If
+        qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "') )order by Sku_Seq"
+        'If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
+        '    qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 3 else 2 end  )"
+        'End If
+        '        If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
+        '    qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  ))"
+        'End If
+
         Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dtPrint IsNot Nothing And dtPrint.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()

@@ -19,7 +19,7 @@ Public Class JanaadharStatusReport
         End If
     End Sub
 
-    Sub FarmerDetail()
+    Sub FarmerDetail(ByVal print As Boolean)
         Try
             Dim query As String = ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
@@ -49,7 +49,7 @@ Public Class JanaadharStatusReport
                                 FROM (SELECT MP_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL GROUP BY MP_Code ) X
                                 LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm ON mm.MP_Code = X.MP_Code"
                     Else
-                        query += "SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        query += "SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
                                     COUNT(DISTINCT mm.MP_Code) AS Total_MP_Codes,
 	                                count(ISNULL(mm.Jan_Aadhar_No_Verified,0)) as Jan_Aadhar_No_Verified, 
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 0 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Unverified_Count,
@@ -63,21 +63,33 @@ Public Class JanaadharStatusReport
 
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt2 IsNot Nothing OrElse dt2.Rows.Count > 0 Then
+                If print = False Then
+                    gv1.DataSource = Nothing
+                    gv1.Rows.Clear()
+                    gv1.Columns.Clear()
+                    gv1.GroupDescriptors.Clear()
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.MasterView.Refresh()
+                    gv1.DataSource = dt2
+                    For ii As Integer = 0 To gv1.Columns.Count - 1
+                        gv1.Columns(ii).ReadOnly = True
+                    Next
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.EnableFiltering = True
+                    SetGridFormat1()
+                    gv1.BestFitColumns()
+                Else
+                    If rbtnTransaction.IsChecked Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptJanaadharStatusReport", "")
+                        frmCRV = Nothing
+                    Else
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptJanaadharStatusfromMasterReport", "")
+                        frmCRV = Nothing
+                    End If
 
-                gv1.DataSource = Nothing
-                gv1.Rows.Clear()
-                gv1.Columns.Clear()
-                gv1.GroupDescriptors.Clear()
-                gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                gv1.MasterView.Refresh()
-                gv1.DataSource = dt2
-                For ii As Integer = 0 To gv1.Columns.Count - 1
-                    gv1.Columns(ii).ReadOnly = True
-                Next
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gv1.EnableFiltering = True
-                SetGridFormat1()
-                gv1.BestFitColumns()
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -130,6 +142,12 @@ Public Class JanaadharStatusReport
         If rbtnMaster.IsChecked Then
             gv1.Columns("DateWise_Verified_Count").HeaderText = "Date Wise verified Farmer "
             gv1.Columns("DateWise_Verified_Count").IsVisible = True
+
+            gv1.Columns("FromDate").HeaderText = "FromDate"
+            gv1.Columns("FromDate").IsVisible = False
+
+            gv1.Columns("ToDate").HeaderText = "ToDate"
+            gv1.Columns("ToDate").IsVisible = False
         End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
@@ -152,7 +170,7 @@ Public Class JanaadharStatusReport
 
 
     Private Sub BtnGo_Click_1(sender As Object, e As EventArgs) Handles BtnGo.Click
-        FarmerDetail()
+        FarmerDetail(False)
     End Sub
 
     Private Sub gv1_DoubleClick(sender As Object, e As EventArgs) Handles gv1.DoubleClick
@@ -216,49 +234,7 @@ Public Class JanaadharStatusReport
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Dim query As String = ""
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
-        If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
-            Exit Sub
-        End If
-
-        Dim docNo As String = ""
-
-        'If chkRJSBNS.Checked Then
-        '    query += "union all
-        'SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-        'union all
-        'SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
-        'ORDER BY Location_Name"
-        'End If
-        dt = clsMilkUnion.UnionDBName()
-        query = ""
-
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            For ii As Integer = 0 To dt.Rows.Count - 1
-                If ii > 0 Then
-                    query += " UNION ALL "
-                End If
-
-                query += "  SELECT " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                                    COUNT(DISTINCT X.MP_Code) AS Total_MP_Codes,
-	                                count(ISNULL(mm.Jan_Aadhar_No_Verified,0)) as Jan_Aadhar_No_Verified, 
-                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 0 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Unverified_Count,
-                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Verified_Count
-                                FROM (SELECT MP_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL GROUP BY MP_Code ) X
-                                LEFT JOIN [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm ON mm.MP_Code = X.MP_Code"
-            Next
-        End If
-
-        Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
-        If dt2 IsNot Nothing And dt2.Rows.Count > 0 Then
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptJanaadharStatusReport", "")
-            frmCRV = Nothing
-        Else
-            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-        End If
+        FarmerDetail(True)
     End Sub
 
     Private Sub txtUnion__My_Click(sender As Object, e As EventArgs) Handles txtUnion._My_Click
