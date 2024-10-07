@@ -8294,6 +8294,10 @@ Public Class MDI
                         frm = New RptRouteWiseSaleRegister()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.SaleEinvoiceReport
+                        frm = New SaleEinvoiceReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptVSPIncentiveRegister
                         frm = New rptVSPIncentiveRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
