@@ -939,6 +939,7 @@ Partial Class FrmPaymentProcess
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(924, 261)
         Me.gv.TabIndex = 0
+        Me.gv.VarID = ""
         '
         'SplitContainer1
         '
@@ -1020,6 +1021,7 @@ Partial Class FrmPaymentProcess
         Me.gvInvoice.ShowHeaderCellButtons = True
         Me.gvInvoice.Size = New System.Drawing.Size(924, 425)
         Me.gvInvoice.TabIndex = 266
+        Me.gvInvoice.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1046,6 +1048,7 @@ Partial Class FrmPaymentProcess
         Me.gvMccSale.ShowHeaderCellButtons = True
         Me.gvMccSale.Size = New System.Drawing.Size(924, 425)
         Me.gvMccSale.TabIndex = 266
+        Me.gvMccSale.VarID = ""
         '
         'RDPMccSaleReturn
         '
@@ -1072,6 +1075,7 @@ Partial Class FrmPaymentProcess
         Me.GvMccSaleReturn.ShowHeaderCellButtons = True
         Me.GvMccSaleReturn.Size = New System.Drawing.Size(924, 425)
         Me.GvMccSaleReturn.TabIndex = 267
+        Me.GvMccSaleReturn.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -1098,6 +1102,7 @@ Partial Class FrmPaymentProcess
         Me.gvItemIssue.ShowHeaderCellButtons = True
         Me.gvItemIssue.Size = New System.Drawing.Size(924, 425)
         Me.gvItemIssue.TabIndex = 266
+        Me.gvItemIssue.VarID = ""
         '
         'PageItemIssueReturn
         '
@@ -1124,6 +1129,7 @@ Partial Class FrmPaymentProcess
         Me.gvItemIssueReturn.ShowHeaderCellButtons = True
         Me.gvItemIssueReturn.Size = New System.Drawing.Size(924, 425)
         Me.gvItemIssueReturn.TabIndex = 267
+        Me.gvItemIssueReturn.VarID = ""
         '
         'RadPageViewPage5
         '
@@ -1150,6 +1156,7 @@ Partial Class FrmPaymentProcess
         Me.gvDeduction.ShowHeaderCellButtons = True
         Me.gvDeduction.Size = New System.Drawing.Size(924, 425)
         Me.gvDeduction.TabIndex = 267
+        Me.gvDeduction.VarID = ""
         '
         'RadPageViewPage6
         '
@@ -1176,6 +1183,7 @@ Partial Class FrmPaymentProcess
         Me.gvCreditNote.ShowHeaderCellButtons = True
         Me.gvCreditNote.Size = New System.Drawing.Size(924, 425)
         Me.gvCreditNote.TabIndex = 268
+        Me.gvCreditNote.VarID = ""
         '
         'RadPageViewPage7
         '
@@ -1202,6 +1210,7 @@ Partial Class FrmPaymentProcess
         Me.gvAdvancePayment.ShowHeaderCellButtons = True
         Me.gvAdvancePayment.Size = New System.Drawing.Size(818, 425)
         Me.gvAdvancePayment.TabIndex = 269
+        Me.gvAdvancePayment.VarID = ""
         '
         'RadPageViewPage8
         '
@@ -1228,6 +1237,7 @@ Partial Class FrmPaymentProcess
         Me.gvAssetLost.ShowHeaderCellButtons = True
         Me.gvAssetLost.Size = New System.Drawing.Size(924, 425)
         Me.gvAssetLost.TabIndex = 270
+        Me.gvAssetLost.VarID = ""
         '
         'RadPageViewPage9
         '
@@ -1254,6 +1264,7 @@ Partial Class FrmPaymentProcess
         Me.gvSaving.ShowHeaderCellButtons = True
         Me.gvSaving.Size = New System.Drawing.Size(924, 425)
         Me.gvSaving.TabIndex = 269
+        Me.gvSaving.VarID = ""
         '
         'RadPageViewCompulsory
         '
@@ -1280,6 +1291,7 @@ Partial Class FrmPaymentProcess
         Me.gvCompulsory.ShowHeaderCellButtons = True
         Me.gvCompulsory.Size = New System.Drawing.Size(924, 425)
         Me.gvCompulsory.TabIndex = 270
+        Me.gvCompulsory.VarID = ""
         '
         'btnUnpost
         '
@@ -1390,7 +1402,6 @@ Partial Class FrmPaymentProcess
         Me.btnProcess.Size = New System.Drawing.Size(60, 18)
         Me.btnProcess.TabIndex = 7
         Me.btnProcess.Text = "Process"
-        Me.btnProcess.Visible = False
         '
         'btnDelete
         '
