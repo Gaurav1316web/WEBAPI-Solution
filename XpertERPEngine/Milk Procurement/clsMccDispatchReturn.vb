@@ -17,7 +17,7 @@ Public Class clsMCCDispatchReturn
             Dim objSRN As clsMccDispatch = clsMccDispatch.getData(obj.Challan_No, NavigatorType.Current)
             AllowToSave(obj)
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "Tanker Dispatch Return", objSRN.MCC_Code, obj.Document_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "Tanker Dispatch Return", objSRN.MCC_Code, obj.Document_Date, trans)
             Try
                 If isNewEntry Then
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.MccDispatchChallanReturn, "", objSRN.MCC_Code)

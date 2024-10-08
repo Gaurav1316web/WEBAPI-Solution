@@ -179,6 +179,12 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
+    <Compile Include="frmShowInvoiceNo.Designer.vb">
+      <DependentUpon>frmShowInvoiceNo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmShowInvoiceNo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmCustCategoryWiseDefaultItemUomMaster.Designer.vb">
       <DependentUpon>frmCustCategoryWiseDefaultItemUomMaster.vb</DependentUpon>
     </Compile>
@@ -585,6 +591,12 @@
     <Compile Include="Report\rptZoneWiseReport1.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\SaleEinvoiceReport.Designer.vb">
+      <DependentUpon>SaleEinvoiceReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\SaleEinvoiceReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\FrmAcknowledgeOfGRN.Designer.vb">
       <DependentUpon>FrmAcknowledgeOfGRN.vb</DependentUpon>
     </Compile>
@@ -875,6 +887,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmShowInvoiceNo.resx">
+      <DependentUpon>frmShowInvoiceNo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmCustCategoryWiseDefaultItemUomMaster.resx">
       <DependentUpon>frmCustCategoryWiseDefaultItemUomMaster.vb</DependentUpon>
     </EmbeddedResource>
@@ -1076,6 +1091,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptZoneWiseReport1.resx">
       <DependentUpon>rptZoneWiseReport1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleEinvoiceReport.resx">
+      <DependentUpon>SaleEinvoiceReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmAcknowledgeOfGRN.resx">
       <DependentUpon>FrmAcknowledgeOfGRN.vb</DependentUpon>

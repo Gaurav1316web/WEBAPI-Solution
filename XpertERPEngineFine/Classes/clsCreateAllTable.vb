@@ -1599,6 +1599,12 @@ Public Class clsCreateAllTable
             coll.Add("Vendor_Code", "Varchar(12) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_VENDOR_MAPPING", coll)
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Cust_Code", "Varchar(12) null")
+            coll.Add("Employee_Code", "Varchar(12) null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_CUSTOMER_EMPLOYEE_MAPPING", coll)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("TPT_Type", "char(1) null")
             coll.Add("Serial_Number", "int null")
@@ -2352,6 +2358,7 @@ Public Class clsCreateAllTable
             coll.Add("RAL", "integer NUll")
             coll.Add("FG_for_CF", "integer not null default 0")
             coll.Add("Is_DisplayDemand", "integer not NULL default 0")
+            coll.Add("Is_Parlour", "integer not NULL default 0")
             coll.Add("Is_ExcludeAPP", "integer not NULL default 0")
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("BuyBackType", "integer null default 0")
@@ -5886,7 +5893,7 @@ Public Class clsCreateAllTable
             coll.Add("APP_No", "integer not null default 0") ''0-XpertERP,1-XpertAPI
             coll.Add("Lock_Location", "integer not null default 0")
             coll.Add("Lock_Location_Segment", "integer not null default 0")
-
+            coll.Add("Form_Open_Counter", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PROGRAM_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()

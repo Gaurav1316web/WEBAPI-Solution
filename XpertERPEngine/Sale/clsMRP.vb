@@ -155,7 +155,7 @@ Public Class clsMRP
             End If
         End If
 
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Standard Production", "MRP", obj.MRP_Location, obj.MRP_DATE, trans)
+        'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, "MRP", obj.MRP_Location, obj.MRP_DATE, trans)
         Try
             Dim qry As String
             '' delete TSPL_MRP_DETAIL

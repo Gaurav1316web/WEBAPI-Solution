@@ -3001,13 +3001,28 @@ Public Class frmMCCMaterialSale
         Next
         lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
         lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt + dblCashDisAmt)
-        lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
+        If MultiplySubsidyWithQuantity Then
+            Dim AmtAfterDiscount As Double = lblAmtWithDiscount.Text
+            Dim InvAmt As Double = lblInvoiceDiscAmt.Text
+            AmtAfterDiscount = AmtAfterDiscount - InvAmt
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(AmtAfterDiscount)
+            lblInvoiceDiscAmt.Text = lblTotalDisSubsidy.Text
+        Else
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
+            lblInvoiceDiscAmt.Text = dblHeadDisAmt + dblHeadDisPerAmt
+        End If
         lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
         lblAddCharges.Text = clsCommon.myFormat(dblACAmount)
         lblAddCharges1.Text = clsCommon.myFormat(dblACAmount)
         dblNetAmt = dblNetAmt + dblACAmount
-        lblInvoiceDiscAmt.Text = dblHeadDisAmt + dblHeadDisPerAmt
-        lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
+        If MultiplySubsidyWithQuantity Then
+            Dim TotDocAmt As Double = lblAmtAfterDiscount.Text
+            Dim TaxAmt As Double = lblTaxAmt.Text
+            TotDocAmt = TotDocAmt + TaxAmt
+            lblTotRAmt.Text = clsCommon.myFormat(TotDocAmt)
+        Else
+            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
+        End If
         lblCommAmt.Text = clsCommon.myFormat(dblCommAmt)
         If AllowRoundOff_onInvoice Then
             Dim lstDecml As New List(Of Decimal)
@@ -3394,10 +3409,18 @@ Public Class frmMCCMaterialSale
                 obj.Price_Code = txtPriceCode.Text
                 obj.HeadDisc_Per = txtDiscPer.Text
                 If obj.HeadDisc_Per > 0 Then
-                    obj.HeadDisc_PerAmt = lblInvoiceDiscAmt.Text
-                    obj.HeadDisc_Amt = 0
-                Else
-                    obj.HeadDisc_Amt = lblInvoiceDiscAmt.Text
+                    If MultiplySubsidyWithQuantity Then
+                        obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
+                    Else
+                        obj.HeadDisc_PerAmt = lblInvoiceDiscAmt.Text
+                End If
+                obj.HeadDisc_Amt = 0
+            Else
+                    If MultiplySubsidyWithQuantity Then
+                        obj.HeadDisc_Amt = txtDiscAmt.Text
+                    Else
+                        obj.HeadDisc_Amt = lblInvoiceDiscAmt.Text
+                    End If
                     obj.HeadDisc_PerAmt = 0
                 End If
                 obj.RateDiff_Per = txtRatePer.Text
@@ -3952,10 +3975,10 @@ Public Class frmMCCMaterialSale
                     lblReceiptAmt.Text = obj.ReceiptAmt
                     cmbPaymentType.SelectedValue = obj.Payment_Terms
                 End If
-                If MultiplySubsidyWithQuantity Then
-                    lblTotalSubsidy.Text = obj.TotalSubsidyAmt
+
+                lblTotalSubsidy.Text = obj.TotalSubsidyAmt
                     lblTotalDisSubsidy.Text = obj.TotalSubsidyDisAmt
-                End If
+
                 txtVehicleNo.Text = obj.VehicleNo
                 txtReceiverName.Text = obj.ReceiverName
                 If clsCommon.myLen(clsCommon.myCstr(txtBillToLocation.Value)) > 0 Then
@@ -4025,10 +4048,18 @@ Public Class frmMCCMaterialSale
                     If clsCommon.myCdbl(txtDiscPer.Text) = 0 Then
                         txtDiscAmt.Text = obj.HeadDisc_Amt
                         chkDiscountOnAmt.IsChecked = True
-                        lblInvoiceDiscAmt.Text = obj.HeadDisc_Amt
+                        If MultiplySubsidyWithQuantity Then
+                            lblInvoiceDiscAmt.Text = obj.TotalSubsidyDisAmt
+                        Else
+                            lblInvoiceDiscAmt.Text = obj.HeadDisc_Amt
+                        End If
                     Else
                         chkDiscountOnRate.IsChecked = True
-                        lblInvoiceDiscAmt.Text = obj.HeadDisc_PerAmt
+                        If MultiplySubsidyWithQuantity Then
+                            lblInvoiceDiscAmt.Text = obj.TotalSubsidyDisAmt
+                        Else
+                            lblInvoiceDiscAmt.Text = obj.HeadDisc_PerAmt
+                        End If
                     End If
                 End If
                 If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCdbl(txtRateAmt.Text) = 0 OrElse clsCommon.myCdbl(txtRatePer.Text) = 0 Then
@@ -4825,14 +4856,14 @@ Public Class frmMCCMaterialSale
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
             If (myMessages.postConfirm()) Then
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    If chkcashsale.Checked Then
-                        If clsCommon.myLen(txtReceiptNo.Value) <= 0 Then
-                            Throw New Exception("Please select Receipt No.")
-                            txtReceiptNo.Focus()
-                        End If
-                    End If
-                End If
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                '    If chkcashsale.Checked Then
+                '        If clsCommon.myLen(txtReceiptNo.Value) <= 0 Then
+                '            Throw New Exception("Please select Receipt No.")
+                '            txtReceiptNo.Focus()
+                '        End If
+                '    End If
+                'End If
                 If Not clsMCCMaterialSale.checkApprovalDocument(Form_ID, txtDocNo.Value) Then
                     btnPost.Enabled = False
                     Throw New Exception("Approval required for this Document")
@@ -5984,7 +6015,12 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         Qry += " TSPL_SD_SHIPMENT_DETAIL .Specification as  specification,   TSPL_SD_SHIPMENT_HEAD.sale_invoice_no as DocNo , TSPL_SD_SHIPMENT_HEAD.Description, "
         Qry += "  convert(varchar ,TSPL_SD_SHIPMENT_HEAD .Document_Date,103)as Document_Date , TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order, TSPL_SD_SHIPMENT_HEAD.Item_Type ,  TSPL_SD_SHIPMENT_HEAD.Customer_Code, "
         Qry += " TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1 as Customer_Add1,TSPL_CUSTOMER_MASTER.add2 as customer_Add2,TSPL_CUSTOMER_MASTER.Add3 as customer_Add3 ,TSPL_CUSTOMER_MASTER.State as customer_city_State,TSPL_CUSTOMER_MASTER.Tin_No  as Cust_Tin_No ,TSPL_CUSTOMER_MASTER.PIN_Code as Customer_Pin_Code , TSPL_SD_SHIPMENT_HEAD .Terms_Code as termscode ,TSPL_SD_SHIPMENT_HEAD .Ref_No as ref_no ,"
-        Qry += " TSPL_SD_SHIPMENT_HEAD .Comments as comments ,  TSPL_SD_SHIPMENT_HEAD .Discount_Amt as dis_amt,TSPL_SD_SHIPMENT_DETAIL .Total_Disc_Amt  as dis_amt1,"
+        Qry += " TSPL_SD_SHIPMENT_HEAD .Comments as comments ,  TSPL_SD_SHIPMENT_HEAD .Discount_Amt as dis_amt,"
+        If MultiplySubsidyWithQuantity Then
+            Qry += "  TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt  as dis_amt1,"
+        Else
+            Qry += "  TSPL_SD_SHIPMENT_DETAIL.Total_Disc_Amt  as dis_amt1,"
+        End If
         Qry += " TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_SD_SHIPMENT_HEAD .Total_Amt as Total_amount,"
         Qry += " TSPL_SD_SHIPMENT_HEAD.Discount_Base as bfrdisc_amount, TSPL_COMPANY_MASTER.Access_Officer as FSSAI,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.Tcan_No AS WebSite ,TSPL_COMPANY_MASTER.Phone1 AS COMP_PHONE,  "
         Qry += " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SHIPMENT_HEAD.tax1_amt,0) as txt1amt, TSPL_SD_SHIPMENT_HEAD.TAX1_Rate,  tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SHIPMENT_HEAD.tax2_amt,0) as txt2amt,TSPL_SD_SHIPMENT_HEAD.TAX2_Rate, tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SHIPMENT_HEAD.tax3_amt,0) as txt3amt,TSPL_SD_SHIPMENT_HEAD.TAX3_Rate,   tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SHIPMENT_HEAD.tax4_amt,0) as txt4amt,TSPL_SD_SHIPMENT_HEAD.TAX4_Rate,   tax5.Tax_Code_Desc as tax5name,isnull (TSPL_SD_SHIPMENT_HEAD.tax5_amt,0) as txt5amt,TSPL_SD_SHIPMENT_HEAD.TAX5_Rate,   tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SHIPMENT_HEAD.tax6_amt,0) as txt6amt,TSPL_SD_SHIPMENT_HEAD.TAX6_Rate,   tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SHIPMENT_HEAD.tax7_amt,0) as txt7amt,TSPL_SD_SHIPMENT_HEAD.TAX7_Rate,   tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SHIPMENT_HEAD.tax8_amt,0) as txt8amt,TSPL_SD_SHIPMENT_HEAD.TAX8_Rate,    tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SHIPMENT_HEAD.tax9_amt,0) as txt9amt,TSPL_SD_SHIPMENT_HEAD.TAX9_Rate,   tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SHIPMENT_HEAD.tax10_amt,0) as txt10amt, TSPL_SD_SHIPMENT_HEAD.TAX10_Rate, "
@@ -8453,14 +8489,14 @@ a:          End If
         End If
     End Sub
     Private Sub txtRateAmt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtRateAmt.KeyPress
-        If MultiplySubsidyWithQuantity Then
-            lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
-        End If
+        'If MultiplySubsidyWithQuantity Then
+        lblTotalSubsidy.Text = clsCommon.myCdbl(txtRateAmt.Text) * TotalItemQty
+        'End If
     End Sub
 
     Private Sub txtDiscAmt_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDiscAmt.KeyPress
-        If MultiplySubsidyWithQuantity Then
-            lblTotalDisSubsidy.Text = clsCommon.myCdbl(txtDiscAmt.Text) * TotalItemQty
-        End If
+        'If MultiplySubsidyWithQuantity Then
+        lblTotalDisSubsidy.Text = clsCommon.myCdbl(txtDiscAmt.Text) * TotalItemQty
+        ' End If
     End Sub
 End Class

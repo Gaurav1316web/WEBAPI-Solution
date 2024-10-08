@@ -30,7 +30,7 @@ Public Class clsMilkJWOTransferReturn
         Try
             'Dim objSRN As clsJWOTransferOtherHead = clsJWOTransferOtherHead.GetData(objt.JWO_Transfer_No, NavigatorType.Current, trans)
             AllowToSave(objt, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Transfer Return", objt.JWO_SRN_From_Location_Code, objt.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkOutWard, clsUserMgtCode.frmMilkJobWorkTransferReturn, objt.JWO_SRN_From_Location_Code, objt.Document_Date, trans)
             Try
                 If isNewEntry Then
                     objt.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(objt.Document_Date), clsDocType.JobWorkTransferMilkReturn, "", objt.JWO_SRN_From_Location_Code)

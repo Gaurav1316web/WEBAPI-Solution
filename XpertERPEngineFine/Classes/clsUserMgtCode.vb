@@ -199,6 +199,7 @@ Public Class clsUserMgtCode
 
     '--Dairy Sales Trnasaction
     Public Const RptRouteWiseSaleRegister As String = "RPT_RTE_SLE"
+    Public Const SaleEinvoiceReport As String = "SA_EIV_RPT"
     Public Const SubModuleSaleDairyTransaction As String = "SMSDairyT"
     Public Const frmbookingdairy As String = "BOOK-DS"
     'Public Const frmbookingdairyFreshSale As String = "BOOK-DS_FSH"
@@ -970,6 +971,7 @@ Public Class clsUserMgtCode
     Public Const frmCommissionMaster As String = "COMM-M"
     Public Const CustomerVendorMapping As String = "CST-VNDR-MAP"
     Public Const CustomerVendorMappingVendor As String = "CST-VNDR-MAV"
+    Public Const frmCustomerEmployeeMapping As String = "CST_EMO_MAP"
 
     Public Const rptDispatchChallanReport As String = "SMDptRpt"
     Public Const rptMatrixFreshReport As String = "SMMRXRpt"

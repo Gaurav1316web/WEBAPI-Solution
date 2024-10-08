@@ -131,7 +131,7 @@ Public Class clsItemStockConveriosnHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Doc_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Inventory", "Item Stock Conversion", obj.Location_Code, clsCommon.myCDate(obj.Doc_Date), trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Inventory", "Item Stock Conversion", obj.Location_Code, clsCommon.myCDate(obj.Doc_Date), trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If

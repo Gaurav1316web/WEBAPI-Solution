@@ -237,7 +237,7 @@ Public Class clsProductionReceipt
                     obj.RECEIPT_CODE = strCode
                 End If
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Standard Production", "Production Receipt", obj.LOCATION_CODE, obj.RECEIPT_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmProductionReceiptSTD, obj.LOCATION_CODE, obj.RECEIPT_DATE, trans)
             Dim qry As String = ""
 
             qry = "delete from TSPL_MF_CONSUMPTION_DETAIL where receipt_code='" & obj.RECEIPT_CODE & "'"

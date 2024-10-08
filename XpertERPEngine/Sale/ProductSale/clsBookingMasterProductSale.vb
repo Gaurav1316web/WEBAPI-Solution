@@ -162,7 +162,7 @@ Public Class clsBookingMasterProductSale
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Product Sale", "Product Booking Entry", obj.Bill_To_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductSale, clsUserMgtCode.frmBookingProductSale, obj.Bill_To_Location, obj.Document_Date, trans)
             If isMakeAbandomentNo Then
                 isSaved = isSaved AndAlso clsPurchaseOrderHeadHist.SaveData(obj.Document_Code, clsCommon.myCdbl(obj.Abandonment_No + 1), trans)
             End If

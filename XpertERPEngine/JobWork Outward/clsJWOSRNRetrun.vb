@@ -20,7 +20,7 @@ Public Class clsJWOSRNReturn
             Dim objSRN As clsJWOSRNHead = clsJWOSRNHead.GetData(obj.JWO_SRN_No, NavigatorType.Current)
             AllowToSave(obj, objSRN)
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork SRN Return", obj.JWO_SRN_Location_Code, Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkOutWard, clsUserMgtCode.JWO_SRN_Return, obj.JWO_SRN_Location_Code, Document_Date, trans)
             Try
                 If isNewEntry Then
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.JWOSRNReturn, obj.JWO_SRN_Document_Type, obj.JWO_SRN_Location_Code)

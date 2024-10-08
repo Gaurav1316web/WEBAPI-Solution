@@ -91,8 +91,8 @@ Public Class clsRequistionHead
         Try
             Dim isSaved As Boolean = True
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Requisition", obj.Location, obj.Requisition_Date, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Requisition", obj.Location, obj.Requisition_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, "Purchase Requisition", obj.Location, obj.Requisition_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.frmStoreRequistion, obj.Location, obj.Requisition_Date, trans)
             '-----------------------------------------------
             If Not isNewEntry AndAlso objCommonVar.IsDemoERP Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1_Approval_Status, Level2_Approval_Status, Level3_Approval_Status,Level4_Approval_Status,Level5_Approval_Status from TSPL_REQUISITION_HEAD WHERE Requisition_Id ='" + obj.Requisition_Id + "'", trans)
@@ -487,7 +487,7 @@ Public Class clsRequistionHead
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Requisition", obj.Location, obj.Requisition_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseRequistion, obj.Location, obj.Requisition_Date, trans)
 
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
