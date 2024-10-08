@@ -199,6 +199,7 @@ Public Class clsUserMgtCode
 
     '--Dairy Sales Trnasaction
     Public Const RptRouteWiseSaleRegister As String = "RPT_RTE_SLE"
+    Public Const SaleEinvoiceReport As String = "SA_EIV_RPT"
     Public Const SubModuleSaleDairyTransaction As String = "SMSDairyT"
     Public Const frmbookingdairy As String = "BOOK-DS"
     'Public Const frmbookingdairyFreshSale As String = "BOOK-DS_FSH"
@@ -1257,6 +1258,7 @@ Public Class clsUserMgtCode
     Public Const TenderShortPenalty As String = "TND-SHT-PNL"
     Public Const frmCorrectionforWrongEntry As String = "CF-WRNG-ENT"
     Public Const frmDeletionForEntry As String = "DEL-FOR-ENT"
+    Public Const frmShortSupplyPenalty As String = "SHT-SLY-PLT"
 
     'Sanjay BHA/09/05/18-000014
     Public Const frmMaterialQuotation As String = "SCRAP-QU"

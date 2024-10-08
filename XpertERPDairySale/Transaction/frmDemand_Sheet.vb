@@ -43,15 +43,16 @@ Public Class frmDemand_Sheet
         allowtoselectShift = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToSelectShift, clsFixedParameterCode.AllowToSelectShift, Nothing)) = 1, True, False)
         If allowtoselectShift = True Then
             txtDate.Enabled = True
-            txtShift.Enabled = True
+            cmbShift.Enabled = True
         Else
             txtDate.Enabled = False
-            txtShift.Enabled = False
+            cmbShift.Enabled = False
         End If
-
+        LoadShiftType()
         AddNew()
         SetUserMgmtNew()
-        LoadData(txtDate.Value, txtShift.Text, objCommonVar.CurrentUserCode, True)
+        txtDate.Value = clsCommon.GETSERVERDATE()
+        LoadData(txtDate.Value, cmbShift.SelectedValue, objCommonVar.CurrentUserCode, True)
         isInsideLoadData = False
     End Sub
     Sub LoadBlankGrid()
@@ -163,18 +164,36 @@ Public Class frmDemand_Sheet
     End Sub
     Sub AddNew()
         LoadBlankGrid()
+
         Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
-        Dim EndTime As DateTime = clsCommon.GetPrintDate(SetShiftTimeOut, "dd/MMM/yyyy hh:mm tt")
-        If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
-            txtDate.Value = clsCommon.GetPrintDate(CurrDateTime)
-            txtShift.Text = "Evening"
+            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetShiftTimeOut, "dd/MMM/yyyy hh:mm tt")
+            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                txtDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+            cmbShift.SelectedValue = "Evening"
         Else
-            txtDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
-            txtShift.Text = "Morning"
+                txtDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+            cmbShift.SelectedValue = "Morning"
         End If
-        txtBoothName.Text = ""
-        txtDistributor.Text = ""
-        txtAddress.Text = ""
+            txtBoothName.Text = ""
+            txtDistributor.Text = ""
+            txtAddress.Text = ""
+
+    End Sub
+    Sub LoadShiftType()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "Morning"
+        dr("Name") = "Morning"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "Evening"
+        dr("Name") = "Evening"
+        dt.Rows.Add(dr)
+        cmbShift.DataSource = dt
+        cmbShift.ValueMember = "Code"
+        cmbShift.DisplayMember = "Name"
     End Sub
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
@@ -220,7 +239,7 @@ Public Class frmDemand_Sheet
         obj.Cust_Code = gv1.Rows(IntRowNo).Cells(colCustCode).Value
         obj.Route_No = gv1.Rows(IntRowNo).Cells(colRouteNo).Value
         obj.Set_Zero = gv1.Rows(IntRowNo).Cells(colSetZero).Value
-        obj.ShiftType = txtShift.Text
+        obj.ShiftType = cmbShift.SelectedValue
         If gv1.Rows(IntRowNo).Cells(colSetZero).Value = 0 Then
             For dbColumn As Integer = 4 To gv1.Columns.Count - 2
                 gv1.Rows(IntRowNo).Cells(dbColumn).Value = "0"
@@ -443,7 +462,7 @@ Public Class frmDemand_Sheet
                     '                        '                    Next
                     '                        '                    obj1.SaveData(obj1, True)
                     '                    End If
-                    Dim document As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_NO from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Route_No='" + clsCommon.myCstr(grow.Cells(colRouteNo).Value) + "' and IsIndividualCustomer=0"))
+                    Dim document As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_NO from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(cmbShift.SelectedValue) + "' and Route_No='" + clsCommon.myCstr(grow.Cells(colRouteNo).Value) + "' and IsIndividualCustomer=0"))
                     If clsCommon.myLen(document) > 0 Then
                         Dim k As Integer = 1
                         For columns = 5 To gv1.Columns.Count - 2
@@ -470,7 +489,7 @@ Public Class frmDemand_Sheet
                                     Dim objUDD As New clsUpdateDemandDetails()
                                     objUDD.Document_No = document
                                     objUDD.Cust_Code = grow.Cells(colCustCode).Value
-                                    objUDD.ShiftType = txtShift.Text
+                                    objUDD.ShiftType = cmbShift.SelectedValue
                                     objUDD.Item_Code = obj1.itemCode
                                     objUDD.Unit_code = obj1.Unit_code
                                     objUDD.Qty = grow.Cells(columns).Value
@@ -660,11 +679,11 @@ Public Class frmDemand_Sheet
             Dim strQry As String = String.Empty
 
             If clsCommon.myLen(CustCode) > 0 Then
-                Dim ExistsCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(PK_ID) from TSPL_DEMAND_SHEET where convert(date,DEMAND_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Cust_Code='" + CustCode + "'and Created_By='" + objCommonVar.CurrentUserCode + "'"))
+                Dim ExistsCust As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(PK_ID) from TSPL_DEMAND_SHEET where convert(date,DEMAND_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(cmbShift.SelectedValue) + "' and Cust_Code='" + CustCode + "'and Created_By='" + objCommonVar.CurrentUserCode + "'"))
                 If ExistsCust = 0 Then
 
 
-                    Dim document As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_NO from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Route_No='" + clsCommon.myCstr(routeNo) + "' and IsIndividualCustomer=0"))
+                    Dim document As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_NO from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(cmbShift.SelectedValue) + "' and Route_No='" + clsCommon.myCstr(routeNo) + "' and IsIndividualCustomer=0"))
                     If clsCommon.myLen(document) > 0 Then
                         strQry = " select Item_Code,Qty from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + document + "' and Cust_Code='" + CustCode + "' "
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
@@ -676,7 +695,7 @@ Public Class frmDemand_Sheet
                                 obj.Cust_Code = clsCommon.myCstr(CustCode)
                                 obj.Route_No = clsCommon.myCstr(routeNo)
                                 obj.Set_Zero = clsCommon.myCdbl(1)
-                                obj.ShiftType = clsCommon.myCstr(txtShift.Text)
+                                obj.ShiftType = clsCommon.myCstr(cmbShift.SelectedValue)
                                 obj.Item_Code = clsCommon.myCstr(dr.Item("Item_Code"))
                                 obj.Qty = clsCommon.myCdbl(dr.Item("qty"))
                                 Dim k As Integer = 1
@@ -708,7 +727,7 @@ Public Class frmDemand_Sheet
                 Else
                     'LoadData(clsCommon.GetPrintDate(txtDate.Value), clsCommon.myCstr(txtShift.Text), objCommonVar.CurrentUserCode, False)
                     'gv1.CurrentRow.Delete()
-                    strQry = "select Item_Code,Qty from TSPL_DEMAND_SHEET where convert(date,DEMAND_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Cust_Code='" + CustCode + "'and Created_By='" + objCommonVar.CurrentUserCode + "'"
+                    strQry = "select Item_Code,Qty from TSPL_DEMAND_SHEET where convert(date,DEMAND_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(cmbShift.SelectedValue) + "' and Cust_Code='" + CustCode + "'and Created_By='" + objCommonVar.CurrentUserCode + "'"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
                     If dt IsNot Nothing And dt.Rows.Count > 0 Then
                         For Each dr As DataRow In dt.Rows
@@ -762,7 +781,7 @@ Public Class frmDemand_Sheet
     Private Sub gv1_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
         Try
             If (myMessages.deleteConfirm()) Then
-                Dim strQry As String = " delete TSPL_DEMAND_SHEET where DEMAND_Date='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(txtShift.Text) + "' and Cust_Code='" + gv1.CurrentRow.Cells(colCustCode).Value + "' and Created_By='" + objCommonVar.CurrentUserCode + "' "
+                Dim strQry As String = " delete TSPL_DEMAND_SHEET where DEMAND_Date='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + clsCommon.myCstr(cmbShift.SelectedValue) + "' and Cust_Code='" + gv1.CurrentRow.Cells(colCustCode).Value + "' and Created_By='" + objCommonVar.CurrentUserCode + "' "
                 clsDBFuncationality.ExecuteNonQuery(strQry)
             Else
                 e.Cancel = True

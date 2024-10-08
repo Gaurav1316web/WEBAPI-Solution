@@ -784,6 +784,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmTender, "Tender", "1.08.02.32", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmCorrectionforWrongEntry, "Correction For Wrong Entry", "1.08.02.34", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDeletionForEntry, "Deletion For Entry", "1.08.02.35", clsUserMgtCode.SubModulePurchaseTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmShortSupplyPenalty, "Short Supply Penalty", "1.08.02.36", clsUserMgtCode.SubModulePurchaseTransaction, 8)
 
         'richa
         'InsertDefaultValue(clsUserMgtCode.frmItemQuantityInformation, "Item Quantity Information ", "1.08.03.17", clsUserMgtCode.SubModulePurchaseTransaction, 8)
@@ -2282,7 +2283,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.VehicleMasterForDairySale, "Vehicle Master", "1.36.01.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, "Distributor Commission", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, "Distributor Route Tagging", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
-        InsertDefaultValue(clsUserMgtCode.frmDailyDemand, "Daily Demand", "1.36.01.13", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         'InsertDefaultValue(clsUserMgtCode.CardSale, "Card Sale", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         'InsertDefaultValue(clsUserMgtCode.frmCustCategoryWiseDefaultItemUomMaster, "Customer Category UOM", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
@@ -2381,10 +2381,11 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.InvoicePriceWiseReport, "Invoice Price Wise Report", "1.06.03.40", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptRouteWiseSaleRegister, "Route Wise Sale Register", "1.06.03.41", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptRouteWiseSaleRegister, "Route Wise Sale Register", "1.06.03.41", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.AuditTrailDairySale, "Dairy Sale Audit Trail Report", "1.06.03.42", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.CancelledTransactionReportDS, "Dairy Sale Cancelled Transactions Report", "1.06.03.43", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDailyReceiptReport, "Daily Receipt Report", "1.06.03.44", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTransporterWiseReport, "Transporter Wise Report", "1.06.03.45", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.SaleEinvoiceReport, "Sale Einvoice Report", "1.06.03.42", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.AuditTrailDairySale, "Dairy Sale Audit Trail Report", "1.06.03.43", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.CancelledTransactionReportDS, "Dairy Sale Cancelled Transactions Report", "1.06.03.44", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDailyReceiptReport, "Daily Receipt Report", "1.06.03.45", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTransporterWiseReport, "Transporter Wise Report", "1.06.03.46", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         'InsertDefaultValue(clsUserMgtCode.rptDetailedCardReport, "Detailed Card Report", "1.06.03.46", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDailyLeakageReplacementReport, "Daily Leakage Replacement Report", "1.06.03.47", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptUnpostedDocumentReport, "Unposted Document Report", "1.06.03.48", clsUserMgtCode.SubModuleSaleDairyReport, 37)
@@ -2903,6 +2904,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptExeVersionReport, "Exe Version Report", "1.49.03.07", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptProductionReport, "Production Report", "1.49.03.08", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptProductionStoreReport, "Production and Store Report", "1.49.03.09", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDailyDemand, "Daily Demand", "1.49.03.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

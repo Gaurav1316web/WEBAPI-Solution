@@ -2808,11 +2808,14 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Throw New Exception("Please enter Location ")
                 Exit Function
             End If
-            If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow(Me, "Please Select GatePass Type", Me.Text)
-                'Exit Function
-                Return False
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") <> CompairStringResult.Equal Then
+                If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
+                    clsCommon.MyMessageBoxShow(Me, "Please Select GatePass Type", Me.Text)
+                    'Exit Function
+                    Return False
+                End If
             End If
+
             If AllowToCreateNoOfBookingPerDay > 0 And chkGatePass.Checked = False Then
                 Dim STRSQL As String = "select count(distinct TSPL_BOOKING_MATSER.Document_No) as cc from TSPL_BOOKING_DETAIL left join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code=TSPL_BOOKING_DETAIL.cust_code where TSPL_BOOKING_MATSER.From_Screen_Code ='BOOK-DS-CU' and TSPL_BOOKING_MATSER.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_DETAIL.Cust_Code='" & txtVendorNo.Value & "' AND convert(date,TSPL_BOOKING_MATSER.Document_Date ,103)=convert(date,'" & txtDate.Value & "',103) and TSPL_BOOKING_MATSER.Document_No<>'" & clsCommon.myCstr(txtDocNo.Value) & "' and TSPL_BOOKING_MATSER.AgainstGatePass=0  "
                 If ShowBookingTypeDropDownonDairyBookingCustomer = True Then

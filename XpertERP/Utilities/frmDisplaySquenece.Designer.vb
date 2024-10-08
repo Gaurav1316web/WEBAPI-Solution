@@ -22,6 +22,7 @@ Partial Class frmDisplaySquenece
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -122,7 +123,6 @@ Partial Class frmDisplaySquenece
         Me.lblRouteDesc.Name = "lblRouteDesc"
         Me.lblRouteDesc.Size = New System.Drawing.Size(227, 18)
         Me.lblRouteDesc.TabIndex = 150
-        Me.lblRouteDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRouteDesc.TextWrap = False
         '
         'lblRouteNo
@@ -164,7 +164,7 @@ Partial Class frmDisplaySquenece
         'btnShow
         '
         Me.btnShow.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShow.Location = New System.Drawing.Point(277, 53)
+        Me.btnShow.Location = New System.Drawing.Point(717, 14)
         Me.btnShow.Name = "btnShow"
         Me.btnShow.Size = New System.Drawing.Size(93, 31)
         Me.btnShow.TabIndex = 7
@@ -179,10 +179,10 @@ Partial Class frmDisplaySquenece
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Define Sequence"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(5, 90)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(5, 65)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(906, 330)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(906, 355)
         Me.RadGroupBox2.TabIndex = 8
         Me.RadGroupBox2.Text = "Define Sequence"
         '
@@ -196,22 +196,26 @@ Partial Class frmDisplaySquenece
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(886, 300)
+        Me.gv1.Size = New System.Drawing.Size(886, 325)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'cboModule
         '
         Me.cboModule.CalculationExpression = Nothing
+        Me.cboModule.DropDownAnimationEnabled = True
         Me.cboModule.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModule.FieldCode = Nothing
         Me.cboModule.FieldDesc = Nothing

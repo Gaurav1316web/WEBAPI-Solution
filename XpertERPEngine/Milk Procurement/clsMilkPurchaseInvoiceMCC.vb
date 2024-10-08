@@ -3758,16 +3758,17 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
                 If isResult = False Then
                     Return False
                 End If
-                For Each objTr As clsMilkPurchaseInvoiceMCCDetail In clsMilkPurchaseInvoiceMCC.ObjList
-                    If clsCommon.myLen(objTr.SRN_CODE) > 0 Then
-                        Dim coll As New Hashtable()
-                        clsCommon.AddColumnsForChange(coll, "PI_Cost", objTr.RATE)
-                        clsCommon.AddColumnsForChange(coll, "LIFO_Cost", objTr.RATE)
-                        clsCommon.AddColumnsForChange(coll, "FIFO_Cost", objTr.RATE)
-                        clsCommon.AddColumnsForChange(coll, "Avg_Cost", objTr.RATE)
-                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVENTORY_MOVEMENT", OMInsertOrUpdate.Update, "Item_Code='" + objTr.Item_Code + "' and Source_Doc_No='" + objTr.SRN_CODE + "' and Trans_Type='SRN'", trans)
-                    End If
-                Next
+                ''Comment by balwinder on 04/10/2024 as in JPR give error of Network busy
+                'For Each objTr As clsMilkPurchaseInvoiceMCCDetail In clsMilkPurchaseInvoiceMCC.ObjList
+                '    If clsCommon.myLen(objTr.SRN_CODE) > 0 Then
+                '        Dim coll As New Hashtable()
+                '        clsCommon.AddColumnsForChange(coll, "PI_Cost", objTr.RATE)
+                '        clsCommon.AddColumnsForChange(coll, "LIFO_Cost", objTr.RATE)
+                '        clsCommon.AddColumnsForChange(coll, "FIFO_Cost", objTr.RATE)
+                '        clsCommon.AddColumnsForChange(coll, "Avg_Cost", objTr.RATE)
+                '        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVENTORY_MOVEMENT", OMInsertOrUpdate.Update, "Item_Code='" + objTr.Item_Code + "' and Source_Doc_No='" + objTr.SRN_CODE + "' and Trans_Type='SRN'", trans)
+                '    End If
+                'Next
             End If
 
             Dim vendor_name As String = clsDBFuncationality.getSingleValue("select vendor_name from TSPL_VENDOR_MASTER where form_type='VSP' and Vendor_Code='" & obj.VSP_CODE & "'", trans)

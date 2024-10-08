@@ -31,7 +31,7 @@ Public Class clsBookingEntryDistributor
         Try
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
                 For Each obj1 As clsBookingEntryDistributorDetail In Arr
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Fresh Booking Entry", obj1.Loc_Code, obj.Document_Date, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFreshSale, clsUserMgtCode.FrmBookingEntry, obj1.Loc_Code, obj.Document_Date, trans)
                 Next
             End If
             Dim isSaved As Boolean = True

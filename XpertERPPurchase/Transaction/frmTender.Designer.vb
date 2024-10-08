@@ -91,6 +91,7 @@ Partial Class frmTender
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvSchedule = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkMonthEndDate = New System.Windows.Forms.CheckBox()
         Me.lblExtensionDays = New common.Controls.MyLabel()
         Me.txtExtensionDays = New common.MyNumBox()
         Me.btnExtensionUpdate = New Telerik.WinControls.UI.RadButton()
@@ -127,7 +128,6 @@ Partial Class frmTender
         Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
         Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkMonthEndDate = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -256,7 +256,7 @@ Partial Class frmTender
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1098, 492)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1205,6 +1205,16 @@ Partial Class frmTender
         Me.Panel1.Size = New System.Drawing.Size(1077, 28)
         Me.Panel1.TabIndex = 0
         '
+        'chkMonthEndDate
+        '
+        Me.chkMonthEndDate.AutoSize = True
+        Me.chkMonthEndDate.Location = New System.Drawing.Point(280, 5)
+        Me.chkMonthEndDate.Name = "chkMonthEndDate"
+        Me.chkMonthEndDate.Size = New System.Drawing.Size(116, 18)
+        Me.chkMonthEndDate.TabIndex = 1525
+        Me.chkMonthEndDate.Text = "End Date Of Month"
+        Me.chkMonthEndDate.UseVisualStyleBackColor = True
+        '
         'lblExtensionDays
         '
         Me.lblExtensionDays.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1563,16 +1573,6 @@ Partial Class frmTender
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Close"
         Me.RadMenuItem6.UseCompatibleTextRendering = False
-        '
-        'chkMonthEndDate
-        '
-        Me.chkMonthEndDate.AutoSize = True
-        Me.chkMonthEndDate.Location = New System.Drawing.Point(280, 5)
-        Me.chkMonthEndDate.Name = "chkMonthEndDate"
-        Me.chkMonthEndDate.Size = New System.Drawing.Size(116, 18)
-        Me.chkMonthEndDate.TabIndex = 1525
-        Me.chkMonthEndDate.Text = "End Date Of Month"
-        Me.chkMonthEndDate.UseVisualStyleBackColor = True
         '
         'frmTender
         '

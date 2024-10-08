@@ -23,9 +23,10 @@ Partial Class frmDairyGatePass
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -111,11 +112,13 @@ Partial Class frmDairyGatePass
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.MyRadGridView1 = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Gv1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -188,6 +191,8 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -223,6 +228,7 @@ Partial Class frmDairyGatePass
         '
         'Gv1
         '
+        Me.Gv1.Controls.Add(Me.MyRadGridView1)
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 199)
         '
@@ -1278,12 +1284,12 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype.IsSourceFromTable = False
         Me.cmbitemtype.IsSourceFromValueList = False
         Me.cmbitemtype.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "Full"
-        RadListDataItem6.Text = "Empty"
-        Me.cmbitemtype.Items.Add(RadListDataItem4)
-        Me.cmbitemtype.Items.Add(RadListDataItem5)
-        Me.cmbitemtype.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Full"
+        RadListDataItem3.Text = "Empty"
+        Me.cmbitemtype.Items.Add(RadListDataItem1)
+        Me.cmbitemtype.Items.Add(RadListDataItem2)
+        Me.cmbitemtype.Items.Add(RadListDataItem3)
         Me.cmbitemtype.Location = New System.Drawing.Point(896, 49)
         Me.cmbitemtype.MendatroryField = False
         Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
@@ -1523,6 +1529,23 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1069, 20)
         Me.RadMenu1.TabIndex = 0
         '
+        'MyRadGridView1
+        '
+        Me.MyRadGridView1.Location = New System.Drawing.Point(8, 8)
+        '
+        '
+        '
+        Me.MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.MyRadGridView1.MyStopExport = False
+        Me.MyRadGridView1.Name = "MyRadGridView1"
+        Me.MyRadGridView1.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.Size = New System.Drawing.Size(289, 197)
+        Me.MyRadGridView1.TabIndex = 2
+        Me.MyRadGridView1.VarID = ""
+        Me.MyRadGridView1.Visible = False
+        '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1542,6 +1565,8 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Gv1.ResumeLayout(False)
+        Me.Gv1.PerformLayout()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1617,6 +1642,8 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1707,5 +1734,6 @@ Partial Class frmDairyGatePass
     Friend WithEvents btnBoothSlip As RadSplitButton
     Friend WithEvents RadMenuItem3 As RadMenuItem
     Friend WithEvents btnExcel As RadMenuItem
+    Friend WithEvents MyRadGridView1 As common.UserControls.MyRadGridView
 End Class
 

@@ -5105,7 +5105,18 @@ Public Class FrmMCCMilkRegister
 
     Private Sub btnRoutePrint_Click(sender As Object, e As EventArgs) Handles btnRoutePrint.Click
         Dim strquery As String = Nothing
+        Dim whrcls As String = ""
         Dim shift As String = " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift='" + txtFromShift.Text + "' "
+        If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+            whrcls += " and TSPL_MCC_MASTER.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+        End If
+        If txtRoute.arrValueMember IsNot Nothing Then
+            whrcls += " and TSPL_BULK_ROUTE_MASTER.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+        End If
+
+        If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+            whrcls += " AND TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader IN (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")"
+        End If
         Try
             strquery = "select TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No)TR_No,(TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo)SNo,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC, (TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code) as [VLC Code],(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans) as [No of Cans],(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO) as [Route Code],(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME) as [Route],(TSPL_BULK_ROUTE_MASTER.Tanker_No)Tanker_No,(TSPL_BULK_ROUTE_MASTER.Comp_Code)Comp_Code,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Mix_Milk)Mix_Milk,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift)Shift,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date)Shift_Date,(TSPL_MILK_SHIFT_UPLOADER_HEAD.Created_Date)Created_Date,(TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning)Schedule_Time_Morning,(TSPL_MCC_MASTER.mcc_Name) as mcc_Name,
                 case When (isnull(Reject_Type,''))='' then (isnull(No_Of_Cans,0)) else 0 end as [Good can qty]
@@ -5131,7 +5142,7 @@ Public Class FrmMCCMilkRegister
                 Left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
                 Left Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code
                 where 
-				TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "' ORDER BY SNO "
+				TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & whrcls & " ORDER BY SNO "
 
             If strquery IsNot Nothing AndAlso clsCommon.myLen(strquery) > 0 Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)

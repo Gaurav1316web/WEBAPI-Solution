@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const ShortSupplyPenalty As String = "Short Supply Penalty"
     Public Const frmRCDFRateControl As String = "RCDF Rate Control"
     Public Const frmEmployeeDeductionMaster As String = "Employee Deduction Master"
     Public Const TenderPenalty As String = "Tender Penalty"
