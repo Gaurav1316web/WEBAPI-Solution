@@ -237,6 +237,7 @@ Public Class clsDistributorCommissionDetails
     Public Rate As Double = 0
     Public Transporter_Rate As Double = 0
     Public Security_Rate As Double = 0
+    Public Booth_Security_Rate As Double = 0
 #End Region
 
     Public Shared Function SaveData(ByVal Doc_No As String, ByVal Arr As List(Of clsDistributorCommissionDetails), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction) As Boolean
@@ -250,6 +251,7 @@ Public Class clsDistributorCommissionDetails
                     clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
                     clsCommon.AddColumnsForChange(coll, "Transporter_Rate", obj.Transporter_Rate)
                     clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
+                    clsCommon.AddColumnsForChange(coll, "Booth_Security_Rate", obj.Booth_Security_Rate, True)
 
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Distributor_Commission_Detail", OMInsertOrUpdate.Insert, "", trans)
 
@@ -266,7 +268,7 @@ Public Class clsDistributorCommissionDetails
 
         Try
             Dim dt As DataTable
-            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,Rate,Transporter_Rate,Security_Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
+            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,Rate,Transporter_Rate,Security_Rate,Booth_Security_Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -280,6 +282,7 @@ Public Class clsDistributorCommissionDetails
                     objTr.Rate = clsCommon.myCDecimal(dr("Rate"))
                     objTr.Transporter_Rate = clsCommon.myCDecimal(dr("Transporter_Rate"))
                     objTr.Security_Rate = clsCommon.myCDecimal(dr("Security_Rate"))
+                    objTr.Booth_Security_Rate = clsCommon.myCDecimal(dr("Booth_Security_Rate"))
                     arr.Add(objTr)
                 Next
             End If
