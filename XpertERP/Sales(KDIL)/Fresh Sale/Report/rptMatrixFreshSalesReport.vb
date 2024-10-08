@@ -4964,4 +4964,118 @@ where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsC
         PageSetupReport_ID = MyBase.Form_ID
         MonthlyBillReport(Exporter.Print)
     End Sub
+    Private Sub BtnGtPsSumgo_Click(sender As Object, e As EventArgs) Handles BtnGtPsSumgo.Click
+        Try
+            Dim ItemQry As String = ""
+            Dim itemdesc As String = ""
+            Dim SumitemDesc As String = ""
+            If clsCommon.myLen(ddlPTSShift.Text) > 0 Then
+                Dim whr As String = ""
+                If rbtnMilk.Checked Then
+                    whr = " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+                ElseIf rbtnProduct.Checked Then
+                    whr = " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+                End If
+                ItemQry = " SELECT distinct max(TSPL_ITEM_MASTER.Short_Description) as Short_Description,  TSPL_ITEM_MASTER.Sku_Seq FROM TSPL_DAIRYSALE_GATEPASS_MASTER LEFT JOIN TSPL_DAIRYSALE_GATEPASS_DETAIL ON TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode = TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode LEFT JOIN TSPL_ROUTE_MASTER ON TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No LEFT JOIN TSPL_ITEM_MASTER ON TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code WHERE convert(date, TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date) = '" & clsCommon.GetPrintDate(txtPTSDateFrom.Value) & "' AND TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = '" & ddlPTSShift.Text & "' " + whr + " GROUP BY TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code, TSPL_ITEM_MASTER.Sku_Seq ORDER BY TSPL_ITEM_MASTER.Sku_Seq "
+                Dim dtItem As DataTable = clsDBFuncationality.GetDataTable(ItemQry)
+                For kk As Integer = 0 To dtItem.Rows.Count - 1
+                    If clsCommon.myLen(itemdesc) > 0 Then
+                        itemdesc += ",[" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "]"
+                        SumitemDesc += ",Sum([" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "])  As [" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "] "
+                    Else
+                        itemdesc = "[" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "]"
+                        SumitemDesc += "Sum([" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "])  As [" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "] "
+
+                    End If
+                Next
+                Dim qry As String = " ( Select TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
+                    max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Desc,max(TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType) as ShiftType,max(TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date) as Supply_Date,
+                    max(TSPL_VEHICLE_MASTER.Vehicle_No) as Vehicle_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,
+                    max(TSPL_ITEM_MASTER.Short_Description) as Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
+                    TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty) as Qty,
+                    case when max(TSPL_ITEM_MASTER.Is_FreshItem)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor)) when max(TSPL_ITEM_MASTER.Is_Ambient)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInKG.Conversion_Factor)) else (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor)) end as [Qty In LTR/KG],case when max(TSPL_ITEM_MASTER.Is_FreshItem)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor)) when max(TSPL_ITEM_MASTER.Is_Ambient)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInKG.Conversion_Factor)) else (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor))end as PPAmt,
+                    max(TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate) as TotalCrate
+                    from  TSPL_DAIRYSALE_GATEPASS_MASTER
+                    left join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode
+                    left join TSPL_ROUTE_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+                    left join TSPL_ITEM_MASTER on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                    left join TSPL_VEHICLE_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id=TSPL_VEHICLE_MASTER.Vehicle_Id
+                    left join TSPL_COMPANY_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code
+                    left join TSPL_ITEM_UOM_DETAIL as ItemConvInLtr on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=ItemConvInLtr.Item_Code and ItemConvInLtr.UOM_Code='LTR'
+                    left join TSPL_ITEM_UOM_DETAIL as ItemConvInKG on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=ItemConvInKG.Item_Code and ItemConvInKG.UOM_Code='KG'
+                    left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code=ItemConvinUOM.Item_Code and TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code=ItemConvinUOM.UOM_Code
+                    where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsCommon.GetPrintDate(txtPTSDateFrom.Value) & "' and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType='" & ddlPTSShift.Text & "' "
+                If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
+                    qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
+                End If
+                If rbtnMilk.Checked Then
+                    qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+                ElseIf rbtnProduct.Checked Then
+                    qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+                End If
+                qry += "group by TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,TSPL_ITEM_MASTER.Sku_Seq ) AS SourceTable"
+
+                qry += " PIVOT (sum([Qty In LTR/KG]) FOR Short_Description IN (" + itemdesc + ") ) AS PivotTable group by Route_No "
+                Dim Finalqry As String = "select * from (SELECT row_number() over(order by(select 1)) as SNo, Route_No as [Route No], max(Route_Desc)[Route Desc], max(ShiftType)[Shift Type], CONVERT(VARCHAR(20), MAX(Supply_Date), 103)[Supply Date]," + SumitemDesc + " ,sum(PPAmt) as [Qty In LTR]
+FROM 
+" + qry + " )  pp"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Finalqry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Gv1.DataSource = Nothing
+                    Gv1.Rows.Clear()
+                    Gv1.Columns.Clear()
+                    Gv1.DataSource = dt
+                    Gv1.GroupDescriptors.Clear()
+                    Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    Gv1.BestFitColumns()
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    If Gv1.Rows.Count > 0 Then
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        ' Dim item As Integer = 0
+                        For i As Integer = 5 To Gv1.Columns.Count - 1
+                            Dim aa = Gv1.Columns(i).HeaderText()
+                            Dim item8 As New GridViewSummaryItem(aa, "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(item8)
+
+                        Next
+                        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    End If
+                Else
+                        Throw New Exception("No Data Found!")
+                End If
+
+            Else
+                Throw New Exception("Please Select Shift.")
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Sub ExportGrid()
+        Try
+            Dim shift As String = ""
+            If rbtnMrng.Checked Then
+                shift = "Morning"
+            Else
+                shift = "Evening"
+            End If
+            If Gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                ' arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                ' arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.DashboardMilkProcurement & "'"))
+                arrHeader.Add("Date : " & clsCommon.GetPrintDate(txtPTSDateFrom.Value))
+                arrHeader.Add("Shift : " & shift)
+                'arrHeader.Add("Name: " & ddlReportType.Text)
+                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                clsCommon.MyExportToExcelGrid("Gate Pass Summary Route Wise", Gv1, arrHeader, Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub btngtpsExport_Click(sender As Object, e As EventArgs) Handles btngtpsExport.Click
+        ExportGrid()
+    End Sub
 End Class
