@@ -620,7 +620,7 @@ Public Class clsShipmentMaster
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Location, obj.Shipment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNShipment, obj.Location, obj.Shipment_Date, trans)
 
             If clsCommon.CompairString(obj.On_Hold, "Y") = CompairStringResult.Equal Then
                 Throw New Exception("Shipment No " + obj.Shipment_No + " Is On Hold.Can't Post it")

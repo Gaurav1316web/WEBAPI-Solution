@@ -219,7 +219,7 @@ Public Class clsMRPAutoMobile
                 obj.MRP_CODE = clsERPFuncationality.GetNextCode(trans, obj.MRP_DATE, clsDocType.MRP, "", obj.MRP_Location)
                 strCode = obj.MRP_CODE
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Standard Production", "MRP(STD)", obj.MRP_Location, obj.MRP_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmMRPAutoMobile, obj.MRP_Location, obj.MRP_DATE, trans)
             Dim qry As String
             '' delete TSPL_MRP_DETAIL
             qry = "DELETE FROM TSPL_MRP_DETAIL WHERE MRP_CODE='" + obj.MRP_CODE + "'"

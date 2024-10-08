@@ -1063,7 +1063,7 @@ where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + obj.Document_Code + "' "
                 Throw New Exception("No Data found to Post")
             End If
             '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
             ''
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)

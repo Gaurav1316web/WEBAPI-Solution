@@ -168,7 +168,7 @@ Public Class clsPurchasReturnHead
     Public Function SaveData(ByVal obj As clsPurchasReturnHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Return", obj.Bill_To_Location, obj.PR_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseReturn, obj.Bill_To_Location, obj.PR_Date, trans)
             If Not isNewEntry Then
                 HistoryUpdate(obj.PR_No, trans)
             End If
@@ -730,7 +730,7 @@ Public Class clsPurchasReturnHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.PR_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Return", obj.Bill_To_Location, obj.PR_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseReturn, obj.Bill_To_Location, obj.PR_Date, trans)
             If (obj.Status = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -1357,7 +1357,7 @@ Public Class clsPurchasReturnHead
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PR_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Return", obj.Bill_To_Location, obj.PR_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseReturn, obj.Bill_To_Location, obj.PR_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

@@ -1096,12 +1096,10 @@ Public Class frmTender
     End Function
     Private Sub txtDocNo__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtDocNo._MYNavigator
         Try
-
             LoadData(txtDocNo.Value, NavType, False)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
         Dim qst As String = "select count(*) from tspl_tender_header where DocumentCode='" + txtDocNo.Value + "'"

@@ -29754,6 +29754,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Rate", "Decimal(18,4) Not null")
             coll.Add("Transporter_Rate", "Decimal(18,4) null")
             coll.Add("Security_Rate", "Decimal(18,2) null")
+            coll.Add("Booth_Security_Rate", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Detail", coll, "", True)
             clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_Distributor_Commission_Detail alter column Rate  Decimal(18,4) Not null")
 
@@ -56796,6 +56797,29 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
         coll.Add("Page_Margin_Right", "decimal(18,2) NULL")
         coll.Add("Page_Right_Header", "Varchar(500) NULL")
         clsCommonFunctionality.CreateOrAlterTable("TSPL_NEW_PDF_PAGE_SIZE", coll)
+
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
+        coll.Add("Shift_Date", "Date not NULL")
+        coll.Add("Shift_Code", "VARCHAR(30) NULL REFERENCES TSPL_SHIFT_MASTER(SHIFT_CODE)")
+        coll.Add("Location_Code", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Status", "integer null ")
+        coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+        coll.Add("Created_Date", "datetime NOT NULL  ")
+        coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+        coll.Add("Modified_Date", "datetime NOT NULL ")
+        coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+        coll.Add("Posted_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PARLOUR_SHIFT_OPEN", coll, "UNIQUE(Shift_Code,Location_Code,Shift_Date)", True, False, Nothing, Nothing, Nothing, False)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_No", "Varchar(30) not null References TSPL_PARLOUR_SHIFT_OPEN(Document_No)")
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Item_Code", "varchar(50) NOT NULL")
+        coll.Add("UOM", "varchar(12) NULL")
+        coll.Add("Qty", "decimal(18, 2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PARLOUR_SHIFT_OPEN_DETAIL", coll, "", True, False, Nothing, Nothing, Nothing, False)
 
         Return True
     End Function

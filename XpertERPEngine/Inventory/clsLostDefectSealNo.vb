@@ -127,7 +127,7 @@ Public Class clsLostDefectSealNoHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.DOC_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement", "Lost Defect Seal No", obj.Location_code, clsCommon.myCDate(obj.DOC_DATE), trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement", "Lost Defect Seal No", obj.Location_code, clsCommon.myCDate(obj.DOC_DATE), trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If

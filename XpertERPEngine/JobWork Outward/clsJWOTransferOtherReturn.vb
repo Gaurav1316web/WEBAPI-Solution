@@ -30,7 +30,7 @@ Public Class clsJWOTransferOtherReturn
             AllowToSave(obj, trans)
 
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Other Transfer Return", obj.JWO_SRN_From_Location_Code, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkOutWard, clsUserMgtCode.frmMilkJobWorkTransferOtherReturn, obj.JWO_SRN_From_Location_Code, obj.Document_Date, trans)
 
                 If isNewEntry Then
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.JobWorkTransferOtherReturn, "", obj.JWO_SRN_From_Location_Code)

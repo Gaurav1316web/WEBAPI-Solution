@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmTenderShortPenalty
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class frmShortSupplyPenalty
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,14 +20,29 @@ Partial Class frmTenderShortPenalty
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.lblShortQty = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.lblPenaltyAmt = New common.Controls.MyLabel()
+        Me.txtPenaltyRate = New common.MyNumBox()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.lblRate = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.lblApplicable = New common.Controls.MyLabel()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblPenaltyQty = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.lblSRNQty = New common.Controls.MyLabel()
+        Me.lblRALQty = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.SRN_PI = New common.Controls.MyLabel()
         Me.txtSRN_PI = New common.UserControls.txtFinder()
-        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -50,21 +65,33 @@ Partial Class frmTenderShortPenalty
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.BtnCancel = New Telerik.WinControls.UI.RadButton()
-        Me.btnRecalculate = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.Panel2.SuspendLayout()
-        Me.SplitContainer2.SuspendLayout()
+        CType(Me.lblShortQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPenaltyAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPenaltyRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblApplicable, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPenaltyQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSRNQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRALQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SRN_PI, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,94 +110,277 @@ Partial Class frmTenderShortPenalty
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainer1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.SplitContainer2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblShortQty)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel6)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblPenaltyAmt)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtPenaltyRate)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel10)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel9)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblRate)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel7)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblApplicable)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel5)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblPenaltyQty)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblSRNQty)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblRALQty)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.SRN_PI)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtSRN_PI)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnGo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDate)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel14)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDocNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtTenderNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblBillToLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtItem)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtBillToLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtVendorNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel15)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtRemarks)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblItem)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnAddNew)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel6)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel18)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblVendorName)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnCancel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnRecalculate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(749, 404)
-        Me.SplitContainer1.SplitterDistance = 371
-        Me.SplitContainer1.TabIndex = 1
+        Me.SplitContainer1.Size = New System.Drawing.Size(935, 388)
+        Me.SplitContainer1.SplitterDistance = 356
+        Me.SplitContainer1.TabIndex = 0
         '
-        'SplitContainer2
+        'lblShortQty
         '
-        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer2.IsSplitterFixed = True
-        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer2.Name = "SplitContainer2"
-        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.lblShortQty.AutoSize = False
+        Me.lblShortQty.BorderVisible = True
+        Me.lblShortQty.FieldName = Nothing
+        Me.lblShortQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblShortQty.Location = New System.Drawing.Point(835, 32)
+        Me.lblShortQty.Name = "lblShortQty"
+        Me.lblShortQty.Size = New System.Drawing.Size(95, 19)
+        Me.lblShortQty.TabIndex = 392
+        Me.lblShortQty.TextWrap = False
         '
-        'SplitContainer2.Panel1
+        'MyLabel6
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.SRN_PI)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtSRN_PI)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadButton2)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel1)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel14)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocNo)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtTenderNo)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.UsLock1)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblBillToLocation)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtItem)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtBillToLocation)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtVendorNo)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel15)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemarks)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblItem)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel6)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel2)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel18)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblVendorName)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel4)
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(739, 34)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(54, 16)
+        Me.MyLabel6.TabIndex = 391
+        Me.MyLabel6.Text = "Short Qty"
         '
-        'SplitContainer2.Panel2
+        'lblPenaltyAmt
         '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(749, 371)
-        Me.SplitContainer2.SplitterDistance = 139
-        Me.SplitContainer2.TabIndex = 1
+        Me.lblPenaltyAmt.AutoSize = False
+        Me.lblPenaltyAmt.BorderVisible = True
+        Me.lblPenaltyAmt.FieldName = Nothing
+        Me.lblPenaltyAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPenaltyAmt.Location = New System.Drawing.Point(835, 96)
+        Me.lblPenaltyAmt.Name = "lblPenaltyAmt"
+        Me.lblPenaltyAmt.Size = New System.Drawing.Size(95, 19)
+        Me.lblPenaltyAmt.TabIndex = 390
+        Me.lblPenaltyAmt.TextWrap = False
+        '
+        'txtPenaltyRate
+        '
+        Me.txtPenaltyRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtPenaltyRate.CalculationExpression = Nothing
+        Me.txtPenaltyRate.DecimalPlaces = 0
+        Me.txtPenaltyRate.FieldCode = Nothing
+        Me.txtPenaltyRate.FieldDesc = Nothing
+        Me.txtPenaltyRate.FieldMaxLength = 0
+        Me.txtPenaltyRate.FieldName = Nothing
+        Me.txtPenaltyRate.isCalculatedField = False
+        Me.txtPenaltyRate.IsSourceFromTable = False
+        Me.txtPenaltyRate.IsSourceFromValueList = False
+        Me.txtPenaltyRate.IsUnique = False
+        Me.txtPenaltyRate.Location = New System.Drawing.Point(833, 74)
+        Me.txtPenaltyRate.MendatroryField = False
+        Me.txtPenaltyRate.MyLinkLable1 = Nothing
+        Me.txtPenaltyRate.MyLinkLable2 = Nothing
+        Me.txtPenaltyRate.Name = "txtPenaltyRate"
+        Me.txtPenaltyRate.ReferenceFieldDesc = Nothing
+        Me.txtPenaltyRate.ReferenceFieldName = Nothing
+        Me.txtPenaltyRate.ReferenceTableName = Nothing
+        Me.txtPenaltyRate.Size = New System.Drawing.Size(97, 20)
+        Me.txtPenaltyRate.TabIndex = 388
+        Me.txtPenaltyRate.Text = "0"
+        Me.txtPenaltyRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtPenaltyRate.Value = 0R
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(740, 98)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(86, 16)
+        Me.MyLabel10.TabIndex = 389
+        Me.MyLabel10.Text = "Penalty Amount"
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(739, 76)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(92, 16)
+        Me.MyLabel9.TabIndex = 387
+        Me.MyLabel9.Text = "Penalty Rate(%) "
+        '
+        'lblRate
+        '
+        Me.lblRate.AutoSize = False
+        Me.lblRate.BorderVisible = True
+        Me.lblRate.FieldName = Nothing
+        Me.lblRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRate.Location = New System.Drawing.Point(835, 53)
+        Me.lblRate.Name = "lblRate"
+        Me.lblRate.Size = New System.Drawing.Size(95, 19)
+        Me.lblRate.TabIndex = 386
+        Me.lblRate.TextWrap = False
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(739, 55)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel7.TabIndex = 385
+        Me.MyLabel7.Text = "Rate"
+        '
+        'lblApplicable
+        '
+        Me.lblApplicable.AutoSize = False
+        Me.lblApplicable.BorderVisible = True
+        Me.lblApplicable.FieldName = Nothing
+        Me.lblApplicable.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblApplicable.Location = New System.Drawing.Point(683, 97)
+        Me.lblApplicable.Name = "lblApplicable"
+        Me.lblApplicable.Size = New System.Drawing.Size(52, 19)
+        Me.lblApplicable.TabIndex = 384
+        Me.lblApplicable.TextWrap = False
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(532, 98)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(145, 16)
+        Me.MyLabel5.TabIndex = 383
+        Me.MyLabel5.Text = "Penalty Applicable to be(%)"
+        '
+        'lblPenaltyQty
+        '
+        Me.lblPenaltyQty.AutoSize = False
+        Me.lblPenaltyQty.BorderVisible = True
+        Me.lblPenaltyQty.FieldName = Nothing
+        Me.lblPenaltyQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPenaltyQty.Location = New System.Drawing.Point(635, 76)
+        Me.lblPenaltyQty.Name = "lblPenaltyQty"
+        Me.lblPenaltyQty.Size = New System.Drawing.Size(100, 19)
+        Me.lblPenaltyQty.TabIndex = 382
+        Me.lblPenaltyQty.TextWrap = False
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(532, 76)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(94, 16)
+        Me.MyLabel3.TabIndex = 381
+        Me.MyLabel3.Text = "Short/Excess Qty"
+        '
+        'lblSRNQty
+        '
+        Me.lblSRNQty.AutoSize = False
+        Me.lblSRNQty.BorderVisible = True
+        Me.lblSRNQty.FieldName = Nothing
+        Me.lblSRNQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSRNQty.Location = New System.Drawing.Point(635, 55)
+        Me.lblSRNQty.Name = "lblSRNQty"
+        Me.lblSRNQty.Size = New System.Drawing.Size(100, 19)
+        Me.lblSRNQty.TabIndex = 380
+        Me.lblSRNQty.TextWrap = False
+        '
+        'lblRALQty
+        '
+        Me.lblRALQty.AutoSize = False
+        Me.lblRALQty.BorderVisible = True
+        Me.lblRALQty.FieldName = Nothing
+        Me.lblRALQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRALQty.Location = New System.Drawing.Point(635, 34)
+        Me.lblRALQty.Name = "lblRALQty"
+        Me.lblRALQty.Size = New System.Drawing.Size(100, 19)
+        Me.lblRALQty.TabIndex = 379
+        Me.lblRALQty.TextWrap = False
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(532, 55)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel4.TabIndex = 195
+        Me.MyLabel4.Text = "SRN Qty"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(532, 34)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel1.TabIndex = 193
+        Me.MyLabel1.Text = "RAL Qty"
         '
         'SRN_PI
         '
         Me.SRN_PI.FieldName = Nothing
         Me.SRN_PI.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SRN_PI.Location = New System.Drawing.Point(531, 30)
+        Me.SRN_PI.Location = New System.Drawing.Point(532, 14)
         Me.SRN_PI.Name = "SRN_PI"
-        Me.SRN_PI.Size = New System.Drawing.Size(44, 16)
-        Me.SRN_PI.TabIndex = 148
-        Me.SRN_PI.Text = "SRN PI"
+        Me.SRN_PI.Size = New System.Drawing.Size(34, 16)
+        Me.SRN_PI.TabIndex = 192
+        Me.SRN_PI.Text = "PI No"
         '
         'txtSRN_PI
         '
@@ -183,7 +393,7 @@ Partial Class frmTenderShortPenalty
         Me.txtSRN_PI.IsSourceFromTable = False
         Me.txtSRN_PI.IsSourceFromValueList = False
         Me.txtSRN_PI.IsUnique = False
-        Me.txtSRN_PI.Location = New System.Drawing.Point(581, 28)
+        Me.txtSRN_PI.Location = New System.Drawing.Point(582, 12)
         Me.txtSRN_PI.MendatroryField = False
         Me.txtSRN_PI.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSRN_PI.MyLinkLable1 = Nothing
@@ -194,27 +404,27 @@ Partial Class frmTenderShortPenalty
         Me.txtSRN_PI.ReferenceFieldDesc = Nothing
         Me.txtSRN_PI.ReferenceFieldName = Nothing
         Me.txtSRN_PI.ReferenceTableName = Nothing
-        Me.txtSRN_PI.Size = New System.Drawing.Size(88, 18)
-        Me.txtSRN_PI.TabIndex = 147
+        Me.txtSRN_PI.Size = New System.Drawing.Size(204, 18)
+        Me.txtSRN_PI.TabIndex = 191
         Me.txtSRN_PI.Value = ""
         '
-        'RadButton2
+        'btnGo
         '
-        Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton2.Location = New System.Drawing.Point(530, 93)
-        Me.RadButton2.Name = "RadButton2"
-        Me.RadButton2.Size = New System.Drawing.Size(71, 38)
-        Me.RadButton2.TabIndex = 146
-        Me.RadButton2.Text = ">>"
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(532, 118)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(63, 21)
+        Me.btnGo.TabIndex = 190
+        Me.btnGo.Text = ">>>"
         '
         'RadLabel1
         '
         Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(9, 8)
+        Me.RadLabel1.Location = New System.Drawing.Point(12, 12)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(75, 16)
-        Me.RadLabel1.TabIndex = 40
+        Me.RadLabel1.TabIndex = 189
         Me.RadLabel1.Text = "Document No"
         '
         'txtDate
@@ -231,7 +441,7 @@ Partial Class frmTenderShortPenalty
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(399, 7)
+        Me.txtDate.Location = New System.Drawing.Point(402, 11)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -242,7 +452,7 @@ Partial Class frmTenderShortPenalty
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(126, 18)
-        Me.txtDate.TabIndex = 1
+        Me.txtDate.TabIndex = 173
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011 11:29 AM"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
@@ -251,26 +461,26 @@ Partial Class frmTenderShortPenalty
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(364, 8)
+        Me.RadLabel4.Location = New System.Drawing.Point(367, 12)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
-        Me.RadLabel4.TabIndex = 20
+        Me.RadLabel4.TabIndex = 181
         Me.RadLabel4.Text = "Date"
         '
         'MyLabel14
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(9, 51)
+        Me.MyLabel14.Location = New System.Drawing.Point(12, 55)
         Me.MyLabel14.Name = "MyLabel14"
-        Me.MyLabel14.Size = New System.Drawing.Size(60, 16)
-        Me.MyLabel14.TabIndex = 31
-        Me.MyLabel14.Text = "Tender No"
+        Me.MyLabel14.Size = New System.Drawing.Size(46, 16)
+        Me.MyLabel14.TabIndex = 188
+        Me.MyLabel14.Text = "RAL No"
         '
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(88, 7)
+        Me.txtDocNo.Location = New System.Drawing.Point(91, 11)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -280,7 +490,7 @@ Partial Class frmTenderShortPenalty
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 19)
-        Me.txtDocNo.TabIndex = 0
+        Me.txtDocNo.TabIndex = 172
         Me.txtDocNo.Value = ""
         '
         'txtTenderNo
@@ -294,7 +504,7 @@ Partial Class frmTenderShortPenalty
         Me.txtTenderNo.IsSourceFromTable = False
         Me.txtTenderNo.IsSourceFromValueList = False
         Me.txtTenderNo.IsUnique = False
-        Me.txtTenderNo.Location = New System.Drawing.Point(88, 50)
+        Me.txtTenderNo.Location = New System.Drawing.Point(91, 54)
         Me.txtTenderNo.MendatroryField = True
         Me.txtTenderNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTenderNo.MyLinkLable1 = Me.MyLabel14
@@ -306,18 +516,18 @@ Partial Class frmTenderShortPenalty
         Me.txtTenderNo.ReferenceFieldName = Nothing
         Me.txtTenderNo.ReferenceTableName = Nothing
         Me.txtTenderNo.Size = New System.Drawing.Size(211, 19)
-        Me.txtTenderNo.TabIndex = 29
+        Me.txtTenderNo.TabIndex = 187
         Me.txtTenderNo.Value = ""
         '
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(531, 7)
+        Me.UsLock1.Location = New System.Drawing.Point(826, 13)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(70, 19)
+        Me.UsLock1.Size = New System.Drawing.Size(76, 19)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 23
+        Me.UsLock1.TabIndex = 182
         '
         'lblBillToLocation
         '
@@ -325,10 +535,10 @@ Partial Class frmTenderShortPenalty
         Me.lblBillToLocation.BorderVisible = True
         Me.lblBillToLocation.FieldName = Nothing
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBillToLocation.Location = New System.Drawing.Point(301, 29)
+        Me.lblBillToLocation.Location = New System.Drawing.Point(304, 33)
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(223, 18)
-        Me.lblBillToLocation.TabIndex = 6
+        Me.lblBillToLocation.TabIndex = 178
         Me.lblBillToLocation.TextWrap = False
         '
         'txtItem
@@ -342,7 +552,7 @@ Partial Class frmTenderShortPenalty
         Me.txtItem.IsSourceFromTable = False
         Me.txtItem.IsSourceFromValueList = False
         Me.txtItem.IsUnique = False
-        Me.txtItem.Location = New System.Drawing.Point(88, 93)
+        Me.txtItem.Location = New System.Drawing.Point(91, 97)
         Me.txtItem.MendatroryField = True
         Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItem.MyLinkLable1 = Me.RadLabel18
@@ -354,17 +564,17 @@ Partial Class frmTenderShortPenalty
         Me.txtItem.ReferenceFieldName = Nothing
         Me.txtItem.ReferenceTableName = Nothing
         Me.txtItem.Size = New System.Drawing.Size(211, 18)
-        Me.txtItem.TabIndex = 5
+        Me.txtItem.TabIndex = 177
         Me.txtItem.Value = ""
         '
         'RadLabel18
         '
         Me.RadLabel18.FieldName = Nothing
         Me.RadLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel18.Location = New System.Drawing.Point(9, 94)
+        Me.RadLabel18.Location = New System.Drawing.Point(12, 98)
         Me.RadLabel18.Name = "RadLabel18"
         Me.RadLabel18.Size = New System.Drawing.Size(28, 16)
-        Me.RadLabel18.TabIndex = 28
+        Me.RadLabel18.TabIndex = 186
         Me.RadLabel18.Text = "Item"
         '
         'lblItem
@@ -373,10 +583,10 @@ Partial Class frmTenderShortPenalty
         Me.lblItem.BorderVisible = True
         Me.lblItem.FieldName = Nothing
         Me.lblItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItem.Location = New System.Drawing.Point(301, 93)
+        Me.lblItem.Location = New System.Drawing.Point(304, 97)
         Me.lblItem.Name = "lblItem"
         Me.lblItem.Size = New System.Drawing.Size(223, 19)
-        Me.lblItem.TabIndex = 9
+        Me.lblItem.TabIndex = 179
         Me.lblItem.TextWrap = False
         '
         'txtBillToLocation
@@ -390,7 +600,7 @@ Partial Class frmTenderShortPenalty
         Me.txtBillToLocation.IsSourceFromTable = False
         Me.txtBillToLocation.IsSourceFromValueList = False
         Me.txtBillToLocation.IsUnique = False
-        Me.txtBillToLocation.Location = New System.Drawing.Point(88, 29)
+        Me.txtBillToLocation.Location = New System.Drawing.Point(91, 33)
         Me.txtBillToLocation.MendatroryField = True
         Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBillToLocation.MyLinkLable1 = Me.RadLabel15
@@ -402,17 +612,17 @@ Partial Class frmTenderShortPenalty
         Me.txtBillToLocation.ReferenceFieldName = Nothing
         Me.txtBillToLocation.ReferenceTableName = Nothing
         Me.txtBillToLocation.Size = New System.Drawing.Size(211, 18)
-        Me.txtBillToLocation.TabIndex = 4
+        Me.txtBillToLocation.TabIndex = 176
         Me.txtBillToLocation.Value = ""
         '
         'RadLabel15
         '
         Me.RadLabel15.FieldName = Nothing
         Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(9, 30)
+        Me.RadLabel15.Location = New System.Drawing.Point(12, 34)
         Me.RadLabel15.Name = "RadLabel15"
         Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
-        Me.RadLabel15.TabIndex = 26
+        Me.RadLabel15.TabIndex = 184
         Me.RadLabel15.Text = "Location"
         '
         'txtVendorNo
@@ -426,7 +636,7 @@ Partial Class frmTenderShortPenalty
         Me.txtVendorNo.IsSourceFromTable = False
         Me.txtVendorNo.IsSourceFromValueList = False
         Me.txtVendorNo.IsUnique = False
-        Me.txtVendorNo.Location = New System.Drawing.Point(88, 72)
+        Me.txtVendorNo.Location = New System.Drawing.Point(91, 76)
         Me.txtVendorNo.MendatroryField = True
         Me.txtVendorNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVendorNo.MyLinkLable1 = Me.RadLabel2
@@ -438,17 +648,17 @@ Partial Class frmTenderShortPenalty
         Me.txtVendorNo.ReferenceFieldName = Nothing
         Me.txtVendorNo.ReferenceTableName = Nothing
         Me.txtVendorNo.Size = New System.Drawing.Size(211, 18)
-        Me.txtVendorNo.TabIndex = 3
+        Me.txtVendorNo.TabIndex = 174
         Me.txtVendorNo.Value = ""
         '
         'RadLabel2
         '
         Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(9, 73)
+        Me.RadLabel2.Location = New System.Drawing.Point(12, 77)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(43, 16)
-        Me.RadLabel2.TabIndex = 24
+        Me.RadLabel2.TabIndex = 183
         Me.RadLabel2.Text = "Vendor"
         '
         'lblVendorName
@@ -457,10 +667,10 @@ Partial Class frmTenderShortPenalty
         Me.lblVendorName.BorderVisible = True
         Me.lblVendorName.FieldName = Nothing
         Me.lblVendorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVendorName.Location = New System.Drawing.Point(301, 72)
+        Me.lblVendorName.Location = New System.Drawing.Point(304, 76)
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(223, 18)
-        Me.lblVendorName.TabIndex = 3
+        Me.lblVendorName.TabIndex = 175
         Me.lblVendorName.TextWrap = False
         '
         'txtRemarks
@@ -475,7 +685,7 @@ Partial Class frmTenderShortPenalty
         Me.txtRemarks.IsSourceFromTable = False
         Me.txtRemarks.IsSourceFromValueList = False
         Me.txtRemarks.IsUnique = False
-        Me.txtRemarks.Location = New System.Drawing.Point(88, 114)
+        Me.txtRemarks.Location = New System.Drawing.Point(91, 118)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.MyLinkLable1 = Me.RadLabel6
@@ -485,16 +695,16 @@ Partial Class frmTenderShortPenalty
         Me.txtRemarks.ReferenceFieldName = Nothing
         Me.txtRemarks.ReferenceTableName = Nothing
         Me.txtRemarks.Size = New System.Drawing.Size(437, 18)
-        Me.txtRemarks.TabIndex = 12
+        Me.txtRemarks.TabIndex = 180
         '
         'RadLabel6
         '
         Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel6.Location = New System.Drawing.Point(9, 115)
+        Me.RadLabel6.Location = New System.Drawing.Point(12, 119)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(51, 16)
-        Me.RadLabel6.TabIndex = 27
+        Me.RadLabel6.TabIndex = 185
         Me.RadLabel6.Text = "Remarks"
         '
         'btnAddNew
@@ -502,23 +712,25 @@ Partial Class frmTenderShortPenalty
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPPurchase.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(340, 7)
+        Me.btnAddNew.Location = New System.Drawing.Point(343, 11)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
-        Me.btnAddNew.TabIndex = 0
+        Me.btnAddNew.TabIndex = 171
         '
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox2.Controls.Add(Me.gv1)
-        Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(6, 141)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(749, 228)
-        Me.RadGroupBox2.TabIndex = 18
+        Me.RadGroupBox2.Size = New System.Drawing.Size(926, 213)
+        Me.RadGroupBox2.TabIndex = 20
         '
         'gv1
         '
@@ -535,113 +747,116 @@ Partial Class frmTenderShortPenalty
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(729, 198)
+        Me.gv1.Size = New System.Drawing.Size(906, 183)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
         '
         'BtnCancel
         '
         Me.BtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCancel.Location = New System.Drawing.Point(222, 4)
+        Me.BtnCancel.Location = New System.Drawing.Point(230, 4)
         Me.BtnCancel.Name = "BtnCancel"
         Me.BtnCancel.Size = New System.Drawing.Size(69, 22)
-        Me.BtnCancel.TabIndex = 7
+        Me.BtnCancel.TabIndex = 14
         Me.BtnCancel.Text = "Cancel"
-        '
-        'btnRecalculate
-        '
-        Me.btnRecalculate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRecalculate.Location = New System.Drawing.Point(435, 4)
-        Me.btnRecalculate.Name = "btnRecalculate"
-        Me.btnRecalculate.Size = New System.Drawing.Size(134, 22)
-        Me.btnRecalculate.TabIndex = 6
-        Me.btnRecalculate.Text = "Recalculate Penalty"
-        Me.btnRecalculate.Visible = False
+        Me.BtnCancel.Visible = False
         '
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(364, 4)
+        Me.btnReverse.Location = New System.Drawing.Point(372, 4)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(69, 22)
-        Me.btnReverse.TabIndex = 4
+        Me.btnReverse.TabIndex = 12
         Me.btnReverse.Text = "Reverse"
         Me.btnReverse.Visible = False
         '
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(293, 4)
+        Me.btnPrint.Location = New System.Drawing.Point(301, 4)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
-        Me.btnPrint.TabIndex = 3
+        Me.btnPrint.TabIndex = 11
         Me.btnPrint.Text = "Print"
         Me.btnPrint.Visible = False
         '
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(151, 4)
+        Me.btnDelete.Location = New System.Drawing.Point(159, 4)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 22)
-        Me.btnDelete.TabIndex = 2
+        Me.btnDelete.TabIndex = 10
         Me.btnDelete.Text = "Delete"
         '
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(80, 4)
+        Me.btnPost.Location = New System.Drawing.Point(88, 4)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 22)
-        Me.btnPost.TabIndex = 1
+        Me.btnPost.TabIndex = 9
         Me.btnPost.Text = "Post"
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(670, 4)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 22)
-        Me.btnClose.TabIndex = 5
-        Me.btnClose.Text = "Close"
         '
         'btnSave
         '
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(9, 4)
+        Me.btnSave.Location = New System.Drawing.Point(17, 4)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
-        Me.btnSave.TabIndex = 0
+        Me.btnSave.TabIndex = 8
         Me.btnSave.Text = "Save"
         '
-        'frmTenderShortPenalty
+        'btnClose
+        '
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(855, 4)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(69, 22)
+        Me.btnClose.TabIndex = 15
+        Me.btnClose.Text = "Close"
+        '
+        'frmShortSupplyPenalty
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(749, 404)
+        Me.ClientSize = New System.Drawing.Size(935, 388)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmTenderShortPenalty"
+        Me.Name = "frmShortSupplyPenalty"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "Tender Penalty"
+        Me.Text = "frmShortSupplyPenalty"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.PerformLayout()
-        Me.SplitContainer2.Panel2.ResumeLayout(False)
-        Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.lblShortQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPenaltyAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPenaltyRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblApplicable, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPenaltyQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSRNQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRALQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SRN_PI, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -660,50 +875,63 @@ Partial Class frmTenderShortPenalty
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
-    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
-    Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
-    Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
-    Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
-    Friend WithEvents txtDocNo As common.UserControls.txtNavigator
-    Friend WithEvents UsLock1 As common.usLock
-    Friend WithEvents txtVendorNo As common.UserControls.txtFinder
-    Friend WithEvents txtItem As common.UserControls.txtFinder
-    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
-    Friend WithEvents txtRemarks As common.Controls.MyTextBox
-    Friend WithEvents RadLabel2 As common.Controls.MyLabel
-    Friend WithEvents RadLabel1 As common.Controls.MyLabel
-    Friend WithEvents lblVendorName As common.Controls.MyLabel
-    Friend WithEvents RadLabel4 As common.Controls.MyLabel
-    Friend WithEvents RadLabel18 As common.Controls.MyLabel
-    Friend WithEvents RadLabel15 As common.Controls.MyLabel
-    Friend WithEvents lblItem As common.Controls.MyLabel
-    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
-    Friend WithEvents RadLabel6 As common.Controls.MyLabel
-    Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
-    Friend WithEvents MyLabel14 As common.Controls.MyLabel
-    Friend WithEvents txtTenderNo As common.UserControls.txtFinder
-    Friend WithEvents RadButton2 As RadButton
-    Friend WithEvents btnPrint As RadButton
-    Friend WithEvents SplitContainer2 As SplitContainer
-    Friend WithEvents btnRecalculate As RadButton
-    Friend WithEvents BtnCancel As RadButton
-    Friend WithEvents txtSRN_PI As common.UserControls.txtFinder
-    Friend WithEvents SRN_PI As common.Controls.MyLabel
-End Class
 
+    Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents BtnCancel As RadButton
+    Friend WithEvents btnReverse As RadButton
+    Friend WithEvents btnPrint As RadButton
+    Friend WithEvents btnDelete As RadButton
+    Friend WithEvents btnPost As RadButton
+    Friend WithEvents btnSave As RadButton
+    Friend WithEvents SRN_PI As common.Controls.MyLabel
+    Friend WithEvents txtSRN_PI As common.UserControls.txtFinder
+    Friend WithEvents btnGo As RadButton
+    Friend WithEvents RadLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
+    Friend WithEvents RadLabel4 As common.Controls.MyLabel
+    Friend WithEvents MyLabel14 As common.Controls.MyLabel
+    Friend WithEvents txtDocNo As common.UserControls.txtNavigator
+    Friend WithEvents txtTenderNo As common.UserControls.txtFinder
+    Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
+    Friend WithEvents txtItem As common.UserControls.txtFinder
+    Friend WithEvents RadLabel18 As common.Controls.MyLabel
+    Friend WithEvents lblItem As common.Controls.MyLabel
+    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
+    Friend WithEvents RadLabel15 As common.Controls.MyLabel
+    Friend WithEvents txtVendorNo As common.UserControls.txtFinder
+    Friend WithEvents RadLabel2 As common.Controls.MyLabel
+    Friend WithEvents lblVendorName As common.Controls.MyLabel
+    Friend WithEvents txtRemarks As common.Controls.MyTextBox
+    Friend WithEvents RadLabel6 As common.Controls.MyLabel
+    Friend WithEvents btnAddNew As RadButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents lblSRNQty As common.Controls.MyLabel
+    Friend WithEvents lblRALQty As common.Controls.MyLabel
+    Friend WithEvents lblPenaltyQty As common.Controls.MyLabel
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents lblRate As common.Controls.MyLabel
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents lblApplicable As common.Controls.MyLabel
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents txtPenaltyRate As common.MyNumBox
+    Friend WithEvents lblPenaltyAmt As common.Controls.MyLabel
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents lblShortQty As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents btnClose As RadButton
+End Class

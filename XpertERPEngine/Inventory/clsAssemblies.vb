@@ -46,7 +46,7 @@ Public Class clsAssemblies
         Try
             Dim coll As New Hashtable()
             ''(Locked Transaction) 05/02/2018
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "MM Assemblies/Disassemblies", obj.LOCATION_CODE, clsCommon.myCDate(obj.ASSEMBLY_DATE), trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmAssembDis, obj.LOCATION_CODE, clsCommon.myCDate(obj.ASSEMBLY_DATE), trans)
             If isNewEntry Then
                 If clsCommon.myLen(obj.CODE) = 0 Then
                     obj.CODE = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), clsDocType.Assemblies, "", "")

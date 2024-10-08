@@ -154,7 +154,7 @@ Public Class ClsScrapSaleHeadReturn
         Dim Desc As String = String.Empty
         Dim VatInvoiceType As String = Nothing
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Scrap Invoice", obj.Loc_Code, obj.shipment_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Scrap Invoice", obj.Loc_Code, obj.shipment_Date, trans)
             If Not isNewEntry Then
                 HistoryUpdate(obj.Document_No, trans)
             End If
