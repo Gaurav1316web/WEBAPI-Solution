@@ -1256,6 +1256,7 @@ Public Class clsUserMgtCode
     Public Const TenderShortPenalty As String = "TND-SHT-PNL"
     Public Const frmCorrectionforWrongEntry As String = "CF-WRNG-ENT"
     Public Const frmDeletionForEntry As String = "DEL-FOR-ENT"
+    Public Const frmShortSupplyPenalty As String = "SHT-SLY-PLT"
 
     'Sanjay BHA/09/05/18-000014
     Public Const frmMaterialQuotation As String = "SCRAP-QU"

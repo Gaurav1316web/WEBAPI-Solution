@@ -9720,6 +9720,9 @@ Public Class MDI
                     Case clsUserMgtCode.TenderShortPenalty
                         frm = New frmTenderShortPenalty()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmShortSupplyPenalty
+                        frm = New frmShortSupplyPenalty()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCorrectionforWrongEntry
                         frm = New frmCorrectionforWrongEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
