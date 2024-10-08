@@ -1301,11 +1301,11 @@ Public Class frmTransferNew
 
     Public Sub DeleteData()
         Try
-            If clsCommon.CompairString(cboTransferType.Text, "Load Out") = CompairStringResult.Equal Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Transfer(Load-Out)", txtFromLoaction.Value, txtTransferDate.Value, trans)
-            Else
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Transfer(Load-In)", txtToLocation.Value, txtTransferDate.Value, trans)
-            End If
+            'If clsCommon.CompairString(cboTransferType.Text, "Load Out") = CompairStringResult.Equal Then
+            '    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Transfer(Load-Out)", txtFromLoaction.Value, txtTransferDate.Value, trans)
+            'Else
+            '    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Material Management", "Transfer(Load-In)", txtToLocation.Value, txtTransferDate.Value, trans)
+            'End If
 
             Dim qry As String = "select Post from TSPL_TRANSFER_HEAD where Transfer_No='" + txtTransferNo.Value + "'"
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry)), "Y") = CompairStringResult.Equal Then

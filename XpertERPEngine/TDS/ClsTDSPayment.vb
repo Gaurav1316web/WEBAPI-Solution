@@ -44,7 +44,7 @@ Public Class ClsTDSPayment
     Public Shared Function SaveData(ByVal obj As ClsTDSPayment, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = String.Empty
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "TDS", "TDS Payment", obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleTDS, clsUserMgtCode.TDSPAYMENT, obj.Location_Code, obj.Document_Date, trans)
             qry = "delete from TSPL_TDS_PAYMENT_DETAIL where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_TDS_PAYMENT_TDS_ND_DETAIL where Document_No='" & obj.Document_No & "'"

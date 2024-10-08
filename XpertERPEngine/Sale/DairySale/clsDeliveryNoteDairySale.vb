@@ -77,7 +77,7 @@ Public Class clsDeliveryNoteDairySale
                 Throw New Exception("Error in Document Code Generation")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Dairy Delivery Order", obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDeliveryOrderDairy, obj.Location_Code, obj.Document_Date, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
@@ -302,7 +302,7 @@ Public Class clsDeliveryNoteDairySale
             Throw New Exception("Document No not found to Delete")
         End If
         Dim obj As clsDeliveryNoteDairySale = clsDeliveryNoteDairySale.GetData(strCode, NavigatorType.Current)
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Dairy Delivery Order", obj.Location_Code, obj.Document_Date, Nothing)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDeliveryOrderDairy, obj.Location_Code, obj.Document_Date, Nothing)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
@@ -360,7 +360,7 @@ Public Class clsDeliveryNoteDairySale
             End If
             Dim obj As clsDeliveryNoteDairySale = clsDeliveryNoteDairySale.GetData(strDocNo, NavigatorType.Current, trans)
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Dairy Delivery Order", obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDeliveryOrderDairy, obj.Location_Code, obj.Document_Date, trans)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")

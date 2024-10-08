@@ -5963,7 +5963,6 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
     End Sub
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
         Try
-            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
             PostData()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -5978,7 +5977,7 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
             If (myMessages.postConfirm()) Then
                 'SaveData(True) ''By balwinder becuase when saving data Transaction approval is inserted.if Transaction approval given by mgmt and save function calling then it will again remove permission.
                 '' Anubhooti 12-Sep-2014 BM00000003735
-                If FrmMainTranScreen.ValidateTransactionAccToFinYear("Purchase Invoice", txtDate.Value) = False Then
+                If FrmMainTranScreen.ValidateTransactionAccToFinYear(clsUserMgtCode.mbtnPurchaseInvoice, txtDate.Value) = False Then
                     Exit Sub
                 End If
                 ''
@@ -8929,7 +8928,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
     End Sub
     Private Sub Btncancel_Click(sender As Object, e As EventArgs) Handles btncancel.Click
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Invoice", IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnPurchaseInvoice, IIf(clsCommon.myLen(txtShipToLocation.Value) <= 0, txtBillToLocation.Value, txtShipToLocation.Value), txtDate.Value, Nothing)
             CancelPI()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
