@@ -57,6 +57,7 @@ Partial Class rptNewSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -146,10 +147,11 @@ Partial Class rptNewSalesReport
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(692, 391)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -513,6 +515,14 @@ Partial Class rptNewSalesReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(115.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(671, 343)
+        Me.RadPageViewPage3.Text = "RadPageViewPage3"
+        '
         'rptNewSalesReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -603,5 +613,6 @@ Partial Class rptNewSalesReport
     Friend WithEvents chkExcludeGhee As RadCheckBox
     Friend WithEvents rbtnRouteSummary As common.Controls.MyRadioButton
     Friend WithEvents rbtnProductSale As common.Controls.MyRadioButton
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
 End Class
 
