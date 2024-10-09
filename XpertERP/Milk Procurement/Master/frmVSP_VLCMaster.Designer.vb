@@ -5148,6 +5148,7 @@ Partial Class frmVSP_VLCMaster
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1057, 398)
         Me.gv1.TabIndex = 3
+        Me.gv1.VarID = ""
         '
         'btnHistory
         '
