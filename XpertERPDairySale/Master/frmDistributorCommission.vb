@@ -12,6 +12,7 @@ Public Class frmDistributorCommission
     Const colCRate As String = "colCRate"
     Const colTRate As String = "colTRate"
     Const colSecRate As String = "colSecRate"
+    Const colBoothSecRate As String = "colBoothSecRate"
     Private isCellValueChangedOpen As Boolean = False
     Private isInsideLoadData As Boolean = False
 #End Region
@@ -83,6 +84,7 @@ Public Class frmDistributorCommission
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         GV1.MasterTemplate.Columns.Add(repoNumBox)
+
         Dim repoRouteCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoRouteCode.FormatString = ""
         repoRouteCode.HeaderText = "Route Code"
@@ -91,6 +93,7 @@ Public Class frmDistributorCommission
         repoRouteCode.ReadOnly = True
         repoRouteCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         GV1.MasterTemplate.Columns.Add(repoRouteCode)
+
         Dim repoRouteName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoRouteName.FormatString = ""
         repoRouteName.HeaderText = "Route Name"
@@ -99,6 +102,7 @@ Public Class frmDistributorCommission
         repoRouteName.ReadOnly = True
         repoRouteName.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         GV1.MasterTemplate.Columns.Add(repoRouteName)
+
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
         If rbtnCommission.IsChecked Then
@@ -113,6 +117,7 @@ Public Class frmDistributorCommission
         repoCustCode.TextImageRelation = TextImageRelation.TextBeforeImage
         'repoCustCode.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoCustCode)
+
         Dim repoCustName = New GridViewTextBoxColumn()
         repoCustName.FormatString = ""
         If rbtnCommission.IsChecked Then
@@ -125,6 +130,7 @@ Public Class frmDistributorCommission
         repoCustName.IsVisible = True
         repoCustName.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoCustName)
+
         Dim repoTextBox = New GridViewDecimalColumn()
         repoTextBox.FormatString = "{0:n4}"
         repoTextBox.HeaderText = "Distributor Rate Per UOM"
@@ -137,6 +143,7 @@ Public Class frmDistributorCommission
         repoTextBox.IsVisible = True
         'repoTextBox.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoTextBox)
+
         Dim repoTRate = New GridViewDecimalColumn()
         repoTRate.FormatString = "{0:n4}"
         repoTRate.HeaderText = "Transporter Rate Per UOM"
@@ -149,6 +156,7 @@ Public Class frmDistributorCommission
         repoTRate.IsVisible = True
         'repoTextBox.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoTRate)
+
         If chkSecurity.Checked Then
             Dim SecRateTextBox = New GridViewDecimalColumn()
             SecRateTextBox.FormatString = "{0:n2}"
@@ -161,6 +169,19 @@ Public Class frmDistributorCommission
             SecRateTextBox.DecimalPlaces = 2
             SecRateTextBox.IsVisible = True
             GV1.MasterTemplate.Columns.Add(SecRateTextBox)
+
+
+            Dim SecBoothRateTextBox = New GridViewDecimalColumn()
+            SecBoothRateTextBox.FormatString = "{0:n2}"
+            SecBoothRateTextBox.HeaderText = "Booth Security Rate %"
+            SecBoothRateTextBox.Name = colBoothSecRate
+            SecBoothRateTextBox.Width = 80
+            SecBoothRateTextBox.Minimum = 0
+            SecBoothRateTextBox.ShowUpDownButtons = False
+            SecBoothRateTextBox.Step = 0
+            SecBoothRateTextBox.DecimalPlaces = 2
+            SecBoothRateTextBox.IsVisible = True
+            GV1.MasterTemplate.Columns.Add(SecBoothRateTextBox)
         End If
         GV1.Enabled = True
         GV1.AllowAddNewRow = False
@@ -287,7 +308,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             Dim obj As New List(Of clsDistributorCommissionDetails)
             Dim currentdate As Date = Date.Today
             If clsCommon.myLen(txtUOM.Value) > 0 Then
-                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Is Transpotation", "Rate", "Transporter Rate", "Security Rate") Then
+                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Is Transpotation", "Rate", "Transporter Rate", "Security Rate", "Booth Security Rate") Then
                     'Dim trans As SqlTransaction = Nothing
                     Dim linno As Integer = 0
                     Dim TempNewRecord As Boolean = False
@@ -337,12 +358,18 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                             Else
                                 Arr.Security_Rate = clsCommon.myCDecimal(grow.Cells("Security Rate").Value)
                             End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Booth Security Rate").Value))) Then
+                                Continue For
+                            Else
+                                Arr.Booth_Security_Rate = clsCommon.myCDecimal(grow.Cells("Booth Security Rate").Value)
+                            End If
                             obj.Add(Arr)
                         Next
                         clsCommon.ProgressBarHide()
                         If clsCommon.MyMessageBoxShow(Me, "Total Correct Document [" + clsCommon.myCstr(obj.Count) + "] out of [" + clsCommon.myCstr(linno) + "] Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                             Dim sl As Integer = 1
-                            AddNew()
+                            'AddNew()
+                            LoadBlankGrid()
                             If obj IsNot Nothing AndAlso obj.Count > 0 Then
                                 isInsideLoadData = True
                                 For Each objTr As clsDistributorCommissionDetails In obj
@@ -352,6 +379,10 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
+                                    If chkSecurity.Checked Then
+                                        GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
+                                        GV1.Rows(GV1.Rows.Count - 1).Cells(colBoothSecRate).Value = objTr.Booth_Security_Rate
+                                    End If
                                     sl += 1
                                     GV1.Rows.AddNew()
                                 Next
@@ -381,9 +412,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],'' as [Is Transpotation],Rate as [Rate],Transporter_Rate as [Transporter Rate],Security_Rate as [Security Rate] from TSPL_Distributor_Commission_Detail"
+            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],'' as [Is Transpotation],Rate as [Rate],Transporter_Rate as [Transporter Rate],Security_Rate as [Security Rate],Booth_Security_Rate As [Booth Security Rate] from TSPL_Distributor_Commission_Detail"
             Dim whrCls As String = ""
-            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Is Transpotation", "Rate", "Transporter Rate", "Security Rate"})
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Is Transpotation", "Rate", "Transporter Rate", "Security Rate", "Booth Security Rate"})
             transportSql.ExporttoExcel(str, whrCls, Me)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -474,6 +505,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colTRate).Value = objTr.Transporter_Rate
                         If chkSecurity.Checked Then
                             GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(colBoothSecRate).Value = objTr.Booth_Security_Rate
                         End If
                         sl += 1
                         GV1.Rows.AddNew()
@@ -558,9 +590,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 objTr.Transporter_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colTRate).Value)
                 If chkSecurity.Checked Then
                     objTr.Security_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colSecRate).Value)
+                    objTr.Booth_Security_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colBoothSecRate).Value)
                 Else
                     objTr.Security_Rate = 0
+                    objTr.Booth_Security_Rate = 0
                 End If
+
                 Arr.Add(objTr)
                 'End If
             End If

@@ -29754,6 +29754,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Rate", "Decimal(18,4) Not null")
             coll.Add("Transporter_Rate", "Decimal(18,4) null")
             coll.Add("Security_Rate", "Decimal(18,2) null")
+            coll.Add("Booth_Security_Rate", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Detail", coll, "", True)
             clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_Distributor_Commission_Detail alter column Rate  Decimal(18,4) Not null")
 
