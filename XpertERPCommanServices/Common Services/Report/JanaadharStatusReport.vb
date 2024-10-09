@@ -53,7 +53,11 @@ Public Class JanaadharStatusReport
                                     COUNT(DISTINCT mm.MP_Code) AS Total_MP_Codes,
 	                                count(ISNULL(mm.Jan_Aadhar_No_Verified,0)) as Jan_Aadhar_No_Verified, 
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 0 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Unverified_Count,
-                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Verified_Count,sum(case when Active=0 and len(mm.fax)>1 then 1 else 0 end) as JA_aadhar,
+                                    COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END),0) AS Jan_Aadhar_Verified_Count,
+                                    CAST(ROUND(CASE WHEN COUNT(ISNULL(mm.Jan_Aadhar_No_Verified, 0)) > 0 
+                                    THEN (COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 THEN 1 ELSE 0 END), 0) * 100.0) / COUNT(ISNULL(mm.Jan_Aadhar_No_Verified, 0))
+                                    ELSE 0 END,2) AS DECIMAL(10, 2)) AS Verified_Farmer_Per,
+                                    sum(case when Active=0 and len(mm.fax)>1 then 1 else 0 end) as JA_aadhar,
                                     COALESCE(SUM(CASE WHEN ISNULL(mm.Jan_Aadhar_No_Verified, 0) = 1 and convert(date,Jan_Aadhar_No_Verified_On,103) between '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "' THEN 1 ELSE 0 END),0) AS DateWise_Verified_Count
                                 FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER mm where Active=0 "
                     End If
@@ -142,6 +146,7 @@ Public Class JanaadharStatusReport
         If rbtnMaster.IsChecked Then
             gv1.Columns("DateWise_Verified_Count").HeaderText = "Date Wise verified Farmer "
             gv1.Columns("DateWise_Verified_Count").IsVisible = True
+            gv1.Columns("Verified_Farmer_Per").HeaderText = "% Verified Farmer"
 
             gv1.Columns("FromDate").HeaderText = "FromDate"
             gv1.Columns("FromDate").IsVisible = False
@@ -162,6 +167,14 @@ Public Class JanaadharStatusReport
 
         Dim item4 As New GridViewSummaryItem("JA_aadhar", "{0:f0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
+
+        Dim item5 As New GridViewSummaryItem("Verified_Farmer_Per", "{0:F2}", "sum(Jan_Aadhar_Verified_Count)*100/sum(Total_MP_Codes)")
+        'Dim item5 As New GridViewSummaryItem()
+        'item5.FormatString = "{0:F2}"
+        'item5.Name = "% Of Verified Farmer"
+        'item5.AggregateExpression = "sum(Jan_Aadhar_Verified_Count)*100/sum(Total_MP_Codes)"
+        summaryRowItem.Add(item5)
+
         'gv1.ShowGroupPanel = True
         'gv1.MasterTemplate.AutoExpandGroups = True
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)

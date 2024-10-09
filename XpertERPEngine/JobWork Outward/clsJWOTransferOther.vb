@@ -86,7 +86,7 @@ Public Class clsJWOTransferOtherHead
     Public Shared Function SaveData(ByVal obj As clsJWOTransferOtherHead, ByVal IsNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork Milk Transfer", obj.From_Locaction, obj.TRANSFER_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkOutWard, clsUserMgtCode.frmMilkJobWorkTransfer, obj.From_Locaction, obj.TRANSFER_DATE, trans)
             'clsBatchInventory.DeleteData("JW-TO", obj.TRANSFER_NO, trans)
             'Dim qry As String = "delete from TSPL_JOB_WORK_OUTWARD_TRANSFER_DETAILS where TRANSFER_NO='" + obj.TRANSFER_NO + "'"
             'clsDBFuncationality.ExecuteNonQuery(qry, trans)

@@ -192,7 +192,7 @@ Public Class clsPSSalesOrder
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Product Sale", "Sale Order", obj.Bill_To_Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductSale, clsUserMgtCode.frmSalesOrderProductSale, obj.Bill_To_Location, obj.Document_Date, trans)
             If isMakeAbandomentNo Then
                 isSaved = isSaved AndAlso clsPurchaseOrderHeadHist.SaveData(obj.Document_Code, clsCommon.myCdbl(obj.Abandonment_No + 1), trans)
             End If

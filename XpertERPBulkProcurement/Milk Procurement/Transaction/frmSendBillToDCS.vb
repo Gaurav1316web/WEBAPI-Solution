@@ -1,10 +1,6 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.IO
 Imports common
-Imports System.IO
-Imports System.Net
-Imports Newtonsoft.Json
-Imports Newtonsoft.Json.Linq
-Imports System.Collections.Specialized
+
 Public Class frmSendBillToDCS
 #Region "Variables"
     Dim arrFilePath As List(Of String) = Nothing
@@ -209,4 +205,38 @@ Public Class frmSendBillToDCS
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        Try
+            If clsCommon.myLen(cboShift.SelectedValue) <= 0 Then
+                cboShift.Focus()
+                Throw New Exception("Please select " + cboShift.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
+                fndMCCCode.Focus()
+                Throw New Exception("Please select " + fndMCCCode.MyLinkLable1.Text)
+            End If
+            Try
+                Dim qry As String = "select '1' as T_UN,'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") + "' as T_DT,'1' as ROUTE,'" + IIf(clsCommon.CompairString(clsCommon.myCstr(cboShift.SelectedValue), "M") = CompairStringResult.Equal, "0", "1") + "' as T_SHFT,'' T_TIME1,'' T_TIME2,VLC_Code_VLC_Uploader as DCS
+,'1' as T_SWCAN,Qty as T_SWQTY,FAT_PER AS T_SWFAT,'0' AS T_SWCLR,SNF_Per AS T_SWSNF
+,'0' AS T_SOCAN,SOUR_Qty AS T_SOQTY,SOUR_FAT_PER AS T_SOFAT,'0' AS T_SOCLR,SOUR_SNF_PER AS T_SOSNF
+,'0' AS T_CUCAN,CURD_Qty as T_CUQTY
+,'1' AS T_EMPTCAN,'0' AS T_FILL,'' AS SMPLNO,'' AS MODE,'' AS ONLINE,'' AS E_MODE,'' AS EMT_COR,'' AS WGH_COR,'' AS SUBDCS 
+from (" + clsMilkShiftEndMCC.GetSMSQry(fndMCCCode.Value, txtDate.Value, clsCommon.myCstr(cboShift.SelectedValue)) + ")xxxxx"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    Throw New Exception("No data found")
+                End If
+                clsCommon.MyGenerateDBFFile(dt)
+                'clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+            Catch ex As Exception
+                clsCommon.ProgressBarHide()
+                Throw New Exception(ex.Message)
+            End Try
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class
+

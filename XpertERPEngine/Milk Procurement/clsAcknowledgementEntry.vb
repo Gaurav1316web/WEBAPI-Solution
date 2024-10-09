@@ -92,7 +92,7 @@ Public Class clsAcknowledgementEntry
             Dim qry As String = ""
 
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "ACKNOWLEDGENT ENTRY", obj.MCC_Code, obj.Dispatch_Date, tran)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "ACKNOWLEDGENT ENTRY", obj.MCC_Code, obj.Dispatch_Date, tran)
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_ACKNOWLEDGENT_ENTRY_Detail where Document_No='" + obj.Document_No + "'", tran)
 
             Dim coll As New Hashtable()
@@ -512,7 +512,7 @@ Public Class clsAcknowledgementEntry
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "ACKNOWLEDGENT ENTRY", obj.MCC_Code, obj.Dispatch_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "ACKNOWLEDGENT ENTRY", obj.MCC_Code, obj.Dispatch_Date, trans)
 
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)

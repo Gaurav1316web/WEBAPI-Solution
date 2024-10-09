@@ -23,7 +23,7 @@ Public Class clsSRNReturn
             Dim objSRN As clsSRNHead = clsSRNHead.GetData(obj.SRN_No, NavigatorType.Current)
             AllowToSave(obj, objSRN)
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Store Received Note Return", obj.Bill_To_Location, Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.SRNReturn, obj.Bill_To_Location, Document_Date, trans)
             Try
                 If isNewEntry Then
                     obj.Document_No = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.SRNReturn, "", obj.Bill_To_Location)
