@@ -480,11 +480,8 @@ Public Class clsMilkShiftEndMCC
     Shared Sub CreateSMSContentVSP(ByVal obj As clsMilkShiftEndMCC, ByVal trans As SqlTransaction)
         CreateSMSContentVSP(obj.MCC_CODE, obj.DOC_DATE, obj.SHIFT, trans)
     End Sub
-
-    Public Shared Sub CreateSMSContentVSP(MCCCode As String, DOCDate As Date, Shift As String, trans As SqlTransaction)
-        Dim strSMSContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmMilkSample + "'", trans))
-        If clsCommon.myLen(strSMSContent) > 0 Then
-            Dim qry As String = "select max(SAMPLE_NO) as SAMPLE_NO,max(MCC_CODE) as MCC_CODE,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,max(DOC_DATE) as DOC_DATE, VSP_CODE,max(VLC_Name) as VLC_Name,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(MilkType) as MilkType,max(UOM_Code) as UOM_Code,max(Phone1) as Phone1
+    Public Shared Function GetSMSQry(MCCCode As String, DOCDate As Date, Shift As String)
+        Dim qry As String = "select max(SAMPLE_NO) as SAMPLE_NO,max(MCC_CODE) as MCC_CODE,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,max(DOC_DATE) as DOC_DATE, VSP_CODE,max(VLC_Name) as VLC_Name,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(MilkType) as MilkType,max(UOM_Code) as UOM_Code,max(Phone1) as Phone1
 ,sum(Qty * case when RejectType='GOOD' then 1 else 0 end) as Qty
 ,cast((case when isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0)>0 then ((100*isnull(sum(FAT_KG * case when RejectType='GOOD' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0))) else 0 end ) as decimal(18,1)) as FAT_PER
 ,cast((case when isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0)>0 then ((100*isnull(sum(SNF_KG * case when RejectType='GOOD' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0))) else 0 end )as decimal(18,1)) as SNF_PER
@@ -515,6 +512,13 @@ Left Outer Join TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETA
 Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No 
 where TSPL_MILK_SRN_HEAD.MCC_CODE='" + MCCCode + "' and convert(Date, TSPL_MILK_SRN_HEAD.DOC_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(DOCDate, "dd/MMM/yyyy") + "',103) and  TSPL_MILK_SRN_HEAD.SHIFT='" + Shift + "' and len(replace( isnull(substring(TSPL_VENDOR_MASTER.Phone1,6,10),''),'_',''))>0 
 ) xx Group by VSP_CODE"
+        Return qry
+    End Function
+
+    Public Shared Sub CreateSMSContentVSP(MCCCode As String, DOCDate As Date, Shift As String, trans As SqlTransaction)
+        Dim strSMSContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmMilkSample + "'", trans))
+        If clsCommon.myLen(strSMSContent) > 0 Then
+            Dim qry As String = GetSMSQry(MCCCode, DOCDate, Shift)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
