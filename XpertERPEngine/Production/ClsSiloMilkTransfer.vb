@@ -118,7 +118,7 @@ Public Class ClsSiloMilkTransfer
         End If
 
 
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, "", obj.MainLocation_Code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmSiloMilkTransfer, obj.MainLocation_Code, obj.Document_Date, trans)
         If clsCommon.CompairString(obj.Posted, "1") = CompairStringResult.Equal Then
             Throw New Exception("Already Posted Transaction :" + StrAdjustmentNo)
         End If

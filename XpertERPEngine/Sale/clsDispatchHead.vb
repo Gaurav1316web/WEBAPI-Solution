@@ -47,9 +47,10 @@ Public Class clsDispatchHead
         Try
             Dim obj1 As New clsDispatchHead()
             obj1 = clsDispatchHead.GetData(obj1.RGP_No)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmAssetDistatch, obj.Location, obj.RGP_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmAssetDistatch, obj.Location, obj.RGP_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnGatePass, obj.Location, obj.RGP_Date, trans)
 
-            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "RGP/NRGP", obj.Location, obj.RGP_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "RGP/NRGP", obj.Location, obj.RGP_Date, trans)
             Dim qry As String = "delete from TSPL_RGP_DETAIL where RGP_No='" + obj.RGP_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -323,7 +324,7 @@ Public Class clsDispatchHead
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.RGP_No) > 0) Then
             Try
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "RGP/NRGP", obj.Location, obj.RGP_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnGatePass, obj.Location, obj.RGP_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If

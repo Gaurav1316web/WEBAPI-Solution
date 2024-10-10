@@ -109,7 +109,7 @@ Public Class clsAssetDispatchRetailerHead
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "Asset Dispatch Retailer", obj.From_Location, obj.Doc_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleFixedAsset, clsUserMgtCode.frmAssetDispatchRetailer, obj.From_Location, obj.Doc_Date, trans)
             If clsCommon.CompairString(obj.Doc_Type, "Issue") = CompairStringResult.Equal Then
                 clsSerializeInvenotry.DeleteData("MCC-DRISSUE", obj.Doc_No, trans)
             ElseIf clsCommon.CompairString(obj.Doc_Type, "Return") = CompairStringResult.Equal Then

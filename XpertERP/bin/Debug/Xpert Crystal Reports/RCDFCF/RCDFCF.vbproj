@@ -553,6 +553,7 @@
     <None Include="Crystal Reports GST\Purchase Order\IndentReport.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\IssueOrReturnItemWiseSummary.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\IssueOrReturnVehicleWiseItemSummary.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\ItemRmReport.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\JO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\Merchant_PO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\MMM.rpt" />

@@ -39,7 +39,7 @@ Public Class clsDispatchTransfer
                     Throw New Exception("Error In Doc No Genertion")
                 End If
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "Tanker Location Change", obj.OLD_FROM_Loc_Code, clsCommon.myCDate(obj.Doc_Date), trans)
+            ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Milk Procurement MCC", "Tanker Location Change", obj.OLD_FROM_Loc_Code, clsCommon.myCDate(obj.Doc_Date), trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Doc_No", clsCommon.myCstr(obj.Doc_No))
             clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(obj.Doc_Date, "dd/MMM/yyyy hh:mm:ss tt"))

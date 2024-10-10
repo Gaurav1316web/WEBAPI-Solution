@@ -37,7 +37,7 @@ Public Class clsJWOSRNHead
     Public Shared Function SaveData(ByVal obj As clsJWOSRNHead, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork SRN", obj.Loc_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkOutWard, clsUserMgtCode.JWO_SRN, obj.Loc_Code, obj.Document_Date, trans)
 
             If Not isNewEntry Then
                 clsERPFuncationality.IsDocumentAlreadyPosted("TSPL_JWO_SRN_HEAD", "Document_No", obj.Document_No, "Posted=1", trans)
@@ -205,7 +205,7 @@ Public Class clsJWOSRNHead
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "JobWork Outward", "JobWork SRN", obj.Loc_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleJobWorkOutWard, clsUserMgtCode.JWO_SRN, obj.Loc_Code, obj.Document_Date, trans)
             If (obj.Posted = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If

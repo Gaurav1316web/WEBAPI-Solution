@@ -74,7 +74,6 @@ Public Class rptProductionReport
                 ReStoreGridLayout()
                 gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
-                gv1.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
