@@ -2685,6 +2685,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPIPlantWeighment As String = "API-PLT-WGT"
     Public Const XpertAPIQualityCheck As String = "API-PLT-QC"
     Public Const XpertAPIParlourShiftOpen As String = "API-PLR-SFO"
+    Public Const XpertAPIParlourPOS As String = "API-PLR-POS"
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
 

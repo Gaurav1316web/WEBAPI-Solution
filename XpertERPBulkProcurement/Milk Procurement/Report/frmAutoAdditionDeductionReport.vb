@@ -48,15 +48,23 @@ Public Class frmAutoAdditionDeductionReport
             Gv1.MasterView.Refresh()
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
             TemplateGridview = Gv1
-            Dim Qry As String = " select (x.[DCS Code])[DCS Code],max([DCS Name])[DCS Name],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
+            Dim Qry As String = " Select * "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                Qry += " ,case when ([Addition/Deduction Amount] - FloR) > 0.5 then cast (ROUND([Addition/Deduction Amount],0)as int) 
+                          else cast(ROUND([Addition/Deduction Amount],2)as int) end as [Addition/Deduction AmountR] "
+            Else
+                Qry += " ,ceiling(SUM(X.[Addition/Deduction Amount])) As [Addition/Deduction AmountR] "
+            End If
+            Qry += " from ( select (x.[DCS Code])[DCS Code],max([DCS Name])[DCS Name],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
                                  (x.[Formula])Formula,"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                Qry += " Case when max(x.[Addition/Deduction Description])='MILK CHILLING' then sum(x.[Addition/Deduction Amount])/0.35 else sum(x.[Base Amount/Quantity]) end as [Base Amount/Quantity] "
+                Qry += " Case when max(x.[Addition/Deduction Description])='MILK CHILLING' then sum(x.[Addition/Deduction Amount])/0.35 
+                         else sum(x.[Base Amount/Quantity]) end as [Base Amount/Quantity],
+                         convert(decimal(18,2),FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR,convert(decimal(18,2),sum(x.[Addition/Deduction Amount]))[Addition/Deduction Amount] "
             Else
-                Qry += " sum(x.[Base Amount/Quantity])[Base Amount/Quantity] "
+                Qry += " sum(x.[Base Amount/Quantity])[Base Amount/Quantity]  ,sum(x.[Addition/Deduction Amount])[Addition/Deduction Amount] "
             End If
-            Qry += "  ,sum(x.[Addition/Deduction Amount])[Addition/Deduction Amount],ceiling(SUM(X.[Addition/Deduction Amount])) As [Addition/Deduction AmountR]
-                                 ,max(x.[Addition/Deduction Description])[Addition/Deduction Description] from (select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name  as [DCS Name]
+            Qry += " ,max(x.[Addition/Deduction Description])[Addition/Deduction Description] from (select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name  as [DCS Name]
                                  ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code],CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=1 THEN 'DCS'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=2 THEN 'PDCS'
@@ -103,7 +111,7 @@ Public Class frmAutoAdditionDeductionReport
             If clsCommon.myLen(fndArea.Value) > 0 Then
                 Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
             End If
-            Qry += "    )x  group by x.[DCS Code],x.[Code],x.[Apply On],x.[Apply Type],x.Formula "
+            Qry += "    )x  group by x.[DCS Code],x.[Code],x.[Apply On],x.[Apply Type],x.Formula )xx "
 
             dt = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
@@ -236,6 +244,8 @@ Public Class frmAutoAdditionDeductionReport
             Gv1.Columns(ii).IsVisible = True
             Gv1.Columns(ii).BestFit()
         Next
+
+        Gv1.Columns("FloR").IsVisible = False
 
         Gv1.Columns("Addition/Deduction AmountR").Width = 100
         Gv1.Columns("Addition/Deduction AmountR").IsVisible = True
@@ -440,102 +450,193 @@ Public Class frmAutoAdditionDeductionReport
         End Try
     End Sub
 
-    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+    Sub PrintTnk()
         Try
-            Dim Qry As String = Nothing
-            Dim Qry1 As String = Nothing
-            Dim Qry2 As String = Nothing
-            Dim Qry3 As String = Nothing
-            Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
-            ''Dim Qry3 As String = Nothing
+            Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+            Dim Qry As String = " select *,case when ([Addition/Deduction Amount] - FloR) > 0.5 then cast (ROUND([Addition/Deduction Amount],0)as int) else cast(ROUND([Addition/Deduction Amount],2)as int) end as [Addition/Deduction AmountR] from (select (x.[DCS Code])[DCS Code],max([DCS Name])[DCS Name],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
+                                 (x.[Formula])Formula,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                Qry += " Case when max(x.[Addition/Deduction Description])='MILK CHILLING' then sum(x.[Addition/Deduction Amount])/0.35 else sum(x.[Base Amount/Quantity]) end as [Base Amount/Quantity],
+                        convert(decimal(18,2),FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR 
+						 "
+            Else
+                Qry += " sum(x.[Base Amount/Quantity])[Base Amount/Quantity],convert(decimal(18,2),FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR "
+            End If
+            Qry += "  ,convert(decimal(18,2),sum(x.[Addition/Deduction Amount]))[Addition/Deduction Amount]
+                                 ,max(x.[Addition/Deduction Description])[Addition/Deduction Description],
+                                 '" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name,
+                                 max(Comp_Name)Comp_Name,max(Phone1)Phone1,max(Regn_No)Regn_No
+                                 from (select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name  as [DCS Name]
+                                 ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code],CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
+                                    WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=1 THEN 'DCS'
+                                    WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=2 THEN 'PDCS'
+                                    WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=3 THEN 'BMC'
+                                    WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=4 THEN 'Cluster'
+                                    End As [DCS Type],Case When TSPL_VLC_MASTER_HEAD.isOwnBMC=1 Then 'Yes' else 'No' end as [Is Own BMC]
+									  ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 then 'Amount'
+                                    when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 then 'Quantity' else '' end as [Apply On]
+                                    ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then 'Percentage'
+                                    when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then 'Rate' else '' end as [Apply Type],Applicable_Value as [Formula]
+									   ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
+                                    cast(TSPL_MILK_SRN_DETAIL.NET_AMOUNT As Decimal(18, 2)) 
+                                     when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 And TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
+                                    cast(TSPL_MILK_SRN_DETAIL.Qty As Decimal(18, 2)) 
+                                    Else 0 end AS [Base Amount/Quantity]
+									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT
+									,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]
+									,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description], "
+
+            If AreaWiseBilling = True Then
+                Qry += " TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Regn_No,TSPL_COMPANY_MASTER.Phone1, xxxSetLocation.Location_Desc as Area"
+            Else
+                Qry += " TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Regn_No,TSPL_COMPANY_MASTER.Phone1,(TSPL_MCC_MASTER.MCC_Name) as Area"
+            End If
+
+            Qry += "   from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED
+                                    LEFT OUTER JOIN TSPL_MILK_PURCHASE_INVOICE_HEAD ON TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.invoiceNo
+                                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE
+                                    left outer join TSPL_MILK_SRN_DETAIL ON TSPL_MILK_SRN_DETAIL.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
+                                    LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'')
+                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_Code
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                                    left outer join TSPL_COMPANY_MASTER on  TSPL_COMPANY_MASTER.Comp_Code1 = '" + objCommonVar.CurrComp_Code1 + "'                                                                                                           "
+            If AreaWiseBilling = True Then
+                Qry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
+            End If
+
+            Qry += "       WHERE ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'')<>'' and
+                                    CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)<= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
+            If rbtnAddition.IsChecked = True Then
+                Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 "
+            ElseIf rbtnDeduction.IsChecked = True Then
+                Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 "
+            End If
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
-                Qry1 = "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+                Qry += "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+            End If
+            If TxtMultiDCS.arrValueMember IsNot Nothing AndAlso TxtMultiDCS.arrValueMember.Count > 0 Then
+                Qry += "and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtMultiDCS.arrValueMember) + ")"
             End If
 
             If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
-                Qry2 = " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
+                Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
             End If
             If clsCommon.myLen(fndArea.Value) > 0 Then
-                Qry3 += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
             End If
+            Qry += "    )x  group by x.[DCS Code],x.[Code],x.[Apply On],x.[Apply Type],x.Formula )xx "
 
-            'Qry = "select round(row_number() over(order by(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer))),0) as SNo
-            '       ,max(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer)) as [DCS Code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [Vender Name]
-            '       ,max(TSPL_MCC_MASTER.MCC_Name) as Area,max(TSPL_COMPANY_MASTER.Regn_No) as Regn_No,max(TSPL_COMPANY_MASTER.Phone1 ) as Phone1,max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name
-            '       ,TSPL_MILK_SRN_HEAD.VSP_CODE, MAX(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE) AS SRN_CODE 
-            '       ,sum(TSPL_MILK_SRN_DETAIL.AMOUNT)SRN_AMOUNT,sum(TSPL_MILK_SRN_DETAIL.ACC_Qty)Qty,sum(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.amt)[Addition/Deduction Amount] 
-            '       ,max(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION)DedAdd,max(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description] 
-            '       ,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name
-            '        from (select SRN_CODE,sum(amt) as amt,max(Against_DCS_ADDITION_DEDUCTION)Against_DCS_ADDITION_DEDUCTION  from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED  group by SRN_CODE ) TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED 
-            '        left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE 
-            '        left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-            '        LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'') 
-            '        left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE
-            '        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_SRN_HEAD.comp_code
-            '        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_CODE=TSPL_MILK_SRN_HEAD.VSP_CODE
-            '        where convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'    and CONVERT(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + " 
-            '         group by TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
-
-            'Qry = "select round(row_number() over(order by(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer))),0) as SNo, cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [DCS Code] 
-            '                           ,max(TSPL_VLC_MASTER_HEAD.VSP_Code) as [Code]
-            ',max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [Vender Name]
-            '                            ,max(TSPL_MCC_MASTER.MCC_Name) as Area
-            ' ,max(TSPL_COMPANY_MASTER.Regn_No) as Regn_No
-            ' ,max(TSPL_COMPANY_MASTER.Phone1 ) as Phone1
-            ' ,max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name
-            ' ,max(MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT        
-            ' ,max(MILK_RECEIPT_DETAIL.ACC_WEIGHT)as ACC_WEIGHT
-            '                           ,sum(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount) As [Addition/Deduction Amount]
-            '                           ,max(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description]
-            ','" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name
-            '                            from TSPL_VENDOR_INVOICE_DETAIL
-            '                           LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
-            '                           LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
-            '                           left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-            ' left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-            ' left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VLC_MASTER_HEAD.comp_code
-            ' LEFT OUTER JOIN (select  TSPL_MILK_SRN_HEAD.VSP_CODE,sum(TSPL_MILK_SRN_DETAIL.AMOUNT) as 'amount' from TSPL_MILK_SRN_HEAD 
-            'left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-            'where 
-            'convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  and CONVERT(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  
-            'group by TSPL_MILK_SRN_HEAD.VSP_CODE) MILK_SRN_DETAIL ON MILK_SRN_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
-            'LEFT OUTER JOIN (select  TSPL_MILK_RECEIPT_DETAIL.VSP_CODE,sum(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) as 'ACC_WEIGHT' from TSPL_MILK_RECEIPT_DETAIL 
-            'where 
-            'convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  and CONVERT(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  
-            'group by TSPL_MILK_RECEIPT_DETAIL.VSP_CODE) MILK_RECEIPT_DETAIL ON MILK_RECEIPT_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
-            '                           WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + " group by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
-            'order by [DCS Code] asc"
-            Qry = "  select xxx.ACC_Qty,xxx.[Addition/Deduction Amount],xxx.[Addition/Deduction Description],xxx.Amount,"
-            If AreaWiseBilling = True Then
-                Qry += " xxx.Area, "
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptAutoAdditionDeductionNewTNK", "MD Print")
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                PrintTnk()
             Else
-                Qry += " xxx.Area,"
-            End If
+                Dim Qry As String = Nothing
+                Dim Qry1 As String = Nothing
+                Dim Qry2 As String = Nothing
+                Dim Qry3 As String = Nothing
+                Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
-            Qry += "xxx.comp_code,xxx.[DCS Code],xxx.DCS_Addition_Deduction,xxx.Document_No
+                ''Dim Qry3 As String = Nothing
+                If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                    Qry1 = "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+                End If
+
+                If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
+                    Qry2 = " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
+                End If
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    Qry3 += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                End If
+
+                'Qry = "select round(row_number() over(order by(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer))),0) as SNo
+                '       ,max(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer)) as [DCS Code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [Vender Name]
+                '       ,max(TSPL_MCC_MASTER.MCC_Name) as Area,max(TSPL_COMPANY_MASTER.Regn_No) as Regn_No,max(TSPL_COMPANY_MASTER.Phone1 ) as Phone1,max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name
+                '       ,TSPL_MILK_SRN_HEAD.VSP_CODE, MAX(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE) AS SRN_CODE 
+                '       ,sum(TSPL_MILK_SRN_DETAIL.AMOUNT)SRN_AMOUNT,sum(TSPL_MILK_SRN_DETAIL.ACC_Qty)Qty,sum(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.amt)[Addition/Deduction Amount] 
+                '       ,max(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION)DedAdd,max(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description] 
+                '       ,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name
+                '        from (select SRN_CODE,sum(amt) as amt,max(Against_DCS_ADDITION_DEDUCTION)Against_DCS_ADDITION_DEDUCTION  from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED  group by SRN_CODE ) TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED 
+                '        left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE 
+                '        left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+                '        LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'') 
+                '        left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE
+                '        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_SRN_HEAD.comp_code
+                '        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_CODE=TSPL_MILK_SRN_HEAD.VSP_CODE
+                '        where convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'    and CONVERT(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + " 
+                '         group by TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
+
+                'Qry = "select round(row_number() over(order by(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer))),0) as SNo, cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [DCS Code] 
+                '                           ,max(TSPL_VLC_MASTER_HEAD.VSP_Code) as [Code]
+                ',max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [Vender Name]
+                '                            ,max(TSPL_MCC_MASTER.MCC_Name) as Area
+                ' ,max(TSPL_COMPANY_MASTER.Regn_No) as Regn_No
+                ' ,max(TSPL_COMPANY_MASTER.Phone1 ) as Phone1
+                ' ,max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name
+                ' ,max(MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT        
+                ' ,max(MILK_RECEIPT_DETAIL.ACC_WEIGHT)as ACC_WEIGHT
+                '                           ,sum(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount) As [Addition/Deduction Amount]
+                '                           ,max(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description]
+                ','" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name
+                '                            from TSPL_VENDOR_INVOICE_DETAIL
+                '                           LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+                '                           LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
+                '                           left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                ' left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                ' left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VLC_MASTER_HEAD.comp_code
+                ' LEFT OUTER JOIN (select  TSPL_MILK_SRN_HEAD.VSP_CODE,sum(TSPL_MILK_SRN_DETAIL.AMOUNT) as 'amount' from TSPL_MILK_SRN_HEAD 
+                'left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+                'where 
+                'convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  and CONVERT(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  
+                'group by TSPL_MILK_SRN_HEAD.VSP_CODE) MILK_SRN_DETAIL ON MILK_SRN_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
+                'LEFT OUTER JOIN (select  TSPL_MILK_RECEIPT_DETAIL.VSP_CODE,sum(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) as 'ACC_WEIGHT' from TSPL_MILK_RECEIPT_DETAIL 
+                'where 
+                'convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  and CONVERT(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  
+                'group by TSPL_MILK_RECEIPT_DETAIL.VSP_CODE) MILK_RECEIPT_DETAIL ON MILK_RECEIPT_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
+                '                           WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + " group by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+                'order by [DCS Code] asc"
+                Qry = "  select xxx.ACC_Qty,xxx.[Addition/Deduction Amount],xxx.[Addition/Deduction Description],xxx.Amount,"
+                If AreaWiseBilling = True Then
+                    Qry += " xxx.Area, "
+                Else
+                    Qry += " xxx.Area,"
+                End If
+
+                Qry += "xxx.comp_code,xxx.[DCS Code],xxx.DCS_Addition_Deduction,xxx.Document_No
                      ,xxx.[Vendor Name],xxx.Vendor_Code,Logo_Img,Logo_Img2,Regn_No,Phone1,Comp_Name,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name 
                      from (select max(final.[DCS Code])[DCS Code],(final.Vendor_Code)Vendor_Code,max(final.[Vendor Name])[Vendor Name],"
-            If AreaWiseBilling = True Then
-                Qry += " max(final.Area)Area,"
-            Else
-                Qry += " max(final.Area)Area,"
-            End If
+                If AreaWiseBilling = True Then
+                    Qry += " max(final.Area)Area,"
+                Else
+                    Qry += " max(final.Area)Area,"
+                End If
 
-            Qry += " 
+                Qry += " 
                      sum(final.[Addition/Deduction Amount])[Addition/Deduction Amount],
                      Final.DCS_Addition_Deduction,max(final.[Addition/Deduction Description])[Addition/Deduction Description],max(final.Document_No)Document_No,
                      sum(final.ACC_Qty)ACC_Qty,sum(final.Amount)Amount,max(comp_code)comp_code 
                      from 
                     (select cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [DCS Code],TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ,(TSPL_VENDOR_INVOICE_HEAD.Vendor_Name) as [Vendor Name]
                     ,"
-            If AreaWiseBilling = True Then
-                Qry += " xxxSetLocation.Location_Desc as Area,"
-            Else
-                Qry += "(TSPL_MCC_MASTER.MCC_Name) as Area,"
-            End If
+                If AreaWiseBilling = True Then
+                    Qry += " xxxSetLocation.Location_Desc as Area,"
+                Else
+                    Qry += "(TSPL_MCC_MASTER.MCC_Name) as Area,"
+                End If
 
-            Qry += "TSPL_VLC_MASTER_HEAD.comp_code,        
+                Qry += "TSPL_VLC_MASTER_HEAD.comp_code,        
                     (TSPL_VENDOR_INVOICE_DETAIL.Total_Amount) As [Addition/Deduction Amount],TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description],TSPL_VENDOR_INVOICE_HEAD.Document_No,
                     ( select sum(TSPL_MILK_SRN_DETAIL.ACC_Qty)ACC_Qty from  TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED 
                     left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE
@@ -550,23 +651,24 @@ Public Class frmAutoAdditionDeductionReport
                                        LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
                                        left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 									   left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC"
-            If AreaWiseBilling =True Then
-                Qry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
-            End If
+                If AreaWiseBilling = True Then
+                    Qry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
+                End If
 
-            Qry += " WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  " + Qry1 + Qry2 + Qry3 + ")Final 
+                Qry += " WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  " + Qry1 + Qry2 + Qry3 + ")Final 
 									   group by DCS_Addition_Deduction,Vendor_Code)xxx
                                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=xxx.comp_code
 									   order by [DCS Code] asc "
 
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            If dt1.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewTNK", "MD Print")
-                Else
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt1.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewTNK", "MD Print")
+                    'Else
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewGNG", "AutoPrint")
-                    frmCRV = Nothing
+                        frmCRV = Nothing
+                    'End If
                 End If
             End If
         Catch ex As Exception
