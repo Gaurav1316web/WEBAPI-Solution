@@ -2888,6 +2888,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIPlantWeighment, "Weighment", "1.48.02.07", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIQualityCheck, "Quality Check", "1.48.02.08", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIParlourShiftOpen, "Parlour Shift Open", "1.48.02.09", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIParlourPOS, "POS", "1.48.02.10", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.48.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)

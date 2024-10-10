@@ -7,6 +7,7 @@ Public Class clsFixedParameterType
     Public Const CalculateProRateAuto As String = "Calculate Pro Rate Auto"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
+    Public Const PickHeadLoadRateFromSecretaryMaster As String = "Pick HeadLoadRate From Secretary Master"
     Public Const Transactionupdate As String = "Transtion Update"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const RCDFControl As String = "RCDF Control"
@@ -1294,6 +1295,7 @@ Public Class clsFixedParameterCode
     Public Const CustomerMaster As String = "Customer Master"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
+    Public Const PickHeadLoadRateFromSecretaryMaster As String = "Pick HeadLoadRate From Secretary Master"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
@@ -2782,6 +2784,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, "0", "0:OFF;1:ON to Calculate Pro Rate Auto")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, "1", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, "0", "0:OFF;1:ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickHeadLoadRateFromSecretaryMaster, clsFixedParameterCode.PickHeadLoadRateFromSecretaryMaster, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk")
@@ -4313,6 +4316,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.PickHeadLoadRateFromSecretaryMaster, clsFixedParameterCode.PickHeadLoadRateFromSecretaryMaster, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmRCDFRateControl, clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
