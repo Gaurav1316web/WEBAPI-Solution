@@ -889,12 +889,13 @@ TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEAD
 
             Qry += "  from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC,"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+
                 Qry += " Item_Desc+'   '+isnull('HSN '+ HSN_Code,'') as Particulars"
             Else
-                Qry += " Item_Desc+'   '+isnull(batchNO,'') as Particulars"
+                Qry += " Item_Desc+'   '+isnull(batchNO,'') as Particulars,FLOOR(Qty_Default / NULLIF(COALESCE(ConvFactInCrate, 0), 0)) AS Crate_No "
             End If
             Qry += " from (  
-select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,
+select  TSPL_BOOKING_MATSER.Is_Distributor,TSPL_BOOKING_MATSER.Is_BPL,TSPL_BOOKING_MATSER.Is_CashSale, TSPL_BOOKING_MATSER.Is_DCS,TSPL_BOOKING_MATSER.Booking_Type, TSPL_COMPANY_MASTER.CST_LST,(Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,
 TSPL_SD_SHIPMENT_HEAD.ManualVehicle as Manual_VehicleNo,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.ReceiverName,
 TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,convert(varchar(12),TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)Supply_Date,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type, "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
@@ -937,13 +938,13 @@ TSPL_SD_sale_invoice_DETAIL.Crate as QtyCrates ,ITEMDETAIL2.Conversion_Factor As
 coalesce( case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else SUB_QTY end,0) as free_qty, TSPL_SD_sale_invoice_DETAIL.Scheme_Item as FreeSchemeInLitres ,  
 (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then convert(DECIMAL(18,5),(case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else  TSPL_SD_sale_invoice_DETAIL.Amount end)/ (TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) else 0 end) end) as RatePerPcs, "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                Qry += "  (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else  TSPL_SD_sale_invoice_DETAIL.TAX1_Base_Amt end)) end)  as valueInRs, "
+                Qry += "  (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else  TSPL_SD_sale_invoice_DETAIL.TAX1_Base_Amt end)) end)  as valueInRs,'' as  comp_add2,'' as comp_add3,TSPL_COMPANY_MASTER.Phone1 as CompPhone ,"
             Else
-                Qry += "  (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else  TSPL_SD_sale_invoice_DETAIL.Amt_Less_Discount end)) end)  as valueInRs, "
+                Qry += "  (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else  TSPL_SD_sale_invoice_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,TSPL_COMPANY_MASTER.Add2 as  comp_add2 ,TSPL_COMPANY_MASTER.Add3 as comp_add3 , case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,"
             End If
             Qry += "(CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (coalesce(TSPL_SD_sale_invoice_DETAIL.Cash_Scheme_Amount,0)) end) as Cash_Scheme_Amount,isnull(schemeInCrates,0)as schemeInCrates,  
 '' GrandTotalCrates , TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 as comp_add1 ,  
-TSPL_COMPANY_MASTER.Add2 as  comp_add2 ,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , TSPL_COMPANY_MASTER.Tin_No as comp_tinNo , 
+TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email,  TSPL_COMPANY_MASTER.Tin_No as comp_tinNo , 
 TSPL_SD_SALE_INVOICE_HEAD. Customer_Code  as cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as cust_add1 ,TSPL_CUSTOMER_MASTER. Add2 as cust_add2 ,TSPL_CUSTOMER_MASTER.Add3 cust_add3,case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then ''  else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+  TSPL_CUSTOMER_MASTER.Phone2 Else'' End as CustPhone ,TSPL_CUSTOMER_MASTER.Fax as cust_fax ,TSPL_CUSTOMER_MASTER.State as Cust_state,CUSTOMER_STATE_MASTER.STATE_NAME as cust_Statename,TSPL_CUSTOMER_MASTER.Email as  cust_Email,TSPL_CUSTOMER_MASTER.WebSite as cust_website,TSPL_CUSTOMER_MASTER.pan as Customer_Pan,IsNull(TSPL_SD_SALE_INVOICE_HEAD.Ack_No,'NA') AS Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SHIPMENT_HEAD.DO_Item_Type As TaxableNonTaxable,  
 TSPL_SD_SALE_INVOICE_HEAD.TAX1,(select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX1) as TaxType1, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt,0.00) As TAX1_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as TAX1Amt, 
 (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX2) as TaxType2,TSPL_SD_SALE_INVOICE_HEAD.TAX2, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt,0.00) As TAX2_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt as TAX2Amt,
@@ -963,18 +964,18 @@ from TSPL_SD_sale_invoice_DETAIL
 LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE  
 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No  
 left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_SD_sale_invoice_DETAIL.Line_No
-
+left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
 
 left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And   
 TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code LEFT OUTER JOIN TSPL_ITEM_MASTER  ON  TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code
 left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='BOX') as ITEMDETAIL on ITEMDETAIL.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code
 left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in"
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") Then
-                    Qry += " (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code and TSPL_item_uom_detail.Print_UOM=1)and TSPL_item_uom_detail.Print_UOM=1  "
-                Else
-                    Qry += " (select case when Is_FreshItem=1 then 'LTR' else 'KG' end from TSPL_ITEM_MASTER where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_code) "
-                End If
-                Qry += " ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") Then
+                Qry += " (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code and TSPL_item_uom_detail.Print_UOM=1)and TSPL_item_uom_detail.Print_UOM=1  "
+            Else
+                Qry += " (select case when Is_FreshItem=1 then 'LTR' else 'KG' end from TSPL_ITEM_MASTER where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_code) "
+            End If
+            Qry += " ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  
 
 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) ITEMDETAIL3 ON TSPL_SD_sale_invoice_DETAIL.Item_Code = ITEMDETAIL3.item_code 
 left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where ITEM_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And UOM_code='Crate') as ITEMDETAIL2 on ITEMDETAIL2.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code
@@ -993,24 +994,24 @@ TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Ite
 TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.AlternateVehicle"
 
 
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
-                    Qry += " left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_shipment_head.Bill_To_Location 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                Qry += " left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_shipment_head.Bill_To_Location 
 and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and TSPL_ITEM_PRICE_MASTER.UOM=TSPL_SD_sale_invoice_DETAIL.Unit_code
 and  len(isnull( TSPL_SD_shipment_head.Price_code  ,''))>0 "
-                Else
-                    Qry += " left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_sale_invoice_DETAIL.Location
+            Else
+                Qry += " left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_sale_invoice_DETAIL.Location
 and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and  len(isnull( TSPL_SD_sale_invoice_DETAIL.Price_code  ,''))>0  "
-                End If
+            End If
 
 
-                Qry += "
+            Qry += "
 left outer join (select Document_Code,Parent_Line_No,"
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                 Qry += " STRING_AGG(Batch_No,CHAR(10)) as Batch_No , STRING_AGG(Qty,CHAR(10)) as Batch_Qty"
             Else
-                    Qry += " STRING_AGG(Batch_No +'('+convert(varchar(8),Qty)+')', ',') as Batch_No "
-                End If
-                Qry += "
+                Qry += " STRING_AGG(Batch_No +'('+convert(varchar(8),Qty)+')', ',') as Batch_No "
+            End If
+            Qry += "
                 from(
 SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
 )x group by Document_Code,Parent_Line_No"
@@ -1040,15 +1041,15 @@ Left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_cod
 Left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code And TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values   where 2=3 )xx  
 Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BRAND],[SUB BRAND], [DESCRP], [PACK],[PACK SIZE],[CATEGORY OT],[CATEGORY FA],[P TYPE],[L TYPE], [JW], [SCRAP])  ) Pivt   Pivot  ( max(Category_Value_Desc) For Item_Category_CodeDesc In ([CATEGORY RMDESC], 
 [BRANDDESC],[SUB BRANDDESC], [DESCRPDESC], [PACKDESC],[PACK SIZEDESC],[CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC], [JWDESC], [SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code )  as tbl_Brand on tbl_Brand.Item_Code=final.item_Code  ) AS Main_Final left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code=Main_Final.comp_code "
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    Qry += "  left join TSPL_BOOKING_DETAIL on Main_Final.Against_Delivery_Code=TSPL_BOOKING_DETAIL.Document_No
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                Qry += "  left join TSPL_BOOKING_DETAIL on Main_Final.Against_Delivery_Code=TSPL_BOOKING_DETAIL.Document_No
   Left Join TSPL_BOOKING_Matser on TSPL_BOOKING_DETAIL.document_No=TSPL_BOOKING_Matser.document_NO
   Left Join TSPL_RECEIPT_HEADER on TSPL_BOOKING_Matser.Against_Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No  "
-                End If
-                Qry += " ) Final "
-                'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
             End If
-            Return Qry
+            Qry += " ) Final "
+            'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
+        End If
+        Return Qry
 
     End Function
 
@@ -1144,80 +1145,80 @@ Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BR
                      "select "
         If clsCommon.myCdbl(LeakageDeduction_Freshsale) > 0 Then
             Qry += "TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount*'" & LeakageDeduction_Freshsale & "'/100 as LeakageDeduction_Freshsale,1 as LeakageDeduction, "
-                    Else
-                    Qry += " 0 as LeakageDeduction_Freshsale,0 as LeakageDeduction, "
+        Else
+            Qry += " 0 as LeakageDeduction_Freshsale,0 as LeakageDeduction, "
         End If
 
-            Qry += " case when TSPL_ITEM_PRICE_MASTER.Price_Comp1='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount1,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp2='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount2,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp3='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount3,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp4='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount4,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp5='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount5,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp6='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount6,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp7='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount7,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp8='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount8,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp9='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount9,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp10='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount10,0) end as SCM, " &
-            " case when TSPL_ITEM_PRICE_MASTER.Price_Comp1='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount1,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp2='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount2,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp3='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount3,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp4='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount4,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp5='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount5,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp6='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount6,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp7='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount7,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp8='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount8,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp9='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount9,0) " &
-            " when TSPL_ITEM_PRICE_MASTER.Price_Comp10='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount10,0) end as DIS_MARGIN,  TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Loc_Short_Name , " &
-          " TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin," &
-          " (case when isnull(TSPL_LOCATION_MASTER.Phone1,'')<>'' then TSPL_LOCATION_MASTER.Phone1  when  isnull(TSPL_LOCATION_MASTER.Phone2,'')<>'' then + ', '+ TSPL_LOCATION_MASTER.Phone2 end) as Loc_Phone ," &
-          " TSPL_LOCATION_MASTER.Email as Loc_Eamil,'' as Loc_Website," &
-          " TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_No,convert(varchar(12),TSPL_SD_SALE_INVOICE_HEAD.Document_date,103) as Invoice_Date," &
-          " TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No as DO_No,convert(varchar(12),TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_Date,103) as Do_Date," &
-            " customer_city_master.city_name as Cust_City,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No ,CUSTOMER_STATE_MASTER.GST_STATE_Code AS Cust_Gst_StateCode, TSPL_SD_SALE_INVOICE_HEAD.Electronic_Ref_No, Tspl_customer_master.gstno as CustGSTNo,TSPL_STATE_MASTER.gst_state_code,tspl_location_master.gstno as LocGstNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_ITEM_MASTER.HSN_Code,TSPL_SD_SALE_INVOICE_HEAD.Remarks as InvRemarks,TSPL_SD_sale_invoice_DETAIL.Delivery_Code ,ITEMDETAIL.Conversion_factor, " &
-            "case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then case when coalesce(ITEMDETAIL.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2), " &
-            "TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(ITEMDETAIL.Conversion_factor,1)) end else 0 end as QTY_Box, " &
-            "TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Sale_Invoice_No, " &
-            "Case When ISNULL(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')<>'' Then TSPL_SD_SHIPMENT_HEAD.ManualVehicle WHEN " &
-            "ISNULL(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' Then TSPL_VEHICLE_MASTER.Number Else TSPL_SD_SALE_INVOICE_HEAD.vehicleNo End as vehicleNo, " &
-            "Convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Sale_Invoice_Date,103) as Sale_Invoice_Date, TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount, " &
-            "TSPL_LOCATION_MASTER.Add1  as Loc_ADd1,TSPL_LOCATION_MASTER.Add2  as LOC_ADD2,TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, " &
-            "TSPL_STATE_MASTER.State_Name as LocationState, case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as LOCPhone,TSPL_LOCATION_MASTER.TIN_No as Loc_TIN_NO, " &
-            "TSPL_SD_SALE_INVOICE_HEAD.Document_Code ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date ,TSPL_SD_SALE_INVOICE_HEAD.Description, " &
-            "TSPL_SD_SALE_INVOICE_HEAD.Lorry_No,TSPL_ITEM_MASTER.Sku_Seq ,TSPL_SD_sale_invoice_DETAIL.Item_Code,TSPL_SD_sale_invoice_DETAIL.Line_No,TSPL_ITEM_MASTER.Item_Desc as Particulars,  " &
-            "TSPL_SD_sale_invoice_DETAIL.Crate as QtyCrates ,TSPL_SD_sale_invoice_DETAIL.Unit_code , " &
-            "convert(Decimal(18,2), TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as QtyPCS , " &
-            "coalesce( case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else SUB_QTY end,0) as free_qty, TSPL_SD_sale_invoice_DETAIL.Scheme_Item as FreeSchemeInLitres , " &
-            "case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then convert(DECIMAL(18,5),(case when TSPL_SD_sale_invoice_DETAIL.Sampling=1then 0 else  TSPL_SD_sale_invoice_DETAIL.Amount end)/ (TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) else 0 end as RatePerPcs, " &
-            "(case when TSPL_SD_sale_invoice_DETAIL.Sampling=1then 0 else  TSPL_SD_sale_invoice_DETAIL.Amount end)  as valueInRs " &
-            ",convert(DECIMAL(18,5),CASE WHEN TSPL_UNIT_MASTER.Crate_Type='Y' THEN TSPL_ITEM_UOM_DETAIL.Conversion_Factor ELSE 0 END * " &
-             " case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then convert(DECIMAL(18,5),(case when TSPL_SD_sale_invoice_DETAIL.Sampling=1then 0  " &
-             " else  TSPL_SD_sale_invoice_DETAIL.Amount end)/ (TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) else 0 end) AS RatePerCrate " &
-            ",coalesce(TSPL_SD_sale_invoice_DETAIL.Cash_Scheme_Amount,0) as Cash_Scheme_Amount,isnull(schemeInCrates,0)as schemeInCrates, " &
-            "'' GrandTotalCrates , TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 as comp_add1 , " &
-            "TSPL_COMPANY_MASTER.Add2 as  comp_add2 ,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , TSPL_COMPANY_MASTER.Tin_No as comp_tinNo , " &
-            "TSPL_SD_SALE_INVOICE_HEAD. Customer_Code  as cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as cust_add1 ,TSPL_CUSTOMER_MASTER. Add2 as cust_add2 ,TSPL_CUSTOMER_MASTER.Add3 cust_add3,case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then ''  else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+  TSPL_CUSTOMER_MASTER.Phone2 Else'' End as CustPhone ,TSPL_CUSTOMER_MASTER.Fax as cust_fax ,TSPL_CUSTOMER_MASTER.State as Cust_state,CUSTOMER_STATE_MASTER.STATE_NAME as cust_Statename,TSPL_CUSTOMER_MASTER.Email as  cust_Email,TSPL_CUSTOMER_MASTER.WebSite as cust_website,TSPL_CUSTOMER_MASTER.pan as Customer_Pan  " &
-            "from TSPL_SD_sale_invoice_DETAIL  " &
-            "LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE " &
-            "left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
-            "left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and  " &
-            "TSPL_ITEM_UOM_DETAIL .UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code LEFT OUTER JOIN TSPL_ITEM_MASTER  ON " &
-            "TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code " &
-            "left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code and TSPL_UNIT_MASTER.Crate_Type='Y'" &
-            " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='BOX') as ITEMDETAIL on ITEMDETAIL.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_SD_SALE_INVOICE_HEAD.Comp_Code  left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER .Cust_Code  =TSPL_SD_SALE_INVOICE_HEAD .Customer_Code left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD .Bill_To_Location LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State " &
-             " left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State= CUSTOMER_STATE_MASTER.STATE_CODE " &
-            " left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code=customer_city_master.City_Code " &
-            " Full join  (select DOCUMENT_CODE,Item_Code as Scheme_Item_Code,SUM(Qty ) AS SUB_QTY,SUM(Crate) AS schemeInCrates from " &
-            "TSPL_SD_sale_invoice_DETAIL as inn where DOCUMENT_CODE in ('" + strinvoiceNo + "') and inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code) " &
-            "TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and " &
-            "TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code  LEFT OUTER JOIN TSPL_VEHICLE_MASTER on " &
-            "TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.AlternateVehicle " &
-            " left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code " &
-            " and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_sale_invoice_DETAIL.Location " &
-            " and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code  left outer join TSPL_DELIVERY_NOTE_master_FRESHSALE on TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code " &
-            " where 2=2 and " &
-            "TSPL_SD_SALE_INVOICE_HEAD.Document_Code in   ('" + strinvoiceNo + "')    and TSPL_SD_sale_invoice_DETAIL.Scheme_Item='N' " &
-            "UNION aLL " &
-            " select "
+        Qry += " case when TSPL_ITEM_PRICE_MASTER.Price_Comp1='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount1,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp2='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount2,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp3='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount3,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp4='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount4,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp5='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount5,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp6='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount6,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp7='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount7,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp8='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount8,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp9='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount9,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp10='SCM' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount10,0) end as SCM, " &
+        " case when TSPL_ITEM_PRICE_MASTER.Price_Comp1='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount1,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp2='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount2,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp3='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount3,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp4='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount4,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp5='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount5,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp6='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount6,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp7='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount7,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp8='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount8,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp9='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount9,0) " &
+        " when TSPL_ITEM_PRICE_MASTER.Price_Comp10='DIS-MARGIN' then isnull(TSPL_SD_sale_invoice_DETAIL.Price_Amount10,0) end as DIS_MARGIN,  TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Loc_Short_Name , " &
+      " TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin," &
+      " (case when isnull(TSPL_LOCATION_MASTER.Phone1,'')<>'' then TSPL_LOCATION_MASTER.Phone1  when  isnull(TSPL_LOCATION_MASTER.Phone2,'')<>'' then + ', '+ TSPL_LOCATION_MASTER.Phone2 end) as Loc_Phone ," &
+      " TSPL_LOCATION_MASTER.Email as Loc_Eamil,'' as Loc_Website," &
+      " TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_No,convert(varchar(12),TSPL_SD_SALE_INVOICE_HEAD.Document_date,103) as Invoice_Date," &
+      " TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No as DO_No,convert(varchar(12),TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_Date,103) as Do_Date," &
+        " customer_city_master.city_name as Cust_City,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No ,CUSTOMER_STATE_MASTER.GST_STATE_Code AS Cust_Gst_StateCode, TSPL_SD_SALE_INVOICE_HEAD.Electronic_Ref_No, Tspl_customer_master.gstno as CustGSTNo,TSPL_STATE_MASTER.gst_state_code,tspl_location_master.gstno as LocGstNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_ITEM_MASTER.HSN_Code,TSPL_SD_SALE_INVOICE_HEAD.Remarks as InvRemarks,TSPL_SD_sale_invoice_DETAIL.Delivery_Code ,ITEMDETAIL.Conversion_factor, " &
+        "case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then case when coalesce(ITEMDETAIL.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2), " &
+        "TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(ITEMDETAIL.Conversion_factor,1)) end else 0 end as QTY_Box, " &
+        "TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Sale_Invoice_No, " &
+        "Case When ISNULL(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')<>'' Then TSPL_SD_SHIPMENT_HEAD.ManualVehicle WHEN " &
+        "ISNULL(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' Then TSPL_VEHICLE_MASTER.Number Else TSPL_SD_SALE_INVOICE_HEAD.vehicleNo End as vehicleNo, " &
+        "Convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Sale_Invoice_Date,103) as Sale_Invoice_Date, TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount, " &
+        "TSPL_LOCATION_MASTER.Add1  as Loc_ADd1,TSPL_LOCATION_MASTER.Add2  as LOC_ADD2,TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, " &
+        "TSPL_STATE_MASTER.State_Name as LocationState, case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as LOCPhone,TSPL_LOCATION_MASTER.TIN_No as Loc_TIN_NO, " &
+        "TSPL_SD_SALE_INVOICE_HEAD.Document_Code ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date ,TSPL_SD_SALE_INVOICE_HEAD.Description, " &
+        "TSPL_SD_SALE_INVOICE_HEAD.Lorry_No,TSPL_ITEM_MASTER.Sku_Seq ,TSPL_SD_sale_invoice_DETAIL.Item_Code,TSPL_SD_sale_invoice_DETAIL.Line_No,TSPL_ITEM_MASTER.Item_Desc as Particulars,  " &
+        "TSPL_SD_sale_invoice_DETAIL.Crate as QtyCrates ,TSPL_SD_sale_invoice_DETAIL.Unit_code , " &
+        "convert(Decimal(18,2), TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as QtyPCS , " &
+        "coalesce( case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else SUB_QTY end,0) as free_qty, TSPL_SD_sale_invoice_DETAIL.Scheme_Item as FreeSchemeInLitres , " &
+        "case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then convert(DECIMAL(18,5),(case when TSPL_SD_sale_invoice_DETAIL.Sampling=1then 0 else  TSPL_SD_sale_invoice_DETAIL.Amount end)/ (TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) else 0 end as RatePerPcs, " &
+        "(case when TSPL_SD_sale_invoice_DETAIL.Sampling=1then 0 else  TSPL_SD_sale_invoice_DETAIL.Amount end)  as valueInRs " &
+        ",convert(DECIMAL(18,5),CASE WHEN TSPL_UNIT_MASTER.Crate_Type='Y' THEN TSPL_ITEM_UOM_DETAIL.Conversion_Factor ELSE 0 END * " &
+         " case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then convert(DECIMAL(18,5),(case when TSPL_SD_sale_invoice_DETAIL.Sampling=1then 0  " &
+         " else  TSPL_SD_sale_invoice_DETAIL.Amount end)/ (TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) else 0 end) AS RatePerCrate " &
+        ",coalesce(TSPL_SD_sale_invoice_DETAIL.Cash_Scheme_Amount,0) as Cash_Scheme_Amount,isnull(schemeInCrates,0)as schemeInCrates, " &
+        "'' GrandTotalCrates , TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 as comp_add1 , " &
+        "TSPL_COMPANY_MASTER.Add2 as  comp_add2 ,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , TSPL_COMPANY_MASTER.Tin_No as comp_tinNo , " &
+        "TSPL_SD_SALE_INVOICE_HEAD. Customer_Code  as cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as cust_add1 ,TSPL_CUSTOMER_MASTER. Add2 as cust_add2 ,TSPL_CUSTOMER_MASTER.Add3 cust_add3,case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then ''  else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+  TSPL_CUSTOMER_MASTER.Phone2 Else'' End as CustPhone ,TSPL_CUSTOMER_MASTER.Fax as cust_fax ,TSPL_CUSTOMER_MASTER.State as Cust_state,CUSTOMER_STATE_MASTER.STATE_NAME as cust_Statename,TSPL_CUSTOMER_MASTER.Email as  cust_Email,TSPL_CUSTOMER_MASTER.WebSite as cust_website,TSPL_CUSTOMER_MASTER.pan as Customer_Pan  " &
+        "from TSPL_SD_sale_invoice_DETAIL  " &
+        "LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE " &
+        "left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
+        "left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and  " &
+        "TSPL_ITEM_UOM_DETAIL .UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code LEFT OUTER JOIN TSPL_ITEM_MASTER  ON " &
+        "TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code " &
+        "left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code and TSPL_UNIT_MASTER.Crate_Type='Y'" &
+        " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='BOX') as ITEMDETAIL on ITEMDETAIL.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_SD_SALE_INVOICE_HEAD.Comp_Code  left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER .Cust_Code  =TSPL_SD_SALE_INVOICE_HEAD .Customer_Code left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD .Bill_To_Location LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State " &
+         " left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State= CUSTOMER_STATE_MASTER.STATE_CODE " &
+        " left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code=customer_city_master.City_Code " &
+        " Full join  (select DOCUMENT_CODE,Item_Code as Scheme_Item_Code,SUM(Qty ) AS SUB_QTY,SUM(Crate) AS schemeInCrates from " &
+        "TSPL_SD_sale_invoice_DETAIL as inn where DOCUMENT_CODE in ('" + strinvoiceNo + "') and inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code) " &
+        "TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and " &
+        "TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code  LEFT OUTER JOIN TSPL_VEHICLE_MASTER on " &
+        "TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.AlternateVehicle " &
+        " left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code=TSPL_SD_sale_invoice_DETAIL.Price_code " &
+        " and TSPL_ITEM_PRICE_MASTER.Location_Code=TSPL_SD_sale_invoice_DETAIL.Location " &
+        " and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code  left outer join TSPL_DELIVERY_NOTE_master_FRESHSALE on TSPL_DELIVERY_NOTE_master_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code " &
+        " where 2=2 and " &
+        "TSPL_SD_SALE_INVOICE_HEAD.Document_Code in   ('" + strinvoiceNo + "')    and TSPL_SD_sale_invoice_DETAIL.Scheme_Item='N' " &
+        "UNION aLL " &
+        " select "
 
         If clsCommon.myCdbl(LeakageDeduction_Freshsale) > 0 Then
             Qry += "TSPL_SD_SALE_INVOICE_HEAD.Total_Amt*'" & LeakageDeduction_Freshsale & "'/100 as LeakageDeduction_Freshsale,1 as LeakageDeduction, "

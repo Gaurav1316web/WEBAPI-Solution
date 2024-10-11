@@ -2390,6 +2390,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         Dim PDFPath As String = ""
         Dim companyADD As String
         Dim User_Name As String = objCommonVar.CurrentUser
+        Dim PickHeadLoadRateFromSecretaryMaster As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickHeadLoadRateFromSecretaryMaster, clsFixedParameterCode.PickHeadLoadRateFromSecretaryMaster, Nothing)) = 1)
         Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
         Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
         Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
@@ -2442,7 +2443,12 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         BaseQry = "select '" & User_Name & "' as User_Name,TSPL_COMPANY_MASTER.GSTReg_No, TBL_BILL_DETAILS.Doc_No as PPDoc_No,'" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate, "dd/MM/yyyy")) + "' as PPDoc_Date,'" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, round ( TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_FAT_Per,0) , 2,1 ) as PC_FATValue , round (  TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Ratio * TSPL_PRICE_CHART_PLANNING.Price_Chart_Rate / nullif (TSPL_PRICE_CHART_PLANNING.Price_Chart_SNF_Per,0),2,1)  as PC_SNFValue,  isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges, "
 
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-        BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
+        If PickHeadLoadRateFromSecretaryMaster Then
+            BaseQry += " TSPL_VENDOR_MASTER.Rate_Head_Load as Rate_Head_Load, "
+        Else
+            BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
+        End If
+        'BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
         'End If
 
         BaseQry += " isnull(TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,0) as Handling_Charges_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as MPD ,convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as MPI_Date,   TSPL_MCC_MASTER.add1 +case when len(TSPL_MCC_MASTER.add2)>0 then ', '+TSPL_MCC_MASTER.add2 else '' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+MCC_City.City_Name  else ' ' end + case when len(TSPL_MCC_MASTER.State_Code )>0 then MCC_State.STATE_NAME else '' end  as MCC_address, 
@@ -2567,10 +2573,14 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
         '    BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
         'End If
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-        BaseQry += " left join(select VLC_CODE,Max(Head_Load_Rate)Head_Load_Rate from TSPL_HEAD_LOAD_DCS left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
-                        where 
- convert(date,TSPL_HEAD_LOAD.Start_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_HEAD_LOAD.Start_Date,103) <=convert(date,('" + Todate + "'),103)
-group by VLC_CODE )Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
+        BaseQry += " left join(SELECT VLC_CODE, MAX(Head_Load_Rate) AS Head_Load_Rate FROM TSPL_HEAD_LOAD_DCS
+                     LEFT OUTER JOIN TSPL_HEAD_LOAD ON TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No 
+                     WHERE TSPL_HEAD_LOAD_DCS.Document_No = (SELECT MAX(Document_No) FROM TSPL_HEAD_LOAD) GROUP BY VLC_CODE
+                     UNION ALL
+                     SELECT VLC_CODE, MAX(Head_Load_Rate) AS Head_Load_Rate FROM TSPL_HEAD_LOAD_DCS
+                     LEFT OUTER JOIN TSPL_HEAD_LOAD ON TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
+                     WHERE VLC_CODE NOT IN ( SELECT VLC_CODE FROM TSPL_HEAD_LOAD_DCS WHERE Document_No = (SELECT MAX(Document_No) FROM TSPL_HEAD_LOAD))
+                     GROUP BY VLC_CODE)Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
         'BaseQry += " Left Outer Join TSPL_HEAD_LOAD_DCS On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_HEAD_LOAD_DCS.VLC_CODE " + Environment.NewLine
         'End If
         'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query
