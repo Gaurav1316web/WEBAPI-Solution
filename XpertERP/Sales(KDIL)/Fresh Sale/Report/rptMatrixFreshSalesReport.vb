@@ -1866,7 +1866,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                         left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code And   
                         TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
                         left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) ITEMDETAIL3 ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = ITEMDETAIL3.item_code
-                        where convert(date,Document_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' 
+                        where convert(date,Document_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1
                         " + strWhrClause2 + "
                         group by TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_HEAD.Route_No,Customer_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

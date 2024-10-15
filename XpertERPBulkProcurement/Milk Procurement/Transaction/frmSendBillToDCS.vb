@@ -4,6 +4,7 @@ Imports common
 Public Class frmSendBillToDCS
 #Region "Variables"
     Dim arrFilePath As List(Of String) = Nothing
+    Dim settFileUpload As Boolean = False
 #End Region
 
     Private Sub frmSendBillToDCS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -11,6 +12,8 @@ Public Class frmSendBillToDCS
         LoadShift()
         txtSendBill.Text = 0
         txtRemainingBill.Text = 0
+
+        settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, Nothing)) = 1)
     End Sub
     Public Sub LoadShift()
         Dim dt As DataTable = New DataTable()
@@ -60,15 +63,17 @@ Public Class frmSendBillToDCS
 
     Private Sub btnPrintBillMobUser_Click(sender As Object, e As EventArgs) Handles btnPrintBillMobUser.Click
         Try
+            clsCommon.ProgressBarPercentShow()
+            If Not settFileUpload Then
+                Throw New Exception("This functionality is not for you.")
+            End If
             Dim qry As String = ReturnDCSQry()
             qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null "
             If txtMultDCS.arrValueMember IsNot Nothing AndAlso txtMultDCS.arrValueMember.Count > 0 Then
                 qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE IN (" & clsCommon.GetMulcallString(txtMultDCS.arrValueMember) & ")"
             End If
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsCommon.ProgressBarPercentShow()
                 Dim ii As Integer = 0
                 For Each dr As DataRow In dt.Rows
                     clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, " Printing " & (ii + 1) & " Of " & dt.Rows.Count)
@@ -218,8 +223,8 @@ Public Class frmSendBillToDCS
             End If
             Try
                 Dim qry As String = "select '1' as T_UN,'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") + "' as T_DT,'1' as ROUTE,'" + IIf(clsCommon.CompairString(clsCommon.myCstr(cboShift.SelectedValue), "M") = CompairStringResult.Equal, "0", "1") + "' as T_SHFT,'' T_TIME1,'' T_TIME2,VLC_Code_VLC_Uploader as DCS
-,'1' as T_SWCAN,Qty as T_SWQTY,FAT_PER AS T_SWFAT,'0' AS T_SWCLR,SNF_Per AS T_SWSNF
-,'0' AS T_SOCAN,SOUR_Qty AS T_SOQTY,SOUR_FAT_PER AS T_SOFAT,'0' AS T_SOCLR,SOUR_SNF_PER AS T_SOSNF
+,'1' as T_SWCAN,Qty as T_SWQTY,(FAT_PER*10) AS T_SWFAT,'0' AS T_SWCLR,(SNF_Per*10) AS T_SWSNF
+,'0' AS T_SOCAN,SOUR_Qty AS T_SOQTY,(SOUR_FAT_PER*10) AS T_SOFAT,'0' AS T_SOCLR,(SOUR_SNF_PER*10) AS T_SOSNF
 ,'0' AS T_CUCAN,CURD_Qty as T_CUQTY
 ,'1' AS T_EMPTCAN,'0' AS T_FILL,'' AS SMPLNO,'' AS MODE,'' AS ONLINE,'' AS E_MODE,'' AS EMT_COR,'' AS WGH_COR,'' AS SUBDCS 
 from (" + clsMilkShiftEndMCC.GetSMSQry(fndMCCCode.Value, txtDate.Value, clsCommon.myCstr(cboShift.SelectedValue)) + ")xxxxx"

@@ -57,6 +57,7 @@ Public Class frmDairyGatePass
     Dim OneTimeCheck As Boolean = False
     Dim EnableDispatch As Boolean = False
     Dim EnableLocation As Boolean = False
+    Dim settFileUpload As Boolean = False
 #End Region
     Private Sub SetUserMgmtNew()
         Me.Form_ID = clsUserMgtCode.frmDairyGatePass
@@ -81,6 +82,7 @@ Public Class frmDairyGatePass
         'End If
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, Nothing)) = 1)
         CreateTable()
         'Dim coll As Dictionary(Of String, String)
         'coll = New Dictionary(Of String, String)()
@@ -1543,26 +1545,29 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
     Public Sub UploadDoc(ByVal Code As String)
         Dim pdfpath As String = ""
         Try
-            atchqry = GetAttachQry(Code)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
-            If dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                    'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+            If settFileUpload Then
+                atchqry = GetAttachQry(Code)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
+                If dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
 
-                Else
-                    pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    'pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", "", "", Nothing, "", Nothing, "", Nothing)
+                    Else
+                        pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        'pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", "", "", Nothing, "", Nothing, "", Nothing)
+                    End If
+                    frmCRV = Nothing
                 End If
-                frmCRV = Nothing
-            End If
-            If clsCommon.myLen(pdfpath) > 0 Then
-                Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath), clsUserMgtCode.frmDairyGatePass, Code)
-                If FileNo > 0 Then
-                    Dim qry As String = " UPDATE TSPL_DAIRYSALE_GATEPASS_MASTER set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where GPCode='" + Code + "'"
-                    clsDBFuncationality.ExecuteNonQuery(qry)
+                If clsCommon.myLen(pdfpath) > 0 Then
+                    Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath), clsUserMgtCode.frmDairyGatePass, Code)
+                    If FileNo > 0 Then
+                        Dim qry As String = " UPDATE TSPL_DAIRYSALE_GATEPASS_MASTER set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where GPCode='" + Code + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry)
+                    End If
                 End If
             End If
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -1570,36 +1575,38 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
     Public Sub UploadInvoice(ByVal SaleInvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String)
         Dim pdfpath As String = ""
         Try
-            Dim Qry As String = Nothing
-            Dim frmCRV As New frmCrystalReportViewer()
-            Dim objMultPrintInvoice As New FrmPrintFreshInvoice
-            If clsCommon.myLen(SaleInvoiceNo) <= 0 Then
-                myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
-            Else
-                Dim dtDocdate As Date?
-                dtDocdate = Nothing
-                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + SaleInvoiceNo + "'"
-                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
-                If dt1.Rows.Count > 0 Then
-                    dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
-                End If
-                Dim InvoiceNo As String = "'" + SaleInvoiceNo + "'"
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, CustCode)
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                If dt.Rows.Count > 0 Then
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
-                        pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                    Else
-                        pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+            If settFileUpload Then
+                Dim Qry As String = Nothing
+                Dim frmCRV As New frmCrystalReportViewer()
+                Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+                If clsCommon.myLen(SaleInvoiceNo) <= 0 Then
+                    myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
+                Else
+                    Dim dtDocdate As Date?
+                    dtDocdate = Nothing
+                    Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + SaleInvoiceNo + "'"
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
+                    If dt1.Rows.Count > 0 Then
+                        dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                     End If
-                    frmCRV = Nothing
-                End If
-                If clsCommon.myLen(pdfpath) > 0 Then
-                    Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" + SaleInvoiceNo + "'"))
-                    Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath), clsUserMgtCode.frmSaleDispatchDairy, DocNo)
-                    If FileNo > 0 Then
-                        StrSql = " UPDATE TSPL_SD_SHIPMENT_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where Document_Code='" + DocNo + "'"
-                        clsDBFuncationality.ExecuteNonQuery(StrSql)
+                    Dim InvoiceNo As String = "'" + SaleInvoiceNo + "'"
+                    Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, CustCode)
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                    If dt.Rows.Count > 0 Then
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
+                            pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        Else
+                            pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        End If
+                        frmCRV = Nothing
+                    End If
+                    If clsCommon.myLen(pdfpath) > 0 Then
+                        Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" + SaleInvoiceNo + "'"))
+                        Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(pdfpath, Path.GetFileName(pdfpath), clsUserMgtCode.frmSaleDispatchDairy, DocNo)
+                        If FileNo > 0 Then
+                            StrSql = " UPDATE TSPL_SD_SHIPMENT_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where Document_Code='" + DocNo + "'"
+                            clsDBFuncationality.ExecuteNonQuery(StrSql)
+                        End If
                     End If
                 End If
             End If

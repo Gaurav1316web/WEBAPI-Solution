@@ -23,8 +23,8 @@ Partial Class frmCustomer
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem20 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem21 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem22 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem23 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem24 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -32,14 +32,14 @@ Partial Class frmCustomer
         Dim RadListDataItem26 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem27 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem28 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem20 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem21 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewComboBoxColumn5 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
         Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem29 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem30 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem31 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -385,8 +385,10 @@ Partial Class frmCustomer
         Me.lblAliesName = New common.Controls.MyLabel()
         Me.txtAliesName = New common.Controls.MyTextBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.chkDefaultGrower = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel44 = New common.Controls.MyLabel()
+        Me.txtVirtualAccNO = New common.Controls.MyTextBox()
         Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.chkDefaultGrower = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtCustomerNameHindi = New common.Controls.MyTextBox()
         Me.chkTCSnotApplicable = New Telerik.WinControls.UI.RadCheckBox()
         Me.btnCC = New Telerik.WinControls.UI.RadButton()
@@ -398,8 +400,9 @@ Partial Class frmCustomer
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.rbtnAddSecurity = New Telerik.WinControls.UI.RadButton()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
-        Me.txtVirtualAccNO = New common.Controls.MyTextBox()
-        Me.MyLabel44 = New common.Controls.MyLabel()
+        Me.MyLabel45 = New common.Controls.MyLabel()
+        Me.txtReference = New common.Controls.MyTextBox()
+        Me.chkDefaultCashCustomer = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -669,8 +672,10 @@ Partial Class frmCustomer
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtVirtualAccNO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCustomerNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTCSnotApplicable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -684,8 +689,9 @@ Partial Class frmCustomer
         Me.SplitContainer2.SuspendLayout()
         CType(Me.rbtnAddSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtVirtualAccNO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtReference, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDefaultCashCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -825,13 +831,15 @@ Partial Class frmCustomer
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage1
+        Me.pageCus.SelectedPage = Me.RadPageViewPage4
         Me.pageCus.Size = New System.Drawing.Size(1047, 472)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel45)
+        Me.RadPageViewPage1.Controls.Add(Me.txtReference)
         Me.RadPageViewPage1.Controls.Add(Me.txtPhone2)
         Me.RadPageViewPage1.Controls.Add(Me.txtPhone1)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsRepeatOrder)
@@ -973,14 +981,14 @@ Partial Class frmCustomer
         Me.CboCustomerStatus.IsSourceFromTable = False
         Me.CboCustomerStatus.IsSourceFromValueList = False
         Me.CboCustomerStatus.IsUnique = False
-        RadListDataItem20.Text = "Select"
-        RadListDataItem21.Text = "Temporary"
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "Temporary"
         RadListDataItem22.Text = "Legal"
         RadListDataItem23.Text = "Balance Followup"
         RadListDataItem24.Text = "Asset Followup"
         RadListDataItem25.Text = "Closed"
-        Me.CboCustomerStatus.Items.Add(RadListDataItem20)
-        Me.CboCustomerStatus.Items.Add(RadListDataItem21)
+        Me.CboCustomerStatus.Items.Add(RadListDataItem4)
+        Me.CboCustomerStatus.Items.Add(RadListDataItem5)
         Me.CboCustomerStatus.Items.Add(RadListDataItem22)
         Me.CboCustomerStatus.Items.Add(RadListDataItem23)
         Me.CboCustomerStatus.Items.Add(RadListDataItem24)
@@ -2798,6 +2806,7 @@ Partial Class frmCustomer
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.chkDefaultCashCustomer)
         Me.RadPageViewPage4.Controls.Add(Me.lblVidhanSabha)
         Me.RadPageViewPage4.Controls.Add(Me.lblPanchayatSamiti)
         Me.RadPageViewPage4.Controls.Add(Me.lblGrampanchayat)
@@ -2857,9 +2866,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel25)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel23)
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(54.0!, 28.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1026, 430)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1026, 424)
         Me.RadPageViewPage4.Text = "Process"
         '
         'lblVidhanSabha
@@ -3436,10 +3445,10 @@ Partial Class frmCustomer
         Me.drpformtype.AutoCompleteDisplayMember = Nothing
         Me.drpformtype.AutoCompleteValueMember = Nothing
         Me.drpformtype.DropDownAnimationEnabled = True
-        RadListDataItem1.Text = "Form C"
-        RadListDataItem2.Text = "Form F"
-        Me.drpformtype.Items.Add(RadListDataItem1)
-        Me.drpformtype.Items.Add(RadListDataItem2)
+        RadListDataItem20.Text = "Form C"
+        RadListDataItem21.Text = "Form F"
+        Me.drpformtype.Items.Add(RadListDataItem20)
+        Me.drpformtype.Items.Add(RadListDataItem21)
         Me.drpformtype.Location = New System.Drawing.Point(116, 133)
         Me.drpformtype.Name = "drpformtype"
         Me.drpformtype.Size = New System.Drawing.Size(109, 20)
@@ -3731,6 +3740,7 @@ Partial Class frmCustomer
         Me.grdTax.Size = New System.Drawing.Size(670, 111)
         Me.grdTax.TabIndex = 2
         Me.grdTax.TabStop = False
+        Me.grdTax.VarID = ""
         '
         'txtTxGrp
         '
@@ -4089,18 +4099,18 @@ Partial Class frmCustomer
         Me.cmbCustomerCategory.IsSourceFromTable = False
         Me.cmbCustomerCategory.IsSourceFromValueList = False
         Me.cmbCustomerCategory.IsUnique = False
-        RadListDataItem3.Text = "Select"
-        RadListDataItem4.Text = "Vendor"
-        RadListDataItem5.Text = "Institution CR"
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Vendor"
+        RadListDataItem3.Text = "Institution CR"
         RadListDataItem29.Text = "Institution SO"
         RadListDataItem30.Text = "Distributor"
         RadListDataItem31.Text = "Others"
         RadListDataItem32.Text = "UP COUNTRY"
         RadListDataItem33.Text = "FORENOON"
         RadListDataItem34.Text = "PARLOR SALES"
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem1)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem2)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem3)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem4)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem5)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem29)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem30)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem31)
@@ -5153,6 +5163,7 @@ Partial Class frmCustomer
         Me.gvDB.Size = New System.Drawing.Size(110, 42)
         Me.gvDB.TabIndex = 0
         Me.gvDB.TabStop = False
+        Me.gvDB.VarID = ""
         '
         'RadLabel40
         '
@@ -5369,6 +5380,7 @@ Partial Class frmCustomer
         Me.gvItems.Size = New System.Drawing.Size(1026, 430)
         Me.gvItems.TabIndex = 0
         Me.gvItems.TabStop = False
+        Me.gvItems.VarID = ""
         '
         'PageVisi
         '
@@ -5409,6 +5421,7 @@ Partial Class frmCustomer
         Me.dgvVisi.Size = New System.Drawing.Size(1026, 430)
         Me.dgvVisi.TabIndex = 1
         Me.dgvVisi.TabStop = False
+        Me.dgvVisi.VarID = ""
         '
         'RadPageViewPage7
         '
@@ -5436,6 +5449,7 @@ Partial Class frmCustomer
         Me.gvCategory.Size = New System.Drawing.Size(1026, 398)
         Me.gvCategory.TabIndex = 6
         Me.gvCategory.TabStop = False
+        Me.gvCategory.VarID = ""
         '
         'Panel1
         '
@@ -5561,6 +5575,7 @@ Partial Class frmCustomer
         Me.gvCrate.Size = New System.Drawing.Size(1026, 430)
         Me.gvCrate.TabIndex = 2
         Me.gvCrate.TabStop = False
+        Me.gvCrate.VarID = ""
         '
         'CanAccounting
         '
@@ -5596,6 +5611,7 @@ Partial Class frmCustomer
         Me.gvCan.Size = New System.Drawing.Size(1026, 430)
         Me.gvCan.TabIndex = 3
         Me.gvCan.TabStop = False
+        Me.gvCan.VarID = ""
         '
         'RadPageViewPage8
         '
@@ -5639,6 +5655,7 @@ Partial Class frmCustomer
         Me.gvSecurity.Size = New System.Drawing.Size(1021, 380)
         Me.gvSecurity.TabIndex = 4
         Me.gvSecurity.TabStop = False
+        Me.gvSecurity.VarID = ""
         '
         'btnNew
         '
@@ -6006,14 +6023,42 @@ Partial Class frmCustomer
         Me.SplitContainer1.SplitterDistance = 94
         Me.SplitContainer1.TabIndex = 79
         '
-        'chkDefaultGrower
+        'MyLabel44
         '
-        Me.chkDefaultGrower.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkDefaultGrower.Location = New System.Drawing.Point(669, 7)
-        Me.chkDefaultGrower.Name = "chkDefaultGrower"
-        Me.chkDefaultGrower.Size = New System.Drawing.Size(96, 16)
-        Me.chkDefaultGrower.TabIndex = 1372
-        Me.chkDefaultGrower.Text = "Default Grower"
+        Me.MyLabel44.FieldName = Nothing
+        Me.MyLabel44.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel44.Location = New System.Drawing.Point(364, 9)
+        Me.MyLabel44.Name = "MyLabel44"
+        Me.MyLabel44.Size = New System.Drawing.Size(78, 16)
+        Me.MyLabel44.TabIndex = 1374
+        Me.MyLabel44.Text = "Virtual Acc No"
+        Me.MyLabel44.TextAlignment = System.Drawing.ContentAlignment.TopLeft
+        '
+        'txtVirtualAccNO
+        '
+        Me.txtVirtualAccNO.CalculationExpression = Nothing
+        Me.txtVirtualAccNO.FieldCode = Nothing
+        Me.txtVirtualAccNO.FieldDesc = Nothing
+        Me.txtVirtualAccNO.FieldMaxLength = 0
+        Me.txtVirtualAccNO.FieldName = Nothing
+        Me.txtVirtualAccNO.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVirtualAccNO.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.txtVirtualAccNO.isCalculatedField = False
+        Me.txtVirtualAccNO.IsSourceFromTable = False
+        Me.txtVirtualAccNO.IsSourceFromValueList = False
+        Me.txtVirtualAccNO.IsUnique = False
+        Me.txtVirtualAccNO.Location = New System.Drawing.Point(500, 5)
+        Me.txtVirtualAccNO.MaxLength = 50
+        Me.txtVirtualAccNO.MendatroryField = False
+        Me.txtVirtualAccNO.MyLinkLable1 = Me.MyLabel34
+        Me.txtVirtualAccNO.MyLinkLable2 = Nothing
+        Me.txtVirtualAccNO.Name = "txtVirtualAccNO"
+        Me.txtVirtualAccNO.ReadOnly = True
+        Me.txtVirtualAccNO.ReferenceFieldDesc = Nothing
+        Me.txtVirtualAccNO.ReferenceFieldName = Nothing
+        Me.txtVirtualAccNO.ReferenceTableName = Nothing
+        Me.txtVirtualAccNO.Size = New System.Drawing.Size(167, 20)
+        Me.txtVirtualAccNO.TabIndex = 1373
         '
         'MyLabel34
         '
@@ -6025,6 +6070,15 @@ Partial Class frmCustomer
         Me.MyLabel34.TabIndex = 1371
         Me.MyLabel34.Text = "Customer Name(हिन्दी में)"
         Me.MyLabel34.TextAlignment = System.Drawing.ContentAlignment.TopLeft
+        '
+        'chkDefaultGrower
+        '
+        Me.chkDefaultGrower.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDefaultGrower.Location = New System.Drawing.Point(669, 7)
+        Me.chkDefaultGrower.Name = "chkDefaultGrower"
+        Me.chkDefaultGrower.Size = New System.Drawing.Size(96, 16)
+        Me.chkDefaultGrower.TabIndex = 1372
+        Me.chkDefaultGrower.Text = "Default Grower"
         '
         'txtCustomerNameHindi
         '
@@ -6189,42 +6243,49 @@ Partial Class frmCustomer
         Me.btnGetHistory.TabIndex = 16
         Me.btnGetHistory.Text = "Show History"
         '
-        'txtVirtualAccNO
+        'MyLabel45
         '
-        Me.txtVirtualAccNO.CalculationExpression = Nothing
-        Me.txtVirtualAccNO.FieldCode = Nothing
-        Me.txtVirtualAccNO.FieldDesc = Nothing
-        Me.txtVirtualAccNO.FieldMaxLength = 0
-        Me.txtVirtualAccNO.FieldName = Nothing
-        Me.txtVirtualAccNO.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVirtualAccNO.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.txtVirtualAccNO.isCalculatedField = False
-        Me.txtVirtualAccNO.IsSourceFromTable = False
-        Me.txtVirtualAccNO.IsSourceFromValueList = False
-        Me.txtVirtualAccNO.IsUnique = False
-        Me.txtVirtualAccNO.Location = New System.Drawing.Point(500, 5)
-        Me.txtVirtualAccNO.MaxLength = 50
-        Me.txtVirtualAccNO.MendatroryField = False
-        Me.txtVirtualAccNO.MyLinkLable1 = Me.MyLabel34
-        Me.txtVirtualAccNO.MyLinkLable2 = Nothing
-        Me.txtVirtualAccNO.Name = "txtVirtualAccNO"
-        Me.txtVirtualAccNO.ReadOnly = True
-        Me.txtVirtualAccNO.ReferenceFieldDesc = Nothing
-        Me.txtVirtualAccNO.ReferenceFieldName = Nothing
-        Me.txtVirtualAccNO.ReferenceTableName = Nothing
-        Me.txtVirtualAccNO.Size = New System.Drawing.Size(167, 20)
-        Me.txtVirtualAccNO.TabIndex = 1373
+        Me.MyLabel45.FieldName = Nothing
+        Me.MyLabel45.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel45.Location = New System.Drawing.Point(432, 388)
+        Me.MyLabel45.Name = "MyLabel45"
+        Me.MyLabel45.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel45.TabIndex = 1382
+        Me.MyLabel45.Text = "Reference"
         '
-        'MyLabel44
+        'txtReference
         '
-        Me.MyLabel44.FieldName = Nothing
-        Me.MyLabel44.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel44.Location = New System.Drawing.Point(364, 9)
-        Me.MyLabel44.Name = "MyLabel44"
-        Me.MyLabel44.Size = New System.Drawing.Size(78, 16)
-        Me.MyLabel44.TabIndex = 1374
-        Me.MyLabel44.Text = "Virtual Acc No"
-        Me.MyLabel44.TextAlignment = System.Drawing.ContentAlignment.TopLeft
+        Me.txtReference.CalculationExpression = Nothing
+        Me.txtReference.FieldCode = Nothing
+        Me.txtReference.FieldDesc = Nothing
+        Me.txtReference.FieldMaxLength = 0
+        Me.txtReference.FieldName = Nothing
+        Me.txtReference.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReference.isCalculatedField = False
+        Me.txtReference.IsSourceFromTable = False
+        Me.txtReference.IsSourceFromValueList = False
+        Me.txtReference.IsUnique = False
+        Me.txtReference.Location = New System.Drawing.Point(501, 388)
+        Me.txtReference.MaxLength = 30
+        Me.txtReference.MendatroryField = False
+        Me.txtReference.MyLinkLable1 = Me.MyLabel45
+        Me.txtReference.MyLinkLable2 = Nothing
+        Me.txtReference.Name = "txtReference"
+        Me.txtReference.ReferenceFieldDesc = Nothing
+        Me.txtReference.ReferenceFieldName = Nothing
+        Me.txtReference.ReferenceTableName = Nothing
+        Me.txtReference.Size = New System.Drawing.Size(199, 18)
+        Me.txtReference.TabIndex = 1381
+        Me.txtReference.Text = " "
+        '
+        'chkDefaultCashCustomer
+        '
+        Me.chkDefaultCashCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDefaultCashCustomer.Location = New System.Drawing.Point(312, 182)
+        Me.chkDefaultCashCustomer.Name = "chkDefaultCashCustomer"
+        Me.chkDefaultCashCustomer.Size = New System.Drawing.Size(138, 16)
+        Me.chkDefaultCashCustomer.TabIndex = 1393
+        Me.chkDefaultCashCustomer.Text = "Default Cash Customer"
         '
         'frmCustomer
         '
@@ -6523,8 +6584,10 @@ Partial Class frmCustomer
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtVirtualAccNO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCustomerNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTCSnotApplicable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6538,8 +6601,9 @@ Partial Class frmCustomer
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.rbtnAddSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtVirtualAccNO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtReference, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDefaultCashCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -6879,5 +6943,8 @@ Partial Class frmCustomer
     Friend WithEvents txtDriverMobileNo As common.Controls.MyTextBox
     Friend WithEvents txtVirtualAccNO As common.Controls.MyTextBox
     Friend WithEvents MyLabel44 As common.Controls.MyLabel
+    Friend WithEvents MyLabel45 As common.Controls.MyLabel
+    Friend WithEvents txtReference As common.Controls.MyTextBox
+    Friend WithEvents chkDefaultCashCustomer As RadCheckBox
 End Class
 
