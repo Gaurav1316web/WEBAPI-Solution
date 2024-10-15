@@ -2464,7 +2464,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)
                 ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
                 ''
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
