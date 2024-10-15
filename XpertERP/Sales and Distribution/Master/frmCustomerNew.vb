@@ -1318,6 +1318,9 @@ Public Class frmCustomer
             Else
                 obj.Other_For_PAN = 0
             End If
+            obj.Default_Cash_Customer = chkDefaultCashCustomer.Checked
+
+            obj.Reference = txtReference.Text
             obj.Country = clsCommon.myCstr(fndCountry.Value)
             obj.Phone1 = clsCommon.myCstr(txtPhone1.Text)
             obj.Phone2 = clsCommon.myCstr(txtPhone2.Text)
@@ -1968,6 +1971,8 @@ Public Class frmCustomer
                 'End If
                 Me.fndCustCurrency.Value = clsCommon.myCstr(myDr("CURRENCY_CODE"))
                 ChkOther.Checked = IIf(clsCommon.myCstr(myDr("Other_For_PAN")) = "1", True, False)
+                chkDefaultCashCustomer.Checked = clsCommon.myCBool(myDr("Default_Cash_Customer"))
+                txtReference.Text = clsCommon.myCstr(myDr("Reference"))
                 '' END MULTICURRENCY
                 Me.txtRoute.Text = clsCommon.myCstr(myDr(9))
                 Me.txtPriceCode.Value = clsCommon.myCstr(myDr(10))

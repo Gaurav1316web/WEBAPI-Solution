@@ -105,7 +105,6 @@ Public Class rptMonthWiseDMRReport
     Sub funreset()
         EnableDisableControls(True)
         gv1.DataSource = Nothing
-        txtRoute.Value = Nothing
         rbtnDispatch.IsChecked = True
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
@@ -242,16 +241,19 @@ Public Class rptMonthWiseDMRReport
                 Else
                     SecurityRate = "xxxx."
                 End If
-                BaseQry += " select CONVERT(varchar,xxxx.Document_Date,103)Document_Date," & FreshItem & " Total_Milk_Qty,Total_Milk_Amt,TCS_Milk," & SecurityRate & "Security,(Total_Milk_Amt +TCS_Milk+" & SecurityRate & "Security) as GrandTotalMilk, " & ProdItem & " Total_Prod_Amt,TCS_Prod,(Total_Prod_Amt+ TCS_Prod) as GrandTotalProd ,(Total_Milk_Amt +TCS_Milk+" & SecurityRate & "Security+ Total_Prod_Amt+ TCS_Prod ) as [Grand Total] from ( SELECT max(Route_No)Route_No,  Document_Date,  " & FreshItemName & " SUM(" & FreshItemsQty & ") As Total_Milk_Qty,SUM(" & FreshItemsAmt & ") As Total_Milk_Amt,CONVERT(DECIMAL(18,2),(SUM(" & FreshItemsAmt & ")* 0.1 )/100)  as TCS_Milk,
-                SUM(Security_Amt) as Security ,  " & ProdItemName & " SUM(" & ProdItemsAmt & ") As Total_Prod_Amt ,CONVERT(DECIMAL(18,2),(SUM (" & ProdItemsAmt & ")* 0.1 )/100)  as TCS_Prod FROM ( select max(Fresh_Item_Amt)Fresh_Item_Amt,max(Route_No)Route_No,  Document_Date,  Item_Code, max(Cust_Code)Cust_Code,   max(Fresh_Item)Fresh_Item ,sum( Qty)Qty,sum(Fresh_Qty)Fresh_Qty, sum(Product_Qty)Product_Qty, sum(KG_QTY)KG_QTY,sum(LTR_QTY)LTR_QTY,  sum(Product_Amount) Product_Amount , sum(Fresh_Amount)Fresh_Amount, sum(Amount)Amount,  max(Product_Item)Product_Item,max(Product_Item_Amt)Product_Item_Amt ,max(Product_Item_Rate)Product_Item_Rate, sum(Item_Cost)Item_Cost,
-                max(Product_Item_Tax1)Product_Item_Tax1 ,  max(Product_Item_Tax2)Product_Item_Tax2   ,max(Product_Item_Tax3)Product_Item_Tax3 ,  max(Product_Item_Tax4)Product_Item_Tax4, max( Product_Item_Tax5)Product_Item_Tax5,  sum(Tax1_Amt)Tax1_Amt,  sum(Tax2_Amt)Tax2_Amt,  sum(Tax3_Amt)Tax3_Amt, sum(Tax4_Amt)Tax4_Amt, sum(Tax5_Amt)Tax5_Amt, sum(Product_Total_Amount )Product_Total_Amount, max(Product_Item_TotalAmt)Product_Item_TotalAmt,sum(Security_Amt)Security_Amt   FROM (			
+                BaseQry += " select CONVERT(varchar,xxxx.Document_Date,103)Document_Date," & FreshItem & " Total_Milk_Qty,Total_Milk_Amt,TCS_Milk," & SecurityRate & "Security,(Total_Milk_Amt +TCS_Milk+" & SecurityRate & "Security) as GrandTotalMilk, " & ProdItem & " (Total_Prod_Amt - TCS_Prod)Total_Prod_Amt,TCS_Prod,Total_Prod_Amt as GrandTotalProd ,(Total_Milk_Amt +TCS_Milk+" & SecurityRate & "Security+ Total_Prod_Amt+ TCS_Prod ) as [Grand Total] from ( SELECT max(Route_No)Route_No,  Document_Date,  " & FreshItemName & " SUM(" & FreshItemsQty & ") As Total_Milk_Qty,SUM(" & FreshItemsAmt & ") As Total_Milk_Amt,sum(TCS_Milk)  as TCS_Milk,
+                SUM(Security_Amt) as Security ,  " & ProdItemName & " SUM(" & ProdItemsAmt & ") As Total_Prod_Amt ,sum(TCS_Prod)TCS_Prod FROM ( select max(Fresh_Item_Amt)Fresh_Item_Amt,max(Route_No)Route_No,  Document_Date,  Item_Code, max(Cust_Code)Cust_Code,   max(Fresh_Item)Fresh_Item ,sum( Qty)Qty,sum(Fresh_Qty)Fresh_Qty, sum(Product_Qty)Product_Qty, sum(KG_QTY)KG_QTY,sum(LTR_QTY)LTR_QTY,  sum(Product_Amount) Product_Amount , sum(Fresh_Amount)Fresh_Amount, sum(Amount)Amount,  max(Product_Item)Product_Item,max(Product_Item_Amt)Product_Item_Amt ,max(Product_Item_Rate)Product_Item_Rate, sum(Item_Cost)Item_Cost,
+                max(Product_Item_Tax1)Product_Item_Tax1 ,  max(Product_Item_Tax2)Product_Item_Tax2   ,max(Product_Item_Tax3)Product_Item_Tax3 ,  max(Product_Item_Tax4)Product_Item_Tax4, max( Product_Item_Tax5)Product_Item_Tax5,  sum(Tax1_Amt)Tax1_Amt,  sum(Tax2_Amt)Tax2_Amt,  sum(Tax3_Amt)Tax3_Amt, sum(Tax4_Amt)Tax4_Amt, sum(Tax5_Amt)Tax5_Amt, isnull(sum(TCS_Prod),0)TCS_Prod,isnull(sum(TCS_Milk),0)TCS_Milk,sum(Product_Total_Amount )Product_Total_Amount, max(Product_Item_TotalAmt)Product_Item_TotalAmt,isnull(sum(Security_Amt),0)Security_Amt   FROM (			
              SELECT TSPL_SD_SHIPMENT_DETAIL.Security_Amt,  TSPL_ITEM_MASTER.Item_Code,TSPL_SD_SHIPMENT_HEAD.Customer_Code as Cust_Code,  TSPL_SD_SHIPMENT_HEAD.Route_No, CONVERT(date,TSPL_SD_SHIPMENT_HEAD." + DateFilter + ",103)Document_Date, case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 )  then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item , case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 )  then  TSPL_ITEM_MASTER.Short_Description 
                 + '-Amt' end as Fresh_Item_Amt,TSPL_SD_SHIPMENT_DETAIL.Unit_Code AS UOM ,isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) AS Qty, case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) then isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0) end as Fresh_Qty, case when  IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) end as Product_Qty,case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 ) then round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) when (TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 ) then round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) end as KG_QTY
                 ,round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY ,case when  IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount,0) end as Product_Amount ,case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 )  then isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)end as Fresh_Amount,TSPL_SD_SHIPMENT_DETAIL.Amount, case when  IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description  end AS Product_Item,case when  IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + '-Amt' end AS Product_Item_Amt ,case when  IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + 'Rate' end as Product_Item_Rate, (TSPL_SD_SHIPMENT_DETAIL.Item_Cost/12) as Item_Cost,
                 case when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX1,'') <> '' then TSPL_ITEM_MASTER.Short_Description + ' ' +(TSPL_SD_SHIPMENT_DETAIL.TAX1) + convert(varchar,convert(decimal(18,1),(TSPL_SD_SHIPMENT_DETAIL.TAX1_Rate),103)) + '%' end as Product_Item_Tax1 , case when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX2,'') <> '' then TSPL_ITEM_MASTER.Short_Description + ' ' + (TSPL_SD_SHIPMENT_DETAIL.TAX2) + convert(varchar,convert(decimal(18,1),(TSPL_SD_SHIPMENT_DETAIL.TAX2_Rate),103)) + '%' end as Product_Item_Tax2 , case
 				when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX3,'') <> ''  then TSPL_ITEM_MASTER.Short_Description + ' ' + (TSPL_SD_SHIPMENT_DETAIL.TAX3) + convert(varchar,convert(decimal(18,1),(TSPL_SD_SHIPMENT_DETAIL.TAX3_Rate),103)) + '%' end as Product_Item_Tax3 , case when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX4,'') <> '' then  TSPL_ITEM_MASTER.Short_Description + ' ' + (TSPL_SD_SHIPMENT_DETAIL.TAX4) + convert(varchar,convert(decimal(18,1),(TSPL_SD_SHIPMENT_DETAIL.TAX4_Rate),103)) + '%' end as Product_Item_Tax4
                , case when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX5,'') <> '' then  TSPL_ITEM_MASTER.Short_Description + ' ' + (TSPL_SD_SHIPMENT_DETAIL.TAX5) + convert(varchar,convert(decimal(18,1),(TSPL_SD_SHIPMENT_DETAIL.TAX5_Rate),103)) + '%'  end as Product_Item_Tax5, case when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX1,'') <> '' then TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt end as Tax1_Amt, case when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX2,'') <> '' then TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt end as Tax2_Amt, case  when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX3,'') <> '' then TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt end as Tax3_Amt, case when isnull(TSPL_SD_SHIPMENT_DETAIL.TAX4,'') <>'' then  TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt end as Tax4_Amt, case when isnull(TSPL_SD_SHIPMENT_DETAIL.tax5,'') <> '' 
-                then TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt end as Tax5_Amt, case when  IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0)end as Product_Total_Amount, case when  IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + '-TAmt' end AS Product_Item_TotalAmt  From TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code  left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I 
+                then TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt end as Tax5_Amt,	case WHEN TSPL_ITEM_MASTER.IsTaxable = 0 then CASE WHEN tax1.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt, 0)  WHEN tax2.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt, 0) WHEN tax3.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt, 0) WHEN tax4.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt, 0)  WHEN tax5.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt, 0) WHEN tax6.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt, 0) WHEN tax7.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt, 0) WHEN tax8.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt, 0)  WHEN tax9.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt, 0)  WHEN tax10.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt, 0) ELSE 0 end  end as TCS_Milk
+              ,case WHEN TSPL_ITEM_MASTER.IsTaxable = 1 then CASE WHEN tax1.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt, 0)  WHEN tax2.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt, 0) WHEN tax3.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt, 0) WHEN tax4.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt, 0)  WHEN tax5.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt, 0) WHEN tax6.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt, 0) WHEN tax7.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt, 0) WHEN tax8.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt, 0)  WHEN tax9.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt, 0)  WHEN tax10.Is_TCS = 'Y' THEN ISNULL(TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt, 0) ELSE 0 end end as TCS_Prod, case when  IsTaxable = 1 then isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0)end as Product_Total_Amount,
+              case when  IsTaxable = 1 then TSPL_ITEM_MASTER.Short_Description + '-TAmt' end AS Product_Item_TotalAmt  From TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SHIPMENT_DETAIL.tax1   left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SHIPMENT_DETAIL.tax2   left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SHIPMENT_DETAIL .TAX3  
+             left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SHIPMENT_DETAIL .tax4   left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SHIPMENT_DETAIL .tax5   left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SHIPMENT_DETAIL .TAX6   left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SHIPMENT_DETAIL .TAX7   left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SHIPMENT_DETAIL .TAX8   left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SHIPMENT_DETAIL .TAX9  left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SHIPMENT_DETAIL .TAX10 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I 
                 PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = I.item_code where 2 = 2  And TSPL_SD_SHIPMENT_HEAD.Status = 1 And convert(date," + DateFilter + ",103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103)  and   convert(date," + DateFilter + ",103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) " & whrcls & "  )  xx group by Document_Date,Item_Code ) xxx "
                 If dtFreshItem.Rows.Count > 0 Then
                     BaseQry += "  PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemQtyPivot & ") ) AS pivot_fresh PIVOT (SUM(Fresh_Amount)  For Fresh_Item_Amt In (" & FreshItemAmtPivot & ") ) AS pivot_fresh_amt "
@@ -291,6 +293,7 @@ Public Class rptMonthWiseDMRReport
                 ReStoreGridLayout()
                 gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
+                EnableDisableControls(False)
                 gv1.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
@@ -323,6 +326,9 @@ Public Class rptMonthWiseDMRReport
                 If gv1.Columns(ii).Name.Contains("Rate") Then
                     gv1.Columns(ii).HeaderText = "Basic Rate"
                 End If
+                If gv1.Columns(ii).Name.Contains("%") Then
+                    gv1.Columns(ii).FormatString = "{0:n6}"
+                End If
                 For j As Integer = 0 To dtProductItem.Rows.Count - 1
                         For k As Integer = 0 To 4
                             If gv1.Columns(ii).Name.Contains(dtProductItem.Rows(j)(k)) Then
@@ -341,6 +347,8 @@ Public Class rptMonthWiseDMRReport
         gv1.Columns("Total_Milk_Qty").HeaderText = "Total Milk Qty Ltr."
         gv1.Columns("Total_Milk_Amt").HeaderText = "Total Milk Amount"
         gv1.Columns("TCS_Milk").HeaderText = "TCS @.1 %"
+        gv1.Columns("TCS_Milk").FormatString = "{0:n6}"
+        gv1.Columns("TCS_Prod").FormatString = "{0:n6}"
         gv1.BestFitColumns()
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
             gv1.Columns("Security").HeaderText = "Security Money @10Paise Per Ltr. "
@@ -359,9 +367,15 @@ Public Class rptMonthWiseDMRReport
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
         For ii As Integer = 1 To gv1.Columns.Count - 1
-
-            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
-
+            If ii > gv1.Columns("GrandTotalMilk").Index Then
+                If gv1.Columns(ii).Name.Contains("%") Then
+                    summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F6}", GridAggregateFunction.Sum))
+                Else
+                    summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+                End If
+            Else
+                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            End If
         Next
 
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
