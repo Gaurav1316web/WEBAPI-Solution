@@ -118,7 +118,7 @@ Public Class clsSaleReturnInterCompany
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return (Inter Company)", obj.Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSales, clsUserMgtCode.SaleReturnInterCompany, obj.Location, obj.Document_Date, trans)
 
             Dim qry As String = "delete from TSPL_SALE_RETURN_INTER_DETAIL where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -515,7 +515,7 @@ Public Class clsSaleReturnInterCompany
                 Throw New Exception("No Data found to Delete")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return (Inter Company)", obj.Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSales, clsUserMgtCode.SaleReturnInterCompany, obj.Location, obj.Document_Date, trans)
 
             If obj.Is_Post = 1 Then
                 Throw New Exception("Already Posted Transaction.Can not delete ")
@@ -550,7 +550,7 @@ Public Class clsSaleReturnInterCompany
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return (Inter Company)", obj.Location, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSales, clsUserMgtCode.SaleReturnInterCompany, obj.Location, obj.Document_Date, trans)
 
             If (clsCommon.CompairString(obj.Is_Post, "Y") = CompairStringResult.Equal) Then
                 Throw New Exception("Already Post on :" + obj.Post_Date)

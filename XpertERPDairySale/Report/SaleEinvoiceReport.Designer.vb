@@ -26,6 +26,11 @@ Partial Class SaleEinvoiceReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.TxtRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.rbtnSummary = New common.Controls.MyRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkB2C = New System.Windows.Forms.CheckBox()
         Me.ChkBoth = New System.Windows.Forms.CheckBox()
@@ -51,6 +56,11 @@ Partial Class SaleEinvoiceReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,6 +115,9 @@ Partial Class SaleEinvoiceReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.TxtRoute)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel13)
         Me.RadPageViewPage1.Controls.Add(Me.txtMultiCustomer)
@@ -115,6 +128,66 @@ Partial Class SaleEinvoiceReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(707, 279)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'TxtRoute
+        '
+        Me.TxtRoute.arrDispalyMember = Nothing
+        Me.TxtRoute.arrValueMember = Nothing
+        Me.TxtRoute.Location = New System.Drawing.Point(90, 121)
+        Me.TxtRoute.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRoute.MyLinkLable1 = Me.MyLabel10
+        Me.TxtRoute.MyLinkLable2 = Nothing
+        Me.TxtRoute.MyNullText = "All"
+        Me.TxtRoute.Name = "TxtRoute"
+        Me.TxtRoute.Size = New System.Drawing.Size(299, 19)
+        Me.TxtRoute.TabIndex = 443
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(16, 122)
+        Me.MyLabel10.Margin = New System.Windows.Forms.Padding(4)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel10.TabIndex = 442
+        Me.MyLabel10.Text = "Route"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(543, 26)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(158, 37)
+        Me.RadGroupBox2.TabIndex = 441
+        '
+        'rbtnDetail
+        '
+        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDetail.Location = New System.Drawing.Point(15, 9)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 396
+        Me.rbtnDetail.Text = "Detail"
+        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.Location = New System.Drawing.Point(79, 9)
+        Me.rbtnSummary.MyLinkLable1 = Nothing
+        Me.rbtnSummary.MyLinkLable2 = Nothing
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnSummary.TabIndex = 391
+        Me.rbtnSummary.TabStop = False
+        Me.rbtnSummary.Text = "Summary"
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -122,7 +195,7 @@ Partial Class SaleEinvoiceReport
         Me.RadGroupBox1.Controls.Add(Me.ChkBoth)
         Me.RadGroupBox1.Controls.Add(Me.ChkB2B)
         Me.RadGroupBox1.HeaderText = "Invoice"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(392, 21)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(336, 21)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(199, 42)
@@ -337,6 +410,12 @@ Partial Class SaleEinvoiceReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -382,5 +461,10 @@ Partial Class SaleEinvoiceReport
     Friend WithEvents ChkBoth As CheckBox
     Friend WithEvents ChkB2B As CheckBox
     Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
+    Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents TxtRoute As common.UserControls.txtMultiSelectFinder
 End Class
 

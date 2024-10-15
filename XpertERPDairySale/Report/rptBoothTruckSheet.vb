@@ -421,6 +421,10 @@ where 2 = 2  "
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Dim Fromshift As String = clsCommon.myCstr(txtFromShift.Text)
+        Dim Toshift As String = clsCommon.myCstr(txtToShift.Text)
+        Dim FromDate As String = clsCommon.myCstr(txtFromDate.Text)
+        Dim TODate As String = clsCommon.myCstr(txtToDate.Text)
 
         Dim whrcls As String = ""
         If rbtnMilkType.IsChecked Then
@@ -450,7 +454,7 @@ where 2 = 2  "
             Shift = "Both"
 
         End If
-        Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  ,"
+        Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient,TSPL_VEHICLE_MASTER.Description,Vehicle_Id,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + Fromshift + "' AS FromShift, '" + Toshift + " ' as Toshift,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  ,"
         If rdbEnglish.IsChecked = True Then
             qry += "(TSPL_ITEM_MASTER.Alies_Name)Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name  as [BoothName], "
         ElseIf rdbHindi.IsChecked = True Then

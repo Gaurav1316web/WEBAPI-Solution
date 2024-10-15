@@ -7,6 +7,7 @@ Public Class clsFixedParameterType
     Public Const CalculateProRateAuto As String = "Calculate Pro Rate Auto"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
+    Public Const PickHeadLoadRateFromSecretaryMaster As String = "Pick HeadLoadRate From Secretary Master"
     Public Const Transactionupdate As String = "Transtion Update"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const RCDFControl As String = "RCDF Control"
@@ -1010,6 +1011,7 @@ Public Class clsFixedParameterType
     Public Const AllowManualvehicleOnDairyBooking As String = "AllowManualvehicleOnDairyBoking"
     Public Const FreeIndentQtyAfterPOClose As String = "Free Indent Qty After PO Close"
     Public Const ShowFATSNFinPaymentProcess As String = "Show FAT SNF in Payment Process"
+    Public Const FileUpload As String = "File Upload"
     Public Const MaxRowsInCSVExport As String = "MaxRowsInCSVExport"
     Public Const MaxRowsInExcelExport As String = "MaxRowsInExcelExport"
     Public Const BigValidity As String = "Big Validity"
@@ -1294,6 +1296,7 @@ Public Class clsFixedParameterCode
     Public Const CustomerMaster As String = "Customer Master"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
+    Public Const PickHeadLoadRateFromSecretaryMaster As String = "Pick HeadLoadRate From Secretary Master"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
     Public Const EmployeeRetirementAge As String = "Employee Retirement Age"
@@ -2777,11 +2780,16 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, "0", "0:OFF;1:ON Upload File")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, "0", "0:OFF;1:ON Upload File")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.PenaltyAfterDays, clsFixedParameterCode.PenaltyAfterDays, "30", "Define Penalty Days to Apply")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PenaltyCost, clsFixedParameterCode.PenaltyCost, "0.40", "Define Penalty Cost Value for Per Unit")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, "0", "0:OFF;1:ON to Calculate Pro Rate Auto")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, "1", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, "0", "0:OFF;1:ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickHeadLoadRateFromSecretaryMaster, clsFixedParameterCode.PickHeadLoadRateFromSecretaryMaster, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk")
@@ -4308,11 +4316,15 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, EnumControlType.CheckBox)
+
         InsertDefaultValue(clsUserMgtCode.mbtnGatePass, clsFixedParameterType.PenaltyAfterDays, clsFixedParameterCode.PenaltyAfterDays, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.mbtnGatePass, clsFixedParameterType.PenaltyCost, clsFixedParameterCode.PenaltyCost, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.PickOnlyOWNBMCDCS, clsFixedParameterCode.PickOnlyOWNBMCDCS, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.PickHeadLoadRateFromSecretaryMaster, clsFixedParameterCode.PickHeadLoadRateFromSecretaryMaster, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmRCDFRateControl, clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.RCDFControl, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)

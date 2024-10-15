@@ -5,6 +5,7 @@ Public Class SaleEinvoiceReport
     Private Sub RmSecurityDeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         txtfDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
+        ChkBoth.Checked = True
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         reset()
@@ -13,13 +14,20 @@ Public Class SaleEinvoiceReport
         txtfDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtMultiCustomer.arrValueMember = Nothing
+        TxtRoute.arrValueMember = Nothing
         gvData.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
+        ChkBoth.Checked = True
     End Sub
 
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
         Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master "
         txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
+    End Sub
+
+    Private Sub TxtRoute__My_Click(sender As Object, e As EventArgs) Handles TxtRoute._My_Click
+        Dim qry As String = "Select TSPL_SD_SALE_INVOICE_HEAD.Route_No AS Code,TSPL_SD_SALE_INVOICE_HEAD.Route_Desc as Name from TSPL_SD_SALE_INVOICE_HEAD  where 1=1 "
+        TxtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", TxtRoute.arrValueMember, TxtRoute.arrDispalyMember)
     End Sub
 
     Private Sub rmenuPDF_Click(sender As Object, e As EventArgs) Handles rmenuPDF.Click
@@ -57,6 +65,11 @@ Public Class SaleEinvoiceReport
 
     Sub GetReportGridID()
         Dim VarID As String = ""
+        If rbtnDetail.IsChecked Then
+            VarID += "_DE"
+        ElseIf rbtnSummary.IsChecked Then
+            VarID += "_Su"
+        End If
         If chkB2C.Checked = True Then
             VarID += "_BC"
         ElseIf ChkB2B.Checked = True Then
@@ -67,11 +80,16 @@ Public Class SaleEinvoiceReport
         gvData.VarID = VarID
     End Sub
 
+
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        Dim strtxtfDate As String = clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy")
-        Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
-        GetReportGridID()
-        Dim qry As String = "SELECT DISTINCT 
+        Dim dt As DataTable = Nothing
+
+        If rbtnSummary.IsChecked Then
+
+            Dim strtxtfDate As String = clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy")
+            Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
+            GetReportGridID()
+            Dim qry As String = "SELECT DISTINCT 
                            Bill_To_Location AS [Location],
                            TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
                            TSPL_LOCATION_MASTER.GSTNO AS [GST No],
@@ -80,13 +98,13 @@ Public Class SaleEinvoiceReport
                            TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name],
                            TSPL_STATE_MASTER.GST_STATE_Code AS [Party State], 
                            Ack_No AS [Ack No],
-                           Ack_Date AS [Ack Date],
+                           CONVERT(varchar,Ack_Date, 103) AS [Ack Date],
                            TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
-                           Document_Date AS [Invoice Date],
-                           CASE 
-                              WHEN Is_Taxable = 1 THEN 'Taxable'  
-                              WHEN Is_Taxable = 0 THEN 'Non-Taxable' 
+                           CONVERT(varchar,Document_Date, 103) AS [Invoice Date],
+                           CASE WHEN Is_Taxable = 1 THEN 'Taxable'  
+                           WHEN Is_Taxable = 0 THEN 'Non-Taxable' 
                            END AS [Invoice Type],
+                           TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],
                            TSPL_SD_SALE_INVOICE_HEAD.Total_Amt AS [Invoice Value],
                            TSPL_CUSTOMER_MASTER.GSTNO AS [Recipient Gst No], 
                            IRN_No AS [IRN No],
@@ -97,31 +115,112 @@ Public Class SaleEinvoiceReport
                            TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt AS [CGST Amt],
                            TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt AS [SGST Amt],
                            TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt AS [TCS Amt]
-                        FROM TSPL_SD_SALE_INVOICE_HEAD
-                        LEFT OUTER JOIN TSPL_LOCATION_MASTER 
+                           FROM TSPL_SD_SALE_INVOICE_HEAD
+                           LEFT OUTER JOIN TSPL_LOCATION_MASTER 
                            ON TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
-                        LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL 
+                           LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL 
                            ON TSPL_SD_SALE_INVOICE_DETAIL.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE
-                        LEFT OUTER JOIN TSPL_TAX_MASTER 
+                           LEFT OUTER JOIN TSPL_TAX_MASTER 
                            ON TSPL_TAX_MASTER.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.TAX1
-                        LEFT OUTER JOIN TSPL_CUSTOMER_MASTER 
+                           LEFT OUTER JOIN TSPL_CUSTOMER_MASTER 
                            ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-                        LEFT OUTER JOIN TSPL_STATE_MASTER 
+                           LEFT OUTER JOIN TSPL_STATE_MASTER 
                            ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
-                            where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                            Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) "
+                           where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                           Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103)"
 
-        If ChkB2B.Checked = True Then
-            qry += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
-        ElseIf chkB2C.Checked = True Then
-            qry += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
+            If ChkB2B.Checked = True Then
+                qry += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
+            ElseIf chkB2C.Checked = True Then
+                qry += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
+            End If
+            'qry += "ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
+
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+
+            If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")" + Environment.NewLine
+            End If
+
+            qry += "ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+
+        ElseIf rbtnDetail.IsChecked Then
+
+            Dim strtxtfDate As String = clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy")
+            Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
+            GetReportGridID()
+            Dim qry1 As String = "SELECT DISTINCT Bill_To_Location AS [Location],
+                                TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
+                                TSPL_LOCATION_MASTER.GSTNO AS [GST No],
+                                TSPL_STATE_MASTER.GST_STATE_Code AS [State Code],
+                                TSPL_CUSTOMER_MASTER.Cust_Code AS [Customer Code],
+                                TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name],
+                                TSPL_STATE_MASTER.GST_STATE_Code AS [Party State],
+                                Ack_No AS [Ack No],
+                                CONVERT(varchar,Ack_Date, 103) AS [Ack Date],
+                                TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
+                                CONVERT(varchar,Document_Date, 103) AS [Invoice Date],
+                                CASE WHEN Is_Taxable = 1 THEN 'Taxable'WHEN Is_Taxable = 0 THEN 'Non-Taxable' 
+                                END AS [Invoice Type],
+                                TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],
+                                tspl_item_master.Item_Code as [Item Code],
+                                tspl_item_master.Item_Desc as [Item Name],
+                                tspl_item_master.HSN_Code as [HSN Code],
+                                TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount AS [Item Amount],
+                                TSPL_SD_SALE_INVOICE_DETAIL.Qty as [Qty],
+                                TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [UOM],
+                                TSPL_CUSTOMER_MASTER.GSTNO AS [Recipient Gst No], 
+                                IRN_No AS [IRN No],
+                                TSPL_SD_SALE_INVOICE_HEAD.EwayBillNo AS [EwayBillNo],
+                                TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate AS [EwayBillDate],
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt AS [KKF],
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate AS [KKF %],
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt AS [Mandi Tax],   
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate as [Mandi Tax %], 
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt AS [CGST Amt],
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate AS [CGST %],
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt AS [SGST Amt],
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate AS [SGST %],
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt AS [TCS Amt],
+                                TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate AS [TCS %],
+                                TSPL_SD_SALE_INVOICE_HEAD.Total_Tax_Amt as [Total Tax Amt],
+                                TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as [Total Amt]
+                                FROM TSPL_SD_SALE_INVOICE_HEAD
+                                LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                                LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_DETAIL ON TSPL_SD_SALE_INVOICE_DETAIL.Document_Code =TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE
+                                LEFT OUTER JOIN TSPL_TAX_MASTER ON TSPL_TAX_MASTER.Tax_Code = TSPL_SD_SALE_INVOICE_DETAIL.TAX1
+                                LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+                                LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
+                                left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+                                where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) "
+
+            If ChkB2B.Checked = True Then
+                qry1 += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
+            ElseIf chkB2C.Checked = True Then
+                qry1 += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
+            End If
+
+
+            'If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+            '    qry += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            'End If
+
+            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                qry1 += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+            End If
+
+            If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
+                qry1 += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")" + Environment.NewLine
+            End If
+            qry1 += "ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
+
+            dt = clsDBFuncationality.GetDataTable(qry1)
         End If
-
-        If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            qry += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
@@ -150,6 +249,8 @@ Public Class SaleEinvoiceReport
             gvData.ShowFilteringRow = True
             gvData.BestFitColumns()
         End If
+
+
     End Sub
 
     Sub SetGridFormationOFGV1()
@@ -204,4 +305,5 @@ Public Class SaleEinvoiceReport
             chkB2C.Checked = False
         End If
     End Sub
+
 End Class

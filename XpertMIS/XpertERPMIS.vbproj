@@ -134,7 +134,7 @@
       <HintPath>..\..\DLL\Telerik.WinControls.UI.dll</HintPath>
     </Reference>
     <Reference Include="TelerikCommon">
-      <HintPath>..\XpertERPAdminServices\bin\Debug\TelerikCommon.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\TelerikCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon, Version=2.1.6.67, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
