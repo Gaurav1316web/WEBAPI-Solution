@@ -599,12 +599,6 @@
     <Compile Include="Common Services\Report\RptInventoryMovement.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Common Services\Report\rptItemWiseTaxMasterReport.Designer.vb">
-      <DependentUpon>rptItemWiseTaxMasterReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Common Services\Report\rptItemWiseTaxMasterReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Common Services\Report\rptVendorReco.designer.vb">
       <DependentUpon>rptVendorReco.vb</DependentUpon>
     </Compile>
@@ -5066,9 +5060,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\RptInventoryMovement.resx">
       <DependentUpon>RptInventoryMovement.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Common Services\Report\rptItemWiseTaxMasterReport.resx">
-      <DependentUpon>rptItemWiseTaxMasterReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\rptVendorReco.resx">
       <DependentUpon>rptVendorReco.vb</DependentUpon>
