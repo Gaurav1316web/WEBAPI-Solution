@@ -14773,6 +14773,8 @@ Public Class clsCreateAllTable
             coll.Add("File_Info", "bigint NULL")
             coll.Add("Is_Default_Grower", "Integer null default 0")
             coll.Add("Virtual_AC_No", "varchar(28) null")
+            coll.Add("Default_Cash_Customer ", "int not Null default 0")
+            coll.Add("Reference", "varchar(100) NULL")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)

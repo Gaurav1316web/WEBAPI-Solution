@@ -1011,6 +1011,7 @@ Public Class clsFixedParameterType
     Public Const AllowManualvehicleOnDairyBooking As String = "AllowManualvehicleOnDairyBoking"
     Public Const FreeIndentQtyAfterPOClose As String = "Free Indent Qty After PO Close"
     Public Const ShowFATSNFinPaymentProcess As String = "Show FAT SNF in Payment Process"
+    Public Const FileUpload As String = "File Upload"
     Public Const MaxRowsInCSVExport As String = "MaxRowsInCSVExport"
     Public Const MaxRowsInExcelExport As String = "MaxRowsInExcelExport"
     Public Const BigValidity As String = "Big Validity"
@@ -2779,6 +2780,10 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, "0", "0:OFF;1:ON Upload File")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, "0", "0:OFF;1:ON Upload File")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.PenaltyAfterDays, clsFixedParameterCode.PenaltyAfterDays, "30", "Define Penalty Days to Apply")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PenaltyCost, clsFixedParameterCode.PenaltyCost, "0.40", "Define Penalty Cost Value for Per Unit")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, "0", "0:OFF;1:ON to Calculate Pro Rate Auto")
@@ -4311,6 +4316,9 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, EnumControlType.CheckBox)
+
         InsertDefaultValue(clsUserMgtCode.mbtnGatePass, clsFixedParameterType.PenaltyAfterDays, clsFixedParameterCode.PenaltyAfterDays, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.mbtnGatePass, clsFixedParameterType.PenaltyCost, clsFixedParameterCode.PenaltyCost, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, EnumControlType.CheckBox)

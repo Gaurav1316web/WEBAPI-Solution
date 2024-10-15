@@ -274,7 +274,8 @@ Public Class clsCustomerMaster
     Public Area_Code As String
     Public CSA_Type As String = Nothing
     Public ManualCustomer As String = Nothing
-
+    Public Default_Cash_Customer As Boolean = False
+    Public Reference As String
     Public Add1 As String
     Public Add2 As String
     Public Add3 As String
@@ -490,7 +491,7 @@ Public Class clsCustomerMaster
                      " ,[Contact_Person_Website],[Contact_Person_Email],[Terms_Code],[Cust_Account],[Tax_Group],[TAX1],[TAX1_Rate],[TAX2],[TAX2_Rate],[TAX3],[TAX3_Rate],[TAX4],[TAX4_Rate],[TAX5],[TAX5_Rate],[TAX6],[TAX6_Rate] " &
                      " ,[TAX7],[TAX7_Rate],[TAX8],[TAX8_Rate],[TAX9],[TAX9_Rate],[TAX10],[TAX10_Rate],[Payment_Code],[Service_Tax_No] " &
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
-                     " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
+                     " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,Default_Cash_Customer,Reference,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
                      " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
                      " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code,[Virtual_Ac_no] from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' and Cust_Code = '" + strCustCode + "'"
         Return qry
@@ -629,6 +630,12 @@ Public Class clsCustomerMaster
                 clsCommon.AddColumnsForChange(coll, "Form_Type", obj.Form_Type)
                 clsCommon.AddColumnsForChange(coll, "Channel_Code", obj.Channel_Code)
                 clsCommon.AddColumnsForChange(coll, "Other_For_PAN", obj.Other_For_PAN)
+                If obj.Default_Cash_Customer Then
+                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_CUSTOMER_MASTER set Default_Cash_Customer = 0 where Default_Cash_Customer = 1", trans)
+                End If
+                clsCommon.AddColumnsForChange(coll, "Default_Cash_Customer", IIf(obj.Default_Cash_Customer, "1", "0"))
+                clsCommon.AddColumnsForChange(coll, "Reference", obj.Reference)
+
                 Dim Channel_Desc As String = clsDBFuncationality.getSingleValue("Select Channel_Name  from TSPL_CHANNEL_MASTER where Channel_Id='" + obj.Channel_Code + "'", trans)
                 clsCommon.AddColumnsForChange(coll, "Channel_Desc", Channel_Desc)
                 clsCommon.AddColumnsForChange(coll, "Status", obj.Status)
@@ -1064,6 +1071,8 @@ Public Class clsCustomerMaster
         End If
         obj.Franchise_CODE = clsCommon.myCstr(dt.Rows(0)("Franchise_Code"))
         obj.Other_For_PAN = clsCommon.myCstr(dt.Rows(0)("Other_For_PAN"))
+        obj.Default_Cash_Customer = IIf(clsCommon.myCdbl(dt.Rows(0)("Default_Cash_Customer")) = 1, True, False)
+        obj.Reference = clsCommon.myCstr(dt.Rows(0)("Reference"))
         obj.OldName = clsCommon.myCstr(dt.Rows(0)("OldName"))
         obj.Vehicle_No = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
         obj.Driver_Name = clsCommon.myCstr(dt.Rows(0)("Driver_Name"))
