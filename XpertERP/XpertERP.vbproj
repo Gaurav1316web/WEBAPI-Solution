@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -597,12 +597,6 @@
       <DependentUpon>RptInventoryMovement.vb</DependentUpon>
     </Compile>
     <Compile Include="Common Services\Report\RptInventoryMovement.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Common Services\Report\rptItemWiseTaxMasterReport.Designer.vb">
-      <DependentUpon>rptItemWiseTaxMasterReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Common Services\Report\rptItemWiseTaxMasterReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Common Services\Report\rptVendorReco.designer.vb">
@@ -5066,9 +5060,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\RptInventoryMovement.resx">
       <DependentUpon>RptInventoryMovement.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Common Services\Report\rptItemWiseTaxMasterReport.resx">
-      <DependentUpon>rptItemWiseTaxMasterReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\rptVendorReco.resx">
       <DependentUpon>rptVendorReco.vb</DependentUpon>

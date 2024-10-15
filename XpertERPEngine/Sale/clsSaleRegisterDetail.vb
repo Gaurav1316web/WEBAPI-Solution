@@ -3013,7 +3013,7 @@ Public Class clsSaleRegisterDetail
         End If
         strMCCMaterial += ") xx"
 
-        strMCCMaterial += " Left Join (Select  DOCUMENT_CODE,Item_Code,Distributor_Commission_Amt,Security_Amt from TSPL_SD_SHIPMENT_DETAIL Group By Item_Code,DOCUMENT_CODE,Distributor_Commission_Amt,Security_Amt)TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=xx.[Shipment No] And TSPL_SD_SHIPMENT_DETAIL.Item_Code=xx.[Item Code]"
+        strMCCMaterial += " Left Join (Select  DOCUMENT_CODE,Item_Code,unit_code,Distributor_Commission_Amt,Security_Amt from TSPL_SD_SHIPMENT_DETAIL Group By Item_Code,Unit_code,DOCUMENT_CODE,Distributor_Commission_Amt,Security_Amt)TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=xx.[Shipment No] And TSPL_SD_SHIPMENT_DETAIL.Item_Code=xx.[Item Code] and TSPL_SD_SHIPMENT_DETAIL.unit_code=xx.[UOM] "
         '===============Added by preeti Gupta ===
         strMCCMaterial += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =xx.[Location Code] "
         '=======================================

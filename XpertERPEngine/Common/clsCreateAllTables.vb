@@ -30,7 +30,7 @@ Public Class clsCreateAllTables
 
             clsSyncHeadTables.AutoUpdateSyncTables(Nothing)
             clsSyncHeadTables.AutoUpdateBioSyncTables(Nothing)
-            ExecuteAfterCreateTable()
+            'ExecuteAfterCreateTable()
 
             '' adding Standard Methods List 
             clsStandardMethods.AddStandardFunction()

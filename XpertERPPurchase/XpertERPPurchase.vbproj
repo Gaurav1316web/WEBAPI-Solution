@@ -360,6 +360,12 @@
     <Compile Include="Report\rptDayWisePurchasePriceReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptGSTR.Designer.vb">
+      <DependentUpon>rptGSTR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptGSTR.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptPurchaseMaterialRegister.Designer.vb">
       <DependentUpon>rptPurchaseMaterialRegister.vb</DependentUpon>
     </Compile>
@@ -613,6 +619,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDayWisePurchasePriceReport.resx">
       <DependentUpon>rptDayWisePurchasePriceReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptGSTR.resx">
+      <DependentUpon>rptGSTR.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptPurchaseMaterialRegister.resx">
       <DependentUpon>rptPurchaseMaterialRegister.vb</DependentUpon>
