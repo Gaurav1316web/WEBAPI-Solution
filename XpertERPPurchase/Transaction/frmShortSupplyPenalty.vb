@@ -4,6 +4,7 @@ Public Class frmShortSupplyPenalty
     Dim isNewEntry As Boolean = False
     Dim isPost As Boolean = False
     Dim isLoad As Boolean = False
+    Const colPurchaseOrder As String = "colPurchaseOrder"
     Const colGRNNo As String = "colGRNNo"
     Const colGRNDate As String = "colGRNDate"
     Const colWeighmentCode As String = "colWeighmentCode"
@@ -16,6 +17,8 @@ Public Class frmShortSupplyPenalty
     Const colSRNDate As String = "colSRNDate"
     Const colSRNQty As String = "colSRNQty"
     Const colUOM As String = "colUOM"
+    Const colPINo As String = "colPINo"
+    Const colPIStatus As String = "colPIStatus"
 #End Region
     Private Sub frmShortSupplyPenalty_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
@@ -65,7 +68,7 @@ Public Class frmShortSupplyPenalty
         coll.Add("Tare_Weight", "Decimal(18, 2) not null default 0")
         coll.Add("Extra_Weight", "decimal(18,2) not null default 0 ")
         coll.Add("Net_Weight", "Decimal(18, 2)  not null default 0")
-        coll.Add("SRN_No", "varchar(30)  Null ")
+        coll.Add("SRN_No", "varchar(30)  Null")
         coll.Add("SRN_Date", "Datetime  Null ")
         coll.Add("SRN_Qty", "Decimal(18, 2)  not null default 0")
         coll.Add("UOM", "varchar(12)  Null ")
@@ -106,7 +109,9 @@ Public Class frmShortSupplyPenalty
         btnSave.Enabled = True
         btnPost.Enabled = False
         btnDelete.Enabled = False
+        btnReverseAndUnpost.Visible = False
         UsLock1.Status = ERPTransactionStatus.Pending
+        txtSRN_PI.Enabled = False
         LoadBlankGrid()
     End Sub
 
@@ -114,6 +119,13 @@ Public Class frmShortSupplyPenalty
         gv1.DataSource = Nothing
         gv1.Columns.Clear()
         gv1.Rows.Clear()
+
+        Dim repoPurchase As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoPurchase.FormatString = ""
+        repoPurchase.HeaderText = "Purchase Order"
+        repoPurchase.Name = colPurchaseOrder
+        repoPurchase.Width = 150
+        gv1.MasterTemplate.Columns.Add(repoPurchase)
 
         Dim repoGRNNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoGRNNo.FormatString = ""
@@ -199,6 +211,20 @@ Public Class frmShortSupplyPenalty
         repoUOM.Width = 80
         gv1.MasterTemplate.Columns.Add(repoUOM)
 
+        Dim repoPI As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoPI.FormatString = ""
+        repoPI.HeaderText = "PI No"
+        repoPI.Name = colPINo
+        repoPI.Width = 150
+        gv1.MasterTemplate.Columns.Add(repoPI)
+
+        Dim repoPIStatus As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoPIStatus.FormatString = ""
+        repoPIStatus.HeaderText = "PI Status"
+        repoPIStatus.Name = colPIStatus
+        repoPIStatus.Width = 150
+        gv1.MasterTemplate.Columns.Add(repoPIStatus)
+
         gv1.AllowDeleteRow = False
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -216,9 +242,11 @@ Public Class frmShortSupplyPenalty
             Dim whr As String = Nothing
             Dim Qry As String = GetPI()
             If clsCommon.myLen(txtBillToLocation.Value) > 0 AndAlso clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myLen(txtVendorNo.Value) > 0 AndAlso clsCommon.myLen(txtItem.Value) > 0 Then
-                whr = " TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "' and  TSPL_ITEM_MASTER.Item_Code='" + txtItem.Value + "' and TSPL_TENDER_PENALTY.Tender_No='" + txtTenderNo.Value + "'  and TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "' "
+                Qry = "Select Top 1 * from(" + GetPI() + " )xxx "
+                'whr = " IsNull(TSPL_PI_HEAD.PI_No,'')<>'' and TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "' and  TSPL_ITEM_MASTER.Item_Code='" + txtItem.Value + "' and TSPL_TENDER_PENALTY.Tender_No='" + txtTenderNo.Value + "'  and TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "' "
+                whr = " IsNull(PI_No,'')<>'' and Vendor='" + txtVendorNo.Value + "' and  Item='" + txtItem.Value + "' and Tender_No='" + txtTenderNo.Value + "'  and Location='" + txtBillToLocation.Value + "' "
             End If
-            txtSRN_PI.Value = clsCommon.ShowSelectForm("Transporter@PI", Qry, "PI_No", whr, txtSRN_PI.Value, "", isButtonClicked)
+            txtSRN_PI.Value = clsCommon.ShowSelectForm("Transporter@PI", Qry, "PI_No", whr, txtSRN_PI.Value, " [Created Date] desc", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -317,7 +345,7 @@ Public Class frmShortSupplyPenalty
     End Sub
 
     Sub fillPI()
-        If clsCommon.myLen(txtSRN_PI.Value) <= 0 Then
+        Try
             Dim whr As String = Nothing
             If clsCommon.myLen(txtBillToLocation.Value) > 0 AndAlso clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myLen(txtVendorNo.Value) > 0 AndAlso clsCommon.myLen(txtItem.Value) > 0 Then
                 whr = " where IsNull(TSPL_PI_HEAD.PI_No,'')<>'' And TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "' and  TSPL_ITEM_MASTER.Item_Code='" + txtItem.Value + "' and TSPL_TENDER_PENALTY.Tender_No='" + txtTenderNo.Value + "'  and TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "'"
@@ -329,7 +357,9 @@ Public Class frmShortSupplyPenalty
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 txtSRN_PI.Value = clsCommon.myCstr(dt.Rows(0)("PI_No"))
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -351,7 +381,7 @@ Public Class frmShortSupplyPenalty
                 Throw New Exception("Please Select " + txtItem.MyLinkLable1.Text)
             End If
 
-            Dim Qry As String = "Select TSPL_GRN_HEAD.GRN_No As 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo As 'Vehicle No',TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weighment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',isNull(TSPL_SRN_DETAIL.SRN_Qty,0) as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM
+            Dim Qry As String = "Select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No As [Purchase Order],TSPL_GRN_HEAD.GRN_No As 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo As 'Vehicle No',TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weighment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',isNull(TSPL_SRN_DETAIL.SRN_Qty,0) as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PI_HEAD.PI_No As [PI No],Case When Isnull(TSPL_PI_HEAD.Status,0)=1 Then 'Approved' Else 'Unapproved' End As [PI Status]
                     from TSPL_GRN_DETAIL
                     left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
                     left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id
@@ -361,7 +391,7 @@ Public Class frmShortSupplyPenalty
 					left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.SRN_No = TSPL_SRN_HEAD.SRN_No
                     left outer join TSPL_TENDER_PENALTY ON TSPL_TENDER_PENALTY.Document_No = TSPL_TENDER_PENALTY_DETAIL.Document_No
                     left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.SRN_Id = TSPL_SRN_DETAIL.SRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
-					Left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No = TSPL_PI_DETAIL.PI_No                    
+					left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No = TSPL_PI_DETAIL.PI_No 
                     left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
                     left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code= TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code and  TSPL_PO_WEIGHTMENT_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
                     left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION_SECURITY.Item_Code=TSPL_SRN_DETAIL.Item_Code
@@ -370,17 +400,30 @@ Public Class frmShortSupplyPenalty
                     left outer join TSPL_TENDER_SCHEDULE_PENALTY on  TSPL_TENDER_SCHEDULE_PENALTY.PK_Id=TSPL_SRN_TENDER.Against_Tender_Schedule_Penalty_PK_Id
                     left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
                     left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
-                    where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "' and TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected'  and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_GRN_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  
+                    where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' And  TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "' and TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected'  and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_GRN_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  
                     Order by CONVERT(date, TSPL_GRN_HEAD.GRN_Date,103),isnull(TSPL_SRN_HEAD.Status,0) desc "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 isLoad = False
-                gv1.DataSource = Nothing
-                gv1.Columns.Clear()
-                gv1.Rows.Clear()
-                gv1.Refresh()
-                gv1.Visible = True
-                gv1.DataSource = dt
+                LoadBlankGrid()
+                For Each rows In dt.Rows
+                    gv1.Rows.AddNew()
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPurchaseOrder).Value = clsCommon.myCstr(rows("Purchase Order"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNNo).Value = clsCommon.myCstr(rows("GRN No"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNDate).Value = clsCommon.GetPrintDate(rows("GRN Date"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentCode).Value = clsCommon.myCstr(rows("Weighment Code"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentDate).Value = clsCommon.GetPrintDate(rows("Weighment Date"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colGrossWeight).Value = clsCommon.myCdbl(rows("Gross Weight"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTareWeight).Value = clsCommon.myCdbl(rows("Tare Weight"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colExtraWeight).Value = clsCommon.myCdbl(rows("Extra Weight"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colNetWeight).Value = clsCommon.myCdbl(rows("Net Weight"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNNo).Value = clsCommon.myCstr(rows("SRN No"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNDate).Value = clsCommon.GetPrintDate(rows("SRN Date"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNQty).Value = clsCommon.myCdbl(rows("SRN Qty"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(rows("UOM"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPINo).Value = clsCommon.myCstr(rows("PI No"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPIStatus).Value = clsCommon.myCstr(rows("PI Status"))
+                Next
                 gv1.ReadOnly = True
                 SetGridFormat()
             Else
@@ -406,13 +449,13 @@ Public Class frmShortSupplyPenalty
                 gv1.Columns(ii).BestFit()
             Next
             Dim summaryRowItem As New GridViewSummaryRowItem()
-            Dim item5 As New GridViewSummaryItem("Gross Weight", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item5 As New GridViewSummaryItem(colGrossWeight, "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item5)
-            Dim item4 As New GridViewSummaryItem("Tare Weight", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item4 As New GridViewSummaryItem(colTareWeight, "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
-            Dim item6 As New GridViewSummaryItem("Net Weight", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item6 As New GridViewSummaryItem(colNetWeight, "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item6)
-            Dim item8 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item8 As New GridViewSummaryItem(colSRNQty, "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item8)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -429,7 +472,7 @@ Public Class frmShortSupplyPenalty
         If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
             Dim SRNQty As Double = 0
             For Each grow As GridViewRowInfo In gv1.Rows
-                SRNQty += clsCommon.myCdbl(grow.Cells("SRN Qty").Value)
+                SRNQty += clsCommon.myCdbl(grow.Cells(colSRNQty).Value)
             Next
             'lblRALQty.Text = RALQty
             lblSRNQty.Text = SRNQty
@@ -442,15 +485,19 @@ Public Class frmShortSupplyPenalty
     End Sub
 
     Sub ReturnRALQty()
-        Dim Qry As String = " Select Sum(TSPL_TENDER_SCHEDULE.Schedule_Qty)Schedule_Qty,Max(TSPL_TENDER_SCHEDULE.Schedule_Short_Per)Schedule_Short_Per,Max(TSPL_PURCHASE_ORDER_DETAIL.Item_Cost)Item_Cost from TSPL_PURCHASE_ORDER_DETAIL
- Left Outer Join TSPL_PURCHASE_ORDER_HEAD On TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No
- Left Outer Join TSPL_TENDER_SCHEDULE On TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo And TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code And TSPL_TENDER_SCHEDULE.Item_Code=TSPL_PURCHASE_ORDER_DETAIL.Item_Code
- And TSPL_TENDER_SCHEDULE.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location where TSPL_PURCHASE_ORDER_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER_SCHEDULE.Item_Code='" + txtItem.Value + "' and Location_Code='" + txtBillToLocation.Value + "' and DocumentCode='" + txtTenderNo.Value + "'"
+        Dim Qry As String = "  Select Sum(TSPL_TENDER_SCHEDULE.Schedule_Qty)Schedule_Qty,Max(TSPL_TENDER_SCHEDULE.Schedule_Short_Per)Schedule_Short_Per,
+ Max(TSPL_TENDER_DETAIL.Rate)Item_Cost
+ from TSPL_TENDER_DETAIL
+ Left Outer Join TSPL_TENDER_SCHEDULE On TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode 
+ And TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code 
+ And TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
+ And TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location 
+where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "' and TSPL_TENDER_DETAIL.DocumentCode='" + txtTenderNo.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             lblRALQty.Text = clsCommon.myCdbl(dt.Rows(0)("Schedule_Qty"))
             lblApplicable.Text = clsCommon.myCdbl(dt.Rows(0)("Schedule_Short_Per"))
-            lblRate.Text = clsCommon.myCdbl(dt.Rows(0)("Item_Cost"))
+            lblRate.Text = Math.Round(clsCommon.myCdbl(dt.Rows(0)("Item_Cost")), 2)
             lblShortQty.Text = clsCommon.myCdbl(dt.Rows(0)("Schedule_Qty")) * (clsCommon.myCdbl(dt.Rows(0)("Schedule_Short_Per")) / 100)
             If Not MyLabel6.Text.Contains(clsCommon.myCstr(dt.Rows(0)("Schedule_Short_Per"))) Then
                 MyLabel6.Text += "(>" + clsCommon.myCstr(dt.Rows(0)("Schedule_Short_Per")) + "%)"
@@ -461,7 +508,7 @@ Public Class frmShortSupplyPenalty
     Private Sub txtPenaltyRate_TextChanged(sender As Object, e As EventArgs) Handles txtPenaltyRate.TextChanged
         Try
             If clsCommon.myCdbl(lblPenaltyQty.Text) > clsCommon.myCdbl(lblShortQty.Text) Then
-                lblPenaltyAmt.Text = (clsCommon.myCdbl(lblPenaltyQty.Text) * clsCommon.myCdbl(lblRate.Text)) * (clsCommon.myCdbl(txtPenaltyRate.Value) / 100)
+                lblPenaltyAmt.Text = Math.Round((clsCommon.myCdbl(lblPenaltyQty.Text) * clsCommon.myCdbl(lblRate.Text)) * (clsCommon.myCdbl(txtPenaltyRate.Value) / 100))
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -486,6 +533,22 @@ Public Class frmShortSupplyPenalty
                 txtItem.Focus()
                 Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
             End If
+            If clsCommon.myLen(txtSRN_PI.Value) <= 0 Then
+                txtSRN_PI.Focus()
+                Throw New Exception("PI No can't be blank !")
+            End If
+
+            If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+                For i As Integer = 0 To gv1.Rows.Count - 1
+                    If clsCommon.myLen(gv1.Rows(i).Cells(colPINo).Value) <= 0 Then
+                        Throw New Exception("PI not created at Line No : " + clsCommon.myCstr((i + 1)))
+                    End If
+                    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells(colPIStatus).Value), "Approved") <> CompairStringResult.Equal Then
+                        Throw New Exception("PI not approved at Line No : " + clsCommon.myCstr((i + 1)))
+                    End If
+                Next
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
@@ -499,6 +562,15 @@ Public Class frmShortSupplyPenalty
 
     Sub SaveData(ByVal isPost As Boolean)
         Try
+            If Not isPost Then
+                If common.clsCommon.MyMessageBoxShow("Are you sure to save data ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                    Exit Sub
+                End If
+            Else
+                If common.clsCommon.MyMessageBoxShow("Are you sure to post data ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                    Exit Sub
+                End If
+            End If
             If AllowToSave() Then
                 Dim obj As New clsShortSupplyPenalty()
                 obj.Document_Code = txtDocNo.Value
@@ -519,26 +591,28 @@ Public Class frmShortSupplyPenalty
                 obj.Penalty_Amount = lblPenaltyAmt.Text
                 If isPost Then
                     obj.Status = 1
+                    obj.isPost = True
                 Else
+                    obj.isPost = False
                     obj.Status = 0
                 End If
                 If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
                     obj.Arr = New List(Of clsShortSupplyPenaltyDetail)
                     For Each grow As GridViewRowInfo In gv1.Rows
                         Dim objTR As New clsShortSupplyPenaltyDetail()
-                        objTR.GRN_No = clsCommon.myCstr(grow.Cells("GRN No").Value)
-                        objTR.GRN_Date = clsCommon.myCDate(grow.Cells("GRN Date").Value)
-                        objTR.Vehicle_No = clsCommon.myCstr(grow.Cells("Vehicle No").Value)
-                        objTR.Weighment_Code = clsCommon.myCstr(grow.Cells("Weighment Code").Value)
-                        objTR.Weighment_Date = clsCommon.myCDate(grow.Cells("Weighment Date").Value)
-                        objTR.Gross_Weight = clsCommon.myCdbl(grow.Cells("Gross Weight").Value)
-                        objTR.Tare_Weight = clsCommon.myCdbl(grow.Cells("Tare Weight").Value)
-                        objTR.Extra_Weight = clsCommon.myCdbl(grow.Cells("Extra Weight").Value)
-                        objTR.Net_Weight = clsCommon.myCdbl(grow.Cells("Net Weight").Value)
-                        objTR.SRN_No = clsCommon.myCstr(grow.Cells("SRN No").Value)
-                        objTR.SRN_Date = clsCommon.myCDate(grow.Cells("SRN Date").Value)
-                        objTR.SRN_Qty = clsCommon.myCdbl(grow.Cells("SRN Qty").Value)
-                        objTR.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
+                        objTR.GRN_No = clsCommon.myCstr(grow.Cells(colGRNNo).Value)
+                        objTR.GRN_Date = clsCommon.myCDate(grow.Cells(colGRNDate).Value)
+                        'objTR.Vehicle_No = clsCommon.myCstr(grow.Cells("Vehicle No").Value)
+                        objTR.Weighment_Code = clsCommon.myCstr(grow.Cells(colWeighmentCode).Value)
+                        objTR.Weighment_Date = clsCommon.myCDate(grow.Cells(colWeighmentDate).Value)
+                        objTR.Gross_Weight = clsCommon.myCdbl(grow.Cells(colGrossWeight).Value)
+                        objTR.Tare_Weight = clsCommon.myCdbl(grow.Cells(colTareWeight).Value)
+                        objTR.Extra_Weight = clsCommon.myCdbl(grow.Cells(colExtraWeight).Value)
+                        objTR.Net_Weight = clsCommon.myCdbl(grow.Cells(colNetWeight).Value)
+                        objTR.SRN_No = clsCommon.myCstr(grow.Cells(colSRNNo).Value)
+                        objTR.SRN_Date = clsCommon.myCDate(grow.Cells(colSRNDate).Value)
+                        objTR.SRN_Qty = clsCommon.myCdbl(grow.Cells(colSRNQty).Value)
+                        objTR.UOM = clsCommon.myCstr(grow.Cells(colUOM).Value)
                         If clsCommon.myLen(objTR.GRN_No) > 0 Then
                             obj.Arr.Add(objTR)
                         End If
@@ -614,6 +688,7 @@ Public Class frmShortSupplyPenalty
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsShortSupplyPenaltyDetail In obj.Arr
                         gv1.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPurchaseOrder).Value = clsCommon.myCstr(objTr.PurchaseOrder)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNNo).Value = clsCommon.myCstr(objTr.GRN_No)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNDate).Value = clsCommon.GetPrintDate(objTr.GRN_Date)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentCode).Value = clsCommon.myCstr(objTr.Weighment_Code)
@@ -626,6 +701,8 @@ Public Class frmShortSupplyPenalty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNDate).Value = clsCommon.GetPrintDate(objTr.SRN_Date)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNQty).Value = clsCommon.myCdbl(objTr.SRN_Qty)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(objTr.UOM)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPINo).Value = clsCommon.myCstr(objTr.PI_No)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPIStatus).Value = clsCommon.myCstr(objTr.PI_Status)
                     Next
                 End If
                 SetGridFormat()
@@ -646,10 +723,12 @@ Public Class frmShortSupplyPenalty
                 Throw New Exception("Document Code can't be blank !")
             End If
 
-            If clsShortSupplyPenalty.DeleteData(txtDocNo.Value) Then
-                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
+            If clsCommon.MyMessageBoxShow("Are you sure to delete data ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsShortSupplyPenalty.DeleteData(txtDocNo.Value) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
+                    AddNew()
+                End If
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -691,6 +770,67 @@ Public Class frmShortSupplyPenalty
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Try
             Me.Close()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub frmShortSupplyPenalty_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        Try
+            If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverseAndUnpost.Visible = True
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnReverseAndUnpost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnpost.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Are you sure to reverse and unpost ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsShortSupplyPenalty.ReverseAndUnpost(txtDocNo.Value, txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Reverse and Unposted successfully.", Me.Text)
+                        LoadData(txtDocNo.Value, Nothing)
+                    End If
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Document code can't be blank !", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Document No can't be blank !")
+            End If
+            Dim Qry As String = "Select TSPL_SHORT_SUPPLY_PENALTY.Document_No,	TSPL_SHORT_SUPPLY_PENALTY.Document_Date,	TSPL_SHORT_SUPPLY_PENALTY.Location_Code,	TSPL_SHORT_SUPPLY_PENALTY.Tendor_No,	TSPL_SHORT_SUPPLY_PENALTY.Vendor_No,TSPL_Vendor_Master.Vendor_Name,	TSPL_SHORT_SUPPLY_PENALTY.Item_Code,TSPL_ITEM_MASTER.Item_Desc,	TSPL_SHORT_SUPPLY_PENALTY.Remarks,	TSPL_SHORT_SUPPLY_PENALTY.PI_No,	TSPL_SHORT_SUPPLY_PENALTY.RAL_Qty,	TSPL_SHORT_SUPPLY_PENALTY.SRN_Qty,	TSPL_SHORT_SUPPLY_PENALTY.Penalty_Qty,	TSPL_SHORT_SUPPLY_PENALTY.Penalty_Applicable_Per,	TSPL_SHORT_SUPPLY_PENALTY.Short_Qty,	TSPL_SHORT_SUPPLY_PENALTY.Item_Rate,	TSPL_SHORT_SUPPLY_PENALTY.Penalty_Rate,	TSPL_SHORT_SUPPLY_PENALTY.Penalty_Amount,TSPL_TENDER_HEADER.DocumentDate As Tendor_Date,TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Document_No,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.GRN_No,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.GRN_Date,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Weighment_Code,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Weighment_Date,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Gross_Weight,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Tare_Weight,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Extra_Weight,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Net_Weight,	TSPL_SHORT_SUPPLY_PENALTY_DETAIL.SRN_No,TSPL_SHORT_SUPPLY_PENALTY_DETAIL.SRN_Date,TSPL_SHORT_SUPPLY_PENALTY_DETAIL.SRN_Qty As SRNQty,TSPL_SHORT_SUPPLY_PENALTY_DETAIL.UOM,
+                                TSPL_company_master.Comp_Name,TSPL_company_master.Logo_Img,TSPL_company_master.Logo_Img2,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.Add3
+                                from TSPL_SHORT_SUPPLY_PENALTY
+                                Left Outer Join TSPL_SHORT_SUPPLY_PENALTY_DETAIL On TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Document_No=TSPL_SHORT_SUPPLY_PENALTY.Document_No
+                                left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_SHORT_SUPPLY_PENALTY.Tendor_No
+                                left Outer Join TSPL_Vendor_Master On TSPL_Vendor_Master.Vendor_Code=TSPL_SHORT_SUPPLY_PENALTY.Vendor_No
+                                left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SHORT_SUPPLY_PENALTY.Item_Code
+								left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_SHORT_SUPPLY_PENALTY.Location_Code
+                                left Outer Join TSPL_company_master On TSPL_company_master.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
+                                 where TSPL_SHORT_SUPPLY_PENALTY.Document_No='" + txtDocNo.Value + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ShortSupplyPenalty", "Short Supply Penalty", Nothing)
+                frmCRV = Nothing
+            Else
+                Throw New Exception("Data Not Found !")
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
