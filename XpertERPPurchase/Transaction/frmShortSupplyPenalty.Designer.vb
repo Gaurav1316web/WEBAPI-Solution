@@ -22,7 +22,7 @@ Partial Class frmShortSupplyPenalty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.lblShortQty = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -64,13 +64,12 @@ Partial Class frmShortSupplyPenalty
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.BtnCancel = New Telerik.WinControls.UI.RadButton()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -109,13 +108,12 @@ Partial Class frmShortSupplyPenalty
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -171,8 +169,7 @@ Partial Class frmShortSupplyPenalty
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnCancel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseAndUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -197,7 +194,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(739, 34)
+        Me.MyLabel6.Location = New System.Drawing.Point(737, 34)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(54, 16)
         Me.MyLabel6.TabIndex = 391
@@ -246,7 +243,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(740, 98)
+        Me.MyLabel10.Location = New System.Drawing.Point(738, 98)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(86, 16)
         Me.MyLabel10.TabIndex = 389
@@ -256,7 +253,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(739, 76)
+        Me.MyLabel9.Location = New System.Drawing.Point(737, 76)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(92, 16)
         Me.MyLabel9.TabIndex = 387
@@ -278,7 +275,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(739, 55)
+        Me.MyLabel7.Location = New System.Drawing.Point(737, 55)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(30, 16)
         Me.MyLabel7.TabIndex = 385
@@ -290,7 +287,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblApplicable.BorderVisible = True
         Me.lblApplicable.FieldName = Nothing
         Me.lblApplicable.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblApplicable.Location = New System.Drawing.Point(683, 97)
+        Me.lblApplicable.Location = New System.Drawing.Point(681, 97)
         Me.lblApplicable.Name = "lblApplicable"
         Me.lblApplicable.Size = New System.Drawing.Size(52, 19)
         Me.lblApplicable.TabIndex = 384
@@ -312,7 +309,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblPenaltyQty.BorderVisible = True
         Me.lblPenaltyQty.FieldName = Nothing
         Me.lblPenaltyQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPenaltyQty.Location = New System.Drawing.Point(635, 76)
+        Me.lblPenaltyQty.Location = New System.Drawing.Point(633, 76)
         Me.lblPenaltyQty.Name = "lblPenaltyQty"
         Me.lblPenaltyQty.Size = New System.Drawing.Size(100, 19)
         Me.lblPenaltyQty.TabIndex = 382
@@ -334,7 +331,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblSRNQty.BorderVisible = True
         Me.lblSRNQty.FieldName = Nothing
         Me.lblSRNQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSRNQty.Location = New System.Drawing.Point(635, 55)
+        Me.lblSRNQty.Location = New System.Drawing.Point(633, 55)
         Me.lblSRNQty.Name = "lblSRNQty"
         Me.lblSRNQty.Size = New System.Drawing.Size(100, 19)
         Me.lblSRNQty.TabIndex = 380
@@ -346,7 +343,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblRALQty.BorderVisible = True
         Me.lblRALQty.FieldName = Nothing
         Me.lblRALQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRALQty.Location = New System.Drawing.Point(635, 34)
+        Me.lblRALQty.Location = New System.Drawing.Point(633, 34)
         Me.lblRALQty.Name = "lblRALQty"
         Me.lblRALQty.Size = New System.Drawing.Size(100, 19)
         Me.lblRALQty.TabIndex = 379
@@ -747,7 +744,7 @@ Partial Class frmShortSupplyPenalty
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -757,35 +754,34 @@ Partial Class frmShortSupplyPenalty
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
         '
-        'BtnCancel
+        'btnClose
         '
-        Me.BtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCancel.Location = New System.Drawing.Point(230, 4)
-        Me.BtnCancel.Name = "BtnCancel"
-        Me.BtnCancel.Size = New System.Drawing.Size(69, 22)
-        Me.BtnCancel.TabIndex = 14
-        Me.BtnCancel.Text = "Cancel"
-        Me.BtnCancel.Visible = False
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(855, 4)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(69, 22)
+        Me.btnClose.TabIndex = 15
+        Me.btnClose.Text = "Close"
         '
-        'btnReverse
+        'btnReverseAndUnpost
         '
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(372, 4)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(69, 22)
-        Me.btnReverse.TabIndex = 12
-        Me.btnReverse.Text = "Reverse"
-        Me.btnReverse.Visible = False
+        Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(301, 4)
+        Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
+        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(125, 22)
+        Me.btnReverseAndUnpost.TabIndex = 12
+        Me.btnReverseAndUnpost.Text = "Reverse And Unpost"
+        Me.btnReverseAndUnpost.Visible = False
         '
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(301, 4)
+        Me.btnPrint.Location = New System.Drawing.Point(230, 4)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnPrint.TabIndex = 11
         Me.btnPrint.Text = "Print"
-        Me.btnPrint.Visible = False
         '
         'btnDelete
         '
@@ -813,15 +809,6 @@ Partial Class frmShortSupplyPenalty
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 8
         Me.btnSave.Text = "Save"
-        '
-        'btnClose
-        '
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(855, 4)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 22)
-        Me.btnClose.TabIndex = 15
-        Me.btnClose.Text = "Close"
         '
         'frmShortSupplyPenalty
         '
@@ -874,21 +861,19 @@ Partial Class frmShortSupplyPenalty
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents BtnCancel As RadButton
-    Friend WithEvents btnReverse As RadButton
+    Friend WithEvents btnReverseAndUnpost As RadButton
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnDelete As RadButton
     Friend WithEvents btnPost As RadButton
