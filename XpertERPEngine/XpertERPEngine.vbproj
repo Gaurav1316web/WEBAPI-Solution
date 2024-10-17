@@ -177,7 +177,7 @@
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
     <Reference Include="zxing">
-      <HintPath>C:\Users\DELL\Downloads\zxing.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +533,7 @@
     <Compile Include="Purchase\clsNIRQC.vb" />
     <Compile Include="Purchase\clsRMDemandApproval.vb" />
     <Compile Include="Purchase\clsSetPOSchedule.vb" />
+    <Compile Include="Purchase\clsShortSupplyPenalty.vb" />
     <Compile Include="Purchase\clsTenderHead.vb" />
     <Compile Include="Purchase\clsTenderShortPenalty.vb" />
     <Compile Include="Receivables\ClsBankBook.vb" />
