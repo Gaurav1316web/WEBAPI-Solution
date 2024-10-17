@@ -148,7 +148,6 @@
     <Compile Include="Classes\ClsSolutionKnowledgeBase.vb" />
     <Compile Include="Classes\clsWeeklyHolidays.vb" />
     <Compile Include="clsLanguage.vb" />
-    <Compile Include="clsShortSupplyPenalty.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />

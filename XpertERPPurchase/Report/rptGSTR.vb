@@ -17,7 +17,6 @@ Public Class rptGSTR
 
         Dim qry As String = "select distinct(Segment_code) as Code ,Description  from TSPL_GL_SEGMENT_CODE left outer join TSPL_LOCATION_MASTER on TSPL_GL_SEGMENT_CODE .Segment_code =TSPL_LOCATION_MASTER .Loc_Segment_Code "
         qry += " where 2=2 and Seg_No = '7' AND GIT='N'"
-
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             qry += " and  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If

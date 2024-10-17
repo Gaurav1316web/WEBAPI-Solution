@@ -448,8 +448,15 @@ left outer join TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS on TSPL_MILK_COLLECTION_D
 LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.VLC_Code
 left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code 
-WHERE convert(date, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,103) >= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "'
-and convert (date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,103) <= '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'"
+"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                BaseQry += "WHERE convert(date, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) >= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "'
+                and convert (date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) <= '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'"
+            Else
+                BaseQry += "WHERE convert(date, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,103) >= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "'
+                            and convert (date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date,103) <= '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'"
+            End If
+
             If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
                 BaseQry += " and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ")"
             End If
