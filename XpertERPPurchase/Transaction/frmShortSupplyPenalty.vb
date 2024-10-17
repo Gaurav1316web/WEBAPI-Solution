@@ -23,57 +23,9 @@ Public Class frmShortSupplyPenalty
     Private Sub frmShortSupplyPenalty_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             AddNew()
-            createAllTable()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-    End Sub
-
-    Sub createAllTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_No", "varchar(30) Not null Primary Key")
-        coll.Add("Document_Date", "DateTime  Not Null ")
-        coll.Add("Location_Code", "Varchar(12) Not Null References TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Tendor_No", "Varchar(50) Not Null References TSPL_TENDER_HEADER(DocumentCode)")
-        coll.Add("Vendor_No", "Varchar(12) Not Null References TSPL_VENDOR_MASTER(Vendor_Code)")
-        coll.Add("Item_Code", "Varchar(50) Not Null References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Remarks", "Varchar(200) Null")
-        coll.Add("PI_No", "Varchar(30) Not Null References TSPL_PI_HEAD(PI_No)")
-        coll.Add("RAL_Qty", "decimal(18,2) not null default 0")
-        coll.Add("SRN_Qty", "decimal(18,2) not null default 0")
-        coll.Add("Penalty_Qty", "decimal(18,2) not null default 0")
-        coll.Add("Penalty_Applicable_Per", "decimal(18,2) not null default 0")
-        coll.Add("Short_Qty", "decimal(18,2) not null default 0")
-        coll.Add("Item_Rate", "decimal(18,2) not null default 0")
-        coll.Add("Penalty_Rate", "decimal(18,2) not null default 0")
-        coll.Add("Penalty_Amount", "decimal(18,2) not null default 0")
-        coll.Add("Created_By", "varchar(12)  Not NULL")
-        coll.Add("Created_Date", "datetime  Not NULL")
-        coll.Add("Modified_By", "varchar(12)  Not NULL")
-        coll.Add("Modified_Date", "datetime  Not NULL")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime NULL")
-        coll.Add("Status", "integer not null default 0")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHORT_SUPPLY_PENALTY", coll, Nothing, True, True, "", "DocumentCode", "DocumentDate")
-
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_No", "varchar(30) Not Null References TSPL_SHORT_SUPPLY_PENALTY(Document_No)")
-        coll.Add("GRN_No", "varchar(30)  Null ")
-        coll.Add("GRN_Date", "Datetime  Null ")
-        coll.Add("Weighment_Code", "varchar(30)  Null ")
-        coll.Add("Weighment_Date", "Datetime  Null ")
-        coll.Add("Gross_Weight", "decimal(18,2) not null default 0 ")
-        coll.Add("Tare_Weight", "Decimal(18, 2) not null default 0")
-        coll.Add("Extra_Weight", "decimal(18,2) not null default 0 ")
-        coll.Add("Net_Weight", "Decimal(18, 2)  not null default 0")
-        coll.Add("SRN_No", "varchar(30)  Null")
-        coll.Add("SRN_Date", "Datetime  Null ")
-        coll.Add("SRN_Qty", "Decimal(18, 2)  not null default 0")
-        coll.Add("UOM", "varchar(12)  Null ")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHORT_SUPPLY_PENALTY_DETAIL", coll, Nothing, True, True, "", "DocumentCode", "DocumentDate")
-
     End Sub
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
@@ -111,6 +63,7 @@ Public Class frmShortSupplyPenalty
         btnDelete.Enabled = False
         btnReverseAndUnpost.Visible = False
         UsLock1.Status = ERPTransactionStatus.Pending
+        btnAPInvoice.Visible = False
         txtSRN_PI.Enabled = False
         LoadBlankGrid()
     End Sub
@@ -538,6 +491,10 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 Throw New Exception("PI No can't be blank !")
             End If
 
+            If clsCommon.myCdbl(lblPenaltyAmt.Text) <= 0 Then
+                Throw New Exception("Document can't save beacuse penalty amount is : " + clsCommon.myCstr(lblPenaltyAmt.Text))
+            End If
+
             If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
                 For i As Integer = 0 To gv1.Rows.Count - 1
                     If clsCommon.myLen(gv1.Rows(i).Cells(colPINo).Value) <= 0 Then
@@ -679,11 +636,13 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                     btnDelete.Enabled = False
                     btnPost.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
+                    btnAPInvoice.Visible = True
                 Else
                     btnSave.Enabled = True
                     btnDelete.Enabled = True
                     btnPost.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                    btnAPInvoice.Visible = False
                 End If
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsShortSupplyPenaltyDetail In obj.Arr
@@ -797,7 +756,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 If clsCommon.MyMessageBoxShow("Are you sure to reverse and unpost ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     If clsShortSupplyPenalty.ReverseAndUnpost(txtDocNo.Value, txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value) Then
                         clsCommon.MyMessageBoxShow(Me, "Reverse and Unposted successfully.", Me.Text)
-                        LoadData(txtDocNo.Value, Nothing)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
             Else
@@ -830,6 +789,23 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 frmCRV = Nothing
             Else
                 Throw New Exception("Data Not Found !")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnAPInvoice_Click(sender As Object, e As EventArgs) Handles btnAPInvoice.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim APInvoice As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo='" + txtDocNo.Value + "'"))
+                If clsCommon.myLen(APInvoice) > 0 Then
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnAPInvoiceEntry, APInvoice)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "AP Invoice not created !", Me.Text)
+                End If
+            Else
+                    clsCommon.MyMessageBoxShow(Me, "Document No can't be blank !", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
