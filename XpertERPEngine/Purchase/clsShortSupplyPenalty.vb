@@ -238,7 +238,7 @@ where 2=2"
             obj.Item_Rate = clsCommon.myCdbl(dt.Rows(0)("Item_Rate"))
             obj.Penalty_Rate = clsCommon.myCdbl(dt.Rows(0)("Penalty_Rate"))
             obj.Penalty_Amount = clsCommon.myCdbl(dt.Rows(0)("Penalty_Amount"))
-            obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
+            obj.Status = clsCommon.myCdbl(dt.Rows(0)("Status"))
 
             qry = "Select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No,TSPL_SHORT_SUPPLY_PENALTY_DETAIL.*,TSPL_PI_DETAIL.PI_No,Case When Isnull(TSPL_PI_HEAD.Status,0)=1 Then 'Approved' Else 'Unapproved' End As [PI Status] from TSPL_SHORT_SUPPLY_PENALTY_DETAIL left Outer Join TSPL_PI_DETAIL On TSPL_PI_DETAIL.SRN_Id=TSPL_SHORT_SUPPLY_PENALTY_DETAIL.SRN_No Left Outer Join TSPL_PI_HEAD On TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No Left Outer Join TSPL_PURCHASE_ORDER_HEAD On PurchaseOrder_No=TSPL_PI_HEAD.Against_PO Where TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Document_No='" + obj.Document_Code + "'"
             dt = New DataTable()
@@ -301,6 +301,19 @@ where 2=2"
                         WHERE TSPL_PURCHASE_ORDER_HEAD.Vendor_Code = '" + Vendor_No + "' AND TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location = '" + Location + "' AND TSPL_PURCHASE_ORDER_HEAD.RefTendorNo = '" + RAL_No + "' 
                         AND TSPL_PURCHASE_ORDER_DETAIL.Item_Code = '" + Item_Code + "' "
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+
+
+            Qry = "Select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No In (Select TSPL_VENDOR_INVOICE_HEAD.Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo='" + strDocCode + "'  )"
+            Dim VoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
+
+            If clsCommon.myLen(VoucherNo) > 0 Then
+                Qry = " Delete from TSPL_JOURNAL_DETAILS where Voucher_No='" + VoucherNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+                Qry = " Delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            End If
 
             Qry = " Delete from TSPL_VENDOR_INVOICE_DETAIL where Document_No In (Select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo='" + strDocCode + "')"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)

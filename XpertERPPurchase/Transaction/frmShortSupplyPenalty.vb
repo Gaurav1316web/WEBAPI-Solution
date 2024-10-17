@@ -111,6 +111,7 @@ Public Class frmShortSupplyPenalty
         btnDelete.Enabled = False
         btnReverseAndUnpost.Visible = False
         UsLock1.Status = ERPTransactionStatus.Pending
+        btnAPInvoice.Visible = False
         txtSRN_PI.Enabled = False
         LoadBlankGrid()
     End Sub
@@ -538,6 +539,10 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 Throw New Exception("PI No can't be blank !")
             End If
 
+            If clsCommon.myLen(lblPenaltyAmt.Text) <= 0 Then
+                Throw New Exception("Document can't save beacuse penalty amount is : " + clsCommon.myCstr(lblPenaltyAmt.Text))
+            End If
+
             If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
                 For i As Integer = 0 To gv1.Rows.Count - 1
                     If clsCommon.myLen(gv1.Rows(i).Cells(colPINo).Value) <= 0 Then
@@ -679,11 +684,13 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                     btnDelete.Enabled = False
                     btnPost.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
+                    btnAPInvoice.Visible = True
                 Else
                     btnSave.Enabled = True
                     btnDelete.Enabled = True
                     btnPost.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
+                    btnAPInvoice.Visible = False
                 End If
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsShortSupplyPenaltyDetail In obj.Arr
@@ -797,7 +804,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 If clsCommon.MyMessageBoxShow("Are you sure to reverse and unpost ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     If clsShortSupplyPenalty.ReverseAndUnpost(txtDocNo.Value, txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value) Then
                         clsCommon.MyMessageBoxShow(Me, "Reverse and Unposted successfully.", Me.Text)
-                        LoadData(txtDocNo.Value, Nothing)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
             Else
@@ -830,6 +837,23 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 frmCRV = Nothing
             Else
                 Throw New Exception("Data Not Found !")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnAPInvoice_Click(sender As Object, e As EventArgs) Handles btnAPInvoice.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim APInvoice As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo='" + txtDocNo.Value + "'"))
+                If clsCommon.myLen(APInvoice) > 0 Then
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnAPInvoiceEntry, APInvoice)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "AP Invoice not created !", Me.Text)
+                End If
+            Else
+                    clsCommon.MyMessageBoxShow(Me, "Document No can't be blank !", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
