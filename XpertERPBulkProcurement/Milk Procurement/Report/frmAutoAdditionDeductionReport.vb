@@ -53,7 +53,7 @@ Public Class frmAutoAdditionDeductionReport
                 Qry += " ,case when ([Addition/Deduction Amount] - FloR) > 0.5 then cast (ROUND([Addition/Deduction Amount],0)as int) 
                           else cast(ROUND([Addition/Deduction Amount],2)as int) end as [Addition/Deduction AmountR] "
             Else
-                Qry += " ,ceiling(SUM(X.[Addition/Deduction Amount])) As [Addition/Deduction AmountR] "
+                Qry += " ,ceiling((xx.[Addition/Deduction Amount])) As [Addition/Deduction AmountR] "
             End If
             Qry += " from ( select (x.[DCS Code])[DCS Code],max([DCS Name])[DCS Name],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
                                  (x.[Formula])Formula,"
