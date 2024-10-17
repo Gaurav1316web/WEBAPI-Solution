@@ -48926,6 +48926,50 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Modify_Date", "datetime null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_HSN_MASTER", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(30) Not null Primary Key")
+            coll.Add("Document_Date", "DateTime  Not Null ")
+            coll.Add("Location_Code", "Varchar(12) Not Null References TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Tendor_No", "Varchar(50) Not Null References TSPL_TENDER_HEADER(DocumentCode)")
+            coll.Add("Vendor_No", "Varchar(12) Not Null References TSPL_VENDOR_MASTER(Vendor_Code)")
+            coll.Add("Item_Code", "Varchar(50) Not Null References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Remarks", "Varchar(200) Null")
+            coll.Add("PI_No", "Varchar(30) Not Null References TSPL_PI_HEAD(PI_No)")
+            coll.Add("RAL_Qty", "decimal(18,2) not null default 0")
+            coll.Add("SRN_Qty", "decimal(18,2) not null default 0")
+            coll.Add("Penalty_Qty", "decimal(18,2) not null default 0")
+            coll.Add("Penalty_Applicable_Per", "decimal(18,2) not null default 0")
+            coll.Add("Short_Qty", "decimal(18,2) not null default 0")
+            coll.Add("Item_Rate", "decimal(18,2) not null default 0")
+            coll.Add("Penalty_Rate", "decimal(18,2) not null default 0")
+            coll.Add("Penalty_Amount", "decimal(18,2) not null default 0")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modified_By", "varchar(12)  Not NULL")
+            coll.Add("Modified_Date", "datetime  Not NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime NULL")
+            coll.Add("Status", "integer not null default 0")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHORT_SUPPLY_PENALTY", coll, Nothing, True, True, "", "DocumentCode", "DocumentDate")
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(30) Not Null References TSPL_SHORT_SUPPLY_PENALTY(Document_No)")
+            coll.Add("GRN_No", "varchar(30)  Null ")
+            coll.Add("GRN_Date", "Datetime  Null ")
+            coll.Add("Weighment_Code", "varchar(30)  Null ")
+            coll.Add("Weighment_Date", "Datetime  Null ")
+            coll.Add("Gross_Weight", "decimal(18,2) not null default 0 ")
+            coll.Add("Tare_Weight", "Decimal(18, 2) not null default 0")
+            coll.Add("Extra_Weight", "decimal(18,2) not null default 0 ")
+            coll.Add("Net_Weight", "Decimal(18, 2)  not null default 0")
+            coll.Add("SRN_No", "varchar(30)  Null")
+            coll.Add("SRN_Date", "Datetime  Null ")
+            coll.Add("SRN_Qty", "Decimal(18, 2)  not null default 0")
+            coll.Add("UOM", "varchar(12)  Null ")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHORT_SUPPLY_PENALTY_DETAIL", coll, Nothing, True, True, "", "DocumentCode", "DocumentDate")
+
+
             '' '' CUSTOMER Management Tables
             'coll = New Dictionary(Of String, String)()
             'coll.Add("Document_No", "varchar(30) not null Primary Key")
@@ -49910,6 +49954,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_VENDOR_SUMMARY_TRANS_DL", coll, " unique (TRANS_DATE,VENDOR_Code,CURRENCY_CODE,TRANS_TYPE)")
 
             ' '' end of vendor/customer GIT Tables
+
+
 
             ' bahul : for mannual payment through mobile app
             coll = New Dictionary(Of String, String)

@@ -464,13 +464,17 @@ where 2 = 2  "
         qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,'" + Shift + "' AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_ITEM_MASTER.Item_Desc,
 TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
         If rbtnDispatch.IsChecked Then
-            qry += " TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code,"
+            qry += " TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+		    		Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount
+,Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Pack' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 End Pack "
         ElseIf rbtnDemand.IsChecked Then
-            qry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code,"
-        End If
-        qry += " Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+            qry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
 		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount
 ,Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pack' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pack "
+        End If
+        '        qry += " Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+        '		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount
+        ',Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pack' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pack "
 
 
 
