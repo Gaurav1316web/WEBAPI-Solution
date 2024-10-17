@@ -491,7 +491,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 Throw New Exception("PI No can't be blank !")
             End If
 
-            If clsCommon.myLen(lblPenaltyAmt.Text) <= 0 Then
+            If clsCommon.myCdbl(lblPenaltyAmt.Text) <= 0 Then
                 Throw New Exception("Document can't save beacuse penalty amount is : " + clsCommon.myCstr(lblPenaltyAmt.Text))
             End If
 
