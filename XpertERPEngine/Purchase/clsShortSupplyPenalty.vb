@@ -89,8 +89,8 @@ Public Class clsShortSupplyPenalty
 
             If isPost Then
                 qry = Nothing
-                qry = "UPDATE TSPL_PURCHASE_ORDER_HEAD SET TSPL_PURCHASE_ORDER_HEAD.close_yn = 'Y' FROM TSPL_PURCHASE_ORDER_HEAD 
-                        LEFT OUTER JOIN TSPL_PURCHASE_ORDER_DETAIL ON TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No = TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No
+                qry = "UPDATE TSPL_PURCHASE_ORDER_Detail SET TSPL_PURCHASE_ORDER_Detail.Item_Close_YN = 'Y' FROM TSPL_PURCHASE_ORDER_DETAIL  
+                        LEFT OUTER JOIN TSPL_PURCHASE_ORDER_HEAD ON TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No
                         WHERE TSPL_PURCHASE_ORDER_HEAD.Vendor_Code = '" + obj.Vendor_No + "' AND TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location = '" + obj.Location + "' AND TSPL_PURCHASE_ORDER_HEAD.RefTendorNo = '" + obj.RAL_No + "' 
                         AND TSPL_PURCHASE_ORDER_DETAIL.Item_Code = '" + obj.Item_Code + "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -296,13 +296,14 @@ where 2=2"
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim Qry As String = Nothing
-            Qry = "UPDATE TSPL_PURCHASE_ORDER_HEAD SET TSPL_PURCHASE_ORDER_HEAD.close_yn = 'N' FROM TSPL_PURCHASE_ORDER_HEAD 
-                        LEFT OUTER JOIN TSPL_PURCHASE_ORDER_DETAIL ON TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No = TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No
+
+            Dim PONumber As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No FROM TSPL_PURCHASE_ORDER_DETAIL LEFT OUTER JOIN TSPL_PURCHASE_ORDER_HEAD ON TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No WHERE TSPL_PURCHASE_ORDER_HEAD.Vendor_Code = '" + Vendor_No + "' AND TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location = '" + Location + "' AND TSPL_PURCHASE_ORDER_HEAD.RefTendorNo = '" + RAL_No + "'      AND TSPL_PURCHASE_ORDER_DETAIL.Item_Code = '" + Item_Code + "' ", trans))
+
+            Qry = "UPDATE TSPL_PURCHASE_ORDER_Detail SET TSPL_PURCHASE_ORDER_Detail.Item_Close_YN = 'N' FROM TSPL_PURCHASE_ORDER_DETAIL  
+                        LEFT OUTER JOIN TSPL_PURCHASE_ORDER_HEAD ON TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No
                         WHERE TSPL_PURCHASE_ORDER_HEAD.Vendor_Code = '" + Vendor_No + "' AND TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location = '" + Location + "' AND TSPL_PURCHASE_ORDER_HEAD.RefTendorNo = '" + RAL_No + "' 
                         AND TSPL_PURCHASE_ORDER_DETAIL.Item_Code = '" + Item_Code + "' "
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
-
 
             Qry = "Select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No In (Select TSPL_VENDOR_INVOICE_HEAD.Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo='" + strDocCode + "'  )"
             Dim VoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
@@ -323,6 +324,21 @@ where 2=2"
 
             Qry = "Update TSPL_SHORT_SUPPLY_PENALTY Set Status=0 Where Document_No='" + strDocCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+            If clsCommon.myLen(PONumber) > 0 Then
+                Qry = "Select SUM(Item_Code)Item_Code,SUM(ItemStatus)ItemStatus from (
+                        select Count(Item_Code)Item_Code,0 As ItemStatus from TSPL_PURCHASE_ORDER_DETAIL where PurchaseOrder_No='" + PONumber + "' group by PurchaseOrder_No 
+                        Union All
+                        select 0 As Item_Code,COUNT(Item_Close_YN)ItemStatus from TSPL_PURCHASE_ORDER_DETAIL where PurchaseOrder_No='" + PONumber + "' And Item_Close_YN='Y' group by PurchaseOrder_No 
+                        )xyz"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If clsCommon.myCdbl(dt.Rows(0)("Item_Code")) = clsCommon.myCdbl(dt.Rows(0)("ItemStatus")) Then
+                        Qry = "Update TSPL_PURCHASE_ORDER_HEAD Set close_yn='Y' Where PurchaseOrder_No='" + PONumber + "'"
+                        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                    End If
+                End If
+            End If
 
             trans.Commit()
         Catch ex As Exception
