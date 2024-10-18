@@ -20507,7 +20507,6 @@ Public Class clsCreateAllTable
             coll.Add("Item_Insurance_Rate", "decimal(18,2) NULL")
             coll.Add("Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
-            coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
             coll.Add("Item_Close_YN", "char(1) Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_DETAIL", coll, Nothing, True, True, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
 
