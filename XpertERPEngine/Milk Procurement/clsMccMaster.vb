@@ -2216,7 +2216,7 @@ Public Class clsEkoPro
         Return Nothing
     End Function
 
-    Public Shared Function getSnfOnCalculation(ByVal FatPer As Double, ByVal CLR As Double, ByVal CorrectionFactor As Double, Optional ByVal DeciPace As Integer = -1) As Double
+    Public Shared Function getSnfOnCalculation(ByVal FatPer As Double, ByVal CLR As Double, ByVal CorrectionFactor As Double, Optional ByVal DeciPace As Integer = -1, Optional ByVal ResultDecimalPlaces As Integer = 2) As Double
         Dim ParameterForSNFatQC As Decimal = objCommonVar.ParameterForSNFatQC
         If ParameterForSNFatQC = 0 Then
             ParameterForSNFatQC = 0.2
@@ -2227,9 +2227,9 @@ Public Class clsEkoPro
         End If
         SNF = CLR / 4 + ParameterForSNFatQC * FatPer + CorrectionFactor
         If ParameterForSNFatQC = 0.2 Then
-            SNF = MyMath.RoundDown(SNF, 2)
+            SNF = MyMath.RoundDown(SNF, ResultDecimalPlaces)
         Else
-            SNF = Math.Round(SNF, 2, MidpointRounding.ToEven)
+            SNF = Math.Round(SNF, ResultDecimalPlaces, MidpointRounding.ToEven)
         End If
         Return SNF
     End Function
