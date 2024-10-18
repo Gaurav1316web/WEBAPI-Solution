@@ -684,6 +684,12 @@ Public Class SaleEinvoiceReport
         Dim item89 As New GridViewSummaryItem("Item Amount", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item89)
 
+        Dim item90 As New GridViewSummaryItem("Base Amount", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item90)
+
+        Dim item91 As New GridViewSummaryItem("Invoice Value", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item91)
+
         gvData.ShowGroupPanel = True
         gvData.MasterTemplate.AutoExpandGroups = True
 
