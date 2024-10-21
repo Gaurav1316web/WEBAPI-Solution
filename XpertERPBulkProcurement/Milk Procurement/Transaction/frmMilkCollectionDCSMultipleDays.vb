@@ -570,7 +570,7 @@ Public Class frmMilkCollectionDCSMultipleDays
             txtTotEnteredFAT.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100), 3, MidpointRounding.ToEven)
             Dim snfPer As Decimal = txtTotEnteredSNFPer.Value
             If isPickCLRInsteadOfSNF Then
-                snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
+                snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor, -1, 6)
             End If
             txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfPer / 100), 3, MidpointRounding.ToEven)
         Else
@@ -860,7 +860,8 @@ Public Class frmMilkCollectionDCSMultipleDays
 
 
                 If isPickCLRInsteadOfSNF Then
-                    txtTotEnteredSNFPer.Value = clsEkoPro.getClrOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
+                    'txtTotEnteredSNFPer.Value = clsEkoPro.getClrOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
+                    txtTotEnteredSNFPer.Value = obj.CLR
                 End If
 
 

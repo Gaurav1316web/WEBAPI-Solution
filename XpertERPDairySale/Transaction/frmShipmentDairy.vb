@@ -9172,7 +9172,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "'"
             strwherecls = Xtra.CustomerPermission()
             Dim strDONo As String = Nothing
             Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,(select isnull((Select distinct '['+TSPL_SD_SALE_INVOICE_HEAD.Document_Code+']  ' from TSPL_SD_SHIPMENT_HEAD a left outer join TSPL_SD_SALE_INVOICE_HEAD on a.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where  a.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code  for xml path('')),'') )as InvoiceNo, 
-TSPL_SD_SHIPMENT_HEAD.GatePass_No as GatePassCode,TSPL_SD_SHIPMENT_HEAD.Route_No,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as ShiftType,TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code as DeliveryCode, 
+TSPL_SD_SHIPMENT_HEAD.GatePass_No as GatePassCode,TSPL_SD_SHIPMENT_HEAD.Route_No,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as ShiftType, CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.supply_date, 103) AS SupplyDate, TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code as DeliveryCode, 
 CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date, 
 TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code], 
 Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount, 

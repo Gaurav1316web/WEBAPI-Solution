@@ -3554,7 +3554,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             select  VSP_CODE1 ,TotalSweetQty,TotalSoreQty,TotalCurdQty ,DAYS_Total, VLC_Code_VLC_Uploader from (
             select  VSP_CODE1, QBD  , Qty, Case when  QBD = 'SWEET' then Qty else 0  end  as TotalSweetQty, Case when  QBD = 'SOUR'  then Qty else 0  end  as TotalSoreQty, Case when  QBD = 'CURD'  then Qty 
             else 0  end  as TotalCurdQty ,count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total , VLC_Code_VLC_Uploader from (
-            select * from (select DAY( convert (date,DOC_DATE,103)) as DocDay ,VSP_CODE1, QBD, sum( Qty) as Qty ,VLC_Code_VLC_Uploader from ( 
+            select * from (select DAY( convert (date,DOC_DATE,103)) as DocDay ,VSP_CODE1, max(QBD)QBD, sum( Qty) as Qty ,VLC_Code_VLC_Uploader from ( 
             select TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')=''
             then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT, TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name
             ,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'') = ''  then (case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type , '') = '' then 'SWEET' 
@@ -3573,7 +3573,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
              left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code 
              left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  
               where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" & startDate & "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" & endDate & "'),103) 
-             ) XXXFinal group by DOC_DATE, VSP_CODE1,QBD , VLC_Code_VLC_Uploader ) XXX  ) XXXXMain)XXXFinal
+             ) XXXFinal group by DOC_DATE, VSP_CODE1 , VLC_Code_VLC_Uploader ) XXX  ) XXXXMain)XXXFinal
 		     ) Final   left outer join (select VLC_Code_VLC_Uploader as DCS_Code,VLC_Name,TSPL_VLC_MASTER_HEAD.VSP_Code from TSPL_VLC_MASTER_HEAD            
 	         ) as XXXDCS ON XXXDCS.VSP_Code=Final.VSP_Code1 
              where FINAL.VSP_CODE1 is not null 

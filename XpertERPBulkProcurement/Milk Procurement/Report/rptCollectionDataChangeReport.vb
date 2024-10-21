@@ -16,10 +16,10 @@ Public Class rptCollectionDataChangeReport
 
     Sub Print(ByVal IsPrint As Exporter)
         Try
-            If txtFromDate.Value > txtToDate.Value Then
-                txtFromDate.Focus()
-                Throw New Exception("From date can not be greater then to Date")
-            End If
+            'If txtFromDate.Value > txtToDate.Value Then
+            '    txtFromDate.Focus()
+            '    Throw New Exception("From date can not be greater then to Date")
+            'End If
 
             ',UpdateData.[Milk Weight(KG)] as [Milk Weight(KG) Update], UpdateData.[Milk Weight(LTR)]  as [Milk Weight(LTR) Update]
             ',final.[Milk Weight(KG)], final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]
@@ -229,12 +229,12 @@ Public Class rptCollectionDataChangeReport
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 qry += " and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
             End If
-            qry += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
+            qry += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) ='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'"
             If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
+                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
             End If
-            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
+            If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
+                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
             End If
 
             qry += " ) As final where 2=2  " &
@@ -280,12 +280,12 @@ Public Class rptCollectionDataChangeReport
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 qry += " and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
             End If
-            qry += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
+            qry += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) ='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'"
             If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
+                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
             End If
-            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
+            If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
+                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
             End If
             If rbtnRetestingData.Checked Then
                 qry += " and TSPL_MILK_SRN_DETAIL.Retesting_FAT>0 And TSPL_MILK_SRN_DETAIL.Retesting_SNF>0 And Retesting_OR_Correction_Status>0 "
@@ -343,8 +343,8 @@ Public Class rptCollectionDataChangeReport
                   or ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF or FirstNonNullFatSnfData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN MaxVersionData.Upd_Manual_Sample ELSE NULL END AS Upd_Manual_Sample,  CASE when (ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) = MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF)  and FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight
                   or FirstNonNullFatSnfData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN FirstNonNullFatSnfData.Org_Sample_User ELSE (case when ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF  then MaxVersionData.Upd_Sample_User else null end )  END AS Upd_Sample_User, CASE when (ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) = MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF)  and 
 				  FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or FirstNonNullFatSnfData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN convert(date,FirstNonNullFatSnfData.Org_Sample_Date,103) ELSE (case when ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF  then convert(date,MaxVersionData.Upd_Sample_Date,103)  else null end )  END AS Upd_Sample_Date FROM 
-                  FirstMilkWeightData LEFT JOIN  FirstNonNullFatSnfData  ON FirstMilkWeightData.Org_Document_No = FirstNonNullFatSnfData.Document_No AND FirstMilkWeightData.SNo = FirstNonNullFatSnfData.SNo  LEFT JOIN  MaxVersionData  ON FirstMilkWeightData.Org_Document_No = MaxVersionData.Document_No AND FirstMilkWeightData.SNo = MaxVersionData.SNo WHERE MaxVersionData.Source_API = 1 "
-
+                  FirstMilkWeightData LEFT JOIN  FirstNonNullFatSnfData  ON FirstMilkWeightData.Org_Document_No = FirstNonNullFatSnfData.Document_No AND FirstMilkWeightData.SNo = FirstNonNullFatSnfData.SNo  LEFT JOIN  MaxVersionData  ON FirstMilkWeightData.Org_Document_No = MaxVersionData.Document_No AND FirstMilkWeightData.SNo = MaxVersionData.SNo WHERE 1=1 "
+                'MaxVersionData.Source_API = 1 
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                     qry += "and MaxVersionData.MCC_CODE  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
                 End If
@@ -354,13 +354,13 @@ Public Class rptCollectionDataChangeReport
                 If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                     qry += " and MaxVersionData.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
                 End If
-                qry += " and convert(date,MaxVersionData.Upd_Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' , 103) and convert(date,MaxVersionData.Upd_Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "', 103) "
+                qry += " and convert(date,MaxVersionData.Upd_Document_Date,103) = CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' , 103)  "
 
                 If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-                    qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and convert(date,MaxVersionData.Upd_Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and MaxVersionData.Shift ='M' then 3 else 2 end  )"
+                    qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and convert(date,MaxVersionData.Upd_Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and MaxVersionData.Shift ='M' then 3 else 2 end  )"
                 End If
-                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-                    qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and convert(date,MaxVersionData.Upd_Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "' and MaxVersionData.Shift ='E' then 3 else 2 end  )"
+                If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and MaxVersionData.Shift ='E' then 3 else 2 end  )"
                 End If
                 qry += " order by MaxVersionData.Document_No,MaxVersionData.SNo "
             End If
@@ -664,7 +664,7 @@ Public Class rptCollectionDataChangeReport
         txtMCC.arrValueMember = Nothing
         txtRoute.arrValueMember = Nothing
         txtVLC.arrValueMember = Nothing
-        txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+        'txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
         txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
         gv1.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -692,25 +692,25 @@ Public Class rptCollectionDataChangeReport
         'cbgShift.DisplayMember = "Shift"
     End Sub
 
-    Sub LoadShiftTo()
-        Dim dt As DataTable = New DataTable
-        dt.Columns.Add("Code")
-        dt.Columns.Add("Shift")
+    'Sub LoadShiftTo()
+    '    Dim dt As DataTable = New DataTable
+    '    dt.Columns.Add("Code")
+    '    dt.Columns.Add("Shift")
 
-        Dim dr As DataRow = dt.NewRow
-        dr("Code") = "M"
-        dr("Shift") = "Morning"
-        dt.Rows.Add(dr)
+    '    Dim dr As DataRow = dt.NewRow
+    '    dr("Code") = "M"
+    '    dr("Shift") = "Morning"
+    '    dt.Rows.Add(dr)
 
-        dr = dt.NewRow
-        dr("Code") = "E"
-        dr("Shift") = "Evening"
-        dt.Rows.Add(dr)
+    '    dr = dt.NewRow
+    '    dr("Code") = "E"
+    '    dr("Shift") = "Evening"
+    '    dt.Rows.Add(dr)
 
-        txtToShift.DataSource = dt
-        txtToShift.ValueMember = "Code"
+    '    txtToShift.DataSource = dt
+    '    txtToShift.ValueMember = "Code"
 
-    End Sub
+    'End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         PageSetupReport_ID = MyBase.Form_ID
@@ -719,6 +719,7 @@ Public Class rptCollectionDataChangeReport
         gv1.Columns.Clear()
         gv1.Rows.Clear()
         GetReportID()
+        LoadVersion()
         Print(Exporter.Refresh)
     End Sub
 
@@ -756,36 +757,36 @@ Public Class rptCollectionDataChangeReport
 
     Private Sub rptTankerStatusReport_Load(sender As Object, e As EventArgs) Handles Me.Load
         SetUserMgmtNew()
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT Document_No,Hist_Version FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data  GROUP  BY   Document_No ,Hist_Version HAVING sum(1)>1  order by Document_No,Hist_Version desc ", trans)
-            Dim Hist_version As Integer = 0
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For Each dr As DataRow In dt.Rows
-                    Hist_version = clsCommon.myCdbl(dr("Hist_Version"))
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        'Try
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT Document_No,Hist_Version FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data  GROUP  BY   Document_No ,Hist_Version HAVING sum(1)>1  order by Document_No,Hist_Version desc ", trans)
+        '    Dim Hist_version As Integer = 0
+        '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '        For Each dr As DataRow In dt.Rows
+        '            Hist_version = clsCommon.myCdbl(dr("Hist_Version"))
 
-                    Dim dtHist As DataTable = clsDBFuncationality.GetDataTable("select  Hist_By,Hist_On,Hist_Version from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data where Document_No= '" & clsCommon.myCstr(dr("Document_No")) & "' and Hist_Version= " & Hist_version & " order by Hist_On ", trans)
-                    For ii As Integer = 1 To dtHist.Rows.Count - 1
-                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data set Hist_Version = Hist_Version + " & dtHist.Rows.Count & " where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version > " & Hist_version & "", trans)
-                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data set Hist_Version = Hist_Version + 1 where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version = " & Hist_version & " and Hist_By = '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_By")) & "' and convert(datetime,Hist_On,103) =  convert(datetime,'" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_On")) & "',103)", trans)
+        '            Dim dtHist As DataTable = clsDBFuncationality.GetDataTable("select  Hist_By,Hist_On,Hist_Version from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data where Document_No= '" & clsCommon.myCstr(dr("Document_No")) & "' and Hist_Version= " & Hist_version & " order by Hist_On ", trans)
+        '            For ii As Integer = 1 To dtHist.Rows.Count - 1
+        '                clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data set Hist_Version = Hist_Version + " & dtHist.Rows.Count & " where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version > " & Hist_version & "", trans)
+        '                clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data set Hist_Version = Hist_Version + 1 where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version = " & Hist_version & " and Hist_By = '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_By")) & "' and convert(datetime,Hist_On,103) =  convert(datetime,'" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_On")) & "',103)", trans)
 
-                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data set Hist_Version = Hist_Version + " & dtHist.Rows.Count & " where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version > " & Hist_version & "", trans)
-                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data set Hist_Version = Hist_Version + 1 where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version = " & Hist_version & " and Hist_By = '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_By")) & "' and convert(datetime,Hist_On,103) =  convert(datetime, '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_On")) & "',103)", trans)
+        '                clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data set Hist_Version = Hist_Version + " & dtHist.Rows.Count & " where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version > " & Hist_version & "", trans)
+        '                clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data set Hist_Version = Hist_Version + 1 where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version = " & Hist_version & " and Hist_By = '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_By")) & "' and convert(datetime,Hist_On,103) =  convert(datetime, '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_On")) & "',103)", trans)
 
-                    Next
-                Next
-            End If
-            trans.Commit()
+        '            Next
+        '        Next
+        '    End If
+        '    trans.Commit()
 
-        Catch ex As Exception
-            trans.Rollback()
-            Throw New Exception(ex.Message)
-        End Try
+        'Catch ex As Exception
+        '    trans.Rollback()
+        '    Throw New Exception(ex.Message)
+        'End Try
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnGo, "Press Alt+R Refresh ")
         ButtonToolTip.SetToolTip(BtnReset, "Press Alt+N Adding New")
         LoadShiftFrom()
-        LoadShiftTo()
+        'LoadShiftTo()
         Reset()
     End Sub
 
@@ -797,7 +798,7 @@ Public Class rptCollectionDataChangeReport
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 arrHeader.Add("Name : " & Me.Text)
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
+                arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy")) + " ")
 
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                     arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " "))
@@ -826,7 +827,7 @@ Public Class rptCollectionDataChangeReport
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 arrHeader.Add("Name : " & Me.Text)
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
+                arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy")) + " ")
 
                 If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                     arrHeader.Add(("MCC : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember) + " "))
@@ -899,6 +900,33 @@ Public Class rptCollectionDataChangeReport
                 txtRoute.arrValueMember = arr
             End If
         End If
+    End Sub
+    Sub LoadVersion()
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT Document_No,Hist_Version FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data  GROUP  BY   Document_No ,Hist_Version HAVING sum(1)>1  order by Document_No,Hist_Version desc ", trans)
+            Dim Hist_version As Integer = 0
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    Hist_version = clsCommon.myCdbl(dr("Hist_Version"))
+
+                    Dim dtHist As DataTable = clsDBFuncationality.GetDataTable("select  Hist_By,Hist_On,Hist_Version from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data where Document_No= '" & clsCommon.myCstr(dr("Document_No")) & "' and Hist_Version= " & Hist_version & " order by Hist_On ", trans)
+                    For ii As Integer = 1 To dtHist.Rows.Count - 1
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data set Hist_Version = Hist_Version + " & dtHist.Rows.Count & " where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version > " & Hist_version & "", trans)
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data set Hist_Version = Hist_Version + 1 where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version = " & Hist_version & " and Hist_By = '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_By")) & "' and convert(datetime,Hist_On,103) =  convert(datetime,'" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_On")) & "',103)", trans)
+
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data set Hist_Version = Hist_Version + " & dtHist.Rows.Count & " where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version > " & Hist_version & "", trans)
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data set Hist_Version = Hist_Version + 1 where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version = " & Hist_version & " and Hist_By = '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_By")) & "' and convert(datetime,Hist_On,103) =  convert(datetime, '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_On")) & "',103)", trans)
+
+                    Next
+                Next
+            End If
+            trans.Commit()
+
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Sub RefreshVLC()
