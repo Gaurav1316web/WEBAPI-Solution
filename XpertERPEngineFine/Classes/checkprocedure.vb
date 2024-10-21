@@ -2401,6 +2401,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDemandHistory, "Demand History", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmPrintMultipleGatepass, "Print Multiple Gatepass", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBoothTruckSheet, "Booth Truck Sheet", "1.06.03.53", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDemandReport, "Demand Report", "1.06.03.54", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
