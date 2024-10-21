@@ -9115,6 +9115,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDailyDemand
                         frm = New frmDailyDemand()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDBTUnionPayment
+                        frm = New frmDBTUnionPayment()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDailyDemandReport
                         frm = New frmDailyDemandReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
