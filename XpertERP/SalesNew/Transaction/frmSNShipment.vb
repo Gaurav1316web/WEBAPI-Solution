@@ -5470,7 +5470,7 @@ Public Class frmSNShipment
 
 
 
-        LoadData(clsCommon.ShowSelectForm("ShipmentCode", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ShipmentCode", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_SD_SHIPMENT_HEAD.Document_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

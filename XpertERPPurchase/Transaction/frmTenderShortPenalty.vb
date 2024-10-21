@@ -347,7 +347,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
             whrClas += " and TSPL_TENDER_PENALTY.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
         isLoad = False
-        LoadData(clsCommon.ShowSelectForm("TSP@Fnd", qry, "Document_No", whrClas, txtDocNo.Value, "TSPL_TENDER_PENALTY.Document_Date desc", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("TSP@Fnd", qry, "Document_No", whrClas, txtDocNo.Value, "TSPL_TENDER_PENALTY.Document_Date desc", isButtonClicked, "TSPL_TENDER_PENALTY.Document_Date"), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
