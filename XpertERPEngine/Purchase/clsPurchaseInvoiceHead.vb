@@ -3832,6 +3832,12 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
                 Throw New Exception("Purchase Invoice is used in Purchase Return No- " + strpi + " ")
             End If
 
+            qry = "select PI_No from TSPL_SHORT_SUPPLY_PENALTY where PI_No in ('" + strDocNo + "')"
+            strpi = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(strpi) > 0 Then
+                Throw New Exception("Purchase Invoice is used in Short Supply Penalty PI No- " + strpi + " ")
+            End If
+
             qry = "select TSPL_PI_HEAD.PI_No,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_JOURNAL_MASTER.Voucher_No,TSPL_PJV_HEAD.PJV_No from TSPL_PI_HEAD "
             qry += "  left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No=TSPL_PI_HEAD.PI_No"
             qry += "  left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_JOURNAL_MASTER.Source_Code in ('AP-IN','AP-DN','PI-CM')"

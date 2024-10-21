@@ -22,11 +22,12 @@ Partial Class rptCollectionDataChangeReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMilkProcUpl = New System.Windows.Forms.RadioButton()
         Me.rbtnCorrectionData = New System.Windows.Forms.RadioButton()
         Me.rbtnRetestingData = New System.Windows.Forms.RadioButton()
         Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
@@ -35,13 +36,6 @@ Partial Class rptCollectionDataChangeReport
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.lblLocation = New common.Controls.MyLabel()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
-        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
-        Me.lblToDate = New common.Controls.MyLabel()
-        Me.lblfromDate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -54,7 +48,10 @@ Partial Class rptCollectionDataChangeReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnMilkProcUpl = New System.Windows.Forms.RadioButton()
+        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.lblfromDate = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -66,14 +63,6 @@ Partial Class rptCollectionDataChangeReport
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,6 +71,11 @@ Partial Class rptCollectionDataChangeReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -149,6 +143,17 @@ Partial Class rptCollectionDataChangeReport
         Me.RadGroupBox2.Size = New System.Drawing.Size(188, 75)
         Me.RadGroupBox2.TabIndex = 397
         '
+        'rbtnMilkProcUpl
+        '
+        Me.rbtnMilkProcUpl.AutoSize = True
+        Me.rbtnMilkProcUpl.Location = New System.Drawing.Point(13, 51)
+        Me.rbtnMilkProcUpl.Name = "rbtnMilkProcUpl"
+        Me.rbtnMilkProcUpl.Size = New System.Drawing.Size(166, 17)
+        Me.rbtnMilkProcUpl.TabIndex = 2
+        Me.rbtnMilkProcUpl.TabStop = True
+        Me.rbtnMilkProcUpl.Text = "Milk Procurement Uploader"
+        Me.rbtnMilkProcUpl.UseVisualStyleBackColor = True
+        '
         'rbtnCorrectionData
         '
         Me.rbtnCorrectionData.AutoSize = True
@@ -175,7 +180,7 @@ Partial Class rptCollectionDataChangeReport
         '
         Me.txtMCC.arrDispalyMember = Nothing
         Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(39, 59)
+        Me.txtMCC.Location = New System.Drawing.Point(39, 47)
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel16
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -188,7 +193,7 @@ Partial Class rptCollectionDataChangeReport
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(3, 59)
+        Me.MyLabel16.Location = New System.Drawing.Point(3, 47)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel16.TabIndex = 396
@@ -198,7 +203,7 @@ Partial Class rptCollectionDataChangeReport
         '
         Me.txtVLC.arrDispalyMember = Nothing
         Me.txtVLC.arrValueMember = Nothing
-        Me.txtVLC.Location = New System.Drawing.Point(39, 99)
+        Me.txtVLC.Location = New System.Drawing.Point(39, 87)
         Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVLC.MyLinkLable1 = Me.MyLabel15
         Me.txtVLC.MyLinkLable2 = Nothing
@@ -211,7 +216,7 @@ Partial Class rptCollectionDataChangeReport
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(3, 99)
+        Me.MyLabel15.Location = New System.Drawing.Point(3, 87)
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(27, 18)
         Me.MyLabel15.TabIndex = 394
@@ -221,7 +226,7 @@ Partial Class rptCollectionDataChangeReport
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(39, 79)
+        Me.txtRoute.Location = New System.Drawing.Point(39, 67)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Me.lblLocation
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -234,125 +239,11 @@ Partial Class rptCollectionDataChangeReport
         '
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(3, 79)
+        Me.lblLocation.Location = New System.Drawing.Point(3, 67)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(36, 18)
         Me.lblLocation.TabIndex = 392
         Me.lblLocation.Text = "Route"
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.txtToShift)
-        Me.RadGroupBox1.Controls.Add(Me.txtFromShift)
-        Me.RadGroupBox1.Controls.Add(Me.txtToDate)
-        Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
-        Me.RadGroupBox1.Controls.Add(Me.lblToDate)
-        Me.RadGroupBox1.Controls.Add(Me.lblfromDate)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(403, 50)
-        Me.RadGroupBox1.TabIndex = 1
-        '
-        'txtToShift
-        '
-        Me.txtToShift.AutoCompleteDisplayMember = Nothing
-        Me.txtToShift.AutoCompleteValueMember = Nothing
-        Me.txtToShift.DropDownAnimationEnabled = True
-        Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.txtToShift.Location = New System.Drawing.Point(345, 11)
-        Me.txtToShift.Name = "txtToShift"
-        Me.txtToShift.Size = New System.Drawing.Size(52, 20)
-        Me.txtToShift.TabIndex = 328
-        '
-        'txtFromShift
-        '
-        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
-        Me.txtFromShift.AutoCompleteValueMember = Nothing
-        Me.txtFromShift.DropDownAnimationEnabled = True
-        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.txtFromShift.Location = New System.Drawing.Point(153, 11)
-        Me.txtFromShift.Name = "txtFromShift"
-        Me.txtFromShift.Size = New System.Drawing.Size(52, 20)
-        Me.txtFromShift.TabIndex = 327
-        '
-        'txtToDate
-        '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(262, 11)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Nothing
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtToDate.TabIndex = 1
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "17-12-2011"
-        Me.txtToDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
-        '
-        'txtFromDate
-        '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(70, 11)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Nothing
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtFromDate.TabIndex = 0
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "17-12-2011"
-        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
-        '
-        'lblToDate
-        '
-        Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(210, 12)
-        Me.lblToDate.Name = "lblToDate"
-        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
-        Me.lblToDate.TabIndex = 14
-        Me.lblToDate.Text = "To Date"
-        '
-        'lblfromDate
-        '
-        Me.lblfromDate.FieldName = Nothing
-        Me.lblfromDate.Location = New System.Drawing.Point(4, 12)
-        Me.lblfromDate.Name = "lblfromDate"
-        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
-        Me.lblfromDate.TabIndex = 13
-        Me.lblfromDate.Text = "From Date"
         '
         'RadPageViewPage2
         '
@@ -380,7 +271,7 @@ Partial Class rptCollectionDataChangeReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -388,6 +279,7 @@ Partial Class rptCollectionDataChangeReport
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1008, 397)
         Me.gv1.TabIndex = 5
+        Me.gv1.VarID = ""
         '
         'RadMenu1
         '
@@ -463,16 +355,67 @@ Partial Class rptCollectionDataChangeReport
         Me.btnGo.TabIndex = 42
         Me.btnGo.Text = ">>>"
         '
-        'rbtnMilkProcUpl
+        'txtFromShift
         '
-        Me.rbtnMilkProcUpl.AutoSize = True
-        Me.rbtnMilkProcUpl.Location = New System.Drawing.Point(13, 51)
-        Me.rbtnMilkProcUpl.Name = "rbtnMilkProcUpl"
-        Me.rbtnMilkProcUpl.Size = New System.Drawing.Size(166, 17)
-        Me.rbtnMilkProcUpl.TabIndex = 2
-        Me.rbtnMilkProcUpl.TabStop = True
-        Me.rbtnMilkProcUpl.Text = "Milk Procurement Uploader"
-        Me.rbtnMilkProcUpl.UseVisualStyleBackColor = True
+        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
+        Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
+        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.txtFromShift.Location = New System.Drawing.Point(156, 5)
+        Me.txtFromShift.Name = "txtFromShift"
+        Me.txtFromShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtFromShift.TabIndex = 330
+        '
+        'txtFromDate
+        '
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(73, 5)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Nothing
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtFromDate.TabIndex = 328
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "17-12-2011"
+        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'lblfromDate
+        '
+        Me.lblfromDate.FieldName = Nothing
+        Me.lblfromDate.Location = New System.Drawing.Point(7, 6)
+        Me.lblfromDate.Name = "lblfromDate"
+        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
+        Me.lblfromDate.TabIndex = 329
+        Me.lblfromDate.Text = "From Date"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtFromShift)
+        Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
+        Me.RadGroupBox1.Controls.Add(Me.lblfromDate)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(39, 8)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(224, 33)
+        Me.RadGroupBox1.TabIndex = 1
         '
         'rptCollectionDataChangeReport
         '
@@ -500,15 +443,6 @@ Partial Class rptCollectionDataChangeReport
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
-        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -517,6 +451,12 @@ Partial Class rptCollectionDataChangeReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -536,13 +476,6 @@ Partial Class rptCollectionDataChangeReport
     Friend WithEvents RadSplitButton1 As Telerik.WinControls.UI.RadSplitButton
     Friend WithEvents rmiExcel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents txtToShift As Telerik.WinControls.UI.RadDropDownList
-    Friend WithEvents txtFromShift As Telerik.WinControls.UI.RadDropDownList
-    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
-    Friend WithEvents lblToDate As common.Controls.MyLabel
-    Friend WithEvents lblfromDate As common.Controls.MyLabel
     Friend WithEvents txtMCC As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents txtVLC As common.UserControls.txtMultiSelectFinder
@@ -553,5 +486,9 @@ Partial Class rptCollectionDataChangeReport
     Friend WithEvents rbtnCorrectionData As RadioButton
     Friend WithEvents rbtnRetestingData As RadioButton
     Friend WithEvents rbtnMilkProcUpl As RadioButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents txtFromShift As RadDropDownList
+    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblfromDate As common.Controls.MyLabel
 End Class
 
