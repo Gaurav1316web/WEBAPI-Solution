@@ -327,6 +327,12 @@
     <Compile Include="Report\rptD1D2Report.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptDemandReport.Designer.vb">
+      <DependentUpon>rptDemandReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptDemandReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptDemandReturnReport.Designer.vb">
       <DependentUpon>rptDemandReturnReport.vb</DependentUpon>
     </Compile>
@@ -962,6 +968,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDailyStatementReport.resx">
       <DependentUpon>rptDailyStatementReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptDemandReport.resx">
+      <DependentUpon>rptDemandReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDemandReturnReport.resx">
       <DependentUpon>rptDemandReturnReport.vb</DependentUpon>

@@ -8231,6 +8231,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptBoothTruckSheet
                         frm = New rptBoothTruckSheet()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptDemandReport
+                        frm = New rptDemandReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptZoneWiseMSVisual
                         frm = New rptZoneWiseMilkSaleVisual()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9114,6 +9117,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDailyDemand
                         frm = New frmDailyDemand()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDBTUnionPayment
+                        frm = New frmDBTUnionPayment()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDailyDemandReport
                         frm = New frmDailyDemandReport()

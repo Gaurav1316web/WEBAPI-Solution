@@ -1065,13 +1065,12 @@ Public Class frmTender
                     Else
                         Reason = frm.strRmks
                     End If
-
                 End If
-            End If
-            If (clsTenderHead.DeleteData(txtDocNo.Value)) Then
-                saveCancelLog(Reason, "Delete", Nothing)
-                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
-                AddNew()
+                If (clsTenderHead.DeleteData(txtDocNo.Value)) Then
+                    saveCancelLog(Reason, "Delete", Nothing)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
+                    AddNew()
+                End If
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
