@@ -32020,6 +32020,11 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_INVOICE_HEAD", "DOCUMENT_CODE", "")
 
 
+            qry = "update TSPL_SD_SALE_INVOICE_DETAIL set Total_Tax_Amt=TAX1_Amt+TAX2_Amt+TAX3_Amt+TAX4_Amt+TAX5_Amt+TAX6_Amt+TAX7_Amt+TAX8_Amt+TAX9_Amt+TAX10_Amt
+,Item_Tax=TAX1_Amt+TAX2_Amt+TAX3_Amt+TAX4_Amt+TAX5_Amt+TAX6_Amt+TAX7_Amt+TAX8_Amt+TAX9_Amt+TAX10_Amt"
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "update TSPL_SD_SALE_INVOICE_DETAIL set Item_Net_Amt=Amt_Less_Discount+Total_Tax_Amt"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
