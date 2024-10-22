@@ -1133,11 +1133,11 @@ Public Class frmBulkPurchaseUploader
                 Dim FATPer As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_Fat %").Value)
                 Dim SNFPer As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_SNF %").Value)
                 If FATPer > 0 Then
-                    Gv1.Rows(i).Cells("FAT Qty.").Value = Math.Round(netWeight * FATPer / 100, 2)
+                    Gv1.Rows(i).Cells("FAT Qty.").Value = Math.Round(netWeight * FATPer / 100, 3)
                     Gv1.Rows(i).Cells("Sale_Fat %").Value = Math.Round(FATPer, 2)
                 End If
                 If SNFPer > 0 Then
-                    Gv1.Rows(i).Cells("SNF Qty").Value = Math.Round(netWeight * SNFPer / 100, 2)
+                    Gv1.Rows(i).Cells("SNF Qty").Value = Math.Round(netWeight * SNFPer / 100, 3)
                     Gv1.Rows(i).Cells("Sale_SNF %").Value = Math.Round(SNFPer, 2)
                 End If
                 Dim FATQty As Double = Gv1.Rows(i).Cells("FAT Qty.").Value
@@ -1145,8 +1145,8 @@ Public Class frmBulkPurchaseUploader
 
                 Dim ConversionFactor As Double = clsDBFuncationality.getSingleValue("select  Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code = '" & Gv1.Rows(i).Cells("Item Code").Value & "' and UOM_Code = '" & Gv1.Rows(i).Cells("UOM").Value & "'")
 
-                Gv1.Rows(i).Cells("Fat Per Kg").Value = Math.Round(netWeight * ConversionFactor * FATPer / 100, 2)
-                Gv1.Rows(i).Cells("Snf Per Kg").Value = Math.Round(netWeight * ConversionFactor * SNFPer / 100, 2)
+                Gv1.Rows(i).Cells("Fat Per Kg").Value = Math.Round(netWeight * ConversionFactor * FATPer / 100, 3)
+                Gv1.Rows(i).Cells("Snf Per Kg").Value = Math.Round(netWeight * ConversionFactor * SNFPer / 100, 3)
 
                 Gv1.Rows(i).Cells("Sale_Amount").Value = Math.Round((Gv1.Rows(i).Cells("FAT Rate").Value * Gv1.Rows(i).Cells("Fat Per Kg").Value) + (Gv1.Rows(i).Cells("SNF Rate").Value * Gv1.Rows(i).Cells("Snf Per Kg").Value), 2)
 
