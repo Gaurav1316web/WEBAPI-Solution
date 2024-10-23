@@ -1439,6 +1439,7 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
             If clsCommon.myLen(strDocNo) <= 0 Then
                 Throw New Exception("Payment process Document no Not found to  unpost")
             End If
+
             Dim qry As String = "select TSPL_PAYMENT_PROCESS_HEAD.isPosted,TSPL_PAYMENT_PROCESS_HEAD.isPrePosted,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code,TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date from TSPL_PAYMENT_PROCESS_HEAD where Doc_No='" + strDocNo + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -1453,17 +1454,43 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
                 Throw New Exception("Payment process should be posted to  unpost")
             End If
 
+            Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_BANK_ADVISE Where Payment_Process_Document_No='" + strDocNo + "'", trans))
+            If clsCommon.myLen(DocNo) > 0 Then
+                clsBankAdvise.ReverseAndUnpost(DocNo, trans)
+                clsBankAdvise.deleteData(DocNo, trans)
+            End If
 
             qry = "update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=0, Posting_Date=null where doc_no='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "TSPL_PAYMENT_PROCESS_DETAIL", "Doc_No", trans)
-
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
+    End Function
+
+    Public Shared Function CreateBankAdvise(ByVal strCode As String, ByVal strDate As DateTime) As Boolean
+        Dim isNewEntry As Boolean = False
+        Dim IsBankAdviseStartDate As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
+        If clsCommon.myLen(IsBankAdviseStartDate) <= 0 Then
+            Dim obj As clsBankAdvise = New clsBankAdvise()
+            obj.Document_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_BANK_ADVISE Where Payment_Process_Document_No='" + strCode + "'"))
+            obj.Document_Date = strDate
+            obj.Payment_Process_Document_No = strCode
+            obj.Remarks = "Auto"
+            If obj.Document_No IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0 Then
+                isNewEntry = False
+            Else
+                isNewEntry = True
+            End If
+            If clsBankAdvise.SaveData(obj, isNewEntry) Then
+                If clsCommon.myLen(obj.Document_No) > 0 Then
+                    clsBankAdvise.postData(obj.Document_No)
+                End If
+            End If
+        End If
         Return True
     End Function
 
@@ -1983,7 +2010,7 @@ group by code,Sequence_No,Description order by  Description desc"
 
             sQuery = "select 
 Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
-,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(Date1) as Date1,max(Date2) as Date2,max(comp_add1) as comp_add1,max(comp_add2) as comp_add2,max(comp_add3) as comp_add3,max(comp_Fax) as comp_Fax,max(comp_Email) as comp_Email,max(CompPhone) as CompPhone,max(Pincode) as Pincode,max(Tcan_No) as Tcan_No,max(Doc_Date) as Doc_Date,min(from_date) as from_date, max(to_date) as to_date,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(DebitAmount) as DebitAmount,max(CreditAmount) as CreditAmount,max(Hold_Payable_Amount) as Hold_Payable_Amount,sum(HeadLoadAmount) as HeadLoadAmount"
+,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(Date1) as Date1,max(Date2) as Date2,max(comp_add1) as comp_add1,max(comp_add2) as comp_add2,max(comp_add3) as comp_add3,max(comp_Fax) as comp_Fax,max(comp_Email) as comp_Email,max(CompPhone) as CompPhone,max(Pincode) as Pincode,max(Tcan_No) as Tcan_No,max(Doc_Date) as Doc_Date,min(from_date) as from_date, max(to_date) as to_date,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(DebitAmount) as DebitAmount,max(CreditAmount) as CreditAmount,max(Hold_Payable_Amount) as Hold_Payable_Amount,sum(HeadLoadAmount) as HeadLoadAmount,MAX([Bank Advise No])[Bank Advise No]"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                 sQuery += " , sum(TotalOutStandingAmt) as TotalOutStandingAmt "
@@ -2011,8 +2038,9 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                     ,(SELECT sum(TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE Doc_no in (" + strDocNo + ")) AS Milk_Amount                 
                     ,(SELECT sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount) FROM TSPL_PAYMENT_PROCESS_DEDUCTION WHERE TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_no in (" + strDocNo + ")) AS DebitAmount
                     ,(SELECT sum(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount) FROM TSPL_PAYMENT_PROCESS_CREDIT_NOTE WHERE TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ")) AS CreditAmount
-                    ,(SELECT sum(Payable_Amount) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE TSPL_PAYMENT_PROCESS_DETAIL.is_Hold_Payment_Process=1 and TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ")) AS Hold_Payable_Amount
+                    ,(SELECT sum(Payable_Amount) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE TSPL_PAYMENT_PROCESS_DETAIL.is_Hold_Payment_Process=1 and TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ")) AS Hold_Payable_Amount,TSPL_BANK_ADVISE.Document_No As [Bank Advise No]
                     from TSPL_PAYMENT_PROCESS_HEAD
+                    left Outer Join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No
                     left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code =TSPL_PAYMENT_PROCESS_HEAD.Comp_Code"
             If AreaWiseBilling = True Then
                 sQuery += "	  Left Outer Join( 
