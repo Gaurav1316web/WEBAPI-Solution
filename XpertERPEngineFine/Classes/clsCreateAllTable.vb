@@ -14775,6 +14775,8 @@ Public Class clsCreateAllTable
             coll.Add("Virtual_AC_No", "varchar(28) null")
             coll.Add("Default_Cash_Customer ", "int not Null default 0")
             coll.Add("Reference", "varchar(100) NULL")
+            coll.Add("Is_Staff", "integer not null default 0")
+            coll.Add("EMP_CODE", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
@@ -29421,6 +29423,12 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Level2_User", "varchar(12) null references tspl_user_master(user_code)")
             coll.Add("Level3_User", "varchar(12) null references tspl_user_master(user_code)")
             coll.Add("Is_Approved", "int not null default 0")
+            coll.Add("Customer_Type", "int  null")
+            coll.Add("BPL_Coupon_Code", "varchar(30) NULL")
+            coll.Add("BPL_Name", "varchar(50) NULL")
+            coll.Add("BPL_Remark", "varchar(50) NULL")
+            coll.Add("BPL_Coupon_Date", "Date NULL")
+            coll.Add("BPL_Category", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)

@@ -112,6 +112,9 @@ Public Class frmAutoAdditionDeductionReport
                 Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
             End If
             Qry += "    )x  group by x.[DCS Code],x.[Code],x.[Apply On],x.[Apply Type],x.Formula )xx "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                Qry += " order by cast([DCS Code] as int) "
+            End If
 
             dt = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
@@ -525,7 +528,7 @@ Public Class frmAutoAdditionDeductionReport
             If clsCommon.myLen(fndArea.Value) > 0 Then
                 Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
             End If
-            Qry += "    )x  group by x.[DCS Code],x.[Code],x.[Apply On],x.[Apply Type],x.Formula )xx "
+            Qry += "    )x  group by x.[DCS Code],x.[Code],x.[Apply On],x.[Apply Type],x.Formula )xx order by cast([DCS Code] as int) "
 
             dt = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)

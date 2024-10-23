@@ -180,7 +180,7 @@ Public Class frmBankAdvise
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                If clsBankAdvise.deleteData(fndDocNo.Value) Then
+                If clsBankAdvise.deleteData(fndDocNo.Value, Nothing) Then
                     clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully.", Me.Text)
                     Reset()
                 End If
@@ -228,5 +228,18 @@ Public Class frmBankAdvise
         btnPost.Enabled = False
     End Sub
 
-
+    Private Sub btnReverseAndUnpost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnpost.Click
+        Try
+            If clsCommon.myLen(fndDocNo.Value) > 0 Then
+                If clsBankAdvise.ReverseAndUnpost(fndDocNo.Value, Nothing) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data Reverse and Unposted Successfully", Me.Text)
+                    LoadData(fndDocNo.Value, Nothing)
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found to Reverse and Unpost.", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

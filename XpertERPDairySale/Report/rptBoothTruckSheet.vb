@@ -504,11 +504,14 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_M
         '        qry += "
         'And convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) +
         '"
-        If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
-            qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='M' then 3 else 2 end  )"
+        If clsCommon.CompairString(Fromshift, "E") = CompairStringResult.Equal Then
+            'If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
+            qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 3 else 2 end  )"
         End If
-        If clsCommon.CompairString(clsCommon.myCstr(txtToDate.Text), "M") = CompairStringResult.Equal Then
-            qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='E' then 3 else 2 end  )"
+        If clsCommon.CompairString(Fromshift, "M") = CompairStringResult.Equal Then
+
+            'If clsCommon.CompairString(clsCommon.myCstr(txtToDate.Text), "M") = CompairStringResult.Equal Then
+            qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(TODate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  )"
         End If
         qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "') )order by Sku_Seq"
         'If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
@@ -519,7 +522,11 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_M
         'End If
 
         Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dtPrint IsNot Nothing And dtPrint.Rows.Count > 0 Then
+        If dtPrint IsNot Nothing And dtPrint.Rows.Count <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+            Exit Sub
+        ElseIf dtPrint.Rows.Count > 0 Then
+            'If dtPrint IsNot Nothing And dtPrint.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If rdbEnglish.IsChecked = True Then
                 If chkPouch.Checked = True Then
@@ -538,10 +545,12 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_M
                 End If
             End If
             frmCRV = Nothing
+
             Return
             'ElseIf
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
+        Exit Sub
     End Sub
 
 End Class
