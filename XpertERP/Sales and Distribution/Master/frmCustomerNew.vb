@@ -546,6 +546,23 @@ Public Class frmCustomer
                     End If
                 End If
             End If
+            If clsCommon.myLen(txtPhone1.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone1.Text) Then
+                txtPhone1.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number")
+            End If
+            If clsCommon.myLen(txtPhone2.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone2.Text) Then
+                txtPhone2.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number.")
+            End If
+            If clsCommon.myLen(txtContPhone.Text) > 0 AndAlso Not IsValidPhoneNumber(txtContPhone.Text) Then
+                txtContPhone.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number. Contact Person Number")
+            End If
+            If clsCommon.myLen(txtDriverMobileNo.Text) > 0 AndAlso Not IsValidPhoneNumber(txtDriverMobileNo.Text) Then
+                txtDriverMobileNo.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number. Driver Mobile Number")
+            End If
+
             '===================================================
             UcCustomFields1.AllowToSave()
             Return True
@@ -553,6 +570,13 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
+    End Function
+
+    Function IsValidPhoneNumber(phone As String) As Boolean
+        ' Regex pattern for US phone numbers (you can adjust it as per the requirement)
+        Dim pattern As String = "^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$"
+        Dim regex As New Regex(pattern)
+        Return regex.IsMatch(phone)
     End Function
     Private Function isCustomerOfRouteType() As Boolean
         Dim isCustomerInfoOfRouteType As Boolean = False
@@ -1322,13 +1346,13 @@ Public Class frmCustomer
 
             obj.Reference = txtReference.Text
             obj.Country = clsCommon.myCstr(fndCountry.Value)
-            obj.Phone1 = clsCommon.myCstr(txtPhone1.Text)
-            obj.Phone2 = clsCommon.myCstr(txtPhone2.Text)
+            obj.Phone1 = txtPhone1.Text
+            obj.Phone2 = txtPhone2.Text
             obj.Fax = clsCommon.myCstr(txtfax.Text)
             obj.Email = clsCommon.myCstr(txtEmail.Text)
             obj.WebSite = clsCommon.myCstr(txtWeb.Text)
             obj.Contact_Person_Name = clsCommon.myCstr(txtContactName.Text)
-            obj.Contact_Person_Phone = clsCommon.myCstr(txtContPhone.Text)
+            obj.Contact_Person_Phone = txtContPhone.Text
             obj.Contact_Person_Fax = clsCommon.myCstr(txtContactFax.Text)
             obj.Contact_Person_Email = clsCommon.myCstr(txtContactEmail.Text)
             obj.Contact_Person_Website = clsCommon.myCstr(txtContactWeb.Text)
@@ -5822,4 +5846,6 @@ Public Class frmCustomer
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
+
+
 End Class
