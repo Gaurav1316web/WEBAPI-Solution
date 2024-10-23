@@ -6065,7 +6065,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             gv1.Rows(IntRowNo).Cells(colHeadDisPerAmt).Value = Math.Round(dblHeadPerDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colTotalDiscountAmount).Value = Math.Round(dblTotDiscAmt, 2)
             Dim ConvFact As Double = ReturnConvFact(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value))
-            gv1.Rows(IntRowNo).Cells(colPendingQty).Value = (Math.Round(dblBalanceQty, 2) * ConvFact) - dblQty
+            gv1.Rows(IntRowNo).Cells(colPendingQty).Value = (Math.Round(dblBalanceQty, 2) * ConvFact) ''- dblQty
             gv1.Rows(IntRowNo).Cells(colBalanceQty).Value = Math.Round(dblBalanceQty, 2) * ConvFact
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
