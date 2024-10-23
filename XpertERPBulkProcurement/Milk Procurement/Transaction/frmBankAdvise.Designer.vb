@@ -49,6 +49,7 @@ Partial Class frmBankAdvise
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -72,6 +73,7 @@ Partial Class frmBankAdvise
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -98,6 +100,7 @@ Partial Class frmBankAdvise
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseAndUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -456,6 +459,17 @@ Partial Class frmBankAdvise
         Me.btnPrint.Text = "Print"
         Me.btnPrint.Visible = False
         '
+        'btnReverseAndUnpost
+        '
+        Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(271, 8)
+        Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
+        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(124, 22)
+        Me.btnReverseAndUnpost.TabIndex = 27
+        Me.btnReverseAndUnpost.Text = "Reverse And Unpost"
+        Me.btnReverseAndUnpost.Visible = False
+        '
         'frmBankAdvise
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -493,6 +507,7 @@ Partial Class frmBankAdvise
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -525,4 +540,5 @@ Partial Class frmBankAdvise
     Friend WithEvents txtMCC As TextBox
     Friend WithEvents txtRemarks As TextBox
     Friend WithEvents txtPPArea As TextBox
+    Friend WithEvents btnReverseAndUnpost As RadButton
 End Class

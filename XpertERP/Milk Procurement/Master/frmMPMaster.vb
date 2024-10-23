@@ -641,11 +641,24 @@ Public Class FrmMPMaster
                     End If
                 End If
             End If
+
+            If clsCommon.myLen(txtTelePhone.Text) > 0 AndAlso Not IsValidPhoneNumber(txtTelePhone.Text) Then
+                txtTelePhone.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number")
+            End If
+
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Function
+
+    Function IsValidPhoneNumber(phone As String) As Boolean
+        ' Regex pattern for US phone numbers (you can adjust it as per the requirement)
+        Dim pattern As String = "^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$"
+        Dim regex As New Regex(pattern)
+        Return regex.IsMatch(phone)
     End Function
 
 #Region "Event Routines"
@@ -2749,4 +2762,13 @@ Public Class FrmMPMaster
             End If
         End If
     End Sub
+
+    ' Restrict input to numbers only
+    Private Sub txtPhone_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTelePhone.KeyPress
+        ' Allow only digits and control characters (e.g., backspace)
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True  ' Ignore the keypress if it's not a digit or control character
+        End If
+    End Sub
+
 End Class
