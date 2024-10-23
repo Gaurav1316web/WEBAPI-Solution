@@ -30,9 +30,13 @@ Public Class frmDBTUnionPayment
     Private Sub LoadData()
         Try
             Dim qry As String = ""
+            Dim qryies As String = ""
             Dim Baseqry As String = ""
+            Dim Baseqry1 As String = ""
+            Dim Baseqry2 As String = ""
             Dim dbNames As String = ""
             Dim portDt As New DataTable
+            Dim dtGrandTotal As DataTable
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
             If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found", Me.Text)
@@ -54,10 +58,12 @@ Public Class frmDBTUnionPayment
 
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
-                        Baseqry += " UNION ALL "
+                        qryies += " UNION ALL "
+                    Else
+                        qryies += " ( "
                     End If
 
-                    Baseqry += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],FORMAT(MAX(From_Date), 'MMMM/yyyy') AS Month_Year,
+                    qryies += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],FORMAT(MAX(From_Date), 'MMMM/yyyy') AS Month_Year,
                                '" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+CAST((UKID) as varchar)+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount from (
                                select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Lot_No,'')Lot_No,
                                isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID,'')UKID ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,
@@ -67,12 +73,54 @@ Public Class frmDBTUnionPayment
                                left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code
                                left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
                                )X where convert(date,x.Document_Date,103)>=convert(date,('" + dtpFromDate.Value + "'),103) 
-	                           and convert(date,x.Document_Date,103) <=convert(date,('" + dtpToDate.Value + "'),103) group by x.Lot_No,x.UKID "
+	                           and convert(date,x.Document_Date,103) <=convert(date,('" + dtpToDate.Value + "'),103) group by x.Lot_No,x.UKID
+                                
+                               Union all
+                               select 'Total' AS [Union Name],'' as Month_Year,'' as Refence_No,sum(No_Of_Record)No_Of_Record,sum(Milk_Qty)Milk_Qty,sum(Amount)Amount from (select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                               FORMAT(MAX(From_Date), 'MMMM/yyyy') AS Month_Year,'" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+CAST((UKID) as varchar)+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount
+                               from (
+                               select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Lot_No,'')Lot_No,
+                               isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID,'')UKID ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,
+                               [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Date,
+                               [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty
+                               from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL 
+                               left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code
+                               left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
+                               )X where convert(date,x.Document_Date,103)>=convert(date,('" + dtpFromDate.Value + "'),103) 
+	                           and convert(date,x.Document_Date,103) <=convert(date,('" + dtpToDate.Value + "'),103) group by x.Lot_No,x.UKID)x group by x.[Union Name]
+"
 
                 Next
+
+                Baseqry = "  " + qryies + "  ) order by [Union Name] "
+
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        Baseqry1 += " UNION ALL "
+                    Else
+                        Baseqry1 += " ( "
+                    End If
+
+                    Baseqry1 += "  select 'Total' AS [Union Name],'' as Month_Year,'' as Refence_No,sum(No_Of_Record)No_Of_Record,sum(Milk_Qty)Milk_Qty,sum(Amount)Amount from (select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                               FORMAT(MAX(From_Date), 'MMMM/yyyy') AS Month_Year,'" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+CAST((UKID) as varchar)+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount
+                               from (
+                               select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Lot_No,'')Lot_No,
+                               isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID,'')UKID ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,
+                               [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Date,
+                               [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty
+                               from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL 
+                               left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code
+                               left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
+                               )X where convert(date,x.Document_Date,103)>=convert(date,('" + dtpFromDate.Value + "'),103) 
+	                           and convert(date,x.Document_Date,103) <=convert(date,('" + dtpToDate.Value + "'),103) group by x.Lot_No,x.UKID)x group by x.[Union Name]  "
+                Next
+
+                Baseqry2 = " select 'Grand Total' AS [Union Name],'' as Month_Year,'' as Refence_No,sum(No_Of_Record)No_Of_Record,sum(Milk_Qty)Milk_Qty,
+                             sum(Amount)Amount from " + Baseqry1 + " )x group by x.[Union Name] "
             End If
 
             portDt = clsDBFuncationality.GetDataTable(Baseqry)
+            dtGrandTotal = clsDBFuncationality.GetDataTable(Baseqry2)
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
@@ -82,6 +130,7 @@ Public Class frmDBTUnionPayment
             gv1.EnableFiltering = True
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             If portDt.Rows.Count > 0 Then
+                portDt.Rows.Add("Grand Total", dtGrandTotal.Rows(0)("Month_Year"), dtGrandTotal.Rows(0)("Refence_No"), dtGrandTotal.Rows(0)("No_Of_Record"), dtGrandTotal.Rows(0)("Milk_Qty"), dtGrandTotal.Rows(0)("Amount"))
                 gv1.DataSource = portDt
                 gv1.BestFitColumns()
                 SetGridFormation()
@@ -114,15 +163,25 @@ Public Class frmDBTUnionPayment
         gv1.Columns("Month_Year").HeaderText = "Month"
         gv1.Columns("Refence_No").HeaderText = "Refence No"
 
-        Dim item2 As New GridViewSummaryItem("No_Of_Record", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item2)
-        Dim item3 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item3)
-        Dim item4 As New GridViewSummaryItem("Milk_Qty", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item4)
+        'Dim item2 As New GridViewSummaryItem("No_Of_Record", "{0:0}", GridAggregateFunction.Sum)
+        'Dim totalCount As Decimal = 0
+        'For Each row As GridViewRowInfo In gv1.Rows
+        '    ' Check if the row meets your condition to skip (e.g., check a specific column value)
+        '    If Not row.Cells("Union Name").Value = "Total" Then
+        '        ' Add the value to the total
+        '        totalCount += Convert.ToDecimal(row.Cells("No_Of_Record").Value)
+        '    End If
+        'Next
+        'item2.SummaryValue = totalCount
+        ''gv1.Columns("No_Of_Record").Value = totalCount
+        'summaryRowItem.Add(item2)
+        'Dim item3 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item3)
+        'Dim item4 As New GridViewSummaryItem("Milk_Qty", "{0:F2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item4)
 
-        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        'gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        'gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
