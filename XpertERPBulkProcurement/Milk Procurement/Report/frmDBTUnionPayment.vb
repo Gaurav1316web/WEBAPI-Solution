@@ -1,0 +1,174 @@
+﻿
+Imports common
+Imports System.IO
+Public Class frmDBTUnionPayment
+    Inherits FrmMainTranScreen
+
+
+    Private Sub frmDBTUnionPayment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        funreset()
+        dtpToDate.Value = clsCommon.GETSERVERDATE()
+        dtpFromDate.Value = clsCommon.GETSERVERDATE().AddMonths(-1)
+    End Sub
+
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        funreset()
+    End Sub
+
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        LoadData()
+    End Sub
+
+    Sub funreset()
+        gv1.DataSource = Nothing
+        txtUnion.arrValueMember = Nothing
+        dtpToDate.Value = clsCommon.GETSERVERDATE()
+        dtpFromDate.Value = clsCommon.GETSERVERDATE().AddMonths(-1)
+        RadPageView1.SelectedPage = RadPageViewPage1
+    End Sub
+
+    Private Sub LoadData()
+        Try
+            Dim qry As String = ""
+            Dim Baseqry As String = ""
+            Dim dbNames As String = ""
+            Dim portDt As New DataTable
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found", Me.Text)
+                gv1.DataSource = Nothing
+                Exit Sub
+            End If
+            Dim ss As String = clsCommon.GetMulcallString(txtUnion.arrValueMember)
+
+            If txtUnion.arrValueMember Is Nothing Then
+                qry = " select  [TSPL_APP_LOCATION].Code as PortNo,[TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
+                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE Apply_PD_Account = 1 "
+            Else
+                qry = " select  [TSPL_APP_LOCATION].Code as PortNo,[TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
+                            from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE Apply_PD_Account = 1 and [TSPL_APP_LOCATION].DataBase_Name  in (" + ss + ")"
+            End If
+            'dt = clsMilkUnion.UnionDBName()
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        Baseqry += " UNION ALL "
+                    End If
+
+                    Baseqry += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],FORMAT(MAX(From_Date), 'MMMM/yyyy') AS Month_Year,
+                               '" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+CAST((UKID) as varchar)+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount from (
+                               select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Lot_No,'')Lot_No,
+                               isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID,'')UKID ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,
+                               [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Date,
+                               [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty
+                               from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL 
+                               left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code
+                               left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
+                               )X where convert(date,x.Document_Date,103)>=convert(date,('" + dtpFromDate.Value + "'),103) 
+	                           and convert(date,x.Document_Date,103) <=convert(date,('" + dtpToDate.Value + "'),103) group by x.Lot_No,x.UKID "
+
+                Next
+            End If
+
+            portDt = clsDBFuncationality.GetDataTable(Baseqry)
+            gv1.DataSource = Nothing
+            gv1.Rows.Clear()
+            gv1.Columns.Clear()
+            gv1.GroupDescriptors.Clear()
+            gv1.MasterView.Refresh()
+            gv1.GroupDescriptors.Clear()
+            gv1.EnableFiltering = True
+            gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            If portDt.Rows.Count > 0 Then
+                gv1.DataSource = portDt
+                gv1.BestFitColumns()
+                SetGridFormation()
+                'ReStoreGridLayout()
+                gv1.MasterTemplate.AutoExpandGroups = True
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub SetGridFormation()
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.MasterTemplate.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = True
+        Next
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        gv1.ShowGroupPanel = False
+
+        gv1.Columns("No_Of_Record").HeaderText = "No Of Record"
+        gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
+        gv1.Columns("Month_Year").HeaderText = "Month"
+        gv1.Columns("Refence_No").HeaderText = "Refence No"
+
+        Dim item2 As New GridViewSummaryItem("No_Of_Record", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("Milk_Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
+
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmDBTUnionPayment & "'"))
+                transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                'arrHeader.Add("Month :" & MonthNo)
+                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtUnion__My_Click(sender As Object, e As EventArgs) Handles txtUnion._My_Click
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+            If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                Exit Sub
+            End If
+            Dim qry As String = ""
+            qry = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name"
+
+            txtUnion.arrValueMember = clsCommon.ShowMultipleSelectForm("DBTUnionPaymentDetail", qry, "DataBase_Name", "Location_Name", txtUnion.arrValueMember, txtUnion.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+End Class

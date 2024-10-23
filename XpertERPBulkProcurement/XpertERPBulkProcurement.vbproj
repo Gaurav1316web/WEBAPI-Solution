@@ -241,6 +241,12 @@
     <Compile Include="Milk Procurement\Report\frmDBTStatusAndLastDPTStatus.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTUnionPayment.Designer.vb">
+      <DependentUpon>frmDBTUnionPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTUnionPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmDCSSavingLedger.Designer.vb">
       <DependentUpon>frmDCSSavingLedger.vb</DependentUpon>
     </Compile>
@@ -961,6 +967,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmDBTStatusAndLastDPTStatus.resx">
       <DependentUpon>frmDBTStatusAndLastDPTStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmDBTUnionPayment.resx">
+      <DependentUpon>frmDBTUnionPayment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmDCSSavingLedger.resx">
       <DependentUpon>frmDCSSavingLedger.vb</DependentUpon>

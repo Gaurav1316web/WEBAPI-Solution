@@ -988,7 +988,7 @@ Public Class frmMilkCollectionDCSMultipleDays
 from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code "
-        LoadData(clsCommon.ShowSelectForm("SMP3FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("SMP3FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date"), NavigatorType.Current)
     End Sub
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()

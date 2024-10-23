@@ -204,6 +204,13 @@ Public Class frmCustomer
                 TxtLocation.Focus()
                 Return False
             End If
+            If chkIsStaff.Checked Then
+                If clsCommon.myLen(txtEmployee.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Employee cannot be blank", Me.Text)
+                    txtEmployee.Focus()
+                    Return False
+                End If
+            End If
             ' BM00000007799 Non-Manadatory (Customer Type,Route)
             'If clsCommon.myLen(fndCusType.Value) <= 0 Then
             '    common.clsCommon.MyMessageBoxShow("Customer type can not be blank")
@@ -1343,8 +1350,9 @@ Public Class frmCustomer
                 obj.Other_For_PAN = 0
             End If
             obj.Default_Cash_Customer = chkDefaultCashCustomer.Checked
-
             obj.Reference = txtReference.Text
+            obj.Is_Staff = chkIsStaff.Checked
+            obj.EMP_CODE = txtEmployee.Value
             obj.Country = clsCommon.myCstr(fndCountry.Value)
             obj.Phone1 = txtPhone1.Text
             obj.Phone2 = txtPhone2.Text
@@ -1484,6 +1492,7 @@ Public Class frmCustomer
             Else
                 obj.Is_Default_Grower = 0
             End If
+
             obj.ServiceDealerCode = txtServiceDealerCode.Value.ToString
             obj.TDMCode = txtTDMCode.Value.ToString
             obj.DistributorCode = txtDistributorCode.Value.ToString
@@ -1997,6 +2006,8 @@ Public Class frmCustomer
                 ChkOther.Checked = IIf(clsCommon.myCstr(myDr("Other_For_PAN")) = "1", True, False)
                 chkDefaultCashCustomer.Checked = clsCommon.myCBool(myDr("Default_Cash_Customer"))
                 txtReference.Text = clsCommon.myCstr(myDr("Reference"))
+                chkIsStaff.Checked = clsCommon.myCBool(myDr("Is_Staff"))
+                txtEmployee.Value = clsCommon.myCstr(myDr("EMP_CODE"))
                 '' END MULTICURRENCY
                 Me.txtRoute.Text = clsCommon.myCstr(myDr(9))
                 Me.txtPriceCode.Value = clsCommon.myCstr(myDr(10))
@@ -2828,6 +2839,9 @@ Public Class frmCustomer
         Me.fndPayCode.MyReadOnly = True
         Me.fndCity.MyReadOnly = True
         Me.txtCustomerName.Text = ""
+        txtEmployee.Value = ""
+        chkIsStaff.Checked = False
+        chkDefaultCashCustomer.Checked = False
         dtpAggMade.Value = clsCommon.GETSERVERDATE()
         dtpAggClose.Value = clsCommon.GETSERVERDATE()
         Me.txtPriceCodeNon.Value = ""
@@ -5836,6 +5850,10 @@ Public Class frmCustomer
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtEmployee__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtEmployee._MYValidating
+        txtEmployee.Value = clsEmployeeMaster.getFinder("", txtEmployee.Value, isButtonClicked)
     End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

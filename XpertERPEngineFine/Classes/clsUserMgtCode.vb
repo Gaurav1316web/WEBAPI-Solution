@@ -2490,6 +2490,7 @@ Public Class clsUserMgtCode
     Public Const frmLocationItemMapping As String = "Loc_ITM_MAP"
     Public Const frmDistributorRouteTagging As String = "DIS-R-T"
     Public Const frmDailyDemand As String = "DAI-DEM"
+    Public Const frmDBTUnionPayment As String = "DBT-UPAY"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"
