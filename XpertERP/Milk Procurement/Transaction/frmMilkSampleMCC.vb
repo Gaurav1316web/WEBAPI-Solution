@@ -643,16 +643,17 @@ Public Class frmMilkSampleMCC
                     Dim objHeadLoad As New clsHeadLoadDCS()
                     objHeadLoad = clsHeadLoadDCS.GetDcsData(objHead.VLC_CODE, clsCommon.myCDate(dtpDocDate.Value), trans)
                     obj1.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
-
+                    obj1.Head_Load_Amount_Exact = 0
                     If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
                         If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
-                            obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                            obj1.Head_Load_Amount_Exact = Math.Round(obj1.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                         End If
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
                         If clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
-                            obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                            obj1.Head_Load_Amount_Exact = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                         End If
                     End If
+                    obj1.Head_Load_Amount = Math.Round(obj1.Head_Load_Amount_Exact, 2)
                     obj1.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
                     '============================================
                     '==================Own Asset==========================

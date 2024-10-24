@@ -25021,14 +25021,23 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Retesting_OR_Correction_Status", "Integer NULL DEFAULT 0")
             coll.Add("ACC_Qty_LTR", "DECIMAL(18,3) NOT NULL DEFAULT 0")
             coll.Add("Head_Load_Cycle", "integer null")
+            coll.Add("Head_Load_Amount_Exact", "DECIMAL(18,6) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
             coll.Item("DOC_CODE") = "varchar(30)  NOT NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL_SYNC", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
-
-            'qry = "alter table TSPL_MILK_SRN_DETAIL alter column QAT_Rate decimal(18,3) null"
+            qry = "select Top 1 Head_Load_Basis from  TSPL_HEAD_LOAD_DCS where Document_No in (select top 1 Document_No from TSPL_HEAD_LOAD where Status=1 order by Document_date)"
+            qry = clsDBFuncationality.getSingleValue(qry)
+            If clsCommon.CompairString(qry, "L") = CompairStringResult.Equal Then
+                qry = "Update TSPL_MILK_SRN_DETAIL set Head_Load_Amount_Exact=ACC_Qty_LTR*Head_Load_Rate where Head_Load_Amount_Exact is null "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Else
+                qry = "Update TSPL_MILK_SRN_DETAIL set Head_Load_Amount_Exact=ACC_Qty*Head_Load_Rate where Head_Load_Amount_Exact is null "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
+            'qry = "alter table TSPL_MILK_SRN_DETAIL alter column Head_Load_Amount decimal(18,3) null"
             'clsDBFuncationality.ExecuteNonQuery(qry)
 
-            'qry = "alter table TSPL_MILK_SRN_DETAIL_SYNC alter column QAT_Rate decimal(18,3) null"
+            'qry = "alter table TSPL_MILK_SRN_DETAIL_SYNC alter column Head_Load_Amount decimal(18,3) null"
             'clsDBFuncationality.ExecuteNonQuery(qry)
 
 

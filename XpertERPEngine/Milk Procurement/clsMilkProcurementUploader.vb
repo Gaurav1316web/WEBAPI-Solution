@@ -765,6 +765,7 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                                 ExcluetHeadLoad = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
                             End If
                             If ExcluetHeadLoad Then
+                                objMilkSRNDetail.Head_Load_Amount_Exact = 0
                                 objMilkSRNDetail.Head_Load_Rate = 0
                                 objMilkSRNDetail.Head_Load_Amount = 0
                                 objMilkSRNDetail.Head_Load_Type = ""
@@ -775,22 +776,23 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                                 objMilkSRNDetail.Head_Load_Rate = objHeadLoad.Head_Load_Rate
                                 objMilkSRNDetail.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
                                 objMilkSRNDetail.Head_Load_Cycle = 0
-                                objMilkSRNDetail.Head_Load_Amount = 0
+                                objMilkSRNDetail.Head_Load_Amount_Exact = 0
                                 If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
                                     If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
-                                        objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                                        objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                                     End If
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
                                     If objMilkSRNDetail.ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
-                                        objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                                        objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                                     End If
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
                                     objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty, objHeadLoad.Cycle_Frequency))
-                                    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
+                                    objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
                                     objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty_LTR, objHeadLoad.Cycle_Frequency))
-                                    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
+                                    objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
                                 End If
+                                objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Amount_Exact, 2)
                             End If
 
                             '============================================

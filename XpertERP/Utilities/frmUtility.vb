@@ -26550,4 +26550,28 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         txtKeyDown.Text = ""
         RadButton354.Text = "Start Key Event"
     End Sub
+
+    Private Sub btnBankAdvice_Click(sender As Object, e As EventArgs) Handles btnBankAdvice.Click
+        Try
+            Dim Count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(Doc_No) FROM TSPL_PAYMENT_PROCESS_HEAD WHERE isPrePosted = 1 AND NOT EXISTS (SELECT 1 FROM TSPL_BANK_ADVISE WHERE TSPL_BANK_ADVISE.Payment_Process_Document_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No)"))
+            If Count > 0 AndAlso clsCommon.MyMessageBoxShow(Me, clsCommon.myCstr(Count) + " Payment process documents are pending for the creation of bank advice. " + Environment.NewLine + "Are you sure to create bank advise ?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                Dim Qry As String = "SELECT Doc_No,Doc_Date FROM TSPL_PAYMENT_PROCESS_HEAD WHERE isPrePosted = 1 AND NOT EXISTS (SELECT 1 FROM TSPL_BANK_ADVISE WHERE TSPL_BANK_ADVISE.Payment_Process_Document_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No)"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Dim ii As Integer = 0
+                    clsCommon.ProgressBarPercentShow()
+                    For Each rows As DataRow In dt.Rows
+                        clsPaymentProcessHead.CreateBankAdvise(clsCommon.myCstr(rows("Doc_No")), clsCommon.myCDate(rows("Doc_Date")))
+                        clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, " " + clsCommon.myCstr(ii + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, "Bank Advise created successfully.", Me.Text)
+                End If
+                ' clsPaymentProcessHead.CreateBankAdvise(clsCommon.myCstr(fndDocNo.Value), dtpDate.Value)
+            End If
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

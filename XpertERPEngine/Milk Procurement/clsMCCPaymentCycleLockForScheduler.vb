@@ -1444,7 +1444,13 @@ where  Coalesce(Is_Incentive_Created,'N')='N' and  VSP_CODE='" & VSP & "' "
     End Sub
     Public Sub SelectMilkSRNItemsForVspPayment(ByVal strMCCCode As String, ByVal ArrSRN As List(Of String), ByVal Vsp_Name As String, ByVal frm_date As Date, ByVal End_date As Date, ByVal Is_With_Bill As Boolean, ByVal trans As SqlTransaction, ByVal Formcode As String, ByVal IsRoundOffPaiseAmount As Boolean, ByVal settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean)
         Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, trans)) = 1
-        Dim qry As String = "select CAST(0 as bit) as Sel, TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_MILK_SRN_DETAIL.UOM_Code as Unit,TSPL_MILK_SRN_DETAIL.Qty as POQty,TSPL_MILK_SRN_DETAIL.ACC_Qty ,TSPL_MILK_SRN_DETAIL.Qty as GRNQty,TSPL_MILK_SRN_DETAIL.Qty as PedningQty,TSPL_MILK_SRN_DETAIL.RATE,TSPL_VENDOR_MASTER.Vendor_Name as VendorName,0 as Assessable,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.CLR ,TSPL_MILK_SRN_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_DETAIL.EMP_Amount 
+        Dim qry As String = "select CAST(0 as bit) as Sel, TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_MILK_SRN_DETAIL.UOM_Code as Unit,TSPL_MILK_SRN_DETAIL.Qty as POQty,TSPL_MILK_SRN_DETAIL.ACC_Qty ,TSPL_MILK_SRN_DETAIL.Qty as GRNQty,TSPL_MILK_SRN_DETAIL.Qty as PedningQty,TSPL_MILK_SRN_DETAIL.RATE,TSPL_VENDOR_MASTER.Vendor_Name as VendorName,0 as Assessable,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.CLR ,TSPL_MILK_SRN_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            qry += " TSPL_MILK_SRN_DETAIL.Head_Load_Amount_Exact as Head_Load_Amount, "
+        Else
+            qry += " TSPL_MILK_SRN_DETAIL.Head_Load_Amount, "
+        End If
+        qry += "TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_DETAIL.EMP_Amount 
 ,TSPL_VENDOR_MASTER.Service_Charge_Type,Case when Nature='C' then TSPL_VENDOR_MASTER.Actual_charges end as  Commission, Case when Nature='E' then TSPL_VENDOR_MASTER.Actual_charges end as Payment_Commission
 from TSPL_MILK_SRN_DETAIL 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE  
@@ -1587,8 +1593,15 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
                 totCommssion = clsCommon.myRoundOFF(totCommssion, objCommonVar.DCSAddDedRODecimalPlace, objCommonVar.DCSAddDedROIncreaseAfter)
                 totAmountwithPaymentCommssion = clsCommon.myRoundOFF(totAmountwithPaymentCommssion, objCommonVar.DCSAddDedRODecimalPlace, objCommonVar.DCSAddDedROIncreaseAfter)
             Else
-                objHead.Total_Head_Load_RO_Amount = objHead.Total_Head_Load_Amount - clsCommon.myRoundOFF(objHead.Total_Head_Load_Amount, clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.HeadLoadRODecimalPlace, clsFixedParameterCode.HeadLoadRODecimalPlace, trans)), clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.HeadLoadROIncreaseAfter, clsFixedParameterCode.HeadLoadROIncreaseAfter, trans)))
-                objHead.Total_Head_Load_Amount = objHead.Total_Head_Load_Amount - objHead.Total_Head_Load_RO_Amount
+
+                Dim IntDP As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.HeadLoadRODecimalPlace, clsFixedParameterCode.HeadLoadRODecimalPlace, trans))
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    objHead.Total_Head_Load_RO_Amount = objHead.Total_Head_Load_Amount - Math.Round(objHead.Total_Head_Load_Amount, IntDP, MidpointRounding.AwayFromZero)
+                    objHead.Total_Head_Load_Amount = objHead.Total_Head_Load_Amount - objHead.Total_Head_Load_RO_Amount
+                Else
+                    objHead.Total_Head_Load_RO_Amount = objHead.Total_Head_Load_Amount - clsCommon.myRoundOFF(objHead.Total_Head_Load_Amount, IntDP, clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.HeadLoadROIncreaseAfter, clsFixedParameterCode.HeadLoadROIncreaseAfter, trans)))
+                    objHead.Total_Head_Load_Amount = objHead.Total_Head_Load_Amount - objHead.Total_Head_Load_RO_Amount
+                End If
             End If
 
             objHead.Total_Own_Asset_Amount = TotOwnAsset
@@ -4640,8 +4653,9 @@ a:      Next
         If clsCommon.CompairString(Formcode, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal Then
             qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=1"
         Else
-            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' "
+            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' and TSPL_VLC_MASTER_HEAD.IsSuspense=0 "
         End If
+
         qry = qry & " order by xx.VSP_CODE "
         Return qry
     End Function

@@ -43,7 +43,7 @@ Public Class clsBankAdvise
         Return issaved
     End Function
 
-    Public Shared Function GetBankAdviseData(ByVal strCode As String, ByVal navtype As NavigatorType) As clsBankAdvise
+    Public Shared Function GetBankAdviseData(ByVal strCode As String, ByVal navtype As NavigatorType, ByVal trans As SqlTransaction) As clsBankAdvise
         Dim Qry As String = ""
         Dim obj As clsBankAdvise = Nothing
         Try
@@ -66,7 +66,7 @@ Public Class clsBankAdvise
                 Qry += " and TSPL_BANK_ADVISE.Document_No in ('" + strCode + "')"
             End If
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 obj = New clsBankAdvise
                 obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
@@ -85,10 +85,10 @@ Public Class clsBankAdvise
         Return obj
     End Function
 
-    Public Shared Function deleteData(ByVal strCode As String) As Boolean
+    Public Shared Function deleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim Qry As String = "delete from TSPL_BANK_ADVISE where  Document_No='" & strCode & "'"
-            clsDBFuncationality.ExecuteNonQuery(Qry)
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -131,8 +131,22 @@ where Document_No='" + strCode + "'"
         Return True
     End Function
 
-
-
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal tran As SqlTransaction) As Boolean
+        Try
+            Dim obj As clsBankAdvise = GetBankAdviseData(strCode, Nothing, tran)
+            If obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0 Then
+                Throw New Exception("Invalid document No [" + strCode + "]")
+            End If
+            If obj Is Nothing OrElse clsCommon.myCDecimal(obj.Status) = 0 Then
+                Throw New Exception("Already unposted document No [" + strCode + "]")
+            End If
+            Dim Qry As String = "Update TSPL_BANK_ADVISE Set Status=0 where  Document_No='" & strCode & "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, tran)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
     Public Shared Sub CreateEmailContent(ByVal strPPNo As String, ByVal strDateRange As String, trans As SqlTransaction)
         Dim Form_ID As String = clsUserMgtCode.frmBankAdvise

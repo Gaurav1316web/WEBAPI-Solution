@@ -193,7 +193,7 @@ Public Class clsMilkSRNMCC
                 objtr.Commission_Amount = clsCommon.myCDecimal(dr("Commission_Amount"))
                 objtr.Payment_Commission = clsCommon.myCDecimal(dr("EMP_Pers"))
 
-
+                objtr.Head_Load_Amount_Exact = clsCommon.myCDecimal(dr("Head_Load_Amount_Exact"))
                 objtr.Head_Load_Amount = clsCommon.myCDecimal(dr("Head_Load_Amount"))
                 objtr.Own_Asset_Amount = clsCommon.myCDecimal(dr("Own_Asset_Amount"))
 
@@ -1179,22 +1179,23 @@ Public Class clsMilkSRNMCC
             clsMilkSRNMCC.ObjList(0).Head_Load_Rate = clsCommon.myCDecimal(objHeadLoad.Head_Load_Rate)
             clsMilkSRNMCC.ObjList(0).Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
             clsMilkSRNMCC.ObjList(0).Head_Load_Cycle = 0
-            clsMilkSRNMCC.ObjList(0).Head_Load_Amount = 0
+            clsMilkSRNMCC.ObjList(0).Head_Load_Amount_Exact = 0
             If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
                 If clsMilkSRNMCC.ObjList(0).ACC_Qty >= MinimumQtyForHeadLoad Then
-                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount_Exact = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
                 If clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
-                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount_Exact = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
                 clsMilkSRNMCC.ObjList(0).Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(clsMilkSRNMCC.ObjList(0).ACC_Qty, objHeadLoad.Cycle_Frequency))
-                clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
+                clsMilkSRNMCC.ObjList(0).Head_Load_Amount_Exact = Math.Round(clsMilkSRNMCC.ObjList(0).Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
                 clsMilkSRNMCC.ObjList(0).Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR, objHeadLoad.Cycle_Frequency))
-                clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 2)
+                clsMilkSRNMCC.ObjList(0).Head_Load_Amount_Exact = Math.Round(clsMilkSRNMCC.ObjList(0).Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
             End If
+            clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).Head_Load_Amount_Exact, 2)
 
             '============================================
             '==================Own Asset==========================
@@ -1441,6 +1442,7 @@ Public Class clsMilkSRNMCCDetail
     Public TIP_Amount As Decimal = 0
     Public Head_Load_Rate As Decimal = 0
     Public Own_Asset_Rate As Decimal = 0
+    Public Head_Load_Amount_Exact As Decimal = 0
     Public Head_Load_Amount As Decimal = 0
     Public Own_Asset_Amount As Decimal = 0
     Public Head_Load_Cycle As Integer = 0
@@ -1526,8 +1528,10 @@ Public Class clsMilkSRNMCCDetail
 
 
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
+                clsCommon.AddColumnsForChange(coll, "Head_Load_Amount_Exact", obj.Head_Load_Amount_Exact)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", obj.Head_Load_Amount)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Cycle", obj.Head_Load_Cycle)
+
 
                 clsCommon.AddColumnsForChange(coll, "Own_Asset_Amount", obj.Own_Asset_Amount)
 
