@@ -29439,6 +29439,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BPL_Coupon_Date", "Date NULL")
             coll.Add("BPL_Category", "varchar(50) NULL")
             coll.Add("Source_API", "int Null")
+            coll.Add("Against_Open_Shift", "Varchar(30) null references TSPL_PARLOUR_SHIFT_OPEN(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)
