@@ -111,7 +111,7 @@ Public Class frmBankAdvise
 
     Private Sub LoadData(strCode As String, NavType As NavigatorType)
         Try
-            Dim obj As clsBankAdvise = clsBankAdvise.GetBankAdviseData(strCode, NavType)
+            Dim obj As clsBankAdvise = clsBankAdvise.GetBankAdviseData(strCode, NavType, Nothing)
             If obj IsNot Nothing Then
                 Reset()
                 fndDocNo.Value = obj.Document_No
