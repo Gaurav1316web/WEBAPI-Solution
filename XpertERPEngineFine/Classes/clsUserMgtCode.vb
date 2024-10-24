@@ -2324,6 +2324,8 @@ Public Class clsUserMgtCode
     'Public Const RptDailyLandedCost As String = "DLCost"
     Public Const RptWeighmentRegister As String = "WGH_REG_RPT"
     Public Const MonthlyProgressReport As String = "Mth-Prog"
+    Public Const rptSuspanceDCSReport As String = "SUSP-DCS"
+
     Public Const RptSecondaryTransporterReport As String = "SEC-TR-RPT"
     Public Const rptMCCBillGenrationStatus As String = "MCC-BIL_GEN"
     Public Const rptMCCDataEntrySummaryReport As String = "MCC_DE_SUM"

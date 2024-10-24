@@ -9636,6 +9636,9 @@ Public Class MDI
                     Case clsUserMgtCode.MonthlyProgressReport
                         frm = New frmMonthlyProgressReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptSuspanceDCSReport
+                        frm = New rptSuspanceDCSReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmCategoryAnalysisReport
                         frm = New FrmCategoryAnalysisReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

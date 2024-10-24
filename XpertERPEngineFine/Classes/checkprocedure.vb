@@ -1774,6 +1774,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.rptTankerDispatchWidthDeduction, "Tanker Dispatch With Deduction", "1.17.03.38", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptVSPIncentiveRegister, "VSP Incentive Register", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.MonthlyProgressReport, "Monthly Progress Report", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+
         '===sanjeet(21/11/2016)====================
 
         'InsertDefaultValue(clsUserMgtCode.FrmTruckSheetRouteWiseRpt, "Truck Sheet Route Wise", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -1868,6 +1869,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTCappingReport, "DBT Capping Report", "1.17.03.125", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptHeadLoadReport, "Head Load  Report", "1.17.03.126", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDCSCredit, "DCS Credit Report", "1.17.03.127", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSuspanceDCSReport, "Suspense Milk Report", "1.17.03.128", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
