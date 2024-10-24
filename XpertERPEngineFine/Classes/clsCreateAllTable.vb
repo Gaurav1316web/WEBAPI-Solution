@@ -24232,6 +24232,9 @@ Public Class clsCreateAllTable
             coll.Add("Own_SNF", "Decimal(18,2) null")
             coll.Add("Own_FATKG", "Decimal(18,3) null")
             coll.Add("Own_SNFKG", "Decimal(18,3) null")
+            coll.Add("Suspence", "integer null")
+            coll.Add("Suspence_VLC_Code", "Varchar(30) null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            coll.Add("Suspence_Remarks", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS", "Document_No", "")
 
 
