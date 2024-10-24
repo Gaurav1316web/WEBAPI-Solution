@@ -25025,10 +25025,10 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Item("DOC_CODE") = "varchar(30)  NOT NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL_SYNC", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
 
-            'qry = "alter table TSPL_MILK_SRN_DETAIL alter column QAT_Rate decimal(18,3) null"
+            'qry = "alter table TSPL_MILK_SRN_DETAIL alter column Head_Load_Amount decimal(18,3) null"
             'clsDBFuncationality.ExecuteNonQuery(qry)
 
-            'qry = "alter table TSPL_MILK_SRN_DETAIL_SYNC alter column QAT_Rate decimal(18,3) null"
+            'qry = "alter table TSPL_MILK_SRN_DETAIL_SYNC alter column Head_Load_Amount decimal(18,3) null"
             'clsDBFuncationality.ExecuteNonQuery(qry)
 
 

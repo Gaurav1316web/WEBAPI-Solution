@@ -18,23 +18,23 @@ Public Class clsMilkPurchaseInvoiceMCC
     Public Description As String
     Public Payment As String
     Public VSP_CODE As String
-    Public Amount As Double
-    Public Basic_Amount As Double
-    Public Commission As Double
-    Public Incentive As Double
-    Public Incentive_Head As Double
-    Public Total_Amount_Acc As Double
-    Public Total_PaymentCommission As Double
-    Public Total_Head_Load_Amount As Double
+    Public Amount As Decimal
+    Public Basic_Amount As Decimal
+    Public Commission As Decimal
+    Public Incentive As Decimal
+    Public Incentive_Head As Decimal
+    Public Total_Amount_Acc As Decimal
+    Public Total_PaymentCommission As Decimal
+    Public Total_Head_Load_Amount As Decimal
     Public Total_Head_Load_RO_Amount As Decimal
     Public RoundOffAmount As Decimal
-    Public Total_Own_Asset_Amount As Double
-    Public Total_Deduction_Amount As Double
+    Public Total_Own_Asset_Amount As Decimal
+    Public Total_Deduction_Amount As Decimal
 
     Public MP_Amount As Decimal
-    Public MP_EMP As Double
-    Public MP_Incentive As Double
-    Public MP_IncentiveEMP As Double
+    Public MP_EMP As Decimal
+    Public MP_Incentive As Decimal
+    Public MP_IncentiveEMP As Decimal
 
     Public MCC_NAME As String
     Public CREATED_BY As String
@@ -219,7 +219,7 @@ Public Class clsMilkPurchaseInvoiceMCC
         Return obj
     End Function
 
-    Public Shared Function OpenPriceChart(ByVal isProvision As Boolean, ByVal SRN_Code As String, ByVal Incentive_rate As Double, ByVal trans As SqlTransaction, ByVal Incentive_UOM As String) As Double
+    Public Shared Function OpenPriceChart(ByVal isProvision As Boolean, ByVal SRN_Code As String, ByVal Incentive_rate As Decimal, ByVal trans As SqlTransaction, ByVal Incentive_UOM As String) As Decimal
         Dim TabMilkPIHead As String = "TSPL_MILK_PURCHASE_INVOICE_HEAD"
         Dim TabMilkPIDetail As String = "TSPL_MILK_PURCHASE_INVOICE_DETAIL"
         If isProvision Then
@@ -227,17 +227,17 @@ Public Class clsMilkPurchaseInvoiceMCC
             TabMilkPIDetail = "TSPL_MILK_PURCHASE_INVOICE_PROVISION_DETAIL"
         End If
         Dim DtSRN As DataTable
-        Dim FatW As Double = 0
-        Dim SNfW As Double = 0
-        Dim FATRate As Double = 0
-        Dim SNFRate As Double = 0
-        Dim FATValue As Double = 0
-        Dim SNfValue As Double = 0
-        Dim FATRatio As Double = 0
-        Dim SNFRatio As Double = 0
-        Dim StdRate As Double = 0
-        Dim fatKG As Double = 0
-        Dim snfKG As Double = 0
+        Dim FatW As Decimal = 0
+        Dim SNfW As Decimal = 0
+        Dim FATRate As Decimal = 0
+        Dim SNFRate As Decimal = 0
+        Dim FATValue As Decimal = 0
+        Dim SNfValue As Decimal = 0
+        Dim FATRatio As Decimal = 0
+        Dim SNFRatio As Decimal = 0
+        Dim StdRate As Decimal = 0
+        Dim fatKG As Decimal = 0
+        Dim snfKG As Decimal = 0
         Dim strQry As String = String.Empty
         Dim whrcls As String = " "
         Dim CalculateIncentiveOnStdQty As Boolean = False '' get value from setting
@@ -296,19 +296,19 @@ Public Class clsMilkPurchaseInvoiceMCC
         End If
         Return 0
     End Function
-    Public Shared Function OpenPriceChartMP(ByVal Inv_Code As String, ByVal SRN_Code As String, ByVal Incentive_rate As Double, ByVal trans As SqlTransaction, ByVal Incentive_UOM As String) As Double
+    Public Shared Function OpenPriceChartMP(ByVal Inv_Code As String, ByVal SRN_Code As String, ByVal Incentive_rate As Decimal, ByVal trans As SqlTransaction, ByVal Incentive_UOM As String) As Decimal
         Dim DtSRN As DataTable
-        Dim FatW As Double = 0
-        Dim SNfW As Double = 0
-        Dim FATRate As Double = 0
-        Dim SNFRate As Double = 0
-        Dim FATValue As Double = 0
-        Dim SNfValue As Double = 0
-        Dim FATRatio As Double = 0
-        Dim SNFRatio As Double = 0
-        Dim StdRate As Double = 0
-        Dim fatKG As Double = 0
-        Dim snfKG As Double = 0
+        Dim FatW As Decimal = 0
+        Dim SNfW As Decimal = 0
+        Dim FATRate As Decimal = 0
+        Dim SNFRate As Decimal = 0
+        Dim FATValue As Decimal = 0
+        Dim SNfValue As Decimal = 0
+        Dim FATRatio As Decimal = 0
+        Dim SNFRatio As Decimal = 0
+        Dim StdRate As Decimal = 0
+        Dim fatKG As Decimal = 0
+        Dim snfKG As Decimal = 0
         Dim strQry As String = String.Empty
         Dim whrcls As String = String.Empty
         Dim CalculateIncentiveOnStdQty As Boolean = False '' get value from setting
@@ -322,37 +322,37 @@ Public Class clsMilkPurchaseInvoiceMCC
         End If
 
         'Dim dt As DataTable
-        Dim QryMP As String = " select ttt.MCC_Code,ttt.VSP_CODE,ttt.VLC_CODE,ttt.DOC_CODE,ttt.SRN_CODE,ttt.DOC_DATE,ttt.NewQty,ttt.SNF_KG,ttt.FAT_KG,ttt.FAT_Per,ttt.SNF_Per,ttt.Rate,ttt.Amount " & _
-                              " from ( select SUM(NewQty ) as NewQty,SUM(SNFQTY ) as SNF_KG,SUM(FATQTY ) as FAT_KG,(SUM(FATQTY )/SUM(NewQty ))*100 as FAT_Per," & _
-                              " (SUM(SNFQTY )/SUM(NewQty ))*100  as SNF_Per,SUM(Amount )/SUM(NewQty ) as Rate,SUM(Amount ) as Amount,DOC_CODE,DOC_DATE,srn_code,MCC_CODE,VSP_CODE,VLC_CODE  " & _
-                              " from ( select DOC_DATE,UOM_Code,FATQTY*CF as FATQTY,SNFQTY*CF as SNFQTY,MP_Qty*CF as NewQty, MP_Qty,FromUOM,TOUOM,CF,RATE ,cf*Net_AMOUNT as Amount ," & _
-                              " MCC_CODE  ,VSP_CODE ,SHIFT,ROUTE_CODE ,Vendor_Name ,DOC_CODE,srn_code,Price_Code,VLC_CODE  from " & _
-                              " (select coalesce(MPColl.Manual_Doc_No,PD_Doc_No) as SRN_Code,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE,(select max(Price_Code) as Price_Code " & _
-                              " from TSPL_MILK_PRICE_MASTER) as Price_Code,MPColl.UOM_Code,MPColl.MP_Qty  ,MPColl.FAT_PER  ,(MPColl.FAT_PER*MP_Qty/100) as FATQTY,MPColl.SNF_PER," & _
-                              " (MPColl.SNF_PER *MPColl.MP_Qty/100) as SNFQTY  ,(case when MPColl.MP_Qty<=0 then 0 else  MPColl.MP_AMOUNT/MPColl.MP_Qty end) as RATE,MPColl.Net_AMOUNT," & _
-                              " TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , MPColl.FILE_DATE as DOC_DATE, TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_CODE ," & _
-                              " MPColl.SHIFT, TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE,TSPL_VENDOR_MASTER.Vendor_Name  " & _
-                              " from TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY MPColl " & _
-                              " Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =MPColl.DOC_CODE " & _
-                              " LEFT JOIN TSPL_VLC_MASTER_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_CODE " & _
-                              " Left Outer Join TSPL_VENDOR_MASTER On  TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code " & _
-                              " And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  and coalesce(MPColl.Manual_Doc_No,PD_Doc_No)='" & SRN_Code & "' ) xx   " & _
-                              " left outer join (Select Distinct yyy.* From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM,  Container_Qty*Contained_Qty as CF " & _
-                              " from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " UNION All Select Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/Contained_Qty as CF " & _
-                              " from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1  as CF " & _
-                              " from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " ) yyy) zzz " & _
+        Dim QryMP As String = " select ttt.MCC_Code,ttt.VSP_CODE,ttt.VLC_CODE,ttt.DOC_CODE,ttt.SRN_CODE,ttt.DOC_DATE,ttt.NewQty,ttt.SNF_KG,ttt.FAT_KG,ttt.FAT_Per,ttt.SNF_Per,ttt.Rate,ttt.Amount " &
+                              " from ( select SUM(NewQty ) as NewQty,SUM(SNFQTY ) as SNF_KG,SUM(FATQTY ) as FAT_KG,(SUM(FATQTY )/SUM(NewQty ))*100 as FAT_Per," &
+                              " (SUM(SNFQTY )/SUM(NewQty ))*100  as SNF_Per,SUM(Amount )/SUM(NewQty ) as Rate,SUM(Amount ) as Amount,DOC_CODE,DOC_DATE,srn_code,MCC_CODE,VSP_CODE,VLC_CODE  " &
+                              " from ( select DOC_DATE,UOM_Code,FATQTY*CF as FATQTY,SNFQTY*CF as SNFQTY,MP_Qty*CF as NewQty, MP_Qty,FromUOM,TOUOM,CF,RATE ,cf*Net_AMOUNT as Amount ," &
+                              " MCC_CODE  ,VSP_CODE ,SHIFT,ROUTE_CODE ,Vendor_Name ,DOC_CODE,srn_code,Price_Code,VLC_CODE  from " &
+                              " (select coalesce(MPColl.Manual_Doc_No,PD_Doc_No) as SRN_Code,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE,(select max(Price_Code) as Price_Code " &
+                              " from TSPL_MILK_PRICE_MASTER) as Price_Code,MPColl.UOM_Code,MPColl.MP_Qty  ,MPColl.FAT_PER  ,(MPColl.FAT_PER*MP_Qty/100) as FATQTY,MPColl.SNF_PER," &
+                              " (MPColl.SNF_PER *MPColl.MP_Qty/100) as SNFQTY  ,(case when MPColl.MP_Qty<=0 then 0 else  MPColl.MP_AMOUNT/MPColl.MP_Qty end) as RATE,MPColl.Net_AMOUNT," &
+                              " TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , MPColl.FILE_DATE as DOC_DATE, TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_CODE ," &
+                              " MPColl.SHIFT, TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE,TSPL_VENDOR_MASTER.Vendor_Name  " &
+                              " from TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY MPColl " &
+                              " Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =MPColl.DOC_CODE " &
+                              " LEFT JOIN TSPL_VLC_MASTER_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_CODE " &
+                              " Left Outer Join TSPL_VENDOR_MASTER On  TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code " &
+                              " And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  and coalesce(MPColl.Manual_Doc_No,PD_Doc_No)='" & SRN_Code & "' ) xx   " &
+                              " left outer join (Select Distinct yyy.* From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM,  Container_Qty*Contained_Qty as CF " &
+                              " from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " UNION All Select Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/Contained_Qty as CF " &
+                              " from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1  as CF " &
+                              " from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " ) yyy) zzz " &
                               " on zzz.FromUOM =UOM_Code  and (zzz.TOUOM)='KG' ) ttt group by  DOC_CODE,DOC_DATE,srn_code,MCC_CODE,VSP_CODE,VLC_CODE,MCC_CODE  ,VSP_CODE ,SHIFT,ROUTE_CODE ,Vendor_Name ,DOC_CODE,srn_code,Price_Code,VLC_CODE) as ttt where ttt.DOC_CODE='" & Inv_Code & "' and ttt.SRN_Code='" & SRN_Code & "' "
 
         DtSRN = clsDBFuncationality.GetDataTable(QryMP, trans)
         If DtSRN.Rows.Count > 0 Then
             Dim dtPrice As New DataTable
-            QryMP = "select Price.Price_Code,price_chart.FAT_Pers,price_chart.SNF_Pers,price_chart.Fat_ratio,price_chart.SNF_Ratio, price_chart.Milk_Rate from (select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.code as Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER " & _
-                              " inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code='" & clsCommon.myCstr(DtSRN.Rows(0).Item("MCC_Code")) & "' and " & _
-                              " TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code inner join TSPL_FAT_SNF_UPLOADER_VLC on VLC_Code='" & clsCommon.myCstr(DtSRN.Rows(0).Item("VLC_Code")) & "' and " & _
-                              " TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code where  posted='1' and  fat='" & Math.Round(clsCommon.myCdbl(DtSRN.Rows(0).Item("FAT_Per")), 1) & "' and SNF='" & Math.Round(clsCommon.myCdbl(DtSRN.Rows(0).Item("SNF_Per")), 1) & "' " & _
-                              " and (date< '" & clsCommon.GetPrintDate(DtSRN.Rows(0).Item("DOC_Date"), "dd-MMM-yyyy") & "' or (date= '" & clsCommon.GetPrintDate(DtSRN.Rows(0).Item("DOC_Date"), "dd-MMM-yyyy") & "')) order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc) as Price " & _
-                              " inner join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate," & _
-                              " TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code from TSPL_FAT_SNF_UPLOADER_MASTER " & _
+            QryMP = "select Price.Price_Code,price_chart.FAT_Pers,price_chart.SNF_Pers,price_chart.Fat_ratio,price_chart.SNF_Ratio, price_chart.Milk_Rate from (select top 1 TSPL_FAT_SNF_UPLOADER_MASTER.code as Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER " &
+                              " inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code='" & clsCommon.myCstr(DtSRN.Rows(0).Item("MCC_Code")) & "' and " &
+                              " TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code inner join TSPL_FAT_SNF_UPLOADER_VLC on VLC_Code='" & clsCommon.myCstr(DtSRN.Rows(0).Item("VLC_Code")) & "' and " &
+                              " TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code where  posted='1' and  fat='" & Math.Round(clsCommon.myCdbl(DtSRN.Rows(0).Item("FAT_Per")), 1) & "' and SNF='" & Math.Round(clsCommon.myCdbl(DtSRN.Rows(0).Item("SNF_Per")), 1) & "' " &
+                              " and (date< '" & clsCommon.GetPrintDate(DtSRN.Rows(0).Item("DOC_Date"), "dd-MMM-yyyy") & "' or (date= '" & clsCommon.GetPrintDate(DtSRN.Rows(0).Item("DOC_Date"), "dd-MMM-yyyy") & "')) order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc) as Price " &
+                              " inner join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate," &
+                              " TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code from TSPL_FAT_SNF_UPLOADER_MASTER " &
                               " inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) price_chart on price_chart.Code=Price.Price_Code"
             dtPrice = clsDBFuncationality.GetDataTable(QryMP, trans)
             If dtPrice.Rows.Count <= 0 Then
@@ -396,9 +396,9 @@ Public Class clsMilkPurchaseInvoiceMCC
 
     Public Shared Function GetMPIncentive(ByVal MCC_Code As String, ByVal MPcode As String, ByVal Incentive_Code As String, ByVal trans As SqlTransaction) As DataTable
         sQuery = "select TSPL_INCENTIVE_MASTER_HEAD.INCENTIVE_CODE,TSPL_INCENTIVE_MASTER_HEAD.START_DATE,TSPL_INCENTIVE_MASTER_HEAD.End_Date,SCHEME_FOR,Calc_Type,rate_type,TSPL_INCENTIVE_DETAIL.INCENTIVE_TYPE,SLAB_FROM" _
-         & " ,SLAB_TO,TS_From,Ts_To,RATE,RATE_UOM,Starting_Shift,ending_shift,TSPL_INCENTIVE_MASTER_HEAD.Qty_Type from TSPL_MP_INCENTIVE  " + Environment.NewLine + _
-"inner join TSPL_INCENTIVE_MASTER_HEAD on TSPL_INCENTIVE_MASTER_HEAD.INCENTIVE_CODE=TSPL_MP_INCENTIVE.INCENTIVE_CODE  " + Environment.NewLine + _
-"inner join TSPL_INCENTIVE_DETAIL on  TSPL_INCENTIVE_DETAIL.INCENTIVE_CODE = TSPL_INCENTIVE_MASTER_HEAD.INCENTIVE_CODE " + Environment.NewLine + _
+         & " ,SLAB_TO,TS_From,Ts_To,RATE,RATE_UOM,Starting_Shift,ending_shift,TSPL_INCENTIVE_MASTER_HEAD.Qty_Type from TSPL_MP_INCENTIVE  " + Environment.NewLine +
+"inner join TSPL_INCENTIVE_MASTER_HEAD on TSPL_INCENTIVE_MASTER_HEAD.INCENTIVE_CODE=TSPL_MP_INCENTIVE.INCENTIVE_CODE  " + Environment.NewLine +
+"inner join TSPL_INCENTIVE_DETAIL on  TSPL_INCENTIVE_DETAIL.INCENTIVE_CODE = TSPL_INCENTIVE_MASTER_HEAD.INCENTIVE_CODE " + Environment.NewLine +
           " inner join tspl_Mcc_Uom_Detail on tspl_Mcc_Uom_Detail.mcc_COde='" & MCC_Code & "' and " _
          & " tspl_Mcc_Uom_Detail.uom_Code=Rate_Uom where tspl_MP_incentive.mp_code='" & MPcode & "' order by TSPL_INCENTIVE_DETAIL.incentive_code,TSPL_INCENTIVE_DETAIL.slab_From desc"
         Dim DtIncentive As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
@@ -490,13 +490,13 @@ Public Class clsMilkPurchaseInvoiceMCC
 
         Dim qry As String = ""
         Dim dtIncentive As DataTable
-        qry = " select INCENTIVE_CODE,INCENTIVE_TYPE,LINE_NO,SLAB_FROM,SLAB_TO,RATE,RATE_UOM,FOR_PERIOD,Parameter_Type,OPERATER_TYPE,Param_Seq,OP_Seq,Rate_Type from ( " & _
-              " select Detail.INCENTIVE_CODE,Detail.INCENTIVE_TYPE,Detail.LINE_NO,Detail.SLAB_FROM,Detail.SLAB_TO,Detail.RATE,Detail.RATE_UOM," & _
-              " Detail.FOR_PERIOD,Detail.TS_FROM,Detail.TS_TO,Detail.Parameter_Type,Detail.OPERATER_TYPE, " & _
-              " (case when Detail.Parameter_Type='FAT' then 1 when Detail.Parameter_Type='SNF' then 2 when Detail.Parameter_Type='CLR' then 3 end) as Param_Seq, " & _
-              " (case when Detail.OPERATER_TYPE='None' then 0 when Detail.OPERATER_TYPE in ('OR','XOR') then 1 when Detail.OPERATER_TYPE='AND' then 2 " & _
-              " when Detail.OPERATER_TYPE='Continue' then 3 end) as OP_Seq,Head.Rate_Type " & _
-              " from TSPL_INCENTIVE_MASTER_HEAD Head inner join TSPL_INCENTIVE_DETAIL Detail on Head.INCENTIVE_CODE=Detail.INCENTIVE_CODE " & _
+        qry = " select INCENTIVE_CODE,INCENTIVE_TYPE,LINE_NO,SLAB_FROM,SLAB_TO,RATE,RATE_UOM,FOR_PERIOD,Parameter_Type,OPERATER_TYPE,Param_Seq,OP_Seq,Rate_Type from ( " &
+              " select Detail.INCENTIVE_CODE,Detail.INCENTIVE_TYPE,Detail.LINE_NO,Detail.SLAB_FROM,Detail.SLAB_TO,Detail.RATE,Detail.RATE_UOM," &
+              " Detail.FOR_PERIOD,Detail.TS_FROM,Detail.TS_TO,Detail.Parameter_Type,Detail.OPERATER_TYPE, " &
+              " (case when Detail.Parameter_Type='FAT' then 1 when Detail.Parameter_Type='SNF' then 2 when Detail.Parameter_Type='CLR' then 3 end) as Param_Seq, " &
+              " (case when Detail.OPERATER_TYPE='None' then 0 when Detail.OPERATER_TYPE in ('OR','XOR') then 1 when Detail.OPERATER_TYPE='AND' then 2 " &
+              " when Detail.OPERATER_TYPE='Continue' then 3 end) as OP_Seq,Head.Rate_Type " &
+              " from TSPL_INCENTIVE_MASTER_HEAD Head inner join TSPL_INCENTIVE_DETAIL Detail on Head.INCENTIVE_CODE=Detail.INCENTIVE_CODE " &
               " where Head.INCENTIVE_CODE='" & Incentive_Code & "' ) as Final order by INCENTIVE_CODE,Param_Seq,SLAB_FROM desc"
         dtIncentive = clsDBFuncationality.GetDataTable(qry, trans)
         Dim CondFatStatus As Boolean = False
@@ -914,11 +914,11 @@ Public Class clsMilkPurchaseInvoiceMCC
         End If
         Dim days_Count_extra As Integer = days_count
         Dim ArrReturn As New ArrayList
-        Dim Qty As Double = 0
+        Dim Qty As Decimal = 0
         Dim record_date As Date = Today
         Dim qry As String = ""
         Dim qry_prev As String = ""
-        Dim Pc_Value As Double = clsDBFuncationality.getSingleValue("select PC_VALUE from TSPL_PAYMENT_CYCLE_MASTER inner join TSPL_VENDOR_MASTER on " _
+        Dim Pc_Value As Decimal = clsDBFuncationality.getSingleValue("select PC_VALUE from TSPL_PAYMENT_CYCLE_MASTER inner join TSPL_VENDOR_MASTER on " _
                                             & " TSPL_VENDOR_MASTER.PC_CODE=TSPL_PAYMENT_CYCLE_MASTER.PC_CODE where vendor_code='" & VspCode & "'", trans)
         Dim DtIncentiveMaster As DataTable = GetVSPIncentiveMaster(MCC_Code, VspCode, trans)
         If DtIncentiveMaster.Rows.Count <= 0 Then
@@ -1332,7 +1332,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         End If
         If ArrReturn.Count > 2 Then
             Dim counter As Integer = 1
-            Dim Incentive_Value As Double = 0
+            Dim Incentive_Value As Decimal = 0
             For Each row As String In ArrReturn
                 If counter > 2 And counter Mod 2 = 0 Then
                     Incentive_Value += clsCommon.myCdbl(row)
@@ -1363,8 +1363,8 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         Dim isSaved As Boolean = True
         Dim is_Emp_On_Amount_Only As String = clsDBFuncationality.getSingleValue("select EmpOnAMountOnly from tspl_Mcc_Master where Mcc_Code='" & MCC_CODE & "'", trans)
         For Each dr As DataRow In dtAllData.Rows
-            qry = " update TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY set MP_Incentive=" & clsCommon.myCdbl(dr.Item("Incentive_value")) & ",MP_IncentiveEMP=(Case when VSP.Nature='E' then VSP.Actual_charges ELSE 0 end)*" & _
-          " CASE WHEN " & is_Emp_On_Amount_Only & "='1' THEN 0 ELSE " & clsCommon.myCdbl(dr.Item("Incentive_value")) & "/100 END from TSPL_VENDOR_MASTER VSP WHERE VSP.Vendor_Code=TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY.VSP_CODE " & _
+            qry = " update TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY set MP_Incentive=" & clsCommon.myCdbl(dr.Item("Incentive_value")) & ",MP_IncentiveEMP=(Case when VSP.Nature='E' then VSP.Actual_charges ELSE 0 end)*" &
+          " CASE WHEN " & is_Emp_On_Amount_Only & "='1' THEN 0 ELSE " & clsCommon.myCdbl(dr.Item("Incentive_value")) & "/100 END from TSPL_VENDOR_MASTER VSP WHERE VSP.Vendor_Code=TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY.VSP_CODE " &
           " AND TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY.DOC_CODE='" & Inv_Code & "' AND TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY.VSP_CODE='" & clsCommon.myCstr(dr.Item("VENDOR")) & "' and coalesce(Manual_DOC_NO,PD_DOC_NO)='" & clsCommon.myCstr(dr.Item("Code")) & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Next
@@ -1432,13 +1432,13 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
 
     Public Shared Function LoadDataQuery_For_Incentive_Extra(ByVal Inv_Code As String, ByVal VspCode As String, ByVal MCC_Code As String, ByVal Frm_date As Date, ByVal To_date As Date, ByVal is_For_Saved_Invoice As Boolean, ByVal trans As SqlTransaction, ByVal days_count As Integer, ByVal Incentive_Code As String) As ArrayList
         Dim ArrReturn As New ArrayList
-        Dim Qty As Double = 0
+        Dim Qty As Decimal = 0
         Dim record_date As Date
         Dim qry As String = ""
         Dim qry_prev As String = ""
         ' Dim dtIncentiveAmount As DataTable
 
-        Dim Pc_Value As Double = clsDBFuncationality.getSingleValue("select PC_VALUE from TSPL_PAYMENT_CYCLE_MASTER inner join TSPL_VENDOR_MASTER on " _
+        Dim Pc_Value As Decimal = clsDBFuncationality.getSingleValue("select PC_VALUE from TSPL_PAYMENT_CYCLE_MASTER inner join TSPL_VENDOR_MASTER on " _
                                             & " TSPL_VENDOR_MASTER.PC_CODE=TSPL_PAYMENT_CYCLE_MASTER.PC_CODE where vendor_code='" & VspCode & "'", trans)
         Dim Dtincentive As DataTable = GetIncentiveExtra(MCC_Code, VspCode, Incentive_Code, trans)
         If Dtincentive.Rows.Count <= 0 Then
@@ -2374,7 +2374,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         End If
 a:      If ArrReturn.Count > 2 Then
             Dim counter As Integer = 1
-            Dim Incentive_Value As Double = 0
+            Dim Incentive_Value As Decimal = 0
             For Each row As String In ArrReturn
                 If counter > 2 And counter Mod 2 = 0 Then
                     Incentive_Value += clsCommon.myCdbl(row)
@@ -2504,12 +2504,12 @@ a:      If ArrReturn.Count > 2 Then
     Public Shared Function LoadDataQuery_For_Incentive_MP(ByVal Inv_Code As String, ByVal VspCode As String, ByVal MCC_Code As String, ByVal Frm_date As Date, ByVal To_date As Date, ByVal is_For_Saved_Invoice As Boolean, ByVal trans As SqlTransaction, ByVal days_count As Integer) As ArrayList
         Dim days_Count_extra As Integer = days_count
         Dim ArrReturn As New ArrayList
-        Dim Qty As Double = 0
+        Dim Qty As Decimal = 0
         Dim record_date As Date = Today
         Dim qry As String = ""
         Dim qry_prev As String = ""
         ' Dim days_count As Integer = To_date.Day - Frm_date.Day
-        Dim Pc_Value As Double = clsDBFuncationality.getSingleValue("select PC_VALUE from TSPL_PAYMENT_CYCLE_MASTER inner join TSPL_VENDOR_MASTER on " _
+        Dim Pc_Value As Decimal = clsDBFuncationality.getSingleValue("select PC_VALUE from TSPL_PAYMENT_CYCLE_MASTER inner join TSPL_VENDOR_MASTER on " _
                                             & " TSPL_VENDOR_MASTER.PC_CODE=TSPL_PAYMENT_CYCLE_MASTER.PC_CODE where vendor_code='" & VspCode & "'", trans)
         'Dim Dtincentive As DataTable = GetIncentive(MCC_Code, VspCode, trans)
         Dim DtIncentiveMaster As DataTable = GetVSPIncentiveMaster(MCC_Code, VspCode, trans)
@@ -2520,9 +2520,9 @@ a:      If ArrReturn.Count > 2 Then
         'End If
         If DtIncentiveMaster.Rows.Count <= 0 Then
             'GoTo a
-            sQuery = " Update tspl_Milk_Purchase_Invoice_Head set MP_Amount=Inv_MP.MP_AMOUNT,MP_EMP=Inv_MP.MP_EMP,MP_Incentive=Inv_MP.MP_Incentive ,MP_IncentiveEMP=Inv_MP.MP_IncentiveEMP " & _
-                    " from (select DOC_CODE,VSP_CODE,sum(MP_AMOUNT) as MP_AMOUNT,sum(MP_EMP) as MP_EMP,sum(MP_Incentive)as MP_Incentive,sum(MP_IncentiveEMP) as MP_IncentiveEMP " & _
-                    " from TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY group by DOC_CODE,VSP_CODE)  Inv_MP where tspl_Milk_Purchase_Invoice_Head.doc_code=Inv_MP.DOC_CODE " & _
+            sQuery = " Update tspl_Milk_Purchase_Invoice_Head set MP_Amount=Inv_MP.MP_AMOUNT,MP_EMP=Inv_MP.MP_EMP,MP_Incentive=Inv_MP.MP_Incentive ,MP_IncentiveEMP=Inv_MP.MP_IncentiveEMP " &
+                    " from (select DOC_CODE,VSP_CODE,sum(MP_AMOUNT) as MP_AMOUNT,sum(MP_EMP) as MP_EMP,sum(MP_Incentive)as MP_Incentive,sum(MP_IncentiveEMP) as MP_IncentiveEMP " &
+                    " from TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY group by DOC_CODE,VSP_CODE)  Inv_MP where tspl_Milk_Purchase_Invoice_Head.doc_code=Inv_MP.DOC_CODE " &
                     " and tspl_Milk_Purchase_Invoice_Head.VSP_CODE=Inv_MP.VSP_CODE  and tspl_Milk_Purchase_Invoice_Head.doc_code='" & clsCommon.myCstr(Inv_Code) & "'"
             clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
             Return ArrReturn
@@ -2774,7 +2774,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         End If
         If ArrReturn.Count >= 2 Then
             Dim counter As Integer = 1
-            Dim Incentive_Value As Double = 0
+            Dim Incentive_Value As Decimal = 0
             For Each row As String In ArrReturn
                 If counter > 1 And counter Mod 2 = 0 Then
                     Incentive_Value += clsCommon.myCdbl(row)
@@ -2782,9 +2782,9 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
                 counter += 1
             Next
         End If
-        sQuery = " Update tspl_Milk_Purchase_Invoice_Head set MP_Amount=Inv_MP.MP_AMOUNT,MP_EMP=Inv_MP.MP_EMP,MP_Incentive=Inv_MP.MP_Incentive ,MP_IncentiveEMP=Inv_MP.MP_IncentiveEMP " & _
-                    " from (select DOC_CODE,VSP_CODE,sum(MP_AMOUNT) as MP_AMOUNT,sum(MP_EMP) as MP_EMP,sum(MP_Incentive)as MP_Incentive,sum(MP_IncentiveEMP) as MP_IncentiveEMP " & _
-                    " from TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY group by DOC_CODE,VSP_CODE)  Inv_MP where tspl_Milk_Purchase_Invoice_Head.doc_code=Inv_MP.DOC_CODE " & _
+        sQuery = " Update tspl_Milk_Purchase_Invoice_Head set MP_Amount=Inv_MP.MP_AMOUNT,MP_EMP=Inv_MP.MP_EMP,MP_Incentive=Inv_MP.MP_Incentive ,MP_IncentiveEMP=Inv_MP.MP_IncentiveEMP " &
+                    " from (select DOC_CODE,VSP_CODE,sum(MP_AMOUNT) as MP_AMOUNT,sum(MP_EMP) as MP_EMP,sum(MP_Incentive)as MP_Incentive,sum(MP_IncentiveEMP) as MP_IncentiveEMP " &
+                    " from TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY group by DOC_CODE,VSP_CODE)  Inv_MP where tspl_Milk_Purchase_Invoice_Head.doc_code=Inv_MP.DOC_CODE " &
                     " and tspl_Milk_Purchase_Invoice_Head.VSP_CODE=Inv_MP.VSP_CODE  and tspl_Milk_Purchase_Invoice_Head.doc_code='" & clsCommon.myCstr(Inv_Code) & "'"
         clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
         Return ArrReturn
@@ -2795,13 +2795,13 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         Dim arrVSP As New ArrayList
         arrVSP.Add(VSP_CODE)
 
-        qry = "select (case when TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT.VLC_Code is not null or TSPL_VENDOR_MASTER.VSP_Farmer_Billing=1 then 1 else 0 end) as MP_Billing  " & _
-            " from TSPL_VLC_MASTER_HEAD left outer join TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT.VLC_Code  " & _
+        qry = "select (case when TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT.VLC_Code is not null or TSPL_VENDOR_MASTER.VSP_Farmer_Billing=1 then 1 else 0 end) as MP_Billing  " &
+            " from TSPL_VLC_MASTER_HEAD left outer join TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_VLC_MAPPING_FOR_MP_MILK_AMOUNT.VLC_Code  " &
             " left join TSPL_VENDOR_MASTER on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code where TSPL_VLC_MASTER_HEAD.VSP_Code='" & VSP_CODE & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso clsCommon.myCdbl(dt.Rows(0).Item("MP_Billing")) > 0 Then
             '' validate mp collection fat and snf per
-            Dim qryCheck As String = " select max(Doc_No) from (select Doc_No,round((CASE WHEN VLC_Qty<=0 THEN 0 ELSE FAT_KG*100/VLC_Qty END),3) as Fat_Per,round((CASE WHEN VLC_Qty<=0 THEN 0 ELSE SNF_KG*100/VLC_Qty END),3) AS SNF_Per " & _
+            Dim qryCheck As String = " select max(Doc_No) from (select Doc_No,round((CASE WHEN VLC_Qty<=0 THEN 0 ELSE FAT_KG*100/VLC_Qty END),3) as Fat_Per,round((CASE WHEN VLC_Qty<=0 THEN 0 ELSE SNF_KG*100/VLC_Qty END),3) AS SNF_Per " &
                 " from (" & GetQuery(From_Date, To_Date, MCC_CODE, arrVSP) & ") MPData)  Data where (Fat_Per>100 or SNF_Per>100) "
             Dim doc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qryCheck, trans))
             If clsCommon.myLen(doc) > 0 Then
@@ -2810,17 +2810,17 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
             Dim conv_fac As Decimal = clsWeightConversionInfo.GetConversion_factor("LTR", "KG", trans)
             qry = "delete from TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY where DOC_CODE='" & Doc_Code & "' and VSP_CODE='" & VSP_CODE & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = " insert into TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY( DOC_CODE,MANUAL_DOC_NO,PD_DOC_NO,FILE_DATE,SHIFT,MP_Qty,Uom_Code,FAT_PER,SNF_PER,FAT_KG,SNF_KG,MCC_CODE,VLC_Code,VSP_CODE,MP_AMOUNT,MP_EMP," & _
-                  " MP_Incentive,MP_IncentiveEMP,Net_AMOUNT) " & _
-                  " select '" & Doc_Code & "' as DOC_CODE,(case when Type='Manual' then Doc_No else null end) as MANUAL_DOC_NO,(case when Type='PDU' then Doc_No else null end) as PD_DOC_NO,FILE_DATE,SHIFT, " & _
+            qry = " insert into TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY( DOC_CODE,MANUAL_DOC_NO,PD_DOC_NO,FILE_DATE,SHIFT,MP_Qty,Uom_Code,FAT_PER,SNF_PER,FAT_KG,SNF_KG,MCC_CODE,VLC_Code,VSP_CODE,MP_AMOUNT,MP_EMP," &
+                  " MP_Incentive,MP_IncentiveEMP,Net_AMOUNT) " &
+                  " select '" & Doc_Code & "' as DOC_CODE,(case when Type='Manual' then Doc_No else null end) as MANUAL_DOC_NO,(case when Type='PDU' then Doc_No else null end) as PD_DOC_NO,FILE_DATE,SHIFT, " &
                   " VLC_Qty as MP_Qty,Uom_Code,round((CASE WHEN VLC_Qty<=0 THEN 0 ELSE FAT_KG*100/VLC_Qty END),3) AS VLC_Fat,round((CASE WHEN VLC_Qty<=0 THEN 0 ELSE SNF_KG*100/VLC_Qty END),3) AS VLC_SNF,FAT_KG,SNF_KG,MCC_Code,VLC_CODE,VSP_CODE,Amount,0,0,0,Amount from (" & GetQuery(From_Date, To_Date, MCC_CODE, arrVSP) & ") MPData"
 
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '' UPDATE EMP AMOUNT        
-            qry = " update TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY set MP_EMP=(Case when VSP.Nature='E' then VSP.Actual_charges ELSE 0 end)*" & _
-                  " (CASE WHEN VSP.Service_Charge_Type='%(Percentage)' THEN MP_AMOUNT/100 " & _
-                  " WHEN VSP.Service_Charge_Type='Rate/Kg' THEN (CASE WHEN Uom_Code='KG' THEN  MP_Qty ELSE MP_Qty*" & conv_fac & " END) " & _
-                  " WHEN VSP.Service_Charge_Type='Rate/Ltr' THEN (CASE WHEN Uom_Code='LTR' THEN  MP_Qty ELSE MP_Qty/" & conv_fac & " END) END) from TSPL_VENDOR_MASTER VSP WHERE VSP.Vendor_Code=TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY.VSP_CODE " & _
+            qry = " update TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY set MP_EMP=(Case when VSP.Nature='E' then VSP.Actual_charges ELSE 0 end)*" &
+                  " (CASE WHEN VSP.Service_Charge_Type='%(Percentage)' THEN MP_AMOUNT/100 " &
+                  " WHEN VSP.Service_Charge_Type='Rate/Kg' THEN (CASE WHEN Uom_Code='KG' THEN  MP_Qty ELSE MP_Qty*" & conv_fac & " END) " &
+                  " WHEN VSP.Service_Charge_Type='Rate/Ltr' THEN (CASE WHEN Uom_Code='LTR' THEN  MP_Qty ELSE MP_Qty/" & conv_fac & " END) END) from TSPL_VENDOR_MASTER VSP WHERE VSP.Vendor_Code=TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY.VSP_CODE " &
                   " AND TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY.DOC_CODE='" & Doc_Code & "' AND TSPL_MILK_PURCHASE_INVOICE_MP_COLLEC_SUMMARY.VSP_CODE='" & VSP_CODE & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -2830,7 +2830,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
     End Function
     Public Shared Function GetQuery(ByVal From_Date As Date, ByVal To_Date As Date, ByVal MCC_CODE As String, ByVal arrVSP As ArrayList) As String
         Dim qry As String = GetBaseQueryWithMP(From_Date, To_Date, MCC_CODE, arrVSP)
-        qry = " select Type,Doc_No,Doc_Date,File_Date,MCC_Code,VLC_CODE,VLC_Code_VLC_Uploader,[Shift],UOM_CODE,MCC_CODE_VLC_UPLOADER,VSP_CODE," & _
+        qry = " select Type,Doc_No,Doc_Date,File_Date,MCC_Code,VLC_CODE,VLC_Code_VLC_Uploader,[Shift],UOM_CODE,MCC_CODE_VLC_UPLOADER,VSP_CODE," &
               " SUM(VLC_Qty) AS VLC_Qty,SUM(FAT_KG) AS FAT_KG,SUM(SNF_KG) AS SNF_KG,SUM(VLC_Water) AS VLC_Water,SUM(Amount) AS Amount from (" & qry & ") as Final GROUP BY Type,Doc_No,Doc_Date,File_Date,MCC_Code,VLC_CODE,VLC_Code_VLC_Uploader,[Shift],UOM_CODE,MCC_CODE_VLC_UPLOADER,VSP_CODE "
         Return qry
     End Function
@@ -2846,11 +2846,11 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         Dim qry As String
         Dim qryPDU As String = ""
         Dim qryManual As String = ""
-        qryPDU = " select 'PDU' as Type,VLCData.Doc_No,VLCData.Doc_Date as Doc_Date,VLCData.File_Date as File_Date ,VLCData.MCC_Code,VLC.VLC_CODE,VLC.VLC_Code_VLC_Uploader,VLCData.Route_No,coalesce(MP.MP_CODE,MP1.MP_CODE) AS MP_CODE,coalesce(MP.MP_Name,MP1.MP_Name) as MP_Name ,VLCData.shift as [Shift]," & _
-              " VLCData.Milk_Type,Round(VLCData.qty,3) as VLC_Qty,VLCData.Uom_Code,round(VLCData.fat,3) as VLC_Fat,round(VLCData.snf,3) as VLC_SNF,round(VLCData.fat_KG,3) as fat_KG,round(VLCData.snf_KG,3) as snf_KG,VLCData.water as VLC_Water,VLCData.Rate,Round(VLCData.Amount,2) as Amount,mcc.Mcc_Code_VLC_Uploader as Mcc_Code_VLC_Uploader,coalesce(MP.MP_Code_VLC_Uploader,MP1.MP_Code_VLC_Uploader) AS MP_Code_Uploader,VLC.VSP_CODE from TSPL_VLC_DATA_UPLOADER VLCData " & _
-              " left join TSPL_VLC_MASTER_HEAD VLC on VLCData.VLC_CODE=VLC.VLC_Code_VLC_Uploader and VLC.MCC=VLCData.MCC_Code " & _
-              " left join TSPL_MP_MASTER MP ON VLCData.MP_CODE =MP.MP_Code " & _
-              " left join TSPL_MP_MASTER MP1 ON VLCData.MP_CODE =MP1.MP_Code_VLC_Uploader and MP1.VLC_Code=VLC.VLC_Code " & _
+        qryPDU = " select 'PDU' as Type,VLCData.Doc_No,VLCData.Doc_Date as Doc_Date,VLCData.File_Date as File_Date ,VLCData.MCC_Code,VLC.VLC_CODE,VLC.VLC_Code_VLC_Uploader,VLCData.Route_No,coalesce(MP.MP_CODE,MP1.MP_CODE) AS MP_CODE,coalesce(MP.MP_Name,MP1.MP_Name) as MP_Name ,VLCData.shift as [Shift]," &
+              " VLCData.Milk_Type,Round(VLCData.qty,3) as VLC_Qty,VLCData.Uom_Code,round(VLCData.fat,3) as VLC_Fat,round(VLCData.snf,3) as VLC_SNF,round(VLCData.fat_KG,3) as fat_KG,round(VLCData.snf_KG,3) as snf_KG,VLCData.water as VLC_Water,VLCData.Rate,Round(VLCData.Amount,2) as Amount,mcc.Mcc_Code_VLC_Uploader as Mcc_Code_VLC_Uploader,coalesce(MP.MP_Code_VLC_Uploader,MP1.MP_Code_VLC_Uploader) AS MP_Code_Uploader,VLC.VSP_CODE from TSPL_VLC_DATA_UPLOADER VLCData " &
+              " left join TSPL_VLC_MASTER_HEAD VLC on VLCData.VLC_CODE=VLC.VLC_Code_VLC_Uploader and VLC.MCC=VLCData.MCC_Code " &
+              " left join TSPL_MP_MASTER MP ON VLCData.MP_CODE =MP.MP_Code " &
+              " left join TSPL_MP_MASTER MP1 ON VLCData.MP_CODE =MP1.MP_Code_VLC_Uploader and MP1.VLC_Code=VLC.VLC_Code " &
               " left join TSPL_MCC_MASTER MCC on VLCData.MCC_Code=mcc.MCC_Code where 2=2  "
         If Not From_Date Is Nothing Then
             qryPDU = qryPDU & " and cast(VLCData.File_Date as date) >= convert(date,'" & clsCommon.GetPrintDate(From_Date, "dd/MMM/yyyy") & "',103)"
@@ -2869,13 +2869,13 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
             qryPDU = qryPDU & " and VLC.VSP_CODE in (" & clsCommon.GetMulcallString(arrVSP) & ")"
         End If
 
-        qryManual = " select MFinal.Type,MFinal.Document_Code,MFinal.Doc_Date as Document_Date,MFinal.Document_Date,MFinal.MCC,MFinal.VLC_Code,MFinal.VLC_Code_VLC_Uploader,MFinal.Route_Code,MFinal.Farmer_Code," & _
-                    " MFinal.MP_Name,MFinal.Shift,MFinal.Milk_Type,round(MFinal.VLC_Qty,3) as VLC_Qty,MFinal.Unit_Code,round(MFinal.VLC_Fat,3) as VLC_Fat,round(MFinal.VLC_SNF,3) as VLC_SNF,round(MFinal.VLC_FAT_KG*Conv.CF,3) as fat_KG,round(MFinal.VLC_SNF_KG*Conv.CF,3) as snf_KG,MFinal.VLC_Water,MFinal.Rate,round(MFinal.Amount,2) as Amount,MFinal.Mcc_Code_VLC_Uploader,MFinal.MP_Code_Uploader,MFinal.VSP_CODE from " & _
-                    " ( select 'Manual' as Type,VLCM.Document_Code,VLCM.Document_Date as Doc_Date,VLCM.Document_Date as Document_Date,VLC.MCC,VLCM.VLC_Code,VLC.VLC_Code_VLC_Uploader,VLCM.Route_Code,VLCD.Farmer_Code,MP.MP_Name ,VLCM.Shift, " & _
-                    " '' as Milk_Type,VLCD.Qty as VLC_Qty,VLCD.Unit_Code,VLCD.FatPer as VLC_Fat,VLCD.SNFPer as VLC_SNF,(VLCD.Qty*VLCD.FatPer/100) as VLC_FAT_KG, " & _
-                    " (VLCD.Qty*VLCD.SNFPer/100) as VLC_SNF_KG,null as VLC_Water,VLCD.Rate,VLCD.Amount,'' as Mcc_Code_VLC_Uploader,MP.MP_Code_VLC_Uploader AS MP_Code_Uploader,VLC.VSP_CODE from TSPL_VLC_DATA_UPLOADER_MASTER VLCM " & _
-                    " inner join TSPL_VLC_DATA_UPLOADER_DETAIL VLCD on VLCM.Document_Code=VLCD.Document_Code " & _
-                    " left join TSPL_VLC_MASTER_HEAD VLC on VLCM.VLC_CODE=VLC.VLC_Code " & _
+        qryManual = " select MFinal.Type,MFinal.Document_Code,MFinal.Doc_Date as Document_Date,MFinal.Document_Date,MFinal.MCC,MFinal.VLC_Code,MFinal.VLC_Code_VLC_Uploader,MFinal.Route_Code,MFinal.Farmer_Code," &
+                    " MFinal.MP_Name,MFinal.Shift,MFinal.Milk_Type,round(MFinal.VLC_Qty,3) as VLC_Qty,MFinal.Unit_Code,round(MFinal.VLC_Fat,3) as VLC_Fat,round(MFinal.VLC_SNF,3) as VLC_SNF,round(MFinal.VLC_FAT_KG*Conv.CF,3) as fat_KG,round(MFinal.VLC_SNF_KG*Conv.CF,3) as snf_KG,MFinal.VLC_Water,MFinal.Rate,round(MFinal.Amount,2) as Amount,MFinal.Mcc_Code_VLC_Uploader,MFinal.MP_Code_Uploader,MFinal.VSP_CODE from " &
+                    " ( select 'Manual' as Type,VLCM.Document_Code,VLCM.Document_Date as Doc_Date,VLCM.Document_Date as Document_Date,VLC.MCC,VLCM.VLC_Code,VLC.VLC_Code_VLC_Uploader,VLCM.Route_Code,VLCD.Farmer_Code,MP.MP_Name ,VLCM.Shift, " &
+                    " '' as Milk_Type,VLCD.Qty as VLC_Qty,VLCD.Unit_Code,VLCD.FatPer as VLC_Fat,VLCD.SNFPer as VLC_SNF,(VLCD.Qty*VLCD.FatPer/100) as VLC_FAT_KG, " &
+                    " (VLCD.Qty*VLCD.SNFPer/100) as VLC_SNF_KG,null as VLC_Water,VLCD.Rate,VLCD.Amount,'' as Mcc_Code_VLC_Uploader,MP.MP_Code_VLC_Uploader AS MP_Code_Uploader,VLC.VSP_CODE from TSPL_VLC_DATA_UPLOADER_MASTER VLCM " &
+                    " inner join TSPL_VLC_DATA_UPLOADER_DETAIL VLCD on VLCM.Document_Code=VLCD.Document_Code " &
+                    " left join TSPL_VLC_MASTER_HEAD VLC on VLCM.VLC_CODE=VLC.VLC_Code " &
                     " left join TSPL_MP_MASTER MP ON VLCD.Farmer_Code=MP.MP_Code where 2=2 "
 
         If Not From_Date Is Nothing Then
@@ -2894,16 +2894,16 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         End If
 
         qryManual = qryManual & ") as MFinal "
-        qryManual = qryManual & " left join (Select distinct yyy.FromUOM,yyy.TOUOM,max(CF) as CF From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF " & _
-                    " from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + "  UNION All Select Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/Contained_Qty as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " " & _
-                    " UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " " & _
+        qryManual = qryManual & " left join (Select distinct yyy.FromUOM,yyy.TOUOM,max(CF) as CF From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF " &
+                    " from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + "  UNION All Select Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/Contained_Qty as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " " &
+                    " UNION All   Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " " &
                     " UNION All Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " )as yyy group by yyy.FromUOM,yyy.TOUOM) as Conv on MFinal.Unit_Code=Conv.FromUOM and Conv.TOUOM='KG'"
         qry = qryPDU & " Union All " & qryManual & ""
 
         Return qry
     End Function
 
-    Public Shared Function TSBasedAmountForLossByVSP(ByVal strMCCCode As String, ByVal strVSPCode As String, ByVal From_Date As Date, ByVal To_Date As Date, ByVal tran As SqlTransaction) As Double
+    Public Shared Function TSBasedAmountForLossByVSP(ByVal strMCCCode As String, ByVal strVSPCode As String, ByVal From_Date As Date, ByVal To_Date As Date, ByVal tran As SqlTransaction) As Decimal
         Dim whrcls As String = ""
         If objCommonVar.ItemSturctureMandatoryOnWeightConversion Then
             If clsCommon.myLen(objCommonVar.DefaultMilkItemCode) <= 0 Then
@@ -2913,50 +2913,50 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         End If
 
         Dim qry As String
-        qry = "select sum(FATAmt+SNFAmt) as LOSSAmt  from (" + Environment.NewLine + _
-        "select *,case when FatPer_MP-FatPer_VSP>0 then round(FatPer_MP-FatPer_VSP,2) else 0 end as DiffFAT,case when SNFPer_MP-SNFPer_VSP>0 then round(SNFPer_MP-SNFPer_VSP,2) else 0 end as DiffSNF,round( case when FatPer_MP-FatPer_VSP>0 then ((FatPer_MP-FatPer_VSP)*TSRate_MP/100)*QtyKG_MP else 0 end ,2)as FATAmt" + Environment.NewLine + _
-        ",round(case when SNFPer_MP-SNFPer_VSP>0 then ((SNFPer_MP-SNFPer_VSP)*TSRate_MP/100)*QtyKG_MP else 0 end,2) as SNFAmt   from (select Document_Date,Shift,VSP_Code,QtyKG_VSP,FatKG_VSP,SNFKG_VSP,round(case when QtyKG_VSP=0 then 0 else Amount_VSP/QtyKG_VSP end,2) as Rate_VSP,Amount_VSP ,round(case when QtyKG_VSP=0 then 0 else FatKG_VSP*100/QtyKG_VSP end,2) as FatPer_VSP,round(case when QtyKG_VSP=0 then 0 else SNFKG_VSP*100/QtyKG_VSP end,2) as SNFPer_VSP,round(case when QtyKG_VSP=0 then 0 else  TSAmount_VSP/QtyKG_VSP end,2) as TSRate_VSP, TSAmount_VSP" + Environment.NewLine + _
-        ",QtyKG_MP,FatKG_MP,SNFKG_MP,round( case when QtyKG_MP=0 then 0 else Amount_MP/QtyKG_MP end,2) as Rate_MP,Amount_MP,round(case when QtyKG_MP=0 then 0 else FatKG_MP*100/QtyKG_MP end,2) as FatPer_MP,round(case when QtyKG_MP=0 then 0 else SNFKG_MP*100/QtyKG_MP end,2) as SNFPer_MP,round(case when QtyKG_MP=0 then 0 else  TSAmount_MP/QtyKG_MP end,2) as TSRate_MP,TSAmount_MP" + Environment.NewLine + _
-        "from (" + Environment.NewLine + _
-        "select Document_Date,Shift,VSP_Code,sum(QtyKG * case when type='VSP' then 1 else 0 end) as QtyKG_VSP,sum(fat_KG * case when type='VSP' then 1 else 0 end) as FatKG_VSP,sum(snf_KG * case when type='VSP' then 1 else 0 end) as SNFKG_VSP,sum(Amount * case when type='VSP' then 1 else 0 end) as Amount_VSP,sum(TSAmount * case when type='VSP' then 1 else 0 end) as TSAmount_VSP,sum(QtyKG * case when type='VSP' then 0 else 1 end) as QtyKG_MP,sum(fat_KG * case when type='VSP' then 0 else 1 end) as FatKG_MP,sum(snf_KG * case when type='VSP' then 0 else 1 end) as SNFKG_MP,sum(Amount * case when type='VSP' then 0 else 1 end) as Amount_MP,sum(TSAmount * case when type='VSP' then 0 else 1 end) as TSAmount_MP" + Environment.NewLine + _
-        "from (" + Environment.NewLine + _
-        "select xxx.Type,xxx.MCC,xxx.Route_Code,xxx.VLC_Code,xxx.VSP_Code,xxx.VLC_Code_VLC_Uploader,xxx.Document_Code,convert(date, xxx.Document_Date,103) as Document_Date,xxx.Shift,xxx.MPCode,xxx.MPName,xxx.Qty,xxx.Unit_Code,round(xxx.Qty*Conv.CF,3) as QtyKG,xxx.FatPer,round((xxx.Qty*Conv.CF*xxx.FatPer)/100,3) as fat_KG,xxx.SNFPer,round((xxx.Qty*Conv.CF*xxx.SNFPer)/100,3) as snf_KG,xxx.Rate,round(xxx.Amount,2) as Amount,xxx.TSRate,round(TSRate*xxx.Qty*Conv.CF,2) as TSAmount" + Environment.NewLine + _
-        "from (" + Environment.NewLine + _
-        "select *,round(case when FatPer+SNFPer=0 then 0 else (Rate*100/(FatPer+SNFPer)) end,2) as TSRate from (" + Environment.NewLine + _
-        "select 'Manual' as Type,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_DATA_UPLOADER_MASTER.Route_Code,TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code,TSPL_VLC_MASTER_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,substring(TSPL_VLC_DATA_UPLOADER_MASTER.Shift,1,1) as Shift,TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code as MPCode,TSPL_MP_MASTER.MP_Name as MPName,TSPL_VLC_DATA_UPLOADER_DETAIL.Qty,TSPL_VLC_DATA_UPLOADER_DETAIL.Unit_Code,TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer,TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer ,TSPL_VLC_DATA_UPLOADER_DETAIL.Rate,TSPL_VLC_DATA_UPLOADER_DETAIL.Amount" + Environment.NewLine + _
-        "from TSPL_VLC_DATA_UPLOADER_MASTER " + Environment.NewLine + _
-        "inner join  TSPL_VLC_DATA_UPLOADER_DETAIL on TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code " + Environment.NewLine + _
-        "left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code " + Environment.NewLine + _
-        "left join TSPL_MP_MASTER ON TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code=TSPL_MP_MASTER.MP_Code " + Environment.NewLine + _
-        "where 2=2 and TSPL_VLC_MASTER_HEAD.MCC='" + strMCCCode + "' and TSPL_VLC_MASTER_HEAD.VSP_CODE ='" + strVSPCode + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(From_Date), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(To_Date), "dd/MMM/yyyy hh:mm tt") + "'   " + Environment.NewLine + _
-        "union all" + Environment.NewLine + _
-        "select 'PDU' as Type,TSPL_VLC_DATA_UPLOADER.MCC_Code,TSPL_VLC_DATA_UPLOADER.Route_No,TSPL_VLC_MASTER_HEAD.VLC_CODE,TSPL_VLC_MASTER_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader" + Environment.NewLine + _
-        ",TSPL_VLC_DATA_UPLOADER.Doc_No as Document_Code,TSPL_VLC_DATA_UPLOADER.File_Date as Document_Date,substring(TSPL_VLC_DATA_UPLOADER.shift,1,1) as shift ,coalesce(TSPL_MP_MASTER.MP_CODE,MP1.MP_CODE) AS MPCode,coalesce(TSPL_MP_MASTER.MP_Name,MP1.MP_Name) as MPName  ," + Environment.NewLine + _
-        "TSPL_VLC_DATA_UPLOADER.Qty,TSPL_VLC_DATA_UPLOADER.Uom_Code as Unit_Code,TSPL_VLC_DATA_UPLOADER.fat as FATPer,TSPL_VLC_DATA_UPLOADER.snf as SNFPer,TSPL_VLC_DATA_UPLOADER.Rate ,TSPL_VLC_DATA_UPLOADER.Amount  " + Environment.NewLine + _
-        "from TSPL_VLC_DATA_UPLOADER " + Environment.NewLine + _
-        "left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_DATA_UPLOADER.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader and TSPL_VLC_MASTER_HEAD.MCC=TSPL_VLC_DATA_UPLOADER.MCC_Code " + Environment.NewLine + _
-        "left join TSPL_MP_MASTER ON TSPL_VLC_DATA_UPLOADER.MP_CODE =TSPL_MP_MASTER.MP_Code " + Environment.NewLine + _
-        "left join TSPL_MP_MASTER MP1 ON TSPL_VLC_DATA_UPLOADER.MP_CODE =MP1.MP_Code_VLC_Uploader and MP1.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code " + Environment.NewLine + _
-        "left join TSPL_MCC_MASTER on TSPL_VLC_DATA_UPLOADER.MCC_Code=TSPL_MCC_MASTER.MCC_Code " + Environment.NewLine + _
-        "where 2=2 and  TSPL_VLC_DATA_UPLOADER.File_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(From_Date), "dd/MMM/yyyy hh:mm tt") + "' and  TSPL_VLC_DATA_UPLOADER.File_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(To_Date), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER.MCC_Code='" + strMCCCode + "' and TSPL_VLC_MASTER_HEAD.VSP_CODE ='" + strVSPCode + "'" + Environment.NewLine + _
-        "union all" + Environment.NewLine + _
-        " select 'VSP' as Type,TSPL_MILK_SRN_HEAD.MCC_CODE,TSPL_MILK_SRN_HEAD.ROUTE_CODE,TSPL_MILK_SRN_HEAD.VLC_CODE,TSPL_MILK_SRN_HEAD.VSP_CODE, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MILK_SRN_HEAD.DOC_CODE as Document_Code,TSPL_MILK_SRN_HEAD.DOC_DATE as Document_Date, substring(TSPL_MILK_SRN_HEAD.SHIFT,1,1) as Shift,'' as MPCode,'' as MPName,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code as Unit_Code,TSPL_MILK_SRN_DETAIL.FAT_PER as FATPer,TSPL_MILK_SRN_DETAIL.SNF_PER as SNFPer,TSPL_MILK_SRN_DETAIL.RATE,TSPL_MILK_SRN_DETAIL.AMOUNT " + Environment.NewLine + _
-        "from TSPL_MILK_SRN_DETAIL" + Environment.NewLine + _
-        "left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine + _
-        "left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE" + Environment.NewLine + _
-        "where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCCode + "' and TSPL_MILK_SRN_HEAD.VSP_CODE='" + strVSPCode + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(From_Date), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(To_Date), "dd/MMM/yyyy hh:mm tt") + "'" + Environment.NewLine + _
-        ")x" + Environment.NewLine + _
-        ") as xxx  " + Environment.NewLine + _
-        "left join (Select distinct yyy.FromUOM,yyy.TOUOM,max(CF) as CF From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + "  " + Environment.NewLine + _
-        "UNION All " + Environment.NewLine + _
-        "Select Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/Contained_Qty as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " " + Environment.NewLine + _
-        "UNION All   " + Environment.NewLine + _
-        "Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " " + Environment.NewLine + _
-        "UNION All " + Environment.NewLine + _
-        "Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " )as yyy group by yyy.FromUOM,yyy.TOUOM) as Conv on xxx.Unit_Code=Conv.FromUOM and Conv.TOUOM='KG'" + Environment.NewLine + _
-        ")xxxx group by VSP_Code,Document_Date,Shift" + Environment.NewLine + _
-        ")xxxxx" + Environment.NewLine + _
-        ")xxxxxx where (FatPer_MP>FatPer_VSP or SNFPer_MP>SNFPer_VSP)" + Environment.NewLine + _
+        qry = "select sum(FATAmt+SNFAmt) as LOSSAmt  from (" + Environment.NewLine +
+        "select *,case when FatPer_MP-FatPer_VSP>0 then round(FatPer_MP-FatPer_VSP,2) else 0 end as DiffFAT,case when SNFPer_MP-SNFPer_VSP>0 then round(SNFPer_MP-SNFPer_VSP,2) else 0 end as DiffSNF,round( case when FatPer_MP-FatPer_VSP>0 then ((FatPer_MP-FatPer_VSP)*TSRate_MP/100)*QtyKG_MP else 0 end ,2)as FATAmt" + Environment.NewLine +
+        ",round(case when SNFPer_MP-SNFPer_VSP>0 then ((SNFPer_MP-SNFPer_VSP)*TSRate_MP/100)*QtyKG_MP else 0 end,2) as SNFAmt   from (select Document_Date,Shift,VSP_Code,QtyKG_VSP,FatKG_VSP,SNFKG_VSP,round(case when QtyKG_VSP=0 then 0 else Amount_VSP/QtyKG_VSP end,2) as Rate_VSP,Amount_VSP ,round(case when QtyKG_VSP=0 then 0 else FatKG_VSP*100/QtyKG_VSP end,2) as FatPer_VSP,round(case when QtyKG_VSP=0 then 0 else SNFKG_VSP*100/QtyKG_VSP end,2) as SNFPer_VSP,round(case when QtyKG_VSP=0 then 0 else  TSAmount_VSP/QtyKG_VSP end,2) as TSRate_VSP, TSAmount_VSP" + Environment.NewLine +
+        ",QtyKG_MP,FatKG_MP,SNFKG_MP,round( case when QtyKG_MP=0 then 0 else Amount_MP/QtyKG_MP end,2) as Rate_MP,Amount_MP,round(case when QtyKG_MP=0 then 0 else FatKG_MP*100/QtyKG_MP end,2) as FatPer_MP,round(case when QtyKG_MP=0 then 0 else SNFKG_MP*100/QtyKG_MP end,2) as SNFPer_MP,round(case when QtyKG_MP=0 then 0 else  TSAmount_MP/QtyKG_MP end,2) as TSRate_MP,TSAmount_MP" + Environment.NewLine +
+        "from (" + Environment.NewLine +
+        "select Document_Date,Shift,VSP_Code,sum(QtyKG * case when type='VSP' then 1 else 0 end) as QtyKG_VSP,sum(fat_KG * case when type='VSP' then 1 else 0 end) as FatKG_VSP,sum(snf_KG * case when type='VSP' then 1 else 0 end) as SNFKG_VSP,sum(Amount * case when type='VSP' then 1 else 0 end) as Amount_VSP,sum(TSAmount * case when type='VSP' then 1 else 0 end) as TSAmount_VSP,sum(QtyKG * case when type='VSP' then 0 else 1 end) as QtyKG_MP,sum(fat_KG * case when type='VSP' then 0 else 1 end) as FatKG_MP,sum(snf_KG * case when type='VSP' then 0 else 1 end) as SNFKG_MP,sum(Amount * case when type='VSP' then 0 else 1 end) as Amount_MP,sum(TSAmount * case when type='VSP' then 0 else 1 end) as TSAmount_MP" + Environment.NewLine +
+        "from (" + Environment.NewLine +
+        "select xxx.Type,xxx.MCC,xxx.Route_Code,xxx.VLC_Code,xxx.VSP_Code,xxx.VLC_Code_VLC_Uploader,xxx.Document_Code,convert(date, xxx.Document_Date,103) as Document_Date,xxx.Shift,xxx.MPCode,xxx.MPName,xxx.Qty,xxx.Unit_Code,round(xxx.Qty*Conv.CF,3) as QtyKG,xxx.FatPer,round((xxx.Qty*Conv.CF*xxx.FatPer)/100,3) as fat_KG,xxx.SNFPer,round((xxx.Qty*Conv.CF*xxx.SNFPer)/100,3) as snf_KG,xxx.Rate,round(xxx.Amount,2) as Amount,xxx.TSRate,round(TSRate*xxx.Qty*Conv.CF,2) as TSAmount" + Environment.NewLine +
+        "from (" + Environment.NewLine +
+        "select *,round(case when FatPer+SNFPer=0 then 0 else (Rate*100/(FatPer+SNFPer)) end,2) as TSRate from (" + Environment.NewLine +
+        "select 'Manual' as Type,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_DATA_UPLOADER_MASTER.Route_Code,TSPL_VLC_DATA_UPLOADER_MASTER.VLC_Code,TSPL_VLC_MASTER_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,substring(TSPL_VLC_DATA_UPLOADER_MASTER.Shift,1,1) as Shift,TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code as MPCode,TSPL_MP_MASTER.MP_Name as MPName,TSPL_VLC_DATA_UPLOADER_DETAIL.Qty,TSPL_VLC_DATA_UPLOADER_DETAIL.Unit_Code,TSPL_VLC_DATA_UPLOADER_DETAIL.FatPer,TSPL_VLC_DATA_UPLOADER_DETAIL.SNFPer ,TSPL_VLC_DATA_UPLOADER_DETAIL.Rate,TSPL_VLC_DATA_UPLOADER_DETAIL.Amount" + Environment.NewLine +
+        "from TSPL_VLC_DATA_UPLOADER_MASTER " + Environment.NewLine +
+        "inner join  TSPL_VLC_DATA_UPLOADER_DETAIL on TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code " + Environment.NewLine +
+        "left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code " + Environment.NewLine +
+        "left join TSPL_MP_MASTER ON TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code=TSPL_MP_MASTER.MP_Code " + Environment.NewLine +
+        "where 2=2 and TSPL_VLC_MASTER_HEAD.MCC='" + strMCCCode + "' and TSPL_VLC_MASTER_HEAD.VSP_CODE ='" + strVSPCode + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(From_Date), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(To_Date), "dd/MMM/yyyy hh:mm tt") + "'   " + Environment.NewLine +
+        "union all" + Environment.NewLine +
+        "select 'PDU' as Type,TSPL_VLC_DATA_UPLOADER.MCC_Code,TSPL_VLC_DATA_UPLOADER.Route_No,TSPL_VLC_MASTER_HEAD.VLC_CODE,TSPL_VLC_MASTER_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader" + Environment.NewLine +
+        ",TSPL_VLC_DATA_UPLOADER.Doc_No as Document_Code,TSPL_VLC_DATA_UPLOADER.File_Date as Document_Date,substring(TSPL_VLC_DATA_UPLOADER.shift,1,1) as shift ,coalesce(TSPL_MP_MASTER.MP_CODE,MP1.MP_CODE) AS MPCode,coalesce(TSPL_MP_MASTER.MP_Name,MP1.MP_Name) as MPName  ," + Environment.NewLine +
+        "TSPL_VLC_DATA_UPLOADER.Qty,TSPL_VLC_DATA_UPLOADER.Uom_Code as Unit_Code,TSPL_VLC_DATA_UPLOADER.fat as FATPer,TSPL_VLC_DATA_UPLOADER.snf as SNFPer,TSPL_VLC_DATA_UPLOADER.Rate ,TSPL_VLC_DATA_UPLOADER.Amount  " + Environment.NewLine +
+        "from TSPL_VLC_DATA_UPLOADER " + Environment.NewLine +
+        "left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_DATA_UPLOADER.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader and TSPL_VLC_MASTER_HEAD.MCC=TSPL_VLC_DATA_UPLOADER.MCC_Code " + Environment.NewLine +
+        "left join TSPL_MP_MASTER ON TSPL_VLC_DATA_UPLOADER.MP_CODE =TSPL_MP_MASTER.MP_Code " + Environment.NewLine +
+        "left join TSPL_MP_MASTER MP1 ON TSPL_VLC_DATA_UPLOADER.MP_CODE =MP1.MP_Code_VLC_Uploader and MP1.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code " + Environment.NewLine +
+        "left join TSPL_MCC_MASTER on TSPL_VLC_DATA_UPLOADER.MCC_Code=TSPL_MCC_MASTER.MCC_Code " + Environment.NewLine +
+        "where 2=2 and  TSPL_VLC_DATA_UPLOADER.File_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(From_Date), "dd/MMM/yyyy hh:mm tt") + "' and  TSPL_VLC_DATA_UPLOADER.File_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(To_Date), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER.MCC_Code='" + strMCCCode + "' and TSPL_VLC_MASTER_HEAD.VSP_CODE ='" + strVSPCode + "'" + Environment.NewLine +
+        "union all" + Environment.NewLine +
+        " select 'VSP' as Type,TSPL_MILK_SRN_HEAD.MCC_CODE,TSPL_MILK_SRN_HEAD.ROUTE_CODE,TSPL_MILK_SRN_HEAD.VLC_CODE,TSPL_MILK_SRN_HEAD.VSP_CODE, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MILK_SRN_HEAD.DOC_CODE as Document_Code,TSPL_MILK_SRN_HEAD.DOC_DATE as Document_Date, substring(TSPL_MILK_SRN_HEAD.SHIFT,1,1) as Shift,'' as MPCode,'' as MPName,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code as Unit_Code,TSPL_MILK_SRN_DETAIL.FAT_PER as FATPer,TSPL_MILK_SRN_DETAIL.SNF_PER as SNFPer,TSPL_MILK_SRN_DETAIL.RATE,TSPL_MILK_SRN_DETAIL.AMOUNT " + Environment.NewLine +
+        "from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
+        "left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine +
+        "left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE" + Environment.NewLine +
+        "where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + strMCCCode + "' and TSPL_MILK_SRN_HEAD.VSP_CODE='" + strVSPCode + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(From_Date), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(To_Date), "dd/MMM/yyyy hh:mm tt") + "'" + Environment.NewLine +
+        ")x" + Environment.NewLine +
+        ") as xxx  " + Environment.NewLine +
+        "left join (Select distinct yyy.FromUOM,yyy.TOUOM,max(CF) as CF From (  Select Container_UOM as FromUOM, Contained_UOM as TOUOM, Container_Qty*Contained_Qty as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + "  " + Environment.NewLine +
+        "UNION All " + Environment.NewLine +
+        "Select Contained_UOM as FromUOM, Container_UOM as TOUOM, Container_Qty/Contained_Qty as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " " + Environment.NewLine +
+        "UNION All   " + Environment.NewLine +
+        "Select Contained_UOM as FromUOM, Contained_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " " + Environment.NewLine +
+        "UNION All " + Environment.NewLine +
+        "Select Container_UOM as FromUOM, Container_UOM as TOUOM, 1 as CF from TSPL_WEIGHT_CONVERSION where 2=2 " + whrcls + " )as yyy group by yyy.FromUOM,yyy.TOUOM) as Conv on xxx.Unit_Code=Conv.FromUOM and Conv.TOUOM='KG'" + Environment.NewLine +
+        ")xxxx group by VSP_Code,Document_Date,Shift" + Environment.NewLine +
+        ")xxxxx" + Environment.NewLine +
+        ")xxxxxx where (FatPer_MP>FatPer_VSP or SNFPer_MP>SNFPer_VSP)" + Environment.NewLine +
         ")xxxxxxx"
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, tran))
     End Function
@@ -2965,27 +2965,27 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
         Dim qry As String
         Dim qryPDU As String = ""
         Dim qryManual As String = ""
-        qryPDU = " select 'PDU' as Type,VLCData.Doc_No,VLCData.Doc_Date as Doc_Date,VLCData.File_Date as File_Date ,VLCData.MCC_Code,VLC.VLC_CODE,VLC.VLC_Code_VLC_Uploader,VLCData.Route_No,coalesce(MP.MP_CODE,MP1.MP_CODE) AS MP_CODE,coalesce(MP.MP_Name,MP1.MP_Name) as MP_Name ,VLCData.shift as [Shift]," & _
-              " VLCData.Milk_Type,VLCData.qty as VLC_Qty,VLCData.Uom_Code,VLCData.fat as VLC_Fat,VLCData.snf as VLC_SNF,VLCData.fat_KG,VLCData.snf_KG,VLCData.water as VLC_Water,VLCData.Rate,VLCData.Amount,mcc.Mcc_Code_VLC_Uploader as Mcc_Code_VLC_Uploader,coalesce(MP.MP_Code_VLC_Uploader,MP1.MP_Code_VLC_Uploader) AS MP_Code_Uploader,VLC.VSP_CODE from TSPL_VLC_DATA_UPLOADER VLCData " & _
-              " left join TSPL_VLC_MASTER_HEAD VLC on VLCData.VLC_CODE=VLC.VLC_Code_VLC_Uploader and VLC.MCC=VLCData.MCC_Code " & _
-              " left join TSPL_MP_MASTER MP ON VLCData.MP_CODE =MP.MP_Code " & _
-              " left join TSPL_MP_MASTER MP1 ON VLCData.MP_CODE =MP1.MP_Code_VLC_Uploader " & _
+        qryPDU = " select 'PDU' as Type,VLCData.Doc_No,VLCData.Doc_Date as Doc_Date,VLCData.File_Date as File_Date ,VLCData.MCC_Code,VLC.VLC_CODE,VLC.VLC_Code_VLC_Uploader,VLCData.Route_No,coalesce(MP.MP_CODE,MP1.MP_CODE) AS MP_CODE,coalesce(MP.MP_Name,MP1.MP_Name) as MP_Name ,VLCData.shift as [Shift]," &
+              " VLCData.Milk_Type,VLCData.qty as VLC_Qty,VLCData.Uom_Code,VLCData.fat as VLC_Fat,VLCData.snf as VLC_SNF,VLCData.fat_KG,VLCData.snf_KG,VLCData.water as VLC_Water,VLCData.Rate,VLCData.Amount,mcc.Mcc_Code_VLC_Uploader as Mcc_Code_VLC_Uploader,coalesce(MP.MP_Code_VLC_Uploader,MP1.MP_Code_VLC_Uploader) AS MP_Code_Uploader,VLC.VSP_CODE from TSPL_VLC_DATA_UPLOADER VLCData " &
+              " left join TSPL_VLC_MASTER_HEAD VLC on VLCData.VLC_CODE=VLC.VLC_Code_VLC_Uploader and VLC.MCC=VLCData.MCC_Code " &
+              " left join TSPL_MP_MASTER MP ON VLCData.MP_CODE =MP.MP_Code " &
+              " left join TSPL_MP_MASTER MP1 ON VLCData.MP_CODE =MP1.MP_Code_VLC_Uploader " &
               " left join TSPL_MCC_MASTER MCC on VLCData.MCC_Code=mcc.MCC_Code where 2=2  "
 
 
-        qryManual = " select MFinal.Type,MFinal.Document_Code,MFinal.Doc_Date as Document_Date,MFinal.Document_Date,MFinal.MCC,MFinal.VLC_Code,MFinal.VLC_Code_VLC_Uploader,MFinal.Route_Code,MFinal.Farmer_Code," & _
-                    " MFinal.MP_Name,MFinal.Shift,MFinal.Milk_Type,MFinal.VLC_Qty,MFinal.Unit_Code,MFinal.VLC_Fat,MFinal.VLC_SNF,MFinal.VLC_FAT_KG,MFinal.VLC_SNF_KG,MFinal.VLC_Water,MFinal.Rate,MFinal.Amount,MFinal.Mcc_Code_VLC_Uploader,MFinal.MP_Code_Uploader,MFinal.VSP_CODE from " & _
-                    " ( select 'Manual' as Type,VLCM.Document_Code,VLCM.Document_Date as Doc_Date,VLCM.Document_Date as Document_Date,VLC.MCC,VLCM.VLC_Code,VLC.VLC_Code_VLC_Uploader,VLCM.Route_Code,VLCD.Farmer_Code,MP.MP_Name ,VLCM.Shift, " & _
-                    " '' as Milk_Type,VLCD.Qty as VLC_Qty,VLCD.Unit_Code,VLCD.FatPer as VLC_Fat,VLCD.SNFPer as VLC_SNF,(VLCD.Qty*VLCD.FatPer/100) as VLC_FAT_KG, " & _
-                    " (VLCD.Qty*VLCD.SNFPer/100) as VLC_SNF_KG,null as VLC_Water,VLCD.Rate,VLCD.Amount,'' as Mcc_Code_VLC_Uploader,MP.MP_Code_VLC_Uploader AS MP_Code_Uploader,VLC.VSP_CODE from TSPL_VLC_DATA_UPLOADER_MASTER VLCM " & _
-                    " inner join TSPL_VLC_DATA_UPLOADER_DETAIL VLCD on VLCM.Document_Code=VLCD.Document_Code " & _
-                    " left join TSPL_VLC_MASTER_HEAD VLC on VLCM.VLC_CODE=VLC.VLC_Code " & _
+        qryManual = " select MFinal.Type,MFinal.Document_Code,MFinal.Doc_Date as Document_Date,MFinal.Document_Date,MFinal.MCC,MFinal.VLC_Code,MFinal.VLC_Code_VLC_Uploader,MFinal.Route_Code,MFinal.Farmer_Code," &
+                    " MFinal.MP_Name,MFinal.Shift,MFinal.Milk_Type,MFinal.VLC_Qty,MFinal.Unit_Code,MFinal.VLC_Fat,MFinal.VLC_SNF,MFinal.VLC_FAT_KG,MFinal.VLC_SNF_KG,MFinal.VLC_Water,MFinal.Rate,MFinal.Amount,MFinal.Mcc_Code_VLC_Uploader,MFinal.MP_Code_Uploader,MFinal.VSP_CODE from " &
+                    " ( select 'Manual' as Type,VLCM.Document_Code,VLCM.Document_Date as Doc_Date,VLCM.Document_Date as Document_Date,VLC.MCC,VLCM.VLC_Code,VLC.VLC_Code_VLC_Uploader,VLCM.Route_Code,VLCD.Farmer_Code,MP.MP_Name ,VLCM.Shift, " &
+                    " '' as Milk_Type,VLCD.Qty as VLC_Qty,VLCD.Unit_Code,VLCD.FatPer as VLC_Fat,VLCD.SNFPer as VLC_SNF,(VLCD.Qty*VLCD.FatPer/100) as VLC_FAT_KG, " &
+                    " (VLCD.Qty*VLCD.SNFPer/100) as VLC_SNF_KG,null as VLC_Water,VLCD.Rate,VLCD.Amount,'' as Mcc_Code_VLC_Uploader,MP.MP_Code_VLC_Uploader AS MP_Code_Uploader,VLC.VSP_CODE from TSPL_VLC_DATA_UPLOADER_MASTER VLCM " &
+                    " inner join TSPL_VLC_DATA_UPLOADER_DETAIL VLCD on VLCM.Document_Code=VLCD.Document_Code " &
+                    " left join TSPL_VLC_MASTER_HEAD VLC on VLCM.VLC_CODE=VLC.VLC_Code " &
                     " left join TSPL_MP_MASTER MP ON VLCD.Farmer_Code=MP.MP_Code where 2=2 "
 
 
         qryManual = qryManual & ") as MFinal "
 
-        qry = " select Type,Doc_No,Doc_Date,File_Date,MCC_Code,VLC_CODE,VLC_Code_VLC_Uploader,[Shift],UOM_CODE,MCC_CODE_VLC_UPLOADER,VSP_CODE," & _
+        qry = " select Type,Doc_No,Doc_Date,File_Date,MCC_Code,VLC_CODE,VLC_Code_VLC_Uploader,[Shift],UOM_CODE,MCC_CODE_VLC_UPLOADER,VSP_CODE," &
               " SUM(VLC_Qty) AS VLC_Qty,SUM(FAT_KG) AS FAT_KG,SUM(SNF_KG) AS SNF_KG,SUM(VLC_Water) AS VLC_Water,SUM(Amount) AS Amount from (" & qryPDU & "Union All " & qryManual & ") as Final GROUP BY Type,Doc_No,Doc_Date,File_Date,MCC_Code,VLC_CODE,VLC_Code_VLC_Uploader,[Shift],UOM_CODE,MCC_CODE_VLC_UPLOADER,VSP_CODE "
 
         Return qry
@@ -3299,7 +3299,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
             'End If
 
             'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("isEmpty")), "Y") = CompairStringResult.Equal Then
-            '    Dim dblVal As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultValue, objPIDetail.Unit_code, trans))
+            '    Dim dblVal As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultValue, objPIDetail.Unit_code, trans))
             '    objVendorInvHead.Empty_Amount += dblVal * objPIDetail.PI_Qty
             'End If
 
@@ -3883,7 +3883,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
                 objVendorInvDetail.Discount = objPIDetail.Deduction
                 Dim dblIncentiveAmt As Decimal = Math.Round(clsCommon.myCdbl(objPIDetail.Incentive), 2, MidpointRounding.AwayFromZero)
                 dblTotIncentiveAmt += dblIncentiveAmt
-                Dim dblAmt As Double = Math.Round(objPIDetail.Net_AMOUNT, 2, MidpointRounding.AwayFromZero) - dblIncentiveAmt - objPIDetail.Handling_Charges_Amount
+                Dim dblAmt As Decimal = Math.Round(objPIDetail.Net_AMOUNT, 2, MidpointRounding.AwayFromZero) - dblIncentiveAmt - objPIDetail.Handling_Charges_Amount
                 objVendorInvDetail.Amount_less_Discount = dblAmt
                 objVendorInvDetail.Total_Tax = 0
                 objVendorInvDetail.Total_Amount = dblAmt
@@ -4171,7 +4171,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
             'End If
 
             ''If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("isEmpty")), "Y") = CompairStringResult.Equal Then
-            ''    Dim dblVal As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultValue, objPIDetail.Unit_code, trans))
+            ''    Dim dblVal As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultValue, objPIDetail.Unit_code, trans))
             ''    objVendorInvHead.Empty_Amount += dblVal * objPIDetail.PR_Qty
             ''End If
 
@@ -4264,7 +4264,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
     End Function
     Shared Function createDebitNoteMP(ByVal strDocNo As String, ByVal trans As SqlTransaction)
         Dim objtr As clsMilkPurchaseInvoiceMCC = clsMilkPurchaseInvoiceMCC.GetData(strDocNo, NavigatorType.Current, trans)
-        Dim dblAmt As Double = 0
+        Dim dblAmt As Decimal = 0
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPMPDiffrenceOnTSBasis, clsFixedParameterCode.VSPMPDiffrenceOnTSBasis, trans)) = 1 Then
             dblAmt = Math.Round(clsMilkPurchaseInvoiceMCC.TSBasedAmountForLossByVSP(objtr.MCC_CODE, objtr.VSP_CODE, objtr.FROM_DATE, objtr.TO_DATE, trans), 2, MidpointRounding.ToEven)
         ElseIf objtr.MP_Amount > 0 AndAlso (objtr.Total_Amount_Acc) > (objtr.MP_Amount + objtr.MP_EMP + objtr.MP_Incentive + objtr.MP_IncentiveEMP) Then
@@ -4808,7 +4808,7 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
             'End If
 
             ''If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("isEmpty")), "Y") = CompairStringResult.Equal Then
-            ''    Dim dblVal As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultValue, objPIDetail.Unit_code, trans))
+            ''    Dim dblVal As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DefaultValue, objPIDetail.Unit_code, trans))
             ''    objVendorInvHead.Empty_Amount += dblVal * objPIDetail.PR_Qty
             ''End If
 
@@ -5026,9 +5026,9 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
     '                '    Next
     '                'End If
     '                Dim objHead As clsMilkPurchaseInvoiceMCC
-    '                Dim TotHeadLoad As Double = 0
-    '                Dim TotOwnAsset As Double = 0
-    '                Dim TotDeduction_Amount As Double = 0
+    '                Dim TotHeadLoad As Decimal = 0
+    '                Dim TotOwnAsset As Decimal = 0
+    '                Dim TotDeduction_Amount As Decimal = 0
     '                '' asign screen vaules in objHead
     '                objHead = New clsMilkPurchaseInvoiceMCC
     '                objHead.DOC_CODE = ""
@@ -5050,13 +5050,13 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
     '                Dim DtShiftEnd As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
 
     '                '========================Total==================
-    '                Dim totAmount As Double = 0
-    '                Dim totCommssion As Double = 0
-    '                Dim totPaymentCommssion As Double = 0
-    '                Dim totAmountwithPaymentCommssion As Double = 0
-    '                Dim totAmountIncentive As Double = 0
-    '                Dim totAmountIncentiveEMP As Double = 0
-    '                Dim totBasicAmount As Double = 0
+    '                Dim totAmount As Decimal = 0
+    '                Dim totCommssion As Decimal = 0
+    '                Dim totPaymentCommssion As Decimal = 0
+    '                Dim totAmountwithPaymentCommssion As Decimal = 0
+    '                Dim totAmountIncentive As Decimal = 0
+    '                Dim totAmountIncentiveEMP As Decimal = 0
+    '                Dim totBasicAmount As Decimal = 0
 
     '                '==============================================
     '                For Each obj1 As clsMilkSRNMCCDetail In frm.ArrReturn
@@ -5091,8 +5091,8 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
     '                    obj.Head_Load_Amount = clsCommon.myCdbl(obj1.Head_Load_Amount)
     '                    'obj.Own_Asset_Amount = clsCommon.myCdbl(obj1.Own_Asset_Amount)
     '                    '=====================================
-    '                    Dim Commission_AMount As Double = 0
-    '                    Dim Payment_Commission_AMount As Double = 0
+    '                    Dim Commission_AMount As Decimal = 0
+    '                    Dim Payment_Commission_AMount As Decimal = 0
     '                    If clsCommon.myCstr(obj1.Service_Charge_Type) = "%(Percentage)" Then
     '                        'grow.Cells(colCOMMISSIONAmount).Value = grow.Cells(colAMOUNT).Value * grow.Cells(colCOMMISSION).Value / 100
     '                        'grow.Cells(colPaymentCOMMISSIONAmount).Value = grow.Cells(colAMOUNT).Value * grow.Cells(colPaymentCOMMISSION).Value / 100
@@ -5183,8 +5183,8 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
     '                    'Dim transs As SqlTransaction
     '                    'UcAttachment1.SaveData(objHead.DOC_CODE)
     '                    Dim incentive As ArrayList = clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive(objHead.DOC_CODE, objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
-    '                    Dim totincentiveEMP As Double = 0
-    '                    Dim totincentive As Double = 0
+    '                    Dim totincentiveEMP As Decimal = 0
+    '                    Dim totincentive As Decimal = 0
     '                    totAmount = 0
     '                    totBasicAmount = 0
     '                    totAmountwithPaymentCommssion = 0
@@ -5238,31 +5238,31 @@ Public Class clsMilkPurchaseInvoiceMCCDetail
     Public Item_Code As String
     Public Item_Desc As String
     Public UOM As String
-    Public Qty As Double
-    Public Acc_Qty As Double
-    'Public Acc_Qty_Ltr As Double
-    Public FAT_PER As Double
-    Public SNF_PER As Double
+    Public Qty As Decimal
+    Public Acc_Qty As Decimal
+    'Public Acc_Qty_Ltr As Decimal
+    Public FAT_PER As Decimal
+    Public SNF_PER As Decimal
     Public MCC_CODE As String
     Public VEHICLE_NO As String
     Public VLC_NO As String
     Public Cans As String
     Public Correction_Factor As String
-    Public CLR As Double
-    Public RATE As Double
-    Public AMOUNT As Double
-    Public Net_AMOUNT As Double
-    Public Incentive As Double
-    Public IncentiveEMP As Double
-    Public COMMISSION As Double
+    Public CLR As Decimal
+    Public RATE As Decimal
+    Public AMOUNT As Decimal
+    Public Net_AMOUNT As Decimal
+    Public Incentive As Decimal
+    Public IncentiveEMP As Decimal
+    Public COMMISSION As Decimal
     Public Service_Charge As String
-    Public Payment_COMMISSION As Double
-    Public Deduction As Double
-    Public Head_Load_Amount As Double
-    Public Own_Asset_Amount As Double
-    Public TOTAL_AMOUNT As Double
-    Public TOTAL_AMOUNT_Acc As Double
-    Public Service_Charge_Amount As Double
+    Public Payment_COMMISSION As Decimal
+    Public Deduction As Decimal
+    Public Head_Load_Amount As Decimal
+    Public Own_Asset_Amount As Decimal
+    Public TOTAL_AMOUNT As Decimal
+    Public TOTAL_AMOUNT_Acc As Decimal
+    Public Service_Charge_Amount As Decimal
     Public Handling_Charges_Amount As Decimal
     Public SRN_Net_Amount As Decimal
     Public SRN_RO_Amount As Decimal

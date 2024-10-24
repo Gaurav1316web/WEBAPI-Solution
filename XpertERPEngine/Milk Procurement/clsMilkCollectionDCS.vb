@@ -160,12 +160,14 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         Return True
     End Function
     Public Shared Function PostData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
-
         Try
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
             Dim obj As clsMilkCollectionDCS = clsMilkCollectionDCS.GetData(strCode, NavigatorType.Current, trans)
+            Dim qry As String
+            Dim dt As DataTable
+
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.VLC_Code, obj.Document_Date, trans)
             Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
@@ -179,6 +181,27 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            Dim flag As Boolean = False
+            For Each objtr As clsMilkCollectionDCSDetail In obj.Arr
+                If objtr.Suspence Then
+                    flag = True
+                    Exit For
+                End If
+            Next
+            If flag Then
+                qry = "select top 1 VLC_Code from TSPL_VLC_MASTER_HEAD where IsSuspense=1"
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    Throw New Exception("Please Set Suspence DCS")
+                End If
+                qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set Suspence_VLC_Code=VLC_Code,VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' where Document_No='" + obj.Document_No + "' and Suspence=1 "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                'qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' where Document_No='" + +obj.Document_No + "' and Suspence=1 "
+                'clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                HistoryUpdate(strCode, trans)
+                obj = clsMilkCollectionDCS.GetData(strCode, NavigatorType.Current, trans)
+            End If
+
             'HistoryUpdate(strCode, trans)
             GenerateMilkShiftUploader(obj, trans)
 
@@ -188,7 +211,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
 
-            Dim qry As String = "select Against_Milk_Collection_DCS_Detail,sum(1) as Repeted
+            qry = "select Against_Milk_Collection_DCS_Detail,sum(1) as Repeted
 from (
 select Against_Milk_Collection_DCS_Detail,TR_No,1 as RI 
 from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
@@ -200,7 +223,7 @@ from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
 inner join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
 where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + obj.Document_No + "'
 ) xx group by Against_Milk_Collection_DCS_Detail having sum(1)>1  "
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("More than one record found for TR No " + clsCommon.myCstr(dt.Rows(0)("Against_Milk_Collection_DCS_Detail")) + "")
             End If
@@ -513,6 +536,8 @@ Public Class clsMilkCollectionDCSDetail
     Public SNF As Decimal
     Public FATKG As Decimal
     Public SNFKG As Decimal
+    Public Suspence As Boolean
+    Public Suspence_VLC_Code As String
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionDCSDetail), ByVal trans As SqlTransaction) As Boolean
         Return SaveData(strDocNo, Arr, trans, -1, False)
@@ -685,6 +710,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
         clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
         clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
+        clsCommon.AddColumnsForChange(coll, "Suspence", IIf(obj.Suspence, 1, 0))
         If intPKID > 0 Then
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(intPKID) + "", trans)
         Else
@@ -694,7 +720,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsMilkCollectionDCSDetail)
         Dim arr As List(Of clsMilkCollectionDCSDetail) = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  
+        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
 FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code 
 where  TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strPONo + "' "
@@ -722,6 +748,8 @@ where  TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strPONo + "' "
                 objTr.SNFKG = clsCommon.myCdbl(dr("SNFKG"))
                 objTr.Milk_Type = clsCommon.myCstr(dr("Milk_Type"))
                 objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(dr("Dock_Collection_Milk_Type"))
+                objTr.Suspence = (clsCommon.myCDecimal(dr("Suspence")) = 1)
+                objTr.Suspence_VLC_Code = clsCommon.myCstr(dr("Suspence_VLC_Code"))
                 arr.Add(objTr)
             Next
         End If

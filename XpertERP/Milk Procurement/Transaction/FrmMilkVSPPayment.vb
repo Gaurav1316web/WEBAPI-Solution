@@ -49,6 +49,19 @@ Public Class FrmMilkVSPPayment
     End Sub
 
     Private Sub FrmMilkVSPPayment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Head_Load_Amount_Exact", "DECIMAL(18,6) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL_SYNC", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
+        Dim qry As String = "select Top 1 Head_Load_Basis from  TSPL_HEAD_LOAD_DCS where Document_No in (select top 1 Document_No from TSPL_HEAD_LOAD where Status=1 order by Document_date)"
+        qry = clsDBFuncationality.getSingleValue(qry)
+        If clsCommon.CompairString(qry, "L") = CompairStringResult.Equal Then
+            qry = "Update TSPL_MILK_SRN_DETAIL set Head_Load_Amount_Exact=ACC_Qty_LTR*Head_Load_Rate where Head_Load_Amount_Exact is null "
+            clsDBFuncationality.ExecuteNonQuery(qry)
+        Else
+            qry = "Update TSPL_MILK_SRN_DETAIL set Head_Load_Amount_Exact=ACC_Qty*Head_Load_Rate where Head_Load_Amount_Exact is null "
+            clsDBFuncationality.ExecuteNonQuery(qry)
+        End If
 
 
         Is_Load = True
