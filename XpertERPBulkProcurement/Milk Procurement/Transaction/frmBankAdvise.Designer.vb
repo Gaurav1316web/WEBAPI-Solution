@@ -44,12 +44,12 @@ Partial Class frmBankAdvise
         Me.fndPaymentProcessNo = New common.UserControls.txtFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtDocDate = New common.Controls.MyDateTimePicker()
+        Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -68,12 +68,12 @@ Partial Class frmBankAdvise
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -408,6 +408,17 @@ Partial Class frmBankAdvise
         Me.txtDocDate.Text = "10/06/2011"
         Me.txtDocDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
         '
+        'btnReverseAndUnpost
+        '
+        Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(271, 8)
+        Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
+        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(124, 22)
+        Me.btnReverseAndUnpost.TabIndex = 27
+        Me.btnReverseAndUnpost.Text = "Reverse And Unpost"
+        Me.btnReverseAndUnpost.Visible = False
+        '
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -459,17 +470,6 @@ Partial Class frmBankAdvise
         Me.btnPrint.Text = "Print"
         Me.btnPrint.Visible = False
         '
-        'btnReverseAndUnpost
-        '
-        Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(271, 8)
-        Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
-        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(124, 22)
-        Me.btnReverseAndUnpost.TabIndex = 27
-        Me.btnReverseAndUnpost.Text = "Reverse And Unpost"
-        Me.btnReverseAndUnpost.Visible = False
-        '
         'frmBankAdvise
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -502,12 +502,12 @@ Partial Class frmBankAdvise
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
