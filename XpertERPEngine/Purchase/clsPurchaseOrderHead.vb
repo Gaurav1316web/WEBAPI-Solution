@@ -937,17 +937,21 @@ from TSPL_TENDER_DETAIL
             Else
                 For Each objtr As clsPurchaseOrderDetail In obj.Arr
                     If clsCommon.CompairString(objtr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
-                        Dim qry As String = "select DocumentCode,Item_Code,sum(Qty * RI) as BalanceQty from (
-select TSPL_TENDER_DETAIL.DocumentCode,TSPL_TENDER_DETAIL.Item_Code,TSPL_TENDER_DETAIL.Qty,TSPL_TENDER_DETAIL.Unit_code,1 as RI,1 as chk from TSPL_TENDER_DETAIL 
+                        Dim qry As String = "select DocumentCode,Item_Code,sum(Qty * RI) as BalanceQty,sum(Qty * case when chk=1 then 1 else 0 end  ) as TenderQty,max(Tender_Type) as Tender_Type from (
+select TSPL_TENDER_DETAIL.DocumentCode,TSPL_TENDER_DETAIL.Item_Code,TSPL_TENDER_DETAIL.Qty,TSPL_TENDER_DETAIL.Unit_code,1 as RI,1 as chk,TSPL_TENDER_HEADER.Tender_Type 
+from TSPL_TENDER_DETAIL 
+left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode
  where TSPL_TENDER_DETAIL.DocumentCode='" + obj.RefTendorNo + "' and TSPL_TENDER_DETAIL.Vendor_Code='" + obj.Vendor_Code + "' and TSPL_TENDER_DETAIL.Location='" + obj.Bill_To_Location + "' and TSPL_TENDER_DETAIL.Item_Code='" + objtr.Item_Code + "'
  union all
- select TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_PURCHASE_ORDER_DETAIL.Item_Code,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty,TSPL_PURCHASE_ORDER_DETAIL.Unit_code,-1 as RI,0 as chk from TSPL_PURCHASE_ORDER_DETAIL 
+ select TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_PURCHASE_ORDER_DETAIL.Item_Code,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty,TSPL_PURCHASE_ORDER_DETAIL.Unit_code,-1 as RI,0 as chk,-1 as Tender_Type 
+ from TSPL_PURCHASE_ORDER_DETAIL 
  left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No
  where TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + obj.RefTendorNo + "' and TSPL_PURCHASE_ORDER_HEAD.Vendor_Code='" + obj.Vendor_Code + "' and TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location='" + obj.Bill_To_Location + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + objtr.Item_Code + "'
  )xx group by DocumentCode,Item_Code having sum(chk)>0"
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            If clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) < 0 Then
+                            If clsCommon.myCDecimal(dt.Rows(0)("TenderQty")) = 0 And ((clsCommon.myCDecimal(dt.Rows(0)("Tender_Type")) = 2) Or clsCommon.myCDecimal(dt.Rows(0)("Tender_Type")) = 3) Then
+                            ElseIf clsCommon.myCDecimal(dt.Rows(0)("BalanceQty")) < 0 Then
                                 Throw New Exception("RAL [" + obj.RefTendorNo + "],Item [" + objtr.Item_Code + "] Balance is going -ve [" + clsCommon.myCstr(dt.Rows(0)("BalanceQty")) + "]")
                             End If
                         End If
