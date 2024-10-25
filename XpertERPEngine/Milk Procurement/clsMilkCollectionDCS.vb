@@ -538,6 +538,7 @@ Public Class clsMilkCollectionDCSDetail
     Public SNFKG As Decimal
     Public Suspence As Boolean
     Public Suspence_VLC_Code As String
+    Public Suspence_Remarks As String
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionDCSDetail), ByVal trans As SqlTransaction) As Boolean
         Return SaveData(strDocNo, Arr, trans, -1, False)
@@ -711,6 +712,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
         clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
         clsCommon.AddColumnsForChange(coll, "Suspence", IIf(obj.Suspence, 1, 0))
+        clsCommon.AddColumnsForChange(coll, "Suspence_Remarks", obj.Suspence_Remarks)
         If intPKID > 0 Then
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(intPKID) + "", trans)
         Else
@@ -750,6 +752,7 @@ where  TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(dr("Dock_Collection_Milk_Type"))
                 objTr.Suspence = (clsCommon.myCDecimal(dr("Suspence")) = 1)
                 objTr.Suspence_VLC_Code = clsCommon.myCstr(dr("Suspence_VLC_Code"))
+                objTr.Suspence_Remarks = clsCommon.myCstr(dr("Suspence_Remarks"))
                 arr.Add(objTr)
             Next
         End If
