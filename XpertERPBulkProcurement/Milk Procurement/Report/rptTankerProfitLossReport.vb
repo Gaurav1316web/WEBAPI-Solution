@@ -14,7 +14,7 @@ Public Class rptTankerProfitLossReport
         btnPrint.Visible = MyBase.isPrintFlag
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        Griddata(False)
+        Griddata(False, False)
     End Sub
 
     Sub SetGridFormat1()
@@ -82,10 +82,10 @@ Public Class rptTankerProfitLossReport
 
         Dim item1 As New GridViewSummaryItem("Qty", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
-        Dim item2 As New GridViewSummaryItem("FAT_Per", "{0:F2}", GridAggregateFunction.Avg)
-        summaryRowItem.Add(item2)
-        Dim item3 As New GridViewSummaryItem("SNF_Per", "{0:F2}", GridAggregateFunction.Avg)
-        summaryRowItem.Add(item3)
+        'Dim item2 As New GridViewSummaryItem("FAT_Per", "{0:F2}", GridAggregateFunction.Avg)
+        'summaryRowItem.Add(item2)
+        'Dim item3 As New GridViewSummaryItem("SNF_Per", "{0:F2}", GridAggregateFunction.Avg)
+        'summaryRowItem.Add(item3)
         Dim item4 As New GridViewSummaryItem("Fat_kg", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
         Dim item5 As New GridViewSummaryItem("SNF_kg", "{0:F3}", GridAggregateFunction.Sum)
@@ -96,16 +96,16 @@ Public Class rptTankerProfitLossReport
         summaryRowItem.Add(item7)
         Dim item8 As New GridViewSummaryItem("LinkDCSSNF_KG", "{0:F3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
-        Dim item9 As New GridViewSummaryItem("LinkDCSFAT", "{0:F1}", GridAggregateFunction.Avg)
-        summaryRowItem.Add(item9)
-        Dim item10 As New GridViewSummaryItem("LinkDCSSNF", "{0:F1}", GridAggregateFunction.Avg)
-        summaryRowItem.Add(item10)
+        'Dim item9 As New GridViewSummaryItem("LinkDCSFAT", "{0:F1}", GridAggregateFunction.Avg)
+        'summaryRowItem.Add(item9)
+        'Dim item10 As New GridViewSummaryItem("LinkDCSSNF", "{0:F1}", GridAggregateFunction.Avg)
+        'summaryRowItem.Add(item10)
         Dim item11 As New GridViewSummaryItem("TotalQty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item11)
-        Dim item12 As New GridViewSummaryItem("Total_FAT", "{0:F1}", GridAggregateFunction.Avg)
-        summaryRowItem.Add(item12)
-        Dim item13 As New GridViewSummaryItem("Total_SNF", "{0:F1}", GridAggregateFunction.Avg)
-        summaryRowItem.Add(item13)
+        'Dim item12 As New GridViewSummaryItem("Total_FAT", "{0:F1}", GridAggregateFunction.Avg)
+        'summaryRowItem.Add(item12)
+        'Dim item13 As New GridViewSummaryItem("Total_SNF", "{0:F1}", GridAggregateFunction.Avg)
+        'summaryRowItem.Add(item13)
 
         Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True
@@ -147,7 +147,7 @@ Public Class rptTankerProfitLossReport
             Gv1.ViewDefinition = view
         End If
     End Sub
-    Public Sub Griddata(ByVal print As Boolean)
+    Public Sub Griddata(ByVal print As Boolean, ByVal print2 As Boolean)
         Try
 
             Dim FinalQuery As String = Nothing
@@ -214,10 +214,14 @@ Public Class rptTankerProfitLossReport
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtsub, "rptTankerProfitLoss", "ProfitLoss", "SubTankerProfitLoss.rpt")
                 End If
+                If print2 = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtsub, "rptTankerProfitLossPrint2", "ProfitLoss", "SubTankerProfitLoss.rpt")
+                End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
-                Exit Sub
-            End If
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
+                End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -258,7 +262,7 @@ Public Class rptTankerProfitLossReport
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Griddata(True)
+        Griddata(True, False)
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
@@ -304,5 +308,9 @@ Public Class rptTankerProfitLossReport
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnPrint2_Click(sender As Object, e As EventArgs) Handles btnPrint2.Click
+        Griddata(False, True)
     End Sub
 End Class
