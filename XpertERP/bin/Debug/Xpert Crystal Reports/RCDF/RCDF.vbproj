@@ -1477,6 +1477,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptRoutePeriodicalDispatchReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLossPrint2.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTruckSheetDailySummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptVlcDailyLanded.rpt" />
