@@ -4908,7 +4908,7 @@ a:      Next
         If clsCommon.CompairString(Formcode, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal Then
             qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=1"
         Else
-            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' "
+            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' and  TSPL_VLC_MASTER_HEAD.IsSuspense=0  "
         End If
         qry = qry & " order by xx.VSP_CODE "
         Return qry
