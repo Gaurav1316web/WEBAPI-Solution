@@ -574,17 +574,17 @@ Public Class clsMilkRejectHead
                     Dim objHeadLoad As New clsHeadLoadDCS()
                     objHeadLoad = clsHeadLoadDCS.GetDcsData(obj1.VlC_Code, obj.DOC_DATE, trans)
                     obj1.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
-
-
+                    obj1.Head_Load_Amount_Exact = 0
                     If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
                         If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
-                            obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * objHeadLoad.Head_Load_Rate, 2)
+                            obj1.Head_Load_Amount_Exact = Math.Round(obj1.ACC_Qty * objHeadLoad.Head_Load_Rate, 6)
                         End If
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
                         If objtr.ACC_WEIGHT_LTR >= MinimumQtyForHeadLoad Then
-                            obj1.Head_Load_Amount = Math.Round(objtr.ACC_WEIGHT_LTR * objHeadLoad.Head_Load_Rate, 2)
+                            obj1.Head_Load_Amount_Exact = Math.Round(objtr.ACC_WEIGHT_LTR * objHeadLoad.Head_Load_Rate, 6)
                         End If
                     End If
+                    obj1.Head_Load_Amount = Math.Round(obj1.Head_Load_Amount_Exact, 2)
                     obj1.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
                     If clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
                         obj1.Own_Asset_Amount = Math.Round(obj1.ACC_Qty * obj1.Own_Asset_Rate, 2)

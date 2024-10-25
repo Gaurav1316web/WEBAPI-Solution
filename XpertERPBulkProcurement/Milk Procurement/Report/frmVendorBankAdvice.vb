@@ -408,7 +408,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
 
                     End If
                 End If
-                BaseQry += ",Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status] "
+                BaseQry += ",TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status] "
                 BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
                                 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'

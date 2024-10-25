@@ -11,7 +11,6 @@ Public Class frmBankAdvise
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        btnPrint.Visible = MyBase.isPrintFlag
     End Sub
     Private Sub frmBankAdvise_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
@@ -105,13 +104,15 @@ Public Class frmBankAdvise
         txtPPArea.Text = Nothing
         txtRemarks.Text = Nothing
         btnSave.Text = "Save"
+        btnReverseAndUnpost.Visible = False
+        btnPrint.Visible = False
         EnableFeilds()
     End Sub
 
 
     Private Sub LoadData(strCode As String, NavType As NavigatorType)
         Try
-            Dim obj As clsBankAdvise = clsBankAdvise.GetBankAdviseData(strCode, NavType)
+            Dim obj As clsBankAdvise = clsBankAdvise.GetBankAdviseData(strCode, NavType, Nothing)
             If obj IsNot Nothing Then
                 Reset()
                 fndDocNo.Value = obj.Document_No
@@ -237,6 +238,26 @@ Public Class frmBankAdvise
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found to Reverse and Unpost.", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub frmBankAdvise_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        Try
+            If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+                If MyBase.isReverse Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnReverseAndUnpost.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

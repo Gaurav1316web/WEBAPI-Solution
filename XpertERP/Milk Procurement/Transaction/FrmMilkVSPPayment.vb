@@ -49,8 +49,6 @@ Public Class FrmMilkVSPPayment
     End Sub
 
     Private Sub FrmMilkVSPPayment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-
         Is_Load = True
         ButtonTooltip.SetToolTip(btnClose, "Press Alt+C for Close the Window")
         ButtonTooltip.SetToolTip(btnGenerateBill, "Press Alt+R for Refresh the Data")
