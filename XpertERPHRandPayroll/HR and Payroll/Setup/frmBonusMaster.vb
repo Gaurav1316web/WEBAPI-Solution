@@ -19,7 +19,23 @@ Public Class frmBonusMaster
     Private Sub frmBonusMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         isNewEntry = True
-
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("BONUS_CODE", "Varchar(30) not null PRIMARY KEY")
+        coll.Add("BONUS_NAME", "Varchar(100) not null")
+        coll.Add("COND_BASIC_PER_MONTH", "FLOAT NOT null")
+        coll.Add("COND_MAX_EARNING_PER_MONTH", "FLOAT NOT NULL")
+        coll.Add("COND_MAX_BONUS_PER_YEAR", "FLOAT NOT NULL")
+        coll.Add("BONUS_RATE", "FLOAT NOT NULL")
+        coll.Add("DESCRIPTION", "Varchar(100)  null")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        coll.Add("Calculation_Method", "Varchar(5) null")
+        coll.Add("Is_Consider_Pay_Days", "integer not null default 0")
+        coll.Add("Ex_Gratia", "FLOAT NULL")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_BONUS_MASTER", coll)
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
@@ -69,6 +85,7 @@ Public Class frmBonusMaster
             obj.COND_MAX_EARNING_PER_MONTH = txtCOND_MAX_EARNING_PER_MONTH.Text
             obj.COND_MAX_BONUS_PER_YEAR = txtCOND_MAX_BONUS_PER_YEAR.Text
             obj.BONUS_RATE = txtBONUS_RATE.Text
+            obj.Ex_Gratia = txtExGratia.Text
             obj.Calculation_Method = clsCommon.myCstr(cboCalculationMethod.SelectedValue)
             obj.Is_Consider_Pay_Days = chkConsiderPayDays.Checked
             If (obj.SaveData(obj, isNewEntry)) Then
@@ -99,10 +116,10 @@ Public Class frmBonusMaster
             txtCOND_MAX_EARNING_PER_MONTH.Text = obj.COND_MAX_EARNING_PER_MONTH
             txtCOND_MAX_BONUS_PER_YEAR.Text = obj.COND_MAX_BONUS_PER_YEAR
             txtBONUS_RATE.Text = obj.BONUS_RATE
+            txtExGratia.Text = obj.Ex_Gratia
             cboCalculationMethod.SelectedValue = obj.Calculation_Method
             chkConsiderPayDays.Checked = obj.Is_Consider_Pay_Days
         End If
-
     End Sub
 
     Function AllowToSave() As Boolean
@@ -211,6 +228,7 @@ Public Class frmBonusMaster
         btnDelete.Enabled = True
         cboCalculationMethod.SelectedValue = "Basic"
         chkConsiderPayDays.Checked = False
+        txtExGratia.Text = ""
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click

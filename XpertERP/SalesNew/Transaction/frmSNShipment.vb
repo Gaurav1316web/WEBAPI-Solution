@@ -3320,7 +3320,7 @@ Public Class frmSNShipment
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1)
                             dblTaxBaseAmt2 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
-                            'dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
+                            dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt2 = (dblTaxBaseAmt2 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
                             dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
@@ -5470,7 +5470,7 @@ Public Class frmSNShipment
 
 
 
-        LoadData(clsCommon.ShowSelectForm("ShipmentCode", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ShipmentCode", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_SD_SHIPMENT_HEAD.Document_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -6818,7 +6818,8 @@ Public Class frmSNShipment
             Dim arrTaxableAuth As New List(Of String)
 
             Dim dblFAmt As Double = 0
-
+            Dim dblQty As Double = 0
+            'Dim dcsitem As Double = 0
 
             'If chkVendorGrossReceipt.Checked OrElse clsCommon.CompairString(cboItemType.SelectedValue, "F") = CompairStringResult.Equal Then
             '    dblQty = dblQty
@@ -6826,7 +6827,15 @@ Public Class frmSNShipment
             'If clsCommon.myLen(strFCode) > 0 Then
             '    dblFAmt = dblFRate * dblLeak
             'End If
-            Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
+            'dcsitem = clsCommon.myCdbl(gvDCS.Rows(IntRowNo).Cells(colDCSQty).Value)
+            'If dcsitem > 0 Then
+            '    For i As Integer = 0 To gvDCS.Rows.Count - 1
+            '        dblQty += clsCommon.myCdbl(gvDCS.Rows(i).Cells(colDCSQty).Value)
+            '    Next
+            'Else
+
+            'End If
+            dblQty = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
             Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
             Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value)
             Dim dblBasicRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
@@ -6902,7 +6911,17 @@ Public Class frmSNShipment
                 End If
 
             End If
-            ''''' end 
+            ''''' end ''' 
+            'Dim DCSQTY As Double = 0
+            'DCSQTY = clsCommon.myCdbl(gvDCS.Rows(IntRowNo).Cells(colDCSQty).Value)
+            ''dblTotalTCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColTCAmt).Value)
+            'If DCSQTY > 0 Then
+            '    SetTaxDetails()
+            'End If
+            'Dim DCSITEMQTY As Double = clsCommon.myCdbl(gvDCS.Rows(IntRowNo).Cells(colDCSQty).Value)
+            'If DCSITEMQTY > 0 Then
+            '    DCSITEM(IntRowNo, Nothing)
+            'End If
 
             Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
             Dim dblDisAmt As Double = (dblAmt * dblDisPer) / 100
@@ -7004,7 +7023,37 @@ Public Class frmSNShipment
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    'Public Sub DCSITEM(ByVal introw As Integer, ByVal trans As SqlTransaction)
+    '    For i As Integer = 0 To gvDCS.Rows.Count - 1
+    '        Dim Whrcls As String = ""
+    '        Dim dblDCUOM As String = ""
+    '        Dim dblICode As String = ""
+    '        Dim dblDCUnitCF As Double = 0
+    '        Dim dblDCRateWithTax As Double = 0
+    '        Dim dblDCCFUOM As Double = 0
+    '        Dim dblDCQtyinSU As Double = 0
+    '        Dim dblDCAmt As Double = 0
+    '        dblDCUOM = gvDCS.Rows(i).Cells(7).Value
+    '        dblICode = gvDCS.Rows(i).Cells(3).Value
+    '        Dim convert_DCSItem As Decimal = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where item_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSICode).Value) + "' and UOM_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSUOM).Value) + "'")
+    '        Dim convert_Frieght As Decimal = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where item_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSICode).Value) + "' and UOM_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSFrieghtUOM).Value) + "'")
+    '        Dim qty As Decimal = (gvDCS.CurrentRow.Cells(colDCSQty).Value * convert_DCSItem) / convert_Frieght
+    '        gvDCS.CurrentRow.Cells(colDCSQtyQtl).Value = qty
+    '        If dblDCCFUOM > 0 Then
+    '            gvDCS.Rows(i).Cells(9).Value = clsCommon.myCdbl(dblDCQtyinSU * gv1.Rows(introw).Cells(ColDCRateWithTax).Value)
+    '            gvDistributor.Rows(i).Cells(10).Value = clsCommon.myCdbl(dblDCQtyinSU * gv1.Rows(introw).Cells(ColSCAmt).Value)
+    '        End If
+    '    Next
+    'End Sub
+    Public Sub DCSITEM(ByVal introw As Integer, ByVal trans As SqlTransaction)
+        Dim DCSQtyy As Double = 0
+        'Dim dcsqty As Double = clsCommon.myCdbl(gvDCS.Rows(IntRowNo).Cells(colDCSQty).Value)
+        'If dcsqty > 0 Then
+        For i As Integer = 0 To gvDCS.Rows.Count - 1
+                DCSQtyy += clsCommon.myCdbl(gvDCS.Rows(i).Cells(colDCSQty).Value)
+            Next
+        'End If
+    End Sub
     Private Sub RadMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem1.Click
         If clsCommon.myLen(ReportID) > 0 Then
             gv1.MasterTemplate.FilterDescriptors.Clear()
@@ -9206,6 +9255,7 @@ a:          End If
                             gvDCS.CurrentRow.Cells(colDCSUOM).Value = ""
                         End If
                     ElseIf e.Column Is gvDCS.Columns(colDCSQty) Then
+                        'SetTaxDetails()
                         If gvDCS.CurrentRow.Cells(colDCSFrieghtRate).Value > 0 Then
                             Dim convert_DCSItem As Decimal = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where item_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSICode).Value) + "' and UOM_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSUOM).Value) + "'")
                             Dim convert_Frieght As Decimal = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where item_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSICode).Value) + "' and UOM_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSFrieghtUOM).Value) + "'")
@@ -9213,6 +9263,8 @@ a:          End If
                             gvDCS.CurrentRow.Cells(colDCSQtyQtl).Value = qty
                             gvDCS.CurrentRow.Cells(colDCSFrieghtAmt).Value = gvDCS.CurrentRow.Cells(colDCSFrieghtRate).Value * gvDCS.CurrentRow.Cells(colDCSQtyQtl).Value
                             setgvAC()
+
+
                         Else
                             clsCommon.MyMessageBoxShow(Me, "Frieght Master Not Found.", Me.Text)
                         End If

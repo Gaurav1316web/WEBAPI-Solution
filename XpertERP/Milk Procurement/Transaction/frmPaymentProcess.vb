@@ -9,6 +9,7 @@ Public Class FrmPaymentProcess
     Inherits FrmMainTranScreen
     'Check out prabhakar 22/06/2020
 #Region "Variables"
+    Dim IsBankAdviseStartDate As String
     Public isEmpOnAmtOnly As Boolean = False
     Public Const colSlno As String = "colSlno"
     Public Const colPurchaseInvoiceNo As String = "colPurchaseInvoiceNo"
@@ -5710,6 +5711,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             End If
             If clsCommon.MyMessageBoxShow("Continue to Post the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                 clsPaymentProcessHead.PrePostData(fndDocNo.Value)
+                clsPaymentProcessHead.CreateBankAdvise(clsCommon.myCstr(fndDocNo.Value), dtpDate.Value)
                 clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
@@ -8819,6 +8821,5 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
 
 End Class

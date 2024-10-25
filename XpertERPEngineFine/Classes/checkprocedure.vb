@@ -1774,6 +1774,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.rptTankerDispatchWidthDeduction, "Tanker Dispatch With Deduction", "1.17.03.38", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptVSPIncentiveRegister, "VSP Incentive Register", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.MonthlyProgressReport, "Monthly Progress Report", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+
         '===sanjeet(21/11/2016)====================
 
         'InsertDefaultValue(clsUserMgtCode.FrmTruckSheetRouteWiseRpt, "Truck Sheet Route Wise", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -1868,6 +1869,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTCappingReport, "DBT Capping Report", "1.17.03.125", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptHeadLoadReport, "Head Load  Report", "1.17.03.126", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDCSCredit, "DCS Credit Report", "1.17.03.127", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSuspanceDCSReport, "Suspense Milk Report", "1.17.03.128", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
@@ -2401,6 +2403,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDemandHistory, "Demand History", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmPrintMultipleGatepass, "Print Multiple Gatepass", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBoothTruckSheet, "Booth Truck Sheet", "1.06.03.53", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDemandReport, "Demand Report", "1.06.03.54", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
@@ -2895,6 +2898,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIQualityCheck, "Quality Check", "1.48.02.08", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIParlourShiftOpen, "Parlour Shift Open", "1.48.02.09", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIParlourPOS, "POS", "1.48.02.10", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPIParlourShiftClose, "Parlour Shift Close", "1.48.02.11", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.48.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
@@ -2912,6 +2916,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptProductionReport, "Production Report", "1.49.03.08", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptProductionStoreReport, "Production and Store Report", "1.49.03.09", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDailyDemand, "Daily Demand", "1.49.03.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmDBTUnionPayment, "DBT Union Payment Report", "1.49.03.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmDBTUnionPayment, "DBT Union Payment Report", "1.49.03.12", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

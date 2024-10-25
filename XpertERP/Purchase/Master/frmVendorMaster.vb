@@ -4183,6 +4183,19 @@ Public Class frmVendorMaster
                     Return
                 End If
 
+                If clsCommon.myLen(txtPhone1.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone1.Text) Then
+                    txtPhone1.Focus()
+                    Throw New Exception("Please enter a valid 10-digit phone number")
+                End If
+                If clsCommon.myLen(txtPhone2.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone2.Text) Then
+                    txtPhone2.Focus()
+                    Throw New Exception("Please enter a valid 10-digit phone number.")
+                End If
+                If clsCommon.myLen(txtContPhone.Text) > 0 AndAlso Not IsValidPhoneNumber(txtContPhone.Text) Then
+                    txtContPhone.Focus()
+                    Throw New Exception("Please enter a valid 10-digit phone number. Contact Person Number")
+                End If
+
                 UcCustomFields1.AllowToSave()
 
                 If MyBase.isModifyonPasswordFlag Then
@@ -4266,6 +4279,13 @@ Public Class frmVendorMaster
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Function IsValidPhoneNumber(phone As String) As Boolean
+        ' Regex pattern for US phone numbers (you can adjust it as per the requirement)
+        Dim pattern As String = "^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$"
+        Dim regex As New Regex(pattern)
+        Return regex.IsMatch(phone)
+    End Function
+
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
         DeleteData()
     End Sub
@@ -5146,8 +5166,6 @@ Public Class frmVendorMaster
     'Funtion for insertion of data
     Public Sub funinsertTransport(ByVal trans As SqlTransaction)
         Try
-
-
             'connectSql.RunSpTransaction(trans, "sp_transportmaster_insert", New SqlParameter("@transid", fndvendorNo.Value), New SqlParameter("@transname", txtvendorname.Text.ToString()), New SqlParameter("@city", txtCity.Text.ToString()), New SqlParameter("@state", LblState.Text.ToString()), New SqlParameter("@pincode", txtPinCode.Text.ToString()), New SqlParameter("@panno", txtpan.Text.ToString()), New SqlParameter("@phone", txtPhone1.Text.ToString()), New SqlParameter("@add1", txtAdd1.Text.ToString()), New SqlParameter("@add2", txtAdd2.Text.ToString()), New SqlParameter("@email", txtEmail.Text.ToString()), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode))
             ' myMessages.insert()
             Dim obj As New clsTRANSPORT_MASTER
@@ -5479,6 +5497,6 @@ Public Class frmVendorMaster
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-
     End Sub
+
 End Class

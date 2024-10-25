@@ -271,6 +271,8 @@ Public Class clsUserMgtCode
     Public Const rptDailyStatementReport As String = "DlY_SALE_RPT"
     Public Const FrmPrintMultipleGatepass As String = "MUL_PNT_GP"
     Public Const rptBoothTruckSheet As String = "Booth-T-S"
+    Public Const rptDemandReport As String = "DEMAND-RE"
+
     Public Const rptCreditCustomerReport As String = "CRD_CST_RPT"
     Public Const rptD1D2Report As String = "D1_D2_RPT"
     Public Const rptZoneWiseReport1 As String = "ZW_RPT"
@@ -2322,6 +2324,8 @@ Public Class clsUserMgtCode
     'Public Const RptDailyLandedCost As String = "DLCost"
     Public Const RptWeighmentRegister As String = "WGH_REG_RPT"
     Public Const MonthlyProgressReport As String = "Mth-Prog"
+    Public Const rptSuspanceDCSReport As String = "SUSP-DCS"
+
     Public Const RptSecondaryTransporterReport As String = "SEC-TR-RPT"
     Public Const rptMCCBillGenrationStatus As String = "MCC-BIL_GEN"
     Public Const rptMCCDataEntrySummaryReport As String = "MCC_DE_SUM"
@@ -2488,6 +2492,7 @@ Public Class clsUserMgtCode
     Public Const frmLocationItemMapping As String = "Loc_ITM_MAP"
     Public Const frmDistributorRouteTagging As String = "DIS-R-T"
     Public Const frmDailyDemand As String = "DAI-DEM"
+    Public Const frmDBTUnionPayment As String = "DBT-UPAY"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"
@@ -2686,6 +2691,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPIQualityCheck As String = "API-PLT-QC"
     Public Const XpertAPIParlourShiftOpen As String = "API-PLR-SFO"
     Public Const XpertAPIParlourPOS As String = "API-PLR-POS"
+    Public Const XpertAPIParlourShiftClose As String = "API-PLR-SFC"
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
 

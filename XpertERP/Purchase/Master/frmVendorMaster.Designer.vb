@@ -1191,7 +1191,7 @@ Partial Class frmVendorMaster
         Me.txtPhone2.IsSourceFromValueList = False
         Me.txtPhone2.IsUnique = False
         Me.txtPhone2.Location = New System.Drawing.Point(91, 303)
-        Me.txtPhone2.MaxLength = 20
+        Me.txtPhone2.MaxLength = 10
         Me.txtPhone2.MendatroryField = False
         Me.txtPhone2.MyLinkLable1 = Me.RadLabel10
         Me.txtPhone2.MyLinkLable2 = Nothing
@@ -1224,7 +1224,7 @@ Partial Class frmVendorMaster
         Me.txtPhone1.IsSourceFromValueList = False
         Me.txtPhone1.IsUnique = False
         Me.txtPhone1.Location = New System.Drawing.Point(91, 276)
-        Me.txtPhone1.MaxLength = 20
+        Me.txtPhone1.MaxLength = 10
         Me.txtPhone1.MendatroryField = False
         Me.txtPhone1.MyLinkLable1 = Me.RadLabel10
         Me.txtPhone1.MyLinkLable2 = Nothing
@@ -2106,7 +2106,7 @@ Partial Class frmVendorMaster
         Me.txtContPhone.IsSourceFromValueList = False
         Me.txtContPhone.IsUnique = False
         Me.txtContPhone.Location = New System.Drawing.Point(100, 45)
-        Me.txtContPhone.MaxLength = 20
+        Me.txtContPhone.MaxLength = 10
         Me.txtContPhone.MendatroryField = False
         Me.txtContPhone.MyLinkLable1 = Me.RadLabel16
         Me.txtContPhone.MyLinkLable2 = Nothing

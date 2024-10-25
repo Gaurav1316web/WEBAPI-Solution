@@ -1416,7 +1416,7 @@ Public Class frmVSPMaster
             obj.Contact_Person_Email = clsCommon.myCstr(txtContactEmail.Text)
             obj.Contact_Person_Website = clsCommon.myCstr(txtContactWeb.Text)
             obj.CUSTOMER_FORM_TYPE = "VSP"
-            Dim strCmd1 As String = " SELECT Cust_Group_Code as [Customer Gruop Code],Cust_Group_Desc as [Description]," & _
+            Dim strCmd1 As String = " SELECT Cust_Group_Code as [Customer Gruop Code],Cust_Group_Desc as [Description]," &
               " Tax_Group as [Tax Group],Cust_Account as [Account Set],Terms_Code as [Terms Code] FROM [TSPL_CUSTOMER_GROUP_MASTER] where Cust_Group_Code='" + fndCusgrp.Value + "' "
             Dim myDs As DataSet = connectSql.RunSQLReturnDS(trans, strCmd1)
             If myDs.Tables(0).Rows.Count > 0 Then
@@ -2497,7 +2497,7 @@ Public Class frmVSPMaster
                     btnsave.Enabled = True
                     btndelete.Enabled = True
                 End If
-                
+
                 'If userCode <> "ADMIN" Then
                 '    If funSetUserAccess() = False Then Exit Sub
                 'End If
@@ -2736,7 +2736,7 @@ Public Class frmVSPMaster
         Try
 
 
-            Dim strquery As String = " SELECT TSPL_TAX_GROUP_DETAILS.Tax_Code as [Tax] FROM TSPL_TAX_GROUP_MASTER INNER JOIN TSPL_TAX_GROUP_DETAILS ON TSPL_TAX_GROUP_MASTER.Tax_Group_Code = TSPL_TAX_GROUP_DETAILS.Tax_Group_Code" & _
+            Dim strquery As String = " SELECT TSPL_TAX_GROUP_DETAILS.Tax_Code as [Tax] FROM TSPL_TAX_GROUP_MASTER INNER JOIN TSPL_TAX_GROUP_DETAILS ON TSPL_TAX_GROUP_MASTER.Tax_Group_Code = TSPL_TAX_GROUP_DETAILS.Tax_Group_Code" &
                       " where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + fndTxGrp.Value + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P'"
             Dim dr As DataTable
             Dim strvalue As String = ""
@@ -3800,6 +3800,22 @@ Public Class frmVSPMaster
                 End If
             End If
 
+            If clsCommon.myLen(txtPhone1.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone1.Text) Then
+                txtPhone1.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number")
+            End If
+            If clsCommon.myLen(txtPhone2.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone2.Text) Then
+                txtPhone2.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number.")
+            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal Then
+            '    If clsCommon.myLen(txtContPhone.Text) > 0 AndAlso Not IsValidPhoneNumber(txtContPhone.Text) Then
+            '        txtContPhone.Focus()
+            '        Throw New Exception("Please enter a valid 10-digit phone number. Contact Person Number")
+            '    End If
+            'End If
+
+
 
 
             If btnsave.Text = "Save" Then
@@ -3818,6 +3834,13 @@ Public Class frmVSPMaster
 
         End Try
     End Sub
+
+    Function IsValidPhoneNumber(phone As String) As Boolean
+        ' Regex pattern for US phone numbers (you can adjust it as per the requirement)
+        Dim pattern As String = "^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$"
+        Dim regex As New Regex(pattern)
+        Return regex.IsMatch(phone)
+    End Function
 
     Public Sub funInsertCharges()
         Dim obj As clsVendorMaster = Nothing
@@ -6365,9 +6388,9 @@ Public Class frmVSPMaster
                 Return False
             End If
             '' match tax Group currency with vendor currency
-            qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " & _
-                  " inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " & _
-                  " inner join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(strTaxGroup) & "' " & _
+            qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " &
+                  " inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " &
+                  " inner join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(strTaxGroup) & "' " &
                   " and coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'')<>'" & clsCommon.myCstr(strVendorCurrency) & "'"
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -6393,12 +6416,12 @@ Public Class frmVSPMaster
     End Sub
 
     Private Sub fndCusgrp__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCusgrp._MYValidating
-        Dim qry As String = " SELECT Cust_Group_Code as [CustomerGruopCode],Cust_Group_Desc as [Description]," & _
+        Dim qry As String = " SELECT Cust_Group_Code as [CustomerGruopCode],Cust_Group_Desc as [Description]," &
                     " Tax_Group as [Tax Group],Cust_Account as [Account Set],Terms_Code as [Terms Code] FROM [TSPL_CUSTOMER_GROUP_MASTER] "
         fndCusgrp.Value = clsCommon.ShowSelectForm("CUSGRP_CODE1", qry, "CustomerGruopCode", "", fndCusgrp.Value, "", isButtonClicked)
     End Sub
 
-  
+
     Private Sub findfndbankcode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles findfndbankcode._MYValidating
         'fndbankcode.ConnectionString = connectSql.SqlCon()
         ''fndbankcode.Query = " select bank_code As [Bank Code],description  as [Description]from TSPL_Bank_MASTER "
@@ -6533,6 +6556,14 @@ Public Class frmVSPMaster
 
     Private Sub txtvendornameHindi_Enter(sender As Object, e As EventArgs) Handles txtvendornameHindi.Enter
         clsMccMaster.ToHindiInput()
+    End Sub
+
+    ' Restrict input to numbers only
+    Private Sub txtPhone_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPhone1.KeyPress, txtPhone2.KeyPress, txtContPhone.KeyPress
+        ' Allow only digits and control characters (e.g., backspace)
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True  ' Ignore the keypress if it's not a digit or control character
+        End If
     End Sub
 
     'Public Sub ToEnglishInput()

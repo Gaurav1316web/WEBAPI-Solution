@@ -25,6 +25,8 @@ Public Class frmMilkCollectionDCS
     Const colEveningSNFPer As String = "colEveningSNFPer"
     Const colEveningFATKG As String = "colEveningFATKG"
     Const colEveningSNFKG As String = "colEveningSNFKG"
+    Const colEveningSuspence As String = "colEveningSuspence"
+    Const colEveningSuspenceRemarks As String = "colEveningSuspenceRemarks"
     Const colMorningPKID As String = "colMorningPKID"
     Const colMorningQty As String = "colMorningQty"
     Const colMorningFATPerNoDecimal As String = "colMorningFATPerNoDecimal"
@@ -33,6 +35,9 @@ Public Class frmMilkCollectionDCS
     Const colMorningSNFPer As String = "colMorningSNFPer"
     Const colMorningFATKG As String = "colMorningFATKG"
     Const colMorningSNFKG As String = "colMorningSNFKG"
+    Const colMorningSuspence As String = "colMorningSuspence"
+    Const colMorningSuspenceRemarks As String = "colMorningSuspenceRemarks"
+
 
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
@@ -81,6 +86,13 @@ Public Class frmMilkCollectionDCS
 
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)
+        coll.Add("Suspence", "integer null")
+        coll.Add("Suspence_VLC_Code", "Varchar(30) null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+        coll.Add("Suspence_Remarks", "varchar(200) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS", "Document_No", "")
+
+
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
@@ -373,6 +385,23 @@ Public Class frmMilkCollectionDCS
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
+        Dim repoCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoCheckBox.HeaderText = "Mark Suspence"
+        repoCheckBox.Name = colEveningSuspence
+        repoCheckBox.ReadOnly = False
+        repoCheckBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrDatabase, "JPR") = CompairStringResult.Equal)
+        repoCheckBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        gv1.MasterTemplate.Columns.Add(repoCheckBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Suspence Remarks"
+        repoTextBox.Name = colEveningSuspenceRemarks
+        repoTextBox.Width = 200
+        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrDatabase, "JPR") = CompairStringResult.Equal)
+        repoTextBox.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoTextBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = ""
         repoNumBox.HeaderText = "PKID Morning"
@@ -521,13 +550,24 @@ Public Class frmMilkCollectionDCS
             repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
             repoNumBox.ReadOnly = Not repoNumBox.IsVisible
             gv1.MasterTemplate.Columns.Add(repoNumBox)
-
-
-
         End If
 
+        repoCheckBox = New GridViewCheckBoxColumn()
+        repoCheckBox.HeaderText = "Mark Suspence"
+        repoCheckBox.Name = colMorningSuspence
+        repoCheckBox.ReadOnly = False
+        repoCheckBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrDatabase, "JPR") = CompairStringResult.Equal)
+        repoCheckBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        gv1.MasterTemplate.Columns.Add(repoCheckBox)
 
-
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Suspence Remarks"
+        repoTextBox.Name = colMorningSuspenceRemarks
+        repoTextBox.Width = 200
+        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrDatabase, "JPR") = CompairStringResult.Equal)
+        repoTextBox.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoTextBox)
 
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -837,6 +877,8 @@ Public Class frmMilkCollectionDCS
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), 2, MidpointRounding.ToEven)
                         objTr.FATKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATKG).Value)
                         objTr.SNFKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFKG).Value)
+                        objTr.Suspence = clsCommon.myCBool(gv1.Rows(ii).Cells(colEveningSuspence).Value)
+                        objTr.Suspence_Remarks = clsCommon.myCstr(gv1.Rows(ii).Cells(colEveningSuspenceRemarks).Value)
                         Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
                         If intRejectApplicableOn <> 1 Then
                             If objTr.FAT <= 0 Then
@@ -867,6 +909,8 @@ Public Class frmMilkCollectionDCS
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFPer).Value), 2, MidpointRounding.ToEven)
                         objTr.FATKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATKG).Value)
                         objTr.SNFKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFKG).Value)
+                        objTr.Suspence = clsCommon.myCBool(gv1.Rows(ii).Cells(colMorningSuspence).Value)
+                        objTr.Suspence_Remarks = clsCommon.myCstr(gv1.Rows(ii).Cells(colMorningSuspenceRemarks).Value)
                         Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
                         If intRejectApplicableOn <> 1 Then
                             If objTr.FAT <= 0 Then
@@ -922,6 +966,7 @@ Public Class frmMilkCollectionDCS
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCName).Value = objTr.VLC_Name
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCUploaderCode).Value = objTr.VLC_Uploader_Code
                         End If
+
                         If clsCommon.CompairString(objTr.Shift, "E") = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningPKID).Value = objTr.PK_Id
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningQty).Value = objTr.Qty
@@ -929,9 +974,10 @@ Public Class frmMilkCollectionDCS
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningSNFPer).Value = objTr.SNF
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningFATKG).Value = objTr.FATKG
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningSNFKG).Value = objTr.SNFKG
-
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningFATPerNoDecimal).Value = clsCommon.myCstr(objTr.FAT).Replace(".", "")
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningSNFPerNoDecimal).Value = clsCommon.myCstr(objTr.SNF).Replace(".", "")
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningSuspence).Value = objTr.Suspence
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningSuspenceRemarks).Value = objTr.Suspence_Remarks
                         Else
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningPKID).Value = objTr.PK_Id
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningQty).Value = objTr.Qty
@@ -939,9 +985,10 @@ Public Class frmMilkCollectionDCS
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningSNFPer).Value = objTr.SNF
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningFATKG).Value = objTr.FATKG
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningSNFKG).Value = objTr.SNFKG
-
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningFATPerNoDecimal).Value = clsCommon.myCstr(objTr.FAT).Replace(".", "")
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningSNFPerNoDecimal).Value = clsCommon.myCstr(objTr.SNF).Replace(".", "")
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningSuspence).Value = objTr.Suspence
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningSuspenceRemarks).Value = objTr.Suspence_Remarks
                         End If
                     Next
                 End If
@@ -1211,6 +1258,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
         gv1.Columns(colEveningSNFPer).HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR %", "Evening SNF %") + Environment.NewLine + PrevShift
         gv1.Columns(colEveningFATKG).HeaderText = "Evening FAT KG" + Environment.NewLine + PrevShift
         gv1.Columns(colEveningSNFKG).HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG") + Environment.NewLine + PrevShift
+        gv1.Columns(colEveningSuspence).HeaderText = "Evening Mark Suspence" + Environment.NewLine + PrevShift
+        gv1.Columns(colEveningSuspenceRemarks).HeaderText = "Evening Suspence Remarks" + Environment.NewLine + PrevShift
 
         gv1.Columns(colMorningQty).HeaderText = "Morning Qty" + Environment.NewLine + CurrShift
         gv1.Columns(colMorningFATPerNoDecimal).HeaderText = "Morning FAT" + Environment.NewLine + CurrShift
@@ -1219,6 +1268,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
         gv1.Columns(colMorningSNFPer).HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR %", "Morning SNF %") + Environment.NewLine + CurrShift
         gv1.Columns(colMorningFATKG).HeaderText = "Morning FAT KG" + Environment.NewLine + CurrShift
         gv1.Columns(colMorningSNFKG).HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG") + Environment.NewLine + CurrShift
+        gv1.Columns(colMorningSuspence).HeaderText = "Morning Mark Suspence" + Environment.NewLine + CurrShift
+        gv1.Columns(colMorningSuspenceRemarks).HeaderText = "Morning Suspence Remarks" + Environment.NewLine + CurrShift
     End Sub
 
     Private Sub txtDate_Validated(sender As Object, e As EventArgs) Handles txtDate.Validated

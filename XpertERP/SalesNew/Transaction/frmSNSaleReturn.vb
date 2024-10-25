@@ -2287,11 +2287,12 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                     If e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colHeadDiscamt) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colDamageQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse e.Column Is gv1.Columns(colUnit) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal) Then
                         If (e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colHeadDiscamt) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colDamageQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colDisPer) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal)) Then
                             If ((e.Column Is gv1.Columns(colQty))) Then
+                                Dim convFact As Double = ReturnConvFact(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value))
                                 Dim dblPendingQty As Double = 0
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
-                                    dblPendingQty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colBalanceQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colPendingQty).Value)
+                                    'dblPendingQty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colBalanceQty).Value) - clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colPendingQty).Value)
+                                    dblPendingQty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colPendingQty).Value) * convFact
                                 End If
-                                Dim convFact As Double = ReturnConvFact(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value))
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
                                     Dim dblEnteredQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
                                     Dim dblDamageQty As Double = 0 'clsCommon.myCdbl(gv1.CurrentRow.Cells(colLeakQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colBurstQty).Value) + clsCommon.myCdbl(gv1.CurrentRow.Cells(colShortQty).Value)
@@ -4223,8 +4224,8 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colManufactureDate).Value = objTr.MFG_Date
                         End If
                         If clsCommon.myLen(objTr.Invoice_Code) > 0 Then
-                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsSNInvoiceDetail.GetBalanceSRNQty(objTr.Invoice_Code, objTr.Item_Code, obj.Document_Code, objTr.Unit_code, objTr.MRP, objTr.Assessable)
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsSNSalesReturnHead.GetBalance(txtReqNo.Value, ReturnConvFact(objTr.Item_Code, objTr.Unit_code))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsSNInvoiceDetail.GetBalanceSRNQty(objTr.Invoice_Code, objTr.Item_Code, obj.Document_Code, objTr.Unit_code, objTr.MRP, objTr.Assessable)
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = clsSNSalesReturnHead.GetBalance(txtReqNo.Value, ReturnConvFact(objTr.Item_Code, objTr.Unit_code))
                         End If
                         isLoadConvFact = False
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
@@ -4616,7 +4617,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
         End If
         '-----------------------------------------------------
 
-        LoadData(clsCommon.ShowSelectForm("ShipmentReturn", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
+        LoadData(clsCommon.ShowSelectForm("ShipmentReturn", qry, "Code", whrClas, txtDocNo.Value, "Code", isButtonClicked, "TSPL_SD_SALE_RETURN_HEAD.Document_Date"), NavigatorType.Current)
     End Sub
 
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -6065,7 +6066,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             gv1.Rows(IntRowNo).Cells(colHeadDisPerAmt).Value = Math.Round(dblHeadPerDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colTotalDiscountAmount).Value = Math.Round(dblTotDiscAmt, 2)
             Dim ConvFact As Double = ReturnConvFact(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value))
-            gv1.Rows(IntRowNo).Cells(colPendingQty).Value = (Math.Round(dblBalanceQty, 2) * ConvFact) - dblQty
+            'gv1.Rows(IntRowNo).Cells(colPendingQty).Value = (Math.Round(dblBalanceQty, 2) * ConvFact) ''- dblQty
             gv1.Rows(IntRowNo).Cells(colBalanceQty).Value = Math.Round(dblBalanceQty, 2) * ConvFact
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

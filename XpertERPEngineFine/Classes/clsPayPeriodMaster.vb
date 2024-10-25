@@ -23,6 +23,10 @@ Public Class clsPayPeriodMaster
         str = clsCommon.ShowSelectForm("PAYPRDMST", qry, "Code", whrcls, curcode, "DATE_FROM", isButtonClicked)
         Return str
     End Function
+    Public Shared Function getFinderforCheckLeapYear(ByVal strCode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "select TSPL_PAYPERIOD_MASTER.DATE_TO as [DateTo] from TSPL_PAYPERIOD_MASTER where PAY_PERIOD_CODE ='" + strCode + "' "
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+    End Function
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try

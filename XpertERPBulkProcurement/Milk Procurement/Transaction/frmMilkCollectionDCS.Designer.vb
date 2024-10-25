@@ -164,6 +164,7 @@ Partial Class frmMilkCollectionDCS
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -171,6 +172,7 @@ Partial Class frmMilkCollectionDCS
         Me.gv1.Size = New System.Drawing.Size(1091, 199)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'Panel1
         '
@@ -780,6 +782,7 @@ Partial Class frmMilkCollectionDCS
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
@@ -787,6 +790,7 @@ Partial Class frmMilkCollectionDCS
         Me.gv2.Size = New System.Drawing.Size(1091, 61)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'Panel3
         '
@@ -814,7 +818,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton4.Location = New System.Drawing.Point(838, 3)
+        Me.RadButton4.Location = New System.Drawing.Point(839, 3)
         Me.RadButton4.Name = "RadButton4"
         Me.RadButton4.Size = New System.Drawing.Size(72, 22)
         Me.RadButton4.TabIndex = 42
