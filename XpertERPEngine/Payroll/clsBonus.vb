@@ -149,7 +149,7 @@ Public Class clsBonus
             End If
             isSaved = isSaved AndAlso objBonusDetails.SaveData(obj, trans)
             '' SAVE BONUS GENERATION DETAIL
-            qry = clsBonus.GetGenerateBonusDetailBaseQuery(obj.Location_Code, obj.Division_Code, obj.FROM_PAY_PERIOD_CODE, obj.TO_PAY_PERIOD_CODE, obj.PAYABLE_PAY_PERIOD_CODE)
+            qry = clsBonus.GetGenerateBonusDetailBaseQuery(obj.Location_Code, obj.Division_Code, obj.FROM_PAY_PERIOD_CODE, obj.TO_PAY_PERIOD_CODE, obj.PAYABLE_PAY_PERIOD_CODE, "")
             Dim qryInsert As String = "INSERT INTO TSPL_BONUS_GENERATION_DETAIL (EMP_BONUS_CODE,EMP_CODE,DEPARTMENT_CODE,Designation_Code,Location_Code,Division_Code, " & _
                 " PAY_PERIOD_CODE,STD_AMOUNT,ACTUAL_AMOUNT,PAYPERIOD_DAYS,PAYABLE_DAYS,BONUS_ON,BONUS_CODE,BONUS_RATE,BONUS_AMOUNT) " & _
                 " SELECT '" & obj.EMP_BONUS_CODE & "',EMP_CODE,DEPARTMENT_CODE,Designation,Location_Code,'" & obj.Division_Code & "',PAY_PERIOD_CODE_MAIN,Std_Basic,Actual_Basic,PAYPERIOD_DAYS,PAYABLE_DAYS,BONUS_ON,BONUS_CODE,BONUS_RATE,BONUS_AMOUNT FROM (" & qry & ") AS BONUS"
@@ -184,7 +184,7 @@ Public Class clsBonus
         Return True
     End Function
 
-    Public Shared Function GetGenerateBonusDataTable(ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String) As DataTable
+    Public Shared Function GetGenerateBonusDataTable(ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String, ByVal Days As Integer) As DataTable
         Dim strQry As String = ""
         strQry += " DECLARE @FROM_PERIOD VARCHAR(30); "
         strQry += " DECLARE @TO_PERIOD VARCHAR(30); "
@@ -246,15 +246,15 @@ Public Class clsBonus
 
         Return dt
     End Function
-    Public Shared Function GetGenerateBonusDataTable(ByVal Location As String, ByVal Division As String, ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String, ByVal isSummary As Boolean, ByVal DOC_CODE As String) As DataTable
-        Dim qry As String = GetGenerateBonusQuery(Location, Division, strFromPayPeriod, strToPayPeriod, strPayablePayPeriod, isSummary, DOC_CODE)
+    Public Shared Function GetGenerateBonusDataTable(ByVal Location As String, ByVal Division As String, ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String, ByVal isSummary As Boolean, ByVal DOC_CODE As String, ByVal Days As Integer) As DataTable
+        Dim qry As String = GetGenerateBonusQuery(Location, Division, strFromPayPeriod, strToPayPeriod, strPayablePayPeriod, isSummary, DOC_CODE, Days)
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Return dt
     End Function
-    Public Shared Function GetGenerateBonusQuery(ByVal Location As String, ByVal Division As String, ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String, ByVal isSummary As Boolean, ByVal DOC_CODE As String) As String
+    Public Shared Function GetGenerateBonusQuery(ByVal Location As String, ByVal Division As String, ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String, ByVal isSummary As Boolean, ByVal DOC_CODE As String, ByVal Days As Integer) As String
         Dim qryBase As String = ""
         If clsCommon.myLen(DOC_CODE) <= 0 Then
-            qryBase = GetGenerateBonusDetailBaseQuery(Location, Division, strFromPayPeriod, strToPayPeriod, strPayablePayPeriod)
+            qryBase = GetGenerateBonusDetailBaseQuery(Location, Division, strFromPayPeriod, strToPayPeriod, strPayablePayPeriod, Days)
         Else
             qryBase = GetGenerateBonusDetailBaseQuery(DOC_CODE)
         End If
@@ -276,58 +276,58 @@ Public Class clsBonus
         Dim dynamicCol As String = ""
 
         '' pivot 
-        Qry = " SELECT ('[Amount_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('[Amount_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colPIV = clsDBFuncationality.getSingleValue(Qry)
         PivBasic = colPIV.Substring(0, colPIV.Length - 1)
 
-        Qry = " SELECT ('[PD_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('[PD_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colPIV = clsDBFuncationality.getSingleValue(Qry)
         PivPD = colPIV.Substring(0, colPIV.Length - 1)
 
-        Qry = " SELECT ('[BonusWages_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('[BonusWages_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colPIV = clsDBFuncationality.getSingleValue(Qry)
         PivBO = colPIV.Substring(0, colPIV.Length - 1)
 
         '' pivot cols
-        Qry = " SELECT ('coalesce(MAX([Amount_' + PAY_PERIOD_CODE + ']),0) AS [Amount_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('coalesce(MAX([Amount_' + PAY_PERIOD_CODE + ']),0) AS [Amount_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colBasic = clsDBFuncationality.getSingleValue(Qry)
         'colBasic = colPIV.Substring(0, colPIV.Length - 2)
 
-        Qry = " SELECT ('coalesce(MAX([PD_' + PAY_PERIOD_CODE + ']),0) AS [PD_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('coalesce(MAX([PD_' + PAY_PERIOD_CODE + ']),0) AS [PD_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colPD = clsDBFuncationality.getSingleValue(Qry)
         'colPD = colPIV.Substring(0, colPIV.Length - 2)
 
-        Qry = " SELECT ('coalesce(MAX([BonusWages_' + PAY_PERIOD_CODE + ']),0) AS [BonusWages_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('coalesce(MAX([BonusWages_' + PAY_PERIOD_CODE + ']),0) AS [BonusWages_' + PAY_PERIOD_CODE + '],')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colBO = clsDBFuncationality.getSingleValue(Qry)
         'colBO = colPIV.Substring(0, colPIV.Length - 2)
 
         '' pivot col total        
-        Qry = " SELECT ('coalesce(MAX([Amount_' + PAY_PERIOD_CODE + ']),0) +')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('coalesce(MAX([Amount_' + PAY_PERIOD_CODE + ']),0) +')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colBasicTotal = clsDBFuncationality.getSingleValue(Qry)
         colBasicTotal = colBasicTotal.Substring(0, colBasicTotal.Length - 1)
 
-        Qry = " SELECT ('coalesce(MAX([PD_' + PAY_PERIOD_CODE + ']),0) +')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('coalesce(MAX([PD_' + PAY_PERIOD_CODE + ']),0) +')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colPDTotal = clsDBFuncationality.getSingleValue(Qry)
         colPDTotal = colPDTotal.Substring(0, colPDTotal.Length - 1)
 
-        Qry = " SELECT ('coalesce(MAX([BonusWages_' + PAY_PERIOD_CODE + ']),0) +')  FROM TSPL_PAYPERIOD_MASTER " & _
-              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        Qry = " SELECT ('coalesce(MAX([BonusWages_' + PAY_PERIOD_CODE + ']),0) +')  FROM TSPL_PAYPERIOD_MASTER " &
+              " WHERE DATE_FROM BETWEEN (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') order by DATE_FROM for xml path('')"
         colBOTotal = clsDBFuncationality.getSingleValue(Qry)
         colBOTotal = colBOTotal.Substring(0, colBOTotal.Length - 1)
@@ -335,34 +335,34 @@ Public Class clsBonus
 
         Qry = Nothing
         If isSummary Then
-            dynamicCol = "" & colBO & " (" & colBOTotal & ") as [Total Bonus Wages], round((" & colBOTotal & ")*BONUS_RATE/100,0) as [Total Bonus]"
+            dynamicCol = "" & colBO & " (" & colBOTotal & ") as [Total Bonus Wages], round((" & colBOTotal & ")*BONUS_RATE/100,0) as [Total Bonus1]"
         Else
-            dynamicCol = "" & colBasic & " (" & colBasicTotal & ") AS [Total Basic], " & colPD & " (" & colPDTotal & ") as [Total Payable Days], " & colBO & " (" & colBOTotal & ") as [Total Bonus Wages], round((" & colBOTotal & ")*BONUS_RATE/100,0) as [Total Bonus]"
+            dynamicCol = "" & colBasic & " (" & colBasicTotal & ") AS [Total Basic], " & colPD & " (" & colPDTotal & ") as [Total Payable Days], " & colBO & " (" & colBOTotal & ") as [Total Bonus Wages], round((" & colBOTotal & ")*BONUS_RATE/100,0) as [Total Bonus1]"
         End If
-        Qry = " select * from (select EMP_CODE AS empcode,EMP_NAME as empname,FATHERS_NAME as fname,DEPARTMENT_CODE as dcode,DEPARTMENT_NAME as dname,LOCATION_CODE as location,Location_Desc as locdesc,PF_NO as pfno,Designation as desgcode,Designation_Desc as desgDesc, " & _
-              " Joining_date as doj,RELIEVING_DATE as dol,BONUS_CODE AS bonuscode,BONUS_NAME as bonusname,BONUS_RATE as bonusrate," & dynamicCol & " from " & _
-              " (" & qryBase & ") as Final " & _
-              " PIVOT " & _
-              " ( " & _
-              " sum(Std_Basic) " & _
-              " FOR Pay_Period_Code IN (" & PivBasic & ") " & _
-              " ) AS Wages " & _
-              " PIVOT " & _
-              " ( " & _
-              " sum(PAYABLE_DAYS) " & _
-              " FOR PD_PAY_PERIOD_CODE IN (" & PivPD & ") " & _
-              " ) AS PDays " & _
-              " PIVOT " & _
-              " ( " & _
-              " sum(Bonus_On) " & _
-              " FOR BonusWages_PAY_PERIOD_CODE IN (" & PivBO & ") " & _
-              " ) AS Bonus_On " & _
-              " group by EMP_CODE,BONUS_CODE,BONUS_NAME,BONUS_RATE,EMP_NAME,FATHERS_NAME,DEPARTMENT_CODE,DEPARTMENT_NAME,LOCATION_CODE,Location_Desc,PF_NO,Designation,Designation_Desc,Joining_date,RELIEVING_DATE) Final " & _
+        Qry = " select * from (select EMP_CODE AS empcode,EMP_NAME as empname,FATHERS_NAME as fname,DEPARTMENT_CODE as dcode,DEPARTMENT_NAME as dname,LOCATION_CODE as location,Location_Desc as locdesc,PF_NO as pfno,Designation as desgcode,Designation_Desc as desgDesc, " &
+              " Joining_date as doj,RELIEVING_DATE as dol,BONUS_CODE AS bonuscode,BONUS_NAME as bonusname,BONUS_RATE as bonusrate," & dynamicCol & ",sum(BONUS_AMOUNT) as [Total Bonus] from " &
+              " (" & qryBase & ") as Final " &
+              " PIVOT " &
+              " ( " &
+              " sum(Std_Basic) " &
+              " FOR Pay_Period_Code IN (" & PivBasic & ") " &
+              " ) AS Wages " &
+              " PIVOT " &
+              " ( " &
+              " sum(PAYABLE_DAYS) " &
+              " FOR PD_PAY_PERIOD_CODE IN (" & PivPD & ") " &
+              " ) AS PDays " &
+              " PIVOT " &
+              " ( " &
+              " sum(Bonus_On) " &
+              " FOR BonusWages_PAY_PERIOD_CODE IN (" & PivBO & ") " &
+              " ) AS Bonus_On " &
+              " group by EMP_CODE,BONUS_CODE,BONUS_NAME,BONUS_RATE,EMP_NAME,FATHERS_NAME,DEPARTMENT_CODE,DEPARTMENT_NAME,LOCATION_CODE,Location_Desc,PF_NO,Designation,Designation_Desc,Joining_date,RELIEVING_DATE) Final " &
               " where [Total Bonus]>0"
 
         Return Qry
     End Function
-    Public Shared Function GetGenerateBonusDetailBaseQuery(ByVal Location As String, ByVal Division As String, ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String) As String
+    Public Shared Function GetGenerateBonusDetailBaseQuery(ByVal Location As String, ByVal Division As String, ByVal strFromPayPeriod As String, ByVal strToPayPeriod As String, ByVal strPayablePayPeriod As String, ByVal days As Integer) As String
         Dim qry As String = ""
         Dim strCond As String = " WHERE 2=2 "
         If clsCommon.myLen(Location) > 0 Then
@@ -371,31 +371,32 @@ Public Class clsBonus
         If clsCommon.myLen(Division) > 0 Then
             strCond = strCond & " AND GS.DEVISION_CODE='" & Division & "'"
         End If
-        qry = " select GSA.EMP_CODE,EMP.EMP_NAME,EMP.FATHERS_NAME,EMP.DEPARTMENT_CODE,DEPT.DEPARTMENT_NAME,EMP.LOCATION_CODE,LOC.Location_Desc,EMP.PF_NO,EMP.Designation,DES.Designation_Desc,EMP.Joining_date,EMP.RELIEVING_DATE,GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE_MAIN,'Amount_' + GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE,'PD_' + GS.PAY_PERIOD_CODE as PD_PAY_PERIOD_CODE,'BonusWages_' + GS.PAY_PERIOD_CODE as BonusWages_PAY_PERIOD_CODE,(case when GSP.Rate_Amount<=BONUS.COND_MAX_EARNING_PER_MONTH then GSP.RATE_AMOUNT else 0 end) AS Std_Basic,(case when GSP.Rate_Amount<=BONUS.COND_MAX_EARNING_PER_MONTH then GSP.ACTUAL_AMOUNT else 0 end) AS Actual_Basic,(case when GSP.Rate_Amount<=BONUS.COND_MAX_EARNING_PER_MONTH then GSA.PAYPERIOD_DAYS else 0 end) as PAYPERIOD_DAYS,(case when GSP.Rate_Amount<=BONUS.COND_MAX_EARNING_PER_MONTH then GSA.PAYABLE_DAYS else 0 end) as PAYABLE_DAYS," & _
-              " (case when GSP.Rate_Amount<=BONUS.COND_MAX_EARNING_PER_MONTH " & _
-              " then ROUND((case when GSP.Rate_Amount>=BONUS.COND_BASIC_PER_MONTH then BONUS.COND_BASIC_PER_MONTH else GSP.Rate_Amount end)* (case when BONUS.Is_Consider_Pay_Days=1 then GSA.PAYABLE_DAYS/GSA.PAYPERIOD_DAYS else 1 end),0) ELSE 0 end) as Bonus_On, " & _
-              " (case when GSP.Rate_Amount<=BONUS.COND_MAX_EARNING_PER_MONTH " & _
-              " then ROUND((case when GSP.Rate_Amount>=BONUS.COND_BASIC_PER_MONTH then BONUS.COND_BASIC_PER_MONTH else GSP.Rate_Amount end)*(case when BONUS.Is_Consider_Pay_Days=1 then GSA.PAYABLE_DAYS/GSA.PAYPERIOD_DAYS else 1 end),0) ELSE 0 end)*BONUS.BONUS_RATE/100 AS BONUS_AMOUNT, " & _
-              " ESTS.BONUS_CODE,BONUS.BONUS_NAME,BONUS.BONUS_RATE " + Environment.NewLine + _
-              " from TSPL_GENERATE_SALARY_ATTENDANCE GSA " + Environment.NewLine + _
-              " inner join TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " + Environment.NewLine + _
-              " left join TSPL_EMPLOYEE_MASTER EMP ON EMP.EMP_CODE=GSA.EMP_CODE " & _
-              " LEFT JOIN TSPL_EMPLOYEE_STATUS ESTS ON GSA.EMP_CODE=ESTS.EMP_CODE AND GSA.EMP_STATUS_CODE=ESTS.EMP_STATUS_CODE " & _
-              " LEFT JOIN TSPL_BONUS_MASTER BONUS ON ESTS.BONUS_CODE=BONUS.BONUS_CODE " & _
-              " left join (" + Environment.NewLine + _
-              " SELECT SALARY_GENERATION_CODE,EMP_CODE,Rate_Amount,ACTUAL_AMOUNT,'Basic' as CalculationMethod FROM TSPL_GENERATE_SALARY_PAYHEADS  WHERE SUB_HEAD_TYPE='BASIC' " + Environment.NewLine + _
-              " union all" + Environment.NewLine + _
-              " select SALARY_GENERATION_CODE,EMP_CODE,sum(ACTUAL_AMOUNT * case when x.ISEARNING=1 then 1 else -1 end) as Rate_Amount,sum(ACTUAL_AMOUNT* case when x.ISEARNING=1 then 1 else -1 end) as ACTUAL_AMOUNT,'Net' as CalculationMethod  from (" + Environment.NewLine + _
-              " SELECT SALARY_GENERATION_CODE,EMP_CODE,Rate_Amount,ACTUAL_AMOUNT,TSPL_PAYHEAD_MASTER.ISEARNING FROM TSPL_GENERATE_SALARY_PAYHEADS as innTSPL_GENERATE_SALARY_PAYHEADS" + Environment.NewLine + _
-              " left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE= innTSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE " + Environment.NewLine + _
-              " )x group by SALARY_GENERATION_CODE, EMP_CODE  " + Environment.NewLine + _
-              " ) GSP ON GSA.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE  AND GSA.EMP_CODE=GSP.EMP_CODE and GSP.CalculationMethod=BONUS.Calculation_Method " & _
-              " left join TSPL_PAYPERIOD_MASTER PM on PM.PAY_PERIOD_CODE=GS.PAY_PERIOD_CODE " & _
-              " left join TSPL_DEPARTMENT_MASTER DEPT ON EMP.DEPARTMENT_CODE=DEPT.DEPARTMENT_CODE " & _
-              " left join TSPL_LOCATION_MASTER LOC ON EMP.Location_Code=LOC.Location_Code " & _
-              " left join TSPL_DESIGNATION_MASTER DES ON EMP.Designation=DES.Designation_id " & _
-              " " & strCond & " AND ESTS.BONUS_CODE is not null " & _
-              " and PM.DATE_FROM BETWEEN   (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " & _
+        qry = "  select GSA.EMP_CODE,EMP.EMP_NAME,EMP.FATHERS_NAME,EMP.DEPARTMENT_CODE,DEPT.DEPARTMENT_NAME,EMP.LOCATION_CODE,LOC.Location_Desc,EMP.PF_NO,EMP.Designation,DES.Designation_Desc,EMP.Joining_date,EMP.RELIEVING_DATE,GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE_MAIN,'Amount_' + GS.PAY_PERIOD_CODE as PAY_PERIOD_CODE,'PD_' + GS.PAY_PERIOD_CODE as PD_PAY_PERIOD_CODE,'BonusWages_' + GS.PAY_PERIOD_CODE as BonusWages_PAY_PERIOD_CODE, GSP.RATE_AMOUNT  AS Std_Basic,
+             (GSP.ACTUAL_AMOUNT)  AS Actual_Basic, GSA.PAYPERIOD_DAYS  as PAYPERIOD_DAYS,
+              GSA.PAYABLE_DAYS  PAYABLE_DAYS, 
+              ( ROUND((case when GSP.Rate_Amount>=BONUS.COND_BASIC_PER_MONTH then BONUS.COND_BASIC_PER_MONTH else GSP.Rate_Amount end)* (case when BONUS.Is_Consider_Pay_Days=1 then GSA.PAYABLE_DAYS/GSA.PAYPERIOD_DAYS else 1 end),0) ) as Bonus_On, 
+
+               Round(Case when isnull(GSA.PAYABLE_DAYS,0)>0 then ((round((round(isnull(COND_MAX_EARNING_PER_MONTH,0)/isnull(BONUS_RATE,0),2))*isnull(ex_gratia,0),0)))/GSA.PAYABLE_DAYS else 0 end,0)  BONUS_AMOUNT, " &
+              " ESTS.BONUS_CODE,BONUS.BONUS_NAME,BONUS.BONUS_RATE " + Environment.NewLine +
+              " from TSPL_GENERATE_SALARY_ATTENDANCE GSA " + Environment.NewLine +
+              " inner join TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " + Environment.NewLine +
+              " left join TSPL_EMPLOYEE_MASTER EMP ON EMP.EMP_CODE=GSA.EMP_CODE " &
+              " LEFT JOIN TSPL_EMPLOYEE_STATUS ESTS ON GSA.EMP_CODE=ESTS.EMP_CODE AND GSA.EMP_STATUS_CODE=ESTS.EMP_STATUS_CODE " &
+              " LEFT JOIN TSPL_BONUS_MASTER BONUS ON ESTS.BONUS_CODE=BONUS.BONUS_CODE " &
+              " left join (" + Environment.NewLine +
+              " SELECT SALARY_GENERATION_CODE,EMP_CODE,Rate_Amount,ACTUAL_AMOUNT,'Basic' as CalculationMethod FROM TSPL_GENERATE_SALARY_PAYHEADS  WHERE SUB_HEAD_TYPE='BASIC' " + Environment.NewLine +
+              " union all" + Environment.NewLine +
+              " select SALARY_GENERATION_CODE,EMP_CODE,sum(ACTUAL_AMOUNT * case when x.ISEARNING=1 then 1 else -1 end) as Rate_Amount,sum(ACTUAL_AMOUNT* case when x.ISEARNING=1 then 1 else -1 end) as ACTUAL_AMOUNT,'Net' as CalculationMethod  from (" + Environment.NewLine +
+              " SELECT SALARY_GENERATION_CODE,EMP_CODE,Rate_Amount,ACTUAL_AMOUNT,TSPL_PAYHEAD_MASTER.ISEARNING FROM TSPL_GENERATE_SALARY_PAYHEADS as innTSPL_GENERATE_SALARY_PAYHEADS" + Environment.NewLine +
+              " left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE= innTSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE " + Environment.NewLine +
+              " )x group by SALARY_GENERATION_CODE, EMP_CODE  " + Environment.NewLine +
+              " ) GSP ON GSA.SALARY_GENERATION_CODE=GSP.SALARY_GENERATION_CODE  AND GSA.EMP_CODE=GSP.EMP_CODE and GSP.CalculationMethod=BONUS.Calculation_Method " &
+              " left join TSPL_PAYPERIOD_MASTER PM on PM.PAY_PERIOD_CODE=GS.PAY_PERIOD_CODE " &
+              " left join TSPL_DEPARTMENT_MASTER DEPT ON EMP.DEPARTMENT_CODE=DEPT.DEPARTMENT_CODE " &
+              " left join TSPL_LOCATION_MASTER LOC ON EMP.Location_Code=LOC.Location_Code " &
+              " left join TSPL_DESIGNATION_MASTER DES ON EMP.Designation=DES.Designation_id " &
+              " " & strCond & " AND ESTS.BONUS_CODE is not null " &
+              " and PM.DATE_FROM BETWEEN   (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strFromPayPeriod & "') " &
               " AND (SELECT DATE_FROM FROM TSPL_PAYPERIOD_MASTER WHERE PAY_PERIOD_CODE='" & strToPayPeriod & "') "
         Return qry
     End Function

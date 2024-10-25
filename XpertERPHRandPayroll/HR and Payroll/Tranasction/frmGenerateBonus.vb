@@ -355,6 +355,7 @@ Public Class frmGenerateBonus
     Private Sub txtToPayPeriodCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtToPayPeriodCode._MYValidating
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
         txtToPayPeriodCode.Value = clsPayPeriodMaster.getFinder("POSTED=1 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtToPayPeriodCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtToPayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        txtCheckLeapyear.Text = clsPayPeriodMaster.getFinderforCheckLeapYear(txtToPayPeriodCode.Value, Nothing) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtToPayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblToPayPeriodName.Text = clsPayPeriodMaster.GetName(txtToPayPeriodCode.Value, Nothing)
     End Sub
 
@@ -370,6 +371,23 @@ Public Class frmGenerateBonus
         txtPayablePayPeriodCode.Value = clsPayPeriodMaster.getFinder("POSTED=1 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtPayablePayPeriodCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtPayablePayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayablePayPeriodName.Text = clsPayPeriodMaster.GetName(txtPayablePayPeriodCode.Value, Nothing)
     End Sub
+    Public Shared Function CalculateLeapYearDays(txtCheckLeapyear As String) As Integer
+        Dim inputDate As DateTime
+        Dim NoOfDays As Integer = 0
+        If DateTime.TryParse(txtCheckLeapyear, inputDate) Then
+            Dim year As Integer = inputDate.Year
+            Dim isLeapYear As Boolean = DateTime.IsLeapYear(year)
+            If isLeapYear Then
+                NoOfDays = 366
+            Else
+                NoOfDays = 365
+            End If
+        Else
+            MessageBox.Show("Invalid date format.")
+        End If
+        Return NoOfDays
+    End Function
+
     Sub LoadGridColumns()
         gv1.DataSource = Nothing
         gv1.Rows.Clear()
@@ -495,7 +513,6 @@ Public Class frmGenerateBonus
         gv1.DataSource = Nothing
         gv1.Columns.Clear()
         gv1.Rows.Clear()
-
         LoadBonusSummaryData(True)
         LoadBonusDetailData(True)
 
@@ -522,7 +539,8 @@ Public Class frmGenerateBonus
         Else
             doc_code = txtCode.Value
         End If
-        Dim dt As DataTable = clsBonus.GetGenerateBonusDataTable(fndLocation.Value, fndDivision.Value, txtFromPayPeriodCode.Value, txtToPayPeriodCode.Value, txtPayablePayPeriodCode.Value, True, doc_code)
+        Dim Days As Integer = CalculateLeapYearDays(txtCheckLeapyear.Text)
+        Dim dt As DataTable = clsBonus.GetGenerateBonusDataTable(fndLocation.Value, fndDivision.Value, txtFromPayPeriodCode.Value, txtToPayPeriodCode.Value, txtPayablePayPeriodCode.Value, True, doc_code, Days)
         gvBonusSummary.DataSource = Nothing
         gvBonusSummary.DataSource = dt
         gvBonusSummary.ReadOnly = True
@@ -547,7 +565,8 @@ Public Class frmGenerateBonus
         Else
             doc_code = txtCode.Value
         End If
-        Dim dt As DataTable = clsBonus.GetGenerateBonusDataTable(fndLocation.Value, fndDivision.Value, txtFromPayPeriodCode.Value, txtToPayPeriodCode.Value, txtPayablePayPeriodCode.Value, False, doc_code)
+        Dim Days As Integer = CalculateLeapYearDays(txtCheckLeapyear.Text)
+        Dim dt As DataTable = clsBonus.GetGenerateBonusDataTable(fndLocation.Value, fndDivision.Value, txtFromPayPeriodCode.Value, txtToPayPeriodCode.Value, txtPayablePayPeriodCode.Value, False, doc_code, Days)
         gvBonusDetail.DataSource = Nothing
         gvBonusDetail.DataSource = dt
         gvBonusDetail.ReadOnly = True
