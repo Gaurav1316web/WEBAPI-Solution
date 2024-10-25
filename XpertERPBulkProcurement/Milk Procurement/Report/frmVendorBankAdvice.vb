@@ -54,7 +54,7 @@ Public Class frmVendorBankAdvice
 
         txtPaymentCycleFrom.Enabled = Not AreaWiseBilling
         txtPaymentCycleTo.Enabled = Not AreaWiseBilling
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
             RadGroupBox4.Visible = True
         Else
             RadGroupBox4.Visible = False
@@ -408,7 +408,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
 
                     End If
                 End If
-                BaseQry += ",Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status] "
+                BaseQry += ",TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status] "
                 BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
                                 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
@@ -522,7 +522,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                 FinalQuery = BaseQry
             End If
 
-            If rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            If rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
                 FinalQuery = GetSavingCurrent()
                 FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
             End If
@@ -535,7 +535,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             Dim dt3 As DataTable = Nothing
             Dim dt7 As DataTable = Nothing
             Dim dt8 As DataTable = Nothing
-            If isPrint AndAlso rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            If isPrint AndAlso rbtnBothSavCur.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
                 FinalQuery = ""
                 FinalQuery = "Select ROW_NUMBER() OVER(Partition by xxxfinal.bankcode ORDER BY xxxfinal.bankcode) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MM/yyyy") + "') As DateRange,xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,
                               TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (" + GetSavingCurrent() + ")xxxfinal Left Outer Join TSPL_Company_Master On TSPL_Company_Master.comp_code1='" + objCommonVar.CurrComp_Code1 + "' where xxxfinal.DCSCount>1 order by cast(VLC_CODE_Uploader as int) "
@@ -657,6 +657,9 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                     'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, "", "crptBankAdviseReportALW", "Bank Advice Report", "", "crptBankAdviseSubReportALW.rpt", "crptBankAdviseBankWiseSubReportALW.rpt", "", Nothing, Nothing, Nothing)
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt1, dt2, "crptBankAdviseReportALW", Nothing, "crptBankAdviseSubReportALW.rpt", "crptBankAdviseBankWiseSubReportALW.rpt", dt3, Nothing, Nothing, Nothing, Nothing)
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt1, dt2, "crptBankAdviseReportNew", Nothing, "crptBankAdviseSubReportALW.rpt", "crptBankAdviseBankWiseSubReportALW.rpt", dt3, Nothing, Nothing, Nothing, Nothing)
+
                     Else
                         clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                     End If

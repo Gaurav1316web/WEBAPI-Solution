@@ -1541,7 +1541,8 @@ Public Class frmCustomerAccountSet
 
 
     Private Sub fndrecisvablecontrol__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndrecisvablecontrol._MYValidating
-        Dim qry As String = "select account_code as [AccountCode],description as [Description] from                          "
+
+        Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts"
         fndrecisvablecontrol.Value = clsCommon.ShowSelectForm("REC_CONfnd", qry, "AccountCode", " ControlAccount ='Y' ", fndrecisvablecontrol.Value, "", isButtonClicked)
         rdtxtrecievablecontrol.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + fndrecisvablecontrol.Value + "' ")
         LoadRec()

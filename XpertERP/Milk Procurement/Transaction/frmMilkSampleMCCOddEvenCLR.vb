@@ -559,26 +559,17 @@ Public Class frmMilkSampleMCCOddEvenCLR
                     Dim objHeadLoad As New clsHeadLoadDCS()
                     objHeadLoad = clsHeadLoadDCS.GetDcsData(objHead.VLC_CODE, clsCommon.myCDate(dtpDocDate.Value), trans)
                     obj1.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
+                    obj1.Head_Load_Amount_Exact = 0
                     If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
                         If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
-                            obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                            obj1.Head_Load_Amount_Exact = Math.Round(obj1.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                         End If
-
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
                         If clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
-                            obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                            obj1.Head_Load_Amount_Exact = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                         End If
-                        'ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "W") = CompairStringResult.Equal Then ''MIL/14/01/19-000028 by balwinder on 15/01/2019
-                        '    Dim qry As String = "select Ratio,SNF_Ratio,FAT_Pers,SNF_Pers from TSPL_MILK_PRICE_MASTER where Price_Code=(select top 1 Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + obj1.Price_Code + "')"
-                        '    Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry)
-                        '    If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
-                        '        obj1.FAT_KG = Math.Round(obj1.ACC_Qty * obj1.FAT / 100, 2)
-                        '        obj1.SNF_KG = Math.Round(obj1.ACC_Qty * obj1.SNF / 100, 2)
-                        '        Dim dblFATRate As Decimal = obj1.Head_Load_Rate * clsCommon.myCdbl(dtTemp.Rows(0)("Ratio")) / clsCommon.myCdbl(dtTemp.Rows(0)("FAT_Pers"))
-                        '        Dim dblSNFRate As Decimal = obj1.Head_Load_Rate * clsCommon.myCdbl(dtTemp.Rows(0)("SNF_Ratio")) / clsCommon.myCdbl(dtTemp.Rows(0)("SNF_Pers"))
-                        '        obj1.Head_Load_Amount = Math.Round(((obj1.FAT_KG * dblFATRate) + (obj1.SNF_KG * dblSNFRate)) * dclDistanceKM, 2)
-                        '    End If
                     End If
+                    obj1.Head_Load_Amount = Math.Round(obj1.Head_Load_Amount_Exact, 2)
                     obj1.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
                     '============================================
                     '==================Own Asset==========================

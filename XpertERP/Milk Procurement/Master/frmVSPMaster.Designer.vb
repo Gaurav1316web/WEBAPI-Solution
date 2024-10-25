@@ -104,6 +104,8 @@ Partial Class frmVSPMaster
         Me.txtvendorname = New common.Controls.MyTextBox()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtPhone2 = New common.Controls.MyTextBox()
+        Me.txtPhone1 = New common.Controls.MyTextBox()
         Me.lblMCCOwnBMC = New common.Controls.MyLabel()
         Me.lblOwnMCC = New common.Controls.MyLabel()
         Me.txtMCCOwnBMC = New common.UserControls.txtFinder()
@@ -140,8 +142,6 @@ Partial Class frmVSPMaster
         Me.txtpayeename = New common.Controls.MyTextBox()
         Me.fndpaymentCycle = New common.UserControls.txtFinder()
         Me.lblpaymentCycle = New common.Controls.MyLabel()
-        Me.txtPhone2 = New Telerik.WinControls.UI.RadMaskedEditBox()
-        Me.txtPhone1 = New Telerik.WinControls.UI.RadMaskedEditBox()
         Me.txtpan = New common.Controls.MyTextBox()
         Me.lblpan = New common.Controls.MyLabel()
         Me.txtCity = New common.Controls.MyLabel()
@@ -197,7 +197,8 @@ Partial Class frmVSPMaster
         Me.cmbservc_type = New common.Controls.MyComboBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtContPhone = New Telerik.WinControls.UI.RadMaskedEditBox()
+        Me.txtContPhone = New common.Controls.MyTextBox()
+        Me.MyLabel11 = New common.Controls.MyLabel()
         Me.RadLabel41 = New common.Controls.MyLabel()
         Me.RadLabel16 = New common.Controls.MyLabel()
         Me.RadLabel14 = New common.Controls.MyLabel()
@@ -248,7 +249,6 @@ Partial Class frmVSPMaster
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.TxtSecurityCharges = New common.Controls.MyTextBox()
         Me.cmbAccountType = New common.Controls.MyComboBox()
-        Me.MyLabel11 = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.TxtAccNo = New common.Controls.MyTextBox()
         Me.MyLabel13 = New common.Controls.MyLabel()
@@ -487,6 +487,8 @@ Partial Class frmVSPMaster
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit
         Me.pageCus.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
+        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblMCCOwnBMC, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblOwnMCC, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblSupervisiorRPName, System.ComponentModel.ISupportInitialize).BeginInit
@@ -517,8 +519,6 @@ Partial Class frmVSPMaster
         CType(Me.TxtPaymentCycle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtpayeename, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblpaymentCycle, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtpan, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblpan, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtCity, System.ComponentModel.ISupportInitialize).BeginInit
@@ -574,6 +574,7 @@ Partial Class frmVSPMaster
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageViewPage2.SuspendLayout
         CType(Me.txtContPhone, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadLabel41, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit
@@ -620,7 +621,6 @@ Partial Class frmVSPMaster
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.TxtSecurityCharges, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.cmbAccountType, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.TxtAccNo, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit
@@ -871,7 +871,7 @@ Partial Class frmVSPMaster
         Me.lblvendorname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblvendorname.Location = New System.Drawing.Point(4, 33)
         Me.lblvendorname.Name = "lblvendorname"
-        Me.lblvendorname.Size = New System.Drawing.Size(62, 16)
+        Me.lblvendorname.Size = New System.Drawing.Size(88, 16)
         Me.lblvendorname.TabIndex = 4
         Me.lblvendorname.Text = "Secretary Name"
         '
@@ -1000,7 +1000,7 @@ Partial Class frmVSPMaster
         Me.lblCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCopy.Location = New System.Drawing.Point(624, 33)
         Me.lblCopy.Name = "lblCopy"
-        Me.lblCopy.Size = New System.Drawing.Size(58, 16)
+        Me.lblCopy.Size = New System.Drawing.Size(84, 16)
         Me.lblCopy.TabIndex = 83
         Me.lblCopy.Text = "Secretary Copy"
         '
@@ -1469,7 +1469,7 @@ Partial Class frmVSPMaster
         Me.lblvandorno.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblvandorno.Location = New System.Drawing.Point(4, 10)
         Me.lblvandorno.Name = "lblvandorno"
-        Me.lblvandorno.Size = New System.Drawing.Size(50, 16)
+        Me.lblvandorno.Size = New System.Drawing.Size(75, 16)
         Me.lblvandorno.TabIndex = 0
         Me.lblvandorno.Text = "Secretary No."
         '
@@ -1543,6 +1543,8 @@ Partial Class frmVSPMaster
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtPhone2)
+        Me.RadPageViewPage1.Controls.Add(Me.txtPhone1)
         Me.RadPageViewPage1.Controls.Add(Me.lblMCCOwnBMC)
         Me.RadPageViewPage1.Controls.Add(Me.lblOwnMCC)
         Me.RadPageViewPage1.Controls.Add(Me.txtMCCOwnBMC)
@@ -1575,8 +1577,6 @@ Partial Class frmVSPMaster
         Me.RadPageViewPage1.Controls.Add(Me.txtpayeename)
         Me.RadPageViewPage1.Controls.Add(Me.fndpaymentCycle)
         Me.RadPageViewPage1.Controls.Add(Me.lblpaymentCycle)
-        Me.RadPageViewPage1.Controls.Add(Me.txtPhone2)
-        Me.RadPageViewPage1.Controls.Add(Me.txtPhone1)
         Me.RadPageViewPage1.Controls.Add(Me.txtpan)
         Me.RadPageViewPage1.Controls.Add(Me.lblpan)
         Me.RadPageViewPage1.Controls.Add(Me.txtCity)
@@ -1614,6 +1614,53 @@ Partial Class frmVSPMaster
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(955, 477)
         Me.RadPageViewPage1.Text = "Address"
+        '
+        'txtPhone2
+        '
+        Me.txtPhone2.CalculationExpression = Nothing
+        Me.txtPhone2.FieldCode = Nothing
+        Me.txtPhone2.FieldDesc = Nothing
+        Me.txtPhone2.FieldMaxLength = 0
+        Me.txtPhone2.FieldName = Nothing
+        Me.txtPhone2.isCalculatedField = False
+        Me.txtPhone2.IsSourceFromTable = False
+        Me.txtPhone2.IsSourceFromValueList = False
+        Me.txtPhone2.IsUnique = False
+        Me.txtPhone2.Location = New System.Drawing.Point(414, 228)
+        Me.txtPhone2.MaxLength = 10
+        Me.txtPhone2.MendatroryField = False
+        Me.txtPhone2.MyLinkLable1 = Nothing
+        Me.txtPhone2.MyLinkLable2 = Nothing
+        Me.txtPhone2.Name = "txtPhone2"
+        Me.txtPhone2.ReferenceFieldDesc = Nothing
+        Me.txtPhone2.ReferenceFieldName = Nothing
+        Me.txtPhone2.ReferenceTableName = Nothing
+        Me.txtPhone2.Size = New System.Drawing.Size(285, 20)
+        Me.txtPhone2.TabIndex = 1381
+        '
+        'txtPhone1
+        '
+        Me.txtPhone1.CalculationExpression = Nothing
+        Me.txtPhone1.FieldCode = Nothing
+        Me.txtPhone1.FieldDesc = Nothing
+        Me.txtPhone1.FieldMaxLength = 0
+        Me.txtPhone1.FieldName = Nothing
+        Me.txtPhone1.isCalculatedField = False
+        Me.txtPhone1.IsSourceFromTable = False
+        Me.txtPhone1.IsSourceFromValueList = False
+        Me.txtPhone1.IsUnique = False
+        Me.txtPhone1.Location = New System.Drawing.Point(99, 229)
+        Me.txtPhone1.MaxLength = 10
+        Me.txtPhone1.MendatroryField = False
+        Me.txtPhone1.MyLinkLable1 = Nothing
+        Me.txtPhone1.MyLinkLable2 = Nothing
+        Me.txtPhone1.Name = "txtPhone1"
+        Me.txtPhone1.ReferenceFieldDesc = Nothing
+        Me.txtPhone1.ReferenceFieldName = Nothing
+        Me.txtPhone1.ReferenceTableName = Nothing
+        Me.txtPhone1.Size = New System.Drawing.Size(226, 20)
+        Me.txtPhone1.TabIndex = 1380
+        Me.txtPhone1.Text = "'"
         '
         'lblMCCOwnBMC
         '
@@ -1997,7 +2044,7 @@ Partial Class frmVSPMaster
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.Location = New System.Drawing.Point(11, 380)
         Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(77, 16)
+        Me.MyLabel6.Size = New System.Drawing.Size(103, 16)
         Me.MyLabel6.TabIndex = 41
         Me.MyLabel6.Text = "Secretary Payment"
         '
@@ -2186,28 +2233,6 @@ Partial Class frmVSPMaster
         Me.lblpaymentCycle.Size = New System.Drawing.Size(82, 16)
         Me.lblpaymentCycle.TabIndex = 110
         Me.lblpaymentCycle.Text = "Payment Cycle"
-        '
-        'txtPhone2
-        '
-        Me.txtPhone2.Location = New System.Drawing.Point(414, 227)
-        Me.txtPhone2.Mask = "(+99)0000000000"
-        Me.txtPhone2.MaskType = Telerik.WinControls.UI.MaskType.Standard
-        Me.txtPhone2.Name = "txtPhone2"
-        Me.txtPhone2.Size = New System.Drawing.Size(284, 20)
-        Me.txtPhone2.TabIndex = 81
-        Me.txtPhone2.TabStop = False
-        Me.txtPhone2.Text = "(+__)__________"
-        '
-        'txtPhone1
-        '
-        Me.txtPhone1.Location = New System.Drawing.Point(99, 227)
-        Me.txtPhone1.Mask = "(+99)0000000000"
-        Me.txtPhone1.MaskType = Telerik.WinControls.UI.MaskType.Standard
-        Me.txtPhone1.Name = "txtPhone1"
-        Me.txtPhone1.Size = New System.Drawing.Size(226, 20)
-        Me.txtPhone1.TabIndex = 80
-        Me.txtPhone1.TabStop = False
-        Me.txtPhone1.Text = "(+__)__________"
         '
         'txtpan
         '
@@ -3087,6 +3112,7 @@ Partial Class frmVSPMaster
         Me.gvEMP.Size = New System.Drawing.Size(598, 285)
         Me.gvEMP.TabIndex = 115
         Me.gvEMP.TabStop = False
+        Me.gvEMP.VarID = ""
         '
         'cmbservc_type
         '
@@ -3152,14 +3178,43 @@ Partial Class frmVSPMaster
         '
         'txtContPhone
         '
+        Me.txtContPhone.CalculationExpression = Nothing
+        Me.txtContPhone.FieldCode = Nothing
+        Me.txtContPhone.FieldDesc = Nothing
+        Me.txtContPhone.FieldMaxLength = 0
+        Me.txtContPhone.FieldName = Nothing
+        Me.txtContPhone.isCalculatedField = False
+        Me.txtContPhone.IsSourceFromTable = False
+        Me.txtContPhone.IsSourceFromValueList = False
+        Me.txtContPhone.IsUnique = False
         Me.txtContPhone.Location = New System.Drawing.Point(100, 47)
-        Me.txtContPhone.Mask = "(+99)0000000000"
-        Me.txtContPhone.MaskType = Telerik.WinControls.UI.MaskType.Standard
+        Me.txtContPhone.MaximumSize = New System.Drawing.Size(228, 20)
+        Me.txtContPhone.MaxLength = 10
+        Me.txtContPhone.MendatroryField = False
+        Me.txtContPhone.MinimumSize = New System.Drawing.Size(228, 20)
+        Me.txtContPhone.MyLinkLable1 = Me.MyLabel11
+        Me.txtContPhone.MyLinkLable2 = Nothing
         Me.txtContPhone.Name = "txtContPhone"
-        Me.txtContPhone.Size = New System.Drawing.Size(229, 20)
-        Me.txtContPhone.TabIndex = 81
-        Me.txtContPhone.TabStop = False
-        Me.txtContPhone.Text = "(+__)__________"
+        Me.txtContPhone.ReferenceFieldDesc = Nothing
+        Me.txtContPhone.ReferenceFieldName = Nothing
+        Me.txtContPhone.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.txtContPhone.RootElement.MaxSize = New System.Drawing.Size(228, 20)
+        Me.txtContPhone.RootElement.MinSize = New System.Drawing.Size(228, 20)
+        Me.txtContPhone.Size = New System.Drawing.Size(228, 20)
+        Me.txtContPhone.TabIndex = 105
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(21, 170)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(75, 16)
+        Me.MyLabel11.TabIndex = 53
+        Me.MyLabel11.Text = "Account Type"
         '
         'RadLabel41
         '
@@ -3884,6 +3939,7 @@ Partial Class frmVSPMaster
         Me.grdTax.Size = New System.Drawing.Size(675, 153)
         Me.grdTax.TabIndex = 1
         Me.grdTax.TabStop = False
+        Me.grdTax.VarID = ""
         '
         'RadLabel35
         '
@@ -4160,16 +4216,6 @@ Partial Class frmVSPMaster
         Me.cmbAccountType.ReferenceTableName = Nothing
         Me.cmbAccountType.Size = New System.Drawing.Size(211, 18)
         Me.cmbAccountType.TabIndex = 12
-        '
-        'MyLabel11
-        '
-        Me.MyLabel11.FieldName = Nothing
-        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(21, 170)
-        Me.MyLabel11.Name = "MyLabel11"
-        Me.MyLabel11.Size = New System.Drawing.Size(75, 16)
-        Me.MyLabel11.TabIndex = 53
-        Me.MyLabel11.Text = "Account Type"
         '
         'MyLabel12
         '
@@ -6313,6 +6359,7 @@ Partial Class frmVSPMaster
         Me.gvCharges.Size = New System.Drawing.Size(955, 477)
         Me.gvCharges.TabIndex = 1
         Me.gvCharges.TabStop = False
+        Me.gvCharges.VarID = ""
         '
         'PgAsset
         '
@@ -6348,6 +6395,7 @@ Partial Class frmVSPMaster
         Me.GvAsset.Size = New System.Drawing.Size(955, 477)
         Me.GvAsset.TabIndex = 2
         Me.GvAsset.TabStop = False
+        Me.GvAsset.VarID = ""
         '
         'Pg_Payment
         '
@@ -6374,6 +6422,7 @@ Partial Class frmVSPMaster
         Me.GVPaymentEntry.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.Size = New System.Drawing.Size(955, 423)
         Me.GVPaymentEntry.TabIndex = 3
+        Me.GVPaymentEntry.VarID = ""
         '
         'Panel1
         '
@@ -6645,6 +6694,7 @@ Partial Class frmVSPMaster
         Me.gvBankG.ShowHeaderCellButtons = True
         Me.gvBankG.Size = New System.Drawing.Size(955, 477)
         Me.gvBankG.TabIndex = 4
+        Me.gvBankG.VarID = ""
         '
         'RadPageViewPage6
         '
@@ -7540,6 +7590,8 @@ Partial Class frmVSPMaster
         Me.pageCus.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
+        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblMCCOwnBMC, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblOwnMCC, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblSupervisiorRPName, System.ComponentModel.ISupportInitialize).EndInit
@@ -7571,8 +7623,6 @@ Partial Class frmVSPMaster
         CType(Me.TxtPaymentCycle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtpayeename, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblpaymentCycle, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtpan, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblpan, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtCity, System.ComponentModel.ISupportInitialize).EndInit
@@ -7633,6 +7683,7 @@ Partial Class frmVSPMaster
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage2.PerformLayout
         CType(Me.txtContPhone, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadLabel41, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit
@@ -7682,7 +7733,6 @@ Partial Class frmVSPMaster
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.TxtSecurityCharges, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.cmbAccountType, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.TxtAccNo, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit
@@ -8020,9 +8070,6 @@ Partial Class frmVSPMaster
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents TxtBankName As common.Controls.MyTextBox
-    Friend WithEvents txtPhone2 As Telerik.WinControls.UI.RadMaskedEditBox
-    Friend WithEvents txtPhone1 As Telerik.WinControls.UI.RadMaskedEditBox
-    Friend WithEvents txtContPhone As Telerik.WinControls.UI.RadMaskedEditBox
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents TxtSecurityCharges As common.Controls.MyTextBox
     Friend WithEvents PgCharges As Telerik.WinControls.UI.RadPageViewPage
@@ -8269,5 +8316,8 @@ Partial Class frmVSPMaster
     Friend WithEvents txtCompanyBank As common.UserControls.txtFinder
     Friend WithEvents lblCompanyBank As common.Controls.MyTextBox
     Friend WithEvents MyLabel68 As common.Controls.MyLabel
+    Friend WithEvents txtPhone1 As common.Controls.MyTextBox
+    Friend WithEvents txtPhone2 As common.Controls.MyTextBox
+    Friend WithEvents txtContPhone As common.Controls.MyTextBox
 End Class
 

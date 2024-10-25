@@ -22,14 +22,14 @@ Partial Class FrmMPMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -1252,10 +1252,10 @@ Partial Class FrmMPMaster
         Me.ddlTypeOfFormer.IsSourceFromTable = False
         Me.ddlTypeOfFormer.IsSourceFromValueList = False
         Me.ddlTypeOfFormer.IsUnique = False
-        RadListDataItem1.Text = "Common"
-        RadListDataItem2.Text = "Influence"
-        Me.ddlTypeOfFormer.Items.Add(RadListDataItem1)
-        Me.ddlTypeOfFormer.Items.Add(RadListDataItem2)
+        RadListDataItem7.Text = "Common"
+        RadListDataItem8.Text = "Influence"
+        Me.ddlTypeOfFormer.Items.Add(RadListDataItem7)
+        Me.ddlTypeOfFormer.Items.Add(RadListDataItem8)
         Me.ddlTypeOfFormer.Location = New System.Drawing.Point(98, 20)
         Me.ddlTypeOfFormer.MendatroryField = True
         Me.ddlTypeOfFormer.MyLinkLable1 = Me.lblTypeOfFormer
@@ -1309,10 +1309,10 @@ Partial Class FrmMPMaster
         Me.CboMaritalStatus.IsSourceFromTable = False
         Me.CboMaritalStatus.IsSourceFromValueList = False
         Me.CboMaritalStatus.IsUnique = False
-        RadListDataItem3.Text = "Single"
-        RadListDataItem4.Text = "Married"
-        Me.CboMaritalStatus.Items.Add(RadListDataItem3)
-        Me.CboMaritalStatus.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Single"
+        RadListDataItem2.Text = "Married"
+        Me.CboMaritalStatus.Items.Add(RadListDataItem1)
+        Me.CboMaritalStatus.Items.Add(RadListDataItem2)
         Me.CboMaritalStatus.Location = New System.Drawing.Point(464, 121)
         Me.CboMaritalStatus.MendatroryField = True
         Me.CboMaritalStatus.MyLinkLable1 = Me.MyLabel5
@@ -1350,10 +1350,10 @@ Partial Class FrmMPMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem5.Text = "Male"
-        RadListDataItem6.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem5)
-        Me.ddlGender.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "Male"
+        RadListDataItem4.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem3)
+        Me.ddlGender.Items.Add(RadListDataItem4)
         Me.ddlGender.Location = New System.Drawing.Point(737, 101)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel4
@@ -1694,6 +1694,7 @@ Partial Class FrmMPMaster
         Me.txtTelePhone.IsSourceFromValueList = False
         Me.txtTelePhone.IsUnique = False
         Me.txtTelePhone.Location = New System.Drawing.Point(142, 296)
+        Me.txtTelePhone.MaxLength = 10
         Me.txtTelePhone.MendatroryField = False
         Me.txtTelePhone.MyLinkLable1 = Me.lblTelephone
         Me.txtTelePhone.MyLinkLable2 = Nothing
@@ -2476,12 +2477,13 @@ Partial Class FrmMPMaster
         '
         Me.dgvNoofBuffaloes.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvNoofBuffaloes.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvNoofBuffaloes.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvNoofBuffaloes.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.dgvNoofBuffaloes.MyStopExport = False
         Me.dgvNoofBuffaloes.Name = "dgvNoofBuffaloes"
         Me.dgvNoofBuffaloes.ShowHeaderCellButtons = True
         Me.dgvNoofBuffaloes.Size = New System.Drawing.Size(1027, 507)
         Me.dgvNoofBuffaloes.TabIndex = 39
+        Me.dgvNoofBuffaloes.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -2567,12 +2569,13 @@ Partial Class FrmMPMaster
         '
         Me.dgvNoofCows.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvNoofCows.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvNoofCows.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvNoofCows.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.dgvNoofCows.MyStopExport = False
         Me.dgvNoofCows.Name = "dgvNoofCows"
         Me.dgvNoofCows.ShowHeaderCellButtons = True
         Me.dgvNoofCows.Size = New System.Drawing.Size(1027, 509)
         Me.dgvNoofCows.TabIndex = 39
+        Me.dgvNoofCows.VarID = ""
         '
         'RadPageViewPage5
         '

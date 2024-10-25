@@ -204,6 +204,13 @@ Public Class frmCustomer
                 TxtLocation.Focus()
                 Return False
             End If
+            If chkIsStaff.Checked Then
+                If clsCommon.myLen(txtEmployee.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Employee cannot be blank", Me.Text)
+                    txtEmployee.Focus()
+                    Return False
+                End If
+            End If
             ' BM00000007799 Non-Manadatory (Customer Type,Route)
             'If clsCommon.myLen(fndCusType.Value) <= 0 Then
             '    common.clsCommon.MyMessageBoxShow("Customer type can not be blank")
@@ -546,6 +553,23 @@ Public Class frmCustomer
                     End If
                 End If
             End If
+            If clsCommon.myLen(txtPhone1.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone1.Text) Then
+                txtPhone1.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number")
+            End If
+            If clsCommon.myLen(txtPhone2.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone2.Text) Then
+                txtPhone2.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number.")
+            End If
+            If clsCommon.myLen(txtContPhone.Text) > 0 AndAlso Not IsValidPhoneNumber(txtContPhone.Text) Then
+                txtContPhone.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number. Contact Person Number")
+            End If
+            If clsCommon.myLen(txtDriverMobileNo.Text) > 0 AndAlso Not IsValidPhoneNumber(txtDriverMobileNo.Text) Then
+                txtDriverMobileNo.Focus()
+                Throw New Exception("Please enter a valid 10-digit phone number. Driver Mobile Number")
+            End If
+
             '===================================================
             UcCustomFields1.AllowToSave()
             Return True
@@ -553,6 +577,13 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
+    End Function
+
+    Function IsValidPhoneNumber(phone As String) As Boolean
+        ' Regex pattern for US phone numbers (you can adjust it as per the requirement)
+        Dim pattern As String = "^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$"
+        Dim regex As New Regex(pattern)
+        Return regex.IsMatch(phone)
     End Function
     Private Function isCustomerOfRouteType() As Boolean
         Dim isCustomerInfoOfRouteType As Boolean = False
@@ -1319,16 +1350,17 @@ Public Class frmCustomer
                 obj.Other_For_PAN = 0
             End If
             obj.Default_Cash_Customer = chkDefaultCashCustomer.Checked
-
             obj.Reference = txtReference.Text
+            obj.Is_Staff = chkIsStaff.Checked
+            obj.EMP_CODE = txtEmployee.Value
             obj.Country = clsCommon.myCstr(fndCountry.Value)
-            obj.Phone1 = clsCommon.myCstr(txtPhone1.Text)
-            obj.Phone2 = clsCommon.myCstr(txtPhone2.Text)
+            obj.Phone1 = txtPhone1.Text
+            obj.Phone2 = txtPhone2.Text
             obj.Fax = clsCommon.myCstr(txtfax.Text)
             obj.Email = clsCommon.myCstr(txtEmail.Text)
             obj.WebSite = clsCommon.myCstr(txtWeb.Text)
             obj.Contact_Person_Name = clsCommon.myCstr(txtContactName.Text)
-            obj.Contact_Person_Phone = clsCommon.myCstr(txtContPhone.Text)
+            obj.Contact_Person_Phone = txtContPhone.Text
             obj.Contact_Person_Fax = clsCommon.myCstr(txtContactFax.Text)
             obj.Contact_Person_Email = clsCommon.myCstr(txtContactEmail.Text)
             obj.Contact_Person_Website = clsCommon.myCstr(txtContactWeb.Text)
@@ -1460,6 +1492,7 @@ Public Class frmCustomer
             Else
                 obj.Is_Default_Grower = 0
             End If
+
             obj.ServiceDealerCode = txtServiceDealerCode.Value.ToString
             obj.TDMCode = txtTDMCode.Value.ToString
             obj.DistributorCode = txtDistributorCode.Value.ToString
@@ -1973,6 +2006,8 @@ Public Class frmCustomer
                 ChkOther.Checked = IIf(clsCommon.myCstr(myDr("Other_For_PAN")) = "1", True, False)
                 chkDefaultCashCustomer.Checked = clsCommon.myCBool(myDr("Default_Cash_Customer"))
                 txtReference.Text = clsCommon.myCstr(myDr("Reference"))
+                chkIsStaff.Checked = clsCommon.myCBool(myDr("Is_Staff"))
+                txtEmployee.Value = clsCommon.myCstr(myDr("EMP_CODE"))
                 '' END MULTICURRENCY
                 Me.txtRoute.Text = clsCommon.myCstr(myDr(9))
                 Me.txtPriceCode.Value = clsCommon.myCstr(myDr(10))
@@ -2804,6 +2839,9 @@ Public Class frmCustomer
         Me.fndPayCode.MyReadOnly = True
         Me.fndCity.MyReadOnly = True
         Me.txtCustomerName.Text = ""
+        txtEmployee.Value = ""
+        chkIsStaff.Checked = False
+        chkDefaultCashCustomer.Checked = False
         dtpAggMade.Value = clsCommon.GETSERVERDATE()
         dtpAggClose.Value = clsCommon.GETSERVERDATE()
         Me.txtPriceCodeNon.Value = ""
@@ -5814,6 +5852,10 @@ Public Class frmCustomer
         End Try
     End Sub
 
+    Private Sub txtEmployee__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtEmployee._MYValidating
+        txtEmployee.Value = clsEmployeeMaster.getFinder("", txtEmployee.Value, isButtonClicked)
+    End Sub
+
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID
@@ -5822,4 +5864,6 @@ Public Class frmCustomer
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
+
+
 End Class
