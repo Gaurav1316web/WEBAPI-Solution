@@ -1840,6 +1840,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
 
     Private Sub MonthlyBillReport(ByVal IsPrint As Exporter)
         Try
+            Dim suppyDate As String
+            Dim whr As String
             Dim strWhrClause As String = String.Empty
             Dim strWhrClause2 As String = String.Empty
             Dim qry As String
@@ -1855,7 +1857,17 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                 strWhrClause += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + sss + ")  "
                 strWhrClause2 += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + ss + ")  "
             End If
-            qry = " select max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,TSPL_SD_SHIPMENT_HEAD.Route_No,(TSPL_SD_SHIPMENT_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,'" + txtFromDate.Text + "' as Date,max(TSPL_SD_SHIPMENT_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SHIPMENT_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
+            If ChkSupplyDate.Checked Then
+                suppyDate = "'" + txtSupplyDate.Text + "' as Date,"
+            Else
+                suppyDate = "'" + txtFromDate.Text + "' as Date,"
+            End If
+            If ChkSupplyDate.Checked Then
+                whr = " where convert(date,Supply_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' "
+            Else
+                whr = " where convert(date,Document_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' "
+            End If
+            qry = " select max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,TSPL_SD_SHIPMENT_HEAD.Route_No,(TSPL_SD_SHIPMENT_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name ," + suppyDate + " max(TSPL_SD_SHIPMENT_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SHIPMENT_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
                         sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax4_amt,0)) as txt4amt,   max(tax5.Tax_Code_Desc) as tax5name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax5_amt,0)) as txt5amt,   max(tax6.Tax_Code_Desc) as tax6name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax6_amt,0)) as txt6amt,   max(tax7.Tax_Code_Desc) as tax7name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax7_amt,0)) as txt7amt,   max(tax8.Tax_Code_Desc) as tax8name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax8_amt,0)) as txt8amt,   max(tax9.Tax_Code_Desc) as tax9name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax9_amt,0)) as txt9amt,   max(tax10.Tax_Code_Desc) as tax10name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax10_amt,0)) as txt10amt  from TSPL_SD_SHIPMENT_HEAD 
                         left outer join TSPL_SD_SHIPMENT_DETAIL ON TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
                         left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
@@ -1866,7 +1878,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                         left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code And   
                         TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
                         left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) ITEMDETAIL3 ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = ITEMDETAIL3.item_code
-                        where convert(date,Document_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1
+                       " + whr + " and TSPL_SD_SHIPMENT_HEAD.Status=1
                         " + strWhrClause2 + "
                         group by TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_HEAD.Route_No,Customer_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -3692,6 +3704,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             End If
         End If
     End Sub
@@ -3748,6 +3763,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
                 '--VARSHHA
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "RBW") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = True
@@ -3785,6 +3803,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
                 If clsCommon.CompairString(ddlReportType.SelectedValue, "RBW") = CompairStringResult.Equal Then
                     RadGroupBox2.Location = New Point(21, 138)
                 Else
@@ -3815,6 +3836,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
                 '--VARSHA END
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "TS") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = True
@@ -3878,6 +3902,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3930,6 +3957,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "PGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -3983,6 +4013,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "DPGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -4035,6 +4068,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "DMGPD") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -4087,6 +4123,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MSR") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 RadGroupBox7.Visible = False
@@ -4111,6 +4150,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "PSR") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -4135,6 +4177,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MFS") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -4188,10 +4233,17 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MBR") = CompairStringResult.Equal Then
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = True
                 btnMontlyBillPrint.Visible = True
                 btnMontlyBillPrint.Location = New System.Drawing.Point(391, 17)
                 txtFromDate.Value = clsCommon.GETSERVERDATE()
+                txtSupplyDate.Value = clsCommon.GETSERVERDATE()
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
                 RadGroupBox7.Visible = False
@@ -4200,6 +4252,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = True
                 txtFromDate.Location = New System.Drawing.Point(93, 55)
                 lblMonth.Location = New System.Drawing.Point(21, 56)
+                lblSupplydate.Location = New System.Drawing.Point(180, 55)
+                txtSupplyDate.Location = New System.Drawing.Point(250, 55)
+                ChkSupplyDate.Location = New System.Drawing.Point(253, 29)
                 chkFilterByCreatedDate.Visible = False
                 'chksaleInvoicewise.Visible = True
                 pnlMilkPouch.Visible = False
@@ -4301,6 +4356,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "MPDR") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -4353,6 +4411,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "TCS") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
@@ -4407,6 +4468,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblMonth.Visible = False
                 txtFromDate.Visible = False
                 btnMontlyBillPrint.Visible = False
+                lblSupplydate.Visible = False
+                txtSupplyDate.Visible = False
+                ChkSupplyDate.Visible = False
             ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Demand Sheet") = CompairStringResult.Equal Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                     btnMilkDemand.Visible = True
@@ -4471,6 +4535,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                     lblMonth.Visible = False
                     txtFromDate.Visible = False
                     btnMontlyBillPrint.Visible = False
+                    lblSupplydate.Visible = False
+                    txtSupplyDate.Visible = False
+                    ChkSupplyDate.Visible = False
                 Else
                     RadGroupBox2.Visible = False
                     chkBookingWise.Visible = False
@@ -4530,6 +4597,9 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                     lblMonth.Visible = False
                     txtFromDate.Visible = False
                     btnMontlyBillPrint.Visible = False
+                    lblSupplydate.Visible = False
+                    txtSupplyDate.Visible = False
+                    ChkSupplyDate.Visible = False
                 End If
 
 
@@ -5045,7 +5115,7 @@ FROM
                         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     End If
                 Else
-                        Throw New Exception("No Data Found!")
+                    Throw New Exception("No Data Found!")
                 End If
 
             Else
@@ -5081,4 +5151,41 @@ FROM
     Private Sub btngtpsExport_Click(sender As Object, e As EventArgs) Handles btngtpsExport.Click
         ExportGrid()
     End Sub
+
+    Private Sub ChkSupplyDate_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles ChkSupplyDate.ToggleStateChanged
+        If ChkSupplyDate.Checked Then
+            txtSupplyDate.Visible = True
+            lblSupplydate.Visible = True
+            lblMonth.Enabled = False
+            txtFromDate.Enabled = False
+        Else
+            txtSupplyDate.Visible = False
+            lblSupplydate.Visible = False
+            lblMonth.Enabled = True
+            txtFromDate.Enabled = True
+        End If
+    End Sub
+
+    Private Sub txtSupplyDate_ValueChanged(sender As Object, e As EventArgs) Handles txtSupplyDate.ValueChanged
+        Try
+            Dim SM As Integer = txtSupplyDate.Value.Month
+            Dim SY As Integer = txtSupplyDate.Value.Year
+
+            Dim CD As New DateTime(SY, SM, 1)
+            Slot1 = clsCommon.GetPrintDate(CD, "dd/MMM/yyyy")
+            MonthSupplyDate()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub MonthSupplyDate()
+        If clsCommon.myLen(txtFromDate.Value) > 0 Then
+            Dim SM As Integer = txtSupplyDate.Value.Month
+            Dim SY As Integer = txtSupplyDate.Value.Year
+
+            Dim CD As New DateTime(SY, SM, 1)
+            Slot2 = clsCommon.GetPrintDate(CD.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+        End If
+    End Sub
+
 End Class

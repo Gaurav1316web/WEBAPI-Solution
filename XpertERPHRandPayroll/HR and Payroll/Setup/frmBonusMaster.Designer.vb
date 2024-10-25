@@ -48,6 +48,7 @@ Partial Class frmBonusMaster
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkConsiderPayDays = New Telerik.WinControls.UI.RadCheckBox()
         Me.cboCalculationMethod = New common.Controls.MyComboBox()
         Me.RadLabel8 = New common.Controls.MyLabel()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
@@ -55,7 +56,8 @@ Partial Class frmBonusMaster
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkConsiderPayDays = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtExGratia = New common.Controls.MyTextBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         CType(Me.txtBONUS_RATE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCOND_MAX_BONUS_PER_YEAR, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,10 +79,12 @@ Partial Class frmBonusMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkConsiderPayDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboCalculationMethod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkConsiderPayDays, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtExGratia, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -356,22 +360,16 @@ Partial Class frmBonusMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
         '
@@ -386,6 +384,8 @@ Partial Class frmBonusMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel5)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtExGratia)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkConsiderPayDays)
         Me.SplitContainer1.Panel1.Controls.Add(Me.cboCalculationMethod)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel8)
@@ -416,11 +416,21 @@ Partial Class frmBonusMaster
         Me.SplitContainer1.SplitterDistance = 422
         Me.SplitContainer1.TabIndex = 0
         '
+        'chkConsiderPayDays
+        '
+        Me.chkConsiderPayDays.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkConsiderPayDays.Location = New System.Drawing.Point(280, 261)
+        Me.chkConsiderPayDays.Name = "chkConsiderPayDays"
+        Me.chkConsiderPayDays.Size = New System.Drawing.Size(117, 16)
+        Me.chkConsiderPayDays.TabIndex = 60
+        Me.chkConsiderPayDays.Text = "Consider Pay Days"
+        '
         'cboCalculationMethod
         '
         Me.cboCalculationMethod.AutoCompleteDisplayMember = Nothing
         Me.cboCalculationMethod.AutoCompleteValueMember = Nothing
         Me.cboCalculationMethod.CalculationExpression = Nothing
+        Me.cboCalculationMethod.DropDownAnimationEnabled = True
         Me.cboCalculationMethod.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboCalculationMethod.FieldCode = Nothing
         Me.cboCalculationMethod.FieldDesc = Nothing
@@ -458,45 +468,59 @@ Partial Class frmBonusMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(660, 20)
         Me.RadMenu2.TabIndex = 10
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
-        'chkConsiderPayDays
+        'txtExGratia
         '
-        Me.chkConsiderPayDays.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkConsiderPayDays.Location = New System.Drawing.Point(280, 237)
-        Me.chkConsiderPayDays.Name = "chkConsiderPayDays"
-        Me.chkConsiderPayDays.Size = New System.Drawing.Size(117, 16)
-        Me.chkConsiderPayDays.TabIndex = 60
-        Me.chkConsiderPayDays.Text = "Consider Pay Days"
+        Me.txtExGratia.CalculationExpression = Nothing
+        Me.txtExGratia.FieldCode = Nothing
+        Me.txtExGratia.FieldDesc = Nothing
+        Me.txtExGratia.FieldMaxLength = 0
+        Me.txtExGratia.FieldName = Nothing
+        Me.txtExGratia.isCalculatedField = False
+        Me.txtExGratia.IsSourceFromTable = False
+        Me.txtExGratia.IsSourceFromValueList = False
+        Me.txtExGratia.IsUnique = False
+        Me.txtExGratia.Location = New System.Drawing.Point(280, 235)
+        Me.txtExGratia.MaxLength = 50
+        Me.txtExGratia.MendatroryField = False
+        Me.txtExGratia.MyLinkLable1 = Me.MyLabel1
+        Me.txtExGratia.MyLinkLable2 = Nothing
+        Me.txtExGratia.Name = "txtExGratia"
+        Me.txtExGratia.ReferenceFieldDesc = Nothing
+        Me.txtExGratia.ReferenceFieldName = Nothing
+        Me.txtExGratia.ReferenceTableName = Nothing
+        Me.txtExGratia.Size = New System.Drawing.Size(318, 20)
+        Me.txtExGratia.TabIndex = 6
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(15, 235)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(50, 18)
+        Me.MyLabel5.TabIndex = 29
+        Me.MyLabel5.Text = "Ex Gratia"
         '
         'frmBonusMaster
         '
@@ -532,10 +556,12 @@ Partial Class frmBonusMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkConsiderPayDays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboCalculationMethod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkConsiderPayDays, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtExGratia, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -571,5 +597,7 @@ Partial Class frmBonusMaster
     Friend WithEvents cboCalculationMethod As common.Controls.MyComboBox
     Friend WithEvents RadLabel8 As common.Controls.MyLabel
     Friend WithEvents chkConsiderPayDays As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents txtExGratia As common.Controls.MyTextBox
 End Class
 

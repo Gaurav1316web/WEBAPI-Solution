@@ -10,6 +10,7 @@ Public Class clsBonusMaster
     Public COND_MAX_EARNING_PER_MONTH As Double
     Public COND_MAX_BONUS_PER_YEAR As Double
     Public BONUS_RATE As Double
+    Public Ex_Gratia As Double
     Public Calculation_Method As String
     Public Is_Consider_Pay_Days As Boolean
 #End Region
@@ -73,6 +74,7 @@ Public Class clsBonusMaster
             obj.COND_MAX_EARNING_PER_MONTH = clsCommon.myCdbl(dt.Rows(0)("COND_MAX_EARNING_PER_MONTH"))
             obj.COND_MAX_BONUS_PER_YEAR = clsCommon.myCdbl(dt.Rows(0)("COND_MAX_BONUS_PER_YEAR"))
             obj.BONUS_RATE = clsCommon.myCdbl(dt.Rows(0)("BONUS_RATE"))
+            obj.Ex_Gratia = clsCommon.myCdbl(dt.Rows(0)("Ex_Gratia"))
             obj.Calculation_Method = clsCommon.myCstr(dt.Rows(0)("Calculation_Method"))
             obj.Is_Consider_Pay_Days = (clsCommon.myCdbl(dt.Rows(0)("Is_Consider_Pay_Days")) = 1)
         End If
@@ -89,6 +91,7 @@ Public Class clsBonusMaster
             clsCommon.AddColumnsForChange(coll, "BONUS_RATE", obj.BONUS_RATE)
             clsCommon.AddColumnsForChange(coll, "BONUS_NAME", obj.Name)
             clsCommon.AddColumnsForChange(coll, "DESCRIPTION", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "Ex_Gratia", obj.Ex_Gratia)
             clsCommon.AddColumnsForChange(coll, "Is_Consider_Pay_Days", IIf(obj.Is_Consider_Pay_Days, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Calculation_Method", obj.Calculation_Method)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)

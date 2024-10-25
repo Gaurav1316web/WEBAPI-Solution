@@ -67,6 +67,7 @@ Partial Class frmGenerateBonus
         Me.gvBonusSummary = New common.UserControls.MyRadGridView()
         Me.pageBonusDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvBonusDetail = New common.UserControls.MyRadGridView()
+        Me.txtCheckLeapyear = New common.Controls.MyLabel()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayablePayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -104,6 +105,7 @@ Partial Class frmGenerateBonus
         Me.pageBonusDetail.SuspendLayout()
         CType(Me.gvBonusDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvBonusDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCheckLeapyear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -432,6 +434,7 @@ Partial Class frmGenerateBonus
         '
         'SplitContainer3.Panel1
         '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.txtCheckLeapyear)
         Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel7)
         Me.SplitContainer3.Panel1.Controls.Add(Me.lblDivision)
         Me.SplitContainer3.Panel1.Controls.Add(Me.fndDivision)
@@ -597,6 +600,7 @@ Partial Class frmGenerateBonus
         Me.gv1.Size = New System.Drawing.Size(934, 242)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'pageBonusSummary
         '
@@ -625,6 +629,7 @@ Partial Class frmGenerateBonus
         Me.gvBonusSummary.Size = New System.Drawing.Size(934, 242)
         Me.gvBonusSummary.TabIndex = 1
         Me.gvBonusSummary.TabStop = False
+        Me.gvBonusSummary.VarID = ""
         '
         'pageBonusDetail
         '
@@ -653,6 +658,18 @@ Partial Class frmGenerateBonus
         Me.gvBonusDetail.Size = New System.Drawing.Size(934, 242)
         Me.gvBonusDetail.TabIndex = 1
         Me.gvBonusDetail.TabStop = False
+        Me.gvBonusDetail.VarID = ""
+        '
+        'txtCheckLeapyear
+        '
+        Me.txtCheckLeapyear.AutoSize = False
+        Me.txtCheckLeapyear.BorderVisible = True
+        Me.txtCheckLeapyear.FieldName = Nothing
+        Me.txtCheckLeapyear.Location = New System.Drawing.Point(553, 130)
+        Me.txtCheckLeapyear.Name = "txtCheckLeapyear"
+        Me.txtCheckLeapyear.Size = New System.Drawing.Size(189, 18)
+        Me.txtCheckLeapyear.TabIndex = 15
+        Me.txtCheckLeapyear.Visible = False
         '
         'frmGenerateBonus
         '
@@ -705,6 +722,7 @@ Partial Class frmGenerateBonus
         Me.pageBonusDetail.ResumeLayout(False)
         CType(Me.gvBonusDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvBonusDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCheckLeapyear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -749,4 +767,5 @@ Partial Class frmGenerateBonus
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents fndLocation As common.UserControls.txtFinder
+    Friend WithEvents txtCheckLeapyear As common.Controls.MyLabel
 End Class

@@ -3327,15 +3327,15 @@ where TSPL_DCS_ADDITION_DEDUCTION.Posted=1 and
 isnull(TSPL_DCS_ADDITION_DEDUCTION.Inactive,0)=0
 and (TSPL_DCS_ADDITION_DEDUCTION.End_Date IS NULL OR TSPL_MILK_SRN_HEAD.DOC_DATE <= TSPL_DCS_ADDITION_DEDUCTION.End_Date) 
 and TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ") 
-and (TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC = 0 
-    OR (TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC = 1 AND LEN(ISNULL(TSPL_VENDOR_MASTER.AccNo2, '')) > 0)
-    OR (TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC = 2 AND LEN(ISNULL(TSPL_VENDOR_MASTER.AccNo2, '')) <= 0))
+and ( isnull(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0) = 0 
+    OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0) = 1 AND LEN(ISNULL(TSPL_VENDOR_MASTER.AccNo2, '')) > 0)
+    OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0) = 2 AND LEN(ISNULL(TSPL_VENDOR_MASTER.AccNo2, '')) <= 0))
 and (
-    TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type = 0 
-    OR (TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type = 1 AND TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'Registered')
-    OR (TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type = 2 AND TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'PDCS')
-    OR (TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type = 3 AND ISNULL(TSPL_VLC_MASTER_HEAD.isOwnBMC, 0) = 1 AND TSPL_VLC_MASTER_HEAD.MCC = TSPL_MILK_SRN_HEAD.MCC_CODE)
-    OR (TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type = 4 AND ISNULL(TSPL_VLC_MASTER_HEAD.isOwnBMC, 0) = 0)
+     isnull(TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type,0) = 0 
+    OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type,0) = 1 AND TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'Registered')
+    OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type,0) = 2 AND TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'PDCS')
+    OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type,0) = 3 AND ISNULL(TSPL_VLC_MASTER_HEAD.isOwnBMC, 0) = 1 AND TSPL_VLC_MASTER_HEAD.MCC = TSPL_MILK_SRN_HEAD.MCC_CODE)
+    OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type,0) = 4 AND ISNULL(TSPL_VLC_MASTER_HEAD.isOwnBMC, 0) = 0)
   )
  AND TSPL_DCS_ADDITION_DEDUCTION.Milk_Type LIKE '%' + ISNULL(
     CASE 
@@ -4908,7 +4908,7 @@ a:      Next
         If clsCommon.CompairString(Formcode, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal Then
             qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=1"
         Else
-            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' "
+            qry = qry & " where coalesce(TSPL_VENDOR_MASTER.VSP_Farmer_Billing,0)=0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' and  TSPL_VLC_MASTER_HEAD.IsSuspense=0  "
         End If
         qry = qry & " order by xx.VSP_CODE "
         Return qry

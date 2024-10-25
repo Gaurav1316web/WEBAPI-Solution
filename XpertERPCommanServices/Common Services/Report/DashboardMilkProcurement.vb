@@ -52,8 +52,6 @@ Public Class DashboardMilkProcurement
             query = "SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA')"
             If chkRJSBNS.Checked Then
                 query += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -229,8 +227,6 @@ Public Class DashboardMilkProcurement
             SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA') "
             If chkRJSBNS.Checked Then
                 qry += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -416,8 +412,6 @@ Public Class DashboardMilkProcurement
             SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA') "
             If chkRJSBNS.Checked Then
                 qry += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -573,8 +567,6 @@ Public Class DashboardMilkProcurement
             SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA')"
             If chkRJSBNS.Checked Then
                 qry += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -731,8 +723,6 @@ Public Class DashboardMilkProcurement
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA') "
             If chkRJSBNS.Checked Then
                 query += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -893,8 +883,6 @@ Public Class DashboardMilkProcurement
             SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA') "
             If chkRJSBNS.Checked Then
                 qry += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -1065,8 +1053,6 @@ Public Class DashboardMilkProcurement
             SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA')"
             If chkRJSBNS.Checked Then
                 qry += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -1210,8 +1196,6 @@ Public Class DashboardMilkProcurement
             SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA') "
             If chkRJSBNS.Checked Then
                 qry += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -1353,8 +1337,6 @@ Public Class DashboardMilkProcurement
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA')"
             If chkRJSBNS.Checked Then
                 query += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -1661,8 +1643,6 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA') "
             If chkRJSBNS.Checked Then
                 query += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
@@ -1816,8 +1796,6 @@ SELECT  " + clsCommon.myCstr(ii + 1) + " AS SNo,
     SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE  Union_Report=1 and DataBase_Name not in ('BANSWARA') "
             If chkRJSBNS.Checked Then
                 query += "union all
-            SELECT 'Rajsamand' AS Location_Name,'RJS' AS DataBase_Name 
-            union all
             SELECT 'Banswara' AS Location_Name,'BNS' AS DataBase_Name
             ORDER BY Location_Name"
             End If
