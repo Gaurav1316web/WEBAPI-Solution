@@ -340,7 +340,7 @@ Public Class clsBonus
             dynamicCol = "" & colBasic & " (" & colBasicTotal & ") AS [Total Basic], " & colPD & " (" & colPDTotal & ") as [Total Payable Days], " & colBO & " (" & colBOTotal & ") as [Total Bonus Wages], round((" & colBOTotal & ")*BONUS_RATE/100,0) as [Total Bonus1]"
         End If
         Qry = " select * from (select EMP_CODE AS empcode,EMP_NAME as empname,FATHERS_NAME as fname,DEPARTMENT_CODE as dcode,DEPARTMENT_NAME as dname,LOCATION_CODE as location,Location_Desc as locdesc,PF_NO as pfno,Designation as desgcode,Designation_Desc as desgDesc, " &
-              " Joining_date as doj,RELIEVING_DATE as dol,BONUS_CODE AS bonuscode,BONUS_NAME as bonusname,BONUS_RATE as bonusrate," & dynamicCol & ",sum(BONUS_AMOUNT) as [Total Bonus] from " &
+              " Joining_date as doj,RELIEVING_DATE as dol,BONUS_CODE AS bonuscode,BONUS_NAME as bonusname,BONUS_RATE as bonusrate,sum(BONUS_AMOUNT) as [Total Bonus] from " &
               " (" & qryBase & ") as Final " &
               " PIVOT " &
               " ( " &
@@ -376,7 +376,7 @@ Public Class clsBonus
               GSA.PAYABLE_DAYS  PAYABLE_DAYS, 
               ( ROUND((case when GSP.Rate_Amount>=BONUS.COND_BASIC_PER_MONTH then BONUS.COND_BASIC_PER_MONTH else GSP.Rate_Amount end)* (case when BONUS.Is_Consider_Pay_Days=1 then GSA.PAYABLE_DAYS/GSA.PAYPERIOD_DAYS else 1 end),0) ) as Bonus_On, 
 
-               Round(Case when isnull(GSA.PAYABLE_DAYS,0)>0 then ((round((round(isnull(COND_MAX_EARNING_PER_MONTH,0)/isnull(BONUS_RATE,0),2))*isnull(ex_gratia,0),0)))/GSA.PAYABLE_DAYS else 0 end,0)  BONUS_AMOUNT, " &
+               Round((Case when isnull(GSA.PAYABLE_DAYS,0)>0 then (((((isnull(COND_MAX_EARNING_PER_MONTH,0)/isnull(BONUS_RATE,0)))*isnull(ex_gratia,0)))/" + clsCommon.myCstr(days) + ")*isnull(GSA.PAYABLE_DAYS,0) else 0 end),0)  BONUS_AMOUNT, " &
               " ESTS.BONUS_CODE,BONUS.BONUS_NAME,BONUS.BONUS_RATE " + Environment.NewLine +
               " from TSPL_GENERATE_SALARY_ATTENDANCE GSA " + Environment.NewLine +
               " inner join TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE " + Environment.NewLine +
