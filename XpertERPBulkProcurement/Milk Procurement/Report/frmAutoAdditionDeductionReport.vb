@@ -247,8 +247,9 @@ Public Class frmAutoAdditionDeductionReport
             Gv1.Columns(ii).IsVisible = True
             Gv1.Columns(ii).BestFit()
         Next
-
-        Gv1.Columns("FloR").IsVisible = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+            Gv1.Columns("FloR").IsVisible = False
+        End If
 
         Gv1.Columns("Addition/Deduction AmountR").Width = 100
         Gv1.Columns("Addition/Deduction AmountR").IsVisible = True
