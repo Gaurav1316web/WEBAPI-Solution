@@ -450,6 +450,8 @@ Public Class frmCorrection
                     chkAddMissingSample.Checked = False
                 End If
             Else
+
+
                 Dim CorrTypeSRNQty As Boolean = True
                 Dim CorrTypeSRNFATSNF As Boolean = True
                 Dim CorrTypeSRNVLC As Boolean = True
@@ -463,23 +465,24 @@ Public Class frmCorrection
                 If clsCommon.CompairString(clsCommon.myCstr(TxtFinder1.Tag), clsCommon.myCstr(txtVLC.Tag)) = CompairStringResult.Equal Then
                     CorrTypeSRNVLC = False
                 End If
-
-                'If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
-                '    If chkRetesting.Checked Then
-                '        'Dim obj As New clsMilkSRNMCCDetail()
-                '        Dim obj As New clsMilkSRNMCC()
-                '        obj.Retesting_Status = 1
-                '        obj.arrList.Add(obj)
-                '    End If
-                'ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
-                '    If chkCorrection.Checked Then
-                '        'Dim obj As New clsMilkSRNMCCDetail()
-                '        Dim obj As New clsMilkSRNMCC()
-                '        obj.Correction_Status = 2
-                '        obj.arrList.Add(obj)
-                '    End If
-                'End If
-                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, clsCommon.myCstr(TxtFinder1.Value), False, Nothing, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue))
+                Dim qry As String = "select TSPL_MILK_COLLECTION_DCS_DETAIL.Suspence_VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name
+from TSPL_MILK_SRN_DETAIL
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
+left outer join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail or TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+left outer join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.Suspence_VLC_Code
+where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTION_DCS_DETAIL.Suspence=1 "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If Not clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Suspence_VLC_Code")), clsCommon.myCstr(TxtFinder1.Tag)) = CompairStringResult.Equal Then
+                        qry = "SRN [" + lblSRNNo.Text + "] is belongs to suspence.Original DCS is " + clsCommon.myCstr(dt.Rows(0)("VLC_Code_VLC_Uploader")) + " [" + clsCommon.myCstr(dt.Rows(0)("VLC_Name")) + "] is diffent from selected DCS " + Environment.NewLine + " Do you want to continue ? "
+                        If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error) Then
+                            Exit Sub
+                        End If
+                    End If
+                End If
+                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, Nothing, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue))
             End If
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
             btnSave.Enabled = False
