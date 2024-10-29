@@ -281,6 +281,7 @@ Public Class frmVSP_VLCMaster
             txtOwnBMCDate.Enabled = False
         End If
         chkCLUSTER.Visible = False
+        chkCreateCustomerAlso.Checked = True
     End Sub
     Function CheckMultiCurrency(ByVal trans As SqlTransaction) As Boolean
         Dim strq As String
@@ -659,7 +660,7 @@ Public Class frmVSP_VLCMaster
                     chkCreateCustomerAlso.Checked = True
                     fndCusgrp.Value = clsCommon.myCstr(TempCust_Group_Code)
                 Else
-                    chkCreateCustomerAlso.Checked = False
+                    chkCreateCustomerAlso.Checked = True
                     fndCusgrp.Value = Nothing
                 End If
                 '==================================================
@@ -1330,42 +1331,42 @@ Public Class frmVSP_VLCMaster
                 txtLoyaltyPer.Value = obj.Loyalty_Rate
 
                 If obj.TFOwnBMC = True Then
-                        chkOwnBMC.Checked = True
-                        If clsCommon.myLen(obj.OwnBMCDate) <= 0 Then
-                            Dim BMCDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Created_Date from TSPL_VLC_MASTER_HEAD where VSP_Code='" + obj.vspCode + "'"))
-                            If clsCommon.myLen(BMCDate) > 0 Then
-                                Dim UpdateBMC As String = "Update TSPL_VLC_MASTER_HEAD set OwnBMCDate='" & clsCommon.GetPrintDate(BMCDate) & "' where VSP_Code='" + obj.vspCode + "' "
-                                clsDBFuncationality.ExecuteNonQuery(UpdateBMC)
-                            End If
-                            txtOwnBMCDate.Value = clsCommon.myCDate(BMCDate)
-                        Else
-                            txtOwnBMCDate.Value = clsCommon.myCDate(obj.OwnBMCDate)
+                    chkOwnBMC.Checked = True
+                    If clsCommon.myLen(obj.OwnBMCDate) <= 0 Then
+                        Dim BMCDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Created_Date from TSPL_VLC_MASTER_HEAD where VSP_Code='" + obj.vspCode + "'"))
+                        If clsCommon.myLen(BMCDate) > 0 Then
+                            Dim UpdateBMC As String = "Update TSPL_VLC_MASTER_HEAD set OwnBMCDate='" & clsCommon.GetPrintDate(BMCDate) & "' where VSP_Code='" + obj.vspCode + "' "
+                            clsDBFuncationality.ExecuteNonQuery(UpdateBMC)
                         End If
-                        txtMCCOwnBMC.Value = obj.OwnBMC
+                        txtOwnBMCDate.Value = clsCommon.myCDate(BMCDate)
                     Else
-                        chkOwnBMC.Checked = False
-                        txtMCCOwnBMC.Value = Nothing
+                        txtOwnBMCDate.Value = clsCommon.myCDate(obj.OwnBMCDate)
                     End If
-                    fndPriceCode.Value = obj.Price_Code
-                    Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
-                    'fndvlccode.ReadOnly = True
-                    If clsCommon.myCBool(obj.HeadLoad) = True Then
-                        ChkHeadLoad.Checked = True
-                        If clsCommon.myCstr(obj.HeadLoadBasis) = "P" Then
-                            CmbHeadLoadServiceBasis.Text = "%(Percentage)"
-                        ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "K" Then
-                            CmbHeadLoadServiceBasis.Text = "Rate/Kg"
-                        ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "L" Then
-                            CmbHeadLoadServiceBasis.Text = "Rate/Ltr"
-                        End If
-                        txtRateHeadLoad.Text = obj.HeadLoadRate
-                    Else
-                        ChkHeadLoad.Checked = False
-                        CmbHeadLoadServiceBasis.Text = ""
-                        txtRateHeadLoad.Text = ""
-                    End If
+                    txtMCCOwnBMC.Value = obj.OwnBMC
                 Else
-                    Reset()
+                    chkOwnBMC.Checked = False
+                    txtMCCOwnBMC.Value = Nothing
+                End If
+                fndPriceCode.Value = obj.Price_Code
+                Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
+                'fndvlccode.ReadOnly = True
+                If clsCommon.myCBool(obj.HeadLoad) = True Then
+                    ChkHeadLoad.Checked = True
+                    If clsCommon.myCstr(obj.HeadLoadBasis) = "P" Then
+                        CmbHeadLoadServiceBasis.Text = "%(Percentage)"
+                    ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "K" Then
+                        CmbHeadLoadServiceBasis.Text = "Rate/Kg"
+                    ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "L" Then
+                        CmbHeadLoadServiceBasis.Text = "Rate/Ltr"
+                    End If
+                    txtRateHeadLoad.Text = obj.HeadLoadRate
+                Else
+                    ChkHeadLoad.Checked = False
+                    CmbHeadLoadServiceBasis.Text = ""
+                    txtRateHeadLoad.Text = ""
+                End If
+            Else
+                Reset()
             End If
 
             'isLoadData = False
@@ -2897,6 +2898,8 @@ Public Class frmVSP_VLCMaster
         fndMcc.Value = Nothing
         fndPriceCode.Value = Nothing
         fndPriceCode.Enabled = True
+        chkCreateCustomerAlso.Checked = True
+
         lblMCCName.Text = ""
         'MCCLOCATIONFINDER()
         If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.AutoUpdateVLCUploaderCodeInVLCMaster, clsFixedParameterCode.AutoUpdateVLCUploaderCodeInVLCMaster, Nothing), "1") = CompairStringResult.Equal Then

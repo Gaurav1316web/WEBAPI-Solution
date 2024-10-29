@@ -2995,10 +2995,11 @@ where TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Nature_Typ
 union ALL
 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_MCC_SALE.customer_code as Vendor_CODE, 
 TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME  as Vendor_NAME,
-'CENTRAL INPUT' as Ded_Code,'CENTRAL INPUT' as Ded_Desc,'' as Ded_Code_Hindi,TSPL_PAYMENT_PROCESS_MCC_SALE.Amount as Amount,1 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi ,'' as Deduction_Type,'' as Deduction_Type_Hindi
+'CENTRAL INPUT' as Ded_Code,'CENTRAL INPUT' as Ded_Desc,'' as Ded_Code_Hindi,(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount,1 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi ,TSPL_ITEM_MASTER.Deduction_Type as Deduction_Type,'' as Deduction_Type_Hindi
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
-left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no 
+left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
 
 where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
 ) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME,
@@ -3018,6 +3019,18 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYM
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
 left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
 where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") 
+union all
+
+select 
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_MCC_SALE.customer_code as Vendor_CODE, 
+TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME  as Vendor_NAME,'CENTRAL INPUT' as Ded_Code,
+TSPL_ITEM_MASTER.Deduction_Type as Ded_Desc,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt as Amount,'' as Hindi,'' as Description_Hindi
+from TSPL_PAYMENT_PROCESS_MCC_SALE 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
+left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
+
+where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ") 
 ) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code having sum(Amount)>0"
         Dim dtReduceDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 

@@ -1,12 +1,6 @@
-﻿Imports common
-Imports System.Globalization
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
 Imports System.IO
-Imports System.Text.RegularExpressions
-Imports System.Net.Mail
-Imports System.Net.WebClient
-Imports System.Net
-Imports XpertERPEngine
+Imports common
 Public Class frmMCCMaterialSale
     Inherits FrmMainTranScreen
 #Region "Variables"
@@ -232,6 +226,8 @@ Public Class frmMCCMaterialSale
     Dim AllowPlandDeptMCCLocation As Boolean = False
     Dim ShowAllCustomer As Boolean = False
     Dim EnableDynamicQRCodeForB2CInvoice As Boolean = False
+    Dim arrLoc As String = ""
+
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -322,10 +318,23 @@ Public Class frmMCCMaterialSale
         End If
         'End of For Custom Fields
         SetMultiCurrencyVisibility()
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER inner join tspl_mcc_master on mcc_code=Default_Location  where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+        If AllowPlandDeptMCCLocation = False Then
+
+
+            Dim obj As New clsMCCCodes()
+            obj = clsMCCCodes.GetData(True)
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+                txtBillToLocation.Value = obj.Default_LocCode
+                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "' "))
+            Else
+            End If
         End If
+        'lblBillToLocation.MyReadOnly = True
+
+        'txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER inner join tspl_mcc_master on mcc_code=Default_Location  where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        'If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+        '    lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+        'End If
         If objCommonVar.IsDemoERP Then
             UcAttachment1.Form_ID = MyBase.Form_ID
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
@@ -338,6 +347,7 @@ Public Class frmMCCMaterialSale
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
+        txtBillToLocation.MyReadOnly = True
         If IsDataImported = True Then
             Me.CenterToParent()
             If LoadImportData(gvExcel, row_index, DtExcel) Then
@@ -458,7 +468,7 @@ Public Class frmMCCMaterialSale
         lblDept.Text = ""
         cboItemType.SelectedIndex = 2
         cboItemType.Enabled = True
-        txtBillToLocation.Enabled = True
+        'txtBillToLocation.Enabled = True
         txtSubLocation.Enabled = True
         chkVendorGrossReceipt.Checked = False
         lblAddCharges1.Text = ""
@@ -3413,9 +3423,9 @@ Public Class frmMCCMaterialSale
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
                     Else
                         obj.HeadDisc_PerAmt = lblInvoiceDiscAmt.Text
-                End If
-                obj.HeadDisc_Amt = 0
-            Else
+                    End If
+                    obj.HeadDisc_Amt = 0
+                Else
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_Amt = txtDiscAmt.Text
                     Else
@@ -3900,7 +3910,7 @@ Public Class frmMCCMaterialSale
         Try
             Dim obj As New clsMCCMaterialSale()
             obj = clsMCCMaterialSale.GetData(strCode, NavTyep)
-            txtBillToLocation.Enabled = True
+            '  txtBillToLocation.Enabled = True
             txtSubLocation.Enabled = True
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 btnSave.Enabled = True
@@ -3977,7 +3987,7 @@ Public Class frmMCCMaterialSale
                 End If
 
                 lblTotalSubsidy.Text = obj.TotalSubsidyAmt
-                    lblTotalDisSubsidy.Text = obj.TotalSubsidyDisAmt
+                lblTotalDisSubsidy.Text = obj.TotalSubsidyDisAmt
 
                 txtVehicleNo.Text = obj.VehicleNo
                 txtReceiverName.Text = obj.ReceiverName
@@ -5501,7 +5511,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
     '------------------------------------------------
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
         'Dim obj As clsLocation = clsLocation.FinderForPhysicalLoaction(txtBillToLocation.Value, isButtonClicked)
-        'If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
+        'If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then0
         '    txtBillToLocation.Value = obj.Code
         '    lblBillToLocation.Text = obj.Name
         'Else
@@ -5510,13 +5520,25 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         'End If
         Dim qry As String = Nothing
         Dim WhrCls As String = Nothing
+        Dim WhrClsDefLoc As String = Nothing
+        Dim isMainPlant As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select IsMainPlant from TSPL_LOCATION_MASTER where Location_Code = '" & txtBillToLocation.Value & "'") = 1)
+
+        WhrClsDefLoc = " (tspl_location_master.loc_segment_Code = '" & txtBillToLocation.Value & "' or tspl_mcc_master.mcc_Code = '" & txtBillToLocation.Value & "')"
         If AllowPlandDeptMCCLocation Then
             qry = "select Location_Code AS Code,Location_Desc as Name  from TSPL_LOCATION_MASTER"
             WhrCls = " Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' "
         Else
-            qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
+            qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER 
+                   left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code"
+            If (Not isMainPlant) Then
+                qry += " Left outer join tspl_user_master on tspl_user_master.default_location=tspl_location_master.location_code "
+            End If
             WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
             WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+            If (Not isMainPlant) Then
+                WhrCls += " AND TSPL_USER_MASTER.User_Code ='" + objCommonVar.CurrentUserCode + "'"
+            End If
+
         End If
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
@@ -5525,6 +5547,8 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             lblBillToLocation.Text = clsCommon.ShowSelectForm("ShipmentMasteidfndr", qry, "Name", WhrCls, txtBillToLocation.Value, "Name", isButtonClicked)
             txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_LOCATION_MASTER where Location_Desc ='" + lblBillToLocation.Text + "'"))
         Else
+
+
             txtBillToLocation.Value = clsCommon.ShowSelectForm("ShipmentMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
         End If

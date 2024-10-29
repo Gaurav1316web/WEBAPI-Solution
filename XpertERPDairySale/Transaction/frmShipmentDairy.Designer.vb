@@ -251,6 +251,8 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtBoothSecurity = New common.Controls.MyLabel()
+        Me.MyLabel72 = New common.Controls.MyLabel()
         Me.txtTCAmt = New common.Controls.MyLabel()
         Me.lblTCAmt = New common.Controls.MyLabel()
         Me.txtSecurity = New common.Controls.MyLabel()
@@ -631,6 +633,8 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.txtBoothSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -4576,6 +4580,8 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.txtBoothSecurity)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel72)
         Me.RadPageViewPage4.Controls.Add(Me.txtTCAmt)
         Me.RadPageViewPage4.Controls.Add(Me.lblTCAmt)
         Me.RadPageViewPage4.Controls.Add(Me.txtSecurity)
@@ -4623,6 +4629,28 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'txtBoothSecurity
+        '
+        Me.txtBoothSecurity.AutoSize = False
+        Me.txtBoothSecurity.BorderVisible = True
+        Me.txtBoothSecurity.FieldName = Nothing
+        Me.txtBoothSecurity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBoothSecurity.Location = New System.Drawing.Point(764, 118)
+        Me.txtBoothSecurity.Name = "txtBoothSecurity"
+        Me.txtBoothSecurity.Size = New System.Drawing.Size(82, 18)
+        Me.txtBoothSecurity.TabIndex = 1415
+        Me.txtBoothSecurity.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel72
+        '
+        Me.MyLabel72.FieldName = Nothing
+        Me.MyLabel72.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel72.Location = New System.Drawing.Point(607, 118)
+        Me.MyLabel72.Name = "MyLabel72"
+        Me.MyLabel72.Size = New System.Drawing.Size(150, 16)
+        Me.MyLabel72.TabIndex = 1416
+        Me.MyLabel72.Text = "Total Booth Security Amount"
         '
         'txtTCAmt
         '
@@ -7069,6 +7097,8 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.txtBoothSecurity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7617,5 +7647,7 @@ Partial Class frmShipmentDairy
     Friend WithEvents RadMenuItem9 As RadMenuItem
     Friend WithEvents RadMenuItem10 As RadMenuItem
     Friend WithEvents btnPrintInvoice As RadButton
+    Friend WithEvents txtBoothSecurity As common.Controls.MyLabel
+    Friend WithEvents MyLabel72 As common.Controls.MyLabel
 End Class
 

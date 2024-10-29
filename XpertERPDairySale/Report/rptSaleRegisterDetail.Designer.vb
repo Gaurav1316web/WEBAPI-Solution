@@ -118,6 +118,7 @@ Partial Class rptSaleRegisterDetail
         Me.rmSetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSend = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkSupplyDate = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -190,6 +191,7 @@ Partial Class rptSaleRegisterDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -236,6 +238,7 @@ Partial Class rptSaleRegisterDetail
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkSupplyDate)
         Me.RadPageViewPage1.Controls.Add(Me.chkBatchWise)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel16)
         Me.RadPageViewPage1.Controls.Add(Me.TxtMultiASO)
@@ -313,7 +316,7 @@ Partial Class rptSaleRegisterDetail
         Me.TxtMultiASO.arrDispalyMember = Nothing
         Me.TxtMultiASO.arrValueMember = Nothing
         Me.TxtMultiASO.Location = New System.Drawing.Point(552, 391)
-        Me.TxtMultiASO.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtMultiASO.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtMultiASO.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiASO.MyLinkLable1 = Nothing
         Me.TxtMultiASO.MyLinkLable2 = Nothing
@@ -338,7 +341,7 @@ Partial Class rptSaleRegisterDetail
         Me.TxtMultiASM.arrDispalyMember = Nothing
         Me.TxtMultiASM.arrValueMember = Nothing
         Me.TxtMultiASM.Location = New System.Drawing.Point(552, 369)
-        Me.TxtMultiASM.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtMultiASM.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtMultiASM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiASM.MyLinkLable1 = Me.MyLabel13
         Me.TxtMultiASM.MyLinkLable2 = Nothing
@@ -363,7 +366,7 @@ Partial Class rptSaleRegisterDetail
         Me.TxtMultiZSM.arrDispalyMember = Nothing
         Me.TxtMultiZSM.arrValueMember = Nothing
         Me.TxtMultiZSM.Location = New System.Drawing.Point(552, 347)
-        Me.TxtMultiZSM.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtMultiZSM.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtMultiZSM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiZSM.MyLinkLable1 = Me.MyLabel10
         Me.TxtMultiZSM.MyLinkLable2 = Nothing
@@ -399,7 +402,7 @@ Partial Class rptSaleRegisterDetail
         Me.TxtMultiZone.arrDispalyMember = Nothing
         Me.TxtMultiZone.arrValueMember = Nothing
         Me.TxtMultiZone.Location = New System.Drawing.Point(552, 303)
-        Me.TxtMultiZone.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtMultiZone.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtMultiZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiZone.MyLinkLable1 = Me.MyLabel14
         Me.TxtMultiZone.MyLinkLable2 = Nothing
@@ -424,7 +427,7 @@ Partial Class rptSaleRegisterDetail
         Me.TxtMultiRSM.arrDispalyMember = Nothing
         Me.TxtMultiRSM.arrValueMember = Nothing
         Me.TxtMultiRSM.Location = New System.Drawing.Point(552, 325)
-        Me.TxtMultiRSM.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtMultiRSM.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtMultiRSM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiRSM.MyLinkLable1 = Me.MyLabel15
         Me.TxtMultiRSM.MyLinkLable2 = Nothing
@@ -438,7 +441,7 @@ Partial Class rptSaleRegisterDetail
         Me.TxtMultiCustomerCategory.arrDispalyMember = Nothing
         Me.TxtMultiCustomerCategory.arrValueMember = Nothing
         Me.TxtMultiCustomerCategory.Location = New System.Drawing.Point(552, 281)
-        Me.TxtMultiCustomerCategory.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtMultiCustomerCategory.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtMultiCustomerCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiCustomerCategory.MyLinkLable1 = Nothing
         Me.TxtMultiCustomerCategory.MyLinkLable2 = Nothing
@@ -463,7 +466,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtmultSchemeType.arrDispalyMember = Nothing
         Me.txtmultSchemeType.arrValueMember = Nothing
         Me.txtmultSchemeType.Location = New System.Drawing.Point(552, 259)
-        Me.txtmultSchemeType.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtmultSchemeType.Margin = New System.Windows.Forms.Padding(4)
         Me.txtmultSchemeType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtmultSchemeType.MyLinkLable1 = Me.MyLabel9
         Me.txtmultSchemeType.MyLinkLable2 = Nothing
@@ -488,7 +491,7 @@ Partial Class rptSaleRegisterDetail
         Me.TxtRoute.arrDispalyMember = Nothing
         Me.TxtRoute.arrValueMember = Nothing
         Me.TxtRoute.Location = New System.Drawing.Point(552, 237)
-        Me.TxtRoute.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtRoute.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtRoute.MyLinkLable1 = Me.MyLabel10
         Me.TxtRoute.MyLinkLable2 = Nothing
@@ -589,7 +592,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtState.arrDispalyMember = Nothing
         Me.txtState.arrValueMember = Nothing
         Me.txtState.Location = New System.Drawing.Point(552, 105)
-        Me.txtState.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtState.Margin = New System.Windows.Forms.Padding(4)
         Me.txtState.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtState.MyLinkLable1 = Me.MyLabel8
         Me.txtState.MyLinkLable2 = Nothing
@@ -614,7 +617,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtCustGroup.arrDispalyMember = Nothing
         Me.txtCustGroup.arrValueMember = Nothing
         Me.txtCustGroup.Location = New System.Drawing.Point(552, 193)
-        Me.txtCustGroup.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCustGroup.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCustGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustGroup.MyLinkLable1 = Me.MyLabel7
         Me.txtCustGroup.MyLinkLable2 = Nothing
@@ -639,7 +642,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtItemGroup.arrDispalyMember = Nothing
         Me.txtItemGroup.arrValueMember = Nothing
         Me.txtItemGroup.Location = New System.Drawing.Point(552, 149)
-        Me.txtItemGroup.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtItemGroup.Margin = New System.Windows.Forms.Padding(4)
         Me.txtItemGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemGroup.MyLinkLable1 = Me.MyLabel6
         Me.txtItemGroup.MyLinkLable2 = Nothing
@@ -664,7 +667,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtCustomer.arrDispalyMember = Nothing
         Me.txtCustomer.arrValueMember = Nothing
         Me.txtCustomer.Location = New System.Drawing.Point(552, 215)
-        Me.txtCustomer.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCustomer.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Me.MyLabel3
         Me.txtCustomer.MyLinkLable2 = Nothing
@@ -689,7 +692,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtLocation.arrDispalyMember = Nothing
         Me.txtLocation.arrValueMember = Nothing
         Me.txtLocation.Location = New System.Drawing.Point(552, 127)
-        Me.txtLocation.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtLocation.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Me.MyLabel2
         Me.txtLocation.MyLinkLable2 = Nothing
@@ -714,7 +717,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtItem.arrDispalyMember = Nothing
         Me.txtItem.arrValueMember = Nothing
         Me.txtItem.Location = New System.Drawing.Point(552, 171)
-        Me.txtItem.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtItem.Margin = New System.Windows.Forms.Padding(4)
         Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItem.MyLinkLable1 = Me.MyLabel4
         Me.txtItem.MyLinkLable2 = Nothing
@@ -739,7 +742,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtTransaction.arrDispalyMember = Nothing
         Me.txtTransaction.arrValueMember = Nothing
         Me.txtTransaction.Location = New System.Drawing.Point(552, 83)
-        Me.txtTransaction.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtTransaction.Margin = New System.Windows.Forms.Padding(4)
         Me.txtTransaction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTransaction.MyLinkLable1 = Me.MyLabel5
         Me.txtTransaction.MyLinkLable2 = Nothing
@@ -772,12 +775,15 @@ Partial Class rptSaleRegisterDetail
         '
         '
         '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(387, 286)
         Me.gvCategory.TabIndex = 2
+        Me.gvCategory.VarID = ""
         '
         'Panel6
         '
@@ -981,7 +987,7 @@ Partial Class rptSaleRegisterDetail
         Me.txtUOM.IsSourceFromValueList = False
         Me.txtUOM.IsUnique = False
         Me.txtUOM.Location = New System.Drawing.Point(552, 38)
-        Me.txtUOM.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtUOM.Margin = New System.Windows.Forms.Padding(4)
         Me.txtUOM.MendatroryField = False
         Me.txtUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtUOM.MyLinkLable1 = Me.MyLabel1
@@ -1013,12 +1019,15 @@ Partial Class rptSaleRegisterDetail
         '
         '
         '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1023, 389)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1071,13 +1080,16 @@ Partial Class rptSaleRegisterDetail
         Me.gvCogsSummary.MasterTemplate.AllowAddNewRow = False
         Me.gvCogsSummary.MasterTemplate.AllowDeleteRow = False
         Me.gvCogsSummary.MasterTemplate.AllowEditRow = False
+        Me.gvCogsSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCogsSummary.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCogsSummary.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvCogsSummary.MyStopExport = False
         Me.gvCogsSummary.Name = "gvCogsSummary"
         Me.gvCogsSummary.ShowHeaderCellButtons = True
         Me.gvCogsSummary.Size = New System.Drawing.Size(1017, 149)
         Me.gvCogsSummary.TabIndex = 2
         Me.gvCogsSummary.Tag = ""
+        Me.gvCogsSummary.VarID = ""
         '
         'GroupBox2
         '
@@ -1101,13 +1113,16 @@ Partial Class rptSaleRegisterDetail
         Me.gvCogsDetail.MasterTemplate.AllowAddNewRow = False
         Me.gvCogsDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvCogsDetail.MasterTemplate.AllowEditRow = False
+        Me.gvCogsDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCogsDetail.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCogsDetail.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvCogsDetail.MyStopExport = False
         Me.gvCogsDetail.Name = "gvCogsDetail"
         Me.gvCogsDetail.ShowHeaderCellButtons = True
         Me.gvCogsDetail.Size = New System.Drawing.Size(1017, 194)
         Me.gvCogsDetail.TabIndex = 2
         Me.gvCogsDetail.Tag = ""
+        Me.gvCogsDetail.VarID = ""
         '
         'rdmenufile
         '
@@ -1244,13 +1259,22 @@ Partial Class rptSaleRegisterDetail
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '
+        'chkSupplyDate
+        '
+        Me.chkSupplyDate.Location = New System.Drawing.Point(834, 12)
+        Me.chkSupplyDate.Margin = New System.Windows.Forms.Padding(4)
+        Me.chkSupplyDate.Name = "chkSupplyDate"
+        Me.chkSupplyDate.Size = New System.Drawing.Size(81, 18)
+        Me.chkSupplyDate.TabIndex = 431
+        Me.chkSupplyDate.Text = "Supply Date"
+        '
         'rptSaleRegisterDetail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1028, 518)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "rptSaleRegisterDetail"
         '
         '
@@ -1334,6 +1358,7 @@ Partial Class rptSaleRegisterDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1424,5 +1449,6 @@ Partial Class rptSaleRegisterDetail
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents TxtMultiRSM As common.UserControls.txtMultiSelectFinder
     Friend WithEvents chkBatchWise As RadCheckBox
+    Friend WithEvents chkSupplyDate As RadCheckBox
 End Class
 
