@@ -30098,7 +30098,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("TotalSubsidyAmt", "Decimal(18,2) NULL")
             coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             coll.Add("Against_Booking_No", "varchar(30) NULL REFERENCES TSPL_BOOKING_MATSER(Document_No)")
-
+            coll.Add("BoothSecurity_TotalAmt", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -30279,6 +30279,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Transporter_Commission_Amt", "decimal(18,4) NULL")
             coll.Add("Security_Rate", "decimal(18,2) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
+            coll.Add("Booth_Security_Rate", "decimal(18,2) NULL")
+            coll.Add("Booth_Security_Amt", "decimal(18,2) NULL")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Transporter", "varchar(12) NULL")
             coll.Add("Against_Booking_PK_ID", "int null References TSPL_BOOKING_DETAIL(PK_ID)")
