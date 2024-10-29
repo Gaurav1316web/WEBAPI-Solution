@@ -317,6 +317,9 @@ Public Class rptSaleRegisterDetail
     End Function
     Function ReturnFilterData() As clsSaleRegisterParameterType
         Dim obj As New clsSaleRegisterParameterType
+        If chkSupplyDate.Checked Then
+            obj.supply_Date = True
+        End If
         If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
             obj.Item_Code_List = txtItem.arrValueMember
         End If

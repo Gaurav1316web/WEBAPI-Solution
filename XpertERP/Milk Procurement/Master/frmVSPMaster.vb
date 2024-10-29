@@ -3808,10 +3808,13 @@ Public Class frmVSPMaster
                 txtPhone2.Focus()
                 Throw New Exception("Please enter a valid 10-digit phone number.")
             End If
-            If clsCommon.myLen(txtContPhone.Text) > 0 AndAlso Not IsValidPhoneNumber(txtContPhone.Text) Then
-                txtContPhone.Focus()
-                Throw New Exception("Please enter a valid 10-digit phone number. Contact Person Number")
-            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal Then
+            '    If clsCommon.myLen(txtContPhone.Text) > 0 AndAlso Not IsValidPhoneNumber(txtContPhone.Text) Then
+            '        txtContPhone.Focus()
+            '        Throw New Exception("Please enter a valid 10-digit phone number. Contact Person Number")
+            '    End If
+            'End If
+
 
 
 
