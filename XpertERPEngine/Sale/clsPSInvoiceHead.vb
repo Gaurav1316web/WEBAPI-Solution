@@ -9196,6 +9196,7 @@ End Class
 
 Public Class clsSaleRegisterParameterType
     Public stockinguom As Boolean = False
+    Public supply_Date As Boolean
     Public ReportType As String
     Public From_Date As Date
     Public To_Date As Date

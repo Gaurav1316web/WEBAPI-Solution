@@ -120,13 +120,15 @@ Public Class clsMCCCodes
                     obj.arrLocCodes = obj.arrLocCodes.Substring(2, obj.arrLocCodes.Length - 2)
                 End If
             End If
-
-            If isMCC = True Then
-                qry = "select * from tspl_mcc_master where mcc_code='" & obj.Default_LocCode & "'"
-                dt = clsDBFuncationality.GetDataTable(qry)
-                If dt.Rows.Count <= 0 Then
-                    obj.Default_LocCode = "_"
-                    obj.Default_LocName = "_"
+            Dim isMainPlant As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select IsMainPlant from TSPL_LOCATION_MASTER where Location_Code = '" & obj.Default_LocCode & "'") = 1)
+            If (Not isMainPlant) Then
+                If isMCC = True Then
+                    qry = "select * from tspl_mcc_master where mcc_code='" & obj.Default_LocCode & "'"
+                    dt = clsDBFuncationality.GetDataTable(qry)
+                    If dt.Rows.Count <= 0 Then
+                        obj.Default_LocCode = "_"
+                        obj.Default_LocName = "_"
+                    End If
                 End If
             End If
 

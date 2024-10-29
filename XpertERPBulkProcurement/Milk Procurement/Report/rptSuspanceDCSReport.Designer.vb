@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class rptSuspanceDCSReport
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,16 +20,15 @@ Partial Class rptSuspanceDCSReport
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.txtbmc = New common.UserControls.txtMultiSelectFinder()
+        Me.txtDCS = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.RadLabel2 = New common.Controls.MyLabel()
@@ -37,17 +36,17 @@ Partial Class rptSuspanceDCSReport
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtFromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,6 +55,11 @@ Partial Class rptSuspanceDCSReport
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -100,6 +104,9 @@ Partial Class rptSuspanceDCSReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
+        Me.RadPageViewPage1.Controls.Add(Me.txtbmc)
+        Me.RadPageViewPage1.Controls.Add(Me.txtDCS)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
@@ -107,61 +114,42 @@ Partial Class rptSuspanceDCSReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage1.Text = "Filter"
         '
-        'RadPageViewPage2
+        'MyLabel15
         '
-        Me.RadPageViewPage2.Controls.Add(Me.gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 355)
-        Me.RadPageViewPage2.Text = "Report"
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(31, 60)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(27, 18)
+        Me.MyLabel15.TabIndex = 414
+        Me.MyLabel15.Text = "DCS"
         '
-        'gv1
+        'txtbmc
         '
-        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.gv1.ForeColor = System.Drawing.Color.Black
-        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        Me.txtbmc.arrDispalyMember = Nothing
+        Me.txtbmc.arrValueMember = Nothing
+        Me.txtbmc.Location = New System.Drawing.Point(103, 129)
+        Me.txtbmc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtbmc.MyLinkLable1 = Nothing
+        Me.txtbmc.MyLinkLable2 = Nothing
+        Me.txtbmc.MyNullText = "All"
+        Me.txtbmc.Name = "txtbmc"
+        Me.txtbmc.Size = New System.Drawing.Size(256, 19)
+        Me.txtbmc.TabIndex = 413
+        Me.txtbmc.Visible = False
         '
+        'txtDCS
         '
-        '
-        Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.EnableFiltering = True
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv1.ShowGroupPanel = False
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(779, 355)
-        Me.gv1.TabIndex = 3
-        Me.gv1.VarID = ""
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(10, 8)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(71, 22)
-        Me.btnGo.TabIndex = 150
-        Me.btnGo.Text = ">>>"
-        '
-        'btnReset
-        '
-        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(84, 8)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(71, 22)
-        Me.btnReset.TabIndex = 151
-        Me.btnReset.Text = "Reset"
+        Me.txtDCS.arrDispalyMember = Nothing
+        Me.txtDCS.arrValueMember = Nothing
+        Me.txtDCS.Location = New System.Drawing.Point(103, 59)
+        Me.txtDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDCS.MyLinkLable1 = Nothing
+        Me.txtDCS.MyLinkLable2 = Nothing
+        Me.txtDCS.MyNullText = "All"
+        Me.txtDCS.Name = "txtDCS"
+        Me.txtDCS.Size = New System.Drawing.Size(256, 19)
+        Me.txtDCS.TabIndex = 412
         '
         'RadGroupBox3
         '
@@ -186,7 +174,7 @@ Partial Class rptSuspanceDCSReport
         Me.txtToShift.AutoCompleteValueMember = Nothing
         Me.txtToShift.DropDownAnimationEnabled = True
         Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.txtToShift.Location = New System.Drawing.Point(304, 16)
+        Me.txtToShift.Location = New System.Drawing.Point(304, 15)
         Me.txtToShift.Name = "txtToShift"
         Me.txtToShift.Size = New System.Drawing.Size(52, 20)
         Me.txtToShift.TabIndex = 452
@@ -248,6 +236,62 @@ Partial Class rptSuspanceDCSReport
         Me.txtFromDate.Text = "24/10/2011"
         Me.txtFromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.gv1)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 355)
+        Me.RadPageViewPage2.Text = "Report"
+        '
+        'gv1
+        '
+        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.gv1.ForeColor = System.Drawing.Color.Black
+        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(779, 355)
+        Me.gv1.TabIndex = 3
+        Me.gv1.VarID = ""
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(10, 8)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(71, 22)
+        Me.btnGo.TabIndex = 150
+        Me.btnGo.Text = ">>>"
+        '
+        'btnReset
+        '
+        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Location = New System.Drawing.Point(84, 8)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(71, 22)
+        Me.btnReset.TabIndex = 151
+        Me.btnReset.Text = "Reset"
+        '
         'rptSuspanceDCSReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -266,11 +310,8 @@ Partial Class rptSuspanceDCSReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -280,6 +321,11 @@ Partial Class rptSuspanceDCSReport
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -299,4 +345,7 @@ Partial Class rptSuspanceDCSReport
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents txtToDate As RadDateTimePicker
     Friend WithEvents txtFromDate As RadDateTimePicker
+    Friend WithEvents txtDCS As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents txtbmc As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
 End Class

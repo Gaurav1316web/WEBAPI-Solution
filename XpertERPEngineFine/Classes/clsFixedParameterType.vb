@@ -21,6 +21,7 @@ Public Class clsFixedParameterType
     Public Const PurchaseSlab As String = "PurchaseSlab"
     Public Const RefreshDBTReco As String = "Refresh DBT Reco"
     Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
+    Public Const ApplyBoothSecurity As String = "Apply Booth Security"
     Public Const AndroidSaleOrder As String = "Android Sale Order"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
@@ -1311,6 +1312,7 @@ Public Class clsFixedParameterCode
     Public Const RangeRAL As String = "Range RAL"
     Public Const RefreshDBTReco As String = "Refresh DBT Reco"
     Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
+    Public Const ApplyBoothSecurity As String = "Apply Booth Security"
     Public Const BackDays As String = "Back Days"
     Public Const MaximumBackDays As String = "Maximum Back Days"
     Public Const ViewItemImage As String = "View Item Image"
@@ -2780,10 +2782,9 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
-
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, "0", "0:OFF;1:ON Upload File")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, "0", "0:OFF;1:ON Upload File")
-
         InsertDefaultValueFixedParameter(clsFixedParameterType.PenaltyAfterDays, clsFixedParameterCode.PenaltyAfterDays, "30", "Define Penalty Days to Apply")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PenaltyCost, clsFixedParameterCode.PenaltyCost, "0.40", "Define Penalty Cost Value for Per Unit")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateProRateAuto, clsFixedParameterCode.CalculateProRateAuto, "0", "0:OFF;1:ON to Calculate Pro Rate Auto")
@@ -4316,6 +4317,8 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, EnumControlType.CheckBox)
+
         InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, EnumControlType.CheckBox)
 
