@@ -1691,7 +1691,7 @@ Public Class FrmARInvoiceEntry
                     dblOtherTaxAmt = GetCurrentRowOtherTaxAmtWihtRowNo(intRowNo, ii, arrTaxableAuth)
                     ''End If
                     dblBaseAmt = (dblAmtAfterDis)
-                    dblTaxAmt = ((dblAmtAfterDis + dblOtherTaxAmt) * dblTaxRate) / 100
+                    dblTaxAmt = (dblAmtAfterDis * dblTaxRate) / 100
                 End If
                 gv1.Rows(intRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + ii)).Value = Math.Round(dblBaseAmt, 2)
                 gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxAmt" + ii)).Value = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2))
