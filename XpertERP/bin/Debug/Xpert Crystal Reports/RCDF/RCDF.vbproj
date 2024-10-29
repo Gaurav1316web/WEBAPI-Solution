@@ -1368,6 +1368,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvicenewwBKN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseBankWiseSubReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportALW.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseSubReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankDraftSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankSavingSummary.rpt" />
