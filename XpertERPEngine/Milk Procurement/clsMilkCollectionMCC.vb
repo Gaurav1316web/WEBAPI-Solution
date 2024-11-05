@@ -368,6 +368,33 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
         Return True
     End Function
 
+    Public Shared Function GetQuery(ByVal TranDate As DateTime, ByVal PendingStatus As Integer, Optional SendSMSScreen As Boolean = False) As String
+        Dim qry As String = Nothing
+        If SendSMSScreen Then
+            qry = "Select TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,tspl_Milk_collection_MCC.Document_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG "
+        Else
+            qry = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG "
+        End If
+        qry += " From tspl_Milk_collection_MCC_Detail 
+Left outer join tspl_Milk_collection_MCC on tspl_Milk_collection_MCC.Document_No=tspl_Milk_collection_MCC_Detail.Document_No
+Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection_MCC_Detail.MCC_Code "
+        If SendSMSScreen Then
+            qry += " left outer join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.MCCOwnBMC=TSPL_MCC_MASTER.MCC_Code "
+        End If
+        qry += " where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(TranDate, "dd/MMM/yyyy") + "' and Status=0"
+        If PendingStatus = 1 Then ''ALL
+            qry += " and 2=2 "
+        ElseIf PendingStatus = 2 Then ''PEnding
+            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)=0 or isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)=0 )"
+        ElseIf PendingStatus = 3 Then ''QC Done
+            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)<>0 and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)<>0 )"
+        End If
+        If SendSMSScreen Then
+            qry += " and TSPL_VLC_MASTER_HEAD.isOwnBMC=1 "
+        End If
+        Return qry
+    End Function
+
 End Class
 
 Public Class clsMilkCollectionMCCDetail
