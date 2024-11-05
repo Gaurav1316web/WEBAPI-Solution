@@ -112,21 +112,21 @@ Public Class frmMilkCollectionMCCQC
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Function GetQuery(ByVal TranDate As DateTime, ByVal PendingStatus As Integer) As String
-        Dim qry As String = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG 
-From tspl_Milk_collection_MCC_Detail 
-Left outer join tspl_Milk_collection_MCC on tspl_Milk_collection_MCC.Document_No=tspl_Milk_collection_MCC_Detail.Document_No
-Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection_MCC_Detail.MCC_Code
-where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(TranDate, "dd/MMM/yyyy") + "' and Status=0"
-        If PendingStatus = 1 Then ''ALL
-            qry += " and 2=2 "
-        ElseIf PendingStatus = 2 Then ''PEnding
-            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)=0 or isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)=0 )"
-        ElseIf PendingStatus = 3 Then ''QC Done
-            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)<>0 and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)<>0 )"
-        End If
-        Return qry
-    End Function
+    '    Function GetQuery(ByVal TranDate As DateTime, ByVal PendingStatus As Integer) As String
+    '        Dim qry As String = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG 
+    'From tspl_Milk_collection_MCC_Detail 
+    'Left outer join tspl_Milk_collection_MCC on tspl_Milk_collection_MCC.Document_No=tspl_Milk_collection_MCC_Detail.Document_No
+    'Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection_MCC_Detail.MCC_Code
+    'where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(TranDate, "dd/MMM/yyyy") + "' and Status=0"
+    '        If PendingStatus = 1 Then ''ALL
+    '            qry += " and 2=2 "
+    '        ElseIf PendingStatus = 2 Then ''PEnding
+    '            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)=0 or isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)=0 )"
+    '        ElseIf PendingStatus = 3 Then ''QC Done
+    '            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)<>0 and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)<>0 )"
+    '        End If
+    '        Return qry
+    '    End Function
     Function AllowToSave(ByVal isStartProgressBar As Boolean) As Boolean
         Try
             CorrectionApply = False
@@ -158,7 +158,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                     Catch ex As Exception
                         Throw New Exception("Invalid Date " + clsCommon.myCstr(gv1.Rows(ii).Cells("DATE").Value))
                     End Try
-                    dt = clsDBFuncationality.GetDataTable(GetQuery(txtDate.Value, 1))
+                    dt = clsDBFuncationality.GetDataTable(clsMilkCollectionMCC.GetQuery(txtDate.Value, 1, False))
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                         Throw New Exception("No Pending Data found of [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]")
                     End If
@@ -341,7 +341,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
         Try
 
             gv2.DataSource = Nothing
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetQuery(txtDateReport.Value, IIf(rbtnPending.IsChecked, 2, IIf(rbtnAllQCDone.IsChecked, 3, 1))))
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsMilkCollectionMCC.GetQuery(txtDateReport.Value, IIf(rbtnPending.IsChecked, 2, IIf(rbtnAllQCDone.IsChecked, 3, 1)), False))
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No Data found")
             End If

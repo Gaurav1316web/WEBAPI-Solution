@@ -27,6 +27,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnCorrection = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -55,12 +56,12 @@ Partial Class frmMilkCollectionMCCQC
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtDateReport = New common.Controls.MyDateTimePicker()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
-        Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCorrection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,7 +93,6 @@ Partial Class frmMilkCollectionMCCQC
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDateReport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,11 +122,13 @@ Partial Class frmMilkCollectionMCCQC
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(848, 393)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'Panel1
         '
@@ -147,6 +149,14 @@ Partial Class frmMilkCollectionMCCQC
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(848, 32)
         Me.Panel1.TabIndex = 1
+        '
+        'btnExport
+        '
+        Me.btnExport.Location = New System.Drawing.Point(506, 6)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(86, 20)
+        Me.btnExport.TabIndex = 5
+        Me.btnExport.Text = "Export to Excel"
         '
         'btnCorrection
         '
@@ -311,7 +321,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(74.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(738, 425)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(848, 425)
         Me.RadPageViewPage2.Text = "View Status"
         '
         'SplitContainer2
@@ -326,7 +336,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadPageView2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Panel2)
         Me.SplitContainer2.Panel2Collapsed = True
-        Me.SplitContainer2.Size = New System.Drawing.Size(738, 425)
+        Me.SplitContainer2.Size = New System.Drawing.Size(848, 425)
         Me.SplitContainer2.SplitterDistance = 400
         Me.SplitContainer2.TabIndex = 1
         '
@@ -338,7 +348,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadPageView2.Location = New System.Drawing.Point(0, 38)
         Me.RadPageView2.Name = "RadPageView2"
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage5
-        Me.RadPageView2.Size = New System.Drawing.Size(738, 387)
+        Me.RadPageView2.Size = New System.Drawing.Size(848, 387)
         Me.RadPageView2.TabIndex = 2
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -348,7 +358,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(717, 339)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(827, 339)
         Me.RadPageViewPage5.Text = "Report"
         '
         'gv2
@@ -361,11 +371,13 @@ Partial Class frmMilkCollectionMCCQC
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(717, 339)
+        Me.gv2.Size = New System.Drawing.Size(827, 339)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'Attachments
         '
@@ -394,7 +406,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(738, 38)
+        Me.Panel2.Size = New System.Drawing.Size(848, 38)
         Me.Panel2.TabIndex = 1
         '
         'GroupBox1
@@ -490,14 +502,6 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadButton3.TabIndex = 2
         Me.RadButton3.Text = ">>"
         '
-        'btnExport
-        '
-        Me.btnExport.Location = New System.Drawing.Point(506, 6)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(86, 20)
-        Me.btnExport.TabIndex = 5
-        Me.btnExport.Text = "Export to Excel"
-        '
         'frmMilkCollectionMCCQC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -520,6 +524,7 @@ Partial Class frmMilkCollectionMCCQC
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCorrection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -553,7 +558,6 @@ Partial Class frmMilkCollectionMCCQC
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDateReport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

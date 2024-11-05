@@ -8345,6 +8345,7 @@ Public Class clsCreateAllTable
             coll.Add("AdvanceAmount", "float not null default 0")
             coll.Add("TruckSheetGenerate", "Integer not null default 0")
             coll.Add("AgainstGatePass", "Integer not null default 0")
+            coll.Add("IS_TCS", "Integer not null default 0")
             coll.Add("Credit_Limit", "decimal(18,2) null")
             coll.Add("Advance_Security", "decimal(18,2) null")
             coll.Add("Revese_Adv_Security", "decimal(18,2) null")
@@ -13990,6 +13991,9 @@ Public Class clsCreateAllTable
             coll.Add("Is_Default_Grower", "Integer null default 0")
             coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
             coll.Add("isPenaltyDeduction", "integer Not Null DEFAULT 0")
+            coll.Add("Latitude", "varchar(20) NULL")
+            coll.Add("Longitude", "varchar(20) NULL")
+            coll.Add("File_Info", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
@@ -30124,6 +30128,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             coll.Add("Against_Booking_No", "varchar(30) NULL REFERENCES TSPL_BOOKING_MATSER(Document_No)")
             coll.Add("BoothSecurity_TotalAmt", "decimal(18,2) null")
+            coll.Add("IS_TCS", "Integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "

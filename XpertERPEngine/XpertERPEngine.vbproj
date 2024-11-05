@@ -172,6 +172,10 @@
     <Reference Include="XpertERPEngine">
       <HintPath>..\XpertMIS\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
+    <Reference Include="XpertERPEngineFine, Version=7.1.3.33, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
     <Reference Include="zxing">
       <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
@@ -1626,12 +1630,6 @@
   <ItemGroup>
     <Folder Include="ServiceAndWarranty\" />
     <Folder Include="TDS Module\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XpertERPEngineFine\XpertERPEngineFine.vbproj">
-      <Project>{ab38a7f1-75cb-41f0-ae56-6ad1cec5193b}</Project>
-      <Name>XpertERPEngineFine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
