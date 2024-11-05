@@ -1,6 +1,5 @@
-﻿Imports common
-Imports System.Data.SqlClient
-Imports System.IO
+﻿Imports System.Data.SqlClient
+Imports common
 Imports Telerik
 
 Public Class frmMilkCollectionDCS
@@ -389,7 +388,7 @@ Public Class frmMilkCollectionDCS
         repoCheckBox.HeaderText = "Mark Suspence"
         repoCheckBox.Name = colEveningSuspence
         repoCheckBox.ReadOnly = False
-        repoCheckBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrDatabase, "JPR") = CompairStringResult.Equal)
+        repoCheckBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal)
         repoCheckBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoCheckBox)
 
@@ -398,7 +397,7 @@ Public Class frmMilkCollectionDCS
         repoTextBox.HeaderText = "Suspence Remarks"
         repoTextBox.Name = colEveningSuspenceRemarks
         repoTextBox.Width = 200
-        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrDatabase, "JPR") = CompairStringResult.Equal)
+        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal)
         repoTextBox.ReadOnly = False
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
@@ -516,11 +515,7 @@ Public Class frmMilkCollectionDCS
             repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
             repoNumBox.IsVisible = (SettHideShiftCollection <> 2)
             gv1.MasterTemplate.Columns.Add(repoNumBox)
-
-
-
         Else
-
             repoNumBox = New GridViewDecimalColumn()
             repoNumBox.FormatString = "{0:n3}"
             repoNumBox.HeaderText = "Morning Fat KG"
@@ -556,7 +551,7 @@ Public Class frmMilkCollectionDCS
         repoCheckBox.HeaderText = "Mark Suspence"
         repoCheckBox.Name = colMorningSuspence
         repoCheckBox.ReadOnly = False
-        repoCheckBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrDatabase, "JPR") = CompairStringResult.Equal)
+        repoCheckBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal)
         repoCheckBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoCheckBox)
 
@@ -565,7 +560,7 @@ Public Class frmMilkCollectionDCS
         repoTextBox.HeaderText = "Suspence Remarks"
         repoTextBox.Name = colMorningSuspenceRemarks
         repoTextBox.Width = 200
-        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrDatabase, "JPR") = CompairStringResult.Equal)
+        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal)
         repoTextBox.ReadOnly = False
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
@@ -962,11 +957,16 @@ Public Class frmMilkCollectionDCS
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkType).Value = objTr.Milk_Type
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colDocCollectionMilkType).Value = objTr.Dock_Collection_Milk_Type
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCCode).Value = objTr.VLC_Code
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCName).Value = objTr.VLC_Name
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCUploaderCode).Value = objTr.VLC_Uploader_Code
+                            If obj.Status = ERPTransactionStatus.Approved AndAlso objTr.Suspence Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCCode).Value = objTr.Suspence_VLC_Code
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCName).Value = clsfrmVLCMaster.getVLcNameOnVLcCode(objTr.Suspence_VLC_Code, Nothing)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCUploaderCode).Value = clsfrmVLCMaster.getVLCUploaderOnVLCCode(objTr.Suspence_VLC_Code, Nothing)
+                            Else
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCCode).Value = objTr.VLC_Code
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCName).Value = objTr.VLC_Name
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCUploaderCode).Value = objTr.VLC_Uploader_Code
+                            End If
                         End If
-
                         If clsCommon.CompairString(objTr.Shift, "E") = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningPKID).Value = objTr.PK_Id
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningQty).Value = objTr.Qty

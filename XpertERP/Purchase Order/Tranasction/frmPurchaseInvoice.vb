@@ -8970,9 +8970,15 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             Dim qry As String = ""
             Dim qry1 As String = ""
             Dim dt As DataTable
+            Dim SHORTQTTY As String = ""
             Dim SRNQTTY As String = ""
             Dim SRNQTTY1stsch As String = ""
             If objCommonVar.RCDFCFP Then
+                SHORTQTTY = "select  TSPL_PI_HEAD.PI_No,TSPL_SHORT_SUPPLY_PENALTY.Document_No,Document_Date,Location_Code,Tendor_No,Vendor_No,Item_Code,Penalty_Qty,Penalty_Amount 
+                    from TSPL_SHORT_SUPPLY_PENALTY
+                    LEFT OUTER JOIN TSPL_PI_HEAD ON TSPL_PI_HEAD.PI_NO=TSPL_SHORT_SUPPLY_PENALTY.PI_NO
+                    left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_SHORT_SUPPLY_PENALTY.Document_No
+                    where TSPL_SHORT_SUPPLY_PENALTY.Status=1 and TSPL_PI_HEAD.PI_No='" + txtDocNo.Value + "'"
                 SRNQTTY = clsDBFuncationality.getSingleValue("select cast(SUM(SRN_Qty) as decimal(18,3)) QTY from TSPL_SRN_HEAD 
                     left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.srn_no=TSPL_SRN_head.srn_no
                     LEFT OUTER JOIN TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_NO=TSPL_SRN_HEAD.AGAINST_GRN
@@ -9124,10 +9130,11 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                         LEFT outer join TSPL_TAX_MASTER  tspl_tax3 on TSPL_VENDOR_INVOICE_DETAIL.TAX1=tspl_tax3.Tax_Code
                         LEFT outer join TSPL_TAX_MASTER  tspl_tax4 on TSPL_VENDOR_INVOICE_DETAIL.TAX1=tspl_tax4.Tax_Code
                         LEFT outer join TSPL_TAX_MASTER  tspl_tax5 on TSPL_VENDOR_INVOICE_DETAIL.TAX1=tspl_tax5.Tax_Code
-                        WHERE TSPL_PI_HEAD.PI_No='" + txtDocNo.Value + "'"
+                        WHERE TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null and TSPL_PI_HEAD.PI_No='" + txtDocNo.Value + "'"
                 Dim dt1APDocs As DataTable = clsDBFuncationality.GetDataTable(qry1)
                 Dim dtAPDocs As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtAPDocs, "rptPurchaseInvoicePrintNew", "Purchase Invoice", "SubPurchaseInvoice.rpt", "PurchaseInvoiceSub", dt1APDocs)
+                Dim dtSHORTDocs As DataTable = clsDBFuncationality.GetDataTable(SHORTQTTY)
+                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtAPDocs, "rptPurchaseInvoicePrintNew", "Purchase Invoice", "SubPurchaseInvoice.rpt", "PurchaseInvoiceSub", dt1APDocs, "SubShortSupplyPenalty", dtSHORTDocs)
 
 
             Else

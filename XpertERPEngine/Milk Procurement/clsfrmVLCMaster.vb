@@ -97,6 +97,10 @@ Public Class clsfrmVLCMaster
         Dim VLcName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name  from TSPL_VLC_MASTER_HEAD  where VLc_Code='" & VLcCode & "'", trans))
         Return VLcName
     End Function
+    Public Shared Function getVLCUploaderOnVLCCode(ByVal VLcCode As String, ByVal trans As SqlTransaction) As String
+        Dim VLcName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Code_VLC_Uploader  from TSPL_VLC_MASTER_HEAD  where VLc_Code='" & VLcCode & "'", trans))
+        Return VLcName
+    End Function
 
     Public Shared Function CowPriceApplied(ByVal VLcCode As String, ByVal TransDate As Date, ByVal trans As SqlTransaction) As Boolean
         Dim Ret As Boolean = False
