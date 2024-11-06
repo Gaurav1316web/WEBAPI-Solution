@@ -34,6 +34,7 @@ Partial Class frmMCCMaterialSale
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkisTCS = New Telerik.WinControls.UI.RadCheckBox()
         Me.cmbPaymentType = New common.Controls.MyComboBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.lblReceiverName = New common.Controls.MyLabel()
@@ -244,6 +245,7 @@ Partial Class frmMCCMaterialSale
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbPaymentType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReceiverName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -490,6 +492,7 @@ Partial Class frmMCCMaterialSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkisTCS)
         Me.RadPageViewPage1.Controls.Add(Me.cmbPaymentType)
         Me.RadPageViewPage1.Controls.Add(Me.lblReceiverName)
         Me.RadPageViewPage1.Controls.Add(Me.lblPaymentType)
@@ -574,6 +577,15 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1261, 391)
         Me.RadPageViewPage1.Text = "MCC Material Sale"
+        '
+        'chkisTCS
+        '
+        Me.chkisTCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkisTCS.Location = New System.Drawing.Point(776, 67)
+        Me.chkisTCS.Name = "chkisTCS"
+        Me.chkisTCS.Size = New System.Drawing.Size(43, 16)
+        Me.chkisTCS.TabIndex = 136
+        Me.chkisTCS.Text = "TCS"
         '
         'cmbPaymentType
         '
@@ -3544,6 +3556,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbPaymentType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReceiverName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3958,5 +3971,6 @@ Partial Class frmMCCMaterialSale
     Friend WithEvents cmbPaymentType As common.Controls.MyComboBox
     Friend WithEvents lblPaymentType As common.Controls.MyLabel
     Friend WithEvents lblTotalDisSubsidy As common.Controls.MyLabel
+    Friend WithEvents chkisTCS As RadCheckBox
 End Class
 

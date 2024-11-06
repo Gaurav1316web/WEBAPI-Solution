@@ -36,6 +36,7 @@ Public Class frmEMailAndSMSSetting
     Public Const VLCDataUploaderQty As String = "$#QTY#$"
     Public Const VLCDataUploaderFat As String = "$#FAT#$"
     Public Const VLCDataUploaderSNF As String = "$#SNF#$"
+    Public Const VLCDataUploaderCLR As String = "$#CLR#$"
     Public Const VLCDataUploaderRate As String = "$#RATE#$"
     Public Const VLCDataUploaderAmt As String = "$#AMOUNT#$"
     Public Const VSP As String = "$#VSP#$"
@@ -215,6 +216,12 @@ Public Class frmEMailAndSMSSetting
 
     Public Const DateRange As String = "$#DateRange#$"
     Public Const Bank As String = "$#Bank#$"
+
+    Public Const Route As String = "$#Route#$"
+    Public Const Flushing As String = "$#Flushing#$"
+    Public Const KgFAT As String = "$#KgFAT#$"
+    Public Const KgSNF As String = "$#KgSNF#$"
+
 #End Region
 
     Private Sub frmEMailAndSMSSetting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -248,6 +255,14 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCName)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderFat)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderSNF)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderCLR)
+        ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze") = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Flushing)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgFAT)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgSNF)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)

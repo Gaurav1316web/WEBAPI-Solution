@@ -1,14 +1,19 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel
+Imports System.Data.SqlClient
 Imports common
+Imports System.IO
 
 Public Class frmSendBillToDCS
 #Region "Variables"
     Dim arrFilePath As List(Of String) = Nothing
     Dim settFileUpload As Boolean = False
+    Dim corrFactor As Double
 #End Region
 
     Private Sub frmSendBillToDCS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
+        txtQCDate.Value = clsCommon.GETSERVERDATE()
+        txtTankerQCDate.Value = clsCommon.GETSERVERDATE()
         LoadShift()
         txtSendBill.Text = 0
         txtRemainingBill.Text = 0
@@ -239,6 +244,184 @@ from (" + clsMilkShiftEndMCC.GetSMSQry(fndMCCCode.Value, txtDate.Value, clsCommo
                 Throw New Exception(ex.Message)
             End Try
         Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtMultBMC__My_Click(sender As Object, e As EventArgs) Handles txtMultBMC._My_Click
+        Try
+            Dim Qry As String = clsMilkCollectionMCC.GetQuery(txtQCDate.Value, 3, True)
+            txtMultBMC.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "BMC@", Qry, "MCC_Code", "", txtMultBMC.arrValueMember, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub SendSMSandEmail(ByVal SMSType As String, ByVal Code As String, ByVal strNo As String, ByVal Route As String, ByVal Flushing As String, ByVal FAT As String, ByVal SNF As String, ByVal trans As SqlTransaction)
+        Try
+            Dim strPhoneno As String = Nothing
+            Dim dtContent As DataTable = Nothing
+
+            If clsCommon.CompairString(SMSType, "BMCQCSMS") = CompairStringResult.Equal Then
+                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.MilkCollectionMCCSample + "'", trans)
+            ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMS") = CompairStringResult.Equal Then
+                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='BMC Gaze'", trans)
+            End If
+
+            If dtContent Is Nothing AndAlso dtContent.Rows.Count <= 0 Then
+                Throw New Exception("SMS format content not found!")
+            End If
+
+            Dim DCSCode As String
+            Dim Qry As String
+            If clsCommon.CompairString(SMSType, "BMCQCSMS") = CompairStringResult.Equal Then
+                Qry = "Select (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As DCS_Contact, 
+                                TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader from TSPL_VENDOR_MASTER
+                                Left Outer join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code
+                                where TSPL_VENDOR_MASTER.Form_Type='VSP' And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________') And TSPL_VLC_MASTER_HEAD.MCCOwnBMC='" + Code + "'"
+            ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMS") = CompairStringResult.Equal Then
+                Qry = "Select (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As DCS_Contact, 
+TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No
+from TSPL_VENDOR_MASTER
+Left Outer join TSPL_TANKER_MASTER On TSPL_TANKER_MASTER.Tanker_Transporter_Code=TSPL_VENDOR_MASTER.Vendor_Code
+where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________') And TSPL_TANKER_MASTER.Tanker_No='" + Code + "'"
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    strPhoneno = clsCommon.myCstr(dt.Rows(i)("DCS_Contact"))
+                    If clsCommon.CompairString(SMSType, "BMCQCSMS") = CompairStringResult.Equal Then
+                        DCSCode = clsCommon.myCstr(dt.Rows(i)("VLC_Code_VLC_Uploader"))
+                    End If
+
+                    Dim objEmailH As New clsEMailHead()
+                    objEmailH.arrEMail = New List(Of String)()
+                    Dim objSMSH As New clsSMSHead()
+                    objSMSH.arrMobilNo = New List(Of String)()
+                    If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+                        If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                            objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+                            If clsCommon.CompairString(SMSType, "BMCQCSMS") = CompairStringResult.Equal Then
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtQCDate.Value, "dd/MMM/yyyy"))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCName, clsCommon.myCstr(dt.Rows(0)("Vendor_Name")))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCUploaderCode, clsCommon.myCstr(DCSCode))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderFat, FAT)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderSNF, SNF)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderCLR, clsCommon.myCstr(clsEkoPro.getClrOnCalculation(FAT, SNF, corrFactor)))
+                            ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMS") = CompairStringResult.Equal Then
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtTankerQCDate.Value, "dd/MMM/yyyy"))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TankerNo, strNo)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, Route)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Flushing, Flushing)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.KgFAT, FAT)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.KgSNF, SNF)
+                            End If
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, MyBase.Form_ID)
+
+                            If clsCommon.myLen(strPhoneno) > 0 Then
+                                strPhoneno = strPhoneno.Replace("(", "").Replace(")", "").Replace("+", "").Replace("_____", "").Replace("____", "").Replace("___", "").Replace("__", "").Replace("_", "")
+                            End If
+
+                            If clsCommon.myLen(strPhoneno) >= 10 Then
+                                objSMSH.arrMobilNo.Add(clsCommon.myCstr(strPhoneno))
+                            End If
+
+                            If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                                If clsCommon.CompairString(SMSType, "BMCQCSMS") = CompairStringResult.Equal Then
+                                    objSMSH.SaveData(clsUserMgtCode.MilkCollectionMCCSample, objSMSH, trans)
+                                ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMS") = CompairStringResult.Equal Then
+                                    objSMSH.SaveData("BMC Gaze", objSMSH, trans)
+                                End If
+
+                            End If
+                        End If
+                    End If
+                    objSMSH = Nothing
+                Next
+            End If
+
+            'If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+            '    clsCommon.MyMessageBoxShow(Me,"SMS Send Successfully", Me.Text)
+            'End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnSendBMC_Click(sender As Object, e As EventArgs) Handles btnSendBMC.Click
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            corrFactor = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, trans)
+            Dim Qry As String = clsMilkCollectionMCC.GetQuery(txtQCDate.Value, 3, True)
+            If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                Qry += "  And TSPL_MCC_MASTER.MCC_Code In (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ") "
+            End If
+            Dim dtt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+                clsCommon.ProgressBarPercentShow()
+                For i As Integer = 0 To dtt.Rows.Count - 1
+                    clsCommon.ProgressBarPercentUpdate((i + 1) * 100 / dtt.Rows.Count, " Sending " & (i + 1) & " Of " & dtt.Rows.Count)
+                    SendSMSandEmail("BMCQCSMS", clsCommon.myCstr(dtt.Rows(i)("MCC_Code")), Nothing, Nothing, Nothing, clsCommon.myCstr(dtt.Rows(i)("FAT")), clsCommon.myCstr(dtt.Rows(i)("SNF")), trans)
+                Next
+                clsCommon.ProgressBarPercentHide()
+                trans.Commit()
+                clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
+                txtMultBMC.arrValueMember = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data not found to send !", Me.Text)
+            End If
+        Catch ex As Exception
+            trans.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtMultTanker__My_Click(sender As Object, e As EventArgs) Handles txtMultTanker._My_Click
+        Try
+            Dim Qry As String = "Select (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As DCS_Contact, 
+TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No
+from TSPL_VENDOR_MASTER
+Left Outer join TSPL_TANKER_MASTER On TSPL_TANKER_MASTER.Tanker_Transporter_Code=TSPL_VENDOR_MASTER.Vendor_Code
+Inner Join (Select Tanker_No from TSPL_MILK_COLLECTION_MCC Where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(txtTankerQCDate.Value, "dd/MMM/yyyy") + "' Group By Tanker_No )tspl_Milk_collection_MCC On tspl_Milk_collection_MCC.Tanker_No=TSPL_TANKER_MASTER.Tanker_No
+where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________')"
+            txtMultTanker.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "Tanker@", Qry, "Tanker_No", "", txtMultTanker.arrValueMember, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnTankerSMS_Click(sender As Object, e As EventArgs) Handles btnTankerSMS.Click
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim Qry As String = "Select Document_No,Tanker_No,Vehicle_No,Route_Code,(Entered_Qty-Qty)Flushing,(Entered_FATKg-FATKG)FATKG,(Entered_SNFKg-SNFKG)SNFKG  from(
+Select TSPL_MILK_COLLECTION_MCC.Document_No,MAX(TSPL_MILK_COLLECTION_MCC.Tanker_No)Tanker_No,Max(TSPL_MILK_COLLECTION_MCC.Vehicle_No)Vehicle_No,
+MAX(TSPL_MILK_COLLECTION_MCC.Route_Code)Route_Code,
+Max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)Entered_Qty,
+Max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)Entered_FATKg,
+Max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)Entered_SNFKg,
+Sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty)Qty,Sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG)FATKG,Sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG)SNFKG 
+from TSPL_MILK_COLLECTION_MCC_DETAIL
+Left Outer Join TSPL_MILK_COLLECTION_MCC On TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(txtTankerQCDate.Value, "dd/MMM/yyyy") + "' "
+
+            If txtMultTanker.arrValueMember IsNot Nothing AndAlso txtMultTanker.arrValueMember.Count > 0 Then
+                Qry += "  And  TSPL_MILK_COLLECTION_MCC.Tanker_No IN (" & clsCommon.GetMulcallString(txtMultTanker.arrValueMember) & ") "
+            End If
+            Qry += " Group By TSPL_MILK_COLLECTION_MCC.Document_No) xyz"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommon.ProgressBarPercentShow()
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    clsCommon.ProgressBarPercentUpdate((i + 1) * 100 / dt.Rows.Count, " Sending " & (i + 1) & " Of " & dt.Rows.Count)
+                    SendSMSandEmail("TANKERQCSMS", clsCommon.myCstr(dt.Rows(i)("Tanker_No")), clsCommon.myCstr(dt.Rows(i)("Vehicle_No")), clsCommon.myCstr(dt.Rows(i)("Route_Code")), clsCommon.myCstr(dt.Rows(i)("Flushing")), clsCommon.myCstr(dt.Rows(i)("FATKG")), clsCommon.myCstr(dt.Rows(i)("SNFKG")), trans)
+                Next
+                clsCommon.ProgressBarPercentHide()
+                trans.Commit()
+                clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
+                txtMultTanker.arrValueMember = Nothing
+            End If
+        Catch ex As Exception
+            trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub

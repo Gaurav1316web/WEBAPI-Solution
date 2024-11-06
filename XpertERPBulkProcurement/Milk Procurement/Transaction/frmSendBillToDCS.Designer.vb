@@ -22,10 +22,23 @@ Partial Class frmSendBillToDCS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtMultTanker = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtTankerQCDate = New common.Controls.MyDateTimePicker()
+        Me.btnTankerSMS = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtMultBMC = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.txtQCDate = New common.Controls.MyDateTimePicker()
+        Me.btnSendBMC = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.lblMCCCode = New common.Controls.MyLabel()
         Me.fndMCCCode = New common.UserControls.txtFinder()
         Me.lblBOMStatus = New common.Controls.MyLabel()
@@ -46,12 +59,24 @@ Partial Class frmSendBillToDCS
         Me.lblDocNo = New common.Controls.MyLabel()
         Me.fndPaymentProcessDocNo = New common.UserControls.txtFinder()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTankerQCDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnTankerSMS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtQCDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSendBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBOMStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,7 +93,6 @@ Partial Class frmSendBillToDCS
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -81,6 +105,8 @@ Partial Class frmSendBillToDCS
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
         '
@@ -90,6 +116,180 @@ Partial Class frmSendBillToDCS
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 405
         Me.SplitContainer1.TabIndex = 0
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.txtMultTanker)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel5)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel7)
+        Me.RadGroupBox4.Controls.Add(Me.txtTankerQCDate)
+        Me.RadGroupBox4.Controls.Add(Me.btnTankerSMS)
+        Me.RadGroupBox4.HeaderText = "TANKER QC SMS"
+        Me.RadGroupBox4.Location = New System.Drawing.Point(13, 288)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(397, 71)
+        Me.RadGroupBox4.TabIndex = 280
+        Me.RadGroupBox4.Text = "TANKER QC SMS"
+        '
+        'txtMultTanker
+        '
+        Me.txtMultTanker.arrDispalyMember = Nothing
+        Me.txtMultTanker.arrValueMember = Nothing
+        Me.txtMultTanker.Location = New System.Drawing.Point(45, 38)
+        Me.txtMultTanker.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultTanker.MyLinkLable1 = Nothing
+        Me.txtMultTanker.MyLinkLable2 = Nothing
+        Me.txtMultTanker.MyNullText = "Please select..."
+        Me.txtMultTanker.Name = "txtMultTanker"
+        Me.txtMultTanker.Size = New System.Drawing.Size(261, 19)
+        Me.txtMultTanker.TabIndex = 387
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel5.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(40, 18)
+        Me.MyLabel5.TabIndex = 295
+        Me.MyLabel5.Text = "Tanker"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(5, 17)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel7.TabIndex = 293
+        Me.MyLabel7.Text = "Date"
+        '
+        'txtTankerQCDate
+        '
+        Me.txtTankerQCDate.CalculationExpression = Nothing
+        Me.txtTankerQCDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtTankerQCDate.FieldCode = Nothing
+        Me.txtTankerQCDate.FieldDesc = Nothing
+        Me.txtTankerQCDate.FieldMaxLength = 0
+        Me.txtTankerQCDate.FieldName = Nothing
+        Me.txtTankerQCDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTankerQCDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtTankerQCDate.isCalculatedField = False
+        Me.txtTankerQCDate.IsSourceFromTable = False
+        Me.txtTankerQCDate.IsSourceFromValueList = False
+        Me.txtTankerQCDate.IsUnique = False
+        Me.txtTankerQCDate.Location = New System.Drawing.Point(45, 16)
+        Me.txtTankerQCDate.MendatroryField = True
+        Me.txtTankerQCDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtTankerQCDate.MyLinkLable1 = Me.MyLabel7
+        Me.txtTankerQCDate.MyLinkLable2 = Nothing
+        Me.txtTankerQCDate.Name = "txtTankerQCDate"
+        Me.txtTankerQCDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtTankerQCDate.ReferenceFieldDesc = Nothing
+        Me.txtTankerQCDate.ReferenceFieldName = Nothing
+        Me.txtTankerQCDate.ReferenceTableName = Nothing
+        Me.txtTankerQCDate.Size = New System.Drawing.Size(83, 18)
+        Me.txtTankerQCDate.TabIndex = 290
+        Me.txtTankerQCDate.TabStop = False
+        Me.txtTankerQCDate.Text = "13/06/2011"
+        Me.txtTankerQCDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'btnTankerSMS
+        '
+        Me.btnTankerSMS.Location = New System.Drawing.Point(307, 38)
+        Me.btnTankerSMS.Name = "btnTankerSMS"
+        Me.btnTankerSMS.Size = New System.Drawing.Size(85, 20)
+        Me.btnTankerSMS.TabIndex = 289
+        Me.btnTankerSMS.Text = "Send SMS"
+        Me.btnTankerSMS.TextWrap = True
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.txtMultBMC)
+        Me.RadGroupBox3.Controls.Add(Me.MyLabel4)
+        Me.RadGroupBox3.Controls.Add(Me.MyLabel6)
+        Me.RadGroupBox3.Controls.Add(Me.txtQCDate)
+        Me.RadGroupBox3.Controls.Add(Me.btnSendBMC)
+        Me.RadGroupBox3.HeaderText = "BMC MILK QC SMS"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(13, 211)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(397, 71)
+        Me.RadGroupBox3.TabIndex = 279
+        Me.RadGroupBox3.Text = "BMC MILK QC SMS"
+        '
+        'txtMultBMC
+        '
+        Me.txtMultBMC.arrDispalyMember = Nothing
+        Me.txtMultBMC.arrValueMember = Nothing
+        Me.txtMultBMC.Location = New System.Drawing.Point(41, 38)
+        Me.txtMultBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultBMC.MyLinkLable1 = Nothing
+        Me.txtMultBMC.MyLinkLable2 = Nothing
+        Me.txtMultBMC.MyNullText = "Please select..."
+        Me.txtMultBMC.Name = "txtMultBMC"
+        Me.txtMultBMC.Size = New System.Drawing.Size(261, 19)
+        Me.txtMultBMC.TabIndex = 387
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel4.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel4.TabIndex = 295
+        Me.MyLabel4.Text = "BMC"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(5, 17)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel6.TabIndex = 293
+        Me.MyLabel6.Text = "Date"
+        '
+        'txtQCDate
+        '
+        Me.txtQCDate.CalculationExpression = Nothing
+        Me.txtQCDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtQCDate.FieldCode = Nothing
+        Me.txtQCDate.FieldDesc = Nothing
+        Me.txtQCDate.FieldMaxLength = 0
+        Me.txtQCDate.FieldName = Nothing
+        Me.txtQCDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtQCDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtQCDate.isCalculatedField = False
+        Me.txtQCDate.IsSourceFromTable = False
+        Me.txtQCDate.IsSourceFromValueList = False
+        Me.txtQCDate.IsUnique = False
+        Me.txtQCDate.Location = New System.Drawing.Point(41, 16)
+        Me.txtQCDate.MendatroryField = True
+        Me.txtQCDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQCDate.MyLinkLable1 = Me.MyLabel6
+        Me.txtQCDate.MyLinkLable2 = Nothing
+        Me.txtQCDate.Name = "txtQCDate"
+        Me.txtQCDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQCDate.ReferenceFieldDesc = Nothing
+        Me.txtQCDate.ReferenceFieldName = Nothing
+        Me.txtQCDate.ReferenceTableName = Nothing
+        Me.txtQCDate.Size = New System.Drawing.Size(83, 18)
+        Me.txtQCDate.TabIndex = 290
+        Me.txtQCDate.TabStop = False
+        Me.txtQCDate.Text = "13/06/2011"
+        Me.txtQCDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'btnSendBMC
+        '
+        Me.btnSendBMC.Location = New System.Drawing.Point(307, 38)
+        Me.btnSendBMC.Name = "btnSendBMC"
+        Me.btnSendBMC.Size = New System.Drawing.Size(85, 20)
+        Me.btnSendBMC.TabIndex = 289
+        Me.btnSendBMC.Text = "Send SMS"
+        Me.btnSendBMC.TextWrap = True
         '
         'RadGroupBox2
         '
@@ -103,11 +303,20 @@ Partial Class frmSendBillToDCS
         Me.RadGroupBox2.Controls.Add(Me.txtDate)
         Me.RadGroupBox2.Controls.Add(Me.RadButton3)
         Me.RadGroupBox2.HeaderText = "Generate DCS SMS"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(13, 136)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(13, 133)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Size = New System.Drawing.Size(397, 71)
         Me.RadGroupBox2.TabIndex = 278
         Me.RadGroupBox2.Text = "Generate DCS SMS"
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Location = New System.Drawing.Point(333, 15)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(55, 45)
+        Me.RadButton1.TabIndex = 296
+        Me.RadButton1.Text = "Generate DBF"
+        Me.RadButton1.TextWrap = True
         '
         'lblMCCCode
         '
@@ -171,10 +380,10 @@ Partial Class frmSendBillToDCS
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem3)
+        Me.cboShift.Items.Add(RadListDataItem4)
         Me.cboShift.Location = New System.Drawing.Point(164, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -384,15 +593,6 @@ Partial Class frmSendBillToDCS
         Me.btnClose.TabIndex = 9
         Me.btnClose.Text = "Close"
         '
-        'RadButton1
-        '
-        Me.RadButton1.Location = New System.Drawing.Point(333, 15)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(55, 45)
-        Me.RadButton1.TabIndex = 296
-        Me.RadButton1.Text = "Generate DBF"
-        Me.RadButton1.TextWrap = True
-        '
         'frmSendBillToDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -408,9 +608,24 @@ Partial Class frmSendBillToDCS
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTankerQCDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnTankerSMS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtQCDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSendBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBOMStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
@@ -428,7 +643,6 @@ Partial Class frmSendBillToDCS
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -457,4 +671,16 @@ Partial Class frmSendBillToDCS
     Friend WithEvents txtSendBill As TextBox
     Friend WithEvents txtRemainingBill As TextBox
     Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents txtQCDate As common.Controls.MyDateTimePicker
+    Friend WithEvents btnSendBMC As RadButton
+    Friend WithEvents txtMultBMC As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents txtMultTanker As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents txtTankerQCDate As common.Controls.MyDateTimePicker
+    Friend WithEvents btnTankerSMS As RadButton
 End Class
