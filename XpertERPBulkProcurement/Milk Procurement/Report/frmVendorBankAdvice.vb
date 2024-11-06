@@ -105,7 +105,7 @@ Public Class frmVendorBankAdvice
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "IFSC"
         End If
         GetReportID()
-        Print(False)
+        Print(False, Nothing)
         ReStoreGridLayout()
     End Sub
 
@@ -141,49 +141,55 @@ Public Class frmVendorBankAdvice
         Gv1.VarID = VarID
     End Sub
 
-    Public Sub Print(ByVal isPrint As Boolean)
+
+    Public Sub Print(ByVal isPrint As Boolean, ByVal BankAdviseDocNo As String)
         Try
-            If rbtnBankAdvice.IsChecked AndAlso clsCommon.myLen(IsBankAdviseStartDate) < 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Plz Create Bank Advice." + Environment.NewLine + " Bank Advice Creation Date Start On '" + IsBankAdviseStartDate + "'.", Me.Text)
-                Exit Sub
+            If clsCommon.myLen(BankAdviseDocNo) > 0 Then
+                rbtnBankAdvice.IsChecked = True
             End If
-            If clsCommon.myLen(txtMCC.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                clsCommon.MyMessageBoxShow(Me, "Plz Select MCC.", Me.Text)
-                txtMCC.Focus()
-                Exit Sub
-            End If
+            If clsCommon.myLen(BankAdviseDocNo) <= 0 Then
+                If rbtnBankAdvice.IsChecked AndAlso clsCommon.myLen(IsBankAdviseStartDate) < 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Plz Create Bank Advice." + Environment.NewLine + " Bank Advice Creation Date Start On '" + IsBankAdviseStartDate + "'.", Me.Text)
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtMCC.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
+                    clsCommon.MyMessageBoxShow(Me, "Plz Select MCC.", Me.Text)
+                    txtMCC.Focus()
+                    Exit Sub
+                End If
 
-            If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
-                txtFiscalYear.Focus()
-                Exit Sub
-            End If
-            If clsCommon.myLen(txtPaymentCycleFrom.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                'clsCommon.MyMessageBoxShow("Plz Select Payment Cycle From First.", Me.Text)
-                'txtPaymentCycleFrom.Focus()
-                'Exit Sub
-            End If
-            If clsCommon.myLen(txtPaymentCycleTo.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
-                'clsCommon.MyMessageBoxShow("Plz Select Payment Cycle To First.", Me.Text)
-                'txtPaymentCycleTo.Focus()
-                'Exit Sub
-            End If
+                If clsCommon.myLen(txtFiscalYear.Value) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Plz Select Fiscal Year First.", Me.Text)
+                    txtFiscalYear.Focus()
+                    Exit Sub
+                End If
+                If clsCommon.myLen(txtPaymentCycleFrom.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
+                    'clsCommon.MyMessageBoxShow("Plz Select Payment Cycle From First.", Me.Text)
+                    'txtPaymentCycleFrom.Focus()
+                    'Exit Sub
+                End If
+                If clsCommon.myLen(txtPaymentCycleTo.Value) <= 0 AndAlso MultipleFinderFillAuto = False Then
+                    'clsCommon.MyMessageBoxShow("Plz Select Payment Cycle To First.", Me.Text)
+                    'txtPaymentCycleTo.Focus()
+                    'Exit Sub
+                End If
 
-            If clsCommon.myCdbl(txtPaymentCycleFrom.Value) > clsCommon.myCdbl(txtPaymentCycleTo.Value) AndAlso MultipleFinderFillAuto = False Then
-                common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle", Me.Text)
-                txtPaymentCycleFrom.Focus()
-                Exit Sub
-            End If
-            If MultipleFinderFillAuto = False Then
-                Patment_Cycle_changed()
-            End If
-            If AreaWiseBilling = False Then
-                Patment_Cycle_changed()
-            End If
-            If clsCommon.myCdbl(txtPaymentCycleFrom.Value) > clsCommon.myCdbl(txtPaymentCycleTo.Value) AndAlso AreaWiseBilling = False Then
-                common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle", Me.Text)
-                txtPaymentCycleFrom.Focus()
-                Exit Sub
+                If clsCommon.myCdbl(txtPaymentCycleFrom.Value) > clsCommon.myCdbl(txtPaymentCycleTo.Value) AndAlso MultipleFinderFillAuto = False Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle", Me.Text)
+                    txtPaymentCycleFrom.Focus()
+                    Exit Sub
+                End If
+                If MultipleFinderFillAuto = False Then
+                    Patment_Cycle_changed()
+                End If
+                If AreaWiseBilling = False Then
+                    Patment_Cycle_changed()
+                End If
+                If clsCommon.myCdbl(txtPaymentCycleFrom.Value) > clsCommon.myCdbl(txtPaymentCycleTo.Value) AndAlso AreaWiseBilling = False Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle", Me.Text)
+                    txtPaymentCycleFrom.Focus()
+                    Exit Sub
+                End If
             End If
             Dim strCycleRange As String = txtPaymentCycleTo.Value
             If clsCommon.myCdbl(txtPaymentCycleTo.Value) > clsCommon.myCdbl(txtPaymentCycleFrom.Value) Then
@@ -408,7 +414,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
 
                     End If
                 End If
-                BaseQry += ",TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status] "
+                BaseQry += ",TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status] "
                 BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
                                 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
@@ -427,7 +433,12 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
 
                 BaseQry += "" + IIf(MultipleFinderFillAuto = True, "    ", " left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Loc_Segment_Code=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code and  TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC' ") + "
 left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) " + IIf(MultipleFinderFillAuto = True, "  and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected  ", " and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code=TSPL_Location_MASTER.Location_Code ") + " "
-                BaseQry += "where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' " + IIf(clsCommon.myLen(txtMCC.Value) > 0, "and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code='" + txtMCC.Value + "' And TSPL_MCC_MASTER.MCC_Code='" + txtMCC.Value + "' ", "") + " "
+
+                If clsCommon.myLen(BankAdviseDocNo) <= 0 Then
+                    BaseQry += "where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' " + IIf(clsCommon.myLen(txtMCC.Value) > 0, "and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code='" + txtMCC.Value + "' And TSPL_MCC_MASTER.MCC_Code='" + txtMCC.Value + "' ", "") + " "
+                Else
+                    BaseQry += " where TSPL_BANK_ADVISE.Document_No='" + BankAdviseDocNo + "'"
+                End If
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") <> CompairStringResult.Equal Then
                     BaseQry += " And (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))>0"
@@ -619,10 +630,12 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                 clsCommon.MyMessageBoxShow(Me, "No Data Found/Posted to Display", Me.Text)
                 Exit Sub
             Else
-                Gv1.DataSource = dt
-                RadPageView1.SelectedPage = RadPageViewPage2
-                SetGridFormat()
-                EnableDisaableControls(False)
+                If clsCommon.myLen(BankAdviseDocNo) <= 0 Then
+                    Gv1.DataSource = dt
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    SetGridFormat()
+                    EnableDisaableControls(False)
+                End If
             End If
 
 
@@ -683,9 +696,9 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
     End Sub
 
     Private Function GetSavingCurrent() As String
-        Dim Qry As String = "Select xxxfinal.VLC_CODE_Uploader,	xxxfinal.BankCode,	xxxfinal.BankName,	xxxfinal.DCS_Name,	Round(xxxfinal.Bill_Amt,0)Bill_Amt,	xxxfinal.SavingAccountNo,	Round(xxxfinal.SavingAmt,0)SavingAmt,	xxxfinal.CurrentAccountNo,	Case When xxxfinal.CurrentAmt>0 Then Round(xxxfinal.CurrentAmt,0) Else 0 End As CurrentAmt,xxxDCSCount.DCSCount 
+        Dim Qry As String = "Select xxxFinal.[Bank Advise No],xxxFinal.[Bank Advise Date],xxxfinal.VLC_CODE_Uploader,	xxxfinal.BankCode,	xxxfinal.BankName,	xxxfinal.DCS_Name,	Round(xxxfinal.Bill_Amt,0)Bill_Amt,	xxxfinal.SavingAccountNo,	Round(xxxfinal.SavingAmt,0)SavingAmt,	xxxfinal.CurrentAccountNo,	Case When xxxfinal.CurrentAmt>0 Then Round(xxxfinal.CurrentAmt,0) Else 0 End As CurrentAmt,xxxDCSCount.DCSCount 
                             from 
-                            (Select xxxSaving.VLC_CODE_Uploader,IsNull(xxxSaving.Bank_Code,xxxCurrent.Bank_Code) As BankCode,IsNull(xxxsaving.Bank_Code_Desc,xxxCurrent.Bank_Code_Desc) As BankName,(xxxSaving.VLC_CODE_Uploader +' '+ xxxSaving.Payee_Joint_Name) As DCS_Name,
+                            (Select [Bank Advise No],[Bank Advise Date],xxxSaving.VLC_CODE_Uploader,IsNull(xxxSaving.Bank_Code,xxxCurrent.Bank_Code) As BankCode,IsNull(xxxsaving.Bank_Code_Desc,xxxCurrent.Bank_Code_Desc) As BankName,(xxxSaving.VLC_CODE_Uploader +' '+ xxxSaving.Payee_Joint_Name) As DCS_Name,
 							Case When IsNull(xxxCurrent.Payable_Amount,0)>0 Then IsNull(xxxCurrent.Payable_Amount,0) Else IsNull(xxxSaving.Payable_Amount,0) End As Bill_Amt, 
                             Case When xxxSaving.Account_Type='Sav' Then xxxSaving.Payee_Joint_Account_No Else '' End As SavingAccountNo,
 							IsNull(xxxSaving.Payable_Amount,0) As SavingAmt,
@@ -714,8 +727,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                             and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 --and TSPL_Vendor_MASTER.Bank_Code='504' 
                             ) x group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No )xxxSaving
                             Left Outer Join
-                            (select Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount from
-                            (select  Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
+                            (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank Advise Date],Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount from
+                            (select  TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
                             convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, 
                             TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
                             case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
@@ -1233,7 +1246,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
         If ChkIFSCCode.Checked Then
             Printt()
         Else
-            Print(True)
+            Print(True, Nothing)
         End If
     End Sub
 
@@ -1795,7 +1808,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
         If ChkIFSCCode.Checked Then
             Printt()
         Else
-            Print(True)
+            Print(True, Nothing)
         End If
     End Sub
 

@@ -468,7 +468,6 @@ Partial Class frmBankAdvise
         Me.btnPrint.Size = New System.Drawing.Size(65, 22)
         Me.btnPrint.TabIndex = 25
         Me.btnPrint.Text = "Print"
-        Me.btnPrint.Visible = False
         '
         'frmBankAdvise
         '
