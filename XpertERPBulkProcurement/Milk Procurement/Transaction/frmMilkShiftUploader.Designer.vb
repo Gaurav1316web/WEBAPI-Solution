@@ -26,6 +26,7 @@ Partial Class frmMilkShiftUploader
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.txtTotalQty = New common.MyNumBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -77,6 +78,7 @@ Partial Class frmMilkShiftUploader
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel2.SuspendLayout()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -123,6 +125,7 @@ Partial Class frmMilkShiftUploader
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.btnReverse)
         Me.Panel2.Controls.Add(Me.btnHistory)
         Me.Panel2.Controls.Add(Me.txtTotalQty)
         Me.Panel2.Controls.Add(Me.MyLabel2)
@@ -136,11 +139,21 @@ Partial Class frmMilkShiftUploader
         Me.Panel2.Size = New System.Drawing.Size(1024, 26)
         Me.Panel2.TabIndex = 1
         '
+        'btnReverse
+        '
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(391, 2)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(125, 22)
+        Me.btnReverse.TabIndex = 1031
+        Me.btnReverse.Text = "Reverse and Unpost"
+        Me.btnReverse.Visible = False
+        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(307, 2)
+        Me.btnHistory.Location = New System.Drawing.Point(304, 2)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(84, 22)
         Me.btnHistory.TabIndex = 1030
@@ -159,7 +172,7 @@ Partial Class frmMilkShiftUploader
         Me.txtTotalQty.IsSourceFromTable = False
         Me.txtTotalQty.IsSourceFromValueList = False
         Me.txtTotalQty.IsUnique = False
-        Me.txtTotalQty.Location = New System.Drawing.Point(468, 3)
+        Me.txtTotalQty.Location = New System.Drawing.Point(611, 3)
         Me.txtTotalQty.MendatroryField = False
         Me.txtTotalQty.MyLinkLable1 = Nothing
         Me.txtTotalQty.MyLinkLable2 = Nothing
@@ -177,7 +190,7 @@ Partial Class frmMilkShiftUploader
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(410, 5)
+        Me.MyLabel2.Location = New System.Drawing.Point(553, 5)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(52, 16)
         Me.MyLabel2.TabIndex = 1029
@@ -187,7 +200,7 @@ Partial Class frmMilkShiftUploader
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(206, 2)
+        Me.btnPost.Location = New System.Drawing.Point(204, 2)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(97, 22)
         Me.btnPost.TabIndex = 2
@@ -197,7 +210,7 @@ Partial Class frmMilkShiftUploader
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(105, 2)
+        Me.btnDelete.Location = New System.Drawing.Point(104, 2)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(97, 22)
         Me.btnDelete.TabIndex = 1
@@ -770,6 +783,7 @@ Partial Class frmMilkShiftUploader
         Me.gv1.Size = New System.Drawing.Size(1024, 237)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'frmMilkShiftUploader
         '
@@ -790,6 +804,7 @@ Partial Class frmMilkShiftUploader
         Me.Text = "Milk Shift Uploader"
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -889,5 +904,6 @@ Partial Class frmMilkShiftUploader
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents btnReverse As RadButton
 End Class
 
