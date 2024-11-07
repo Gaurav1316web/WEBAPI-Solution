@@ -91,10 +91,10 @@ Public Class frmDeletionForEntry
             If Not String.IsNullOrEmpty(txtPenalty.Text) Then
                 Dim qryral As String = ""
                 Dim dt As New DataTable()
-                qryral = "select distinct TSPL_TENDER_PENALTY_DETAIL.Document_No,Document_Date from TSPL_TENDER_PENALTY_DETAIL
+                qryral = "select distinct TSPL_TENDER_PENALTY_DETAIL.Document_No,Document_Date,TSPL_TENDER_PENALTY.Created_Date from TSPL_TENDER_PENALTY_DETAIL
                    left outer join TSPL_TENDER_PENALTY on TSPL_TENDER_PENALTY.Document_No=TSPL_TENDER_PENALTY_DETAIL.Document_No
                    where   TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "' AND TSPL_TENDER_PENALTY.Item_Code='" + txtItemCode.Text + "' 
-                   AND TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "'   AND TSPL_TENDER_PENALTY.Tender_No='" + txtRefNo.Text + "' AND TSPL_TENDER_PENALTY_DETAIL.Document_No>='" + txtPenalty.Text + "' order by Document_No desc "
+                   AND TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "'   AND TSPL_TENDER_PENALTY.Tender_No='" + txtRefNo.Text + "' AND TSPL_TENDER_PENALTY_DETAIL.Document_No>='" + txtPenalty.Text + "' order by Created_Date asc "
 
                 If clsCommon.myLen(qryral) > 0 Then
                     dt = clsDBFuncationality.GetDataTable(qryral)
@@ -128,11 +128,11 @@ Public Class frmDeletionForEntry
             If Not String.IsNullOrEmpty(txtPenalty.Text) Then
                 Dim qrypi As String = ""
                 Dim dt1 As New DataTable()
-                qrypi = "SELECT Distinct TSPL_PI_DETAIL.PI_No,PI_Date FROM TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
+                qrypi = "SELECT Distinct TSPL_PI_DETAIL.PI_No,PI_Date,convert(date,TSPL_PI_HEAD.Created_Date,103)Created_Date FROM TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
                      WHERE SRN_Id IN (select  DISTINCT SRN_No from TSPL_TENDER_PENALTY_DETAIL
                      left outer join TSPL_TENDER_PENALTY on TSPL_TENDER_PENALTY.Document_No=TSPL_TENDER_PENALTY_DETAIL.Document_No
                      where   TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "' AND TSPL_TENDER_PENALTY.Item_Code='" + txtItemCode.Text + "' 
-                     AND TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "'  AND TSPL_TENDER_PENALTY.Tender_No='" + txtRefNo.Text + "' AND TSPL_TENDER_PENALTY_DETAIL.Document_No>='" + txtPenalty.Text + "')order by TSPL_PI_DETAIL.PI_No desc "
+                     AND TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "'  AND TSPL_TENDER_PENALTY.Tender_No='" + txtRefNo.Text + "' AND TSPL_TENDER_PENALTY_DETAIL.Document_No>='" + txtPenalty.Text + "')order by Created_Date asc  "
 
                 If clsCommon.myLen(qrypi) > 0 Then
                     dt1 = clsDBFuncationality.GetDataTable(qrypi)
@@ -159,9 +159,9 @@ Public Class frmDeletionForEntry
             ElseIf String.IsNullOrEmpty(txtRefNo.Text) Then
                 Dim qrypurinv As String = ""
                 Dim dt7 As New DataTable()
-                qrypurinv = "SELECT Distinct TSPL_PI_DETAIL.PI_No,PI_Date FROM TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
+                qrypurinv = "SELECT Distinct TSPL_PI_DETAIL.PI_No,PI_Date,convert(date,TSPL_PI_HEAD.Created_Date,103)Created_Date FROM TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
                      WHERE TSPL_PI_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' AND TSPL_PI_DETAIL.Item_Code='" + txtItemCode.Text + "' 
-                     AND TSPL_PI_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and SRN_Id= '" + txttSRN.Text + "' order by TSPL_PI_DETAIL.PI_No desc "
+                     AND TSPL_PI_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and SRN_Id= '" + txttSRN.Text + "' order by Created_Date Desc "
 
                 If clsCommon.myLen(qrypurinv) > 0 Then
                     dt7 = clsDBFuncationality.GetDataTable(qrypurinv)
