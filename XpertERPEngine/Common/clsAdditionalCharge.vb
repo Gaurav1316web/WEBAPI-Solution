@@ -7261,6 +7261,11 @@ Public Class clsTempFATSNFAmt
     Public RejectType As String
     Public QAT As Integer
     Public DockCollectionMilkType As String
+
+    Public HDate As Date
+    Public HQty As Decimal
+    Public HFAT As Decimal
+    Public HSNF As Decimal
 End Class
 
 Public Class clsRowColumnTemp
