@@ -524,7 +524,7 @@ Public Class frmMilkCollectionDCSMultipleDays
         Dim TotMorningSNFKG As Decimal = 0
 
         For ii As Integer = 0 To gv1.Rows.Count - 1
-            If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) > 0 OrElse clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) Then
+            If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) > 0 OrElse clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) > 0 Then
                 TotEveningQty += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value)
                 TotEveningFATKG += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningFATKG).Value)
 
@@ -1684,10 +1684,179 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnReverse.Visible = False
-        'If MyBase.isReverse Then
-        '    btnReverse.Enabled = True
-        'Else
-        '    btnReverse.Enabled = False
-        'End If
+        btnBlankSheetUploder.Visible = MyBase.isExport
+        btnBlankSheetImportUploder.Visible = MyBase.isModifyFlag
+    End Sub
+
+    Private Sub btnBlankSheetUploder_Click(sender As Object, e As EventArgs) Handles btnBlankSheetUploder.Click
+        Try
+            Dim Str As String = "select '02/Apr/2024' as [BMC Date], '' as Route, '' as BMC,0.00 as [BMC Qty], 0.00 as [BMC FAT], 0.00 as  [BMC CLR] ,'01/Apr/2024' as [DCS Date],'' as DCS,'Good' as [Milk Type],0.00 as [DCS Qty], 0.00 as [DCS FAT], 0.00 as  [DCS CLR] "
+            transportSql.ExporttoExcel(Str, Me)
+            Str = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnBlankSheetImportUploder_Click(sender As Object, e As EventArgs) Handles btnBlankSheetImportUploder.Click
+        Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
+        Dim gv As New RadGridView()
+        Me.Controls.Add(gv)
+        Dim currentdate As Date = Date.Today
+        Dim ii As Integer = 1
+        Dim indxSuccess As Integer = 0
+        Dim indxError As Integer = 0
+        Dim snfPer As Decimal = 0
+        Dim arr As New Dictionary(Of String, clsMilkCollectionDCSMulipleDays)
+        Dim qry As String
+        If transportSql.importExcel(gv, "BMC Date", "Route", "BMC", "BMC Qty", "BMC FAT", "BMC CLR", "DCS Date", "Milk Type", "DCS Qty", "DCS FAT", "DCS CLR") Then
+            Try
+                clsCommon.ProgressBarPercentShow()
+                Try
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        ii += 1
+                        clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (gv.Rows.Count)), "Validating Data..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(gv.Rows.Count) & "")
+                        If clsCommon.myLen(grow.Cells("BMC").Value) > 0 Then
+                            Dim objtemp As New clsTempFATSNFAmt
+                            objtemp.MCC = clsCommon.myCstr(grow.Cells("BMC").Value)
+                            objtemp.MCC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Code from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + objtemp.MCC + "'"))
+                            If clsCommon.myLen(objtemp.MCC) <= 0 Then
+                                Throw New Exception("Invalid BMC [" + clsCommon.myCstr(grow.Cells("BMC").Value) + "]")
+                            End If
+                            objtemp.HDate = clsCommon.myCDate(grow.Cells("BMC Date").Value)
+                            objtemp.BulkRoute = clsCommon.myCstr(grow.Cells("Route").Value)
+                            If clsCommon.myLen(objtemp.BulkRoute) > 0 Then
+                                objtemp.BulkRoute = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ROUTE_NO from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + objtemp.BulkRoute + "'"))
+                                If clsCommon.myLen(objtemp.BulkRoute) <= 0 Then
+                                    Throw New Exception("Invalid Route [" + clsCommon.myCstr(grow.Cells("Route").Value) + "]")
+                                End If
+                            End If
+                            objtemp.HQty = clsCommon.myCDecimal(grow.Cells("BMC Qty").Value)
+                            objtemp.HFAT = clsCommon.myCDecimal(grow.Cells("BMC FAT").Value)
+                            objtemp.HSNF = clsCommon.myCDecimal(grow.Cells("BMC CLR").Value)
+
+                            objtemp.VLCUploader = clsCommon.myCstr(grow.Cells("DCS").Value)
+                            qry = "select VLC_Code from TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader='" + objtemp.VLCUploader + "'"
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                                Throw New Exception("Invalid DCS " + objtemp.VLCUploader)
+                            End If
+                            If dt IsNot Nothing AndAlso dt.Rows.Count > 1 Then
+                                Throw New Exception("DCS " + objtemp.VLCUploader + " Mapped more than one MCC/BMC")
+                            End If
+                            objtemp.VLC = clsCommon.myCstr(dt.Rows(0)("VLC_Code"))
+                            objtemp.IDate = clsCommon.myCDate(grow.Cells("DCS Date").Value)
+                            objtemp.IShift = "M"
+                            objtemp.RejectType = clsCommon.myCstr(grow.Cells("Milk Type").Value)
+                            If clsCommon.myLen(objtemp.RejectType) > 0 Then
+                                If clsCommon.CompairString(objtemp.RejectType, "Good") = CompairStringResult.Equal OrElse clsCommon.CompairString(objtemp.RejectType, "Sweet") = CompairStringResult.Equal Then
+                                    objtemp.RejectType = ""
+                                Else
+                                    qry = "select Code from TSPL_MILK_REJECT_TYPE where Code='" + objtemp.RejectType + "'"
+                                    objtemp.RejectType = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                                    If clsCommon.myLen(objtemp.RejectType) <= 0 Then
+                                        Throw New Exception("Invalid DCS Reject Type [" + clsCommon.myCstr(grow.Cells("Milk Type").Value) + "]")
+                                    End If
+                                End If
+                            End If
+                            objtemp.Qty = clsCommon.myCDecimal(grow.Cells("DCS Qty").Value)
+                            objtemp.FAT = clsCommon.myCDecimal(grow.Cells("DCS FAT").Value)
+                            objtemp.SNF = clsCommon.myCDecimal(grow.Cells("DCS CLR").Value)
+
+
+                            Dim UniqueCombination As String = objtemp.MCC + clsCommon.GetPrintDate(objtemp.HDate, "dd/MM/yyyy") + objtemp.BulkRoute
+                            If Not arr.ContainsKey(UniqueCombination) Then
+                                qry = "select Document_No from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS where convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(objtemp.HDate, "dd/MMM/yyyy") + "' and Route_Code='" + objtemp.BulkRoute + "' and MCC_Code='" + objtemp.MCC + "'"
+                                dt = clsDBFuncationality.GetDataTable(qry)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    Throw New Exception("Document No " + clsCommon.myCstr(dt.Rows(0)("Document_No")) + " is already exist for Date [" + clsCommon.GetPrintDate(objtemp.HDate, "dd/MM/yyyy") + "] Route [" + objtemp.BulkRoute + "] and BMC [" + objtemp.MCC + "]")
+                                End If
+
+                                Dim obj As New clsMilkCollectionDCSMulipleDays()
+                                obj.Document_Date = objtemp.HDate
+                                obj.Route_Code = objtemp.BulkRoute
+                                obj.MCC_Code = objtemp.MCC
+
+                                qry = "select TSPL_BULK_ROUTE_MASTER.Tanker_No,TSPL_TANKER_MASTER.TANKER_NAME from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + objtemp.BulkRoute + "'"
+                                dt = clsDBFuncationality.GetDataTable(qry)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    obj.Tanker_No = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+                                    obj.Vehicle_No = clsCommon.myCstr(dt.Rows(0)("TANKER_NAME"))
+                                End If
+                                obj.Trip_No = 1
+                                obj.Entered_Qty = objtemp.HQty
+                                obj.FAT = objtemp.HFAT
+                                obj.Entered_FATKg = Math.Round(clsCommon.myCDivide((objtemp.HQty * objtemp.HFAT), 100), 3, MidpointRounding.ToEven)
+                                obj.CLR = objtemp.HSNF
+                                snfPer = clsEkoPro.getSnfOnCalculation(objtemp.HFAT, objtemp.HSNF, corrFactor, -1, 6)
+                                obj.Entered_SNFKg = Math.Round(clsCommon.myCDivide((objtemp.HQty * snfPer), 100), 3, MidpointRounding.ToEven)
+                                obj.FAT_SNF_Type = cboFATSNFType.SelectedValue
+
+                                obj.Arr = New List(Of clsMilkCollectionDCSMulipleDaysDetail)
+                                arr.Add(UniqueCombination, obj)
+                            End If
+
+                            Dim objtr As New clsMilkCollectionDCSMulipleDaysDetail
+                            objtr.SNo = arr(UniqueCombination).Arr.Count + 1
+                            objtr.VLC_Code = objtemp.VLC
+                            objtr.Shift = objtemp.IShift
+                            objtr.Milk_Type = objtemp.RejectType
+                            objtr.Collection_Date = objtemp.IDate
+                            objtr.Dock_Collection_Milk_Type = "M"
+                            objtr.Qty = objtemp.Qty
+                            objtr.FAT = objtemp.FAT
+                            objtr.FATKG = Math.Round(objtemp.Qty * objtemp.FAT / 100, 3, MidpointRounding.ToEven)
+
+                            objtr.SNF = objtemp.SNF
+                            snfPer = clsEkoPro.getSnfOnCalculation(objtemp.FAT, objtemp.SNF, corrFactor, -1, 6)
+                            objtr.SNFKG = Math.Round(clsCommon.myCDivide((objtemp.Qty * snfPer), 100), 3, MidpointRounding.ToEven)
+                            arr(UniqueCombination).Arr.Add(objtr)
+                            indxSuccess += 1
+                        End If
+                    Next
+                Catch ex As Exception
+                    indxError += 1
+                    Throw New Exception("At Row No" + clsCommon.myCstr(ii) + " " + ex.Message)
+                End Try
+                clsCommon.ProgressBarPercentHide()
+            Catch ex As Exception
+                clsCommon.ProgressBarPercentHide()
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+            Try
+                Dim flag As Boolean = False
+                If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                    qry = "Valid Row [" + clsCommon.myCstr(indxSuccess) + "]" + Environment.NewLine + "Invalid Rows [" + clsCommon.myCstr(indxError) + "] " + Environment.NewLine + "Total Documents To be Generate [" + clsCommon.myCstr(arr.Count) + "]" + Environment.NewLine + "Do You want to Proceed"
+                    If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                        clsCommon.ProgressBarPercentShow()
+                        ii = 0
+                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                        Try
+                            For Each key As String In arr.Keys
+                                ii += 1
+                                clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (arr.Count)), "Saving Document..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(arr.Count) & "")
+                                Dim obj As clsMilkCollectionDCSMulipleDays = arr.Item(key)
+                                obj.SaveData(obj, True, trans)
+                            Next
+                            trans.Commit()
+                            flag = True
+                        Catch ex As Exception
+                            trans.Rollback()
+                            Throw New Exception(ex.Message)
+                        Finally
+                            clsCommon.ProgressBarPercentHide()
+                        End Try
+                    End If
+                Else
+                    Throw New Exception("No Valid Rows Found to Save")
+                End If
+                If flag Then
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                End If
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        End If
+        Me.Controls.Remove(gv)
     End Sub
 End Class
