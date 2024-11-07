@@ -1099,6 +1099,16 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
                                 ErrCount = ErrCount + 1 : GoTo ExitLOOP
                             End If
 
+                            objTr.Bulk_Route_Code = clsCommon.myCstr(gv.Rows(ii).Cells("Rt.Code").Value)
+                            If clsCommon.myLen(objTr.Bulk_Route_Code) > 0 Then
+                                objTr.Bulk_Route_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ROUTE_NO from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + objTr.Bulk_Route_Code + "'"))
+                                If clsCommon.myLen(objTr.Bulk_Route_Code) <= 0 Then
+                                    Throw New Exception("Invalid Route [" + clsCommon.myCstr(gv.Rows(ii).Cells("Rt.Code").Value) + "]")
+                                End If
+                            Else
+                                Throw New Exception("Please provide Rt.Code")
+                            End If
+
                             objTr.Uploader_Code = clsCommon.myCstr(gv.Rows(ii).Cells("VLC Code").Value)
                             objTr.Milk_Weight = clsCommon.myCdbl(gv.Rows(ii).Cells("Qty (Ltr)").Value)
                             objTr.No_Of_Cans = Math.Ceiling(objTr.Milk_Weight / MilkWeight_Setting)
@@ -1280,6 +1290,7 @@ ExitLOOP:
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkWeight).Value = objTr.Milk_Weight
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colFATPer).Value = objTr.FAT
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = objTr.SNF
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBulkRouteCode).Value = objTr.Bulk_Route_Code
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDockCollectionMilkType).Value = objTr.Dock_Collection_Milk_Type
                     TotQty += clsCommon.myCdbl(objTr.Milk_Weight)
                     If chkMilkReject.Checked Then
