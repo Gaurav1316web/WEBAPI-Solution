@@ -25,6 +25,9 @@ Public Class frmMilkProcurementUploader
     Const colManualSample As String = "colManualSample"
     Const colEmptySample As String = "colEmptySample"
     Const colPageNo As String = "colPageNo"
+    Const colArrivalTime As String = "colArrivalTime"
+    Const colWeighmentTime As String = "colWeighmentTime"
+
 
     Const ReportID As String = "BatchInvIn"
 
@@ -356,6 +359,28 @@ Public Class frmMilkProcurementUploader
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoDateBox = New GridViewDateTimeColumn()
+        repoDateBox.Format = DateTimePickerFormat.Custom
+        repoDateBox.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        repoDateBox.FormatString = "{0:dd/MM/yyyy hh:mm:ss tt}"
+        repoDateBox.HeaderText = "Arrival Time"
+        repoDateBox.Name = colArrivalTime
+        repoDateBox.ReadOnly = True
+        repoDateBox.IsVisible = False
+        repoDateBox.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoDateBox)
+
+        repoDateBox = New GridViewDateTimeColumn()
+        repoDateBox.Format = DateTimePickerFormat.Custom
+        repoDateBox.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        repoDateBox.FormatString = "{0:dd/MM/yyyy hh:mm:ss tt}"
+        repoDateBox.HeaderText = "Weighment Time"
+        repoDateBox.Name = colWeighmentTime
+        repoDateBox.ReadOnly = True
+        repoDateBox.IsVisible = False
+        repoDateBox.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoDateBox)
 
         loadBlankParameterGrid()
 
@@ -763,7 +788,7 @@ Public Class frmMilkProcurementUploader
             Dim whrcls As String = ""
             If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
                 whrcls = " 
- CONVERT(VARCHAR,final.[Shift Date],103) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' and Convert(varchar,final.[Shift Date],103) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "'  and
+ CONVERT(date,final.[Shift Date],103) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' and Convert(date,final.[Shift Date],103) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "'  and
 final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & ")"
             End If
             'Dim qry As String = "select Document_No,convert (varchar,Document_Date,103) as Document_Date,Description,case when Status=1 then 'Posted' else 'Pending' end as Status from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD"
@@ -824,7 +849,12 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
                         objTr.Manual_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colManualSample).Value)
                         objTr.Empty_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEmptySample).Value)
                         objTr.Page_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPageNo).Value)
-
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colArrivalTime).Value) > 0 Then
+                            objTr.Arrival_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colArrivalTime).Value)
+                        End If
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colWeighmentTime).Value) > 0 Then
+                            objTr.Weighment_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colWeighmentTime).Value)
+                        End If
                         objTr.arrQCParameter = GetParamCollection(ii)
                         obj.Arr.Add(objTr)
                     End If
@@ -919,6 +949,8 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colEmptySample).Value = objTr.Empty_Sample
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colPageNo).Value = objTr.Page_No
 
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colArrivalTime).Value = objTr.Arrival_Time
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentTime).Value = objTr.Weighment_Time
 
                         TotQty += clsCommon.myCdbl(objTr.Milk_Weight)
                     Next
