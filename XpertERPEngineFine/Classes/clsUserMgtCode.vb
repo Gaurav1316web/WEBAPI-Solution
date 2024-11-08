@@ -2215,6 +2215,7 @@ Public Class clsUserMgtCode
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
     Public Const rptTankerProfitLossReport As String = "TNR_P_L_R"
+    Public Const rptBmcTankerInOutReport As String = "BM_T_IO_R"
     Public Const rptPerodicalDispatchReport As String = "PERO_DISP_R"
     Public Const rptDBTCappingReport As String = "DBT_CAP_R"
     Public Const rptHeadLoadReport As String = "HEAD-LOAD-R"

@@ -1231,6 +1231,7 @@ Public Class clsGRNHead
 
                 db = clsDBFuncationality.getSingleValue("select Is_Auto_Weighment from tspl_item_master where item_code='" + objGRNDetail.Item_Code + "' ", trans)
                 If db <= 0 Then
+                    objMRNDetail = New clsMRNDetail()
                     objMRNDetail.Category = objGRNDetail.Category
                     objMRNDetail.Emergency = objGRNDetail.Emergency
                     objMRNDetail.Capex_Code = objGRNDetail.Capex_Code
