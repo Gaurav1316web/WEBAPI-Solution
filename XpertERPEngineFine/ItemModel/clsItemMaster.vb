@@ -1797,7 +1797,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.isPenaltyDeduction = clsCommon.myCdbl(dt.Rows(0)("isPenaltyDeduction"))
                 obj.isHighClass = clsCommon.myCdbl(dt.Rows(0)("isHighClass"))
                 ''richa agarwal TEC/19/12/18-000383 27 Dec,2018
-                qry = " select Item_Code,UOM_Code,UOM_Description,Conversion_Factor,Stocking_Unit,Default_UOM,Print_UOM,ProcessLoss_UOM,Gross_Weight,Net_Weight,Job_Work_Rate,pieces,Item_Cost,Custom_Conversion from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "' order by Stocking_Unit desc"
+                qry = " select Item_Code,UOM_Code,UOM_Description,Conversion_Factor,Stocking_Unit,Default_UOM,Print_UOM,Report_UOM,ProcessLoss_UOM,Gross_Weight,Net_Weight,Job_Work_Rate,pieces,Item_Cost,Custom_Conversion from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "' order by Stocking_Unit desc"
                 dt = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     obj.ArrUomDetails = New List(Of clsItemUOMDetails)()
@@ -1812,6 +1812,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                         objtr.Default_UOM = clsCommon.myCdbl(dr("Default_UOM"))
                         objtr.RMProcessLoss_UOM = clsCommon.myCdbl(dr("ProcessLoss_UOM"))
                         objtr.Print_UOM = clsCommon.myCdbl(dr("Print_UOM"))
+                        objtr.Report_UOM = clsCommon.myCdbl(dr("Report_UOM"))
                         ''===========================
                         objtr.Pieces = clsCommon.myCdbl(dr("pieces"))
                         objtr.Gross_Weight = clsCommon.myCdbl(dr("Gross_Weight"))
