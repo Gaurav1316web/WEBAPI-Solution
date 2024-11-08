@@ -271,6 +271,12 @@
     <Compile Include="Milk Procurement\Report\rptBMCPerodicalReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptBmcTankerInOutReport.Designer.vb">
+      <DependentUpon>rptBmcTankerInOutReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBmcTankerInOutReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptDBTCappingReport.Designer.vb">
       <DependentUpon>rptDBTCappingReport.vb</DependentUpon>
     </Compile>
@@ -1001,6 +1007,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCPerodicalReport.resx">
       <DependentUpon>rptBMCPerodicalReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBmcTankerInOutReport.resx">
+      <DependentUpon>rptBmcTankerInOutReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCTankerTesting.resx">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>
