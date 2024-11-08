@@ -218,6 +218,8 @@ Public Class frmEMailAndSMSSetting
     Public Const Bank As String = "$#Bank#$"
 
     Public Const Route As String = "$#Route#$"
+    Public Const RouteName As String = "$#RouteName#$"
+    Public Const Shift As String = "$#Shift#$"
     Public Const Flushing As String = "$#Flushing#$"
     Public Const KgFAT As String = "$#KgFAT#$"
     Public Const KgSNF As String = "$#KgSNF#$"
@@ -615,12 +617,16 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)
             ContextMenuStrip1.Items.Add(DocAmount)
+            ContextMenuStrip1.Items.Add(Cust_Code)
             ContextMenuStrip1.Items.Add(Cust_Name)
             ContextMenuStrip1.Items.Add(CAN)
             ContextMenuStrip1.Items.Add(CRT)
             ContextMenuStrip1.Items.Add(ReturnCRT)
             ContextMenuStrip1.Items.Add(ReturnCAN)
             ContextMenuStrip1.Items.Add(OutStandingAmt)
+            ContextMenuStrip1.Items.Add(Route)
+            ContextMenuStrip1.Items.Add(RouteName)
+            ContextMenuStrip1.Items.Add(Shift)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmDeliveryOrderDairy) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_Date)
             ContextMenuStrip1.Items.Add(Doc_No)
