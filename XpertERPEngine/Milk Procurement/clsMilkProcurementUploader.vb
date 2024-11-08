@@ -852,6 +852,9 @@ Public Class clsMilkProcurementUploaderDetail
     Public Manual_Sample As Integer
     Public Empty_Sample As Integer
     Public Page_No As Integer
+    Public Arrival_Time As DateTime? = Nothing
+    Public Weighment_Time As DateTime? = Nothing
+
     'Public Retesting_FAT As Decimal
     'Public Retesting_SNF As Decimal
 #End Region
@@ -893,6 +896,17 @@ Public Class clsMilkProcurementUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "Reject_Defaulter", obj.Reject_Defaulter)
                 clsCommon.AddColumnsForChange(coll, "Against_Milk_Collection_DCS_Detail", obj.Against_Milk_Collection_DCS_Detail, True)
                 clsCommon.AddColumnsForChange(coll, "Bulk_Route_Code", obj.Bulk_Route_Code, True)
+                If obj.Arrival_Time Is Nothing Then
+                    clsCommon.AddColumnsForChange(coll, "Arrival_Time", obj.Arrival_Time, True)
+                Else
+                    clsCommon.AddColumnsForChange(coll, "Arrival_Time", clsCommon.GetPrintDate(obj.Arrival_Time, "dd/MMM/yyyy hh:mm:ss tt"))
+                End If
+                If obj.Weighment_Time Is Nothing Then
+                    clsCommon.AddColumnsForChange(coll, "Weighment_Time", obj.Weighment_Time, True)
+                Else
+                    clsCommon.AddColumnsForChange(coll, "Weighment_Time", clsCommon.GetPrintDate(obj.Weighment_Time, "dd/MMM/yyyy hh:mm:ss tt"))
+                End If
+
                 If obj.Dock_Collection_Milk_Type_Auto Then
                     If Not objCommonVar.DisplayTypeInMilkReceipt Then
                         If Is_Seprate_Dock_Cow_Buffalo Then
@@ -962,7 +976,12 @@ where  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Manual_Sample = clsCommon.myCDecimal(dr("Manual_Sample"))
                 objTr.Empty_Sample = clsCommon.myCDecimal(dr("Empty_Sample"))
                 objTr.Page_No = clsCommon.myCDecimal(dr("Page_No"))
-
+                If dr("Arrival_Time") IsNot DBNull.Value Then
+                    objTr.Arrival_Time = clsCommon.myCDate(dr("Arrival_Time"))
+                End If
+                If dr("Weighment_Time") IsNot DBNull.Value Then
+                    objTr.Weighment_Time = clsCommon.myCDate(dr("Weighment_Time"))
+                End If
                 arr.Add(objTr)
             Next
         End If
