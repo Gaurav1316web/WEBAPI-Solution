@@ -731,14 +731,9 @@ Public Class frmMilkProcurementUploader
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        'If gv1.RowCount <= clsCommon.myCdbl(lblQty.Text) Then
-        '    e.Cancel = True
-        '    Exit Sub
-        'End If
-
-        'If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-        '    e.Cancel = True
-        'End If
+        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            e.Cancel = True
+        End If
     End Sub
 
     Sub RefeshSNO()

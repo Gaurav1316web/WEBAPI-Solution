@@ -244,6 +244,7 @@ Public Class clsUserMgtCode
     Public Const rptMatrixFreshSalesReportSaleDairy As String = "RPT_MAT_SAL"
     Public Const rptDairyTruckSheetReport As String = "RPT_TRK_SHT"
     Public Const rptSaleRegisterDetail As String = "RPT_SR_DT"
+    Public Const rptSaleRegisterUOMReport As String = "RPT_UOM_SR"
     Public Const rptDairySaleRegisterReport As String = "RPT_SRR_DT"
     Public Const InvoicePriceWiseReport As String = "RPT_INV_P"
     Public Const rptInvoiceDetailReport As String = "RPT_INV_D"

@@ -8216,6 +8216,10 @@ Public Class MDI
                         frm = New rptDairyTruckSheetReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptSaleRegisterUOMReport
+                        frm = New rptSaleRegisterUOMReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSaleRegisterDetail
                         frm = New rptSaleRegisterDetail()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
