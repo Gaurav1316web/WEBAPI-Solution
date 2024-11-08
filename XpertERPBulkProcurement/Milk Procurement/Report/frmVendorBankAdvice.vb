@@ -14,6 +14,9 @@ Public Class frmVendorBankAdvice
     Dim dtREJECT As DataTable
     Dim IsBankAdviseStartDate As String
     Dim ExportBankWiseQry As String = Nothing
+    Public DocNo As String = Nothing
+    Public MCC As String = Nothing
+
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -23,6 +26,14 @@ Public Class frmVendorBankAdvice
     End Sub
 
     Private Sub rptMilkBillProcurementSummary_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Try
+            FormLoad()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub FormLoad()
         IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         ConvertVlcCodeUploaderToInt = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, Nothing)) = 1)
@@ -59,7 +70,12 @@ Public Class frmVendorBankAdvice
         Else
             RadGroupBox4.Visible = False
         End If
+        If clsCommon.myLen(DocNo) > 0 Then
+            Print(True, DocNo, MCC)
+        End If
     End Sub
+
+
     Sub Reset()
         fromDate.Value = clsCommon.GETSERVERDATE()
         ToDate.Value = clsCommon.GETSERVERDATE()
@@ -105,7 +121,7 @@ Public Class frmVendorBankAdvice
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "IFSC"
         End If
         GetReportID()
-        Print(False, Nothing)
+        Print(False, Nothing, Nothing)
         ReStoreGridLayout()
     End Sub
 
@@ -142,7 +158,7 @@ Public Class frmVendorBankAdvice
     End Sub
 
 
-    Public Sub Print(ByVal isPrint As Boolean, ByVal BankAdviseDocNo As String)
+    Public Sub Print(ByVal isPrint As Boolean, ByVal BankAdviseDocNo As String, ByVal MCC As String)
         Try
             If clsCommon.myLen(BankAdviseDocNo) > 0 Then
                 rbtnBankAdvice.IsChecked = True
@@ -435,9 +451,12 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
 left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) " + IIf(MultipleFinderFillAuto = True, "  and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected  ", " and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code=TSPL_Location_MASTER.Location_Code ") + " "
 
                 If clsCommon.myLen(BankAdviseDocNo) <= 0 Then
-                    BaseQry += "where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' " + IIf(clsCommon.myLen(txtMCC.Value) > 0, "and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code='" + txtMCC.Value + "' And TSPL_MCC_MASTER.MCC_Code='" + txtMCC.Value + "' ", "") + " "
+                    BaseQry += " where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' " + IIf(clsCommon.myLen(txtMCC.Value) > 0, "and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code='" + txtMCC.Value + "' And TSPL_MCC_MASTER.MCC_Code='" + txtMCC.Value + "' ", "") + " "
                 Else
-                    BaseQry += " where TSPL_BANK_ADVISE.Document_No='" + BankAdviseDocNo + "'"
+                    BaseQry += " where TSPL_BANK_ADVISE.Document_No='" + BankAdviseDocNo + "' "
+                    If clsCommon.myLen(MCC) > 0 AndAlso MultipleFinderFillAuto = False Then
+                        BaseQry += " and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code='" + MCC + "' And TSPL_MCC_MASTER.MCC_Code='" + MCC + "' "
+                    End If
                 End If
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") <> CompairStringResult.Equal Then
@@ -1246,7 +1265,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
         If ChkIFSCCode.Checked Then
             Printt()
         Else
-            Print(True, Nothing)
+            Print(True, Nothing, Nothing)
         End If
     End Sub
 
@@ -1808,7 +1827,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
         If ChkIFSCCode.Checked Then
             Printt()
         Else
-            Print(True, Nothing)
+            Print(True, Nothing, Nothing)
         End If
     End Sub
 
