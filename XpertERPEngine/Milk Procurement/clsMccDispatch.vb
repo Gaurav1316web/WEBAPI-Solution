@@ -1260,176 +1260,177 @@ Public Class clsMccDispatch
     End Function
 
     Public Shared Function CreateJEAndInvenotryMovement(ByVal obj As clsMccDispatch, ByVal trans As SqlTransaction, ByVal objTransferIn As String, ByVal strVoucherNoForRecreateOnly As String)
-        Dim qry As String = ""
-        Dim ArrInventoryMovement As List(Of clsInventoryMovementNew) = New List(Of clsInventoryMovementNew)
-        Dim dclTransferAmount As Decimal = 0
-        Dim dclInventoryAmount As Decimal = 0
-        Dim settTankerDispatchIntermittentSingleGateIn As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchIntermittentSingleGateIn, clsFixedParameterCode.TankerDispatchIntermittentSingleGateIn, trans)) = 1)
-        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchFinancialImpactInTransferIn, clsFixedParameterCode.TankerDispatchFinancialImpactInTransferIn, trans)) = 1 Then
-            qry = "select * from tspl_inventory_movement_new where trans_Type='MilkTransferIn' and Source_Doc_No='" + objTransferIn + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For Each dr As DataRow In dt.Rows
-                    Dim objInventoryMovemnt As New clsInventoryMovementNew()
-                    objInventoryMovemnt.InOut = "O"
-                    objInventoryMovemnt.Location_Code = obj.MCC_Code
-                    objInventoryMovemnt.Other_Location_Code = obj.Mcc_Or_Plant_Code
-                    objInventoryMovemnt.Other_Location_Desc = clsLocation.GetName(obj.Mcc_Or_Plant_Code, trans)
-                    objInventoryMovemnt.Item_Code = obj.Item_Code
-                    objInventoryMovemnt.Item_Desc = obj.Item_Desc
-                    objInventoryMovemnt.Qty = clsCommon.myCdbl(dr("Qty"))
-                    objInventoryMovemnt.UOM = clsCommon.myCstr(dr("UOM"))
-                    objInventoryMovemnt.MRP = clsCommon.myCdbl(dr("MRP"))
-                    objInventoryMovemnt.Add_Cost = clsCommon.myCdbl(dr("Add_Cost"))
-                    objInventoryMovemnt.FAT_KG = clsCommon.myCdbl(dr("FAT_KG"))
-                    objInventoryMovemnt.SNF_KG = clsCommon.myCdbl(dr("SNF_KG"))
-                    objInventoryMovemnt.FAT_Per = clsCommon.myCdbl(dr("FAT_Per"))
-                    objInventoryMovemnt.SNF_Per = clsCommon.myCdbl(dr("SNF_Per"))
-                    objInventoryMovemnt.ItemType = clsCommon.myCstr(dr("ItemType"))
-                    objInventoryMovemnt.Fat_Rate = obj.Avg_FAT_Rate
-                    objInventoryMovemnt.SNF_Rate = obj.Avg_SNF_Rate
-                    objInventoryMovemnt.Fat_Amt = obj.Avg_FAT_Rate * objInventoryMovemnt.FAT_KG
-                    objInventoryMovemnt.SNF_Amt = obj.Avg_SNF_Rate * objInventoryMovemnt.SNF_KG
-                    objInventoryMovemnt.Net_Cost = objInventoryMovemnt.Fat_Amt + objInventoryMovemnt.SNF_Amt
-                    objInventoryMovemnt.Basic_Cost = IIf(objInventoryMovemnt.Qty = 0, 0, objInventoryMovemnt.Net_Cost / objInventoryMovemnt.Qty)
-                    ArrInventoryMovement.Add(objInventoryMovemnt)
-                    dclTransferAmount += clsCommon.myCdbl(dr("Net_Cost"))
-                    dclInventoryAmount += objInventoryMovemnt.Net_Cost
-                Next
-                clsInventoryMovementNew.SaveData("DispChallan", obj.Chalan_NO, obj.Dispatch_Date, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
-            Else
-                Throw New Exception("Transfer in inventory impact not found")
-            End If
-        Else
-            If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchAvgFATSNFPer, clsFixedParameterCode.TankerDispatchAvgFATSNFPer, trans)) = 1) Then
-                CreateInvMovementSiloWise(obj.Chalan_NO, obj.Dispatch_Date, obj.MCC_Code, obj.Mcc_Or_Plant_Code, trans)
-            ElseIf obj.arr Is Nothing OrElse obj.arr.Count <= 0 Then ''BHA/05/07/18-000131 by balwinder on 11/07/2018 
-                CreateInvMovement(0, obj.Chalan_NO, obj.Dispatch_Date, obj.MCC_Code, obj.Mcc_Or_Plant_Code, obj.Item_Code, "KG", obj.Net_Qty, obj.FAT_KG, obj.SNF_KG, obj.FAT_RATE, obj.SNF_RATE, obj.Amount, trans, obj.Rejected_Only)
-            Else
-                For Each objtr As clsMCCDispatchDetail In obj.arr
-                    Dim flag As Boolean = True
-                    If settTankerDispatchIntermittentSingleGateIn AndAlso obj.isIntermittent Then
-                        If clsCommon.myLen(objtr.Intermittent_Dispatch_No) > 0 Then
-                            flag = False
-                        Else
-                            flag = True
-                        End If
-                    End If
-                    If flag Then
-                        CreateInvMovement(obj.arr.Count, obj.Chalan_NO, obj.Dispatch_Date, obj.MCC_Code, obj.Mcc_Or_Plant_Code, objtr.Item_Code, objtr.Item_UOM, objtr.Qty_KG, objtr.FAT_KG, objtr.SNF_KG, objtr.FAT_Rate, objtr.SNF_Rate, objtr.Amount, trans, obj.Rejected_Only)
-                    End If
-                Next
-            End If
-        End If
-        ''-------------------------- end of inventory movement 
+        'Dim qry As String = ""
+        'Dim ArrInventoryMovement As List(Of clsInventoryMovementNew) = New List(Of clsInventoryMovementNew)
+        'Dim dclTransferAmount As Decimal = 0
+        'Dim dclInventoryAmount As Decimal = 0
+        'Dim settTankerDispatchIntermittentSingleGateIn As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchIntermittentSingleGateIn, clsFixedParameterCode.TankerDispatchIntermittentSingleGateIn, trans)) = 1)
+        'If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchFinancialImpactInTransferIn, clsFixedParameterCode.TankerDispatchFinancialImpactInTransferIn, trans)) = 1 Then
+        '    qry = "select * from tspl_inventory_movement_new where trans_Type='MilkTransferIn' and Source_Doc_No='" + objTransferIn + "'"
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '        For Each dr As DataRow In dt.Rows
+        '            Dim objInventoryMovemnt As New clsInventoryMovementNew()
+        '            objInventoryMovemnt.InOut = "O"
+        '            objInventoryMovemnt.Location_Code = obj.MCC_Code
+        '            objInventoryMovemnt.Other_Location_Code = obj.Mcc_Or_Plant_Code
+        '            objInventoryMovemnt.Other_Location_Desc = clsLocation.GetName(obj.Mcc_Or_Plant_Code, trans)
+        '            objInventoryMovemnt.Item_Code = obj.Item_Code
+        '            objInventoryMovemnt.Item_Desc = obj.Item_Desc
+        '            objInventoryMovemnt.Qty = clsCommon.myCdbl(dr("Qty"))
+        '            objInventoryMovemnt.UOM = clsCommon.myCstr(dr("UOM"))
+        '            objInventoryMovemnt.MRP = clsCommon.myCdbl(dr("MRP"))
+        '            objInventoryMovemnt.Add_Cost = clsCommon.myCdbl(dr("Add_Cost"))
+        '            objInventoryMovemnt.FAT_KG = clsCommon.myCdbl(dr("FAT_KG"))
+        '            objInventoryMovemnt.SNF_KG = clsCommon.myCdbl(dr("SNF_KG"))
+        '            objInventoryMovemnt.FAT_Per = clsCommon.myCdbl(dr("FAT_Per"))
+        '            objInventoryMovemnt.SNF_Per = clsCommon.myCdbl(dr("SNF_Per"))
+        '            objInventoryMovemnt.ItemType = clsCommon.myCstr(dr("ItemType"))
+        '            objInventoryMovemnt.Fat_Rate = obj.Avg_FAT_Rate
+        '            objInventoryMovemnt.SNF_Rate = obj.Avg_SNF_Rate
+        '            objInventoryMovemnt.Fat_Amt = obj.Avg_FAT_Rate * objInventoryMovemnt.FAT_KG
+        '            objInventoryMovemnt.SNF_Amt = obj.Avg_SNF_Rate * objInventoryMovemnt.SNF_KG
+        '            objInventoryMovemnt.Net_Cost = objInventoryMovemnt.Fat_Amt + objInventoryMovemnt.SNF_Amt
+        '            objInventoryMovemnt.Basic_Cost = IIf(objInventoryMovemnt.Qty = 0, 0, objInventoryMovemnt.Net_Cost / objInventoryMovemnt.Qty)
+        '            ArrInventoryMovement.Add(objInventoryMovemnt)
+        '            dclTransferAmount += clsCommon.myCdbl(dr("Net_Cost"))
+        '            dclInventoryAmount += objInventoryMovemnt.Net_Cost
+        '        Next
+        '        clsInventoryMovementNew.SaveData("DispChallan", obj.Chalan_NO, obj.Dispatch_Date, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+        '    Else
+        '        Throw New Exception("Transfer in inventory impact not found")
+        '    End If
+        'Else
+        '    If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchAvgFATSNFPer, clsFixedParameterCode.TankerDispatchAvgFATSNFPer, trans)) = 1) Then
+        '        CreateInvMovementSiloWise(obj.Chalan_NO, obj.Dispatch_Date, obj.MCC_Code, obj.Mcc_Or_Plant_Code, trans)
+        '    ElseIf obj.arr Is Nothing OrElse obj.arr.Count <= 0 Then ''BHA/05/07/18-000131 by balwinder on 11/07/2018 
+        '        CreateInvMovement(0, obj.Chalan_NO, obj.Dispatch_Date, obj.MCC_Code, obj.Mcc_Or_Plant_Code, obj.Item_Code, "KG", obj.Net_Qty, obj.FAT_KG, obj.SNF_KG, obj.FAT_RATE, obj.SNF_RATE, obj.Amount, trans, obj.Rejected_Only)
+        '    Else
+        '        For Each objtr As clsMCCDispatchDetail In obj.arr
+        '            Dim flag As Boolean = True
+        '            If settTankerDispatchIntermittentSingleGateIn AndAlso obj.isIntermittent Then
+        '                If clsCommon.myLen(objtr.Intermittent_Dispatch_No) > 0 Then
+        '                    flag = False
+        '                Else
+        '                    flag = True
+        '                End If
+        '            End If
+        '            If flag Then
+        '                CreateInvMovement(obj.arr.Count, obj.Chalan_NO, obj.Dispatch_Date, obj.MCC_Code, obj.Mcc_Or_Plant_Code, objtr.Item_Code, objtr.Item_UOM, objtr.Qty_KG, objtr.FAT_KG, objtr.SNF_KG, objtr.FAT_Rate, objtr.SNF_Rate, objtr.Amount, trans, obj.Rejected_Only)
+        '            End If
+        '        Next
+        '    End If
+        'End If
+        ''''-------------------------- end of inventory movement 
 
 
 
-        '-----------------SEAL Qty
-        Dim strItemType As String
-        Dim strItemTypeToSave As String
-        Dim strItemUnitCode As String
-        Dim strItemCode As String = String.Empty
-        strItemCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Item_Code  from TSPL_ITEM_MASTER where Product_Type='PS' ", trans))
-        Dim SealQty As Integer = 0
-        SealQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select count(*) from TSPL_Mcc_Dispatch_Challan_Paper_Seal_Details where chalan_no='" & obj.Chalan_NO & "' ", trans))
-        If SealQty > 0 Then
-            Dim ArrLocationDetails1 As List(Of clsItemLocationDetails) = New List(Of clsItemLocationDetails)()
-            Dim ArrInventoryMovement1 As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
-            strItemType = clsItemMaster.GetItemType(strItemCode, trans)
-            'Dim strItemTypeToSave As String = ""
-            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                strItemTypeToSave = "RM"
-            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                strItemTypeToSave = "OT"
-            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                strItemTypeToSave = "FT"
-            ElseIf clsCommon.CompairString(strItemType, "A") = CompairStringResult.Equal Then
-                strItemTypeToSave = "A"
-            Else
-                strItemTypeToSave = strItemType
-                'Throw New Exception("Item Type not found: " + strItemType)
-            End If
-            strItemUnitCode = clsItemMaster.GetStockUnit(strItemCode, trans)
+        ''-----------------SEAL Qty
+        'Dim strItemType As String
+        'Dim strItemTypeToSave As String
+        'Dim strItemUnitCode As String
+        'Dim strItemCode As String = String.Empty
+        'strItemCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Item_Code  from TSPL_ITEM_MASTER where Product_Type='PS' ", trans))
+        'Dim SealQty As Integer = 0
+        'SealQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select count(*) from TSPL_Mcc_Dispatch_Challan_Paper_Seal_Details where chalan_no='" & obj.Chalan_NO & "' ", trans))
+        'If SealQty > 0 Then
+        '    Dim ArrLocationDetails1 As List(Of clsItemLocationDetails) = New List(Of clsItemLocationDetails)()
+        '    Dim ArrInventoryMovement1 As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+        '    strItemType = clsItemMaster.GetItemType(strItemCode, trans)
+        '    'Dim strItemTypeToSave As String = ""
+        '    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "RM"
+        '    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "OT"
+        '    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "FT"
+        '    ElseIf clsCommon.CompairString(strItemType, "A") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "A"
+        '    Else
+        '        strItemTypeToSave = strItemType
+        '        'Throw New Exception("Item Type not found: " + strItemType)
+        '    End If
+        '    strItemUnitCode = clsItemMaster.GetStockUnit(strItemCode, trans)
 
-            Dim objInventoryMovemnt1 As clsInventoryMovement = New clsInventoryMovement()
-            objInventoryMovemnt1.InOut = "O"
-            objInventoryMovemnt1.Location_Code = obj.MCC_Code
-            objInventoryMovemnt1.Other_Location_Code = obj.Mcc_Or_Plant_Code
-            objInventoryMovemnt1.Other_Location_Desc = clsLocation.GetName(obj.Mcc_Or_Plant_Code, trans)
-            objInventoryMovemnt1.Item_Code = strItemCode
-            objInventoryMovemnt1.Item_Desc = clsItemMaster.GetItemName(strItemCode, trans)
-            objInventoryMovemnt1.Qty = SealQty
-            objInventoryMovemnt1.UOM = strItemUnitCode
-            objInventoryMovemnt1.MRP = 0
-            objInventoryMovemnt1.Add_Cost = 0
-            objInventoryMovemnt1.Net_Cost = 0
-            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                objInventoryMovemnt1.ItemType = "RM"
-            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                objInventoryMovemnt1.ItemType = "OT"
-            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                objInventoryMovemnt1.ItemType = "FT"
-            End If
-            objInventoryMovemnt1.ItemType = strItemTypeToSave
-            objInventoryMovemnt1.Basic_Cost = 0
-            ArrInventoryMovement1.Add(objInventoryMovemnt1)
-            If Not obj.isBulkSaleData Then
-                clsItemLocationDetails.SaveData(clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrLocationDetails1, trans)
-                clsInventoryMovement.SaveData("DispChallan", obj.Chalan_NO, obj.Dispatch_Date, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrInventoryMovement1, trans)
-            End If
-        End If
+        '    Dim objInventoryMovemnt1 As clsInventoryMovement = New clsInventoryMovement()
+        '    objInventoryMovemnt1.InOut = "O"
+        '    objInventoryMovemnt1.Location_Code = obj.MCC_Code
+        '    objInventoryMovemnt1.Other_Location_Code = obj.Mcc_Or_Plant_Code
+        '    objInventoryMovemnt1.Other_Location_Desc = clsLocation.GetName(obj.Mcc_Or_Plant_Code, trans)
+        '    objInventoryMovemnt1.Item_Code = strItemCode
+        '    objInventoryMovemnt1.Item_Desc = clsItemMaster.GetItemName(strItemCode, trans)
+        '    objInventoryMovemnt1.Qty = SealQty
+        '    objInventoryMovemnt1.UOM = strItemUnitCode
+        '    objInventoryMovemnt1.MRP = 0
+        '    objInventoryMovemnt1.Add_Cost = 0
+        '    objInventoryMovemnt1.Net_Cost = 0
+        '    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+        '        objInventoryMovemnt1.ItemType = "RM"
+        '    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+        '        objInventoryMovemnt1.ItemType = "OT"
+        '    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+        '        objInventoryMovemnt1.ItemType = "FT"
+        '    End If
+        '    objInventoryMovemnt1.ItemType = strItemTypeToSave
+        '    objInventoryMovemnt1.Basic_Cost = 0
+        '    ArrInventoryMovement1.Add(objInventoryMovemnt1)
+        '    If Not obj.isBulkSaleData Then
+        '        clsItemLocationDetails.SaveData(clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrLocationDetails1, trans)
+        '        clsInventoryMovement.SaveData("DispChallan", obj.Chalan_NO, obj.Dispatch_Date, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrInventoryMovement1, trans)
+        '    End If
+        'End If
 
-        strItemCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Item_Code  from TSPL_ITEM_MASTER where Product_Type='MS' ", trans))
-        SealQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select COUNT(*) from(select Seal_No1 as seal_No,Chalan_NO   from (select Seal_No1,Chalan_NO   from TSPL_MCC_Dispatch_Challan union all select Seal_No2,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No3,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No4,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No5,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No6,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No7,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No8,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No9,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No10,Chalan_NO  from TSPL_MCC_Dispatch_Challan) xx where Seal_No1 <>'' ) yyy where yyy.Chalan_NO ='" & obj.Chalan_NO & "'", trans))
-        If SealQty > 0 Then
-            Dim ArrLocationDetails1 As List(Of clsItemLocationDetails) = New List(Of clsItemLocationDetails)()
-            Dim ArrInventoryMovement1 As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
-            strItemType = clsItemMaster.GetItemType(strItemCode, trans)
-            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                strItemTypeToSave = "RM"
-            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                strItemTypeToSave = "OT"
-            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                strItemTypeToSave = "FT"
-            ElseIf clsCommon.CompairString(strItemType, "A") = CompairStringResult.Equal Then
-                strItemTypeToSave = "A"
-            Else
-                strItemTypeToSave = strItemType
-            End If
-            strItemUnitCode = clsItemMaster.GetStockUnit(strItemCode, trans)
+        'strItemCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Item_Code  from TSPL_ITEM_MASTER where Product_Type='MS' ", trans))
+        'SealQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select COUNT(*) from(select Seal_No1 as seal_No,Chalan_NO   from (select Seal_No1,Chalan_NO   from TSPL_MCC_Dispatch_Challan union all select Seal_No2,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No3,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No4,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No5,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No6,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No7,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No8,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No9,Chalan_NO  from TSPL_MCC_Dispatch_Challan union all select Seal_No10,Chalan_NO  from TSPL_MCC_Dispatch_Challan) xx where Seal_No1 <>'' ) yyy where yyy.Chalan_NO ='" & obj.Chalan_NO & "'", trans))
+        'If SealQty > 0 Then
+        '    Dim ArrLocationDetails1 As List(Of clsItemLocationDetails) = New List(Of clsItemLocationDetails)()
+        '    Dim ArrInventoryMovement1 As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+        '    strItemType = clsItemMaster.GetItemType(strItemCode, trans)
+        '    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "RM"
+        '    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "OT"
+        '    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "FT"
+        '    ElseIf clsCommon.CompairString(strItemType, "A") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "A"
+        '    Else
+        '        strItemTypeToSave = strItemType
+        '    End If
+        '    strItemUnitCode = clsItemMaster.GetStockUnit(strItemCode, trans)
 
-            Dim objInventoryMovemnt1 As clsInventoryMovement = New clsInventoryMovement()
-            objInventoryMovemnt1.InOut = "O"
-            objInventoryMovemnt1.Location_Code = obj.MCC_Code
-            objInventoryMovemnt1.Other_Location_Code = obj.Mcc_Or_Plant_Code
-            objInventoryMovemnt1.Other_Location_Desc = clsLocation.GetName(obj.Mcc_Or_Plant_Code, trans)
-            objInventoryMovemnt1.Item_Code = strItemCode
-            objInventoryMovemnt1.Item_Desc = clsItemMaster.GetItemName(strItemCode, trans)
-            objInventoryMovemnt1.Qty = SealQty
-            objInventoryMovemnt1.UOM = strItemUnitCode
-            objInventoryMovemnt1.MRP = 0
-            objInventoryMovemnt1.Add_Cost = 0
-            objInventoryMovemnt1.Net_Cost = 0
-            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                objInventoryMovemnt1.ItemType = "RM"
-            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                objInventoryMovemnt1.ItemType = "OT"
-            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                objInventoryMovemnt1.ItemType = "FT"
-            End If
-            objInventoryMovemnt1.ItemType = strItemTypeToSave
-            objInventoryMovemnt1.Basic_Cost = 0
-            ArrInventoryMovement1.Add(objInventoryMovemnt1)
-            If Not obj.isBulkSaleData Then
-                clsItemLocationDetails.SaveData(clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrLocationDetails1, trans)
-                clsInventoryMovement.SaveData("DispChallan", obj.Chalan_NO, obj.Dispatch_Date, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrInventoryMovement1, trans)
-            End If
-        End If
-        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProc, clsFixedParameterCode.CreateTankerDispatchGL, trans)) = 1 Then
-            CreateTransferOutJE(obj, "", trans, dclTransferAmount, dclInventoryAmount)
-        End If
-        '-----------------End of SEAL Qty
+        '    Dim objInventoryMovemnt1 As clsInventoryMovement = New clsInventoryMovement()
+        '    objInventoryMovemnt1.InOut = "O"
+        '    objInventoryMovemnt1.Location_Code = obj.MCC_Code
+        '    objInventoryMovemnt1.Other_Location_Code = obj.Mcc_Or_Plant_Code
+        '    objInventoryMovemnt1.Other_Location_Desc = clsLocation.GetName(obj.Mcc_Or_Plant_Code, trans)
+        '    objInventoryMovemnt1.Item_Code = strItemCode
+        '    objInventoryMovemnt1.Item_Desc = clsItemMaster.GetItemName(strItemCode, trans)
+        '    objInventoryMovemnt1.Qty = SealQty
+        '    objInventoryMovemnt1.UOM = strItemUnitCode
+        '    objInventoryMovemnt1.MRP = 0
+        '    objInventoryMovemnt1.Add_Cost = 0
+        '    objInventoryMovemnt1.Net_Cost = 0
+        '    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+        '        objInventoryMovemnt1.ItemType = "RM"
+        '    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+        '        objInventoryMovemnt1.ItemType = "OT"
+        '    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+        '        objInventoryMovemnt1.ItemType = "FT"
+        '    End If
+        '    objInventoryMovemnt1.ItemType = strItemTypeToSave
+        '    objInventoryMovemnt1.Basic_Cost = 0
+        '    ArrInventoryMovement1.Add(objInventoryMovemnt1)
+        '    If Not obj.isBulkSaleData Then
+        '        clsItemLocationDetails.SaveData(clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrLocationDetails1, trans)
+        '        clsInventoryMovement.SaveData("DispChallan", obj.Chalan_NO, obj.Dispatch_Date, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MM/yyyy"), ArrInventoryMovement1, trans)
+        '    End If
+        'End If
+        'If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProc, clsFixedParameterCode.CreateTankerDispatchGL, trans)) = 1 Then
+        '    CreateTransferOutJE(obj, "", trans, dclTransferAmount, dclInventoryAmount)
+        'End If
+        ''-----------------End of SEAL Qty
+        ''Comment by  Balwinder on 08/11/2024 No need for make Inventory and JE
         Return True
     End Function
     Shared Sub CreateInvMovementSiloWise(ByVal strChalanceNo As String, ByVal dtChalanDate As DateTime, ByVal strMCC_Code As String, ByVal strMcc_Or_Plant_Code As String, ByVal trans As SqlTransaction)
