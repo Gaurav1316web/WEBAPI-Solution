@@ -570,6 +570,18 @@ Public Class frmMilkShiftUploaderUCDF
             AddNew()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.Escape Then
             CancelPressed()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "MulProcDedReversAndCreate"
+                frm.strCode = "MulProcDedReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            End If
         End If
     End Sub
 
@@ -1356,7 +1368,25 @@ tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc
         End Try
     End Sub
 
-
-
-
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                '' REASON FOR DELETE 
+                Dim Reason As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Reverse"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+                clsMilkShiftUploaderHead.ReverseAndUnpost(txtDocNo.Value)
+                clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
+                LoadData(txtDocNo.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

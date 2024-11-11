@@ -2509,11 +2509,11 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         'End If
         BaseQry += ",TSPL_MILK_SRN_HEAD.ROUTE_CODE As SRN_ROUTE,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Vendor_Name_Hindi, TSPL_VENDOR_MASTER.Bank_Name as Vendor_Bank_Name, TSPL_VENDOR_MASTER.Account_Type as Vendor_Bank_Account_Type1 , TSPL_VENDOR_MASTER.AccountType2 as Vendor_Bank_Account_Type2 , "
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-            BaseQry += " PaymentProcess.Payee_Joint_Account_No as Vendor_Account_No1,PaymentProcess.Payee_Joint_Branch_Name as Vendor_Bank_Code, "
-        Else
-            BaseQry += " TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, "
-        End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+        BaseQry += " PaymentProcess.Payee_Joint_Account_No as Vendor_Account_No1,PaymentProcess.Payee_Joint_Branch_Name as Vendor_Bank_Code, "
+        ' Else
+        'BaseQry += " TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, "
+        ' End If
         BaseQry += " TSPL_VENDOR_MASTER.AccNo2 as Vendor_Account_No2,TSPL_VENDOR_MASTER.PAN As DCS_PAN, "
         If AreaWiseBilling = True Then
             BaseQry += "  xxxSetLocation.Location_Desc as MCC_NAME "

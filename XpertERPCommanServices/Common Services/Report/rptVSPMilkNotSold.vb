@@ -177,6 +177,16 @@ Public Class rptVSPMilkNotSold
                     If clsCommon.myLen(txtMultiDeduction.arrValueMember) > 0 Then
                         qry += " and TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode in (" + clsCommon.GetMulcallString(txtMultiDeduction.arrValueMember) + ")"
                     End If
+                    qry += " union all select Customer_Code as Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount from TSPL_SD_SHIPMENT_DETAIL
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_ITEM_MASTER.Deduction_Type
+where TSPL_SD_SHIPMENT_HEAD.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and
+TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "'"
+                    If clsCommon.myLen(txtMultiDeduction.arrValueMember) > 0 Then
+                        qry += " and TSPL_DEDUCTION_MASTER.Code in (" + clsCommon.GetMulcallString(txtMultiDeduction.arrValueMember) + ")"
+                    End If
                     qry += ")Tab1
                          PIVOT(SUM(Amount) FOR Deduction_Desc IN (" + DedName1 + ")) AS Tab2 )ClosedDCS
 					    Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=ClosedDCS.Vendor_Code
@@ -565,7 +575,7 @@ Public Class rptVSPMilkNotSold
 
                 'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                 ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
-                Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select Distinct TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
+                Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In ( select  xx.DeductionCode from ( (Select Distinct TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
                                         Inner Join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
                                         Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code"
                 If AreaWiseBilling = True Then
@@ -596,6 +606,27 @@ Public Class rptVSPMilkNotSold
                     End If
                     Qry += "  And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
                                           TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
+                    Qry += " union all Select Distinct TSPL_DEDUCTION_MASTER.Code as DeductionCode from TSPL_SD_SHIPMENT_DETAIL
+                                        Inner Join TSPL_SD_SHIPMENT_HEAD On TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+                                        Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+										left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
+										left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_ITEM_MASTER.Deduction_Type"
+                    If AreaWiseBilling = True Then
+                        Qry += " inner join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_VLC_MASTER_HEAD.mcc				"
+                    End If
+                    Qry += " where TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt>0 "
+                    If AreaWiseBilling = True Then
+                        Qry += "  and tspl_mcc_master.Area_Location_Code='" + fndArea.Value + "'"
+                    End If
+                    If TxtMCCMultifnd.arrValueMember IsNot Nothing AndAlso TxtMCCMultifnd.arrValueMember.Count > 0 Then
+                        Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & clsCommon.GetMulcallString(TxtMCCMultifnd.arrValueMember) & ") "
+                    ElseIf txtMCC.Text IsNot Nothing AndAlso clsCommon.myLen(txtMCC.Text) > 0 Then
+                        Qry += "  and TSPL_VLC_MASTER_HEAD.MCC ='" + txtMCC.Text + "'  "
+                    Else
+                        Qry += "  and TSPL_VLC_MASTER_HEAD.MCC In (" & StrPermission & ") "
+                    End If
+                    Qry += "  And TSPL_SD_SHIPMENT_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_SD_SHIPMENT_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
+                                          TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) xx) "
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

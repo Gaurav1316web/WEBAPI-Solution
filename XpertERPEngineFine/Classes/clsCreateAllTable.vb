@@ -8048,6 +8048,7 @@ Public Class clsCreateAllTable
             coll.Add("IsAgainstGateOut", "int NOT NULL default 0")
             coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "Tspl_Gate_Entry_Details_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -9969,6 +9970,7 @@ Public Class clsCreateAllTable
             coll.Add("Cleaning_Tester", "varchar(50) null")
             coll.Add("AcknowEntryDocument_No", " varchar(50)  NULL")
             coll.Add("Source_API", "int Null")
+            coll.Add("Manual_Entry", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Quality_Check_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)
@@ -26961,6 +26963,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Custom_Conversion", "integer not null default 0")
             coll.Add("Print_UOM", "integer  null default 0")
             coll.Add("ProcessLoss_UOM", "integer  null default 0")
+            coll.Add("Report_UOM", "integer  null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 

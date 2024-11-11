@@ -67,6 +67,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.btnBlankSheetImportUploder = New Telerik.WinControls.UI.RadButton()
+        Me.btnBlankSheetUploder = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -111,6 +113,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         Me.Panel3.SuspendLayout()
+        CType(Me.btnBlankSheetImportUploder, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnBlankSheetUploder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -145,6 +149,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.gv1.Size = New System.Drawing.Size(695, 224)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'Panel1
         '
@@ -828,6 +833,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         '
         'Panel3
         '
+        Me.Panel3.Controls.Add(Me.btnBlankSheetImportUploder)
+        Me.Panel3.Controls.Add(Me.btnBlankSheetUploder)
         Me.Panel3.Controls.Add(Me.btnReverse)
         Me.Panel3.Controls.Add(Me.btnSave)
         Me.Panel3.Controls.Add(Me.btnClose)
@@ -840,11 +847,33 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.Panel3.Size = New System.Drawing.Size(695, 28)
         Me.Panel3.TabIndex = 40
         '
+        'btnBlankSheetImportUploder
+        '
+        Me.btnBlankSheetImportUploder.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnBlankSheetImportUploder.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBlankSheetImportUploder.Location = New System.Drawing.Point(305, 3)
+        Me.btnBlankSheetImportUploder.Name = "btnBlankSheetImportUploder"
+        Me.btnBlankSheetImportUploder.Size = New System.Drawing.Size(78, 22)
+        Me.btnBlankSheetImportUploder.TabIndex = 42
+        Me.btnBlankSheetImportUploder.Text = "Import"
+        Me.btnBlankSheetImportUploder.Visible = False
+        '
+        'btnBlankSheetUploder
+        '
+        Me.btnBlankSheetUploder.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnBlankSheetUploder.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBlankSheetUploder.Location = New System.Drawing.Point(225, 3)
+        Me.btnBlankSheetUploder.Name = "btnBlankSheetUploder"
+        Me.btnBlankSheetUploder.Size = New System.Drawing.Size(78, 22)
+        Me.btnBlankSheetUploder.TabIndex = 41
+        Me.btnBlankSheetUploder.Text = "Export"
+        Me.btnBlankSheetUploder.Visible = False
+        '
         'btnReverse
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(299, 3)
+        Me.btnReverse.Location = New System.Drawing.Point(459, 3)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(72, 22)
         Me.btnReverse.TabIndex = 40
@@ -874,7 +903,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(225, 3)
+        Me.btnHistory.Location = New System.Drawing.Point(385, 3)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(72, 22)
         Me.btnHistory.TabIndex = 39
@@ -954,6 +983,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
+        CType(Me.btnBlankSheetImportUploder, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnBlankSheetUploder, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1012,5 +1043,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
     Friend WithEvents txtTripNo As common.MyNumBox
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents btnReverse As RadButton
+    Friend WithEvents btnBlankSheetImportUploder As RadButton
+    Friend WithEvents btnBlankSheetUploder As RadButton
 End Class
 

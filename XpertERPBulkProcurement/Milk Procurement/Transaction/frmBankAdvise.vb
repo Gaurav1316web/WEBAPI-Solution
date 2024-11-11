@@ -269,7 +269,10 @@ Public Class frmBankAdvise
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 Dim obj As New frmVendorBankAdvice()
-                obj.Print(True, fndDocNo.Value)
+                obj.DocNo = clsCommon.myCstr(fndDocNo.Value)
+                obj.MCC = clsCommon.myCstr(txtMCC.Text)
+                obj.FormLoad()
+                'obj.Print(True, fndDocNo.Value, txtMCC.Text)
             Else
                 clsCommon.MyMessageBoxShow(Me, "Document code can't be blank !", Me.Text)
             End If

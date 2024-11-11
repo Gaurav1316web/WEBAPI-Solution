@@ -22,14 +22,14 @@ Partial Class frmMilkShiftUploaderUCDF
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnRouteprint = New Telerik.WinControls.UI.RadButton()
         Me.btnprint = New Telerik.WinControls.UI.RadButton()
@@ -86,6 +86,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.gvP = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
         CType(Me.btnRouteprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -142,11 +143,13 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.btnReverse)
         Me.Panel2.Controls.Add(Me.btnRouteprint)
         Me.Panel2.Controls.Add(Me.btnprint)
         Me.Panel2.Controls.Add(Me.btnHistory)
@@ -167,7 +170,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         Me.btnRouteprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRouteprint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRouteprint.Location = New System.Drawing.Point(790, 2)
+        Me.btnRouteprint.Location = New System.Drawing.Point(786, 2)
         Me.btnRouteprint.Name = "btnRouteprint"
         Me.btnRouteprint.Size = New System.Drawing.Size(84, 22)
         Me.btnRouteprint.TabIndex = 1033
@@ -177,7 +180,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnprint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnprint.Location = New System.Drawing.Point(704, 2)
+        Me.btnprint.Location = New System.Drawing.Point(700, 2)
         Me.btnprint.Name = "btnprint"
         Me.btnprint.Size = New System.Drawing.Size(84, 22)
         Me.btnprint.TabIndex = 1032
@@ -187,7 +190,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(618, 2)
+        Me.btnHistory.Location = New System.Drawing.Point(614, 2)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(84, 22)
         Me.btnHistory.TabIndex = 1031
@@ -197,7 +200,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton2.Location = New System.Drawing.Point(519, 2)
+        Me.RadButton2.Location = New System.Drawing.Point(515, 2)
         Me.RadButton2.Name = "RadButton2"
         Me.RadButton2.Size = New System.Drawing.Size(97, 22)
         Me.RadButton2.TabIndex = 11
@@ -207,7 +210,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(420, 2)
+        Me.RadButton1.Location = New System.Drawing.Point(416, 2)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(97, 22)
         Me.RadButton1.TabIndex = 10
@@ -217,7 +220,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnImport.Location = New System.Drawing.Point(320, 2)
+        Me.btnImport.Location = New System.Drawing.Point(317, 2)
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Size = New System.Drawing.Size(97, 22)
         Me.btnImport.TabIndex = 8
@@ -227,7 +230,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExport.Location = New System.Drawing.Point(204, 2)
+        Me.btnExport.Location = New System.Drawing.Point(202, 2)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(113, 22)
         Me.btnExport.TabIndex = 9
@@ -247,7 +250,7 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(104, 2)
+        Me.btnPost.Location = New System.Drawing.Point(103, 2)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(97, 22)
         Me.btnPost.TabIndex = 1
@@ -473,10 +476,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboRejectType.IsSourceFromTable = False
         Me.cboRejectType.IsSourceFromValueList = False
         Me.cboRejectType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem1)
-        Me.cboRejectType.Items.Add(RadListDataItem2)
+        RadListDataItem7.Text = "M"
+        RadListDataItem8.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem7)
+        Me.cboRejectType.Items.Add(RadListDataItem8)
         Me.cboRejectType.Location = New System.Drawing.Point(190, 102)
         Me.cboRejectType.MendatroryField = True
         Me.cboRejectType.MyLinkLable1 = Me.MyLabel29
@@ -540,10 +543,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboLate.IsSourceFromTable = False
         Me.cboLate.IsSourceFromValueList = False
         Me.cboLate.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboLate.Items.Add(RadListDataItem3)
-        Me.cboLate.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboLate.Items.Add(RadListDataItem1)
+        Me.cboLate.Items.Add(RadListDataItem2)
         Me.cboLate.Location = New System.Drawing.Point(672, 22)
         Me.cboLate.MendatroryField = True
         Me.cboLate.MyLinkLable1 = Me.MyLabel2
@@ -720,10 +723,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem5)
-        Me.cboShift.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem3)
+        Me.cboShift.Items.Add(RadListDataItem4)
         Me.cboShift.Location = New System.Drawing.Point(521, 22)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -1016,7 +1019,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1025,6 +1028,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gv1.Size = New System.Drawing.Size(658, 232)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'gvP
         '
@@ -1041,7 +1045,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gvP.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvP.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvP.MyStopExport = False
         Me.gvP.Name = "gvP"
         Me.gvP.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1050,6 +1054,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gvP.Size = New System.Drawing.Size(435, 232)
         Me.gvP.TabIndex = 3
         Me.gvP.TabStop = False
+        Me.gvP.VarID = ""
         '
         'SplitContainer1
         '
@@ -1067,6 +1072,16 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Size = New System.Drawing.Size(1097, 232)
         Me.SplitContainer1.SplitterDistance = 658
         Me.SplitContainer1.TabIndex = 4
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(872, 2)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(124, 22)
+        Me.btnReverse.TabIndex = 1034
+        Me.btnReverse.Text = "Reverse and Unpost"
+        Me.btnReverse.Visible = False
         '
         'frmMilkShiftUploaderUCDF
         '
@@ -1142,6 +1157,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1202,5 +1218,6 @@ Partial Class frmMilkShiftUploaderUCDF
     Friend WithEvents btnprint As RadButton
     Friend WithEvents btnRouteprint As RadButton
     Friend WithEvents gvP As common.UserControls.MyRadGridView
+    Friend WithEvents btnReverse As RadButton
 End Class
 
