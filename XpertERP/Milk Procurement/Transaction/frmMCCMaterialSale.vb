@@ -319,17 +319,17 @@ Public Class frmMCCMaterialSale
         End If
         'End of For Custom Fields
         SetMultiCurrencyVisibility()
-        If AllowPlandDeptMCCLocation = False Then
+        'If AllowPlandDeptMCCLocation = False Then
 
 
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-                txtBillToLocation.Value = obj.Default_LocCode
-                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "' "))
-            Else
-            End If
-        End If
+        '    Dim obj As New clsMCCCodes()
+        '    obj = clsMCCCodes.GetData(True)
+        '    If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+        '        txtBillToLocation.Value = obj.Default_LocCode
+        '        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "' "))
+        '    Else
+        '    End If
+        'End If
         'lblBillToLocation.MyReadOnly = True
 
         'txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER inner join tspl_mcc_master on mcc_code=Default_Location  where User_Code='" + objCommonVar.CurrentUserCode + "' "))
@@ -3158,6 +3158,17 @@ Public Class frmMCCMaterialSale
 
         End If
         SETGSTControl()
+        If AllowPlandDeptMCCLocation = False Then
+
+
+            Dim obj As New clsMCCCodes()
+            obj = clsMCCCodes.GetData(True)
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
+                txtBillToLocation.Value = obj.Default_LocCode
+                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "' "))
+            Else
+            End If
+        End If
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean) As Boolean
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
@@ -5539,22 +5550,29 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         Dim qry As String = Nothing
         Dim WhrCls As String = Nothing
         Dim WhrClsDefLoc As String = Nothing
-        Dim isMainPlant As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select IsMainPlant from TSPL_LOCATION_MASTER where Location_Code = '" & txtBillToLocation.Value & "'") = 1)
+        Dim Loc As String = clsDBFuncationality.getSingleValue("Select Default_Location from TSPL_USER_MASTER Where User_Code='" + objCommonVar.CurrentUserCode + "'")
+
+        Dim isMainPlant As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select IsMainPlant from TSPL_LOCATION_MASTER where Location_Code = '" & Loc & "'") = 1)
+
+
 
         WhrClsDefLoc = " (tspl_location_master.loc_segment_Code = '" & txtBillToLocation.Value & "' or tspl_mcc_master.mcc_Code = '" & txtBillToLocation.Value & "')"
         If AllowPlandDeptMCCLocation Then
             qry = "select Location_Code AS Code,Location_Desc as Name  from TSPL_LOCATION_MASTER"
             WhrCls = " Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' "
         Else
-            qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER 
-                   left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code"
+            qry = "select distinct Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
             If (Not isMainPlant) Then
                 qry += " Left outer join tspl_user_master on tspl_user_master.default_location=tspl_location_master.location_code "
             End If
-            WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
-            WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+
+            WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' " ' and Is_Sub_Location='N' and location_category='MCC' "
+            WhrCls += "   and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
             If (Not isMainPlant) Then
+                'Dim Loc As String = clsDBFuncationality.getSingleValue("Select Default_Location from TSPL_USER_MASTER Where User_Code='" + objCommonVar.CurrentUserCode + "'")
+                'If clsCommon.myLen(Loc) > 0 AndAlso clsCommon.CompairString(Loc, "GNG") <> CompairStringResult.Equal Then
                 WhrCls += " AND TSPL_USER_MASTER.User_Code ='" + objCommonVar.CurrentUserCode + "'"
+                'End If
             End If
 
         End If
