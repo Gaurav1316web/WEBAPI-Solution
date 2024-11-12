@@ -1,9 +1,4 @@
-﻿' Created By Pankaj Jha on 24/06/204 Against Ticket No: BM00000002720
-''richa agarwal BM00000009808,BM00000009809
-'======================Modifiy by preeti gupta against ticket no[BM00000008127,ALF/06/08/18-000079]
-'' Parteek ticket no BM00000009863 ,SWA/13/08/18-000042
-' script created by priti SWA/27/08/18-000047 for bulk procurement insert data chamber wise
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
 Imports common
 Imports System.IO
 
@@ -171,9 +166,11 @@ Public Class FrmGateEntry
                 lblRoute.Visible = True
                 txtRoute.Visible = True
                 chkNetWeight.Checked = True
+                GrpRouteOrTankerDispatch.Visible = True
             Else
                 lblRoute.Visible = False
                 txtRoute.Visible = False
+                GrpRouteOrTankerDispatch.Visible = False
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -584,6 +581,7 @@ Public Class FrmGateEntry
         FindAndRestoreGridLayout(Me)
         'FindAndSetTabStopFalse(Me)
         'ReStoreGridLayout()
+        chkAgainstRoute.IsChecked = True
     End Sub
     Sub loadBlankGv()
         If chkBulkMilkProc.IsChecked Then
@@ -735,7 +733,7 @@ Public Class FrmGateEntry
 
         gvItemBulk.Rows.AddNew()
         gvItemBulk.Rows(0).Cells(colSlNo).Value = "1"
-        RadGroupBox1.Width = Me.Width - 200
+        'RadGroupBox1.Width = Me.Width - 200
         gvItemBulk.AllowAddNewRow = False
         'gvItemBulk.AllowColumnReorder = False
         gvItemBulk.AllowDeleteRow = False
@@ -1461,12 +1459,14 @@ Public Class FrmGateEntry
                         errorControl.SetError(fndChallanNoMcc, "")
                     End If
                 Else
-                    If clsCommon.myLen(txtChallanNoBulk.Text) <= 0 Then
-                        errorControl.SetError(txtChallanNoBulk, "Please enter the challan no or 'ND' as challan no if there is 'No Document' ")
-                        txtChallanNoBulk.Focus()
-                        Throw New Exception("Please enter the challan no or 'ND' as challan no if there is 'No Document'")
-                    Else
-                        errorControl.SetError(txtChallanNoBulk, "")
+                    If chkAgainstRoute.IsChecked Then
+                        If clsCommon.myLen(txtChallanNoBulk.Text) <= 0 Then
+                            errorControl.SetError(txtChallanNoBulk, "Please enter the challan no or 'ND' as challan no if there is 'No Document' ")
+                            txtChallanNoBulk.Focus()
+                            Throw New Exception("Please enter the challan no or 'ND' as challan no if there is 'No Document'")
+                        Else
+                            errorControl.SetError(txtChallanNoBulk, "")
+                        End If
                     End If
                     Dim strExist As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Gate_Entry_No from Tspl_Gate_Entry_Details where Challan_No='" & txtChallanNoBulk.Text & "' and  Gate_Entry_No not in ('" & fndGateEntryNO.Value & "')", Nothing))
                     If clsCommon.myLen(strExist) > 0 Then
@@ -2634,7 +2634,7 @@ Public Class FrmGateEntry
                 fndLocationBulk.Focus()
                 Exit Sub
             End If
-            If chkBulkMilkProc.IsChecked = False AndAlso chkMccProc.IsChecked = False Then
+            If chkBulkMilkProc.IsChecked = False AndAlso chkMccProc.IsChecked = False And chkAgainstTankerDispatch.IsChecked = False Then
                 clsCommon.MyMessageBoxShow(Me, "Please select Gate Entry Type.", Me.Text)
                 fndLocationBulk.Focus()
                 Exit Sub
@@ -3508,5 +3508,25 @@ Public Class FrmGateEntry
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub RadRadioButton1_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkAgainstRoute.ToggleStateChanged, chkAgainstTankerDispatch.ToggleStateChanged
+        If chkAgainstTankerDispatch.IsChecked Then
+            fndChallanNoMcc.Visible = True
+            txtChallanNoBulk.Visible = False
+            txtChallanNoBulk.Text = ""
+            txtTankerNoBulk.Visible = False
+            fndTankerNo.Visible = True
+            txtTankerNoBulk.ReadOnly = True
+            dtpChallanDateBulk.Enabled = False
+        Else
+            fndChallanNoMcc.Visible = False
+            txtChallanNoBulk.Visible = True
+            txtChallanNoBulk.Text = ""
+            txtTankerNoBulk.Visible = True
+            fndTankerNo.Visible = False
+            txtTankerNoBulk.ReadOnly = False
+            dtpChallanDateBulk.Enabled = True
+        End If
     End Sub
 End Class

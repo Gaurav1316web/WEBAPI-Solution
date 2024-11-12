@@ -58,6 +58,8 @@ Public Class ClsNotification
             End If
             If isNewEntry Then
                 obj.Code = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.frmNotification, "", objCommonVar.strCurrUserLocations)
+
+                'obj.Code = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.frmNotification, clsDocTransactionType.NOTIFICATIONS, objCommonVar.strCurrUserLocations)
                 If clsCommon.myLen(obj.Code) <= 0 Then
                     Throw New Exception("Error in Code Generation")
                 End If
