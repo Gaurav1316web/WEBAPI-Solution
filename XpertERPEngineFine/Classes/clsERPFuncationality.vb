@@ -80,10 +80,10 @@ Public Class clsERPFuncationality
             strLocatinSegmentCode = strLocationCode
         Else
             If clsCommon.myLen(strLocationCode) > 0 Then
-                strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code in (" + strLocationCode + ")", trans))
+                'strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code in (" + strLocationCode + ")", trans))
 
 
-                'strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code='" + strLocationCode + "'", trans))
+                strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code='" + strLocationCode + "'", trans))
                 If clsCommon.myLen(strLocatinSegmentCode) <= 0 Then
                     Throw New Exception("Location Segment code Not found for Location :" + strLocationCode)
                 End If
