@@ -80,15 +80,21 @@ Public Class clsERPFuncationality
             strLocatinSegmentCode = strLocationCode
         Else
             If clsCommon.myLen(strLocationCode) > 0 Then
-                'strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code in (" + strLocationCode + ")", trans))
+                If InStr(strLocationCode, ",") > 0 Then
+                    strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code FROM TSPL_LOCATION_MASTER WHERE Location_Code IN (" + strLocationCode + ")", trans))
+                Else
+                    strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code FROM TSPL_LOCATION_MASTER WHERE Location_Code = '" + strLocationCode + "'", trans))
+
+                End If
+                ' strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code in (" + strLocationCode + ")", trans))
 
 
-                strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code='" + strLocationCode + "'", trans))
+                'strLocatinSegmentCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code='" + strLocationCode + "'", trans))
                 If clsCommon.myLen(strLocatinSegmentCode) <= 0 Then
-                    Throw New Exception("Location Segment code Not found for Location :" + strLocationCode)
+                        Throw New Exception("Location Segment code Not found for Location :" + strLocationCode)
+                    End If
                 End If
             End If
-        End If
 
         Dim IntFiscalYear As Integer = dtDocDate.Year
         If dtDocDate.Month >= 1 AndAlso dtDocDate.Month <= 3 Then
