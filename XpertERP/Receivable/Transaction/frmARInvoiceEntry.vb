@@ -3333,7 +3333,7 @@ Public Class FrmARInvoiceEntry
             " left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code = TSPL_JOURNAL_DETAILS.Cost_Centre_Code  left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code = TSPL_JOURNAL_DETAILS.Hirerachy_Code  left outer join TSPL_STATE_MASTER as loc_state on loc_state.STATE_CODE =TSPL_LOCATION_MASTER.State  " &
             " left outer join tspl_user_master on tspl_user_master.User_Code=TSPL_Customer_Invoice_Head.Created_By " &
             " left outer join tspl_user_master as user_master_modify on user_master_modify.User_Code=TSPL_Customer_Invoice_Head.Modify_By " &
-            "where TSPL_Customer_Invoice_Head.Document_No ='" + StrCode + "' )final   )XXX left outer join " &
+            "where TSPL_Customer_Invoice_Head.Document_No ='" + StrCode + "' and Rejected_Type='N' )final   )XXX left outer join " &
             "TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXX.Comp_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = XXX.Customer_Code left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code = XXX.Loc_Code left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state  left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=XXX.Document_No  order by XXX.Detail_Line_No  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()

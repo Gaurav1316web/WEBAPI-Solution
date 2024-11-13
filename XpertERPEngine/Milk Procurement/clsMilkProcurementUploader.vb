@@ -112,7 +112,9 @@ Public Class clsMilkProcurementUploaderHead
         Dim qry As String = "SELECT TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name 
 FROM TSPL_MILK_PROCUREMENT_UPLOADER_HEAD 
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code 
-left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Dock_Code  where 2=2 "
+left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Dock_Code  
+left outer join  TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code
+where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = (select MIN(Document_No) from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where 1=1 " + WhrCls + " )"
