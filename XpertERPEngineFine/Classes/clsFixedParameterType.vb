@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
     Public Const PenaltyCost As String = "Define Penalty Cost Value for Per Unit"
     Public Const CalculateProRateAuto As String = "Calculate Pro Rate Auto"
@@ -1315,6 +1316,7 @@ Public Class clsFixedParameterCode
     Public Const RefreshDBTReco As String = "Refresh DBT Reco"
     Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
     Public Const ApplyBoothSecurity As String = "Apply Booth Security"
+    Public Const SetDCSAvgFATSNF As String = "Set DCS Avg FAT SNF of ALL Samples And Merge"
     Public Const BackDays As String = "Back Days"
     Public Const MaximumBackDays As String = "Maximum Back Days"
     Public Const ViewItemImage As String = "View Item Image"
@@ -2784,6 +2786,8 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.SetDCSAvgFATSNF, "0", "0:OFF;1:ON")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, "0", "0:OFF;1:ON Upload File")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, "0", "0:OFF;1:ON Upload File")
@@ -4379,6 +4383,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.rptMccProcurementUploader, clsFixedParameterType.XpertAPI, clsFixedParameterCode.WeighingRoundSetting, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.rptMccProcurementUploader, clsFixedParameterType.XpertAPI, clsFixedParameterCode.SetDCSAvgFATSNF, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.MilkRateRoundOffType, clsFixedParameterCode.MilkRateRoundOffType, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.DBTRevisePayment, clsFixedParameterCode.DBTRevisePayment, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.CycleWiseDBT, clsFixedParameterCode.CycleWiseDBT, EnumControlType.CheckBox)

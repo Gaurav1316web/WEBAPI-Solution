@@ -1762,6 +1762,19 @@ Public Class FrmMCCMaster
                 UcAttachment1.SaveData(obj.MCC_Code)
                 If clsCommon.CompairString(btnSave.Text, "&Save") = CompairStringResult.Equal Then '--26/06/2014 Monika
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    If clsCommon.myLen(fndMCCCode.Value) > 0 Then
+                        Dim SegCode As String = ""
+                        Dim dtSegmentCode As DataTable = clsDBFuncationality.GetDataTable("select Segment_code from TSPL_GL_SEGMENT_CODE  where Seg_No = 7")
+                        If dtSegmentCode.Rows.Count <= 0 Then
+                            Throw New Exception("Please create Segment Code in Segment Code Master")
+                        ElseIf dtSegmentCode.Rows.Count = 1 Then
+                            SegCode = dtSegmentCode.Rows(0)("Segment_code")
+                            clsDBFuncationality.ExecuteNonQuery("Update TSPL_LOCATION_MASTER set Loc_Segment_Code = '" & SegCode & "' where Location_Code = '" & fndMCCCode.Value & "'")
+                        ElseIf dtSegmentCode.Rows.Count > 1 Then
+                            Throw New Exception("Multiple Segment Code exists Please map Segment Code in Location Master")
+                        End If
+                    End If
+                    MCCLOCATIONFINDER()
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
@@ -1828,6 +1841,7 @@ Public Class FrmMCCMaster
             DtpEveShiftOpenTiming.Value = Nothing
             DtpEveShiftClosingTime.Value = Nothing
             Dim obj As New clsMccMaster
+
             obj = clsMccMaster.loadData(fndMCCCode.Value, nav, isShowAllMCC, Me.Form_ID, arrLoc)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.MCC_Code) > 0 Then
                 fndMCCCode.Value = obj.MCC_Code
@@ -2251,7 +2265,8 @@ Public Class FrmMCCMaster
                 btnDelete.Enabled = False
                 btnSave.Text = "&Save"
                 fndMCCCode.MyReadOnly = False
-                Throw New Exception("User have dont see  this '" & fndMCCCode.Value & "' MCC because user have not permission")
+
+                'Throw New Exception("User have dont see  this '" & fndMCCCode.Value & "' MCC because user have not permission")
             End If
             isInsideLoadData = False
         Catch ex As Exception
