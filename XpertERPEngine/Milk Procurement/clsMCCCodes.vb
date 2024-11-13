@@ -144,4 +144,40 @@ Public Class clsMCCCodes
         Dim mcc_code_return As String = clsDBFuncationality.getSingleValue(squery)
         Return mcc_code_return
     End Function
+
+
+    Public Shared Function GetUserHavingMCCRights() As ArrayList
+        Dim arrReturn As New ArrayList
+        Try
+            Dim qry As String = "select TSPL_USER_MASTER.Default_Location,TSPL_LOCATION_MASTER.IsMainPlant,TSPL_MCC_MASTER.MCC_Code
+from TSPL_USER_MASTER  
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_USER_MASTER.Default_Location
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_USER_MASTER.Default_Location
+where TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "'"
+            Dim dt As DataTable = (clsDBFuncationality.GetDataTable(qry))
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If clsCommon.myLen(dt.Rows(0)("MCC_Code")) > 0 Then
+                    arrReturn.Add(dt.Rows(0)("MCC_Code"))
+                End If
+                If clsCommon.myCDecimal(dt.Rows(0)("IsMainPlant")) = 1 Then
+                    qry = "select MCC_code from TSPL_MCC_MASTER"
+                    dt = (clsDBFuncationality.GetDataTable(qry))
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        For Each dr As DataRow In dt.Rows
+                            arrReturn.Add(clsCommon.myCstr(dr("MCC_code")))
+                        Next
+                    Else
+                        arrReturn.Add("xxxxxx")
+                    End If
+                Else
+                    arrReturn.Add("xxxxxx")
+                End If
+            Else
+                arrReturn.Add("xxxxxx")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return arrReturn
+    End Function
 End Class
