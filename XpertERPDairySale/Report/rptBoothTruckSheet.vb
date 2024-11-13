@@ -460,12 +460,13 @@ where 2 = 2  "
         End If
             Dim qry As String = " select "
             If PrintPouchCrateQtyOnPrint = True Then
-                qry += " max(PouchCF)PouchCF,max(CrateCF)CrateCF,sum(PouchQty)PouchQty, SUM(COALESCE(CRATE, 0) + COALESCE(Crateqty, 0)) AS crateqty,
+                qry += "  CASE WHEN (IsNull(Crateqty,0))=0 and (CrateCF)<(Loosepouch)  then (Unit_code) else 'CRATE' + ' ' + (Unit_code) end as UnitCode,* from (select  max(PouchCF)PouchCF,max(CrateCF)CrateCF,sum(PouchQty)PouchQty, SUM(COALESCE(CRATE, 0) + COALESCE(Crateqty, 0)) AS crateqty,
                          case when sum(CrateCF) is null then sum(Qty) else SUM(COALESCE(PouchQtys, 0)) - SUM(COALESCE(CrateCF, 0) * COALESCE(Crateqty, 0)) end AS Loosepouch,
                          max(Access_Officer)Access_Officer,max(Comp_Code1)Comp_Code1,max(Is_FreshItem)Is_FreshItem,max(Is_Ambient)Is_Ambient,max(Description)Description,max(Vehicle_Id)Vehicle_Id,max(FromDate)FromDate,max(ToDate)ToDate,max(FromShift)FromShift,max(Toshift)Toshift,max(ShiftType)ShiftType,max(Comp_Name)Comp_Name,max(Transporter_Name)Transporter_Name,max(Add1)Add1,max(City_Code)City_Code,max(Pincode)Pincode,max(State)State,max(Phone1)Phone1
                         ,max(Cust_Code)Cust_Code,max(ItemCode)ItemCode,max(Short_Description)Short_Description,max(BoothName)BoothName,max(Route_No)Route_No,
                         max(Route_Desc)Route_Desc,max(Shift_Type)Shift_Type,max(Document_Date)Document_Date,max(Item_Desc)Item_Desc,sum(Amount)Amount,
-                        max(Item_Description)Item_Description,max(Unit_code)Unit_code,MAX(Unitcode)Unitcode,sum(CRATE)CRATE,sum(Qty)Qty,max(Sku_Seq)Sku_Seq,sum(Pouch)Pouch,sum(Receipt_Amount)Receipt_Amount,
+                        max(Item_Description)Item_Description,max(Unit_code)Unit_code,CASE WHEN Sum(IsNull(Crateqty,0))=0 then max(Unit_code) else 'CRATE' + ' ' + max(Unit_code) end as UnitCode
+,sum(CRATE)CRATE,sum(Qty)Qty,max(Sku_Seq)Sku_Seq,sum(Pouch)Pouch,sum(Receipt_Amount)Receipt_Amount,
                         sum(Pack)Pack from (select floor(Qty/PouchCF) as PouchQty,
                         FLOOR(Qty/CrateCF) as Crateqty,
                         floor(Case When xx.Unit_code='Pouch' Then Pouch/PouchCF else 0 end )as PouchQtys,* from "
@@ -540,7 +541,7 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_M
             qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "') "
 
             If PrintPouchCrateQtyOnPrint=True Then
-                qry += " ) xx)xxy group by ItemCode,Cust_Code order by Sku_Seq "
+                qry += " ) xx)xxy group by ItemCode,Cust_Code)zz order by Sku_Seq "
             Else
                 qry += " ) xx order by Sku_Seq "
             End If
