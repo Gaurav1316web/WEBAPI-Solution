@@ -22,7 +22,7 @@ Partial Class frmCorrectionforWrongEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -328,7 +328,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(1020, 674)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1739,7 +1739,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.Gv2.MasterTemplate.AllowAddNewRow = False
         Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv2.MyStopExport = False
         Me.Gv2.Name = "Gv2"
         Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No

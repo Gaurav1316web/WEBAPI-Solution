@@ -425,6 +425,13 @@ Public Class frmCorrectionforWrongEntry
                 Throw New Exception("Current document is not posted.")
             End If
 
+            Dim qryies As String = "select count(*) from TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY where PROD_ENTRY_CODE='" + txtCode.Value + "'"
+            Dim checks As Integer = clsDBFuncationality.getSingleValue(qryies)
+
+            If checks > 0 Then
+                Throw New Exception(" Outgoing Quality Check document is Created. ")
+            End If
+
             If common.clsCommon.MyMessageBoxShow("Amend and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 '' reason for reverse
                 Dim Reason As String = ""
