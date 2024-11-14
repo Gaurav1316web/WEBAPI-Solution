@@ -200,16 +200,9 @@ Public Class rptHeadLoadReport
     End Sub
 
     Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
-        Dim arrLoc As String = ""
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-            arrLoc = "'" + obj.Default_LocCode + "'"
-        Else
-            arrLoc = obj.arrLocCodes
-        End If
+        Dim arrMCCRights As ArrayList = clsMCCCodes.GetUserHavingMCCRights()
 
-        Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ") and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & "))"
+        Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ") and (  tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & "))"
         txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUMCC", qry, "MCC_Code", "MCC_NAME", txtMCC.arrValueMember, txtMCC.arrDispalyMember)
 
     End Sub

@@ -5,7 +5,7 @@ Public Class frmDCSSupervisorTagging
     Inherits FrmMainTranScreen
 
 #Region "Variables"
-    Dim arrLoc As String = Nothing
+
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isNewEntry As Boolean = True
@@ -48,7 +48,7 @@ Public Class frmDCSSupervisorTagging
         btndelete.Enabled = False
         isNewEntry = True
         LoadBlankVLC_Grid()
-        MCCLOCATIONFINDER()
+
     End Sub
 
     Private Sub btnnew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnnew.Click
@@ -282,9 +282,7 @@ Public Class frmDCSSupervisorTagging
         '    txtmcccode.Value = clsMccMaster.getFinder(" created_by='" + objCommonVar.CurrentUserCode + "'", txtmcccode.Value, isButtonClicked)
         'Else
         Dim whrCls As String = ""
-        'If clsCommon.myLen(arrLoc) > 0 Then
-        '    whrCls = " TSPL_MCC_MASTER.mcc_code in (" + arrLoc + ")"
-        'End If
+
 
         txtmcccode.Value = clsMccMaster.getFinder(whrCls, txtmcccode.Value, isButtonClicked)
         'End If
@@ -304,7 +302,7 @@ Public Class frmDCSSupervisorTagging
                 LoadDataForMapping()
             End If
         Else
-                txtmccname.Text = ""
+            txtmccname.Text = ""
         End If
     End Sub
 
@@ -354,21 +352,7 @@ Public Class frmDCSSupervisorTagging
     End Sub
 
     '------------BM00000003414-------------------
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
 
 
     Private Sub gvVLC_CellBeginEdit(sender As Object, e As GridViewCellCancelEventArgs) Handles gvVLC.CellBeginEdit
