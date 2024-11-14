@@ -28,7 +28,7 @@ Public Class frmVSP_VLCMaster
     Dim DefaultCustomerGroupCodeforVSP As String = ""
     Dim DefaultVendorGroupCodeforVSP As String = ""
     Dim isLoadCopy As Boolean = False
-    Dim arrLoc As String = Nothing
+    Dim arrMCCRights As ArrayList
     Dim Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster As Boolean = False
 
     'Default Mcc create''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -1295,7 +1295,7 @@ Public Class frmVSP_VLCMaster
         Try
             'gv.Rows.Clear()
 
-            Dim obj As clsfrmVLCMaster = clsfrmVLCMaster.GetData(strCode, arrLoc, NavType)
+            Dim obj As clsfrmVLCMaster = clsfrmVLCMaster.GetData(strCode, clsCommon.GetMulcallString(arrMCCRights), NavType)
             'isNewEntry = True
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.vlcCode) > 0 Then
                 'isNewEntry = False
@@ -3023,40 +3023,7 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    'Sub LoadData(ByVal strCode As String, ByVal NavType As NavigatorType)
-    '    Try
-    '        'gv.Rows.Clear()
 
-    '        Dim obj As clsfrmVLCMaster = clsfrmVLCMaster.GetData(strCode, arrLoc, NavType)
-    '        'isNewEntry = True
-    '        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.vlcCode) > 0 Then
-    '            'isNewEntry = False
-    '            fndvlccode.Text = obj.vlcCode
-    '            txtVLCCodeVlcUploader.Text = clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
-    '            txtvlcname.Text = obj.vlcName
-    '            'txtvehicalname.Text = obj.vehical
-    '            txtvspcode.Value = obj.vspCode
-    '            txtvsp.Text = obj.VspName
-    '            fndMcc.Value = obj.MCCCOde
-    '            txtvillcode.Value = obj.mainvillcode
-    '            txtvillname.Text = obj.mainvillname
-    '            txtroutecode.Value = obj.routecode
-    '            txtroutename.Text = obj.routename
-    '            fndPriceCode.Value = obj.Price_Code
-    '            Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
-    '            fndvlccode.ReadOnly = True
-
-    '        Else
-    '            Reset()
-    '        End If
-
-    '        'isLoadData = False
-    '    Catch ex As Exception
-    '        'isNewEntry = True
-    '        'isLoadData = False
-    '        clsCommon.MyMessageBoxShow(ex.Message)
-    '    End Try
-    'End Sub
 
 
     Public Sub fndvendorNo_text_changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -5038,25 +5005,7 @@ Public Class frmVSP_VLCMaster
     End Sub
 
 
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                If clsCommon.myLen(fndMcc.Value) <= 0 AndAlso Not obj.Default_HO Then
-                    fndMcc.Value = IIf(obj.Default_LocName = "_", "", obj.Default_LocCode)
-                End If
-                arrLoc = obj.arrLocCodes
-            Else
-                'cmbmcc.Enabled = False
-                fndMcc.Enabled = False
-                Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
 
     Function AllowToSave() As Boolean
         Try
@@ -5212,9 +5161,9 @@ Public Class frmVSP_VLCMaster
         If chkOwnBMC.Checked = False Then
             Dim StrWhere As String = ""
             Dim qry As String = "select tspl_mcc_master.mcc_code as Code,tspl_mcc_master.mcc_name as Name,tspl_mcc_master.Plant_Code as [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name] from tspl_mcc_master left outer join tspl_location_master on tspl_location_master.location_code=tspl_mcc_master.plant_code"
-            If clsCommon.myLen(arrLoc) > 0 Then
-                StrWhere = " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
-            End If
+
+            StrWhere = " tspl_mcc_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count = 0 Then
@@ -5255,11 +5204,7 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Sub OpenRoute()
-        'Dim qry As String = "select TSPL_MCC_ROUTE_MASTER.route_code as Code,TSPL_MCC_ROUTE_MASTER.route_name as [Route Description] from TSPL_MCC_ROUTE_MASTER"
-        'If clsCommon.myLen(arrLoc) > 0 Then
-        '    qry += " where TSPL_MCC_ROUTE_MASTER.mcc_code in (" + arrLoc + ")"
-        'End If
-        'qry += "  and coalesce(active,1)=1 and TSPL_MCC_ROUTE_MASTER.mcc_code='" + fndMcc.Value + "'"
+
         Dim qry As String = "select ROUTE_NO as Code,ROUTE_NAME as Description from TSPL_BULK_ROUTE_MASTER"
         Dim dr As DataRow = clsCommon.ShowSelectFormForRow("ROTFND1", qry)
 

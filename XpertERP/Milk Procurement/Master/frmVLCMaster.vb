@@ -15,28 +15,10 @@ Public Class FrmVLCMaster
     Dim isValueChanged As Boolean = True
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
     Dim isNewEntry As Boolean = True
-    Dim arrLoc As String = Nothing
+    Dim arrMCCRights As ArrayList
 #End Region
 
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                If clsCommon.myLen(fndMcc.Value) <= 0 AndAlso Not obj.Default_HO Then
-                    fndMcc.Value = IIf(obj.Default_LocName = "_", "", obj.Default_LocName)
-                End If
-                arrLoc = obj.arrLocCodes
-            Else
-                'cmbmcc.Enabled = False
-                fndMcc.Enabled = False
-                Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
 
     Sub Reset()
         chkInActive.Checked = False
@@ -71,7 +53,6 @@ Public Class FrmVLCMaster
         cboMilkReceiveUOM.SelectedValue = ""
         cboAutoFillMPOrder.SelectedValue = 0
         fndgroupcode.Enabled = False
-        MCCLOCATIONFINDER()
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.BlankAllControls()
             UcCustomFields1.SetDefaultValues()
@@ -104,7 +85,7 @@ Public Class FrmVLCMaster
         SetUserMgmtNew()
         LoadMilkReceiveUOM()
         LoadAutoFillMPOrder()
-        MCCLOCATIONFINDER()
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         LoadBlankGrid()
         Reset()
         If objCommonVar.PricePlan = 4 Then
@@ -211,26 +192,7 @@ Public Class FrmVLCMaster
         gv.Rows.AddNew()
     End Sub
 
-    'Sub LoadCombobox()
-    '    Dim qry As String = ""
-    '    qry = "select mcc_code as Code,mcc_name as Name from tspl_mcc_master"
-    '    If clsCommon.myLen(arrLoc) > 0 Then
-    '        qry += " where mcc_code in (" + arrLoc + ")"
-    '    End If
-    '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-    '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '        cmbmcc.DataSource = Nothing
-
-    '        cmbmcc.DataSource = dt
-    '        cmbmcc.DisplayMember = "Name"
-    '        cmbmcc.ValueMember = "Code"
-    '    Else
-    '        clsCommon.MyMessageBoxShow("Before Doing VLC Master Entry,Make MCC Master", Me.Text)
-    '        Reset()
-    '        'Me.Close()
-    '    End If
-    'End Sub
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVLCMaster)
@@ -607,9 +569,9 @@ Public Class FrmVLCMaster
 
     Sub OpenRoute()
         Dim qry As String = "select TSPL_MCC_ROUTE_MASTER.route_code as Code,TSPL_MCC_ROUTE_MASTER.route_name as [Route Description] from TSPL_MCC_ROUTE_MASTER"
-        If clsCommon.myLen(arrLoc) > 0 Then
-            qry += " where TSPL_MCC_ROUTE_MASTER.mcc_code in (" + arrLoc + ")"
-        End If
+
+        qry += " where TSPL_MCC_ROUTE_MASTER.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
         Dim dr As DataRow = clsCommon.ShowSelectFormForRow("ROTFND", qry)
 
         If dr IsNot Nothing Then
@@ -649,7 +611,7 @@ Public Class FrmVLCMaster
         Try
             gv.Rows.Clear()
 
-            Dim obj As clsfrmVLCMaster = clsfrmVLCMaster.GetData(strCode, arrLoc, NavType)
+            Dim obj As clsfrmVLCMaster = clsfrmVLCMaster.GetData(strCode, clsCommon.GetMulcallString(arrMCCRights), NavType)
             isNewEntry = True
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.vlcCode) > 0 Then
                 isNewEntry = False
@@ -728,11 +690,9 @@ Public Class FrmVLCMaster
 
     Private Sub fndvlccode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndvlccode._MYValidating
         Dim qry As String = "select TSPL_VLC_MASTER_HEAD.vlc_code as [Code],TSPL_VLC_MASTER_HEAD.vlc_name as [Dcs Name],TSPL_VLC_MASTER_HEAD.vehical_name as [Vehicle Name],TSPL_VLC_MASTER_HEAD.village_code as [Village Code],tspl_village_master.village_name as [Village Name],TSPL_VLC_MASTER_HEAD.route_code as [Route Code],tspl_mcc_route_master.route_name as [Route Name],TSPL_VLC_MASTER_HEAD.vsp_code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VENDOR_MASTER.Vendor_Group_Code as [Group Code], TSPL_VENDOR_GROUP.Group_Desc as [Group  Description],TSPL_VLC_MASTER_HEAD.mcc as [MCC Code],TSPL_MCC_MASTER.mcc_name as [MCC Name],TSPL_VLC_MASTER_HEAD.created_by as [Created By],TSPL_VLC_MASTER_HEAD.created_date as [Created Date],TSPL_VLC_MASTER_HEAD.modified_by as [Modified By],TSPL_VLC_MASTER_HEAD.modified_date as [Modified Date],TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader as [VLC Code For VLC Uploader] from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc left outer join tspl_village_master on TSPL_VLC_MASTER_HEAD.village_code=tspl_village_master.village_code left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code "
-        If clsCommon.myLen(arrLoc) > 0 Then
-            fndvlccode.Value = clsCommon.ShowSelectForm("VLCFND2", qry, "Code", " TSPL_VLC_MASTER_HEAD.mcc in (" + arrLoc + ")", fndvlccode.Value, "Code", isButtonClicked)
-        Else
-            fndvlccode.Value = clsCommon.ShowSelectForm("VLCFND2", qry, "Code", " ", fndvlccode.Value, "Code", isButtonClicked)
-        End If
+
+        fndvlccode.Value = clsCommon.ShowSelectForm("VLCFND2", qry, "Code", " TSPL_VLC_MASTER_HEAD.mcc in (" + clsCommon.GetMulcallString(arrMCCRights) + ")", fndvlccode.Value, "Code", isButtonClicked)
+
 
         If clsCommon.myLen(fndvlccode.Value) > 0 Then
             txtvlcname.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vlc_name from TSPL_VLC_MASTER_HEAD where vlc_code='" + fndvlccode.Value + "'"))
@@ -1111,9 +1071,9 @@ Public Class FrmVLCMaster
     Private Sub fndMcc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndMcc._MYValidating
         Dim StrWhere As String = ""
         Dim qry As String = "select tspl_mcc_master.mcc_code as Code,tspl_mcc_master.mcc_name as Name,tspl_mcc_master.Plant_Code as [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name] from tspl_mcc_master left outer join tspl_location_master on tspl_location_master.location_code=tspl_mcc_master.plant_code"
-        If clsCommon.myLen(arrLoc) > 0 Then
-            StrWhere = " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
-        End If
+
+        StrWhere = " tspl_mcc_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt Is Nothing OrElse dt.Rows.Count = 0 Then

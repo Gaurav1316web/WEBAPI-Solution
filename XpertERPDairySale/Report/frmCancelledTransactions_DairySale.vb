@@ -196,13 +196,24 @@ Public Class frmCancelledTransactions_DairySale
         End Try
     End Sub
 
+
+
+
+
+
+
     Sub FillDairySale()
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dispatch") = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "  Select TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code as [Document Id],convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) as [Document Date]," &
                 " TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_delivery_Code as [Against Delivery No] ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location as [Location Code]," &
                 " TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_By as [Created By]," &
-                " convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_Date,103) as [Created Date],'' as Description from TSPL_SD_SHIPMENT_HEAD_Cancel_Data  " &
+                " convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_Date,103) as [Created Date],'' as Description,Sale_Invoice_No as [Invoice No],
+CONVERT(varchar, TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Sale_Invoice_Date,103) AS [Invoice Date],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Total_Amt as [Invoice Amount],IRN_No as[IRN No] ,TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_No as [Ack No],
+TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],
+TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_By AS [Canceled By],
+convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_On,103) AS [Canceled Date]
+                 from TSPL_SD_SHIPMENT_HEAD_Cancel_Data left outer join TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data on TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Document_Code=TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Sale_Invoice_No " &
                 " Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code " &
             " WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
             " and convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) and  TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type='DS'"
@@ -241,24 +252,23 @@ Public Class frmCancelledTransactions_DairySale
             qry += "  ORDER BY TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_code "
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dairy GatePass") = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
-            qry = "select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode as [GatePass No] , convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate ,103) as [Gate Pass Date], TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code as [Location Code] , 
-            TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Desc as [Location Name] , TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No as [Route No] , TSPL_ROUTE_MASTER.Route_Desc as [Route Description] ,TSPL_DAIRYSALE_GATEPASS_MASTER.Created_By as [Created By] ,
-            convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.Created_Date , 103) as [Created Date] ,TSPL_DAIRYSALE_GATEPASS_MASTER.Modified_By as [Canceled By] , convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.Modified_Date,103) as [Canceled Date] ,TSPL_DAIRYSALE_GATEPASS_MASTER.Remarks as Description
-            from TSPL_DAIRYSALE_GATEPASS_MASTER
-            left outer join  TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.ROUTE_NO = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No 
-            WHERE  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <= convert(date,'" + dtpToDate.Value + "',103) and TSPL_DAIRYSALE_GATEPASS_MASTER.Status = 'Y'"
+            qry = "select GPCode as [GatePass No],convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.GPDate ,103) as [Gate Pass Date], Vehicle_Number as [Vehicle Number],Loading_Slip as [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Created_By as [Created By] 
+,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Created_Date  as [Created Date] ,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Location_Code as [Location Code],Location_Desc  as [Location Name],Cancel_By as [Canceled By] ,Cancel_On as [Canceled Date] ,Remarks as Description,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Route_No,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.DistributorNamE as [Distributor Name]
+ from TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data 
+            left outer join  TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.ROUTE_NO = TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Route_No 
+            WHERE  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.GatePass_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.GatePass_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
-                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Location_Code  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
             End If
 
             If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
-                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
             Else
-                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
             End If
 
-            qry += "order by TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate , TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode"
+            qry += "order by TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.GPDate , TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.GPCode"
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -335,6 +345,21 @@ Public Class frmCancelledTransactions_DairySale
         ChkUserAll.CheckState = CheckState.Checked
         gv1.DataSource = Nothing
     End Sub
+
+    'Private Sub gv1_CellEditorInitialized(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellEditorInitialized
+    '    If TypeOf Me.gv1.CurrentColumn Is GridViewMultiComboBoxColumn Then
+    '        Dim editor As RadMultiColumnComboBoxElement = DirectCast(Me.gv1.ActiveEditor, RadMultiColumnComboBoxElement)
+    '        editor.AutoSizeDropDownTofrdfy = True
+    '        editor.EditorControl.MasterTemplate.BestFitColumns()
+    '        editor.DropDownStyle = RadDropDownStyle.DropDown
+    '        editor.AutoFilter = True
+    '        'If editor.EditorControl.MasterTemplate.FilterDescriptors.Count = 0 Then
+    '        '    Dim autoFilter As FilterDescriptor = New FilterDescriptor("Description", FilterOperator.StartsWith, "")
+    '        '    autoFilter.IsFilterEditor = True
+    '        '    editor.EditorControl.FilterDescriptors.Add(autoFilter)
+    '        'End If
+    '    End If
+    'End Sub
 End Class
 
 

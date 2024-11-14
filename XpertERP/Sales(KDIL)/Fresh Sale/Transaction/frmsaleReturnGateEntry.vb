@@ -154,7 +154,7 @@ Public Class FrmsaleReturnGateEntry
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
                 arrloc = obj.arrLocCodes
             Else
-               
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -292,7 +292,7 @@ Public Class FrmsaleReturnGateEntry
         gv1.CurrentRow.Cells(colUnit).Value = ""
         gv1.CurrentRow.Cells(colQty).Value = 0
     End Sub
-    
+
     Sub OpenItemForFreshSale(ByVal strCode As String, ByVal isButtonClicked As Boolean)
         WhrCls = Nothing
         WhrCls = " is_freshitem=1 "
@@ -323,7 +323,7 @@ Public Class FrmsaleReturnGateEntry
             & " TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code" _
             & " and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a" _
             & " on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code "
-            
+
 
         WhrCls = "TSPL_ITEM_MASTER.Active=1 and Is_FreshItem=0 and coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
         gv1.CurrentRow.Cells(colItemCode).Value = clsCommon.ShowSelectForm("ItemFinderForMCCSale", qry, "Item", WhrCls, strCode, "Item", isButtonClicked)
@@ -544,7 +544,7 @@ Public Class FrmsaleReturnGateEntry
         Dim qry As String = ""
         Dim whrcls As String = ""
         Dim strwherecls As String = ""
-        
+
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
             common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
@@ -754,7 +754,7 @@ Public Class FrmsaleReturnGateEntry
                         Return False
                     End If
                 End If
-                
+
             Next
             '===============
         Next
@@ -836,7 +836,7 @@ Public Class FrmsaleReturnGateEntry
 
 
                 End If
-                
+
                 If (obj.SaveData(obj, isNewEntry)) Then
 
                     If ChekPostBtn = False Then
@@ -914,8 +914,8 @@ Public Class FrmsaleReturnGateEntry
                     Next
                     txtmulticapex.arrValueMember = DocCode
                 End If
-                
-               
+
+
 
                 disableControl()
             End If
@@ -949,9 +949,9 @@ Public Class FrmsaleReturnGateEntry
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                              "TSPL_Sale_Return_Gate_Entry_Head " + Environment.NewLine + _
-                                              "TSPL_Sale_Return_Gate_Entry_Detail " + Environment.NewLine + _
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                              "TSPL_Sale_Return_Gate_Entry_Head " + Environment.NewLine +
+                                              "TSPL_Sale_Return_Gate_Entry_Detail " + Environment.NewLine +
                                               "TSPL_Sale_Return_Gate_Entry_Invoice_Wise ")
         End If
     End Sub
@@ -1011,11 +1011,11 @@ Public Class FrmsaleReturnGateEntry
                 clsCommon.MyMessageBoxShow(Me, "Gate Entry No not found to Print", Me.Text)
                 Return
             End If
-            Dim qry As String = "  select TSPL_Sale_Return_Gate_Entry_Detail.Gate_Entry_No , convert(varchar, TSPL_Sale_Return_Gate_Entry_Head.Gate_Entry_Date, 103) as Gate_Entry_Date , case when len(TSPL_Sale_Return_Gate_Entry_Head.Vehicle_Code) > 0 then  TSPL_Sale_Return_Gate_Entry_Head.Vehicle_Code else  TSPL_Sale_Return_Gate_Entry_Head. Man_Vehicle_code end as Vehicle_Code , " & _
-                                "  TSPL_Sale_Return_Gate_Entry_Head.Location_Code,case when len ( TSPL_Sale_Return_Gate_Entry_Head.Transport) > 0 then TSPL_Sale_Return_Gate_Entry_Head.Transport else TSPL_Sale_Return_Gate_Entry_Head.Man_Transport end as  Man_Transport, case when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type = 'PS' then 'Product Sale Return' when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type = 'FS' then 'Fresh Sale Return' when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type  = 'MCCS' then 'MCC Material Sale Return'  when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type  ='CSA' then 'CSA Transfer Return' when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type  ='EXP' then 'Export Sale Return' when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type  =  'MISS' then 'Material Sales Return' else '' end as Doc_Type, TSPL_Sale_Return_Gate_Entry_Head.Doc_Type as Doc_Type2 , TSPL_Sale_Return_Gate_Entry_Head.Customer_Code, TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Sale_Return_Gate_Entry_Head.Remarks , TSPL_Sale_Return_Gate_Entry_Head.Comment , TSPL_Sale_Return_Gate_Entry_Head.Created_By, convert(varchar,TSPL_Sale_Return_Gate_Entry_Head.Created_Date,103) as Created_Date , TSPL_Sale_Return_Gate_Entry_Head.Modify_By, convert(varchar,TSPL_Sale_Return_Gate_Entry_Head.Modify_Date,103) as Modify_Date, TSPL_Sale_Return_Gate_Entry_Head.Comp_Code, TSPL_Sale_Return_Gate_Entry_Head.Posted, TSPL_Sale_Return_Gate_Entry_Head.isCancel, convert (varchar,TSPL_Sale_Return_Gate_Entry_Head.Cancel_Date,103) as Cancel_Date ,TSPL_Sale_Return_Gate_Entry_Detail.Line_No , TSPL_Sale_Return_Gate_Entry_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc, TSPL_Sale_Return_Gate_Entry_Detail.UOM, TSPL_Sale_Return_Gate_Entry_Detail.Qty  from TSPL_Sale_Return_Gate_Entry_Detail  " & _
-                                "  inner join  TSPL_Sale_Return_Gate_Entry_Head on TSPL_Sale_Return_Gate_Entry_Detail.Gate_Entry_No = TSPL_Sale_Return_Gate_Entry_Head.Gate_Entry_No " & _
-                                "  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_Sale_Return_Gate_Entry_Detail.Item_Code " & _
-                                "  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Sale_Return_Gate_Entry_Head.Customer_Code " & _
+            Dim qry As String = "  select TSPL_Sale_Return_Gate_Entry_Detail.Gate_Entry_No , convert(varchar, TSPL_Sale_Return_Gate_Entry_Head.Gate_Entry_Date, 103) as Gate_Entry_Date , case when len(TSPL_Sale_Return_Gate_Entry_Head.Vehicle_Code) > 0 then  TSPL_Sale_Return_Gate_Entry_Head.Vehicle_Code else  TSPL_Sale_Return_Gate_Entry_Head. Man_Vehicle_code end as Vehicle_Code , " &
+                                "  TSPL_Sale_Return_Gate_Entry_Head.Location_Code,case when len ( TSPL_Sale_Return_Gate_Entry_Head.Transport) > 0 then TSPL_Sale_Return_Gate_Entry_Head.Transport else TSPL_Sale_Return_Gate_Entry_Head.Man_Transport end as  Man_Transport, case when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type = 'PS' then 'Product Sale Return' when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type = 'FS' then 'Fresh Sale Return' when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type  = 'MCCS' then 'MCC Material Sale Return'  when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type  ='CSA' then 'CSA Transfer Return' when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type  ='EXP' then 'Export Sale Return' when TSPL_Sale_Return_Gate_Entry_Head.Doc_Type  =  'MISS' then 'Material Sales Return' else '' end as Doc_Type, TSPL_Sale_Return_Gate_Entry_Head.Doc_Type as Doc_Type2 , TSPL_Sale_Return_Gate_Entry_Head.Customer_Code, TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Sale_Return_Gate_Entry_Head.Remarks , TSPL_Sale_Return_Gate_Entry_Head.Comment , TSPL_Sale_Return_Gate_Entry_Head.Created_By, convert(varchar,TSPL_Sale_Return_Gate_Entry_Head.Created_Date,103) as Created_Date , TSPL_Sale_Return_Gate_Entry_Head.Modify_By, convert(varchar,TSPL_Sale_Return_Gate_Entry_Head.Modify_Date,103) as Modify_Date, TSPL_Sale_Return_Gate_Entry_Head.Comp_Code, TSPL_Sale_Return_Gate_Entry_Head.Posted, TSPL_Sale_Return_Gate_Entry_Head.isCancel, convert (varchar,TSPL_Sale_Return_Gate_Entry_Head.Cancel_Date,103) as Cancel_Date ,TSPL_Sale_Return_Gate_Entry_Detail.Line_No , TSPL_Sale_Return_Gate_Entry_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc, TSPL_Sale_Return_Gate_Entry_Detail.UOM, TSPL_Sale_Return_Gate_Entry_Detail.Qty  from TSPL_Sale_Return_Gate_Entry_Detail  " &
+                                "  inner join  TSPL_Sale_Return_Gate_Entry_Head on TSPL_Sale_Return_Gate_Entry_Detail.Gate_Entry_No = TSPL_Sale_Return_Gate_Entry_Head.Gate_Entry_No " &
+                                "  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_Sale_Return_Gate_Entry_Detail.Item_Code " &
+                                "  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Sale_Return_Gate_Entry_Head.Customer_Code " &
                                 "   where TSPL_Sale_Return_Gate_Entry_Head.Gate_Entry_No = '" + txtDocNo.Value + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt.Rows.Count > 0 Then
@@ -1026,7 +1026,7 @@ Public Class FrmsaleReturnGateEntry
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
         End Try
-        
+
 
     End Sub
 
@@ -1037,7 +1037,7 @@ Public Class FrmsaleReturnGateEntry
     Private Sub txtTransporterCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTransporterCode._MYValidating
         Dim qry As String = Nothing
         Dim WhrCls As String = "TSPL_VENDOR_MASTER.Transporter   ='Y'"
-       
+
         If clsCommon.CompairString(ddlDocType.SelectedValue, "") = CompairStringResult.Equal Then
             common.clsCommon.MyMessageBoxShow(Me, "Please select Doc Type", Me.Text)
             ddlDocType.Focus()
@@ -1053,7 +1053,7 @@ Public Class FrmsaleReturnGateEntry
         ElseIf clsCommon.CompairString(ddlDocType.SelectedValue, "BS") = CompairStringResult.Equal Then
         ElseIf clsCommon.CompairString(ddlDocType.SelectedValue, "EXPS") = CompairStringResult.Equal Then
         End If
-        
+
 
         If clsCommon.myLen(txtTransporterCode.Value) > 0 Then
             lblTransportName.Text = clsTransferDCC.GetTransporterName(txtTransporterCode.Value)
@@ -1194,12 +1194,12 @@ Public Class FrmsaleReturnGateEntry
                 Next
             End If
         End If
-       
+
         isInsideLoadData = False
 
     End Sub
 
-   
+
     Private Sub ddlDocType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles ddlDocType.SelectedIndexChanged
         EnableDisableControl()
 
@@ -1258,7 +1258,7 @@ Public Class FrmsaleReturnGateEntry
     End Sub
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-      
+
         Dim qry As String = "select * from TSPL_SALE_RETURN_GATE_ENTRY_HEAD"
 
         Dim whrClas As String = ""
