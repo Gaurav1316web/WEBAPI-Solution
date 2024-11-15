@@ -1296,6 +1296,7 @@ Public Class clsFixedParameterCode
     Public Const VendorMaster As String = "Vendor Master"
     Public Const UserMaster As String = "User Master"
     Public Const ItemMaster As String = "Item Master"
+    Public Const DemandUnpost As String = "Demand Unpost"
     Public Const CustomerMaster As String = "Customer Master"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
@@ -3275,6 +3276,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.VendorMaster, "Vendor@123", "Vendor Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.ItemMaster, "Item@123", "Item Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.UserMaster, "User@123", "User Master Password")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.DemandUnpost, "Demand@123", "Demand Password for Unpost")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.CustomerMaster, "Customer@123", "Customer Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.POAmendmentType, clsFixedParameterCode.POAmendment, "admin@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkInvoiceDeleteType, clsFixedParameterCode.BulkInvoiceDelete, "tecxpert@123", "")
