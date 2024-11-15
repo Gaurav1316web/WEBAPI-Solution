@@ -332,6 +332,7 @@ Public Class frmMCCMaterialSaleFarmer
     Public DtExcel As DataTable
     Dim objsr As New clsSerialPort
     Dim isTaxExempted As Boolean = False
+    Dim arrMCCRights As ArrayList
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -361,6 +362,7 @@ Public Class frmMCCMaterialSaleFarmer
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
         SetUserMgmtNew()
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         btnHistory.Enabled = False
         SetMailRight()
         ItemRateEditable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemRateEditableOnSales & "'")) = 0, False, True)
@@ -5850,25 +5852,7 @@ Public Class frmMCCMaterialSaleFarmer
         SetTermDetails()
     End Sub
 
-    '------------BM00000003414-------------------
-    Private Function MCCLOCATIONFINDER()
-        Dim arrloc As String = ""
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrloc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-        Return arrloc
-    End Function
-    '------------------------------------------------
 
 
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
@@ -5886,7 +5870,7 @@ Public Class frmMCCMaterialSaleFarmer
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
         End If
-        WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+        WhrCls += "  and location_category='MCC' and  Location_Code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
 
         txtBillToLocation.Value = clsCommon.ShowSelectForm("ShipmentMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))

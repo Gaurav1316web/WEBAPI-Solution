@@ -1,17 +1,8 @@
 ﻿'****** Created By: Richa Agarwal 06/01/2015,BM00000005317 **********
 
-Imports System
-Imports System.Data
 Imports System.Data.SqlClient
-Imports System.Windows.Forms
-Imports System.Collections
-Imports Telerik.WinControls.UI
-Imports Telerik.WinControls.Data
-Imports Telerik.Data
-Imports Telerik.WinControls.Enumerations
-Imports Telerik.WinControls
-Imports System.Text.RegularExpressions
 Imports common
+Imports Telerik.WinControls
 Public Class frmFarmerPaymentAdjEntry
     Inherits FrmMainTranScreen
     Public isFromLoadout As Boolean = False
@@ -26,6 +17,7 @@ Public Class frmFarmerPaymentAdjEntry
     Dim IsLoadData As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
 
+    Dim arrMCCRights As ArrayList
 
 #Region "Variable"
     Public strAdjNo As String = Nothing
@@ -56,7 +48,7 @@ Public Class frmFarmerPaymentAdjEntry
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-  
+
     Private Function AllowToSave() As Boolean
         If AllowFutureDateTransaction(dtAdj.Value, Nothing) = False Then
             dtAdj.Focus()
@@ -236,7 +228,7 @@ Public Class frmFarmerPaymentAdjEntry
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
-     
+
     End Sub
 
     Public Sub funPOst()
@@ -318,6 +310,7 @@ Public Class frmFarmerPaymentAdjEntry
 
 #Region "Page Load"
     Private Sub frmAdj_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
@@ -674,9 +667,9 @@ Public Class frmFarmerPaymentAdjEntry
     Sub PrintData()
         If clsCommon.myLen(fndDocNo.Value) > 0 Then
             Dim qry As String
-            qry = "select finalQry .*,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where Location_Code in(select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code =(substring (finalqry.AcctNo ,LEN(finalqry.AcctNo)-2,5)))   )as address from (select case when xx.Is_Post='Y' then 'Y' else 'N' end as Is_Post  , xx.Adjustment_No,Convert(varchar,xx.Adjustment_Date,103) as Adjustment_Date ,xx.Farmer_Code ,xx.Farmer_Name ,xx.AcctNo ,xx.AcctDesc ,xx.DbtAmt ,xx.CrAmt ,xx.Comp_Code,xx.Doc_No  from " & _
-                  " (SELECT TSPL_MP_PAY_ADJ_HEAD.Is_Post,  TSPL_MP_PAY_ADJ_DETAIL.Adjustment_No  ,Adjustment_Date,TSPL_MP_PAY_ADJ_HEAD.Farmer_Code ,(select Farmer_Name from TSPL_VENDOR_MASTER where Vendor_Code =TSPL_MP_PAY_ADJ_HEAD.Farmer_Code )as Farmer_Name,TSPL_MP_PAY_ADJ_DETAIL.Account_No as AcctNo,Account_Description as AcctDesc,Amount as DbtAmt,0 as CrAmt,TSPL_MP_PAY_ADJ_HEAD .Comp_Code,TSPL_MP_PAY_ADJ_HEAD .Doc_No  FROM TSPL_MP_PAY_ADJ_DETAIL left outer join TSPL_MP_PAY_ADJ_HEAD on  TSPL_MP_PAY_ADJ_DETAIL.Adjustment_No = TSPL_MP_PAY_ADJ_HEAD .Adjustment_No   where TSPL_MP_PAY_ADJ_DETAIL.Adjustment_No ='" & fndFnAdj.Value & "'" & _
-                   " union all " & _
+            qry = "select finalQry .*,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where Location_Code in(select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code =(substring (finalqry.AcctNo ,LEN(finalqry.AcctNo)-2,5)))   )as address from (select case when xx.Is_Post='Y' then 'Y' else 'N' end as Is_Post  , xx.Adjustment_No,Convert(varchar,xx.Adjustment_Date,103) as Adjustment_Date ,xx.Farmer_Code ,xx.Farmer_Name ,xx.AcctNo ,xx.AcctDesc ,xx.DbtAmt ,xx.CrAmt ,xx.Comp_Code,xx.Doc_No  from " &
+                  " (SELECT TSPL_MP_PAY_ADJ_HEAD.Is_Post,  TSPL_MP_PAY_ADJ_DETAIL.Adjustment_No  ,Adjustment_Date,TSPL_MP_PAY_ADJ_HEAD.Farmer_Code ,(select Farmer_Name from TSPL_VENDOR_MASTER where Vendor_Code =TSPL_MP_PAY_ADJ_HEAD.Farmer_Code )as Farmer_Name,TSPL_MP_PAY_ADJ_DETAIL.Account_No as AcctNo,Account_Description as AcctDesc,Amount as DbtAmt,0 as CrAmt,TSPL_MP_PAY_ADJ_HEAD .Comp_Code,TSPL_MP_PAY_ADJ_HEAD .Doc_No  FROM TSPL_MP_PAY_ADJ_DETAIL left outer join TSPL_MP_PAY_ADJ_HEAD on  TSPL_MP_PAY_ADJ_DETAIL.Adjustment_No = TSPL_MP_PAY_ADJ_HEAD .Adjustment_No   where TSPL_MP_PAY_ADJ_DETAIL.Adjustment_No ='" & fndFnAdj.Value & "'" &
+                   " union all " &
                    " select TSPL_MP_PAY_ADJ_HEAD.Is_Post, TSPL_MP_PAY_ADJ_HEAD.Adjustment_No ,TSPL_MP_PAY_ADJ_HEAD.Adjustment_Date  ,TSPL_MP_PAY_ADJ_HEAD.Farmer_Code,(select Farmer_Name from TSPL_VENDOR_MASTER where Vendor_Code =TSPL_MP_PAY_ADJ_HEAD.Farmer_Code )as Farmer_Name,(select TSPL_VENDOR_ACCOUNT_SET.Payable_Account from TSPL_VENDOR_ACCOUNT_SET where TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code  =TSPL_VENDOR_MASTER.Vendor_Account) as Acct,(select Description from TSPL_GL_ACCOUNTS where Account_Code =(select TSPL_VENDOR_ACCOUNT_SET.Payable_Account from TSPL_VENDOR_ACCOUNT_SET where TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code =TSPL_VENDOR_MASTER.Vendor_Account))as AcctDesc,0 as DbtAmt,TSPL_MP_PAY_ADJ_HEAD.Adjustment_Amount as CrAmt ,TSPL_MP_PAY_ADJ_HEAD .Comp_Code,TSPL_MP_PAY_ADJ_HEAD .Doc_No from TSPL_MP_PAY_ADJ_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_MP_PAY_ADJ_HEAD.Farmer_Code =TSPL_VENDOR_MASTER.Vendor_Code where Adjustment_No ='" & fndFnAdj.Value & "' ) as xx )as finalQry left outer join TSPL_COMPANY_MASTER on finalQry .Comp_Code =TSPL_COMPANY_MASTER .Comp_Code "
             Try
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -717,30 +710,14 @@ Public Class frmFarmerPaymentAdjEntry
     Private Sub fndVendorCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndFarmerCode._MYValidating
         funVendor_Data(isButtonClicked)
     End Sub
-    Private Function MCCLOCATIONFINDER()
-        Dim arrloc As String = ""
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrloc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-        Return arrloc
-    End Function
     Private Sub fndMCC_Code__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndMCC_Code._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         Dim WhrCls As String = "  Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
         End If
-        WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+        WhrCls += "  and location_category='MCC' and  Location_Code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
 
         fndMCC_Code.Value = clsCommon.ShowSelectForm("FarmerPayent", qry, "Code", WhrCls, fndMCC_Code.Value, "Code", isButtonClicked)
         lblMCCDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + fndMCC_Code.Value + "'"))

@@ -10288,17 +10288,8 @@ ExitLOOP:
 
     Private Sub RadButton112_Click(sender As Object, e As EventArgs) Handles RadButton112.Click
         'Import
-        Dim arrLoc As String = Nothing
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            Else
 
-            End If
-        Catch ex As Exception
-        End Try
+        Dim arrMCCRights As ArrayList = clsMCCCodes.GetUserHavingMCCRights()
 
         Dim gvCharges As New RadGridView()
         Me.Controls.Add(gvCharges)
@@ -10355,7 +10346,7 @@ ExitLOOP:
                     Dim MCCCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select MCC_Code From TSPL_MCC_ROUTE_MASTER Where Route_Code ='" & RouteCode & "'", trans))
                     Dim sQuery As String = "select vlc_code as Code,vlc_name as Name,Vehical_name as [Vehicle Name],VSP_Code as [VSP Code],vendor_name as [VSP Name]" & _
                                            " from TSPL_VLC_MASTER_HEAD inner join tspl_mcc_Master  on mcc=mcc_Code  left join TSPL_VENDOR_MASTER vm on vm.Vendor_Code=VSP_Code "
-                    Dim whrcls As String = sQuery + " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
+                    Dim whrcls As String = sQuery + " tspl_mcc_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
 

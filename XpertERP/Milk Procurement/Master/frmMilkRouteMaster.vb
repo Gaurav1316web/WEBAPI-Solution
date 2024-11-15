@@ -8,7 +8,7 @@ Public Class FrmMilkRouteMaster
     Inherits FrmMainTranScreen
 
 #Region "Variables"
-    Dim arrLoc As String = Nothing
+    Dim arrMCCRights As ArrayList
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isNewEntry As Boolean = True
@@ -31,6 +31,7 @@ Public Class FrmMilkRouteMaster
 
     Private Sub FrmMilkRouteMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S For Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -121,7 +122,7 @@ Public Class FrmMilkRouteMaster
         UcAttachment1.BlankAllControls()
         isNewEntry = True
         LoadBlankVLC_Grid()
-        MCCLOCATIONFINDER()
+
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.BlankAllControls()
             UcCustomFields1.SetDefaultValues()
@@ -430,7 +431,7 @@ Public Class FrmMilkRouteMaster
         Try
             No_of_Vlc = 0
             IsInsieLoadData = True
-            Dim obj As clsfrmMilkRouteMaster = clsfrmMilkRouteMaster.GetData(strCode, arrLoc, NavType)
+            Dim obj As clsfrmMilkRouteMaster = clsfrmMilkRouteMaster.GetData(strCode, clsCommon.GetMulcallString(arrMCCRights), NavType)
             isNewEntry = True
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.code) > 0 Then
                 isNewEntry = False
@@ -634,9 +635,9 @@ Public Class FrmMilkRouteMaster
 
     Private Sub fndcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndcode._MYValidating
         Dim whrclas As String = ""
-        If clsCommon.myLen(arrLoc) > 0 Then
-            whrclas = " tspl_mcc_route_master.mcc_code in (" + arrLoc + ")"
-        End If
+
+        whrclas = " tspl_mcc_route_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
 
         Dim qry As String = "select count(*) from tspl_mcc_route_master where route_code='" + fndcode.Value + "'"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
@@ -665,9 +666,9 @@ Public Class FrmMilkRouteMaster
         '    txtmcccode.Value = clsMccMaster.getFinder(" created_by='" + objCommonVar.CurrentUserCode + "'", txtmcccode.Value, isButtonClicked)
         'Else
         Dim whrCls As String = ""
-        If clsCommon.myLen(arrLoc) > 0 Then
-            whrCls = " TSPL_MCC_MASTER.mcc_code in (" + arrLoc + ")"
-        End If
+
+        whrCls = " TSPL_MCC_MASTER.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
 
         txtmcccode.Value = clsMccMaster.getFinder(whrCls, txtmcccode.Value, isButtonClicked)
         'End If
@@ -1028,23 +1029,6 @@ Public Class FrmMilkRouteMaster
         End If
     End Sub
 
-    '------------BM00000003414-------------------
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
-
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-    '------------------------------------------------
 
 
     Private Sub txtemail_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtemail.Leave
@@ -1186,7 +1170,7 @@ Public Class FrmMilkRouteMaster
                     obj = New clsfrmMilkRouteMaster()
                     clsfrmMilkRouteMaster.arr_VLC_Detail = Nothing
                     obj.code = clsCommon.myCstr(grow.Cells("Code").Value)
-                    obj = clsfrmMilkRouteMaster.GetData(obj.code, arrLoc, NavigatorType.Current)
+                    obj = clsfrmMilkRouteMaster.GetData(obj.code, clsCommon.GetMulcallString(arrMCCRights), NavigatorType.Current)
                     If obj Is Nothing Then
                         obj = New clsfrmMilkRouteMaster
                     End If
@@ -1430,7 +1414,7 @@ Public Class FrmMilkRouteMaster
                     Dim MCCCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select MCC_Code From TSPL_MCC_ROUTE_MASTER Where Route_Code ='" & RouteCode & "'", trans))
                     Dim sQuery As String = "select vlc_code as Code,vlc_name as Name,Vehical_name as [Vehicle Name],VSP_Code as [VSP Code],vendor_name as [VSP Name]" &
                                            " from TSPL_VLC_MASTER_HEAD inner join tspl_mcc_Master  on mcc=mcc_Code  left join TSPL_VENDOR_MASTER vm on vm.Vendor_Code=VSP_Code "
-                    Dim whrcls As String = sQuery + " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
+                    Dim whrcls As String = sQuery + " tspl_mcc_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
 
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
 
@@ -1573,7 +1557,7 @@ Public Class FrmMilkRouteMaster
                     End If
                     sQuery += " vlc_name As Name, Vehical_name As [Vehicle Name], VSP_Code As [VSP Code], vendor_name as [VSP Name] " _
                     & " from TSPL_VLC_MASTER_HEAD inner join tspl_mcc_Master  on mcc=mcc_Code  left join TSPL_VENDOR_MASTER vm on vm.Vendor_Code=VSP_Code "
-                    Dim whrcls As String = " tspl_mcc_master.mcc_code in (" + arrLoc + ")  And coalesce(active,1)=1 And  Coalesce(route_Code,'')='' "
+                    Dim whrcls As String = " tspl_mcc_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")  And coalesce(active,1)=1 And  Coalesce(route_Code,'')='' "
                     Dim str As String = clsCommon.ShowSelectForm(strID, sQuery, "Code", whrcls, gvVLC.CurrentRow.Cells(e.Column.Name).Value, "", False)
                     If str <> "" Then
                         Dim objvlc As New clsfrmVLCMaster

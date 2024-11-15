@@ -15,6 +15,7 @@ Imports Telerik.WinControls.Data
 Public Class frmMccMaterialSaleReturnFarmer
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim arrMCCRights As ArrayList
     Private StrSql As String
     Private blnBackCalculation As Boolean = False
     Private AllowChangeInvoiceType As Boolean = False
@@ -263,6 +264,7 @@ Public Class frmMccMaterialSaleReturnFarmer
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         btnHistory.Enabled = False
         SetUserMgmtNew()
         SetMailRight()
@@ -5272,29 +5274,13 @@ Public Class frmMccMaterialSaleReturnFarmer
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-        WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+        WhrCls += "  and location_category='MCC' and  Location_Code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
 
         txtBillToLocation.Value = clsCommon.ShowSelectForm("PSSaleRetBillLoca", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
 
     End Sub
-    Private Function MCCLOCATIONFINDER()
-        Dim arrloc As String = ""
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrloc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-        Return arrloc
-    End Function
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
 
         Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
