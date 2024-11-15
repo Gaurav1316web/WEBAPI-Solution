@@ -14,7 +14,7 @@ Public Class FrmMCCMaster
     Dim isShowAllMCC As Boolean = False
     Dim obj As clsMccMaster = Nothing
     Public errorControl As clsErrorControl = New clsErrorControl()
-    Dim arrLoc As String = Nothing
+    Dim arrMCCRights As ArrayList
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim isCellValueChangedSiloOpen As Boolean = False
@@ -59,7 +59,7 @@ Public Class FrmMCCMaster
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C To Close the Window")
         ButtonToolTip.SetToolTip(rbtnReset, "Press Alt+N For New")
 
-        MCCLOCATIONFINDER()
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         Pg_bank.Text = "Bank Details" & Environment.NewLine & "For Payment"
         clsPortSetting.GetWeighingMachineNames(CboMachine)
         clsPortSetting.GetMachineType(cboSampleMachine)
@@ -1342,22 +1342,7 @@ Public Class FrmMCCMaster
 #End Region
 
     '------------BM00000003414-------------------
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
     '------------------------------------------------
 
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -1774,13 +1759,13 @@ Public Class FrmMCCMaster
                             Throw New Exception("Multiple Segment Code exists Please map Segment Code in Location Master")
                         End If
                     End If
-                    MCCLOCATIONFINDER()
+
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
 
                 If chkSegment.Checked = True Then
-                    MCCLOCATIONFINDER()
+
                     chkSegment.Checked = False
                     txtSegmentCode.Text = ""
                     txtSegmentDesc.Text = ""
@@ -1811,10 +1796,8 @@ Public Class FrmMCCMaster
 
     Private Sub fndMCCCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndMCCCode._MYValidating
         Try
-            Dim whrcls As String = ""
-            If clsCommon.myLen(arrLoc) > 0 Then
-                whrcls = " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
-            End If
+            Dim whrcls As String = " tspl_mcc_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
             fndMCCCode.Value = clsMccMaster.getFinder(whrcls, fndMCCCode.Value, isButtonClicked)
             If clsCommon.myLen(fndMCCCode.Value) > 0 Then
                 loadData(fndMCCCode.Value, NavigatorType.Current)
@@ -1842,7 +1825,7 @@ Public Class FrmMCCMaster
             DtpEveShiftClosingTime.Value = Nothing
             Dim obj As New clsMccMaster
 
-            obj = clsMccMaster.loadData(fndMCCCode.Value, nav, isShowAllMCC, Me.Form_ID, arrLoc)
+            obj = clsMccMaster.loadData(fndMCCCode.Value, nav, isShowAllMCC, Me.Form_ID, clsCommon.GetMulcallString(arrMCCRights))
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.MCC_Code) > 0 Then
                 fndMCCCode.Value = obj.MCC_Code
                 ddlMCCType.SelectedValue = obj.MCC_Type
@@ -5102,7 +5085,7 @@ Public Class FrmMCCMaster
     Public Sub GetMccFssai()
         Try
             Dim Mcc_Name As String = ""
-            MCCLOCATIONFINDER()
+
             Dim obj As New clsMccMaster
             obj.Days_For_FSSAI = clsFixedParameter.GetData(clsFixedParameterType.MCCFSSAI_DAYS, clsFixedParameterCode.MilkSetting, Nothing)
             If obj.Days_For_FSSAI = "" Then
@@ -5135,9 +5118,9 @@ Public Class FrmMCCMaster
 
                 Else
 
-                    If clsCommon.myLen(arrLoc) > 0 Then
+                    If True Then
                         Dim sQuery As String = "select * from tspl_mcc_master inner join tspl_location_master on location_Code=mcc_Code and FSSAI_NO " _
-               & " like '%FSSAI%' and (loc_segment_Code in (" & arrLoc & ") or mcc_Code in (" & arrLoc & ")) "
+               & " like '%FSSAI%' and (  mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & ")) "
                         Dt = clsDBFuncationality.GetDataTable(sQuery)
                         If Dt.Rows.Count > 0 Then
                             For Each row As DataRow In Dt.Rows
@@ -5478,10 +5461,8 @@ Public Class FrmMCCMaster
 
     Private Sub txtMCCCopy__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCCCopy._MYValidating
         Try
-            Dim whrcls As String = ""
-            If clsCommon.myLen(arrLoc) > 0 Then
-                whrcls = " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
-            End If
+            Dim whrcls As String = " tspl_mcc_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
             fndMCCCode.Value = clsMccMaster.getFinder(whrcls, fndMCCCode.Value, isButtonClicked)
             txtMCCCopy.Value = fndMCCCode.Value
             If clsCommon.myLen(fndMCCCode.Value) > 0 Then

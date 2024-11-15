@@ -4,6 +4,7 @@ Imports common
 Public Class frmMCCMaterialSale
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim arrMCCRights As ArrayList
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Dim UseDescInsteadOFCodeOnMCCMAterialSale As Boolean = False
     Const colItemwiseTaxCode As String = "colItemwiseTaxCode"
@@ -251,7 +252,7 @@ Public Class frmMCCMaterialSale
         End If
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-       
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
         RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
         SetUserMgmtNew()
@@ -3159,8 +3160,6 @@ Public Class frmMCCMaterialSale
         End If
         SETGSTControl()
         If AllowPlandDeptMCCLocation = False Then
-
-
             Dim obj As New clsMCCCodes()
             obj = clsMCCCodes.GetData(True)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
@@ -5520,24 +5519,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         End If
         SetTermDetails()
     End Sub
-    '------------BM00000003414-------------------
-    Private Function MCCLOCATIONFINDER()
-        Dim arrloc As String = ""
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrloc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-        Return arrloc
-    End Function
-    '------------------------------------------------
+
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
         'Dim obj As clsLocation = clsLocation.FinderForPhysicalLoaction(txtBillToLocation.Value, isButtonClicked)
         'If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then0
@@ -5567,7 +5549,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             End If
 
             WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' " ' and Is_Sub_Location='N' and location_category='MCC' "
-            WhrCls += "   and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
+            WhrCls += "   and  Location_Code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
             If (Not isMainPlant) Then
                 'Dim Loc As String = clsDBFuncationality.getSingleValue("Select Default_Location from TSPL_USER_MASTER Where User_Code='" + objCommonVar.CurrentUserCode + "'")
                 'If clsCommon.myLen(Loc) > 0 AndAlso clsCommon.CompairString(Loc, "GNG") <> CompairStringResult.Equal Then

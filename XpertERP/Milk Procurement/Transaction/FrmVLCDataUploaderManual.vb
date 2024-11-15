@@ -26,7 +26,7 @@ Public Class FrmVLCDataUploaderManual
     Dim Qry As String
     Dim isFlag As Boolean = False
     Dim Mcc_Uom As String = String.Empty
-    Dim arrLoc As String = Nothing
+    Dim arrMCCRights As ArrayList
     Dim UseVLCUploaderCodeMPUploaderCodeInMCCProcurement As Boolean = False
     Dim settBennyImportPickRateFromPrice As Boolean = False
     Public Sub New()
@@ -80,7 +80,7 @@ Public Class FrmVLCDataUploaderManual
         settBennyImportPickRateFromPrice = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BennyImportPickRateFromPrice, clsFixedParameterCode.BennyImportPickRateFromPrice, Nothing)) = 1)
         Reset()
         multipleDelteVisible(False)
-        MCCLOCATIONFINDER()
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Transaction")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -644,24 +644,10 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
         LoadData(fndDocumentNo.Value, NavigatorType.Current)
     End Sub
 
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
 
     Private Sub FNDRouteCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles FNDRouteCode._MYValidating
-        FNDRouteCode.Value = clsfrmMilkRouteMaster.getFinder("tspl_mcc_route_master.mcc_code in (" + arrLoc + ")", FNDRouteCode.Value, isButtonClicked)
+        FNDRouteCode.Value = clsfrmMilkRouteMaster.getFinder("tspl_mcc_route_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")", FNDRouteCode.Value, isButtonClicked)
         LblRouteName.Text = clsDBFuncationality.getSingleValue("Select Route_Name from TSPL_MCC_ROUTE_MASTER where Route_Code ='" + FNDRouteCode.Value + "' ")
         FNDRouteCode.Tag = clsDBFuncationality.getSingleValue("Select Mcc_Code from TSPL_MCC_ROUTE_MASTER where Route_Code ='" + FNDRouteCode.Value + "' ")
         Mcc_Uom = clsDBFuncationality.getSingleValue("select Uom_Code from TSPL_Mcc_UOM_DETAIL where Stocking_Unit='Y' and  MCC_CODE=(select mcc_Code from tspl_mcc_route_master where route_Code='" & clsCommon.myCstr(FNDRouteCode.Value) & "')")
@@ -981,7 +967,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
     End Sub
 
     Private Sub fndMCC_Code__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndMCC_Code._MYValidating
-        fndMCC_Code.Value = clsMccMaster.getFinder("TSPL_MCC_MASTER.MCC_CODE in (" + arrLoc + ")", fndMCC_Code.Value, isButtonClicked)
+        fndMCC_Code.Value = clsMccMaster.getFinder("TSPL_MCC_MASTER.MCC_CODE in (" + clsCommon.GetMulcallString(arrMCCRights) + ")", fndMCC_Code.Value, isButtonClicked)
         Try
             SetDocKCollectionMilkType(fndMCC_Code.Value)
         Catch ex As Exception

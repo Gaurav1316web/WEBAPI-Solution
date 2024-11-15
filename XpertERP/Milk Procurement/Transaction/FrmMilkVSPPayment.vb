@@ -27,6 +27,7 @@ Public Class FrmMilkVSPPayment
     Dim CompanyVSPDeduction As Decimal = 0
     Dim NonCompanyVSPDeduction As Decimal = 0
     Dim AreaWiseBilling As Boolean = False
+    Dim arrMCCRights As ArrayList
 
 
 #End Region
@@ -50,6 +51,7 @@ Public Class FrmMilkVSPPayment
 
     Private Sub FrmMilkVSPPayment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Is_Load = True
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         ButtonTooltip.SetToolTip(btnClose, "Press Alt+C for Close the Window")
         ButtonTooltip.SetToolTip(btnGenerateBill, "Press Alt+R for Refresh the Data")
         SetUserMgmtNew()
@@ -3667,16 +3669,8 @@ Public Class FrmMilkVSPPayment
     End Sub
 
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
-        Dim qry As String = ""
-        Dim arrLoc As String = ""
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-            arrLoc = obj.arrLocCodes
-        End If
-
-        qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name] from tspl_mcc_master inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
-        & " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
+        Dim qry As String = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name] from tspl_mcc_master inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
+        & " and (  tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & ")))xx "
         'If AreaWiseBilling Then
         '    qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
 
@@ -4095,21 +4089,12 @@ Public Class FrmMilkVSPPayment
     Private Sub txtMCCMultiple__My_Click(sender As Object, e As EventArgs) Handles txtMCCMultiple._My_Click
         Try
             Dim qry As String = ""
-            Dim arrLoc As String = ""
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            End If
-
-            'qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name], Plant_Code as PlantCode,tabPlantName.Location_Desc as Plant from tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
-            '& " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
-
             qry = "select Mcc_Code as Code,MCC_Name,Plant_Code,tabPlantName.Location_Desc as Plant
-            From tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  where tspl_mcc_master.mcc_Code in (" & arrLoc & ")"
+From tspl_mcc_master 
+left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code  
+where tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & ")"
             If AreaWiseBilling Then
                 qry += " and tspl_mcc_master.Area_Location_Code='" + clsCommon.myCstr(fndArea.Value) + "' "
-
             End If
             'If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count > 0 Then
             '    qry += " and tspl_mcc_master.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
@@ -4140,15 +4125,10 @@ Public Class FrmMilkVSPPayment
         Try
             Dim arr As ArrayList = Nothing
             Dim qry As String = ""
-            Dim arrLoc As String = ""
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            End If
+
 
             qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name], Plant_Code as PlantCode,tabPlantName.Location_Desc as Plant from tspl_mcc_master left outer join TSPL_LOCATION_MASTER as tabPlantName on tabPlantName.Location_Code=TSPL_MCC_MASTER.Plant_Code inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
-            & " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
+            & " and (  tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & ")))xx "
 
             Dim dtMCC As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtMCC IsNot Nothing AndAlso dtMCC.Rows.Count > 0 Then

@@ -10,7 +10,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
 #Region "Variables"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
-    Dim arrLoc As String = Nothing
+    Dim arrMCCRights As ArrayList
     Public Const colSlabUpto As String = "colSlabUpto"
     Public Const colSlabRate As String = "colSlabRate"
     Dim isNewEntry As Boolean = True
@@ -21,6 +21,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
     Private Sub FrmPrimaryTransporterVehicalMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
             SetUserMgmtNew()
+            arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
             ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction")
             ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Trasnaction")
             ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -121,7 +122,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
         UcAttachment1.Form_ID = Me.Form_ID
         UcAttachment1.BlankAllControls()
 
-        MCCLOCATIONFINDER()
+
         btnsave.Text = "Save"
         btndelete.Enabled = False
         fndcode.MyReadOnly = False
@@ -148,25 +149,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
         txtVehicle.Text = ""
     End Sub
 
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                If clsCommon.myLen(txtmcccode.Value) <= 0 AndAlso Not obj.Default_HO Then
-                    txtmcccode.Value = obj.Default_LocCode
-                    txtmccname.Text = obj.Default_LocName
-                End If
-                arrLoc = obj.arrLocCodes
-            Else
-                txtmcccode.Enabled = False
-                Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmPrimaryTransporterVehicalMaster)
@@ -567,9 +550,9 @@ Public Class FrmPrimaryTransporterVehicalMaster
 
     Private Sub txtmcccode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtmcccode._MYValidating
         Dim whrcls As String = ""
-        If clsCommon.myLen(arrLoc) > 0 Then
-            whrcls = " TSPL_MCC_MASTER.mcc_code in (" + arrLoc + ")"
-        End If
+
+        whrcls = " TSPL_MCC_MASTER.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
 
         txtmcccode.Value = clsMccMaster.getFinder(whrcls, txtmcccode.Value, isButtonClicked)
 
@@ -583,7 +566,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
 
     Sub LoadData(ByVal strCode As String, ByVal NavType As NavigatorType)
         Try
-            Dim obj As clsfrmPrimaryTransporterVehicalMaster = clsfrmPrimaryTransporterVehicalMaster.GetData(strCode, arrLoc, NavType)
+            Dim obj As clsfrmPrimaryTransporterVehicalMaster = clsfrmPrimaryTransporterVehicalMaster.GetData(strCode, clsCommon.GetMulcallString(arrMCCRights), NavType)
             isNewEntry = True
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.docno) > 0 Then
                 Reset()
@@ -696,9 +679,9 @@ Public Class FrmPrimaryTransporterVehicalMaster
                 qry += " ,TSPL_Primary_Vehicle_Master.Vehicle "
             End If
             qry += " from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code"
-            If clsCommon.myLen(arrLoc) > 0 Then
-                whrcls = " tspl_primary_vehicle_master.mcc_code in (" + arrLoc + ")"
-            End If
+
+            whrcls = " tspl_primary_vehicle_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
             fndcode.Value = clsCommon.ShowSelectForm("PTVFND", qry, "Code", whrcls, fndcode.Value, "Code", isButtonClicked)
             LoadData(fndcode.Value, NavigatorType.Current)
         End If

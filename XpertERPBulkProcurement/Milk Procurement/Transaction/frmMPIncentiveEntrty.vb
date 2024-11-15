@@ -13,19 +13,20 @@ Public Class frmMPIncentiveEntrty
     Dim IsinsideLoadData As Boolean = False
     Dim Qry As String
     Dim isFlag As Boolean = False
-    Dim arrLoc As String = Nothing
+
     Dim SettMPIncentiveEntryApplyMonthly As Boolean = False
     Dim SettMPIncentiveEntryIncentiveRate As Decimal = 0
 
     Dim SettApplyPashuAaharAndMineralMixture As Boolean = False
     Dim ApplyZoneWiseVSP As Boolean = False
     Dim SettMCCOneDBTOneDoc As String = ""
-    Dim sett
+    Dim arrMCCRights As ArrayList
 #End Region
     Public Sub New()
         InitializeComponent()
     End Sub
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         SettMCCOneDBTOneDoc = clsFixedParameter.GetData(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.OneDBTOneDoc, Nothing)
         SettMPIncentiveEntryApplyMonthly = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, Nothing)) > 0)
         SettMPIncentiveEntryIncentiveRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
@@ -47,7 +48,7 @@ Public Class frmMPIncentiveEntrty
         SetUserMgmtNew()
         Reset()
 
-        MCCLOCATIONFINDER()
+
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Transaction")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -962,21 +963,7 @@ Public Class frmMPIncentiveEntrty
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
     Sub DisableInputDataField()
         txtdate.Enabled = False
         txtMCC.Enabled = False
@@ -1050,7 +1037,7 @@ Public Class frmMPIncentiveEntrty
     End Sub
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
         Dim strOLDMCC As String = txtMCC.Value
-        Dim wrh As String = "TSPL_MCC_MASTER.MCC_CODE in (" + arrLoc + ")"
+        Dim wrh As String = "TSPL_MCC_MASTER.MCC_CODE in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
         If clsCommon.myLen(SettMCCOneDBTOneDoc) > 0 Then
             wrh += " and TSPL_MCC_MASTER.MCC_CODE='" + SettMCCOneDBTOneDoc + "'"
         End If
