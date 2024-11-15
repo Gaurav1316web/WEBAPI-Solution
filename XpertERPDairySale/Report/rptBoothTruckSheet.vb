@@ -471,7 +471,7 @@ where 2 = 2  "
                         FLOOR(Qty/CrateCF) as Crateqty,
                         floor(Case When xx.Unit_code='Pouch' Then Pouch/PouchCF else 0 end )as PouchQtys,* from "
             Else
-                qry += " PouchQty-(CrateCF*Crateqty) as Loosepouch,* from "
+                qry += " * from "
             End If
 
 
