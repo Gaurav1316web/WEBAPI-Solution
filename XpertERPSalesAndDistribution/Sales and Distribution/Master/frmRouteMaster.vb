@@ -281,7 +281,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -316,6 +316,7 @@ Public Class frmRouteMaster
                     fndnonprice.Value = clsCommon.myCstr(dt.Rows(i)("NonPrice_Code"))
                     txtSeqNo.Text = Convert.ToString(dt.Rows(i)("Route_Seq_No"))
                     ''richa Agarwal 21 Dec,2018 BHA/21/12/18-000761
+                    txtZone.Text = clsCommon.myCstr(dt.Rows(i)("Zone_Code"))
                     txtDistance.Value = clsCommon.myCdbl(dt.Rows(i)("Distance"))
                     txtTollAmount.Value = clsCommon.myCdbl(dt.Rows(i)("TOLL_Amount"))
                     txtnonprice.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct Price_Code_Desc  from TSPL_PRICE_COMPONENT_MAPPING Where Price_Code='" + fndnonprice.Value + "'"))
