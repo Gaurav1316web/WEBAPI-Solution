@@ -785,7 +785,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + clsCommon.myCstr(drDO
                                                 If Math.Abs(clsCommon.myCdbl(drDCS("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(drDCS("DiffSNFKG"))) > 0 Then
                                                 qry = "select xx.*,TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type from
 	(select PK_Id,Qty,FATKG,SNFKG,Shift 
-	 from TSPL_MILK_COLLECTION_DCS_DETAIL where exists(select 1 from TSPL_MILK_COLLECTION_DCS_DETAIL as  inn where inn.PK_Id=" + clsCommon.myCstr(drDCS("PK_Id")) + " and inn.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code and inn.Document_No= TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No)
+	 from TSPL_MILK_COLLECTION_DCS_DETAIL WHERE VLC_Code =  ( SELECT VLC_Code FROM TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id=" + clsCommon.myCstr(drDCS("PK_Id")) + ")  AND Document_No = ( SELECT Document_No FROM TSPL_MILK_COLLECTION_DCS_DETAIL WHERE PK_Id =" + clsCommon.myCstr(drDCS("PK_Id")) + ")
 	 )xx
 	 left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=xx.PK_Id
 left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=xx.PK_Id
