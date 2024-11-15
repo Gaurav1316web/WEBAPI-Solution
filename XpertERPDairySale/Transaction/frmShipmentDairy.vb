@@ -366,6 +366,7 @@ Public Class frmShipmentDairy
     Public Property IsTaxable As String = Nothing
     Public Property IsAutoClose As Boolean = False
     Dim dblOutstandingAmount As Double = 0
+    Dim OneTimeCheck As Boolean = False
 #End Region
     Public Sub SetUserMgmtNew()
         Me.Form_ID = clsUserMgtCode.frmSaleDispatchDairy
@@ -6771,15 +6772,15 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             Dim TaxRate As Double = 0
             Dim TaxAmount As Double = 0
-            If clsCommon.CompairString(taxGroup, "IGST SL") OrElse clsCommon.CompairString(taxGroup, "GST Sales") <> CompairStringResult.Equal Then
-                For ii As Integer = 0 To gv2.Rows.Count - 1
-                    TaxRate = clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxRate).Value)
-                    TaxAmount = clsCommon.myCdbl(gv2.Rows(ii).Cells(colTTaxAmt).Value)
-                Next
-                If TaxRate <= 0 Then
-                    Return False
-                End If
-            End If
+            'If clsCommon.CompairString(taxGroup, "IGST SL") OrElse clsCommon.CompairString(taxGroup, "GST Sales") = CompairStringResult.Equal Then
+            '    For ii As Integer = 0 To gv2.Rows.Count - 1
+            '        TaxRate = clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxRate).Value)
+            '        TaxAmount = clsCommon.myCdbl(gv2.Rows(ii).Cells(colTTaxAmt).Value)
+            '    Next
+            '    If TaxRate <= 0 Then
+            '        Return False
+            '    End If
+            'End If
 
         Catch ex As Exception
             If blnReverse = False Then
@@ -13358,7 +13359,14 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
     End Sub
     '' created by Richa Agarwal against ticket No-ERO/09/09/19-001022  on date 09-09-2019
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        CancelData()
+        Dim frm1 As New FrmPWD(Nothing)
+        frm1.strType = clsFixedParameterType.Transactionupdate
+        frm1.strCode = clsFixedParameterCode.DispatchCancel
+        frm1.ShowDialog()
+        If frm1.isPasswordCorrect Then
+            CancelData()
+            OneTimeCheck = True
+        End If
     End Sub
     Function CancelData() As Boolean
         Try

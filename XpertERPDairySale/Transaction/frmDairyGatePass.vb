@@ -1963,6 +1963,16 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
         End If
     End Sub
     Private Sub btnGPCancel_Click(sender As Object, e As EventArgs) Handles btnGPCancel.Click
+        Dim frm1 As New FrmPWD(Nothing)
+        frm1.strType = clsFixedParameterType.Transactionupdate
+        frm1.strCode = clsFixedParameterCode.GatePassCancel
+        frm1.ShowDialog()
+        If frm1.isPasswordCorrect Then
+            CancelData()
+            OneTimeCheck = True
+        End If
+    End Sub
+    Sub CancelData()
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
