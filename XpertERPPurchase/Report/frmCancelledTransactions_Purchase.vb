@@ -219,7 +219,9 @@ Public Class frmCancelledTransactions_Purchase
                     ,TSPL_GRN_HEAD_Cancel_Data.Against_Requisition as [Against Requisition],TSPL_GRN_HEAD_Cancel_Data.Against_PO as [Against PO] 
                     ,TSPL_GRN_HEAD_Cancel_Data.Bill_To_Location as [Location Code]
                     ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_GRN_HEAD_Cancel_Data.Created_By as [Created By]
-                    ,convert(varchar,TSPL_GRN_HEAD_Cancel_Data.Created_Date,103) as [Created Date],TSPL_GRN_HEAD_Cancel_Data.DESCRIPTION as Description from TSPL_GRN_HEAD_Cancel_Data 
+                    ,convert(varchar,TSPL_GRN_HEAD_Cancel_Data.Created_Date,103) as [Created Date],TSPL_GRN_HEAD_Cancel_Data.DESCRIPTION as Description 
+	,Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date] from TSPL_GRN_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_GRN_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
                      WHERE  convert(date,TSPL_GRN_HEAD_Cancel_Data.GRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_GRN_HEAD_Cancel_Data.GRN_date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
@@ -239,7 +241,8 @@ Public Class frmCancelledTransactions_Purchase
                     ,TSPL_MRN_HEAD_Cancel_Data.Against_PO as [Against PO] ,TSPL_MRN_HEAD_Cancel_Data.Against_GRN as [Against GRN]
                     ,TSPL_MRN_HEAD_Cancel_Data.Bill_To_Location as [Location Code]
                     ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_MRN_HEAD_Cancel_Data.Created_By as [Created By]
-                    ,convert(varchar,TSPL_MRN_HEAD_Cancel_Data.Created_Date,103) as [Created Date],TSPL_MRN_HEAD_Cancel_Data.DESCRIPTION as Description from TSPL_MRN_HEAD_Cancel_Data 
+                    ,convert(varchar,TSPL_MRN_HEAD_Cancel_Data.Created_Date,103) as [Created Date],TSPL_MRN_HEAD_Cancel_Data.DESCRIPTION as Description ,Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date]  from TSPL_MRN_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_MRN_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
                      WHERE  convert(date,TSPL_MRN_HEAD_Cancel_Data.MRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_MRN_HEAD_Cancel_Data.MRN_date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
@@ -252,6 +255,7 @@ Public Class frmCancelledTransactions_Purchase
             Else
                 qry += " and TSPL_MRN_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
             End If
+
             qry += " ORDER BY TSPL_MRN_HEAD_Cancel_Data.MRN_DATE,TSPL_MRN_HEAD_Cancel_Data.MRN_NO "
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Store Received Note") = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
@@ -259,7 +263,10 @@ Public Class frmCancelledTransactions_Purchase
                     ,TSPL_SRN_HEAD_Cancel_Data.Against_PO as [Against PO] ,TSPL_SRN_HEAD_Cancel_Data.Against_GRN as [Against GRN]
                     ,TSPL_SRN_HEAD_Cancel_Data.Against_MRN as [Against MRN],TSPL_SRN_HEAD_Cancel_Data.Bill_To_Location as [Location Code]
                     ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_SRN_HEAD_Cancel_Data.Created_By as [Created By]
-                    ,convert(varchar,TSPL_SRN_HEAD_Cancel_Data.Created_Date,103) as [Created Date],TSPL_SRN_HEAD_Cancel_Data.DESCRIPTION as Description from TSPL_SRN_HEAD_Cancel_Data 
+                    ,convert(varchar,TSPL_SRN_HEAD_Cancel_Data.Created_Date,103) as [Created Date],TSPL_SRN_HEAD_Cancel_Data.DESCRIPTION as Description 
+,Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date] 
+from TSPL_SRN_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SRN_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
                      WHERE  convert(date,TSPL_SRN_HEAD_Cancel_Data.SRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_SRN_HEAD_Cancel_Data.SRN_date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
@@ -282,7 +289,8 @@ Public Class frmCancelledTransactions_Purchase
                     ,convert(varchar,TSPL_REQUISITION_HEAD_Cancel_Data.Created_Date,103) as [Created Date]
                      ,TSPL_REQUISITION_HEAD_Cancel_Data.Dept as [Department Code]
                      ,TSPL_REQUISITION_HEAD_Cancel_Data.Dept_Desc as [Department Name]
-                    ,TSPL_REQUISITION_HEAD_Cancel_Data.Request_By as [Request By]
+                    ,TSPL_REQUISITION_HEAD_Cancel_Data.Request_By as [Request By],	Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date]
                     ,TSPL_REQUISITION_HEAD_Cancel_Data.DESCRIPTION as Description from TSPL_REQUISITION_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_REQUISITION_HEAD_Cancel_Data.Location  =TSPL_LOCATION_MASTER.Location_Code 
                      WHERE  convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
@@ -310,6 +318,8 @@ Public Class frmCancelledTransactions_Purchase
                      ,TSPL_IssueReturn_HEAD_Cancel_Data.Dept_Desc as [Department Name]
                     ,TSPL_IssueReturn_HEAD_Cancel_Data.Request_By as [Request By]
                     ,TSPL_IssueReturn_HEAD_Cancel_Data.Againt_Cleaning_No as [Against Cleaning No]
+,	Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date] 
                     ,TSPL_IssueReturn_HEAD_Cancel_Data.Remarks as Description from TSPL_IssueReturn_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_IssueReturn_HEAD_Cancel_Data.From_Location  =TSPL_LOCATION_MASTER.Location_Code 
                      WHERE  convert(date,TSPL_IssueReturn_HEAD_Cancel_Data.Doc_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
@@ -337,7 +347,10 @@ Public Class frmCancelledTransactions_Purchase
                     ,TSPL_PI_HEAD_Cancel_Data.Against_PO as [Against PO] ,TSPL_PI_HEAD_Cancel_Data.Against_GRN as [Against GRN]
                     ,TSPL_PI_HEAD_Cancel_Data.Against_MRN as [Against MRN]
                     ,TSPL_PI_HEAD_Cancel_Data.Against_SRN as [Against SRN]
-                    ,TSPL_PI_HEAD_Cancel_Data.Description as Description from TSPL_PI_HEAD_Cancel_Data 
+                    ,TSPL_PI_HEAD_Cancel_Data.Description as Description
+,Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date] 
+from TSPL_PI_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_PI_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
                      WHERE  convert(date,TSPL_PI_HEAD_Cancel_Data.PI_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_PI_HEAD_Cancel_Data.PI_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
@@ -363,7 +376,10 @@ Public Class frmCancelledTransactions_Purchase
                     ,TSPL_PR_HEAD_Cancel_Data.Against_MRN as [Against MRN]
                     ,TSPL_PR_HEAD_Cancel_Data.Against_SRN as [Against SRN]
                     ,TSPL_PR_HEAD_Cancel_Data.Against_PI as [Against PI]
-                    ,TSPL_PR_HEAD_Cancel_Data.Description as Description from TSPL_PR_HEAD_Cancel_Data 
+                    ,TSPL_PR_HEAD_Cancel_Data.Description as Description 
+,Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date]
+from TSPL_PR_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_PR_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
                      WHERE  convert(date,TSPL_PR_HEAD_Cancel_Data.PR_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_PR_HEAD_Cancel_Data.PR_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
