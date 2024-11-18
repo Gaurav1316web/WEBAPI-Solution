@@ -178,7 +178,7 @@ group by Route_no"
                 strBaseqry = "select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]  from TSPL_MULTIPLE_DEDUCTION_HEAD 
 LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
 left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
-left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
+left outer join TSPL_MCC_MASTER ON TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code=TSPL_MCC_MASTER.MCC_Code
 left outer join TSPL_LOCATION_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code
 where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
 
@@ -605,7 +605,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                          left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MULTIPLE_DEDUCTION_HEAD.Comp_Code
                         LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
                         left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC  from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
-                         left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC"
+                         left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code"
             If AreaWiseBilling = True Then
                 strQry += "	Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
             End If
@@ -692,7 +692,7 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
     left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
     left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_ITEM_MASTER.Deduction_Type
-    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC 
+    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_SD_SHIPMENT_HEAD.Bill_To_Location  
 	left outer join TSPL_COMPANY_MASTER on 2=2
 	left join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code=TSPL_COMPANY_MASTER.Comp_Code
     left outer join TSPL_PAYMENT_PROCESS_MCC_SALE on TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No=TSPL_SD_SHIPMENT_HEAD.Document_Code
