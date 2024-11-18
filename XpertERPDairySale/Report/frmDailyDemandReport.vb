@@ -42,7 +42,7 @@ Public Class frmDailyDemandReport
                         query += " UNION ALL "
                     End If
 
-                    query += " select *,(xy.[Erp Demand]/xy.[Union Demand]*100)[Variation%] from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name], SUM(XX.[Erp Demand])[Erp Demand],SUM(XX.[Union Demand])[Union Demand],SUM(xx.Cust_Code) as [No. Of Booth] FROM
+                    query += " select *, Case When IsNull(xy.[Union Demand],0)>0 Then (xy.[Erp Demand]/xy.[Union Demand]*100) Else 0 End  As [Variation%]  from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name], SUM(XX.[Erp Demand])[Erp Demand],SUM(XX.[Union Demand])[Union Demand],SUM(xx.Cust_Code) as [No. Of Booth] FROM
                             (select 0 AS [Erp Demand],0 as Cust_Code,'' as ShiftType , QTY AS [Union Demand] from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DAILY_DEMAND_MASTER
                             WHERE convert(date,Document_Date,103) >='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103) <='" + clsCommon.GetPrintDate(txtToDate.Value) + "'
                             UNION ALL

@@ -180,7 +180,7 @@ Public Class clsGRNHead
     Public Function SaveData(ByVal obj As clsGRNHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, Optional ByVal isamendment As Boolean = False) As Boolean
         Dim isSaved As Boolean = True
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnGRN, IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", obj.Bill_To_Location, obj.GRN_Date, trans)
             clsGRNAdditionChargeInsurance.DeleteData(obj.GRN_No, trans)
             Dim qry As String = "delete from TSPL_GRN_DETAIL where GRN_No='" + obj.GRN_No + "'"
@@ -1725,7 +1725,7 @@ Public Class clsGRNHead
         Try
             Dim obj As clsGRNHead = clsGRNHead.GetData(Doc_No, NavigatorType.Current, trans)
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Gate Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModulePurchase, clsUserMgtCode.mbtnGRN, IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.GRN_Date, trans)
 
             If obj Is Nothing OrElse clsCommon.myLen(obj.GRN_No) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")

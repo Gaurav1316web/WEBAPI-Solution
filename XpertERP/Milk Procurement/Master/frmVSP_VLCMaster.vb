@@ -28,108 +28,10 @@ Public Class frmVSP_VLCMaster
     Dim DefaultCustomerGroupCodeforVSP As String = ""
     Dim DefaultVendorGroupCodeforVSP As String = ""
     Dim isLoadCopy As Boolean = False
-    Dim arrLoc As String = Nothing
     Dim Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster As Boolean = False
-
-    'Default Mcc create''''''''''''''''''''''''''''''''''''''''''''''''''''
     Dim arrExistCols As New List(Of String)
     Dim dtDefault As DataTable = Nothing
-    ''Public Const colMCCUploaderCode1 As String = "MCC Uploader Code#"
-    ''Public Const colMCCCode1 As String = "MCC Code#"
-    ''Public Const colMCCType As String = "MCC Type#"
-    ''Public Const colMCCName1 As String = "MCC Name#"
-    ''Public Const colMCCChillingVendorCode As String = "MCC Chilling Vendor Code#"
-    ''Public Const colMCCAddress1 As String = "MCC Address1#"
-    ''Public Const colMCCAddress2 As String = "MCC Address2#"
-    ''Public Const colMCCTehsil As String = "MCC Tehsil#"
-    ''Public Const colMCCCity As String = "MCC City Code#"
-    ''Public Const colMCCState As String = "MCC State Code#"
-    ''Public Const colMCCCountry As String = "MCC Country Code#"
-    ''Public Const colMCCPinCode As String = "MCC Pin Code#"
-    ''Public Const colMCCTelphone As String = "MCC Telphone#"
-    ''Public Const colMCCEmail As String = "MCC Email#"
-    ''Public Const colMCCFax As String = "MCC Fax#"
-    ''Public Const colMccSuperArea As String = "MCC Super Area#"
-    ''Public Const colMccSuperAreaUOM As String = "MCC Super Area UOM(Sq. Ft./Sq. Mt.)#"
-    ''Public Const colMCCAreaOfStore As String = "MCC Area Of Store#"
-    ''Public Const colMCCAreaOfOffice As String = "MCC Area Of Office#"
-    ''Public Const colMCCAreaOfOfficeUOM As String = "MCC Area of Office UOM(Sq. Ft./Sq. Mt.)#"
-    ''Public Const colMCCOpenAreaForTanker As String = "MCC Open Area For Tanker#"
-    ''Public Const colMCCOpenAreaForTankerUOM As String = "MCC Open Area For Tanker UOM(Sq. Ft./Sq. Mt.)#"
-    ''Public Const colMCCAreaOfLab As String = "MCC Area Of Lab#"
-    ''Public Const colMCCAreaOfLabUOM As String = "MCC Area of Lab UOM(Sq. Ft./Sq. Mt.)#"
-    ''Public Const colMCCTotalStorageCapacity As String = "MCC Total Storage Capacity#"
-    ''Public Const colMCCAreaOfReceivingDock As String = "MCC Area Of Receiving Dock#"
-    ''Public Const colMCCAreaOfReceivingDockUOM As String = "MCC Area of Receiving Dock UOM(Sq. Ft./Sq. Mt.)#"
-    ''Public Const colMCCDripSaver As String = "MCC Drip Saver (Yes/No)#"
-    ''Public Const colMCCCanWasher As String = "MCC Can Washer (Yes/No)#"
-    ''Public Const colMCCCanScrubber As String = "MCC Can Scrubber (Yes/No)#"
-    ''Public Const colMCCFssaiNo As String = "MCC Fssai No#"
-    ''Public Const colMCCETP As String = "MCC ETP (Yes/No)#"
-    ''Public Const colMCCEarthing As String = "MCC Earthing (Yes/No)#"
-    ''Public Const colMCCCoilLength As String = "MCC Coil Length#"
-    ''Public Const colMCCElectricityConnection As String = "MCC Electricity Connection#"
-    ''Public Const colMCCBoiler As String = "MCC Boiler (Yes/No)#"
-    ''Public Const colMCCIndustryType As String = "MCC Industry Type#"
-    ''Public Const colMCCPropName As String = "MCC Prop Name#"
-    ''Public Const colMCCPartnerName As String = "MCC Partner Name#"
-    ''Public Const colMCCDirectorName As String = "MCC Director Name#"
-    ''Public Const colMCCMonthlyProvision As String = "MCC Monthly Provision(Y/N)#"
-    ''Public Const colMCCChillingCharges As String = "MCC Chilling Charges#"
-    ''Public Const colMCCChillingOn As String = "MCC Chilling On#"
-    ''Public Const colMCCChillingMinGuaranteedAvgQty As String = "MCC Chilling Min. Guaranteed Avg. Qty#"
-    ''Public Const colMCCChillingOnUOMKGLTR As String = "MCC Chilling On UOM(KG/LTR)#"
-    ''Public Const colMCCChillingOnQty As String = "MCC Chilling On Qty#"
-    ''Public Const colMCCChillingOnUOMHandledDispatched As String = "MCC Chilling On UOM(Handled/Dispatched)#"
-    ''Public Const colMCCChillingMinGuaranteedPeriod As String = "MCC Chilling Min. Guaranteed Period#"
-    ''Public Const colMCCChillingMinGuaranteedPeriodUOM As String = "MCC Chilling Min. Guaranteed Period UOM (Day/Month/Year)#"
-    ''Public Const colMCCRateofLeaseCharges As String = "MCC Rate of Lease Charges#"
-    ''Public Const colMCCRateofLeasedChargesUOM As String = "MCC Rate of Leased Charges UOM(Day/Month/Year)#"
-    ''Public Const colMCCAreaofStoreUOM As String = "MCC Area of Store UOM(Sq. Ft./Sq. Mt.)#"
-    ''Public Const colMCCAgreement_Status As String = "MCC Agreement_Status#"
-    ''Public Const colMCCAgreement_Date As String = "MCC Agreement_Date#"
-    ''Public Const colMCCAgreementExpiryDate As String = "MCC Agreement Expiry Date#"
-    ''Public Const colMCCSecurity_Status As String = "MCC Security_Status#"
-    ''Public Const colMCCCheque_Amt As String = "MCC Cheque_Amt#"
-    ''Public Const colMCCCheque_No As String = "MCC Cheque_No#"
-    ''Public Const colMCCCheque_Date As String = "MCC Cheque_Date#"
-    ''Public Const colMCCChillingStartingDate As String = "MCC Chilling Starting Date#"
-    ''Public Const colMCCIsTruckSheetMandatory As String = "MCC Is Truck Sheet Mandatory#"
-    ''Public Const colMCCWeighingComPort As String = "MCC Weighing ComPort#"
-    ''Public Const colMCCWeighingMachine As String = "MCC Weighing Machine#"
-    ''Public Const colMCCSampleComPort As String = "MCC Sample ComPort#"
-    ''Public Const colMCCSampleMachine As String = "MCC Sample Machine#"
-    ''Public Const colMCCPaymentCycle As String = "MCC Payment Cycle#"
-    ''Public Const colMCCIncentiveCode As String = "MCC Incentive Code#"
-    ''Public Const colMCCShiftMorningOpeningTime As String = "MCC Shift Morning Opening Time#"
-    ''Public Const colMCCShiftMorningClosingTime As String = "MCC Shift Morning Closing Time#"
-    ''Public Const colMCCShiftEveningOpeningTime As String = "MCC Shift Evening Opening Time#"
-    ''Public Const colMCCShiftEveningClosingTime As String = "MCC Shift Evening Closing Time#"
-    ''Public Const colMCCRM As String = "MCC RM#"
-    ''Public Const colMCCRequiredGateEntry As String = "MCC Required Gate Entry(Yes/No)#"
-    ''Public Const colMCCAllowAutoMilkIn As String = "MCC AllowAutoMilkIn#"
-    ''Public Const colMCCAutoIn_Location As String = "MCC AutoIn_Location#"
-    ''Public Const colMCCSILOIn_Location As String = "MCC SILOIn_Location#"
-    ''Public Const colMCCApplyReceiptWeightTolerance As String = "MCC ApplyReceiptWeightTolerance(Y/N)#"
-    ''Public Const colMCCReceiptWeightToleranceValue As String = "MCC ReceiptWeightToleranceValue#"
-    ''Public Const colMCCApplyFailedSample As String = "MCC Apply Failed Sample(Y/N)#"
-    ''Public Const colMCCFailedSampleFAT As String = "MCC Failed Sample FAT %#"
-    ''Public Const colMCCFailedSampleSNF As String = "MCC Failed Sample SNF %#"
-    ''Public Const colMCCLocSegmentCode As String = "MCC Loc Segment Code#"
-    ''Public Const colMCCBMCC As String = "MCC MCC(1)/BMCC(0)#"
-    ''Public Const colMCCCommissionRate As String = "MCC CommissionRate#"
-    ''Public Const colMCCCommissionMinimumShiftInPaymentCycle As String = "MCC CommissionMinimumShiftInPaymentCycle#"
-    ''Public Const colMCCCommissionMinimumQtyInShift As String = "MCC CommissionMinimumQtyInShift#"
-    ''Public Const colMCCCommissionNoOfPaymentCycleForNewVSP As String = "MCC CommissionNoOfPaymentCycleForNewVSP#"
-    ''Public Const colMCCDeductionMinimumFATPer As String = "MCC DeductionMinimumFATPer#"
-    ''Public Const colMCCDeductionMinimumSNFPer As String = "MCC DeductionMinimumSNFPer#"
-    ''Public Const colMCCDeductionNoOfPaymentCycleForNewVSP As String = "MCC DeductionNoOfPaymentCycleForNewVSP#"
-    ''Public Const colMCCPlant As String = "MCC Plant#"
-    ''Public Const colMCCMorningShiftOpeningTime As String = "MCC Morning Shift Opening Time#"
-    ''Public Const colMCCMorningShiftClosingTime As String = "MCC Morning Shift Closing Time#"
-    ''Public Const colMCCEveningShiftOpeningTime As String = "MCC Evening Shift Opening Time#"
-    ''Public Const colMCCEveningShiftClosingTime As String = "MCC Evening Shift Closing Time#"
-    'Default Mcc create''''''''''''''''''''''''''''''''''''''''''''''''''''
+    Dim arrMCCRights As ArrayList
 #End Region
 
 
@@ -141,6 +43,7 @@ Public Class frmVSP_VLCMaster
 
 #Region "Page Load"
     Private Sub frmVSP_VLCMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         UserPrefix = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, Nothing))
         AllowVSPMasterAutoPrefix = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowVSPMasterAutoPrefix, clsFixedParameterCode.AllowVSPMasterAutoPrefix, Nothing))
         FixVSPEMP = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FixVSPEMP, clsFixedParameterCode.FixVSPEMP, Nothing))
@@ -1295,7 +1198,7 @@ Public Class frmVSP_VLCMaster
         Try
             'gv.Rows.Clear()
 
-            Dim obj As clsfrmVLCMaster = clsfrmVLCMaster.GetData(strCode, arrLoc, NavType)
+            Dim obj As clsfrmVLCMaster = clsfrmVLCMaster.GetData(strCode, "", NavType)
             'isNewEntry = True
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.vlcCode) > 0 Then
                 'isNewEntry = False
@@ -3023,40 +2926,7 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    'Sub LoadData(ByVal strCode As String, ByVal NavType As NavigatorType)
-    '    Try
-    '        'gv.Rows.Clear()
 
-    '        Dim obj As clsfrmVLCMaster = clsfrmVLCMaster.GetData(strCode, arrLoc, NavType)
-    '        'isNewEntry = True
-    '        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.vlcCode) > 0 Then
-    '            'isNewEntry = False
-    '            fndvlccode.Text = obj.vlcCode
-    '            txtVLCCodeVlcUploader.Text = clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
-    '            txtvlcname.Text = obj.vlcName
-    '            'txtvehicalname.Text = obj.vehical
-    '            txtvspcode.Value = obj.vspCode
-    '            txtvsp.Text = obj.VspName
-    '            fndMcc.Value = obj.MCCCOde
-    '            txtvillcode.Value = obj.mainvillcode
-    '            txtvillname.Text = obj.mainvillname
-    '            txtroutecode.Value = obj.routecode
-    '            txtroutename.Text = obj.routename
-    '            fndPriceCode.Value = obj.Price_Code
-    '            Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
-    '            fndvlccode.ReadOnly = True
-
-    '        Else
-    '            Reset()
-    '        End If
-
-    '        'isLoadData = False
-    '    Catch ex As Exception
-    '        'isNewEntry = True
-    '        'isLoadData = False
-    '        clsCommon.MyMessageBoxShow(ex.Message)
-    '    End Try
-    'End Sub
 
 
     Public Sub fndvendorNo_text_changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -5038,25 +4908,7 @@ Public Class frmVSP_VLCMaster
     End Sub
 
 
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                If clsCommon.myLen(fndMcc.Value) <= 0 AndAlso Not obj.Default_HO Then
-                    fndMcc.Value = IIf(obj.Default_LocName = "_", "", obj.Default_LocCode)
-                End If
-                arrLoc = obj.arrLocCodes
-            Else
-                'cmbmcc.Enabled = False
-                fndMcc.Enabled = False
-                Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
 
     Function AllowToSave() As Boolean
         Try
@@ -5212,9 +5064,9 @@ Public Class frmVSP_VLCMaster
         If chkOwnBMC.Checked = False Then
             Dim StrWhere As String = ""
             Dim qry As String = "select tspl_mcc_master.mcc_code as Code,tspl_mcc_master.mcc_name as Name,tspl_mcc_master.Plant_Code as [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name] from tspl_mcc_master left outer join tspl_location_master on tspl_location_master.location_code=tspl_mcc_master.plant_code"
-            If clsCommon.myLen(arrLoc) > 0 Then
-                StrWhere = " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
-            End If
+
+            StrWhere = " tspl_mcc_master.mcc_code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")"
+
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count = 0 Then
@@ -5255,11 +5107,7 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Sub OpenRoute()
-        'Dim qry As String = "select TSPL_MCC_ROUTE_MASTER.route_code as Code,TSPL_MCC_ROUTE_MASTER.route_name as [Route Description] from TSPL_MCC_ROUTE_MASTER"
-        'If clsCommon.myLen(arrLoc) > 0 Then
-        '    qry += " where TSPL_MCC_ROUTE_MASTER.mcc_code in (" + arrLoc + ")"
-        'End If
-        'qry += "  and coalesce(active,1)=1 and TSPL_MCC_ROUTE_MASTER.mcc_code='" + fndMcc.Value + "'"
+
         Dim qry As String = "select ROUTE_NO as Code,ROUTE_NAME as Description from TSPL_BULK_ROUTE_MASTER"
         Dim dr As DataRow = clsCommon.ShowSelectFormForRow("ROTFND1", qry)
 

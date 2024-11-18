@@ -39,6 +39,9 @@ Public Class frmAutoAdditionDeductionReport
 
     Sub Print(ByVal isPrint As Boolean)
         Try
+            If clsCommon.myCDate(txtFromDate.Value, "dd/MM/yyyy") > clsCommon.myCDate(txtToDate.Value, "dd/MM/yyyy") Then
+                Throw New Exception("From Date can't be more than To Date !")
+            End If
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -551,11 +554,16 @@ Public Class frmAutoAdditionDeductionReport
                 Dim Qry1 As String = Nothing
                 Dim Qry2 As String = Nothing
                 Dim Qry3 As String = Nothing
+                Dim Qry4 As String = Nothing
                 Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
                 ''Dim Qry3 As String = Nothing
                 If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
-                    Qry1 = "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+                    Qry1 = "  and TSPL_MCC_MASTER.MCC_Code in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+                End If
+
+                If TxtMultiDCS.arrValueMember IsNot Nothing AndAlso TxtMultiDCS.arrValueMember.Count > 0 Then
+                    Qry4 = "  And TSPL_VLC_MASTER_HEAD.VSP_Code in (" & clsCommon.GetMulcallString(TxtMultiDCS.arrValueMember) & ")"
                 End If
 
                 If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
@@ -564,6 +572,7 @@ Public Class frmAutoAdditionDeductionReport
                 If clsCommon.myLen(fndArea.Value) > 0 Then
                     Qry3 += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
                 End If
+
 
                 'Qry = "select round(row_number() over(order by(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer))),0) as SNo
                 '       ,max(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer)) as [DCS Code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [Vender Name]
@@ -650,16 +659,17 @@ Public Class frmAutoAdditionDeductionReport
                     left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE
                      where  TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.InvoiceNo= TSPL_VENDOR_INVOICE_HEAD.RefDocNo and TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
                      group by InvoiceNo,Against_DCS_ADDITION_DEDUCTION)as Amount
-                                       from TSPL_VENDOR_INVOICE_DETAIL 
-                                       LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
-                                       LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
-                                       left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-									   left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC"
+from TSPL_VENDOR_INVOICE_DETAIL 
+LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
+left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_VENDOR_INVOICE_HEAD.RefDocNo                                        
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE"
                 If AreaWiseBilling = True Then
                     Qry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
                 End If
 
-                Qry += " WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  " + Qry1 + Qry2 + Qry3 + ")Final 
+                Qry += " WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  " + Qry1 + Qry2 + Qry3 + Qry4 + ")Final 
 									   group by DCS_Addition_Deduction,Vendor_Code)xxx
                                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=xxx.comp_code
 									   order by [DCS Code] asc "
@@ -671,8 +681,10 @@ Public Class frmAutoAdditionDeductionReport
                     '    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewTNK", "MD Print")
                     'Else
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewGNG", "AutoPrint")
-                        frmCRV = Nothing
+                    frmCRV = Nothing
                     'End If
+                Else
+                    Throw New Exception("Data not found to print !")
                 End If
             End If
         Catch ex As Exception

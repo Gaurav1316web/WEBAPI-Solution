@@ -26112,9 +26112,14 @@ select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT whe
 )xx inner join TSPL_SPP_COST_WITHOUT_BATCH on TSPL_SPP_COST_WITHOUT_BATCH.PROD_ENTRY_CODE=xx.Source_Doc_No "
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+                    qry = "update TSPL_INVENTORY_MOVEMENT set Avg_Cost=0  where Trans_Type='STD_PRO_ENT' and InOut='I'  and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                     qry = "update TSPL_INVENTORY_MOVEMENT set Avg_Cost=xx.Avg_Cost from (
 select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "' group by Source_Doc_No  
-)xx inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xx.Source_Doc_No  and TSPL_INVENTORY_MOVEMENT.InOut='I'"
+)xx inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xx.Source_Doc_No  
+and TSPL_INVENTORY_MOVEMENT.InOut='I' 
+and not Exists(select 1 from TSPL_ITEM_UOM_DETAIL where  TSPL_ITEM_UOM_DETAIL.item_code=TSPL_INVENTORY_MOVEMENT.Item_Code and isnull(TSPL_ITEM_UOM_DETAIL.Net_Weight,0)>0)"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     clsStanderdProductionEntry.ReCreateJE(clsUserMgtCode.frmStanderdProductionEntry, TxtMultiSelectFinder18.arrValueMember(ii), "", True, trans, True)
                     trans.Commit()

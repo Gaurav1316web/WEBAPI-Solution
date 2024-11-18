@@ -181,25 +181,45 @@ Public Class frmMilkCollectionMCCQC
                         strSampleNo = strBreak(1)
                     End If
                 End If
-                Dim qry As String = "Route_Code = '" + strRouteNo + "' and Mcc_Code_VLC_Uploader='" + strMCC + "'"
+                Dim qry1 As String = "Route_Code = '" + strRouteNo + "' and Mcc_Code_VLC_Uploader='" + strMCC + "' "
+
+                Dim qry2 As String = Nothing
                 If clsCommon.myLen(strSampleNo) > 0 Then
-                    qry += " and Sample_No='" + strSampleNo + "'"
+                    qry2 = " Sample_No='" + strSampleNo + "'"
                 End If
                 Try
                     Dim dtTemp As DataTable = Nothing
-                    Try
-                        dtTemp = dt.Select(qry).CopyToDataTable()
-                    Catch ex As Exception
-                    End Try
+                    ' First filtering step with qry1
+                    Dim initialFilteredRows = dt.Select(qry1)
 
-                    If dtTemp Is Nothing OrElse dtTemp.Rows.Count <= 0 Then
-                        gv1.Rows(ii).Cells("Error").Value += "Weight Not found."
+                    ' Check if there are matching rows for qry1
+                    If initialFilteredRows.Any() Then
+                        dtTemp = initialFilteredRows.CopyToDataTable()
+                    Else
+                        gv1.Rows(ii).Cells("Error").Value += $"BMC ({strMCC}) Not Found In Route No ({strRouteNo})."
                         gv1.Rows(ii).Cells("IsOK").Value = 2
+                        dtTemp = Nothing
                         Continue For
                     End If
-                    If dtTemp.Rows.Count > 1 Then
-                        gv1.Rows(ii).Cells("Error").Value += "DCS Have more than one weight entry."
+
+                    ' Second filtering step with qry2 on dtTemp
+                    Dim secondFilteredRows = dtTemp.Select(qry2)
+
+                    ' Check if there are matching rows for qry2
+                    If secondFilteredRows.Any() Then
+                        dtTemp = secondFilteredRows.CopyToDataTable()
+                    Else
+                        gv1.Rows(ii).Cells("Error").Value += $"Sample No ({strSampleNo}) Of BMC ({strMCC}) Not Found On Route No ({strRouteNo})."
                         gv1.Rows(ii).Cells("IsOK").Value = 2
+                        dtTemp = Nothing
+                        Continue For
+                    End If
+
+                    ' Check if there is more than one row in dtTemp after filtering with qry2
+                    If dtTemp.Rows.Count > 1 Then
+                        gv1.Rows(ii).Cells("Error").Value += "BMC have more than one entry or missing sample."
+                        gv1.Rows(ii).Cells("IsOK").Value = 2
+                        dtTemp = Nothing
                         Continue For
                     End If
                     gv1.Rows(ii).Cells("PKID").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("PK_Id"))

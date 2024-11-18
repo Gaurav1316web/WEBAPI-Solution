@@ -25,7 +25,7 @@ Public Class frmDBTNEFTReject
     Dim IsinsideLoadData As Boolean = False
     Dim Qry As String
     Dim isFlag As Boolean = False
-    Dim arrLoc As String = Nothing
+
 
 #End Region
     Public Sub New()
@@ -34,8 +34,6 @@ Public Class frmDBTNEFTReject
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetUserMgmtNew()
         Reset()
-
-        MCCLOCATIONFINDER()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Transaction")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -235,18 +233,7 @@ where TSPL_DBT_NEFT_REJECT_SUCESS.Document_Code='" & txtDocumentNo.Value & "'
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
 
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
 
     Private Sub btnclose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnclose.Click
         CloseForm()

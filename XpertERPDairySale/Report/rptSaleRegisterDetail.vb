@@ -843,8 +843,8 @@ Public Class rptSaleRegisterDetail
                 Gv1.Columns("Item Group Code").IsVisible = True
                 Gv1.Columns("Item Group Description").IsVisible = True
 
-                Gv1.Columns("Customer Group Code").IsVisible = True
-                Gv1.Columns("Customer Group Description").IsVisible = True
+                'Gv1.Columns("Customer Group Code").IsVisible = True
+                'Gv1.Columns("Customer Group Description").IsVisible = True
 
                 Gv1.Columns("Item Code").IsVisible = True
                 Gv1.Columns("Item Name").IsVisible = True

@@ -30,9 +30,9 @@ Partial Class FrmGateEntry
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.mnuSetting = New Telerik.WinControls.UI.RadMenuItem()
@@ -43,6 +43,9 @@ Partial Class FrmGateEntry
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.GrpRouteOrTankerDispatch = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkAgainstRoute = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkAgainstTankerDispatch = New Telerik.WinControls.UI.RadRadioButton()
         Me.MyLabel20 = New common.Controls.MyLabel()
         Me.txtMCC = New common.UserControls.txtFinder()
         Me.lblLocationBulk = New common.Controls.MyLabel()
@@ -51,7 +54,6 @@ Partial Class FrmGateEntry
         Me.lblVendorBulk = New common.Controls.MyLabel()
         Me.txtRoute = New common.UserControls.txtFinder()
         Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.GBRoute = New System.Windows.Forms.GroupBox()
         Me.lblRoute = New common.Controls.MyLabel()
         Me.lblRefrenceNo = New common.Controls.MyLabel()
         Me.txtNoofChamber = New common.MyNumBox()
@@ -128,8 +130,6 @@ Partial Class FrmGateEntry
         Me.lblSupplierName = New common.Controls.MyLabel()
         Me.txtSupplierCode = New common.UserControls.txtFinder()
         Me.fndTankerNo = New common.UserControls.txtFinder()
-        Me.txtDocType = New common.Controls.MyLabel()
-        Me.chkBoth = New Telerik.WinControls.UI.RadRadioButton()
         Me.lblPending = New common.usLock()
         Me.fndChallanNoMcc = New common.UserControls.txtFinder()
         Me.grpGateEntryType = New Telerik.WinControls.UI.RadGroupBox()
@@ -150,7 +150,6 @@ Partial Class FrmGateEntry
         Me.lblChallanDateBulk = New common.Controls.MyLabel()
         Me.lblLocationDecBulk = New common.Controls.MyLabel()
         Me.fndLocationBulk = New common.UserControls.txtFinder()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvItemBulk = New common.UserControls.MyRadGridView()
         Me.btnUpdateFatSnfForContractor = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdatePrice = New Telerik.WinControls.UI.RadButton()
@@ -181,6 +180,10 @@ Partial Class FrmGateEntry
         Me.SplitContainer4.Panel1.SuspendLayout()
         Me.SplitContainer4.Panel2.SuspendLayout()
         Me.SplitContainer4.SuspendLayout()
+        CType(Me.GrpRouteOrTankerDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GrpRouteOrTankerDispatch.SuspendLayout()
+        CType(Me.chkAgainstRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAgainstTankerDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationBulk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblGateOut, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -256,9 +259,6 @@ Partial Class FrmGateEntry
         CType(Me.lblMilkTypeCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSupplierName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDocType, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.txtDocType.SuspendLayout()
-        CType(Me.chkBoth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grpGateEntryType, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpGateEntryType.SuspendLayout()
         CType(Me.chkBulkMilkProc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -275,8 +275,6 @@ Partial Class FrmGateEntry
         CType(Me.dtpChallanDateBulk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblChallanDateBulk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDecBulk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
         CType(Me.gvItemBulk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdateFatSnfForContractor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -411,12 +409,12 @@ Partial Class FrmGateEntry
         '
         'SplitContainer4.Panel1
         '
+        Me.SplitContainer4.Panel1.Controls.Add(Me.GrpRouteOrTankerDispatch)
         Me.SplitContainer4.Panel1.Controls.Add(Me.MyLabel20)
         Me.SplitContainer4.Panel1.Controls.Add(Me.txtMCC)
         Me.SplitContainer4.Panel1.Controls.Add(Me.lblGateOut)
         Me.SplitContainer4.Panel1.Controls.Add(Me.txtGateOutNo)
         Me.SplitContainer4.Panel1.Controls.Add(Me.txtRoute)
-        Me.SplitContainer4.Panel1.Controls.Add(Me.GBRoute)
         Me.SplitContainer4.Panel1.Controls.Add(Me.lblRoute)
         Me.SplitContainer4.Panel1.Controls.Add(Me.lblRefrenceNo)
         Me.SplitContainer4.Panel1.Controls.Add(Me.txtNoofChamber)
@@ -434,7 +432,6 @@ Partial Class FrmGateEntry
         Me.SplitContainer4.Panel1.Controls.Add(Me.chkTankerReturn)
         Me.SplitContainer4.Panel1.Controls.Add(Me.Panel1)
         Me.SplitContainer4.Panel1.Controls.Add(Me.fndTankerNo)
-        Me.SplitContainer4.Panel1.Controls.Add(Me.txtDocType)
         Me.SplitContainer4.Panel1.Controls.Add(Me.lblPending)
         Me.SplitContainer4.Panel1.Controls.Add(Me.fndChallanNoMcc)
         Me.SplitContainer4.Panel1.Controls.Add(Me.grpGateEntryType)
@@ -458,16 +455,44 @@ Partial Class FrmGateEntry
         '
         'SplitContainer4.Panel2
         '
-        Me.SplitContainer4.Panel2.Controls.Add(Me.RadGroupBox1)
+        Me.SplitContainer4.Panel2.Controls.Add(Me.gvItemBulk)
         Me.SplitContainer4.Size = New System.Drawing.Size(1203, 488)
         Me.SplitContainer4.SplitterDistance = 255
         Me.SplitContainer4.TabIndex = 0
+        '
+        'GrpRouteOrTankerDispatch
+        '
+        Me.GrpRouteOrTankerDispatch.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.GrpRouteOrTankerDispatch.Controls.Add(Me.chkAgainstRoute)
+        Me.GrpRouteOrTankerDispatch.Controls.Add(Me.chkAgainstTankerDispatch)
+        Me.GrpRouteOrTankerDispatch.HeaderText = ""
+        Me.GrpRouteOrTankerDispatch.Location = New System.Drawing.Point(102, 7)
+        Me.GrpRouteOrTankerDispatch.Name = "GrpRouteOrTankerDispatch"
+        Me.GrpRouteOrTankerDispatch.Size = New System.Drawing.Size(248, 30)
+        Me.GrpRouteOrTankerDispatch.TabIndex = 12141
+        Me.GrpRouteOrTankerDispatch.Visible = False
+        '
+        'chkAgainstRoute
+        '
+        Me.chkAgainstRoute.Location = New System.Drawing.Point(53, 7)
+        Me.chkAgainstRoute.Name = "chkAgainstRoute"
+        Me.chkAgainstRoute.Size = New System.Drawing.Size(50, 18)
+        Me.chkAgainstRoute.TabIndex = 0
+        Me.chkAgainstRoute.Text = "Route"
+        '
+        'chkAgainstTankerDispatch
+        '
+        Me.chkAgainstTankerDispatch.Location = New System.Drawing.Point(110, 7)
+        Me.chkAgainstTankerDispatch.Name = "chkAgainstTankerDispatch"
+        Me.chkAgainstTankerDispatch.Size = New System.Drawing.Size(100, 18)
+        Me.chkAgainstTankerDispatch.TabIndex = 1
+        Me.chkAgainstTankerDispatch.Text = "Tanker Dispatch"
         '
         'MyLabel20
         '
         Me.MyLabel20.FieldName = Nothing
         Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel20.Location = New System.Drawing.Point(604, 44)
+        Me.MyLabel20.Location = New System.Drawing.Point(604, 43)
         Me.MyLabel20.Name = "MyLabel20"
         Me.MyLabel20.Size = New System.Drawing.Size(32, 16)
         Me.MyLabel20.TabIndex = 12140
@@ -484,7 +509,7 @@ Partial Class FrmGateEntry
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(679, 44)
+        Me.txtMCC.Location = New System.Drawing.Point(679, 41)
         Me.txtMCC.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMCC.MendatroryField = True
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -504,7 +529,7 @@ Partial Class FrmGateEntry
         '
         Me.lblLocationBulk.FieldName = Nothing
         Me.lblLocationBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocationBulk.Location = New System.Drawing.Point(11, 107)
+        Me.lblLocationBulk.Location = New System.Drawing.Point(9, 109)
         Me.lblLocationBulk.Name = "lblLocationBulk"
         Me.lblLocationBulk.Size = New System.Drawing.Size(49, 16)
         Me.lblLocationBulk.TabIndex = 246
@@ -514,7 +539,7 @@ Partial Class FrmGateEntry
         '
         Me.lblGateOut.FieldName = Nothing
         Me.lblGateOut.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGateOut.Location = New System.Drawing.Point(356, 89)
+        Me.lblGateOut.Location = New System.Drawing.Point(356, 88)
         Me.lblGateOut.Name = "lblGateOut"
         Me.lblGateOut.Size = New System.Drawing.Size(70, 16)
         Me.lblGateOut.TabIndex = 12134
@@ -532,7 +557,7 @@ Partial Class FrmGateEntry
         Me.txtGateOutNo.IsSourceFromTable = False
         Me.txtGateOutNo.IsSourceFromValueList = False
         Me.txtGateOutNo.IsUnique = False
-        Me.txtGateOutNo.Location = New System.Drawing.Point(432, 85)
+        Me.txtGateOutNo.Location = New System.Drawing.Point(432, 86)
         Me.txtGateOutNo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtGateOutNo.MendatroryField = True
         Me.txtGateOutNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -553,7 +578,7 @@ Partial Class FrmGateEntry
         '
         Me.lblVendorBulk.FieldName = Nothing
         Me.lblVendorBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVendorBulk.Location = New System.Drawing.Point(11, 130)
+        Me.lblVendorBulk.Location = New System.Drawing.Point(9, 130)
         Me.lblVendorBulk.Name = "lblVendorBulk"
         Me.lblVendorBulk.Size = New System.Drawing.Size(43, 16)
         Me.lblVendorBulk.TabIndex = 249
@@ -596,19 +621,11 @@ Partial Class FrmGateEntry
         Me.MyLabel8.TabIndex = 274
         Me.MyLabel8.Text = "PO No"
         '
-        'GBRoute
-        '
-        Me.GBRoute.Location = New System.Drawing.Point(327, 9)
-        Me.GBRoute.Name = "GBRoute"
-        Me.GBRoute.Size = New System.Drawing.Size(228, 27)
-        Me.GBRoute.TabIndex = 12138
-        Me.GBRoute.TabStop = False
-        '
         'lblRoute
         '
         Me.lblRoute.FieldName = Nothing
         Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblRoute.Location = New System.Drawing.Point(13, 67)
+        Me.lblRoute.Location = New System.Drawing.Point(9, 65)
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(36, 18)
         Me.lblRoute.TabIndex = 12137
@@ -638,7 +655,7 @@ Partial Class FrmGateEntry
         Me.txtNoofChamber.IsSourceFromTable = False
         Me.txtNoofChamber.IsSourceFromValueList = False
         Me.txtNoofChamber.IsUnique = False
-        Me.txtNoofChamber.Location = New System.Drawing.Point(911, 108)
+        Me.txtNoofChamber.Location = New System.Drawing.Point(911, 107)
         Me.txtNoofChamber.MendatroryField = False
         Me.txtNoofChamber.MyLinkLable1 = Nothing
         Me.txtNoofChamber.MyLinkLable2 = Nothing
@@ -655,7 +672,7 @@ Partial Class FrmGateEntry
         'chkAgainstGateOutNo
         '
         Me.chkAgainstGateOutNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAgainstGateOutNo.Location = New System.Drawing.Point(243, 65)
+        Me.chkAgainstGateOutNo.Location = New System.Drawing.Point(243, 66)
         Me.chkAgainstGateOutNo.Name = "chkAgainstGateOutNo"
         Me.chkAgainstGateOutNo.Size = New System.Drawing.Size(125, 16)
         Me.chkAgainstGateOutNo.TabIndex = 12136
@@ -685,7 +702,7 @@ Partial Class FrmGateEntry
         'chkNetWeight
         '
         Me.chkNetWeight.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNetWeight.Location = New System.Drawing.Point(811, 44)
+        Me.chkNetWeight.Location = New System.Drawing.Point(911, 43)
         Me.chkNetWeight.Name = "chkNetWeight"
         Me.chkNetWeight.Size = New System.Drawing.Size(76, 16)
         Me.chkNetWeight.TabIndex = 1455
@@ -722,7 +739,7 @@ Partial Class FrmGateEntry
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(465, 67)
+        Me.MyLabel11.Location = New System.Drawing.Point(460, 66)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel11.TabIndex = 1453
@@ -1251,7 +1268,7 @@ Partial Class FrmGateEntry
         'chkJobWork
         '
         Me.chkJobWork.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkJobWork.Location = New System.Drawing.Point(374, 67)
+        Me.chkJobWork.Location = New System.Drawing.Point(374, 66)
         Me.chkJobWork.Name = "chkJobWork"
         Me.chkJobWork.Size = New System.Drawing.Size(80, 16)
         Me.chkJobWork.TabIndex = 345
@@ -1342,7 +1359,7 @@ Partial Class FrmGateEntry
         '
         Me.chkTankerReturn.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkTankerReturn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkTankerReturn.Location = New System.Drawing.Point(245, 86)
+        Me.chkTankerReturn.Location = New System.Drawing.Point(245, 88)
         Me.chkTankerReturn.Name = "chkTankerReturn"
         Me.chkTankerReturn.Size = New System.Drawing.Size(105, 16)
         Me.chkTankerReturn.TabIndex = 344
@@ -1370,16 +1387,16 @@ Partial Class FrmGateEntry
         Me.Panel1.Controls.Add(Me.MyLabel1)
         Me.Panel1.Controls.Add(Me.lblSupplierName)
         Me.Panel1.Controls.Add(Me.txtSupplierCode)
-        Me.Panel1.Location = New System.Drawing.Point(9, 175)
+        Me.Panel1.Location = New System.Drawing.Point(6, 175)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(796, 76)
+        Me.Panel1.Size = New System.Drawing.Size(799, 76)
         Me.Panel1.TabIndex = 274
         '
         'MyLabel10
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(542, 6)
+        Me.MyLabel10.Location = New System.Drawing.Point(545, 6)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel10.TabIndex = 1068
@@ -1397,7 +1414,7 @@ Partial Class FrmGateEntry
         Me.txtPriceCode.IsSourceFromTable = False
         Me.txtPriceCode.IsSourceFromValueList = False
         Me.txtPriceCode.IsUnique = False
-        Me.txtPriceCode.Location = New System.Drawing.Point(661, 6)
+        Me.txtPriceCode.Location = New System.Drawing.Point(664, 6)
         Me.txtPriceCode.Margin = New System.Windows.Forms.Padding(4)
         Me.txtPriceCode.MendatroryField = False
         Me.txtPriceCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1415,7 +1432,7 @@ Partial Class FrmGateEntry
         '
         'txtSealValue
         '
-        Me.txtSealValue.Location = New System.Drawing.Point(236, 52)
+        Me.txtSealValue.Location = New System.Drawing.Point(239, 52)
         Me.txtSealValue.Name = "txtSealValue"
         Me.txtSealValue.Size = New System.Drawing.Size(82, 20)
         Me.txtSealValue.TabIndex = 1066
@@ -1425,7 +1442,7 @@ Partial Class FrmGateEntry
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.MyLabel6.Location = New System.Drawing.Point(171, 52)
+        Me.MyLabel6.Location = New System.Drawing.Point(174, 52)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(61, 16)
         Me.MyLabel6.TabIndex = 1065
@@ -1436,7 +1453,7 @@ Partial Class FrmGateEntry
         Me.labIntimation.FieldName = Nothing
         Me.labIntimation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.labIntimation.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.labIntimation.Location = New System.Drawing.Point(542, 49)
+        Me.labIntimation.Location = New System.Drawing.Point(545, 49)
         Me.labIntimation.Name = "labIntimation"
         Me.labIntimation.Size = New System.Drawing.Size(73, 16)
         Me.labIntimation.TabIndex = 1063
@@ -1447,7 +1464,7 @@ Partial Class FrmGateEntry
         Me.lblIntimationNo.AutoSize = False
         Me.lblIntimationNo.BorderVisible = True
         Me.lblIntimationNo.FieldName = Nothing
-        Me.lblIntimationNo.Location = New System.Drawing.Point(661, 52)
+        Me.lblIntimationNo.Location = New System.Drawing.Point(664, 52)
         Me.lblIntimationNo.Name = "lblIntimationNo"
         Me.lblIntimationNo.Size = New System.Drawing.Size(122, 19)
         Me.lblIntimationNo.TabIndex = 1065
@@ -1477,7 +1494,7 @@ Partial Class FrmGateEntry
         Me.cmbSealStatus.Items.Add(RadListDataItem2)
         Me.cmbSealStatus.Items.Add(RadListDataItem3)
         Me.cmbSealStatus.Items.Add(RadListDataItem4)
-        Me.cmbSealStatus.Location = New System.Drawing.Point(90, 52)
+        Me.cmbSealStatus.Location = New System.Drawing.Point(93, 52)
         Me.cmbSealStatus.MendatroryField = True
         Me.cmbSealStatus.MyLinkLable1 = Me.MyLabel4
         Me.cmbSealStatus.MyLinkLable2 = Nothing
@@ -1497,7 +1514,7 @@ Partial Class FrmGateEntry
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.MyLabel4.Location = New System.Drawing.Point(4, 52)
+        Me.MyLabel4.Location = New System.Drawing.Point(7, 52)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(61, 16)
         Me.MyLabel4.TabIndex = 1064
@@ -1507,7 +1524,7 @@ Partial Class FrmGateEntry
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(382, 52)
+        Me.MyLabel5.Location = New System.Drawing.Point(385, 52)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(77, 16)
         Me.MyLabel5.TabIndex = 1059
@@ -1518,7 +1535,7 @@ Partial Class FrmGateEntry
         Me.lblTotalQTy.AutoSize = False
         Me.lblTotalQTy.BorderVisible = True
         Me.lblTotalQTy.FieldName = Nothing
-        Me.lblTotalQTy.Location = New System.Drawing.Point(463, 52)
+        Me.lblTotalQTy.Location = New System.Drawing.Point(466, 52)
         Me.lblTotalQTy.Name = "lblTotalQTy"
         Me.lblTotalQTy.Size = New System.Drawing.Size(76, 19)
         Me.lblTotalQTy.TabIndex = 1060
@@ -1535,7 +1552,7 @@ Partial Class FrmGateEntry
         Me.txtDispatchCentreCode.IsSourceFromTable = False
         Me.txtDispatchCentreCode.IsSourceFromValueList = False
         Me.txtDispatchCentreCode.IsUnique = False
-        Me.txtDispatchCentreCode.Location = New System.Drawing.Point(661, 28)
+        Me.txtDispatchCentreCode.Location = New System.Drawing.Point(664, 28)
         Me.txtDispatchCentreCode.MendatroryField = True
         Me.txtDispatchCentreCode.MyLinkLable1 = Me.MyLabel3
         Me.txtDispatchCentreCode.MyLinkLable2 = Nothing
@@ -1550,7 +1567,7 @@ Partial Class FrmGateEntry
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(542, 27)
+        Me.MyLabel3.Location = New System.Drawing.Point(545, 27)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(118, 16)
         Me.MyLabel3.TabIndex = 1064
@@ -1561,7 +1578,7 @@ Partial Class FrmGateEntry
         Me.lblMilkType.AutoSize = False
         Me.lblMilkType.BorderVisible = True
         Me.lblMilkType.FieldName = Nothing
-        Me.lblMilkType.Location = New System.Drawing.Point(463, 6)
+        Me.lblMilkType.Location = New System.Drawing.Point(466, 6)
         Me.lblMilkType.Name = "lblMilkType"
         Me.lblMilkType.Size = New System.Drawing.Size(76, 19)
         Me.lblMilkType.TabIndex = 281
@@ -1570,7 +1587,7 @@ Partial Class FrmGateEntry
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(0, 27)
+        Me.MyLabel2.Location = New System.Drawing.Point(3, 27)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(85, 16)
         Me.MyLabel2.TabIndex = 279
@@ -1581,7 +1598,7 @@ Partial Class FrmGateEntry
         Me.lblMilkTypeCode.AutoSize = False
         Me.lblMilkTypeCode.BorderVisible = True
         Me.lblMilkTypeCode.FieldName = Nothing
-        Me.lblMilkTypeCode.Location = New System.Drawing.Point(236, 27)
+        Me.lblMilkTypeCode.Location = New System.Drawing.Point(239, 27)
         Me.lblMilkTypeCode.Name = "lblMilkTypeCode"
         Me.lblMilkTypeCode.Size = New System.Drawing.Size(303, 19)
         Me.lblMilkTypeCode.TabIndex = 280
@@ -1597,7 +1614,7 @@ Partial Class FrmGateEntry
         Me.txtMilktypeCode.IsSourceFromTable = False
         Me.txtMilktypeCode.IsSourceFromValueList = False
         Me.txtMilktypeCode.IsUnique = False
-        Me.txtMilktypeCode.Location = New System.Drawing.Point(90, 27)
+        Me.txtMilktypeCode.Location = New System.Drawing.Point(93, 27)
         Me.txtMilktypeCode.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMilktypeCode.MendatroryField = True
         Me.txtMilktypeCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1617,7 +1634,7 @@ Partial Class FrmGateEntry
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(0, 6)
+        Me.MyLabel1.Location = New System.Drawing.Point(3, 6)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(78, 16)
         Me.MyLabel1.TabIndex = 276
@@ -1628,7 +1645,7 @@ Partial Class FrmGateEntry
         Me.lblSupplierName.AutoSize = False
         Me.lblSupplierName.BorderVisible = True
         Me.lblSupplierName.FieldName = Nothing
-        Me.lblSupplierName.Location = New System.Drawing.Point(236, 6)
+        Me.lblSupplierName.Location = New System.Drawing.Point(239, 6)
         Me.lblSupplierName.Name = "lblSupplierName"
         Me.lblSupplierName.Size = New System.Drawing.Size(217, 19)
         Me.lblSupplierName.TabIndex = 277
@@ -1644,7 +1661,7 @@ Partial Class FrmGateEntry
         Me.txtSupplierCode.IsSourceFromTable = False
         Me.txtSupplierCode.IsSourceFromValueList = False
         Me.txtSupplierCode.IsUnique = False
-        Me.txtSupplierCode.Location = New System.Drawing.Point(90, 6)
+        Me.txtSupplierCode.Location = New System.Drawing.Point(93, 6)
         Me.txtSupplierCode.Margin = New System.Windows.Forms.Padding(4)
         Me.txtSupplierCode.MendatroryField = True
         Me.txtSupplierCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1687,32 +1704,10 @@ Partial Class FrmGateEntry
         Me.fndTankerNo.TabIndex = 273
         Me.fndTankerNo.Value = ""
         '
-        'txtDocType
-        '
-        Me.txtDocType.AutoSize = False
-        Me.txtDocType.BorderVisible = True
-        Me.txtDocType.Controls.Add(Me.chkBoth)
-        Me.txtDocType.FieldName = Nothing
-        Me.txtDocType.Location = New System.Drawing.Point(1086, 28)
-        Me.txtDocType.Name = "txtDocType"
-        Me.txtDocType.Size = New System.Drawing.Size(115, 20)
-        Me.txtDocType.TabIndex = 272
-        Me.txtDocType.Visible = False
-        '
-        'chkBoth
-        '
-        Me.chkBoth.Location = New System.Drawing.Point(10, 1)
-        Me.chkBoth.Name = "chkBoth"
-        Me.chkBoth.Size = New System.Drawing.Size(44, 18)
-        Me.chkBoth.TabIndex = 2
-        Me.chkBoth.Text = "Both"
-        Me.chkBoth.Visible = False
-        '
         'lblPending
         '
-        Me.lblPending.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblPending.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblPending.Location = New System.Drawing.Point(1100, 4)
+        Me.lblPending.Location = New System.Drawing.Point(807, 41)
         Me.lblPending.Margin = New System.Windows.Forms.Padding(4)
         Me.lblPending.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPending.Name = "lblPending"
@@ -1754,7 +1749,7 @@ Partial Class FrmGateEntry
         Me.grpGateEntryType.Controls.Add(Me.chkBulkMilkProc)
         Me.grpGateEntryType.Controls.Add(Me.chkMccProc)
         Me.grpGateEntryType.HeaderText = "Gate Entry Type"
-        Me.grpGateEntryType.Location = New System.Drawing.Point(11, -1)
+        Me.grpGateEntryType.Location = New System.Drawing.Point(350, -1)
         Me.grpGateEntryType.Name = "grpGateEntryType"
         Me.grpGateEntryType.Size = New System.Drawing.Size(307, 40)
         Me.grpGateEntryType.TabIndex = 0
@@ -1780,7 +1775,7 @@ Partial Class FrmGateEntry
         '
         Me.lblTankerNoBulk.FieldName = Nothing
         Me.lblTankerNoBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTankerNoBulk.Location = New System.Drawing.Point(10, 90)
+        Me.lblTankerNoBulk.Location = New System.Drawing.Point(9, 88)
         Me.lblTankerNoBulk.Name = "lblTankerNoBulk"
         Me.lblTankerNoBulk.Size = New System.Drawing.Size(59, 16)
         Me.lblTankerNoBulk.TabIndex = 240
@@ -1800,7 +1795,7 @@ Partial Class FrmGateEntry
         '
         Me.lblDateAndTimeBulk.FieldName = Nothing
         Me.lblDateAndTimeBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDateAndTimeBulk.Location = New System.Drawing.Point(432, 44)
+        Me.lblDateAndTimeBulk.Location = New System.Drawing.Point(432, 43)
         Me.lblDateAndTimeBulk.Name = "lblDateAndTimeBulk"
         Me.lblDateAndTimeBulk.Size = New System.Drawing.Size(33, 16)
         Me.lblDateAndTimeBulk.TabIndex = 251
@@ -1860,7 +1855,7 @@ Partial Class FrmGateEntry
         Me.lblVendorNameBulk.AutoSize = False
         Me.lblVendorNameBulk.BorderVisible = True
         Me.lblVendorNameBulk.FieldName = Nothing
-        Me.lblVendorNameBulk.Location = New System.Drawing.Point(243, 130)
+        Me.lblVendorNameBulk.Location = New System.Drawing.Point(243, 129)
         Me.lblVendorNameBulk.Name = "lblVendorNameBulk"
         Me.lblVendorNameBulk.Size = New System.Drawing.Size(566, 19)
         Me.lblVendorNameBulk.TabIndex = 271
@@ -1878,7 +1873,7 @@ Partial Class FrmGateEntry
         Me.dtpDateAndTimeBulk.IsSourceFromTable = False
         Me.dtpDateAndTimeBulk.IsSourceFromValueList = False
         Me.dtpDateAndTimeBulk.IsUnique = False
-        Me.dtpDateAndTimeBulk.Location = New System.Drawing.Point(467, 42)
+        Me.dtpDateAndTimeBulk.Location = New System.Drawing.Point(467, 41)
         Me.dtpDateAndTimeBulk.MendatroryField = False
         Me.dtpDateAndTimeBulk.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpDateAndTimeBulk.MyLinkLable1 = Me.lblDateAndTimeBulk
@@ -1921,7 +1916,7 @@ Partial Class FrmGateEntry
         '
         Me.lblChallanNoBulk.FieldName = Nothing
         Me.lblChallanNoBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblChallanNoBulk.Location = New System.Drawing.Point(10, 151)
+        Me.lblChallanNoBulk.Location = New System.Drawing.Point(9, 151)
         Me.lblChallanNoBulk.Name = "lblChallanNoBulk"
         Me.lblChallanNoBulk.Size = New System.Drawing.Size(62, 16)
         Me.lblChallanNoBulk.TabIndex = 263
@@ -2030,32 +2025,20 @@ Partial Class FrmGateEntry
         Me.fndLocationBulk.TabIndex = 2
         Me.fndLocationBulk.Value = ""
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.gvItemBulk)
-        Me.RadGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox1.HeaderText = "Item Details"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1203, 229)
-        Me.RadGroupBox1.TabIndex = 0
-        Me.RadGroupBox1.Text = "Item Details"
-        '
         'gvItemBulk
         '
         Me.gvItemBulk.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvItemBulk.Location = New System.Drawing.Point(2, 18)
+        Me.gvItemBulk.Location = New System.Drawing.Point(0, 0)
         '
         '
         '
         Me.gvItemBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemBulk.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvItemBulk.MyStopExport = False
         Me.gvItemBulk.Name = "gvItemBulk"
         Me.gvItemBulk.ShowHeaderCellButtons = True
-        Me.gvItemBulk.Size = New System.Drawing.Size(1199, 209)
+        Me.gvItemBulk.Size = New System.Drawing.Size(1203, 229)
         Me.gvItemBulk.TabIndex = 264
         Me.gvItemBulk.VarID = ""
         '
@@ -2063,9 +2046,9 @@ Partial Class FrmGateEntry
         '
         Me.btnUpdateFatSnfForContractor.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUpdateFatSnfForContractor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateFatSnfForContractor.Location = New System.Drawing.Point(650, 8)
+        Me.btnUpdateFatSnfForContractor.Location = New System.Drawing.Point(645, 4)
         Me.btnUpdateFatSnfForContractor.Name = "btnUpdateFatSnfForContractor"
-        Me.btnUpdateFatSnfForContractor.Size = New System.Drawing.Size(171, 18)
+        Me.btnUpdateFatSnfForContractor.Size = New System.Drawing.Size(171, 24)
         Me.btnUpdateFatSnfForContractor.TabIndex = 9
         Me.btnUpdateFatSnfForContractor.Text = "FAT && SNF Amendment"
         Me.btnUpdateFatSnfForContractor.Visible = False
@@ -2074,9 +2057,9 @@ Partial Class FrmGateEntry
         '
         Me.btnUpdatePrice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUpdatePrice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdatePrice.Location = New System.Drawing.Point(539, 7)
+        Me.btnUpdatePrice.Location = New System.Drawing.Point(537, 4)
         Me.btnUpdatePrice.Name = "btnUpdatePrice"
-        Me.btnUpdatePrice.Size = New System.Drawing.Size(105, 18)
+        Me.btnUpdatePrice.Size = New System.Drawing.Size(105, 24)
         Me.btnUpdatePrice.TabIndex = 8
         Me.btnUpdatePrice.Text = "Update Price Chart"
         Me.btnUpdatePrice.Visible = False
@@ -2085,9 +2068,9 @@ Partial Class FrmGateEntry
         '
         Me.btn_amendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_amendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_amendment.Location = New System.Drawing.Point(465, 8)
+        Me.btn_amendment.Location = New System.Drawing.Point(466, 4)
         Me.btn_amendment.Name = "btn_amendment"
-        Me.btn_amendment.Size = New System.Drawing.Size(68, 18)
+        Me.btn_amendment.Size = New System.Drawing.Size(68, 24)
         Me.btn_amendment.TabIndex = 7
         Me.btn_amendment.Text = "Amendment"
         '
@@ -2095,9 +2078,9 @@ Partial Class FrmGateEntry
         '
         Me.btnUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUpdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdate.Location = New System.Drawing.Point(357, 8)
+        Me.btnUpdate.Location = New System.Drawing.Point(358, 4)
         Me.btnUpdate.Name = "btnUpdate"
-        Me.btnUpdate.Size = New System.Drawing.Size(105, 18)
+        Me.btnUpdate.Size = New System.Drawing.Size(105, 24)
         Me.btnUpdate.TabIndex = 6
         Me.btnUpdate.Text = "Update After Post"
         Me.btnUpdate.Visible = False
@@ -2106,9 +2089,9 @@ Partial Class FrmGateEntry
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(286, 8)
+        Me.btnPrint.Location = New System.Drawing.Point(287, 4)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(68, 18)
+        Me.btnPrint.Size = New System.Drawing.Size(68, 24)
         Me.btnPrint.TabIndex = 5
         Me.btnPrint.Text = "Print"
         '
@@ -2116,9 +2099,9 @@ Partial Class FrmGateEntry
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(215, 8)
+        Me.btnReverse.Location = New System.Drawing.Point(216, 4)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(68, 18)
+        Me.btnReverse.Size = New System.Drawing.Size(68, 24)
         Me.btnReverse.TabIndex = 3
         Me.btnReverse.Text = "Reverse"
         Me.btnReverse.Visible = False
@@ -2127,9 +2110,9 @@ Partial Class FrmGateEntry
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(144, 8)
+        Me.btnPost.Location = New System.Drawing.Point(145, 4)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(68, 18)
+        Me.btnPost.Size = New System.Drawing.Size(68, 24)
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
@@ -2137,9 +2120,9 @@ Partial Class FrmGateEntry
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(73, 8)
+        Me.btnDelete.Location = New System.Drawing.Point(74, 4)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(68, 18)
+        Me.btnDelete.Size = New System.Drawing.Size(68, 24)
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
@@ -2149,7 +2132,7 @@ Partial Class FrmGateEntry
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.Location = New System.Drawing.Point(1135, 4)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(68, 18)
+        Me.btnClose.Size = New System.Drawing.Size(68, 24)
         Me.btnClose.TabIndex = 4
         Me.btnClose.Text = "Close"
         '
@@ -2157,9 +2140,9 @@ Partial Class FrmGateEntry
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(3, 7)
+        Me.btnSave.Location = New System.Drawing.Point(3, 4)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(68, 18)
+        Me.btnSave.Size = New System.Drawing.Size(68, 24)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
@@ -2210,7 +2193,7 @@ Partial Class FrmGateEntry
         '
         Me.gvManualSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvManualSeal.MyStopExport = False
         Me.gvManualSeal.Name = "gvManualSeal"
         Me.gvManualSeal.ShowHeaderCellButtons = True
@@ -2239,7 +2222,7 @@ Partial Class FrmGateEntry
         '
         Me.gvPaperSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPaperSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvPaperSeal.MyStopExport = False
         Me.gvPaperSeal.Name = "gvPaperSeal"
         Me.gvPaperSeal.ShowHeaderCellButtons = True
@@ -2275,6 +2258,11 @@ Partial Class FrmGateEntry
         Me.SplitContainer4.Panel1.PerformLayout()
         Me.SplitContainer4.Panel2.ResumeLayout(False)
         Me.SplitContainer4.ResumeLayout(False)
+        CType(Me.GrpRouteOrTankerDispatch, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GrpRouteOrTankerDispatch.ResumeLayout(False)
+        Me.GrpRouteOrTankerDispatch.PerformLayout()
+        CType(Me.chkAgainstRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAgainstTankerDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationBulk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblGateOut, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2356,10 +2344,6 @@ Partial Class FrmGateEntry
         CType(Me.lblMilkTypeCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSupplierName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDocType, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.txtDocType.ResumeLayout(False)
-        Me.txtDocType.PerformLayout()
-        CType(Me.chkBoth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grpGateEntryType, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpGateEntryType.ResumeLayout(False)
         Me.grpGateEntryType.PerformLayout()
@@ -2377,8 +2361,6 @@ Partial Class FrmGateEntry
         CType(Me.dtpChallanDateBulk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblChallanDateBulk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDecBulk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
         CType(Me.gvItemBulk.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemBulk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdateFatSnfForContractor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2435,7 +2417,6 @@ Partial Class FrmGateEntry
     Friend WithEvents gvItemBulk As common.UserControls.MyRadGridView
     Friend WithEvents lblLocationDecBulk As common.Controls.MyLabel
     Friend WithEvents lblVendorNameBulk As common.Controls.MyLabel
-    Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents SplitContainer4 As System.Windows.Forms.SplitContainer
     Friend WithEvents fndChallanNoMcc As common.UserControls.txtFinder
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
@@ -2452,8 +2433,6 @@ Partial Class FrmGateEntry
     Friend WithEvents gvManualSeal As common.UserControls.MyRadGridView
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gvPaperSeal As common.UserControls.MyRadGridView
-    Friend WithEvents chkBoth As Telerik.WinControls.UI.RadRadioButton
-    Friend WithEvents txtDocType As common.Controls.MyLabel
     Friend WithEvents fndTankerNo As common.UserControls.txtFinder
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
@@ -2539,9 +2518,11 @@ Partial Class FrmGateEntry
     Friend WithEvents chkAgainstGateOutNo As RadCheckBox
     Friend WithEvents lblGateOut As common.Controls.MyLabel
     Friend WithEvents lblRoute As common.Controls.MyLabel
-    Friend WithEvents GBRoute As GroupBox
     Friend WithEvents txtRoute As common.UserControls.txtFinder
     Friend WithEvents MyLabel20 As common.Controls.MyLabel
     Friend WithEvents txtMCC As common.UserControls.txtFinder
+    Friend WithEvents GrpRouteOrTankerDispatch As RadGroupBox
+    Friend WithEvents chkAgainstRoute As RadRadioButton
+    Friend WithEvents chkAgainstTankerDispatch As RadRadioButton
 End Class
 

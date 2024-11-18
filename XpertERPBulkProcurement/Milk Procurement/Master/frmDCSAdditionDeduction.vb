@@ -544,7 +544,9 @@ Public Class frmDCSAdditionDeduction
         btnDelete.Visible = MyBase.isDeleteFlag
     End Sub
     Private Sub rdbtnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtnclose.Click
-        Me.Close()
+        Dim x As Decimal = clsCommon.myRoundOFF(16.48778, 0, 4)
+        Dim Y As Decimal = x
+        'Me.Close()
     End Sub
     Private Sub rdbtnreset_Click(sender As Object, e As EventArgs) Handles rdbtnreset.Click
         AddNew()

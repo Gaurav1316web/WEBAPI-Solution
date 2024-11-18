@@ -1954,7 +1954,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 440)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2386,7 +2386,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(127.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1082, 392)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1091, 392)
         Me.RadPageViewPage2.Text = "Recreate Journal Entry"
         '
         'RadScrollablePanel2
@@ -2456,8 +2456,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.GroupBox7)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.btnrecreatebulksaletrade)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.GroupBox24)
-        Me.RadScrollablePanel2.PanelContainer.Size = New System.Drawing.Size(1057, 383)
-        Me.RadScrollablePanel2.Size = New System.Drawing.Size(1076, 385)
+        Me.RadScrollablePanel2.PanelContainer.Size = New System.Drawing.Size(1066, 383)
+        Me.RadScrollablePanel2.Size = New System.Drawing.Size(1085, 385)
         Me.RadScrollablePanel2.TabIndex = 626
         '
         'GroupBox112
@@ -4337,7 +4337,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(174.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1082, 392)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1091, 392)
         Me.RadPageViewPage3.Text = "Update Milk Inventory FAT/SNF"
         '
         'RadScrollablePanel3
@@ -4371,8 +4371,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox34)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox38)
         Me.RadScrollablePanel3.PanelContainer.Controls.Add(Me.GroupBox35)
-        Me.RadScrollablePanel3.PanelContainer.Size = New System.Drawing.Size(1063, 390)
-        Me.RadScrollablePanel3.Size = New System.Drawing.Size(1082, 392)
+        Me.RadScrollablePanel3.PanelContainer.Size = New System.Drawing.Size(1072, 390)
+        Me.RadScrollablePanel3.Size = New System.Drawing.Size(1091, 392)
         Me.RadScrollablePanel3.TabIndex = 628
         '
         'GroupBox97
@@ -6005,7 +6005,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(145.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(1082, 392)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1091, 392)
         Me.RadPageViewPage6.Text = "Delete Entry After Posting"
         '
         'RadScrollablePanel6
@@ -6054,8 +6054,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.MyLabel57)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.RadButton281)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.TxtMultiSelectFinder15)
-        Me.RadScrollablePanel6.PanelContainer.Size = New System.Drawing.Size(1065, 373)
-        Me.RadScrollablePanel6.Size = New System.Drawing.Size(1084, 392)
+        Me.RadScrollablePanel6.PanelContainer.Size = New System.Drawing.Size(1074, 373)
+        Me.RadScrollablePanel6.Size = New System.Drawing.Size(1093, 392)
         Me.RadScrollablePanel6.TabIndex = 388
         '
         'TxtMultiSelectFinder20
@@ -7374,7 +7374,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(121.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(1082, 392)
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1091, 392)
         Me.RadPageViewPage7.Text = "Update After Posting"
         '
         'RadScrollablePanel4
@@ -7413,8 +7413,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.rbtnGatePass)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.MyLabel43)
         Me.RadScrollablePanel4.PanelContainer.Controls.Add(Me.TxtMultiDairyGPass)
-        Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1066, 393)
-        Me.RadScrollablePanel4.Size = New System.Drawing.Size(1085, 395)
+        Me.RadScrollablePanel4.PanelContainer.Size = New System.Drawing.Size(1075, 393)
+        Me.RadScrollablePanel4.Size = New System.Drawing.Size(1094, 395)
         Me.RadScrollablePanel4.TabIndex = 373
         '
         'GroupBox49

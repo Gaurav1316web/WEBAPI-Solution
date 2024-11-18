@@ -736,18 +736,21 @@ Public Class BulkProcurementUploader
                     gv1.Rows(i).Cells("FATKG").Value = netWeight * FATPer / 100
                     gv1.Rows(i).Cells("FAT Rate").Value = Math.Round(Rate * FatW / FATR, 2)
                     gv1.Rows(i).Cells("FATPer").Value = Math.Round(FATPer, 2)
-                Else
+                ElseIf FATPer <= 0 Then
+                    ValidateStatus = ValidateStatus & "FAT Percent Must not be Zero or Negative " & Environment.NewLine
                     gv1.Rows(i).Cells("FAT Rate").Value = 0
                     gv1.Rows(i).Cells("FATKG").Value = 0
                     gv1.Rows(i).Cells("FAT Rate").Value = 0
                     gv1.Rows(i).Cells("FATPer").Value = 0
+
                 End If
                 If SNFPer > 0 Then
                     gv1.Rows(i).Cells("SNF Rate").Value = Math.Round(Rate * SNFW / SNFPer, 2)
                     gv1.Rows(i).Cells("SNFKG").Value = netWeight * SNFPer / 100
                     gv1.Rows(i).Cells("SNF Rate").Value = Math.Round(Rate * SNFW / SNFR, 2)
                     gv1.Rows(i).Cells("SNFPer").Value = Math.Round(SNFPer, 2)
-                Else
+                ElseIf SNFPer <= 0 Then
+                    ValidateStatus = ValidateStatus & "SNF Percent Must not be Zero or Negative " & Environment.NewLine
                     gv1.Rows(i).Cells("SNF Rate").Value = 0
                     gv1.Rows(i).Cells("SNFKG").Value = 0
                     gv1.Rows(i).Cells("SNF Rate").Value = 0
