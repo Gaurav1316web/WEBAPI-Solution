@@ -22,7 +22,7 @@ Partial Class rptTankerProfitLossReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -43,11 +43,7 @@ Partial Class rptTankerProfitLossReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadLabel2 = New common.Controls.MyLabel()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtToDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.txtFromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.txtDate = New Telerik.WinControls.UI.RadDateTimePicker()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -66,12 +62,7 @@ Partial Class rptTankerProfitLossReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -138,7 +129,7 @@ Partial Class rptTankerProfitLossReport
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
+        Me.RadPageViewPage1.Controls.Add(Me.txtDate)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.txtTankerNo)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel1)
@@ -217,7 +208,7 @@ Partial Class rptTankerProfitLossReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -294,66 +285,19 @@ Partial Class rptTankerProfitLossReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox3
+        'txtDate
         '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.RadLabel2)
-        Me.RadGroupBox3.Controls.Add(Me.MyLabel1)
-        Me.RadGroupBox3.Controls.Add(Me.txtToDate)
-        Me.RadGroupBox3.Controls.Add(Me.txtFromDate)
-        Me.RadGroupBox3.HeaderText = "Date Range"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(81, 3)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(246, 42)
-        Me.RadGroupBox3.TabIndex = 55
-        Me.RadGroupBox3.Text = "Date Range"
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(129, 16)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(19, 18)
-        Me.RadLabel2.TabIndex = 3
-        Me.RadLabel2.Text = "To"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(5, 16)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(32, 18)
-        Me.MyLabel1.TabIndex = 2
-        Me.MyLabel1.Text = "From"
-        '
-        'txtToDate
-        '
-        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.Location = New System.Drawing.Point(155, 15)
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.Size = New System.Drawing.Size(78, 20)
-        Me.txtToDate.TabIndex = 1
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "24/10/2011"
-        Me.txtToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
-        '
-        'txtFromDate
-        '
-        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.Location = New System.Drawing.Point(44, 15)
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.Size = New System.Drawing.Size(78, 20)
-        Me.txtFromDate.TabIndex = 0
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "24/10/2011"
-        Me.txtFromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.Location = New System.Drawing.Point(86, 18)
+        Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.Name = "txtDate"
+        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.Size = New System.Drawing.Size(89, 20)
+        Me.txtDate.TabIndex = 24
+        Me.txtDate.TabStop = False
+        Me.txtDate.Text = "24/10/2011"
+        Me.txtDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
         'rptTankerProfitLossReport
         '
@@ -387,13 +331,7 @@ Partial Class rptTankerProfitLossReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -419,9 +357,5 @@ Partial Class rptTankerProfitLossReport
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents txtTankerNo As common.UserControls.txtFinder
     Friend WithEvents btnPrint2 As RadButton
-    Friend WithEvents RadGroupBox3 As RadGroupBox
-    Friend WithEvents RadLabel2 As common.Controls.MyLabel
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents txtToDate As RadDateTimePicker
-    Friend WithEvents txtFromDate As RadDateTimePicker
+    Friend WithEvents txtDate As RadDateTimePicker
 End Class
