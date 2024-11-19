@@ -27,7 +27,7 @@ Public Class clsItemType
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "ITEM_TYPE_NAME", obj.ITEM_TYPE_NAME)
             clsCommon.AddColumnsForChange(coll, "IsFixedTolerance", obj.IsFixedTolerance)
-            clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
+            clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM, True)
             clsCommon.AddColumnsForChange(coll, "IsVaccine", obj.IsVaccine)
             clsCommon.AddColumnsForChange(coll, "TolerancePer", obj.TolerancePer)
             If isNewEntry Then
@@ -55,7 +55,7 @@ Public Class clsItemType
             clsItemTypeSchedule.SaveData(obj.ITEM_TYPE_CODE, obj.ArrSchedule, trans)
 
         Catch ex As Exception
-            Throw New Exception
+            Throw New Exception(ex.Message)
         End Try
         Return result
 
