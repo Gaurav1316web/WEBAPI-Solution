@@ -5402,11 +5402,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             'Exit Function
             Return 0
         End If
-
-        Dim dt1 As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", txtVendorNo.Value, txtBillToLocation.Value, trans)
-        If dt1.Rows.Count > 0 Then
-            TAXGroup = clsCommon.myCstr(dt1.Rows(0)("Tax_Group_Code"))
-        End If
+        Dim str As String=txtTaxGroup.Value
+        'Dim dt1 As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", txtVendorNo.Value, txtBillToLocation.Value, trans)
+        'If dt1.Rows.Count > 0 Then
+        '    TAXGroup = clsCommon.myCstr(dt1.Rows(0)("Tax_Group_Code"))
+        'End If
         If gv1.Rows(introw).Cells(ColFOC).Value = 1 Then
             IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & strItem & "'", trans))
             If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
@@ -5465,8 +5465,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             Dim TAXGroupItem As String = clsCommon.myCstr(dt.Rows(0)("Tax_group"))
             Dim Item As String = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
             Dim ItemName As String = clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + Item + "'")
-            If clsCommon.CompairString(TAXGroupItem, TAXGroup) <> CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Please Create for Item " + ItemName + " with " + TAXGroup)
+            If clsCommon.CompairString(TAXGroupItem, txtTaxGroup.Value) <> CompairStringResult.Equal Then
+                clsCommon.MyMessageBoxShow("Please Create for Item " + ItemName + " with " + txtTaxGroup.Value)
                 Return False
             End If
             'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GHO") = CompairStringResult.Equal Then
@@ -6772,15 +6772,16 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             Dim TaxRate As Double = 0
             Dim TaxAmount As Double = 0
-            'If clsCommon.CompairString(taxGroup, "IGST SL") OrElse clsCommon.CompairString(taxGroup, "GST Sales") = CompairStringResult.Equal Then
-            '    For ii As Integer = 0 To gv2.Rows.Count - 1
-            '        TaxRate = clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxRate).Value)
-            '        TaxAmount = clsCommon.myCdbl(gv2.Rows(ii).Cells(colTTaxAmt).Value)
-            '    Next
-            '    If TaxRate <= 0 Then
-            '        Return False
-            '    End If
-            'End If
+            If clsCommon.CompairString(taxGroup, "EXEMPTED SL") <> CompairStringResult.Equal Then
+                For ii As Integer = 0 To gv2.Rows.Count - 1
+                    TaxRate += clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxRate).Value)
+                    TaxAmount = clsCommon.myCdbl(gv2.Rows(ii).Cells(colTTaxAmt).Value)
+                Next
+                If TaxRate <= 0 Then
+                    Throw New Exception("Tax rate is zero")
+                    Return False
+                End If
+            End If
 
         Catch ex As Exception
             If blnReverse = False Then
@@ -10009,6 +10010,34 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
             End If
         End If
         SetTaxDetails(trans)
+    End Sub
+    Private Sub SetTaxX(ByVal Item_Code As String, ByVal trans As SqlTransaction)
+        GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
+        If GSTStatus = False OrElse (clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") <> CompairStringResult.Equal AndAlso GSTStatus) Then
+            If CalculateTaxRatefromItemwsieTaxOnSale Then
+                If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+                    Dim strTaxType As String = clsLocationWiseTax.TaxType(txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value, trans)
+                    If GSTStatus = True AndAlso clsCommon.CompairString(strTaxType, "L") = CompairStringResult.Equal Then
+                        ''pick tax from item wise tax master instead of Location master done by richa 25 Nov,2020
+                        ' txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value)
+                        txtTaxGroup.Value = clsItemWiseTaxAuthority.GetTaxGroupItemWise("L", "S", txtDate.Value, Item_Code, trans)
+                    Else
+                        'txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value)
+                        txtTaxGroup.Value = clsItemWiseTaxAuthority.GetTaxGroupItemWise("I", "S", txtDate.Value, Item_Code, trans)
+                    End If
+                Else
+                    txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value, trans)
+                End If
+            Else
+                txtTaxGroup.Value = clsLocationWiseTax.GetDefaultTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value, trans)
+                lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfSaleType(txtTaxGroup.Value, trans)
+            End If
+        Else
+            If clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") = CompairStringResult.Equal Then
+                txtTaxGroup.Value = clsLocationWiseTax.GetExempedDefaultTaxGroup(True, txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value, trans)
+                lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfSaleType(txtTaxGroup.Value, trans)
+            End If
+        End If
     End Sub
     Private Function abatement(ByVal trans As SqlTransaction) As Decimal
         Dim abat As Decimal = 0
@@ -14629,6 +14658,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                 LoadBlankGridTax(trans)
                 'Dim t1 As SqlTransaction = trans
                 Dim myDictionary As New Dictionary(Of String, clsSNShipmentDCSItemDetail)
+                'SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
                 For ii As Integer = 0 To gvDistributor.Rows.Count - 1
                     If clsCommon.myLen(gvDistributor.Rows(ii).Cells("Item_Code").Value) > 0 AndAlso clsCommon.myLen(gvDistributor.Rows(ii).Cells("Unit_code").Value) > 0 AndAlso clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) > 0 Then
                         Dim strKey As String = "" ' clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
@@ -14698,7 +14728,8 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(myDictionary(strKey).ICode, trans)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIStruct).Value = clsItemMaster.GetItemStructureCode(myDictionary(strKey).ICode, trans)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
-                        SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
+                        Dim Str As String = txtTaxGroup.Value
+                        SetTaxX(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
                         ItemPrice(gv1.CurrentRow.Cells(colICode).Value, gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Index, False, trans)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = txtBillToLocation.Value
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = lblBillToLocation.Text
@@ -14730,7 +14761,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         'End If
                         calculateFOR(gv1.Rows.Count - 1, trans)
                     Next
-                    SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
+                    'SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
                     For ii As Integer = 0 To gv1.Rows.Count - 1
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                             UpdateCurrentRow1(ii, trans)
@@ -14739,7 +14770,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         End If
                     Next
                     UpdateAllTotals(trans)
-                    'SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
+                    SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
                 End If
 
             End If
