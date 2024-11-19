@@ -735,6 +735,7 @@
     <None Include="Crystal Reports GST\Sales Report\crptAgedTrialBalance4.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptAPInvc.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptAPServiceInvc.rpt" />
+    <None Include="Crystal Reports GST\Sales Report\crptAPServiceInvcnew.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptCanceledSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptCashDiscCrosstab.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptCashDiscountDetail.rpt" />
