@@ -226,7 +226,7 @@ Public Class clsMilkShiftEndMCC
 
                 objtr_Route.DOC_CODE = strCode
                 objtr_Route.Route_CODE = clsCommon.myCstr(dr("Route_CODE"))
-                objtr_Route.Route_name = clsCommon.myCstr(dr("Route_Name"))
+                objtr_Route.Route_Name = clsCommon.myCstr(dr("Route_Name"))
                 objtr_Route.Opening_KM = clsCommon.myCdbl(dr("Opening_KM"))
                 objtr_Route.Closing_KM = clsCommon.myCdbl(dr("Closing_KM"))
                 objtr_Route.Total_KM = clsCommon.myCdbl(dr("Total_KM"))
@@ -510,7 +510,7 @@ Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK
 Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE  
 Left Outer Join TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
 Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No 
-where TSPL_MILK_SRN_HEAD.MCC_CODE='" + MCCCode + "' and convert(Date, TSPL_MILK_SRN_HEAD.DOC_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(DOCDate, "dd/MMM/yyyy") + "',103) and  TSPL_MILK_SRN_HEAD.SHIFT='" + Shift + "' and len(replace( isnull(substring(TSPL_VENDOR_MASTER.Phone1,6,10),''),'_',''))>0 
+where TSPL_MILK_SRN_HEAD.MCC_CODE='" + MCCCode + "' and convert(Date, TSPL_MILK_SRN_HEAD.DOC_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(DOCDate, "dd/MMM/yyyy") + "',103) and  TSPL_MILK_SRN_HEAD.SHIFT='" + Shift + "' and len(replace( isnull(substring(TSPL_VENDOR_MASTER.Phone1,6,10),''),'_',''))>0 And IsNull(TSPL_MILK_SRN_HEAD.Against_Send_SMS,'')=''
 ) xx Group by VSP_CODE"
         Return qry
     End Function
@@ -557,12 +557,25 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + MCCCode + "' and convert(Date, TSPL_MILK_
 
                     objSMSH.arrMobilNo = New List(Of String)()
                     objSMSH.arrMobilNo.Add(clsCommon.myCstr(dr("Phone1")))
-                    objSMSH.SaveData(clsUserMgtCode.frmMilkSample, objSMSH, trans)
+                    objSMSH.SaveData(clsUserMgtCode.frmMilkSample, objSMSH, clsCommon.myCstr(dr("MCC_CODE")), Shift, DOCDate, clsCommon.myCstr(dr("VSP_CODE")), trans)
                     objSMSH = Nothing
                 Next
             End If
         End If
     End Sub
+
+    Public Shared Function UpdateRemainingSMS(ByVal Code As String, ByVal ContactNo As String, ByVal MCC As String, ByVal DOCDate As Date, ByVal Shift As String, ByVal Vendor_Code As String, trans As SqlTransaction) As String
+        Dim Qry As String = "Select PK_ID from TSPL_SMS_DETAIL
+Inner Join (Select Max(Vendor_Code)Vendor_Code,substring(Phone1,6,10) as Phone1 from TSPL_VENDOR_MASTER Group By substring(Phone1,6,10))TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Phone1=TSPL_SMS_DETAIL.Mobile_No 
+Where TSPL_SMS_DETAIL.Code='" + Code + "' And TSPL_SMS_DETAIL.Mobile_No='" + ContactNo + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Qry = "Update TSPL_MILK_SRN_HEAD Set Against_Send_SMS='" + clsCommon.myCstr(dt.Rows(0)("PK_ID")) + "' where convert(Date,DOC_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(DOCDate, "dd/MMM/yyyy") + "',103) And SHIFT='" + Shift + "' And MCC_CODE='" + MCC + "' And VSP_CODE='" + Vendor_Code + "' "
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+        End If
+        Return True
+    End Function
+
     Shared Sub CreateMailContent(ByVal obj As clsMilkShiftEndMCC, ByVal trans As SqlTransaction)
         Dim strMailContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Email_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmMilkShiftEndMCC + "'", trans))
         If clsCommon.myLen(strMailContent) > 0 Then
@@ -1660,7 +1673,7 @@ Public Class clsMilkShiftEndMCC_Route_Detail
                 objtr_Route = New clsMilkShiftEndMCC_Route_Detail
                 objtr_Route.DOC_CODE = strDocNo
                 objtr_Route.Route_CODE = clsCommon.myCstr(dr("Route_CODE"))
-                objtr_Route.Route_name = clsCommon.myCstr(dr("Route_Name"))
+                objtr_Route.Route_Name = clsCommon.myCstr(dr("Route_Name"))
                 objtr_Route.Opening_KM = clsCommon.myCdbl(dr("Opening_KM"))
                 objtr_Route.Closing_KM = clsCommon.myCdbl(dr("Closing_KM"))
                 objtr_Route.Total_KM = clsCommon.myCdbl(dr("Total_KM"))

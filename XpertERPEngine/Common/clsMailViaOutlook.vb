@@ -315,7 +315,11 @@ Public Class clsSMSHead
     Public arrMobilNo As List(Of String) = Nothing
     Public Created_Date As DateTime? = Nothing
 #End Region
+
     Public Function SaveData(ByVal FormID As String, ByVal obj As clsSMSHead, ByVal trans As SqlTransaction) As Boolean
+        Return SaveData(FormID, obj, Nothing, Nothing, Nothing, Nothing, trans)
+    End Function
+    Public Function SaveData(ByVal FormID As String, ByVal obj As clsSMSHead, ByVal MCC As String, ByVal Shift As String, ByVal Doc_Date As Date, ByVal Vendor_Code As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim qry As String = " select max(Code) from TSPL_SMS_HEAD where  Code like (select Description from TSPL_FIXED_PARAMETER where Code='" + clsFixedParameterCode.SMSPrefix + "' and Type='" + clsFixedParameterType.SMSPrefix + "')+'%'"
             obj.Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
@@ -347,7 +351,12 @@ Public Class clsSMSHead
                     obj.arrMobilNo.Add(clsCommon.myCstr(dr("Phone")))
                 Next
             End If
-            clsSMSDetail.SaveData(obj, obj.arrMobilNo, trans)
+            If clsCommon.myLen(MCC) > 0 AndAlso clsCommon.myLen(Vendor_Code) > 0 Then
+                clsSMSDetail.SaveData(obj, obj.arrMobilNo, MCC, Shift, Doc_Date, Vendor_Code, trans)
+            Else
+                clsSMSDetail.SaveData(obj, obj.arrMobilNo, trans)
+            End If
+
         Catch err As System.Exception
             Throw New System.Exception(err.Message)
         End Try
@@ -364,6 +373,10 @@ Public Class clsSMSDetail
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsSMSHead, ByVal Arr As List(Of String), ByVal trans As SqlTransaction) As Boolean
+        Return SaveData(obj, Arr, Nothing, Nothing, Nothing, Nothing, trans)
+    End Function
+
+    Public Shared Function SaveData(ByVal obj As clsSMSHead, ByVal Arr As List(Of String), ByVal MCC As String, ByVal Shift As String, ByVal Doc_Date As Date, ByVal Vendor_Code As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim arrRepeat As New List(Of String)
             For Each MobileNo As String In Arr
@@ -378,6 +391,9 @@ Public Class clsSMSDetail
                 clsCommon.AddColumnsForChange(coll, "Mobile_No", MobileNo)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SMS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 SendRemaingSMSMain(obj, MobileNo, trans)
+                If clsCommon.myLen(MCC) > 0 AndAlso clsCommon.myLen(Vendor_Code) > 0 Then
+                    clsMilkShiftEndMCC.UpdateRemainingSMS(obj.Code, MobileNo, MCC, Doc_Date, Shift, Vendor_Code, trans)
+                End If
             Next
             arrRepeat = Nothing
         Catch err As System.Exception
