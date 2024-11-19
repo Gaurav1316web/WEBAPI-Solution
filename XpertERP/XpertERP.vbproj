@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -2118,6 +2118,12 @@
       <DependentUpon>frmWeighmentReverse.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmWeighmentReverse.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\rptTankerGainLossReport.Designer.vb">
+      <DependentUpon>rptTankerGainLossReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\rptTankerGainLossReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modules\FrmCancelAfterPosting.Designer.vb">
@@ -5897,6 +5903,9 @@
     <EmbeddedResource Include="Milk Procurement\Transaction\frmWeighmentReverse.resx">
       <DependentUpon>frmWeighmentReverse.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\rptTankerGainLossReport.resx">
+      <DependentUpon>rptTankerGainLossReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\FrmCancelAfterPosting.resx">
       <DependentUpon>FrmCancelAfterPosting.vb</DependentUpon>

@@ -9645,6 +9645,10 @@ Public Class MDI
                     Case clsUserMgtCode.rptSuspanceDCSReport
                         frm = New rptSuspanceDCSReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptTankerGainLossReport
+                        frm = New rptTankerGainLossReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.FrmCategoryAnalysisReport
                         frm = New FrmCategoryAnalysisReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

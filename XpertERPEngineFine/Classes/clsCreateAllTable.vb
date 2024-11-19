@@ -24845,6 +24845,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Purchase_Order_No", "Varchar(30) null")
             coll.Add("Capping_Apply", "integer null")
             coll.Add("Retesting", "integer null")
+            coll.Add("Against_Send_SMS", "integer Null unique References TSPL_SMS_DETAIL(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "", True, False, "", "DOC_CODE", "DOC_DATE")
             coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "", False, False)
