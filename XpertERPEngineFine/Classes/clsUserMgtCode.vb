@@ -2328,6 +2328,7 @@ Public Class clsUserMgtCode
     Public Const RptWeighmentRegister As String = "WGH_REG_RPT"
     Public Const MonthlyProgressReport As String = "Mth-Prog"
     Public Const rptSuspanceDCSReport As String = "SUSP-DCS"
+    Public Const rptTankerGainLossReport As String = "TAN-GAIN-L"
 
     Public Const RptSecondaryTransporterReport As String = "SEC-TR-RPT"
     Public Const rptMCCBillGenrationStatus As String = "MCC-BIL_GEN"
