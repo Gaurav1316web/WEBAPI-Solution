@@ -2351,6 +2351,7 @@ Public Class clsUserMgtCode
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
     Public Const rptSocietyLedgerReport As String = "MCC_SOC_LED"
     Public Const rptMilkCostReport As String = "MCC_MLK_COST"
+    Public Const FrmDcscollectionHistory As String = "DCS_COL_HIS"
     Public Const rptPaymentProcessReportBMCSocietyWise As String = "PR_BSW_RPT"
     Public Const rptDCSFinancial As String = "DCS-FIN-RPT"
     '-----------------------Sale Purchase Security(Master)--------------
