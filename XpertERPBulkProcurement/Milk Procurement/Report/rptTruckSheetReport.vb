@@ -169,7 +169,8 @@ where 1=1 "
                 For idxDate As Integer = 0 To dtDate.Rows.Count - 1
                     dtReport.Rows.Add(clsCommon.GetPrintDate(dtDate.Rows(idxDate).Item("Document_date"), "dd/MMM/yyyy"), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
                     drFilter = Nothing
-                    drFilter = dtMCCHead.Select("[Document_Date]='" + clsCommon.myCstr(dtDate.Rows(idxDate).Item("Document_Date")) + "'")
+                    drFilter = dtMCCHead.Select("Document_No='" + clsCommon.myCstr(dtMCCHead.Rows(0).Item("Document_No") + "'"))
+                    'drFilter = dtMCCHead.Select("[Document_Date]='" + clsCommon.myCstr(dtDate.Rows(idxDate).Item("Document_Date")) + "'")
                     If drFilter IsNot Nothing AndAlso drFilter.Length > 0 Then
                         dtMCCHeadFilter = drFilter.CopyToDataTable()
                         Dim ArrMCCDoc As New Dictionary(Of String, List(Of String))
@@ -260,6 +261,8 @@ where 1=1 "
 
                             Dim dtMCCDetailFilter As DataTable = Nothing
                             drFilter = Nothing
+
+
                             drFilter = dtMCCDetail.Select("[Document_No]='" + clsCommon.myCstr(dtMCCHeadFilter.Rows(i).Item("Document_No")) + "'")
                             If drFilter IsNot Nothing AndAlso drFilter.Length > 0 Then
                                 dtMCCDetailFilter = drFilter.CopyToDataTable()

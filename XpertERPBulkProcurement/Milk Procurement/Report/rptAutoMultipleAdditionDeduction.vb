@@ -118,7 +118,7 @@ Public Class rptAutoMultipleAdditionDeduction
                         LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_MULTIPLE_DEDUCTION_HEAD.Comp_Code
                         left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
                         where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1
-                        and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103)  )x
+                        and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'  )x
 
                         union all
 
@@ -133,7 +133,7 @@ Public Class rptAutoMultipleAdditionDeduction
                                                             left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_VENDOR_INVOICE_HEAD.Comp_Code
                                                             LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
                                                             left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                                                            WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>= '" & fromDate.Value & "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<= '" & ToDate.Value & "'  
+                                                            WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'  
 									                        )xx " + whrV + " " + whrD + "     group by xx.[Addition/Deduction Description],xx.Type,XX.[Vendor Code] "
             Else
 
@@ -147,7 +147,7 @@ Public Class rptAutoMultipleAdditionDeduction
                     LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_MULTIPLE_DEDUCTION_HEAD.Comp_Code
                     left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
                     where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1
-                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103)  )x
+                    and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'  )x
 
                     union all
 
@@ -162,7 +162,7 @@ Public Class rptAutoMultipleAdditionDeduction
                                                         left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_VENDOR_INVOICE_HEAD.Comp_Code
                                                         LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
                                                         left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                                                        WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>=  convert(date,'" & fromDate.Value & "',103) and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<= convert(date,'" & ToDate.Value & "',103)  
+                                                        WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>=  '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'
 									                    )xx " + whrV + " " + whrD + "    group by xx.[Addition/Deduction Description],xx.Type	 "
 
             End If
