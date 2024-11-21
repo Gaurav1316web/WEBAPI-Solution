@@ -255,6 +255,7 @@ Public Class clsUserMgtCode
     Public Const FrmZoneWiseSKUReport As String = "ZW_SKU_REP"
     Public Const FrmDairySaleSchemeReport As String = "DS_SCH_REP"
     Public Const rptBookingWiseRegister As String = "DS_BW_RPT"
+    Public Const rptDemandNill As String = "DM_NL_RPT"
     Public Const frmDemandHistory As String = "DS_DEM_HIS"
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"

@@ -22,6 +22,7 @@ Partial Class rptBookingReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -29,6 +30,12 @@ Partial Class rptBookingReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.gbDocStatus = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbStatusBoth = New System.Windows.Forms.RadioButton()
+        Me.rdbStatusUnposted = New System.Windows.Forms.RadioButton()
+        Me.rdbStatusPosted = New System.Windows.Forms.RadioButton()
         Me.txtUOM = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
@@ -52,12 +59,6 @@ Partial Class rptBookingReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.gbDocStatus = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbStatusBoth = New System.Windows.Forms.RadioButton()
-        Me.rdbStatusUnposted = New System.Windows.Forms.RadioButton()
-        Me.rdbStatusPosted = New System.Windows.Forms.RadioButton()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -65,6 +66,9 @@ Partial Class rptBookingReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbDocStatus.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,9 +86,6 @@ Partial Class rptBookingReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbDocStatus.SuspendLayout()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -95,28 +96,21 @@ Partial Class rptBookingReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(692, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmsaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmsaveLayout
         '
-        Me.rmsaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmsaveLayout.AccessibleName = "Save Layout"
         Me.rmsaveLayout.Name = "rmsaveLayout"
         Me.rmsaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -153,7 +147,6 @@ Partial Class rptBookingReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(692, 326)
         Me.RadPageView1.TabIndex = 11
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -173,6 +166,75 @@ Partial Class rptBookingReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(671, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(21, 138)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel3.TabIndex = 404
+        Me.MyLabel3.Text = "Route"
+        '
+        'txtRoute
+        '
+        Me.txtRoute.arrDispalyMember = Nothing
+        Me.txtRoute.arrValueMember = Nothing
+        Me.txtRoute.Location = New System.Drawing.Point(78, 138)
+        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoute.MyLinkLable1 = Me.MyLabel3
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.MyNullText = "All"
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.Size = New System.Drawing.Size(426, 19)
+        Me.txtRoute.TabIndex = 403
+        '
+        'gbDocStatus
+        '
+        Me.gbDocStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbDocStatus.Controls.Add(Me.rdbStatusBoth)
+        Me.gbDocStatus.Controls.Add(Me.rdbStatusUnposted)
+        Me.gbDocStatus.Controls.Add(Me.rdbStatusPosted)
+        Me.gbDocStatus.HeaderText = "Booking Status"
+        Me.gbDocStatus.Location = New System.Drawing.Point(294, 26)
+        Me.gbDocStatus.Name = "gbDocStatus"
+        Me.gbDocStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.gbDocStatus.Size = New System.Drawing.Size(210, 46)
+        Me.gbDocStatus.TabIndex = 402
+        Me.gbDocStatus.Text = "Booking Status"
+        '
+        'rdbStatusBoth
+        '
+        Me.rdbStatusBoth.AutoSize = True
+        Me.rdbStatusBoth.Location = New System.Drawing.Point(156, 20)
+        Me.rdbStatusBoth.Name = "rdbStatusBoth"
+        Me.rdbStatusBoth.Size = New System.Drawing.Size(49, 17)
+        Me.rdbStatusBoth.TabIndex = 6
+        Me.rdbStatusBoth.Text = "Both"
+        Me.rdbStatusBoth.UseVisualStyleBackColor = True
+        '
+        'rdbStatusUnposted
+        '
+        Me.rdbStatusUnposted.AutoSize = True
+        Me.rdbStatusUnposted.Location = New System.Drawing.Point(77, 20)
+        Me.rdbStatusUnposted.Name = "rdbStatusUnposted"
+        Me.rdbStatusUnposted.Size = New System.Drawing.Size(75, 17)
+        Me.rdbStatusUnposted.TabIndex = 5
+        Me.rdbStatusUnposted.Text = "UnPosted"
+        Me.rdbStatusUnposted.UseVisualStyleBackColor = True
+        '
+        'rdbStatusPosted
+        '
+        Me.rdbStatusPosted.AutoSize = True
+        Me.rdbStatusPosted.Checked = True
+        Me.rdbStatusPosted.Location = New System.Drawing.Point(13, 20)
+        Me.rdbStatusPosted.Name = "rdbStatusPosted"
+        Me.rdbStatusPosted.Size = New System.Drawing.Size(60, 17)
+        Me.rdbStatusPosted.TabIndex = 4
+        Me.rdbStatusPosted.TabStop = True
+        Me.rdbStatusPosted.Text = "Posted"
+        Me.rdbStatusPosted.UseVisualStyleBackColor = True
         '
         'txtUOM
         '
@@ -383,13 +445,16 @@ Partial Class rptBookingReport
         '
         '
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(671, 278)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         '
         'RadSplitExp
         '
@@ -403,15 +468,11 @@ Partial Class rptBookingReport
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -445,75 +506,6 @@ Partial Class rptBookingReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'gbDocStatus
-        '
-        Me.gbDocStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.gbDocStatus.Controls.Add(Me.rdbStatusBoth)
-        Me.gbDocStatus.Controls.Add(Me.rdbStatusUnposted)
-        Me.gbDocStatus.Controls.Add(Me.rdbStatusPosted)
-        Me.gbDocStatus.HeaderText = "Booking Status"
-        Me.gbDocStatus.Location = New System.Drawing.Point(294, 26)
-        Me.gbDocStatus.Name = "gbDocStatus"
-        Me.gbDocStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbDocStatus.Size = New System.Drawing.Size(210, 46)
-        Me.gbDocStatus.TabIndex = 402
-        Me.gbDocStatus.Text = "Booking Status"
-        '
-        'rdbStatusBoth
-        '
-        Me.rdbStatusBoth.AutoSize = True
-        Me.rdbStatusBoth.Location = New System.Drawing.Point(156, 20)
-        Me.rdbStatusBoth.Name = "rdbStatusBoth"
-        Me.rdbStatusBoth.Size = New System.Drawing.Size(49, 17)
-        Me.rdbStatusBoth.TabIndex = 6
-        Me.rdbStatusBoth.Text = "Both"
-        Me.rdbStatusBoth.UseVisualStyleBackColor = True
-        '
-        'rdbStatusUnposted
-        '
-        Me.rdbStatusUnposted.AutoSize = True
-        Me.rdbStatusUnposted.Location = New System.Drawing.Point(77, 20)
-        Me.rdbStatusUnposted.Name = "rdbStatusUnposted"
-        Me.rdbStatusUnposted.Size = New System.Drawing.Size(75, 17)
-        Me.rdbStatusUnposted.TabIndex = 5
-        Me.rdbStatusUnposted.Text = "UnPosted"
-        Me.rdbStatusUnposted.UseVisualStyleBackColor = True
-        '
-        'rdbStatusPosted
-        '
-        Me.rdbStatusPosted.AutoSize = True
-        Me.rdbStatusPosted.Checked = True
-        Me.rdbStatusPosted.Location = New System.Drawing.Point(13, 20)
-        Me.rdbStatusPosted.Name = "rdbStatusPosted"
-        Me.rdbStatusPosted.Size = New System.Drawing.Size(60, 17)
-        Me.rdbStatusPosted.TabIndex = 4
-        Me.rdbStatusPosted.TabStop = True
-        Me.rdbStatusPosted.Text = "Posted"
-        Me.rdbStatusPosted.UseVisualStyleBackColor = True
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(21, 138)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(36, 18)
-        Me.MyLabel3.TabIndex = 404
-        Me.MyLabel3.Text = "Route"
-        '
-        'txtRoute
-        '
-        Me.txtRoute.arrDispalyMember = Nothing
-        Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(78, 138)
-        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRoute.MyLinkLable1 = Me.MyLabel3
-        Me.txtRoute.MyLinkLable2 = Nothing
-        Me.txtRoute.MyNullText = "All"
-        Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(426, 19)
-        Me.txtRoute.TabIndex = 403
-        '
         'rptBookingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -535,6 +527,10 @@ Partial Class rptBookingReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbDocStatus.ResumeLayout(False)
+        Me.gbDocStatus.PerformLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -553,10 +549,6 @@ Partial Class rptBookingReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbDocStatus.ResumeLayout(False)
-        Me.gbDocStatus.PerformLayout()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
