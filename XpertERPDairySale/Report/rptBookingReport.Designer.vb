@@ -22,7 +22,7 @@ Partial Class rptBookingReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -59,6 +59,14 @@ Partial Class rptBookingReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.txtItem = New common.UserControls.txtMultiSelectFinder()
+        Me.txtItemGroup = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBoth = New System.Windows.Forms.RadioButton()
+        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
+        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -86,6 +94,10 @@ Partial Class rptBookingReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -151,6 +163,11 @@ Partial Class rptBookingReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
+        Me.RadPageViewPage1.Controls.Add(Me.txtItem)
+        Me.RadPageViewPage1.Controls.Add(Me.txtItemGroup)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.txtRoute)
         Me.RadPageViewPage1.Controls.Add(Me.gbDocStatus)
@@ -181,7 +198,7 @@ Partial Class rptBookingReport
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(78, 138)
+        Me.txtRoute.Location = New System.Drawing.Point(91, 138)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Me.MyLabel3
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -197,10 +214,10 @@ Partial Class rptBookingReport
         Me.gbDocStatus.Controls.Add(Me.rdbStatusUnposted)
         Me.gbDocStatus.Controls.Add(Me.rdbStatusPosted)
         Me.gbDocStatus.HeaderText = "Booking Status"
-        Me.gbDocStatus.Location = New System.Drawing.Point(294, 26)
+        Me.gbDocStatus.Location = New System.Drawing.Point(294, 14)
         Me.gbDocStatus.Name = "gbDocStatus"
         Me.gbDocStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbDocStatus.Size = New System.Drawing.Size(210, 46)
+        Me.gbDocStatus.Size = New System.Drawing.Size(214, 46)
         Me.gbDocStatus.TabIndex = 402
         Me.gbDocStatus.Text = "Booking Status"
         '
@@ -247,7 +264,7 @@ Partial Class rptBookingReport
         Me.txtUOM.IsSourceFromTable = False
         Me.txtUOM.IsSourceFromValueList = False
         Me.txtUOM.IsUnique = False
-        Me.txtUOM.Location = New System.Drawing.Point(78, 75)
+        Me.txtUOM.Location = New System.Drawing.Point(91, 75)
         Me.txtUOM.MendatroryField = False
         Me.txtUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtUOM.MyLinkLable1 = Me.MyLabel1
@@ -285,7 +302,7 @@ Partial Class rptBookingReport
         '
         Me.txtZone.arrDispalyMember = Nothing
         Me.txtZone.arrValueMember = Nothing
-        Me.txtZone.Location = New System.Drawing.Point(78, 117)
+        Me.txtZone.Location = New System.Drawing.Point(91, 117)
         Me.txtZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtZone.MyLinkLable1 = Me.MyLabel5
         Me.txtZone.MyLinkLable2 = Nothing
@@ -308,7 +325,7 @@ Partial Class rptBookingReport
         '
         Me.txtCustomer.arrDispalyMember = Nothing
         Me.txtCustomer.arrValueMember = Nothing
-        Me.txtCustomer.Location = New System.Drawing.Point(78, 96)
+        Me.txtCustomer.Location = New System.Drawing.Point(91, 96)
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Me.MyLabel4
         Me.txtCustomer.MyLinkLable2 = Nothing
@@ -447,7 +464,7 @@ Partial Class rptBookingReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -506,6 +523,99 @@ Partial Class rptBookingReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'txtItem
+        '
+        Me.txtItem.arrDispalyMember = Nothing
+        Me.txtItem.arrValueMember = Nothing
+        Me.txtItem.Location = New System.Drawing.Point(91, 180)
+        Me.txtItem.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItem.MyLinkLable1 = Me.MyLabel4
+        Me.txtItem.MyLinkLable2 = Nothing
+        Me.txtItem.MyNullText = "All"
+        Me.txtItem.Name = "txtItem"
+        Me.txtItem.Size = New System.Drawing.Size(426, 19)
+        Me.txtItem.TabIndex = 411
+        '
+        'txtItemGroup
+        '
+        Me.txtItemGroup.arrDispalyMember = Nothing
+        Me.txtItemGroup.arrValueMember = Nothing
+        Me.txtItemGroup.Location = New System.Drawing.Point(91, 159)
+        Me.txtItemGroup.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtItemGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItemGroup.MyLinkLable1 = Me.MyLabel6
+        Me.txtItemGroup.MyLinkLable2 = Nothing
+        Me.txtItemGroup.MyNullText = "All"
+        Me.txtItemGroup.Name = "txtItemGroup"
+        Me.txtItemGroup.Size = New System.Drawing.Size(426, 19)
+        Me.txtItemGroup.TabIndex = 410
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(21, 159)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(63, 18)
+        Me.MyLabel6.TabIndex = 408
+        Me.MyLabel6.Text = "Item Group"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(21, 180)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel7.TabIndex = 409
+        Me.MyLabel7.Text = "Item"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnBoth)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnProduct)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnMilk)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(308, 63)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(200, 31)
+        Me.RadGroupBox1.TabIndex = 412
+        '
+        'rbtnBoth
+        '
+        Me.rbtnBoth.AutoSize = True
+        Me.rbtnBoth.Location = New System.Drawing.Point(145, 10)
+        Me.rbtnBoth.Name = "rbtnBoth"
+        Me.rbtnBoth.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBoth.TabIndex = 6
+        Me.rbtnBoth.Text = "Both"
+        Me.rbtnBoth.UseVisualStyleBackColor = True
+        '
+        'rbtnProduct
+        '
+        Me.rbtnProduct.AutoSize = True
+        Me.rbtnProduct.Location = New System.Drawing.Point(66, 10)
+        Me.rbtnProduct.Name = "rbtnProduct"
+        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProduct.TabIndex = 5
+        Me.rbtnProduct.Text = "Product"
+        Me.rbtnProduct.UseVisualStyleBackColor = True
+        '
+        'rbtnMilk
+        '
+        Me.rbtnMilk.AutoSize = True
+        Me.rbtnMilk.Checked = True
+        Me.rbtnMilk.Location = New System.Drawing.Point(13, 10)
+        Me.rbtnMilk.Name = "rbtnMilk"
+        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.TabIndex = 4
+        Me.rbtnMilk.TabStop = True
+        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.UseVisualStyleBackColor = True
+        '
         'rptBookingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -549,6 +659,11 @@ Partial Class rptBookingReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -590,5 +705,13 @@ Partial Class rptBookingReport
     Friend WithEvents rdbStatusPosted As RadioButton
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents txtItem As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents txtItemGroup As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents rbtnBoth As RadioButton
+    Friend WithEvents rbtnProduct As RadioButton
+    Friend WithEvents rbtnMilk As RadioButton
 End Class
 

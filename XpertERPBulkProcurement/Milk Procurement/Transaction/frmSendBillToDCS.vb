@@ -11,16 +11,66 @@ Public Class frmSendBillToDCS
 #End Region
 
     Private Sub frmSendBillToDCS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        txtDate.Value = clsCommon.GETSERVERDATE()
-        txtQCDate.Value = clsCommon.GETSERVERDATE()
-        txtTankerQCDate.Value = clsCommon.GETSERVERDATE()
-        txtCrateEntryDate.Value = clsCommon.GETSERVERDATE()
-        LoadShift()
-        txtSendBill.Text = 0
-        txtRemainingBill.Text = 0
+        Try
+            txtDate.Value = clsCommon.GETSERVERDATE()
+            txtQCDate.Value = clsCommon.GETSERVERDATE()
+            txtTankerQCDate.Value = clsCommon.GETSERVERDATE()
+            txtCrateEntryDate.Value = clsCommon.GETSERVERDATE()
+            LoadShift()
+            txtSendBill.Text = 0
+            txtRemainingBill.Text = 0
 
-        settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, Nothing)) = 1)
+            settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, Nothing)) = 1)
+            'createAllTable()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
+
+    Sub createAllTable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("DOC_CODE", "Varchar(30) not null Primary key")
+        coll.Add("MCC_CODE", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_CODE)")
+        coll.Add("DOC_DATE", "datetime NOT NULL")
+        coll.Add("SHIFT", "VARCHAR(10) NOT NULL")
+        coll.Add("COMM_PORT", "VARCHAR(30) NULL")
+        coll.Add("VLC_DOC_CODE", "VARCHAR(30) NOT NULL ")
+        'coll.Add("MILK_SAMPLE_CODE", "VARCHAR(30) NULL references TSPL_MILK_SAMPLE_HEAD(Doc_CODE)")
+        coll.Add("SAMPLE_NO", "INTEGER NOT NULL ")
+        coll.Add("VLC_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
+        coll.Add("ROUTE_CODE", "VARCHAR(30) NOT NULL ")
+        coll.Add("VSP_CODE", "varchar(12) not null REFERENCES TSPL_VENDOR_MASTER (Vendor_Code)")
+        coll.Add("VEHICLE_CODE", "VARCHAR(30) NULL")
+        coll.Add("Transporter", "varchar(12) not null REFERENCES TSPL_VENDOR_MASTER (Vendor_Code) ")
+        coll.Add("Posted", "numeric(2) not null default 0")
+        coll.Add("Posting_Date", "datetime null")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
+        coll.Add("Is_Incentive_Created", "VARCHAR(1) NOT NULL Default 'N'")
+        'coll.Add("Against_Reject_No", "Varchar(30) null references TSPL_MILK_REJECT_HEAD(DOC_CODE)")
+        coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
+        coll.Add("SYNC_STATUS", "int Null")
+        coll.Add("Failed_Sample_Status", "integer null")
+        coll.Add("Failed_Sample_Approve_By", "varchar(12) null")
+        coll.Add("Failed_Sample_Approve_Date", "datetime null")
+        coll.Add("Purchase_Order_No", "Varchar(30) null")
+        coll.Add("Capping_Apply", "integer null")
+        coll.Add("Retesting", "integer null")
+        coll.Add("Against_Send_SMS", "integer NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "", True, False, "", "DOC_CODE", "DOC_DATE")
+        Dim qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Send_SMS'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_Against_Send_SMS ON TSPL_MILK_SRN_HEAD(Against_Send_SMS) WHERE Against_Send_SMS IS NOT NULL ")
+        End If
+        coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "", False, False)
+    End Sub
+
     Public Sub LoadShift()
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))

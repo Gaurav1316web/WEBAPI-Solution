@@ -8150,6 +8150,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptMilkCostReport
                         frm = New rptMilkCostReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmDcscollectionHistory
+                        frm = New FrmDcscollectionHistory
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDCSFinancial
                         frm = New rptDCSFinancial
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9648,6 +9651,10 @@ Public Class MDI
                     Case clsUserMgtCode.rptSuspanceDCSReport
                         frm = New rptSuspanceDCSReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptTankerGainLossReport
+                        frm = New rptTankerGainLossReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.FrmCategoryAnalysisReport
                         frm = New FrmCategoryAnalysisReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

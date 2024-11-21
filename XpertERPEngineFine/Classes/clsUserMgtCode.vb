@@ -2329,6 +2329,7 @@ Public Class clsUserMgtCode
     Public Const RptWeighmentRegister As String = "WGH_REG_RPT"
     Public Const MonthlyProgressReport As String = "Mth-Prog"
     Public Const rptSuspanceDCSReport As String = "SUSP-DCS"
+    Public Const rptTankerGainLossReport As String = "TAN-GAIN-L"
 
     Public Const RptSecondaryTransporterReport As String = "SEC-TR-RPT"
     Public Const rptMCCBillGenrationStatus As String = "MCC-BIL_GEN"
@@ -2351,6 +2352,7 @@ Public Class clsUserMgtCode
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
     Public Const rptSocietyLedgerReport As String = "MCC_SOC_LED"
     Public Const rptMilkCostReport As String = "MCC_MLK_COST"
+    Public Const FrmDcscollectionHistory As String = "DCS_COL_HIS"
     Public Const rptPaymentProcessReportBMCSocietyWise As String = "PR_BSW_RPT"
     Public Const rptDCSFinancial As String = "DCS-FIN-RPT"
     '-----------------------Sale Purchase Security(Master)--------------

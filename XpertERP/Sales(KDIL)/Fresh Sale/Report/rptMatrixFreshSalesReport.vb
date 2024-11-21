@@ -50,7 +50,7 @@ Public Class RptMatrixFreshSalesReport
         End If
         If clsCommon.CompairString(ddlReportType.SelectedValue, "MGPD") = CompairStringResult.Equal Then
             VarID += "_MG"
-        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "TCS") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Booth TCS") = CompairStringResult.Equal Then
             VarID += "_TC"
         ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Demand Sheet") = CompairStringResult.Equal Then
             VarID += "_DS"
@@ -81,7 +81,7 @@ Public Class RptMatrixFreshSalesReport
                 MilkGatePassDetailReport(Exporter.Refresh)
                 Exit Sub
             End If
-            If clsCommon.CompairString(ddlReportType.SelectedValue, "TCS") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(ddlReportType.SelectedValue, "Booth TCS") = CompairStringResult.Equal Then
                 TCSReport(Exporter.Refresh)
                 Exit Sub
             End If
@@ -1217,17 +1217,15 @@ Public Class RptMatrixFreshSalesReport
             ') zzz 
             ' where zzz.Scheme_Item = 'N' group by zzz.Document_No, zzz.[VEHICLE NO], zzz.WdName, zzz.Description, zzz.[Customer Category Code], zzz.Cust_Group_Code, zzz.Zone_Code, zzz.[Route No], zzz.[DO NO], zzz.[Short Close] ) zpivot
             ' group by zpivot.Document_No, zpivot.[VEHICLE NO], zpivot.[WdName], zpivot.[Group], zpivot.[Route No], zpivot.[DO NO], zpivot.[Short Close]"
-            MainQuery = "select  Document_No as [Document No],max(Document_Date) as [Document Date],max([Time]) as [Time],max([Customer Code]) as [Customer Code],[WdName] as [Customer Name], 
-  [Group],[Route No], max([Booking Time(AM / PM) ]) as [Booking Time(AM / PM) ], Max(Created_By) as [Created By], max(Created_Date) as [Created Date],max(Modified_By) as [Modified By],
-max(Modified_Date) as [Modified Date],
+            MainQuery = "select  ([Customer Code]) as [Customer Code],[WdName] as [Customer Name], [Route No], 
 (sum(DocumentAmount) ) as [TCS Base Amount],
-case when max(Total_Amt)=0 then 0 else cast(isnull(((isnull(max(TCSAmount),0) * 100)/ max(Total_Amt)),0) as decimal(18, 2))end as [TCS % ],
+--case when max(Total_Amt)=0 then 0 else cast(isnull(((isnull(max(TCSAmount),0) * 100)/ max(Total_Amt)),0) as decimal(18, 2))end as [TCS % ],
 isnull(sum(TCSAmount),0) as [TCS Amount],
 isnull(sum(DocumentAmount),0) + isnull(sum(TCSAmount),0)  as [Total Amount]  
-from (select max(zzz.item_code) as item_code,zzz.Document_No,max(Document_Date) as Document_Date,max([Time]) as [Time],max(GatePass_Type) as [Booking Time(AM / PM) ],
+from (select max(zzz.item_code) as item_code,max(Document_Date) as Document_Date,max([Time]) as [Time],max(GatePass_Type) as [Booking Time(AM / PM) ],
 Max(Created_By) as Created_By,max(Created_Date) as Created_Date,max(Modified_By) as Modified_By,max(Modified_Date) as Modified_Date,
-sum(ItemNetAmount) as DocumentAmount,max(zzz.DocumentAmount) as Total_Amt,max([Customer Code]) as [Customer Code],zzz.[VEHICLE NO],zzz.[WdName],zzz.Description, 
-zzz.Cust_Group_Code as [Group],zzz.[Route No],sum(qty) as qty,sum(QtyLtr) as QtyLtr,sum(zzz.TCSAmount) as TCSAmount
+sum(ItemNetAmount) as DocumentAmount,max(zzz.DocumentAmount) as Total_Amt,([Customer Code]) as [Customer Code],max(zzz.[VEHICLE NO]) [VEHICLE NO],zzz.[WdName],max(zzz.Description) Description, 
+max(zzz.Cust_Group_Code) as [Group],zzz.[Route No],sum(qty) as qty,sum(QtyLtr) as QtyLtr,sum(zzz.TCSAmount) as TCSAmount
   from ( Select isnull( TSPL_DEMAND_BOOKING_MASTER.ShiftType, '' ) as GatePass_Type,
 CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4_Amt) 
 ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX5_Amt) 
@@ -1261,7 +1259,7 @@ From TSPL_DEMAND_BOOKING_DETAIL
           left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILUOM on TSPL_DEMAND_BOOKING_DETAIL.Item_Code = TSPL_ITEM_UOM_DETAILUOM.Item_Code 
           and TSPL_DEMAND_BOOKING_DETAIL.Unit_code = TSPL_ITEM_UOM_DETAILUOM.UOM_Code
                 where 2 = 2 and convert( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 ) >= '" + clsCommon.GetPrintDate(fromDate.Value) + "' and convert( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 ) <= '" + clsCommon.GetPrintDate(ToDate.Value) + "'
-                " + strWhrClause2 + " ) zzz group by zzz.Document_No, zzz.[VEHICLE NO], zzz.WdName, zzz.Description, zzz.[Customer Category Code], zzz.Cust_Group_Code, zzz.Zone_Code, zzz.[Route No] ) zpivot group by zpivot.Document_No, zpivot.[VEHICLE NO], zpivot.[WdName], zpivot.[Group], zpivot.[Route No] "
+                " + strWhrClause2 + " ) zzz group by zzz.[Customer Code], zzz.WdName, zzz.[Route No] ) zpivot group by zpivot.[Customer Code], zpivot.[WdName], zpivot.[Route No]  "
             Dim dtgv As New DataTable
             dtgv = clsDBFuncationality.GetDataTable(MainQuery)
             Gv1.DataSource = Nothing
@@ -3648,7 +3646,7 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
         dt.Rows.Add("Product Sale Report", "PSR")
         dt.Rows.Add("Credit Sale Report", "CSR")
         dt.Rows.Add("Milk Product Demand Report", "MPDR")
-        dt.Rows.Add("TCS", "TCS")
+        dt.Rows.Add("Booth TCS", "Booth TCS")
         dt.Rows.Add("Route Booth Wise", "RBW")
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "JPR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
             dt.Rows.Add("Demand Sheet", "Demand Sheet")
@@ -4414,7 +4412,7 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblSupplydate.Visible = False
                 txtSupplyDate.Visible = False
                 ChkSupplyDate.Visible = False
-            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "TCS") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Booth TCS") = CompairStringResult.Equal Then
                 RadGroupBox2.Visible = False
                 chkBookingWise.Visible = False
                 pnlMilkPouch.Visible = False
@@ -4447,14 +4445,14 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                 lblSubCategory.Visible = False
                 ddlInvocieType.Visible = False
                 RadGroupBox5.Visible = False
-                lbltcsShift.Visible = True
-                rddlTCSShift.Visible = True
-                lbltcsShift.Location = New System.Drawing.Point(21, 87)
-                rddlTCSShift.Location = New System.Drawing.Point(116, 87)
-                lblCustomer.Location = New System.Drawing.Point(21, 111)
-                txtCustomer.Location = New System.Drawing.Point(116, 111)
-                MyLabel10.Location = New System.Drawing.Point(21, 138)
-                TxtRoute.Location = New System.Drawing.Point(116, 138)
+                lbltcsShift.Visible = False
+                rddlTCSShift.Visible = False
+                'lbltcsShift.Location = New System.Drawing.Point(21, 87)
+                'rddlTCSShift.Location = New System.Drawing.Point(116, 87)
+                lblCustomer.Location = New System.Drawing.Point(21, 87)
+                txtCustomer.Location = New System.Drawing.Point(116, 87)
+                MyLabel10.Location = New System.Drawing.Point(21, 111)
+                TxtRoute.Location = New System.Drawing.Point(116, 111)
                 txtfndCustomer.Visible = False
                 txtFndRoute.Visible = False
                 ToDate.Visible = True

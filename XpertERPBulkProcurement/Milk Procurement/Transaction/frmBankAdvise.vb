@@ -46,7 +46,7 @@ Public Class frmBankAdvise
 
     Private Sub fndPaymentProcessNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPaymentProcessNo._MYValidating
         Try
-            fndPaymentProcessNo.Value = clsPaymentProcessHead.getFinder("FarmType='PP' And TSPL_PAYMENT_PROCESS_HEAD.isPrePosted=1", fndPaymentProcessNo.Value, isButtonClicked)
+            fndPaymentProcessNo.Value = clsPaymentProcessHead.getFinder("FarmType='PP' And TSPL_PAYMENT_PROCESS_HEAD.isPrePosted=1 And TSPL_PAYMENT_PROCESS_HEAD.Doc_No Not In (Select Payment_Process_Document_No from TSPL_BANK_ADVISE)", fndPaymentProcessNo.Value, isButtonClicked)
             If clsCommon.myLen(fndPaymentProcessNo.Value) > 0 Then
                 LoadDataPaymentProcessDetails(fndPaymentProcessNo.Value)
             End If

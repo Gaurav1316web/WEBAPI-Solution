@@ -80,6 +80,20 @@ Public Class rptBookingReport
             Else
             End If
 
+            If rbtnMilk.Checked = True Then
+                whr += " and  TSPL_ITEM_MASTER.Is_FreshItem  = 1 "
+            ElseIf rbtnProduct.Checked = True Then
+                whr += " and  TSPL_ITEM_MASTER.Is_Ambient = 1 "
+            End If
+
+            If txtItemGroup.arrValueMember IsNot Nothing AndAlso txtItemGroup.arrValueMember.Count > 0 Then
+                whr += " and  TSPL_ITEM_MASTER.Structure_Code  in ( " & clsCommon.GetMulcallString(txtItemGroup.arrValueMember) & ")"
+            End If
+
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                whr += " and  TSPL_ITEM_MASTER.Item_Code  in ( " & clsCommon.GetMulcallString(txtItem.arrValueMember) & ")"
+            End If
+
             If rdbDay.Checked = True Then
                 strDateForPivot = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select STUFF((Select ',['+thedate+']'  from (select  convert (varchar,thedate,103) as thedate from ExplodeDates ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")) + "', '" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy")) + "')    ) XXX order by convert (date, thedate,103) asc   For XML Path('')),1,1,'') "))
                 If clsCommon.myLen(strDateForPivot) <= 0 Then
@@ -144,7 +158,7 @@ Public Class rptBookingReport
                      left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No  = TSPL_DEMAND_BOOKING_DETAIL.Document_No
                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
                      left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_CUSTOMER_MASTER.Zone_Code 
-				     left outer join TSPL_ROUTE_MASTER  on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no
+				     left outer join TSPL_ROUTE_MASTER  on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no left outer join TSPL_ITEM_MASTER  on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
                      left outer join (Select TSPL_ITEM_UOM_DETAIL.ITem_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL where TSPL_ITEM_UOM_DETAIL.UOM_Code = '" + txtUOM.Value + "' ) as Target_Conversion_Factor on Target_Conversion_Factor.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
                      left outer join TSPL_ITEM_UOM_DETAIL as Stocking_Conversion_Factor on TSPL_DEMAND_BOOKING_DETAIL.item_Code = Stocking_Conversion_Factor.Item_Code and TSPL_DEMAND_BOOKING_DETAIL.Unit_code = Stocking_Conversion_Factor.UOM_Code
                      Where 2=2  " + whr + " 
@@ -410,5 +424,15 @@ Public Class rptBookingReport
         Dim strQry As String = ""
         strQry = "select Route_No  as [Code],Route_Desc as [Name] from TSPL_ROUTE_MASTER"
         txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("txtRoute@BookingReport", strQry, "Code", "Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
+    End Sub
+
+    Private Sub txtItemGroup__My_Click(sender As Object, e As EventArgs) Handles txtItemGroup._My_Click
+        Dim qry As String = "  select  Structure_Code as [Code],Structure_Desc as Name from TSPL_ITEM_MASTER group  by Structure_Code,Structure_Desc "
+        txtItemGroup.arrValueMember = clsCommon.ShowMultipleSelectForm("CWSRItemGroup", qry, "Code", "Name", txtItemGroup.arrValueMember, txtItemGroup.arrDispalyMember)
+    End Sub
+
+    Private Sub txtItem__My_Click(sender As Object, e As EventArgs) Handles txtItem._My_Click
+        Dim qry As String = " select Item_Code as Code,Item_Desc as Name from TSPL_ITEM_MASTER where Structure_Code in ( " & clsCommon.GetMulcallString(txtItemGroup.arrValueMember) & ") order by Item_Code "
+        txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("CWSRItem", qry, "Code", "Name", txtItem.arrValueMember, txtItem.arrDispalyMember)
     End Sub
 End Class

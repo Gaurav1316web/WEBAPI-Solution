@@ -1871,6 +1871,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptHeadLoadReport, "Head Load  Report", "1.17.03.126", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDCSCredit, "DCS Credit Report", "1.17.03.127", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSuspanceDCSReport, "Suspense Milk Report", "1.17.03.128", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerGainLossReport, "Tanker Gain Loss Report", "1.17.03.129", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmDcscollectionHistory, "Dcs collection History", "1.17.03.130", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
