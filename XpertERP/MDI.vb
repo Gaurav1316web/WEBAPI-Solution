@@ -8150,6 +8150,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptMilkCostReport
                         frm = New rptMilkCostReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmDcscollectionHistory
+                        frm = New FrmDcscollectionHistory
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDCSFinancial
                         frm = New rptDCSFinancial
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8227,6 +8230,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptBookingWiseRegister
                         frm = New rptBookingWiseRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptDemandNill
+                        frm = New RptBoothNilDemandl()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()

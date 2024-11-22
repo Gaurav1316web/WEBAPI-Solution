@@ -5464,7 +5464,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         If dt.Rows.Count > 0 Then
             Dim TAXGroupItem As String = clsCommon.myCstr(dt.Rows(0)("Tax_group"))
             Dim Item As String = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
-            Dim ItemName As String = clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + Item + "'")
+            Dim ItemName As String = clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + Item + "'", trans)
             If clsCommon.CompairString(TAXGroupItem, txtTaxGroup.Value) <> CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow("Please Create for Item " + ItemName + " with " + txtTaxGroup.Value)
                 Return False
@@ -6772,7 +6772,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             Dim TaxRate As Double = 0
             Dim TaxAmount As Double = 0
-            If clsCommon.CompairString(taxGroup, "EXEMPTED SL") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(taxGroup, txtTaxGroup.Value) <> CompairStringResult.Equal Then
                 For ii As Integer = 0 To gv2.Rows.Count - 1
                     TaxRate += clsCommon.myCstr(gv2.Rows(ii).Cells(colTTaxRate).Value)
                     TaxAmount = clsCommon.myCdbl(gv2.Rows(ii).Cells(colTTaxAmt).Value)

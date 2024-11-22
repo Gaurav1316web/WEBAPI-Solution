@@ -255,6 +255,7 @@ Public Class clsUserMgtCode
     Public Const FrmZoneWiseSKUReport As String = "ZW_SKU_REP"
     Public Const FrmDairySaleSchemeReport As String = "DS_SCH_REP"
     Public Const rptBookingWiseRegister As String = "DS_BW_RPT"
+    Public Const rptDemandNill As String = "DM_NL_RPT"
     Public Const frmDemandHistory As String = "DS_DEM_HIS"
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"
@@ -2351,6 +2352,7 @@ Public Class clsUserMgtCode
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
     Public Const rptSocietyLedgerReport As String = "MCC_SOC_LED"
     Public Const rptMilkCostReport As String = "MCC_MLK_COST"
+    Public Const FrmDcscollectionHistory As String = "DCS_COL_HIS"
     Public Const rptPaymentProcessReportBMCSocietyWise As String = "PR_BSW_RPT"
     Public Const rptDCSFinancial As String = "DCS-FIN-RPT"
     '-----------------------Sale Purchase Security(Master)--------------

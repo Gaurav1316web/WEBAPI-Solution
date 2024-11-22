@@ -162,6 +162,9 @@ Public Class frmNIRQC
             txtMRNNo.Focus()
             Throw New Exception("Please select " + txtMRNNo.MyLinkLable1.Text)
         End If
+        If clsCommon.myCDate(txtDate.Value, "dd/MM/yyyy") < clsCommon.myCDate(lblWeightmentDate.Text, "dd/MM/yyyy") Then
+            Throw New Exception(" NIR QC date can't be less then Weighment date !")
+        End If
         Return True
     End Function
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
