@@ -23,10 +23,10 @@ Partial Class rptSaleRegisterUOMReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -48,8 +48,6 @@ Partial Class rptSaleRegisterUOMReport
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.PDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BulkExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BulkCSV = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton2 = New Telerik.WinControls.UI.RadSplitButton()
@@ -163,12 +161,12 @@ Partial Class rptSaleRegisterUOMReport
         Me.ddlSubCategory.AutoCompleteDisplayMember = Nothing
         Me.ddlSubCategory.AutoCompleteValueMember = Nothing
         Me.ddlSubCategory.DropDownAnimationEnabled = True
-        RadListDataItem1.Text = "Both"
-        RadListDataItem2.Text = "Sale Invoice"
-        RadListDataItem3.Text = "Sale Return"
-        Me.ddlSubCategory.Items.Add(RadListDataItem1)
-        Me.ddlSubCategory.Items.Add(RadListDataItem2)
-        Me.ddlSubCategory.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Both"
+        RadListDataItem5.Text = "Sale Invoice"
+        RadListDataItem6.Text = "Sale Return"
+        Me.ddlSubCategory.Items.Add(RadListDataItem4)
+        Me.ddlSubCategory.Items.Add(RadListDataItem5)
+        Me.ddlSubCategory.Items.Add(RadListDataItem6)
         Me.ddlSubCategory.Location = New System.Drawing.Point(1098, 94)
         Me.ddlSubCategory.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlSubCategory.Name = "ddlSubCategory"
@@ -311,7 +309,7 @@ Partial Class rptSaleRegisterUOMReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
@@ -322,18 +320,19 @@ Partial Class rptSaleRegisterUOMReport
         'btnBack
         '
         Me.btnBack.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnBack.Location = New System.Drawing.Point(213, 10)
+        Me.btnBack.Location = New System.Drawing.Point(582, 10)
         Me.btnBack.Margin = New System.Windows.Forms.Padding(4)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(87, 22)
         Me.btnBack.TabIndex = 160
         Me.btnBack.Text = "<< Back "
+        Me.btnBack.Visible = False
         '
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.PDF, Me.BulkExcel, Me.BulkCSV})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(309, 10)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.PDF})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(210, 10)
         Me.RadSplitButton1.Margin = New System.Windows.Forms.Padding(4)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(107, 22)
@@ -351,18 +350,6 @@ Partial Class rptSaleRegisterUOMReport
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         Me.PDF.UseCompatibleTextRendering = False
-        '
-        'BulkExcel
-        '
-        Me.BulkExcel.Name = "BulkExcel"
-        Me.BulkExcel.Text = "Bulk Excel"
-        Me.BulkExcel.UseCompatibleTextRendering = False
-        '
-        'BulkCSV
-        '
-        Me.BulkCSV.Name = "BulkCSV"
-        Me.BulkCSV.Text = "Bulk CSV"
-        Me.BulkCSV.UseCompatibleTextRendering = False
         '
         'btnGo
         '
@@ -394,6 +381,7 @@ Partial Class rptSaleRegisterUOMReport
         Me.RadSplitButton2.Size = New System.Drawing.Size(107, 22)
         Me.RadSplitButton2.TabIndex = 158
         Me.RadSplitButton2.Text = "E-Mail/SMS"
+        Me.RadSplitButton2.Visible = False
         '
         'rmSetting
         '
@@ -471,8 +459,6 @@ Partial Class rptSaleRegisterUOMReport
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents RadMenuItem2 As RadMenuItem
     Friend WithEvents PDF As RadMenuItem
-    Friend WithEvents BulkExcel As RadMenuItem
-    Friend WithEvents BulkCSV As RadMenuItem
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
     Friend WithEvents RadSplitButton2 As RadSplitButton
