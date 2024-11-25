@@ -50,6 +50,7 @@ Public Class FrmUserMaster
     Private isInsideLoadData As Boolean = False
     Private ShowFreshAmbientItems As Boolean = False
     Private isFromLoad As Boolean = False
+    Private EnableProductSaleForJPR As Boolean = False
 
 #End Region
 #Region "Page Load"
@@ -115,6 +116,7 @@ Public Class FrmUserMaster
         ChkSuperUser = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AddTypeForUserMaster, clsFixedParameterCode.AddTypeForUserMaster, Nothing)) = "1", True, False)
         UserWiseRouteMapping = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UserWiseRouteMapping, clsFixedParameterCode.UserWiseRouteMapping, Nothing)) = "1", True, False)
         ShowFreshAmbientItems = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowFreshAmbientItems, Nothing)) = "1", True, False)
+        EnableProductSaleForJPR = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = "1", True, False)
         If UserWiseRouteMapping = True Then
             GBRoute.Visible = True
         Else
@@ -1978,21 +1980,47 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         dr("Code") = "Product"
         dr("Name") = "Product"
         dt.Rows.Add(dr)
-        If ShowFreshAmbientItems Then
+        If EnableProductSaleForJPR Then
             dr = dt.NewRow()
-            dr("Code") = "FProduct"
-            dr("Name") = "F Product"
+            dr("Code") = "IceCream"
+            dr("Name") = "IceCream"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "MP"
+            dr("Name") = "Milk Product"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "MI"
+            dr("Name") = "Milk IceCream"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "PI"
+            dr("Name") = "Product IceCream"
             dt.Rows.Add(dr)
             dr = dt.NewRow()
             dr("Code") = "ALL"
             dr("Name") = "ALL"
             dt.Rows.Add(dr)
         Else
-            dr = dt.NewRow()
-            dr("Code") = "Both"
-            dr("Name") = "Both"
-            dt.Rows.Add(dr)
+            If ShowFreshAmbientItems Then
+                dr = dt.NewRow()
+                dr("Code") = "FProduct"
+                dr("Name") = "F Product"
+                dt.Rows.Add(dr)
+                dr = dt.NewRow()
+                dr("Code") = "ALL"
+                dr("Name") = "ALL"
+                dt.Rows.Add(dr)
+            Else
+                dr = dt.NewRow()
+                dr("Code") = "Both"
+                dr("Name") = "Both"
+                dt.Rows.Add(dr)
+            End If
         End If
+
+
+
         CmbAppUserSaleType.DataSource = dt
         CmbAppUserSaleType.ValueMember = "Code"
         CmbAppUserSaleType.DisplayMember = "Name"

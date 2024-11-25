@@ -534,6 +534,7 @@
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePass.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWise.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseCHITTORGARH.rpt" />
+    <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseKTA.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseUDP.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptExportSaleInvoice _NonTaxable.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptExportSaleInvoice.rpt" />
@@ -1480,6 +1481,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptQualityCheck.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRoutePeriodicalDispatchReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTankerGainLossReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLossPrint2.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />

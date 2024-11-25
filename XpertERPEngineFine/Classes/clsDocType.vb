@@ -484,6 +484,7 @@ Public Class clsDocType
     '--------priti 13/07/2016 ------------------
     Public Const frmDairySaleDeliveryOrder As String = "Dairy Sale Delivery Order"
     Public Const frmDemandBooking As String = "Demand Booking"
+    Public Const frmProductDemandBooking As String = "Product Demand Booking"
     Public Const frmDemandBookingUploader As String = "Demand Booking Uploader"
     Public Const frmDemandAdjustment As String = "Demand Adjustment"
     Public Const frmDemandUploader As String = "Demand Uploader"
@@ -1198,6 +1199,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.frmPerformaInvoiceBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleDeliveryOrder, "", False, True)
             InsertDefaultValue(clsDocType.frmDemandBooking, "", False, False, False, False, True)
+            InsertDefaultValue(clsDocType.frmProductDemandBooking, "", False, False, False, False, True)
             InsertDefaultValue(clsDocType.frmDemandBookingUploader, "", False, False, False, False, True)
             InsertDefaultValue(clsDocType.frmDemandAdjustment, "", False, False)
             InsertDefaultValue(clsDocType.frmDemandUploader, "", False, False)
@@ -1990,6 +1992,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DetailSale, clsDocTransactionType.Detail, False, False, False, False, True)
             InsertDefaultValue(clsDocType.DetailSale, clsDocTransactionType.Uploader, False, False, False, False, True)
+            InsertDefaultValue(clsDocType.DetailSale, clsDocTransactionType.ProductDetail, False, False, False, False, True)
             InsertDefaultValue(clsDocType.CustomerDeduction, "", False, False)
             InsertDefaultValue(clsDocType.CustomerIncentiveEntry, clsDocTransactionType.Transaction, False, True)
             InsertDefaultValue(clsDocType.IncomeTaxSlab, "", False, False)
@@ -2274,6 +2277,7 @@ Public Class clsDocTransactionType
     Public Const LoanReceipt As String = "Receipt"
     Public Const Transaction As String = "Transaction"
     Public Const Detail As String = "Detail"
+    Public Const ProductDetail As String = "ProductDetail"
     Public Const Uploader As String = "Uploader"
 
     'Sanjay

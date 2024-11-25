@@ -9,6 +9,7 @@ Public Class frmDistributorRouteTagging
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isNewEntry As Boolean = True
     Dim SeparateDemandMilkandProduct As Boolean = True
+    Dim EnableProductSaleForJPR As Boolean = True
     Dim IsInsieLoadData As Boolean
     Const colSNO As String = "SNo"
     Dim Prev As Integer = 0
@@ -43,6 +44,7 @@ Public Class frmDistributorRouteTagging
     Private Sub frmDistributeRateTagging_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
         AddNew()
         UsLock1.Status = ERPTransactionStatus.Pending
         txtStartDate.Value = clsCommon.GETSERVERDATE()
@@ -64,12 +66,40 @@ Public Class frmDistributorRouteTagging
         btnsave.Enabled = True
         btndelete.Enabled = True
         isNewEntry = True
-        cmbItemType.Text = "Both"
-        If Not SeparateDemandMilkandProduct Then
-            lblItemType.Visible = False
-            cmbItemType.Visible = False
-        End If
+        LoadType()
         LoadBlankGrid()
+    End Sub
+    Sub LoadType()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = Nothing
+
+        dr = dt.NewRow()
+        dr("Code") = "M"
+        dr("Name") = "Milk"
+        dt.Rows.Add(dr)
+
+        If EnableProductSaleForJPR Then
+
+            dr = dt.NewRow()
+            dr("Code") = "P"
+            dr("Name") = "Product"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "I"
+            dr("Name") = "Ice Cream"
+            dt.Rows.Add(dr)
+
+        End If
+        dr = dt.NewRow()
+        dr("Code") = "O"
+        dr("Name") = "Other"
+        dt.Rows.Add(dr)
+
+        cmbItemType.DataSource = dt
+        cmbItemType.ValueMember = "Code"
+        cmbItemType.DisplayMember = "Name"
     End Sub
     Sub RefeshSNO()
         For ii As Integer = 1 To gv1.Rows.Count
@@ -89,7 +119,7 @@ Public Class frmDistributorRouteTagging
                 isNewEntry = False
                 txtCode.Value = obj.Code
                 txtStartDate.Value = obj.Start_Date
-                cmbItemType.Text = obj.ItemType
+                cmbItemType.SelectedValue = obj.ItemType
                 If clsCommon.myLen(obj.End_Date) > 0 Then
                     txtEndDate.Value = obj.End_Date
                 Else
@@ -252,7 +282,7 @@ Public Class frmDistributorRouteTagging
                     obj.End_Date = txtEndDate.Value
                 End If
                 obj.Remarks = txtRemark.Text
-                obj.ItemType = cmbItemType.Text
+                obj.ItemType = cmbItemType.SelectedValue
                 If rbtnDistributor.IsChecked Then
                     obj.IS_Transpoter = False
                 Else
@@ -540,20 +570,14 @@ FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
     Private Sub rbtnDistributor_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnDistributor.CheckStateChanged
         If rbtnDistributor.IsChecked Then
             rbtnTPT.IsChecked = False
-            If SeparateDemandMilkandProduct Then
-                lblItemType.Visible = True
-                cmbItemType.Visible = True
-            End If
+
             LoadBlankGrid()
         End If
     End Sub
     Private Sub rbtnTPT_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTPT.CheckStateChanged
         If rbtnTPT.IsChecked Then
             rbtnDistributor.IsChecked = False
-            If SeparateDemandMilkandProduct Then
-                lblItemType.Visible = False
-                cmbItemType.Visible = False
-            End If
+
             LoadBlankGrid()
         End If
     End Sub

@@ -4,6 +4,7 @@ Public Class frmDistributorCommission
 #Region "Variables"
     Dim isNewEntry As Boolean = False
     Dim SeparateDemandMilkandProduct As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
     Const ColSNo As String = "ColSNo"
     Const ColRouteCode As String = "ColRouteCode"
     Const ColRouteName As String = "ColRouteName"
@@ -47,15 +48,45 @@ Public Class frmDistributorCommission
     End Sub
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
         txtInActiveDate.Value = clsCommon.GETSERVERDATE()
         SetUserMgmtNew()
         AddNew()
-        If Not SeparateDemandMilkandProduct Then
-            lblItemType.Visible = False
-            cmbItemType.Visible = False
+
+    End Sub
+    Sub LoadType()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = Nothing
+
+        dr = dt.NewRow()
+        dr("Code") = "M"
+        dr("Name") = "Milk"
+        dt.Rows.Add(dr)
+
+        If EnableProductSaleForJPR Then
+
+            dr = dt.NewRow()
+            dr("Code") = "P"
+            dr("Name") = "Product"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "I"
+            dr("Name") = "Ice Cream"
+            dt.Rows.Add(dr)
+
         End If
+        dr = dt.NewRow()
+        dr("Code") = "O"
+        dr("Name") = "Other"
+        dt.Rows.Add(dr)
+
+        cmbItemType.DataSource = dt
+        cmbItemType.ValueMember = "Code"
+        cmbItemType.DisplayMember = "Name"
     End Sub
     Private Sub frmDistributorCommission_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
@@ -218,7 +249,8 @@ Public Class frmDistributorCommission
         btnGo.Enabled = True
         btnDelete.Enabled = False
         chkInActive.Checked = False
-        cmbItemType.Enabled = False
+        'cmbItemType.Enabled = False
+        LoadType()
         LoadBlankGrid()
     End Sub
     Private Sub txtUOM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtUOM._MYValidating
@@ -231,7 +263,17 @@ Public Class frmDistributorCommission
     End Sub
     Private Sub txtItems__My_Click(sender As Object, e As EventArgs) Handles txtItems._My_Click
         Try
-            Dim qry As String = " select Item_code as Code,Item_Desc,Short_Description  from TSPL_ITEM_MASTER where Item_Type='F' "
+            Dim qry As String = ""
+            qry = " select Item_code as Code,Item_Desc,Short_Description  from TSPL_ITEM_MASTER where  "
+            If clsCommon.CompairString(cmbItemType.SelectedValue, "M") = CompairStringResult.Equal Then
+                qry += " TypeOfItm='M' "
+            ElseIf clsCommon.CompairString(cmbItemType.SelectedValue, "P") = CompairStringResult.Equal Then
+                qry += " TypeOfItm='P' "
+            ElseIf clsCommon.CompairString(cmbItemType.SelectedValue, "I") = CompairStringResult.Equal Then
+                qry += " TypeOfItm='I' "
+            Else
+                qry += " TypeOfItm='O' "
+            End If
             txtItems.arrValueMember = clsCommon.ShowMultipleSelectForm("CustomerCode@CustWiseSaleRpt", qry, "Code", "Code", txtItems.arrValueMember, txtItems.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -481,6 +523,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 txtInActiveDate.Value = obj.InActive_date
                 txtUOM.Value = obj.Commision_UOM
                 txtDistributorTagging.Value = obj.Distributor_Tagging_Code
+                cmbItemType.SelectedValue = obj.Item_Type
                 If obj.IS_Transpotation Then
                     rbtnTranspotation.IsChecked = True
                 Else
@@ -542,7 +585,16 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 obj.Doc_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
                 If txtItems.arrValueMember Is Nothing Then
-                    Dim strItems As String = "select Item_code  from TSPL_ITEM_MASTER where Item_Type='F' "
+                    Dim strItems As String = "select Item_code  from TSPL_ITEM_MASTER where  "
+                    If clsCommon.CompairString(cmbItemType.SelectedValue, "M") = CompairStringResult.Equal Then
+                        strItems += " TypeOfItm='M' "
+                    ElseIf clsCommon.CompairString(cmbItemType.SelectedValue, "P") = CompairStringResult.Equal Then
+                        strItems += " TypeOfItm='P' "
+                    ElseIf clsCommon.CompairString(cmbItemType.SelectedValue, "I") = CompairStringResult.Equal Then
+                        strItems += " TypeOfItm='I' "
+                    Else
+                        strItems += " TypeOfItm='O' "
+                    End If
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(strItems)
                     If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                         obj.Items = New ArrayList()
@@ -568,6 +620,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 obj.InActive_date = txtInActiveDate.Value
                 obj.Commision_UOM = txtUOM.Value
                 obj.Distributor_Tagging_Code = txtDistributorTagging.Value
+                obj.Item_Type = cmbItemType.SelectedValue
                 obj.Arr = GetTRData()
                 obj.SaveData(obj, isNewEntry)
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
