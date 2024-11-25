@@ -263,6 +263,11 @@ Partial Class frmCustomer
         Me.txtTinNo = New common.Controls.MyTextBox()
         Me.txtStaxNo = New common.Controls.MyTextBox()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtRoute = New common.Controls.MyTextBox()
+        Me.txtIRouteCode = New common.UserControls.txtFinder()
+        Me.lblIRouteCode = New common.Controls.MyLabel()
+        Me.txtPRouteCode = New common.UserControls.txtFinder()
+        Me.lblPRouteCode = New common.Controls.MyLabel()
         Me.txtArea = New common.UserControls.txtFinder()
         Me.MyLabel35 = New common.Controls.MyLabel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -275,8 +280,6 @@ Partial Class frmCustomer
         Me.MyLabel22 = New common.Controls.MyLabel()
         Me.cmbBookingType = New common.Controls.MyComboBox()
         Me.MyLabel21 = New common.Controls.MyLabel()
-        Me.MultiRouteCode = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.cboxPriorityLevel = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.grpboxGST = New Telerik.WinControls.UI.RadGroupBox()
@@ -325,7 +328,6 @@ Partial Class frmCustomer
         Me.RadLabel24 = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
-        Me.txtRoute = New common.Controls.MyTextBox()
         Me.RadLabel17 = New common.Controls.MyLabel()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.TxtLocation = New common.UserControls.txtFinder()
@@ -364,6 +366,7 @@ Partial Class frmCustomer
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.btnAddSecurity = New Telerik.WinControls.UI.RadButton()
         Me.gvSecurity = New common.UserControls.MyRadGridView()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -564,6 +567,9 @@ Partial Class frmCustomer
         CType(Me.txtTinNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtStaxNo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.txtRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblIRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -574,7 +580,6 @@ Partial Class frmCustomer
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbBookingType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboxPriorityLevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grpboxGST, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -613,7 +618,6 @@ Partial Class frmCustomer
         CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -656,6 +660,7 @@ Partial Class frmCustomer
         CType(Me.btnAddSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSecurity.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -836,7 +841,7 @@ Partial Class frmCustomer
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage1
+        Me.pageCus.SelectedPage = Me.RadPageViewPage3
         Me.pageCus.Size = New System.Drawing.Size(1079, 472)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3957,6 +3962,11 @@ Partial Class frmCustomer
         '
         'RadPageViewPage3
         '
+        Me.RadPageViewPage3.Controls.Add(Me.txtRoute)
+        Me.RadPageViewPage3.Controls.Add(Me.txtIRouteCode)
+        Me.RadPageViewPage3.Controls.Add(Me.lblIRouteCode)
+        Me.RadPageViewPage3.Controls.Add(Me.txtPRouteCode)
+        Me.RadPageViewPage3.Controls.Add(Me.lblPRouteCode)
         Me.RadPageViewPage3.Controls.Add(Me.txtArea)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel35)
         Me.RadPageViewPage3.Controls.Add(Me.Panel2)
@@ -3964,7 +3974,6 @@ Partial Class frmCustomer
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel22)
         Me.RadPageViewPage3.Controls.Add(Me.cmbBookingType)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel21)
-        Me.RadPageViewPage3.Controls.Add(Me.MultiRouteCode)
         Me.RadPageViewPage3.Controls.Add(Me.cboxPriorityLevel)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage3.Controls.Add(Me.grpboxGST)
@@ -3994,13 +4003,109 @@ Partial Class frmCustomer
         Me.RadPageViewPage3.Controls.Add(Me.RadLabel24)
         Me.RadPageViewPage3.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage3.Controls.Add(Me.RadLabel19)
-        Me.RadPageViewPage3.Controls.Add(Me.txtRoute)
         Me.RadPageViewPage3.Controls.Add(Me.RadLabel17)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1026, 424)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1058, 424)
         Me.RadPageViewPage3.Text = "Activity"
+        '
+        'txtRoute
+        '
+        Me.txtRoute.CalculationExpression = Nothing
+        Me.txtRoute.Enabled = False
+        Me.txtRoute.FieldCode = Nothing
+        Me.txtRoute.FieldDesc = Nothing
+        Me.txtRoute.FieldMaxLength = 0
+        Me.txtRoute.FieldName = Nothing
+        Me.txtRoute.isCalculatedField = False
+        Me.txtRoute.IsSourceFromTable = False
+        Me.txtRoute.IsSourceFromValueList = False
+        Me.txtRoute.IsUnique = False
+        Me.txtRoute.Location = New System.Drawing.Point(307, 42)
+        Me.txtRoute.MendatroryField = False
+        Me.txtRoute.MyLinkLable1 = Nothing
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.ReadOnly = True
+        Me.txtRoute.ReferenceFieldDesc = Nothing
+        Me.txtRoute.ReferenceFieldName = Nothing
+        Me.txtRoute.ReferenceTableName = Nothing
+        Me.txtRoute.Size = New System.Drawing.Size(192, 20)
+        Me.txtRoute.TabIndex = 400
+        Me.txtRoute.TabStop = False
+        '
+        'txtIRouteCode
+        '
+        Me.txtIRouteCode.CalculationExpression = Nothing
+        Me.txtIRouteCode.FieldCode = Nothing
+        Me.txtIRouteCode.FieldDesc = Nothing
+        Me.txtIRouteCode.FieldMaxLength = 0
+        Me.txtIRouteCode.FieldName = Nothing
+        Me.txtIRouteCode.isCalculatedField = False
+        Me.txtIRouteCode.IsSourceFromTable = False
+        Me.txtIRouteCode.IsSourceFromValueList = False
+        Me.txtIRouteCode.IsUnique = False
+        Me.txtIRouteCode.Location = New System.Drawing.Point(625, 44)
+        Me.txtIRouteCode.MendatroryField = False
+        Me.txtIRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIRouteCode.MyLinkLable1 = Nothing
+        Me.txtIRouteCode.MyLinkLable2 = Nothing
+        Me.txtIRouteCode.MyReadOnly = False
+        Me.txtIRouteCode.MyShowMasterFormButton = False
+        Me.txtIRouteCode.Name = "txtIRouteCode"
+        Me.txtIRouteCode.ReferenceFieldDesc = Nothing
+        Me.txtIRouteCode.ReferenceFieldName = Nothing
+        Me.txtIRouteCode.ReferenceTableName = Nothing
+        Me.txtIRouteCode.Size = New System.Drawing.Size(143, 19)
+        Me.txtIRouteCode.TabIndex = 398
+        Me.txtIRouteCode.Value = ""
+        '
+        'lblIRouteCode
+        '
+        Me.lblIRouteCode.FieldName = Nothing
+        Me.lblIRouteCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIRouteCode.Location = New System.Drawing.Point(499, 45)
+        Me.lblIRouteCode.Name = "lblIRouteCode"
+        Me.lblIRouteCode.Size = New System.Drawing.Size(122, 16)
+        Me.lblIRouteCode.TabIndex = 399
+        Me.lblIRouteCode.Text = "Ice Cream Route Code"
+        '
+        'txtPRouteCode
+        '
+        Me.txtPRouteCode.CalculationExpression = Nothing
+        Me.txtPRouteCode.FieldCode = Nothing
+        Me.txtPRouteCode.FieldDesc = Nothing
+        Me.txtPRouteCode.FieldMaxLength = 0
+        Me.txtPRouteCode.FieldName = Nothing
+        Me.txtPRouteCode.isCalculatedField = False
+        Me.txtPRouteCode.IsSourceFromTable = False
+        Me.txtPRouteCode.IsSourceFromValueList = False
+        Me.txtPRouteCode.IsUnique = False
+        Me.txtPRouteCode.Location = New System.Drawing.Point(625, 22)
+        Me.txtPRouteCode.MendatroryField = False
+        Me.txtPRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPRouteCode.MyLinkLable1 = Nothing
+        Me.txtPRouteCode.MyLinkLable2 = Nothing
+        Me.txtPRouteCode.MyReadOnly = False
+        Me.txtPRouteCode.MyShowMasterFormButton = False
+        Me.txtPRouteCode.Name = "txtPRouteCode"
+        Me.txtPRouteCode.ReferenceFieldDesc = Nothing
+        Me.txtPRouteCode.ReferenceFieldName = Nothing
+        Me.txtPRouteCode.ReferenceTableName = Nothing
+        Me.txtPRouteCode.Size = New System.Drawing.Size(143, 19)
+        Me.txtPRouteCode.TabIndex = 395
+        Me.txtPRouteCode.Value = ""
+        '
+        'lblPRouteCode
+        '
+        Me.lblPRouteCode.FieldName = Nothing
+        Me.lblPRouteCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPRouteCode.Location = New System.Drawing.Point(514, 22)
+        Me.lblPRouteCode.Name = "lblPRouteCode"
+        Me.lblPRouteCode.Size = New System.Drawing.Size(109, 16)
+        Me.lblPRouteCode.TabIndex = 397
+        Me.lblPRouteCode.Text = "Product Route Code"
         '
         'txtArea
         '
@@ -4013,7 +4118,7 @@ Partial Class frmCustomer
         Me.txtArea.IsSourceFromTable = False
         Me.txtArea.IsSourceFromValueList = False
         Me.txtArea.IsUnique = False
-        Me.txtArea.Location = New System.Drawing.Point(554, 0)
+        Me.txtArea.Location = New System.Drawing.Point(625, 0)
         Me.txtArea.MendatroryField = False
         Me.txtArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtArea.MyLinkLable1 = Me.MyLabel35
@@ -4045,9 +4150,9 @@ Partial Class frmCustomer
         Me.Panel2.Controls.Add(Me.txtParentCstmrNo)
         Me.Panel2.Controls.Add(Me.txtParentCstNo)
         Me.Panel2.Controls.Add(Me.Chkparntcutmr)
-        Me.Panel2.Location = New System.Drawing.Point(711, 3)
+        Me.Panel2.Location = New System.Drawing.Point(798, 1)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(311, 208)
+        Me.Panel2.Size = New System.Drawing.Size(260, 208)
         Me.Panel2.TabIndex = 392
         Me.Panel2.Visible = False
         '
@@ -4232,29 +4337,6 @@ Partial Class frmCustomer
         Me.MyLabel21.TabIndex = 389
         Me.MyLabel21.Text = "Booking Type"
         '
-        'MultiRouteCode
-        '
-        Me.MultiRouteCode.arrDispalyMember = Nothing
-        Me.MultiRouteCode.arrValueMember = Nothing
-        Me.MultiRouteCode.Location = New System.Drawing.Point(156, 42)
-        Me.MultiRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MultiRouteCode.MyLinkLable1 = Me.MyLabel2
-        Me.MultiRouteCode.MyLinkLable2 = Nothing
-        Me.MultiRouteCode.MyNullText = "All"
-        Me.MultiRouteCode.Name = "MultiRouteCode"
-        Me.MultiRouteCode.Size = New System.Drawing.Size(541, 22)
-        Me.MultiRouteCode.TabIndex = 387
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(829, 29)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(130, 16)
-        Me.MyLabel2.TabIndex = 73
-        Me.MyLabel2.Text = "Agreement Closing Date"
-        '
         'cboxPriorityLevel
         '
         Me.cboxPriorityLevel.CalculationExpression = Nothing
@@ -4274,7 +4356,7 @@ Partial Class frmCustomer
         Me.cboxPriorityLevel.ReferenceFieldDesc = Nothing
         Me.cboxPriorityLevel.ReferenceFieldName = Nothing
         Me.cboxPriorityLevel.ReferenceTableName = Nothing
-        Me.cboxPriorityLevel.Size = New System.Drawing.Size(319, 20)
+        Me.cboxPriorityLevel.Size = New System.Drawing.Size(125, 20)
         Me.cboxPriorityLevel.TabIndex = 113
         Me.cboxPriorityLevel.TabStop = False
         '
@@ -4484,7 +4566,7 @@ Partial Class frmCustomer
         Me.fndZone.IsSourceFromTable = False
         Me.fndZone.IsSourceFromValueList = False
         Me.fndZone.IsUnique = False
-        Me.fndZone.Location = New System.Drawing.Point(360, 0)
+        Me.fndZone.Location = New System.Drawing.Point(378, 0)
         Me.fndZone.MendatroryField = False
         Me.fndZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndZone.MyLinkLable1 = Me.lblZone
@@ -4495,7 +4577,7 @@ Partial Class frmCustomer
         Me.fndZone.ReferenceFieldDesc = Nothing
         Me.fndZone.ReferenceFieldName = Nothing
         Me.fndZone.ReferenceTableName = Nothing
-        Me.fndZone.Size = New System.Drawing.Size(143, 19)
+        Me.fndZone.Size = New System.Drawing.Size(125, 19)
         Me.fndZone.TabIndex = 82
         Me.fndZone.Value = ""
         '
@@ -5061,30 +5143,6 @@ Partial Class frmCustomer
         Me.RadLabel19.Size = New System.Drawing.Size(84, 16)
         Me.RadLabel19.TabIndex = 67
         Me.RadLabel19.Text = "Customer Type"
-        '
-        'txtRoute
-        '
-        Me.txtRoute.CalculationExpression = Nothing
-        Me.txtRoute.FieldCode = Nothing
-        Me.txtRoute.FieldDesc = Nothing
-        Me.txtRoute.FieldMaxLength = 0
-        Me.txtRoute.FieldName = Nothing
-        Me.txtRoute.isCalculatedField = False
-        Me.txtRoute.IsSourceFromTable = False
-        Me.txtRoute.IsSourceFromValueList = False
-        Me.txtRoute.IsUnique = False
-        Me.txtRoute.Location = New System.Drawing.Point(305, 45)
-        Me.txtRoute.MendatroryField = False
-        Me.txtRoute.MyLinkLable1 = Nothing
-        Me.txtRoute.MyLinkLable2 = Nothing
-        Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.ReadOnly = True
-        Me.txtRoute.ReferenceFieldDesc = Nothing
-        Me.txtRoute.ReferenceFieldName = Nothing
-        Me.txtRoute.ReferenceTableName = Nothing
-        Me.txtRoute.Size = New System.Drawing.Size(393, 20)
-        Me.txtRoute.TabIndex = 3
-        Me.txtRoute.TabStop = False
         '
         'RadLabel17
         '
@@ -5701,6 +5759,16 @@ Partial Class frmCustomer
         Me.gvSecurity.TabIndex = 4
         Me.gvSecurity.TabStop = False
         Me.gvSecurity.VarID = ""
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(829, 29)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(130, 16)
+        Me.MyLabel2.TabIndex = 73
+        Me.MyLabel2.Text = "Agreement Closing Date"
         '
         'btnNew
         '
@@ -6518,6 +6586,9 @@ Partial Class frmCustomer
         CType(Me.txtStaxNo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
+        CType(Me.txtRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblIRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
@@ -6529,7 +6600,6 @@ Partial Class frmCustomer
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbBookingType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboxPriorityLevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grpboxGST, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6570,7 +6640,6 @@ Partial Class frmCustomer
         CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
         Me.RadPageViewPage5.PerformLayout()
@@ -6615,6 +6684,7 @@ Partial Class frmCustomer
         CType(Me.btnAddSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSecurity.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSecurity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6689,7 +6759,6 @@ Partial Class frmCustomer
     Friend WithEvents txtContactWeb As common.Controls.MyTextBox
     Friend WithEvents txtContactEmail As common.Controls.MyTextBox
     Friend WithEvents RadPageViewPage3 As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents txtRoute As common.Controls.MyTextBox
     Friend WithEvents txtVisi As common.Controls.MyTextBox
     Friend WithEvents txtChannel As common.Controls.MyTextBox
     Friend WithEvents RadPageViewPage4 As Telerik.WinControls.UI.RadPageViewPage
@@ -6916,7 +6985,6 @@ Partial Class frmCustomer
     Friend WithEvents lblRSM As common.Controls.MyLabel
     Friend WithEvents CanAccounting As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents gvCan As common.UserControls.MyRadGridView
-    Friend WithEvents MultiRouteCode As common.UserControls.txtMultiSelectFinder
     Friend WithEvents rmMultiRouteImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmMultiRoute As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents cmbBookingType As common.Controls.MyComboBox
@@ -7002,5 +7070,10 @@ Partial Class frmCustomer
     Friend WithEvents MyLabel46 As common.Controls.MyLabel
     Friend WithEvents txtReference As common.Controls.MyTextBox
     Friend WithEvents chkDefaultCashCustomer As RadCheckBox
+    Friend WithEvents txtIRouteCode As common.UserControls.txtFinder
+    Friend WithEvents lblIRouteCode As common.Controls.MyLabel
+    Friend WithEvents txtPRouteCode As common.UserControls.txtFinder
+    Friend WithEvents lblPRouteCode As common.Controls.MyLabel
+    Friend WithEvents txtRoute As common.Controls.MyTextBox
 End Class
 

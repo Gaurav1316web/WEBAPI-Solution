@@ -39,45 +39,49 @@ Public Class rptPaymentProcessRouteReport
     End Function
 
     Private Sub RptInventoryMovement_Load(sender As Object, e As EventArgs) Handles Me.Load
-        isLoad = True
-        ShowNewFormatofPDF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, Nothing)) = 1)
-        SettPickBulkRoute = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickBulkRoute, clsFixedParameterCode.PickBulkRoute, Nothing)) = 1)
-        SettShowMultipleLegers = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMultipleLegers, clsFixedParameterCode.ShowMultipleLegers, Nothing)) = 1)
-        ToDate.Value = clsCommon.GETSERVERDATE()
-        fromDate.Value = ToDate.Value.AddMonths(-1)
-        dtpDailySummaryToDate.Value = clsCommon.GETSERVERDATE()
-        dtpDailySummaryFromDate.Value = dtpDailySummaryToDate.Value.AddMonths(-1)
-        dtpLedgerToDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EOMONTH(getdate())")) 'clsCommon.GETSERVERDATE()
-        dtpLedgerFromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select DATEFROMPARTS(year(getdate()),month(getdate()),'01')")) 'ToDate.Value.AddMonths(-1)
-        dtpFromDCS_Ledger.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EOMONTH(getdate())"))
-        dtpToDCS_Ledger.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select DATEFROMPARTS(year(getdate()),month(getdate()),'01')"))
-        dtpGainLossFromDate.Value = clsCommon.GETSERVERDATE()
-        dtpGainLossToDate.Value = clsCommon.GETSERVERDATE()
-        dtpDCSWiseAvgFatSnfToDate.Value = clsCommon.GETSERVERDATE()
-        dtpDCSWiseAvgFatSnfFromDate.Value = dtpDCSWiseAvgFatSnfToDate.Value.AddMonths(-1)
-        Reset()
-        gbSummaryReportType.Visible = False
-        lblMCC.Visible = False
-        If SettShowMultipleLegers Then
-            gbLedger.Visible = True
-            btnGo.Visible = False
-            btnReset.Visible = False
-            RadSplitExp.Visible = False
-        Else
-            gbLedger.Visible = False
-            btnGo.Visible = True
-            btnReset.Visible = True
-            RadSplitExp.Visible = True
-        End If
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
-            Payablechk.Visible = True
-        End If
-        isLoad = False
-        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
-        fndArea.Visible = AreaWiseBilling
-        lblArea.Visible = AreaWiseBilling
-        TxtFinderArea.Visible = AreaWiseBilling
-        lblFArea.Visible = AreaWiseBilling
+        Try
+            isLoad = True
+            ShowNewFormatofPDF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, Nothing)) = 1)
+            SettPickBulkRoute = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickBulkRoute, clsFixedParameterCode.PickBulkRoute, Nothing)) = 1)
+            SettShowMultipleLegers = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMultipleLegers, clsFixedParameterCode.ShowMultipleLegers, Nothing)) = 1)
+            ToDate.Value = clsCommon.GETSERVERDATE()
+            fromDate.Value = ToDate.Value.AddMonths(-1)
+            dtpDailySummaryToDate.Value = clsCommon.GETSERVERDATE()
+            dtpDailySummaryFromDate.Value = dtpDailySummaryToDate.Value.AddMonths(-1)
+            dtpLedgerToDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EOMONTH(getdate())")) 'clsCommon.GETSERVERDATE()
+            dtpLedgerFromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select DATEFROMPARTS(year(getdate()),month(getdate()),'01')")) 'ToDate.Value.AddMonths(-1)
+            dtpFromDCS_Ledger.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EOMONTH(getdate())"))
+            dtpToDCS_Ledger.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select DATEFROMPARTS(year(getdate()),month(getdate()),'01')"))
+            dtpGainLossFromDate.Value = clsCommon.GETSERVERDATE()
+            dtpGainLossToDate.Value = clsCommon.GETSERVERDATE()
+            dtpDCSWiseAvgFatSnfToDate.Value = clsCommon.GETSERVERDATE()
+            dtpDCSWiseAvgFatSnfFromDate.Value = dtpDCSWiseAvgFatSnfToDate.Value.AddMonths(-1)
+            Reset()
+            gbSummaryReportType.Visible = False
+            lblMCC.Visible = False
+            If SettShowMultipleLegers Then
+                gbLedger.Visible = True
+                btnGo.Visible = False
+                btnReset.Visible = False
+                RadSplitExp.Visible = False
+            Else
+                gbLedger.Visible = False
+                btnGo.Visible = True
+                btnReset.Visible = True
+                RadSplitExp.Visible = True
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                Payablechk.Visible = True
+            End If
+            isLoad = False
+            AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+            fndArea.Visible = AreaWiseBilling
+            lblArea.Visible = AreaWiseBilling
+            TxtFinderArea.Visible = AreaWiseBilling
+            lblFArea.Visible = AreaWiseBilling
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub Reset()
         ' ToDate.Value = clsCommon.GETSERVERDATE()
@@ -87,19 +91,30 @@ Public Class rptPaymentProcessRouteReport
             txtFromDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1)
             txtToDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1).AddMonths(1).AddDays(-1)
         End If
-
         strDocumentCodeDetails = ""
         strVSPCodeDetails = ""
         btnBack.Visible = False
         txtVSP.arrValueMember = Nothing
         txtLocation.arrValueMember = Nothing
         txtDocumentNo.arrValueMember = Nothing
-
+        HideAndShowDate()
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
+    End Sub
+
+    Sub HideAndShowDate()
+        If rbtnMonthWise.Checked Then
+            RadGroupBox20.Visible = True
+            'RadGroupBox20.Location() = New Point(5, 44)
+            RadGroupBox7.Visible = False
+        Else
+            RadGroupBox7.Visible = True
+            'RadGroupBox7.Location() = New Point(5, 44)
+            RadGroupBox20.Visible = False
+        End If
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -3339,7 +3354,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             Dim fromDate As String = txtFromDate.Value
             Dim Todate As String = txtToDate.Value
             Dim userName As String = objCommonVar.CurrentUser
-
+            Dim DateDiffDays As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select DATEDIFF(DAY,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')+1 "))
 
             Dim whrcls As String = " where 2=2 "
             Dim whrcls1 As String = " where 2=2 "
@@ -3461,16 +3476,18 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             Dim dtDayWise As DataTable = clsDBFuncationality.GetDataTable(Sqlqry)
             Dim sbDayWiseData As New System.Text.StringBuilder()
 
-            For i As Integer = 0 To dtDayWise.Columns.Count - 1
-                Dim rowDayWise As String = dtDayWise.Rows(0).ItemArray(i).ToString
-                sbDayWiseData.Append(rowDayWise + " as [Day" + clsCommon.myCstr(i + 1) + "]")
-                If i < dtDayWise.Columns.Count Then
-                    sbDayWiseData.Append(",")
-                End If
-            Next i
+            If dtDayWise IsNot Nothing AndAlso dtDayWise.Rows.Count > 0 Then
+                For i As Integer = 0 To dtDayWise.Columns.Count - 1
+                    Dim rowDayWise As String = dtDayWise.Rows(0).ItemArray(i).ToString
+                    sbDayWiseData.Append(rowDayWise + " as [Day" + clsCommon.myCstr(i + 1) + "]")
+                    If i < dtDayWise.Columns.Count Then
+                        sbDayWiseData.Append(",")
+                    End If
+                Next i
+            End If
             Dim DayWiseResult = sbDayWiseData.ToString()
-            Dim fatPer As Decimal = dtFatSnf.Rows(0)("fat%")
-            Dim SNFPer As Decimal = dtFatSnf.Rows(0)("SNF%")
+            Dim fatPer As Decimal = IIf(clsCommon.myCDecimal(dtFatSnf.Rows(0)("fat%")) > 0, dtFatSnf.Rows(0)("fat%"), 0)
+            Dim SNFPer As Decimal = IIf(clsCommon.myCDecimal(dtFatSnf.Rows(0)("SNF%")) > 0, dtFatSnf.Rows(0)("SNF%"), 0)
             'Dim dtMorningData As DataTable = clsDBFuncationality.GetDataTable("SELECT sum(qty * case when ShiftReject =  0 and ProcReject = 0  then 1 else 0  end) as Mor_Kg_Sweet, sum(qty * case when ShiftReject =  1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Mor_kg_Sour,sum(qty * case when ShiftReject =  -1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Mor_kg_Curd from ( SELECT SUM(QTY)Qty ,case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else ( case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end) end  as ProcReject, case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else( case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end)  end as ShiftReject FROM TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
             'left  join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	= TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No left  join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No where 2=2   and TSPL_MILK_SRN_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_SRN_HEAD.DOC_DATE <='" & DCS_ToDate & "' and TSPL_MILK_SRN_HEAD.SHIFT = 'M' GROUP BY TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type , TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type ) xx ")
             'If dtMorningData.Rows.Count > 0 Then
@@ -3493,16 +3510,16 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
                                                  union all  
                                                  select Number +1 from CTE where Number<31 
                                                  ) 
- select '" & CompName & "'  as CompName,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,'" & userName & "' as User_Name,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
+ select '" & CompName & "'  as CompName,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,'" & userName & "' as User_Name,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
  CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else sum(FATQTY) * 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end  as FATPer,
  CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end as SNFPer,
  max(DAYS_Total) as DAYS_Total,
- case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(DAYS_Total) end as AVG_QTY,
+ case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max('" + clsCommon.myCstr(DateDiffDays) + "') end as AVG_QTY,
  (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty ,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31] from (
- select Number2, VSP_CODE1, Vendor_Name ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty
+ select Number2,VLC_Code_VLC_Uploader, VSP_CODE1, Vendor_Name ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty
  ,FATQTY,SNFQTY,DAYS_Total
  , isnull([1],0) as [1] ,isnull([2],0) as [2],isnull([3],0) as [3],isnull([4],0) as [4],isnull([5],0) as [5],isnull([6],0) as [6],isnull([7],0) as [7],isnull([8],0) as [8],isnull([9],0) as [9],isnull([10],0) as [10],isnull([11],0) as [11],isnull([12],0) as [12],isnull([13],0) as [13],isnull([14],0) as [14],isnull([15],0) as [15],isnull([16],0) as [16],isnull([17],0) as [17],isnull([18],0) as [18],isnull([19],0) as [19],isnull([20],0) as [20],isnull([21],0) as [21],isnull([22],0) as [22],isnull([23],0) as [23],isnull([24],0) as [24],isnull([25],0) as [25],isnull([26],0) as [26],isnull([27],0) as [27],isnull([28],0) as [28],isnull([29],0) as [29],isnull([30],0) as [30],isnull([31],0) as [31]  from (
- select Number,Number as Number2, VSP_CODE1, Vendor_Name, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount,
+ select Number,Number as Number2,VLC_Code_VLC_Uploader, VSP_CODE1, Vendor_Name, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount,
  
  Case when SHIFT = 'M' and QBD = 'SWEET' then Qty else 0 end as MorningSweetQty,
  Case when SHIFT = 'M' and QBD = 'SOUR' then Qty else 0 end as MorningSoreQty,
@@ -3518,7 +3535,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
  ,count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total 
  from (
 select * from CTE left outer join  
- (  select DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,VSP_CODE1,max(Vendor_Name) as Vendor_Name,  SHIFT,QBD,XXXFinal.ROUTE_CODE, sum( Qty) as Qty ,
+ (  select DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,VSP_CODE1,max(Vendor_Name) as Vendor_Name,  SHIFT,QBD,XXXFinal.ROUTE_CODE, sum( Qty) as Qty ,
  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE sum(FATQTY) * 100 / sum( Qty) end as FAT_PER ,
  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE sum(SNFQTY) * 100 / sum( Qty) end as SNF_PER,
  sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount from ( 
@@ -3588,7 +3605,11 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             Dim dtSubDayWiseReport As DataTable = clsDBFuncationality.GetDataTable(DCSSubDayWiseReport)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWiseALW", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                Else
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                End If
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -4852,5 +4873,19 @@ TSPL_MILK_COLLECTION_MCC
         End Try
     End Sub
 
+    Private Sub rbtnDateRange_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnDateRange.CheckedChanged
+        Try
+            HideAndShowDate()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
+    Private Sub rbtnMonthWise_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnMonthWise.CheckedChanged
+        Try
+            HideAndShowDate()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

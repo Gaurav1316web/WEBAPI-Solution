@@ -30,6 +30,7 @@ Public Class frmDemandHistory
         buttontooltip.SetToolTip(btnreset, "Press Alt+E for Reset ")
         buttontooltip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         txtDate.Value = clsCommon.GETSERVERDATE()
+        Reset()
     End Sub
     Private Sub frmDemandHistory_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.R AndAlso btnGo.Enabled Then
@@ -43,7 +44,7 @@ Public Class frmDemandHistory
     Private Sub Reset()
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtBooth.Value = ""
-        cmbShift.SelectedIndex = 0
+        cmbShift.SelectedValue = "Morning"
         txtBoothDesc.Text = ""
         gv1.DataSource = Nothing
         gv1.Visible = False
@@ -128,9 +129,22 @@ Public Class frmDemandHistory
         repoShiftName.IsVisible = True
         repoShiftName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoShiftName)
-
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        qry = "select * from (select 'Fresh' as FreshAmbient,tspl_item_master.Item_Code,tspl_item_master.Short_Description ,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,1 as RowNo,tspl_item_master.Sku_Seq   from tspl_item_master 
+
+        If clsCommon.CompairString(cmbScreenType.Text, "Product Demand") = CompairStringResult.Equal Then
+            qry = "select * from (
+	select 'Product' as FreshAmbient,tspl_item_master.Item_Code,tspl_item_master.Short_Description ,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,1 as RowNo,tspl_item_master.Sku_Seq,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Stocking_Unit   from tspl_item_master 
+    left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
+    where  TypeOfItm ='P' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
+    and TSPL_ITEM_UOM_DETAIL.Default_UOM=1
+	union
+    select 'IceCream' as FreshAmbient,tspl_item_master.Item_Code ,tspl_item_master.Short_Description,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,2 as RowNo,tspl_item_master.Sku_Seq,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Stocking_Unit   from tspl_item_master 
+    left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
+    where   TypeOfItm ='I' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
+    and TSPL_ITEM_UOM_DETAIL.Default_UOM=1
+    )z order by RowNo,Sku_Seq,Item_Code"
+        Else
+            qry = "select * from (select 'Fresh' as FreshAmbient,tspl_item_master.Item_Code,tspl_item_master.Short_Description ,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,1 as RowNo,tspl_item_master.Sku_Seq   from tspl_item_master 
     left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
     where  tspl_item_master.Is_FreshItem =1 AND TSPL_ITEM_MASTER.Is_Milk_Pouch =1 and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0  and Item_Type ='F' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
     and TSPL_ITEM_UOM_DETAIL.Uom_code in ('Crate','Pouch','LTR')
@@ -145,6 +159,8 @@ Public Class frmDemandHistory
     where  tspl_item_master.Is_Ambient=1   and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0  and Item_Type ='F' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
     and TSPL_ITEM_UOM_DETAIL.Default_UOM=1
     )z order by RowNo,Sku_Seq,Item_Code"
+        End If
+
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim i As Integer = 1
@@ -268,6 +284,8 @@ Public Class frmDemandHistory
             If clsCommon.CompairString(cmbScreenType.Text, "Demand") = CompairStringResult.Equal Then
 
                 lstobj = clsDemandHistoryMaster.GetDataFromDemand(frmdate, Shift, BoothCode, Nothing)
+            ElseIf clsCommon.CompairString(cmbScreenType.Text, "Product Demand") = CompairStringResult.Equal Then
+                lstobj = clsDemandHistoryMaster.GetDataFromProductDemand(frmdate, BoothCode, Nothing)
 
             Else
                 If clsCommon.CompairString(Shift, "Morning") = CompairStringResult.Equal Then
@@ -454,6 +472,20 @@ Public Class frmDemandHistory
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub cmbScreenType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cmbScreenType.SelectedIndexChanged
+        Try
+            If clsCommon.CompairString(cmbScreenType.Text, "Product Demand") = CompairStringResult.Equal Then
+                lblShift.Visible = False
+                cmbShift.Visible = False
+            Else
+                lblShift.Visible = True
+                cmbShift.Visible = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

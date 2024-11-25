@@ -180,7 +180,7 @@
       <HintPath>..\XpertERP\bin\Debug\XpertERPMIS.dll</HintPath>
     </Reference>
     <Reference Include="zxing">
-      <HintPath>E:\bin\Debug\zxing.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -552,6 +552,7 @@
     <Compile Include="Sale\DairySale\clsDemandBookingSale.vb" />
     <Compile Include="Sale\DairySale\clsItemProjection.vb" />
     <Compile Include="Sale\DairySale\clsCustCategoryWiseDefaultItemUomMaster.vb" />
+    <Compile Include="Sale\DairySale\clsProductDemandBookingSale.vb" />
     <Compile Include="Sale\DairySale\clsTransporterDeduction.vb" />
     <Compile Include="Sale\DairySale\clsTranspoterDeductionMaster.vb" />
     <Compile Include="Sale\DairySale\clsItemSublocationMapping.vb" />

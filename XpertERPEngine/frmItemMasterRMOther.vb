@@ -7,6 +7,7 @@ Public Class FrmItemMasterRMOther
     Dim strWeightImp As String = Nothing
     Dim dblWeightImp As Double = 0
     Dim AllowTo As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
     Dim AllowFinishGoodAsBatchItem As Boolean = False
     Dim ToleranceMandatoryFor_RM_Other_Trade As Boolean = False
     Dim ItemStructureMandatoryOnWeightConversion As Boolean = False
@@ -100,6 +101,7 @@ Public Class FrmItemMasterRMOther
         AllowDoNotShowDairyTypeItems = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotShowDairyTypeItems, clsFixedParameterCode.DoNotShowDairyTypeItems, Nothing)) = 1, True, False)
         SettItemWiseQualityCheckInGeneralPurchase = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemWiseQualityCheckInGeneralPurchase, clsFixedParameterCode.ItemWiseQualityCheckInGeneralPurchase, Nothing)) = 1)
         ShowFreshAmbientItems = IIf((clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowFreshAmbientItems, Nothing))) = 1, True, False)
+        EnableProductSaleForJPR = IIf((clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing))) = 1, True, False)
         SplitContainer2.Panel2Collapsed = Not SettItemWiseQualityCheckInGeneralPurchase
 
         SetUserMgmtNew()
@@ -1143,6 +1145,21 @@ Public Class FrmItemMasterRMOther
         dr("Code") = "T"
         dr("Name") = "Technical Spare Parts"
         dt.Rows.Add(dr)
+        If EnableProductSaleForJPR Then
+            dr = dt.NewRow()
+            dr("Code") = "M"
+            dr("Name") = "Milk"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "P"
+            dr("Name") = "Product"
+            dt.Rows.Add(dr)
+            dr = dt.NewRow()
+            dr("Code") = "I"
+            dr("Name") = "Ice Cream"
+            dt.Rows.Add(dr)
+        End If
+
 
         cboType.DataSource = dt
         cboType.ValueMember = "Code"
