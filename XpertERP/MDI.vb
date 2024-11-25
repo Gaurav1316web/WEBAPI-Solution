@@ -1185,7 +1185,7 @@ Public Class MDI
                     Dim StartupFolder As String = Environment.GetFolderPath(Environment.SpecialFolder.Startup)
                     Dim szTarget As String = StartupFolder
                     Dim szCreateDirForStartMenu As String = ""
-                    AddLnkShortcut(szName, szTagetFile, szWorkingDir, szCmdLine, szComment, szIcon, 0, WinStyle, szTarget, szCreateDirForStartMenu)
+                    'AddLnkShortcut(szName, szTagetFile, szWorkingDir, szCmdLine, szComment, szIcon, 0, WinStyle, szTarget, szCreateDirForStartMenu)
                 End If
             Catch ex As Exception
             End Try
