@@ -46,7 +46,7 @@ Public Class frmBankAdvise
 
     Private Sub fndPaymentProcessNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPaymentProcessNo._MYValidating
         Try
-            fndPaymentProcessNo.Value = clsPaymentProcessHead.getFinder("FarmType='PP'", fndPaymentProcessNo.Value, isButtonClicked)
+            fndPaymentProcessNo.Value = clsPaymentProcessHead.getFinder("FarmType='PP' And TSPL_PAYMENT_PROCESS_HEAD.isPrePosted=1 And TSPL_PAYMENT_PROCESS_HEAD.Doc_No Not In (Select Payment_Process_Document_No from TSPL_BANK_ADVISE)", fndPaymentProcessNo.Value, isButtonClicked)
             If clsCommon.myLen(fndPaymentProcessNo.Value) > 0 Then
                 LoadDataPaymentProcessDetails(fndPaymentProcessNo.Value)
             End If
@@ -105,7 +105,6 @@ Public Class frmBankAdvise
         txtRemarks.Text = Nothing
         btnSave.Text = "Save"
         btnReverseAndUnpost.Visible = False
-        btnPrint.Visible = False
         EnableFeilds()
     End Sub
 
@@ -123,8 +122,10 @@ Public Class frmBankAdvise
                 End If
                 If obj.Status > 0 Then
                     lblPending.Status = ERPTransactionStatus.Approved
+                    btnPrint.Enabled = True
                 Else
                     lblPending.Status = ERPTransactionStatus.Pending
+                    btnPrint.Enabled = False
                 End If
                 txtRemarks.Text = obj.Remarks
                 If clsCommon.CompairString(lblPending.Status, ERPTransactionStatus.Pending) = CompairStringResult.Equal Then
@@ -258,6 +259,22 @@ Public Class frmBankAdvise
                 Else
                     clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
                 End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If clsCommon.myLen(fndDocNo.Value) > 0 Then
+                Dim obj As New frmVendorBankAdvice()
+                obj.DocNo = clsCommon.myCstr(fndDocNo.Value)
+                obj.MCC = clsCommon.myCstr(txtMCC.Text)
+                obj.FormLoad()
+                'obj.Print(True, fndDocNo.Value, txtMCC.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Document code can't be blank !", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -74,7 +74,7 @@ Public Class rptHeadLoadReport
             If chkRoute.Checked = True Then
                 qry += " ,max(RATE)RATE,(TSPL_MCC_MASTER.mcc_code_vlc_uploader)ROUTE_CODE,max(Route_Desc)Route_Desc,  MAX(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,MAX(TSPL_COMPANY_MASTER.ADD1)ADD1,MAX(TSPL_COMPANY_MASTER.ADD2)ADD2,MAX(TSPL_COMPANY_MASTER.ADD3)ADD3,MAX(TSPL_COMPANY_MASTER.Pincode)Pincode, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader"
             End If
-            qry += " ,Sum(TSPL_MILK_SRN_DETAIL.Qty) As [Milk Qty],Convert(decimal(18,2),Sum(TSPL_MILK_SRN_DETAIL.AMOUNT)) As [Milk Amount],Sum(TSPL_MILK_SRN_DETAIL.Head_Load_Amount) as[Head Load Amount] From TSPL_MILK_SRN_DETAIL
+            qry += " ,Sum(TSPL_MILK_SRN_DETAIL.Qty) As [Milk Qty],Convert(decimal(18,2),Sum(TSPL_MILK_SRN_DETAIL.AMOUNT)) As [Milk Amount],max(TSPL_MILK_SRN_DETAIL.Head_Load_Rate) as[Head Load Rate],Sum(TSPL_MILK_SRN_DETAIL.Head_Load_Amount) as[Head Load Amount] From TSPL_MILK_SRN_DETAIL
               Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE  
               Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE 
               Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE "
@@ -173,6 +173,7 @@ Public Class rptHeadLoadReport
         End If
         Gv1.Columns("Milk Qty").FormatString = "{0:n2}"
         Gv1.Columns("Milk Amount").FormatString = "{0:n2}"
+        Gv1.Columns("Head Load Rate").FormatString = "{0:n2}"
         Gv1.Columns("Head Load Amount").FormatString = "{0:n2}"
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim milkqty As New GridViewSummaryItem("Milk Qty", "{0:n2}", GridAggregateFunction.Sum)
@@ -200,16 +201,9 @@ Public Class rptHeadLoadReport
     End Sub
 
     Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
-        Dim arrLoc As String = ""
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-            arrLoc = "'" + obj.Default_LocCode + "'"
-        Else
-            arrLoc = obj.arrLocCodes
-        End If
+        Dim arrMCCRights As ArrayList = clsMCCCodes.GetUserHavingMCCRights()
 
-        Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ") and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & "))"
+        Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ") and (  tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & "))"
         txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUMCC", qry, "MCC_Code", "MCC_NAME", txtMCC.arrValueMember, txtMCC.arrDispalyMember)
 
     End Sub
@@ -255,7 +249,7 @@ Public Class rptHeadLoadReport
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
-            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmDBTRecoVsIncentiveReport & "'"))
+            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptHeadLoadReport & "'"))
 
             Dim arrHeader As List(Of String) = New List(Of String)()
 

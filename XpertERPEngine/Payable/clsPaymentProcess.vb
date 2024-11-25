@@ -2509,11 +2509,11 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         'End If
         BaseQry += ",TSPL_MILK_SRN_HEAD.ROUTE_CODE As SRN_ROUTE,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Vendor_Name_Hindi, TSPL_VENDOR_MASTER.Bank_Name as Vendor_Bank_Name, TSPL_VENDOR_MASTER.Account_Type as Vendor_Bank_Account_Type1 , TSPL_VENDOR_MASTER.AccountType2 as Vendor_Bank_Account_Type2 , "
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-            BaseQry += " PaymentProcess.Payee_Joint_Account_No as Vendor_Account_No1,PaymentProcess.Payee_Joint_Branch_Name as Vendor_Bank_Code, "
-        Else
-            BaseQry += " TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, "
-        End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+        BaseQry += " PaymentProcess.Payee_Joint_Account_No as Vendor_Account_No1,PaymentProcess.Payee_Joint_Branch_Name as Vendor_Bank_Code, "
+        ' Else
+        'BaseQry += " TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, "
+        ' End If
         BaseQry += " TSPL_VENDOR_MASTER.AccNo2 as Vendor_Account_No2,TSPL_VENDOR_MASTER.PAN As DCS_PAN, "
         If AreaWiseBilling = True Then
             BaseQry += "  xxxSetLocation.Location_Desc as MCC_NAME "
@@ -2737,7 +2737,7 @@ left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.Ma
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
             sQuery = BaseQry + " order by  cast(VLC_Code_VLC_Uploader as int),BillNo,convert(datetime,coalesce(TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103),shift desc"
         ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
-            sQuery = BaseQry + " order by  cast(Mcc_Code_VLC_Uploader as int),cast(VLC_Code_VLC_Uploader as int) asc,BILLSRL asc, vsp_code,convert(datetime,coalesce(TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103),shift desc"
+            sQuery = BaseQry + " order by  cast(Mcc_Code_VLC_Uploader as int) asc, convert(datetime,coalesce(TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103)"
         Else
             sQuery = BaseQry + " order by " + IIf(objCommonVar.CurrentCompanyCode = "RCDF", " ", "BILLSRL asc,") + " vsp_code,convert(datetime,coalesce(TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103),shift desc"
         End If
@@ -3036,119 +3036,122 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
 
         If dt IsNot Nothing And dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal Then
-                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
-            Else
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    Dim dtAdditionFinance As DataTable = Nothing
-                    Dim rows As DataRow() = dtAddition.Select("ManAddDed=0")
-                    If rows Is Nothing OrElse rows.Length > 0 Then
-                        dtAdditionFinance = rows.CopyToDataTable()
-                    End If
-
-                    Dim dtAdditionOther As DataTable = Nothing
-                    rows = dtAddition.Select("ManAddDed=1")
-                    If rows Is Nothing OrElse rows.Length > 0 Then
-                        dtAdditionOther = rows.CopyToDataTable()
-                    Else
-                        dtAdditionOther = New DataTable()
-                        dtAdditionOther.Columns.Add("VSP_Uploader_Code", GetType(String))
-                        dtAdditionOther.Columns.Add("VSP_Code", GetType(String))
-                        dtAdditionOther.Columns.Add("Vendor_NAME", GetType(String))
-                        dtAdditionOther.Columns.Add("Addition", GetType(String))
-                        dtAdditionOther.Columns.Add("Amount", GetType(Decimal))
-                        dtAdditionOther.Columns.Add("ManAddDed", GetType(Integer))
-
-                        Dim dr As DataRow = dtAdditionOther.NewRow()
-                        dr("VSP_Uploader_Code") = "XXXYYYZZZ"
-                        dr("VSP_Code") = "XXXYYYZZZ"
-                        dr("Vendor_NAME") = "XXXYYYZZZ"
-                        dr("Addition") = "XXXYYYZZZ"
-                        dr("Amount") = 0
-                        dr("ManAddDed") = 1
-                        dtAdditionOther.Rows.Add(dr)
-                    End If
-
-                    Dim dtDeductionFinance As DataTable = Nothing
-                    rows = dtDeduction.Select("ManAddDed=0")
-                    If rows Is Nothing OrElse rows.Length > 0 Then
-                        dtDeductionFinance = rows.CopyToDataTable()
-                    End If
-
-                    Dim dtDeductionOther As DataTable = Nothing
-                    rows = dtDeduction.Select("ManAddDed=1")
-                    If rows Is Nothing OrElse rows.Length > 0 Then
-                        dtDeductionOther = rows.CopyToDataTable()
-                    Else
-                        dtDeductionOther = New DataTable()
-                        dtDeductionOther.Columns.Add("VSP_Uploader_Code", GetType(String))
-                        dtDeductionOther.Columns.Add("Vendor_CODE", GetType(String))
-                        dtDeductionOther.Columns.Add("Vendor_NAME", GetType(String))
-                        dtDeductionOther.Columns.Add("Ded_Code", GetType(String))
-                        dtDeductionOther.Columns.Add("Amount", GetType(Decimal))
-                        dtDeductionOther.Columns.Add("ManAddDed", GetType(Integer))
-
-                        Dim dr As DataRow = dtDeductionOther.NewRow()
-                        dr("VSP_Uploader_Code") = "XXXYYYZZZ"
-                        dr("Vendor_CODE") = "XXXYYYZZZ"
-                        dr("Vendor_NAME") = "XXXYYYZZZ"
-                        dr("Ded_Code") = "XXXYYYZZZ"
-                        dr("Amount") = 0
-                        dr("ManAddDed") = 1
-                        dtDeductionOther.Rows.Add(dr)
-                    End If
-
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewGNG", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJDHInHindi", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJDH", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewALW", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewKTA", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewTNKBharatpur", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJAL", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                    '
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewBKN", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                    '
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewTNK", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-
-                    '
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJHL", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewSKR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BNS") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewBNS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessUDPInHindi", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessUDP", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessAJMInHindi", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessAJM", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessCHT", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-                Else
-                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal Then
+            '    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtgv, "crptMilkPurchaseBillPaymentProcess", "", Nothing, "SubMilkPurchaseBill.rpt", "Address.rpt", Nothing, "SubMilkPurchaseBillRejection.rpt", dtRej, "SubMilkPurchaseBillMCCSale.rpt", dtSale, "SubMilkPurchaseBillFATSNFDebitCreditNote.rpt", dtFATNSFDCNote)
+            'Else
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Dim dtAdditionFinance As DataTable = Nothing
+                Dim rows As DataRow() = dtAddition.Select("ManAddDed=0")
+                If rows Is Nothing OrElse rows.Length > 0 Then
+                    dtAdditionFinance = rows.CopyToDataTable()
                 End If
+
+                Dim dtAdditionOther As DataTable = Nothing
+                rows = dtAddition.Select("ManAddDed=1")
+                If rows Is Nothing OrElse rows.Length > 0 Then
+                    dtAdditionOther = rows.CopyToDataTable()
+                Else
+                    dtAdditionOther = New DataTable()
+                    dtAdditionOther.Columns.Add("VSP_Uploader_Code", GetType(String))
+                    dtAdditionOther.Columns.Add("VSP_Code", GetType(String))
+                    dtAdditionOther.Columns.Add("Vendor_NAME", GetType(String))
+                    dtAdditionOther.Columns.Add("Addition", GetType(String))
+                    dtAdditionOther.Columns.Add("Amount", GetType(Decimal))
+                    dtAdditionOther.Columns.Add("ManAddDed", GetType(Integer))
+
+                    Dim dr As DataRow = dtAdditionOther.NewRow()
+                    dr("VSP_Uploader_Code") = "XXXYYYZZZ"
+                    dr("VSP_Code") = "XXXYYYZZZ"
+                    dr("Vendor_NAME") = "XXXYYYZZZ"
+                    dr("Addition") = "XXXYYYZZZ"
+                    dr("Amount") = 0
+                    dr("ManAddDed") = 1
+                    dtAdditionOther.Rows.Add(dr)
+                End If
+
+                Dim dtDeductionFinance As DataTable = Nothing
+                rows = dtDeduction.Select("ManAddDed=0")
+                If rows Is Nothing OrElse rows.Length > 0 Then
+                    dtDeductionFinance = rows.CopyToDataTable()
+                End If
+
+                Dim dtDeductionOther As DataTable = Nothing
+                rows = dtDeduction.Select("ManAddDed=1")
+                If rows Is Nothing OrElse rows.Length > 0 Then
+                    dtDeductionOther = rows.CopyToDataTable()
+                Else
+                    dtDeductionOther = New DataTable()
+                    dtDeductionOther.Columns.Add("VSP_Uploader_Code", GetType(String))
+                    dtDeductionOther.Columns.Add("Vendor_CODE", GetType(String))
+                    dtDeductionOther.Columns.Add("Vendor_NAME", GetType(String))
+                    dtDeductionOther.Columns.Add("Ded_Code", GetType(String))
+                    dtDeductionOther.Columns.Add("Amount", GetType(Decimal))
+                    dtDeductionOther.Columns.Add("ManAddDed", GetType(Integer))
+
+                    Dim dr As DataRow = dtDeductionOther.NewRow()
+                    dr("VSP_Uploader_Code") = "XXXYYYZZZ"
+                    dr("Vendor_CODE") = "XXXYYYZZZ"
+                    dr("Vendor_NAME") = "XXXYYYZZZ"
+                    dr("Ded_Code") = "XXXYYYZZZ"
+                    dr("Amount") = 0
+                    dr("ManAddDed") = 1
+                    dtDeductionOther.Rows.Add(dr)
+                End If
+
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewGNG", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJDHInHindi", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJDH", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewALW", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewKTA", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewTNKBharatpur", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJAL", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+                '
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewBKN", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+                '
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewTNK", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+
+                '
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJHL", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewSKR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BNS") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewBNS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessUDPInHindi", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessUDP", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal AndAlso PaymentProcessInHindi = True AndAlso isprintHindi Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessAJMInHindi", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessAJM", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessCHT", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+            Else
+                PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
             End If
-
-
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow("No Data Found")
         End If
+
+
+        '    frmCRV = Nothing
+        'Else
+        '    clsCommon.MyMessageBoxShow("No Data Found")
+        'End If
         Return PDFPath
     End Function
 

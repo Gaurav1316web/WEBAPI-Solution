@@ -25,6 +25,9 @@ Public Class frmMilkProcurementUploader
     Const colManualSample As String = "colManualSample"
     Const colEmptySample As String = "colEmptySample"
     Const colPageNo As String = "colPageNo"
+    Const colArrivalTime As String = "colArrivalTime"
+    Const colWeighmentTime As String = "colWeighmentTime"
+
 
     Const ReportID As String = "BatchInvIn"
 
@@ -45,7 +48,7 @@ Public Class frmMilkProcurementUploader
     Dim settMilkProcurementBatchPosting As Boolean = False
     Dim SettShowAllDCS As Boolean = False
 
-    Dim arrLoc As String = ""
+    Dim arrMCCRights As ArrayList
 #End Region
     Public Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
@@ -87,14 +90,7 @@ Public Class frmMilkProcurementUploader
         'End If
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
-            arrLoc = "'" + obj.Default_LocCode + "'"
-        Else
-            arrLoc = obj.arrLocCodes
-        End If
-
+        arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         MyBase.SetUserMgmt(clsUserMgtCode.MilkShiftUploader)
         SettShowAllDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, Nothing))
         settMilkProcurementBatchPosting = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcurementBatchPosting, clsFixedParameterCode.MilkProcurementBatchPosting, Nothing)) = 1)
@@ -356,6 +352,28 @@ Public Class frmMilkProcurementUploader
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoDateBox = New GridViewDateTimeColumn()
+        repoDateBox.Format = DateTimePickerFormat.Custom
+        repoDateBox.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        repoDateBox.FormatString = "{0:dd/MM/yyyy hh:mm:ss tt}"
+        repoDateBox.HeaderText = "Arrival Time"
+        repoDateBox.Name = colArrivalTime
+        repoDateBox.ReadOnly = True
+        repoDateBox.IsVisible = False
+        repoDateBox.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoDateBox)
+
+        repoDateBox = New GridViewDateTimeColumn()
+        repoDateBox.Format = DateTimePickerFormat.Custom
+        repoDateBox.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        repoDateBox.FormatString = "{0:dd/MM/yyyy hh:mm:ss tt}"
+        repoDateBox.HeaderText = "Weighment Time"
+        repoDateBox.Name = colWeighmentTime
+        repoDateBox.ReadOnly = True
+        repoDateBox.IsVisible = False
+        repoDateBox.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoDateBox)
 
         loadBlankParameterGrid()
 
@@ -706,14 +724,9 @@ Public Class frmMilkProcurementUploader
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        'If gv1.RowCount <= clsCommon.myCdbl(lblQty.Text) Then
-        '    e.Cancel = True
-        '    Exit Sub
-        'End If
-
-        'If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-        '    e.Cancel = True
-        'End If
+        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            e.Cancel = True
+        End If
     End Sub
 
     Sub RefeshSNO()
@@ -761,20 +774,18 @@ Public Class frmMilkProcurementUploader
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
             Dim whrcls As String = ""
-            If arrLoc IsNot Nothing AndAlso clsCommon.myLen(arrLoc) > 0 Then
-                whrcls = " 
- CONVERT(VARCHAR,final.[Shift Date],103) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "' and Convert(varchar,final.[Shift Date],103) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy") + "'  and
-final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & ")"
-            End If
+
+            whrcls = " final.[MCC Code] in (" & clsCommon.GetMulcallString(arrMCCRights) & ")"
+
             'Dim qry As String = "select Document_No,convert (varchar,Document_Date,103) as Document_Date,Description,case when Status=1 then 'Posted' else 'Pending' end as Status from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD"
             Dim qry As String = "select final.Document_No , FINAL.Document_Date , final.Description , final.Status , final.[MCC Code] , final.[Mcc Name] , final.[Plant Code] , final.[Plant Name] , final.[Dock Code] , final.[Dock Name] , final.Reject , final.[From Date - To Date] , final.Shift,final.[Shift Date] from " &
-          "(select xx.Document_No , xx.Document_Date , xx.Description , xx.Status , xx.[MCC Code] , xx.[Mcc Name] , xx.[Plant Code] , xx.[Plant Name] , xx.[Dock Code] , xx.[Dock Name] , xx.Reject , xx.[From Date - To Date] , xxx.Shift , xx.Loc_Segment_Code,xx.[Shift Date] from " &
+          "(select xx.Document_No , xx.Document_Date , xx.Description , xx.Status , xx.[MCC Code] , xx.[Mcc Name] , xx.[Plant Code] , xx.[Plant Name] , xx.[Dock Code] , xx.[Dock Name] , xx.Reject , xx.[From Date - To Date] , xxx.Shift , xx.Loc_Segment_Code,xx.[Shift Date],xx.DocFilterDate from " &
             "(select TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No,convert (varchar,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) as Document_Date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Description,case when TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1 then 'Posted' else 'Pending' end as Status" &
             ",TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " &
             ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" &
             ",TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.DOCK_CODE as [Dock Code]" &
             ",TSPL_DOCK_MASTER.Description as [Dock Name] , CASE WHEN Reject = 1 THEN 'Reject Milk' ELSE 'Good Milk' END AS Reject " &
-            ", (select  convert(varchar,min(shift_date),103) + '  To  ' + convert(varchar,max(shift_date),103) from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No) AS [From Date - To Date],TSPL_LOCATION_MASTER.loc_segment_Code ,(select  convert(varchar,MIN(Shift_Date),103)  from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No) AS [Shift Date]" &
+            ", (select  convert(varchar,min(shift_date),103) + '  To  ' + convert(varchar,max(shift_date),103) from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No) AS [From Date - To Date],TSPL_LOCATION_MASTER.loc_segment_Code ,(select  convert(varchar,MIN(Shift_Date),103)  from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No) AS [Shift Date],convert (date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) as DocFilterDate" &
             " from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD" &
             " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.mcc_code" &
             " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" &
@@ -783,7 +794,7 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
          "select Document_No, shift from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL group by Document_No,shift " &
        ") x group by Document_No) xxx on xx.Document_No = xxx.Document_No )final 
 "
-            LoadData(clsCommon.ShowSelectForm("MPUFINDOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked, "FINAL.Document_Date"), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("MPUFINDOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked, "FINAL.DocFilterDate"), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -824,7 +835,12 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
                         objTr.Manual_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colManualSample).Value)
                         objTr.Empty_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEmptySample).Value)
                         objTr.Page_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPageNo).Value)
-
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colArrivalTime).Value) > 0 Then
+                            objTr.Arrival_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colArrivalTime).Value)
+                        End If
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colWeighmentTime).Value) > 0 Then
+                            objTr.Weighment_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colWeighmentTime).Value)
+                        End If
                         objTr.arrQCParameter = GetParamCollection(ii)
                         obj.Arr.Add(objTr)
                     End If
@@ -865,10 +881,7 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
         Try
             isInsideLoadData = True
             LoadBlankGrid()
-            Dim Whr As String = ""
-            If clsCommon.myLen(arrLoc) > 0 Then
-                Whr = " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code in (" + arrLoc + ")"
-            End If
+            Dim Whr As String = " and   TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(arrMCCRights) + ")   "
             Dim obj As New clsMilkProcurementUploaderHead()
             obj = clsMilkProcurementUploaderHead.GetData(strCode, NavTyep, Nothing, Whr)
 
@@ -919,6 +932,8 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colEmptySample).Value = objTr.Empty_Sample
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colPageNo).Value = objTr.Page_No
 
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colArrivalTime).Value = objTr.Arrival_Time
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentTime).Value = objTr.Weighment_Time
 
                         TotQty += clsCommon.myCdbl(objTr.Milk_Weight)
                     Next
@@ -976,10 +991,8 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
     End Sub
 
     Private Sub fndMCCCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndMCCCode._MYValidating
-        'fndMCCCode.Value = clsMccMaster.getFinder("", fndMCCCode.Value, isButtonClicked)
-        Dim qry As String
-        qry = "select * from ( select tspl_mcc_master.MCC_Code as [Code] ,tspl_mcc_master.MCC_Type as [Mcc Type] ,tspl_mcc_master.MCC_NAME as [Mcc Name] ,tspl_mcc_master.Chilling_Vendor as [Chilling Vendor] ,tspl_mcc_master.Add1 as [Address1] ,tspl_mcc_master.Add2 as [Address2] ,tspl_mcc_master.Tehsil as [Tehsil] ,tspl_mcc_master.City_code as [City Code] ,tspl_mcc_master.State_Code as [State Code] ,tspl_mcc_master.Country_code as [Country Code] ,tspl_mcc_master.Pin_code as [Pin Code],tspl_mcc_master.Pan_No as [Pan No] ,tspl_mcc_master.Telphone as [Telphone] ,tspl_mcc_master.Email as [Email] ,tspl_mcc_master.Fax as [Fax] ,tspl_mcc_master.MCC_Area as [Mcc Area] ,tspl_mcc_master.Area_Of_Store as [Area Of Store] ,tspl_mcc_master.Area_Of_Office as [Area Of Office] ,tspl_mcc_master.Open_Area_For_tanker as [Open Area For Tanker] ,tspl_mcc_master.Area_Of_LAB as [Area Of Lab] ,tspl_mcc_master.No_Of_SILO as [No Of Silo] ,tspl_mcc_master.Total_Storage_capacity as [Total Storage Capacity] ,tspl_mcc_master.Area_Of_Receiving_DOCK as [Area Of Receiving Dock] ,tspl_mcc_master.No_Of_Chiller as [No Of Chiller] ,tspl_mcc_master.Chiller_Brand_Name as [Chiller Brand Name] ,tspl_mcc_master.Chiller_Capacity as [Chiller Capacity] ,tspl_mcc_master.No_Of_MilkPump as [No Of Milkpump] ,tspl_mcc_master.MilkPump_Capacity as [Milkpump Capacity] ,tspl_mcc_master.DripSaver as [Drip Saver] ,tspl_mcc_master.CanWasher as [Can Washer] ,tspl_mcc_master.CanScrubber as [Can Scrubber] ,tspl_mcc_master.FSSAI_NO as [FSSAI No] ,tspl_mcc_master.ETP as [ETP] ,tspl_mcc_master.Earthing as [Earthing] ,tspl_mcc_master.Coil_Length as [Coil Length] ,tspl_mcc_master.Electricity_Connection as [Electricity Connection] ,tspl_mcc_master.Boiler as [Boiler] ,tspl_mcc_master.NoOfDG as [No. of DG] ,tspl_mcc_master.NoOfCompressor as [No. of Compressor] ,tspl_mcc_master.PayeeName as [Payee Name] ,tspl_mcc_master.BankName as [Bank Name] ,tspl_mcc_master.BankBranch as [Bank Branch] ,tspl_mcc_master.BankCityCode as [Bank City Code] ,tspl_mcc_master.BankStateCode as [Bank State Code] ,tspl_mcc_master.IFCICode as [IFCI Code] ,tspl_mcc_master.AccountNO as [Account No] ,tspl_mcc_master.Created_By as [Created By] ,tspl_mcc_master.Created_Date as [Created Date] ,tspl_mcc_master.Modified_By as [Modified By] ,tspl_mcc_master.Modified_Date as [Modified Date] ,tspl_mcc_master.Comp_Code as [Company Code],tspl_mcc_master.mcc_code_vlc_uploader as [MCC Code For VLC Uploder],tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER_PLANT.Location_Desc AS [Plant Name] from tspl_mcc_master LEFT JOIN TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PLANT ON TSPL_LOCATION_MASTER_PLANT.Location_Code=tspl_mcc_master.Plant_Code  inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
-        & " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
+        Dim qry As String = "select * from ( select tspl_mcc_master.MCC_Code as [Code] ,tspl_mcc_master.MCC_Type as [Mcc Type] ,tspl_mcc_master.MCC_NAME as [Mcc Name] ,tspl_mcc_master.Chilling_Vendor as [Chilling Vendor] ,tspl_mcc_master.Add1 as [Address1] ,tspl_mcc_master.Add2 as [Address2] ,tspl_mcc_master.Tehsil as [Tehsil] ,tspl_mcc_master.City_code as [City Code] ,tspl_mcc_master.State_Code as [State Code] ,tspl_mcc_master.Country_code as [Country Code] ,tspl_mcc_master.Pin_code as [Pin Code],tspl_mcc_master.Pan_No as [Pan No] ,tspl_mcc_master.Telphone as [Telphone] ,tspl_mcc_master.Email as [Email] ,tspl_mcc_master.Fax as [Fax] ,tspl_mcc_master.MCC_Area as [Mcc Area] ,tspl_mcc_master.Area_Of_Store as [Area Of Store] ,tspl_mcc_master.Area_Of_Office as [Area Of Office] ,tspl_mcc_master.Open_Area_For_tanker as [Open Area For Tanker] ,tspl_mcc_master.Area_Of_LAB as [Area Of Lab] ,tspl_mcc_master.No_Of_SILO as [No Of Silo] ,tspl_mcc_master.Total_Storage_capacity as [Total Storage Capacity] ,tspl_mcc_master.Area_Of_Receiving_DOCK as [Area Of Receiving Dock] ,tspl_mcc_master.No_Of_Chiller as [No Of Chiller] ,tspl_mcc_master.Chiller_Brand_Name as [Chiller Brand Name] ,tspl_mcc_master.Chiller_Capacity as [Chiller Capacity] ,tspl_mcc_master.No_Of_MilkPump as [No Of Milkpump] ,tspl_mcc_master.MilkPump_Capacity as [Milkpump Capacity] ,tspl_mcc_master.DripSaver as [Drip Saver] ,tspl_mcc_master.CanWasher as [Can Washer] ,tspl_mcc_master.CanScrubber as [Can Scrubber] ,tspl_mcc_master.FSSAI_NO as [FSSAI No] ,tspl_mcc_master.ETP as [ETP] ,tspl_mcc_master.Earthing as [Earthing] ,tspl_mcc_master.Coil_Length as [Coil Length] ,tspl_mcc_master.Electricity_Connection as [Electricity Connection] ,tspl_mcc_master.Boiler as [Boiler] ,tspl_mcc_master.NoOfDG as [No. of DG] ,tspl_mcc_master.NoOfCompressor as [No. of Compressor] ,tspl_mcc_master.PayeeName as [Payee Name] ,tspl_mcc_master.BankName as [Bank Name] ,tspl_mcc_master.BankBranch as [Bank Branch] ,tspl_mcc_master.BankCityCode as [Bank City Code] ,tspl_mcc_master.BankStateCode as [Bank State Code] ,tspl_mcc_master.IFCICode as [IFCI Code] ,tspl_mcc_master.AccountNO as [Account No] ,tspl_mcc_master.Created_By as [Created By] ,tspl_mcc_master.Created_Date as [Created Date] ,tspl_mcc_master.Modified_By as [Modified By] ,tspl_mcc_master.Modified_Date as [Modified Date] ,tspl_mcc_master.Comp_Code as [Company Code],tspl_mcc_master.mcc_code_vlc_uploader as [MCC Code For VLC Uploder],tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER_PLANT.Location_Desc AS [Plant Name] from tspl_mcc_master LEFT JOIN TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_PLANT ON TSPL_LOCATION_MASTER_PLANT.Location_Code=tspl_mcc_master.Plant_Code  inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
+        & " and   tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & ") )xx "
 
         fndMCCCode.Value = clsCommon.ShowSelectForm("frmCorrection@MC", qry, "Code", "", fndMCCCode.Value, "Code", isButtonClicked)
         LblMccName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Mcc_Name from TSPL_Mcc_MASTER where MCC_Code='" + fndMCCCode.Value + "' "))
@@ -1065,6 +1078,16 @@ final.loc_segment_Code in (" & arrLoc & ") or final.[MCC Code] in (" & arrLoc & 
                             If clsCommon.myLen(objTr.VLC_Code) <= 0 Then
                                 dtt.Rows(ii)("ErrorDesc") = "Invalid VSP Uploader code " + clsCommon.myCstr(gv.Rows(ii).Cells("VLC Code").Value) & " at Line No :" & clsCommon.myCstr(ii + 2) & " "
                                 ErrCount = ErrCount + 1 : GoTo ExitLOOP
+                            End If
+
+                            objTr.Bulk_Route_Code = clsCommon.myCstr(gv.Rows(ii).Cells("Rt.Code").Value)
+                            If clsCommon.myLen(objTr.Bulk_Route_Code) > 0 Then
+                                objTr.Bulk_Route_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ROUTE_NO from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + objTr.Bulk_Route_Code + "'"))
+                                If clsCommon.myLen(objTr.Bulk_Route_Code) <= 0 Then
+                                    Throw New Exception("Invalid Route [" + clsCommon.myCstr(gv.Rows(ii).Cells("Rt.Code").Value) + "]")
+                                End If
+                            Else
+                                Throw New Exception("Please provide Rt.Code")
                             End If
 
                             objTr.Uploader_Code = clsCommon.myCstr(gv.Rows(ii).Cells("VLC Code").Value)
@@ -1248,6 +1271,7 @@ ExitLOOP:
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkWeight).Value = objTr.Milk_Weight
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colFATPer).Value = objTr.FAT
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = objTr.SNF
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBulkRouteCode).Value = objTr.Bulk_Route_Code
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDockCollectionMilkType).Value = objTr.Dock_Collection_Milk_Type
                     TotQty += clsCommon.myCdbl(objTr.Milk_Weight)
                     If chkMilkReject.Checked Then

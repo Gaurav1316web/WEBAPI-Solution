@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
     Public Const rptTentativeReport As String = "TEN-SAL-RPT"
@@ -244,6 +245,7 @@ Public Class clsUserMgtCode
     Public Const rptMatrixFreshSalesReportSaleDairy As String = "RPT_MAT_SAL"
     Public Const rptDairyTruckSheetReport As String = "RPT_TRK_SHT"
     Public Const rptSaleRegisterDetail As String = "RPT_SR_DT"
+    Public Const rptSaleRegisterUOMReport As String = "RPT_UOM_SR"
     Public Const rptDairySaleRegisterReport As String = "RPT_SRR_DT"
     Public Const InvoicePriceWiseReport As String = "RPT_INV_P"
     Public Const rptInvoiceDetailReport As String = "RPT_INV_D"
@@ -253,6 +255,7 @@ Public Class clsUserMgtCode
     Public Const FrmZoneWiseSKUReport As String = "ZW_SKU_REP"
     Public Const FrmDairySaleSchemeReport As String = "DS_SCH_REP"
     Public Const rptBookingWiseRegister As String = "DS_BW_RPT"
+    Public Const rptDemandNill As String = "DM_NL_RPT"
     Public Const frmDemandHistory As String = "DS_DEM_HIS"
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"
@@ -2214,6 +2217,7 @@ Public Class clsUserMgtCode
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
     Public Const rptTankerProfitLossReport As String = "TNR_P_L_R"
+    Public Const rptBmcTankerInOutReport As String = "BM_T_IO_R"
     Public Const rptPerodicalDispatchReport As String = "PERO_DISP_R"
     Public Const rptDBTCappingReport As String = "DBT_CAP_R"
     Public Const rptHeadLoadReport As String = "HEAD-LOAD-R"
@@ -2325,6 +2329,7 @@ Public Class clsUserMgtCode
     Public Const RptWeighmentRegister As String = "WGH_REG_RPT"
     Public Const MonthlyProgressReport As String = "Mth-Prog"
     Public Const rptSuspanceDCSReport As String = "SUSP-DCS"
+    Public Const rptTankerGainLossReport As String = "TAN-GAIN-L"
 
     Public Const RptSecondaryTransporterReport As String = "SEC-TR-RPT"
     Public Const rptMCCBillGenrationStatus As String = "MCC-BIL_GEN"
@@ -2347,6 +2352,7 @@ Public Class clsUserMgtCode
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
     Public Const rptSocietyLedgerReport As String = "MCC_SOC_LED"
     Public Const rptMilkCostReport As String = "MCC_MLK_COST"
+    Public Const FrmDcscollectionHistory As String = "DCS_COL_HIS"
     Public Const rptPaymentProcessReportBMCSocietyWise As String = "PR_BSW_RPT"
     Public Const rptDCSFinancial As String = "DCS-FIN-RPT"
     '-----------------------Sale Purchase Security(Master)--------------

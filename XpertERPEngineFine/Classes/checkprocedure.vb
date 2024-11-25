@@ -1341,6 +1341,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptProductionStandardization, "Production Standardization Report", "1.29.03.30", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.ProductionEntryReport, "Production Entry Report", "1.29.03.31", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.rptTankerProfitLossReport, "Tanker Profit Loss Report", "1.29.03.32", clsUserMgtCode.SubModuleProductionReportDairy, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBmcTankerInOutReport, "BMC Tanker In-Out Report", "1.29.03.33", clsUserMgtCode.SubModuleProductionReportDairy, 37)
 
 
 
@@ -1632,7 +1633,7 @@ Public Class ProgramCodeNew
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "BMC Milk Collection", "1.17.02.01", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.17.02.02", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.17.02.02", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, False, False, Nothing)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCMultipleDays, "BMC Milk Collection Multiple Days", "1.17.02.03", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.17.02.04", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, False, False, Nothing)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Truck sheet", "1.17.02.05", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
@@ -1870,6 +1871,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptHeadLoadReport, "Head Load  Report", "1.17.03.126", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDCSCredit, "DCS Credit Report", "1.17.03.127", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSuspanceDCSReport, "Suspense Milk Report", "1.17.03.128", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerGainLossReport, "Tanker Gain Loss Report", "1.17.03.129", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmDcscollectionHistory, "Dcs collection History", "1.17.03.130", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
@@ -2376,6 +2379,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptD1D2Report, "D1D2 Report", "1.36.03.27", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptZoneWiseReport1, "Zone Wise Report", "1.36.03.28", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, "Month Wise DMR Report", "1.36.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSaleRegisterUOMReport, "Sale Register UOM Wise Report", "1.36.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmGatepassDetailReport, "Gatepass Detail Report", "1.36.03.31", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)

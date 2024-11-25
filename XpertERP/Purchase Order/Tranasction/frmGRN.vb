@@ -3731,7 +3731,7 @@ Public Class frmGRN
 
     Function GetApproavalQty() As Double
         Dim Qty As Double = 0
-        Dim Qry As String = "Select Document_No,Doc_Date,Approved_QTY from TSPL_TRANSACTION_APPROVAL Where Program_Code='" + clsUserMgtCode.mbtnGRN + "' And Document_No='" + clsCommon.myCstr(txtDocNo.Value) + "'"
+        Dim Qry As String = "Select Document_No,Doc_Date,Approved_QTY from TSPL_TRANSACTION_APPROVAL Where Program_Code='" + clsUserMgtCode.mbtnGRN + "' And Document_No='" + clsCommon.myCstr(txtDocNo.Value) + "'" + " AND APPROVE=1"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Qty = clsCommon.myCdbl(dt.Rows(0)("Approved_Qty"))

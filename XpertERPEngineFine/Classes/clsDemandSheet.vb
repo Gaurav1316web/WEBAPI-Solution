@@ -504,14 +504,14 @@ where TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType='" + Shift + "' and Convert
             End If
 
             Dim strQry As String = "WITH VersionedData AS (
-    SELECT item_code,Unit_code,Qty,Hist_Version,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_By,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_On,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code,LAG(Qty) OVER (PARTITION BY item_code ORDER BY Hist_Version) AS PreviousQty
+    SELECT item_code,Unit_code,Qty,Hist_Version,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_By,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Hist_On,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Document_No,TSPL_DEMAND_BOOKING_DETAIL_Hist_Data.Cust_Code,isnull(LAG(Qty) OVER (PARTITION BY item_code ORDER BY Hist_Version Desc),0) AS PreviousQty
     FROM  TSPL_DEMAND_BOOKING_DETAIL_Hist_Data
     WHERE Document_No in (" + clsCommon.GetMulcallString(DocNo) + ") AND Cust_Code = '" + Booth + "')
 SELECT 
     item_code, Unit_code, Qty,Hist_Version,Hist_By,Hist_On,VersionedData.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,Document_No,TSPL_CUSTOMER_MASTER.Route_No
 FROM VersionedData left join TSPL_CUSTOMER_MASTER on VersionedData.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-WHERE Qty <> PreviousQty OR PreviousQty IS NULL
-ORDER BY  Hist_On desc"
+WHERE Qty <> PreviousQty OR PreviousQty = 0
+ORDER BY  Hist_On desc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim HisVersion As Integer = 0

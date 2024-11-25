@@ -22,7 +22,7 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -95,6 +95,7 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.chkRouteWiseSummary = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -373,6 +374,7 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.chkRouteWiseSummary)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteWiseDateWise)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteWisePrint)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteShiftWise)
@@ -381,7 +383,7 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox6.Location = New System.Drawing.Point(494, 116)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 101)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 124)
         Me.RadGroupBox6.TabIndex = 405
         Me.RadGroupBox6.Text = "Print"
         '
@@ -872,7 +874,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1021,6 +1023,16 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
+        'chkRouteWiseSummary
+        '
+        Me.chkRouteWiseSummary.AutoSize = True
+        Me.chkRouteWiseSummary.Location = New System.Drawing.Point(13, 94)
+        Me.chkRouteWiseSummary.Name = "chkRouteWiseSummary"
+        Me.chkRouteWiseSummary.Size = New System.Drawing.Size(134, 17)
+        Me.chkRouteWiseSummary.TabIndex = 397
+        Me.chkRouteWiseSummary.Text = "Route Wise Summary"
+        Me.chkRouteWiseSummary.UseVisualStyleBackColor = True
+        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1166,5 +1178,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents rbtnShiftWiseTotal As RadioButton
     Friend WithEvents chkRouteWiseDateWise As CheckBox
     Friend WithEvents btnRoutePrint As RadButton
+    Friend WithEvents chkRouteWiseSummary As CheckBox
 End Class
 

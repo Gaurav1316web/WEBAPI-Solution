@@ -257,7 +257,27 @@ where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' and 
                             dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(clsCommon.myCstr(drRM("ITEM_CODE")), strMainLocation, obj.Location_RM, IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), clsCommon.myCDate(drRM("Batch_Date"))), trans, clsCommon.myCstr(drRM("UNIT_CODE")), 1)
                         Else
                             strLocation = obj.Location_PK
-                            dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(clsCommon.myCstr(drRM("ITEM_CODE")), obj.Location_PK, "", IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), clsCommon.myCDate(drRM("Batch_Date"))), trans, clsCommon.myCstr(drRM("UNIT_CODE")), 2)
+                            Dim strSubLocation As String = ""
+                            Dim strMainLocation As String = ""
+                            Dim IsSub_Location As Integer = 2
+                            qry = "select Main_Location_Code,isnull(Is_Sub_Location,'N') as Is_Sub_Location,isnull(Is_Section,'N') as Is_Section from TSPL_LOCATION_MASTER where Location_Code= '" + obj.Location_PK + "'"
+                            dt = clsDBFuncationality.GetDataTable(qry, trans)
+                            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                                Throw New Exception("Invalid Packing Location [" + obj.Location_PK + "]")
+                            End If
+                            If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Is_Section")), "Y") = CompairStringResult.Equal Then
+                                IsSub_Location = 0
+                                strSubLocation = obj.Location_PK
+                                strMainLocation = clsCommon.myCstr(dt.Rows(0)("Main_Location_Code"))
+                            ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Is_Sub_Location")), "Y") = CompairStringResult.Equal Then
+                                IsSub_Location = 1
+                                strSubLocation = obj.Location_PK
+                                strMainLocation = clsCommon.myCstr(dt.Rows(0)("Main_Location_Code"))
+                            Else
+                                strSubLocation = ""
+                                strMainLocation = obj.Location_PK
+                            End If
+                            dt = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(clsCommon.myCstr(drRM("ITEM_CODE")), strMainLocation, strSubLocation, IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), clsCommon.myCDate(drRM("Batch_Date"))), trans, clsCommon.myCstr(drRM("UNIT_CODE")), IsSub_Location)
                         End If
 
 

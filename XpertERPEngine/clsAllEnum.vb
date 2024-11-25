@@ -448,7 +448,6 @@ Public Class clsEmailSMSConstants
     Public Const Total_Vlc As String = "$Total_Vlc$"
     Public Const Shift_Close_Time As String = "$Shift_Close_Time$"
     '------------------------------------------------------
-
     Public Const CompanyName As String = "$CompanyName$"
 End Class
 

@@ -33,16 +33,12 @@ Public Class FrmApplyCapping
     End Sub
 
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
+        Dim arrMCCRights As ArrayList = clsMCCCodes.GetUserHavingMCCRights()
         Dim qry As String = ""
-        Dim arrLoc As String = ""
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-            arrLoc = obj.arrLocCodes
-        End If
+
 
         qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name] from tspl_mcc_master inner join tspl_location_master on tspl_location_master.location_Code= tspl_mcc_master.mcc_Code " _
-        & " and (tspl_location_master.loc_segment_Code in (" & arrLoc & ") or tspl_mcc_master.mcc_Code in (" & arrLoc & ")))xx "
+        & " and ( tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & ")))xx "
 
         txtMCC.Value = clsCommon.ShowSelectForm("VSPPMCCFn", qry, "Code", "", txtMCC.Value, "", isButtonClicked)
         qry = "select Non_Company_VSP_Deduction,Company_VSP_Deduction,MCC_Name from tspl_mcc_master where mcc_Code='" + txtMCC.Value + "'"

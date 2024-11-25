@@ -779,7 +779,7 @@ Public Class clsCustomerInvoiceHead
 from TSPL_Customer_Invoice_Head
 Left Outer Join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code  ='" & objCommonVar.CurrentCompanyCode & "'
 Left Outer Join TSPL_Customer_master on TSPL_Customer_master.Cust_Code  =TSPL_Customer_Invoice_Head.Customer_Code
-left Outer Join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code =TSPL_Customer_Invoice_Head.Loc_code 
+left Outer Join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code ='" + strLocation + "'
 left outer join TSPL_Customer_Invoice_Detail on TSPL_Customer_Invoice_Detail.document_No=TSPL_Customer_Invoice_Head.document_No
 left outer join TSPL_ADDITIONAL_charges on TSPL_ADDITIONAL_charges.Code=TSPL_Customer_Invoice_Detail.AddChargeCode
 left outer join TSPL_STATE_MASTER as LOCATION_State_Master on LOCATION_State_Master.STATE_CODE  =TSPL_LOCATION_MASTER.State
@@ -884,10 +884,11 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
             ''richa agarwal 31 Dec,2020 check eInvoice Implementation
             If clsCommon.myLen(clsCommon.myCstr(obj.Tax_Group)) > 0 Then
                 Dim isTaxTaxable As String = "N"
+                Dim LocationCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Loc_Segment_Code='" + obj.loc_code + "'", trans))
                 isTaxTaxable = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select 'Y' from TSPL_TAX_GROUP_MASTER where Tax_Group_Code ='" & obj.Tax_Group & "' and Is_Tax_Exempted =0 and Tax_Group_Type ='S'", trans))
                 ''If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Document_Type), "I") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
                 If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(isTaxTaxable), "Y") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.AgainstServiceInvoice), "Y") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
-                    If clsCustomerInvoiceHead.EInvoice_Implementation(obj.Document_No, obj.loc_code, trans) = True Then
+                    If clsCustomerInvoiceHead.EInvoice_Implementation(obj.Document_No, LocationCode, trans) = True Then
                     Else
                         Throw New Exception("Invalid JSON Value")
                     End If

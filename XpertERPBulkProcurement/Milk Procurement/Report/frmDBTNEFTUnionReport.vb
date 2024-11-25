@@ -44,6 +44,7 @@ Public Class frmDBTNEFTUnionReport
         Gv.MasterTemplate.SummaryRowsBottom.Clear()
         Gv.Refresh()
         RadPageView1.SelectedPage = RadPageViewPage1
+        chkOnlyReject.Checked = False
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Try
@@ -95,19 +96,32 @@ Public Class frmDBTNEFTUnionReport
 
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For ii As Integer = 0 To dt.Rows.Count - 1
-                BaseQry = " select [Month],0 As [Billed Qty],Sum([Farmer Qty])[Farmer Qty],COUNT(Distinct [Farmer Code])  as [Farmer Code],sum(Amount) as Amt
+                BaseQry = " select [Month],0 As [No Of Doc],0 As [Billed Qty],Sum([Farmer Qty])[Farmer Qty],COUNT(Distinct [Farmer Code])  as [Farmer Code],sum(Amount) as Amt
                                 From( Select Format(TSPL_DBT_NEFT.From_Date,'MM-yyyy') As[Month],(TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code) as MP_Uploader_Code,
                                 (TSPL_DBT_NEFT_DETAIL.Amount) as Amount ,(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty)[Farmer Qty],(TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code)  as [Farmer Code]
                                 from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL 
                                 Left Outer JOin [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT On TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
                                 Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
                                 left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-                                left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code
-                                where TSPL_DBT_NEFT_DETAIL.PK_Id Not In (Select Against_DBT_NEFT_TR From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT_DETAIL where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code Not In (Select Document_Code From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT Not In (TSPL_DBT_NEFT.Document_Code))) and                        
-                                Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + Slot2 + "',103)
-                                )x group by [Month]
-                                Union All
-                                select  [Month], Sum([Billed Qty])[Billed Qty], 0 As [FarmerQty],0 As [FarmerCode],0 As [Amt] from
+                                left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code "
+                If chkOnlyReject.Checked Then
+                    BaseQry += " where TSPL_DBT_NEFT_DETAIL.PK_Id In (Select Against_DBT_NEFT_TR From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT_DETAIL where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code In (Select Document_Code From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT In (TSPL_DBT_NEFT.Document_Code))) and                        
+                                Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + Slot2 + "',103) "
+                Else
+                    BaseQry += " where TSPL_DBT_NEFT_DETAIL.PK_Id Not In (Select Against_DBT_NEFT_TR From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT_DETAIL where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code Not In (Select Document_Code From [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT Not In (TSPL_DBT_NEFT.Document_Code))) and                        
+                                Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + Slot2 + "',103) "
+                End If
+                BaseQry += "              )x group by [Month] "
+                If chkOnlyReject.Checked Then
+                    BaseQry += " Union All
+							  Select [Month],COUNT(Document_Code)[No Of Doc],0 As [Billed Qty],0 As [Farmer Qty],0 as [Farmer Code],0 as Amt from (
+							  Select Format(TSPL_DBT_NEFT.From_Date,'MM-yyyy') As[Month],TSPL_DBT_NEFT_REJECT.Document_Code  
+							  from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_REJECT 
+							  Left Outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT On TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT
+							  Where Convert(Date,TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" + Slot2 + "',103))xxxRejectDoc Group By [Month] "
+                End If
+                BaseQry += " Union All
+                                select  [Month],0 As [No Of Doc], Sum([Billed Qty])[Billed Qty], 0 As [FarmerQty],0 As [FarmerCode],0 As [Amt] from
                                 (select Format(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,'MM-yyyy') As [Month], ([Billed Qty])[Billed Qty]
                                 from (
 								Select TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.* from (select TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code, (TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Qty)[Billed Qty] from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_DETAIL
@@ -122,41 +136,59 @@ Public Class frmDBTNEFTUnionReport
                 End If
 
                 query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],'" + clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy") + " to " + clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy") + "' As [FromtoDate],'" + objCommonVar.CurrentUser + "' As [User], "
-                query += "'" + clsCommon.GetPrintDate(Month1, "MMM-yyyy") + "' As Month1,
-                              IsNull(Sum(xxxfinal.[M1 Billed Qty]),0)[M1 Billed Qty],
+                query += "'" + clsCommon.GetPrintDate(Month1, "MMM-yyyy") + "' As Month1,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M1 No Of Doc]),0)[M1 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M1 Billed Qty]),0)[M1 Billed Qty],
                               IsNull(Sum(xxxfinal.[M1 Farmer Qty]),0)[M1 Farmer Qty],
                               IsNull(Sum(xxxfinal.[M1 Farmer Code]),0)[M1 Farmer Code],
-                              IsNull(Sum(xxxfinal.[M1 Amt]),0)[M1 Amt],
+                              IsNull(Sum(xxxfinal.[M1 Amt]),0)[M1 Amt],"
 
-                              '" + clsCommon.GetPrintDate(Month2, "MMM-yyyy") + "' As Month2,
-                             IsNull(Sum(xxxfinal.[M2 Billed Qty]),0)[M2 Billed Qty],
+                query += "'" + clsCommon.GetPrintDate(Month2, "MMM-yyyy") + "' As Month2,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M2 No Of Doc]),0)[M2 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M2 Billed Qty]),0)[M2 Billed Qty],
                              IsNull(Sum(xxxfinal.[M2 Farmer Qty]),0)[M2 Farmer Qty],
                              IsNull(Sum(xxxfinal.[M2 Farmer Code]),0)[M2 Farmer Code],
-                             IsNull(Sum(xxxfinal.[M2 Amt]),0)[M2 Amt],
+                             IsNull(Sum(xxxfinal.[M2 Amt]),0)[M2 Amt],"
 
-                              '" + clsCommon.GetPrintDate(Month3, "MMM-yyyy") + "' As Month3,
-                             IsNull(Sum(xxxfinal.[M3 Billed Qty]),0)[M3 Billed Qty],
+                query += " '" + clsCommon.GetPrintDate(Month3, "MMM-yyyy") + "' As Month3,"
+                If chkOnlyReject.Checked Then
+                    query += " IsNull(Sum(xxxfinal.[M3 No Of Doc]),0)[M3 No Of Doc],"
+                End If
+                query += " IsNull(Sum(xxxfinal.[M3 Billed Qty]),0)[M3 Billed Qty],
                              IsNull(Sum(xxxfinal.[M3 Farmer Qty]),0)[M3 Farmer Qty],
                              IsNull(Sum(xxxfinal.[M3 Farmer Code]),0)[M3 Farmer Code],
-                             IsNull(Sum(xxxfinal.[M3 Amt]),0)[M3 Amt],
-
-                             (IsNull(Sum(xxxfinal.[M1 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M2 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M3 Billed Qty]),0)) As [Total Billed Qty],
+                             IsNull(Sum(xxxfinal.[M3 Amt]),0)[M3 Amt], "
+                If chkOnlyReject.Checked Then
+                    query += " (IsNull(Sum(xxxfinal.[M1 No Of Doc]),0)+IsNull(Sum(xxxfinal.[M2 No Of Doc]),0)+IsNull(Sum(xxxfinal.[M3 No Of Doc]),0)) As [Total Document], "
+                End If
+                query += " (IsNull(Sum(xxxfinal.[M1 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M2 Billed Qty]),0)+IsNull(Sum(xxxfinal.[M3 Billed Qty]),0)) As [Total Billed Qty],
 							 (IsNull(Sum(xxxfinal.[M1 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M2 Farmer Qty]),0)+IsNull(Sum(xxxfinal.[M3 Farmer Qty]),0)) As [Total Farmer Qty],
 							 (IsNull(Sum(xxxfinal.[M1 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M2 Farmer Code]),0)+IsNull(Sum(xxxfinal.[M3 Farmer Code]),0)) As [Total No. Of Farmer],
 							 (IsNull(Sum(xxxfinal.[M1 Amt]),0)+IsNull(Sum(xxxfinal.[M2 Amt]),0)+IsNull(Sum(xxxfinal.[M3 Amt]),0)) As [Total Amt] from ("
-                query += "  Select [Month] "
+                query += "  Select [Month], "
 
-                query += "  ,Case When Month='" + Month1 + "' Then Sum([Billed Qty]) Else 0 End As 'M1 Billed Qty',
+                If chkOnlyReject.Checked Then
+                    query += "  Case When Month='" + Month1 + "' Then Sum([No Of Doc]) Else 0 End As 'M1 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month1 + "' Then Sum([Billed Qty]) Else 0 End As 'M1 Billed Qty',
                                 Case When Month='" + Month1 + "' Then Sum([Farmer Qty]) Else 0 End As 'M1 Farmer Qty',
                                 Case When Month='" + Month1 + "' Then Sum([Farmer Code]) Else 0 End As 'M1 Farmer Code',
-                                Case When Month='" + Month1 + "' Then Sum(Amt) Else 0 End As 'M1 Amt'"
-
-                query += "  ,Case When Month='" + Month2 + "' Then Sum([Billed Qty]) Else 0 End As 'M2 Billed Qty',
+                                Case When Month='" + Month1 + "' Then Sum(Amt) Else 0 End As 'M1 Amt', "
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month2 + "' Then Sum([No Of Doc]) Else 0 End As 'M2 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month2 + "' Then Sum([Billed Qty]) Else 0 End As 'M2 Billed Qty',
                                 Case When Month='" + Month2 + "' Then Sum([Farmer Qty]) Else 0 End As 'M2 Farmer Qty',
                                 Case When Month='" + Month2 + "' Then Sum([Farmer Code]) Else 0 End As 'M2 Farmer Code',
-                                Case When Month='" + Month2 + "' Then Sum(Amt) Else 0 End As 'M2 Amt'"
-
-                query += " ,Case When Month='" + Month3 + "' Then Sum([Billed Qty]) Else 0 End As 'M3 Billed Qty',
+                                Case When Month='" + Month2 + "' Then Sum(Amt) Else 0 End As 'M2 Amt', "
+                If chkOnlyReject.Checked Then
+                    query += " Case When Month='" + Month3 + "' Then Sum([No Of Doc]) Else 0 End As 'M3 No Of Doc', "
+                End If
+                query += " Case When Month='" + Month3 + "' Then Sum([Billed Qty]) Else 0 End As 'M3 Billed Qty',
                                 Case When Month='" + Month3 + "' Then Sum([Farmer Qty]) Else 0 End As 'M3 Farmer Qty',
                                 Case When Month='" + Month3 + "' Then Sum([Farmer Code]) Else 0 End As 'M3 Farmer Code',
                                 Case When Month='" + Month3 + "' Then Sum(Amt) Else 0 End As 'M3 Amt'"
@@ -196,6 +228,12 @@ Public Class frmDBTNEFTUnionReport
         Gv.Columns("Month1").Width = 200
         Gv.Columns("Month1").FormatString = ""
 
+        If chkOnlyReject.Checked Then
+            Gv.Columns("M1 No Of Doc").HeaderText = "No. Of Document"
+            Gv.Columns("M1 No Of Doc").Width = 200
+            Gv.Columns("M1 No Of Doc").FormatString = "{0:n2}"
+        End If
+
         Gv.Columns("M1 Billed Qty").HeaderText = "Qty"
         Gv.Columns("M1 Billed Qty").Width = 200
         Gv.Columns("M1 Billed Qty").FormatString = "{0:n2}"
@@ -215,6 +253,12 @@ Public Class frmDBTNEFTUnionReport
         Gv.Columns("Month2").HeaderText = "Month 2"
         Gv.Columns("Month2").Width = 200
         Gv.Columns("Month2").FormatString = ""
+
+        If chkOnlyReject.Checked Then
+            Gv.Columns("M2 No Of Doc").HeaderText = "No. Of Document"
+            Gv.Columns("M2 No Of Doc").Width = 200
+            Gv.Columns("M2 No Of Doc").FormatString = "{0:n2}"
+        End If
 
         Gv.Columns("M2 Billed Qty").HeaderText = "Qty"
         Gv.Columns("M2 Billed Qty").Width = 200
@@ -236,6 +280,12 @@ Public Class frmDBTNEFTUnionReport
         Gv.Columns("Month3").Width = 200
         Gv.Columns("Month3").FormatString = ""
 
+        If chkOnlyReject.Checked Then
+            Gv.Columns("M3 No Of Doc").HeaderText = "No. Of Document"
+            Gv.Columns("M3 No Of Doc").Width = 200
+            Gv.Columns("M3 No Of Doc").FormatString = "{0:n2}"
+        End If
+
         Gv.Columns("M3 Billed Qty").HeaderText = "Qty"
         Gv.Columns("M3 Billed Qty").Width = 200
         Gv.Columns("M3 Billed Qty").FormatString = "{0:n2}"
@@ -251,6 +301,12 @@ Public Class frmDBTNEFTUnionReport
         Gv.Columns("M3 Amt").HeaderText = "Amount"
         Gv.Columns("M3 Amt").Width = 200
         Gv.Columns("M3 Amt").FormatString = "{0:n2}"
+
+        If chkOnlyReject.Checked Then
+            Gv.Columns("Total Document").HeaderText = "Total Document"
+            Gv.Columns("Total Document").Width = 200
+            Gv.Columns("Total Document").FormatString = "{0:n2}"
+        End If
 
         Gv.Columns("Total Billed Qty").HeaderText = "Billed Qty"
         Gv.Columns("Total Billed Qty").Width = 200
@@ -290,6 +346,9 @@ Public Class frmDBTNEFTUnionReport
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month1, "MMM-yyyy")))
             view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 No Of Doc").Name)
+            End If
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Billed Qty").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Qty").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv.Columns("M1 Farmer Code").Name)
@@ -299,6 +358,9 @@ Public Class frmDBTNEFTUnionReport
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month2, "MMM-yyyy")))
             view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 No Of Doc").Name)
+            End If
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Billed Qty").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Qty").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv.Columns("M2 Farmer Code").Name)
@@ -307,6 +369,9 @@ Public Class frmDBTNEFTUnionReport
 
             view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.GetPrintDate(Month3, "MMM-yyyy")))
             view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 No Of Doc").Name)
+            End If
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Billed Qty").Name)
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Qty").Name)
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv.Columns("M3 Farmer Code").Name)
@@ -314,6 +379,9 @@ Public Class frmDBTNEFTUnionReport
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
             view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+            If chkOnlyReject.Checked Then
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Document").Name)
+            End If
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Billed Qty").Name)
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total Farmer Qty").Name)
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv.Columns("Total No. Of Farmer").Name)
@@ -361,7 +429,11 @@ Public Class frmDBTNEFTUnionReport
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                If chkOnlyReject.Checked Then
+                    frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFT_RejectUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                Else
+                    frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
+                End If
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)

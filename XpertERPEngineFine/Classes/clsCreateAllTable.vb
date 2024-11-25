@@ -8048,6 +8048,7 @@ Public Class clsCreateAllTable
             coll.Add("IsAgainstGateOut", "int NOT NULL default 0")
             coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "Tspl_Gate_Entry_Details_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -8345,6 +8346,7 @@ Public Class clsCreateAllTable
             coll.Add("AdvanceAmount", "float not null default 0")
             coll.Add("TruckSheetGenerate", "Integer not null default 0")
             coll.Add("AgainstGatePass", "Integer not null default 0")
+            coll.Add("IS_TCS", "Integer not null default 0")
             coll.Add("Credit_Limit", "decimal(18,2) null")
             coll.Add("Advance_Security", "decimal(18,2) null")
             coll.Add("Revese_Adv_Security", "decimal(18,2) null")
@@ -9968,6 +9970,7 @@ Public Class clsCreateAllTable
             coll.Add("Cleaning_Tester", "varchar(50) null")
             coll.Add("AcknowEntryDocument_No", " varchar(50)  NULL")
             coll.Add("Source_API", "int Null")
+            coll.Add("Manual_Entry", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Quality_Check_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)
@@ -24844,7 +24847,16 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Purchase_Order_No", "Varchar(30) null")
             coll.Add("Capping_Apply", "integer null")
             coll.Add("Retesting", "integer null")
+            coll.Add("Against_Send_SMS", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "", True, False, "", "DOC_CODE", "DOC_DATE")
+            Try
+                qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Send_SMS'"
+                dt = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_Against_Send_SMS ON TSPL_MILK_SRN_HEAD(Against_Send_SMS) WHERE Against_Send_SMS IS NOT NULL ")
+                End If
+            Catch
+            End Try
             coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "", False, False)
             ''ERO/10/05/19-000600,ERO/08/05/19-000596 By Balwinder on 13/05/2019 
@@ -26962,6 +26974,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Custom_Conversion", "integer not null default 0")
             coll.Add("Print_UOM", "integer  null default 0")
             coll.Add("ProcessLoss_UOM", "integer  null default 0")
+            coll.Add("Report_UOM", "integer  null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 
@@ -30130,6 +30143,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("TotalSubsidyDisAmt", "Decimal(18,2) NULL")
             coll.Add("Against_Booking_No", "varchar(30) NULL REFERENCES TSPL_BOOKING_MATSER(Document_No)")
             coll.Add("BoothSecurity_TotalAmt", "decimal(18,2) null")
+            coll.Add("IS_TCS", "Integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -30343,7 +30357,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
-            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique")
+            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
             coll.Add("Booth_Code", "varchar(12) NULL")
             coll.Add("Qty", "decimal(18,2) null")
             coll.Add("Item_Code", "varchar(50) NULL")
@@ -30352,16 +30366,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Commission_Amt", "decimal(18,4) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
-            Try
-                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SD_SHIPMENT_BOOKING_DETAIL'"))
-                If chkValuesDetail = 1 Then
-                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_SD_SHIPMENT_BOOKING_DETAIL' and b.COLUMN_NAME='Booking_TR_Code' ORDER BY A.TABLE_NAME")
-                    If clsCommon.myLen(QryForeign) > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_BOOKING_DETAIL drop constraint " & QryForeign & "")
-                    End If
-                End If
-            Catch ex As Exception
-            End Try
+
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")

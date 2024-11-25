@@ -77,7 +77,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         SetUserMgmtNew()
         Reset()
 
-        MCCLOCATIONFINDER()
+
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Transaction")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -428,20 +428,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub MCCLOCATIONFINDER()
-        Try
-            Dim obj As New clsMCCCodes()
-            obj = clsMCCCodes.GetData(True)
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                arrLoc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+
     Sub DisableInputDataField()
         txtFromDate.Enabled = False
         txtToDate.Enabled = False

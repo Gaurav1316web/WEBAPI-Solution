@@ -22,7 +22,7 @@ Partial Class frmDBTNEFTUnionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -36,6 +36,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
+        Me.chkOnlyReject = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -85,13 +86,14 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 407)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkOnlyReject)
         Me.RadPageViewPage1.Controls.Add(Me.txtToDate)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtFromDate)
@@ -195,7 +197,7 @@ Partial Class frmDBTNEFTUnionReport
         '
         '
         '
-        Me.Gv.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.Gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv.Name = "Gv"
         Me.Gv.Size = New System.Drawing.Size(779, 359)
         Me.Gv.TabIndex = 0
@@ -235,6 +237,16 @@ Partial Class frmDBTNEFTUnionReport
         Me.btnReport.Size = New System.Drawing.Size(70, 22)
         Me.btnReport.TabIndex = 7
         Me.btnReport.Text = ">>>"
+        '
+        'chkOnlyReject
+        '
+        Me.chkOnlyReject.AutoSize = True
+        Me.chkOnlyReject.Location = New System.Drawing.Point(334, 16)
+        Me.chkOnlyReject.Name = "chkOnlyReject"
+        Me.chkOnlyReject.Size = New System.Drawing.Size(84, 17)
+        Me.chkOnlyReject.TabIndex = 15
+        Me.chkOnlyReject.Text = "Only Reject"
+        Me.chkOnlyReject.UseVisualStyleBackColor = True
         '
         'frmDBTNEFTUnionReport
         '
@@ -284,4 +296,5 @@ Partial Class frmDBTNEFTUnionReport
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
     Friend WithEvents Gv As RadGridView
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents chkOnlyReject As CheckBox
 End Class

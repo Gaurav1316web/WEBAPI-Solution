@@ -37,6 +37,8 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkisTCS = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkTPT = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblShipToLocation = New common.Controls.MyLabel()
         Me.txtShipToLocation = New common.UserControls.txtFinder()
         Me.RadLabel18 = New common.Controls.MyLabel()
@@ -311,13 +313,14 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkTPT = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTPT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -579,7 +582,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkTPT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -635,7 +637,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1281, 455)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -644,6 +646,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkisTCS)
         Me.RadPageViewPage1.Controls.Add(Me.chkTPT)
         Me.RadPageViewPage1.Controls.Add(Me.lblShipToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.txtShipToLocation)
@@ -731,6 +734,24 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'chkisTCS
+        '
+        Me.chkisTCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkisTCS.Location = New System.Drawing.Point(484, 180)
+        Me.chkisTCS.Name = "chkisTCS"
+        Me.chkisTCS.Size = New System.Drawing.Size(43, 16)
+        Me.chkisTCS.TabIndex = 1581
+        Me.chkisTCS.Text = "TCS"
+        '
+        'chkTPT
+        '
+        Me.chkTPT.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkTPT.Location = New System.Drawing.Point(436, 181)
+        Me.chkTPT.Name = "chkTPT"
+        Me.chkTPT.Size = New System.Drawing.Size(42, 16)
+        Me.chkTPT.TabIndex = 1580
+        Me.chkTPT.Text = "TPT"
         '
         'lblShipToLocation
         '
@@ -2163,7 +2184,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(1271, 409)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage6.Text = "Taxes"
         '
         'MyLabel19
@@ -2172,7 +2193,7 @@ Partial Class frmDairyBookingCustomer
         Me.MyLabel19.FieldName = Nothing
         Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel19.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel19.Location = New System.Drawing.Point(855, 321)
+        Me.MyLabel19.Location = New System.Drawing.Point(844, 321)
         Me.MyLabel19.Name = "MyLabel19"
         Me.MyLabel19.Size = New System.Drawing.Size(155, 16)
         Me.MyLabel19.TabIndex = 18
@@ -2193,7 +2214,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadGroupBox1.Location = New System.Drawing.Point(12, 335)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1003, 73)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(992, 73)
         Me.RadGroupBox1.TabIndex = 17
         Me.RadGroupBox1.Text = "Terms"
         '
@@ -4421,15 +4442,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'chkTPT
-        '
-        Me.chkTPT.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkTPT.Location = New System.Drawing.Point(436, 181)
-        Me.chkTPT.Name = "chkTPT"
-        Me.chkTPT.Size = New System.Drawing.Size(42, 16)
-        Me.chkTPT.TabIndex = 1580
-        Me.chkTPT.Text = "TPT"
-        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4452,6 +4464,8 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkisTCS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTPT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkManualVehicle, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4732,7 +4746,6 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkTPT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -5015,5 +5028,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtShipToLocation As common.UserControls.txtFinder
     Friend WithEvents RadLabel18 As common.Controls.MyLabel
     Friend WithEvents chkTPT As RadCheckBox
+    Friend WithEvents chkisTCS As RadCheckBox
 End Class
 

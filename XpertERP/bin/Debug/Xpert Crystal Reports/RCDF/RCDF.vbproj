@@ -332,6 +332,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntry.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntries.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNew.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNewALW.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleMultipleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleMultipleGatePassEntryNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDispatchProductSale.rpt" />
@@ -533,6 +534,7 @@
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePass.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWise.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseCHITTORGARH.rpt" />
+    <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseKTA.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseUDP.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptExportSaleInvoice _NonTaxable.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptExportSaleInvoice.rpt" />
@@ -1448,6 +1450,7 @@
     <None Include="Crystal Reports\Milk Procurement\NEFTUploaderMP.rpt" />
     <None Include="Crystal Reports\Milk Procurement\NEFTUploaderVLC.rpt" />
     <None Include="Crystal Reports\Milk Procurement\RouteWisePrint.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\RouteWiseSummaryPrint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptAbstractReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptAbstractReportPrePrint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptBMCPeriodicalReport.rpt" />
@@ -1477,6 +1480,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptQualityCheck.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRoutePeriodicalDispatchReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTankerGainLossReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLossPrint2.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
@@ -1959,6 +1963,7 @@
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheet.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetInHindi.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetInHindiPouch.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetPC.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetPouch.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptFluidMilkDemandReport.rpt" />

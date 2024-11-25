@@ -31,6 +31,7 @@ Public Class FrmItemMasterRMOther
     Const UOMColStockUnitChangable2 As String = "STOCKUNITCHG2"
     Const UOMDefault As String = "UOMDefault"
     Const PrintUOM As String = "PrintUOM"
+    Const ReportUOM As String = "ReportUOM"
     Const RMProcessloss As String = "RMProcessloss"
     Const UOMPieces As String = "UOMPieces"
     Const UOMGrossWeight As String = "GrossWeight"
@@ -842,6 +843,7 @@ Public Class FrmItemMasterRMOther
         gvUOM.Rows(IntRowNo).Cells(UOMColStockUnit).ReadOnly = IIf(clsCommon.myCdbl(gvUOM.Rows(IntRowNo).Cells(UOMColStockUnitChangable2).Value) = "1", True, False)   'False 
         gvUOM.Rows(IntRowNo).Cells(UOMDefault).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(PrintUOM).ReadOnly = False
+        gvUOM.Rows(IntRowNo).Cells(ReportUOM).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(RMProcessloss).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMPieces).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMGrossWeight).ReadOnly = False
@@ -1038,6 +1040,16 @@ Public Class FrmItemMasterRMOther
         repoPrintUOM.IsVisible = True
         repoPrintUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoPrintUOM)
+
+        Dim repoReportUOM As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoReportUOM.FormatString = ""
+        repoReportUOM.HeaderText = "Report UOM"
+        repoReportUOM.Name = ReportUOM
+        repoReportUOM.Width = 80
+        repoReportUOM.ThreeState = False
+        repoReportUOM.IsVisible = True
+        repoReportUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvUOM.MasterTemplate.Columns.Add(repoReportUOM)
 
         Dim repoRMProcess As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
             repoRMProcess.FormatString = ""
@@ -1597,6 +1609,14 @@ Public Class FrmItemMasterRMOther
                         CountUOMprint = CountUOMprint + 1
                     End If
                 Next
+
+                Dim CountReportUOM As Integer = 0
+                For ii As Integer = 0 To gvUOM.RowCount - 1
+                    If gvUOM.Rows(ii).Cells(ReportUOM).Value = True Then
+                        CountReportUOM = CountReportUOM + 1
+                    End If
+                Next
+
                 Dim CountRMProcessLoss As Integer = 0
                 For ii As Integer = 0 To gvUOM.RowCount - 1
                     If gvUOM.Rows(ii).Cells(RMProcessloss).Value = True Then
@@ -1648,6 +1668,11 @@ Public Class FrmItemMasterRMOther
                         objtr.Print_UOM = 1
                     Else
                         objtr.Print_UOM = 0
+                    End If
+                    If clsCommon.CompairString(gvUOM.Rows(ii).Cells(ReportUOM).Value, True) = CompairStringResult.Equal Then
+                        objtr.Report_UOM = 1
+                    Else
+                        objtr.Report_UOM = 0
                     End If
                     If clsCommon.CompairString(gvUOM.Rows(ii).Cells(RMProcessloss).Value, True) = CompairStringResult.Equal Then
                         objtr.RMProcessLoss_UOM = 1
@@ -2793,6 +2818,11 @@ Public Class FrmItemMasterRMOther
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(PrintUOM).Value = True
                         Else
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(PrintUOM).Value = False
+                        End If
+                        If objtr.Report_UOM = 1 Then
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(ReportUOM).Value = True
+                        Else
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(ReportUOM).Value = False
                         End If
                         If objtr.RMProcessLoss_UOM = 1 Then
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(RMProcessloss).Value = True

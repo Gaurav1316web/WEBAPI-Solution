@@ -87,6 +87,7 @@ Public Class frmDemandBooking
     Dim SettSeprateDemandForMorningEveningShift As Boolean = False
     Dim UpdateDemandBeforePost As Boolean = False
     Dim lstCustItem As List(Of clsDemandCustItem)
+    Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmBookingEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
@@ -218,6 +219,7 @@ Public Class frmDemandBooking
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnReverseAndUnpost.Visible = MyBase.isReverse
         'RadMenu1.Visible = MyBase.isExport
         If MyBase.isExport = True Then
             btnExport.Enabled = True
@@ -3765,24 +3767,30 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         Dim mainTrip As String = ""
         Dim Trip As String = ""
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") <> CompairStringResult.Equal Then
-            Trip = " max(isnull(LEFT((el.files) ,LEN((el.files ))-1),'NoFile')) as Trip,"
+            Trip = "     MAX(ISNULL(LEFT((el.files), CASE WHEN LEN((el.files)) > 1 THEN LEN((el.files)) - 1 ELSE 0 END), 'NoFile')) AS Trip,"
             mainTrip = " ,Main_Final.Trip "
         End If
         Dim Qry As String = "select  zone.Phone1 as Dist_Phn, zone.Zone_Code,FSSAI_NO, TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.GSTINNo,  TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin,TSPL_COMPANY_MASTER.Access_Officer as FSSAI_LIC_NO
                   ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,'" + objCommonVar.CurrentUser + "' as Currentuser
                   ,Main_Final.Distributor,Main_Final.Distributor_Code,Employee_Name,'" & StrShift & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc ,Main_Final.Vehicle_Desc
-                  ,Main_Final.Item_alies_name,Main_Final.UOM,Main_Final.unit_code_result,Main_Final.Crate_Qty,Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount
-                  ,Main_Final.Production_Remarks" + mainTrip + "
+                  ,Main_Final.Item_alies_name,Main_Final.UOM,Main_Final.unit_code_result,"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " CASE WHEN (Main_Final.Crate_Qty) - FLOOR(Main_Final.Crate_Qty) > 0.5 THEN CEILING(Main_Final.Crate_Qty) ELSE FLOOR(Main_Final.Crate_Qty) END AS Crate_Qty,"
+        Else
+            Qry += " Main_Final.Crate_Qty,"
+        End If
+        Qry += " Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount,Main_Final.Production_Remarks" + mainTrip + "
                   from (select " + Trip + " max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,max(TSPL_VENDOR_MASTER.Vendor_Code) as Distributor_Code,max(TSPL_customer_master.FSSAI_NO)FSSAI_NO ,
-                  max(TSPL_DEMAND_BOOKING_MASTER.shiftType) as shiftType,
-                  max(TSPL_city_MASTER.City_Name) as City_Name,
-                  max(TSPL_DEMAND_BOOKING_MASTER.Comp_Code) as Comp_Code,
-                  max(TSPL_DEMAND_BOOKING_MASTER.location_code) as location_code
-                  ,TSPL_DEMAND_BOOKING_MASTER.Document_No as Demand_No,max(convert(varchar(15),TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)) as Demand_Date ,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,max(isnull(TSPL_ROUTE_MASTER.Route_Desc,'')) as Route_Desc,max(TSPL_Route_Master.Employee_Name)Employee_Name
+                  max(TSPL_DEMAND_BOOKING_MASTER.shiftType) as shiftType,max(TSPL_city_MASTER.City_Name) as City_Name,max(TSPL_DEMAND_BOOKING_MASTER.Comp_Code) as Comp_Code,max(TSPL_DEMAND_BOOKING_MASTER.location_code) as location_code,TSPL_DEMAND_BOOKING_MASTER.Document_No as Demand_No,max(convert(varchar(15),TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)) as Demand_Date ,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,max(isnull(TSPL_ROUTE_MASTER.Route_Desc,'')) as Route_Desc,max(TSPL_Route_Master.Employee_Name)Employee_Name
                   ,max(isnull(TSPL_VEHICLE_MASTER.Description,'')) as Vehicle_Desc ,max(TSPL_ITEM_MASTER.alies_name) as Item_alies_name,
-                  max(TSPL_ITEM_MASTER.Unit_Code) as UOM,CASE WHEN max(TSPL_ITEM_MASTER.Unit_Code) = 'crate' OR max(TSPL_ITEM_MASTER.Unit_Code) = 'pouch' THEN 'Crate/Pouch' ELSE max(TSPL_ITEM_MASTER.Unit_Code) END AS unit_code_result,
-                  sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Crate' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Crate_Qty
-            ,sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pouch' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Pouch_Qty
+                  max(TSPL_ITEM_MASTER.Unit_Code) as UOM,CASE WHEN max(TSPL_ITEM_MASTER.Unit_Code) = 'crate' OR max(TSPL_ITEM_MASTER.Unit_Code) = 'pouch' THEN 'Crate/Pouch' ELSE max(TSPL_ITEM_MASTER.Unit_Code) END AS unit_code_result,"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " Round(sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise)*MAX(CInLTR.Conversion_Factor)/Max(CInCrate.Conversion_Factor),1) As Crate_Qty,"
+        Else
+            Qry += " sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Crate' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Crate_Qty, "
+        End If
+
+        Qry += " sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pouch' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Pouch_Qty
             ,sum(case when (TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Crate' and TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Pouch') then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Loose_Qty
             ,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) AS TotalLtr_ItemWise
                    ,sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount) AS ItemNetAmount
@@ -3790,7 +3798,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                   from TSPL_DEMAND_BOOKING_MASTER left outer join TSPL_DEMAND_BOOKING_DETAIL
                   on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
                    left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
-                  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+                  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                  LEFT Outer Join (Select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL Where UOM_Code='LTR')CInLTR ON CInLTR.Item_Code=TSPL_ITEM_MASTER.Item_Code
+                  LEFT Outer Join (Select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL Where UOM_Code='CRATE')CInCrate ON CInCrate.Item_Code=TSPL_ITEM_MASTER.Item_Code
                    left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code 
                   left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
                   left outer join TSPL_city_MASTER on TSPL_city_MASTER.city_code = TSPL_DEMAND_BOOKING_MASTER.city_code
@@ -3811,6 +3821,8 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseUDP", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseCHITTORGARH", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+                frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             Else
                 frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWise", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             End If
@@ -4951,6 +4963,100 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
             frmCRV = Nothing
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Unpost"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub brnReverseAndUnpost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnpost.Click
+
+        Dim frm1 As New FrmPWD(Nothing)
+        frm1.strType = clsFixedParameterType.Transactionupdate
+        frm1.strCode = clsFixedParameterCode.DemandUnpost
+        frm1.ShowDialog()
+        If frm1.isPasswordCorrect Then
+            Reverse()
+            OneTimeCheck = True
+        End If
+
+    End Sub
+    Sub Reverse()
+        Dim NextDayDocNo As String = ""
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim isDispatch As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Booking_TR_Code in(select TR_Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "')"))
+                If isDispatch >= 1 Then
+                    Throw New Exception("Dispatch already Created!")
+                End If
+            Else
+                Throw New Exception("Please Select Document")
+
+            End If
+            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                NextDayDocNo = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(txtDate.Value.AddDays(1)) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+            End If
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Document_Date from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + NextDayDocNo + "'", "")
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", txtLocation.Value, txtDate.Value, trans)
+            'End If
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document " + IIf(clsCommon.myLen(NextDayDocNo) > 0, "and Delete Next Day Document [" + NextDayDocNo + "]", "") + " " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                ' REASON FOR DELETE 
+                Dim Reason As String = ""
+                Dim qry As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Reverse"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+                If clsCommon.myLen(clsCommon.myCstr(NextDayDocNo)) > 0 Then
+                    qry = "select Posted from TSPL_Demand_BOOKING_MAstER where Document_No='" + NextDayDocNo + "'"
+                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1 Then
+                        Throw New Exception("Please Reverse/Unpost Document No: [ " + NextDayDocNo + " ]")
+                    End If
+                    Dim dt As DataTable = Nothing
+                    '' to check gatepass or truck sheet generated
+                    Dim strDocNoForGatePass As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and IsGatePassGenerated='Y' "))
+                    Dim strDocNoForTrucksheet As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & NextDayDocNo & "' and  IsTruckSheetGenerated ='Y'  "))
+                    If clsCommon.myLen(clsCommon.myCstr(strDocNoForGatePass)) > 0 Then
+                        Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+                    End If
+                    If clsCommon.myLen(clsCommon.myCstr(strDocNoForTrucksheet)) > 0 Then
+                        Throw New Exception("Demand cannot be reverse because Next Day Demand Gate Pass has generated.")
+                    End If
+                End If
+                If clsCommon.myLen(NextDayDocNo) > 0 Then
+                    If clsDemandBookingSale.DeleteData(NextDayDocNo) Then
+                        If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+                            saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+                            common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                            LoadData(txtDocNo.Value, NavigatorType.Current)
+                        End If
+                    End If
+                Else
+                    If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
+                        saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

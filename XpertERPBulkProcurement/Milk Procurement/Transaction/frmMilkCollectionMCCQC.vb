@@ -112,21 +112,21 @@ Public Class frmMilkCollectionMCCQC
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Function GetQuery(ByVal TranDate As DateTime, ByVal PendingStatus As Integer) As String
-        Dim qry As String = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG 
-From tspl_Milk_collection_MCC_Detail 
-Left outer join tspl_Milk_collection_MCC on tspl_Milk_collection_MCC.Document_No=tspl_Milk_collection_MCC_Detail.Document_No
-Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection_MCC_Detail.MCC_Code
-where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(TranDate, "dd/MMM/yyyy") + "' and Status=0"
-        If PendingStatus = 1 Then ''ALL
-            qry += " and 2=2 "
-        ElseIf PendingStatus = 2 Then ''PEnding
-            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)=0 or isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)=0 )"
-        ElseIf PendingStatus = 3 Then ''QC Done
-            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)<>0 and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)<>0 )"
-        End If
-        Return qry
-    End Function
+    '    Function GetQuery(ByVal TranDate As DateTime, ByVal PendingStatus As Integer) As String
+    '        Dim qry As String = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG 
+    'From tspl_Milk_collection_MCC_Detail 
+    'Left outer join tspl_Milk_collection_MCC on tspl_Milk_collection_MCC.Document_No=tspl_Milk_collection_MCC_Detail.Document_No
+    'Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection_MCC_Detail.MCC_Code
+    'where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(TranDate, "dd/MMM/yyyy") + "' and Status=0"
+    '        If PendingStatus = 1 Then ''ALL
+    '            qry += " and 2=2 "
+    '        ElseIf PendingStatus = 2 Then ''PEnding
+    '            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)=0 or isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)=0 )"
+    '        ElseIf PendingStatus = 3 Then ''QC Done
+    '            qry += " and (isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,0)<>0 and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,0)<>0 )"
+    '        End If
+    '        Return qry
+    '    End Function
     Function AllowToSave(ByVal isStartProgressBar As Boolean) As Boolean
         Try
             CorrectionApply = False
@@ -158,7 +158,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                     Catch ex As Exception
                         Throw New Exception("Invalid Date " + clsCommon.myCstr(gv1.Rows(ii).Cells("DATE").Value))
                     End Try
-                    dt = clsDBFuncationality.GetDataTable(GetQuery(txtDate.Value, 1))
+                    dt = clsDBFuncationality.GetDataTable(clsMilkCollectionMCC.GetQuery(txtDate.Value, 1, False))
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                         Throw New Exception("No Pending Data found of [" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "]")
                     End If
@@ -181,25 +181,45 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                         strSampleNo = strBreak(1)
                     End If
                 End If
-                Dim qry As String = "Route_Code = '" + strRouteNo + "' and Mcc_Code_VLC_Uploader='" + strMCC + "'"
+                Dim qry1 As String = "Route_Code = '" + strRouteNo + "' and Mcc_Code_VLC_Uploader='" + strMCC + "' "
+
+                Dim qry2 As String = Nothing
                 If clsCommon.myLen(strSampleNo) > 0 Then
-                    qry += " and Sample_No='" + strSampleNo + "'"
+                    qry2 = " Sample_No='" + strSampleNo + "'"
                 End If
                 Try
                     Dim dtTemp As DataTable = Nothing
-                    Try
-                        dtTemp = dt.Select(qry).CopyToDataTable()
-                    Catch ex As Exception
-                    End Try
+                    ' First filtering step with qry1
+                    Dim initialFilteredRows = dt.Select(qry1)
 
-                    If dtTemp Is Nothing OrElse dtTemp.Rows.Count <= 0 Then
-                        gv1.Rows(ii).Cells("Error").Value += "Weight Not found."
+                    ' Check if there are matching rows for qry1
+                    If initialFilteredRows.Any() Then
+                        dtTemp = initialFilteredRows.CopyToDataTable()
+                    Else
+                        gv1.Rows(ii).Cells("Error").Value += $"BMC ({strMCC}) Not Found In Route No ({strRouteNo})."
                         gv1.Rows(ii).Cells("IsOK").Value = 2
+                        dtTemp = Nothing
                         Continue For
                     End If
-                    If dtTemp.Rows.Count > 1 Then
-                        gv1.Rows(ii).Cells("Error").Value += "DCS Have more than one weight entry."
+
+                    ' Second filtering step with qry2 on dtTemp
+                    Dim secondFilteredRows = dtTemp.Select(qry2)
+
+                    ' Check if there are matching rows for qry2
+                    If secondFilteredRows.Any() Then
+                        dtTemp = secondFilteredRows.CopyToDataTable()
+                    Else
+                        gv1.Rows(ii).Cells("Error").Value += $"Sample No ({strSampleNo}) Of BMC ({strMCC}) Not Found On Route No ({strRouteNo})."
                         gv1.Rows(ii).Cells("IsOK").Value = 2
+                        dtTemp = Nothing
+                        Continue For
+                    End If
+
+                    ' Check if there is more than one row in dtTemp after filtering with qry2
+                    If dtTemp.Rows.Count > 1 Then
+                        gv1.Rows(ii).Cells("Error").Value += "BMC have more than one entry or missing sample."
+                        gv1.Rows(ii).Cells("IsOK").Value = 2
+                        dtTemp = Nothing
                         Continue For
                     End If
                     gv1.Rows(ii).Cells("PKID").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("PK_Id"))
@@ -341,7 +361,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
         Try
 
             gv2.DataSource = Nothing
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetQuery(txtDateReport.Value, IIf(rbtnPending.IsChecked, 2, IIf(rbtnAllQCDone.IsChecked, 3, 1))))
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsMilkCollectionMCC.GetQuery(txtDateReport.Value, IIf(rbtnPending.IsChecked, 2, IIf(rbtnAllQCDone.IsChecked, 3, 1)), False))
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No Data found")
             End If

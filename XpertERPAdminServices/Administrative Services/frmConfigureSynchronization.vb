@@ -213,15 +213,11 @@ Public Class frmConfigureSynchronization
 
     Private Sub fndLoc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLoc._MYValidating
         Dim qry As String = ""
-        Dim arrLoc As String = ""
-        Dim obj As New clsMCCCodes()
-        obj = clsMCCCodes.GetData(True)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-            arrLoc = obj.arrLocCodes
-        End If
+
+        Dim arrMCCRights As ArrayList = clsMCCCodes.GetUserHavingMCCRights()
 
         qry = "select * from ( select Mcc_Code as [Code],MCC_Name as [Name] from tspl_mcc_master inner join tspl_location_master on location_Code= mcc_Code " _
-        & " and (loc_segment_Code in (" & arrLoc & ") or mcc_Code in (" & arrLoc & ")))xx "
+        & " and (  mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & ")))xx "
 
         fndLoc.Value = clsCommon.ShowSelectForm("VSPPMCCFn", qry, "Code", "", fndLoc.Value, "", isButtonClicked)
         txtLocName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Name from tspl_mcc_master where mcc_Code='" + fndLoc.Value + "'"))

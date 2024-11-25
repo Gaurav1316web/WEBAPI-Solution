@@ -297,6 +297,12 @@
     <Compile Include="Report\frmDemandHistory.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\frmGatepassDetailReport.Designer.vb">
+      <DependentUpon>frmGatepassDetailReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmGatepassDetailReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\FrmPrintMultipleGatepass.Designer.vb">
       <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>
     </Compile>
@@ -307,6 +313,12 @@
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\FrmZoneWiseSKUReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\RptBoothNilDemandl.Designer.vb">
+      <DependentUpon>RptBoothNilDemandl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\RptBoothNilDemandl.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptBoothTruckSheet.Designer.vb">
@@ -559,6 +571,12 @@
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptSaleRegisterDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptSaleRegisterUOMReport.Designer.vb">
+      <DependentUpon>rptSaleRegisterUOMReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSaleRegisterUOMReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptSalesLedgerReport.Designer.vb">
@@ -963,11 +981,17 @@
     <EmbeddedResource Include="Report\frmDemandHistory.resx">
       <DependentUpon>frmDemandHistory.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmGatepassDetailReport.resx">
+      <DependentUpon>frmGatepassDetailReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmPrintMultipleGatepass.resx">
       <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RptBoothNilDemandl.resx">
+      <DependentUpon>RptBoothNilDemandl.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptBoothTruckSheet.resx">
       <DependentUpon>rptBoothTruckSheet.vb</DependentUpon>
@@ -1094,6 +1118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSaleRegisterDetail.resx">
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSaleRegisterUOMReport.resx">
+      <DependentUpon>rptSaleRegisterUOMReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>

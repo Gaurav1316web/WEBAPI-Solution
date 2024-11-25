@@ -1038,7 +1038,7 @@ Public Class frmQCTemplateEntry
 
     Private Sub UpdateStausNewInput(ByVal grow As GridViewRowInfo)
         Try
-            If clsCommon.myCDecimal(grow.Cells(colInputData).Value) >= 0 AndAlso clsCommon.myCBool(grow.Cells(colMandatorySelect).Value) = True Then
+            If clsCommon.myCDecimal(grow.Cells(colInputData).Value) <= 0 OrElse clsCommon.myCDecimal(grow.Cells(colInputData).Value) >= 0 AndAlso clsCommon.myCBool(grow.Cells(colMandatorySelect).Value) = True Then
 
                 Dim qry As String = "select (TSPL_PARAMETER_RANGE_MASTER_QC.lower_range) as lower_range,(TSPL_PARAMETER_RANGE_MASTER_QC.upper_range) as upper_range,(TSPL_PARAMETER_RANGE_MASTER_QC.status) as status,(TSPL_PARAMETER_RANGE_MASTER_QC.value1) as value1,(TSPL_PARAMETER_RANGE_MASTER_QC.qc_status) as qc_status,(TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Per) as Deduction_Per
                 ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_lower_range
@@ -1060,7 +1060,7 @@ Public Class frmQCTemplateEntry
                 Dim TempDedPercentage As Decimal = 0
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     TempInputData = clsCommon.myCDecimal(grow.Cells(colInputData).Value)
-                    If TempInputData >= clsCommon.myCDecimal(dt.Rows(0)("lower_range")) AndAlso TempInputData <= clsCommon.myCDecimal(dt.Rows(0)("upper_range")) Then
+                    If TempInputData >= clsCommon.myCDecimal(dt.Rows(0)("lower_range")) And TempInputData <= clsCommon.myCDecimal(dt.Rows(0)("upper_range")) Then
                         grow.Cells(colFinalRange1).Value = "Yes"
                         grow.Cells(colNetResult).Value = "Yes"
                         grow.Cells(colInputDataDeductionPer).Value = 0
