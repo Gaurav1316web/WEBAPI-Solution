@@ -125,6 +125,7 @@ Public Class FrmPaymentProcess
     Dim arrAgainstMilkPurchaseInvoiceNo As String = ""
     Dim arrVendorInvoiceNo As String = ""
     Dim strVendorCode As String = ""
+    Dim ArrVendor As ArrayList = Nothing
     Dim strMccCodes As String = ""
     Dim strCustomerCode As String = ""
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -186,10 +187,12 @@ Public Class FrmPaymentProcess
     Dim Is_gv_Rows_Clear As Boolean = False
     Dim PrintHindi As Boolean = False
     Public fontInstalled As Boolean = False
+    Dim settNoOfDCSForDeduction As Integer = 50
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
         settTDSRoundOffAmount = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, Nothing)) = 1)
         SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
@@ -718,19 +721,18 @@ Public Class FrmPaymentProcess
 
     Sub getVendors()
         strVendorCode = ""
+        ArrVendor = Nothing
         If gvInvoice.Rows.Count > 0 Then
+            ArrVendor = New ArrayList
             For i As Integer = 0 To gvInvoice.Rows.Count - 1
                 If gvInvoice.Rows(i).Cells(colSelect).Value = True Then
                     strVendorCode = strVendorCode & "'" & gvInvoice.Rows(i).Cells(colVendorCode).Value & "',"
+                    ArrVendor.Add(clsCommon.myCstr(gvInvoice.Rows(i).Cells(colVendorCode).Value))
                 End If
             Next
             If clsCommon.myLen(strVendorCode) > 0 Then
                 strVendorCode = Microsoft.VisualBasic.Left(strVendorCode, Microsoft.VisualBasic.Len(strVendorCode) - 1)
             End If
-
-
-
-
         End If
     End Sub
 
@@ -2711,20 +2713,23 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         gvCreditNote.TableElement.TableHeaderHeight = 40
         gvCreditNote.BestFitColumns(BestFitColumnMode.AllCells)
     End Sub
-    Function GetDCSTempFile(ByVal strVendorCode As String) As String
-        Return "select Vendor_Code into #DCS from tspl_Vendor_master where vendor_Code in (" + strVendorCode + ") ;"
-    End Function
-    Sub LoadDeductionGridData()
 
+
+    Sub LoadDeductionGridData()
         LoadBlankGridDeduction()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = GetDCSTempFile(strVendorCode) + Environment.NewLine + " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by "
-            If PayableAmountZeroForMCCSale Then
-                qry += " max(Vendor_Code),max(Sequence_No),max(Posting_Date),max(Sequence_No2) "
-            Else
-                qry += " Document_No "
-            End If
-            qry += ") as SNo,Document_No,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(Vendor_Code) as Vendor_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(Vendor_Name) as Vendor_Name,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(DeductionCode) as DeductionCode,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(Deduction_Desc) as Deduction_Desc,Max(Total_Amount) as Total_Amount,max(Sequence_No) as Sequence_No,max(Sequence_No2) as Sequence_No2,max(Posting_Date) as Posting_Date from (  
+            Dim dt As DataTable = Nothing
+            For ii As Integer = 0 To ArrVendor.Count - 1 Step settNoOfDCSForDeduction
+                Dim ArrBatch = ArrVendor.Cast(Of String)().Skip(ii).Take(settNoOfDCSForDeduction).ToList()
+                If ArrBatch IsNot Nothing AndAlso ArrBatch.Count > 0 Then
+                    Dim qry As String = "select Vendor_Code into #DCS from tspl_Vendor_master where vendor_Code in (" + clsCommon.GetMulcallString(ArrBatch) + ") ;" + Environment.NewLine +
+" select cast(1 as bit) as Sel,ROW_NUMBER() over(order by "
+                    If PayableAmountZeroForMCCSale Then
+                        qry += " max(Vendor_Code),max(Sequence_No),max(Posting_Date),max(Sequence_No2) "
+                    Else
+                        qry += " Document_No "
+                    End If
+                    qry += ") as SNo,Document_No,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(Vendor_Code) as Vendor_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(Vendor_Name) as Vendor_Name,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(DeductionCode) as DeductionCode,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(Deduction_Desc) as Deduction_Desc,Max(Total_Amount) as Total_Amount,max(Sequence_No) as Sequence_No,max(Sequence_No2) as Sequence_No2,max(Posting_Date) as Posting_Date from (  
 select TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
 TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode , case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc,
 TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount ,(case when TSPL_VENDOR_INVOICE_HEAD.RefDocType='VSP-NGT' then -2 else (case when  TSPL_DEDUCTION_MASTER.Sequence_No is null then -1 else 0 end) end)  as Sequence_No 
@@ -2739,32 +2744,46 @@ inner join #DCS on #DCS.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 where  Document_Type ='D' and ((TSPL_VENDOR_INVOICE_HEAD.isDeduction='1' 
 And (ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,'')<>'' or ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'')) or  len(coalesce(TSPL_VENDOR_INVOICE_HEAD.Against_VCGL,''))>0)  
 And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>'' "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                qry += " And isnull(TSPL_VENDOR_INVOICE_HEAD.Saving, 0) in (0, 1) And isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
-            Else
-                qry += " And isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 "
-            End If
-            Dim whrCls As String = ""
-            If MultipleFinderFillAuto Then
-                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")")
-                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
-                    Dim ArrSeg As New ArrayList
-                    For Each drSeg As DataRow In dtSeg.Rows
-                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
-                    Next
-                    whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
-                Else
-                    whrCls += " and 2=3 "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        qry += " And isnull(TSPL_VENDOR_INVOICE_HEAD.Saving, 0) in (0, 1) And isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
+                    Else
+                        qry += " And isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 "
+                    End If
+                    Dim whrCls As String = ""
+                    If MultipleFinderFillAuto Then
+                        Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")")
+                        If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                            Dim ArrSeg As New ArrayList
+                            For Each drSeg As DataRow In dtSeg.Rows
+                                ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                            Next
+                            whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+                        Else
+                            whrCls += " and 2=3 "
+                        End If
+                    Else
+                        whrCls += "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( '" & fndLoc.Value & "' ) "
+                    End If
+                    qry = qry & whrCls & "  and   " & IIf(chkSkipPrevDeduction.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+                    qry += " )xxx group by Document_No "
+                    If PayableAmountZeroForMCCSale Then
+                        qry += " order by Vendor_Code,Sequence_No,Posting_Date,Sequence_No2  "
+                    End If
+                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                        dt = clsDBFuncationality.GetDataTable(qry)
+                    Else
+                        Dim dtResult As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        If dtResult IsNot Nothing AndAlso dtResult.Rows.Count > 0 Then
+                            dt.Merge(dtResult)
+                        End If
+                    End If
                 End If
-            Else
-                whrCls += "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( '" & fndLoc.Value & "' ) "
-            End If
-            qry = qry & whrCls & "  and   " & IIf(chkSkipPrevDeduction.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
-            qry += " )xxx group by Document_No "
-            If PayableAmountZeroForMCCSale Then
-                qry += " order by Vendor_Code,Sequence_No,Posting_Date,Sequence_No2  "
-            End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Next
+
+
+
+
+
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gvDeduction.DataSource = Nothing
                 gvDeduction.AutoGenerateColumns = False
@@ -2780,9 +2799,98 @@ And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>''
                 gvDeduction.Columns(colDeductionCode).FieldName = "DeductionCode"
                 gvDeduction.Columns(colDeductionDesc).FieldName = "Deduction_Desc"
                 gvDeduction.Columns(colItemAmt).FieldName = "Total_Amount"
+
+                For jj As Integer = 0 To gvDeduction.Rows.Count - 1
+                    gvDeduction.Columns(colSlno).DataSourceNullValue = jj + 1
+                Next
             End If
+
+
         End If
     End Sub
+
+    'Function GetDCSTempFile(ByVal ArrVendor As ArrayList) As String
+    '    Return "select Vendor_Code into #DCS from tspl_Vendor_master where vendor_Code in (" + clsCommon.GetMulcallString(ArrVendor) + ") ;"
+    'End Function
+    '    Sub LoadDeductionGridData()
+
+    '        LoadBlankGridDeduction()
+    '        If clsCommon.myLen(strVendorCode) > 0 Then
+    '            Dim qry As String = GetDCSTempFile(strVendorCode) + Environment.NewLine + " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by "
+    '            If PayableAmountZeroForMCCSale Then
+    '                qry += " max(Vendor_Code),max(Sequence_No),max(Posting_Date),max(Sequence_No2) "
+    '            Else
+    '                qry += " Document_No "
+    '            End If
+    '            qry += ") as SNo,Document_No,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(Vendor_Code) as Vendor_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(Vendor_Name) as Vendor_Name,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(DeductionCode) as DeductionCode,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(Deduction_Desc) as Deduction_Desc,Max(Total_Amount) as Total_Amount,max(Sequence_No) as Sequence_No,max(Sequence_No2) as Sequence_No2,max(Posting_Date) as Posting_Date from (  
+    'select TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
+    'TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode , case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc,
+    'TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount ,(case when TSPL_VENDOR_INVOICE_HEAD.RefDocType='VSP-NGT' then -2 else (case when  TSPL_DEDUCTION_MASTER.Sequence_No is null then -1 else 0 end) end)  as Sequence_No 
+    ',TSPL_VENDOR_INVOICE_HEAD.Posting_Date 
+    ',TSPL_DEDUCTION_MASTER.Sequence_No as Sequence_No2 
+    'from TSPL_VENDOR_INVOICE_DETAIL 
+    'left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+    'left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
+    'left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
+    'left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+    'inner join #DCS on #DCS.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  
+    'where  Document_Type ='D' and ((TSPL_VENDOR_INVOICE_HEAD.isDeduction='1' 
+    'And (ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,'')<>'' or ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'')) or  len(coalesce(TSPL_VENDOR_INVOICE_HEAD.Against_VCGL,''))>0)  
+    'And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>'' "
+    '            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+    '                qry += " And isnull(TSPL_VENDOR_INVOICE_HEAD.Saving, 0) in (0, 1) And isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
+    '            Else
+    '                qry += " And isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 "
+    '            End If
+    '            Dim whrCls As String = ""
+    '            If MultipleFinderFillAuto Then
+    '                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")")
+    '                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+    '                    Dim ArrSeg As New ArrayList
+    '                    For Each drSeg As DataRow In dtSeg.Rows
+    '                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
+    '                    Next
+    '                    whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+    '                Else
+    '                    whrCls += " and 2=3 "
+    '                End If
+    '            Else
+    '                whrCls += "  and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( '" & fndLoc.Value & "' ) "
+    '            End If
+    '            qry = qry & whrCls & "  and   " & IIf(chkSkipPrevDeduction.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+    '            qry += " )xxx group by Document_No "
+    '            If PayableAmountZeroForMCCSale Then
+    '                qry += " order by Vendor_Code,Sequence_No,Posting_Date,Sequence_No2  "
+    '            End If
+
+
+
+
+
+
+
+
+
+
+    '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+    '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+    '                gvDeduction.DataSource = Nothing
+    '                gvDeduction.AutoGenerateColumns = False
+    '                gvDeduction.DataSource = dt
+
+    '                gvDeduction.Columns(colSlno).FieldName = "SNo"
+    '                gvDeduction.Columns(colSelect).FieldName = "Sel"
+    '                gvDeduction.Columns(colAPInvoiceNo).FieldName = "Document_No"
+    '                gvDeduction.Columns(colAPInvoiceDate).FieldName = "Invoice_Entry_Date"
+    '                gvDeduction.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
+    '                gvDeduction.Columns(colVendorCode).FieldName = "Vendor_Code"
+    '                gvDeduction.Columns(colVendorDesc).FieldName = "Vendor_Name"
+    '                gvDeduction.Columns(colDeductionCode).FieldName = "DeductionCode"
+    '                gvDeduction.Columns(colDeductionDesc).FieldName = "Deduction_Desc"
+    '                gvDeduction.Columns(colItemAmt).FieldName = "Total_Amount"
+    '            End If
+    '        End If
+    '    End Sub
 
     Sub LoadCreditNoteGridData()
         LoadBlankGridCreditNote()

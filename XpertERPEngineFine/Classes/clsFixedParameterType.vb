@@ -2,7 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
-
+    Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
     Public Const PenaltyCost As String = "Define Penalty Cost Value for Per Unit"
     Public Const CalculateProRateAuto As String = "Calculate Pro Rate Auto"
@@ -1290,6 +1290,7 @@ Public Class clsFixedParameterType
     Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
 End Class
 Public Class clsFixedParameterCode
+    Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
     Public Const PenaltyCost As String = "Define Penalty Cost Value for Per Unit"
     'Public Const SecretorydcsMaster As String = "Secretory/DCS Master"
@@ -2793,6 +2794,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, "50", "It Should above 50")
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.SetDCSAvgFATSNF, "0", "0:OFF;1:ON")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, "0", "0:OFF;1:ON")
@@ -4336,6 +4338,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, EnumControlType.CheckBox)
