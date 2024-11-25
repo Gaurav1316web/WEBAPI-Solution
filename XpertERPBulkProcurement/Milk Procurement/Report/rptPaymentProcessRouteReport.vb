@@ -3619,11 +3619,35 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
 
     Private Sub btnPrintDailySummary_Click(sender As Object, e As EventArgs) Handles btnPrintDailySummary.Click
         Try
-            Dim qry As String = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
+            Dim qry As String = ""
+            Dim qryies As String = ""
+            Dim dt1 As DataTable = Nothing
+
+
+            qry = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
                                   SELECT max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, max(TSPL_COMPANY_MASTER.City_Code) as Comp_City_Name , CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) as Doc_Date, sum( cast(TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2))) AS Quantity ,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FAT_KG, sum( TSPL_MILK_SRN_DETAIL.SNF_KG) as SNF_KG  from TSPL_MILK_SRN_DETAIL left outer join  TSPL_MILK_SRN_HEAD On  TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
                                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MILK_SRN_HEAD.Comp_Code 
                                   where CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)>=convert(date,'" + dtpDailySummaryFromDate.Value + "',103)  and CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)<=convert(date,'" + dtpDailySummaryToDate.Value + "',103) group by CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) ) XXXFinal  order by convert (datetime, Doc_Date,103) asc  "
+
+            If PaymentCWchk.Checked = True Then
+
+                qryies = " select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select (GRPColumn) as GRPColumn,max(Bank_Code)Bank_Code,max(Branch_Name)Branch_Name,sum(Payable_Amount) as Payable_Amount
+                        from ( select  TSPL_Vendor_MASTER.Bank_Code as GRPColumn,TSPL_PAYMENT_PROCESS_HEAD.Doc_No,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No, (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0))  as Payable_Amount   from TSPL_PAYMENT_PROCESS_DETAIL 
+                                left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+                                left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='UDP'
+                                left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+                                left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
+                                left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current  left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code 
+                                left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
+                                left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected  
+                                where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  
+                                TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value) + "' and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(dtpDailySummaryToDate.Value) + "'  
+                                And (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0))>0
+                                )xxx group by  GRPColumn )xxxx order by GRPColumn  "
+                dt1 = clsDBFuncationality.GetDataTable(qryies)
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
 
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -3642,9 +3666,15 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 Gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
                 Gv1.BestFitColumns()
+
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
-                frmCRV = Nothing
+                If PaymentCWchk.Checked = True Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dt1, "rptDailySummaryReportCycleWise", "", "CycleWiseBankSummary")
+                    frmCRV = Nothing
+                Else
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
+                    frmCRV = Nothing
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -4885,5 +4915,71 @@ TSPL_MILK_COLLECTION_MCC
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub dtpDailySummaryFromDate_ValueChanged(sender As Object, e As EventArgs) Handles dtpDailySummaryFromDate.ValueChanged
+
+    End Sub
+
+    Private Sub dtpDailySummaryFromDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles dtpDailySummaryFromDate.Validating
+        If PaymentCWchk.Checked = True Then
+            SetToDates()
+        End If
+    End Sub
+
+    Sub SetToDates()
+        If Not isLoad Then
+
+            Dim PaymentCycleType As String = ""
+            Dim PaymentCycleValue As Integer = 0
+
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (select Location_Code  from TSPL_LOCATION_MASTER where " + strMCCcode + " and Location_Category='MCC' and Rejected_Type='N') ")
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
+                Exit Sub
+            End If
+            PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
+            PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
+            Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
+            If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
+                If dtpDailySummaryFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
+                    clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                    dtpDailySummaryFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                    dtpDailySummaryToDate.Value = dtpDailySummaryFromDate.Value
+                    Exit Sub
+                End If
+                dtpDailySummaryToDate.Value = dtpDailySummaryFromDate.Value.AddDays(PaymentCycleValue - 1)
+
+                If dtpDailySummaryFromDate.Value.Month <> dtpDailySummaryToDate.Value.Month Then
+                    dtpDailySummaryToDate.Value = New Date(dtpDailySummaryFromDate.Value.Year, dtpDailySummaryFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                End If
+                Dim dtNxtPay As DateTime = dtpDailySummaryToDate.Value.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
+                If dtpDailySummaryFromDate.Value.Month <> dtNxtPay.Month Then
+                    dtpDailySummaryToDate.Value = New Date(dtpDailySummaryFromDate.Value.Year, dtpDailySummaryFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                End If
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value, "dd")) <> 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    dtpDailySummaryFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    dtpDailySummaryToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    Exit Sub
+                End If
+                dtpDailySummaryToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpDailySummaryFromDate.Value)
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value, "dd")) <> 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    dtpDailySummaryFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    dtpDailySummaryToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    Exit Sub
+                End If
+                dtpDailySummaryToDate.Value = DateAdd(DateInterval.Year, PaymentCycleValue, dtpDailySummaryFromDate.Value)
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
+                Dim today As Date = dtpDailySummaryFromDate.Value
+                Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
+                dtpDailySummaryFromDate.Value = today.AddDays(-dayDiff)
+                dtpDailySummaryToDate.Value = dtpDailySummaryFromDate.Value.AddDays(6)
+            End If
+        End If
     End Sub
 End Class
