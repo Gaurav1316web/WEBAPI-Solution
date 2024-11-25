@@ -549,6 +549,7 @@
     <Compile Include="Sale\DairySale\clsDemandBookingSale.vb" />
     <Compile Include="Sale\DairySale\clsItemProjection.vb" />
     <Compile Include="Sale\DairySale\clsCustCategoryWiseDefaultItemUomMaster.vb" />
+    <Compile Include="Sale\DairySale\clsProductDemandBookingSale.vb" />
     <Compile Include="Sale\DairySale\clsTransporterDeduction.vb" />
     <Compile Include="Sale\DairySale\clsTranspoterDeductionMaster.vb" />
     <Compile Include="Sale\DairySale\clsItemSublocationMapping.vb" />

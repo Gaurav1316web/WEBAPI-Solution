@@ -14607,6 +14607,8 @@ Public Class clsCreateAllTable
             coll.Add("Cust_Group_Code", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_GROUP_MASTER (Cust_Group_Code)")
             coll.Add("Cust_Type_Code", "varchar(12) NULL")
             coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("P_Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("I_Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             coll.Add("Route_Desc", "varchar(50) NULL")
             coll.Add("Price_Code", "varchar(12) NULL")
             coll.Add("City_Code", "varchar(50) NULL")
@@ -29786,6 +29788,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Posted_Date", "datetime NULL")
             coll.Add("IN_Active", "integer null default 0")
             coll.Add("InActive_Date", "datetime null")
+            coll.Add("Item_Type", "varchar(2) null")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Head", coll, "", True)
             Try
@@ -30340,7 +30343,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
-            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique")
             coll.Add("Booth_Code", "varchar(12) NULL")
             coll.Add("Qty", "decimal(18,2) null")
             coll.Add("Item_Code", "varchar(50) NULL")
@@ -30349,7 +30352,16 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Commission_Amt", "decimal(18,4) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
-
+            Try
+                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SD_SHIPMENT_BOOKING_DETAIL'"))
+                If chkValuesDetail = 1 Then
+                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_SD_SHIPMENT_BOOKING_DETAIL' and b.COLUMN_NAME='Booking_TR_Code' ORDER BY A.TABLE_NAME")
+                    If clsCommon.myLen(QryForeign) > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_BOOKING_DETAIL drop constraint " & QryForeign & "")
+                    End If
+                End If
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")

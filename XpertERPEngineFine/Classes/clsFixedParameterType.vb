@@ -1285,6 +1285,7 @@ Public Class clsFixedParameterType
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
     Public Const PickRatefromMaster = "Pick Rate from Master"
+    Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
 End Class
 Public Class clsFixedParameterCode
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
@@ -2704,6 +2705,9 @@ Public Class clsFixedParameterCode
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
     Public Const PickRatefromMaster = "Pick Rate from Master"
+    Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
+    Public Const ShowTodayDemandAsCurrentandUpcoming = "Show Today Demand As Current And Upcoming"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2896,6 +2900,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.CustomerReorder, "0", "0:OFF,1:ON;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.AcknowledgeDispatchQty, "0", "0:OFF,1:ON;CNF User Acknowledge Dispatch Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.HideQtyCrateRegister, "0", "0:OFF,1:ON;Demand register Hide Qty crate column")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowTodayDemandAsCurrentandUpcoming, "0", "0:OFF,1:ON;Show Today Demand As Currentand Upcoming")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
@@ -4287,6 +4292,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, "0", "0:Pick Rate Manually, 1:Pick Rate from Master;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, "0", "0:Off, 1:On;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6088,8 +6094,10 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.ItemBatchWiseStartDate, clsFixedParameterCode.ItemBatchWiseStartDate, EnumControlType.TextBox)
 
         InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, EnumControlType.CheckBox)
 
     End Sub
 End Class

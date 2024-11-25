@@ -8225,6 +8225,7 @@ Public Class MDI
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.FrmPrintMultipleGatepass
                         frm = New FrmPrintMultipleGatepass()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9175,6 +9176,12 @@ Public Class MDI
 
                     Case clsUserMgtCode.frmDemandBooking
                         frm = New frmDemandBooking
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmProductDemandBooking
+                        frm = New FrmProductDemandBooking
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmProductDispatch
+                        frm = New FrmProductDispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandAdjustment
                         frm = New frmDemandAdjustment

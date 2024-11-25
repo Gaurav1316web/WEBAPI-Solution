@@ -2665,6 +2665,8 @@ Public Class clsUserMgtCode
     Public Const frmTranspoterDeduction As String = "TRAN_DED_ENT"
     Public Const frmNotepadFileMatching As String = "NOT-MIS-MAT"
     Public Const frmDemandBooking As String = "DEM_BOO_TRN"
+    Public Const FrmProductDemandBooking As String = "PRD_DEM_BOO"
+    Public Const FrmProductDispatch As String = "PRD_DIS_TRN"
     Public Const frmDemandAdjustment As String = "DEM-ADJ-TRN"
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"

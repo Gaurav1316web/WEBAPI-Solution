@@ -2339,7 +2339,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDCSDEmandBooking, "DCS Demand", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBoothDispatch, "Booth Dispatch", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandUploader, "Demand Uploader", "1.36.02.30", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmDailyDemandReport, "Daily Demand Report", "1.36.02.31", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmProductDemandBooking, "Product Demand Booking", "1.36.02.31", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, "Product Dispatch", "1.36.02.32", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+
 
         '' end of transaction
 
@@ -2404,6 +2406,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmPrintMultipleGatepass, "Print Multiple Gatepass", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBoothTruckSheet, "Booth Truck Sheet", "1.06.03.53", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDemandReport, "Demand Report", "1.06.03.54", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDailyDemandReport, "Daily Demand Report", "1.06.03.55", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

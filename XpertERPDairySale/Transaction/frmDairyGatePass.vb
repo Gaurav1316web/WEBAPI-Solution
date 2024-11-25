@@ -12,6 +12,7 @@ Public Class frmDairyGatePass
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim strQuery As String
     Dim VehicleNofromDispatch As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
     Dim strQueryCANCRate As String
     Dim dt As DataTable
     Private isNewEntry As Boolean = False
@@ -107,6 +108,7 @@ Public Class frmDairyGatePass
         SettCreateProvisionOnOpeningAndClosingKM = (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, Nothing))) = 1)
         CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
         VehicleNofromDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, Nothing)))
+        EnableProductSaleForJPR = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)))
         Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
         cmbitemtype.Text = "Select"
         txtTransporter.MaxLength = 100
@@ -391,6 +393,16 @@ Public Class frmDairyGatePass
                     Else
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=1"
                     End If
+                    If EnableProductSaleForJPR Then
+                        If rbtn_Milk.IsChecked Then
+                            strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Item_Type='S'"
+                        ElseIf rbtn_product.IsChecked Then
+                            strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Item_Type='P'"
+                        ElseIf rbtn_IceCream.IsChecked Then
+                            strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Item_Type='I'"
+                        End If
+                    End If
+
                     If AllowGatePassDemandTripWise Then
                         If clsCommon.myLen(txtTripNo.Text) > 0 Then
                             strQuery += "  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No='" + txtTripNo.Text + "'"
@@ -538,14 +550,22 @@ Public Class frmDairyGatePass
                         End If
                         If intLineNo = 1 Then
                             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                                txtDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from tspl_customer_master where cust_code in(select  top 1 x.Cust_Code 
-from(
-select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
-from TSPL_DISTRIBUTOR_ROUTE
+                                '                                txtDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from tspl_customer_master where cust_code in(select  top 1 x.Cust_Code 
+                                'from(
+                                'select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
+                                'from TSPL_DISTRIBUTOR_ROUTE
+                                'left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+                                'where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "'
+                                ' Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
+                                ') X)"))
+                                Dim strQry As String = "select Customer_Name from tspl_customer_master where cust_code in(select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
+                where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code in(
+select top 1 TSPL_DISTRIBUTOR_ROUTE.Code from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
-where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "'
- Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
-) X)"))
+where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end) order by Start_Date desc)
+ and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end))"
+                                txtDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry))
                             Else
                                 txtDistributorName.Text = clsCommon.myCstr(dr("Customer_Name"))
                             End If
@@ -699,7 +719,15 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 txtCode.Value = obj.GPCode
                 txtVehicle.Value = obj.Vehicle_Id
                 lblVehicleDesc.Text = obj.Vehicle_Number
-                cmbitemtype.Text = obj.Item_Type
+                If clsCommon.CompairString(obj.Item_Type, "M") = CompairStringResult.Equal Then
+                    rbtn_Milk.IsChecked = True
+                ElseIf clsCommon.CompairString(obj.Item_Type, "P") = CompairStringResult.Equal Then
+                    rbtn_product.IsChecked = True
+                ElseIf clsCommon.CompairString(obj.Item_Type, "I") = CompairStringResult.Equal Then
+                    rbtn_IceCream.IsChecked = True
+
+                End If
+                'cmbitemtype.Text = obj.Item_Type
                 txtTransporter.Text = obj.Transporter
                 txtSalesman.Text = obj.Salesman
                 txtComments.Text = obj.Comments
@@ -852,7 +880,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 Else
                     obj.Vehicle_Number = VehicleDesc
                 End If
-                obj.Item_Type = cmbitemtype.Text
+                'obj.Item_Type = cmbitemtype.Text
                 obj.Transporter = txtTransporter.Text
                 obj.Salesman = txtSalesman.Text
                 obj.Remarks = txtRemarks.Text
@@ -871,24 +899,34 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 obj.Driver_ContactNo = txtDriverMobNo.Text
                 obj.DistributorName = txtDistributorName.Text
                 obj.Trip_No = clsCommon.myCdbl(txtTripNo.Text)
+                If rbtn_Milk.IsChecked Then
+                    obj.Item_Type = "M"
+                    If CreateGatePassFromDemand = True Then
+                        If rbtnEvening.IsChecked = True Then
+                            obj.ShiftType = "Evening"
+                        ElseIf rbtnMorning.IsChecked = True Then
+                            obj.ShiftType = "Morning"
+                        End If
+                    Else
+                        If rbtnEvening.IsChecked = True Then
+                            obj.ShiftType = "Evening"
+                        ElseIf rbtnMorning.IsChecked = True Then
+                            obj.ShiftType = "Morning"
+                        End If
+                    End If
+                ElseIf rbtn_product.IsChecked Then
+                    obj.Item_Type = "P"
+                    obj.ShiftType = "Morning"
+                ElseIf rbtn_IceCream.IsChecked Then
+                    obj.Item_Type = "I"
+                    obj.ShiftType = "Morning"
+                End If
                 If chkAgainstTransfer.Checked = True Then
                     obj.IsTransfer = 1
                     obj.AgainstTransferNo = clsCommon.myCstr(FndTransferNo.Value)
                 End If
                 '=======================================================
-                If CreateGatePassFromDemand = True Then
-                    If rbtnEvening.IsChecked = True Then
-                        obj.ShiftType = "Evening"
-                    ElseIf rbtnMorning.IsChecked = True Then
-                        obj.ShiftType = "Morning"
-                    End If
-                Else
-                    If rbtnEvening.IsChecked = True Then
-                        obj.ShiftType = "Evening"
-                    ElseIf rbtnMorning.IsChecked = True Then
-                        obj.ShiftType = "Morning"
-                    End If
-                End If
+
                 Dim totalCrate As Integer = 0
                 Dim totalCan As Integer = 0
                 obj.Arr = New List(Of clsDairyGPDetail)
@@ -965,7 +1003,8 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         btnSave.Text = "Save"
         LoadBlankGrid()
         isNewEntry = True
-        cmbitemtype.Text = "Select"
+        'cmbitemtype.Text = "Select"
+        rbtn_Milk.IsChecked = True
         isInsideLoadData = False
         fndRouteNo.Value = ""
         txtRouteName.Text = ""
@@ -1152,7 +1191,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         ' Ticket No : ERO/23/05/19-000614 By prabhakar
         'Ticket No-ERO/05/08/19-000984 ,Sanjay, add pending / approved 
         'Ticket No-ERO/27/08/19-001004 ,Add Opening_Km,Closing_Km
-        Dim qry As String = " SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)  as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_Route_Master.Route_Desc, case when TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' then 'Approved' else 'Pending' end as Status,Opening_Km,Closing_Km ,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as [Against Transfer No], Case When TSPL_DAIRYSALE_GATEPASS_MASTER.Status='Y' Then 'Cancel' Else Null End As [GP Status] FROM  TSPL_DAIRYSALE_GATEPASS_MASTER " &
+        Dim qry As String = " SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)  as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_Route_Master.Route_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type as [Item Type], case when TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' then 'Approved' else 'Pending' end as Status,Opening_Km,Closing_Km ,isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo,'') as [Against Transfer No], Case When TSPL_DAIRYSALE_GATEPASS_MASTER.Status='Y' Then 'Cancel' Else Null End As [GP Status] FROM  TSPL_DAIRYSALE_GATEPASS_MASTER " &
                             " left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No "
         LoadData(clsCommon.ShowSelectForm("GatepassEntry", qry, "GPCode", "", txtCode.Value, "GPCode", isButtonClicked, " TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate "), NavigatorType.Current)
         If clsCommon.myLen(txtCode.Value) > 0 Then
