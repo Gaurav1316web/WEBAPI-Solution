@@ -22,7 +22,7 @@ Partial Class rptPaymentProcessRouteReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -151,6 +151,10 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox19 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDateRange = New System.Windows.Forms.RadioButton()
+        Me.rbtnMonthWise = New System.Windows.Forms.RadioButton()
+        Me.RadGroupBox20 = New Telerik.WinControls.UI.RadGroupBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -274,6 +278,10 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox19, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox19.SuspendLayout()
+        CType(Me.RadGroupBox20, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox20.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -388,7 +396,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox16.Controls.Add(Me.MyLabel20)
         Me.RadGroupBox16.Controls.Add(Me.btnYearlySummary)
         Me.RadGroupBox16.HeaderText = "Yearly DCS Summary"
-        Me.RadGroupBox16.Location = New System.Drawing.Point(283, 137)
+        Me.RadGroupBox16.Location = New System.Drawing.Point(283, 144)
         Me.RadGroupBox16.Name = "RadGroupBox16"
         Me.RadGroupBox16.Size = New System.Drawing.Size(286, 182)
         Me.RadGroupBox16.TabIndex = 10
@@ -1124,21 +1132,21 @@ Partial Class rptPaymentProcessRouteReport
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox6.Controls.Add(Me.lblMonth)
-        Me.RadGroupBox6.Controls.Add(Me.txtMonth)
+        Me.RadGroupBox6.Controls.Add(Me.RadGroupBox20)
+        Me.RadGroupBox6.Controls.Add(Me.RadGroupBox19)
         Me.RadGroupBox6.Controls.Add(Me.RadGroupBox7)
         Me.RadGroupBox6.Controls.Add(Me.btnDCSSummaryPrint)
         Me.RadGroupBox6.HeaderText = "DCS Summary"
         Me.RadGroupBox6.Location = New System.Drawing.Point(283, 9)
         Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Size = New System.Drawing.Size(286, 104)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(286, 131)
         Me.RadGroupBox6.TabIndex = 5
         Me.RadGroupBox6.Text = "DCS Summary"
         '
         'lblMonth
         '
         Me.lblMonth.FieldName = Nothing
-        Me.lblMonth.Location = New System.Drawing.Point(5, 28)
+        Me.lblMonth.Location = New System.Drawing.Point(13, 15)
         Me.lblMonth.Name = "lblMonth"
         Me.lblMonth.Size = New System.Drawing.Size(40, 18)
         Me.lblMonth.TabIndex = 154
@@ -1158,7 +1166,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.txtMonth.IsSourceFromTable = False
         Me.txtMonth.IsSourceFromValueList = False
         Me.txtMonth.IsUnique = False
-        Me.txtMonth.Location = New System.Drawing.Point(61, 28)
+        Me.txtMonth.Location = New System.Drawing.Point(69, 15)
         Me.txtMonth.MendatroryField = True
         Me.txtMonth.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtMonth.MyLinkLable1 = Me.MyLabel1
@@ -1193,13 +1201,12 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox7.Controls.Add(Me.txtToDate)
         Me.RadGroupBox7.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox7.HeaderText = "Date Range"
-        Me.RadGroupBox7.Location = New System.Drawing.Point(200, 60)
+        Me.RadGroupBox7.Location = New System.Drawing.Point(5, 46)
         Me.RadGroupBox7.Name = "RadGroupBox7"
         Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox7.Size = New System.Drawing.Size(69, 42)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(276, 42)
         Me.RadGroupBox7.TabIndex = 54
         Me.RadGroupBox7.Text = "Date Range"
-        Me.RadGroupBox7.Visible = False
         '
         'MyLabel8
         '
@@ -1213,7 +1220,7 @@ Partial Class rptPaymentProcessRouteReport
         'MyLabel9
         '
         Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Location = New System.Drawing.Point(6, 16)
+        Me.MyLabel9.Location = New System.Drawing.Point(6, 17)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(32, 18)
         Me.MyLabel9.TabIndex = 2
@@ -1250,7 +1257,7 @@ Partial Class rptPaymentProcessRouteReport
         'btnDCSSummaryPrint
         '
         Me.btnDCSSummaryPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDCSSummaryPrint.Location = New System.Drawing.Point(5, 67)
+        Me.btnDCSSummaryPrint.Location = New System.Drawing.Point(5, 105)
         Me.btnDCSSummaryPrint.Name = "btnDCSSummaryPrint"
         Me.btnDCSSummaryPrint.Size = New System.Drawing.Size(71, 22)
         Me.btnDCSSummaryPrint.TabIndex = 153
@@ -1763,13 +1770,14 @@ Partial Class rptPaymentProcessRouteReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(857, 416)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnBack
         '
@@ -1830,6 +1838,54 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'RadGroupBox19
+        '
+        Me.RadGroupBox19.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox19.Controls.Add(Me.rbtnDateRange)
+        Me.RadGroupBox19.Controls.Add(Me.rbtnMonthWise)
+        Me.RadGroupBox19.HeaderText = ""
+        Me.RadGroupBox19.Location = New System.Drawing.Point(5, 19)
+        Me.RadGroupBox19.Name = "RadGroupBox19"
+        Me.RadGroupBox19.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox19.Size = New System.Drawing.Size(185, 21)
+        Me.RadGroupBox19.TabIndex = 1526
+        '
+        'rbtnDateRange
+        '
+        Me.rbtnDateRange.AutoSize = True
+        Me.rbtnDateRange.Location = New System.Drawing.Point(98, 2)
+        Me.rbtnDateRange.Name = "rbtnDateRange"
+        Me.rbtnDateRange.Size = New System.Drawing.Size(85, 17)
+        Me.rbtnDateRange.TabIndex = 1
+        Me.rbtnDateRange.Text = "Date Range"
+        Me.rbtnDateRange.UseVisualStyleBackColor = True
+        '
+        'rbtnMonthWise
+        '
+        Me.rbtnMonthWise.AutoSize = True
+        Me.rbtnMonthWise.Checked = True
+        Me.rbtnMonthWise.Location = New System.Drawing.Point(3, 2)
+        Me.rbtnMonthWise.Name = "rbtnMonthWise"
+        Me.rbtnMonthWise.Size = New System.Drawing.Size(88, 17)
+        Me.rbtnMonthWise.TabIndex = 0
+        Me.rbtnMonthWise.TabStop = True
+        Me.rbtnMonthWise.Text = "Month Wise"
+        Me.rbtnMonthWise.UseVisualStyleBackColor = True
+        '
+        'RadGroupBox20
+        '
+        Me.RadGroupBox20.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox20.Controls.Add(Me.lblMonth)
+        Me.RadGroupBox20.Controls.Add(Me.txtMonth)
+        Me.RadGroupBox20.HeaderText = "Month Wise"
+        Me.RadGroupBox20.Location = New System.Drawing.Point(5, 44)
+        Me.RadGroupBox20.Name = "RadGroupBox20"
+        Me.RadGroupBox20.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox20.Size = New System.Drawing.Size(276, 42)
+        Me.RadGroupBox20.TabIndex = 1527
+        Me.RadGroupBox20.Text = "Month Wise"
+        Me.RadGroupBox20.Visible = False
         '
         'rptPaymentProcessRouteReport
         '
@@ -1921,7 +1977,6 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.dtpDailySummaryFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
-        Me.RadGroupBox6.PerformLayout()
         CType(Me.lblMonth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMonth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1986,6 +2041,12 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox19, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox19.ResumeLayout(False)
+        Me.RadGroupBox19.PerformLayout()
+        CType(Me.RadGroupBox20, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox20.ResumeLayout(False)
+        Me.RadGroupBox20.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2119,5 +2180,9 @@ Partial Class rptPaymentProcessRouteReport
     Friend WithEvents lblArea As common.Controls.MyLabel
     Friend WithEvents TxtFinderArea As common.UserControls.txtFinder
     Friend WithEvents lblFArea As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox19 As RadGroupBox
+    Friend WithEvents rbtnDateRange As RadioButton
+    Friend WithEvents rbtnMonthWise As RadioButton
+    Friend WithEvents RadGroupBox20 As RadGroupBox
 End Class
 

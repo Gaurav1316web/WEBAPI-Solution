@@ -59,6 +59,14 @@ Public Class clsDairyGatePassEntry
                             left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  
                             left outer Join (Select PK_ID,	Max(GPCode)GPCode,	Item_Code,	Unit_Code,	Sum(IsNull(GP_Qty,0))GPUsedQty from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL Group By PK_ID,Item_Code,Unit_Code)UsedGPDetail On UsedGPDetail.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID 
                             where TSPL_SD_SHIPMENT_DETAIL.PK_ID in ('" + clsCommon.myCstr(obj.Arr(jj).PK_ID) + "')"
+                    If clsCommon.CompairString(obj.Item_Type, "M") = CompairStringResult.Equal Then
+                        qry += " and tspl_sd_shipment_head.Item_Type in('S','')"
+                    ElseIf clsCommon.CompairString(obj.Item_Type, "P") = CompairStringResult.Equal Then
+                        qry += " and tspl_sd_shipment_head.Item_Type ='P'"
+                    ElseIf clsCommon.CompairString(obj.Item_Type, "I") = CompairStringResult.Equal Then
+                        qry += " and tspl_sd_shipment_head.Item_Type='I'"
+
+                    End If
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For ii As Integer = 0 To dt.Rows.Count - 1

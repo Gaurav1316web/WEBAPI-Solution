@@ -441,27 +441,31 @@ where 2 = 2  "
                         left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
                         left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
                         left outer join TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
-                        WHERE 2=2 --and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate((FromDate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate((TODate), "dd/MMM/yyyy") + "'
-                        --AND TSPL_DEMAND_BOOKING_MASTER.Route_No IN ('" + txtRouteCode.Value + "')
-                        and TSPL_ITEM_MASTER.Is_FreshItem = 1
+                        WHERE 2=2 and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate((FromDate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate((TODate), "dd/MMM/yyyy") + "'
+                        AND TSPL_DEMAND_BOOKING_MASTER.Route_No IN ('" + txtRouteCode.Value + "')
+                        --and TSPL_ITEM_MASTER.Is_FreshItem = 1
                         group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code   --order by Sku_Seq "
             dtitemName = clsDBFuncationality.GetDataTable(itemqry)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
                     If clsCommon.myLen(DedCode) > 0 AndAlso Not DedCode.Contains(clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))) Then
-                        DedCode += "," + "case when ItemCode= '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' then sum(Qty) end as [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "] "
-                        itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        ' DedCode += "," + "case when ItemCode= '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' then sum(Qty) end as [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "] "
+                        DedCode += "," + "case when ItemCode= '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' then sum(Qty) end as I" + clsCommon.myCstr(i + 1) + ", '" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "' as IName" + clsCommon.myCstr(i + 1) + " "
+                        'itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemName += "," + "Sum(IsNull(I" + clsCommon.myCstr(i + 1) + ",0)) As I" + clsCommon.myCstr(i + 1) + ""
                         itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        'itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemName1 += "," + "Max(IName" + clsCommon.myCstr(i + 1) + ") as IName" + clsCommon.myCstr(i + 1) + " "
                         itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
                         'ElseIf Not DedCode.Contains(clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))) Then
                     Else
 
-                        DedCode = " ,case when ItemCode= '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' then sum(Qty) end as [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        DedCode = " ,case when ItemCode= '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' then sum(Qty) end as I" + clsCommon.myCstr(i + 1) + ",'" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "' as IName" + clsCommon.myCstr(i + 1) + " "
                         ' DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        'itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemName += "," + "Sum(IsNull(I" + clsCommon.myCstr(i + 1) + ",0)) As I" + clsCommon.myCstr(i + 1) + ""
                         itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 = "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
+                        itemName1 = " ,Max(IName" + clsCommon.myCstr(i + 1) + ") as IName" + clsCommon.myCstr(i + 1) + ""
                         itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
                     End If
                 Next
@@ -497,7 +501,7 @@ where 2 = 2  "
             End If
             Dim qry As String = " select "
             If PrintPouchCrateQtyOnPrint = True Then
-                qry += " max(PouchCF)PouchCF,max(CrateCF)CrateCF,Cust_Code,MAX(BoothName)BoothName,max(Route_No)Route_No,sum(Amount)Amount,max(Unit_code)Unit_Code " + itemName + "
+                qry += " max(PouchCF)PouchCF,max(CrateCF)CrateCF,Cust_Code,MAX(BoothName)BoothName,max(Route_No)Route_No,sum(Amount)Amount,max(Unit_code)Unit_Code " + itemName + " " + itemName1 + "
                          FROM 
                         (Select max(PouchCF)PouchCF,max(CrateCF)CrateCF,Cust_Code,ItemCode,Cust_Code+ '  ' + max(Customer_Name)  as [BoothName]
                         ,max(Route_No)Route_No,sum(Amount)Amount,max(Unit_code)Unit_Code " + DedCode + " From "

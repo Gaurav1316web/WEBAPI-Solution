@@ -2483,9 +2483,15 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtCan.Text = Math.Round(clsCommon.myCdbl(TotalCan), 2)
         txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
         txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
-        lblAmtWithDiscount.Text = dblNetAmt - (dblTaxTotAmt)
-        lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
-        lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - dblTaxTotAmt), 2) - dblDisAmt)
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            lblAmtWithDiscount.Text = dblNetAmt - (dblTaxTotAmt)
+            lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - dblTaxTotAmt), 2) - dblDisAmt)
+        Else
+            lblAmtWithDiscount.Text = dblNetAmt - (dblDisAmt)
+            lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
+            lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - dblDisAmt), 2))
+        End If
         lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTotalTcsAmt)
         If chkSampling.Checked Then
             lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt - dblDisAmt), 2)
