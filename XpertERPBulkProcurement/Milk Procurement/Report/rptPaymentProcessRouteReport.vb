@@ -3354,7 +3354,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             Dim fromDate As String = txtFromDate.Value
             Dim Todate As String = txtToDate.Value
             Dim userName As String = objCommonVar.CurrentUser
-
+            Dim DateDiffDays As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select DATEDIFF(DAY,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')+1 "))
 
             Dim whrcls As String = " where 2=2 "
             Dim whrcls1 As String = " where 2=2 "
@@ -3476,16 +3476,18 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             Dim dtDayWise As DataTable = clsDBFuncationality.GetDataTable(Sqlqry)
             Dim sbDayWiseData As New System.Text.StringBuilder()
 
-            For i As Integer = 0 To dtDayWise.Columns.Count - 1
-                Dim rowDayWise As String = dtDayWise.Rows(0).ItemArray(i).ToString
-                sbDayWiseData.Append(rowDayWise + " as [Day" + clsCommon.myCstr(i + 1) + "]")
-                If i < dtDayWise.Columns.Count Then
-                    sbDayWiseData.Append(",")
-                End If
-            Next i
+            If dtDayWise IsNot Nothing AndAlso dtDayWise.Rows.Count > 0 Then
+                For i As Integer = 0 To dtDayWise.Columns.Count - 1
+                    Dim rowDayWise As String = dtDayWise.Rows(0).ItemArray(i).ToString
+                    sbDayWiseData.Append(rowDayWise + " as [Day" + clsCommon.myCstr(i + 1) + "]")
+                    If i < dtDayWise.Columns.Count Then
+                        sbDayWiseData.Append(",")
+                    End If
+                Next i
+            End If
             Dim DayWiseResult = sbDayWiseData.ToString()
-            Dim fatPer As Decimal = dtFatSnf.Rows(0)("fat%")
-            Dim SNFPer As Decimal = dtFatSnf.Rows(0)("SNF%")
+            Dim fatPer As Decimal = IIf(clsCommon.myCDecimal(dtFatSnf.Rows(0)("fat%")) > 0, dtFatSnf.Rows(0)("fat%"), 0)
+            Dim SNFPer As Decimal = IIf(clsCommon.myCDecimal(dtFatSnf.Rows(0)("SNF%")) > 0, dtFatSnf.Rows(0)("SNF%"), 0)
             'Dim dtMorningData As DataTable = clsDBFuncationality.GetDataTable("SELECT sum(qty * case when ShiftReject =  0 and ProcReject = 0  then 1 else 0  end) as Mor_Kg_Sweet, sum(qty * case when ShiftReject =  1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Mor_kg_Sour,sum(qty * case when ShiftReject =  -1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Mor_kg_Curd from ( SELECT SUM(QTY)Qty ,case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else ( case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end) end  as ProcReject, case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else( case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end)  end as ShiftReject FROM TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
             'left  join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	= TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No left  join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No where 2=2   and TSPL_MILK_SRN_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_SRN_HEAD.DOC_DATE <='" & DCS_ToDate & "' and TSPL_MILK_SRN_HEAD.SHIFT = 'M' GROUP BY TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type , TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type ) xx ")
             'If dtMorningData.Rows.Count > 0 Then
@@ -3512,7 +3514,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
  CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else sum(FATQTY) * 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end  as FATPer,
  CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end as SNFPer,
  max(DAYS_Total) as DAYS_Total,
- case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(DAYS_Total) end as AVG_QTY,
+ case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max('" + clsCommon.myCstr(DateDiffDays) + "') end as AVG_QTY,
  (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty ,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31] from (
  select Number2,VLC_Code_VLC_Uploader, VSP_CODE1, Vendor_Name ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty
  ,FATQTY,SNFQTY,DAYS_Total

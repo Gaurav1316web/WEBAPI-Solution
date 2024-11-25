@@ -259,6 +259,12 @@
     <Compile Include="Milk Procurement\Report\frmDCSSavingLedger.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\FrmHeadLoadHistory.Designer.vb">
+      <DependentUpon>FrmHeadLoadHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\FrmHeadLoadHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\latestPaymentProcess.Designer.vb">
       <DependentUpon>latestPaymentProcess.vb</DependentUpon>
     </Compile>
@@ -997,6 +1003,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\FrmHeadLoadHistory.resx">
+      <DependentUpon>FrmHeadLoadHistory.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">

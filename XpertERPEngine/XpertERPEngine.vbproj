@@ -176,8 +176,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
+    <Reference Include="XpertERPMIS">
+      <HintPath>..\XpertERP\bin\Debug\XpertERPMIS.dll</HintPath>
+    </Reference>
     <Reference Include="zxing">
-      <HintPath>E:\bin\Debug\zxing.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
