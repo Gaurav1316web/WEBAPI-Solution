@@ -8153,6 +8153,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmDcscollectionHistory
                         frm = New FrmDcscollectionHistory
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmHeadLoadHistory
+                        frm = New FrmHeadLoadHistory
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDCSFinancial
                         frm = New rptDCSFinancial
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
