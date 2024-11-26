@@ -1874,6 +1874,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptTankerGainLossReport, "Tanker Gain Loss Report", "1.17.03.129", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmDcscollectionHistory, "Dcs collection History", "1.17.03.130", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmHeadLoadHistory, "Head Load History", "1.17.03.131", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmOneDayStop, "One Day Stop", "1.17.03.132", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014

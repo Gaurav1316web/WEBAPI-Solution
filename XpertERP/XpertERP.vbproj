@@ -1295,6 +1295,12 @@
     <Compile Include="Milk Procurement\Master\frmVSP_VLCMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Reports\FrmOneDayStop.Designer.vb">
+      <DependentUpon>FrmOneDayStop.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Reports\FrmOneDayStop.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Reports\FrmRpImproperMilkSample.Designer.vb">
       <DependentUpon>FrmRpImproperMilkSample.vb</DependentUpon>
     </Compile>
@@ -5437,6 +5443,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmVSP_VLCMaster.resx">
       <DependentUpon>frmVSP_VLCMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Reports\FrmOneDayStop.resx">
+      <DependentUpon>FrmOneDayStop.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Reports\FrmRpImproperMilkSample.resx">
       <DependentUpon>FrmRpImproperMilkSample.vb</DependentUpon>
