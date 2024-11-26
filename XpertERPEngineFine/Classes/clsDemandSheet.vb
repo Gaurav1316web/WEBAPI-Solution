@@ -510,7 +510,7 @@ where TSPL_DEMAND_BOOKING_MASTER_Hist_Data.ShiftType='" + Shift + "' and Convert
 SELECT 
     item_code, Unit_code, Qty,Hist_Version,Hist_By,Hist_On,VersionedData.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,Document_No,TSPL_CUSTOMER_MASTER.Route_No
 FROM VersionedData left join TSPL_CUSTOMER_MASTER on VersionedData.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-WHERE Qty <> PreviousQty OR PreviousQty = 0
+WHERE Qty <> PreviousQty OR PreviousQty = 0 or Hist_By='" + Booth + "'
 ORDER BY  Hist_On desc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
