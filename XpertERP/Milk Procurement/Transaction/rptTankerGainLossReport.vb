@@ -5,7 +5,9 @@ Public Class rptTankerGainLossReport
 
     Private Sub rptTankerGainLossReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -30,6 +32,420 @@ Public Class rptTankerGainLossReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        ' Griddata(False, False)
+        Griddata(False, False)
+    End Sub
+    Public Function GetTankerGainLoss() As String
+        Dim qry As String = Nothing
+        Dim ToDate As String = clsCommon.myCstr(txtToDate.Text)
+        Dim FromDate As String = clsCommon.myCstr(txtFromDate.Text)
+        qry = "          SELECT *,(XX.Milk_Qty-XX.Entered_Qty)AS flushing, (xx.fat_per-XX.Entered_FATKg) as FlushingFat,(xx.snf_Per-xx.Entered_SNFKg) AS FlushingSnf FROM (SELECT 
+   CONVERT(varchar,Document_Date,103) as Document_Date,
+    Tanker_No,
+    MAX(ROUTE_CODE) AS ROUTE_CODE,
+    SUM(Cast(Entered_Qty as decimal(10, 2))) AS Entered_Qty,
+    SUM(CAST(Milk_Qty AS  decimal(10, 2))) AS Milk_Qty,
+    SUM(Gross_Weight) AS Gross_Weight,
+    SUM(Tare_Weight) AS Tare_Weight,
+    SUM(CAST(fat_per AS decimal(10, 2))) AS fat_per,
+    SUM(CAST(snf_Per AS decimal(10, 2))) AS snf_Per,
+    	SUM(CAST(Entered_FATKg AS  decimal(10, 2))) AS Entered_FATKg,
+		SUM(CAST(Entered_SNFKg AS  decimal(10, 2))) AS Entered_SNFKg,
+'" + FromDate + "' AS FromDate, '" + ToDate + " ' as ToDate
+    --SUM(Flushing) AS Flushing
+FROM (
+    -- Include your three UNION queries here (use the same query you provided)
+    SELECT CONVERT(DATE, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, 103) AS Document_Date,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.ROUTE_CODE as ROUTE_CODE,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No as Tanker_No,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty as Entered_Qty,
+           '' AS Milk_Qty,
+           0 AS Gross_Weight,
+           0 AS Tare_Weight,
+           '' AS fat_per,
+           '' AS snf_Per,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_SNFKg as Entered_SNFKg,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_FATKg as Entered_FATKg,
+           '' AS Flushing
+    FROM TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS 
+    WHERE 
+convert(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)
+          AND TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No = '" + txtTankerNo.Value + " '
+          
+    UNION ALL
+    
+    SELECT CONVERT(DATE, Tspl_Gate_Entry_Details.Challan_Date, 103) AS Document_Date,
+           Tspl_Gate_Entry_Details.ROUTE_NO AS ROUTE_CODE,
+           Tspl_Gate_Entry_Details.Tanker_No,
+           0 AS Entered_Qty,
+           (CASE 
+                WHEN IsNull(Tspl_Gate_Entry_Details.Doc_Type, '') = 'BulkProc' 
+                THEN Tspl_Gate_Entry_Details.Qty_In_Kg 
+                ELSE CASE 
+                        WHEN IsNull(Tspl_Gate_Entry_Details.TotalQty_In_Kg, 0) = 0 
+                        THEN Tspl_Gate_Entry_Details.Qty_In_Kg 
+                        ELSE IsNull(Tspl_Gate_Entry_Details.TotalQty_In_Kg, 0) 
+                    END 
+            END) AS Milk_Qty,
+           0 AS Gross_Weight,
+           0 AS Tare_Weight,
+           (Tspl_Gate_Entry_Details.fat_per * (Tspl_Gate_Entry_Details.Qty_In_Kg * 1)) / 100 AS fat_per,
+           (Tspl_Gate_Entry_Details.snf_Per * (Tspl_Gate_Entry_Details.Qty_In_Kg * 1)) / 100 AS snf_Per,
+           0 AS Entered_SNFKg,
+           0 AS Entered_FATKg,
+           0 AS Flushing
+    FROM Tspl_Gate_Entry_Details
+    WHERE
+         convert(date,Tspl_Gate_Entry_Details.Challan_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Tspl_Gate_Entry_Details.Challan_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) 
+          AND Tspl_Gate_Entry_Details.Tanker_No =  '" + txtTankerNo.Value + " '
+    
+    UNION ALL
+    
+    SELECT CONVERT(DATE, TSPL_Weighment_Detail.Weighment_date, 103) AS Document_Date,
+           '' AS ROUTE_CODE,
+           TSPL_Weighment_Detail.Tanker_No as Tanker_No,
+           0 AS Entered_Qty,
+           0 AS Milk_Qty,
+           TSPL_Weighment_Detail.Gross_Weight as Gross_Weight,
+           TSPL_Weighment_Detail.Tare_Weight as Tare_Weight,
+           0 AS fat_per,
+           0 AS snf_Per,
+           0 AS Entered_SNFKg,
+           0 AS Entered_FATKg,
+           0 AS Flushing
+    FROM TSPL_Weighment_Detail
+    WHERE 
+                   convert(date,TSPL_Weighment_Detail.Weighment_date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_Weighment_Detail.Weighment_date,103) <=convert(date,'" + txtToDate.Value + "' ,103) 
+
+          AND TSPL_Weighment_Detail.Tanker_No =  '" + txtTankerNo.Value + " '
+) AS CombinedData
+GROUP BY Document_Date, Tanker_No
+ )XX left outer join tspl_company_master on tspl_company_master.Comp_Code= '" + objCommonVar.CurrentCompanyCode + "'"
+        Return qry
+    End Function
+    Public Sub Griddata(ByVal print As Boolean, ByVal print2 As Boolean)
+        Try
+
+            Dim FinalQuery As String = Nothing
+            Dim BaseQuery As String = Nothing
+            Dim qry As String = Nothing
+
+            If clsCommon.myLen(txtTankerNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Tanker no", Me.Text)
+                txtTankerNo.Focus()
+                Exit Sub
+            End If
+            BaseQuery = " SELECT *,(XX.Milk_Qty-XX.Entered_Qty)AS flushing, (xx.fat_per-XX.Entered_FATKg) as FlushingFat,(xx.snf_Per-xx.Entered_SNFKg) AS FlushingSnf FROM (SELECT 
+    CONVERT(varchar,Document_Date,103) as Document_Date,
+    Tanker_No,
+    MAX(ROUTE_CODE) AS ROUTE_CODE,
+   SUM(Cast(Entered_Qty as decimal(10, 2))) AS Entered_Qty,
+    SUM(CAST(Milk_Qty AS  decimal(10, 2))) AS Milk_Qty,
+    SUM(Gross_Weight) AS Gross_Weight,
+    SUM(Tare_Weight) AS Tare_Weight,
+    SUM(CAST(fat_per AS decimal(10, 2))) AS fat_per,
+    SUM(CAST(snf_Per AS decimal(10, 2))) AS snf_Per,
+    	SUM(CAST(Entered_FATKg AS  decimal(10, 2))) AS Entered_FATKg,
+		SUM(CAST(Entered_SNFKg AS  decimal(10, 2))) AS Entered_SNFKg
+    --SUM(Flushing) AS Flushing
+FROM (
+    -- Include your three UNION queries here (use the same query you provided)
+    SELECT CONVERT(DATE, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, 103) AS Document_Date,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.ROUTE_CODE as ROUTE_CODE,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No as Tanker_No,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty as Entered_Qty,
+           '' AS Milk_Qty,
+           0 AS Gross_Weight,
+           0 AS Tare_Weight,
+           '' AS fat_per,
+           '' AS snf_Per,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_SNFKg as Entered_SNFKg,
+           TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_FATKg as Entered_FATKg,
+           '' AS Flushing
+    FROM TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS 
+    WHERE 
+convert(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103)
+          AND TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No = '" + txtTankerNo.Value + " '
+          
+    UNION ALL
+    
+    SELECT CONVERT(DATE, Tspl_Gate_Entry_Details.Challan_Date, 103) AS Document_Date,
+           Tspl_Gate_Entry_Details.ROUTE_NO AS ROUTE_CODE,
+           Tspl_Gate_Entry_Details.Tanker_No,
+           0 AS Entered_Qty,
+           (CASE 
+                WHEN IsNull(Tspl_Gate_Entry_Details.Doc_Type, '') = 'BulkProc' 
+                THEN Tspl_Gate_Entry_Details.Qty_In_Kg 
+                ELSE CASE 
+                        WHEN IsNull(Tspl_Gate_Entry_Details.TotalQty_In_Kg, 0) = 0 
+                        THEN Tspl_Gate_Entry_Details.Qty_In_Kg 
+                        ELSE IsNull(Tspl_Gate_Entry_Details.TotalQty_In_Kg, 0) 
+                    END 
+            END) AS Milk_Qty,
+           0 AS Gross_Weight,
+           0 AS Tare_Weight,
+           (Tspl_Gate_Entry_Details.fat_per * (Tspl_Gate_Entry_Details.Qty_In_Kg * 1)) / 100 AS fat_per,
+           (Tspl_Gate_Entry_Details.snf_Per * (Tspl_Gate_Entry_Details.Qty_In_Kg * 1)) / 100 AS snf_Per,
+           0 AS Entered_SNFKg,
+           0 AS Entered_FATKg,
+           0 AS Flushing
+    FROM Tspl_Gate_Entry_Details
+    WHERE
+         convert(date,Tspl_Gate_Entry_Details.Challan_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Tspl_Gate_Entry_Details.Challan_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) 
+          AND Tspl_Gate_Entry_Details.Tanker_No =  '" + txtTankerNo.Value + " '
+    
+    UNION ALL
+    
+    SELECT CONVERT(DATE, TSPL_Weighment_Detail.Weighment_date, 103) AS Document_Date,
+           '' AS ROUTE_CODE,
+           TSPL_Weighment_Detail.Tanker_No as Tanker_No,
+           0 AS Entered_Qty,
+           0 AS Milk_Qty,
+           TSPL_Weighment_Detail.Gross_Weight as Gross_Weight,
+           TSPL_Weighment_Detail.Tare_Weight as Tare_Weight,
+           0 AS fat_per,
+           0 AS snf_Per,
+           0 AS Entered_SNFKg,
+           0 AS Entered_FATKg,
+           0 AS Flushing
+    FROM TSPL_Weighment_Detail
+    WHERE 
+                   convert(date,TSPL_Weighment_Detail.Weighment_date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_Weighment_Detail.Weighment_date,103) <=convert(date,'" + txtToDate.Value + "' ,103) 
+
+          AND TSPL_Weighment_Detail.Tanker_No =  '" + txtTankerNo.Value + " '
+) AS CombinedData
+GROUP BY Document_Date, Tanker_No
+ )XX left outer join tspl_company_master on tspl_company_master.Comp_Code= '" + objCommonVar.CurrentCompanyCode + "'
+"
+            '            BaseQuery = " select * from (SELECT CONVERT(varchar, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, 103) AS Document_Date,
+            '    MAX(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.ROUTE_CODE) AS ROUTE_CODE,
+            '    MAX(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No) AS Tanker_No,
+            '    MAX(CASE 
+            '            WHEN IsNull(Tspl_Gate_Entry_Details.Doc_Type, '') = 'BulkProc' 
+            '            THEN Tspl_Gate_Entry_Details.Qty_In_Kg 
+            '            ELSE CASE 
+            '                    WHEN IsNull(Tspl_Gate_Entry_Details.TotalQty_In_Kg, 0) = 0 
+            '                    THEN Tspl_Gate_Entry_Details.Qty_In_Kg 
+            '                    ELSE IsNull(Tspl_Gate_Entry_Details.TotalQty_In_Kg, 0) 
+            '                END 
+            '        END) AS Milk_Qty,SUM(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty) AS Entered_Qty,  
+            '    MAX(Tspl_Gate_Entry_Details.Doc_Type) AS Doc_Type,
+            '    (TSPL_Weighment_Detail.Gross_Weight) AS Gross_Weight,
+            '    (TSPL_Weighment_Detail.Tare_Weight) AS Tare_Weight,
+            '	MAX (Tspl_Gate_Entry_Details.fat_per* (Tspl_Gate_Entry_Details.Qty_In_Kg*1))/100 as fat_per,
+            '	MAX(Tspl_Gate_Entry_Details.snf_Per*  (Tspl_Gate_Entry_Details.Qty_In_Kg*1))/100 as snf_Per
+            '	 ,sum(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_SNFKg) as Entered_SNFKg,sum(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_FATKg)AS Entered_FATKg
+            ',MAX(CASE 
+            '            WHEN IsNull(Tspl_Gate_Entry_Details.Doc_Type, '') = 'BulkProc' 
+            '            THEN Tspl_Gate_Entry_Details.Qty_In_Kg 
+            '            ELSE CASE 
+            '                    WHEN IsNull(Tspl_Gate_Entry_Details.TotalQty_In_Kg, 0) = 0 
+            '                    THEN Tspl_Gate_Entry_Details.Qty_In_Kg 
+            '                    ELSE IsNull(Tspl_Gate_Entry_Details.TotalQty_In_Kg, 0) 
+            '                END 
+
+            '        END) -
+            'SUM(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Entered_Qty) 
+            'AS [Flushing]
+            'FROM 
+            '    TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS
+            'LEFT JOIN TSPL_BULK_ROUTE_MASTER 
+            '    ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code 
+            'LEFT JOIN TSPL_MCC_MASTER 
+            '    ON TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
+            'LEFT JOIN Tspl_Gate_Entry_Details 
+            '    ON CONVERT(DATE, Tspl_Gate_Entry_Details.Challan_Date, 103) = CONVERT(DATE, '" + txtDate.Value + "', 103)
+            'LEFT JOIN TSPL_Weighment_Detail 
+            '    ON CONVERT(DATE, TSPL_Weighment_Detail.Weighment_date, 103) = CONVERT(DATE, '" + txtDate.Value + "', 103)
+            'WHERE 
+            '    CONVERT(DATE, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, 103) = CONVERT(DATE, '" + txtDate.Value + "' , 103)
+            '    AND TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No = '" + txtTankerNo.Value + " '
+            'GROUP BY 
+            '    TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No,Gross_Weight,Tare_Weight,Document_Date ) XX
+            '	left outer join tspl_company_master on tspl_company_master.Comp_Code= '" + objCommonVar.CurrentCompanyCode + "'"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQuery)
+
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+                gv1.DataSource = Nothing
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.MasterView.Refresh()
+                gv1.DataSource = dt
+                For ii As Integer = 0 To gv1.Columns.Count - 1
+                    gv1.Columns(ii).ReadOnly = True
+                Next
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.EnableFiltering = True
+                'SetGridFormat1()
+                SetGridFormationOFGV1Collection()
+                View()
+                gv1.BestFitColumns()
+                'If print = True Then
+                'Dim frmCRV As New frmCrystalReportViewer()
+                'frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "rptTankerGainLossReport", "Tanker Gain Loss Report")
+                'frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtsub, "rptTankerGainLossReport", "ProfitLoss", "SubTankerProfitLoss.rpt")
+
+                ' frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, "", "rptTankerProfitLoss", "ProfitLoss", "SubTankerProfitLoss.rpt")
+                'End If
+                'If print2 = True Then
+                '    Dim frmCRV As New frmCrystalReportViewer()
+                '    frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dtsub, "rptTankerProfitLossPrint2", "ProfitLoss", "SubTankerProfitLoss.rpt")
+                'End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub View()
+        If gv1.Rows.Count > 0 Then
+            Dim view As New ColumnGroupsViewDefinition()
+            view.ColumnGroups.Add(New GridViewColumnGroup(" "))
+            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+            'If rdbDetails.Checked = True Then
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Document_Date").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("ROUTE_CODE").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Tanker_No").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Gross_Weight").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Tare_Weight").Name)
+            'view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Tanker_No").Name)
+            'End If
+
+            '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
+            ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
+            'If rdbSummary.Checked = True Then
+            view.ColumnGroups.Add(New GridViewColumnGroup("Tanker Data"))
+            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Milk_Qty").Name)
+
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("fat_per").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("snf_Per").Name)
+
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("BMC Data"))
+            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_Qty").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_FATKg").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_SNFKg").Name)
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Difference"))
+            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Flushing").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FlushingFat").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FlushingSnf").Name)
+
+            'End If
+            gv1.ViewDefinition = view
+        End If
+    End Sub
+    Sub SetGridFormationOFGV1Collection()
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.MasterTemplate.ShowRowHeaderColumn = False
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = True
+            'gv1.Columns("Document_No").HeaderText = "Document No."
+            gv1.Columns("Document_Date").IsVisible = True
+            gv1.Columns("Document_Date").HeaderText = "Document Date"
+            gv1.Columns("ROUTE_CODE").IsVisible = True
+            gv1.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
+            gv1.Columns("Tanker_No").IsVisible = True
+            gv1.Columns("Tanker_No").HeaderText = "Tanker No"
+
+            gv1.Columns("Gross_Weight").IsVisible = True
+            gv1.Columns("Gross_Weight").HeaderText = "Gross Weight."
+
+            gv1.Columns("Tare_Weight").IsVisible = True
+            gv1.Columns("Tare_Weight").HeaderText = "Tare Weight"
+            'gv1.Columns("ROUTE_NAME").HeaderText = "Route Description"
+            'gv1.Columns("Tanker_No").HeaderText = "Tanker No."
+            gv1.Columns("Entered_FATKg").IsVisible = True
+            gv1.Columns("Entered_FATKg").HeaderText = "KG FAT"
+
+            gv1.Columns("Entered_SNFKg").IsVisible = True
+            gv1.Columns("Entered_SNFKg").HeaderText = "KG SNF"
+
+            gv1.Columns("fat_per").IsVisible = True
+            gv1.Columns("fat_per").HeaderText = "Tanker FAT KG"
+
+            gv1.Columns("snf_Per").IsVisible = True
+            gv1.Columns("snf_Per").HeaderText = "Tanker SNF KG"
+
+            gv1.Columns("Entered_Qty").IsVisible = True
+
+            gv1.Columns("Entered_Qty").HeaderText = "Net Qty"
+            gv1.Columns("Milk_Qty").IsVisible = True
+
+            gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
+            gv1.Columns("Flushing").IsVisible = True
+
+            gv1.Columns("Flushing").HeaderText = "Flushing"
+        Next
+        Dim summaryRowItemB As New GridViewSummaryRowItem()
+        'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
+        Dim Milk_Qty As New GridViewSummaryItem("Milk_Qty", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Milk_Qty)
+        Dim Entered_Qty As New GridViewSummaryItem("Entered_Qty", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Entered_Qty)
+        Dim fat_per As New GridViewSummaryItem("fat_per", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(fat_per)
+        Dim snf_Per As New GridViewSummaryItem("snf_Per", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(snf_Per)
+        Dim Entered_SNFKg As New GridViewSummaryItem("Entered_SNFKg", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Entered_SNFKg)
+        Dim Entered_FATKg As New GridViewSummaryItem("Entered_FATKg", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Entered_FATKg)
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
+        gv1.AutoSizeRows = True
+        gv1.BestFitColumns()
+        gv1.MasterTemplate.AutoExpandGroups = True
+    End Sub
+
+    Private Sub txtToShift_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs)
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        Reset()
+    End Sub
+    Sub Reset()
+        ' cboDocumentType.SelectedIndex = 0
+        'txtRouteCode.Value = ""
+        'lblRouteCode.Text = ""
+        txtTankerNo.Value = ""
+        txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        gv1.DataSource = Nothing
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
+        RadPageView1.SelectedPage = RadPageViewPage1
+    End Sub
+
+
+
+    Private Sub btnPrint_Click_1(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetTankerGainLoss())
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "rptTankerGainLossReport", "Tanker Gain Loss Report")
+            Else
+                Throw New Exception("Data not Found!")
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class

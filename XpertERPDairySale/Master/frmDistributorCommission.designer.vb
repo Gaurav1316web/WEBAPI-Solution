@@ -59,6 +59,8 @@ Partial Class frmDistributorCommission
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.cmbVehicleType = New common.Controls.MyComboBox()
+        Me.lblVehicleType = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -91,6 +93,8 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,7 +120,7 @@ Partial Class frmDistributorCommission
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(832, 450)
+        Me.SplitContainer1.Size = New System.Drawing.Size(986, 450)
         Me.SplitContainer1.SplitterDistance = 407
         Me.SplitContainer1.TabIndex = 2
         '
@@ -131,6 +135,8 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cmbVehicleType)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblVehicleType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.cmbItemType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblItemType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtInActiveDate)
@@ -157,7 +163,7 @@ Partial Class frmDistributorCommission
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.GV1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(832, 407)
+        Me.SplitContainer2.Size = New System.Drawing.Size(986, 407)
         Me.SplitContainer2.SplitterDistance = 120
         Me.SplitContainer2.TabIndex = 0
         '
@@ -183,7 +189,7 @@ Partial Class frmDistributorCommission
         Me.cmbItemType.Items.Add(RadListDataItem1)
         Me.cmbItemType.Items.Add(RadListDataItem2)
         Me.cmbItemType.Items.Add(RadListDataItem3)
-        Me.cmbItemType.Location = New System.Drawing.Point(687, 34)
+        Me.cmbItemType.Location = New System.Drawing.Point(681, 10)
         Me.cmbItemType.MendatroryField = False
         Me.cmbItemType.MyLinkLable1 = Nothing
         Me.cmbItemType.MyLinkLable2 = Nothing
@@ -199,7 +205,7 @@ Partial Class frmDistributorCommission
         '
         Me.lblItemType.FieldName = Nothing
         Me.lblItemType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemType.Location = New System.Drawing.Point(615, 36)
+        Me.lblItemType.Location = New System.Drawing.Point(609, 12)
         Me.lblItemType.Name = "lblItemType"
         Me.lblItemType.Size = New System.Drawing.Size(57, 16)
         Me.lblItemType.TabIndex = 1530
@@ -219,7 +225,7 @@ Partial Class frmDistributorCommission
         Me.txtInActiveDate.IsSourceFromTable = False
         Me.txtInActiveDate.IsSourceFromValueList = False
         Me.txtInActiveDate.IsUnique = False
-        Me.txtInActiveDate.Location = New System.Drawing.Point(699, 58)
+        Me.txtInActiveDate.Location = New System.Drawing.Point(692, 58)
         Me.txtInActiveDate.MendatroryField = False
         Me.txtInActiveDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtInActiveDate.MyLinkLable1 = Me.lblApplicableDate
@@ -247,7 +253,7 @@ Partial Class frmDistributorCommission
         '
         'chkInActive
         '
-        Me.chkInActive.Location = New System.Drawing.Point(678, 60)
+        Me.chkInActive.Location = New System.Drawing.Point(673, 60)
         Me.chkInActive.Name = "chkInActive"
         Me.chkInActive.Size = New System.Drawing.Size(15, 15)
         Me.chkInActive.TabIndex = 1527
@@ -315,10 +321,10 @@ Partial Class frmDistributorCommission
         'lblStatus
         '
         Me.lblStatus.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblStatus.Location = New System.Drawing.Point(615, 8)
+        Me.lblStatus.Location = New System.Drawing.Point(810, 10)
         Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(198, 20)
+        Me.lblStatus.Size = New System.Drawing.Size(173, 20)
         Me.lblStatus.Status = common.ERPTransactionStatus.Pending
         Me.lblStatus.TabIndex = 45
         '
@@ -508,8 +514,9 @@ Partial Class frmDistributorCommission
         Me.GV1.MyStopExport = False
         Me.GV1.Name = "GV1"
         Me.GV1.ShowHeaderCellButtons = True
-        Me.GV1.Size = New System.Drawing.Size(832, 283)
+        Me.GV1.Size = New System.Drawing.Size(986, 283)
         Me.GV1.TabIndex = 0
+        Me.GV1.VarID = ""
         '
         'btnDelete
         '
@@ -564,7 +571,7 @@ Partial Class frmDistributorCommission
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(738, 7)
+        Me.btnClose.Location = New System.Drawing.Point(892, 7)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(86, 24)
         Me.btnClose.TabIndex = 1
@@ -588,11 +595,47 @@ Partial Class frmDistributorCommission
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'cmbVehicleType
+        '
+        Me.cmbVehicleType.AutoCompleteDisplayMember = Nothing
+        Me.cmbVehicleType.AutoCompleteValueMember = Nothing
+        Me.cmbVehicleType.CalculationExpression = Nothing
+        Me.cmbVehicleType.DropDownAnimationEnabled = True
+        Me.cmbVehicleType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbVehicleType.FieldCode = Nothing
+        Me.cmbVehicleType.FieldDesc = Nothing
+        Me.cmbVehicleType.FieldMaxLength = 0
+        Me.cmbVehicleType.FieldName = Nothing
+        Me.cmbVehicleType.isCalculatedField = False
+        Me.cmbVehicleType.IsSourceFromTable = False
+        Me.cmbVehicleType.IsSourceFromValueList = False
+        Me.cmbVehicleType.IsUnique = False
+        Me.cmbVehicleType.Location = New System.Drawing.Point(681, 35)
+        Me.cmbVehicleType.MendatroryField = False
+        Me.cmbVehicleType.MyLinkLable1 = Nothing
+        Me.cmbVehicleType.MyLinkLable2 = Nothing
+        Me.cmbVehicleType.Name = "cmbVehicleType"
+        Me.cmbVehicleType.ReferenceFieldDesc = Nothing
+        Me.cmbVehicleType.ReferenceFieldName = Nothing
+        Me.cmbVehicleType.ReferenceTableName = Nothing
+        Me.cmbVehicleType.Size = New System.Drawing.Size(126, 20)
+        Me.cmbVehicleType.TabIndex = 1531
+        '
+        'lblVehicleType
+        '
+        Me.lblVehicleType.FieldName = Nothing
+        Me.lblVehicleType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleType.Location = New System.Drawing.Point(609, 37)
+        Me.lblVehicleType.Name = "lblVehicleType"
+        Me.lblVehicleType.Size = New System.Drawing.Size(72, 16)
+        Me.lblVehicleType.TabIndex = 1532
+        Me.lblVehicleType.Text = "Vehicle Type"
+        '
         'frmDistributorCommission
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(832, 450)
+        Me.ClientSize = New System.Drawing.Size(986, 450)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDistributorCommission"
         '
@@ -633,6 +676,8 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -672,4 +717,6 @@ Partial Class frmDistributorCommission
     Friend WithEvents txtInActiveDate As common.Controls.MyDateTimePicker
     Friend WithEvents cmbItemType As common.Controls.MyComboBox
     Friend WithEvents lblItemType As common.Controls.MyLabel
+    Friend WithEvents cmbVehicleType As common.Controls.MyComboBox
+    Friend WithEvents lblVehicleType As common.Controls.MyLabel
 End Class

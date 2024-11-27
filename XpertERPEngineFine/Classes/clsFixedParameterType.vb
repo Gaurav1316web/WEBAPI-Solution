@@ -2,7 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
-
+    Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
     Public Const PenaltyCost As String = "Define Penalty Cost Value for Per Unit"
     Public Const CalculateProRateAuto As String = "Calculate Pro Rate Auto"
@@ -1287,8 +1287,11 @@ Public Class clsFixedParameterType
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
     Public Const PickRatefromMaster = "Pick Rate from Master"
+    Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
+    Public Const EnableVehicleType = "Enable Vehicle Type"
 End Class
 Public Class clsFixedParameterCode
+    Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
     Public Const PenaltyCost As String = "Define Penalty Cost Value for Per Unit"
     'Public Const SecretorydcsMaster As String = "Secretory/DCS Master"
@@ -2711,6 +2714,9 @@ Public Class clsFixedParameterCode
     Public Const DispatchPriceCodeForCreditCustomer = "Dispatch PriceCode For Credit Customer"
     Public Const ConvertPouchtoCrateonDispatch = "Convert Pouch to Crate on Dispatch"
     Public Const PickRatefromMaster = "Pick Rate from Master"
+    Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
+    Public Const ShowTodayDemandAsCurrentandUpcoming = "Show Today Demand As Current And Upcoming"
+    Public Const EnableVehicleType = "Enable Vehicle Type"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2789,6 +2795,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, "50", "It Should above 50")
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.SetDCSAvgFATSNF, "0", "0:OFF;1:ON")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, "0", "0:OFF;1:ON")
@@ -2906,6 +2913,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.CustomerReorder, "0", "0:OFF,1:ON;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.AcknowledgeDispatchQty, "0", "0:OFF,1:ON;CNF User Acknowledge Dispatch Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.HideQtyCrateRegister, "0", "0:OFF,1:ON;Demand register Hide Qty crate column")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowTodayDemandAsCurrentandUpcoming, "0", "0:OFF,1:ON;Vehicle Type on Distributor Commission")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, "0", "0:OFF,1:ON;Show Today Demand As Currentand Upcoming")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
@@ -4300,6 +4309,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, "0", "0:Pick Rate Manually, 1:Pick Rate from Master;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, "0", "0:Off, 1:On;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -4330,6 +4340,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothSecurity, clsFixedParameterCode.ApplyBoothSecurity, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendBillToDCS, EnumControlType.CheckBox)
@@ -6103,8 +6114,11 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.ItemBatchWiseStartDate, clsFixedParameterCode.ItemBatchWiseStartDate, EnumControlType.TextBox)
 
         InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
 
     End Sub
 End Class

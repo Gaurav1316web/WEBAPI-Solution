@@ -53,23 +53,23 @@
   <ItemGroup>
     <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
+      <HintPath>..\..\bin\bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
     </Reference>
     <Reference Include="ActiveDatabaseSoftware.ExpressionEditor2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ActiveDatabaseSoftware.ExpressionEditor2.dll</HintPath>
+      <HintPath>..\..\bin\bin\Debug\ActiveDatabaseSoftware.ExpressionEditor2.dll</HintPath>
     </Reference>
     <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
+      <HintPath>..\..\bin\bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
     </Reference>
     <Reference Include="CgtFpAccessCSD200Dotnet, Version=2.4.0.0, Culture=neutral, PublicKeyToken=8c0485f223e60602, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\XPERTERP\XpertERP\bin\Debug\CgtFpAccessCSD200Dotnet.dll</HintPath>
+      <HintPath>..\..\bin\bin\Debug\CgtFpAccessCSD200Dotnet.dll</HintPath>
     </Reference>
     <Reference Include="Comm64, Version=6.4.0.30, Culture=neutral, PublicKeyToken=dd445fe4659af8f3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\New folder (3)\Comm64.DLL</HintPath>
+      <HintPath>..\..\bin\bin\Debug\Comm64.DLL</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,10 +100,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
+    <Reference Include="SMDiagnostics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\SMDiagnostics\v4.0_4.0.0.0__b77a5c561934e089\SMDiagnostics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel.Internals">
+      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.ServiceModel.Internals\v4.0_4.0.0.0__31bf3856ad364e35\System.ServiceModel.Internals.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
