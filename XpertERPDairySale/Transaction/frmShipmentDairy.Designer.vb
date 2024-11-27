@@ -413,6 +413,8 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.cmbVehicleType = New common.Controls.MyComboBox()
+        Me.lblVehicleType = New common.Controls.MyLabel()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -788,6 +790,8 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadMenu1.SuspendLayout()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -905,7 +909,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -914,6 +918,8 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.cmbVehicleType)
+        Me.RadPageViewPage1.Controls.Add(Me.lblVehicleType)
         Me.RadPageViewPage1.Controls.Add(Me.rsbtnInvoice)
         Me.RadPageViewPage1.Controls.Add(Me.rgbTaxNonTax)
         Me.RadPageViewPage1.Controls.Add(Me.cmbShift)
@@ -6848,6 +6854,42 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
+        'cmbVehicleType
+        '
+        Me.cmbVehicleType.AutoCompleteDisplayMember = Nothing
+        Me.cmbVehicleType.AutoCompleteValueMember = Nothing
+        Me.cmbVehicleType.CalculationExpression = Nothing
+        Me.cmbVehicleType.DropDownAnimationEnabled = True
+        Me.cmbVehicleType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbVehicleType.FieldCode = Nothing
+        Me.cmbVehicleType.FieldDesc = Nothing
+        Me.cmbVehicleType.FieldMaxLength = 0
+        Me.cmbVehicleType.FieldName = Nothing
+        Me.cmbVehicleType.isCalculatedField = False
+        Me.cmbVehicleType.IsSourceFromTable = False
+        Me.cmbVehicleType.IsSourceFromValueList = False
+        Me.cmbVehicleType.IsUnique = False
+        Me.cmbVehicleType.Location = New System.Drawing.Point(322, 88)
+        Me.cmbVehicleType.MendatroryField = True
+        Me.cmbVehicleType.MyLinkLable1 = Me.MyLabel7
+        Me.cmbVehicleType.MyLinkLable2 = Nothing
+        Me.cmbVehicleType.Name = "cmbVehicleType"
+        Me.cmbVehicleType.ReferenceFieldDesc = Nothing
+        Me.cmbVehicleType.ReferenceFieldName = Nothing
+        Me.cmbVehicleType.ReferenceTableName = Nothing
+        Me.cmbVehicleType.Size = New System.Drawing.Size(207, 20)
+        Me.cmbVehicleType.TabIndex = 1567
+        '
+        'lblVehicleType
+        '
+        Me.lblVehicleType.FieldName = Nothing
+        Me.lblVehicleType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleType.Location = New System.Drawing.Point(244, 91)
+        Me.lblVehicleType.Name = "lblVehicleType"
+        Me.lblVehicleType.Size = New System.Drawing.Size(72, 16)
+        Me.lblVehicleType.TabIndex = 1566
+        Me.lblVehicleType.Text = "Vehicle Type"
+        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7261,6 +7303,8 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -7649,5 +7693,7 @@ Partial Class frmShipmentDairy
     Friend WithEvents btnPrintInvoice As RadButton
     Friend WithEvents txtBoothSecurity As common.Controls.MyLabel
     Friend WithEvents MyLabel72 As common.Controls.MyLabel
+    Friend WithEvents cmbVehicleType As common.Controls.MyComboBox
+    Friend WithEvents lblVehicleType As common.Controls.MyLabel
 End Class
 

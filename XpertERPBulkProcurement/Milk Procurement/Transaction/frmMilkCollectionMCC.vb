@@ -141,6 +141,13 @@ Public Class frmMilkCollectionMCC
             txtTotEnteredFAT.Enabled = True
             txtTotEnteredSNF.Enabled = True
         End If
+        AllowSMS()
+    End Sub
+    Sub AllowSMS()
+        Dim Check As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("Select Is_SMS_Applied from TSPL_PROGRAM_MASTER Where Program_Code='" + Form_ID + "'"))
+        If Check <= 0 Then
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROGRAM_MASTER Set Is_SMS_Applied=1 Where Program_Code='" + Form_ID + "'")
+        End If
     End Sub
     Public Sub LoadLate()
         Dim dt As DataTable = New DataTable()

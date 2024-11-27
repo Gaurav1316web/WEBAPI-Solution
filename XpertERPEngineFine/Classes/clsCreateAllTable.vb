@@ -29802,6 +29802,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("IN_Active", "integer null default 0")
             coll.Add("InActive_Date", "datetime null")
             coll.Add("Item_Type", "varchar(2) null")
+            coll.Add("Vehicle_Type", "varchar(10) null")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Head", coll, "", True)
             Try
@@ -30144,6 +30145,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Against_Booking_No", "varchar(30) NULL REFERENCES TSPL_BOOKING_MATSER(Document_No)")
             coll.Add("BoothSecurity_TotalAmt", "decimal(18,2) null")
             coll.Add("IS_TCS", "Integer not null default 0")
+            coll.Add("Vehicle_Type", "varchar(10) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -30366,7 +30368,16 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Commission_Amt", "decimal(18,4) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
-
+            Try
+                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SD_SHIPMENT_BOOKING_DETAIL'"))
+                If chkValuesDetail = 1 Then
+                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_SD_SHIPMENT_BOOKING_DETAIL' and b.COLUMN_NAME='Booking_TR_Code' ORDER BY A.TABLE_NAME")
+                    If clsCommon.myLen(QryForeign) > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_BOOKING_DETAIL drop constraint " & QryForeign & "")
+                    End If
+                End If
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")

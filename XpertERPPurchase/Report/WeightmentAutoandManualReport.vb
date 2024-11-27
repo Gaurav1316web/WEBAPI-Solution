@@ -131,7 +131,7 @@ Public Class Weightment_Auto_and_Manual_Report
         End Try
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
-        Getdata(True)
+        Getdataprint(True)
     End Sub
     Public Sub Getdata(ByVal print As Boolean)
         Try
@@ -220,6 +220,94 @@ Public Class Weightment_Auto_and_Manual_Report
             End If
 
             ReStoreGridLayout()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Sub Getdataprint(ByVal print As Boolean)
+        Try
+            Dim strqry As String = ""
+            GetReportID()
+            PageSetupReport_ID = MyBase.Form_ID
+            TemplateGridview = gv1
+            If rbtWeightment.Checked = True Then
+                strqry = " SELECT 
+   'Weightment' AS ReportName,
+    aa.Location_Code AS Location,
+    '" + txtFromDate.Value + "' as From_Date,
+	'" + txtToDate.Value + "' as To_Date,
+    ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
+    ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+    ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+    ISNULL(SUM(aa.Total_wt), 0) AS Total,
+    CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Auto%],
+    CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Manual%],
+    CAST(ROUND(((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Pending%],
+    aa.Location_Desc
+FROM (
+    SELECT 
+        r.Location_Code,
+        r.Weighment_Date,
+        l.Location_Desc,
+        CASE WHEN (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 1) THEN COUNT(*) END AS Auto_wt,
+        CASE WHEN (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 0) 
+               OR (r.Is_Auto_Gross_Weight = 0 AND r.Is_Auto_Tare_Weight = 1) 
+               OR (r.Is_Auto_Gross_Weight = 1 AND r.Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
+        END AS Manual_wt, 
+        COUNT(*) AS Total_wt
+    FROM TSPL_PO_WEIGHTMENT_HEAD r
+    LEFT JOIN TSPL_LOCATION_MASTER l ON r.Location_Code = l.Location_Code
+             where CONVERT(DATE, r.Weighment_Date, 103)>=convert(date,('" + txtFromDate.Value + "'),103) and CONVERT(DATE, r.Weighment_Date, 103)<=convert(date,('" + txtToDate.Value + "'),103)
+             GROUP BY r.Location_Code, r.Weighment_Date, r.Is_Auto_Gross_Weight, r.Is_Auto_Tare_Weight, l.Location_Desc
+) aa  
+GROUP BY aa.Location_Code, aa.Location_Desc
+ORDER BY aa.Location_Code  "
+
+            Else
+                strqry = " SELECT aa.Location_Code as Location,
+'" + txtFromDate.Value + "' as From_Date,
+	'" + txtToDate.Value + "' as To_Date,
+    ISNULL(SUM(aa.Auto_wt), 0) AS [Auto Weighment],
+    ISNULL(SUM(aa.Manual_wt), 0) AS [Manual Weighment],
+    ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0) AS [Pending],
+    ISNULL(SUM(aa.Total_wt), 0) AS Total,
+    CAST(ROUND((ISNULL(SUM(aa.Auto_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Auto%],
+    CAST(ROUND((ISNULL(SUM(aa.Manual_wt), 0) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Manual%],
+    CAST(ROUND(((ISNULL(SUM(aa.Total_wt), 0) - ISNULL(SUM(aa.Auto_wt), 0) - ISNULL(SUM(aa.Manual_wt), 0)) * 100.0) / ISNULL(SUM(aa.Total_wt), 0), 2) AS DECIMAL(5, 2)) AS [Pending%]
+             FROM (SELECT Location_Code,
+             CASE WHEN (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 1) THEN COUNT(*)END AS Auto_wt,
+             CASE WHEN (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 0) OR (Is_Auto_Gross_Weight = 0 AND Is_Auto_Tare_Weight = 1) OR (Is_Auto_Gross_Weight = 1 AND Is_Auto_Tare_Weight = 0) THEN COUNT(*) 
+             END AS Manual_wt, COUNT(*) AS Total_wt
+             FROM TSPL_RCDF_LOAD_IN 
+             where convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_RCDF_LOAD_IN.Document_Date,103)<=convert(date,('" + txtToDate.Value + "'),103)
+             GROUP BY Location_Code, Is_Auto_Gross_Weight, Is_Auto_Tare_Weight
+            ) aa
+            GROUP BY aa.Location_Code
+            ORDER BY aa.Location_Code  "
+            End If
+            'If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+            '    strqry += " where aa.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+            'End If
+            'strqry += "GROUP BY aa.Location_Code "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
+
+            If rbtWeightment.Checked = True Then
+                If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport2", "")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow("No Data Found")
+                End If
+            ElseIf rbtLoadSlip.Checked = True Then
+                If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.Purchase, dt, "WeightmentAutoandManualReport", "")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow("No Data Found")
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

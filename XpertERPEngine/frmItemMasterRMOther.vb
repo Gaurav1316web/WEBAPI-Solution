@@ -1145,11 +1145,12 @@ Public Class FrmItemMasterRMOther
         dr("Code") = "T"
         dr("Name") = "Technical Spare Parts"
         dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "M"
+        dr("Name") = "Milk"
+        dt.Rows.Add(dr)
         If EnableProductSaleForJPR Then
-            dr = dt.NewRow()
-            dr("Code") = "M"
-            dr("Name") = "Milk"
-            dt.Rows.Add(dr)
+
             dr = dt.NewRow()
             dr("Code") = "P"
             dr("Name") = "Product"
