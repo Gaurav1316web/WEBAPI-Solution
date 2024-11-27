@@ -1,7 +1,5 @@
 ﻿Imports System.IO
 Imports common
-
-
 Public Class rptPaymentProcessRouteReport
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -19,6 +17,7 @@ Public Class rptPaymentProcessRouteReport
     Dim MccName As String = Nothing
     Dim AreaName As String = Nothing
     Dim ShowNewFormatofPDF As Boolean = False
+    Dim IsDCSSummary As Boolean = False
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -103,6 +102,15 @@ Public Class rptPaymentProcessRouteReport
         Gv1.Columns.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            RadPageViewPage3.Text = "Report 2"
+            RadPageViewPage3.Visible = False
+            RadPageViewPage4.Text = "Report 3"
+            RadPageViewPage4.Visible = False
+            btnGoDCSSummary.Visible = True
+        Else
+            btnGoDCSSummary.Visible = False
+        End If
     End Sub
 
     Sub HideAndShowDate()
@@ -1027,11 +1035,15 @@ Public Class rptPaymentProcessRouteReport
             'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptBatchItemReport1 & "'"))
             'arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy")) + " ")
             'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
-                arrHeader.Add("Cycle Code : " + txtPaymentCycleCode.Value)
-            End If
-            If clsCommon.myLen(txtMcc.Value) > 0 Then
-                arrHeader.Add("Location : " + txtMcc.Value)
+            If Not IsDCSSummary Then
+                If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
+                    arrHeader.Add("Cycle Code : " + txtPaymentCycleCode.Value)
+                End If
+                If clsCommon.myLen(txtMcc.Value) > 0 Then
+                    arrHeader.Add("Location : " + txtMcc.Value)
+                End If
+            Else
+                arrHeader.Add("DCS Summary Report")
             End If
 
             'If txtLocation.arrDispalyMember IsNot Nothing AndAlso txtLocation.arrDispalyMember.Count > 0 Then
@@ -1043,12 +1055,25 @@ Public Class rptPaymentProcessRouteReport
             'If txtDocumentNo.arrDispalyMember IsNot Nothing AndAlso txtDocumentNo.arrDispalyMember.Count > 0 Then
             '    arrHeader.Add("Document : " + clsCommon.GetMulcallStringWithComma(txtDocumentNo.arrDispalyMember))
             'End If
-            If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToExcelGrid("Route Payment Process Report", Gv1, arrHeader, Me.Text)
+            If Not IsDCSSummary Then
+                If exporter = EnumExportTo.Excel Then
+                    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid("Route Payment Process Report", Gv1, arrHeader, Me.Text)
+                Else
+                    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                    clsCommon.MyExportToPDF("Route Payment Process Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                End If
             Else
-                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToPDF("Route Payment Process Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                If RadPageView1.SelectedPage.Text = "Report" Then
+                    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid("DCS Summary Report", Gv1, arrHeader, Me.Text)
+                ElseIf RadPageView1.SelectedPage.Text = "DCS Summary Monthly Report" Then
+                    transportSql.applyExportTemplate(Gv2, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid("DCS Summary Monthly Report", Gv2, arrHeader, Me.Text)
+                ElseIf RadPageView1.SelectedPage.Text = "DCS Summary Days Report" Then
+                    transportSql.applyExportTemplate(Gv3, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid("DCS Summary Days Report", Gv3, arrHeader, Me.Text)
+                End If
             End If
 
         Catch ex As Exception
@@ -3322,8 +3347,10 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
 
     End Sub
     Sub setFromAndToDate()
-        txtFromDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1)
-        txtToDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1).AddMonths(1).AddDays(-1)
+        If rbtnMonthWise.Checked Then
+            txtFromDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1)
+            txtToDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1).AddMonths(1).AddDays(-1)
+        End If
     End Sub
 
     Private Sub txtMonth_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtMonth.Validating
@@ -3333,6 +3360,10 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
     End Sub
 
     Private Sub btnDCSSummaryPrint_Click(sender As Object, e As EventArgs) Handles btnDCSSummaryPrint.Click
+        DCSSummary(True)
+    End Sub
+
+    Sub DCSSummary(ByVal isPrintGo As Boolean)
         Try
             Dim companyADD, CompName, CompCode As String
             Dim sQuery As String = ""
@@ -3438,7 +3469,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine
 
             BaseQry += "  " & whrcls & " " ' where Doc_No = '" + fndDocNo.Value + "'
-            Dim dt As New DataTable
+            Dim dt As DataTable = Nothing
             sQuery = BaseQry '+ " order by vsp_code,convert(datetime,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103),shift desc"
             Dim DCS_ToDate As String = clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR(11), CONVERT(DATE, '" & Todate & "', 103), 106) as date")
             Dim DCS_FromDate As String = clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR(11), CONVERT(DATE, '" & fromDate & "', 103), 106) as date")
@@ -3449,6 +3480,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             Dim dtFatSnf As DataTable = clsDBFuncationality.GetDataTable(Sql)
             Dim startDate As New DateTime(txtMonth.Value.Year, txtMonth.Value.Month, 1)
             Dim endDate As DateTime = startDate.AddMonths(1).AddDays(-1)
+
             Dim sbDates As New System.Text.StringBuilder()
             Dim sbDatesColumn As New System.Text.StringBuilder()
             Dim chkNullColumn As New System.Text.StringBuilder()
@@ -3509,13 +3541,16 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
                                                  select 1 Number  
                                                  union all  
                                                  select Number +1 from CTE where Number<31 
-                                                 ) 
- select '" & CompName & "'  as CompName,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,'" & userName & "' as User_Name,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
+                                                 ) "
+            DCSSummaryQuery += " select "
+            If isPrintGo Then
+                DCSSummaryQuery += "'" & CompName & "'  as CompName,'" & userName & "' as User_Name,"
+            End If
+            DCSSummaryQuery += "'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31],(sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty,max(DAYS_Total) as DAYS_Total,case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(DAYS_Total) end as AVG_QTY, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
  CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else sum(FATQTY) * 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end  as FATPer,
- CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end as SNFPer,
- max(DAYS_Total) as DAYS_Total,
- case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max('" + clsCommon.myCstr(DateDiffDays) + "') end as AVG_QTY,
- (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty ,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31] from (
+ CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end as SNFPer
+   
+from (
  select Number2,VLC_Code_VLC_Uploader, VSP_CODE1, Vendor_Name ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty
  ,FATQTY,SNFQTY,DAYS_Total
  , isnull([1],0) as [1] ,isnull([2],0) as [2],isnull([3],0) as [3],isnull([4],0) as [4],isnull([5],0) as [5],isnull([6],0) as [6],isnull([7],0) as [7],isnull([8],0) as [8],isnull([9],0) as [9],isnull([10],0) as [10],isnull([11],0) as [11],isnull([12],0) as [12],isnull([13],0) as [13],isnull([14],0) as [14],isnull([15],0) as [15],isnull([16],0) as [16],isnull([17],0) as [17],isnull([18],0) as [18],isnull([19],0) as [19],isnull([20],0) as [20],isnull([21],0) as [21],isnull([22],0) as [22],isnull([23],0) as [23],isnull([24],0) as [24],isnull([25],0) as [25],isnull([26],0) as [26],isnull([27],0) as [27],isnull([28],0) as [28],isnull([29],0) as [29],isnull([30],0) as [30],isnull([31],0) as [31]  from (
@@ -3531,9 +3566,14 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
 
  Case when  QBD = 'SWEET' then Qty else 0  end  as TotalSweetQty,
  Case when  QBD = 'SOUR'  then Qty else 0  end  as TotalSoreQty,
- Case when  QBD = 'CURD'  then Qty else 0  end  as TotalCurdQty  
- ,count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total 
- from (
+ Case when  QBD = 'CURD'  then Qty else 0  end  as TotalCurdQty "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                DCSSummaryQuery += "," + clsCommon.myCstr(DateDiffDays) + " as DAYS_Total "
+            Else
+                DCSSummaryQuery += ",count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total "
+            End If
+
+            DCSSummaryQuery +=" from (
 select * from CTE left outer join  
  (  select DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,VSP_CODE1,max(Vendor_Name) as Vendor_Name,  SHIFT,QBD,XXXFinal.ROUTE_CODE, sum( Qty) as Qty ,
  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE sum(FATQTY) * 100 / sum( Qty) end as FAT_PER ,
@@ -3604,19 +3644,67 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
              group by  final.VLC_Code_VLC_Uploader ) xxx"
             Dim dtSubDayWiseReport As DataTable = clsDBFuncationality.GetDataTable(DCSSubDayWiseReport)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWiseALW", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                If isPrintGo Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWiseALW", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                    Else
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                    End If
+                    frmCRV = Nothing
                 Else
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                    SetGridFormat(Gv1)
+                    Gv1.DataSource = dt
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    SetGridFormat1(Gv1)
+
+                    'SetGridFormat(Gv2)
+                    'Gv2.DataSource = dtSubReport
+                    'RadPageViewPage3.Visible = False
+                    'RadPageViewPage3.Text = "DCS Summary Monthly Report"
+                    'SetGridFormat1(Gv2)
+
+                    'SetGridFormat(Gv3)
+                    'Gv3.DataSource = dtSubDayWiseReport
+                    'RadPageViewPage4.Visible = False
+                    'RadPageViewPage4.Text = "DCS Summary Days Report"
+                    'SetGridFormat1(Gv3)
+                    RadSplitExp.Visible = True
+                    IsDCSSummary = True
                 End If
-                frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub SetGridFormat(ByRef Gv As RadGridView)
+        Gv.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv.DataSource = Nothing
+        Gv.Rows.Clear()
+        Gv.Columns.Clear()
+        Gv.GroupDescriptors.Clear()
+        Gv.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv.MasterView.Refresh()
+    End Sub
+
+    Sub SetGridFormat1(ByRef Gv As RadGridView)
+        Gv.ShowGroupPanel = False
+        Gv.ShowRowHeaderColumn = False
+        Gv.AllowAddNewRow = False
+        Gv.AllowDeleteRow = False
+        Gv.EnableFiltering = True
+        Gv.ShowFilteringRow = True
+        Gv.MasterTemplate.SummaryRowsBottom.Clear()
+
+        For ii As Integer = 0 To Gv.Columns.Count - 1
+            Gv.Columns(ii).ReadOnly = True
+            Gv.Columns(ii).IsVisible = True
+            Gv.Columns(ii).BestFit()
+        Next
+        Gv.BestFitColumns()
     End Sub
 
     Private Sub btnPrintDailySummary_Click(sender As Object, e As EventArgs) Handles btnPrintDailySummary.Click
@@ -4887,5 +4975,9 @@ TSPL_MILK_COLLECTION_MCC
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnGoDCSSummary_Click(sender As Object, e As EventArgs) Handles btnGoDCSSummary.Click
+        DCSSummary(False)
     End Sub
 End Class
