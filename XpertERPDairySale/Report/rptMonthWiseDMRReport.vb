@@ -263,11 +263,7 @@ Public Class rptMonthWiseDMRReport
                     BaseQry += " PIVOT (SUM(Item_Cost)  FOR Product_Item_Rate IN (" & ProdItemRatePivot & ")) as pivot_Product_rate PIVOT (SUM(Tax1_Amt) FOR Product_Item_Tax1 IN (" & ProdItemTax1Pivot & ")) as pivot_Product_tax1 PIVOT (SUM(Tax2_Amt) FOR Product_Item_Tax2 IN (" & ProdItemTax2Pivot & ")) as pivot_Product_tax2
                     PIVOT (SUM(Tax3_Amt) FOR Product_Item_Tax3 IN (" & ProdItemTax3Pivot & ")) as pivot_Product_tax3 PIVOT (SUM(Tax4_Amt) FOR Product_Item_Tax4 IN (" & ProdItemTax4Pivot & ")) as pivot_Product_tax4  PIVOT (SUM(Tax5_Amt) FOR Product_Item_Tax5 IN (" & ProdItemTax5Pivot & ")) as pivot_Product_tax5 PIVOT (SUM(Product_Total_Amount)  FOR Product_Item_TotalAmt IN (" & ProdItemTotalAmtPivot & ")) as pivot_Product_Tamt"
                 End If
-                BaseQry += "  Group BY Document_Date )xxxx " & Environment.NewLine & " cross APPLY (
-	 	select TOP 1 TSPL_Distributor_Commission_Head.Document_Date,Distributor_Code, case when IS_Security = 1 then Security_Rate else Rate end as Security ,Rate from TSPL_Distributor_Commission_Detail
-        left outer join TSPL_Distributor_Commission_Head on TSPL_Distributor_Commission_Head.Doc_No = TSPL_Distributor_Commission_Detail.Doc_No
-		WHERE TSPL_Distributor_Commission_Head.IsPosted = 1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code = xxxx.Route_No AND TSPL_Distributor_Commission_Head.Document_Date <= xxxx.Document_Date 
-		ORDER BY  TSPL_Distributor_Commission_Head.Document_Date DESC ) AS tab2
+                BaseQry += "  Group BY Document_Date )xxxx " & Environment.NewLine & "
 	   WHERE CONVERT(DATE, xxxx.Document_Date, 103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) AND CONVERT(DATE, xxxx.Document_Date, 103) <= CONVERT(DATE,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)"
 
                 If clsCommon.myLen(txtRoute.Value) > 0 Then

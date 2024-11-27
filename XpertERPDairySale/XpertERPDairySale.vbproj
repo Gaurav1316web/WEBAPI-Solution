@@ -573,6 +573,12 @@
     <Compile Include="Report\rptSaleRegisterUOMReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptSalesComparisonReport.Designer.vb">
+      <DependentUpon>rptSalesComparisonReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSalesComparisonReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptSalesLedgerReport.Designer.vb">
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
     </Compile>
@@ -1100,6 +1106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSaleRegisterUOMReport.resx">
       <DependentUpon>rptSaleRegisterUOMReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSalesComparisonReport.resx">
+      <DependentUpon>rptSalesComparisonReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
