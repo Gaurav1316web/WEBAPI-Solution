@@ -7146,6 +7146,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         End Try
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        txtTransNo.Text = txtVendorNo.Value
         If (AllowToSave(False)) Then
 
             trans = clsDBFuncationality.GetTransactin()
