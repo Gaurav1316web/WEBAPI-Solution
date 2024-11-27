@@ -14,6 +14,7 @@ Public Class clsDistributorCommission
     Public Posted_Date As DateTime = Nothing
     Public Distributor_Tagging_Code As String = Nothing
     Public Item_Type As String = Nothing
+    Public Vehicle_Type As String = Nothing
     Public Arr As List(Of clsDistributorCommissionDetails)
 #End Region
     Public Function SaveData(ByVal obj As clsDistributorCommission, ByVal isNewEntry As Boolean) As Boolean
@@ -71,7 +72,7 @@ Public Class clsDistributorCommission
 
         Try
             Dim Whrcls As String = ""
-            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date,IS_Transpotation,IS_Security,IN_Active,InActive_Date,Item_Type from TSPL_Distributor_Commission_Head  where 2=2"
+            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date,IS_Transpotation,IS_Security,IN_Active,InActive_Date,Item_Type,Vehicle_Type from TSPL_Distributor_Commission_Head  where 2=2"
 
             Select Case NavType
                 Case NavigatorType.First
@@ -100,6 +101,7 @@ Public Class clsDistributorCommission
                 obj.Commision_UOM = clsCommon.myCstr(dt.Rows(0)("Commision_UOM"))
                 obj.Distributor_Tagging_Code = clsCommon.myCstr(dt.Rows(0)("Distributor_Tagging_Code"))
                 obj.Item_Type = clsCommon.myCstr(dt.Rows(0)("Item_Type"))
+                obj.Vehicle_Type = clsCommon.myCstr(dt.Rows(0)("Vehicle_Type"))
                 obj.IS_Transpotation = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Transpotation")) = 1, True, False))
                 obj.IS_Security = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Security")) = 1, True, False))
                 obj.IN_Active = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IN_Active")) = 1, True, False))

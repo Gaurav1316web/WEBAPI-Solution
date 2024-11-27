@@ -5,6 +5,7 @@ Public Class frmDistributorCommission
     Dim isNewEntry As Boolean = False
     Dim SeparateDemandMilkandProduct As Boolean = False
     Dim EnableProductSaleForJPR As Boolean = False
+    Dim EnableVehicleType As Boolean = False
     Const ColSNo As String = "ColSNo"
     Const ColRouteCode As String = "ColRouteCode"
     Const ColRouteName As String = "ColRouteName"
@@ -49,6 +50,7 @@ Public Class frmDistributorCommission
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
         EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+        EnableVehicleType = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, Nothing)) = 1, True, False)
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
         txtInActiveDate.Value = clsCommon.GETSERVERDATE()
@@ -87,6 +89,30 @@ Public Class frmDistributorCommission
         cmbItemType.DataSource = dt
         cmbItemType.ValueMember = "Code"
         cmbItemType.DisplayMember = "Name"
+    End Sub
+    Sub LoadVehicleType()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = Nothing
+
+        dr = dt.NewRow()
+        dr("Code") = "AC"
+        dr("Name") = "A/C"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "Non-AC"
+        dr("Name") = "Non A/C"
+        dt.Rows.Add(dr)
+            dr = dt.NewRow()
+        dr("Code") = "Open"
+        dr("Name") = "Open"
+        dt.Rows.Add(dr)
+
+
+        cmbVehicleType.DataSource = dt
+        cmbVehicleType.ValueMember = "Code"
+        cmbVehicleType.DisplayMember = "Name"
     End Sub
     Private Sub frmDistributorCommission_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
@@ -251,7 +277,16 @@ Public Class frmDistributorCommission
         chkInActive.Checked = False
         'cmbItemType.Enabled = False
         LoadType()
+        LoadVehicleType()
         LoadBlankGrid()
+        If EnableVehicleType Then
+            lblVehicleType.Visible = True
+            cmbVehicleType.Visible = True
+            cmbVehicleType.SelectedValue = "AC"
+        Else
+            lblVehicleType.Visible = False
+            cmbVehicleType.Visible = False
+        End If
     End Sub
     Private Sub txtUOM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtUOM._MYValidating
         Try
@@ -524,6 +559,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 txtUOM.Value = obj.Commision_UOM
                 txtDistributorTagging.Value = obj.Distributor_Tagging_Code
                 cmbItemType.SelectedValue = obj.Item_Type
+                cmbVehicleType.SelectedValue = obj.Vehicle_Type
                 If obj.IS_Transpotation Then
                     rbtnTranspotation.IsChecked = True
                 Else
@@ -621,6 +657,10 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 obj.Commision_UOM = txtUOM.Value
                 obj.Distributor_Tagging_Code = txtDistributorTagging.Value
                 obj.Item_Type = cmbItemType.SelectedValue
+                If EnableVehicleType Then
+                    obj.Vehicle_Type = cmbVehicleType.SelectedValue
+
+                End If
                 obj.Arr = GetTRData()
                 obj.SaveData(obj, isNewEntry)
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
