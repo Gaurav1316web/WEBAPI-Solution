@@ -3636,7 +3636,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
 
             If PaymentCWchk.Checked = True Then
 
-                qryies = " select ROW_NUMBER() Over (Order By (Select 1)) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MM/yyyy") + "') As DateRange,BankCode,BankName,TotalBillAmt,TotalSavingAmt,CurrentAmt,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No
+                qryies = " select ROW_NUMBER() Over (Order By (Select 1)) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MM/yyyy") + "') As DateRange,BankCode,BankName,TotalBillAmt,TotalSavingAmt,CurrentAmt,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No
                             ,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (SELECT max(SNo)SNo,BankCode,max(BankName)BankName,sum(TotalBillAmt)TotalBillAmt,sum(TotalSavingAmt)TotalSavingAmt,sum(CurrentAmt)CurrentAmt FROM (Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,Final.*   from ( Select xxx.BankCode,Max(xxx.BankName)BankName,Sum(xxx.Bill_Amt)TotalBillAmt,Sum(xxx.SavingAmt)TotalSavingAmt,Sum(xxx.CurrentAmt)CurrentAmt,max(xxx.DCSCount)DCSCount from (Select * from (Select xxxFinal.[Bank Advise No],xxxFinal.[Bank Advise Date],xxxfinal.VLC_CODE_Uploader,	xxxfinal.BankCode,	xxxfinal.BankName,	xxxfinal.DCS_Name,	Round(xxxfinal.Bill_Amt,0)Bill_Amt,	xxxfinal.SavingAccountNo,	Round(xxxfinal.SavingAmt,0)SavingAmt,	xxxfinal.CurrentAccountNo,	Case When xxxfinal.CurrentAmt>0 Then Round(xxxfinal.CurrentAmt,0) Else 0 End As CurrentAmt,xxxDCSCount.DCSCount 
                             from 
                             (Select [Bank Advise No],[Bank Advise Date],xxxSaving.VLC_CODE_Uploader,IsNull(xxxSaving.Bank_Code,xxxCurrent.Bank_Code) As BankCode,IsNull(xxxsaving.Bank_Code_Desc,xxxCurrent.Bank_Code_Desc) As BankName,(xxxSaving.VLC_CODE_Uploader +' '+ xxxSaving.Payee_Joint_Name) As DCS_Name,
@@ -3665,8 +3665,8 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                             and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
                             left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank
                             left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
-                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
-                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
                             and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 
                             ) x group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No )xxxSaving
                             Left Outer Join
@@ -3683,13 +3683,13 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                             left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current 
                             left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
                            left outer join( select Vendor_Code,Max(Amount)Head_Load_Rate from TSPL_TRANSFER_TO_SAVING_DETAIL left outer join TSPL_TRANSFER_TO_SAVING on TSPL_TRANSFER_TO_SAVING.Document_No = TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No
-                           where convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) 
-                            and convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103) <=convert(date,('" + ToDate.Value + "'),103)
+                           where convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103)>=convert(date,('" + dtpDailySummaryFromDate.Value + "'),103) 
+                            and convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103) <=convert(date,('" + dtpDailySummaryToDate.Value + "'),103)
                            group by Vendor_Code )SavingDetail on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = SavingDetail.Vendor_Code
                             left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
                             left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
-                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
-                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  ) x group by x.VLC_CODE_Uploader,x.Payee_Joint_Account_No ) xxxCurrent On xxxCurrent.VLC_CODE_Uploader=xxxSaving.VLC_CODE_Uploader) xxxFinal
+                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  ) x group by x.VLC_CODE_Uploader,x.Payee_Joint_Account_No ) xxxCurrent On xxxCurrent.VLC_CODE_Uploader=xxxSaving.VLC_CODE_Uploader) xxxFinal
                             Inner Join(SELECT YYY.[Vlc Uploader Code],YYY.[VLC Name],COUNT(YYY.[Vlc Uploader Code]) As DCSCount FROM (Select final.[Doc Date] ,(final.[Vlc Uploader Code])[Vlc Uploader Code] ,final.[VLC Name] From 
                             (Select Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], 
                             TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name]
@@ -3700,8 +3700,8 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                             left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
                             left outer join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
                             Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE
-                             where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
-                            and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                             where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                            and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
                              ) As final
                              where 2=2  GROUP BY FINAL.[Doc Date],FINAL.[VLC Name],FINAL.[Vlc Uploader Code] )YYY  GROUP BY [VLC Name],[Vlc Uploader Code])xxxDCSCount On xxxDCSCount.[Vlc Uploader Code]=xxxFinal.VLC_CODE_Uploader  )xxxfinal )xxx
                             where xxx.DCSCount>1 Group By xxx.BankCode)Final 
@@ -3738,8 +3738,8 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                             left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
                             left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank
                             left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
-                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
-                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
                             and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 
                             ) x group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No )xxxSaving
                             Left Outer Join
@@ -3756,13 +3756,13 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                             left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current 
                             left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
                            left outer join( select Vendor_Code,Max(Amount)Head_Load_Rate from TSPL_TRANSFER_TO_SAVING_DETAIL left outer join TSPL_TRANSFER_TO_SAVING on TSPL_TRANSFER_TO_SAVING.Document_No = TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No
-                           where convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) 
-                           and convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103) <=convert(date,('" + ToDate.Value + "'),103)
+                           where convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103)>=convert(date,('" + dtpDailySummaryFromDate.Value + "'),103) 
+                           and convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103) <=convert(date,('" + dtpDailySummaryToDate.Value + "'),103)
                            group by Vendor_Code )SavingDetail on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = SavingDetail.Vendor_Code
                             left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
                             left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
-                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
-                           and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  ) x group by x.VLC_CODE_Uploader,x.Payee_Joint_Account_No ) xxxCurrent On xxxCurrent.VLC_CODE_Uploader=xxxSaving.VLC_CODE_Uploader) xxxFinal
+                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                           and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  ) x group by x.VLC_CODE_Uploader,x.Payee_Joint_Account_No ) xxxCurrent On xxxCurrent.VLC_CODE_Uploader=xxxSaving.VLC_CODE_Uploader) xxxFinal
                             Inner Join(SELECT YYY.[Vlc Uploader Code],YYY.[VLC Name],COUNT(YYY.[Vlc Uploader Code]) As DCSCount FROM (Select final.[Doc Date] ,(final.[Vlc Uploader Code])[Vlc Uploader Code] ,final.[VLC Name] From 
                             (Select Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], 
                             TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name]
@@ -3773,8 +3773,8 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                             left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
                             left outer join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
                             Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE
-                             where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
-and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                             where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                              ) As final
                              where 2=2  GROUP BY FINAL.[Doc Date],FINAL.[VLC Name],FINAL.[Vlc Uploader Code] )YYY  GROUP BY [VLC Name],[Vlc Uploader Code])xxxDCSCount On xxxDCSCount.[Vlc Uploader Code]=xxxFinal.VLC_CODE_Uploader  )xxxfinal 
 							 where xxxfinal.DCSCount=1 )XXY Group by BankCode)zz
