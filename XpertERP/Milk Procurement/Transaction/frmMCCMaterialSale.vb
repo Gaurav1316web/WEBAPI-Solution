@@ -3025,7 +3025,7 @@ Public Class frmMCCMaterialSale
         lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt + dblCashDisAmt)
         If MultiplySubsidyWithQuantity Then
             Dim AmtAfterDiscount As Double = lblAmtWithDiscount.Text
-            Dim InvAmt As Double = lblInvoiceDiscAmt.Text
+            Dim InvAmt As Double = clsCommon.myCdbl(lblInvoiceDiscAmt.Text)
             AmtAfterDiscount = AmtAfterDiscount - InvAmt
             lblAmtAfterDiscount.Text = clsCommon.myFormat(AmtAfterDiscount)
             lblInvoiceDiscAmt.Text = lblTotalDisSubsidy.Text

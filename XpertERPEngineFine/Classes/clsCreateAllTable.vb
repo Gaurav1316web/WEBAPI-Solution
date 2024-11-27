@@ -14610,6 +14610,8 @@ Public Class clsCreateAllTable
             coll.Add("Cust_Group_Code", "varchar(12) NULL REFERENCES TSPL_CUSTOMER_GROUP_MASTER (Cust_Group_Code)")
             coll.Add("Cust_Type_Code", "varchar(12) NULL")
             coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("P_Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("I_Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             coll.Add("Route_Desc", "varchar(50) NULL")
             coll.Add("Price_Code", "varchar(12) NULL")
             coll.Add("City_Code", "varchar(50) NULL")
@@ -24845,8 +24847,16 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Purchase_Order_No", "Varchar(30) null")
             coll.Add("Capping_Apply", "integer null")
             coll.Add("Retesting", "integer null")
-            coll.Add("Against_Send_SMS", "integer Null unique References TSPL_SMS_DETAIL(PK_ID)")
+            coll.Add("Against_Send_SMS", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "", True, False, "", "DOC_CODE", "DOC_DATE")
+            Try
+                qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Send_SMS'"
+                dt = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_Against_Send_SMS ON TSPL_MILK_SRN_HEAD(Against_Send_SMS) WHERE Against_Send_SMS IS NOT NULL ")
+                End If
+            Catch
+            End Try
             coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "", False, False)
             ''ERO/10/05/19-000600,ERO/08/05/19-000596 By Balwinder on 13/05/2019 
@@ -29791,6 +29801,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Posted_Date", "datetime NULL")
             coll.Add("IN_Active", "integer null default 0")
             coll.Add("InActive_Date", "datetime null")
+            coll.Add("Item_Type", "varchar(2) null")
+            coll.Add("Vehicle_Type", "varchar(10) null")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Head", coll, "", True)
             Try
@@ -30133,6 +30145,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Against_Booking_No", "varchar(30) NULL REFERENCES TSPL_BOOKING_MATSER(Document_No)")
             coll.Add("BoothSecurity_TotalAmt", "decimal(18,2) null")
             coll.Add("IS_TCS", "Integer not null default 0")
+            coll.Add("Vehicle_Type", "varchar(10) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -30355,7 +30368,16 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Commission_Amt", "decimal(18,4) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
-
+            Try
+                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SD_SHIPMENT_BOOKING_DETAIL'"))
+                If chkValuesDetail = 1 Then
+                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_SD_SHIPMENT_BOOKING_DETAIL' and b.COLUMN_NAME='Booking_TR_Code' ORDER BY A.TABLE_NAME")
+                    If clsCommon.myLen(QryForeign) > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_BOOKING_DETAIL drop constraint " & QryForeign & "")
+                    End If
+                End If
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")

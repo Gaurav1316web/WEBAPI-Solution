@@ -9,6 +9,7 @@ Public Class frmCustomer
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isInsideLoadData As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
     Const ColLocation As String = "ColLocation"
     Const ColOpeningDate As String = "ColOpeningDate"
     Const ColOpeningQty As String = "ColOpeningQty"
@@ -606,6 +607,7 @@ Public Class frmCustomer
         popupcustomernamewhileupdating = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.popupcustomernamewhileupdating, clsFixedParameterCode.popupcustomernamewhileupdating, Nothing)) = 1, True, False)
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         SuperUserCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SuperUserCustomer, clsFixedParameterCode.SuperUserCustomer, Nothing)) = 0, False, True)
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 0, False, True)
         txtCustomerName.MaxLength = 200
         LoadVisi()
         SetUserMgmtNew()
@@ -763,7 +765,7 @@ Public Class frmCustomer
         ''==========================================================
         '' Agaist ticket no. SWA/05/07/18-000031  by Parteek
         EnableDistributorSubsidy = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableDistributorSubsidy, clsFixedParameterCode.EnableDistributorSubsidy, Nothing)) = 1, True, False)
-        TagMultipleRouteWithCustomer = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.TagMultipleRouteWithCustomer, clsFixedParameterCode.TagMultipleRouteWithCustomer, Nothing)) = "1", True, False))
+        'TagMultipleRouteWithCustomer = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.TagMultipleRouteWithCustomer, clsFixedParameterCode.TagMultipleRouteWithCustomer, Nothing)) = "1", True, False))
         VisibleMultRoute()
         VisibleChecboxRelatedToTCSRateImpact()
         dtpAggMade.Value = clsCommon.GETSERVERDATE()
@@ -815,11 +817,11 @@ Public Class frmCustomer
     End Sub
     Sub VisibleMultRoute()
         If TagMultipleRouteWithCustomer Then
-            MultiRouteCode.Visible = True
+            'MultiRouteCode.Visible = True
             fndRoute.Visible = False
             txtRoute.Visible = False
         Else
-            MultiRouteCode.Visible = False
+            'MultiRouteCode.Visible = False
             fndRoute.Visible = True
             txtRoute.Visible = True
         End If
@@ -1299,6 +1301,8 @@ Public Class frmCustomer
             obj.Cust_Group_Code = clsCommon.myCstr(fndCusgrp.Value)
             obj.Cust_Type_Code = clsCommon.myCstr(fndCusType.Value)
             obj.Route_No = clsCommon.myCstr(fndRoute.Value)
+            obj.P_Route_No = clsCommon.myCstr(txtPRouteCode.Value)
+            obj.I_Route_No = clsCommon.myCstr(txtIRouteCode.Value)
             obj.City_Code = clsCommon.myCstr(fndCity.Value)
             obj.State = clsCommon.myCstr(fndstate.Value)
             ''richa ticket No. BM00000003109 on 19/08/2014
@@ -1532,16 +1536,16 @@ Public Class frmCustomer
             obj.Comp_Code = objCommonVar.CurrentCompanyCode
             '==============Added by preeti Gupta[03/04/2019]against ticket no[ERO/05/04/19-000548]=
             obj.ArrRoute = New List(Of clsMultRouteCustomer)
-            If clsCommon.myLen(MultiRouteCode.arrValueMember) > 0 Then
-                For Each RouteNo As String In MultiRouteCode.arrValueMember
-                    Dim objTrTr As New clsMultRouteCustomer()
-                    objTrTr.Cust_code = clsCommon.myCstr(fndCustomer.Value)
-                    objTrTr.Route_No = RouteNo
-                    If (clsCommon.myLen(objTrTr.Route_No) > 0) Then
-                        obj.ArrRoute.Add(objTrTr)
-                    End If
-                Next
-            End If
+            'If clsCommon.myLen(MultiRouteCode.arrValueMember) > 0 Then
+            '    For Each RouteNo As String In MultiRouteCode.arrValueMember
+            '        Dim objTrTr As New clsMultRouteCustomer()
+            '        objTrTr.Cust_code = clsCommon.myCstr(fndCustomer.Value)
+            '        objTrTr.Route_No = RouteNo
+            '        If (clsCommon.myLen(objTrTr.Route_No) > 0) Then
+            '            obj.ArrRoute.Add(objTrTr)
+            '        End If
+            '    Next
+            'End If
             '==================================================
             '--------------------------------------------------------------------------Pass dataBase Name in Array
             obj.isCustRouteType = isCustomerOfRouteType()
@@ -1853,25 +1857,25 @@ Public Class frmCustomer
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Public Sub LoadMultiRoute()
-        Try
-            Dim RouteNo As String
-            Dim DocCode As New ArrayList
-            Dim qry As String = "select * from TSPL_Customer_Route_Master "
-            qry += " where TSPL_Customer_Route_Master.cust_code='" + fndCustomer.Value + "' "
-            Dim dt As DataTable = New DataTable()
-            dt = clsDBFuncationality.GetDataTable(qry)
-            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                For Each dr As DataRow In dt.Rows
-                    RouteNo = clsCommon.myCstr(dr("Route_No"))
-                    DocCode.Add(RouteNo)
-                Next
-            End If
-            MultiRouteCode.arrValueMember = DocCode
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+    'Public Sub LoadMultiRoute()
+    '    Try
+    '        Dim RouteNo As String
+    '        Dim DocCode As New ArrayList
+    '        Dim qry As String = "select * from TSPL_Customer_Route_Master "
+    '        qry += " where TSPL_Customer_Route_Master.cust_code='" + fndCustomer.Value + "' "
+    '        Dim dt As DataTable = New DataTable()
+    '        dt = clsDBFuncationality.GetDataTable(qry)
+    '        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+    '            For Each dr As DataRow In dt.Rows
+    '                RouteNo = clsCommon.myCstr(dr("Route_No"))
+    '                DocCode.Add(RouteNo)
+    '            Next
+    '        End If
+    '        MultiRouteCode.arrValueMember = DocCode
+    '    Catch ex As Exception
+    '        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
     Public Sub LoadVisiDetail()
         Try
             ''Inner join TSPL_RGP_DETAIL rd on TSPL_VISI_MASTER.serial_no=rd.serial_no inner join TSPL_RGP_HEAD rh on rh.Doc_Type='Disp' and rh.RGP_No=rd.RGP_No 
@@ -1996,6 +2000,8 @@ Public Class frmCustomer
                 Me.txtCusgrp.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Cust_Group_Desc  from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code='" + fndCusgrp.Value + "'"))
                 Me.fndCusType.Value = clsCommon.myCstr(myDr(7))
                 Me.fndRoute.Value = clsCommon.myCstr(myDr(8))
+                Me.txtPRouteCode.Value = clsCommon.myCstr(myDr("P_Route_No"))
+                Me.txtIRouteCode.Value = clsCommon.myCstr(myDr("I_Route_No"))
                 '' MULTICURRENCY
                 'If Me.fndBaseCurrency.Enabled = True Then
                 '    Me.fndBaseCurrency.Value = clsCommon.myCstr(myDr("CURRENCY_CODE"))
@@ -2387,7 +2393,7 @@ Public Class frmCustomer
             End If
             LoadCrateOpening()
             LoadCanOpening()
-            LoadMultiRoute()
+            'LoadMultiRoute()
             '-------------------------------------------------------
             UcAttachment1.LoadData(fndCustomer.Value)
             ''For Custom Fields
@@ -2491,6 +2497,8 @@ Public Class frmCustomer
         Me.fndCusgrp.Value = ""
         Me.fndCusType.Value = ""
         Me.fndRoute.Value = ""
+        txtPRouteCode.Value = ""
+        txtIRouteCode.Value = ""
         Me.fndTrmsCode.Value = ""
         Me.fndAccntSet.Value = ""
         Me.fndTxGrp.Value = ""
@@ -2631,7 +2639,7 @@ Public Class frmCustomer
         lblASM.Text = ""
         lblASO.Text = ""
         lblZSM.Text = ""
-        MultiRouteCode.arrValueMember = Nothing
+        'MultiRouteCode.arrValueMember = Nothing
         cmbBookingType.Text = "Select"
         cmbCustomerCategory.Text = "Select"
         VisibleMultRoute()
@@ -2648,6 +2656,17 @@ Public Class frmCustomer
             chkITRfilledinLast2Years.Visible = False
             chkTCSGreaterthan50K.Visible = False
             chkTurnoverMorethan10CR.Visible = False
+        End If
+        If EnableProductSaleForJPR Then
+            lblPRouteCode.Visible = True
+            lblIRouteCode.Visible = True
+            txtPRouteCode.Visible = True
+            txtIRouteCode.Visible = True
+        Else
+            lblPRouteCode.Visible = False
+            lblIRouteCode.Visible = False
+            txtPRouteCode.Visible = False
+            txtIRouteCode.Visible = False
         End If
         txtF_H_Name.Text = ""
         txtEducation.Text = ""
@@ -5480,10 +5499,10 @@ Public Class frmCustomer
             End If
         End If
     End Sub
-    Private Sub MultiRouteCode__My_Click(sender As Object, e As EventArgs) Handles MultiRouteCode._My_Click
-        Dim strQry As String = "select tspl_route_master .route_no as code,tspl_route_master.Route_Desc as Name from tspl_route_master "
-        MultiRouteCode.arrValueMember = clsCommon.ShowMultipleSelectForm("MultRouteWithCust", strQry, "Code", "Name", MultiRouteCode.arrValueMember, MultiRouteCode.arrDispalyMember)
-    End Sub
+    'Private Sub MultiRouteCode__My_Click(sender As Object, e As EventArgs)
+    '    Dim strQry As String = "select tspl_route_master .route_no as code,tspl_route_master.Route_Desc as Name from tspl_route_master "
+    '    MultiRouteCode.arrValueMember = clsCommon.ShowMultipleSelectForm("MultRouteWithCust", strQry, "Code", "Name", MultiRouteCode.arrValueMember, MultiRouteCode.arrDispalyMember)
+    'End Sub
     Private Sub rmMultiRoute_Click(sender As Object, e As EventArgs) Handles rmMultiRoute.Click
         Dim qry As String = "select cust_Code as [Customer Code]"
         For j As Integer = 1 To 50
@@ -5854,6 +5873,24 @@ Public Class frmCustomer
 
     Private Sub txtEmployee__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtEmployee._MYValidating
         txtEmployee.Value = clsEmployeeMaster.getFinder("", txtEmployee.Value, isButtonClicked)
+    End Sub
+
+    Private Sub txtPRouteCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPRouteCode._MYValidating
+        Try
+            Dim qry As String = "SELECT Route_No,Route_Desc,Type FROM TSPL_ROUTE_MASTER"
+            Dim WhrCls As String = " Status='A' "
+            txtPRouteCode.Value = clsCommon.ShowSelectForm("PROUTeNOFND", qry, "Route_No", WhrCls, txtPRouteCode.Value, "", isButtonClicked)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub txtIRouteCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtIRouteCode._MYValidating
+        Try
+            Dim qry As String = "SELECT Route_No,Route_Desc,Type FROM TSPL_ROUTE_MASTER"
+            Dim WhrCls As String = " Status='A' "
+            txtIRouteCode.Value = clsCommon.ShowSelectForm("IROUTeNOFND", qry, "Route_No", WhrCls, txtIRouteCode.Value, "", isButtonClicked)
+        Catch ex As Exception
+        End Try
     End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

@@ -94,19 +94,6 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.Accessibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\XpertERP\bin\Debug\Interop.Accessibility.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.Shell32, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\XpertERP\bin\Debug\Interop.Shell32.dll</HintPath>
-    </Reference>
-    <Reference Include="LinkShell">
-      <HintPath>..\XpertERP\bin\Debug\LinkShell.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
@@ -150,10 +137,18 @@
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\RadControlSpy.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SMDiagnostics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\SMDiagnostics\v4.0_4.0.0.0__b77a5c561934e089\SMDiagnostics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Internals">
+      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.ServiceModel.Internals\v4.0_4.0.0.0__31bf3856ad364e35\System.ServiceModel.Internals.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -282,9 +277,6 @@
     <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="xDirectory">
-      <HintPath>..\XpertERP\bin\Debug\xDirectory.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon, Version=2.1.6.66, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
