@@ -617,8 +617,11 @@ Public Class frmShipmentDairy
         btnPrintsvl.Enabled = False
         SplitContainer5.Panel2.Visible = False
         'CreateTable()
-        txtBillToLocation.Value = LocationCode
-        txtRouteNo.Value = routeno
+        If clsCommon.myLen(LocationCode) > 0 Then
+            txtBillToLocation.Value = LocationCode
+            txtRouteNo.Value = routeno
+
+        End If
         If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
             txtSupplyDate.Value = Supplydate
             txtDate.Value = Supplydate
