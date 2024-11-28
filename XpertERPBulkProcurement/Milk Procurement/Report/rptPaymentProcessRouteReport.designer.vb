@@ -23,6 +23,9 @@ Partial Class rptPaymentProcessRouteReport
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -158,6 +161,11 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnGoDCSSummary = New Telerik.WinControls.UI.RadButton()
+        Me.Gv2 = New common.UserControls.MyRadGridView()
+        Me.Gv3 = New common.UserControls.MyRadGridView()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -287,6 +295,13 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.btnGoDCSSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -342,6 +357,8 @@ Partial Class rptPaymentProcessRouteReport
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -1172,6 +1189,7 @@ Partial Class rptPaymentProcessRouteReport
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.btnGoDCSSummary)
         Me.RadGroupBox6.Controls.Add(Me.RadGroupBox20)
         Me.RadGroupBox6.Controls.Add(Me.RadGroupBox19)
         Me.RadGroupBox6.Controls.Add(Me.RadGroupBox7)
@@ -1859,6 +1877,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition19
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1926,6 +1945,81 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.Gv2)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(115.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(857, 416)
+        Me.RadPageViewPage3.Text = "RadPageViewPage3"
+        '
+        'RadPageViewPage4
+        '
+        Me.RadPageViewPage4.Controls.Add(Me.Gv3)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(115.0!, 28.0!)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage4.Name = "RadPageViewPage4"
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(857, 416)
+        Me.RadPageViewPage4.Text = "RadPageViewPage4"
+        '
+        'btnGoDCSSummary
+        '
+        Me.btnGoDCSSummary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGoDCSSummary.Location = New System.Drawing.Point(82, 105)
+        Me.btnGoDCSSummary.Name = "btnGoDCSSummary"
+        Me.btnGoDCSSummary.Size = New System.Drawing.Size(71, 22)
+        Me.btnGoDCSSummary.TabIndex = 1528
+        Me.btnGoDCSSummary.Text = ">>>"
+        '
+        'Gv2
+        '
+        Me.Gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.Gv2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Gv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.Gv2.ForeColor = System.Drawing.Color.Black
+        Me.Gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Gv2.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.Gv2.MasterTemplate.AllowAddNewRow = False
+        Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.Gv2.MyStopExport = False
+        Me.Gv2.Name = "Gv2"
+        Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Gv2.ShowHeaderCellButtons = True
+        Me.Gv2.Size = New System.Drawing.Size(857, 416)
+        Me.Gv2.TabIndex = 1
+        Me.Gv2.VarID = ""
+        '
+        'Gv3
+        '
+        Me.Gv3.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.Gv3.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Gv3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv3.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.Gv3.ForeColor = System.Drawing.Color.Black
+        Me.Gv3.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Gv3.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.Gv3.MasterTemplate.AllowAddNewRow = False
+        Me.Gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv3.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv3.MasterTemplate.ViewDefinition = TableViewDefinition21
+        Me.Gv3.MyStopExport = False
+        Me.Gv3.Name = "Gv3"
+        Me.Gv3.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Gv3.ShowHeaderCellButtons = True
+        Me.Gv3.Size = New System.Drawing.Size(857, 416)
+        Me.Gv3.TabIndex = 2
+        Me.Gv3.VarID = ""
         '
         'rptPaymentProcessRouteReport
         '
@@ -2090,6 +2184,13 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        Me.RadPageViewPage4.ResumeLayout(False)
+        CType(Me.btnGoDCSSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2230,5 +2331,10 @@ Partial Class rptPaymentProcessRouteReport
     Friend WithEvents RadGroupBox21 As RadGroupBox
     Friend WithEvents DateRngChk As RadioButton
     Friend WithEvents PaymentCWchk As RadioButton
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents RadPageViewPage4 As RadPageViewPage
+    Friend WithEvents btnGoDCSSummary As RadButton
+    Friend WithEvents Gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents Gv3 As common.UserControls.MyRadGridView
 End Class
 
