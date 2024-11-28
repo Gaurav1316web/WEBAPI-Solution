@@ -104,8 +104,17 @@ Public Class rptPaymentProcessRouteReport
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv2.DataSource = Nothing
+        Gv2.Rows.Clear()
+        Gv2.Columns.Clear()
+        Gv2.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv3.DataSource = Nothing
+        Gv3.Rows.Clear()
+        Gv3.Columns.Clear()
+        Gv3.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            RadSplitExp.Visible = False
             RadPageViewPage3.Text = "Report 2"
             RadPageViewPage3.Visible = False
             RadPageViewPage4.Text = "Report 3"
@@ -3605,8 +3614,8 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             then Milk_Weight else 0 end) AS [151-300Qty] , COUNT(case when avg_day >= 151 AND Avg_Day < 300 then DCS else null end) AS [151-300DCS] ,SUM(case when avg_day >= 301 AND Avg_Day < 500 then Milk_Weight else 0 end) AS [301-500Qty] , COUNT(case when avg_day >= 301 AND Avg_Day < 500 then DCS else null end)
             AS [301-500DCS] ,SUM(case when avg_day > 500 then Milk_Weight else 0 end) AS [>500Qty] , COUNT(case when avg_day > 500 then DCS else null end) AS [>500DCS] ,COUNT(DCS) AS Total_DCS, sum(Milk_Weight)as Total_Qty  from (Select " + AvgDCS + " As Avg_Day , sum(total) as Milk_Weight , count(VLC_Code_VLC_Uploader) as DCS
             from(select isnull(sum(Qty),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_SRN_DETAIL
-			left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE where (convert (date,DOC_DATE,103)) >= convert (date, '" & startDate & "' ,103) 
-            and (convert (date,DOC_DATE,103)) <= convert (date,  '" & endDate & "' ,103) group by VLC_Code_VLC_Uploader  ) xyz group by VLC_Code_VLC_Uploader )abc"
+			left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE where (convert (date,DOC_DATE,103)) >= convert (date, '" & fromDate & "' ,103) 
+            and (convert (date,DOC_DATE,103)) <= convert (date,  '" & Todate & "' ,103) group by VLC_Code_VLC_Uploader  ) xyz group by VLC_Code_VLC_Uploader )abc"
 
             Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable(DCSSubReportQuery)
 
@@ -3639,7 +3648,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
              Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  
              left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code 
              left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  
-              where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" & startDate & "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" & endDate & "'),103) 
+              where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" & fromDate & "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" & Todate & "'),103) 
              ) XXXFinal group by DOC_DATE, VSP_CODE1 , VLC_Code_VLC_Uploader ) XXX  ) XXXXMain)XXXFinal
 		     ) Final   left outer join (select VLC_Code_VLC_Uploader as DCS_Code,VLC_Name,TSPL_VLC_MASTER_HEAD.VSP_Code from TSPL_VLC_MASTER_HEAD            
 	         ) as XXXDCS ON XXXDCS.VSP_Code=Final.VSP_Code1 
@@ -3656,22 +3665,24 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                     End If
                     frmCRV = Nothing
                 Else
+                    btnReset.Visible = True
                     SetGridFormat(Gv1)
                     Gv1.DataSource = dt
                     RadPageView1.SelectedPage = RadPageViewPage2
+                    SummaryRows()
                     SetGridFormat1(Gv1)
 
-                    'SetGridFormat(Gv2)
-                    'Gv2.DataSource = dtSubReport
-                    'RadPageViewPage3.Visible = False
-                    'RadPageViewPage3.Text = "DCS Summary Monthly Report"
-                    'SetGridFormat1(Gv2)
+                    SetGridFormat(Gv2)
+                    Gv2.DataSource = dtSubReport
+                    RadPageViewPage3.Visible = False
+                    RadPageViewPage3.Text = "DCS Summary Monthly Report"
+                    SetGridFormat1(Gv2)
 
-                    'SetGridFormat(Gv3)
-                    'Gv3.DataSource = dtSubDayWiseReport
-                    'RadPageViewPage4.Visible = False
-                    'RadPageViewPage4.Text = "DCS Summary Days Report"
-                    'SetGridFormat1(Gv3)
+                    SetGridFormat(Gv3)
+                    Gv3.DataSource = dtSubDayWiseReport
+                    RadPageViewPage4.Visible = False
+                    RadPageViewPage4.Text = "DCS Summary Days Report"
+                    SetGridFormat1(Gv3)
                     RadSplitExp.Visible = True
                     IsDCSSummary = True
                 End If
@@ -3700,14 +3711,30 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
         Gv.AllowDeleteRow = False
         Gv.EnableFiltering = True
         Gv.ShowFilteringRow = True
-        Gv.MasterTemplate.SummaryRowsBottom.Clear()
-
         For ii As Integer = 0 To Gv.Columns.Count - 1
             Gv.Columns(ii).ReadOnly = True
             Gv.Columns(ii).IsVisible = True
             Gv.Columns(ii).BestFit()
         Next
         Gv.BestFitColumns()
+    End Sub
+
+    Sub SummaryRows()
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For i As Integer = 5 To Gv1.Columns.Count - 1
+            Dim Item As GridViewSummaryItem
+            If clsCommon.CompairString(Gv1.Columns(i).Name, "DAYS_TOTAL") = CompairStringResult.Equal Then
+                Item = New GridViewSummaryItem(Gv1.Columns(i).Name, "{0:F2}", GridAggregateFunction.None)
+            ElseIf clsCommon.CompairString(Gv1.Columns(i).Name, "FATPer") = CompairStringResult.Equal Then
+                Item = New GridViewSummaryItem(Gv1.Columns(i).Name, "{0:F2}", GridAggregateFunction.Avg)
+            ElseIf clsCommon.CompairString(Gv1.Columns(i).Name, "SNFPer") = CompairStringResult.Equal Then
+                Item = New GridViewSummaryItem(Gv1.Columns(i).Name, "{0:F2}", GridAggregateFunction.Avg)
+            Else
+                Item = New GridViewSummaryItem(Gv1.Columns(i).Name, "{0:F2}", GridAggregateFunction.Sum)
+            End If
+            summaryRowItem.Add(Item)
+        Next
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
     End Sub
 
     Private Sub btnPrintDailySummary_Click(sender As Object, e As EventArgs) Handles btnPrintDailySummary.Click
