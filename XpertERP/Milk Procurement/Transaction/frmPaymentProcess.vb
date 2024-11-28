@@ -7162,7 +7162,12 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 Load_Report_Paymnet_UCDF()
             ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                 'Load_Report_Paymnet_RCDF()
-                clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False)
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False)
+                    clsPaymentProcessHead.PaymentProcessDrCrPrint("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "'" + fndLoc.Value + "'", "", "", "", txtMCC.Text)
+                Else
+                    clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False)
+                End If
             Else
                 Load_Report(Nothing, Nothing, Nothing, Nothing, False, True)
             End If
