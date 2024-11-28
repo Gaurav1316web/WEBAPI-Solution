@@ -43,6 +43,7 @@ Public Class clsDistributorCommission
             clsCommon.AddColumnsForChange(coll, "IS_Security", IIf(obj.IS_Security, 1, 0))
             clsCommon.AddColumnsForChange(coll, "IN_Active", IIf(obj.IN_Active, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Vehicle_Type", obj.Vehicle_Type, True)
             clsCommon.AddColumnsForChange(coll, "InActive_Date", clsCommon.GetPrintDate(obj.InActive_date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
