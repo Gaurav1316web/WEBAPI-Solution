@@ -799,6 +799,12 @@
     <Compile Include="Milk Procurement\Transaction\FrmSendDBTToJanaadhar.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmSendSMSToDCS.Designer.vb">
+      <DependentUpon>frmSendSMSToDCS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmSendSMSToDCS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmTransferToSaving.Designer.vb">
       <DependentUpon>frmTransferToSaving.vb</DependentUpon>
     </Compile>
@@ -1268,6 +1274,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmSendDBTToJanaadhar.resx">
       <DependentUpon>FrmSendDBTToJanaadhar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmSendSMSToDCS.resx">
+      <DependentUpon>frmSendSMSToDCS.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmTransferToSaving.resx">
       <DependentUpon>frmTransferToSaving.vb</DependentUpon>
