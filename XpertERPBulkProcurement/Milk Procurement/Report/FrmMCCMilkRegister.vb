@@ -631,6 +631,8 @@ Public Class FrmMCCMilkRegister
                         Dim summaryRowItem As New GridViewSummaryRowItem()
                         Dim intCount As Integer = 0
 
+                        Dim item As New GridViewSummaryItem("No Of Cans", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item)
                         Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(item1)
                         Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
