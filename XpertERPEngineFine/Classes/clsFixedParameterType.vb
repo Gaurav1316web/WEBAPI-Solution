@@ -11,6 +11,7 @@ Public Class clsFixedParameterType
     Public Const PrintPouchCrateQtyOnPrint As String = "Print PouchCrate Qty On Print"
     Public Const PickHeadLoadRateFromSecretaryMaster As String = "Pick HeadLoadRate From Secretary Master"
     Public Const Transactionupdate As String = "Transtion Update"
+    Public Const CreateEInvoicePassword As String = "Create EInvoice Password"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const RCDFControl As String = "RCDF Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
@@ -1297,6 +1298,7 @@ Public Class clsFixedParameterCode
     'Public Const SecretorydcsMaster As String = "Secretory/DCS Master"
     Public Const CalculateProRateAuto As String = "Calculate Pro Rate Auto"
     Public Const VendorMaster As String = "Vendor Master"
+    Public Const MaterialSales As String = "Material Sales"
     Public Const UserMaster As String = "User Master"
     Public Const ItemMaster As String = "Item Master"
     Public Const DemandUnpost As String = "Demand Unpost"
@@ -3294,6 +3296,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.POAmendmentType, clsFixedParameterCode.POAmendment, "admin@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkInvoiceDeleteType, clsFixedParameterCode.BulkInvoiceDelete, "tecxpert@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Importbulkdatafromexcelsheet, clsFixedParameterCode.Importbulkdatafromexcelsheet, "RakeshSharma", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CreateEInvoicePassword, clsFixedParameterCode.MaterialSales, "EInvoice@123", "Create EInvoice Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkSaleSequence, clsFixedParameterCode.BulkSaleSequence, "0", "0-KDIL; 1-OTHERS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkQCTableHavingUniqueKey, clsFixedParameterCode.BulkQCTableHavingUniqueKey, "0", "0-Pavitra; 1-OTHERS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SrPath, clsFixedParameterCode.SrPath, "\\192.168.100.3\KIWI ERP", "")
