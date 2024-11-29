@@ -11,6 +11,7 @@ Public Class frmShipmentDairy
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
+    Dim EnableVehicleType As Boolean = False
     Dim DisableRouteandVehicle As Boolean = False
     Dim IsCreditCustomer As Boolean = False
     Dim ApplyCommission As Boolean = False
@@ -478,6 +479,8 @@ Public Class frmShipmentDairy
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         ConvertPouchtoCrateonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
+        EnableVehicleType = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, Nothing)) = 1, True, False)
+
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         txtFdate.Value = clsCommon.GETSERVERDATE
@@ -495,6 +498,7 @@ Public Class frmShipmentDairy
         LoadBlankGrid(Nothing)
         LoadBlankGridTax(Nothing)
         LoadItemType()
+        LoadVehicleType()
         LoadInvoiceType()
         LoadBlankGridAC(Nothing)
         LoadPaymentTerms()
@@ -613,8 +617,11 @@ Public Class frmShipmentDairy
         btnPrintsvl.Enabled = False
         SplitContainer5.Panel2.Visible = False
         'CreateTable()
-        txtBillToLocation.Value = LocationCode
-        txtRouteNo.Value = routeno
+        If clsCommon.myLen(LocationCode) > 0 Then
+            txtBillToLocation.Value = LocationCode
+            txtRouteNo.Value = routeno
+
+        End If
         If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
             txtSupplyDate.Value = Supplydate
             txtDate.Value = Supplydate
@@ -647,6 +654,30 @@ Public Class frmShipmentDairy
     '    coll.Add("MBRT_Hours", "decimal(18,2) null")
     '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
     'End Sub
+    Sub LoadVehicleType()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = Nothing
+
+        dr = dt.NewRow()
+        dr("Code") = "AC"
+        dr("Name") = "A/C"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "Non-AC"
+        dr("Name") = "Non A/C"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "Open"
+        dr("Name") = "Open"
+        dt.Rows.Add(dr)
+
+
+        cmbVehicleType.DataSource = dt
+        cmbVehicleType.ValueMember = "Code"
+        cmbVehicleType.DisplayMember = "Name"
+    End Sub
     Sub SetMultiCurrencyVisibility()
         Dim strq As String = ""
         Dim Currency As Integer = clsModuleCurrencyMapping.GetmulticurrencyDecimalPlaces()
@@ -5376,7 +5407,10 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 DCQry += " And TSPL_DISTRIBUTOR_COMMISSION_HEAD.Item_type ='M' "
             End If
-            DCQry += "and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "' 
+            If EnableVehicleType Then
+                DCQry += " And TSPL_DISTRIBUTOR_COMMISSION_HEAD.Vehicle_Type='" + cmbVehicleType.SelectedValue + "' "
+            End If
+            DCQry += " and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "' 
  order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry, trans)
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
@@ -6191,6 +6225,14 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         txtSubLocation.Enabled = False
         txtSubLocation.Value = ""
         lblSubLocation.Text = ""
+        LoadVehicleType()
+        If EnableVehicleType Then
+            lblVehicleType.Visible = True
+            cmbVehicleType.Visible = True
+        Else
+            lblVehicleType.Visible = False
+            cmbVehicleType.Visible = False
+        End If
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.SetDefaultValues()
@@ -7305,6 +7347,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
             obj.Scheme_Tax_Group = txtSchemeTaxGroup.Value
             obj.DO_Item_Type = cmbDisItemType.SelectedValue
             obj.Shift_Type = cmbShift.SelectedValue
+            obj.Vehicle_Type = cmbVehicleType.SelectedValue
             obj.OrgCustCOde = strOrginalCust
             If txtCustPODate.Checked Then
                 obj.Podate = txtCustPODate.Value
@@ -7964,6 +8007,11 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                 txtSchemeTaxGroup.Value = obj.Scheme_Tax_Group
                 cmbDisItemType.SelectedValue = obj.DO_Item_Type
                 cmbShift.SelectedValue = obj.Shift_Type
+                If EnableVehicleType Then
+                    cmbVehicleType.SelectedValue = obj.Vehicle_Type
+                End If
+
+
                 If obj.Trans_Type = "FS" Then
                     rbtn_Fresh.IsChecked = True
                 ElseIf obj.Trans_Type = "PS" Then
