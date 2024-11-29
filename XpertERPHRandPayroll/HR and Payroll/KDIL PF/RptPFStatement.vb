@@ -224,7 +224,7 @@ Public Class RptPFStatement
                 whr = " AND T1.LOCATION_CODE in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ") "
             End If
 
-            qry = " select  TSPL_EMPLOYEE_MASTER.PF_Type,'" + objCommonVar.CurrentUser + "' As PrintBy,GS.Pay_Period_Code as [Pay Period],DATEDIFF(YEAR, Convert(date,Birth_date, 103), GETDATE()) -
+            qry = " select  TSPL_EMPLOYEE_MASTER.PF_Type,EMPEPF_PER,'" + objCommonVar.CurrentUser + "' As PrintBy,GS.Pay_Period_Code as [Pay Period],DATEDIFF(YEAR, Convert(date,Birth_date, 103), GETDATE()) -
     CASE 
         WHEN MONTH(GETDATE()) < MONTH(TRY_CAST(Birth_date AS DATE)) OR 
              (MONTH(GETDATE()) = MONTH(TRY_CAST(Birth_date AS DATE)) AND DAY(GETDATE()) < DAY(TRY_CAST(Birth_date AS DATE)))

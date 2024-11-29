@@ -32921,6 +32921,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Vehicle_Id", "varchar(12) Default ''")
             coll.Add("ToLoc_Code", "varchar(12)  NULL")
             coll.Add("CreateInvoice", "integer not null default 0")
+            coll.Add("Create_E_Invoice", "integer not null default 0")
             coll.Add("Description", "varchar(200) NULL")
             coll.Add("Reff", "varchar(200) NULL")
             coll.Add("Tax_Group", "varchar(12)  NULL")
