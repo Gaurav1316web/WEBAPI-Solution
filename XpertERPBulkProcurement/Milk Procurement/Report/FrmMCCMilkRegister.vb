@@ -3694,7 +3694,7 @@ Public Class FrmMCCMilkRegister
                                       Case When TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No Is Null Then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type Else Null End End) Is Not Null"
                         End If
                     Else
-                        strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, Nothing, txtVLC.arrValueMember, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
+                        strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, arrRoute, txtVLC.arrValueMember, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
                         'strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, txtMCC.arrValueMember, Nothing, txtVLC.arrValueMember, "", SetCowFatPer, fndArea.Value)
                         strRejectionQuery = strSRNQuery
                         If chkOnlyRejection.Checked Then
@@ -4633,12 +4633,12 @@ Public Class FrmMCCMilkRegister
             '    txtMCC.Focus()
             '    Throw New Exception("Please select MCC")
             'End If
-            Dim qry As String = "select Route_Code,Route_Name from TSPL_MCC_ROUTE_MASTER where 2=2 "
-            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                qry += "  and MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-            End If
+            Dim qry As String = "Select ROUTE_NO As [Route Code], ROUTE_NAME As [Route Name] from TSPL_BULK_ROUTE_MASTER "
+            'If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+            '    qry += "  and MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+            'End If
 
-            txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "Route_Code", "Route_Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
+            txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "Route Code", "Route Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
             RefreshVLC()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
