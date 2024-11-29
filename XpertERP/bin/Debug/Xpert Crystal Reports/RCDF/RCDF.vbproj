@@ -534,6 +534,7 @@
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePass.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWise.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseCHITTORGARH.rpt" />
+    <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseKTA.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseUDP.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptExportSaleInvoice _NonTaxable.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptExportSaleInvoice.rpt" />
@@ -1277,7 +1278,6 @@
     <None Include="Crystal Reports\Inventory Report\transferpreprintedLOoldfrt.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
-    <None Include="Crystal Reports\Kwality Sales Report\BatchWise_PrintChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingNonTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
@@ -1461,10 +1461,12 @@
     <None Include="Crystal Reports\Milk Procurement\rptBulkProcItemPrice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDailySummaryReport.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptDailySummaryReportCycleWise.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDBTPayment.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSFinancialEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummarByRange.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryMontholyWise.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryMontholyWiseALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryYearlyDayWiseReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryYearlyWise.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryYearlyWiseUDP.rpt" />
@@ -1480,6 +1482,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptQualityCheck.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRoutePeriodicalDispatchReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTankerGainLossReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLossPrint2.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />

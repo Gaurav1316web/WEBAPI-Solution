@@ -1703,6 +1703,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.47", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.48", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.SendDBTToJanaadhar, "Send DBT To Janaadhar", "1.17.02.49", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
+        InsertDefaultValue(clsUserMgtCode.frmSendSMSToDCS, "Send SMS to Mobile", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
+
         '=========================================================================================
         '--Reportsmdi
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
@@ -1873,6 +1875,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptSuspanceDCSReport, "Suspense Milk Report", "1.17.03.128", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTankerGainLossReport, "Tanker Gain Loss Report", "1.17.03.129", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmDcscollectionHistory, "Dcs collection History", "1.17.03.130", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmHeadLoadHistory, "Head Load History", "1.17.03.131", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmOneDayStop, "One Day Stop", "1.17.03.132", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
@@ -2342,7 +2346,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDCSDEmandBooking, "DCS Demand", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBoothDispatch, "Booth Dispatch", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandUploader, "Demand Uploader", "1.36.02.30", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmDailyDemandReport, "Daily Demand Report", "1.36.02.31", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmProductDemandBooking, "Product Demand Booking", "1.36.02.31", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, "Product Dispatch", "1.36.02.32", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+
 
         '' end of transaction
 
@@ -2379,7 +2385,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, "Month Wise DMR Report", "1.36.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleRegisterUOMReport, "Sale Register UOM Wise Report", "1.36.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmGatepassDetailReport, "Gatepass Detail Report", "1.36.03.31", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-
+        InsertDefaultValue(clsUserMgtCode.rptSalesComparisonReport, "Sales Comparison Report", "1.36.03.32", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
@@ -2406,11 +2412,11 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmZoneWiseSKUReport, "Zone Wise SKU Report", "1.06.03.49", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmDairySaleSchemeReport, "Dairy Sale Scheme Report", "1.06.03.50", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBookingWiseRegister, "Booking Wise Register", "1.06.03.51", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDemandNill, "Booth Nill Demand Report", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmDemandHistory, "Demand History", "1.06.03.53", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmPrintMultipleGatepass, "Print Multiple Gatepass", "1.06.03.54", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptBoothTruckSheet, "Booth Truck Sheet", "1.06.03.55", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDemandReport, "Demand Report", "1.06.03.56", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDemandHistory, "Demand History", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmPrintMultipleGatepass, "Print Multiple Gatepass", "1.06.03.52", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBoothTruckSheet, "Booth Truck Sheet", "1.06.03.53", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDemandReport, "Demand Report", "1.06.03.54", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDailyDemandReport, "Daily Demand Report", "1.06.03.55", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

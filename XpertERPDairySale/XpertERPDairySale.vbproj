@@ -579,6 +579,12 @@
     <Compile Include="Report\rptSaleRegisterUOMReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptSalesComparisonReport.Designer.vb">
+      <DependentUpon>rptSalesComparisonReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSalesComparisonReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptSalesLedgerReport.Designer.vb">
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
     </Compile>
@@ -855,6 +861,18 @@
     <Compile Include="Transaction\frmPOSBookingDairyMultipleDistributor.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\FrmProductDemandBooking.Designer.vb">
+      <DependentUpon>FrmProductDemandBooking.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmProductDemandBooking.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\FrmProductDispatch.Designer.vb">
+      <DependentUpon>FrmProductDispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmProductDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmSaleInvoiceDairy.Designer.vb">
       <DependentUpon>frmSaleInvoiceDairy.vb</DependentUpon>
     </Compile>
@@ -1110,6 +1128,9 @@
     <EmbeddedResource Include="Report\rptSaleRegisterUOMReport.resx">
       <DependentUpon>rptSaleRegisterUOMReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSalesComparisonReport.resx">
+      <DependentUpon>rptSalesComparisonReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1247,6 +1268,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmPOSBookingDairyMultipleDistributor.resx">
       <DependentUpon>frmPOSBookingDairyMultipleDistributor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmProductDemandBooking.resx">
+      <DependentUpon>FrmProductDemandBooking.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmProductDispatch.resx">
+      <DependentUpon>FrmProductDispatch.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmSaleInvoiceDairy.resx">
       <DependentUpon>frmSaleInvoiceDairy.vb</DependentUpon>

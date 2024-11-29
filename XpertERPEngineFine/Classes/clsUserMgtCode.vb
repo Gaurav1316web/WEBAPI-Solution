@@ -264,6 +264,7 @@ Public Class clsUserMgtCode
     Public Const rptBookingReport As String = "BOOKING_RPT"
     Public Const rptBookingQtyAmtReport As String = "DEMD_BK_RPT"
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
+    Public Const rptSalesComparisonReport As String = "SAL_CMP_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
@@ -2260,6 +2261,7 @@ Public Class clsUserMgtCode
     Public Const frmMakeSavingPayment As String = "MAK-SAV-PAY"
     Public Const frmTDSReport As String = "TDS-RPT"
     Public Const frmSendBillToDCS As String = "PMT-SND-DCS"
+    Public Const frmSendSMSToDCS As String = "SMS-SND-DCS"
     'Public Const frmDispatchTransfer As String = "M-DIS-TRAN"
     Public Const frmPaymentProcessFarmer As String = "Pay-Pro-Fa"
 
@@ -2353,6 +2355,8 @@ Public Class clsUserMgtCode
     Public Const rptSocietyLedgerReport As String = "MCC_SOC_LED"
     Public Const rptMilkCostReport As String = "MCC_MLK_COST"
     Public Const FrmDcscollectionHistory As String = "DCS_COL_HIS"
+    Public Const FrmHeadLoadHistory As String = "HED_LOD_HIS"
+    Public Const FrmOneDayStop As String = "One-Day-S"
     Public Const rptPaymentProcessReportBMCSocietyWise As String = "PR_BSW_RPT"
     Public Const rptDCSFinancial As String = "DCS-FIN-RPT"
     '-----------------------Sale Purchase Security(Master)--------------
@@ -2671,6 +2675,8 @@ Public Class clsUserMgtCode
     Public Const frmTranspoterDeduction As String = "TRAN_DED_ENT"
     Public Const frmNotepadFileMatching As String = "NOT-MIS-MAT"
     Public Const frmDemandBooking As String = "DEM_BOO_TRN"
+    Public Const FrmProductDemandBooking As String = "PRD_DEM_BOO"
+    Public Const FrmProductDispatch As String = "PRD_DIS_TRN"
     Public Const frmDemandAdjustment As String = "DEM-ADJ-TRN"
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"

@@ -1185,7 +1185,7 @@ Public Class MDI
                     Dim StartupFolder As String = Environment.GetFolderPath(Environment.SpecialFolder.Startup)
                     Dim szTarget As String = StartupFolder
                     Dim szCreateDirForStartMenu As String = ""
-                    AddLnkShortcut(szName, szTagetFile, szWorkingDir, szCmdLine, szComment, szIcon, 0, WinStyle, szTarget, szCreateDirForStartMenu)
+                    'AddLnkShortcut(szName, szTagetFile, szWorkingDir, szCmdLine, szComment, szIcon, 0, WinStyle, szTarget, szCreateDirForStartMenu)
                 End If
             Catch ex As Exception
             End Try
@@ -8153,6 +8153,12 @@ Public Class MDI
                     Case clsUserMgtCode.FrmDcscollectionHistory
                         frm = New FrmDcscollectionHistory
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmHeadLoadHistory
+                        frm = New FrmHeadLoadHistory
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmOneDayStop
+                        frm = New FrmOneDayStop
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDCSFinancial
                         frm = New rptDCSFinancial
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8219,6 +8225,10 @@ Public Class MDI
                         frm = New rptDairyTruckSheetReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptSalesComparisonReport
+                        frm = New rptSalesComparisonReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSaleRegisterUOMReport
                         frm = New rptSaleRegisterUOMReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8237,6 +8247,7 @@ Public Class MDI
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.FrmPrintMultipleGatepass
                         frm = New FrmPrintMultipleGatepass()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8403,6 +8414,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmSendBillToDCS
                         frm = New frmSendBillToDCS
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmSendSMSToDCS
+                        frm = New frmSendSMSToDCS
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptTankerStatusReport
                         frm = New rptTankerStatusReport
@@ -9187,6 +9201,12 @@ Public Class MDI
 
                     Case clsUserMgtCode.frmDemandBooking
                         frm = New frmDemandBooking
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmProductDemandBooking
+                        frm = New FrmProductDemandBooking
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmProductDispatch
+                        frm = New FrmProductDispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandAdjustment
                         frm = New frmDemandAdjustment

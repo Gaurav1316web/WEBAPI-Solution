@@ -23,9 +23,6 @@ Partial Class frmDistributorRouteTagging
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.cmbItemType = New common.Controls.MyComboBox()
@@ -130,13 +127,6 @@ Partial Class frmDistributorRouteTagging
         Me.cmbItemType.IsSourceFromTable = False
         Me.cmbItemType.IsSourceFromValueList = False
         Me.cmbItemType.IsUnique = False
-        RadListDataItem1.Text = "Milk"
-        RadListDataItem2.Text = "Product"
-        RadListDataItem3.Selected = True
-        RadListDataItem3.Text = "Both"
-        Me.cmbItemType.Items.Add(RadListDataItem1)
-        Me.cmbItemType.Items.Add(RadListDataItem2)
-        Me.cmbItemType.Items.Add(RadListDataItem3)
         Me.cmbItemType.Location = New System.Drawing.Point(682, 11)
         Me.cmbItemType.MendatroryField = False
         Me.cmbItemType.MyLinkLable1 = Nothing
@@ -147,7 +137,6 @@ Partial Class frmDistributorRouteTagging
         Me.cmbItemType.ReferenceTableName = Nothing
         Me.cmbItemType.Size = New System.Drawing.Size(124, 20)
         Me.cmbItemType.TabIndex = 1517
-        Me.cmbItemType.Text = "Both"
         '
         'lblItemType
         '
@@ -322,6 +311,7 @@ Partial Class frmDistributorRouteTagging
         Me.gv1.Size = New System.Drawing.Size(795, 269)
         Me.gv1.TabIndex = 4
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'txtCode
         '

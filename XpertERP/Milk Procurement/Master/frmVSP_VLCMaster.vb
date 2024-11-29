@@ -2446,6 +2446,10 @@ Public Class frmVSP_VLCMaster
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         End If
 
+
+        qry = " update TSPL_TDS_VENDOR_DETAILS set PAN = '" + txtpan.Text + "'  where Vendor_Code= '" + strVendorCode + "' "
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
     End Sub
 
     Function GetUpdateQry(ByVal strTagAsFranchise As String, ByVal joint_name As String) As String ', ByVal srvc_type As String

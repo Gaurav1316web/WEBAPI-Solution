@@ -1,7 +1,5 @@
 ﻿Imports System.IO
 Imports common
-
-
 Public Class rptPaymentProcessRouteReport
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -19,6 +17,7 @@ Public Class rptPaymentProcessRouteReport
     Dim MccName As String = Nothing
     Dim AreaName As String = Nothing
     Dim ShowNewFormatofPDF As Boolean = False
+    Dim IsDCSSummary As Boolean = False
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -39,45 +38,52 @@ Public Class rptPaymentProcessRouteReport
     End Function
 
     Private Sub RptInventoryMovement_Load(sender As Object, e As EventArgs) Handles Me.Load
-        isLoad = True
-        ShowNewFormatofPDF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, Nothing)) = 1)
-        SettPickBulkRoute = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickBulkRoute, clsFixedParameterCode.PickBulkRoute, Nothing)) = 1)
-        SettShowMultipleLegers = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMultipleLegers, clsFixedParameterCode.ShowMultipleLegers, Nothing)) = 1)
-        ToDate.Value = clsCommon.GETSERVERDATE()
-        fromDate.Value = ToDate.Value.AddMonths(-1)
-        dtpDailySummaryToDate.Value = clsCommon.GETSERVERDATE()
-        dtpDailySummaryFromDate.Value = dtpDailySummaryToDate.Value.AddMonths(-1)
-        dtpLedgerToDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EOMONTH(getdate())")) 'clsCommon.GETSERVERDATE()
-        dtpLedgerFromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select DATEFROMPARTS(year(getdate()),month(getdate()),'01')")) 'ToDate.Value.AddMonths(-1)
-        dtpFromDCS_Ledger.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EOMONTH(getdate())"))
-        dtpToDCS_Ledger.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select DATEFROMPARTS(year(getdate()),month(getdate()),'01')"))
-        dtpGainLossFromDate.Value = clsCommon.GETSERVERDATE()
-        dtpGainLossToDate.Value = clsCommon.GETSERVERDATE()
-        dtpDCSWiseAvgFatSnfToDate.Value = clsCommon.GETSERVERDATE()
-        dtpDCSWiseAvgFatSnfFromDate.Value = dtpDCSWiseAvgFatSnfToDate.Value.AddMonths(-1)
-        Reset()
-        gbSummaryReportType.Visible = False
-        lblMCC.Visible = False
-        If SettShowMultipleLegers Then
-            gbLedger.Visible = True
-            btnGo.Visible = False
-            btnReset.Visible = False
-            RadSplitExp.Visible = False
-        Else
-            gbLedger.Visible = False
-            btnGo.Visible = True
-            btnReset.Visible = True
-            RadSplitExp.Visible = True
-        End If
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
-            Payablechk.Visible = True
-        End If
-        isLoad = False
-        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
-        fndArea.Visible = AreaWiseBilling
-        lblArea.Visible = AreaWiseBilling
-        TxtFinderArea.Visible = AreaWiseBilling
-        lblFArea.Visible = AreaWiseBilling
+        Try
+            isLoad = True
+            ShowNewFormatofPDF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, Nothing)) = 1)
+            SettPickBulkRoute = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickBulkRoute, clsFixedParameterCode.PickBulkRoute, Nothing)) = 1)
+            SettShowMultipleLegers = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMultipleLegers, clsFixedParameterCode.ShowMultipleLegers, Nothing)) = 1)
+            ToDate.Value = clsCommon.GETSERVERDATE()
+            fromDate.Value = ToDate.Value.AddMonths(-1)
+            dtpDailySummaryToDate.Value = clsCommon.GETSERVERDATE()
+            dtpDailySummaryFromDate.Value = dtpDailySummaryToDate.Value.AddMonths(-1)
+            dtpLedgerToDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EOMONTH(getdate())")) 'clsCommon.GETSERVERDATE()
+            dtpLedgerFromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select DATEFROMPARTS(year(getdate()),month(getdate()),'01')")) 'ToDate.Value.AddMonths(-1)
+            dtpFromDCS_Ledger.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select EOMONTH(getdate())"))
+            dtpToDCS_Ledger.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select DATEFROMPARTS(year(getdate()),month(getdate()),'01')"))
+            dtpGainLossFromDate.Value = clsCommon.GETSERVERDATE()
+            dtpGainLossToDate.Value = clsCommon.GETSERVERDATE()
+            dtpDCSWiseAvgFatSnfToDate.Value = clsCommon.GETSERVERDATE()
+            dtpDCSWiseAvgFatSnfFromDate.Value = dtpDCSWiseAvgFatSnfToDate.Value.AddMonths(-1)
+            Reset()
+            gbSummaryReportType.Visible = False
+            lblMCC.Visible = False
+            If SettShowMultipleLegers Then
+                gbLedger.Visible = True
+                btnGo.Visible = False
+                btnReset.Visible = False
+                RadSplitExp.Visible = False
+            Else
+                gbLedger.Visible = False
+                btnGo.Visible = True
+                btnReset.Visible = True
+                RadSplitExp.Visible = True
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                Payablechk.Visible = True
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                PaymentCWchk.Visible = True
+            End If
+            isLoad = False
+            AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+            fndArea.Visible = AreaWiseBilling
+            lblArea.Visible = AreaWiseBilling
+            TxtFinderArea.Visible = AreaWiseBilling
+            lblFArea.Visible = AreaWiseBilling
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub Reset()
         ' ToDate.Value = clsCommon.GETSERVERDATE()
@@ -87,19 +93,48 @@ Public Class rptPaymentProcessRouteReport
             txtFromDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1)
             txtToDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1).AddMonths(1).AddDays(-1)
         End If
-
         strDocumentCodeDetails = ""
         strVSPCodeDetails = ""
         btnBack.Visible = False
         txtVSP.arrValueMember = Nothing
         txtLocation.arrValueMember = Nothing
         txtDocumentNo.arrValueMember = Nothing
-
+        HideAndShowDate()
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv2.DataSource = Nothing
+        Gv2.Rows.Clear()
+        Gv2.Columns.Clear()
+        Gv2.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv3.DataSource = Nothing
+        Gv3.Rows.Clear()
+        Gv3.Columns.Clear()
+        Gv3.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            RadSplitExp.Visible = False
+            RadPageViewPage3.Text = "Report 2"
+            RadPageViewPage3.Visible = False
+            RadPageViewPage4.Text = "Report 3"
+            RadPageViewPage4.Visible = False
+            btnGoDCSSummary.Visible = True
+        Else
+            btnGoDCSSummary.Visible = False
+        End If
+    End Sub
+
+    Sub HideAndShowDate()
+        If rbtnMonthWise.Checked Then
+            RadGroupBox20.Visible = True
+            'RadGroupBox20.Location() = New Point(5, 44)
+            RadGroupBox7.Visible = False
+        Else
+            RadGroupBox7.Visible = True
+            'RadGroupBox7.Location() = New Point(5, 44)
+            RadGroupBox20.Visible = False
+        End If
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -1012,11 +1047,15 @@ Public Class rptPaymentProcessRouteReport
             'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptBatchItemReport1 & "'"))
             'arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy")) + " ")
             'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
-                arrHeader.Add("Cycle Code : " + txtPaymentCycleCode.Value)
-            End If
-            If clsCommon.myLen(txtMcc.Value) > 0 Then
-                arrHeader.Add("Location : " + txtMcc.Value)
+            If Not IsDCSSummary Then
+                If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
+                    arrHeader.Add("Cycle Code : " + txtPaymentCycleCode.Value)
+                End If
+                If clsCommon.myLen(txtMcc.Value) > 0 Then
+                    arrHeader.Add("Location : " + txtMcc.Value)
+                End If
+            Else
+                arrHeader.Add("DCS Summary Report")
             End If
 
             'If txtLocation.arrDispalyMember IsNot Nothing AndAlso txtLocation.arrDispalyMember.Count > 0 Then
@@ -1028,12 +1067,25 @@ Public Class rptPaymentProcessRouteReport
             'If txtDocumentNo.arrDispalyMember IsNot Nothing AndAlso txtDocumentNo.arrDispalyMember.Count > 0 Then
             '    arrHeader.Add("Document : " + clsCommon.GetMulcallStringWithComma(txtDocumentNo.arrDispalyMember))
             'End If
-            If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToExcelGrid("Route Payment Process Report", Gv1, arrHeader, Me.Text)
+            If Not IsDCSSummary Then
+                If exporter = EnumExportTo.Excel Then
+                    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid("Route Payment Process Report", Gv1, arrHeader, Me.Text)
+                Else
+                    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                    clsCommon.MyExportToPDF("Route Payment Process Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                End If
             Else
-                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToPDF("Route Payment Process Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                If RadPageView1.SelectedPage.Text = "Report" Then
+                    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid("DCS Summary Report", Gv1, arrHeader, Me.Text)
+                ElseIf RadPageView1.SelectedPage.Text = "DCS Summary Monthly Report" Then
+                    transportSql.applyExportTemplate(Gv2, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid("DCS Summary Monthly Report", Gv2, arrHeader, Me.Text)
+                ElseIf RadPageView1.SelectedPage.Text = "DCS Summary Days Report" Then
+                    transportSql.applyExportTemplate(Gv3, PageSetupReport_ID)
+                    clsCommon.MyExportToExcelGrid("DCS Summary Days Report", Gv3, arrHeader, Me.Text)
+                End If
             End If
 
         Catch ex As Exception
@@ -3307,8 +3359,10 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
 
     End Sub
     Sub setFromAndToDate()
-        txtFromDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1)
-        txtToDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1).AddMonths(1).AddDays(-1)
+        If rbtnMonthWise.Checked Then
+            txtFromDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1)
+            txtToDate.Value = New Date(txtMonth.Value.Year, txtMonth.Value.Month, 1).AddMonths(1).AddDays(-1)
+        End If
     End Sub
 
     Private Sub txtMonth_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtMonth.Validating
@@ -3318,6 +3372,10 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
     End Sub
 
     Private Sub btnDCSSummaryPrint_Click(sender As Object, e As EventArgs) Handles btnDCSSummaryPrint.Click
+        DCSSummary(True)
+    End Sub
+
+    Sub DCSSummary(ByVal isPrintGo As Boolean)
         Try
             Dim companyADD, CompName, CompCode As String
             Dim sQuery As String = ""
@@ -3339,7 +3397,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             Dim fromDate As String = txtFromDate.Value
             Dim Todate As String = txtToDate.Value
             Dim userName As String = objCommonVar.CurrentUser
-
+            Dim DateDiffDays As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select DATEDIFF(DAY,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')+1 "))
 
             Dim whrcls As String = " where 2=2 "
             Dim whrcls1 As String = " where 2=2 "
@@ -3423,7 +3481,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine
 
             BaseQry += "  " & whrcls & " " ' where Doc_No = '" + fndDocNo.Value + "'
-            Dim dt As New DataTable
+            Dim dt As DataTable = Nothing
             sQuery = BaseQry '+ " order by vsp_code,convert(datetime,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103),shift desc"
             Dim DCS_ToDate As String = clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR(11), CONVERT(DATE, '" & Todate & "', 103), 106) as date")
             Dim DCS_FromDate As String = clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR(11), CONVERT(DATE, '" & fromDate & "', 103), 106) as date")
@@ -3434,6 +3492,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             Dim dtFatSnf As DataTable = clsDBFuncationality.GetDataTable(Sql)
             Dim startDate As New DateTime(txtMonth.Value.Year, txtMonth.Value.Month, 1)
             Dim endDate As DateTime = startDate.AddMonths(1).AddDays(-1)
+
             Dim sbDates As New System.Text.StringBuilder()
             Dim sbDatesColumn As New System.Text.StringBuilder()
             Dim chkNullColumn As New System.Text.StringBuilder()
@@ -3461,16 +3520,18 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             Dim dtDayWise As DataTable = clsDBFuncationality.GetDataTable(Sqlqry)
             Dim sbDayWiseData As New System.Text.StringBuilder()
 
-            For i As Integer = 0 To dtDayWise.Columns.Count - 1
-                Dim rowDayWise As String = dtDayWise.Rows(0).ItemArray(i).ToString
-                sbDayWiseData.Append(rowDayWise + " as [Day" + clsCommon.myCstr(i + 1) + "]")
-                If i < dtDayWise.Columns.Count Then
-                    sbDayWiseData.Append(",")
-                End If
-            Next i
+            If dtDayWise IsNot Nothing AndAlso dtDayWise.Rows.Count > 0 Then
+                For i As Integer = 0 To dtDayWise.Columns.Count - 1
+                    Dim rowDayWise As String = dtDayWise.Rows(0).ItemArray(i).ToString
+                    sbDayWiseData.Append(rowDayWise + " as [Day" + clsCommon.myCstr(i + 1) + "]")
+                    If i < dtDayWise.Columns.Count Then
+                        sbDayWiseData.Append(",")
+                    End If
+                Next i
+            End If
             Dim DayWiseResult = sbDayWiseData.ToString()
-            Dim fatPer As Decimal = dtFatSnf.Rows(0)("fat%")
-            Dim SNFPer As Decimal = dtFatSnf.Rows(0)("SNF%")
+            Dim fatPer As Decimal = IIf(clsCommon.myCDecimal(dtFatSnf.Rows(0)("fat%")) > 0, dtFatSnf.Rows(0)("fat%"), 0)
+            Dim SNFPer As Decimal = IIf(clsCommon.myCDecimal(dtFatSnf.Rows(0)("SNF%")) > 0, dtFatSnf.Rows(0)("SNF%"), 0)
             'Dim dtMorningData As DataTable = clsDBFuncationality.GetDataTable("SELECT sum(qty * case when ShiftReject =  0 and ProcReject = 0  then 1 else 0  end) as Mor_Kg_Sweet, sum(qty * case when ShiftReject =  1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Mor_kg_Sour,sum(qty * case when ShiftReject =  -1  then 1 else ( case when ProcReject = 1 then 1 else 0 end )  end) as Mor_kg_Curd from ( SELECT SUM(QTY)Qty ,case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else ( case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end) end  as ProcReject, case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'SOUR' then 1 else( case when TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type = 'CURD' then -1 else 0 end)  end as ShiftReject FROM TSPL_MILK_SRN_DETAIL left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
             'left  join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No	= TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No left  join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No where 2=2   and TSPL_MILK_SRN_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_SRN_HEAD.DOC_DATE <='" & DCS_ToDate & "' and TSPL_MILK_SRN_HEAD.SHIFT = 'M' GROUP BY TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type , TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type ) xx ")
             'If dtMorningData.Rows.Count > 0 Then
@@ -3492,17 +3553,20 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
                                                  select 1 Number  
                                                  union all  
                                                  select Number +1 from CTE where Number<31 
-                                                 ) 
- select '" & CompName & "'  as CompName,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,'" & userName & "' as User_Name,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
+                                                 ) "
+            DCSSummaryQuery += " select "
+            If isPrintGo Then
+                DCSSummaryQuery += "'" & CompName & "'  as CompName,'" & userName & "' as User_Name,"
+            End If
+            DCSSummaryQuery += "'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31],(sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty,max(DAYS_Total) as DAYS_Total,case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(DAYS_Total) end as AVG_QTY, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
  CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else sum(FATQTY) * 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end  as FATPer,
- CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end as SNFPer,
- max(DAYS_Total) as DAYS_Total,
- case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(DAYS_Total) end as AVG_QTY,
- (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty ,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31] from (
- select Number2, VSP_CODE1, Vendor_Name ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty
+ CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end as SNFPer
+   
+from (
+ select Number2,VLC_Code_VLC_Uploader, VSP_CODE1, Vendor_Name ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty
  ,FATQTY,SNFQTY,DAYS_Total
  , isnull([1],0) as [1] ,isnull([2],0) as [2],isnull([3],0) as [3],isnull([4],0) as [4],isnull([5],0) as [5],isnull([6],0) as [6],isnull([7],0) as [7],isnull([8],0) as [8],isnull([9],0) as [9],isnull([10],0) as [10],isnull([11],0) as [11],isnull([12],0) as [12],isnull([13],0) as [13],isnull([14],0) as [14],isnull([15],0) as [15],isnull([16],0) as [16],isnull([17],0) as [17],isnull([18],0) as [18],isnull([19],0) as [19],isnull([20],0) as [20],isnull([21],0) as [21],isnull([22],0) as [22],isnull([23],0) as [23],isnull([24],0) as [24],isnull([25],0) as [25],isnull([26],0) as [26],isnull([27],0) as [27],isnull([28],0) as [28],isnull([29],0) as [29],isnull([30],0) as [30],isnull([31],0) as [31]  from (
- select Number,Number as Number2, VSP_CODE1, Vendor_Name, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount,
+ select Number,Number as Number2,VLC_Code_VLC_Uploader, VSP_CODE1, Vendor_Name, SHIFT, QBD , ROUTE_CODE , Qty, FAT_PER , SNF_PER , FATQTY, SNFQTY, SRN_Net_Amount,
  
  Case when SHIFT = 'M' and QBD = 'SWEET' then Qty else 0 end as MorningSweetQty,
  Case when SHIFT = 'M' and QBD = 'SOUR' then Qty else 0 end as MorningSoreQty,
@@ -3514,11 +3578,16 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
 
  Case when  QBD = 'SWEET' then Qty else 0  end  as TotalSweetQty,
  Case when  QBD = 'SOUR'  then Qty else 0  end  as TotalSoreQty,
- Case when  QBD = 'CURD'  then Qty else 0  end  as TotalCurdQty  
- ,count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total 
- from (
+ Case when  QBD = 'CURD'  then Qty else 0  end  as TotalCurdQty "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                DCSSummaryQuery += "," + clsCommon.myCstr(DateDiffDays) + " as DAYS_Total "
+            Else
+                DCSSummaryQuery += ",count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total "
+            End If
+
+            DCSSummaryQuery += " from (
 select * from CTE left outer join  
- (  select DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,VSP_CODE1,max(Vendor_Name) as Vendor_Name,  SHIFT,QBD,XXXFinal.ROUTE_CODE, sum( Qty) as Qty ,
+ (  select DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,VSP_CODE1,max(Vendor_Name) as Vendor_Name,  SHIFT,QBD,XXXFinal.ROUTE_CODE, sum( Qty) as Qty ,
  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE sum(FATQTY) * 100 / sum( Qty) end as FAT_PER ,
  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE sum(SNFQTY) * 100 / sum( Qty) end as SNF_PER,
  sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount from ( 
@@ -3545,8 +3614,8 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             then Milk_Weight else 0 end) AS [151-300Qty] , COUNT(case when avg_day >= 151 AND Avg_Day < 300 then DCS else null end) AS [151-300DCS] ,SUM(case when avg_day >= 301 AND Avg_Day < 500 then Milk_Weight else 0 end) AS [301-500Qty] , COUNT(case when avg_day >= 301 AND Avg_Day < 500 then DCS else null end)
             AS [301-500DCS] ,SUM(case when avg_day > 500 then Milk_Weight else 0 end) AS [>500Qty] , COUNT(case when avg_day > 500 then DCS else null end) AS [>500DCS] ,COUNT(DCS) AS Total_DCS, sum(Milk_Weight)as Total_Qty  from (Select " + AvgDCS + " As Avg_Day , sum(total) as Milk_Weight , count(VLC_Code_VLC_Uploader) as DCS
             from(select isnull(sum(Qty),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_SRN_DETAIL
-			left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE where (convert (date,DOC_DATE,103)) >= convert (date, '" & startDate & "' ,103) 
-            and (convert (date,DOC_DATE,103)) <= convert (date,  '" & endDate & "' ,103) group by VLC_Code_VLC_Uploader  ) xyz group by VLC_Code_VLC_Uploader )abc"
+			left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE where (convert (date,DOC_DATE,103)) >= convert (date, '" & fromDate & "' ,103) 
+            and (convert (date,DOC_DATE,103)) <= convert (date,  '" & Todate & "' ,103) group by VLC_Code_VLC_Uploader  ) xyz group by VLC_Code_VLC_Uploader )abc"
 
             Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable(DCSSubReportQuery)
 
@@ -3579,7 +3648,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
              Left Outer Join TSPL_VENDOR_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE =TSPL_VENDOR_MASTER.Vendor_Code And TSPL_VENDOR_MASTER.Form_Type = 'VSP'  
              left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code 
              left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  
-              where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" & startDate & "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" & endDate & "'),103) 
+              where 2=2  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" & fromDate & "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" & Todate & "'),103) 
              ) XXXFinal group by DOC_DATE, VSP_CODE1 , VLC_Code_VLC_Uploader ) XXX  ) XXXXMain)XXXFinal
 		     ) Final   left outer join (select VLC_Code_VLC_Uploader as DCS_Code,VLC_Name,TSPL_VLC_MASTER_HEAD.VSP_Code from TSPL_VLC_MASTER_HEAD            
 	         ) as XXXDCS ON XXXDCS.VSP_Code=Final.VSP_Code1 
@@ -3587,9 +3656,36 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
              group by  final.VLC_Code_VLC_Uploader ) xxx"
             Dim dtSubDayWiseReport As DataTable = clsDBFuncationality.GetDataTable(DCSSubDayWiseReport)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
-                frmCRV = Nothing
+                If isPrintGo Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWiseALW", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                    Else
+                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                    End If
+                    frmCRV = Nothing
+                Else
+                    btnReset.Visible = True
+                    SetGridFormat(Gv1)
+                    Gv1.DataSource = dt
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    SummaryRows()
+                    SetGridFormat1(Gv1)
+
+                    SetGridFormat(Gv2)
+                    Gv2.DataSource = dtSubReport
+                    RadPageViewPage3.Visible = False
+                    RadPageViewPage3.Text = "DCS Summary Monthly Report"
+                    SetGridFormat1(Gv2)
+
+                    SetGridFormat(Gv3)
+                    Gv3.DataSource = dtSubDayWiseReport
+                    RadPageViewPage4.Visible = False
+                    RadPageViewPage4.Text = "DCS Summary Days Report"
+                    SetGridFormat1(Gv3)
+                    RadSplitExp.Visible = True
+                    IsDCSSummary = True
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
@@ -3598,13 +3694,210 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
         End Try
     End Sub
 
+    Sub SetGridFormat(ByRef Gv As RadGridView)
+        Gv.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv.DataSource = Nothing
+        Gv.Rows.Clear()
+        Gv.Columns.Clear()
+        Gv.GroupDescriptors.Clear()
+        Gv.MasterTemplate.SummaryRowsBottom.Clear()
+        Gv.MasterView.Refresh()
+    End Sub
+
+    Sub SetGridFormat1(ByRef Gv As RadGridView)
+        Gv.ShowGroupPanel = False
+        Gv.ShowRowHeaderColumn = False
+        Gv.AllowAddNewRow = False
+        Gv.AllowDeleteRow = False
+        Gv.EnableFiltering = True
+        Gv.ShowFilteringRow = True
+        For ii As Integer = 0 To Gv.Columns.Count - 1
+            Gv.Columns(ii).ReadOnly = True
+            Gv.Columns(ii).IsVisible = True
+            Gv.Columns(ii).BestFit()
+        Next
+        Gv.BestFitColumns()
+    End Sub
+
+    Sub SummaryRows()
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For i As Integer = 5 To Gv1.Columns.Count - 1
+            Dim Item As GridViewSummaryItem
+            If clsCommon.CompairString(Gv1.Columns(i).Name, "DAYS_TOTAL") = CompairStringResult.Equal Then
+                Item = New GridViewSummaryItem(Gv1.Columns(i).Name, "{0:F2}", GridAggregateFunction.None)
+            ElseIf clsCommon.CompairString(Gv1.Columns(i).Name, "FATPer") = CompairStringResult.Equal Then
+                Item = New GridViewSummaryItem(Gv1.Columns(i).Name, "{0:F2}", GridAggregateFunction.Avg)
+            ElseIf clsCommon.CompairString(Gv1.Columns(i).Name, "SNFPer") = CompairStringResult.Equal Then
+                Item = New GridViewSummaryItem(Gv1.Columns(i).Name, "{0:F2}", GridAggregateFunction.Avg)
+            Else
+                Item = New GridViewSummaryItem(Gv1.Columns(i).Name, "{0:F2}", GridAggregateFunction.Sum)
+            End If
+            summaryRowItem.Add(Item)
+        Next
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+    End Sub
+
     Private Sub btnPrintDailySummary_Click(sender As Object, e As EventArgs) Handles btnPrintDailySummary.Click
         Try
-            Dim qry As String = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
+            Dim qry As String = ""
+            Dim qryies As String = ""
+            Dim dt1 As DataTable = Nothing
+
+
+            qry = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
                                   SELECT max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, max(TSPL_COMPANY_MASTER.City_Code) as Comp_City_Name , CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) as Doc_Date, sum( cast(TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2))) AS Quantity ,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FAT_KG, sum( TSPL_MILK_SRN_DETAIL.SNF_KG) as SNF_KG  from TSPL_MILK_SRN_DETAIL left outer join  TSPL_MILK_SRN_HEAD On  TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
                                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MILK_SRN_HEAD.Comp_Code 
                                   where CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)>=convert(date,'" + dtpDailySummaryFromDate.Value + "',103)  and CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)<=convert(date,'" + dtpDailySummaryToDate.Value + "',103) group by CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) ) XXXFinal  order by convert (datetime, Doc_Date,103) asc  "
+
+            If PaymentCWchk.Checked = True Then
+
+                qryies = " select ROW_NUMBER() Over (Order By (Select 1)) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MM/yyyy") + "') As DateRange,BankCode,BankName,TotalBillAmt,TotalSavingAmt,CurrentAmt,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No
+                            ,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (SELECT max(SNo)SNo,BankCode,max(BankName)BankName,sum(TotalBillAmt)TotalBillAmt,sum(TotalSavingAmt)TotalSavingAmt,sum(CurrentAmt)CurrentAmt FROM (Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,Final.*   from ( Select xxx.BankCode,Max(xxx.BankName)BankName,Sum(xxx.Bill_Amt)TotalBillAmt,Sum(xxx.SavingAmt)TotalSavingAmt,Sum(xxx.CurrentAmt)CurrentAmt,max(xxx.DCSCount)DCSCount from (Select * from (Select xxxFinal.[Bank Advise No],xxxFinal.[Bank Advise Date],xxxfinal.VLC_CODE_Uploader,	xxxfinal.BankCode,	xxxfinal.BankName,	xxxfinal.DCS_Name,	Round(xxxfinal.Bill_Amt,0)Bill_Amt,	xxxfinal.SavingAccountNo,	Round(xxxfinal.SavingAmt,0)SavingAmt,	xxxfinal.CurrentAccountNo,	Case When xxxfinal.CurrentAmt>0 Then Round(xxxfinal.CurrentAmt,0) Else 0 End As CurrentAmt,xxxDCSCount.DCSCount 
+                            from 
+                            (Select [Bank Advise No],[Bank Advise Date],xxxSaving.VLC_CODE_Uploader,IsNull(xxxSaving.Bank_Code,xxxCurrent.Bank_Code) As BankCode,IsNull(xxxsaving.Bank_Code_Desc,xxxCurrent.Bank_Code_Desc) As BankName,(xxxSaving.VLC_CODE_Uploader +' '+ xxxSaving.Payee_Joint_Name) As DCS_Name,
+							Case When IsNull(xxxCurrent.Payable_Amount,0)>0 Then IsNull(xxxCurrent.Payable_Amount,0) Else IsNull(xxxSaving.Payable_Amount,0) End As Bill_Amt, 
+                            Case When xxxSaving.Account_Type='Sav' Then xxxSaving.Payee_Joint_Account_No Else '' End As SavingAccountNo,
+							IsNull(xxxSaving.Payable_Amount,0) As SavingAmt,
+                            Case When xxxCurrent.Account_Type='Cur' Then xxxCurrent.Payee_Joint_Account_No Else '' End As CurrentAccountNo,
+							IsNull(xxxCurrent.Payable_Amount,0)-IsNull(xxxSaving.Payable_Amount,0) As CurrentAmt
+                            from (select Max(AccountType)As Account_Type, x.GRPColumn,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,
+                            max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,
+                            max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount 
+                            from
+                            (select  Case When TSPL_VENDOR_MASTER.Account_Type='sav' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='sav' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As AccountType ,'' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code+(case when isnull(TSPL_VENDOR_MASTER.vsp_payment,'')='Self' then (TSPL_VENDOR_MASTER.IFSC_Code)   else (TSPL_VENDOR_MASTER.Joint_IFSC_Code)   end)  as GRPColumn,
+                            TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],TSPL_MCC_MASTER.MCC_NAME, TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader, (TSPL_VENDOR_MASTER.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
+                              TSPL_VENDOR_MASTER.BankBranch2 as Branch_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code_Desc,
+                              case when isnull(TSPL_VENDOR_MASTER.vsp_payment,'')= 'Self' then (TSPL_VENDOR_MASTER.IFSCCode2) else (TSPL_VENDOR_MASTER.Joint_IFSC_Code) end as Payee_Joint_IFSC_Code, 
+                              case when isnull(TSPL_VENDOR_MASTER.vsp_payment,'')= 'Self' then (TSPL_VENDOR_MASTER.AccNo2) else (TSPL_VENDOR_MASTER.Joint_Account_No) end as Payee_Joint_Account_No, 
+                              TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount   
+                              from TSPL_PAYMENT_PROCESS_SAVING 
+                            left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No
+                            left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No                                                       
+                            left outer join (select distinct VSP_Code, VLC_Code_VLC_Uploader  from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =  TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                            left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code= TSPL_VENDOR_INVOICE_HEAD.Vendor_Code --TSPL_PAYMENT_PROCESS_COMPULSORY.VSP_CODE
+                            left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date    
+                            left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)
+                            and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
+                            left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank
+                            left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                            and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 
+                            ) x group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No )xxxSaving
+                            Left Outer Join
+                            (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank Advise Date],Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount from
+                            (select  TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
+                            convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, 
+                            TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
+                            case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
+                            (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount 
+                            from TSPL_PAYMENT_PROCESS_DETAIL 
+                            left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+                            left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE								
+                            left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
+                            left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current 
+                            left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+                           left outer join( select Vendor_Code,Max(Amount)Head_Load_Rate from TSPL_TRANSFER_TO_SAVING_DETAIL left outer join TSPL_TRANSFER_TO_SAVING on TSPL_TRANSFER_TO_SAVING.Document_No = TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No
+                           where convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103)>=convert(date,('" + dtpDailySummaryFromDate.Value + "'),103) 
+                            and convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103) <=convert(date,('" + dtpDailySummaryToDate.Value + "'),103)
+                           group by Vendor_Code )SavingDetail on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = SavingDetail.Vendor_Code
+                            left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
+                            left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
+                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  ) x group by x.VLC_CODE_Uploader,x.Payee_Joint_Account_No ) xxxCurrent On xxxCurrent.VLC_CODE_Uploader=xxxSaving.VLC_CODE_Uploader) xxxFinal
+                            Inner Join(SELECT YYY.[Vlc Uploader Code],YYY.[VLC Name],COUNT(YYY.[Vlc Uploader Code]) As DCSCount FROM (Select final.[Doc Date] ,(final.[Vlc Uploader Code])[Vlc Uploader Code] ,final.[VLC Name] From 
+                            (Select Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], 
+                            TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name]
+                            From TSPL_MILK_SRN_DETAIL 
+                            Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
+                            Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
+                            Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE
+                            left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
+                            left outer join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
+                            Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE
+                             where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                            and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                             ) As final
+                             where 2=2  GROUP BY FINAL.[Doc Date],FINAL.[VLC Name],FINAL.[Vlc Uploader Code] )YYY  GROUP BY [VLC Name],[Vlc Uploader Code])xxxDCSCount On xxxDCSCount.[Vlc Uploader Code]=xxxFinal.VLC_CODE_Uploader  )xxxfinal )xxx
+                            where xxx.DCSCount>1 Group By xxx.BankCode)Final 
+
+							union all
+
+							Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,xxxfinal.*
+							from (Select 'ONE DAY STOP' AS BankCode,
+							
+							xxxfinal.BankName,	Round(xxxfinal.Bill_Amt,0)Bill_Amt,	Round(xxxfinal.SavingAmt,0)SavingAmt,		Case When xxxfinal.CurrentAmt>0 Then Round(xxxfinal.CurrentAmt,0) Else 0 End As CurrentAmt,xxxDCSCount.DCSCount 
+                            from 
+                            (Select [Bank Advise No],[Bank Advise Date],xxxSaving.VLC_CODE_Uploader,IsNull(xxxSaving.Bank_Code,xxxCurrent.Bank_Code) As BankCode,IsNull(xxxsaving.Bank_Code_Desc,xxxCurrent.Bank_Code_Desc) As BankName,(xxxSaving.VLC_CODE_Uploader +' '+ xxxSaving.Payee_Joint_Name) As DCS_Name,
+							Case When IsNull(xxxCurrent.Payable_Amount,0)>0 Then IsNull(xxxCurrent.Payable_Amount,0) Else IsNull(xxxSaving.Payable_Amount,0) End As Bill_Amt, 
+                            Case When xxxSaving.Account_Type='Sav' Then xxxSaving.Payee_Joint_Account_No Else '' End As SavingAccountNo,
+							IsNull(xxxSaving.Payable_Amount,0) As SavingAmt,
+                            Case When xxxCurrent.Account_Type='Cur' Then xxxCurrent.Payee_Joint_Account_No Else '' End As CurrentAccountNo,
+							IsNull(xxxCurrent.Payable_Amount,0)-IsNull(xxxSaving.Payable_Amount,0) As CurrentAmt
+                            from (select Max(AccountType)As Account_Type, x.GRPColumn,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,
+                            max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,
+                            max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount 
+                            from
+                            (select  Case When TSPL_VENDOR_MASTER.Account_Type='sav' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='sav' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As AccountType ,'' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code+(case when isnull(TSPL_VENDOR_MASTER.vsp_payment,'')='Self' then (TSPL_VENDOR_MASTER.IFSC_Code)   else (TSPL_VENDOR_MASTER.Joint_IFSC_Code)   end)  as GRPColumn,
+                            TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],TSPL_MCC_MASTER.MCC_NAME, TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader, (TSPL_VENDOR_MASTER.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
+                              TSPL_VENDOR_MASTER.BankBranch2 as Branch_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code_Desc,
+                              case when isnull(TSPL_VENDOR_MASTER.vsp_payment,'')= 'Self' then (TSPL_VENDOR_MASTER.IFSCCode2) else (TSPL_VENDOR_MASTER.Joint_IFSC_Code) end as Payee_Joint_IFSC_Code, 
+                              case when isnull(TSPL_VENDOR_MASTER.vsp_payment,'')= 'Self' then (TSPL_VENDOR_MASTER.AccNo2) else (TSPL_VENDOR_MASTER.Joint_Account_No) end as Payee_Joint_Account_No, 
+                              TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount   
+                              from TSPL_PAYMENT_PROCESS_SAVING 
+                            left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No
+                            left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No                                                       
+                            left outer join (select distinct VSP_Code, VLC_Code_VLC_Uploader  from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =  TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                            left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code= TSPL_VENDOR_INVOICE_HEAD.Vendor_Code --TSPL_PAYMENT_PROCESS_COMPULSORY.VSP_CODE
+                            left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date    
+                            left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
+                            left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank
+                            left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                            and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                            and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 
+                            ) x group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No )xxxSaving
+                            Left Outer Join
+                            (select MAX([Bank Advise No])[Bank Advise No],MAX([Bank Advise Date])[Bank Advise Date],Max(Account_Type)As Account_Type,max(x.From_Date)From_Date,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,max(x.Bank_Code_Desc)Bank_Code_Desc,max(x.Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,x.Payee_Joint_Account_No,sum(x.Payable_Amount)Payable_Amount from
+                            (select  TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
+                            convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, 
+                            TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
+                            case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
+                            (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount 
+                            from TSPL_PAYMENT_PROCESS_DETAIL 
+                            left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+                            left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE								
+                            left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
+                            left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current 
+                            left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
+                           left outer join( select Vendor_Code,Max(Amount)Head_Load_Rate from TSPL_TRANSFER_TO_SAVING_DETAIL left outer join TSPL_TRANSFER_TO_SAVING on TSPL_TRANSFER_TO_SAVING.Document_No = TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No
+                           where convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103)>=convert(date,('" + dtpDailySummaryFromDate.Value + "'),103) 
+                           and convert(date,TSPL_TRANSFER_TO_SAVING.Document_Date,103) <=convert(date,('" + dtpDailySummaryToDate.Value + "'),103)
+                           group by Vendor_Code )SavingDetail on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = SavingDetail.Vendor_Code
+                            left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No     
+                            left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
+                            where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                           and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  ) x group by x.VLC_CODE_Uploader,x.Payee_Joint_Account_No ) xxxCurrent On xxxCurrent.VLC_CODE_Uploader=xxxSaving.VLC_CODE_Uploader) xxxFinal
+                            Inner Join(SELECT YYY.[Vlc Uploader Code],YYY.[VLC Name],COUNT(YYY.[Vlc Uploader Code]) As DCSCount FROM (Select final.[Doc Date] ,(final.[Vlc Uploader Code])[Vlc Uploader Code] ,final.[VLC Name] From 
+                            (Select Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], 
+                            TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name]
+                            From TSPL_MILK_SRN_DETAIL 
+                            Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
+                            Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
+                            Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE
+                            left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
+                            left outer join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
+                            Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE
+                             where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpDailySummaryFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpDailySummaryToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                             ) As final
+                             where 2=2  GROUP BY FINAL.[Doc Date],FINAL.[VLC Name],FINAL.[Vlc Uploader Code] )YYY  GROUP BY [VLC Name],[Vlc Uploader Code])xxxDCSCount On xxxDCSCount.[Vlc Uploader Code]=xxxFinal.VLC_CODE_Uploader  )xxxfinal 
+							 where xxxfinal.DCSCount=1 )XXY Group by BankCode)zz
+							 Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1= '" + objCommonVar.CurrComp_Code1 + "'  "
+                dt1 = clsDBFuncationality.GetDataTable(qryies)
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
 
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -3623,9 +3916,15 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 Gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
                 Gv1.BestFitColumns()
+
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
-                frmCRV = Nothing
+                If PaymentCWchk.Checked = True Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dt1, "rptDailySummaryReportCycleWise", "", "CycleWiseBankSummary")
+                    frmCRV = Nothing
+                Else
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
+                    frmCRV = Nothing
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -4852,5 +5151,89 @@ TSPL_MILK_COLLECTION_MCC
         End Try
     End Sub
 
+    Private Sub rbtnDateRange_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnDateRange.CheckedChanged
+        Try
+            HideAndShowDate()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
+    Private Sub rbtnMonthWise_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnMonthWise.CheckedChanged
+        Try
+            HideAndShowDate()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub dtpDailySummaryFromDate_ValueChanged(sender As Object, e As EventArgs) Handles dtpDailySummaryFromDate.ValueChanged
+
+    End Sub
+
+    Private Sub dtpDailySummaryFromDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles dtpDailySummaryFromDate.Validating
+        If PaymentCWchk.Checked = True Then
+            SetToDates()
+        End If
+    End Sub
+
+    Sub SetToDates()
+        If Not isLoad Then
+
+            Dim PaymentCycleType As String = ""
+            Dim PaymentCycleValue As Integer = 0
+
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (select Location_Code  from TSPL_LOCATION_MASTER where " + strMCCcode + " and Location_Category='MCC' and Rejected_Type='N') ")
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
+                Exit Sub
+            End If
+            PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
+            PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
+            Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
+            If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
+                If dtpDailySummaryFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
+                    clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                    dtpDailySummaryFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                    dtpDailySummaryToDate.Value = dtpDailySummaryFromDate.Value
+                    Exit Sub
+                End If
+                dtpDailySummaryToDate.Value = dtpDailySummaryFromDate.Value.AddDays(PaymentCycleValue - 1)
+
+                If dtpDailySummaryFromDate.Value.Month <> dtpDailySummaryToDate.Value.Month Then
+                    dtpDailySummaryToDate.Value = New Date(dtpDailySummaryFromDate.Value.Year, dtpDailySummaryFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                End If
+                Dim dtNxtPay As DateTime = dtpDailySummaryToDate.Value.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
+                If dtpDailySummaryFromDate.Value.Month <> dtNxtPay.Month Then
+                    dtpDailySummaryToDate.Value = New Date(dtpDailySummaryFromDate.Value.Year, dtpDailySummaryFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                End If
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value, "dd")) <> 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    dtpDailySummaryFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    dtpDailySummaryToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    Exit Sub
+                End If
+                dtpDailySummaryToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpDailySummaryFromDate.Value)
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpDailySummaryFromDate.Value, "dd")) <> 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    dtpDailySummaryFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    dtpDailySummaryToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    Exit Sub
+                End If
+                dtpDailySummaryToDate.Value = DateAdd(DateInterval.Year, PaymentCycleValue, dtpDailySummaryFromDate.Value)
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
+                Dim today As Date = dtpDailySummaryFromDate.Value
+                Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
+                dtpDailySummaryFromDate.Value = today.AddDays(-dayDiff)
+                dtpDailySummaryToDate.Value = dtpDailySummaryFromDate.Value.AddDays(6)
+            End If
+        End If
+    End Sub
+
+    Private Sub btnGoDCSSummary_Click(sender As Object, e As EventArgs) Handles btnGoDCSSummary.Click
+        DCSSummary(False)
+    End Sub
 End Class
