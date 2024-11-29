@@ -1720,6 +1720,8 @@ Public Class clsSalaryGeneration
         Dim dt As DataTable
         Dim FinalQry As String = ""
         Dim whr As String = ""
+        Dim dt1 As DataTable = Nothing
+        Dim HeadName As String = ""
         Try
             '' done by panch Raj Against Ticket No : BM00000007870 on 17/09/2015
             Dim objPF As clsPFRulesMaster = clsPFRulesMaster.GetRecentPFRule(arrPayPeriodCode.Item(0), trans)
@@ -1758,7 +1760,31 @@ Public Class clsSalaryGeneration
                 If clsCommon.myLen(employee) > 0 Then
                     whr = " where EMP_CODE= '" + employee + "'"
                 End If
-                FinalQry = "select PAY_PERIOD_CODE,max(SALARY_GENERATION_CODE)SALARY_GENERATION_CODE,max(EMP_CODE) AS EMP_CODE,max(EMPLOYEE_NAME)EMPLOYEE_NAME, max([Father Name])[Father Name],max([Working City])[Working City],max([PF No])[PF No],max([ESI No])[ESI No], max([Bank Acc No])[Bank Acc No],max([Date of Birth])[Date of Birth],max([Joining Date])[Joining Date], max([Relieving Date])[Relieving Date], max(Designation)Designation,max(Department)Department,max(Location)Location, max(Division)Division, max([Bank Name])[Bank Name],max([Bank Branch])[Bank Branch], max([Bank Branch Name])[Bank Branch Name],max([Payment Mode])[Payment Mode],max([Month Days])[Month Days], max([Present Days])[Present Days],  max([Payable Days])[Payable Days],max([Holidays])[Holidays], max([Week Off Days])[Week Off Days],max([Leave Days])[Leave Days] ,sum(basic)basic,sum(cca)cca,sum(da)da,sum(hra)hra,sum([wash.all.])[wash.all.],sum(Gross)Gross,sum(vbasic)vbasic,sum(vcca)vcca,sum(vda)vda,sum(vhra)vhra,sum([vwash.all.])[vwash.all.],sum([GROSS SALARY])[GROSS SALARY],sum(vepf)vepf,sum(vemployee_state_insurance)vesi,sum(vgsli)vgsli,sum(vkkk)vkkk,sum(vswsf)vswsf,sum([TOTAL DEDUCTION])[TOTAL DEDUCTION],sum([NET SALARY])[NET SALARY],'" + objCommonVar.CurrentUser + "' As 'PrintBy' from 
+                dt1 = clsDBFuncationality.GetDataTable(strQry)
+                Dim CheckIndex As Integer = 0
+                For kk As Integer = 0 To dt1.Columns.Count - 1
+                    CheckIndex = kk
+                    If clsCommon.CompairString(clsCommon.myCstr(dt1.Columns(kk).ColumnName), "LEAVE DAYS") = CompairStringResult.Equal Then
+                        CheckIndex = kk
+                    End If
+
+                    If clsCommon.myLen(HeadName) > 0 Then
+                        If kk > 25 Then
+                            HeadName += ",Sum([" + clsCommon.myCstr(dt1.Columns(kk).ColumnName) + "]) as [" + clsCommon.myCstr(dt1.Columns(kk).ColumnName) + "]"
+                        Else
+                            HeadName += ",Max([" + clsCommon.myCstr(dt1.Columns(kk).ColumnName) + "]) as [" + clsCommon.myCstr(dt1.Columns(kk).ColumnName) + "]"
+                        End If
+
+                        'HeadName += ",Sum(IsNull([" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "]"
+                    Else
+                        If kk > CheckIndex Then
+                            HeadName = " Sum[" + clsCommon.myCstr(dt1.Columns(kk).ColumnName) + "] as [" + clsCommon.myCstr(dt1.Columns(kk).ColumnName) + "]"
+                        Else
+                            HeadName = " [" + clsCommon.myCstr(dt1.Columns(kk).ColumnName) + "] as [" + clsCommon.myCstr(dt1.Columns(kk).ColumnName) + "]"
+                        End If                        ' sumitemdesc = "Sum(isnull([" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dt1.Rows(kk)("Short_Description")) + "] "
+                    End If
+                Next
+                FinalQry = "select " + HeadName + ",'" + objCommonVar.CurrentUser + "' As 'PrintBy' from 
                            (" & strQry & ")xy " + whr + "  group by PAY_PERIOD_CODE "
             End If
         Catch ex As Exception

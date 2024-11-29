@@ -631,6 +631,8 @@ Public Class FrmMCCMilkRegister
                         Dim summaryRowItem As New GridViewSummaryRowItem()
                         Dim intCount As Integer = 0
 
+                        Dim item As New GridViewSummaryItem("No Of Cans", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item)
                         Dim item1 As New GridViewSummaryItem("Milk Weight", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(item1)
                         Dim item2 As New GridViewSummaryItem("Milk Weight(KG)", "{0:F2}", GridAggregateFunction.Sum)
@@ -4073,8 +4075,14 @@ Public Class FrmMCCMilkRegister
 
                 Dim ffinalQry As String
                 If ChkDetailWise.Checked AndAlso chkRouteShiftWise.Checked AndAlso BulkExport = 5 Then
-                    ffinalQry = "Select ROW_NUMBER() Over (Order By Convert(varchar,xxxxFinal.[Route Code])) AS [SNo.],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as [To Date],xxxxFinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,Logo_Img2 
-                            from(Select Convert(varchar,xxxx.[Route Code])[Route Code],Max(xxxx.[Route Name])[Route Name],(xxxx.[Vlc Uploader Code])[Vlc Uploader Code],Max(xxxx.[VSP Name])[VSP Name],"
+                    ffinalQry = "Select ROW_NUMBER() Over (Order By Convert(varchar,xxxxFinal.[Route Code])) AS [SNo.],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as [To Date],xxxxFinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,Logo_Img2 "
+                    ffinalQry += " from(Select "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                        ffinalQry += "Convert(int,xxxx.[Route Code])[Route Code],"
+                    Else
+                        ffinalQry += "Convert(varchar,xxxx.[Route Code])[Route Code],"
+                    End If
+                    ffinalQry +="Max(xxxx.[Route Name])[Route Name],(xxxx.[Vlc Uploader Code])[Vlc Uploader Code],Max(xxxx.[VSP Name])[VSP Name],"
                     If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count = 1 Then
                         ffinalQry += " Max(xxxx.[MCC Name])[MCC Name],"
                     Else
@@ -4086,19 +4094,24 @@ Public Class FrmMCCMilkRegister
                             Case When Max(xxfinal.Shift)='Morning' Then Sum(xxFinal.[Milk Weight(KG)]) Else 0 End As [Milk Weight Mrng],Case When Max(xxfinal.Shift)='Evening' Then Sum(xxFinal.[Milk Weight(KG)]) Else 0 End As [Milk Weight Evng],
                             (Sum(xxFinal.[Milk Weight(KG)])+Sum(xxFinal.[Milk Weight(KG)])) As [Total Milk],(Round((Sum(xxFinal.[Milk Weight(KG)])+Sum(xxFinal.[Milk Weight(KG)]))/(Convert(int,(DATEDIFF(DAY,'01/Dec/2023','10/Dec/2023')))+Convert(int,'1')),0)) As [Average] from 
                             (" + FinalQuery + ") xxfinal Group By xxFinal.[Route Code],xxfinal.[Vlc Uploader Code],xxfinal.Shift) xxxx Group By xxxx.[Route Code],xxxx.[Vlc Uploader Code] ) xxxxFinal 
-                           Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' order by Convert(varchar,xxxxFinal.[Route Code])"
-                    dt = clsDBFuncationality.GetDataTable(ffinalQry)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptRouteWiseUnitMilkCollection", "UNIT MILK COLLECTION REPORT")
-                        frmCRV = Nothing
+                           Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                        ffinalQry += " order by Convert(int,xxxxFinal.[Route Code])"
                     Else
-                        clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
+                        ffinalQry += " order by Convert(varchar,xxxxFinal.[Route Code])"
                     End If
-                    Exit Sub
-                End If
+                    dt = clsDBFuncationality.GetDataTable(ffinalQry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim frmCRV As New frmCrystalReportViewer()
+                            frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptRouteWiseUnitMilkCollection", "UNIT MILK COLLECTION REPORT")
+                            frmCRV = Nothing
+                        Else
+                            clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
+                        End If
+                        Exit Sub
+                    End If
 
-            End If
+                End If
             Dim BaseQry1 As String = ""
             Dim BaseQry2 As String = ""
             If chkDateShift.Checked AndAlso rbtnCollectionSummary.Checked = False Then
