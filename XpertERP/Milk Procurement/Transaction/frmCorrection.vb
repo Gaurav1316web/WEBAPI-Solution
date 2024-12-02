@@ -475,7 +475,14 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTI
                         End If
                     End If
                 End If
-                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, Nothing, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue))
+                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
+                Try
+                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue))
+                    tran.Commit()
+                Catch ex As Exception
+                    tran.Rollback()
+                    Throw New Exception(ex.Message)
+                End Try
             End If
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
             btnSave.Enabled = False
@@ -771,62 +778,64 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + clsCommon.myCstr(drDO
                                     For Each drDCS As DataRow In dtDCS.Rows
                                         'If clsCommon.myCdbl(drDCS("isOwnBMC")) = 1 Then
                                         If clsCommon.myCdbl(drDCS("isOwnBMC")) = 0 Then
-                                                If clsCommon.MyMessageBoxShow(Me, "OwnBmc Data is not Punched for [" + clsCommon.myCstr(dtDCS.Rows(0)("Document_No")) + "]" + Environment.NewLine + "Do You Want To Continue? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
-                                                    Exit Sub
-                                                End If
-                                            Else
-                                                If Math.Abs(clsCommon.myCdbl(drDCS("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(drDCS("DiffSNFKG"))) > 0 Then
+                                            If clsCommon.MyMessageBoxShow(Me, "OwnBmc Data is not Punched for [" + clsCommon.myCstr(dtDCS.Rows(0)("Document_No")) + "]" + Environment.NewLine + "Do You Want To Continue? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                                                Exit Sub
+                                            End If
+                                        Else
+                                            If Math.Abs(clsCommon.myCdbl(drDCS("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(drDCS("DiffSNFKG"))) > 0 Then
                                                 qry = "select xx.*,TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type from
-	(select PK_Id,Qty,FATKG,SNFKG,Shift 
-	 from TSPL_MILK_COLLECTION_DCS_DETAIL WHERE VLC_Code =  ( SELECT VLC_Code FROM TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id=" + clsCommon.myCstr(drDCS("PK_Id")) + ")  AND Document_No = ( SELECT Document_No FROM TSPL_MILK_COLLECTION_DCS_DETAIL WHERE PK_Id =" + clsCommon.myCstr(drDCS("PK_Id")) + ")
-	 )xx
-	 left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=xx.PK_Id
+(select PK_Id,Qty,FATKG,SNFKG,Shift,TSPL_MILK_REJECT_TYPE.Code as Milk_Type  
+from TSPL_MILK_COLLECTION_DCS_DETAIL 
+left outer join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.Code=TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type 
+WHERE VLC_Code =  ( SELECT VLC_Code FROM TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id=" + clsCommon.myCstr(drDCS("PK_Id")) + ")  
+AND Document_No = ( SELECT Document_No FROM TSPL_MILK_COLLECTION_DCS_DETAIL WHERE PK_Id =" + clsCommon.myCstr(drDCS("PK_Id")) + ") )xx
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=xx.PK_Id
 left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=xx.PK_Id
 left outer join TSPL_MILK_SRN_HEAD  on ((TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No) or  (TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No))
 order by  xx.Shift desc,xx.Qty "
-
                                                 Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(qry)
-                                                    If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
-                                                        For indx As Integer = 0 To dtDetail.Rows.Count - 1
-                                                            Dim Qty As Decimal = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
-                                                            If (clsCommon.myCdbl(drDCS("DiffQty"))) > 0 Then
-                                                                Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty")) - clsCommon.myCDecimal(drDCS("DiffQty"))
-                                                                If Qty < 0 Then
-                                                                    Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
-                                                                End If
+                                                If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
+                                                    For indx As Integer = 0 To dtDetail.Rows.Count - 1
+                                                        Dim Qty As Decimal = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
+                                                        If (clsCommon.myCdbl(drDCS("DiffQty"))) > 0 Then
+                                                            Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty")) - clsCommon.myCDecimal(drDCS("DiffQty"))
+                                                            If Qty < 0 Then
+                                                                Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
                                                             End If
-                                                            Dim FATKG As Decimal = (clsCommon.myCDecimal(dtDetail.Rows(indx)("FATKG")) - clsCommon.myCDecimal(drDCS("DiffFATKG")))
-                                                            Dim SNFKG As Decimal = (clsCommon.myCDecimal(dtDetail.Rows(indx)("SNFKG")) - clsCommon.myCDecimal(drDCS("DiffSNFKG")))
-                                                            If FATKG < 0 OrElse SNFKG < 0 Then
-                                                                Continue For
-                                                            End If
-                                                            Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
-                                                            Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
+                                                        End If
+                                                        Dim FATKG As Decimal = (clsCommon.myCDecimal(dtDetail.Rows(indx)("FATKG")) - clsCommon.myCDecimal(drDCS("DiffFATKG")))
+                                                        Dim SNFKG As Decimal = (clsCommon.myCDecimal(dtDetail.Rows(indx)("SNFKG")) - clsCommon.myCDecimal(drDCS("DiffSNFKG")))
+                                                        If FATKG < 0 OrElse SNFKG < 0 Then
+                                                            Continue For
+                                                        End If
+                                                        Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
+                                                        Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
+                                                        Dim strRejectType As String = clsCommon.myCstr(dtDetail.Rows(indx)("Milk_Type"))
 
-                                                            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                                                            Try
-                                                                qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
-                                                                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                                                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                                        Try
+                                                            qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
+                                                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                                                            clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, "")
+                                                            clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True, Form_ID, strRejectType)
                                                             Dim coll As New Hashtable()
-                                                                clsCommon.AddColumnsForChange(coll, "Qty", Qty)
-                                                                clsCommon.AddColumnsForChange(coll, "FAT", FAT)
-                                                                clsCommon.AddColumnsForChange(coll, "SNF", SNF)
-                                                                clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
-                                                                clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
-                                                                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + "'", trans)
+                                                            clsCommon.AddColumnsForChange(coll, "Qty", Qty)
+                                                            clsCommon.AddColumnsForChange(coll, "FAT", FAT)
+                                                            clsCommon.AddColumnsForChange(coll, "SNF", SNF)
+                                                            clsCommon.AddColumnsForChange(coll, "FATKG", FATKG)
+                                                            clsCommon.AddColumnsForChange(coll, "SNFKG", SNFKG)
+                                                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + "'", trans)
 
-                                                                trans.Commit()
-                                                                Exit For
-                                                            Catch ex As Exception
-                                                                trans.Rollback()
-                                                                Throw New Exception(ex.Message)
-                                                            End Try
-                                                        Next
-                                                    End If
+                                                            trans.Commit()
+                                                            Exit For
+                                                        Catch ex As Exception
+                                                            trans.Rollback()
+                                                            Throw New Exception(ex.Message)
+                                                        End Try
+                                                    Next
                                                 End If
                                             End If
+                                        End If
                                     Next
                                 End If
                             Next

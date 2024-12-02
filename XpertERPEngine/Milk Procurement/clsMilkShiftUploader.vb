@@ -12,7 +12,7 @@ Public Class clsMilkShiftUploaderHead
     Public Description As String
     Public Mix_Milk As Boolean
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
-    Public Posting_Date As DateTime? = Nothing
+    Public Posted_Date As DateTime? = Nothing
     Public Arr As List(Of clsMilkShiftUploaderDetail) = Nothing
     Public dtRaj As DataTable
     Public dtRajPage As DataTable
@@ -171,6 +171,10 @@ Public Class clsMilkShiftUploaderHead
             obj.Dock_Code = clsCommon.myCstr(dt.Rows(0)("Dock_Code"))
             obj.Dock_Name = clsCommon.myCstr(dt.Rows(0)("Dock_Name"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 2, ERPTransactionStatus.Posted, ERPTransactionStatus.Pending))
+            If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
+                obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
+            End If
+
             obj.Mix_Milk = (clsCommon.myCdbl(dt.Rows(0)("Mix_Milk")) = 1)
 
             obj.Raj_Bulk_Route_Code = clsCommon.myCstr(dt.Rows(0)("Raj_Bulk_Route_Code"))
@@ -260,7 +264,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             End If
 
             If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
-                Throw New Exception("Already Posted on :" + obj.Posting_Date)
+                Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_SHIFT_UPLOADER_QC_PARAMETER_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_SHIFT_UPLOADER_DETAIL where Document_No='" + strCode + "'", trans)
@@ -345,7 +349,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                 Throw New Exception("Document No: " + strCode + " not found to Post")
             End If
             If (obj.Status = ERPTransactionStatus.Approved) Then
-                Throw New Exception("Already Posted on :" + obj.Posting_Date)
+                Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
             clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Shift_Date, trans)
 
