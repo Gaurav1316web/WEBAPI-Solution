@@ -475,7 +475,14 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTI
                         End If
                     End If
                 End If
-                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, Nothing, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue))
+                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
+                Try
+                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue))
+                    tran.Commit()
+                Catch ex As Exception
+                    tran.Rollback()
+                    Throw New Exception(ex.Message)
+                End Try
             End If
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
             btnSave.Enabled = False
