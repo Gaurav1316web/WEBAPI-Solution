@@ -1978,7 +1978,7 @@ Public Class clsPSShipmentHead
 
             End If
             '===update by preeti gupta Against ticket no[BHA/22/06/18-000081][added Setting Only]
-            CreateSMSContent(obj, strVoucherNoForRecreateOnly, trans)
+            'CreateSMSContent(obj, strVoucherNoForRecreateOnly, trans)
 
             Dim CalculateProvisionOnGateePass As Integer = 0 ' added by preeti gupta Against ticket no[UDL/10/01/19-000252]
             CalculateProvisionOnGateePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateProvisionOnGateePass, clsFixedParameterCode.CalculateProvisionOnGateePass, trans))
