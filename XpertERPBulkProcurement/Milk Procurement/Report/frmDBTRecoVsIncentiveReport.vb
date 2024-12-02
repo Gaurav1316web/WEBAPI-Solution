@@ -251,9 +251,17 @@ Public Class frmDBTRecoVsIncentiveReport
                     group by INCENTIVE.Cycle_Year,INCENTIVE.Cycle_Month,INCENTIVE.Vendor_Code,INCENTIVE.VLC_Code_VLC_Uploader"
                 End If
                 If rbtnMatch.IsChecked = True Then
-                    Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1"
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))=0 "
+                    Else
+                        Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1"
+                    End If
                 ElseIf rbtnNotMatch.IsChecked = True Then
-                    Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>=1"
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>0 "
+                    Else
+                        Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>=1"
+                    End If
                 End If
                 Qry += ") abc" + qryStatus
                 dt = Nothing
