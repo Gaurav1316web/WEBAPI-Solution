@@ -506,27 +506,28 @@ Public Class clsInventoryMovement
         Return dblRetCost
     End Function
     Public Shared Sub UpdateSeconds(ByVal strDateColumn As String, ByVal tableName As String, ByVal strICode As String, ByVal strLocation As String, ByVal strDateForCheck As String, ByVal trans As SqlTransaction)
+        ''BSP For JPR Deadlock on 02/12/2024
         ''BM00000008350 GKD/14/09/18-000160 richa 
-        Dim qry As String = "SELECT  " + strDateColumn + ",sum(1) as Rep,DATEPART(SS," + strDateColumn + ") as SEC FROM  " & tableName & " where Item_Code='" + strICode + "' and Location_Code='" + strLocation + "' "
-        If clsCommon.myLen(strDateForCheck) > 0 Then
-            qry += " and " + strDateColumn + " <= '" + strDateForCheck + "' "
-        End If
-        qry += " group by " + strDateColumn + " having sum(1)>1"
-        Dim dtSecond As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-        If dtSecond IsNot Nothing AndAlso dtSecond.Rows.Count > 0 Then
-            '' update seconds in single query
-            'Dim qrySec As String = " update " & tableName & " set " & strDateColumn & "= t1.PunchDateAct from (select   Trans_Id,Source_Doc_No,Item_Code,Location_Code," & strDateColumn & ",DATEADD(second,ROW_NUMBER() over(partition by Item_Code,Location_Code,cast(" & strDateColumn & " as date) order by Item_Code,Location_Code)," & strDateColumn & ") as PunchDateAct,ROW_NUMBER() over(partition by Item_Code,Location_Code,cast(" & strDateColumn & " as date) order by Item_Code,Location_Code) as row_Num " & _
-            '                    " from " & tableName & " where cast(" & strDateColumn & " as date)>='" & clsCommon.GetPrintDate(strDateForCheck, "dd-MMM-yyyy") & "' and Item_Code='" + strICode + "' and Location_Code='" & strLocation & "' " & _
-            '                    " ) t1 where " & tableName & ".Trans_Id=t1.Trans_Id and " & tableName & ".Source_Doc_No=t1.Source_Doc_No " & _
-            '                    " and " & tableName & ".Item_Code=t1.Item_Code and " & tableName & ".Location_Code=t1.Location_Code " & _
-            '                    " and " & tableName & ".Item_Code='" + strICode + "' and " & tableName & ".Location_Code='" & strLocation & "' and cast(" & tableName & "." & strDateColumn & " as date)>='" & clsCommon.GetPrintDate(strDateForCheck, "dd-MMM-yyyy") & "' "
-            Dim qrySec As String = " update " & tableName & " set " & strDateColumn & "= t1.PunchDateAct from (select   Trans_Id,Source_Doc_No,Item_Code,Location_Code," & strDateColumn & ",DATEADD(second,ROW_NUMBER() over(partition by Item_Code,Location_Code,cast(" & strDateColumn & " as date) order by Item_Code,Location_Code)," & strDateColumn & ") as PunchDateAct,ROW_NUMBER() over(partition by Item_Code,Location_Code,cast(" & strDateColumn & " as date) order by Item_Code,Location_Code) as row_Num " &
-                             " from " & tableName & " where cast(" & strDateColumn & " as date)>='" & clsCommon.GetPrintDate(strDateForCheck, "dd-MMM-yyyy") & "' and Item_Code='" + strICode + "' and Location_Code='" & strLocation & "' " &
-                             " ) t1  left outer join " & tableName & " on " & tableName & ".Source_Doc_No=t1.Source_Doc_No and " & tableName & ".Trans_Id=t1.Trans_Id   " &
-                             " and " & tableName & ".Item_Code=t1.Item_Code and " & tableName & ".Location_Code=t1.Location_Code " &
-                             " where " & tableName & ".Item_Code='" + strICode + "' and " & tableName & ".Location_Code='" & strLocation & "' and cast(" & tableName & "." & strDateColumn & " as date)>='" & clsCommon.GetPrintDate(strDateForCheck, "dd-MMM-yyyy") & "' "
-            clsDBFuncationality.ExecuteNonQuery(qrySec, trans)
-        End If
+        'Dim qry As String = "SELECT  " + strDateColumn + ",sum(1) as Rep,DATEPART(SS," + strDateColumn + ") as SEC FROM  " & tableName & " where Item_Code='" + strICode + "' and Location_Code='" + strLocation + "' "
+        'If clsCommon.myLen(strDateForCheck) > 0 Then
+        '    qry += " and " + strDateColumn + " <= '" + strDateForCheck + "' "
+        'End If
+        'qry += " group by " + strDateColumn + " having sum(1)>1"
+        'Dim dtSecond As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        'If dtSecond IsNot Nothing AndAlso dtSecond.Rows.Count > 0 Then
+        '    '' update seconds in single query
+        '    'Dim qrySec As String = " update " & tableName & " set " & strDateColumn & "= t1.PunchDateAct from (select   Trans_Id,Source_Doc_No,Item_Code,Location_Code," & strDateColumn & ",DATEADD(second,ROW_NUMBER() over(partition by Item_Code,Location_Code,cast(" & strDateColumn & " as date) order by Item_Code,Location_Code)," & strDateColumn & ") as PunchDateAct,ROW_NUMBER() over(partition by Item_Code,Location_Code,cast(" & strDateColumn & " as date) order by Item_Code,Location_Code) as row_Num " & _
+        '    '                    " from " & tableName & " where cast(" & strDateColumn & " as date)>='" & clsCommon.GetPrintDate(strDateForCheck, "dd-MMM-yyyy") & "' and Item_Code='" + strICode + "' and Location_Code='" & strLocation & "' " & _
+        '    '                    " ) t1 where " & tableName & ".Trans_Id=t1.Trans_Id and " & tableName & ".Source_Doc_No=t1.Source_Doc_No " & _
+        '    '                    " and " & tableName & ".Item_Code=t1.Item_Code and " & tableName & ".Location_Code=t1.Location_Code " & _
+        '    '                    " and " & tableName & ".Item_Code='" + strICode + "' and " & tableName & ".Location_Code='" & strLocation & "' and cast(" & tableName & "." & strDateColumn & " as date)>='" & clsCommon.GetPrintDate(strDateForCheck, "dd-MMM-yyyy") & "' "
+        '    Dim qrySec As String = " update " & tableName & " set " & strDateColumn & "= t1.PunchDateAct from (select   Trans_Id,Source_Doc_No,Item_Code,Location_Code," & strDateColumn & ",DATEADD(second,ROW_NUMBER() over(partition by Item_Code,Location_Code,cast(" & strDateColumn & " as date) order by Item_Code,Location_Code)," & strDateColumn & ") as PunchDateAct,ROW_NUMBER() over(partition by Item_Code,Location_Code,cast(" & strDateColumn & " as date) order by Item_Code,Location_Code) as row_Num " &
+        '                     " from " & tableName & " where cast(" & strDateColumn & " as date)>='" & clsCommon.GetPrintDate(strDateForCheck, "dd-MMM-yyyy") & "' and Item_Code='" + strICode + "' and Location_Code='" & strLocation & "' " &
+        '                     " ) t1  left outer join " & tableName & " on " & tableName & ".Source_Doc_No=t1.Source_Doc_No and " & tableName & ".Trans_Id=t1.Trans_Id   " &
+        '                     " and " & tableName & ".Item_Code=t1.Item_Code and " & tableName & ".Location_Code=t1.Location_Code " &
+        '                     " where " & tableName & ".Item_Code='" + strICode + "' and " & tableName & ".Location_Code='" & strLocation & "' and cast(" & tableName & "." & strDateColumn & " as date)>='" & clsCommon.GetPrintDate(strDateForCheck, "dd-MMM-yyyy") & "' "
+        '    clsDBFuncationality.ExecuteNonQuery(qrySec, trans)
+        'End If
     End Sub
     Public Shared Function GetFatSNFStockDT(ByVal arrLoc As ArrayList, ByVal From_Date As Date, ByVal To_Date As Date, ByVal IncludeSubLocation As Boolean) As DataTable
         Dim qry As String = GetFatSNFStockQry(arrLoc, From_Date, To_Date, IncludeSubLocation)
@@ -1021,25 +1022,26 @@ Public Class clsInventoryMovement
         Return UpdateInvControlAccount(strSourceDocNo, strSourceDocType, strItemCode, strInvControlAccDr, strInvControlAccCr, strInOutType, "", trans)
     End Function
     Public Shared Function UpdateInvControlAccount(ByVal strSourceDocNo As String, ByVal strSourceDocType As String, ByVal strItemCode As String, ByVal strInvControlAccDr As String, ByVal strInvControlAccCr As String, ByVal strInOutType As String, ByVal ExtraWherClaus As String, ByVal trans As SqlTransaction) As Boolean
-        Try
-            Dim qry As String = String.Empty
-            qry = " update "
-            If clsCommon.CompairString(clsCommon.myCstr(clsItemMaster.GetItemProductType(strItemCode, trans)), "MI") = CompairStringResult.Equal Then
-                qry += " TSPL_INVENTORY_MOVEMENT_New "
-            Else
-                qry += " TSPL_INVENTORY_MOVEMENT "
-            End If
-            qry += " SET Inventory_DrAcc='" & strInvControlAccDr & "',Inventory_CrAcc='" & strInvControlAccCr & "' WHERE Source_Doc_No='" & strSourceDocNo & "' AND Trans_Type ='" & strSourceDocType & "' AND Item_Code ='" & strItemCode & "'"
-            If clsCommon.myLen(strInOutType) > 0 Then
-                qry += " AND InOut='" & strInOutType & "' "
-            End If
-            If clsCommon.myLen(ExtraWherClaus) > 0 Then
-                qry += " and " + ExtraWherClaus
-            End If
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
+        ''BSP For JPR Deadlock on 02/12/2024
+        'Try
+        '    Dim qry As String = String.Empty
+        '    qry = " update "
+        '    If clsCommon.CompairString(clsCommon.myCstr(clsItemMaster.GetItemProductType(strItemCode, trans)), "MI") = CompairStringResult.Equal Then
+        '        qry += " TSPL_INVENTORY_MOVEMENT_New "
+        '    Else
+        '        qry += " TSPL_INVENTORY_MOVEMENT "
+        '    End If
+        '    qry += " SET Inventory_DrAcc='" & strInvControlAccDr & "',Inventory_CrAcc='" & strInvControlAccCr & "' WHERE Source_Doc_No='" & strSourceDocNo & "' AND Trans_Type ='" & strSourceDocType & "' AND Item_Code ='" & strItemCode & "'"
+        '    If clsCommon.myLen(strInOutType) > 0 Then
+        '        qry += " AND InOut='" & strInOutType & "' "
+        '    End If
+        '    If clsCommon.myLen(ExtraWherClaus) > 0 Then
+        '        qry += " and " + ExtraWherClaus
+        '    End If
+        '    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        'Catch ex As Exception
+        '    Throw New Exception(ex.Message)
+        'End Try
         Return True
     End Function
     Public Shared Function UpdateInvSummaryData(ByVal QryCond As String, ByVal trans As SqlTransaction) As Boolean

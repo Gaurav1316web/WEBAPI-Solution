@@ -96,6 +96,7 @@ Public Class frmDairyGatePass
         'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
         SetUserMgmtNew()
         isNewEntry = True
+        Addnew()
         LoadBlankGrid()
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtSupplyDate.Value = txtDate.Value
@@ -719,14 +720,17 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtCode.Value = obj.GPCode
                 txtVehicle.Value = obj.Vehicle_Id
                 lblVehicleDesc.Text = obj.Vehicle_Number
-                If clsCommon.CompairString(obj.Item_Type, "M") = CompairStringResult.Equal Then
-                    rbtn_Milk.IsChecked = True
-                ElseIf clsCommon.CompairString(obj.Item_Type, "P") = CompairStringResult.Equal Then
-                    rbtn_product.IsChecked = True
-                ElseIf clsCommon.CompairString(obj.Item_Type, "I") = CompairStringResult.Equal Then
-                    rbtn_IceCream.IsChecked = True
+                If EnableProductSaleForJPR Then
+                    If clsCommon.CompairString(obj.Item_Type, "M") = CompairStringResult.Equal Then
+                        rbtn_Milk.IsChecked = True
+                    ElseIf clsCommon.CompairString(obj.Item_Type, "P") = CompairStringResult.Equal Then
+                        rbtn_product.IsChecked = True
+                    ElseIf clsCommon.CompairString(obj.Item_Type, "I") = CompairStringResult.Equal Then
+                        rbtn_IceCream.IsChecked = True
 
+                    End If
                 End If
+
                 'cmbitemtype.Text = obj.Item_Type
                 txtTransporter.Text = obj.Transporter
                 txtSalesman.Text = obj.Salesman
@@ -899,7 +903,30 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 obj.Driver_ContactNo = txtDriverMobNo.Text
                 obj.DistributorName = txtDistributorName.Text
                 obj.Trip_No = clsCommon.myCdbl(txtTripNo.Text)
-                If rbtn_Milk.IsChecked Then
+                If EnableProductSaleForJPR Then
+                    If rbtn_Milk.IsChecked Then
+                        obj.Item_Type = "M"
+                        If CreateGatePassFromDemand = True Then
+                            If rbtnEvening.IsChecked = True Then
+                                obj.ShiftType = "Evening"
+                            ElseIf rbtnMorning.IsChecked = True Then
+                                obj.ShiftType = "Morning"
+                            End If
+                        Else
+                            If rbtnEvening.IsChecked = True Then
+                                obj.ShiftType = "Evening"
+                            ElseIf rbtnMorning.IsChecked = True Then
+                                obj.ShiftType = "Morning"
+                            End If
+                        End If
+                    ElseIf rbtn_product.IsChecked Then
+                        obj.Item_Type = "P"
+                        obj.ShiftType = "Morning"
+                    ElseIf rbtn_IceCream.IsChecked Then
+                        obj.Item_Type = "I"
+                        obj.ShiftType = "Morning"
+                    End If
+                Else
                     obj.Item_Type = "M"
                     If CreateGatePassFromDemand = True Then
                         If rbtnEvening.IsChecked = True Then
@@ -914,13 +941,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                             obj.ShiftType = "Morning"
                         End If
                     End If
-                ElseIf rbtn_product.IsChecked Then
-                    obj.Item_Type = "P"
-                    obj.ShiftType = "Morning"
-                ElseIf rbtn_IceCream.IsChecked Then
-                    obj.Item_Type = "I"
-                    obj.ShiftType = "Morning"
                 End If
+
                 If chkAgainstTransfer.Checked = True Then
                     obj.IsTransfer = 1
                     obj.AgainstTransferNo = clsCommon.myCstr(FndTransferNo.Value)
@@ -1004,7 +1026,13 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         LoadBlankGrid()
         isNewEntry = True
         'cmbitemtype.Text = "Select"
-        rbtn_Milk.IsChecked = True
+        If EnableProductSaleForJPR Then
+            rgbItemType.Visible = True
+            rbtn_Milk.IsChecked = True
+        Else
+            rgbItemType.Visible = False
+        End If
+
         isInsideLoadData = False
         fndRouteNo.Value = ""
         txtRouteName.Text = ""
