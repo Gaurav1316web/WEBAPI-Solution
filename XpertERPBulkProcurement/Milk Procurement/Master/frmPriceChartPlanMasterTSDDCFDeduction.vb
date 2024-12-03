@@ -1,7 +1,4 @@
 ﻿Imports common
-Imports System.IO
-Imports System.ComponentModel
-Imports Telerik.WinControls.UI.Export
 
 Public Class frmPriceChartPlanMasterTSDDCFDeduction
 #Region "Variables"
@@ -12,6 +9,7 @@ Public Class frmPriceChartPlanMasterTSDDCFDeduction
     Public SNFTo As Decimal
     Public ArrDed As New Dictionary(Of Decimal, Decimal)
     Public isOK As Boolean = False
+    Public isFATPer As Boolean = False
 #End Region
 
     Private Sub FrmFreeGrid_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -36,6 +34,7 @@ Public Class frmPriceChartPlanMasterTSDDCFDeduction
                 End If
             End If
         Next
+        SetAddDedHeaderText()
     End Sub
 
     Sub LoadBlankGrid()
@@ -52,7 +51,7 @@ Public Class frmPriceChartPlanMasterTSDDCFDeduction
             repoDeciCol.Maximum = 15
             repoDeciCol.Step = 0
             repoDeciCol.ShowUpDownButtons = False
-            repoDeciCol.HeaderText = "SNF %"
+            repoDeciCol.HeaderText = IIf(isFATPer, "FAT%", "SNF %")
             repoDeciCol.ReadOnly = True
             gv1.MasterTemplate.Columns.Add(repoDeciCol)
 
@@ -78,7 +77,7 @@ Public Class frmPriceChartPlanMasterTSDDCFDeduction
             gv1.TableElement.TableHeaderHeight = 40
             gv1.AutoSizeRows = False
             gv1.AllowRowReorder = True
-
+            SetAddDedHeaderText()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -140,6 +139,21 @@ Public Class frmPriceChartPlanMasterTSDDCFDeduction
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnDeduction_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnDeduction.ToggleStateChanged
+        SetAddDedHeaderText()
+    End Sub
+
+    Private Sub SetAddDedHeaderText()
+        Try
+            If rbtnAddition.IsChecked Then
+                gv1.Columns(colDed).HeaderText = "Addition"
+            Else
+                gv1.Columns(colDed).HeaderText = "Deduction"
+            End If
+        Catch ex As Exception
         End Try
     End Sub
 End Class

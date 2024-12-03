@@ -22,7 +22,7 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
@@ -33,11 +33,11 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.txtStart = New common.MyNumBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.chkBeginFromCurrentRow = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rbtnTopToBottom = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnSame = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnBottomToTop = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtValue = New common.MyNumBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.rbtnTopToBottom = New Telerik.WinControls.UI.RadRadioButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.rbtnAddition = New Telerik.WinControls.UI.RadRadioButton()
@@ -54,11 +54,11 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         CType(Me.txtStart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkBeginFromCurrentRow, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnTopToBottom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSame, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnBottomToTop, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnTopToBottom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -96,12 +96,13 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(571, 317)
         Me.gv1.TabIndex = 0
+        Me.gv1.VarID = ""
         '
         'RadButton2
         '
@@ -196,6 +197,16 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.chkBeginFromCurrentRow.TabIndex = 356
         Me.chkBeginFromCurrentRow.Text = "Begin from current row"
         '
+        'rbtnTopToBottom
+        '
+        Me.rbtnTopToBottom.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnTopToBottom.Location = New System.Drawing.Point(6, 13)
+        Me.rbtnTopToBottom.Name = "rbtnTopToBottom"
+        Me.rbtnTopToBottom.Size = New System.Drawing.Size(95, 18)
+        Me.rbtnTopToBottom.TabIndex = 1
+        Me.rbtnTopToBottom.Text = "Top To Bottom"
+        Me.rbtnTopToBottom.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
         'rbtnSame
         '
         Me.rbtnSame.Location = New System.Drawing.Point(208, 13)
@@ -250,16 +261,6 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.MyLabel1.Size = New System.Drawing.Size(35, 16)
         Me.MyLabel1.TabIndex = 30
         Me.MyLabel1.Text = "Value"
-        '
-        'rbtnTopToBottom
-        '
-        Me.rbtnTopToBottom.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnTopToBottom.Location = New System.Drawing.Point(6, 13)
-        Me.rbtnTopToBottom.Name = "rbtnTopToBottom"
-        Me.rbtnTopToBottom.Size = New System.Drawing.Size(95, 18)
-        Me.rbtnTopToBottom.TabIndex = 1
-        Me.rbtnTopToBottom.Text = "Top To Bottom"
-        Me.rbtnTopToBottom.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'btnclose
         '
@@ -325,11 +326,11 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         CType(Me.txtStart, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkBeginFromCurrentRow, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnTopToBottom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSame, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnBottomToTop, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnTopToBottom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
