@@ -9202,9 +9202,9 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "'"
                 If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, True)) Then
                     msg = "Successfully Posted"
                     clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
-                    If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                        funPrint(txtDocNo.Value)
-                    End If
+                    'If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                    '    funPrint(txtDocNo.Value)
+                    'End If
                 Else
                     qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -9415,6 +9415,8 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.I AndAlso btnAddNew.Enabled Then
+            PrintInvoiveForAll()
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.T Then
             chkRateDefaultSetting.Visible = Not chkRateDefaultSetting.Visible
             chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
@@ -12133,7 +12135,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         GetRouteNO(isButtonClicked)
     End Sub
     Public Sub GetRouteNO(ByVal isButtonClicked As Boolean)
-        If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
+        If (clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal) AndAlso (Not clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "") = CompairStringResult.Equal) Then
             ' 
             If SettDistributorWiseBilling Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtVendorNo.Value) <= 0 Then
@@ -12270,7 +12272,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 fndRouteNo_TextChanged()
             End If
         Else
-            clsCommon.MyMessageBoxShow(Me, "Select Item Type", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select Item/Shift Type", Me.Text)
         End If
         If clsCommon.myLen(txtRouteNo.Value) > 0 Then
             Vehicle()
