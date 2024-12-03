@@ -22,15 +22,24 @@ Public Class rptDemandReturnReport
     Public Sub Griddata(ByVal print As Boolean)
         Try
             Dim qry As String = Nothing
-            qry = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Circle_No,TSPL_COMPANY_MASTER.Fax,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2,'" + fromDate.Value + "' as FromDate,'" + ToDate.Value + "' as Todate,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Short_Description as Item_Name,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as [Cust Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Date,TSPL_SD_SALE_RETURN_HEAD.Document_Code as [Sale Return No],round((isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/ConvertDiv.Conversion_Factor,2) as LTR_QTY-- ,TSPL_SD_SALE_RETURN_DETAIL.Unit_code,TSPL_SD_SALE_RETURN_DETAIL.Qty
+            qry = " Select [Sale Return No]+' '+'/'+' '+pp.GPCode as [Sale Return No],* from (select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Circle_No,TSPL_COMPANY_MASTER.Fax,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2,'" + fromDate.Value + "' as FromDate,'" + ToDate.Value + "' as Todate,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Short_Description as Item_Name,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as [Cust Code],TSPL_CUSTOMER_MASTER.Customer_Name + ' - ' + TSPL_SD_SALE_RETURN_HEAD.Description as [Customer Name],convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) as Date,TSPL_SD_SALE_RETURN_HEAD.Document_Code as [Sale Return No],round((isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/ConvertDiv.Conversion_Factor,2) as LTR_QTY
               from TSPL_SD_SALE_RETURN_DETAIL
               left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE
               left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code
               left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code
               left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.Unit_Code 
+			  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No=TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No
+			 
              INNER JOIN TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code =TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND ConvertDiv.UOM_Code = 'LTR'
              left outer join TSPL_COMPANY_MASTER on 2=2
-             where convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + fromDate.Value + "' and convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + ToDate.Value + "'"
+             where convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + fromDate.Value + "' and convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + ToDate.Value + "')XX
+
+			left outer join ( select (TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode),TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE as Doc from   TSPL_SD_SHIPMENT_DETAIL
+			 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code
+			  left outer join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID=TSPL_SD_SHIPMENT_DETAIL.PK_ID
+			  left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
+			 left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode
+			    where convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + fromDate.Value + "' and convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + ToDate.Value + "' group by (TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode),TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE) PP on pp.Doc=xx.Document_Code "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 

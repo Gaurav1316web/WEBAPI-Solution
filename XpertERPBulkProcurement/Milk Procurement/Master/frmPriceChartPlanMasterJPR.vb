@@ -860,6 +860,7 @@ Public Class frmPriceChartPlanMasterJPR
                 frm.ArrDed = gvFATDed.CurrentRow.Cells(colFATFrom).Tag
                 frm.SNFFrom = gvFATDed.CurrentRow.Cells(colFATFrom).Value
                 frm.SNFTo = gvFATDed.CurrentRow.Cells(colFATTo).Value
+                frm.isFATPer = True
                 frm.ShowDialog()
                 If frm.isOK Then
                     gvFATDed.CurrentRow.Cells(colFATFrom).Tag = frm.ArrDed
