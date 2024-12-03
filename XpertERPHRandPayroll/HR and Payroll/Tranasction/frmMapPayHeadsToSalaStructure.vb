@@ -343,7 +343,7 @@ Public Class frmMapPayHeadsToSalaStructure
             txtCode.MyReadOnly = True
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = " select SALARY_STRUCTURE_CODE as Code, SALARY_STRUCTURE_NAME as Name, SAL_PRINT_NAME as 'Print Name',Location_Code As 'Location Code' from TSPL_SALARY_STRUCTURE "
+            Dim qry As String = " select SALARY_STRUCTURE_CODE as Code, SALARY_STRUCTURE_NAME as Name, SAL_PRINT_NAME as 'Print Name',Location_Code As 'Location Code',Convert(varchar,Created_Date,103 ) as Date from TSPL_SALARY_STRUCTURE "
             txtCode.Value = clsCommon.ShowSelectForm("SALARY_STRUCTURE", qry, "Code", whrcls, txtCode.Value, "SALARY_STRUCTURE_CODE", isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
