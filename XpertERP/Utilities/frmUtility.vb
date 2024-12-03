@@ -26579,4 +26579,32 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnUpdHistVersionMilkProc_Click(sender As Object, e As EventArgs) Handles btnUpdHistVersionMilkProc.Click
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT Document_No,Hist_Version FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data  GROUP  BY   Document_No ,Hist_Version HAVING sum(1)>1  order by Document_No,Hist_Version desc ", trans)
+            Dim Hist_version As Integer = 0
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    Hist_version = clsCommon.myCdbl(dr("Hist_Version"))
+
+                    Dim dtHist As DataTable = clsDBFuncationality.GetDataTable("select  Hist_By,Hist_On,Hist_Version from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data where Document_No= '" & clsCommon.myCstr(dr("Document_No")) & "' and Hist_Version= " & Hist_version & " order by Hist_On ", trans)
+                    For ii As Integer = 1 To dtHist.Rows.Count - 1
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data set Hist_Version = Hist_Version + " & dtHist.Rows.Count & " where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version > " & Hist_version & "", trans)
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data set Hist_Version = Hist_Version + 1 where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version = " & Hist_version & " and Hist_By = '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_By")) & "' and convert(datetime,Hist_On,103) =  convert(datetime,'" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_On")) & "',103)", trans)
+
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data set Hist_Version = Hist_Version + " & dtHist.Rows.Count & " where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version > " & Hist_version & "", trans)
+                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data set Hist_Version = Hist_Version + 1 where Document_No = '" & clsCommon.myCstr(dr("Document_No")) & "' and  Hist_Version = " & Hist_version & " and Hist_By = '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_By")) & "' and convert(datetime,Hist_On,103) =  convert(datetime, '" & clsCommon.myCstr(dtHist.Rows(ii)("Hist_On")) & "',103)", trans)
+
+                    Next
+                Next
+            End If
+            trans.Commit()
+            clsCommon.MyMessageBoxShow(Me, "Version update successfully", Me.Text)
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class
