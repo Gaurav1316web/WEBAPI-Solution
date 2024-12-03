@@ -421,208 +421,144 @@ where 2 = 2  "
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Try
+        Dim Fromshift As String = clsCommon.myCstr(txtFromShift.Text)
+        Dim Toshift As String = clsCommon.myCstr(txtToShift.Text)
+        Dim FromDate As String = clsCommon.myCstr(txtFromDate.Text)
+        Dim TODate As String = clsCommon.myCstr(txtToDate.Text)
 
-            Dim Fromshift As String = clsCommon.myCstr(txtFromShift.Text)
-            Dim Toshift As String = clsCommon.myCstr(txtToShift.Text)
-            Dim FromDate As String = clsCommon.myCstr(txtFromDate.Text)
-            Dim TODate As String = clsCommon.myCstr(txtToDate.Text)
-            Dim PrintPouchCrateQtyOnPrint As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PrintPouchCrateQtyOnPrint, clsFixedParameterCode.PrintPouchCrateQtyOnPrint, Nothing)) = 1)
-            Dim ItemInUse As String = ""
-            Dim itemqry As String = Nothing
-            Dim itemName As String = Nothing
-            Dim itemNames As String = Nothing
-            Dim itemName1 As String = Nothing
-            Dim DedCode As String = Nothing
-            Dim itemamt As String = Nothing
-            Dim dtitemName As DataTable = Nothing
-            itemqry = " select TSPL_DEMAND_BOOKING_DETAIL.Item_Code,max(Alies_Name)Alies_Name,max(Sku_Seq)Sku_Seq
-                        from TSPL_DEMAND_BOOKING_DETAIL
-                        left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-                        left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
-                        left outer join TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
-                        WHERE 2=2 and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate((FromDate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate((TODate), "dd/MMM/yyyy") + "'
-                        AND TSPL_DEMAND_BOOKING_MASTER.Route_No IN ('" + txtRouteCode.Value + "')
-                        --and TSPL_ITEM_MASTER.Is_FreshItem = 1
-                        group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code   --order by Sku_Seq "
-            dtitemName = clsDBFuncationality.GetDataTable(itemqry)
-            If dtitemName.Rows.Count > 0 Then
-                For i As Integer = 0 To dtitemName.Rows.Count - 1
-                    If clsCommon.myLen(DedCode) > 0 AndAlso Not DedCode.Contains(clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))) Then
-                        ' DedCode += "," + "case when ItemCode= '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' then sum(Qty) end as [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "] "
-                        DedCode += "," + "case when ItemCode= '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' then sum(Qty) end as I" + clsCommon.myCstr(i + 1) + ", '" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "' as IName" + clsCommon.myCstr(i + 1) + " "
-                        'itemName += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName += "," + "Sum(IsNull(I" + clsCommon.myCstr(i + 1) + ",0)) As I" + clsCommon.myCstr(i + 1) + ""
-                        itemNames += "," + "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        'itemName1 += "," + "[" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 += "," + "Max(IName" + clsCommon.myCstr(i + 1) + ") as IName" + clsCommon.myCstr(i + 1) + " "
-                        itemamt += "+(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
-                        'ElseIf Not DedCode.Contains(clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))) Then
-                    Else
+        Dim whrcls As String = ""
+        If rbtnMilkType.IsChecked Then
+            whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
+        ElseIf rbtnProductType.IsChecked Then
+            whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
+        Else
+            whrcls += ""
+        End If
+        Dim whrclsShift As String = ""
+        Dim Shift As String = ""
 
-                        DedCode = " ,case when ItemCode= '" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Code")) + "' then sum(Qty) end as I" + clsCommon.myCstr(i + 1) + ",'" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "' as IName" + clsCommon.myCstr(i + 1) + " "
-                        ' DedCode = clsCommon.myCstr(dtitemName.Rows(i)("Item_Code"))
-                        'itemName = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName += "," + "Sum(IsNull(I" + clsCommon.myCstr(i + 1) + ",0)) As I" + clsCommon.myCstr(i + 1) + ""
-                        itemNames = ",Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "]"
-                        itemName1 = " ,Max(IName" + clsCommon.myCstr(i + 1) + ") as IName" + clsCommon.myCstr(i + 1) + ""
-                        itemamt = "(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Alies_Name")) + "],0))"
-                    End If
-                Next
-            End If
+        Dim FromShifts As String = ""
+        Dim ToShifts As String = ""
 
-            Dim whrcls As String = ""
-            If rbtnMilkType.IsChecked Then
-                whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
-            ElseIf rbtnProductType.IsChecked Then
-                whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
-            Else
-                whrcls += ""
-            End If
-            Dim whrclsShift As String = ""
-            Dim Shift As String = ""
-
-            Dim FromShifts As String = ""
-            Dim ToShifts As String = ""
-
-            If rbtnMorning.IsChecked Then
-                ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
-                whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Morning' "
-
-                Shift = "Morning"
-            ElseIf rbtnEvening.IsChecked Then
-                'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
-                whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
-
-                Shift = "Evening"
-            Else
-                Shift = "Both"
-
-            End If
-            Dim qry As String = " select "
-            If PrintPouchCrateQtyOnPrint = True Then
-                qry += " max(PouchCF)PouchCF,max(CrateCF)CrateCF,Cust_Code,MAX(BoothName)BoothName,max(Route_No)Route_No,sum(Amount)Amount,max(Unit_code)Unit_Code " + itemName + " " + itemName1 + "
-                         FROM 
-                        (Select max(PouchCF)PouchCF,max(CrateCF)CrateCF,Cust_Code,ItemCode,Cust_Code+ '  ' + max(Customer_Name)  as [BoothName]
-                        ,max(Route_No)Route_No,sum(Amount)Amount,max(Unit_code)Unit_Code " + DedCode + " From "
-            Else
-                qry += " * from "
-            End If
-
-            qry += " 
-( SELECT ItemConversionInPouch.Conversion_Factor as PouchCF ,ItemConversionCrate.Conversion_Factor AS CrateCF,
-TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient,TSPL_VEHICLE_MASTER.Description,Vehicle_Id,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + Fromshift + "' AS FromShift, '" + Toshift + " ' as Toshift,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_ITEM_MASTER.Item_Code as ItemCode  ,"
-            If rdbEnglish.IsChecked = True Then
-                qry += "(TSPL_ITEM_MASTER.Alies_Name)Short_Description,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name  as [BoothName], "
-            ElseIf rdbHindi.IsChecked = True Then
-                ' qry += " (TSPL_ITEM_MASTER.Alies_Name)Short_Description, (TSPL_ITEM_MASTER.Alies_Name_Hindi)  as Item_Description,  "
-                qry += " (TSPL_ITEM_MASTER.Alies_Name_Hindi)Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name_Hindi  as [BoothName], "
-            End If
-            qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,'" + Shift + "' AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_ITEM_MASTER.Item_Desc,
+        If rbtnMorning.IsChecked Then
+            whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Morning' "
+            Shift = "Morning"
+        ElseIf rbtnEvening.IsChecked Then
+            whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
+            Shift = "Evening"
+        Else
+            Shift = "Both"
+        End If
+        Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient,TSPL_VEHICLE_MASTER.Description,Vehicle_Id,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + Fromshift + "' AS FromShift, '" + Toshift + " ' as Toshift,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  ,"
+        If rdbEnglish.IsChecked = True Then
+            qry += "(TSPL_ITEM_MASTER.Alies_Name)Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name  as [BoothName], "
+        ElseIf rdbHindi.IsChecked = True Then
+            qry += " (TSPL_ITEM_MASTER.Alies_Name_Hindi)Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name_Hindi  as [BoothName], "
+        End If
+        qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,'" + Shift + "' AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
 TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
-            If rbtnDispatch.IsChecked Then
-                qry += " '' as Unitcode,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+        If rbtnDispatch.IsChecked Then
+            qry += " TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
 		    		Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount
 ,Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Pack' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 End Pack "
-            ElseIf rbtnDemand.IsChecked Then
-                qry += " 'Crate' + ' ' + TSPL_DEMAND_BOOKING_DETAIL.Unit_code AS Unitcode,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+        ElseIf rbtnDemand.IsChecked Then
+            qry += " TSPL_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
 		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount
 ,Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pack' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pack "
-            End If
-            '        qry += " Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
-            '		    		Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount
-            ',Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pack' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pack "
-
-
-
-            If rbtnDispatch.IsChecked Then
-                qry += " FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code "
-            ElseIf rbtnDemand.IsChecked Then
-                qry += " FROM TSPL_DEMAND_BOOKING_DETAIL "
-            End If
-
-            qry += " left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+        End If
+        qry += ",TSPL_CUSTOMER_MASTER.Display_Seq"
+        If rbtnDispatch.IsChecked Then
+            qry += " FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL 
+left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code "
+        ElseIf rbtnDemand.IsChecked Then
+            qry += " FROM TSPL_DEMAND_BOOKING_DETAIL "
+        End If
+        qry += " 
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-left join ( select Conversion_factor, TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code = 'Crate' ) as ItemConversionCrate on ItemConversionCrate.Item_code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
-		 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_master.Comp_Code
-		  left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_DEMAND_BOOKING_DETAIL.vehicle_code
-		 left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
-         where 2 = 2 "
-            If rbtnDispatch.IsChecked Then
-                qry += " and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 "
-            End If
-            qry += "" & whrcls & "  "
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_master.Comp_Code
+left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_DEMAND_BOOKING_DETAIL.vehicle_code
+left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
+where 2 = 2 "
+        If rbtnDispatch.IsChecked Then
+            qry += " and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 "
+        End If
+        qry += "" & whrcls & "  "
+        qry += " and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
+        If clsCommon.CompairString(Fromshift, "E") = CompairStringResult.Equal Then
+            qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 3 else 2 end  )"
+        End If
+        If clsCommon.CompairString(Fromshift, "M") = CompairStringResult.Equal Then
+            qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(TODate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  )"
+        End If
+        qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "') )"
 
-            ' qry += "" & whrcls & " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "')   " & whrclsShift & "  "
-            qry += " and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
 
-            '        qry += "
-            'And convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) +
-            '"
-            If clsCommon.CompairString(Fromshift, "E") = CompairStringResult.Equal Then
-                'If clsCommon.CompairString(clsCommon.myCstr(txtFromShift.Text), "E") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 3 else 2 end  )"
-            End If
-            If clsCommon.CompairString(Fromshift, "M") = CompairStringResult.Equal Then
-
-                'If clsCommon.CompairString(clsCommon.myCstr(txtToDate.Text), "M") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(TODate), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  )"
-            End If
-            qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" + clsCommon.myCstr(txtRouteCode.Value) + "') "
-
-            If PrintPouchCrateQtyOnPrint = True Then
-                qry += " ) xx group by XX.Cust_Code, xx.ItemCode )xy group by XY.Cust_Code "
+        Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
+        If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+            Exit Sub
+        ElseIf dtPrint.Rows.Count > 0 Then
+            Dim frmCRV As New frmCrystalReportViewer()
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description from (" + qry + ") x group by Item_Code order by Sku_Seq")
+                Dim BKNQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                For ii As Integer = 1 To dtItems.Rows.Count Step 10
+                    If ii > 1 Then
+                        BKNQuery += Environment.NewLine + " Union all " + Environment.NewLine
+                    End If
+                    BKNQuery += " select " + clsCommon.myCstr(ii) + " as Grp ,ROW_NUMBER() over (order by max(Display_Seq)) as SNo, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(FromDate) as FromDate,max(ToDate) as ToDate,max(FromShift) as FromShift,max(Toshift) as Toshift,max(ShiftType) as ShiftType,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1,Cust_Code ,max(BoothName) as BoothName,max(Route_No) as Route_No,max(Route_Desc) as Route_Desc,max(Shift_Type) as Shift_Type,max(Document_Date) as Document_Date"
+                    For jj As Integer = 1 To 10
+                        Dim strJJ As String = clsCommon.myCstr(jj)
+                        Dim strICODE As String = ""
+                        Dim strIShortDesc As String = ""
+                        If (ii + jj - 1) > dtItems.Rows.Count Then
+                            strICODE = ""
+                            strIShortDesc = ""
+                        Else
+                            strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                            strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
+                        End If
+                        BKNQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + "
+,sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacNo,0)>0 then QtyStock/ConvFacNo else null end ) as ItemQtyNo_" + strJJ + "
+,CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)=0 then QtyStock/ConvFacCrate else null end )) as ItemQtyCrate_" + strJJ + ""
+                    Next
+                    If ii > 1 Then
+                        BKNQuery += " ,0 as Amount"
+                    Else
+                        BKNQuery += " ,sum(Amount) as Amount"
+                    End If
+                    BKNQuery += ",max(Display_Seq) as Display_Seq from (
+select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
+left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
+left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.Item_Code and  TabCrateUOM.UOM_Code='Crate' 
+) x group by Cust_Code"
+                Next
+                dtPrint = clsDBFuncationality.GetDataTable(BKNQuery)
+                frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothGatePassBKN", "Booth Gate Pass")
+                Dim x As Integer = 0
             Else
-                qry += " ) xx order by Sku_Seq "
-            End If
-
-
-            'If clsCommon.CompairString(txtFromShift.SelectedValue, "E") = CompairStringResult.Equal Then
-            '    qry += " And 2=( case when Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 3 else 2 end  )"
-            'End If
-            '        If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
-            '    qry += " and 2=( case when Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_master.Document_Date as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 3 else 2 end  ))"
-            'End If
-
-            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dtPrint IsNot Nothing And dtPrint.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
-                Exit Sub
-            ElseIf dtPrint.Rows.Count > 0 Then
-                'If dtPrint IsNot Nothing And dtPrint.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
                 If rdbEnglish.IsChecked = True Then
                     If chkPouch.Checked = True Then
                         frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetPouch", "Dairy Sale Booth Truck Sheetr")
-
-                    ElseIf PrintPouchCrateQtyOnPrint = True Then
-                        frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetPC1", "Dairy Sale Booth Truck Sheetr")
                     Else
                         frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheet", "Dairy Sale Booth Truck Sheetr")
                     End If
                 Else
                     If chkPouch.Checked = True Then
                         frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindiPouch", "Dairy Sale Booth Truck Sheetr")
-
                     Else
                         frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindi", "Dairy Sale Booth Truck Sheet In Hindi")
                     End If
                 End If
-                frmCRV = Nothing
-
-                Return
-                'ElseIf
-                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
-            Exit Sub
-
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+            frmCRV = Nothing
+        End If
+        Exit Sub
     End Sub
 
 End Class

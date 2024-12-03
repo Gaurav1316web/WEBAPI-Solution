@@ -314,6 +314,19 @@ Public Class frmEmployee_Salary
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colPAYPERIOD_Amount).Value = obj1.PAYPERIOD_AMOUNT
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayhead).Value = obj1.Payhead
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = obj1.PayheadMode
+                    Dim Payhead As String = gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value
+                    Dim PayHeadMode As String = gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayhead).Value
+                    If Payhead IsNot Nothing AndAlso Payhead IsNot DBNull.Value Then
+                        Dim PayheadType As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select ISEARNING from TSPL_PAYHEAD_MASTER where PAY_HEAD_CODE='" + obj1.PayHeadCode + "' "))
+                        If PayheadType = 1 Then
+                            gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = "A"
+                        Else
+                            gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = "D"
+                        End If
+                    End If
+                    'If PayHeadMode IsNot Nothing AndAlso PayHeadMode IsNot DBNull.Value Then
+                    '    Show_salary_struct(txtSalaryStruct.Value, Nothing)
+                    'End If
                 Next
             Else
                 gvSalary.Rows.AddNew()
@@ -360,6 +373,7 @@ Public Class frmEmployee_Salary
             End If
         End If
     End Sub
+
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean)
         Dim str As String = "select count(*) from TSPL_EMPLOYEE_SALARY where EMP_SAL_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))

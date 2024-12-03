@@ -271,6 +271,11 @@ Public Class frmMilkShiftUploaderUCDF
             Throw New Exception("Document Already Created !")
         End If
 
+        Qry = "Select 1 from TSPL_MILK_SHIFT_UPLOADER_HEAD Where   TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No  in ('" + txtDocNo.Value + "') and Status=1 "
+        dt = clsDBFuncationality.GetDataTable(Qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Throw New Exception("Document [" + txtDocNo.Value + "] is already Posted you can't modify it !")
+        End If
 
         Qry = "select tspl_mcc_master.MCC_Code from tspl_mcc_master 
 LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code
