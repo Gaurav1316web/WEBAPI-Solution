@@ -9,6 +9,8 @@ Public Class frmScrapSale
 
 #Region "Variables"
     Dim RunBatchFifowise As Integer = 0
+    Dim isLoadData As Boolean = False
+    Dim isReset As Boolean = False
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
     Public AllowtoChangeTCSBaseAmount As Boolean = False
@@ -174,6 +176,7 @@ Public Class frmScrapSale
     Dim MaterialSaleInvoiceEnablePrintOnPost As Boolean = False
     Dim EInvoiceType As String = ""
     Dim strPdfAttachmentPath As String = ""
+    Dim OneTimeCheck As Boolean = False
 #End Region
 
     Public Sub SetUserMgmtNew()
@@ -1922,7 +1925,8 @@ Public Class frmScrapSale
     Sub AddNew()
         btnInvoiceJE.Visible = False
         BlankAllControls()
-
+        lblCustGSTNo.Text = ""
+        lblLocGSTNo.Text = ""
         LoadBlankGrid()
         LoadBlankGridTax()
         isNewEntry = True
@@ -1931,6 +1935,7 @@ Public Class frmScrapSale
         btnPost.Enabled = True
         btnDelete.Enabled = True
         'txtDate.Focus()
+        isReset = True
         gv1.Rows.AddNew()
         gv1.Rows(gv1.RowCount - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
 
@@ -1949,7 +1954,7 @@ Public Class frmScrapSale
         End If
         ''End of For Custom Fields
         UcAttachment1.BlankAllControls()
-
+        chkEInvoice.Checked = False
     End Sub
 
     Private Sub gv1_CellEditorInitialized(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellEditorInitialized
@@ -2220,7 +2225,7 @@ Public Class frmScrapSale
             '    Throw New Exception("Please Update GSTIN in Transpoter/Vendor Master")
             '    Return False
             'End If
-        ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso chkTaxable.Checked = True Then
+        ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso chkTaxable.Checked = True AndAlso chkEInvoice.Checked Then
             Throw New Exception("Please Update GSTIN in Customer Master")
             Return False
         End If
@@ -2448,6 +2453,11 @@ Public Class frmScrapSale
                     obj.CreateInvoice = 1
                 Else
                     obj.CreateInvoice = 0
+                End If
+                If chkEInvoice.Checked Then
+                    obj.Create_E_Invoice = 1
+                Else
+                    obj.Create_E_Invoice = 0
                 End If
                 'If chkExcisable.Checked = True Then
                 '    obj.Excisable = "Y"
@@ -2815,6 +2825,11 @@ Public Class frmScrapSale
                     chkinvoice.Checked = False
                 End If
 
+                If obj.Create_E_Invoice = 1 Then
+                    chkEInvoice.Checked = True
+                Else
+                    chkEInvoice.Checked = False
+                End If
                 If obj.Excisable = "Y" Then
                     chkExcisable.Checked = True
                 Else
@@ -2838,7 +2853,10 @@ Public Class frmScrapSale
                 txtTermCode.Value = obj.Terms_Code
                 txtDueDate.Value = obj.Due_Date
                 chkInterBranch.Checked = obj.Inter_Branch
+                isLoadData = True
+
                 chkTaxable.Checked = obj.Is_Taxable
+                isLoadData = False
                 chkBuyBack.Checked = obj.IsBuyBack
                 'lblTotalOutstansing.Text = obj.Total_Outstanding
                 lblDocCreditLimit.Text = obj.Total_Outstanding
@@ -3454,14 +3472,14 @@ Public Class frmScrapSale
 
 
 
-        Dim qry As String = "  select TSPL_customer_MASTER.cust_code as Code,TSPL_customer_MASTER.Customer_Name as Name,TSPL_customer_MASTER.Terms_Code as [Term Code] ,TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_customer_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description] from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code= TSPL_CUSTOMER_MASTER.Cust_Code "
+        Dim qry As String = "  select TSPL_customer_MASTER.cust_code as Code,TSPL_customer_MASTER.Customer_Name as Name,TSPL_customer_MASTER.Terms_Code as [Term Code] ,TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_customer_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],TSPL_customer_MASTER.GSTNO from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code= TSPL_CUSTOMER_MASTER.Cust_Code "
         Dim WhrCls As String = "TSPL_TAX_GROUP_MASTER.Tax_Group_Type='s' and  TSPL_customer_MASTER.Status ='N'"
         If objCommonVar.ApplyLocationFilterBasedOnPermission = True Then
             WhrCls += " and TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in ('" + fndLocation.Value + "')"
         End If
         fndcustNo.Value = clsCommon.ShowSelectForm("CustmrMstrIFND", qry, "Code", WhrCls, fndcustNo.Value, "Code", isButtonClicked)
 
-        qry = "  select TSPL_customer_MASTER.cust_code ,TSPL_customer_MASTER.Customer_Name ,TSPL_customer_MASTER.Terms_Code  ,TSPL_TERMS_MASTER.Terms_Desc  ,TSPL_customer_MASTER.Tax_Group ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_customer_MASTER.Inter_Branch from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code where TSPL_customer_MASTER.cust_code='" + fndcustNo.Value + "' "
+        qry = "  select TSPL_customer_MASTER.cust_code ,TSPL_customer_MASTER.Customer_Name ,TSPL_customer_MASTER.Terms_Code  ,TSPL_TERMS_MASTER.Terms_Desc  ,TSPL_customer_MASTER.Tax_Group ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_customer_MASTER.Inter_Branch,TSPL_customer_MASTER.GSTNO from TSPL_customer_MASTER  left outer join  TSPL_TERMS_MASTER on TSPL_customer_MASTER.Terms_Code=TSPL_TERMS_MASTER.Terms_Code  left outer join  TSPL_TAX_GROUP_MASTER on TSPL_customer_MASTER.Tax_Group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code where TSPL_customer_MASTER.cust_code='" + fndcustNo.Value + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             txtcustdesc.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
@@ -3469,9 +3487,11 @@ Public Class frmScrapSale
             lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Terms_Desc"))
             txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
             lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
+            lblCustGSTNo.Text = clsCommon.myCstr(dt.Rows(0)("GSTNO"))
             chkInterBranch.Checked = IIf(clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("Inter_Branch"))) = CompairStringResult.Equal, True, False)
         Else
             txtcustdesc.Text = ""
+            lblCustGSTNo.Text = ""
             txtTermCode.Value = ""
             lblTermName.Text = ""
             txtTaxGroup.Value = ""
@@ -3844,6 +3864,8 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         End If
         fndLocation.Value = clsCommon.ShowSelectForm("LocTnMstrFND", qry, "Code", WhrCls, fndLocation.Value, "Code", isButtonClicked)
         txtlocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'"))
+        lblLocGSTNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTNO from TSPL_LOCATION_MASTER where Location_Code = '" + fndLocation.Value + "'"))
+
         ''richa agarwal 19/03/2015
         If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Excisable from tspl_location_master where Location_Code ='" & fndLocation.Value & "'"), "T") = CompairStringResult.Equal Then
             ddlInvoiceType.SelectedValue = "E"
@@ -4840,16 +4862,16 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                                         "tspl_customer_master.Pin_Code as [To Pin Code],tspl_customer_master.TIN_No as [To TIN No],tspl_customer_master.CST as [To CST No],tspl_customer_master.Phone1 as [To phone],ToLocation.State as To_State,ToState.State_Name as To_state_name,TSPL_SCRAPSALE_DETAIL.Item_Code
                                                                 ,case when TSPL_SCRAPSALE_DETAIL.Row_Type='Item' then TSPL_ITEM_MASTER.Item_Desc else tspl_Additional_Charges.Description end as Item_Desc ,FromLocation.Add1 as address1,FromLocation.Add2 as address2,FromLocation.Add3 as address3
                                                                 ,Shipped_Qty," &
-                                        "TSPL_SCRAPSALE_DETAIL.Unit_Code, Price, ItemAmt, TSPL_SCRAPSALE_HEAD.Invoice_Type,TSPL_SCRAPSALE_HEAD.Total_Tax_Amt,TSPL_SCRAPSALE_HEAD.Doc_Amt,	TAX1 .Tax_Code As tax1name,isnull (TSPL_SCRAPSALE_HEAD.tax1_rate,0) As txt1Rate,isnull (TSPL_SCRAPSALE_HEAD.tax1_amt,0) As txt1amt, "
-                        Qry1 += " tax2.Tax_Code As tax2name,isnull (TSPL_SCRAPSALE_HEAD.tax2_rate,0) As txt2Rate,isnull (TSPL_SCRAPSALE_HEAD.tax2_amt,0) As txt2amt,"
-                        Qry1 += " tax3.Tax_Code As tax3name,isnull (TSPL_SCRAPSALE_HEAD.tax3_rate,0) As txt3Rate,isnull (TSPL_SCRAPSALE_HEAD.tax3_amt,0) As txt3amt, "
-                        Qry1 += " tax4.Tax_Code As tax4name,isnull (TSPL_SCRAPSALE_HEAD.tax4_rate,0) As txt4Rate,isnull (TSPL_SCRAPSALE_HEAD.tax4_amt,0) As txt4amt, "
-                        Qry1 += " tax5.Tax_Code As tax5name,isnull (TSPL_SCRAPSALE_HEAD.tax5_rate,0) As txt5Rate,isnull (TSPL_SCRAPSALE_HEAD.tax5_amt,0) As txt5amt, "
-                        Qry1 += "  tax6.Tax_Code  As tax6name,isnull (TSPL_SCRAPSALE_HEAD.tax6_rate,0) As txt6Rate,isnull (TSPL_SCRAPSALE_HEAD.tax6_amt,0) As txt6amt, "
-                        Qry1 += "  tax7.Tax_Code  As tax7name,isnull (TSPL_SCRAPSALE_HEAD.tax7_rate,0) As txt7Rate,isnull (TSPL_SCRAPSALE_HEAD.tax7_amt,0) As txt7amt, "
-                        Qry1 += " tax8.Tax_Code As tax8name,isnull (TSPL_SCRAPSALE_HEAD.tax8_rate,0) As txt8Rate,isnull (TSPL_SCRAPSALE_HEAD.tax8_amt,0) As txt8amt,  "
-                        Qry1 += "  tax9.Tax_Code As tax9name,isnull (TSPL_SCRAPSALE_HEAD.tax9_rate,0) As txt9Rate,isnull (TSPL_SCRAPSALE_HEAD.tax9_amt,0) As txt9amt,'' as cin,'' as pan, '' as companyaddress,"
-                        Qry1 += " tax10.Tax_Code as tax10name,isnull (TSPL_SCRAPSALE_HEAD.tax10_amt,0) as txt10amt ,TSPL_SCRAPSALE_HEAD.AddDesc1,isnull (TSPL_SCRAPSALE_HEAD.AddAmt1,0) as AddAmt1,"
+                                        "TSPL_SCRAPSALE_DETAIL.Unit_Code, Price, ItemAmt, TSPL_SCRAPSALE_HEAD.Invoice_Type,TSPL_SCRAPSALE_HEAD.Total_Tax_Amt,TSPL_SCRAPSALE_HEAD.Doc_Amt,	TAX1 .Tax_Code As tax1name,isnull (TSPL_SCRAPSALE_DETAIL.tax1_rate,0) As txt1Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax1_amt,0) As txt1amt, "
+                        Qry1 += " tax2.Tax_Code As tax2name,isnull (TSPL_SCRAPSALE_DETAIL.tax2_rate,0) As txt2Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax2_amt,0) As txt2amt,"
+                        Qry1 += " tax3.Tax_Code As tax3name,isnull (TSPL_SCRAPSALE_DETAIL.tax3_rate,0) As txt3Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax3_amt,0) As txt3amt, "
+                        Qry1 += " tax4.Tax_Code As tax4name,isnull (TSPL_SCRAPSALE_DETAIL.tax4_rate,0) As txt4Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax4_amt,0) As txt4amt, "
+                        Qry1 += " tax5.Tax_Code As tax5name,isnull (TSPL_SCRAPSALE_DETAIL.tax5_rate,0) As txt5Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax5_amt,0) As txt5amt, "
+                        Qry1 += "  tax6.Tax_Code  As tax6name,isnull (TSPL_SCRAPSALE_DETAIL.tax6_rate,0) As txt6Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax6_amt,0) As txt6amt, "
+                        Qry1 += "  tax7.Tax_Code  As tax7name,isnull (TSPL_SCRAPSALE_DETAIL.tax7_rate,0) As txt7Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax7_amt,0) As txt7amt, "
+                        Qry1 += " tax8.Tax_Code As tax8name,isnull (TSPL_SCRAPSALE_DETAIL.tax8_rate,0) As txt8Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax8_amt,0) As txt8amt,  "
+                        Qry1 += "  tax9.Tax_Code As tax9name,isnull (TSPL_SCRAPSALE_DETAIL.tax9_rate,0) As txt9Rate,isnull (TSPL_SCRAPSALE_DETAIL.tax9_amt,0) As txt9amt,'' as cin,'' as pan, '' as companyaddress,"
+                        Qry1 += " tax10.Tax_Code as tax10name,isnull (TSPL_SCRAPSALE_DETAIL.tax10_amt,0) as txt10amt ,TSPL_SCRAPSALE_HEAD.AddDesc1,isnull (TSPL_SCRAPSALE_HEAD.AddAmt1,0) as AddAmt1,"
                         Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc2,isnull (TSPL_SCRAPSALE_HEAD.AddAmt2,0) as AddAmt2,"
                         Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc3,isnull (TSPL_SCRAPSALE_HEAD.AddAmt3,0) as AddAmt3,"
                         Qry1 += " TSPL_SCRAPSALE_HEAD.AddDesc4,isnull (TSPL_SCRAPSALE_HEAD.AddAmt4,0) as AddAmt4,"
@@ -5901,10 +5923,23 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     Private Sub chkTaxable_CheckStateChanged(sender As Object, e As EventArgs) Handles chkTaxable.CheckStateChanged
         Try
             If chkTaxable.Checked = True Then
+                chkTaxable.Enabled = False
                 RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+                If objCommonVar.RCDFCFP Then
+                    If Not isLoadData Then
+                        chkEInvoice.Checked = True
+                    End If
+                End If
             Else
                 RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+                If objCommonVar.RCDFCFP Then
+                    isReset = True
+                    If Not isLoadData Then
+                        chkEInvoice.Checked = False
+                    End If
+                End If
             End If
+            isReset = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -5927,5 +5962,45 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     Private Sub RadPageViewPage1_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage1.Paint
 
     End Sub
+
+    Private Sub chkEInvoice_(sender As Object, e As EventArgs) Handles chkEInvoice.ToggleStateChanged
+        If Not isReset Then
+            If objCommonVar.RCDFCFP Then
+                If chkEInvoice.Checked = False Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = clsFixedParameterType.CreateEInvoicePassword
+                    frm.strCode = clsFixedParameterCode.MaterialSales
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        ShowRemarks()
+                        OneTimeCheck = True
+                    Else
+                        chkEInvoice.Checked = True
+                    End If
+                ElseIf OneTimeCheck Then
+                    ShowRemarks()
+                End If
+            End If
+        End If
+        isReset = False
+
+    End Sub
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for EInvoice"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            saveCancelLog(Reason, "Create EInvoice", Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class
 

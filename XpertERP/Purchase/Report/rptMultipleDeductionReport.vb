@@ -661,7 +661,8 @@ WHERE convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('"
                 strQry += " group by [VLC Uploader Code],[Deduction Code],Reduce_Deduc_Amt"
             End If
             strQry += " union all
-						select  company_name,[Vendor Code],[Vendor Name],[VLC Uploader Code],MCC_Name,[Document Date],[Document No],Type,Addition,Deduction,[Deduction Code],Regn_No,Deduction_Desc,[SRN QTY],Phone,Remarks,SRN_amount,FromDate,Todate,Reduce_Deduc_Amt,Deduction-Reduce_Deduc_Amt as ReduceAmt,User_NAme from(select 
+						select  
+round(row_number() over(order by(select 1)),0) as SNo, company_name,  [Vendor Code],  [Vendor Name],  [VLC Uploader Code],  [MCC_Name], [Document Date],  [Document No], Type, Addition, Deduction, [Deduction Code], Regn_No, Deduction_Desc, [SRN QTY], Phone, Remarks, SRN_amount, FromDate, Todate, Reduce_Deduc_Amt, ReduceAmt, User_NAme, NULL as Logo_Img, NULL as Logo_Img2 from(select 
         max(TSPL_COMPANY_MASTER.Comp_Name) as company_name, 
         TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Vendor Code],
         TSPL_VLC_MASTER_HEAD.VLC_Name as [Vendor Name],

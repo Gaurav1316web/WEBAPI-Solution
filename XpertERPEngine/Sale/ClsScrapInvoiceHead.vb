@@ -883,6 +883,7 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
             Dim istrue As Boolean = True
             Dim GSTStatus As Boolean = False
             Dim Is_Taxable As Double = 0
+            Dim Is_Create_E_Invoice As Double = 0
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Invoice No not found to Post")
             End If
@@ -901,6 +902,8 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
             'Sanjay 02/July/2018 Check Tax Group
             GSTStatus = clsERPFuncationality.GetGSTStatus(obj.shipment_Date)
             Is_Taxable = clsDBFuncationality.getSingleValue("select isnull(Is_Taxable,0) from TSPL_SCRAPINVOICE_HEAD where invoice_No='" + obj.invoice_No + "'", trans)
+            Is_Create_E_Invoice = clsDBFuncationality.getSingleValue("select isnull(Create_E_Invoice,0) from TSPL_SCRAPINVOICE_HEAD where invoice_No='" + obj.invoice_No + "'", trans)
+
             If (Is_Taxable = 1) AndAlso (clsCommon.myLen(obj.Tax_Group) <= 0) Then
                 Throw New Exception("Tax Group not found :" + obj.invoice_No + "(Shipment No " + obj.shipment_No + ")")
             End If
@@ -1233,25 +1236,27 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
             End If
 
             ''richa agarwal 21 Dec,2020 check eInvoice Implementation
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.shipment_Date, trans) = True Then
-                If ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans) = True Then
-                Else
-                    Throw New Exception("Invalid JSON Value")
+            If Is_Create_E_Invoice = 1 Then
+                If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.shipment_Date, trans) = True Then
+                    If ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans) = True Then
+                    Else
+                        Throw New Exception("Invalid JSON Value")
+                    End If
+                    '    If clsCommon.myLen(ClsScrapInvoiceHead.GetIRNNo(strDocNo, trans)) > 0 Then
+                    '        ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans, False)
+                    '        If clsCommon.myLen(ClsScrapInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
+                    '            Throw New Exception("IRN No For Sales Invoice No [" + strDocNo + "] is not generated")
+                    '        End If
+                    '    End If
+                    '    If objCommonVar.GenerateEWayBillWithEInvoice Then
+                    '        If clsCommon.myLen(ClsScrapInvoiceHead.GetEWayBillNo(strDocNo, trans)) > 0 Then
+                    '            ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans, True)
+                    '            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where shipment_No='" + strDocNo + "'", trans)) <= 0 Then
+                    '                Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                    '            End If
+                    '        End If
+                    '    End If
                 End If
-                '    If clsCommon.myLen(ClsScrapInvoiceHead.GetIRNNo(strDocNo, trans)) > 0 Then
-                '        ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans, False)
-                '        If clsCommon.myLen(ClsScrapInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
-                '            Throw New Exception("IRN No For Sales Invoice No [" + strDocNo + "] is not generated")
-                '        End If
-                '    End If
-                '    If objCommonVar.GenerateEWayBillWithEInvoice Then
-                '        If clsCommon.myLen(ClsScrapInvoiceHead.GetEWayBillNo(strDocNo, trans)) > 0 Then
-                '            ClsScrapInvoiceHead.EInvoice_Implementation(obj.invoice_No, obj.Loc_Code, trans, True)
-                '            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SCRAPINVOICE_HEAD where shipment_No='" + strDocNo + "'", trans)) <= 0 Then
-                '                Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
-                '            End If
-                '        End If
-                '    End If
             End If
             ''------------------------------
         Catch ex As Exception

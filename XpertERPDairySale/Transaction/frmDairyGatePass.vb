@@ -96,6 +96,7 @@ Public Class frmDairyGatePass
         'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
         SetUserMgmtNew()
         isNewEntry = True
+        Addnew()
         LoadBlankGrid()
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtSupplyDate.Value = txtDate.Value
@@ -719,14 +720,17 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtCode.Value = obj.GPCode
                 txtVehicle.Value = obj.Vehicle_Id
                 lblVehicleDesc.Text = obj.Vehicle_Number
-                If clsCommon.CompairString(obj.Item_Type, "M") = CompairStringResult.Equal Then
-                    rbtn_Milk.IsChecked = True
-                ElseIf clsCommon.CompairString(obj.Item_Type, "P") = CompairStringResult.Equal Then
-                    rbtn_product.IsChecked = True
-                ElseIf clsCommon.CompairString(obj.Item_Type, "I") = CompairStringResult.Equal Then
-                    rbtn_IceCream.IsChecked = True
+                If EnableProductSaleForJPR Then
+                    If clsCommon.CompairString(obj.Item_Type, "M") = CompairStringResult.Equal Then
+                        rbtn_Milk.IsChecked = True
+                    ElseIf clsCommon.CompairString(obj.Item_Type, "P") = CompairStringResult.Equal Then
+                        rbtn_product.IsChecked = True
+                    ElseIf clsCommon.CompairString(obj.Item_Type, "I") = CompairStringResult.Equal Then
+                        rbtn_IceCream.IsChecked = True
 
+                    End If
                 End If
+
                 'cmbitemtype.Text = obj.Item_Type
                 txtTransporter.Text = obj.Transporter
                 txtSalesman.Text = obj.Salesman
@@ -899,7 +903,30 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 obj.Driver_ContactNo = txtDriverMobNo.Text
                 obj.DistributorName = txtDistributorName.Text
                 obj.Trip_No = clsCommon.myCdbl(txtTripNo.Text)
-                If rbtn_Milk.IsChecked Then
+                If EnableProductSaleForJPR Then
+                    If rbtn_Milk.IsChecked Then
+                        obj.Item_Type = "M"
+                        If CreateGatePassFromDemand = True Then
+                            If rbtnEvening.IsChecked = True Then
+                                obj.ShiftType = "Evening"
+                            ElseIf rbtnMorning.IsChecked = True Then
+                                obj.ShiftType = "Morning"
+                            End If
+                        Else
+                            If rbtnEvening.IsChecked = True Then
+                                obj.ShiftType = "Evening"
+                            ElseIf rbtnMorning.IsChecked = True Then
+                                obj.ShiftType = "Morning"
+                            End If
+                        End If
+                    ElseIf rbtn_product.IsChecked Then
+                        obj.Item_Type = "P"
+                        obj.ShiftType = "Morning"
+                    ElseIf rbtn_IceCream.IsChecked Then
+                        obj.Item_Type = "I"
+                        obj.ShiftType = "Morning"
+                    End If
+                Else
                     obj.Item_Type = "M"
                     If CreateGatePassFromDemand = True Then
                         If rbtnEvening.IsChecked = True Then
@@ -914,13 +941,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                             obj.ShiftType = "Morning"
                         End If
                     End If
-                ElseIf rbtn_product.IsChecked Then
-                    obj.Item_Type = "P"
-                    obj.ShiftType = "Morning"
-                ElseIf rbtn_IceCream.IsChecked Then
-                    obj.Item_Type = "I"
-                    obj.ShiftType = "Morning"
                 End If
+
                 If chkAgainstTransfer.Checked = True Then
                     obj.IsTransfer = 1
                     obj.AgainstTransferNo = clsCommon.myCstr(FndTransferNo.Value)
@@ -1004,7 +1026,13 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         LoadBlankGrid()
         isNewEntry = True
         'cmbitemtype.Text = "Select"
-        rbtn_Milk.IsChecked = True
+        If EnableProductSaleForJPR Then
+            rgbItemType.Visible = True
+            rbtn_Milk.IsChecked = True
+        Else
+            rgbItemType.Visible = False
+        End If
+
         isInsideLoadData = False
         fndRouteNo.Value = ""
         txtRouteName.Text = ""
@@ -2123,16 +2151,33 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
     '    End Sub
 
     Public Function GetBoothData() As String
-        Dim qry As String = " select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
-sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,'" + objCommonVar.CurrentUser + "' as UserName,max(XXFinal.CompanyName) as CompanyName, '" + txtDistributorName.Text + "' as TranspoterName,'" + txtDriverName.Text + "' as DriverName,'" + txtDriverMobNo.Text + "' as DMobNo,'" + clsCommon.myCstr(lblVehicleDesc.Text) + "' as Vehicle_No,'" + fndRouteNo.Value + "' as Route_No,'" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' as DocumentDate
-from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
+        Dim qry As String = " Select *,(xy.ItemAmount+xy.Total_TCS_Amt)ItemNetAmount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,
+max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
+sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemAmount,'" + objCommonVar.CurrentUser + "' as UserName,max(XXFinal.CompanyName) as CompanyName,
+'" + txtDistributorName.Text + "' as TranspoterName,'" + txtDriverName.Text + "' as DriverName,'" + txtDriverMobNo.Text + "' as DMobNo,
+'" + clsCommon.myCstr(lblVehicleDesc.Text) + "' as Vehicle_No,'" + fndRouteNo.Value + "' as Route_No,
+'" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' as DocumentDate,sum(Total_TCS_Amt)Total_TCS_Amt
+from (select case  WHEN (TSPL_SD_SHIPMENT_HEAD.TAX1) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt)
+        WHEN (TSPL_SD_SHIPMENT_HEAD.TAX2) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX2_Amt)
+        WHEN (TSPL_SD_SHIPMENT_HEAD.TAX3) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX3_Amt)
+        WHEN (TSPL_SD_SHIPMENT_HEAD.TAX4) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX4_Amt)
+        WHEN (TSPL_SD_SHIPMENT_HEAD.TAX5) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX5_Amt)
+        WHEN (TSPL_SD_SHIPMENT_HEAD.TAX6) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX6_Amt)
+        WHEN (TSPL_SD_SHIPMENT_HEAD.TAX7) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX7_Amt)
+		WHEN (TSPL_SD_SHIPMENT_HEAD.TAX8) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX8_Amt)
+		WHEN (TSPL_SD_SHIPMENT_HEAD.TAX9) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX9_Amt)
+		WHEN (TSPL_SD_SHIPMENT_HEAD.TAX10) = 'TCS' THEN (TSPL_SD_SHIPMENT_HEAD.TAX10_Amt)
+        ELSE 0 END AS Total_TCS_Amt ,
+TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
 TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL.Unit_code ,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
    TSPL_DEMAND_BOOKING_MASTER.Route_No,   TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
 left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
 left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+--left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
   Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
   And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code  
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
@@ -2142,7 +2187,7 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
 
 where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
 )XXFinal
-group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
+group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code)xy "
 
         Return qry
     End Function

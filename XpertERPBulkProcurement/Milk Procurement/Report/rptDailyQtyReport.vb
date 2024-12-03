@@ -2204,7 +2204,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                     End If
                 Else
                     If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
-                        qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+                        qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
                     End If
                 End If
                 If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then

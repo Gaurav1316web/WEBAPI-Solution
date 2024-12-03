@@ -36,7 +36,7 @@ Public Class RptDcsPaymentReport
             Dim dt As New DataTable
             Dim strQry As String = " Select xy.SNo,xy.DocDate,xy.Milk_Purchase_Invoice_Date,xy.Dcs_Uploader,xy.Dcs_name,xy.Milk_Qty,
                                     xy.FATKg,xy.SNFKg,xy.Milk_Amount,xy.Head_Load_Amount,case when xy.PEAmt=0 then xy.CRAmt  else xy.PEAmt end as PEAmt,xy.OBEAmt,
-                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount,xy.TotalAmt,xy.CRAmts,
+                                    xy.CRAmt,xy.Reduce_Deduc_Amt,xy.Deduction_Amount,(xy.Deduction_Amount-xy.Reduce_Deduc_Amt) as AD,xy.PURCHASEEXPENSE,xy.AMTS,xy.Payable_Amount,xy.Saving_Amount,xy.TotalAmt,xy.CRAmts,
                                     xy.CommisiionAmt as CommissionAmt,
                                     (xy.ShareCapAmt+xy.ShareCapitalAmt) As ShareCapitalAmt,
                                     xy.DAYS_Total,FORMAT(xy.AVG_QTY, 'N2') AS AVG_QTY from
@@ -196,118 +196,226 @@ Public Class RptDcsPaymentReport
             Gv1.Columns(ii).IsVisible = False
         Next
 
-        'Gv1.Columns("Milk_Purchase_Invoice_Date").HeaderText = "Date"
-        'Gv1.Columns("Milk_Purchase_Invoice_Date").Width = 200
-        'Gv1.Columns("Milk_Purchase_Invoice_Date").IsVisible = True
-
-        Gv1.Columns("Dcs_Uploader").HeaderText = "Dcs Uploader"
-        Gv1.Columns("Dcs_Uploader").Width = 200
-        Gv1.Columns("Dcs_Uploader").IsVisible = True
-
-        Gv1.Columns("Dcs_name").HeaderText = "Dcs Name"
-        Gv1.Columns("Dcs_name").Width = 200
-        Gv1.Columns("Dcs_name").IsVisible = True
-
-        Gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
-        Gv1.Columns("Milk_Qty").Width = 200
-        Gv1.Columns("Milk_Qty").IsVisible = True
-
-        Gv1.Columns("FATKg").HeaderText = "FATKg"
-        Gv1.Columns("FATKg").Width = 200
-        Gv1.Columns("FATKg").IsVisible = True
-
-        Gv1.Columns("SNFKg").HeaderText = "SNFKg"
-        Gv1.Columns("SNFKg").Width = 200
-        Gv1.Columns("SNFKg").IsVisible = True
-
-        Gv1.Columns("Milk_Amount").HeaderText = "Milk Amount"
-        Gv1.Columns("Milk_Amount").Width = 200
-        Gv1.Columns("Milk_Amount").IsVisible = True
-
-        Gv1.Columns("Head_Load_Amount").HeaderText = "HeadLoad Amount"
-        Gv1.Columns("Head_Load_Amount").Width = 200
-        Gv1.Columns("Head_Load_Amount").IsVisible = True
-
-        Gv1.Columns("CRAmt").HeaderText = "CR Amount"
-        Gv1.Columns("CRAmt").Width = 200
-        Gv1.Columns("CRAmt").IsVisible = True
-
-        Gv1.Columns("Reduce_Deduc_Amt").HeaderText = "ReduceDeduc Amt"
-        Gv1.Columns("Reduce_Deduc_Amt").Width = 200
-        Gv1.Columns("Reduce_Deduc_Amt").IsVisible = True
-
-        Gv1.Columns("Deduction_Amount").HeaderText = "Deduction Amount"
-        Gv1.Columns("Deduction_Amount").Width = 200
-        Gv1.Columns("Deduction_Amount").IsVisible = True
-
-        Gv1.Columns("PEAmt").HeaderText = "PE.Amount"
-        Gv1.Columns("PEAmt").Width = 200
-        Gv1.Columns("PEAmt").IsVisible = True
-
-        Gv1.Columns("OBEAmt").HeaderText = "OBE.Amount"
-        Gv1.Columns("OBEAmt").Width = 200
-        Gv1.Columns("OBEAmt").IsVisible = True
-
-        Gv1.Columns("Payable_Amount").HeaderText = "Payable Amount"
-        Gv1.Columns("Payable_Amount").Width = 200
-        Gv1.Columns("Payable_Amount").IsVisible = True
-
-        Gv1.Columns("Saving_Amount").HeaderText = "Saving Amount"
-        Gv1.Columns("Saving_Amount").Width = 200
-        Gv1.Columns("Saving_Amount").IsVisible = True
-
-        Gv1.Columns("CommissionAmt").HeaderText = "Commission Amount"
-        Gv1.Columns("CommissionAmt").Width = 200
-        Gv1.Columns("CommissionAmt").IsVisible = True
-
-        Gv1.Columns("ShareCapitalAmt").HeaderText = "Share Capital Amount"
-        Gv1.Columns("ShareCapitalAmt").Width = 200
-        Gv1.Columns("ShareCapitalAmt").IsVisible = True
-
-        Gv1.Columns("TotalAmt").HeaderText = "Total Amount"
-        Gv1.Columns("TotalAmt").Width = 200
-        Gv1.Columns("TotalAmt").IsVisible = True
-
-        Gv1.Columns("DAYS_Total").HeaderText = "Total Days"
-        Gv1.Columns("DAYS_Total").Width = 200
-        Gv1.Columns("DAYS_Total").IsVisible = True
-
-        Gv1.Columns("AVG_QTY").HeaderText = "AVG QTY"
-        Gv1.Columns("AVG_QTY").Width = 200
-        Gv1.Columns("AVG_QTY").IsVisible = True
-
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
 
-        Dim item1 As New GridViewSummaryItem("Milk_Qty", "", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
-        Dim item2 As New GridViewSummaryItem("FATKg", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item2)
-        Dim item3 As New GridViewSummaryItem("SNFKg", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item3)
-        Dim item4 As New GridViewSummaryItem("Milk_Amount", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item4)
-        Dim item5 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item5)
-        Dim item6 As New GridViewSummaryItem("Reduce_Deduc_Amt", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item6)
-        Dim item7 As New GridViewSummaryItem("Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item7)
-        Dim item8 As New GridViewSummaryItem("Saving_Amount", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item8)
-        Dim item9 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item9)
-        Dim item10 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item10)
-        Dim item11 As New GridViewSummaryItem("PEAmt", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item11)
-        Dim item12 As New GridViewSummaryItem("OBEAmt", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item12)
-        Dim item13 As New GridViewSummaryItem("CommissionAmt", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item13)
-        Dim item14 As New GridViewSummaryItem("ShareCapitalAmt", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item14)
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            Gv1.Columns("Dcs_Uploader").HeaderText = "Dcs Uploader"
+            Gv1.Columns("Dcs_Uploader").Width = 200
+            Gv1.Columns("Dcs_Uploader").IsVisible = True
+
+            Gv1.Columns("Dcs_name").HeaderText = "Dcs Name"
+            Gv1.Columns("Dcs_name").Width = 200
+            Gv1.Columns("Dcs_name").IsVisible = True
+
+            Gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
+            Gv1.Columns("Milk_Qty").Width = 200
+            Gv1.Columns("Milk_Qty").IsVisible = True
+
+            Gv1.Columns("FATKg").HeaderText = "FATKg"
+            Gv1.Columns("FATKg").Width = 200
+            Gv1.Columns("FATKg").IsVisible = True
+
+            Gv1.Columns("SNFKg").HeaderText = "SNFKg"
+            Gv1.Columns("SNFKg").Width = 200
+            Gv1.Columns("SNFKg").IsVisible = True
+
+            Gv1.Columns("Milk_Amount").HeaderText = "Milk Amount"
+            Gv1.Columns("Milk_Amount").Width = 200
+            Gv1.Columns("Milk_Amount").IsVisible = True
+
+            Gv1.Columns("Head_Load_Amount").HeaderText = "HeadLoad Amount"
+            Gv1.Columns("Head_Load_Amount").Width = 200
+            Gv1.Columns("Head_Load_Amount").IsVisible = True
+
+            Gv1.Columns("CRAmt").HeaderText = "CR Amount"
+            Gv1.Columns("CRAmt").Width = 200
+            Gv1.Columns("CRAmt").IsVisible = True
+
+            Gv1.Columns("Reduce_Deduc_Amt").HeaderText = "ReduceDeduc Amt"
+            Gv1.Columns("Reduce_Deduc_Amt").Width = 200
+            Gv1.Columns("Reduce_Deduc_Amt").IsVisible = True
+
+            Gv1.Columns("Deduction_Amount").HeaderText = "Deduction Amount"
+            Gv1.Columns("Deduction_Amount").Width = 200
+            Gv1.Columns("Deduction_Amount").IsVisible = True
+
+            Gv1.Columns("AD").HeaderText = "Actual Deduction"
+            Gv1.Columns("AD").Width = 200
+            Gv1.Columns("AD").IsVisible = True
+
+            Gv1.Columns("PEAmt").HeaderText = "Payable Amount"
+            Gv1.Columns("PEAmt").Width = 200
+            Gv1.Columns("PEAmt").IsVisible = True
+
+            'Gv1.Columns("OBEAmt").HeaderText = "OBE.Amount"
+            'Gv1.Columns("OBEAmt").Width = 200
+            'Gv1.Columns("OBEAmt").IsVisible = True
+
+            Gv1.Columns("Payable_Amount").HeaderText = "Current Amount"
+            Gv1.Columns("Payable_Amount").Width = 200
+            Gv1.Columns("Payable_Amount").IsVisible = True
+
+            Gv1.Columns("Saving_Amount").HeaderText = "Saving Amount"
+            Gv1.Columns("Saving_Amount").Width = 200
+            Gv1.Columns("Saving_Amount").IsVisible = True
+
+            Gv1.Columns("TotalAmt").HeaderText = "Total Amount"
+            Gv1.Columns("TotalAmt").Width = 200
+            Gv1.Columns("TotalAmt").IsVisible = True
+
+            'Gv1.Columns("DAYS_Total").HeaderText = "Total Days"
+            'Gv1.Columns("DAYS_Total").Width = 200
+            'Gv1.Columns("DAYS_Total").IsVisible = True
+
+            'Gv1.Columns("AVG_QTY").HeaderText = "AVG QTY"
+            'Gv1.Columns("AVG_QTY").Width = 200
+            'Gv1.Columns("AVG_QTY").IsVisible = True
+
+
+            Dim item1 As New GridViewSummaryItem("Milk_Qty", "", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+            Dim item2 As New GridViewSummaryItem("FATKg", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+            Dim item3 As New GridViewSummaryItem("SNFKg", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
+            Dim item4 As New GridViewSummaryItem("Milk_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item4)
+            Dim item5 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item5)
+            Dim item6 As New GridViewSummaryItem("Reduce_Deduc_Amt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item6)
+            Dim item7 As New GridViewSummaryItem("Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item7)
+            Dim item8 As New GridViewSummaryItem("Saving_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item8)
+            Dim item9 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item9)
+            Dim item10 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item10)
+            Dim item11 As New GridViewSummaryItem("PEAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item11)
+            Dim item12 As New GridViewSummaryItem("OBEAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item12)
+            Dim item13 As New GridViewSummaryItem("CommissionAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item13)
+            Dim item14 As New GridViewSummaryItem("ShareCapitalAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item14)
+            Dim item19 As New GridViewSummaryItem("AD", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item19)
+
+        Else
+            Gv1.Columns("Dcs_Uploader").HeaderText = "Dcs Uploader"
+            Gv1.Columns("Dcs_Uploader").Width = 200
+            Gv1.Columns("Dcs_Uploader").IsVisible = True
+
+            Gv1.Columns("Dcs_name").HeaderText = "Dcs Name"
+            Gv1.Columns("Dcs_name").Width = 200
+            Gv1.Columns("Dcs_name").IsVisible = True
+
+            Gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
+            Gv1.Columns("Milk_Qty").Width = 200
+            Gv1.Columns("Milk_Qty").IsVisible = True
+
+            Gv1.Columns("FATKg").HeaderText = "FATKg"
+            Gv1.Columns("FATKg").Width = 200
+            Gv1.Columns("FATKg").IsVisible = True
+
+            Gv1.Columns("SNFKg").HeaderText = "SNFKg"
+            Gv1.Columns("SNFKg").Width = 200
+            Gv1.Columns("SNFKg").IsVisible = True
+
+            Gv1.Columns("Milk_Amount").HeaderText = "Milk Amount"
+            Gv1.Columns("Milk_Amount").Width = 200
+            Gv1.Columns("Milk_Amount").IsVisible = True
+
+            Gv1.Columns("Head_Load_Amount").HeaderText = "HeadLoad Amount"
+            Gv1.Columns("Head_Load_Amount").Width = 200
+            Gv1.Columns("Head_Load_Amount").IsVisible = True
+
+            Gv1.Columns("CRAmt").HeaderText = "CR Amount"
+            Gv1.Columns("CRAmt").Width = 200
+            Gv1.Columns("CRAmt").IsVisible = True
+
+            Gv1.Columns("Reduce_Deduc_Amt").HeaderText = "ReduceDeduc Amt"
+            Gv1.Columns("Reduce_Deduc_Amt").Width = 200
+            Gv1.Columns("Reduce_Deduc_Amt").IsVisible = True
+
+            Gv1.Columns("Deduction_Amount").HeaderText = "Deduction Amount"
+            Gv1.Columns("Deduction_Amount").Width = 200
+            Gv1.Columns("Deduction_Amount").IsVisible = True
+
+            Gv1.Columns("PEAmt").HeaderText = "PE.Amount"
+            Gv1.Columns("PEAmt").Width = 200
+            Gv1.Columns("PEAmt").IsVisible = True
+
+            Gv1.Columns("OBEAmt").HeaderText = "OBE.Amount"
+            Gv1.Columns("OBEAmt").Width = 200
+            Gv1.Columns("OBEAmt").IsVisible = True
+
+            Gv1.Columns("Payable_Amount").HeaderText = "Payable Amount"
+            Gv1.Columns("Payable_Amount").Width = 200
+            Gv1.Columns("Payable_Amount").IsVisible = True
+
+            Gv1.Columns("Saving_Amount").HeaderText = "Saving Amount"
+            Gv1.Columns("Saving_Amount").Width = 200
+            Gv1.Columns("Saving_Amount").IsVisible = True
+
+            Gv1.Columns("CommissionAmt").HeaderText = "Commission Amount"
+            Gv1.Columns("CommissionAmt").Width = 200
+            Gv1.Columns("CommissionAmt").IsVisible = True
+
+            Gv1.Columns("ShareCapitalAmt").HeaderText = "Share Capital Amount"
+            Gv1.Columns("ShareCapitalAmt").Width = 200
+            Gv1.Columns("ShareCapitalAmt").IsVisible = True
+
+            Gv1.Columns("TotalAmt").HeaderText = "Total Amount"
+            Gv1.Columns("TotalAmt").Width = 200
+            Gv1.Columns("TotalAmt").IsVisible = True
+
+            Gv1.Columns("DAYS_Total").HeaderText = "Total Days"
+            Gv1.Columns("DAYS_Total").Width = 200
+            Gv1.Columns("DAYS_Total").IsVisible = True
+
+            Gv1.Columns("AVG_QTY").HeaderText = "AVG QTY"
+            Gv1.Columns("AVG_QTY").Width = 200
+            Gv1.Columns("AVG_QTY").IsVisible = True
+
+
+            Dim item1 As New GridViewSummaryItem("Milk_Qty", "", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item1)
+            Dim item2 As New GridViewSummaryItem("FATKg", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+            Dim item3 As New GridViewSummaryItem("SNFKg", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
+            Dim item4 As New GridViewSummaryItem("Milk_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item4)
+            Dim item5 As New GridViewSummaryItem("Head_Load_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item5)
+            Dim item6 As New GridViewSummaryItem("Reduce_Deduc_Amt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item6)
+            Dim item7 As New GridViewSummaryItem("Deduction_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item7)
+            Dim item8 As New GridViewSummaryItem("Saving_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item8)
+            Dim item9 As New GridViewSummaryItem("Payable_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item9)
+            Dim item10 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item10)
+            Dim item11 As New GridViewSummaryItem("PEAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item11)
+            Dim item12 As New GridViewSummaryItem("OBEAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item12)
+            Dim item13 As New GridViewSummaryItem("CommissionAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item13)
+            Dim item14 As New GridViewSummaryItem("ShareCapitalAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item14)
+
+        End If
+        'Gv1.Columns("Milk_Purchase_Invoice_Date").HeaderText = "Date"
+        'Gv1.Columns("Milk_Purchase_Invoice_Date").Width = 200
+        'Gv1.Columns("Milk_Purchase_Invoice_Date").IsVisible = True
 
         Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True

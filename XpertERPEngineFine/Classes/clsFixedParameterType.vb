@@ -11,6 +11,7 @@ Public Class clsFixedParameterType
     Public Const PrintPouchCrateQtyOnPrint As String = "Print PouchCrate Qty On Print"
     Public Const PickHeadLoadRateFromSecretaryMaster As String = "Pick HeadLoadRate From Secretary Master"
     Public Const Transactionupdate As String = "Transtion Update"
+    Public Const CreateEInvoicePassword As String = "Create EInvoice Password"
     Public Const RCDFRateControl As String = "RCDF Rate Control"
     Public Const RCDFControl As String = "RCDF Control"
     Public Const EmployeePFRetirementAge As String = "Employee PF Retirement Age"
@@ -1297,6 +1298,7 @@ Public Class clsFixedParameterCode
     'Public Const SecretorydcsMaster As String = "Secretory/DCS Master"
     Public Const CalculateProRateAuto As String = "Calculate Pro Rate Auto"
     Public Const VendorMaster As String = "Vendor Master"
+    Public Const MaterialSales As String = "Material Sales"
     Public Const UserMaster As String = "User Master"
     Public Const ItemMaster As String = "Item Master"
     Public Const DemandUnpost As String = "Demand Unpost"
@@ -1392,6 +1394,7 @@ Public Class clsFixedParameterCode
     Public Const DisableUploaderNo As String = "Disable Uploader No"
     Public Const JPRDairyMandatoryColumn As String = "JPR Dairy Mandatory Column"
     Public Const VerifiedJanAadharNo As String = "Verified Jan Aadhar No"
+    Public Const FarmerLevelCollection As String = "Farmer Level Collection"
     Public Const MultipleEntryScreen As String = "Multiple Entry Screen"
     Public Const MultipleEntryScreenAdmin As String = "Multiple Entry Screen Admin"
     Public Const QtyDecimalPlaces As String = "Qty Decimal Places"
@@ -2895,6 +2898,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.DisableUploaderNo, "0", "MP Regisration Disable(1)/Enable(0) Uploader no")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.JPRDairyMandatoryColumn, "0", "Mandatory Column Account No,IFSC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.VerifiedJanAadharNo, "0", "0:OFF,1:ON;Pick Farmer only Verified Janaadhar No")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.FarmerLevelCollection, "0", "0:OFF,1:ON;Show Famer menu in Pro")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreen, "0", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreenAdmin, "1", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.QtyDecimalPlaces, "0", "[0,1,2] Qty Decimal Places In MP Incentive Entry")
@@ -3294,6 +3298,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.POAmendmentType, clsFixedParameterCode.POAmendment, "admin@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkInvoiceDeleteType, clsFixedParameterCode.BulkInvoiceDelete, "tecxpert@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Importbulkdatafromexcelsheet, clsFixedParameterCode.Importbulkdatafromexcelsheet, "RakeshSharma", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CreateEInvoicePassword, clsFixedParameterCode.MaterialSales, "EInvoice@123", "Create EInvoice Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkSaleSequence, clsFixedParameterCode.BulkSaleSequence, "0", "0-KDIL; 1-OTHERS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkQCTableHavingUniqueKey, clsFixedParameterCode.BulkQCTableHavingUniqueKey, "0", "0-Pavitra; 1-OTHERS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SrPath, clsFixedParameterCode.SrPath, "\\192.168.100.3\KIWI ERP", "")
