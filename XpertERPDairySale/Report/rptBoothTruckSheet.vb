@@ -449,7 +449,7 @@ where 2 = 2  "
         Else
             Shift = "Both"
         End If
-        Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient,TSPL_VEHICLE_MASTER.Description,Vehicle_Id,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + Fromshift + "' AS FromShift, '" + Toshift + " ' as Toshift,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  ,"
+        Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient ,TSPL_ITEM_MASTER.IsTaxable,TSPL_VEHICLE_MASTER.Description,Vehicle_Id,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,'" + Fromshift + "' AS FromShift, '" + Toshift + " ' as Toshift,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  ,"
         If rdbEnglish.IsChecked = True Then
             qry += "(TSPL_ITEM_MASTER.Alies_Name)Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name  as [BoothName], "
         ElseIf rdbHindi.IsChecked = True Then
@@ -524,12 +524,12 @@ where 2 = 2 "
                         End If
                         BKNQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + "
 ,sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacNo,0)>0 then QtyStock/ConvFacNo else null end ) as ItemQtyNo_" + strJJ + "
-,CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)=0 then QtyStock/ConvFacCrate else null end )) as ItemQtyCrate_" + strJJ + ""
+,CEILING(sum(case when Item_Code='" + strICODE + "' and ISNULL(ConvFacCrate,0)>0 then QtyStock/ConvFacCrate else null end )) as ItemQtyCrate_" + strJJ + ""
                     Next
                     If ii > 1 Then
-                        BKNQuery += " ,0 as Amount"
+                        BKNQuery += " ,null as Amount,null as ProductAmount"
                     Else
-                        BKNQuery += " ,sum(Amount) as Amount"
+                        BKNQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount,sum(Amount*case when IsTaxable=0 then 0 else 1 end) as ProductAmount"
                     End If
                     BKNQuery += ",max(Display_Seq) as Display_Seq from (
 select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
