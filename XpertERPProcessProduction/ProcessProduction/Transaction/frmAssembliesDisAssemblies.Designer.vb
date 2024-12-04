@@ -85,7 +85,7 @@ Partial Class frmAssembDis
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New ucCustomFields()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnunpost = New Telerik.WinControls.UI.RadButton()
@@ -1049,7 +1049,7 @@ Partial Class frmAssembDis
         '
         'btnnew
         '
-        Me.btnnew.Image = Global.ERP.My.Resources.Resources._new
+        'Me.btnnew.Image = Global..My.Resources.Resources._new
         Me.btnnew.Location = New System.Drawing.Point(386, 11)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
@@ -1339,7 +1339,7 @@ Partial Class frmAssembDis
     Friend WithEvents rdmenufile As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As ucCustomFields
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents MyTextBox1 As common.Controls.MyTextBox
     Friend WithEvents lblMasterItem As common.Controls.MyLabel

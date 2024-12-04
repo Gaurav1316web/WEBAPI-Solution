@@ -1388,7 +1388,7 @@ Public Class frmAssembDis
     Private Sub fndLocation__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndLocation._MYValidating
         Try
             If clsCommon.CompairString(cboTransactionType.SelectedValue, "Disassembly") = CompairStringResult.Equal Then
-                fndLocation.Value = clsProductionEntry.getLocationFinderWithBalance("", fndLocation.Value, fndMainItem.Value, True, isButtonClicked)
+                fndLocation.Value = XpertERPEngine.clsProductionEntry.getLocationFinderWithBalance("", fndLocation.Value, fndMainItem.Value, True, isButtonClicked)
                 lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'"))
                 strMainLoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select top 1 case when  TSPL_LOCATION_MASTER.Main_Location_Code is null then  TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end  as Main_Location_Code  from TSPL_LOCATION_MASTER  where TSPL_LOCATION_MASTER.Main_Location_Code='" + fndLocation.Value + "' OR Location_Code='" + fndLocation.Value + "' ")) ' prabhakar
                 ' Add By prabhakar 
@@ -2168,9 +2168,9 @@ Public Class frmAssembDis
                 If e.Column Is gvBOM.Columns(colLocationCode) Then
                     'OpenLocationSubCalaculation(False)  
                     If clsCommon.myLen(clsCommon.myCstr(strMainLoc)) > 0 Then
-                        gvBOM.CurrentRow.Cells(colLocationCode).Value = clsProductionEntry.getLocationFinderWithBalance("TSPL_LOCATION_MASTER.Main_Location_Code='" & strMainLoc & "' OR Location_Code='" & strMainLoc & "'", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False) ' prabhakar
+                        gvBOM.CurrentRow.Cells(colLocationCode).Value = XpertERPEngine.clsProductionEntry.getLocationFinderWithBalance("TSPL_LOCATION_MASTER.Main_Location_Code='" & strMainLoc & "' OR Location_Code='" & strMainLoc & "'", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False) ' prabhakar
                     Else
-                        gvBOM.CurrentRow.Cells(colLocationCode).Value = clsProductionEntry.getLocationFinderWithBalance("", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False)
+                        gvBOM.CurrentRow.Cells(colLocationCode).Value = XpertERPEngine.clsProductionEntry.getLocationFinderWithBalance("", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False)
                     End If
 
                     ' gvBOM.CurrentRow.Cells(colLocationCode).Value = clsProductionEntry.getLocationFinderWithBalance("TSPL_LOCATION_MASTER.Main_Location_Code='" & fndLocation.Value & "' OR Location_Code='" & fndLocation.Value & "'", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False)
@@ -2179,9 +2179,9 @@ Public Class frmAssembDis
             Else
                 If e.Column Is gvBOM.Columns(colLocationCode) Then
                     If clsCommon.myLen(clsCommon.myCstr(strMainLoc)) > 0 Then
-                        gvBOM.CurrentRow.Cells(colLocationCode).Value = clsProductionEntry.getLocationFinderWithBalance("TSPL_LOCATION_MASTER.Main_Location_Code='" & strMainLoc & "' OR Location_Code='" & strMainLoc & "'", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False) ' prabhakar
+                        gvBOM.CurrentRow.Cells(colLocationCode).Value = XpertERPEngine.clsProductionEntry.getLocationFinderWithBalance("TSPL_LOCATION_MASTER.Main_Location_Code='" & strMainLoc & "' OR Location_Code='" & strMainLoc & "'", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False) ' prabhakar
                     Else
-                        gvBOM.CurrentRow.Cells(colLocationCode).Value = clsProductionEntry.getLocationFinderWithBalance("", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False)
+                        gvBOM.CurrentRow.Cells(colLocationCode).Value = XpertERPEngine.clsProductionEntry.getLocationFinderWithBalance("", gvBOM.CurrentRow.Cells(colLocationCode).Value, gvBOM.CurrentRow.Cells(colItemCode).Value, False, False)
                     End If
 
 

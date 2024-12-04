@@ -1,7 +1,5 @@
-﻿Imports common
+﻿
 Imports System.IO
-Imports System.Windows.Forms
-Imports Telerik.WinControls.UI
 
 Public Class frmBatchItemIn
 #Region "Variables"
@@ -11,6 +9,7 @@ Public Class frmBatchItemIn
     Public dblqty As Double = 0
     Public strUOM As String = ""
     Public dblMRP As Double = 0
+    Public TransDate As Date? = Nothing
 
     Const ColSNo As String = "COLSNO"
     Const colBatchNo As String = "COLBATCHNO"
@@ -178,7 +177,7 @@ Public Class frmBatchItemIn
                 Me.Close()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -217,7 +216,7 @@ Public Class frmBatchItemIn
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -252,7 +251,7 @@ Public Class frmBatchItemIn
             Exit Sub
         End If
 
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -294,6 +293,12 @@ Public Class frmBatchItemIn
             If (Not isInsideLoadData) Then
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
+                    If e.Column Is gv1.Columns(colBatchNo) AndAlso TransDate IsNot Nothing Then
+                        gv1.CurrentRow.Cells(colMfgDate).Value = TransDate
+                        If intShelfLife > 0 Then
+                            gv1.CurrentRow.Cells(colExpDate).Value = clsCommon.myCDate(gv1.CurrentRow.Cells(colMfgDate).Value).AddDays(intShelfLife)
+                        End If
+                    End If
                     If e.Column Is gv1.Columns(colMfgDate) AndAlso intShelfLife > 0 Then
                         gv1.CurrentRow.Cells(colExpDate).Value = clsCommon.myCDate(gv1.CurrentRow.Cells(colMfgDate).Value).AddDays(intShelfLife)
                     End If
