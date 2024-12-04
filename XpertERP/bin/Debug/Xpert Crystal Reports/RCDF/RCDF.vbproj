@@ -1930,6 +1930,7 @@
     <None Include="Crystal Reports\Sales Report\flavourtype.rpt" />
     <None Include="Crystal Reports\Sales Report\InvoiceTDMSKU.rpt" />
     <None Include="Crystal Reports\Sales Report\MonthlyBiIlReport.rpt" />
+    <None Include="Crystal Reports\Sales Report\MonthlyBiIlReportSWM.rpt" />
     <None Include="Crystal Reports\Sales Report\oldcrptCustomerEmptyTrial.rpt" />
     <None Include="Crystal Reports\Sales Report\OutletDetails.rpt" />
     <None Include="Crystal Reports\Sales Report\PackTypeInvoice.rpt" />
