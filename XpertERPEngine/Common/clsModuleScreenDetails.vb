@@ -85,13 +85,13 @@ Public Class clsModuleScreenHead
 
         'qry = "select Program_Code from  TSPL_PROGRAM_MASTER tpm  " _
         '       & " inner join TSPL_MODULE_SCREEN_PERMISSION on TSPL_MODULE_SCREEN_PERMISSION.Screen_Name=Program_Code where 2=2 and Program_Name<>'' and program_COde <>'Mutility' order by Program_Code"
-        qry = " select TSPL_PROGRAM_MASTER.Program_Code  from TSPL_PROGRAM_MASTER " & _
-              " left outer join (select Program_Code, Program_Name,Parent_Code from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code " & _
-              " left outer join (select Program_Code, Program_Name,Parent_Code from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code " & _
-              " where  TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM')  " & _
-              "   " & _
-              " and    TSPL_PROGRAM_MASTER.Program_Code   in (select Screen_Name from TSPL_MODULE_SCREEN_PERMISSION) " & _
-              " and  TBL_MODULE.Program_Code  in ( '" + strProgramCode + "' )" & _
+        qry = " select TSPL_PROGRAM_MASTER.Program_Code  from TSPL_PROGRAM_MASTER " &
+              " left outer join (select Program_Code, Program_Name,Parent_Code from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code " &
+              " left outer join (select Program_Code, Program_Name,Parent_Code from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code " &
+              " where  TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM')  " &
+              "   " &
+              " and    TSPL_PROGRAM_MASTER.Program_Code   in (select Screen_Name from TSPL_MODULE_SCREEN_PERMISSION where TSPL_MODULE_SCREEN_PERMISSION.Module_Name='" + strProgramCode + "') " &
+              " and  TBL_MODULE.Program_Code  in ( '" + strProgramCode + "' )" &
               " order by SNo   "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then

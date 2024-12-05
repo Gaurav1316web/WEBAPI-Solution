@@ -32,7 +32,7 @@ Public Class rptDemandReturnReport
 			 
              INNER JOIN TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code =TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND ConvertDiv.UOM_Code = 'LTR'
              left outer join TSPL_COMPANY_MASTER on 2=2
-             where convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + fromDate.Value + "' and convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + ToDate.Value + "')XX
+             where convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + fromDate.Value + "' and convert(varchar,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + ToDate.Value + "' and TSPL_SD_SALE_RETURN_HEAD.status=1)XX
 
 			left outer join ( select (TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode),TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE as Doc from   TSPL_SD_SHIPMENT_DETAIL
 			 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code
