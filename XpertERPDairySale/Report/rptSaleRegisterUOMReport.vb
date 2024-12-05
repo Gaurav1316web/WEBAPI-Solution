@@ -73,9 +73,10 @@ Cust_Group.Cust_Group_Desc as [Customer Group Description],Cust.cust_category_co
 coalesce(Cust.Tin_No,cust_loc.Tin_No) as [Tin No],Item_Group.Item_Group as [Item Group Code],Item_Group.Group_Description as [Item Group Description] ,
 VirtualCategoryTabel.[MAIN GROUP],[MAIN GROUP Desc] , [Item Code],[Item Name],[HSN Code],
 --cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Quantity],
-Case when (tspl_item_master.Is_FreshItem) = 1 then (( Quantity *isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) / coalesce((ITEMDETAIL3.LTR),1)) 
-when (tspl_item_master.Is_Ambient) = 1 then ((Quantity *isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) / coalesce((ITEMDETAIL3.kg),1)) end  as [Quantity],
-xx.[UOM] as [UOM], case when Scheme_Item='Y' then 0 else cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  end as [Item Rate] ,
+--Case when (tspl_item_master.Is_FreshItem) = 1 then (( Quantity *isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) / coalesce((ITEMDETAIL3.LTR),1)) when (tspl_item_master.Is_Ambient) = 1 then ((Quantity *isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) / coalesce((ITEMDETAIL3.kg),1)) end  as [Quantity],
+CASE WHEN ITEMDETAIL1.Report_UOM=1 THEN ((Quantity *isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1))/ITEMDETAIL1.Conversion_Factor) end as [Quantity],
+case when ITEMDETAIL1.Report_UOM=1 then (ITEMDETAIL1.UOM_Code) end as [UOM],
+case when Scheme_Item='Y' then 0 else cast(([Item Cost]*ITEMDETAIL1.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  end as [Item Rate] ,
 case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [Fat Per] else Item.STD_FATPER end as [FAT %],
 case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return','MCC Tanker Dispatch Return') then [SNF Per] else Item.STD_SNFPer end as [SNF %],
 (case when coalesce(StockKG.Conversion_Factor,0)=0 then 0 else cast(([Quantity]* (case when [trans type] in ('Bulk Sale Trade','Bulk Sale','Bulk Sale Return','MCC Transfer','SS','Tanker Dispatch Return',
@@ -209,7 +210,10 @@ final.Screen_Type,final.Trans_Type,final .Status  ,final.Document_Code ,final.It
 
 Left Join (Select  DOCUMENT_CODE,Item_Code,unit_code,Distributor_Commission_Amt,Security_Amt from TSPL_SD_SHIPMENT_DETAIL Group By Item_Code,Unit_code,DOCUMENT_CODE,Distributor_Commission_Amt,Security_Amt)TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=xx.[Shipment No] And TSPL_SD_SHIPMENT_DETAIL.Item_Code=xx.[Item Code] and TSPL_SD_SHIPMENT_DETAIL.unit_code=xx.[UOM] 
 Left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.[Item Code] And  TSPL_ITEM_UOM_DETAIL .UOM_Code=xx.UOM
-left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code and TSPL_item_uom_detail.Report_UOM=1)and TSPL_item_uom_detail.Report_UOM=1   ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=xx.[Item Code] 
+left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code,Report_UOM,UOM_Code from TSPL_ITEM_UOM_DETAIL 
+where UOM_code in (select UOM_Code  from TSPL_item_uom_detail where Item_Code = TSPL_ITEM_UOM_DETAIL.Item_code 
+and TSPL_item_uom_detail.Report_UOM=1)and TSPL_item_uom_detail.Report_UOM=1   ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=xx.[Item Code] 
+
 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) ITEMDETAIL3 ON xx.[Item Code] = ITEMDETAIL3.item_code
 left outer join tspl_item_master on tspl_item_master.Item_Code =xx.[Item Code]
 

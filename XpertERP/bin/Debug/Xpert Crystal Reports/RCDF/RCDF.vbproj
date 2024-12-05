@@ -351,6 +351,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptRouteWisereport.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBHR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
@@ -1930,6 +1931,7 @@
     <None Include="Crystal Reports\Sales Report\flavourtype.rpt" />
     <None Include="Crystal Reports\Sales Report\InvoiceTDMSKU.rpt" />
     <None Include="Crystal Reports\Sales Report\MonthlyBiIlReport.rpt" />
+    <None Include="Crystal Reports\Sales Report\MonthlyBiIlReportSWM.rpt" />
     <None Include="Crystal Reports\Sales Report\oldcrptCustomerEmptyTrial.rpt" />
     <None Include="Crystal Reports\Sales Report\OutletDetails.rpt" />
     <None Include="Crystal Reports\Sales Report\PackTypeInvoice.rpt" />
