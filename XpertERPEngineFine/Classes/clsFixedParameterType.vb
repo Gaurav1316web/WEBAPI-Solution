@@ -1394,6 +1394,7 @@ Public Class clsFixedParameterCode
     Public Const DisableUploaderNo As String = "Disable Uploader No"
     Public Const JPRDairyMandatoryColumn As String = "JPR Dairy Mandatory Column"
     Public Const VerifiedJanAadharNo As String = "Verified Jan Aadhar No"
+    Public Const FarmerLevelCollection As String = "Farmer Level Collection"
     Public Const MultipleEntryScreen As String = "Multiple Entry Screen"
     Public Const MultipleEntryScreenAdmin As String = "Multiple Entry Screen Admin"
     Public Const QtyDecimalPlaces As String = "Qty Decimal Places"
@@ -2897,6 +2898,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.DisableUploaderNo, "0", "MP Regisration Disable(1)/Enable(0) Uploader no")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.JPRDairyMandatoryColumn, "0", "Mandatory Column Account No,IFSC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.VerifiedJanAadharNo, "0", "0:OFF,1:ON;Pick Farmer only Verified Janaadhar No")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.FarmerLevelCollection, "0", "0:OFF,1:ON;Show Famer menu in Pro")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreen, "0", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreenAdmin, "1", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.QtyDecimalPlaces, "0", "[0,1,2] Qty Decimal Places In MP Incentive Entry")

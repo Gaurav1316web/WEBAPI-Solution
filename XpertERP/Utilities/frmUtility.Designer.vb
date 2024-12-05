@@ -23,7 +23,7 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -803,6 +803,7 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.btnUpdHistVersionMilkProc = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1558,6 +1559,7 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
+        CType(Me.btnUpdHistVersionMilkProc, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1668,7 +1670,7 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvShipment.MyStopExport = False
         Me.gvShipment.Name = "gvShipment"
         Me.gvShipment.ShowHeaderCellButtons = True
@@ -1954,7 +1956,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 440)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1996,6 +1998,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel1.PanelContainer
         '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnUpdHistVersionMilkProc)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnBankAdvice)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.UpdateVirtualCustomerAccount)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateTransferJournalEntry)
@@ -2138,7 +2141,7 @@ Partial Class FrmUtility
         '
         'RadButton234
         '
-        Me.RadButton234.Location = New System.Drawing.Point(7, 525)
+        Me.RadButton234.Location = New System.Drawing.Point(7, 555)
         Me.RadButton234.Name = "RadButton234"
         Me.RadButton234.Size = New System.Drawing.Size(1023, 24)
         Me.RadButton234.TabIndex = 72
@@ -9970,6 +9973,14 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
+        'btnUpdHistVersionMilkProc
+        '
+        Me.btnUpdHistVersionMilkProc.Location = New System.Drawing.Point(7, 523)
+        Me.btnUpdHistVersionMilkProc.Name = "btnUpdHistVersionMilkProc"
+        Me.btnUpdHistVersionMilkProc.Size = New System.Drawing.Size(1023, 24)
+        Me.btnUpdHistVersionMilkProc.TabIndex = 389
+        Me.btnUpdHistVersionMilkProc.Text = "Update History Version of Milk Procurement Uploader History Data"
+        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10768,6 +10779,7 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnUpdHistVersionMilkProc, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11542,5 +11554,6 @@ Partial Class FrmUtility
     Friend WithEvents RadButton354 As RadButton
     Friend WithEvents RadButton355 As RadButton
     Friend WithEvents btnBankAdvice As RadButton
+    Friend WithEvents btnUpdHistVersionMilkProc As RadButton
 End Class
 
