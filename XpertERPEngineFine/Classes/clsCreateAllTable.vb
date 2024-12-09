@@ -26469,8 +26469,16 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Amount", "decimal (18,2) NULL")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Against_Deduction_DocNo", "varchar(30)  NULL References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
+            coll.Add("BMC_CODE", "Varchar(30) null references TSPL_MCC_MASTER(MCC_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_DEDUCTION_DETAIL", coll, Nothing, True, False, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "")
 
+            Try
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_MULTIPLE_DEDUCTION_DETAIL set BMC_CODE=isnull( xxx.MCC_Code,xxx.MCC) from ( select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,TSPL_MULTIPLE_DEDUCTION_DETAIL.Line_No,TSPL_MCC_MASTER.MCC_Code ,TSPL_VLC_MASTER_HEAD.MCC from TSPL_MULTIPLE_DEDUCTION_DETAIL 
+           left outer join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD .Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code
+           left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code where TSPL_MULTIPLE_DEDUCTION_DETAIL.BMC_CODE is null ) xxx inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No = xxx.Document_No and TSPL_MULTIPLE_DEDUCTION_DETAIL.Line_No=xxx.Line_No ")
+            Catch ex As Exception
+
+            End Try
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "varchar(30)  NULL  ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Temp_Proc_Deduction", coll, "", False, False)
@@ -27160,6 +27168,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Vehicle_code", "VARCHAR(30) NULL")
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
+            coll.Add("Create_E_Invoice", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date")
 
             qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "

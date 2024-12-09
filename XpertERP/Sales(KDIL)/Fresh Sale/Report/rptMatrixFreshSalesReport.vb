@@ -1882,7 +1882,11 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "MonthlyBiIlReport", "")
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "MonthlyBiIlReportSWM", "")
+                Else
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "MonthlyBiIlReport", "")
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
