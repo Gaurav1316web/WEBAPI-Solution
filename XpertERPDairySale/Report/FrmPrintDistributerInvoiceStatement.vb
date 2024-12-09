@@ -453,7 +453,7 @@ Public Class FrmPrintDistributerInvoiceStatement
         ' If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
         Dim lstinvNo As New List(Of String)
         For Each grow As GridViewRowInfo In gv.Rows
-            clsCommon.ProgressBarPercentUpdate((ii) * 100 / gv.Rows.Count, " Email  " & (ii) & " Of " & gv.Rows.Count)
+            clsCommon.ProgressBarPercentUpdate((ii) * 100 / gv.Rows.Count, " Send Email " & (ii) & " Of " & gv.Rows.Count)
             If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
                 lstinvNo.Add(clsCommon.myCstr(grow.Cells("Document_Code").Value))
 
