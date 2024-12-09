@@ -68,6 +68,11 @@ Public Class FrmMCCMilkRegister
             txtToShift.SelectedValue = "E"
             btnGo.PerformClick()
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+            chkRouteWisedateWiseSummry.Visible = True
+        Else
+            chkRouteWisedateWiseSummry.Visible = False
+        End If
         txtFromShift.SelectedValue = "M"
         txtToShift.SelectedValue = "E"
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
@@ -5296,6 +5301,166 @@ ORDER BY
             btnRoutePrint.Visible = True
         Else
             btnRoutePrint.Visible = False
+        End If
+    End Sub
+
+    Private Sub btnRouteDateWiseSummary_Click(sender As Object, e As EventArgs) Handles btnRouteDateWiseSummary.Click
+        Try
+            If chkRouteWisedateWiseSummry.Checked = False Then
+                Throw New Exception("Please check Route and Date Wise Summary")
+            End If
+            Dim Whr As String = ""
+            Dim Qry As String = ""
+            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                Whr = " and TSPL_MILK_SRN_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+            End If
+
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                Whr += " and TSPL_MILK_SRN_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+            End If
+
+            If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+                Whr += "  and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")"
+            End If
+            Qry = "  select '" + txtFromDate.Value + "' as Fromdate,'" + txtToDate.Value + "' as Todate,max(yyy.[Milk Receipt Code])[Milk Receipt Code],sum(YYY.SourQty)SourQty,sum(yyy.SweetFat)SweetFat,sum(yyy.SweetQty)SweetQty,sum(yyy.SweetSNF)SweetSNF,sum(yyy.SourFat)SourFat,sum(yyy.SourSNF)SourSNF,sum(yyy.CurdQty)CurdQty,sum(yyy.CurdFat)CurdFat,sum(yyy.CurdSNF)CurdSNF,[Doc Date],[Route Code],        max(yyy.[Vlc Uploader Code])[Vlc Uploader Code], yyy.[Route Name],
+                        max(yyy.[Vlc Code])[Vlc Code], 
+                        max(yyy.[VLC Name])[VLC Name], 
+                        max(yyy.[Sample No])[Sample No], 
+                        sum(yyy.[No Of Cans])[No Of Cans], 
+                        max(yyy.Item_Code)Item_Code, 
+                        max(yyy.Item_Desc)Item_Desc,  max(YYY.[Plant Code])[Plant Code], 
+                        max(YYY.[Plant Name])[Plant Name], 
+                        isnull(sum(yyy.[Milk Weight]),0)[Milk Weight], 
+                        max(yyy.UOM) as [UOM], 
+                        sum(yyy.[Milk Weight(KG) ])[Milk Weight(KG) ], 
+                        sum(yyy.[Milk Weight(LTR) ]) as [Milk Weight(LTR) ], 
+                        sum(yyy.[FAT(%) ])[FAT(%) ], 
+                        sum(yyy.CLR)CLR, 
+                        sum(yyy.[SNF(%) ] )[SNF(%) ], 
+                        sum(yyy.[FAT(KG) ] )[FAT(KG) ], 
+                        sum(yyy.[SNF(KG) ] )[SNF(KG) ]  from (select max(DateWiseRouteWiseSummary.[Milk Receipt Code])[Milk Receipt Code], 
+                        max(DateWiseRouteWiseSummary.[MCC Code]) as [MCC Code], 
+                        max(DateWiseRouteWiseSummary.[MCC Name])[MCC Name], 
+                        max(DateWiseRouteWiseSummary.[MCC Type])[MCC Type], 
+                        max(DateWiseRouteWiseSummary.[Chilling Center])[Chilling Center], 
+                        max(DateWiseRouteWiseSummary.[Plant Code])[Plant Code], 
+                        max(DateWiseRouteWiseSummary.[Plant Name])[Plant Name], 
+                        (DateWiseRouteWiseSummary.RejectType)RejectType,
+
+                        CASE WHEN (DateWiseRouteWiseSummary.RejectType)='Sweet' then isnull(sum(DateWiseRouteWiseSummary.[Milk Weight]),0) else 0 end as SweetQty,
+                        CASE WHEN (DateWiseRouteWiseSummary.RejectType)='Sweet' then isnull(sum(DateWiseRouteWiseSummary.[FAT(KG)]),0) else 0 end SweetFat,CASE WHEN max(DateWiseRouteWiseSummary.RejectType)='Sweet' then isnull(sum(DateWiseRouteWiseSummary.[SNF(KG)]),0) else 0 end SweetSNF,
+                        CASE WHEN (DateWiseRouteWiseSummary.RejectType)='Sour' then isnull(sum(DateWiseRouteWiseSummary.[Milk Weight]),0) else 0 end as SourQty,CASE WHEN (DateWiseRouteWiseSummary.RejectType)='Sour' then isnull(sum(DateWiseRouteWiseSummary.[FAT(KG)]),0) else 0 end as SourFat,CASE WHEN (DateWiseRouteWiseSummary.RejectType)='Sour' then isnull(sum(DateWiseRouteWiseSummary.[SNF(KG)]),0) else 0 end as SourSNF,
+                        CASE WHEN (DateWiseRouteWiseSummary.RejectType)='Curd' then isnull(sum(DateWiseRouteWiseSummary.[Milk Weight]),0) else 0 end as CurdQty,
+                        CASE WHEN (DateWiseRouteWiseSummary.RejectType)='Curd' then isnull(sum(DateWiseRouteWiseSummary.[FAT(KG)]),0) else 0 end as CurdFat,CASE WHEN max(DateWiseRouteWiseSummary.RejectType)='Curd' then isnull(sum(DateWiseRouteWiseSummary.[SNF(KG)]),0) else 0 end as CurdSNF
+                        ,
+                        DateWiseRouteWiseSummary.Date, 
+                        DateWiseRouteWiseSummary.[Doc Date], 
+                        DateWiseRouteWiseSummary.[Route Code], 
+                        DateWiseRouteWiseSummary.[Route Name], 
+                        max(DateWiseRouteWiseSummary.[Zone Code])[Zone Code], 
+                        max(DateWiseRouteWiseSummary.[Vehicle Code])[Vehicle Code], 
+                        max(DateWiseRouteWiseSummary.[VSP Code])[VSP Code], 
+                        max(DateWiseRouteWiseSummary.[VSP Name])[VSP Name], 
+                        max(DateWiseRouteWiseSummary.[Vendor Group Code])[Vendor Group Code], 
+                        max(DateWiseRouteWiseSummary.[Vendor Group Desc])[Vendor Group Desc], 
+                        max(DateWiseRouteWiseSummary.[Vlc Uploader Code])[Vlc Uploader Code], 
+                        max(DateWiseRouteWiseSummary.[Vlc Code])[Vlc Code], 
+                        max(DateWiseRouteWiseSummary.[VLC Name])[VLC Name], 
+                        max(DateWiseRouteWiseSummary.[Sample No])[Sample No], 
+                        sum(DateWiseRouteWiseSummary.[No Of Cans])[No Of Cans], 
+                        max(DateWiseRouteWiseSummary.Item_Code)Item_Code, 
+                        max(DateWiseRouteWiseSummary.Item_Desc)Item_Desc, 
+                        isnull(sum(DateWiseRouteWiseSummary.[Milk Weight]),0)[Milk Weight], 
+                        max(DateWiseRouteWiseSummary.UOM) as [UOM], 
+                        sum(DateWiseRouteWiseSummary.[Milk Weight(KG)])[Milk Weight(KG) ], 
+                        sum(DateWiseRouteWiseSummary.[Milk Weight(LTR)]) as [Milk Weight(LTR) ], 
+                        sum(DateWiseRouteWiseSummary.[FAT(%)])[FAT(%) ], 
+                        sum(DateWiseRouteWiseSummary.CLR)CLR, 
+                        sum(DateWiseRouteWiseSummary.[SNF(%)])[SNF(%) ], 
+                        sum(DateWiseRouteWiseSummary.[FAT(KG)])[FAT(KG) ], 
+                        sum(DateWiseRouteWiseSummary.[SNF(KG)])[SNF(KG) ], 
+                        sum(DateWiseRouteWiseSummary.[Cow FAT(%)])[Cow FAT(%) ], 
+                        Sum(DateWiseRouteWiseSummary.[Cow CLR])[Cow CLR], 
+                        sum(DateWiseRouteWiseSummary.[Cow SNF(%)])[Cow SNF(%) ], 
+                        sum(DateWiseRouteWiseSummary.[Cow FAT (KG)])[Cow FAT (KG) ], 
+                        sum(DateWiseRouteWiseSummary.[Cow SNF (KG)])[Cow SNF (KG) ], 
+                        sum(DateWiseRouteWiseSummary.[Buffalo Milk Qty (KG)])[Buffalo Milk Qty (KG) ], 
+                        sum(DateWiseRouteWiseSummary.[Buffalo CLR])[Buffalo CLR], 
+                        sum(DateWiseRouteWiseSummary.[Buffalo SNF(%)])[Buffalo SNF(%) ], 
+                        sum(DateWiseRouteWiseSummary.[Buffalo FAT(%)])[Buffalo FAT(%) ], 
+                        sum(DateWiseRouteWiseSummary.[Buffalo FAT (KG)])[Buffalo FAT (KG) ], 
+                        sum(DateWiseRouteWiseSummary.[Buffalo SNF (KG)])[Buffalo SNF (KG) ], 
+                        max(DateWiseRouteWiseSummary.[Milk Type])[Milk Type], 
+                        max(DateWiseRouteWiseSummary.[SRN No])[SRN No], 
+                        sum(DateWiseRouteWiseSummary.[SRN Amount])[SRN Amount], 
+                        sum(DateWiseRouteWiseSummary.[SRN Qty])[SRN Qty], 
+                        sum(DateWiseRouteWiseSummary.[SRN Rate])[SRN Rate], 
+                        max(DateWiseRouteWiseSummary.[Shift Status])[Shift Status], 
+                        max(Invoice_no)Invoice_no, 
+                        max(Invoice_Date)Invoice_Date, 
+                        max(IS_MANUAL)IS_MANUAL, 
+                        max(MACHINE_NO)MACHINE_NO, 
+                        max(DateWiseRouteWiseSummary.IS_MILK_SAMPLE_MANUAL)IS_MILK_SAMPLE_MANUAL, 
+                        max([Transporter Code])[Transporter Code], 
+                        max([Transporter Name])[Transporter Name], 
+                        sum(EMP_Amount)EMP_Amount, 
+                        sum(TIP_Amount)TIP_Amount, 
+                        sum(NetAmount)NET_AMOUNT, 
+                        sum(Handling_Charges_Amount)Handling_Charges_Amount, 
+                        max(DateWiseRouteWiseSummary.Purchase_Order_No)Purchase_Order_No, 
+                        sum(DateWiseRouteWiseSummary.Head_Load_Amount)Head_Load_Amount, 
+                        sum(DateWiseRouteWiseSummary.SNF_Ded_Value)SNF_Ded_Value, 
+                        sum(DateWiseRouteWiseSummary.SNF_Ded_Rate)SNF_Ded_Rate, 
+                        sum(DateWiseRouteWiseSummary.SNF_Ded_Amount)SNF_Ded_Amount, 
+                        sum(DateWiseRouteWiseSummary.VSP_Commission_Amount)VSP_Commission_Amount, 
+                        sum(DateWiseRouteWiseSummary.VSP_Deduction_Amount)VSP_Deduction_Amount, 
+                        sum(DateWiseRouteWiseSummary.VSP_Day_Wise_Incentive)VSP_Day_Wise_Incentive, 
+                        max(DateWiseRouteWiseSummary.SubStandard)SubStandard, 
+                        max(DateWiseRouteWiseSummary.Vehicle)Vehicle, 
+                        max(DateWiseRouteWiseSummary.Mcc_Uploader_Code) as [Mcc_Uploader_Code], 
+                        sum(DateWiseRouteWiseSummary.QAT_Rate)QAT_Rate, 
+                        sum(DateWiseRouteWiseSummary.QAT_Amt)QAT_Amt
+                        from (Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[Area],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift , final.[Route Code],final.[Route Name],final.[Zone Code],final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code],final.[isOwnBMC(Y/N)]  ,final.[Vlc Code] ,final.[VLC Name] , final.[Sample No] ,final.[No Of Cans],final.Item_Code,final.Item_Desc,final.[Milk Weight],final.UOM_Code as [UOM],final.[Milk Weight(KG)], final.[Milk Weight(LTR)]  as [Milk Weight(LTR)], final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)], Case When final.[FAT(%)] <= 5 Then CLR Else 0 End [Cow CLR],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)], final.[Buffalo Milk Qty (KG)], Case When final.[FAT(%)] > 5 Then CLR Else 0 End [Buffalo CLR],final.[Buffalo SNF(%)],final.[Buffalo FAT(%)], Case When final.[FAT(%)] > 5 Then final.[FAT(KG)] Else 0 End [Buffalo FAT (KG)], Case When final.[FAT(%)] > 5 Then final.[SNF(KG)] Else 0 End [Buffalo SNF (KG)],final.[Milk Type],final.[SRN No],final.[SRN Amount], final.[SRN Qty],final.[SRN Rate],final.[Shift Status] ,Invoice_no ,Invoice_Date , IS_MANUAL, MACHINE_NO,IS_MILK_SAMPLE_MANUAL,RejectType,RejectReason,Defaulter,  final.EMP_Amount,final.TIP_Amount,final.Service_Charge_Amount ,([SRN Amount]+EMP_Amount+TIP_Amount-Service_Charge_Amount) as NetAmount,final.Purchase_Order_No,final.Head_Load_Amount ,final.SNF_Ded_Value,final.SNF_Ded_Rate,final.SNF_Ded_Amount, final.price_code,final.[Transporter Code],final.[Transporter Name],final.Handling_Charges_Amount,final.VSP_Commission_Amount,final.VSP_Deduction_Amount,final.VSP_Day_Wise_Incentive,final.SubStandard,final.vehicle,final.[Mcc_Uploader_Code],final.QAT_Rate,final.QAT_Amt From ( Select  TSPL_MILK_SRN_DETAIL.QAT_Amt,TSPL_MILK_SRN_DETAIL.QAT_Rate,TSPL_MCC_MASTER.MCC_Type as [MCC Type],case when TSPL_MCC_MASTER.is_Mcc=1 then 'MCC' else 'BMCC' end [Chilling Center] ,TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc, TSPL_MILK_SRN_DETAIL.EMP_Amount,TSPL_MILK_SRN_DETAIL.TIP_Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,Case When TSPL_MILK_SRN_DETAIL.FAT_PER <= 5 Then TSPL_MILK_SRN_DETAIL.FAT_PER Else 0 End [Cow FAT(%)], Case When TSPL_MILK_SRN_DETAIL.FAT_PER <= 5 Then TSPL_MILK_SRN_DETAIL.SNF_PER Else 0 End [Cow SNF(%)], Case When TSPL_MILK_SRN_DETAIL.FAT_PER > 5 Then TSPL_MILK_SRN_DETAIL.FAT_PER Else 0 End [Buffalo FAT(%)], Case When TSPL_MILK_SRN_DETAIL.FAT_PER > 5 Then TSPL_MILK_SRN_DETAIL.SNF_PER Else 0 End [Buffalo SNF(%)], Case When TSPL_MILK_SRN_DETAIL.FAT_PER <= 5 Then TSPL_MILK_SRN_DETAIL.ACC_QTY Else 0 End [Cow Milk Qty (KG)], Case When TSPL_MILK_SRN_DETAIL.FAT_PER > 5 Then TSPL_MILK_SRN_DETAIL.ACC_QTY Else 0 End [Buffalo Milk Qty (KG)]
+                    , Case When Coalesce(TSPL_MILK_SRN_DETAIL.FAT_PER, 0) <= 0 Then 'M' When Coalesce(TSPL_MILK_SRN_DETAIL.FAT_PER, 0) <= 5  Then 'C' Else 'M' End As [Milk Type], TSPL_MILK_SRN_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_SRN_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name],TSPL_LOCATION_MASTER.Location_Desc as[Area],isnull(TSPL_MCC_MASTER.plant_code,'') As [Plant Code], isnull(tspl_location_master.location_desc,'') As [Plant Name], Convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_SRN_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_SRN_HEAD.ROUTE_CODE As [Route Code],  TSPL_VENDOR_MASTER.Zone_Code as [Zone Code],tspl_mcc_route_master.Supervisor_Name as [SuperVisor Code], TSPL_BULK_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_SRN_HEAD.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_SRN_HEAD.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name], TSPL_VENDOR_MASTER.Vendor_Group_Code As [Vendor Group Code],TSPL_VENDOR_GROUP.Group_Desc as [Vendor Group Desc] ,TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code],(case when TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then 'Y' else 'N' end) as [isOwnBMC(Y/N)], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_SRN_HEAD.SAMPLE_NO As [Sample No],  Case When TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No IS Null Then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.No_Of_Cans Else 
+                              Case When TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No Is Null Then TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans Else 0 End End As [No Of Cans], TSPL_MILK_SRN_DETAIL.QTY As [Milk Weight],TSPL_MILK_SRN_DETAIL.UOM_Code, TSPL_MILK_SRN_DETAIL.ACC_QTY As [Milk Weight(KG)], TSPL_MILK_SRN_DETAIL.ACC_QTY_LTR As [Milk Weight(LTR)], TSPL_MILK_SRN_DETAIL.FAT_PER As [FAT(%)], TSPL_MILK_SRN_DETAIL.SNF_PER As [SNF(%)], TSPL_MILK_SRN_DETAIL.CLR,   TSPL_MILK_SRN_DETAIL.FAT_kg As [FAT(KG)], TSPL_MILK_SRN_DETAIL.SNF_kg As [SNF(KG)], Case When TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.MANUAL_SAMPLE = 0 Then 0 Else 1 End As [Sample Status], TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty], Case When TSPL_MILK_SRN_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no, convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date , CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Manual_Sample=0 THEN 'N' ELSE 'Y' END AS IS_MANUAL , '' AS MACHINE_NO,(CASE WHEN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.MANUAL_SAMPLE=0 THEN 'N' ELSE 'Y' END) AS IS_MILK_SAMPLE_MANUAL,TSPL_MILK_SRN_HEAD.Purchase_Order_No,TSPL_MILK_SRN_DETAIL.Head_Load_Amount ,  Case When TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type IS Null Then Case When TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type IS NUll Then 'SWEET' Else TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type End Else TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type End as RejectType,'' as RejectReason,'' as Defaulter   ,TSPL_MILK_PRICE_SNF_DEDUCTION.Amount as SNF_Ded_Value,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE) as decimal(18,2)) as SNF_Ded_Rate,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE)*TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2)) as SNF_Ded_Amount 
+                     ,TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code,[Transporter Code], [Transporter Name],isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount   ,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Commission_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Commission_Amount)  as VSP_Commission_Amount,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Deduction_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Deduction_Amount)  as VSP_Deduction_Amount,TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive ,case when isnull( TSPL_MILK_SRN_DETAIL.Sub_Standard,0)=1 then 'Sub Standard' else '' end as SubStandard,TSPL_Primary_Vehicle_Master.Vehicle,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] 
+                     From TSPL_MILK_SRN_DETAIL 
+                     Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
+                     Left Outer Join TSPL_MILK_SHIFT_UPLOADER_DETAIL On TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
+                     Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No 
+                     left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code 
+                     Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
+                     Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE 
+                     Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
+                     Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE
+                     left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
+                     left outer join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
+                     Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_SRN_HEAD.ROUTE_CODE
+                     left join (select TSPL_Primary_Vehicle_Master.vendor_code as [Transporter Code],tspl_vendor_master.vendor_name as [Transporter Name],TSPL_Primary_Vehicle_Master.mcc_code,TSPL_Primary_Vehicle_Master.vehicle_code from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code) as t1 on t1.vehicle_code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code 
+                     Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code 
+                     left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code
+                     left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per
+                     left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  where 2 = 2  and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as date) <='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + Whr + ") As final where 2=2   )DateWiseRouteWiseSummary  group by Date,[Route Code],[Route Name],[Doc Date],RejectType )YYY group by yyy.[Doc Date],yyy.[Route Code],yyy.[Route Name] order by yyy.[Doc Date] "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                If chkRouteWisedateWiseSummry.Checked Then
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "RouteWiseDateWiseSummary", "Date Wise and Route wise print")
+                    frmCRV = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data found ", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkRouteWisedateWiseSummry_CheckStateChanged(sender As Object, e As EventArgs) Handles chkRouteWisedateWiseSummry.CheckStateChanged
+        If chkRouteWisedateWiseSummry.Checked Then
+            btnRouteDateWiseSummary.Visible = True
+        Else
+            btnRouteDateWiseSummary.Visible = False
         End If
     End Sub
 
