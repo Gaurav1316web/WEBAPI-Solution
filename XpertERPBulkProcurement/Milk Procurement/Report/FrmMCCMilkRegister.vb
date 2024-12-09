@@ -4769,8 +4769,15 @@ Public Class FrmMCCMilkRegister
             'End If
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             'transportSql.exportdataChilRows(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-            clsCommon.MyExportToExcelGrid(Me.Text, gv, arrHeader, Me.Text)
-            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
+            If chkDateShift.Checked Then
+                If rbtnDCS.Checked OrElse rbtnBMC.Checked OrElse rbtnRoute.Checked OrElse rbtnTotal.Checked OrElse rbtnShiftWiseTotal.Checked Then
+                    transportSql.exportdata(gv, "", Me.Text, , arrHeader, False, False, True)
+                End If
+            Else
+                clsCommon.MyExportToExcelGrid(Me.Text, gv, arrHeader, Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
+            End If
+
             'Process.Start(filePath)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

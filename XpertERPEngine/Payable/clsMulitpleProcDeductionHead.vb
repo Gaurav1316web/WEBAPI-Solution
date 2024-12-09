@@ -150,6 +150,7 @@ where Document_No='" + strDocumentNo + "' ORDER BY Line_No"
                     objTr.Vendor_Control_AC = clsCommon.myCstr(dr("Vendor_Control_AC"))
                     objTr.against_deduction_docNo = clsCommon.myCstr(dr("against_deduction_docNo"))
                     objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
+                    objTr.BMC_CODE = clsCommon.myCstr(dr("BMC_CODE"))
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -506,7 +507,7 @@ Public Class clsMultipleProcDeductionDetail
     Public Vendor_Control_AC As String = Nothing
     Public against_deduction_docNo As String = Nothing
     Public Remarks As String = Nothing
-
+    Public BMC_CODE As String = Nothing
     Public VLCUploderCode As String ''Not a table column
 #End Region
 
@@ -532,7 +533,7 @@ Public Class clsMultipleProcDeductionDetail
                 clsCommon.AddColumnsForChange(coll, "Account_Set", obj.Account_Set)
                 clsCommon.AddColumnsForChange(coll, "GSTRegistered", obj.GSTRegistered)
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
-
+                clsCommon.AddColumnsForChange(coll, "BMC_CODE", obj.BMC_CODE)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MULTIPLE_DEDUCTION_DETAIL", OMInsertOrUpdate.Insert, "", trans)
 
             Next
