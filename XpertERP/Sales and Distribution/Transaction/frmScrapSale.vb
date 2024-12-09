@@ -2791,11 +2791,13 @@ Public Class frmScrapSale
                 txtponumber.Text = obj.Po_No
                 txtnrg.Value = obj.NRG_No
                 fndcustNo.Value = obj.cust_Code
+                lblCustGSTNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTNO from TSPL_customer_MASTER where cust_code='" + fndcustNo.Value + "' "))
                 txtcustdesc.Text = obj.cust_Name
                 dtpshipment.Value = clsCommon.myCDate(obj.shipment_Date)
                 dtppost.Value = clsCommon.myCDate(obj.posting_Date)
                 dtpexp.Value = obj.expship_Date
                 fndLocation.Value = obj.Loc_Code
+                lblLocGSTNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTNO from TSPL_LOCATION_MASTER where Location_Code = '" + fndLocation.Value + "'"))
                 txtlocation.Text = obj.Loc_Name
                 TxtVehicleCode.Value = obj.Vehicle_Id
                 'txt.Text = obj.Vehicle_code

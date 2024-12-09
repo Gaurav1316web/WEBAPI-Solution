@@ -3558,7 +3558,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('08/Nov/2
             If isPrintGo Then
                 DCSSummaryQuery += "'" & CompName & "'  as CompName,'" & userName & "' as User_Name,"
             End If
-            DCSSummaryQuery += "'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31],(sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty,max(DAYS_Total) as DAYS_Total,Convert(int,Round(case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(" + clsCommon.myCstr(DateDiffDays) + ") end,0)) as AVG_QTY, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
+            DCSSummaryQuery += "'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31],(sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty,max(DAYS_Total) as DAYS_Total,case when max(DAYS_Total) = 0 then 0 else (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(" + clsCommon.myCstr(DateDiffDays) + ") end as AVG_QTY, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
  CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else sum(FATQTY) * 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end  as FATPer,
  CASE WHEN (SUM(TotalSweetQty) + SUM(TotalSoreQty) + SUM(TotalCurdQty)) = 0 THEN 0 else Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) end as SNFPer
    
@@ -3579,6 +3579,11 @@ from (
  Case when  QBD = 'SWEET' then Qty else 0  end  as TotalSweetQty,
  Case when  QBD = 'SOUR'  then Qty else 0  end  as TotalSoreQty,
  Case when  QBD = 'CURD'  then Qty else 0  end  as TotalCurdQty "
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            '    DCSSummaryQuery += "," + clsCommon.myCstr(DateDiffDays) + " as DAYS_Total "
+            'Else
+            DCSSummaryQuery += ",count(VSP_CODE1 ) over (PARTITION BY VSP_CODE1) as DAYS_Total "
+            'End If
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             '    DCSSummaryQuery += "," + clsCommon.myCstr(DateDiffDays) + " as DAYS_Total "
             'Else

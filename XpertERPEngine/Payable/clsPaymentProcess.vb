@@ -2548,7 +2548,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
 ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name,TSPL_VILLAGE_MASTER.Village_Name_Hindi,(case when TSPL_PRICE_CHART_PLANNING.Dock_Collection_Milk_Type='C' then 'Cow' else 'Buffalo' end) as CowBuffalo_Type "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             BaseQry += " ,case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'PDCS' then TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader + '       CC       ' + TSPL_VENDOR_MASTER.Vendor_Name else TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader +'        '+ TSPL_VENDOR_MASTER.Vendor_Name end as Society,
-                         Case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 0.1 and TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER <= " + clsCommon.myCstr(SetCowFatPer) + "  then 'C 1' else '1' end as QAP"
+                         '1'  as QAP"
         Else
             BaseQry += " ,'1' AS QAP "
         End If

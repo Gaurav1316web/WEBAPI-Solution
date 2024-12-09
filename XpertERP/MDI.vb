@@ -2541,7 +2541,7 @@ Public Class MDI
             End If
             qry += "'" + clsUserMgtCode.ModuleFavourite + "' as Parent_Code,TSPL_FAVOURITE_MENU.SNo from TSPL_FAVOURITE_MENU left outer join  TSPL_PROGRAM_MASTER on TSPL_PROGRAM_MASTER.Program_Code= TSPL_FAVOURITE_MENU.Program_Code  where 2=2 and TSPL_FAVOURITE_MENU.User_Code='" + objCommonVar.CurrentUserCode + "' " + strGrpWhrClas + Environment.NewLine
             qry += " )xxx where 2=2 "
-            qry += " and Program_Code not in (" + clsCommon.GetMulcallString(arrExcluded) + ") and Program_Code not in ( select Screen_Name from TSPL_MODULE_SCREEN_PERMISSION )"
+            qry += " and Program_Code not in (" + clsCommon.GetMulcallString(arrExcluded) + ") and Program_Code not in ( select Screen_Name from TSPL_MODULE_SCREEN_PERMISSION where  TSPL_MODULE_SCREEN_PERMISSION.P_Code= xxx.Parent_Code )"
             qry += ") tt inner join (select Module_Name,Program_Code as [prg_Code] from tspl_Program_Master tpm inner join tspl_Module_Permission tmm on " _
             & " tpm.Parent_Code=tmm.Module_Name  and tpm.APP_No=0 union select 'MFavourite','MFavourite' " & IIf(isUtilityAdded, " union select Program_Code as [Module_Name],Program_Code as [prg_Code] from tspl_Program_Master where Parent_Code ='Mutility'", "") & ") " _
             & " tpm on (tpm.module_Name=Parent_Code or tpm.prg_Code=Parent_Code or tpm.module_Name =Program_Code  or Parent_Code is NULL  or Parent_Code ='ExpertERP') " _
@@ -8231,6 +8231,9 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptSaleRegisterUOMReport
                         frm = New rptSaleRegisterUOMReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.RptCommissionTPTReport
+                        frm = New RptcommissionTPTReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmGatepassDetailReport
                         frm = New frmGatepassDetailReport()
