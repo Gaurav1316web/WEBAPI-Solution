@@ -180,7 +180,7 @@
       <HintPath>..\XpertERP\bin\Debug\XpertERPMIS.dll</HintPath>
     </Reference>
     <Reference Include="zxing">
-      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
+      <HintPath>C:\Users\DELL\Downloads\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
