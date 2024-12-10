@@ -1450,6 +1450,7 @@
     <None Include="Crystal Reports\Milk Procurement\NEFTUploaderBank.rpt" />
     <None Include="Crystal Reports\Milk Procurement\NEFTUploaderMP.rpt" />
     <None Include="Crystal Reports\Milk Procurement\NEFTUploaderVLC.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\RouteWiseDateWiseSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\RouteWisePrint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\RouteWiseSummaryPrint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptAbstractReport.rpt" />
