@@ -8232,6 +8232,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptSaleRegisterUOMReport
                         frm = New rptSaleRegisterUOMReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.RptCommissionTPTReport
+                        frm = New RptcommissionTPTReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmGatepassDetailReport
                         frm = New frmGatepassDetailReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
