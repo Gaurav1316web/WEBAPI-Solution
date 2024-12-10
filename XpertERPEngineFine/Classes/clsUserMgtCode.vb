@@ -2503,6 +2503,7 @@ Public Class clsUserMgtCode
     Public Const frmDistributorRouteTagging As String = "DIS-R-T"
     Public Const frmDailyDemand As String = "DAI-DEM"
     Public Const frmDBTUnionPayment As String = "DBT-UPAY"
+    Public Const frmUnionLastGstInvoice As String = "DBT-GST_INV"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"
