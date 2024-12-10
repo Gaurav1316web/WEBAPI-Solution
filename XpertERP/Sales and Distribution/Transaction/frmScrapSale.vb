@@ -247,7 +247,7 @@ Public Class frmScrapSale
         If clsCommon.myLen(strShipmentno) > 0 Then
             LoadData(strShipmentno, NavigatorType.Current)
         End If
-
+        fndShipToLocation.Enabled = False
 
         'If Not clsCommon.CompairString(objCommonVar.CurrentUserCode, "ADMIN") = CompairStringResult.Equal Then
         '    If funSetUserAccess() = False Then Exit Sub
