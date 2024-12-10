@@ -254,6 +254,7 @@ Public Class Xtra
     End Function
     Public Shared Function GetDataFromAPI(ByVal API As EnumAPI, ByVal APIName As String, ByVal ArrFilter As Dictionary(Of String, String)) As DataTable
         Dim dt As DataTable = Nothing
+        Dim responsebody As String = ""
         Try
             If clsCommon.myInternetWork() Then
                 Dim baseAddress As String = ""
@@ -263,29 +264,56 @@ Public Class Xtra
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                             ''Live
                             baseAddress = clsCommon.myCstr("http://172.21.80.251:8093/MilkProcurement.asmx" & "/" & APIName)
-
                             ''Local
                             'baseAddress = clsCommon.myCstr("http://103.122.38.34:8093/MilkProcurement.asmx" & "/" & APIName)
                         Else
                             baseAddress = clsCommon.myCstr("http://103.47.149.49:8093/MilkProcurement.asmx" & "/" & APIName)
                         End If
                         reqparm.Add("Key", "Tecxpert@MP#123$456%789^")
+                    Case EnumAPI.REIL
+                        baseAddress = clsCommon.myCstr("http://www.ajmerdairy.in/erp/api.aspx")
+                        reqparm.Add("atoken", "RdpFJyPO1avewbecVD32tTr9kuyHJtq5")
                 End Select
-
-                Dim c As WebClient = New WebClient()
                 If ArrFilter IsNot Nothing AndAlso ArrFilter.Count > 0 Then
                     For Each key As String In ArrFilter.Keys
                         reqparm.Add(key, ArrFilter(key))
                     Next
                 End If
+
+                If objCommonVar.JSONTrack Then
+                    Dim logFile As String = "JSONLog.txt"
+                    Dim objWriter As New System.IO.StreamWriter(logFile, True)
+                    objWriter.WriteLine(APIName + " Hit @ " + clsCommon.GetPrintDate(DateTime.Now, "dd/MM/yyyy hh:mm:ss tt"))
+                    objWriter.WriteLine(baseAddress)
+                    For Each key As String In reqparm.AllKeys
+                        objWriter.WriteLine(key + ":" + reqparm(key))
+                    Next
+                    objWriter.Close()
+                End If
+
+                Dim c As WebClient = New WebClient()
                 Dim responsebytes = c.UploadValues(baseAddress, "POST", reqparm)
-                Dim responsebody = (New System.Text.UTF8Encoding()).GetString(responsebytes)
+                responsebody = (New System.Text.UTF8Encoding()).GetString(responsebytes)
                 Dim jArray = Newtonsoft.Json.Linq.JArray.Parse(responsebody)
                 dt = JsonConvert.DeserializeObject(Of DataTable)(jArray.ToString())
                 Dim a As Integer = 0
+                If objCommonVar.JSONTrack Then
+                    Dim logFile As String = "JSONLog.txt"
+                    Dim objWriter As New System.IO.StreamWriter(logFile, True)
+                    objWriter.WriteLine("Response @ " + clsCommon.GetPrintDate(DateTime.Now, "dd/MM/yyyy hh:mm:ss tt"))
+                    objWriter.WriteLine(responsebody)
+                    objWriter.Close()
+                End If
             End If
         Catch ex As Exception
-            Throw New Exception("API Error " + Environment.NewLine + ex.Message)
+            If objCommonVar.JSONTrack Then
+                Dim logFile As String = "JSONLog.txt"
+                Dim objWriter As New System.IO.StreamWriter(logFile, True)
+                objWriter.WriteLine("Response @ " + clsCommon.GetPrintDate(DateTime.Now, "dd/MM/yyyy hh:mm:ss tt"))
+                objWriter.WriteLine(responsebody)
+                objWriter.Close()
+            End If
+            Throw New Exception("API Error " + Environment.NewLine + responsebody + Environment.NewLine + ex.Message)
         End Try
         Return dt
     End Function

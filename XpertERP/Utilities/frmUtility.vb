@@ -26607,4 +26607,33 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub RadButton356_Click(sender As Object, e As EventArgs) Handles RadButton356.Click
+        Try
+            Dim logFile As String = "JSONLog.txt"
+            objCommonVar.JSONTrack = Not objCommonVar.JSONTrack
+            If objCommonVar.JSONTrack Then
+                If System.IO.File.Exists(logFile) Then
+                    Dim stream As New IO.StreamWriter(logFile, False)
+                    stream.WriteLine("")
+                    stream.Close()
+                Else
+                    Dim fs As IO.FileStream = System.IO.File.Create(logFile)
+                    fs.Close()
+                End If
+                RadButton356.Text = "Stop JSON Tracker"
+            Else
+                Dim objreader As New System.IO.StringReader(logFile)
+                If objreader IsNot Nothing AndAlso clsCommon.myLen(objreader) > 0 Then
+                    Dim str As String = clsCommon.myCstr(System.IO.File.ReadAllText(logFile))
+                    If clsCommon.myLen(str) > 0 Then
+                        System.Diagnostics.Process.Start(logFile)
+                    End If
+                End If
+                RadButton356.Text = "Start JSON Tracker"
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
