@@ -760,18 +760,18 @@ Public Class clsQualityCheck
         Dim isSaved As Boolean = True
         Try
             If clsQualityCheck.isMccInDoc(GateEntryNo, trans) Then
-                If clsQualityCheck.isIntermittentDoc(clsQualityCheck.getChallanNo(GateEntryNo, trans), trans) Then
-                    If clsQualityCheck.isWeighmentDone(GateEntryNo, trans) And clsQualityCheck.isQCDone(GateEntryNo, trans) And clsMccDispatch.GetReachedAtFinalLoc(GateEntryNo, trans) = 0 Then
+                'If clsQualityCheck.isIntermittentDoc(clsQualityCheck.getChallanNo(GateEntryNo, trans), trans) Then
+                If clsQualityCheck.isWeighmentDone(GateEntryNo, trans) And clsQualityCheck.isQCDone(GateEntryNo, trans) And clsMccDispatch.GetReachedAtFinalLoc(GateEntryNo, trans) = 0 Then
                         Dim objGt As clsGateEntry = clsGateEntry.getData(GateEntryNo, NavigatorType.Current, trans)
-                        If clsQualityCheck.isVirtualSiloFound(objGt.location_Code, trans) Then
-                            isSaved = clsQualityCheck.SaveAndPostUnloadingData(GateEntryNo, trans)
+                    'If clsQualityCheck.isVirtualSiloFound(objGt.location_Code, trans) Then
+                    isSaved = clsQualityCheck.SaveAndPostUnloadingData(GateEntryNo, trans)
                             isSaved = clsQualityCheck.SaveGateOutData(GateEntryNo, trans)
                             isSaved = clsQualityCheck.SaveAndPostTransferInData(GateEntryNo, trans)
-                        Else
-                            Throw New Exception(" Please Create Virtual Silo for location  " & objGt.location_Code)
-                        End If
-                    End If
+                    'Else            
+                    'Throw New Exception(" Please Create Virtual Silo for location  " & objGt.location_Code)
+                    'End If
                 End If
+                'End If
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -819,6 +819,7 @@ Public Class clsQualityCheck
             obj.Comp_Code = objCommonVar.CurrentCompanyCode
             obj.Created_By = objCommonVar.CurrentUserCode
             obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MM/yyyy hh:mm:ss tt")
+            obj.PriceCode = clsDBFuncationality.getSingleValue("select top 1 Price_Code from TSPL_BULK_PRICE_master order by price_date desc")
             isSaved = clsMilkTransferIn.saveData(obj, trans)
             isSaved = clsMilkTransferIn.postData(obj.Receipt_Challan_No, trans)
 
