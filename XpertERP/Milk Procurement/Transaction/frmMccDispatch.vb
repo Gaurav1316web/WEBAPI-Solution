@@ -308,6 +308,7 @@ Public Class FrmMccDispatch
         clsPortSetting.GetMachineType(CboMachine)
         fndItemCode.Value = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, Nothing))
         txtItemDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_desc from tspl_item_Master where Item_code='" & fndItemCode.Value & "'"))
+
         Dim isItemEditable As Boolean = IIf(clsFixedParameter.GetData(clsFixedParameterType.MilkProc, clsFixedParameterCode.IsItemEditableOnMCCDispatch, Nothing) = "1", True, False)
         isdipmarkingmendatory = IIf(clsFixedParameter.GetData(clsFixedParameterType.DipMarkingMendatory, clsFixedParameterCode.DipMarkingMendatory, Nothing) = "1", True, False) 'added by stuti on 24/11/2016
         fndItemCode.Enabled = isItemEditable
@@ -469,6 +470,12 @@ Public Class FrmMccDispatch
                 gv.Rows(0).Cells(colAmount).Value = Math.Round((FATRate * fatKG) + (SNFRate * snfKG), 2)
             Catch ex As Exception
             End Try
+        Else
+            FATRate = Math.Round(clsCommon.myCdbl(gv.Rows(0).Cells(colFatRate).Value), 4)
+            SNFRate = Math.Round(clsCommon.myCdbl(gv.Rows(0).Cells(colSNFRate).Value), 4)
+            fatKG = clsCommon.myCdbl(gv.Rows(0).Cells(colFatKG).Value)
+            snfKG = clsCommon.myCdbl(gv.Rows(0).Cells(colSNFKG).Value)
+            gv.Rows(0).Cells(colAmount).Value = Math.Round((FATRate * fatKG) + (SNFRate * snfKG), 2)
         End If
     End Sub
 
@@ -1216,13 +1223,13 @@ Public Class FrmMccDispatch
             '    End If
             'End If
             ''=============Richa Ticket No. BM00000003712 on 08/09/2014
-            If clsCommon.myCdbl(txtTankerKMReading.Text) <= 0 Then
-                txtTankerKMReading.Focus()
-                errorControl.SetError(txtTankerKMReading, "Please Enter Tanker KM Reading")
-                Throw New Exception("Please Enter Tanker KM Reading")
-            Else
-                errorControl.SetError(txtTankerKMReading, "")
-            End If
+            'If clsCommon.myCdbl(txtTankerKMReading.Text) <= 0 Then
+            '    txtTankerKMReading.Focus()
+            '    errorControl.SetError(txtTankerKMReading, "Please Enter Tanker KM Reading")
+            '    Throw New Exception("Please Enter Tanker KM Reading")
+            'Else
+            '    errorControl.SetError(txtTankerKMReading, "")
+            'End If
             If isdipmarkingmendatory Then
                 If clsCommon.myLen(txtDripMarking.Text) = 0 Then
                     txtDripMarking.Focus()
@@ -1257,13 +1264,13 @@ Public Class FrmMccDispatch
                 errorControl.SetError(txtGrossWeight, "")
             End If
 
-            If clsCommon.myCdbl(txtTransferPrice.Text) <= 0 Then
-                txtTransferPrice.Focus()
-                errorControl.SetError(txtTransferPrice, "Please Fill Transfer Price It Can't be Zero Or negative  ")
-                Throw New Exception("Please Fill Transfer Price It Can't be Zero or Negaive ")
-            Else
-                errorControl.SetError(txtTransferPrice, "")
-            End If
+            'If clsCommon.myCdbl(txtTransferPrice.Text) <= 0 Then
+            '    txtTransferPrice.Focus()
+            '    errorControl.SetError(txtTransferPrice, "Please Fill Transfer Price It Can't be Zero Or negative  ")
+            '    Throw New Exception("Please Fill Transfer Price It Can't be Zero or Negaive ")
+            'Else
+            '    errorControl.SetError(txtTransferPrice, "")
+            'End If
 
             If clsCommon.myLen(fndItemCode.Value) = 0 Then
                 fndItemCode.Focus()
@@ -2124,6 +2131,11 @@ Public Class FrmMccDispatch
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        Dim objMCT As MIlkComponentType = clsInventoryMovementNew.GetAvgCost("MI", fndItemCode.Value, fndMCCCode.Value, 1, fndUOM.Value, 1, 1, dtpDateAndTime.Value, dtpDateAndTime.Value, False, Nothing, fndChalanNo.Value)
+        If objMCT IsNot Nothing Then
+            gv.Rows(0).Cells(colFatRate).Value = Math.Round(objMCT.FAT_Cost, 3, MidpointRounding.ToEven)
+            gv.Rows(0).Cells(colSNFRate).Value = Math.Round(objMCT.SNF_Cost, 3, MidpointRounding.ToEven)
+        End If
         If AllowToSave() Then
             If isPaperSealEmpty() AndAlso isManualSealEmpty() Then
                 If clsCommon.MyMessageBoxShow("You have not entered any Seal, Want to continue without seal", "Empty Seal", MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
@@ -2421,9 +2433,9 @@ Public Class FrmMccDispatch
         If clsCommon.CompairString(str, "KM_Range") = CompairStringResult.Equal Then
             'str = "Slab From " & getSlabLowerRange() & "  To " & getSlabUpperRange()
         ElseIf clsCommon.CompairString(str, "Rate/K.M") = CompairStringResult.Equal Then
-            If getDistance(fndMCCCode.Value, fndPlantOrMCCCode.Value) = -1 Then
-                Throw New Exception("Please Map Distance Between " & fndMCCCode.Value & " And " & fndPlantOrMCCCode.Value)
-            End If
+            'If getDistance(fndMCCCode.Value, fndPlantOrMCCCode.Value) = -1 Then
+            '    Throw New Exception("Please Map Distance Between " & fndMCCCode.Value & " And " & fndPlantOrMCCCode.Value)
+            'End If
             str = " Total  " & getDistance(fndMCCCode.Value, fndPlantOrMCCCode.Value) & "  KM "
         ElseIf clsCommon.CompairString(str, "Day/Diesel") = CompairStringResult.Equal Then
             str = ""

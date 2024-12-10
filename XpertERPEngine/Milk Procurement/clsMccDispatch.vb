@@ -453,7 +453,7 @@ Public Class clsMccDispatch
             End If
 
             If Actual_KM < 0 Then
-                Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
+                'Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
             End If
             Dim NetQty As Double = clsCommon.myCdbl(dt.Rows(0)("Provision_Min_Qty"))
             If NetQty <= obj.Net_Qty Then
@@ -461,12 +461,12 @@ Public Class clsMccDispatch
             End If
             If clsCommon.CompairString(obj.Payment_Type, "Day/Diesel") = CompairStringResult.Equal Then
                 If Actual_KM < 0 Then
-                    Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
+                    '  Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
                 End If
                 obj.Payment_Amount = Math.Round(clsCommon.myCdbl(dt.Rows(0)("Shift_Charges")) + ((Actual_KM * clsCommon.myCdbl(dt.Rows(0)("Diesel_Rate"))) / clsCommon.myCdbl(dt.Rows(0)("Avg_Km_Ltr"))), 2, MidpointRounding.ToEven)
             ElseIf clsCommon.CompairString(obj.Payment_Type, "Rate/K.M") = CompairStringResult.Equal Then
                 If Actual_KM < 0 Then
-                    Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
+                    'Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
                 End If
                 obj.Payment_Amount = Math.Round(Actual_KM * clsCommon.myCdbl(dt.Rows(0)("Price_KM")), 2, MidpointRounding.ToEven)
             ElseIf clsCommon.CompairString(obj.Payment_Type, "Rate/Ltr") = CompairStringResult.Equal Then
@@ -492,15 +492,15 @@ Public Class clsMccDispatch
                 obj.Payment_Amount = Math.Round(clsCommon.myCdbl(dt.Rows(0)("Rental_Amount") / (Days * 2)), 2, MidpointRounding.ToEven)
             ElseIf clsCommon.CompairString(obj.Payment_Type, "Rental/Diesel") = CompairStringResult.Equal Then
                 If Actual_KM < 0 Then
-                    Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
+                    'Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
                 End If
                 obj.Payment_Amount = Math.Round(clsCommon.myCdbl(dt.Rows(0)("Rental_Amount") / (System.DateTime.DaysInMonth(obj.Dispatch_Date.Year, obj.Dispatch_Date.Month) * 2)), 2, MidpointRounding.ToEven)
                 obj.Payment_Amount += Math.Round(((Actual_KM * clsCommon.myCdbl(dt.Rows(0)("Diesel_Rate"))) / clsCommon.myCdbl(dt.Rows(0)("Avg_Km_Ltr"))), 2, MidpointRounding.ToEven)
             ElseIf clsCommon.CompairString(obj.Payment_Type, "KM_Range") = CompairStringResult.Equal Then
                 If Actual_KM < 0 Then
-                    Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
+                    'Throw New Exception("Please map the distance between " + obj.MCC_Code + " and " + obj.Mcc_Or_Plant_Code)
                 End If
-                'Today do work
+                'Toda'y do work
                 obj.Payment_Amount = 0
                 Dim dblRemainingKM As Double = Actual_KM
                 If isPriceFromTankerMaster Then
