@@ -246,6 +246,7 @@ Public Class clsUserMgtCode
     Public Const rptDairyTruckSheetReport As String = "RPT_TRK_SHT"
     Public Const rptSaleRegisterDetail As String = "RPT_SR_DT"
     Public Const rptSaleRegisterUOMReport As String = "RPT_UOM_SR"
+    Public Const RptCommissionTPTReport As String = "RPT_Com_TPT"
     Public Const rptDairySaleRegisterReport As String = "RPT_SRR_DT"
     Public Const InvoicePriceWiseReport As String = "RPT_INV_P"
     Public Const rptInvoiceDetailReport As String = "RPT_INV_D"
@@ -2503,6 +2504,7 @@ Public Class clsUserMgtCode
     Public Const frmDistributorRouteTagging As String = "DIS-R-T"
     Public Const frmDailyDemand As String = "DAI-DEM"
     Public Const frmDBTUnionPayment As String = "DBT-UPAY"
+    Public Const frmUnionLastGstInvoice As String = "DBT-GST_INV"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"

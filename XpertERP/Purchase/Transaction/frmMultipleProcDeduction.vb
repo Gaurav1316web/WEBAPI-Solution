@@ -604,6 +604,16 @@ Public Class FrmMultipleProcDeduction
                     objTr.Account_Set = clsCommon.myCstr(grow.Cells(colVendorAccountSet).Value)
                     objTr.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Cells(colVendorControlAc).Value), obj.loc_code, True, Nothing)
                     objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
+                    Dim isMCCexist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_MCC_MASTER where MCC_Code = '" & txtMCC.Text & "'")
+                    If isMCCexist > 0 Then
+                        If clsCommon.myLen(txtMCC.Text) > 0 Then
+                            objTr.BMC_CODE = txtMCC.Text
+                        Else
+                            objTr.BMC_CODE = clsDBFuncationality.getSingleValue("select TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD where VSP_Code = '" & objTr.Vendor_Code & "' ")
+                        End If
+                    Else
+                        objTr.BMC_CODE = clsDBFuncationality.getSingleValue("select TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD where VSP_Code = '" & objTr.Vendor_Code & "' ")
+                    End If
 
 
                     If (clsCommon.myLen(objTr.DeductionCode) > 0) AndAlso (clsCommon.myLen(objTr.Vendor_Code) > 0) And objTr.Amount <> 0 Then
