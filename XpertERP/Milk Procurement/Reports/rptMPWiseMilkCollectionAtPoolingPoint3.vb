@@ -256,13 +256,13 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             Dim item112 As New GridViewSummaryItem()
             item112.FormatString = "{0:F2}"
             item112.Name = "Total FAT(%)"
-            item112.AggregateExpression = "sum([Total FAT (KG)])*100/sum(Total Milk Qty (KG))"
+            item112.AggregateExpression = "sum([Total FAT (KG)])*100/sum([Total Milk Qty (KG)])"
             summaryRowItem.Add(item112)
 
             Dim Item113 As New GridViewSummaryItem()
             Item113.FormatString = "{0:F2}"
             Item113.Name = "Total SNF(%)"
-            Item113.AggregateExpression = "sum([Total SNF (KG)])*100/sum(Total Milk Qty (KG))"
+            Item113.AggregateExpression = "sum([Total SNF (KG)])*100/sum([Total Milk Qty (KG)])"
             summaryRowItem.Add(Item113)
 
             Dim item114 As New GridViewSummaryItem("Total FAT (KG)", "{0:F3}", GridAggregateFunction.Sum)
