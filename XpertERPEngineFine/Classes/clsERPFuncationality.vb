@@ -2625,6 +2625,9 @@ AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(Doc
     End Function
 
     Public Shared Function GetConstraintWorking(ByVal strTableName As String, ByVal strColumnName As String) As String
+        Return GetConstraintWorking(strTableName, strColumnName, Nothing)
+    End Function
+    Public Shared Function GetConstraintWorking(ByVal strTableName As String, ByVal strColumnName As String, tran As SqlTransaction) As String
         Dim str As String = "select * from (" + Environment.NewLine +
         " SELECT f.name AS ForeignKey, OBJECT_NAME(f.parent_object_id) AS TableName," + Environment.NewLine +
         " COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ColumnName," + Environment.NewLine +
@@ -2634,7 +2637,7 @@ AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(Doc
         " INNER JOIN sys.foreign_key_columns AS fc" + Environment.NewLine +
         " ON f.OBJECT_ID = fc.constraint_object_id " + Environment.NewLine +
         " )xx where TableName='" + strTableName + "' and ColumnName='" + strColumnName + "'"
-        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(str))
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(str, tran))
     End Function
 
     Public Shared Function GetAllConstraintWorking(ByVal strTableName As String, ByVal strColumnName As String, ByVal tran As SqlTransaction) As DataTable

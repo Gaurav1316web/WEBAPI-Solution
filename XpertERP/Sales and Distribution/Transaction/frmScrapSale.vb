@@ -247,7 +247,7 @@ Public Class frmScrapSale
         If clsCommon.myLen(strShipmentno) > 0 Then
             LoadData(strShipmentno, NavigatorType.Current)
         End If
-
+        fndShipToLocation.Enabled = False
 
         'If Not clsCommon.CompairString(objCommonVar.CurrentUserCode, "ADMIN") = CompairStringResult.Equal Then
         '    If funSetUserAccess() = False Then Exit Sub
@@ -2741,7 +2741,7 @@ Public Class frmScrapSale
                     If clsCommon.myLen(objin.EwayBillValidDate) > 0 Then
                         txtEwayValidDate.Value = objin.EwayBillValidDate
                     End If
-                    btnEWaybillUpdate.Enabled = False
+                    btnEWaybillUpdate.Enabled = True
                     If clsCommon.myLen(objin.EWayBillDate) > 0 Then
                         txtEWayBillDate.Value = objin.EWayBillDate
                     End If
@@ -2901,8 +2901,8 @@ Public Class frmScrapSale
                 If chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(dtpshipment.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
                     'btnReverse.Enabled = False
                     If objCommonVar.GenerateEWayBillWithEInvoice = True Then
-                        txtEWayBillNo.ReadOnly = True
-                        txtEWayBillDate.ReadOnly = True
+                        txtEWayBillNo.ReadOnly = False
+                        txtEWayBillDate.ReadOnly = False
                     End If
                     If obj.ispost = ERPTransactionStatus.Approved Then
                         btnCancel.Enabled = True
@@ -5915,7 +5915,18 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     End Sub
 
     Private Sub btnEWaybillUpdate_Click(sender As Object, e As EventArgs) Handles btnEWaybillUpdate.Click
-        UpdateEwaybillNo()
+        If objCommonVar.GenerateEWayBillWithEInvoice = True Then
+            Dim frm1 As New FrmPWD(Nothing)
+            frm1.strType = clsFixedParameterType.Transactionupdate
+            frm1.strCode = clsFixedParameterCode.EWayBillUpdate
+            frm1.ShowDialog()
+            If frm1.isPasswordCorrect Then
+                UpdateEwaybillNo()
+                OneTimeCheck = True
+            End If
+        Else
+            UpdateEwaybillNo()
+        End If
     End Sub
 
     Private Sub EinvoiceBtnUpdate_Click(sender As Object, e As EventArgs) Handles EinvoiceBtnUpdate.Click

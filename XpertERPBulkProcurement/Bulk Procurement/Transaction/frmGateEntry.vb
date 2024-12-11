@@ -1468,7 +1468,13 @@ Public Class FrmGateEntry
                             errorControl.SetError(txtChallanNoBulk, "")
                         End If
                     End If
-                    Dim strExist As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Gate_Entry_No from Tspl_Gate_Entry_Details where Challan_No='" & txtChallanNoBulk.Text & "' and  Gate_Entry_No not in ('" & fndGateEntryNO.Value & "')", Nothing))
+                    Dim strChallanNo As String = ""
+                    If chkAgainstTankerDispatch.IsChecked Then
+                        strChallanNo = fndChallanNoMcc.Value
+                    ElseIf chkAgainstRoute.IsChecked Then
+                        strChallanNo = txtChallanNoBulk.Text
+                    End If
+                    Dim strExist As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Gate_Entry_No from Tspl_Gate_Entry_Details where Challan_No='" & strChallanNo & "' and  Gate_Entry_No not in ('" & fndGateEntryNO.Value & "')", Nothing))
                     If clsCommon.myLen(strExist) > 0 Then
                         errorControl.SetError(txtChallanNoBulk, "Please enter another challan no .This challan no is alsready exist in Gate entry " & strExist)
                         txtChallanNoBulk.Focus()
@@ -1682,7 +1688,11 @@ Public Class FrmGateEntry
                 obj.Vendor_Code = clsCommon.myCstr(fndVendorBulk.Value)
                 obj.Vendor_Desc = clsCommon.myCstr(lblVendorNameBulk.Text)
                 obj.Tanker_No = clsCommon.myCstr(txtTankerNoBulk.Text)
-                obj.Challan_No = clsCommon.myCstr(txtChallanNoBulk.Text)
+                If chkAgainstTankerDispatch.IsChecked Then
+                    obj.Challan_No = clsCommon.myCstr(fndChallanNoMcc.Value)
+                ElseIf chkAgainstRoute.IsChecked Then
+                    obj.Challan_No = clsCommon.myCstr(txtChallanNoBulk.Text)
+                End If
                 obj.Challan_Date = clsCommon.GetPrintDate(dtpChallanDateBulk.Value, "dd/MMM/yyyy")
                 obj.Item_Code = clsCommon.myCstr(gvItemBulk.Rows(0).Cells(colItemCode).Value)
                 obj.Item_Desc = clsCommon.myCstr(gvItemBulk.Rows(0).Cells(colItemDesc).Value)
@@ -1710,9 +1720,17 @@ Public Class FrmGateEntry
                 obj.Dispatched_From_Mcc = clsCommon.myCstr(fndVendorBulk.Value)
                 obj.No_Of_CAN = clsCommon.myCdbl(txtCAN.Value)
                 If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
-                    obj.Challan_No = clsCommon.myCstr(txtChallanNoBulk.Text)
+                    If chkAgainstTankerDispatch.IsChecked Then
+                        obj.Challan_No = clsCommon.myCstr(fndChallanNoMcc.Value)
+                    ElseIf chkAgainstRoute.IsChecked Then
+                        obj.Challan_No = clsCommon.myCstr(txtChallanNoBulk.Text)
+                    End If
                 Else
-                    obj.Challan_No = clsCommon.myCstr(fndChallanNoMcc.Value)
+                    If chkAgainstTankerDispatch.IsChecked Then
+                        obj.Challan_No = clsCommon.myCstr(fndChallanNoMcc.Value)
+                    ElseIf chkAgainstRoute.IsChecked Then
+                        obj.Challan_No = clsCommon.myCstr(txtChallanNoBulk.Text)
+                    End If
                 End If
 
                 obj.Challan_Date = clsCommon.GetPrintDate(dtpChallanDateBulk.Value, "dd/MMM/yyyy")
@@ -3173,12 +3191,42 @@ Public Class FrmGateEntry
                         gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(strItem, Nothing)
                         gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colItemDesc).Value = clsIntimation.getItemName(strItem, Nothing)
                         gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select UOM_Code   from TSPL_ITEM_UOM_DETAIL where Item_Code='" & strItem & "' and Default_UOM='1' "))
+
                         If clsCommon.myLen(gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colUOM).Value) <= 0 Then
                             gvItemBulk.CurrentRow.Cells(colUOM).Value = clsItemMaster.GetStockUnit(strItem, Nothing)
                         End If
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSlNo).Value = intLineNo
+                        gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colMilkTypeCode).Value = clsCommon.myCstr(txtMilktypeCode.Value)
+
+                        If chkAgainstTankerDispatch.IsChecked Then
+                            Dim objDis As clsMccDispatch = clsMccDispatch.getData(fndChallanNoMcc.Value, NavigatorType.Current)
+                            If objDis.arr IsNot Nothing AndAlso objDis.arr.Count > 0 Then
+                                gvItemBulk.Rows(0).Cells(colItemCode).Value = objDis.arr(0).Item_Code
+                                gvItemBulk.Rows(0).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(objDis.arr(0).Item_Code, Nothing)
+                                gvItemBulk.Rows(0).Cells(colItemDesc).Value = objDis.arr(0).Item_Name
+                                gvItemBulk.Rows(0).Cells(colChamberDesc).Value = objDis.arr(0).Chamber_Description
+                                gvItemBulk.Rows(0).Cells(colUOM).Value = objDis.arr(0).Item_UOM
+                                gvItemBulk.Rows(0).Cells(colQty).Value = objDis.arr(0).Qty_KG
+                                gvItemBulk.Rows(0).Cells(colFat).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='FAT' and SNo='" & objDis.arr(0).SNo & "'")
+                                gvItemBulk.Rows(0).Cells(colSNF).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='SNF' and SNo='" & objDis.arr(0).SNo & "'")
+                                gvItemBulk.Rows(0).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+                                gvItemBulk.Rows(0).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+                            Else
+                                gvItemBulk.Rows(0).Cells(colItemCode).Value = objDis.Item_Code
+                                gvItemBulk.Rows(0).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(objDis.Item_Code, Nothing)
+                                gvItemBulk.Rows(0).Cells(colItemDesc).Value = objDis.Item_Desc
+                                gvItemBulk.Rows(0).Cells(colUOM).Value = objDis.UOM_Code
+                                gvItemBulk.Rows(0).Cells(colQty).Value = objDis.Net_Qty
+                                gvItemBulk.Rows(0).Cells(colFat).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='FAT'")
+                                gvItemBulk.Rows(0).Cells(colSNF).Value = clsDBFuncationality.getSingleValue("select TSPL_Mcc_Dispatch_Chalan_Parameter_Detail.param_field_value from TSPL_Mcc_Dispatch_Chalan_Parameter_Detail where chalan_no='" & fndChallanNoMcc.Value & "' and param_type='SNF'")
+                                gvItemBulk.Rows(0).Cells(colFatKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colFat).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+                                gvItemBulk.Rows(0).Cells(colSNFKG).Value = clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colSNF).Value) * clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colQty).Value) / 100
+
+                            End If
+                        End If
+
+
                     End If
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colSlNo).Value = intLineNo
-                    gvItemBulk.Rows(gvItemBulk.Rows.Count - 1).Cells(colMilkTypeCode).Value = clsCommon.myCstr(txtMilktypeCode.Value)
                 Next
             End If
         Catch ex As Exception

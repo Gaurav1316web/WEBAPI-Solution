@@ -70,8 +70,10 @@ Public Class FrmMCCMilkRegister
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
             chkRouteWisedateWiseSummry.Visible = True
+            chkCanSummary.Visible = True
         Else
             chkRouteWisedateWiseSummry.Visible = False
+            chkCanSummary.Visible = False
         End If
         txtFromShift.SelectedValue = "M"
         txtToShift.SelectedValue = "E"
@@ -2962,9 +2964,16 @@ Public Class FrmMCCMilkRegister
         btnPrintMccDetails.Enabled = False
         arrBack = New List(Of String)
         chkRouteShiftWise.Enabled = True
+        chkCanSummary.Enabled = True
         If chkRouteShiftWise.Checked Then
             RadButton1.Enabled = True
         End If
+
+        chkCanSummary.Enabled = True
+        If chkCanSummary.Checked Then
+            RadButton1.Enabled = True
+        End If
+
         chkDateShift.Checked = False
         txtFromShift.SelectedValue = "M"
         txtToShift.SelectedValue = "E"
@@ -4087,7 +4096,7 @@ Public Class FrmMCCMilkRegister
                     Else
                         ffinalQry += "Convert(varchar,xxxx.[Route Code])[Route Code],"
                     End If
-                    ffinalQry +="Max(xxxx.[Route Name])[Route Name],(xxxx.[Vlc Uploader Code])[Vlc Uploader Code],Max(xxxx.[VSP Name])[VSP Name],"
+                    ffinalQry += "Max(xxxx.[Route Name])[Route Name],(xxxx.[Vlc Uploader Code])[Vlc Uploader Code],Max(xxxx.[VSP Name])[VSP Name],"
                     If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count = 1 Then
                         ffinalQry += " Max(xxxx.[MCC Name])[MCC Name],"
                     Else
@@ -4106,17 +4115,62 @@ Public Class FrmMCCMilkRegister
                         ffinalQry += " order by Convert(varchar,xxxxFinal.[Route Code])"
                     End If
                     dt = clsDBFuncationality.GetDataTable(ffinalQry)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            Dim frmCRV As New frmCrystalReportViewer()
-                            frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptRouteWiseUnitMilkCollection", "UNIT MILK COLLECTION REPORT")
-                            frmCRV = Nothing
-                        Else
-                            clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
-                        End If
-                        Exit Sub
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptRouteWiseUnitMilkCollection", "UNIT MILK COLLECTION REPORT")
+                        frmCRV = Nothing
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
+                    End If
+                    Exit Sub
+                End If
+
+
+
+                Dim CanfinalQry As String
+                If chkCanSummary.Checked AndAlso BulkExport = 7 Then
+                    CanfinalQry = "Select xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,Logo_Img2 from (Select [Doc Date],
+                Sum(TotalCanE) [Evening Cans],	Sum(TotalCanM) As [Morning Cans],'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as [To Date] from(Select final.Date ,final.[Doc Date] ,final.Shift , final.[No Of Cans] ,
+                Case When (final.Shift)='Evening' Then final.[No Of Cans] else 0  end as [TotalCanE],
+                Case When (final.Shift)='Morning' Then final.[No Of Cans] else 0  end as [TotalCanM]
+                From (Select
+                Convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_SRN_HEAD.DOC_DATE,103) As [Doc Date], 
+                Case When TSPL_MILK_SRN_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift, 
+                Case When TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No IS Null Then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.No_Of_Cans Else 
+                Case When TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No Is Null Then TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans Else 0 End End As [No Of Cans]
+                From TSPL_MILK_SRN_DETAIL 
+                Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE  
+                Left Outer Join TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
+                Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_NO=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No 
+                Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE 
+                where 2 = 2
+                and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'
+                and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+
+                    If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                        CanfinalQry += " and TSPL_MILK_SRN_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(arrMCC) + ")) "
+                    Else
+                        CanfinalQry += " And TSPL_MILK_SRN_HEAD.MCC_Code in (" & StrPermission & "))"
                     End If
 
+                    CanfinalQry += "As final where 2=2) xxfinal Group By xxFinal.[Doc Date])xxxfinal 
+                Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' Order by xxxFinal.[Doc Date]"
+
+                    dt = clsDBFuncationality.GetDataTable(CanfinalQry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptCanSummary", "CAN SUMMARY REPORT")
+                        frmCRV = Nothing
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
+                    End If
+                    Exit Sub
                 End If
+
+
+
+            End If
+
             Dim BaseQry1 As String = ""
             Dim BaseQry2 As String = ""
             If chkDateShift.Checked AndAlso rbtnCollectionSummary.Checked = False Then
@@ -4702,6 +4756,8 @@ Public Class FrmMCCMilkRegister
             LoadData(5)
         ElseIf chkRouteWisePrint.Checked Then
             LoadData(6)
+        ElseIf chkCanSummary.Checked Then
+            LoadData(7)
         Else
             LoadData(3)
         End If
@@ -5470,6 +5526,15 @@ ORDER BY
             btnRouteDateWiseSummary.Visible = False
         End If
     End Sub
+
+    Private Sub chkCanSummary_CheckedChanged(sender As Object, e As EventArgs) Handles chkCanSummary.CheckedChanged
+        If chkCanSummary.Checked Then
+            RadButton1.Enabled = True
+        Else
+            RadButton1.Enabled = False
+        End If
+    End Sub
+
 
     'Private Sub txtZone__My_Click(sender As Object, e As EventArgs)
     '    Try

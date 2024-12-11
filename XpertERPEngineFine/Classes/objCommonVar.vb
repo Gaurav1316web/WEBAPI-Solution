@@ -144,7 +144,17 @@ Public Class objCommonVar
     Private Shared _StopInventory As Boolean = False
     Private Shared _StopInventoryNew As Boolean = False
     Private Shared _RCDFRateControl As Boolean = False
+    Private Shared _JSONTrack As Boolean = False
 #End Region
+
+    Public Shared Property JSONTrack() As Boolean
+        Get
+            Return _JSONTrack
+        End Get
+        Set(ByVal Value As Boolean)
+            _JSONTrack = Value
+        End Set
+    End Property
     Public Shared Property RCDFDB() As String
         Get
             Return "RCDF.dbo."

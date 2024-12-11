@@ -22,7 +22,7 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -38,6 +38,8 @@ Partial Class FrmMCCMilkRegister
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtVLC = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkCanSummary = New System.Windows.Forms.CheckBox()
+        Me.chkRouteWisedateWiseSummry = New System.Windows.Forms.CheckBox()
         Me.chkRouteWiseSummary = New System.Windows.Forms.CheckBox()
         Me.chkRouteWiseDateWise = New System.Windows.Forms.CheckBox()
         Me.chkRouteWisePrint = New System.Windows.Forms.CheckBox()
@@ -83,6 +85,7 @@ Partial Class FrmMCCMilkRegister
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnRouteDateWiseSummary = New Telerik.WinControls.UI.RadButton()
         Me.btnRoutePrint = New Telerik.WinControls.UI.RadButton()
         Me.btnBack = New Telerik.WinControls.UI.RadButton()
         Me.btnLock = New Telerik.WinControls.UI.RadButton()
@@ -96,8 +99,6 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.chkRouteWisedateWiseSummry = New System.Windows.Forms.CheckBox()
-        Me.btnRouteDateWiseSummary = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -138,6 +139,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRouteDateWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRoutePrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -147,7 +149,6 @@ Partial Class FrmMCCMilkRegister
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnRouteDateWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -378,6 +379,7 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.chkCanSummary)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteWisedateWiseSummry)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteWiseSummary)
         Me.RadGroupBox6.Controls.Add(Me.chkRouteWiseDateWise)
@@ -388,9 +390,29 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox6.Location = New System.Drawing.Point(494, 116)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(207, 147)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(340, 147)
         Me.RadGroupBox6.TabIndex = 405
         Me.RadGroupBox6.Text = "Print"
+        '
+        'chkCanSummary
+        '
+        Me.chkCanSummary.AutoSize = True
+        Me.chkCanSummary.Location = New System.Drawing.Point(167, 15)
+        Me.chkCanSummary.Name = "chkCanSummary"
+        Me.chkCanSummary.Size = New System.Drawing.Size(133, 17)
+        Me.chkCanSummary.TabIndex = 399
+        Me.chkCanSummary.Text = "Can Summary Report"
+        Me.chkCanSummary.UseVisualStyleBackColor = True
+        '
+        'chkRouteWisedateWiseSummry
+        '
+        Me.chkRouteWisedateWiseSummry.AutoSize = True
+        Me.chkRouteWisedateWiseSummry.Location = New System.Drawing.Point(13, 108)
+        Me.chkRouteWisedateWiseSummry.Name = "chkRouteWisedateWiseSummry"
+        Me.chkRouteWisedateWiseSummry.Size = New System.Drawing.Size(184, 17)
+        Me.chkRouteWisedateWiseSummry.TabIndex = 398
+        Me.chkRouteWisedateWiseSummry.Text = "Route and Date Wise Summary"
+        Me.chkRouteWisedateWiseSummry.UseVisualStyleBackColor = True
         '
         'chkRouteWiseSummary
         '
@@ -889,7 +911,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -922,6 +944,17 @@ Partial Class FrmMCCMilkRegister
         '
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
+        '
+        'btnRouteDateWiseSummary
+        '
+        Me.btnRouteDateWiseSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRouteDateWiseSummary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnRouteDateWiseSummary.Location = New System.Drawing.Point(806, 2)
+        Me.btnRouteDateWiseSummary.Name = "btnRouteDateWiseSummary"
+        Me.btnRouteDateWiseSummary.Size = New System.Drawing.Size(166, 22)
+        Me.btnRouteDateWiseSummary.TabIndex = 166
+        Me.btnRouteDateWiseSummary.Text = "Route  Date Wise Summary "
+        Me.btnRouteDateWiseSummary.Visible = False
         '
         'btnRoutePrint
         '
@@ -1038,27 +1071,6 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
-        'chkRouteWisedateWiseSummry
-        '
-        Me.chkRouteWisedateWiseSummry.AutoSize = True
-        Me.chkRouteWisedateWiseSummry.Location = New System.Drawing.Point(13, 108)
-        Me.chkRouteWisedateWiseSummry.Name = "chkRouteWisedateWiseSummry"
-        Me.chkRouteWisedateWiseSummry.Size = New System.Drawing.Size(184, 17)
-        Me.chkRouteWisedateWiseSummry.TabIndex = 398
-        Me.chkRouteWisedateWiseSummry.Text = "Route and Date Wise Summary"
-        Me.chkRouteWisedateWiseSummry.UseVisualStyleBackColor = True
-        '
-        'btnRouteDateWiseSummary
-        '
-        Me.btnRouteDateWiseSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRouteDateWiseSummary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRouteDateWiseSummary.Location = New System.Drawing.Point(806, 2)
-        Me.btnRouteDateWiseSummary.Name = "btnRouteDateWiseSummary"
-        Me.btnRouteDateWiseSummary.Size = New System.Drawing.Size(166, 22)
-        Me.btnRouteDateWiseSummary.TabIndex = 166
-        Me.btnRouteDateWiseSummary.Text = "Route  Date Wise Summary "
-        Me.btnRouteDateWiseSummary.Visible = False
-        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1119,6 +1131,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRouteDateWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRoutePrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBack, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnLock, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1128,7 +1141,6 @@ Partial Class FrmMCCMilkRegister
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnRouteDateWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1208,5 +1220,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents chkRouteWiseSummary As CheckBox
     Friend WithEvents chkRouteWisedateWiseSummry As CheckBox
     Friend WithEvents btnRouteDateWiseSummary As RadButton
+    Friend WithEvents chkCanSummary As CheckBox
 End Class
 

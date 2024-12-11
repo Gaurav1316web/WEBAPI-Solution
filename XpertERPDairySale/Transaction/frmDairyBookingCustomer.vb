@@ -1421,19 +1421,45 @@ Public Class frmDairyBookingCustomer
         ") XXXE WHERE RowNo=1  "
         dt = clsDBFuncationality.GetDataTable(qry)
         If dt.Rows.Count > 0 Then
-            dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
-            If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0).Item("Is_With_Tax")), "N") = CompairStringResult.Equal Then
-                dblItemBasicPrice = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price")) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX2_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX3_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX4_Amt")), 2), 2)
+            If chkSampling.Checked = True Then
+                dblRate = clsCommon.myCdbl(0)
+                If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0).Item("Is_With_Tax")), "N") = CompairStringResult.Equal Then
+                    dblItemBasicPrice = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price")) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX2_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX3_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX4_Amt")), 2), 2)
+                Else
+                    dblItemBasicPrice = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
+                End If
+                'If dblRate = 0 Then
+                '    Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) & ".")
+                '    Exit Sub
+                'End If
+                'End IfF
             Else
-                dblItemBasicPrice = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
+                dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+                If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0).Item("Is_With_Tax")), "N") = CompairStringResult.Equal Then
+                    dblItemBasicPrice = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price")) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX2_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX3_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX4_Amt")), 2), 2)
+                Else
+                    dblItemBasicPrice = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
+                End If
+                If dblRate = 0 Then
+                    Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) & ".")
+                    Exit Sub
+                End If
+                'End IfF
             End If
-            If dblRate = 0 Then
-                Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) & ".")
-                Exit Sub
-            End If
+
+            'dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+            '    If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0).Item("Is_With_Tax")), "N") = CompairStringResult.Equal Then
+            '        dblItemBasicPrice = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price")) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX2_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX3_Amt")), 2) + Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("TAX4_Amt")), 2), 2)
+            '    Else
+            '        dblItemBasicPrice = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
+            '    End If
+            '    If dblRate = 0 Then
+            '        Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) & ".")
+            '        Exit Sub
+            '    End If
             'End IfF
         Else
-            If Not isFORPrice Then
+                If Not isFORPrice Then
                 Throw New Exception("Please create Price chart for customer " & txtVendorNo.Value & " for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) & ".")
                 blnSaveTotalQTy = False
                 Exit Sub
@@ -1463,16 +1489,31 @@ Public Class frmDairyBookingCustomer
         ''''''''''''scheme
         dt = clsDBFuncationality.GetDataTable(qry)
         If dt.Rows.Count > 0 Then
-            gv1.Rows(introw).Cells(colSellingRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
-            gv1.Rows(introw).Cells(colOrgRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
-            gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
-            gv1.Rows(introw).Cells(colPriceId).Value = clsCommon.myCstr(dt.Rows(0).Item("Item_Price_ID"))
-            gv1.Rows(introw).Cells(colPriceIDAppDate).Value = clsCommon.myCstr(dt.Rows(0).Item("Start_date"))
-            gv1.Rows(introw).Cells(colPricePlanNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Plan_Code  from TSPL_ITEM_PRICE_PLAN_DETAIL WHERE PLAN_TR_CODE='" & clsCommon.myCstr(dt.Rows(0).Item("Against_Plan_TR_Code")) & "'"))
+            If chkSampling.Checked = True Then
+                gv1.Rows(introw).Cells(colSellingRate).Value = clsCommon.myCdbl(0)
+                gv1.Rows(introw).Cells(colOrgRate).Value = clsCommon.myCdbl(0)
+                gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(0)
+                gv1.Rows(introw).Cells(colPriceId).Value = clsCommon.myCstr(dt.Rows(0).Item("Item_Price_ID"))
+                gv1.Rows(introw).Cells(colPriceIDAppDate).Value = clsCommon.myCstr(dt.Rows(0).Item("Start_date"))
+                gv1.Rows(introw).Cells(colPricePlanNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Plan_Code  from TSPL_ITEM_PRICE_PLAN_DETAIL WHERE PLAN_TR_CODE='" & clsCommon.myCstr(dt.Rows(0).Item("Against_Plan_TR_Code")) & "'"))
+            Else
+                gv1.Rows(introw).Cells(colSellingRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+                gv1.Rows(introw).Cells(colOrgRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+                gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+                gv1.Rows(introw).Cells(colPriceId).Value = clsCommon.myCstr(dt.Rows(0).Item("Item_Price_ID"))
+                gv1.Rows(introw).Cells(colPriceIDAppDate).Value = clsCommon.myCstr(dt.Rows(0).Item("Start_date"))
+                gv1.Rows(introw).Cells(colPricePlanNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Plan_Code  from TSPL_ITEM_PRICE_PLAN_DETAIL WHERE PLAN_TR_CODE='" & clsCommon.myCstr(dt.Rows(0).Item("Against_Plan_TR_Code")) & "'"))
+
+            End If
             If ShowMulMRPOfSameItemOnDairyBookingCustomer = True Then
                 isCellValueChangedOpen = True
             End If
-            gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+            If chkSampling.Checked = True Then
+                gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(0)
+            Else
+                gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+            End If
+            'gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
             If ShowMulMRPOfSameItemOnDairyBookingCustomer = True Then
                 isCellValueChangedOpen = False
             End If
@@ -2956,19 +2997,33 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     End If
 
                     If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
-                        If dblQty > 0 AndAlso dblrate <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
+                        If chkSampling.Checked = False Then
+                            If dblQty > 0 AndAlso dblrate <= 0 Then
+                                clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
                         End If
                     Else
-                        If dblQty <= 0 Then
-                            common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
+                        If chkSampling.Checked = True Then
+                            If dblQty <= 0 Then
+                                common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                            'If dblrate <= 0 Then
+                            '    clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                            '    Return False
+                            'End If
+                        Else
+                            If dblQty <= 0 Then
+                                common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
+                            If dblrate <= 0 Then
+                                clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
+                                Return False
+                            End If
                         End If
-                        If dblrate <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "Please enter Booked Rate for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
-                            Return False
-                        End If
+
                     End If
                     'Sanjay Ticket No- BHA/28/06/18-000106 Client- Bharat Dairy, Setting for check Average Quantity ''richa this check will not be worked for those booking which are created through Mobile app ERO/27/08/19-001005
                     ' If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(BookingThrough,'')  from TSPL_BOOKING_MATSER   where Document_No ='" & txtDocNo.Value & "' ", trans)), "App") <> CompairStringResult.Equal Then
@@ -8378,7 +8433,12 @@ from
                                 objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
                                 objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
                                 objTr.Crate = clsCommon.myCDecimal(grow.Cells(colQty).Value)
-                                objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colOrgRate).Value)
+                                If chkSampling.Checked = True Then
+                                    objTr.Item_Cost = clsCommon.myCDecimal(0)
+                                Else
+                                    objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colOrgRate).Value)
+                                End If
+                                'objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colOrgRate).Value)
                                 objTr.Amount = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                                 objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                                 objTr.Sampling = IIf(chkSampling.Checked, 1, 0)
