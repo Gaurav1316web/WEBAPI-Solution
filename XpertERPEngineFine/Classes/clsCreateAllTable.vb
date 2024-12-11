@@ -13744,6 +13744,7 @@ Public Class clsCreateAllTable
             coll.Add("CuttOff_Time", "dateTime Null")
             coll.Add("Schedule_Time_Morning", "datetime NULL")
             coll.Add("Schedule_Time_Evening", "datetime NULL")
+            coll.Add("Schedule_Time", "datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

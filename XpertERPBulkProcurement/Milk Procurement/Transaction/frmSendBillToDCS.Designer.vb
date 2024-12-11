@@ -46,6 +46,9 @@ Partial Class frmSendBillToDCS
         Me.lblDocNo = New common.Controls.MyLabel()
         Me.fndPaymentProcessDocNo = New common.UserControls.txtFinder()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -67,6 +70,9 @@ Partial Class frmSendBillToDCS
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -92,6 +98,9 @@ Partial Class frmSendBillToDCS
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.RadButton4)
+        Me.GroupBox1.Controls.Add(Me.RadButton3)
+        Me.GroupBox1.Controls.Add(Me.RadButton1)
         Me.GroupBox1.Controls.Add(Me.txtREILDCS)
         Me.GroupBox1.Controls.Add(Me.MyLabel4)
         Me.GroupBox1.Controls.Add(Me.txtREILBMC)
@@ -103,7 +112,7 @@ Partial Class frmSendBillToDCS
         Me.GroupBox1.Controls.Add(Me.RadButton5)
         Me.GroupBox1.Location = New System.Drawing.Point(18, 117)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(322, 104)
+        Me.GroupBox1.Size = New System.Drawing.Size(322, 131)
         Me.GroupBox1.TabIndex = 369
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Get Farmer Collection from REIL Server"
@@ -389,6 +398,30 @@ Partial Class frmSendBillToDCS
         Me.btnClose.TabIndex = 9
         Me.btnClose.Text = "Close"
         '
+        'RadButton1
+        '
+        Me.RadButton1.Location = New System.Drawing.Point(40, 94)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(89, 20)
+        Me.RadButton1.TabIndex = 349
+        Me.RadButton1.Text = "Milk Collection"
+        '
+        'RadButton3
+        '
+        Me.RadButton3.Location = New System.Drawing.Point(130, 94)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(85, 20)
+        Me.RadButton3.TabIndex = 350
+        Me.RadButton3.Text = "Local Sale"
+        '
+        'RadButton4
+        '
+        Me.RadButton4.Location = New System.Drawing.Point(216, 94)
+        Me.RadButton4.Name = "RadButton4"
+        Me.RadButton4.Size = New System.Drawing.Size(88, 20)
+        Me.RadButton4.TabIndex = 350
+        Me.RadButton4.Text = "Farmer Sale"
+        '
         'frmSendBillToDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -424,6 +457,9 @@ Partial Class frmSendBillToDCS
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -453,4 +489,7 @@ Partial Class frmSendBillToDCS
     Friend WithEvents txtREILFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents RadButton5 As RadButton
+    Friend WithEvents RadButton4 As RadButton
+    Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents RadButton1 As RadButton
 End Class

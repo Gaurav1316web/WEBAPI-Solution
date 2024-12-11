@@ -2625,14 +2625,13 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
         '    BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
         'End If
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-        BaseQry += " left join(SELECT VLC_CODE, MAX(Head_Load_Rate) AS Head_Load_Rate FROM TSPL_HEAD_LOAD_DCS
-                     LEFT OUTER JOIN TSPL_HEAD_LOAD ON TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No 
-                     WHERE TSPL_HEAD_LOAD_DCS.Document_No = (SELECT MAX(Document_No) FROM TSPL_HEAD_LOAD) GROUP BY VLC_CODE
-                     UNION ALL
-                     SELECT VLC_CODE, MAX(Head_Load_Rate) AS Head_Load_Rate FROM TSPL_HEAD_LOAD_DCS
-                     LEFT OUTER JOIN TSPL_HEAD_LOAD ON TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
-                     WHERE VLC_CODE NOT IN ( SELECT VLC_CODE FROM TSPL_HEAD_LOAD_DCS WHERE Document_No = (SELECT MAX(Document_No) FROM TSPL_HEAD_LOAD))
-                     GROUP BY VLC_CODE)Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
+        BaseQry += " left join(SELECT TSPL_HEAD_LOAD.Document_No,TSPL_HEAD_LOAD_DCS.VLC_CODE,MAX(TSPL_HEAD_LOAD_DCS.Head_Load_Rate) Head_Load_Rate FROM (
+                               SELECT DISTINCT MAX(TSPL_HEAD_LOAD.Document_No) Document_No,MAX( TSPL_HEAD_LOAD_DCS.VLC_CODE) VLC_CODE FROM TSPL_HEAD_LOAD
+                               LEFT OUTER JOIN TSPL_HEAD_LOAD_DCS ON TSPL_HEAD_LOAD_DCS.Document_No=TSPL_HEAD_LOAD.Document_No
+                               GROUP BY TSPL_HEAD_LOAD_DCS.VLC_CODE) TSPL_HEAD_LOAD
+                               LEFT OUTER JOIN TSPL_HEAD_LOAD_DCS ON TSPL_HEAD_LOAD_DCS.Document_No=TSPL_HEAD_LOAD.Document_No AND
+                               TSPL_HEAD_LOAD_DCS.VLC_CODE=TSPL_HEAD_LOAD.VLC_CODE
+                               GROUP BY TSPL_HEAD_LOAD.Document_No,TSPL_HEAD_LOAD_DCS.VLC_CODE)Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
         'BaseQry += " Left Outer Join TSPL_HEAD_LOAD_DCS On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_HEAD_LOAD_DCS.VLC_CODE " + Environment.NewLine
         'End If
         'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query
