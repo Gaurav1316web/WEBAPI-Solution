@@ -18,6 +18,7 @@ Public Class clsBulkRoutMaster
     Public CuttOff_Time As DateTime
     Public Schedule_Time_Morning As DateTime?
     Public Schedule_Time_Evening As DateTime?
+    Public Schedule_Time As DateTime?
 
 #End Region
     Public Shared Function SaveData(ByVal obj As clsBulkRoutMaster) As Boolean
@@ -39,6 +40,7 @@ Public Class clsBulkRoutMaster
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "ROUTE_NAME", obj.ROUTE_NAME)
+
             clsCommon.AddColumnsForChange(coll, "ROUTE_NAME_HINDI", obj.ROUTE_NAME_HINDI, True, True)
             clsCommon.AddColumnsForChange(coll, "Distance", obj.Distance)
             clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
@@ -59,7 +61,9 @@ Public Class clsBulkRoutMaster
             If clsCommon.myLen(obj.Schedule_Time_Evening) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Schedule_Time_Evening", clsCommon.GetPrintDate(obj.Schedule_Time_Evening, "dd/MMM/yyyy hh:mm tt"))
             End If
-
+            If clsCommon.myLen(obj.Schedule_Time) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Schedule_Time", clsCommon.GetPrintDate(obj.Schedule_Time, "dd/MMM/yyyy hh:mm tt"))
+            End If
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -111,6 +115,7 @@ Public Class clsBulkRoutMaster
             obj.TollAmount = clsCommon.myCdbl(dt.Rows(0)("TollAmount"))
             obj.IsContractor = clsCommon.myCdbl(dt.Rows(0)("IsContractor"))
             obj.IsDefault = clsCommon.myCdbl(dt.Rows(0)("IsDefault"))
+
             obj.arrMCC = clsBulkRoutMasterMCC.GetData(obj.ROUTE_NO)
             obj.CuttOff_Time = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt")
             If dt.Rows(0)("Schedule_Time_Morning") IsNot DBNull.Value Then
@@ -119,7 +124,9 @@ Public Class clsBulkRoutMaster
             If dt.Rows(0)("Schedule_Time_Evening") IsNot DBNull.Value Then
                 obj.Schedule_Time_Evening = clsCommon.myCDate(dt.Rows(0)("Schedule_Time_Evening"))
             End If
-
+            If dt.Rows(0)("Schedule_Time") IsNot DBNull.Value Then
+                obj.Schedule_Time = clsCommon.myCDate(dt.Rows(0)("Schedule_Time"))
+            End If
         End If
         Return obj
     End Function

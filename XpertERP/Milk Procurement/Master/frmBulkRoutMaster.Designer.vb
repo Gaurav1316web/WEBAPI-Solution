@@ -28,6 +28,8 @@ Partial Class FrmBulkRoutMaster
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblScheduleTime = New common.Controls.MyLabel()
+        Me.txtScheduleTime = New common.Controls.MyDateTimePicker()
         Me.txtScheduleTimeE = New common.Controls.MyDateTimePicker()
         Me.txtScheduleTimeM = New common.Controls.MyDateTimePicker()
         Me.MyLabel8 = New common.Controls.MyLabel()
@@ -68,6 +70,8 @@ Partial Class FrmBulkRoutMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblScheduleTime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtScheduleTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtScheduleTimeE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtScheduleTimeM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,7 +112,7 @@ Partial Class FrmBulkRoutMaster
         Me.rdmenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.File})
         Me.rdmenu1.Location = New System.Drawing.Point(0, 0)
         Me.rdmenu1.Name = "rdmenu1"
-        Me.rdmenu1.Size = New System.Drawing.Size(714, 20)
+        Me.rdmenu1.Size = New System.Drawing.Size(733, 20)
         Me.rdmenu1.TabIndex = 2
         '
         'File
@@ -145,6 +149,8 @@ Partial Class FrmBulkRoutMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblScheduleTime)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtScheduleTime)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtScheduleTimeE)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtScheduleTimeM)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel8)
@@ -184,9 +190,47 @@ Partial Class FrmBulkRoutMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtndelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(714, 335)
-        Me.SplitContainer1.SplitterDistance = 304
+        Me.SplitContainer1.Size = New System.Drawing.Size(733, 346)
+        Me.SplitContainer1.SplitterDistance = 313
         Me.SplitContainer1.TabIndex = 3
+        '
+        'lblScheduleTime
+        '
+        Me.lblScheduleTime.FieldName = Nothing
+        Me.lblScheduleTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblScheduleTime.Location = New System.Drawing.Point(12, 285)
+        Me.lblScheduleTime.Name = "lblScheduleTime"
+        Me.lblScheduleTime.Size = New System.Drawing.Size(82, 16)
+        Me.lblScheduleTime.TabIndex = 12153
+        Me.lblScheduleTime.Text = "Schedule Time"
+        '
+        'txtScheduleTime
+        '
+        Me.txtScheduleTime.CalculationExpression = Nothing
+        Me.txtScheduleTime.CustomFormat = "hh:mm tt"
+        Me.txtScheduleTime.FieldCode = Nothing
+        Me.txtScheduleTime.FieldDesc = Nothing
+        Me.txtScheduleTime.FieldMaxLength = 0
+        Me.txtScheduleTime.FieldName = Nothing
+        Me.txtScheduleTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtScheduleTime.isCalculatedField = False
+        Me.txtScheduleTime.IsSourceFromTable = False
+        Me.txtScheduleTime.IsSourceFromValueList = False
+        Me.txtScheduleTime.IsUnique = False
+        Me.txtScheduleTime.Location = New System.Drawing.Point(151, 285)
+        Me.txtScheduleTime.MendatroryField = False
+        Me.txtScheduleTime.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
+        Me.txtScheduleTime.MyLinkLable1 = Nothing
+        Me.txtScheduleTime.MyLinkLable2 = Nothing
+        Me.txtScheduleTime.Name = "txtScheduleTime"
+        Me.txtScheduleTime.ReferenceFieldDesc = Nothing
+        Me.txtScheduleTime.ReferenceFieldName = Nothing
+        Me.txtScheduleTime.ReferenceTableName = Nothing
+        Me.txtScheduleTime.Size = New System.Drawing.Size(153, 20)
+        Me.txtScheduleTime.TabIndex = 12152
+        Me.txtScheduleTime.TabStop = False
+        Me.txtScheduleTime.Text = "02:13 PM"
+        Me.txtScheduleTime.Value = New Date(2023, 11, 27, 14, 13, 0, 0)
         '
         'txtScheduleTimeE
         '
@@ -717,7 +761,7 @@ Partial Class FrmBulkRoutMaster
         'rdbtnclose
         '
         Me.rdbtnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rdbtnclose.Location = New System.Drawing.Point(645, 6)
+        Me.rdbtnclose.Location = New System.Drawing.Point(664, 8)
         Me.rdbtnclose.Name = "rdbtnclose"
         Me.rdbtnclose.Size = New System.Drawing.Size(66, 18)
         Me.rdbtnclose.TabIndex = 4
@@ -726,7 +770,7 @@ Partial Class FrmBulkRoutMaster
         'rdbtnsave
         '
         Me.rdbtnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.rdbtnsave.Location = New System.Drawing.Point(3, 6)
+        Me.rdbtnsave.Location = New System.Drawing.Point(3, 8)
         Me.rdbtnsave.Name = "rdbtnsave"
         Me.rdbtnsave.Size = New System.Drawing.Size(66, 18)
         Me.rdbtnsave.TabIndex = 2
@@ -735,7 +779,7 @@ Partial Class FrmBulkRoutMaster
         'rdbtndelete
         '
         Me.rdbtndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.rdbtndelete.Location = New System.Drawing.Point(72, 6)
+        Me.rdbtndelete.Location = New System.Drawing.Point(72, 8)
         Me.rdbtndelete.Name = "rdbtndelete"
         Me.rdbtndelete.Size = New System.Drawing.Size(66, 18)
         Me.rdbtndelete.TabIndex = 3
@@ -745,7 +789,7 @@ Partial Class FrmBulkRoutMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(714, 355)
+        Me.ClientSize = New System.Drawing.Size(733, 366)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.rdmenu1)
         Me.Name = "FrmBulkRoutMaster"
@@ -759,6 +803,8 @@ Partial Class FrmBulkRoutMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblScheduleTime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtScheduleTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtScheduleTimeE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtScheduleTimeM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
@@ -838,5 +884,7 @@ Partial Class FrmBulkRoutMaster
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents txtScheduleTimeE As common.Controls.MyDateTimePicker
     Friend WithEvents txtScheduleTimeM As common.Controls.MyDateTimePicker
+    Friend WithEvents txtScheduleTime As common.Controls.MyDateTimePicker
+    Friend WithEvents lblScheduleTime As common.Controls.MyLabel
 End Class
 
