@@ -224,15 +224,20 @@ Public Class frmSendBillToDCS
     End Sub
 
     Private Sub RadButton5_Click(sender As Object, e As EventArgs) Handles RadButton5.Click
+        REILIntegration(True, True, True)
+    End Sub
+
+    Private Sub REILIntegration(isMilkcollection As Boolean, isLocalSale As Boolean, isFarmerSale As Boolean)
         Try
             Dim arrFilter As Dictionary(Of String, String) = Nothing
             Dim arrShift = New List(Of String)
             arrShift.Add("M")
             arrShift.Add("E")
             Dim ii As Integer = 1
-
+            Dim strMsg As String = ""
             Dim qry As String = "select * from ExplodeDates('" & clsCommon.GetPrintDate(txtREILFromDate.Value, "dd/MMM/yyyy") & "','" + clsCommon.GetPrintDate(txtREILToDate.Value, "dd/MMM/yyyy") & "')"
             Dim dtDate As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim dtCollection As DataTable
             If dtDate Is Nothing OrElse dtDate.Rows.Count <= 0 Then
                 Throw New Exception("Please select valid Date Range")
             End If
@@ -256,160 +261,172 @@ Public Class frmSendBillToDCS
                         For Each drDCS As DataRow In dtDCS.Rows
                             Dim strVLCUploader As String = clsCommon.myCstr(drDCS("VLC_Code_VLC_Uploader"))
                             Dim strMCC As String = clsCommon.myCstr(drDCS("MCC"))
-                            clsCommon.ProgressBarPercentUpdate(ii, totalNo, "MP Collection [" & clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy") & "][" & strShift & "][" & strVLCUploader & "][" + clsCommon.myCstr(drDCS("VLC_Name")) & "]")
+
                             ii += 1
-#Region "Milk Collection"
-                            arrFilter = New Dictionary(Of String, String)()
-                            arrFilter.Add("master", "01")
-                            arrFilter.Add("dcscode", clsCommon.myPadChar(strVLCUploader, 6, "0"))
-                            arrFilter.Add("date", clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy"))
-                            arrFilter.Add("shift", strShift)
-                            Dim dtCollection As DataTable = Xtra.GetDataFromAPI(EnumAPI.REIL, "", arrFilter)
-                            If dtCollection IsNot Nothing AndAlso dtCollection.Rows.Count > 0 Then
-                                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                                Try
-                                    For Each drCollection As DataRow In dtCollection.Rows
-                                        Dim MPUploaderNo As String = clsCommon.myCstr(clsCommon.myCDecimal(clsCommon.myCstr(drCollection("MPCode")).Substring(clsCommon.myLen(drCollection("MPCode")) - 4, 4)))
-                                        Dim dtMasterData As DataTable = GetMasterDataQryMPCode(clsCommon.myCstr(drCollection("MPCode")), MPUploaderNo, clsCommon.myCstr(drDCS("VLC_Code")), trans)
-                                        If dtMasterData Is Nothing OrElse dtMasterData.Rows.Count <= 0 Then
-                                            CreateNewMP(clsCommon.myCstr(drDCS("VLC_Code")), strVLCUploader, clsCommon.myCstr(drCollection("MPCode")), MPUploaderNo, trans)
-                                            dtMasterData = GetMasterDataQryMPCode(clsCommon.myCstr(drCollection("MPCode")), "", "", trans)
-                                        End If
-                                        If dtMasterData Is Nothing OrElse dtMasterData.Rows.Count <= 0 Then
-                                            Throw New Exception("Invalid MPCode [" & clsCommon.myCstr(drCollection("MPCode")) & "]")
-                                        ElseIf dtMasterData.Rows.Count > 1 Then
-                                            Throw New Exception("MPCode [" & clsCommon.myCstr(drCollection("MPCode")) & "] is not unique.")
-                                        End If
-                                        qry = "select top 1 Doc_No from TSPL_VLC_DATA_UPLOADER where MCC_Code ='" & strMCC & "' and VLC_CODE='" & clsCommon.myCstr(strVLCUploader) & "' and Doc_Date='" + clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy") & "' and shift='" & strShift & "' "
-                                        Dim docCode As String = "" = clsDBFuncationality.getSingleValue(qry, trans)
-                                        If clsCommon.myLen(docCode) <= 0 Then
-                                            docCode = clsERPFuncationality.GetNextCode(trans, dtStart, "VLC Data Uploader", "", strMCC)
-                                        End If
-                                        Dim coll As Hashtable = New Hashtable()
-                                        clsCommon.AddColumnsForChange(coll, "Mcc_code", strMCC)
-                                        clsCommon.AddColumnsForChange(coll, "Doc_No", docCode)
-                                        clsCommon.AddColumnsForChange(coll, "doc_date", clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy hh:mm:ss tt"))
-                                        clsCommon.AddColumnsForChange(coll, "file_Date", clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy hh:mm:ss tt"))
-                                        clsCommon.AddColumnsForChange(coll, "Shift", strShift)
-                                        clsCommon.AddColumnsForChange(coll, "Mp_code", clsCommon.myCstr(dtMasterData.Rows(0)("MP_Code_VLC_Uploader")))
-                                        clsCommon.AddColumnsForChange(coll, "Vlc_code", clsCommon.myCstr(strVLCUploader))
-                                        clsCommon.AddColumnsForChange(coll, "Route_no", clsCommon.myCstr(dtMasterData.Rows(0)("Route_Code")))
-                                        clsCommon.AddColumnsForChange(coll, "Milk_type", clsCommon.myCstr(drCollection("MilkType")))
-                                        clsCommon.AddColumnsForChange(coll, "Qty", clsCommon.myCdbl(drCollection("Qty")))
-                                        clsCommon.AddColumnsForChange(coll, "Fat", clsCommon.myCdbl(drCollection("FAT")))
-                                        clsCommon.AddColumnsForChange(coll, "snf", clsCommon.myCdbl(drCollection("SNF")))
-                                        clsCommon.AddColumnsForChange(coll, "Fat_Kg", ((clsCommon.myCdbl(drCollection("Qty")) * clsCommon.myCdbl(drCollection("FAT"))) / 100.0))
-                                        clsCommon.AddColumnsForChange(coll, "snf_Kg", ((clsCommon.myCdbl(drCollection("Qty")) * clsCommon.myCdbl(drCollection("SNF"))) / 100.0))
-                                        clsCommon.AddColumnsForChange(coll, "Uom_COde", "Ltr")
-                                        clsCommon.AddColumnsForChange(coll, "Rate", clsCommon.myCdbl(drCollection("Rate")))
-                                        clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(drCollection("Amount")))
-                                        clsCommon.AddColumnsForChange(coll, "water", 0)
-                                        clsCommon.AddColumnsForChange(coll, "Created_By", "REIL")
-                                        clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                                        clsCommon.AddColumnsForChange(coll, "Modified_By", "REIL")
-                                        clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                                        clsCommon.AddColumnsForChange(coll, "Comp_Code", clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Comp_Code  from TSPL_COMPANY_MASTER", trans)))
-                                        clsCommon.AddColumnsForChange(coll, "SYNC_STATUS", 0)
-                                        clsCommon.AddColumnsForChange(coll, "Entry_Source", "REIL")
-                                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VLC_DATA_UPLOADER", OMInsertOrUpdate.Insert, "", trans)
-                                    Next
-                                    trans.Commit()
-                                Catch ex As Exception
-                                    trans.Rollback()
-                                    Throw New Exception(ex.Message)
-                                End Try
-
-                            End If
-#End Region
-
-#Region "Local Milk Sale"
-                            arrFilter = New Dictionary(Of String, String)()
-                            arrFilter.Add("master", "03")
-                            arrFilter.Add("dcscode", clsCommon.myPadChar(strVLCUploader, 6, "0"))
-                            arrFilter.Add("date", clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy"))
-                            arrFilter.Add("shift", strShift)
-                            dtCollection = Xtra.GetDataFromAPI(EnumAPI.REIL, "", arrFilter)
-                            If dtCollection IsNot Nothing AndAlso dtCollection.Rows.Count > 0 Then
-                                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                                Try
-                                    qry = "select PK_ID from TSPL_REIL_LOCAL_MILK_SALE where VLC_CODE='" & clsCommon.myCstr(drDCS("VLC_Code")) & "' and Doc_Date='" + clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy") & "' and shift='" & strShift & "' "
-                                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                                        Dim coll As Hashtable = New Hashtable()
-                                        clsCommon.AddColumnsForChange(coll, "VLC_Code", clsCommon.myCstr(drDCS("VLC_Code")))
-                                        clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy hh:mm:ss tt"))
-                                        clsCommon.AddColumnsForChange(coll, "Shift", strShift)
-                                        clsCommon.AddColumnsForChange(coll, "Created_By", "REIL")
-                                        clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                                        clsCommon.AddColumnsForChange(coll, "Modify_By", "REIL")
-                                        clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REIL_LOCAL_MILK_SALE", OMInsertOrUpdate.Insert, "", trans)
-
-                                        Dim intPKID As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SCOPE_IDENTITY()", trans))
+                            If isMilkcollection Then
+                                clsCommon.ProgressBarPercentUpdate(ii, totalNo, "MP Collection [" & clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy") & "][" & strShift & "][" & strVLCUploader & "][" + clsCommon.myCstr(drDCS("VLC_Name")) & "]")
+                                arrFilter = New Dictionary(Of String, String)()
+                                arrFilter.Add("master", "01")
+                                arrFilter.Add("dcscode", clsCommon.myPadChar(strVLCUploader, 6, "0"))
+                                arrFilter.Add("date", clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy"))
+                                arrFilter.Add("shift", strShift)
+                                dtCollection = Xtra.GetDataFromAPI(EnumAPI.REIL, "", arrFilter)
+                                If dtCollection IsNot Nothing AndAlso dtCollection.Rows.Count > 0 Then
+                                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                    Try
                                         For Each drCollection As DataRow In dtCollection.Rows
-                                            coll = New Hashtable()
-                                            clsCommon.AddColumnsForChange(coll, "REF_PK_ID", intPKID)
-                                            clsCommon.AddColumnsForChange(coll, "Milk_Type", clsCommon.myCstr(drCollection("MilkType")))
-                                            clsCommon.AddColumnsForChange(coll, "Qty", clsCommon.myCDecimal(drCollection("Qty")))
-                                            clsCommon.AddColumnsForChange(coll, "Fat", clsCommon.myCDecimal(drCollection("FAT")))
-                                            clsCommon.AddColumnsForChange(coll, "snf", clsCommon.myCDecimal(drCollection("SNF")))
-                                            clsCommon.AddColumnsForChange(coll, "Rate", clsCommon.myCDecimal(drCollection("Rate")))
-                                            clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(drCollection("Amount")))
-                                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REIL_LOCAL_MILK_SALE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                                            Try
+                                                Dim MPUploaderNo As String = clsCommon.myCstr(clsCommon.myCDecimal(clsCommon.myCstr(drCollection("MPCode")).Substring(clsCommon.myLen(drCollection("MPCode")) - 4, 4)))
+                                                Dim dtMasterData As DataTable = GetMasterDataQryMPCode(clsCommon.myCstr(drCollection("MPCode")), MPUploaderNo, clsCommon.myCstr(drDCS("VLC_Code")), trans)
+                                                If dtMasterData Is Nothing OrElse dtMasterData.Rows.Count <= 0 Then
+                                                    CreateNewMP(clsCommon.myCstr(drDCS("VLC_Code")), strVLCUploader, clsCommon.myCstr(drCollection("MPCode")), MPUploaderNo, trans)
+                                                    dtMasterData = GetMasterDataQryMPCode(clsCommon.myCstr(drCollection("MPCode")), "", "", trans)
+                                                End If
+                                                If dtMasterData Is Nothing OrElse dtMasterData.Rows.Count <= 0 Then
+                                                    Throw New Exception("Invalid MPCode [" & clsCommon.myCstr(drCollection("MPCode")) & "]")
+                                                ElseIf dtMasterData.Rows.Count > 1 Then
+                                                    Throw New Exception("MPCode [" & clsCommon.myCstr(drCollection("MPCode")) & "] is not unique.")
+                                                End If
+                                                qry = "select top 1 Doc_No from TSPL_VLC_DATA_UPLOADER where MCC_Code ='" & strMCC & "' and VLC_CODE='" & clsCommon.myCstr(strVLCUploader) & "' and Doc_Date='" + clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy") & "' and shift='" & strShift & "' "
+                                                Dim docCode As String = "" = clsDBFuncationality.getSingleValue(qry, trans)
+                                                If clsCommon.myLen(docCode) <= 0 Then
+                                                    docCode = clsERPFuncationality.GetNextCode(trans, dtStart, "VLC Data Uploader", "", strMCC)
+                                                End If
+                                                Dim coll As Hashtable = New Hashtable()
+                                                clsCommon.AddColumnsForChange(coll, "Mcc_code", strMCC)
+                                                clsCommon.AddColumnsForChange(coll, "Doc_No", docCode)
+                                                clsCommon.AddColumnsForChange(coll, "doc_date", clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy hh:mm:ss tt"))
+                                                clsCommon.AddColumnsForChange(coll, "file_Date", clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy hh:mm:ss tt"))
+                                                clsCommon.AddColumnsForChange(coll, "Shift", strShift)
+                                                clsCommon.AddColumnsForChange(coll, "Mp_code", clsCommon.myCstr(dtMasterData.Rows(0)("MP_Code_VLC_Uploader")))
+                                                clsCommon.AddColumnsForChange(coll, "Vlc_code", clsCommon.myCstr(strVLCUploader))
+                                                clsCommon.AddColumnsForChange(coll, "Route_no", clsCommon.myCstr(dtMasterData.Rows(0)("Route_Code")))
+                                                clsCommon.AddColumnsForChange(coll, "Milk_type", clsCommon.myCstr(drCollection("MilkType")))
+                                                clsCommon.AddColumnsForChange(coll, "Qty", clsCommon.myCdbl(drCollection("Qty")))
+                                                clsCommon.AddColumnsForChange(coll, "Fat", clsCommon.myCdbl(drCollection("FAT")))
+                                                clsCommon.AddColumnsForChange(coll, "snf", clsCommon.myCdbl(drCollection("SNF")))
+                                                clsCommon.AddColumnsForChange(coll, "Fat_Kg", ((clsCommon.myCdbl(drCollection("Qty")) * clsCommon.myCdbl(drCollection("FAT"))) / 100.0))
+                                                clsCommon.AddColumnsForChange(coll, "snf_Kg", ((clsCommon.myCdbl(drCollection("Qty")) * clsCommon.myCdbl(drCollection("SNF"))) / 100.0))
+                                                clsCommon.AddColumnsForChange(coll, "Uom_COde", "Ltr")
+                                                clsCommon.AddColumnsForChange(coll, "Rate", clsCommon.myCdbl(drCollection("Rate")))
+                                                clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(drCollection("Amount")))
+                                                clsCommon.AddColumnsForChange(coll, "water", 0)
+                                                clsCommon.AddColumnsForChange(coll, "Created_By", "REIL")
+                                                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                                                clsCommon.AddColumnsForChange(coll, "Modified_By", "REIL")
+                                                clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                                                clsCommon.AddColumnsForChange(coll, "Comp_Code", clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Comp_Code  from TSPL_COMPANY_MASTER", trans)))
+                                                clsCommon.AddColumnsForChange(coll, "SYNC_STATUS", 0)
+                                                clsCommon.AddColumnsForChange(coll, "Entry_Source", "REIL")
+                                                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VLC_DATA_UPLOADER", OMInsertOrUpdate.Insert, "", trans)
+                                            Catch ex As Exception
+                                                strMsg += ex.Message + Environment.NewLine
+                                                Continue For
+                                            End Try
                                         Next
-                                    End If
-                                    trans.Commit()
-                                Catch ex As Exception
-                                    trans.Rollback()
-                                    Throw New Exception(ex.Message)
-                                End Try
+                                        trans.Commit()
+                                    Catch ex As Exception
+                                        trans.Rollback()
+                                        Throw New Exception(ex.Message)
+                                    End Try
+                                End If
                             End If
-#End Region
 
-#Region "Farmer Sale"
-                            arrFilter = New Dictionary(Of String, String)()
-                            arrFilter.Add("master", "04")
-                            arrFilter.Add("dcscode", clsCommon.myPadChar(strVLCUploader, 6, "0"))
-                            arrFilter.Add("date", clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy"))
-                            dtCollection = Xtra.GetDataFromAPI(EnumAPI.REIL, "", arrFilter)
-                            If dtCollection IsNot Nothing AndAlso dtCollection.Rows.Count > 0 Then
-                                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                                Try
-                                    For Each drCollection As DataRow In dtCollection.Rows
-                                        qry = "select Doc_No from TSPL_REIL_FARMER_SALE where Doc_No='" & clsCommon.myCstr(drCollection("DocNo")) & "' "
+                            If isLocalSale Then
+                                clsCommon.ProgressBarPercentUpdate(ii, totalNo, "Local Sale [" & clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy") & "][" & strShift & "][" & strVLCUploader & "][" + clsCommon.myCstr(drDCS("VLC_Name")) & "]")
+                                arrFilter = New Dictionary(Of String, String)()
+                                arrFilter.Add("master", "03")
+                                arrFilter.Add("dcscode", clsCommon.myPadChar(strVLCUploader, 6, "0"))
+                                arrFilter.Add("date", clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy"))
+                                arrFilter.Add("shift", strShift)
+                                dtCollection = Xtra.GetDataFromAPI(EnumAPI.REIL, "", arrFilter)
+                                If dtCollection IsNot Nothing AndAlso dtCollection.Rows.Count > 0 Then
+                                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                    Try
+                                        qry = "select PK_ID from TSPL_REIL_LOCAL_MILK_SALE where VLC_CODE='" & clsCommon.myCstr(drDCS("VLC_Code")) & "' and Doc_Date='" + clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy") & "' and shift='" & strShift & "' "
                                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                                         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                                             Dim coll As Hashtable = New Hashtable()
-                                            clsCommon.AddColumnsForChange(coll, "Doc_No", clsCommon.myCstr(drCollection("DocNo")))
-                                            clsCommon.AddColumnsForChange(coll, "DocDate", clsCommon.myConvertDateFormat(clsCommon.myCstr(drCollection("DocDate"))))
                                             clsCommon.AddColumnsForChange(coll, "VLC_Code", clsCommon.myCstr(drDCS("VLC_Code")))
-                                            clsCommon.AddColumnsForChange(coll, "MPUploaderCode", clsCommon.myCstr(clsCommon.myCDecimal((drCollection("MPCode")))))
-                                            clsCommon.AddColumnsForChange(coll, "ItemCode", clsCommon.myCstr(drCollection("ItemCode")))
-                                            clsCommon.AddColumnsForChange(coll, "ItemName", clsCommon.myCstr(drCollection("ItemName")))
-                                            clsCommon.AddColumnsForChange(coll, "UOM", clsCommon.myCstr(drCollection("UOM")))
-                                            clsCommon.AddColumnsForChange(coll, "Qty", clsCommon.myCDecimal(drCollection("Qty")))
-                                            clsCommon.AddColumnsForChange(coll, "Rate", clsCommon.myCDecimal(drCollection("Rate")))
-                                            clsCommon.AddColumnsForChange(coll, "Discount", clsCommon.myCDecimal(drCollection("Discount")))
-                                            clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(drCollection("Amount")))
+                                            clsCommon.AddColumnsForChange(coll, "Doc_Date", clsCommon.GetPrintDate(dtStart, "dd/MMM/yyyy hh:mm:ss tt"))
+                                            clsCommon.AddColumnsForChange(coll, "Shift", strShift)
                                             clsCommon.AddColumnsForChange(coll, "Created_By", "REIL")
                                             clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                                             clsCommon.AddColumnsForChange(coll, "Modify_By", "REIL")
                                             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REIL_FARMER_SALE", OMInsertOrUpdate.Insert, "", trans)
+                                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REIL_LOCAL_MILK_SALE", OMInsertOrUpdate.Insert, "", trans)
+
+                                            Dim intPKID As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SCOPE_IDENTITY()", trans))
+                                            For Each drCollection As DataRow In dtCollection.Rows
+                                                coll = New Hashtable()
+                                                clsCommon.AddColumnsForChange(coll, "REF_PK_ID", intPKID)
+                                                clsCommon.AddColumnsForChange(coll, "Milk_Type", clsCommon.myCstr(drCollection("MilkType")))
+                                                clsCommon.AddColumnsForChange(coll, "Qty", clsCommon.myCDecimal(drCollection("Qty")))
+                                                clsCommon.AddColumnsForChange(coll, "Fat", clsCommon.myCDecimal(drCollection("FAT")))
+                                                clsCommon.AddColumnsForChange(coll, "snf", clsCommon.myCDecimal(drCollection("SNF")))
+                                                clsCommon.AddColumnsForChange(coll, "Rate", clsCommon.myCDecimal(drCollection("Rate")))
+                                                clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(drCollection("Amount")))
+                                                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REIL_LOCAL_MILK_SALE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                                            Next
                                         End If
-                                    Next
-                                    trans.Commit()
-                                Catch ex As Exception
-                                    trans.Rollback()
-                                    Throw New Exception(ex.Message)
-                                End Try
+                                        trans.Commit()
+                                    Catch ex As Exception
+                                        trans.Rollback()
+                                        Throw New Exception(ex.Message)
+                                    End Try
+                                End If
                             End If
-#End Region
+
+                            If isFarmerSale Then
+                                clsCommon.ProgressBarPercentUpdate(ii, totalNo, "Farmer Sale [" & clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy") & "][" & strShift & "][" & strVLCUploader & "][" + clsCommon.myCstr(drDCS("VLC_Name")) & "]")
+                                arrFilter = New Dictionary(Of String, String)()
+                                arrFilter.Add("master", "04")
+                                arrFilter.Add("dcscode", clsCommon.myPadChar(strVLCUploader, 6, "0"))
+                                arrFilter.Add("date", clsCommon.GetPrintDate(dtStart, "dd/MM/yyyy"))
+                                dtCollection = Xtra.GetDataFromAPI(EnumAPI.REIL, "", arrFilter)
+                                If dtCollection IsNot Nothing AndAlso dtCollection.Rows.Count > 0 Then
+                                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                    Try
+                                        For Each drCollection As DataRow In dtCollection.Rows
+                                            qry = "select Doc_No from TSPL_REIL_FARMER_SALE where Doc_No='" & clsCommon.myCstr(drCollection("DocNo")) & "' "
+                                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                                            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                                                Dim coll As Hashtable = New Hashtable()
+                                                clsCommon.AddColumnsForChange(coll, "Doc_No", clsCommon.myCstr(drCollection("DocNo")))
+                                                clsCommon.AddColumnsForChange(coll, "DocDate", clsCommon.myConvertDateFormat(clsCommon.myCstr(drCollection("DocDate"))))
+                                                clsCommon.AddColumnsForChange(coll, "VLC_Code", clsCommon.myCstr(drDCS("VLC_Code")))
+                                                clsCommon.AddColumnsForChange(coll, "MPUploaderCode", clsCommon.myCstr(clsCommon.myCDecimal((drCollection("MPCode")))))
+                                                clsCommon.AddColumnsForChange(coll, "ItemCode", clsCommon.myCstr(drCollection("ItemCode")))
+                                                clsCommon.AddColumnsForChange(coll, "ItemName", clsCommon.myCstr(drCollection("ItemName")))
+                                                clsCommon.AddColumnsForChange(coll, "UOM", clsCommon.myCstr(drCollection("UOM")))
+                                                clsCommon.AddColumnsForChange(coll, "Qty", clsCommon.myCDecimal(drCollection("Qty")))
+                                                clsCommon.AddColumnsForChange(coll, "Rate", clsCommon.myCDecimal(drCollection("Rate")))
+                                                clsCommon.AddColumnsForChange(coll, "Discount", clsCommon.myCDecimal(drCollection("Discount")))
+                                                clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(drCollection("Amount")))
+                                                clsCommon.AddColumnsForChange(coll, "Created_By", "REIL")
+                                                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                                                clsCommon.AddColumnsForChange(coll, "Modify_By", "REIL")
+                                                clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                                                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_REIL_FARMER_SALE", OMInsertOrUpdate.Insert, "", trans)
+                                            End If
+                                        Next
+                                        trans.Commit()
+                                    Catch ex As Exception
+                                        trans.Rollback()
+                                        Throw New Exception(ex.Message)
+                                    End Try
+                                End If
+                            End If
                         Next
                     Next
                 Next
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
+
+                If clsCommon.myLen(strMsg) Then
+                    clsCommon.MyMessageBoxShow(Me, strMsg, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
+                End If
             Catch ex As Exception
                 clsCommon.ProgressBarPercentHide()
                 Throw New Exception(ex.Message)
@@ -471,6 +488,16 @@ where TSPL_MP_MASTER.VLC_Code ='" & VLCCode & "' and TSPL_MP_MASTER.MP_Code_VLC_
         Return dt
     End Function
 
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        REILIntegration(True, False, False)
+    End Sub
 
+    Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
+        REILIntegration(False, True, False)
+    End Sub
+
+    Private Sub RadButton4_Click(sender As Object, e As EventArgs) Handles RadButton4.Click
+        REILIntegration(False, False, True)
+    End Sub
 End Class
 
