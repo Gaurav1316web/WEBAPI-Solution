@@ -23,6 +23,16 @@ Partial Class frmSendBillToDCS
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtREILDCS = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtREILBMC = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.txtREILToDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.txtREILFromDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.RadButton5 = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtRemainingBill = New System.Windows.Forms.TextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -36,9 +46,20 @@ Partial Class frmSendBillToDCS
         Me.lblDocNo = New common.Controls.MyLabel()
         Me.fndPaymentProcessDocNo = New common.UserControls.txtFinder()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtREILToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtREILFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -49,27 +70,184 @@ Partial Class frmSendBillToDCS
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.GroupBox1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
         '
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(800, 179)
-        Me.SplitContainer1.SplitterDistance = 139
+        Me.SplitContainer1.Size = New System.Drawing.Size(800, 323)
+        Me.SplitContainer1.SplitterDistance = 283
         Me.SplitContainer1.TabIndex = 0
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.RadButton4)
+        Me.GroupBox1.Controls.Add(Me.RadButton3)
+        Me.GroupBox1.Controls.Add(Me.RadButton1)
+        Me.GroupBox1.Controls.Add(Me.txtREILDCS)
+        Me.GroupBox1.Controls.Add(Me.MyLabel4)
+        Me.GroupBox1.Controls.Add(Me.txtREILBMC)
+        Me.GroupBox1.Controls.Add(Me.MyLabel9)
+        Me.GroupBox1.Controls.Add(Me.txtREILToDate)
+        Me.GroupBox1.Controls.Add(Me.MyLabel10)
+        Me.GroupBox1.Controls.Add(Me.txtREILFromDate)
+        Me.GroupBox1.Controls.Add(Me.MyLabel11)
+        Me.GroupBox1.Controls.Add(Me.RadButton5)
+        Me.GroupBox1.Location = New System.Drawing.Point(18, 117)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(322, 131)
+        Me.GroupBox1.TabIndex = 369
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Get Farmer Collection from REIL Server"
+        '
+        'txtREILDCS
+        '
+        Me.txtREILDCS.arrDispalyMember = Nothing
+        Me.txtREILDCS.arrValueMember = Nothing
+        Me.txtREILDCS.Location = New System.Drawing.Point(40, 69)
+        Me.txtREILDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtREILDCS.MyLinkLable1 = Nothing
+        Me.txtREILDCS.MyLinkLable2 = Nothing
+        Me.txtREILDCS.MyNullText = "ALL"
+        Me.txtREILDCS.Name = "txtREILDCS"
+        Me.txtREILDCS.Size = New System.Drawing.Size(196, 19)
+        Me.txtREILDCS.TabIndex = 348
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(4, 70)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel4.TabIndex = 347
+        Me.MyLabel4.Text = "DCS"
+        '
+        'txtREILBMC
+        '
+        Me.txtREILBMC.arrDispalyMember = Nothing
+        Me.txtREILBMC.arrValueMember = Nothing
+        Me.txtREILBMC.Location = New System.Drawing.Point(40, 46)
+        Me.txtREILBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtREILBMC.MyLinkLable1 = Nothing
+        Me.txtREILBMC.MyLinkLable2 = Nothing
+        Me.txtREILBMC.MyNullText = "ALL"
+        Me.txtREILBMC.Name = "txtREILBMC"
+        Me.txtREILBMC.Size = New System.Drawing.Size(196, 19)
+        Me.txtREILBMC.TabIndex = 346
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Location = New System.Drawing.Point(129, 24)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(17, 18)
+        Me.MyLabel9.TabIndex = 330
+        Me.MyLabel9.Text = "to"
+        '
+        'txtREILToDate
+        '
+        Me.txtREILToDate.CalculationExpression = Nothing
+        Me.txtREILToDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtREILToDate.FieldCode = Nothing
+        Me.txtREILToDate.FieldDesc = Nothing
+        Me.txtREILToDate.FieldMaxLength = 0
+        Me.txtREILToDate.FieldName = Nothing
+        Me.txtREILToDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtREILToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtREILToDate.isCalculatedField = False
+        Me.txtREILToDate.IsSourceFromTable = False
+        Me.txtREILToDate.IsSourceFromValueList = False
+        Me.txtREILToDate.IsUnique = False
+        Me.txtREILToDate.Location = New System.Drawing.Point(149, 24)
+        Me.txtREILToDate.MendatroryField = False
+        Me.txtREILToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtREILToDate.MyLinkLable1 = Nothing
+        Me.txtREILToDate.MyLinkLable2 = Nothing
+        Me.txtREILToDate.Name = "txtREILToDate"
+        Me.txtREILToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtREILToDate.ReferenceFieldDesc = Nothing
+        Me.txtREILToDate.ReferenceFieldName = Nothing
+        Me.txtREILToDate.ReferenceTableName = Nothing
+        Me.txtREILToDate.Size = New System.Drawing.Size(87, 18)
+        Me.txtREILToDate.TabIndex = 329
+        Me.txtREILToDate.TabStop = False
+        Me.txtREILToDate.Text = "13/06/2011"
+        Me.txtREILToDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Location = New System.Drawing.Point(4, 24)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel10.TabIndex = 60
+        Me.MyLabel10.Text = "Date"
+        '
+        'txtREILFromDate
+        '
+        Me.txtREILFromDate.CalculationExpression = Nothing
+        Me.txtREILFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtREILFromDate.FieldCode = Nothing
+        Me.txtREILFromDate.FieldDesc = Nothing
+        Me.txtREILFromDate.FieldMaxLength = 0
+        Me.txtREILFromDate.FieldName = Nothing
+        Me.txtREILFromDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtREILFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtREILFromDate.isCalculatedField = False
+        Me.txtREILFromDate.IsSourceFromTable = False
+        Me.txtREILFromDate.IsSourceFromValueList = False
+        Me.txtREILFromDate.IsUnique = False
+        Me.txtREILFromDate.Location = New System.Drawing.Point(40, 24)
+        Me.txtREILFromDate.MendatroryField = False
+        Me.txtREILFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtREILFromDate.MyLinkLable1 = Nothing
+        Me.txtREILFromDate.MyLinkLable2 = Nothing
+        Me.txtREILFromDate.Name = "txtREILFromDate"
+        Me.txtREILFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtREILFromDate.ReferenceFieldDesc = Nothing
+        Me.txtREILFromDate.ReferenceFieldName = Nothing
+        Me.txtREILFromDate.ReferenceTableName = Nothing
+        Me.txtREILFromDate.Size = New System.Drawing.Size(87, 18)
+        Me.txtREILFromDate.TabIndex = 59
+        Me.txtREILFromDate.TabStop = False
+        Me.txtREILFromDate.Text = "13/06/2011"
+        Me.txtREILFromDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(4, 47)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(32, 16)
+        Me.MyLabel11.TabIndex = 46
+        Me.MyLabel11.Text = "MCC"
+        '
+        'RadButton5
+        '
+        Me.RadButton5.Location = New System.Drawing.Point(242, 46)
+        Me.RadButton5.Name = "RadButton5"
+        Me.RadButton5.Size = New System.Drawing.Size(68, 43)
+        Me.RadButton5.TabIndex = 13
+        Me.RadButton5.Text = ">>"
         '
         'RadGroupBox1
         '
@@ -220,11 +398,35 @@ Partial Class frmSendBillToDCS
         Me.btnClose.TabIndex = 9
         Me.btnClose.Text = "Close"
         '
+        'RadButton1
+        '
+        Me.RadButton1.Location = New System.Drawing.Point(40, 94)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(89, 20)
+        Me.RadButton1.TabIndex = 349
+        Me.RadButton1.Text = "Milk Collection"
+        '
+        'RadButton3
+        '
+        Me.RadButton3.Location = New System.Drawing.Point(130, 94)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(85, 20)
+        Me.RadButton3.TabIndex = 350
+        Me.RadButton3.Text = "Local Sale"
+        '
+        'RadButton4
+        '
+        Me.RadButton4.Location = New System.Drawing.Point(216, 94)
+        Me.RadButton4.Name = "RadButton4"
+        Me.RadButton4.Size = New System.Drawing.Size(88, 20)
+        Me.RadButton4.TabIndex = 350
+        Me.RadButton4.Text = "Farmer Sale"
+        '
         'frmSendBillToDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 179)
+        Me.ClientSize = New System.Drawing.Size(800, 323)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmSendBillToDCS"
         '
@@ -235,6 +437,15 @@ Partial Class frmSendBillToDCS
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtREILToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtREILFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -246,6 +457,9 @@ Partial Class frmSendBillToDCS
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -265,4 +479,17 @@ Partial Class frmSendBillToDCS
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtSendBill As TextBox
     Friend WithEvents txtRemainingBill As TextBox
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents txtREILDCS As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtREILBMC As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents txtREILToDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents txtREILFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents RadButton5 As RadButton
+    Friend WithEvents RadButton4 As RadButton
+    Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents RadButton1 As RadButton
 End Class

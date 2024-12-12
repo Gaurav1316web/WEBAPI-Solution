@@ -5,7 +5,7 @@ End Enum
 
 Public Enum EnumAPI
     BankIFSC = 0
-
+    REIL = 1
 End Enum
 
 Public Enum EnumControlType

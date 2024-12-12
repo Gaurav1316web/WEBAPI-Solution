@@ -54,7 +54,7 @@ Public Class FrmBulkRoutMaster
         chkDefault.Checked = False
         txtTankerNo.Value = ""
         txtVehicleNo.Text = ""
-
+        txtScheduleTime.Value = clsCommon.GETSERVERDATE()
         txtScheduleTimeM.Value = clsCommon.GETSERVERDATE()
         txtScheduleTimeE.Value = txtScheduleTimeM.Value
     End Sub
@@ -191,6 +191,12 @@ Public Class FrmBulkRoutMaster
             If obj.Schedule_Time_Evening IsNot Nothing Then
                 txtScheduleTimeE.Value = obj.Schedule_Time_Evening
             End If
+            If obj.Schedule_Time_Evening IsNot Nothing Then
+                txtScheduleTimeE.Value = obj.Schedule_Time_Evening
+            End If
+            If obj.Schedule_Time IsNot Nothing Then
+                txtScheduleTime.Value = obj.Schedule_Time
+            End If
         End If
     End Sub
     'ROUTE_NAME as [Route Name],Distance,Rate,Amount 
@@ -231,6 +237,8 @@ Public Class FrmBulkRoutMaster
                 obj.CuttOff_Time = txtcuttofftime.Value
                 obj.Schedule_Time_Morning = txtScheduleTimeM.Value
                 obj.Schedule_Time_Evening = txtScheduleTimeE.Value
+                obj.Schedule_Time = txtScheduleTime.Value
+
                 If (clsBulkRoutMaster.SaveData(obj)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                     LoadData(obj.ROUTE_NO, NavigatorType.Current)
@@ -394,5 +402,7 @@ Public Class FrmBulkRoutMaster
         End Try
     End Sub
 
+    Private Sub txtScheduleTimeE_ValueChanged(sender As Object, e As EventArgs) Handles txtScheduleTimeE.ValueChanged
 
+    End Sub
 End Class
