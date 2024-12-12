@@ -5933,7 +5933,8 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                                 left outer join tspl_state_master as Location_State on Location_State.state_code = tspl_location_master.state 
                                 left join TSPL_SD_SALE_INVOICE_HEAD as Supplimentry_Head on TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary = Supplimentry_Head.Document_Code 
                                 --left outer join TSPL_CURRENCY_MASTER on TSPL_CURRENCY_MASTER.CURRENCY_CODE = TSPL_CUSTOMER_MASTER.CURRENCY_CODE 
-                                left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code = TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location 
+                                left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code = TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location
+                                AND TSPL_SHIP_TO_LOCATION.Ship_To_Type_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
                                 left outer join TSPL_CUSTOMER_MASTER as TSPL_CUSTOMER_MASTER_Ship_To_Location on TSPL_CUSTOMER_MASTER_Ship_To_Location.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Ship_To_Party 
                                 left outer join TSPL_CITY_MASTER as TSPL_CITY_MASTER_For_Ship_To_Location on TSPL_CITY_MASTER_For_Ship_To_Location.City_Code = TSPL_LOCATION_MASTER.City_Code 
                                 left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_For_Ship_To_Location on TSPL_STATE_MASTER_For_Ship_To_Location.STATE_CODE = TSPL_LOCATION_MASTER.state 
