@@ -129,7 +129,7 @@
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon, Version=2.0.6.50, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertCommon, Version=2.1.6.80, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
@@ -263,6 +263,12 @@
       <DependentUpon>FrmHeadLoadHistory.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\FrmHeadLoadHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmUnionLastGstInvoice.Designer.vb">
+      <DependentUpon>frmUnionLastGstInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmUnionLastGstInvoice.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\latestPaymentProcess.Designer.vb">
@@ -1016,6 +1022,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmUnionLastGstInvoice.resx">
+      <DependentUpon>frmUnionLastGstInvoice.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\latestPaymentProcess.resx">
       <DependentUpon>latestPaymentProcess.vb</DependentUpon>

@@ -2934,6 +2934,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDailyDemand, "Daily Demand", "1.49.03.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDBTUnionPayment, "DBT Union Payment Report", "1.49.03.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDBTUnionPayment, "DBT Union Payment Report", "1.49.03.12", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.frmUnionLastGstInvoice, "Union wise Last GST invoice", "1.49.03.13", clsUserMgtCode.SubModuleMilkUnion, 8)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 

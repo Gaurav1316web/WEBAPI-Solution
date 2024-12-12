@@ -13744,6 +13744,7 @@ Public Class clsCreateAllTable
             coll.Add("CuttOff_Time", "dateTime Null")
             coll.Add("Schedule_Time_Morning", "datetime NULL")
             coll.Add("Schedule_Time_Evening", "datetime NULL")
+            coll.Add("Schedule_Time", "datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -24850,10 +24851,10 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Against_Send_SMS", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "", True, False, "", "DOC_CODE", "DOC_DATE")
             Try
-                qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Send_SMS'"
+                qry = "SELECT 1 FROM sys.indexes WHERE name = 'Unique_Against_Send_SMS'"
                 dt = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_Against_Send_SMS ON TSPL_MILK_SRN_HEAD(Against_Send_SMS) WHERE Against_Send_SMS IS NOT NULL ")
+                    clsDBFuncationality.ExecuteNonQuery("DROP INDEX Unique_Against_Send_SMS ON TSPL_MILK_SRN_HEAD")
                 End If
             Catch
             End Try
@@ -56394,7 +56395,45 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("AMT", "Decimal(18,6) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SHIFT_MGMT_PRODUCTION_CONSUMPTION", coll, Nothing, True, False, "TSPL_SHIFT_MGMT", "Document_No", "")
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("VLC_Code", "varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            coll.Add("Doc_Date", "date Not NULL")
+            coll.Add("Shift", "CHAR(1) not null")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modify_By", "varchar(12)  Not NULL")
+            coll.Add("Modify_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_REIL_LOCAL_MILK_SALE", coll, "", True)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("REF_PK_ID", "integer not null references TSPL_REIL_LOCAL_MILK_SALE(PK_ID)")
+            coll.Add("Milk_Type", "CHAR(1) not null")
+            coll.Add("Qty", "decimal(18,2) null")
+            coll.Add("FAT", "decimal(18,1) null")
+            coll.Add("SNF", "decimal(18,1) null")
+            coll.Add("Rate", "decimal(18,2) null")
+            coll.Add("Amount", "decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_REIL_LOCAL_MILK_SALE_DETAIL", coll, "", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Doc_No", "VARCHAR(30) NOT null primary key")
+            coll.Add("DocDate", "date Not NULL")
+            coll.Add("VLC_Code", "varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            coll.Add("MPUploaderCode", "varchar(20) Not NULL")
+            coll.Add("ItemCode", "varchar(20) not null")
+            coll.Add("ItemName", "varchar(50) null")
+            coll.Add("Qty", "decimal(18,2) null")
+            coll.Add("UOM", "varchar(10) null")
+            coll.Add("Rate", "decimal(18,2) null")
+            coll.Add("Discount", "decimal(18,2) null")
+            coll.Add("Amount", "decimal(18,2) null")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modify_By", "varchar(12)  Not NULL")
+            coll.Add("Modify_Date", "datetime  Not NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_REIL_FARMER_SALE", coll, "", True)
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()

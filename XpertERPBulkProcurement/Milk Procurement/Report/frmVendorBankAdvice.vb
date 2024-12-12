@@ -531,7 +531,12 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.F
             If rbtnBankAdvice.IsChecked OrElse rbtnSaving.IsChecked Then
                 ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    FinalQuery = "select * from ( " + BaseQry + ")xxx order by Payee_Joint_Account_No asc"
+                    FinalQuery = " select max(CycleRange)CycleRange,max(GRPColumn)GRPColumn,max(Comp_Name)Comp_Name,max(Comp_address)Comp_address,
+                                  max(CompPhone)CompPhone,max(Regn_No)Regn_No,max(MCC_NAME)MCC_NAME,max(From_Date)From_Date,max(GSTReg_No)GSTReg_No,
+                                  max(Doc_No)Doc_No,max(Fiscal_Name)Fiscal_Name,max(CycleNo)CycleNo,max(Date_Range)Date_Range,VLC_CODE_Uploader,
+                                  max(Payee_Joint_Name)Payee_Joint_Name,max(Bank_Code)Bank_Code,max(Branch_Name)Branch_Name,max(Bank_Code_Desc)Bank_Code_Desc,
+                                  max(Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,sum(Payable_Amount)Payable_Amount 
+                                  from ( " + BaseQry + ")xxx group by xxx.VLC_CODE_Uploader order by Payee_Joint_Account_No asc "
                 Else
                     FinalQuery = "select * from ( " + BaseQry + ")xxx order by Bank_Code, "
 
