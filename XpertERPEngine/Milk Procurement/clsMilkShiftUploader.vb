@@ -966,7 +966,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
         qry = "Drop table TEMP_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-        Throw New Exception("Balwinder Singh Premi")
+        'Throw New Exception("Balwinder Singh Premi")
     End Sub
     Public Shared Sub MultipleDateSingleExport(ByRef frm As RadForm)
         Try

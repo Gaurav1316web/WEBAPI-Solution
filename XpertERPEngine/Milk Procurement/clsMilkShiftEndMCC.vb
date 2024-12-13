@@ -566,8 +566,8 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + MCCCode + "' and convert(Date, TSPL_MILK_
 
     Public Shared Function UpdateRemainingSMS(ByVal Code As String, ByVal ContactNo As String, ByVal MCC As String, ByVal DOCDate As Date, ByVal Shift As String, ByVal Vendor_Code As String, trans As SqlTransaction) As String
         Dim Qry As String = "Select PK_ID from TSPL_SMS_DETAIL
-Inner Join (Select Max(Vendor_Code)Vendor_Code,substring(Phone1,6,10) as Phone1 from TSPL_VENDOR_MASTER Group By substring(Phone1,6,10))TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Phone1=TSPL_SMS_DETAIL.Mobile_No 
-Where TSPL_SMS_DETAIL.Code='" + Code + "' And TSPL_SMS_DETAIL.Mobile_No='" + ContactNo + "'"
+        Inner Join (Select Max(Vendor_Code)Vendor_Code,substring(Phone1,6,10) as Phone1 from TSPL_VENDOR_MASTER Group By substring(Phone1,6,10))TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Phone1=TSPL_SMS_DETAIL.Mobile_No And TSPL_VENDOR_MASTER.Vendor_Code='" + Vendor_Code + "'
+        Where TSPL_SMS_DETAIL.Code='" + Code + "' And TSPL_SMS_DETAIL.Mobile_No='" + ContactNo + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Qry = "Update TSPL_MILK_SRN_HEAD Set Against_Send_SMS='" + clsCommon.myCstr(dt.Rows(0)("PK_ID")) + "' where convert(Date,DOC_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(DOCDate, "dd/MMM/yyyy") + "',103) And SHIFT='" + Shift + "' And MCC_CODE='" + MCC + "' And VSP_CODE='" + Vendor_Code + "' "

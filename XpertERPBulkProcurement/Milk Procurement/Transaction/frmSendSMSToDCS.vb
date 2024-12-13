@@ -224,25 +224,33 @@ Public Class frmSendSMSToDCS
 
     Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
         Try
-            If clsCommon.myLen(cboShift.SelectedValue) <= 0 Then
-                cboShift.Focus()
-                Throw New Exception("Please select " + cboShift.MyLinkLable1.Text)
-            End If
-            If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
-                fndMCCCode.Focus()
-                Throw New Exception("Please select " + fndMCCCode.MyLinkLable1.Text)
-            End If
-            clsCommon.ProgressBarShow()
             Try
-                clsMilkShiftEndMCC.CreateSMSContentVSP(fndMCCCode.Value, txtDate.Value, clsCommon.myCstr(cboShift.SelectedValue), Nothing)
-                clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
-            Catch ex As Exception
-                clsCommon.ProgressBarHide()
-                Throw New Exception(ex.Message)
+                Dim qry As String = "SELECT 1 FROM sys.indexes WHERE name = 'Unique_Against_Send_SMS'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("DROP INDEX Unique_Against_Send_SMS ON TSPL_MILK_SRN_HEAD")
+                End If
+            Catch
             End Try
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            If clsCommon.myLen(cboShift.SelectedValue) <= 0 Then
+                    cboShift.Focus()
+                    Throw New Exception("Please select " + cboShift.MyLinkLable1.Text)
+                End If
+                If clsCommon.myLen(fndMCCCode.Value) <= 0 Then
+                    fndMCCCode.Focus()
+                    Throw New Exception("Please select " + fndMCCCode.MyLinkLable1.Text)
+                End If
+                clsCommon.ProgressBarShow()
+                Try
+                    clsMilkShiftEndMCC.CreateSMSContentVSP(fndMCCCode.Value, txtDate.Value, clsCommon.myCstr(cboShift.SelectedValue), Nothing)
+                    clsCommon.ProgressBarHide()
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                Catch ex As Exception
+                    clsCommon.ProgressBarHide()
+                    Throw New Exception(ex.Message)
+                End Try
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
