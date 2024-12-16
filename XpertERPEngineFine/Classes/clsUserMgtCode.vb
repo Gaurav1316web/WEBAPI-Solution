@@ -268,6 +268,7 @@ Public Class clsUserMgtCode
     Public Const rptBookingQtyAmtReport As String = "DEMD_BK_RPT"
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
     Public Const rptSalesComparisonReport As String = "SAL_CMP_RPT"
+    Public Const FrmBoothDemandReport As String = "BO_DE_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
@@ -2360,6 +2361,8 @@ Public Class clsUserMgtCode
     Public Const FrmDcscollectionHistory As String = "DCS_COL_HIS"
     Public Const FrmHeadLoadHistory As String = "HED_LOD_HIS"
     Public Const FrmOneDayStop As String = "One-Day-S"
+    Public Const FrmLocalMilkSaleRegister As String = "Lo_M_Sale"
+
     Public Const rptPaymentProcessReportBMCSocietyWise As String = "PR_BSW_RPT"
     Public Const rptDCSFinancial As String = "DCS-FIN-RPT"
     '-----------------------Sale Purchase Security(Master)--------------

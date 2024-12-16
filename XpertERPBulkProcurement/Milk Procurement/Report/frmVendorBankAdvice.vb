@@ -220,7 +220,7 @@ Public Class frmVendorBankAdvice
                 Exit Sub
             End If
             If rbtnSaving.IsChecked OrElse rbtnSavingSummary.IsChecked Then
-                BaseQry = " select  '' AS CycleRange,TSPL_Vendor_MASTER.BankCode2 as GRPColumn,TSPL_COMPANY_MASTER.Comp_Name
+                BaseQry = " select  '" + fromDate.Value + "' as FD,'" + ToDate.Value + "' AS TD,'' AS CycleRange,TSPL_Vendor_MASTER.BankCode2 as GRPColumn,TSPL_COMPANY_MASTER.Comp_Name
 ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME, TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No,TSPL_Fiscal_Year_Master.Fiscal_Name
 ,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader, coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
   TSPL_VENDOR_MASTER.BankBranch2 as Branch_Name, 
@@ -535,8 +535,8 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.F
                                   max(CompPhone)CompPhone,max(Regn_No)Regn_No,max(MCC_NAME)MCC_NAME,max(From_Date)From_Date,max(GSTReg_No)GSTReg_No,
                                   max(Doc_No)Doc_No,max(Fiscal_Name)Fiscal_Name,max(CycleNo)CycleNo,max(Date_Range)Date_Range,VLC_CODE_Uploader,
                                   max(Payee_Joint_Name)Payee_Joint_Name,max(Bank_Code)Bank_Code,max(Branch_Name)Branch_Name,max(Bank_Code_Desc)Bank_Code_Desc,
-                                  max(Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,sum(Payable_Amount)Payable_Amount 
-                                  from ( " + BaseQry + ")xxx group by xxx.VLC_CODE_Uploader order by Payee_Joint_Account_No asc "
+                                  max(Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,sum(Payable_Amount)Payable_Amount,
+                                  max(FD)FD,max(TD)TD from ( " + BaseQry + ")xxx group by xxx.VLC_CODE_Uploader order by Payee_Joint_Account_No asc "
                 Else
                     FinalQuery = "select * from ( " + BaseQry + ")xxx order by Bank_Code, "
 

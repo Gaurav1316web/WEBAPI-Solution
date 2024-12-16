@@ -59,10 +59,19 @@ Public Class RptBmcTankerInOutReport
                         TSPL_BULK_ROUTE_MASTER.ROUTE_NO AS Route_No,
                         TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name,
                         Tspl_Gate_Entry_Details.Tanker_No AS Tanker_No,
-                        '' AS Schedule_Time,
-                        CAST(tspl_gate_entry_details.Created_Date AS TIME) AS In_date,
-                        CAST(tspl_gate_out.Created_Date AS TIME) AS Out_date,
-                        '' AS Time_Diff,
+                        	    FORMAT(TSPL_BULK_ROUTE_MASTER.Schedule_Time, 'hh:mm tt') AS Schedule_Time,
+
+                         FORMAT(tspl_gate_entry_details.Date_And_Time, 'hh:mm tt') AS In_date,
+                            FORMAT(TRY_CAST(tspl_gate_out.Created_Date AS DATETIME), 'hh:mm tt')AS Out_date,
+
+	  CASE 
+        WHEN FORMAT(tspl_gate_entry_details.Date_And_Time, 'hh:mm tt') <  FORMAT(TSPL_BULK_ROUTE_MASTER.Schedule_Time, 'hh:mm tt')
+ THEN '00:00'
+        ELSE RIGHT('00' + CAST(DATEPART(HOUR, DATEADD(MINUTE, DateDiff(MINUTE, TSPL_BULK_ROUTE_MASTER.Schedule_Time, tspl_gate_entry_details.Date_And_Time), '00:00:00')) AS VARCHAR(2)), 2) + ':' +
+             RIGHT('00' + CAST(DATEPART(MINUTE, DATEADD(MINUTE, DateDiff(MINUTE, TSPL_BULK_ROUTE_MASTER.Schedule_Time, tspl_gate_entry_details.Date_And_Time), '00:00:00')) AS VARCHAR(2)), 2)
+    END AS Time_Diff
+,
+	
                         '' AS Remark  from Tspl_Gate_Entry_Details  LEFT JOIN  TSPL_COMPANY_MASTER on 2 = 2  
                         left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.Route_No=tspl_gate_entry_details.ROUTE_NO
                         left outer join tspl_gate_out on tspl_gate_out.Gate_Entry_No=tspl_gate_entry_details.Gate_Entry_No
