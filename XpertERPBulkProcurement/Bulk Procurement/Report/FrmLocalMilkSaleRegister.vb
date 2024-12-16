@@ -46,26 +46,42 @@ Public Class FrmLocalMilkSaleRegister
         Dim whre As String = ""
         Dim whrclsShift As String = ""
         Dim whrclsMilk As String = ""
+        If clsCommon.CompairString(rddlShift.Text, "Morning") = CompairStringResult.Equal Then
+            whrclsShift += " and Shift='M' "
+        ElseIf clsCommon.CompairString(rddlShift.Text, "Evening") = CompairStringResult.Equal Then
+            whrclsShift += " and Shift='E' "
+        ElseIf clsCommon.CompairString(rddlShift.Text, "Both") = CompairStringResult.Equal Then
+            whrclsShift += "  "
+        End If
 
-        If rbtnMorning.IsChecked Then
-            'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
-            whrclsShift = " and Shift  = 'M' "
-        ElseIf rbtnEvening.IsChecked Then
-            ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
-            whrclsShift = " and Shift  = 'E' "
-        ElseIf rbtnBothShift.IsChecked Then
-            ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
-            whrclsShift = " and Shift  = 'B' "
+        If clsCommon.CompairString(rddlMilk.Text, "Cow") = CompairStringResult.Equal Then
+            whrclsMilk += " and Milk_Type='C' "
+        ElseIf clsCommon.CompairString(rddlMilk.Text, "Buffalo") = CompairStringResult.Equal Then
+            whrclsMilk += " and Milk_Type='B' "
+        ElseIf clsCommon.CompairString(rddlMilk.Text, "Mix") = CompairStringResult.Equal Then
+            whrclsMilk = "  "
         End If
-        If rbtnCow.IsChecked Then
-            'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
-            whrclsMilk = " and Milk_Type  = 'C' "
-        ElseIf rbtnbuffalo.IsChecked Then
-            ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
-            whrclsMilk = " and Milk_Type  = 'B' "
-        ElseIf rbtnMix.IsChecked Then
-            whrclsMilk = " and Milk_Type  = 'M' "
-        End If
+
+
+        'If rbtnMorning.IsChecked Then
+        '    'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
+        '    whrclsShift = " and Shift  = 'M' "
+        'ElseIf rbtnEvening.IsChecked Then
+        '    ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
+        '    whrclsShift = " and Shift  = 'E' "
+        'ElseIf rbtnBothShift.IsChecked Then
+        '    ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
+        '    whrclsShift = " and Shift  = 'B' "
+        'End If
+        'If rbtnCow.IsChecked Then
+        '    'whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'AM' "
+        '    whrclsMilk = " and Milk_Type  = 'C' "
+        'ElseIf rbtnbuffalo.IsChecked Then
+        '    ' whrclsShift = " and TSPL_BOOKING_MATSER.GatePass_Type  = 'PM' "
+        '    whrclsMilk = " and Milk_Type  = 'B' "
+        'ElseIf rbtnMix.IsChecked Then
+        '    whrclsMilk = " and Milk_Type  = 'M' "
+        'End If
 
         If txtMultiBMC.arrValueMember IsNot Nothing AndAlso txtMultiBMC.arrValueMember.Count > 0 Then
             whre += " and  xxx.MCC_Code in (" + clsCommon.GetMulcallString(txtMultiBMC.arrValueMember) + ") "
@@ -109,7 +125,6 @@ from  " + BaseQry + " where 2=2  " + whre + " " + whrclsMilk + " " + whrclsShift
 
     END AS Shift,Sum(xxx.Qty)qty,Sum(xxx.Rate)Rate,sum(xxx.Amount)Amount
 from  " + BaseQry + " where 2=2  " + whre + "" + whrclsMilk + " " + whrclsShift + " and CONVERT(date,DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  group by Doc_Date,Shift "
-
         ElseIf rbtnDetails.IsChecked Then
             FinalQry = "select TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader
 ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_REIL_LOCAL_MILK_SALE.Doc_Date,
@@ -121,8 +136,6 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         End If
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQry)
-
-
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
@@ -258,7 +271,22 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 Gv1.Columns("Amount").HeaderText = "Amount"
             End If
         Next
-
+        Dim summaryRowItemB As New GridViewSummaryRowItem()
+        'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
+        Dim Amount As New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Amount)
+        Dim Qty As New GridViewSummaryItem("Qty", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Qty)
+        'Dim fat_per As New GridViewSummaryItem("fat_per", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(fat_per)
+        'Dim snf_Per As New GridViewSummaryItem("snf_Per", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(snf_Per)
+        'Dim Entered_SNFKg As New GridViewSummaryItem("Entered_SNFKg", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Entered_SNFKg)
+        'Dim Entered_FATKg As New GridViewSummaryItem("Entered_FATKg", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItemB.Add(Entered_FATKg)
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Gv1.AutoSizeRows = True
         Gv1.BestFitColumns()
         Gv1.MasterTemplate.AutoExpandGroups = True
@@ -320,5 +348,9 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
+    End Sub
+
+    Private Sub RadPageViewPage1_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage1.Paint
+
     End Sub
 End Class

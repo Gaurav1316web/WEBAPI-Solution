@@ -22,7 +22,13 @@ Partial Class FrmLocalMilkSaleRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -57,6 +63,9 @@ Partial Class FrmLocalMilkSaleRegister
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rddlShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.rddlMilk = New Telerik.WinControls.UI.RadDropDownList()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -93,6 +102,9 @@ Partial Class FrmLocalMilkSaleRegister
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rddlShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rddlMilk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -133,6 +145,9 @@ Partial Class FrmLocalMilkSaleRegister
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
+        Me.RadPageViewPage1.Controls.Add(Me.rddlMilk)
+        Me.RadPageViewPage1.Controls.Add(Me.rddlShift)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.lblMilkType)
@@ -163,11 +178,12 @@ Partial Class FrmLocalMilkSaleRegister
         Me.RadGroupBox1.Controls.Add(Me.rbtnbuffalo)
         Me.RadGroupBox1.Controls.Add(Me.rbtnMix)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(106, 129)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(103, 323)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(303, 38)
         Me.RadGroupBox1.TabIndex = 1530
+        Me.RadGroupBox1.Visible = False
         '
         'rbtnCow
         '
@@ -210,11 +226,12 @@ Partial Class FrmLocalMilkSaleRegister
         Me.RadGroupBox5.Controls.Add(Me.rbtnEvening)
         Me.RadGroupBox5.Controls.Add(Me.rbtnBothShift)
         Me.RadGroupBox5.HeaderText = ""
-        Me.RadGroupBox5.Location = New System.Drawing.Point(106, 91)
+        Me.RadGroupBox5.Location = New System.Drawing.Point(103, 285)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox5.Size = New System.Drawing.Size(303, 32)
         Me.RadGroupBox5.TabIndex = 1529
+        Me.RadGroupBox5.Visible = False
         '
         'rbtnMorning
         '
@@ -254,7 +271,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         Me.lblMilkType.FieldName = Nothing
         Me.lblMilkType.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMilkType.Location = New System.Drawing.Point(20, 135)
+        Me.lblMilkType.Location = New System.Drawing.Point(21, 120)
         Me.lblMilkType.Margin = New System.Windows.Forms.Padding(4)
         Me.lblMilkType.Name = "lblMilkType"
         Me.lblMilkType.Size = New System.Drawing.Size(55, 18)
@@ -265,7 +282,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(20, 101)
+        Me.MyLabel2.Location = New System.Drawing.Point(21, 96)
         Me.MyLabel2.Margin = New System.Windows.Forms.Padding(4)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(56, 18)
@@ -274,7 +291,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         'rbtnDateShiftType
         '
-        Me.rbtnDateShiftType.Location = New System.Drawing.Point(261, 201)
+        Me.rbtnDateShiftType.Location = New System.Drawing.Point(259, 172)
         Me.rbtnDateShiftType.MyLinkLable1 = Nothing
         Me.rbtnDateShiftType.MyLinkLable2 = Nothing
         Me.rbtnDateShiftType.Name = "rbtnDateShiftType"
@@ -285,7 +302,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         'rbtnDateMilkType
         '
-        Me.rbtnDateMilkType.Location = New System.Drawing.Point(110, 201)
+        Me.rbtnDateMilkType.Location = New System.Drawing.Point(108, 172)
         Me.rbtnDateMilkType.MyLinkLable1 = Nothing
         Me.rbtnDateMilkType.MyLinkLable2 = Nothing
         Me.rbtnDateMilkType.Name = "rbtnDateMilkType"
@@ -296,7 +313,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         'rbtnDCSWise
         '
-        Me.rbtnDCSWise.Location = New System.Drawing.Point(319, 173)
+        Me.rbtnDCSWise.Location = New System.Drawing.Point(317, 144)
         Me.rbtnDCSWise.MyLinkLable1 = Nothing
         Me.rbtnDCSWise.MyLinkLable2 = Nothing
         Me.rbtnDCSWise.Name = "rbtnDCSWise"
@@ -307,7 +324,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         'rbtnBMCWise
         '
-        Me.rbtnBMCWise.Location = New System.Drawing.Point(205, 173)
+        Me.rbtnBMCWise.Location = New System.Drawing.Point(203, 144)
         Me.rbtnBMCWise.MyLinkLable1 = Nothing
         Me.rbtnBMCWise.MyLinkLable2 = Nothing
         Me.rbtnBMCWise.Name = "rbtnBMCWise"
@@ -319,7 +336,7 @@ Partial Class FrmLocalMilkSaleRegister
         'rbtnDetails
         '
         Me.rbtnDetails.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDetails.Location = New System.Drawing.Point(110, 173)
+        Me.rbtnDetails.Location = New System.Drawing.Point(108, 144)
         Me.rbtnDetails.MyLinkLable1 = Nothing
         Me.rbtnDetails.MyLinkLable2 = Nothing
         Me.rbtnDetails.Name = "rbtnDetails"
@@ -346,7 +363,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(20, 42)
+        Me.MyLabel13.Location = New System.Drawing.Point(21, 42)
         Me.MyLabel13.Margin = New System.Windows.Forms.Padding(4)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(60, 18)
@@ -357,7 +374,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(20, 70)
+        Me.MyLabel1.Location = New System.Drawing.Point(21, 70)
         Me.MyLabel1.Margin = New System.Windows.Forms.Padding(4)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(56, 18)
@@ -390,7 +407,7 @@ Partial Class FrmLocalMilkSaleRegister
         'RadLabel1
         '
         Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(20, 13)
+        Me.RadLabel1.Location = New System.Drawing.Point(21, 19)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
         Me.RadLabel1.TabIndex = 2
@@ -414,7 +431,7 @@ Partial Class FrmLocalMilkSaleRegister
         '
         Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
         Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.Location = New System.Drawing.Point(105, 13)
+        Me.txtFromDate.Location = New System.Drawing.Point(104, 13)
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.Name = "txtFromDate"
         Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -448,7 +465,7 @@ Partial Class FrmLocalMilkSaleRegister
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -509,6 +526,51 @@ Partial Class FrmLocalMilkSaleRegister
         Me.btnReset.TabIndex = 154
         Me.btnReset.Text = "Reset"
         '
+        'rddlShift
+        '
+        Me.rddlShift.AutoCompleteDisplayMember = Nothing
+        Me.rddlShift.AutoCompleteValueMember = Nothing
+        Me.rddlShift.DropDownAnimationEnabled = True
+        Me.rddlShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem4.Text = "Morning"
+        RadListDataItem5.Text = "Evening"
+        RadListDataItem6.Text = "Both"
+        Me.rddlShift.Items.Add(RadListDataItem4)
+        Me.rddlShift.Items.Add(RadListDataItem5)
+        Me.rddlShift.Items.Add(RadListDataItem6)
+        Me.rddlShift.Location = New System.Drawing.Point(103, 92)
+        Me.rddlShift.Name = "rddlShift"
+        Me.rddlShift.Size = New System.Drawing.Size(194, 20)
+        Me.rddlShift.TabIndex = 1531
+        '
+        'rddlMilk
+        '
+        Me.rddlMilk.AutoCompleteDisplayMember = Nothing
+        Me.rddlMilk.AutoCompleteValueMember = Nothing
+        Me.rddlMilk.DropDownAnimationEnabled = True
+        Me.rddlMilk.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem1.Text = "Cow"
+        RadListDataItem2.Text = "Buffalo"
+        RadListDataItem3.Text = "Mix"
+        Me.rddlMilk.Items.Add(RadListDataItem1)
+        Me.rddlMilk.Items.Add(RadListDataItem2)
+        Me.rddlMilk.Items.Add(RadListDataItem3)
+        Me.rddlMilk.Location = New System.Drawing.Point(103, 118)
+        Me.rddlMilk.Name = "rddlMilk"
+        Me.rddlMilk.Size = New System.Drawing.Size(194, 20)
+        Me.rddlMilk.TabIndex = 1532
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(21, 146)
+        Me.MyLabel3.Margin = New System.Windows.Forms.Padding(4)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(67, 18)
+        Me.MyLabel3.TabIndex = 1533
+        Me.MyLabel3.Text = "Report Type"
+        '
         'FrmLocalMilkSaleRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -560,6 +622,9 @@ Partial Class FrmLocalMilkSaleRegister
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rddlShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rddlMilk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -599,4 +664,7 @@ Partial Class FrmLocalMilkSaleRegister
     Friend WithEvents rmiExcel As RadMenuItem
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents btnClose As RadButton
+    Friend WithEvents rddlShift As RadDropDownList
+    Friend WithEvents rddlMilk As RadDropDownList
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
 End Class
