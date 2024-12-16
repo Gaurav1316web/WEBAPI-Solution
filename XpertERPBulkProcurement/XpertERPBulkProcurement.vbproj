@@ -175,6 +175,12 @@
     <Compile Include="Bulk Procurement\Master\frmNewDCSScreen.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bulk Procurement\Report\FrmLocalMilkSaleRegister.Designer.vb">
+      <DependentUpon>FrmLocalMilkSaleRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Report\FrmLocalMilkSaleRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Bulk Procurement\Transaction\BulkProcurementUploader.Designer.vb">
       <DependentUpon>BulkProcurementUploader.vb</DependentUpon>
     </Compile>
@@ -970,6 +976,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Procurement\Master\frmNewDCSScreen.resx">
       <DependentUpon>frmNewDCSScreen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Report\FrmLocalMilkSaleRegister.resx">
+      <DependentUpon>FrmLocalMilkSaleRegister.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Procurement\Transaction\BulkProcurementUploader.resx">
       <DependentUpon>BulkProcurementUploader.vb</DependentUpon>

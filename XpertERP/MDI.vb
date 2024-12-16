@@ -8159,6 +8159,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmOneDayStop
                         frm = New FrmOneDayStop
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmLocalMilkSaleRegister
+                        frm = New FrmLocalMilkSaleRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDCSFinancial
                         frm = New rptDCSFinancial
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8217,8 +8220,12 @@ Public Class MDI
                         frm = New RptTankerDispatchvsAckn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-                    Case clsUserMgtCode.RptDairyBookingDistributorReport
+                    Case clsUserMgtCode.rptSalesComparisonReport
                         frm = New RptDairyBookingDistributorReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.FrmBoothDemandReport
+                        frm = New FrmBoothDemandReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptDairyTruckSheetReport

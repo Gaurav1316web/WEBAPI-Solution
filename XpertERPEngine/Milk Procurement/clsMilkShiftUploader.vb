@@ -871,6 +871,24 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
         End If
 
+        qry = clsERPFuncationality.GetConstraintWorking("TSPL_MILK_SHIFT_UPLOADER_DETAIL", "Against_Milk_Collection_DCS_Detail", tran)
+        If clsCommon.myLen(qry) > 0 Then
+            qry = "alter table TSPL_MILK_SHIFT_UPLOADER_DETAIL drop  " + qry
+            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        End If
+
+        qry = clsERPFuncationality.GetConstraintWorking("TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", "Against_Milk_Collection_DCS_Detail", tran)
+        If clsCommon.myLen(qry) > 0 Then
+            qry = "alter table TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL drop  " + qry
+            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        End If
+
+        qry = clsERPFuncationality.GetConstraintWorking("TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED", "Against_Milk_Collection_DCS", tran)
+        If clsCommon.myLen(qry) > 0 Then
+            qry = "alter table TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED drop  " + qry
+            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        End If
+
 
         Dim transDate As String = " between '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' "
         Dim strMCCcode As String = " "
@@ -964,6 +982,11 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
         qry = "Drop table TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
         qry = "Drop table TEMP_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL"
+        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+        qry = "ALTER TABLE [dbo].[TSPL_MILK_SHIFT_UPLOADER_DETAIL]  WITH CHECK ADD FOREIGN KEY([Against_Milk_Collection_DCS_Detail]) REFERENCES [dbo].[TSPL_MILK_COLLECTION_DCS_DETAIL] ([PK_Id])"
+        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        qry = "ALTER TABLE [dbo].[TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL]  WITH CHECK ADD FOREIGN KEY([Against_Milk_Collection_DCS_Detail]) REFERENCES [dbo].[TSPL_MILK_COLLECTION_DCS_DETAIL] ([PK_Id])"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
         'Throw New Exception("Balwinder Singh Premi")

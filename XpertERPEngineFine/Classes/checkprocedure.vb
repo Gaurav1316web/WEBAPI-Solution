@@ -1877,6 +1877,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmDcscollectionHistory, "Dcs collection History", "1.17.03.130", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmHeadLoadHistory, "Head Load History", "1.17.03.131", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmOneDayStop, "One Day Stop", "1.17.03.132", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmLocalMilkSaleRegister, "Local Milk Sale Register", "1.17.03.133", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
@@ -2387,7 +2388,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptCommissionTPTReport, "Rpt Commission/TPT Report", "1.36.03.31", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmGatepassDetailReport, "Gatepass Detail Report", "1.36.03.32", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSalesComparisonReport, "Sales Comparison Report", "1.36.03.33", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDemandNill, "Booth Nill Demand Report", "1.36.03.34", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmBoothDemandReport, "Booth Demand Report", "1.36.03.34", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDemandNill, "Booth Nill Demand Report", "1.36.03.35", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
