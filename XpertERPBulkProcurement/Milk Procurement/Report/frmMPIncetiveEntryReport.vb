@@ -120,6 +120,8 @@ Public Class frmMPIncetiveEntryReport
             VarID += "_D"
         ElseIf rbtnNEFT.IsChecked Then
             VarID += "_N"
+        ElseIf rbtnPerNEFT.IsChecked Then
+            VarID += "_PN"
         ElseIf rbtnDuplicateACNo.IsChecked Then
             VarID += "_DAN"
         ElseIf rbtnDuplicateJanAdharNo.IsChecked Then
@@ -151,6 +153,8 @@ Public Class frmMPIncetiveEntryReport
                 PageSetupReport_ID = PageSetupReport_ID + "_M" + clsCommon.myCstr(ddlType.SelectedValue)
             ElseIf rbtnNEFT.IsChecked = True Then
                 PageSetupReport_ID = PageSetupReport_ID + "_N"
+            ElseIf rbtnNEFT.IsChecked = True Then
+                PageSetupReport_ID = PageSetupReport_ID + "_PN"
             End If
 
 
@@ -283,7 +287,30 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             ElseIf rbtnFarmerBankWiseSummary.IsChecked Then
                 Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(MCC_Code) as MCC_Code,max(MCC_Name) as MCC_Name,max(Date_Range) as Date_Range,ROW_NUMBER() over ( order by Bank_Code) as SNO,Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by Bank_Code order by Bank_Code"
                 'Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(MCC_Code) as MCC_Code,max(MCC_Name) as MCC_Name,max(Date_Range) as Date_Range,ROW_NUMBER() over ( order by Bank_Code) as SNO,Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Qty) + min(Qty) as Quantity ,max(Payable_Amount)+min(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by Bank_Code order by Bank_Code"
+            ElseIf rbtnPerNEFT.IsChecked Then
+                Qry = " SELECT 
+                   FORMAT(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_Date, 'MMM-dd')Created_Date, TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code ,TSPL_VLC_MASTER_HEAD.VLC_Name,
+                  TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code,TSPL_DBT_NEFT_DETAIL.MP_NAME, 
+                  TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_DBT_NEFT_DETAIL.Amount FROM   TSPL_DBT_NEFT_DETAIL
+                  LEFT OUTER JOIN TSPL_DBT_NEFT_REJECT_DETAIL ON TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR = TSPL_DBT_NEFT_DETAIL.PK_Id
+	              LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader=TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code
+	              left outer join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
+                	left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+                 left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
+				 left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
 
+               WHERE 
+                 TSPL_DBT_NEFT_DETAIL.PK_Id IS NOT NULL
+                 AND TSPL_DBT_NEFT_DETAIL.PK_Id NOT IN (
+                 SELECT Against_DBT_NEFT_TR 
+                 FROM TSPL_DBT_NEFT_REJECT_DETAIL
+                 WHERE Against_DBT_NEFT_TR IS NOT NULL 
+and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_DBT_NEFT.To_Date,103)='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "') " + whre + "  
+
+    "
+                If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                    Qry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                End If
             Else
                 Throw New Exception("Wrong Method")
             End If
@@ -311,6 +338,9 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
 
 
             Gv1.DataSource = dt
+
+            Gv1.MasterTemplate.AutoExpandGroups = False
+
             RadPageView1.SelectedPage = RadPageViewPage2
             SetGridFormat(Gv1)
             EnableDisaableControls(False)
@@ -399,7 +429,7 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
     End Sub
     Sub SetGridFormat(ByRef Gv1 As RadGridView)
         Gv1.ShowGroupPanel = True
-        Gv1.ShowRowHeaderColumn = False
+        Gv1.ShowRowHeaderColumn = True
         Gv1.AllowAddNewRow = False
         Gv1.AllowDeleteRow = False
         Gv1.EnableFiltering = True
@@ -532,6 +562,33 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
             summaryRowItem.Add(item2)
 
             Gv1.ShowGroupPanel = False
+            Gv1.MasterTemplate.AutoExpandGroups = True
+            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        ElseIf rbtnPerNEFT.IsChecked Then
+            Gv1.Columns("Created_Date").HeaderText = "Month & Year"
+            Gv1.Columns("Created_Date").IsVisible = True
+            Gv1.Columns("VLC_Uploader_Code").HeaderText = "DCS Code"
+            Gv1.Columns("VLC_Uploader_Code").IsVisible = True
+            Gv1.Columns("VLC_Name").HeaderText = "DCS Name"
+            Gv1.Columns("VLC_Name").IsVisible = True
+            Gv1.Columns("MP_Code").HeaderText = "ERP MP Code"
+            Gv1.Columns("MP_Code").IsVisible = True
+            Gv1.Columns("MP_Uploader_Code").HeaderText = "MP Code"
+            Gv1.Columns("MP_Uploader_Code").IsVisible = True
+            Gv1.Columns("MP_NAME").HeaderText = "MP Name"
+            Gv1.Columns("MP_NAME").IsVisible = True
+            Gv1.Columns("Qty").HeaderText = "Qty in Ltr"
+            Gv1.Columns("Qty").IsVisible = True
+            Gv1.Columns("Amount").HeaderText = "Amount"
+            Gv1.Columns("Amount").IsVisible = True
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            'Dim item1 As New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item1)
+            Dim item2 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+
+            Gv1.ShowGroupPanel = True
             Gv1.MasterTemplate.AutoExpandGroups = True
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
