@@ -23,10 +23,10 @@ Partial Class rptSaleRegisterUOMReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
         Me.rdmenufile1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -168,10 +168,10 @@ Partial Class rptSaleRegisterUOMReport
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.txtItem)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(42.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1005, 397)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1005, 393)
         Me.RadPageViewPage1.Text = "Filters"
         '
         'TxtRoute
@@ -204,12 +204,12 @@ Partial Class rptSaleRegisterUOMReport
         Me.ddlSubCategory.AutoCompleteDisplayMember = Nothing
         Me.ddlSubCategory.AutoCompleteValueMember = Nothing
         Me.ddlSubCategory.DropDownAnimationEnabled = True
-        RadListDataItem4.Text = "Both"
-        RadListDataItem5.Text = "Sale Invoice"
-        RadListDataItem6.Text = "Sale Return"
-        Me.ddlSubCategory.Items.Add(RadListDataItem4)
-        Me.ddlSubCategory.Items.Add(RadListDataItem5)
-        Me.ddlSubCategory.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Both"
+        RadListDataItem2.Text = "Sale Invoice"
+        RadListDataItem3.Text = "Sale Return"
+        Me.ddlSubCategory.Items.Add(RadListDataItem1)
+        Me.ddlSubCategory.Items.Add(RadListDataItem2)
+        Me.ddlSubCategory.Items.Add(RadListDataItem3)
         Me.ddlSubCategory.Location = New System.Drawing.Point(1098, 94)
         Me.ddlSubCategory.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlSubCategory.Name = "ddlSubCategory"
@@ -352,7 +352,7 @@ Partial Class rptSaleRegisterUOMReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
