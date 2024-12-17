@@ -2494,9 +2494,11 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
 
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
         If PickHeadLoadRateFromSecretaryMaster Then
-            BaseQry += " TSPL_VENDOR_MASTER.Rate_Head_Load as Rate_Head_Load, "
+            'BaseQry += " TSPL_VENDOR_MASTER.Rate_Head_Load as Rate_Head_Load, 
+            BaseQry += " TSPL_MILK_SRN_DETAIL.Head_Load_Rate as Rate_Head_Load,"
         Else
-            BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
+            'BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
+            BaseQry += " TSPL_MILK_SRN_DETAIL.Head_Load_Rate as Rate_Head_Load, "
         End If
         'BaseQry += " ISnull(Headload.Head_Load_Rate, 0)Rate_Head_Load, "
         'End If
@@ -2625,13 +2627,13 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
         '    BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
         'End If
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-        BaseQry += " left join(SELECT TSPL_HEAD_LOAD.Document_No,TSPL_HEAD_LOAD_DCS.VLC_CODE,MAX(TSPL_HEAD_LOAD_DCS.Head_Load_Rate) Head_Load_Rate FROM (
-                               SELECT DISTINCT MAX(TSPL_HEAD_LOAD.Document_No) Document_No,MAX( TSPL_HEAD_LOAD_DCS.VLC_CODE) VLC_CODE FROM TSPL_HEAD_LOAD
-                               LEFT OUTER JOIN TSPL_HEAD_LOAD_DCS ON TSPL_HEAD_LOAD_DCS.Document_No=TSPL_HEAD_LOAD.Document_No
-                               GROUP BY TSPL_HEAD_LOAD_DCS.VLC_CODE) TSPL_HEAD_LOAD
-                               LEFT OUTER JOIN TSPL_HEAD_LOAD_DCS ON TSPL_HEAD_LOAD_DCS.Document_No=TSPL_HEAD_LOAD.Document_No AND
-                               TSPL_HEAD_LOAD_DCS.VLC_CODE=TSPL_HEAD_LOAD.VLC_CODE
-                               GROUP BY TSPL_HEAD_LOAD.Document_No,TSPL_HEAD_LOAD_DCS.VLC_CODE)Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
+        'BaseQry += " left join(SELECT TSPL_HEAD_LOAD.Document_No,TSPL_HEAD_LOAD_DCS.VLC_CODE,MAX(TSPL_HEAD_LOAD_DCS.Head_Load_Rate) Head_Load_Rate FROM (
+        'SELECT DISTINCT MAX(TSPL_HEAD_LOAD.Document_No) Document_No,MAX( TSPL_HEAD_LOAD_DCS.VLC_CODE) VLC_CODE FROM TSPL_HEAD_LOAD
+        '                       LEFT OUTER JOIN TSPL_HEAD_LOAD_DCS ON TSPL_HEAD_LOAD_DCS.Document_No=TSPL_HEAD_LOAD.Document_No
+        '                       GROUP BY TSPL_HEAD_LOAD_DCS.VLC_CODE) TSPL_HEAD_LOAD
+        '                       LEFT OUTER JOIN TSPL_HEAD_LOAD_DCS ON TSPL_HEAD_LOAD_DCS.Document_No=TSPL_HEAD_LOAD.Document_No AND
+        '                       TSPL_HEAD_LOAD_DCS.VLC_CODE=TSPL_HEAD_LOAD.VLC_CODE
+        '                       GROUP BY TSPL_HEAD_LOAD.Document_No,TSPL_HEAD_LOAD_DCS.VLC_CODE)Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
         'BaseQry += " Left Outer Join TSPL_HEAD_LOAD_DCS On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_HEAD_LOAD_DCS.VLC_CODE " + Environment.NewLine
         'End If
         'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query
@@ -2756,7 +2758,7 @@ left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.Ma
 
         BaseQry += "  " & whrcls & " "
         Dim dt As New DataTable
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             sQuery = BaseQry + " order by  cast(VLC_Code_VLC_Uploader as int),BillNo,convert(datetime,coalesce(TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103),shift desc"
         ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
             sQuery = BaseQry + " order by  cast(Mcc_Code_VLC_Uploader as int) asc, convert(datetime,coalesce(TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103)"

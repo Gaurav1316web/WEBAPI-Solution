@@ -413,7 +413,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
                     Else
                         BaseQry += " TSPL_Vendor_MASTER.Bank_Code as GRPColumn,"
                     End If
-                    BaseQry += " CASE WHEN TSPL_Vendor_MASTER.Bank_Code LIKE 'PNB%' THEN 'PNB Bank' ELSE 'Other Banks' END AS GRPColumns,TSPL_COMPANY_MASTER.Bank_Name,TSPL_COMPANY_MASTER.BankAccountNo,TSPL_COMPANY_MASTER.BankIFSCCode,TSPL_COMPANY_MASTER.BankBranchAddress,
+                    BaseQry += " CASE WHEN TSPL_Vendor_MASTER.Bank_Code LIKE 'PNB%' THEN 'PNB Bank' ELSE 'Other Banks' END AS GRPColumns,'" + fromDate.Value + "' as FD,'" + ToDate.Value + "' AS TD,TSPL_COMPANY_MASTER.Bank_Name,TSPL_COMPANY_MASTER.BankAccountNo,TSPL_COMPANY_MASTER.BankIFSCCode,TSPL_COMPANY_MASTER.BankBranchAddress,
                                TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],
                                TSPL_COMPANY_MASTER.Comp_Name
                                ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address
