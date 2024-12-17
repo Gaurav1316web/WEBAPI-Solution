@@ -333,10 +333,13 @@ Public Class frmShortSupplyPenalty
                 txtItem.Focus()
                 Throw New Exception("Please Select " + txtItem.MyLinkLable1.Text)
             End If
+            lblPenaltyAmt.Text = 0
+            txtPenaltyRate.Text = 0
             If clsCommon.myLen(txtBillToLocation.Value) > 0 AndAlso clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myLen(txtVendorNo.Value) > 0 AndAlso clsCommon.myLen(txtItem.Value) > 0 Then
-                Dim Qrycnt As String = "Select  COUNT(*) FROM TSPL_SHORT_SUPPLY_PENALTY Where TSPL_SHORT_SUPPLY_PENALTY.Tendor_No ='" + txtTenderNo.Value + "' and TSPL_SHORT_SUPPLY_PENALTY.Item_Code='" + txtItem.Value + "' and TSPL_SHORT_SUPPLY_PENALTY.Vendor_No='" + txtVendorNo.Value + "' and  TSPL_SHORT_SUPPLY_PENALTY.Location_Code='" + txtBillToLocation.Value + "'"
+                Dim Qrycnt As String = "Select  TSPL_SHORT_SUPPLY_PENALTY.Document_No,TSPL_SHORT_SUPPLY_PENALTY.Document_Date,TSPL_SHORT_SUPPLY_PENALTY.Tendor_No,TSPL_SHORT_SUPPLY_PENALTY.Vendor_No,TSPL_SHORT_SUPPLY_PENALTY.Item_Code,TSPL_SHORT_SUPPLY_PENALTY.Location_Code FROM TSPL_SHORT_SUPPLY_PENALTY Where TSPL_SHORT_SUPPLY_PENALTY.Tendor_No ='" + txtTenderNo.Value + "' and TSPL_SHORT_SUPPLY_PENALTY.Item_Code='" + txtItem.Value + "' and TSPL_SHORT_SUPPLY_PENALTY.Vendor_No='" + txtVendorNo.Value + "' and  TSPL_SHORT_SUPPLY_PENALTY.Location_Code='" + txtBillToLocation.Value + "'"
                 Dim dtcnt As DataTable = clsDBFuncationality.GetDataTable(Qrycnt)
                 If dtcnt IsNot Nothing And dtcnt.Rows.Count > 0 Then
+                    LoadBlankGrid()
                     Throw New Exception("Short Supply Penalty Already created.")
                 End If
             End If
