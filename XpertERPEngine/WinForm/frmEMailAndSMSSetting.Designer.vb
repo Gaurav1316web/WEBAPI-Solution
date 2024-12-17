@@ -82,6 +82,10 @@ Partial Class frmEMailAndSMSSetting
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSaveConfiguration = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.txtSMSTemplateID = New common.Controls.MyTextBox()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.txttestSMSTempate = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -136,6 +140,10 @@ Partial Class frmEMailAndSMSSetting
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSaveConfiguration, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSMSTemplateID, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txttestSMSTempate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -169,7 +177,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(566, 404)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -193,7 +201,7 @@ Partial Class frmEMailAndSMSSetting
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtEmpSMSAlerts.arrDispalyMember = Nothing
         Me.txtEmpSMSAlerts.arrValueMember = Nothing
-        Me.txtEmpSMSAlerts.Location = New System.Drawing.Point(133, 4)
+        Me.txtEmpSMSAlerts.Location = New System.Drawing.Point(133, 24)
         Me.txtEmpSMSAlerts.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEmpSMSAlerts.MyLinkLable1 = Me.Employee
         Me.txtEmpSMSAlerts.MyLinkLable2 = Nothing
@@ -206,7 +214,7 @@ Partial Class frmEMailAndSMSSetting
         '
         Me.Employee.FieldName = Nothing
         Me.Employee.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Employee.Location = New System.Drawing.Point(3, 4)
+        Me.Employee.Location = New System.Drawing.Point(3, 25)
         Me.Employee.Name = "Employee"
         Me.Employee.Size = New System.Drawing.Size(125, 18)
         Me.Employee.TabIndex = 386
@@ -216,10 +224,10 @@ Partial Class frmEMailAndSMSSetting
         '
         Me.txtSMSText.ContextMenuStrip = Me.ContextMenuStrip1
         Me.txtSMSText.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.txtSMSText.Location = New System.Drawing.Point(0, 26)
+        Me.txtSMSText.Location = New System.Drawing.Point(0, 47)
         Me.txtSMSText.Multiline = True
         Me.txtSMSText.Name = "txtSMSText"
-        Me.txtSMSText.Size = New System.Drawing.Size(545, 314)
+        Me.txtSMSText.Size = New System.Drawing.Size(545, 293)
         Me.txtSMSText.TabIndex = 27
         '
         'ContextMenuStrip1
@@ -229,11 +237,13 @@ Partial Class frmEMailAndSMSSetting
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.MyLabel16)
+        Me.Panel2.Controls.Add(Me.txtSMSTemplateID)
         Me.Panel2.Controls.Add(Me.Employee)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(545, 26)
+        Me.Panel2.Size = New System.Drawing.Size(545, 47)
         Me.Panel2.TabIndex = 28
         '
         'MyLabel9
@@ -780,6 +790,8 @@ Partial Class frmEMailAndSMSSetting
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.MyLabel17)
+        Me.GroupBox2.Controls.Add(Me.txttestSMSTempate)
         Me.GroupBox2.Controls.Add(Me.txtNo_of_characters)
         Me.GroupBox2.Controls.Add(Me.MyLabel15)
         Me.GroupBox2.Controls.Add(Me.txtSMSString)
@@ -810,7 +822,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtNo_of_characters.IsSourceFromTable = False
         Me.txtNo_of_characters.IsSourceFromValueList = False
         Me.txtNo_of_characters.IsUnique = False
-        Me.txtNo_of_characters.Location = New System.Drawing.Point(327, 104)
+        Me.txtNo_of_characters.Location = New System.Drawing.Point(327, 130)
         Me.txtNo_of_characters.MendatroryField = False
         Me.txtNo_of_characters.MyLinkLable1 = Nothing
         Me.txtNo_of_characters.MyLinkLable2 = Nothing
@@ -828,7 +840,7 @@ Partial Class frmEMailAndSMSSetting
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(6, 105)
+        Me.MyLabel15.Location = New System.Drawing.Point(6, 131)
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(290, 18)
         Me.MyLabel15.TabIndex = 388
@@ -851,7 +863,7 @@ Partial Class frmEMailAndSMSSetting
         'RadButton1
         '
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(92, 129)
+        Me.RadButton1.Location = New System.Drawing.Point(92, 156)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(210, 22)
         Me.RadButton1.TabIndex = 50
@@ -861,7 +873,7 @@ Partial Class frmEMailAndSMSSetting
         '
         Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(6, 83)
+        Me.MyLabel8.Location = New System.Drawing.Point(6, 84)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel8.TabIndex = 48
@@ -889,7 +901,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtSMSMobileNo.IsSourceFromTable = False
         Me.txtSMSMobileNo.IsSourceFromValueList = False
         Me.txtSMSMobileNo.IsUnique = False
-        Me.txtSMSMobileNo.Location = New System.Drawing.Point(92, 82)
+        Me.txtSMSMobileNo.Location = New System.Drawing.Point(92, 83)
         Me.txtSMSMobileNo.MaxLength = 10
         Me.txtSMSMobileNo.MendatroryField = False
         Me.txtSMSMobileNo.MyLinkLable1 = Me.MyLabel8
@@ -953,6 +965,76 @@ Partial Class frmEMailAndSMSSetting
         Me.btnSaveConfiguration.Size = New System.Drawing.Size(69, 22)
         Me.btnSaveConfiguration.TabIndex = 49
         Me.btnSaveConfiguration.Text = "Save"
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(4, 5)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(96, 16)
+        Me.MyLabel16.TabIndex = 390
+        Me.MyLabel16.Text = "SMS Template ID"
+        '
+        'txtSMSTemplateID
+        '
+        Me.txtSMSTemplateID.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtSMSTemplateID.CalculationExpression = Nothing
+        Me.txtSMSTemplateID.FieldCode = Nothing
+        Me.txtSMSTemplateID.FieldDesc = Nothing
+        Me.txtSMSTemplateID.FieldMaxLength = 0
+        Me.txtSMSTemplateID.FieldName = Nothing
+        Me.txtSMSTemplateID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSMSTemplateID.isCalculatedField = False
+        Me.txtSMSTemplateID.IsSourceFromTable = False
+        Me.txtSMSTemplateID.IsSourceFromValueList = False
+        Me.txtSMSTemplateID.IsUnique = False
+        Me.txtSMSTemplateID.Location = New System.Drawing.Point(133, 4)
+        Me.txtSMSTemplateID.MaxLength = 30
+        Me.txtSMSTemplateID.MendatroryField = False
+        Me.txtSMSTemplateID.MyLinkLable1 = Me.MyLabel16
+        Me.txtSMSTemplateID.MyLinkLable2 = Nothing
+        Me.txtSMSTemplateID.Name = "txtSMSTemplateID"
+        Me.txtSMSTemplateID.ReferenceFieldDesc = Nothing
+        Me.txtSMSTemplateID.ReferenceFieldName = Nothing
+        Me.txtSMSTemplateID.ReferenceTableName = Nothing
+        Me.txtSMSTemplateID.Size = New System.Drawing.Size(407, 18)
+        Me.txtSMSTemplateID.TabIndex = 389
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(6, 108)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(68, 16)
+        Me.MyLabel17.TabIndex = 390
+        Me.MyLabel17.Text = "Template ID"
+        '
+        'txttestSMSTempate
+        '
+        Me.txttestSMSTempate.CalculationExpression = Nothing
+        Me.txttestSMSTempate.FieldCode = Nothing
+        Me.txttestSMSTempate.FieldDesc = Nothing
+        Me.txttestSMSTempate.FieldMaxLength = 0
+        Me.txttestSMSTempate.FieldName = Nothing
+        Me.txttestSMSTempate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txttestSMSTempate.isCalculatedField = False
+        Me.txttestSMSTempate.IsSourceFromTable = False
+        Me.txttestSMSTempate.IsSourceFromValueList = False
+        Me.txttestSMSTempate.IsUnique = False
+        Me.txttestSMSTempate.Location = New System.Drawing.Point(92, 107)
+        Me.txttestSMSTempate.MaxLength = 30
+        Me.txttestSMSTempate.MendatroryField = False
+        Me.txttestSMSTempate.MyLinkLable1 = Me.MyLabel17
+        Me.txttestSMSTempate.MyLinkLable2 = Nothing
+        Me.txttestSMSTempate.Name = "txttestSMSTempate"
+        Me.txttestSMSTempate.ReferenceFieldDesc = Nothing
+        Me.txttestSMSTempate.ReferenceFieldName = Nothing
+        Me.txttestSMSTempate.ReferenceTableName = Nothing
+        Me.txttestSMSTempate.Size = New System.Drawing.Size(210, 18)
+        Me.txttestSMSTempate.TabIndex = 389
         '
         'frmEMailAndSMSSetting
         '
@@ -1029,6 +1111,10 @@ Partial Class frmEMailAndSMSSetting
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSaveConfiguration, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSMSTemplateID, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txttestSMSTempate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1092,5 +1178,9 @@ Partial Class frmEMailAndSMSSetting
     Friend WithEvents ContextMenuStrip3 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents txtNo_of_characters As common.MyNumBox
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents MyLabel16 As Controls.MyLabel
+    Friend WithEvents txtSMSTemplateID As Controls.MyTextBox
+    Friend WithEvents MyLabel17 As Controls.MyLabel
+    Friend WithEvents txttestSMSTempate As Controls.MyTextBox
 End Class
 

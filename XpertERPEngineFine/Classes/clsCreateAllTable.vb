@@ -10320,6 +10320,9 @@ Public Class clsCreateAllTable
             coll.Add("Incentive_Amt", "decimal(18,2) null")
             coll.Add("Entry_Source", "varchar(12) NULL")
             coll.Add("MP_MILK_PRICE_PK_ID", "INTEGER null REFERENCES TSPL_MP_MILK_PRICE_RATE(PK_ID)")
+
+            coll.Add("Manual_Weighment", "int null")
+            coll.Add("Manual_Milk_Analyzer", "int null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER", coll, "Primary Key (Doc_No,PK_Id)", False, False, "", "Doc_No", "Doc_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER_SYNC", coll, "Primary Key (Doc_No,PK_Id)", False, False)
 
@@ -24850,6 +24853,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Retesting", "integer null")
             coll.Add("Against_Send_SMS", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "", True, False, "", "DOC_CODE", "DOC_DATE")
+            coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "", False, False)
             Try
                 qry = "SELECT 1 FROM sys.indexes WHERE name = 'Unique_Against_Send_SMS'"
                 dt = clsDBFuncationality.GetDataTable(qry)
@@ -24858,8 +24863,6 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
                 End If
             Catch
             End Try
-            coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "", False, False)
             ''ERO/10/05/19-000600,ERO/08/05/19-000596 By Balwinder on 13/05/2019 
 
             'Try
@@ -46107,6 +46110,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "datetime not null")
             coll.Add("SYNC_STATUS", "int Null")
+            coll.Add("Template_ID", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SMS_HEAD", coll)
             coll("Code") = "varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SMS_HEAD_SYNC", coll)
@@ -46140,6 +46144,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Form_Id", "varchar(20) not null primary Key")
+            coll.Add("Template_ID", "varchar(30) NULL")
             coll.Add("EMail_Subject", "Varchar(200) NULL")
             coll.Add("EMail_Text", "Text null")
             coll.Add("SMS_Text", "Varchar(2000) null")

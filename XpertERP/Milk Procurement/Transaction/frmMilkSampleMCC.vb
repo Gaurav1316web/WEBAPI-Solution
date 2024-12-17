@@ -74,132 +74,133 @@ Public Class frmMilkSampleMCC
 #End Region
 
     Private Sub frmMilkReceiptMCC_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        isStopForRepeatedFATSNF = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StopForRepeatedFATSNF, clsFixedParameterCode.StopForRepeatedFATSNF, Nothing)) = 0, False, True) ''Make Setting Balwinder
-        GridFontSize = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SampleFONTSize, clsFixedParameterCode.SampleFONTSize, Nothing)) ''Make Setting Balwinder
-        If GridFontSize < 8 Then
-            GridFontSize = 15
-        End If
-        GridFont = New Font("Ariel", GridFontSize)
+        'need to open this form for sms sentting.
+        'isStopForRepeatedFATSNF = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StopForRepeatedFATSNF, clsFixedParameterCode.StopForRepeatedFATSNF, Nothing)) = 0, False, True) ''Make Setting Balwinder
+        'GridFontSize = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SampleFONTSize, clsFixedParameterCode.SampleFONTSize, Nothing)) ''Make Setting Balwinder
+        'If GridFontSize < 8 Then
+        '    GridFontSize = 15
+        'End If
+        'GridFont = New Font("Ariel", GridFontSize)
 
-        DisplayAllControls = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MCCDisplay_All_Parameter, clsFixedParameterCode.MilkSetting, Nothing)) = 0, False, True)
-        If DisplayAllControls = "False" Then
-            DempGRP1.Visible = False
-            DemoGrp2.Visible = False
-        End If
-        SetUserMgmtNew()
-        ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
-        ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete ")
-        ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
-        ''For Custom Fields
-        RadPageView1.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty
-        If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-            UcCustomFields1.Report_ID = MyBase.Form_ID
-            UcCustomFields1.LoadCustomControls()
-        End If
-        If objCommonVar.IsDemoERP Then
-            UcAttachment1.Form_ID = MyBase.Form_ID
-            RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
-        Else
-            RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
-        End If
-        ''End of For Custom Fields
-        cboDockCollectionMilkType.DataSource = clsMilkReceiptMCC.GetDockCollectionMilkType(True)
-        cboDockCollectionMilkType.ValueMember = "Code"
-        cboDockCollectionMilkType.DisplayMember = "Name"
+        'DisplayAllControls = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MCCDisplay_All_Parameter, clsFixedParameterCode.MilkSetting, Nothing)) = 0, False, True)
+        'If DisplayAllControls = "False" Then
+        '    DempGRP1.Visible = False
+        '    DemoGrp2.Visible = False
+        'End If
+        'SetUserMgmtNew()
+        'ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
+        'ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete ")
+        'ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
+        '''For Custom Fields
+        'RadPageView1.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty
+        'If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+        '    UcCustomFields1.Report_ID = MyBase.Form_ID
+        '    UcCustomFields1.LoadCustomControls()
+        'End If
+        'If objCommonVar.IsDemoERP Then
+        '    UcAttachment1.Form_ID = MyBase.Form_ID
+        '    RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
+        'Else
+        '    RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
+        'End If
+        '''End of For Custom Fields
+        'cboDockCollectionMilkType.DataSource = clsMilkReceiptMCC.GetDockCollectionMilkType(True)
+        'cboDockCollectionMilkType.ValueMember = "Code"
+        'cboDockCollectionMilkType.DisplayMember = "Name"
 
-        GetshiftType()
-        If DisplayAllControls = "False" Then
-            GetECOPro(cboECOPro)
-            GetECOPro(CboEcoPro2)
-        Else
-            GetECOPro(DemoEcoPro1)
-            GetECOPro(DemoEcoPro2)
-        End If
-        AddNew()
-        TxtRange1Panal2.Text = Nothing
-        TxtRange2.Text = Nothing
-        txtRangeFrom.Text = Nothing
-        Txtrange2panal2.Text = Nothing
-        gv1.AllowAddNewRow = False
-        gv1.AllowDeleteRow = False
-        gv1.AllowEditRow = True
-        gv1.MasterTemplate.AllowCellContextMenu = True
-        gv1.MasterTemplate.AllowColumnHeaderContextMenu = True
-        gv1.MasterTemplate.AllowDeleteRow = True
-        ReStoreGridLayout()
-        SplitContainer2.Panel2Collapsed = True
+        'GetshiftType()
+        'If DisplayAllControls = "False" Then
+        '    GetECOPro(cboECOPro)
+        '    GetECOPro(CboEcoPro2)
+        'Else
+        '    GetECOPro(DemoEcoPro1)
+        '    GetECOPro(DemoEcoPro2)
+        'End If
+        'AddNew()
+        'TxtRange1Panal2.Text = Nothing
+        'TxtRange2.Text = Nothing
+        'txtRangeFrom.Text = Nothing
+        'Txtrange2panal2.Text = Nothing
+        'gv1.AllowAddNewRow = False
+        'gv1.AllowDeleteRow = False
+        'gv1.AllowEditRow = True
+        'gv1.MasterTemplate.AllowCellContextMenu = True
+        'gv1.MasterTemplate.AllowColumnHeaderContextMenu = True
+        'gv1.MasterTemplate.AllowDeleteRow = True
+        'ReStoreGridLayout()
+        'SplitContainer2.Panel2Collapsed = True
 
-        gv2.AllowAddNewRow = False
-        gv2.AllowDeleteRow = False
-        gv2.AllowEditRow = True
-        gv2.MasterTemplate.AllowCellContextMenu = True
-        gv2.MasterTemplate.AllowColumnHeaderContextMenu = True
-        gv2.MasterTemplate.AllowDeleteRow = True
+        'gv2.AllowAddNewRow = False
+        'gv2.AllowDeleteRow = False
+        'gv2.AllowEditRow = True
+        'gv2.MasterTemplate.AllowCellContextMenu = True
+        'gv2.MasterTemplate.AllowColumnHeaderContextMenu = True
+        'gv2.MasterTemplate.AllowDeleteRow = True
 
-        ' Timer1.Start()
-        Timer1.Interval = 1000
-        Timer2.Interval = 1000
-        Dim viewMilkReceiptSample As Boolean = (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select View_Milk_Receipt_Sample from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' ")) = 1)
-        Me.fndMCCCode.Tag = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER inner join TSPL_Mcc_MASTER on TSPL_Mcc_MASTER.mcc_code=Default_Location where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(fndMCCCode.Tag) <= 0 Then
-            If Not viewMilkReceiptSample Then
-                Throw New Exception("Please set Default location of current user")
-            End If
-        End If
+        '' Timer1.Start()
+        'Timer1.Interval = 1000
+        'Timer2.Interval = 1000
+        'Dim viewMilkReceiptSample As Boolean = (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select View_Milk_Receipt_Sample from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' ")) = 1)
+        'Me.fndMCCCode.Tag = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER inner join TSPL_Mcc_MASTER on TSPL_Mcc_MASTER.mcc_code=Default_Location where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        'If clsCommon.myLen(fndMCCCode.Tag) <= 0 Then
+        '    If Not viewMilkReceiptSample Then
+        '        Throw New Exception("Please set Default location of current user")
+        '    End If
+        'End If
 
-        If clsCommon.myLen(fndMCCCode.Tag) > 0 Then
-            Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(fndMCCCode.Tag)
-            If DTShift IsNot Nothing AndAlso DTShift.Rows.Count > 0 Then
-                dtpDocDate.Value = clsCommon.myCstr(DTShift.Rows(0).Item("MCC_Shift_date"))
-                cboShift.SelectedValue = clsCommon.myCstr(DTShift.Rows(0).Item("Shift"))
-                dtpDocDate.ReadOnly = True
-                cboShift.Enabled = False
-            Else
-                If Not viewMilkReceiptSample Then
-                    Throw New Exception("No Milk Collected. No Sample can be Done.")
-                End If
-            End If
-            SetDocKCollectionMilkType(fndMCCCode.Tag)
-            txtCode.Value = clsMilkSampleMCC.GetDocCode(clsCommon.GetPrintDate(dtpDocDate.Value, "dd-MMM-yyyy"), fndMCCCode.Tag, cboShift.SelectedValue, Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue), "")
-            If clsCommon.myLen(txtCode.Value) > 0 Then
-                LoadData(txtCode.Value)
-                txtRangeFrom.Text = SetFromRange(txtCode.Value, Nothing)
-                TxtRange2.Text = -1 + clsCommon.myCdbl(txtRangeFrom.Text) + clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MCCSampleRange, clsFixedParameterCode.MilkSetting, Nothing))
-            End If
-            If clsCommon.myLen(txtCode.Value) <= 0 Then
-                fndMCCCode.Value = clsMilkReceiptMCC.GetDocCode(clsCommon.GetPrintDate(dtpDocDate.Value, "dd-MMM-yyyy"), fndMCCCode.Tag, cboShift.SelectedValue, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
-                If clsCommon.myLen(fndMCCCode.Value) > 0 Then
-                    txtRangeFrom.Text = clsCommon.myCdbl(gv1.Rows.Count) + 1
-                    TxtRange2.Text = -1 + clsCommon.myCdbl(txtRangeFrom.Text) + clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MCCSampleRange, clsFixedParameterCode.MilkSetting, Nothing))
-                    Load_Receipt_From_Dt(False)
-                End If
-            End If
-        End If
+        'If clsCommon.myLen(fndMCCCode.Tag) > 0 Then
+        '    Dim DTShift As DataTable = clsMilkReceiptMCC.GetShift(fndMCCCode.Tag)
+        '    If DTShift IsNot Nothing AndAlso DTShift.Rows.Count > 0 Then
+        '        dtpDocDate.Value = clsCommon.myCstr(DTShift.Rows(0).Item("MCC_Shift_date"))
+        '        cboShift.SelectedValue = clsCommon.myCstr(DTShift.Rows(0).Item("Shift"))
+        '        dtpDocDate.ReadOnly = True
+        '        cboShift.Enabled = False
+        '    Else
+        '        If Not viewMilkReceiptSample Then
+        '            Throw New Exception("No Milk Collected. No Sample can be Done.")
+        '        End If
+        '    End If
+        '    SetDocKCollectionMilkType(fndMCCCode.Tag)
+        '    txtCode.Value = clsMilkSampleMCC.GetDocCode(clsCommon.GetPrintDate(dtpDocDate.Value, "dd-MMM-yyyy"), fndMCCCode.Tag, cboShift.SelectedValue, Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue), "")
+        '    If clsCommon.myLen(txtCode.Value) > 0 Then
+        '        LoadData(txtCode.Value)
+        '        txtRangeFrom.Text = SetFromRange(txtCode.Value, Nothing)
+        '        TxtRange2.Text = -1 + clsCommon.myCdbl(txtRangeFrom.Text) + clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MCCSampleRange, clsFixedParameterCode.MilkSetting, Nothing))
+        '    End If
+        '    If clsCommon.myLen(txtCode.Value) <= 0 Then
+        '        fndMCCCode.Value = clsMilkReceiptMCC.GetDocCode(clsCommon.GetPrintDate(dtpDocDate.Value, "dd-MMM-yyyy"), fndMCCCode.Tag, cboShift.SelectedValue, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
+        '        If clsCommon.myLen(fndMCCCode.Value) > 0 Then
+        '            txtRangeFrom.Text = clsCommon.myCdbl(gv1.Rows.Count) + 1
+        '            TxtRange2.Text = -1 + clsCommon.myCdbl(txtRangeFrom.Text) + clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MCCSampleRange, clsFixedParameterCode.MilkSetting, Nothing))
+        '            Load_Receipt_From_Dt(False)
+        '        End If
+        '    End If
+        'End If
 
-        txtRangeFrom.ReadOnly = False ''Balwinder
-        TxtRange2.ReadOnly = True
-        If clsCommon.myLen(DocumentNo) > 0 Then
-            LoadData(DocumentNo, "", Nothing, NavigatorType.Current)
-        End If
-        If clsCommon.myLen(Me.Tag) > 0 Then
-            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
-        End If
-        LblDemoAWM.Text = 5.0
-        LblDemodensity.Text = 1.032
-        LblDemoFat.Text = 4.2
-        LblDemoSNf.Text = 9.0
-        LblDempProtein.Text = 3.06
-        GetMilkTypeDt()
+        'txtRangeFrom.ReadOnly = False ''Balwinder
+        'TxtRange2.ReadOnly = True
+        'If clsCommon.myLen(DocumentNo) > 0 Then
+        '    LoadData(DocumentNo, "", Nothing, NavigatorType.Current)
+        'End If
+        'If clsCommon.myLen(Me.Tag) > 0 Then
+        '    LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+        'End If
+        'LblDemoAWM.Text = 5.0
+        'LblDemodensity.Text = 1.032
+        'LblDemoFat.Text = 4.2
+        'LblDemoSNf.Text = 9.0
+        'LblDempProtein.Text = 3.06
+        'GetMilkTypeDt()
 
-        ' added for drill down 
-        Try
-            If clsCommon.myLen(Me.Tag) > 0 Then
-                txtCode.Value = Me.Tag
-                LoadData(txtCode.Value, , , NavigatorType.Current)
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, ex.Message)
-        End Try
+        '' added for drill down 
+        'Try
+        '    If clsCommon.myLen(Me.Tag) > 0 Then
+        '        txtCode.Value = Me.Tag
+        '        LoadData(txtCode.Value, , , NavigatorType.Current)
+        '    End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, ex.Message)
+        'End Try
     End Sub
 
     Sub SetDocKCollectionMilkType(ByVal strMCCCode As String)

@@ -13,6 +13,7 @@ Public Class frmEMailAndSMSSetting
     Public Form_ID As String = ""
     Public Const SMSStringMobileNo As String = "$#MOBILENO#$"
     Public Const SMSStringConstSMSText As String = "$#SMSTEXT#$"
+    Public Const SMSStringConstTemplate As String = "$#SMSTEMPLATE#$"
     Public isFormLoadOccured As Boolean = False
 #End Region
 
@@ -246,6 +247,7 @@ Public Class frmEMailAndSMSSetting
         LoadNotificationsOn()
         ContextMenuStrip2.Items.Add(SMSStringMobileNo)
         ContextMenuStrip2.Items.Add(SMSStringConstSMSText)
+        ContextMenuStrip2.Items.Add(SMSStringConstTemplate)
         If clsCommon.CompairString(Form_ID, clsUserMgtCode.frmBankAdvise) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(DateRange)
             ContextMenuStrip1.Items.Add(Bank)
@@ -1077,6 +1079,7 @@ Public Class frmEMailAndSMSSetting
         End If
         Dim objContent As clsESContent = clsESContent.GetData(Form_ID)
         If objContent IsNot Nothing Then
+            txtSMSTemplateID.Text = objContent.Template_ID
             txtEmailText.Text = objContent.EMail_Text
             txtSMSText.Text = objContent.SMS_Text
             txtSubject.Text = objContent.EMail_Subject
@@ -1139,6 +1142,7 @@ Public Class frmEMailAndSMSSetting
                 End If
 
                 Dim objContent As New clsESContent()
+                objContent.Template_ID = txtSMSTemplateID.Text
                 objContent.EMail_Text = txtEmailText.Text
                 objContent.SMS_Text = txtSMSText.Text
                 objContent.EMail_Subject = txtSubject.Text
@@ -1340,7 +1344,7 @@ Public Class frmEMailAndSMSSetting
             Dim baseurl As String = txtSMSString.Text
             baseurl = baseurl.Replace(SMSStringConstSMSText, txtSMSTestText.Text)
             baseurl = baseurl.Replace(SMSStringMobileNo, txtSMSMobileNo.Text)
-
+            baseurl = baseurl.Replace(SMSStringConstTemplate, txttestSMSTempate.Text)
             Dim data As Stream = client.OpenRead(baseurl)
             Dim reader As StreamReader = New StreamReader(data)
             Dim s As String = reader.ReadToEnd()

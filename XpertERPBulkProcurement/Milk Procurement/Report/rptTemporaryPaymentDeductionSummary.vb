@@ -632,7 +632,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             If chkDCSWise.Checked = True Then
                 subDCSQry = ",Max(VSP_Uploader_Code) as DCSCode,Max(Vendor_NAME) As 'DCS Name'"
                 subQry = ",Final.Vendor_CODE,Final.VSP_Uploader_Code"
-                subQrderBy = "VSP_Uploader_Code,"
+                subQrderBy = "Convert(int,VSP_Uploader_Code),"
             End If
 
             Dim whrActiveInactive As String = Nothing
@@ -966,7 +966,6 @@ union all
         Gv1.AllowDeleteRow = False
         Gv1.EnableFiltering = True
         Gv1.ShowFilteringRow = True
-
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()

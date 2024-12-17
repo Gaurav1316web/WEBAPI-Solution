@@ -3794,7 +3794,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             ,sum(case when (TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Crate' and TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Pouch') then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Loose_Qty
             ,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) AS TotalLtr_ItemWise
                    ,sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount) AS ItemNetAmount
-                  ,max(TSPL_DEMAND_BOOKING_DETAIL.Production_Remarks) as Production_Remarks
+                  ,max(TSPL_DEMAND_BOOKING_DETAIL.Production_Remarks) as Production_Remarks, max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
                   from TSPL_DEMAND_BOOKING_MASTER left outer join TSPL_DEMAND_BOOKING_DETAIL
                   on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
                    left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
@@ -3813,7 +3813,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON 2=2
                    LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =Main_Final.location_code
                   left join ( select distinct TSPL_CUSTOMER_MASTER.Phone1,  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code,TSPL_CUSTOMER_MASTER.Zone_Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER 
-                  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code ) zone on zone.Route_No = Main_Final.Route_No and zone.Cust_Code = Main_Final.Distributor_Code"
+                  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code ) zone on zone.Route_No = Main_Final.Route_No and zone.Cust_Code = Main_Final.Distributor_Code order by Main_Final.Sku_Seq"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()

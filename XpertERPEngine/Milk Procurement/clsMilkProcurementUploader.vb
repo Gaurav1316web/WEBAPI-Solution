@@ -856,7 +856,7 @@ Public Class clsMilkProcurementUploaderDetail
     Public Page_No As Integer
     Public Arrival_Time As DateTime? = Nothing
     Public Weighment_Time As DateTime? = Nothing
-
+    Public IsUpdate As Boolean = False
     'Public Retesting_FAT As Decimal
     'Public Retesting_SNF As Decimal
 #End Region
@@ -931,6 +931,12 @@ Public Class clsMilkProcurementUploaderDetail
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", OMInsertOrUpdate.Update, "TR_No='" + strTR_No + "'", trans)
                 Else
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                End If
+                If obj.IsUpdate Then
+                    clsCommon.AddColumnsForChange(coll, "Hist_By", objCommonVar.CurrentUserCode)
+                    clsCommon.AddColumnsForChange(coll, "Hist_On", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING", OMInsertOrUpdate.Insert, "", trans)
                 End If
 
                 clsMilkProcurementUploaderQCParameterDetail.saveData(strDocNo, obj.TR_No, obj.arrQCParameter, trans)

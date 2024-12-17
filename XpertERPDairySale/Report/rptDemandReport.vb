@@ -184,7 +184,7 @@ Public Class rptDemandReport
                     '    ItemInUse += " and Scheme_Item='N' "
                     'End If
                     ItemInUse += strWhrClause2
-                    ItemInUse += " order by Alies_Name "
+                    'ItemInUse += " order by Alies_Name "
                 End If
                 Dim strAliasCol As String = "( TSPL_ITEM_MASTER.Alies_Name )"
                 'If ChkDayWiseSummary.Checked Then
@@ -210,7 +210,7 @@ Public Class rptDemandReport
                     'strItem2WithSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' + ' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + TempItemInUse + "    FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
                     strItem2WithSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT ',' +'Sum(' + QUOTENAME( " + strAliasCol + ") +')' + ' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + TempItemInUse + "    FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
                 Else
-                    strItem2WithSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' + ' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + ItemInUse + "    FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
+                    strItem2WithSum = clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' + ' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name FROM " + ItemInUse + "  order by Alies_Name  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
                 End If
                 Dim query As String = ""
                 If isSchemeItem = False Then
