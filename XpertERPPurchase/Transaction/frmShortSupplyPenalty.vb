@@ -333,8 +333,14 @@ Public Class frmShortSupplyPenalty
                 txtItem.Focus()
                 Throw New Exception("Please Select " + txtItem.MyLinkLable1.Text)
             End If
-
-            Dim Qry As String = "Select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No As [Purchase Order],TSPL_GRN_HEAD.GRN_No As 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo As 'Vehicle No',TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weighment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',isNull(TSPL_SRN_DETAIL.SRN_Qty,0) as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PI_HEAD.PI_No As [PI No],Case When Isnull(TSPL_PI_HEAD.Status,0)=1 Then 'Approved' Else 'Unapproved' End As [PI Status]
+            If clsCommon.myLen(txtBillToLocation.Value) > 0 AndAlso clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myLen(txtVendorNo.Value) > 0 AndAlso clsCommon.myLen(txtItem.Value) > 0 Then
+                Dim Qrycnt As String = "Select  COUNT(*) FROM TSPL_SHORT_SUPPLY_PENALTY Where TSPL_SHORT_SUPPLY_PENALTY.Tendor_No ='" + txtTenderNo.Value + "' and TSPL_SHORT_SUPPLY_PENALTY.Item_Code='" + txtItem.Value + "' and TSPL_SHORT_SUPPLY_PENALTY.Vendor_No='" + txtVendorNo.Value + "' and  TSPL_SHORT_SUPPLY_PENALTY.Location_Code='" + txtBillToLocation.Value + "'"
+                Dim dtcnt As DataTable = clsDBFuncationality.GetDataTable(Qrycnt)
+                If dtcnt IsNot Nothing And dtcnt.Rows.Count > 0 Then
+                    Throw New Exception("Short Supply Penalty Already created.")
+                End If
+            End If
+                Dim Qry As String = "Select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No As [Purchase Order],TSPL_GRN_HEAD.GRN_No As 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo As 'Vehicle No',TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weighment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',isNull(TSPL_SRN_DETAIL.SRN_Qty,0) as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PI_HEAD.PI_No As [PI No],Case When Isnull(TSPL_PI_HEAD.Status,0)=1 Then 'Approved' Else 'Unapproved' End As [PI Status]
                     from TSPL_GRN_DETAIL
                     left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
                     left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id
