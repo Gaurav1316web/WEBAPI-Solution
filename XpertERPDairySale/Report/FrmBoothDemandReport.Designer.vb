@@ -23,10 +23,14 @@ Partial Class FrmBoothDemandReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gbDocStatus = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbDemandBoth = New System.Windows.Forms.RadioButton()
+        Me.rdbProduct = New System.Windows.Forms.RadioButton()
+        Me.rdbMilk = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnDetail = New common.Controls.MyRadioButton()
         Me.rbtnSummary = New common.Controls.MyRadioButton()
@@ -43,16 +47,16 @@ Partial Class FrmBoothDemandReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.gbDocStatus = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbDemandBoth = New System.Windows.Forms.RadioButton()
-        Me.rdbProduct = New System.Windows.Forms.RadioButton()
-        Me.rdbMilk = New System.Windows.Forms.RadioButton()
+        Me.TxtRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel10 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbDocStatus.SuspendLayout()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,8 +74,7 @@ Partial Class FrmBoothDemandReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbDocStatus.SuspendLayout()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,6 +113,8 @@ Partial Class FrmBoothDemandReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtRoute)
         Me.RadPageViewPage1.Controls.Add(Me.gbDocStatus)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
@@ -118,6 +123,52 @@ Partial Class FrmBoothDemandReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(861, 349)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'gbDocStatus
+        '
+        Me.gbDocStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbDocStatus.Controls.Add(Me.rdbDemandBoth)
+        Me.gbDocStatus.Controls.Add(Me.rdbProduct)
+        Me.gbDocStatus.Controls.Add(Me.rdbMilk)
+        Me.gbDocStatus.HeaderText = "Demand"
+        Me.gbDocStatus.Location = New System.Drawing.Point(429, 95)
+        Me.gbDocStatus.Name = "gbDocStatus"
+        Me.gbDocStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.gbDocStatus.Size = New System.Drawing.Size(194, 45)
+        Me.gbDocStatus.TabIndex = 443
+        Me.gbDocStatus.Text = "Demand"
+        '
+        'rdbDemandBoth
+        '
+        Me.rdbDemandBoth.AutoSize = True
+        Me.rdbDemandBoth.Checked = True
+        Me.rdbDemandBoth.Location = New System.Drawing.Point(137, 16)
+        Me.rdbDemandBoth.Name = "rdbDemandBoth"
+        Me.rdbDemandBoth.Size = New System.Drawing.Size(49, 17)
+        Me.rdbDemandBoth.TabIndex = 6
+        Me.rdbDemandBoth.TabStop = True
+        Me.rdbDemandBoth.Text = "Both"
+        Me.rdbDemandBoth.UseVisualStyleBackColor = True
+        '
+        'rdbProduct
+        '
+        Me.rdbProduct.AutoSize = True
+        Me.rdbProduct.Location = New System.Drawing.Point(66, 16)
+        Me.rdbProduct.Name = "rdbProduct"
+        Me.rdbProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rdbProduct.TabIndex = 5
+        Me.rdbProduct.Text = "Product"
+        Me.rdbProduct.UseVisualStyleBackColor = True
+        '
+        'rdbMilk
+        '
+        Me.rdbMilk.AutoSize = True
+        Me.rdbMilk.Location = New System.Drawing.Point(13, 16)
+        Me.rdbMilk.Name = "rdbMilk"
+        Me.rdbMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rdbMilk.TabIndex = 4
+        Me.rdbMilk.Text = "Milk"
+        Me.rdbMilk.UseVisualStyleBackColor = True
         '
         'RadGroupBox2
         '
@@ -233,7 +284,7 @@ Partial Class FrmBoothDemandReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
@@ -290,51 +341,30 @@ Partial Class FrmBoothDemandReport
         Me.btnGo.TabIndex = 161
         Me.btnGo.Text = ">>>"
         '
-        'gbDocStatus
+        'TxtRoute
         '
-        Me.gbDocStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.gbDocStatus.Controls.Add(Me.rdbDemandBoth)
-        Me.gbDocStatus.Controls.Add(Me.rdbProduct)
-        Me.gbDocStatus.Controls.Add(Me.rdbMilk)
-        Me.gbDocStatus.HeaderText = "Demand"
-        Me.gbDocStatus.Location = New System.Drawing.Point(16, 99)
-        Me.gbDocStatus.Name = "gbDocStatus"
-        Me.gbDocStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbDocStatus.Size = New System.Drawing.Size(194, 45)
-        Me.gbDocStatus.TabIndex = 443
-        Me.gbDocStatus.Text = "Demand"
+        Me.TxtRoute.arrDispalyMember = Nothing
+        Me.TxtRoute.arrValueMember = Nothing
+        Me.TxtRoute.Location = New System.Drawing.Point(74, 95)
+        Me.TxtRoute.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRoute.MyLinkLable1 = Nothing
+        Me.TxtRoute.MyLinkLable2 = Nothing
+        Me.TxtRoute.MyNullText = "All"
+        Me.TxtRoute.Name = "TxtRoute"
+        Me.TxtRoute.Size = New System.Drawing.Size(252, 19)
+        Me.TxtRoute.TabIndex = 444
         '
-        'rdbDemandBoth
+        'MyLabel10
         '
-        Me.rdbDemandBoth.AutoSize = True
-        Me.rdbDemandBoth.Location = New System.Drawing.Point(137, 16)
-        Me.rdbDemandBoth.Name = "rdbDemandBoth"
-        Me.rdbDemandBoth.Size = New System.Drawing.Size(49, 17)
-        Me.rdbDemandBoth.TabIndex = 6
-        Me.rdbDemandBoth.Text = "Both"
-        Me.rdbDemandBoth.UseVisualStyleBackColor = True
-        '
-        'rdbProduct
-        '
-        Me.rdbProduct.AutoSize = True
-        Me.rdbProduct.Location = New System.Drawing.Point(66, 16)
-        Me.rdbProduct.Name = "rdbProduct"
-        Me.rdbProduct.Size = New System.Drawing.Size(65, 17)
-        Me.rdbProduct.TabIndex = 5
-        Me.rdbProduct.Text = "Product"
-        Me.rdbProduct.UseVisualStyleBackColor = True
-        '
-        'rdbMilk
-        '
-        Me.rdbMilk.AutoSize = True
-        Me.rdbMilk.Checked = True
-        Me.rdbMilk.Location = New System.Drawing.Point(13, 16)
-        Me.rdbMilk.Name = "rdbMilk"
-        Me.rdbMilk.Size = New System.Drawing.Size(47, 17)
-        Me.rdbMilk.TabIndex = 4
-        Me.rdbMilk.TabStop = True
-        Me.rdbMilk.Text = "Milk"
-        Me.rdbMilk.UseVisualStyleBackColor = True
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(16, 96)
+        Me.MyLabel10.Margin = New System.Windows.Forms.Padding(4)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel10.TabIndex = 445
+        Me.MyLabel10.Text = "Route"
         '
         'FrmBoothDemandReport
         '
@@ -354,6 +384,10 @@ Partial Class FrmBoothDemandReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbDocStatus.ResumeLayout(False)
+        Me.gbDocStatus.PerformLayout()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -373,9 +407,7 @@ Partial Class FrmBoothDemandReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gbDocStatus, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbDocStatus.ResumeLayout(False)
-        Me.gbDocStatus.PerformLayout()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -404,5 +436,7 @@ Partial Class FrmBoothDemandReport
     Friend WithEvents rdbDemandBoth As RadioButton
     Friend WithEvents rdbProduct As RadioButton
     Friend WithEvents rdbMilk As RadioButton
+    Friend WithEvents TxtRoute As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
 End Class
 
