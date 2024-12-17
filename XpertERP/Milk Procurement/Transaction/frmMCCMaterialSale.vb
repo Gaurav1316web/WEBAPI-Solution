@@ -470,7 +470,7 @@ Public Class frmMCCMaterialSale
         lblDept.Text = ""
         cboItemType.SelectedIndex = 2
         cboItemType.Enabled = True
-        'txtBillToLocation.Enabled = True
+        txtBillToLocation.Enabled = True
         txtSubLocation.Enabled = True
         chkVendorGrossReceipt.Checked = False
         lblAddCharges1.Text = ""
