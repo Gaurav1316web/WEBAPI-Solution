@@ -23,12 +23,11 @@ Partial Class rptSaleRegisterUOMReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
         Me.rdmenufile1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -61,9 +60,6 @@ Partial Class rptSaleRegisterUOMReport
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.Panel2.SuspendLayout()
-        Me.SplitContainer2.SuspendLayout()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
@@ -98,7 +94,8 @@ Partial Class rptSaleRegisterUOMReport
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.SplitContainer2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.rdmenufile)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
         '
         'SplitContainer1.Panel2
         '
@@ -111,33 +108,18 @@ Partial Class rptSaleRegisterUOMReport
         Me.SplitContainer1.SplitterDistance = 475
         Me.SplitContainer1.TabIndex = 0
         '
-        'SplitContainer2
-        '
-        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer2.Name = "SplitContainer2"
-        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer2.Panel1
-        '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.rdmenufile)
-        '
-        'SplitContainer2.Panel2
-        '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1034, 469)
-        Me.SplitContainer2.SplitterDistance = 25
-        Me.SplitContainer2.TabIndex = 74
-        '
         'rdmenufile
         '
+        Me.rdmenufile.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rdmenufile.BackColor = System.Drawing.Color.Transparent
         Me.rdmenufile.Dock = System.Windows.Forms.DockStyle.None
         Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile1})
-        Me.rdmenufile.Location = New System.Drawing.Point(5, 4)
+        Me.rdmenufile.Location = New System.Drawing.Point(13, 8)
         Me.rdmenufile.Margin = New System.Windows.Forms.Padding(4)
         Me.rdmenufile.Name = "rdmenufile"
-        Me.rdmenufile.Size = New System.Drawing.Size(1019, 20)
+        Me.rdmenufile.Size = New System.Drawing.Size(1005, 20)
         Me.rdmenufile.TabIndex = 73
         '
         'rdmenufile1
@@ -163,14 +145,16 @@ Partial Class rptSaleRegisterUOMReport
         '
         'RadPageView1
         '
+        Me.RadPageView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Location = New System.Drawing.Point(8, 31)
         Me.RadPageView1.Margin = New System.Windows.Forms.Padding(4)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1034, 440)
+        Me.RadPageView1.Size = New System.Drawing.Size(1026, 441)
         Me.RadPageView1.TabIndex = 72
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -184,10 +168,10 @@ Partial Class rptSaleRegisterUOMReport
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.txtItem)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(42.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1013, 392)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1005, 397)
         Me.RadPageViewPage1.Text = "Filters"
         '
         'TxtRoute
@@ -220,12 +204,12 @@ Partial Class rptSaleRegisterUOMReport
         Me.ddlSubCategory.AutoCompleteDisplayMember = Nothing
         Me.ddlSubCategory.AutoCompleteValueMember = Nothing
         Me.ddlSubCategory.DropDownAnimationEnabled = True
-        RadListDataItem1.Text = "Both"
-        RadListDataItem2.Text = "Sale Invoice"
-        RadListDataItem3.Text = "Sale Return"
-        Me.ddlSubCategory.Items.Add(RadListDataItem1)
-        Me.ddlSubCategory.Items.Add(RadListDataItem2)
-        Me.ddlSubCategory.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Both"
+        RadListDataItem5.Text = "Sale Invoice"
+        RadListDataItem6.Text = "Sale Return"
+        Me.ddlSubCategory.Items.Add(RadListDataItem4)
+        Me.ddlSubCategory.Items.Add(RadListDataItem5)
+        Me.ddlSubCategory.Items.Add(RadListDataItem6)
         Me.ddlSubCategory.Location = New System.Drawing.Point(1098, 94)
         Me.ddlSubCategory.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlSubCategory.Name = "ddlSubCategory"
@@ -368,7 +352,7 @@ Partial Class rptSaleRegisterUOMReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
@@ -467,12 +451,9 @@ Partial Class rptSaleRegisterUOMReport
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "rptSaleRegisterUOMReport"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.PerformLayout()
-        Me.SplitContainer2.Panel2.ResumeLayout(False)
-        Me.SplitContainer2.ResumeLayout(False)
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
@@ -532,5 +513,4 @@ Partial Class rptSaleRegisterUOMReport
     Friend WithEvents rdmenufile1 As RadMenuItem
     Friend WithEvents rmSaveLayout As RadMenuItem
     Friend WithEvents rmDeleteLayout As RadMenuItem
-    Friend WithEvents SplitContainer2 As SplitContainer
 End Class
