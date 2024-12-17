@@ -132,7 +132,7 @@ Public Class frmTDSReport
             Qry += " '" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "' as [Location], "
         End If
         Qry += "cast(VLC_CODE_Uploader as int) As [DCS Code], VSP_NAME As [Society Name],Milk_Qty As [Milk Quantity],
-                    (Milk_Amount+Credit_Note_Amount) As [Milk Amount + OverHead],Isnull(TSPL_REMITTANCE.Actual_TDS_Base,0)+ Isnull(TabCNTDS.Actual_TDS_Base,0) as [Actual Amount], Isnull(TDS_Amount,0) As [TDS Amount],
+                    (Milk_Amount+Credit_Note_Amount) As [Milk Amount + OverHead],Isnull(TSPL_REMITTANCE.Actual_TDS_Base,0)+ Isnull(TabCNTDS.Actual_TDS_Base,0) as [Actual Amount], Isnull(TDS_Amount,0) As [TDS Amount],TSPL_VENDOR_MASTER.PAN,
                     TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Regn_No,Case When TSPL_COMPANY_MASTER.Phone1 Is Null Then TSPL_COMPANY_MASTER.Phone2 Else TSPL_COMPANY_MASTER.Phone1 End As [Comp Contact No]
 from TSPL_PAYMENT_PROCESS_DETAIL 
 left outer join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
@@ -141,6 +141,7 @@ left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No
 left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No
 Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1=TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code
 Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_COMPANY_MASTER.Comp_Code1
+left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 left outer join (select Doc_No,Vendor_CODE,sum(Actual_TDS_Base) as Actual_TDS_Base from(
 select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_REMITTANCE.Actual_TDS_Base  from 
 TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
