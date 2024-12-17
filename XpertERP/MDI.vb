@@ -4146,6 +4146,11 @@ Public Class MDI
                     Case clsUserMgtCode.TransferReturn
                         frm = New frmTransferKDILReturn()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptFarmerSaleRegister
+                        frm = New rptFarmerSaleRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.CreateTransfer
                         frm = New FrmTransfer3rdDoc()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8158,6 +8163,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmOneDayStop
                         frm = New FrmOneDayStop
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmLocalMilkSaleRegister
+                        frm = New FrmLocalMilkSaleRegister
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDCSFinancial
                         frm = New rptDCSFinancial

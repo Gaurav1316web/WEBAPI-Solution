@@ -72,6 +72,7 @@ Partial Class frmMPIncetiveEntryReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnPerNEFT = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -111,6 +112,7 @@ Partial Class frmMPIncetiveEntryReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnPerNEFT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -467,6 +469,7 @@ Partial Class frmMPIncetiveEntryReport
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.rbtnPerNEFT)
         Me.GroupBox1.Controls.Add(Me.rbtnFarmerBankWiseSummary)
         Me.GroupBox1.Controls.Add(Me.rbtnFarmerBankWiseDetail)
         Me.GroupBox1.Controls.Add(Me.rbtnDetails)
@@ -477,7 +480,7 @@ Partial Class frmMPIncetiveEntryReport
         Me.GroupBox1.Controls.Add(Me.rbtnBankWise)
         Me.GroupBox1.Location = New System.Drawing.Point(367, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(330, 74)
+        Me.GroupBox1.Size = New System.Drawing.Size(427, 74)
         Me.GroupBox1.TabIndex = 442
         Me.GroupBox1.TabStop = False
         '
@@ -602,6 +605,7 @@ Partial Class frmMPIncetiveEntryReport
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(794, 278)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnPrint
         '
@@ -669,6 +673,17 @@ Partial Class frmMPIncetiveEntryReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'rbtnPerNEFT
+        '
+        Me.rbtnPerNEFT.Location = New System.Drawing.Point(311, 10)
+        Me.rbtnPerNEFT.MyLinkLable1 = Nothing
+        Me.rbtnPerNEFT.MyLinkLable2 = Nothing
+        Me.rbtnPerNEFT.Name = "rbtnPerNEFT"
+        Me.rbtnPerNEFT.Size = New System.Drawing.Size(119, 18)
+        Me.rbtnPerNEFT.TabIndex = 5
+        Me.rbtnPerNEFT.TabStop = False
+        Me.rbtnPerNEFT.Text = "As Per NEFT Format"
+        '
         'frmMPIncetiveEntryReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -723,6 +738,7 @@ Partial Class frmMPIncetiveEntryReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnPerNEFT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -777,5 +793,6 @@ Partial Class frmMPIncetiveEntryReport
     Friend WithEvents rbtnFarmerBankWiseSummary As common.Controls.MyRadioButton
     Friend WithEvents rbtnFarmerBankWiseDetail As common.Controls.MyRadioButton
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents rbtnPerNEFT As common.Controls.MyRadioButton
 End Class
 

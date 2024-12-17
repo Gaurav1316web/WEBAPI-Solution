@@ -175,6 +175,12 @@
     <Compile Include="Bulk Procurement\Master\frmNewDCSScreen.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bulk Procurement\Report\FrmLocalMilkSaleRegister.Designer.vb">
+      <DependentUpon>FrmLocalMilkSaleRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Report\FrmLocalMilkSaleRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Bulk Procurement\Transaction\BulkProcurementUploader.Designer.vb">
       <DependentUpon>BulkProcurementUploader.vb</DependentUpon>
     </Compile>
@@ -963,6 +969,12 @@
     <Compile Include="Bulk Procurement\Transaction\frmWeighment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptFarmerSaleRegister.Designer.vb">
+      <DependentUpon>rptFarmerSaleRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptFarmerSaleRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Bulk Procurement\Master\frmTankerCleaningItem.resx">
@@ -970,6 +982,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Procurement\Master\frmNewDCSScreen.resx">
       <DependentUpon>frmNewDCSScreen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Report\FrmLocalMilkSaleRegister.resx">
+      <DependentUpon>FrmLocalMilkSaleRegister.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Procurement\Transaction\BulkProcurementUploader.resx">
       <DependentUpon>BulkProcurementUploader.vb</DependentUpon>
@@ -1363,6 +1378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Procurement\Transaction\frmWeighment.resx">
       <DependentUpon>frmWeighment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptFarmerSaleRegister.resx">
+      <DependentUpon>rptFarmerSaleRegister.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
