@@ -183,8 +183,10 @@ End Class
 Public Class clsESContent
 #Region "Variables"
     Public Form_ID As String = Nothing
+    Public Template_ID As String = Nothing
     Public EMail_Subject As String = Nothing
     Public EMail_Text As String = Nothing
+
     Public SMS_Text As String = Nothing
     Public Notification_Caption As String = Nothing
     Public Notification_Text As String = Nothing
@@ -207,6 +209,7 @@ Public Class clsESContent
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
             Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Template_ID", obj.Template_ID)
             clsCommon.AddColumnsForChange(coll, "EMail_Subject", obj.EMail_Subject)
             clsCommon.AddColumnsForChange(coll, "EMail_Text", obj.EMail_Text)
             clsCommon.AddColumnsForChange(coll, "Notification_Caption", obj.Notification_Caption)
@@ -247,6 +250,7 @@ Public Class clsESContent
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             obj = New clsESContent()
             obj.Form_ID = clsCommon.myCstr(dt.Rows(0)("Form_ID"))
+            obj.Template_ID = clsCommon.myCstr(dt.Rows(0)("Template_ID"))
             obj.EMail_Subject = clsCommon.myCstr(dt.Rows(0)("EMail_Subject"))
             obj.EMail_Text = clsCommon.myCstr(dt.Rows(0)("EMail_Text"))
             obj.Notification_Caption = clsCommon.myCstr(dt.Rows(0)("Notification_Caption"))
@@ -312,14 +316,12 @@ Public Class clsSMSHead
 #Region "Variables"
     Public Code As String = Nothing
     Public SMS_Text As String = Nothing
+    Public Template_ID As String = Nothing
     Public arrMobilNo As List(Of String) = Nothing
     Public Created_Date As DateTime? = Nothing
 #End Region
 
     Public Function SaveData(ByVal FormID As String, ByVal obj As clsSMSHead, ByVal trans As SqlTransaction) As Boolean
-        Return SaveData(FormID, obj, Nothing, Nothing, Nothing, Nothing, trans)
-    End Function
-    Public Function SaveData(ByVal FormID As String, ByVal obj As clsSMSHead, ByVal MCC As String, ByVal Shift As String, ByVal Doc_Date As Date, ByVal Vendor_Code As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim qry As String = " select max(Code) from TSPL_SMS_HEAD where  Code like (select Description from TSPL_FIXED_PARAMETER where Code='" + clsFixedParameterCode.SMSPrefix + "' and Type='" + clsFixedParameterType.SMSPrefix + "')+'%'"
             obj.Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
@@ -332,10 +334,11 @@ Public Class clsSMSHead
                 End If
                 obj.Code = SMSPrefix + "0000000000001"
             End If
-
+            obj.Template_ID = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Template_ID from TSPL_ES_Content where Form_ID='" + FormID + "'", trans))
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
             clsCommon.AddColumnsForChange(coll, "SMS_Text", obj.SMS_Text, False, True)
+            clsCommon.AddColumnsForChange(coll, "Template_ID", obj.Template_ID, True)
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SMS_HEAD", OMInsertOrUpdate.Insert, "", trans)
@@ -351,11 +354,9 @@ Public Class clsSMSHead
                     obj.arrMobilNo.Add(clsCommon.myCstr(dr("Phone")))
                 Next
             End If
-            If clsCommon.myLen(MCC) > 0 AndAlso clsCommon.myLen(Vendor_Code) > 0 Then
-                clsSMSDetail.SaveData(obj, obj.arrMobilNo, MCC, Shift, Doc_Date, Vendor_Code, trans)
-            Else
-                clsSMSDetail.SaveData(obj, obj.arrMobilNo, trans)
-            End If
+
+            clsSMSDetail.SaveData(obj, obj.arrMobilNo, trans)
+
 
         Catch err As System.Exception
             Throw New System.Exception(err.Message)
@@ -372,11 +373,8 @@ Public Class clsSMSDetail
     Public Mobile_No As String = Nothing
 #End Region
 
-    Public Shared Function SaveData(ByVal obj As clsSMSHead, ByVal Arr As List(Of String), ByVal trans As SqlTransaction) As Boolean
-        Return SaveData(obj, Arr, Nothing, Nothing, Nothing, Nothing, trans)
-    End Function
 
-    Public Shared Function SaveData(ByVal obj As clsSMSHead, ByVal Arr As List(Of String), ByVal MCC As String, ByVal Shift As String, ByVal Doc_Date As Date, ByVal Vendor_Code As String, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal obj As clsSMSHead, ByVal Arr As List(Of String), ByVal trans As SqlTransaction) As Boolean
         Try
             Dim arrRepeat As New List(Of String)
             For Each MobileNo As String In Arr
@@ -391,9 +389,6 @@ Public Class clsSMSDetail
                 clsCommon.AddColumnsForChange(coll, "Mobile_No", MobileNo)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SMS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 SendRemaingSMSMain(obj, MobileNo, trans)
-                If clsCommon.myLen(MCC) > 0 AndAlso clsCommon.myLen(Vendor_Code) > 0 Then
-                    clsMilkShiftEndMCC.UpdateRemainingSMS(obj.Code, MobileNo, MCC, Doc_Date, Shift, Vendor_Code, trans)
-                End If
             Next
             arrRepeat = Nothing
         Catch err As System.Exception
@@ -437,6 +432,7 @@ Public Class clsSMSDetail
                             Dim baseurl As String = SMSString
                             baseurl = baseurl.Replace("$#SMSTEXT#$", strSmsText)
                             baseurl = baseurl.Replace("$#MOBILENO#$", MobileNo)
+                            baseurl = baseurl.Replace("$#SMSTEMPLATE#$", obj.Template_ID)
                             Dim data As Stream = client.OpenRead(baseurl)
                             Dim reader As StreamReader = New StreamReader(data)
                             s = reader.ReadToEnd()

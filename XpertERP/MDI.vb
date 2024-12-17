@@ -4146,6 +4146,11 @@ Public Class MDI
                     Case clsUserMgtCode.TransferReturn
                         frm = New frmTransferKDILReturn()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptFarmerSaleRegister
+                        frm = New rptFarmerSaleRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.CreateTransfer
                         frm = New FrmTransfer3rdDoc()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

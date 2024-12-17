@@ -969,6 +969,12 @@
     <Compile Include="Bulk Procurement\Transaction\frmWeighment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptFarmerSaleRegister.Designer.vb">
+      <DependentUpon>rptFarmerSaleRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptFarmerSaleRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Bulk Procurement\Master\frmTankerCleaningItem.resx">
@@ -1372,6 +1378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Procurement\Transaction\frmWeighment.resx">
       <DependentUpon>frmWeighment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptFarmerSaleRegister.resx">
+      <DependentUpon>rptFarmerSaleRegister.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

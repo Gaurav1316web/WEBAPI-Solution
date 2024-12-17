@@ -1878,6 +1878,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmHeadLoadHistory, "Head Load History", "1.17.03.131", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmOneDayStop, "One Day Stop", "1.17.03.132", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmLocalMilkSaleRegister, "Local Milk Sale Register", "1.17.03.133", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptFarmerSaleRegister, "Farmer Sale Register", "1.17.03.134", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
