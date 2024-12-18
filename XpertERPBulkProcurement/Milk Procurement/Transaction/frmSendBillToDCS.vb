@@ -216,7 +216,7 @@ Public Class frmSendBillToDCS
 
     Private Sub txtREILDCS__My_Click(sender As Object, e As EventArgs) Handles txtREILDCS._My_Click
         Dim qry As String = "select VLC_Code,VLC_Name,VLC_Code_VLC_Uploader from TSPL_VLC_MASTER_HEAD "
-        Dim whr As String = " 2=2 "
+        Dim whr As String = " 2=2 and TSPL_VLC_MASTER_HEAD.REIL_Integrated=1 "
         If txtREILBMC.arrValueMember IsNot Nothing AndAlso txtREILBMC.arrValueMember.Count > 0 Then
             whr += " and MCC in (" + clsCommon.GetMulcallString(txtREILBMC.arrValueMember) + ")"
         End If
@@ -241,7 +241,7 @@ Public Class frmSendBillToDCS
             If dtDate Is Nothing OrElse dtDate.Rows.Count <= 0 Then
                 Throw New Exception("Please select valid Date Range")
             End If
-            qry = "select VLC_Code_VLC_Uploader,VLC_Code,VLC_Name,MCC from TSPL_VLC_MASTER_HEAD where 2=2 "
+            qry = "select VLC_Code_VLC_Uploader,VLC_Code,VLC_Name,MCC from TSPL_VLC_MASTER_HEAD where 2=2 and TSPL_VLC_MASTER_HEAD.REIL_Integrated=1 "
             If txtREILBMC.arrValueMember IsNot Nothing AndAlso txtREILBMC.arrValueMember.Count > 0 Then
                 qry += " And MCC in (" + clsCommon.GetMulcallString(txtREILBMC.arrValueMember) + ") "
             End If
