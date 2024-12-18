@@ -1176,6 +1176,7 @@ Public Class frmVSP_VLCMaster
             obj.IsSuspense = chkSuspense.Checked
             obj.Loyalty_Rate = txtLoyaltyPer.Value
             obj.Shift_Cow_Limit = txtShiftCowLimit.Value
+            obj.REIL_Integrated = chkIntegrated.Checked
             If chkOwnBMC.Checked Then
                 obj.TFOwnBMC = True
                 obj.OwnBMCDate = txtOwnBMCDate.Value
@@ -6401,6 +6402,10 @@ Public Class frmVSP_VLCMaster
         gv1.Columns("Head_Load_Rate").HeaderText = "Head Load Rate"
         gv1.Columns("Cycle_Frequency").FormatString = ""
         gv1.Columns("Cycle_Frequency").HeaderText = "Cycle Frequency"
+    End Sub
+
+    Private Sub MenuExport_Click(sender As Object, e As EventArgs) Handles MenuExport.Click
+
     End Sub
 
     Private Sub txtCurrentCompanyBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCurrentCompanyBank._MYValidating
