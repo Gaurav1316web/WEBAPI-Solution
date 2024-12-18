@@ -173,8 +173,7 @@ Public Class FrmBoothDemandReport
                         SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")
                         ) AS PivotTable
                         GROUP BY 
-                        [Date], [Booth Code], [Shift] ORDER BY 
-                    CAST([Booth Code] AS INT)"
+                        [Date], [Booth Code], [Shift] "
                 ElseIf rbtnSummary.IsChecked Then
                     qry = "SELECT 
                         [Booth Code],
@@ -225,8 +224,7 @@ Public Class FrmBoothDemandReport
                     SUM([Quantity])FOR Short_Description IN (" + itemdesc + ")
                     ) AS PivotTable
                     GROUP BY 
-                    [Booth Code] ORDER BY 
-                    CAST([Booth Code] AS INT)"
+                    [Booth Code] "
                 End If
                 'qry += " ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
                 dt = clsDBFuncationality.GetDataTable(qry)
