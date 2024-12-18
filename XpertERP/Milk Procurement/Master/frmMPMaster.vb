@@ -682,7 +682,7 @@ Public Class FrmMPMaster
     Private Sub FrmMPMaster_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetUserMgmtNew()
 
-        EnableBankFromMaster = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.EnableBankFromMaster & "'")) = 0, False, True)
+        ' EnableBankFromMaster = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.EnableBankFromMaster & "'")) = 0, False, True)
         SettBankIFSCCodeValidateByService = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.BankIFSCCodeValidateByService, clsFixedParameterCode.BankIFSCCodeValidateByService, Nothing)) > 1) ''Means 2 ERP or 3 Service And ERP
 
         SettJanAadharNoMandatory = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.JanAadharNoMandatory, clsFixedParameterCode.JanAadharNoMandatory, Nothing)) > 0)

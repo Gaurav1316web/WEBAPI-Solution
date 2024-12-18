@@ -3852,23 +3852,34 @@ a:      Dim arrexttra As ArrayList = Calculate_Extra_Incentive(Inv_Code, VspCode
             objVendorInvHead.Total_Landed_Amt = 0
             Dim dblTotIncentiveAmt As Decimal = 0
             For Each objPIDetail As clsMilkPurchaseInvoiceMCCDetail In clsMilkPurchaseInvoiceMCC.ObjList
+
                 Dim strICode As String = objPIDetail.Item_Code
                 ''Fill VendorInvoice details Data
-                qry = "select TSPL_ITEM_MASTER.Purchase_Class_Code,TSPL_PURCHASE_ACCOUNTS.Inv_Control_Account,TSPL_PURCHASE_ACCOUNTS.Inv_Payable_Clearing,TSPL_GL_ACCOUNTS.Description as ClearingACName, TSPL_PURCHASE_ACCOUNTS.Non_Stock_Clearing as EmptyAccount from  TSPL_ITEM_MASTER left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_PURCHASE_ACCOUNTS.Inv_Payable_Clearing where TSPL_ITEM_MASTER.Item_Code='" + strICode + "'"
+                qry = "select TSPL_ITEM_MASTER.Purchase_Class_Code,TSPL_PURCHASE_ACCOUNTS.Inv_Control_Account,TSPL_PURCHASE_ACCOUNTS.Inv_Payable_Clearing,TSPL_PURCHASE_ACCOUNTS.Non_Stock_Clearing,TSPL_GL_ACCOUNTS.Description as ClearingACName, TSPL_PURCHASE_ACCOUNTS.Non_Stock_Clearing as EmptyAccount from  TSPL_ITEM_MASTER left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_PURCHASE_ACCOUNTS.Inv_Payable_Clearing where TSPL_ITEM_MASTER.Item_Code='" + strICode + "'"
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     Throw New Exception("Please set Purchase Account set for item " + strICode + "(" + objPIDetail.Item_Desc + ")")
                 End If
-                Dim strPaybleCleanigCtrlACName As String
-                Dim strPaybleCleanigCtrlAC As String = clsCommon.myCstr(dt.Rows(0)("Inv_Payable_Clearing"))
+                Dim strPaybleCleanigCtrlAC As String = ""
+                qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='MI-SR' and Source_Doc_No='" + objPIDetail.SRN_CODE + "' ", trans))
+                If clsCommon.myLen(qry) > 0 Then
+                    strPaybleCleanigCtrlAC = clsCommon.myCstr(dt.Rows(0)("Inv_Payable_Clearing"))
+                    If clsCommon.myLen(strPaybleCleanigCtrlAC) <= 0 Then
+                        Throw New Exception("Please set Payable clearing account for item [" + strICode + "] in purchase account set")
+                    End If
+                Else
+                    strPaybleCleanigCtrlAC = clsCommon.myCstr(dt.Rows(0)("Non_Stock_Clearing"))
+                    If clsCommon.myLen(strPaybleCleanigCtrlAC) <= 0 Then
+                        Throw New Exception("Please set BMC Milk Purchase account for item [" + strICode + "] in purchase account set")
+                    End If
+                End If
                 If clsCommon.myLen(obj.Irregular_MCC_CODE) > 0 Then
                     strPaybleCleanigCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleCleanigCtrlAC, obj.Irregular_MCC_CODE, trans)
-                    strPaybleCleanigCtrlACName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + strPaybleCleanigCtrlAC + "'", trans))
                 Else
                     strPaybleCleanigCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleCleanigCtrlAC, obj.MCC_CODE, trans)
-                    strPaybleCleanigCtrlACName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + strPaybleCleanigCtrlAC + "'", trans))
                 End If
-                If clsCommon.myLen(objVendorInvHead.Empty_Account) <= 0 Then
+                Dim strPaybleCleanigCtrlACName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + strPaybleCleanigCtrlAC + "'", trans))
+                        If clsCommon.myLen(objVendorInvHead.Empty_Account) <= 0 Then
                     objVendorInvHead.Empty_Account = clsCommon.myCstr(dt.Rows(0)("EmptyAccount"))
                     objVendorInvHead.Empty_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Empty_Account, obj.MCC_CODE, trans)
                 End If

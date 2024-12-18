@@ -785,7 +785,11 @@ If AreaWiseBilling Then
                     qry += subMCCQry1
                 End If
 
-                qry += " ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having  sum(Amount)>0 order by " + subQrderBy + " [Type] desc "
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                    qry += " ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having  sum(Amount)>0 order by Final.Ded_Code, " + subQrderBy + " [Type] desc "
+                Else
+                    qry += " ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having  sum(Amount)>0 order by " + subQrderBy + " [Type] desc "
+                End If
 
             ElseIf rdbCurrentStanding.Checked = True Then  ''3
                 Dim subNewQry As String = Nothing
@@ -930,6 +934,10 @@ union all
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "crptTmpPayDedSummaryJPR", "TP Print")
                     'frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "rptTempPayDedctSummaryList", "TP Print")
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "crptTmpPayDedSummaryCHU", "TP Print")
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "This print is not intended for you", Me.Text)
                 End If
                 frmCRV = Nothing
             Else

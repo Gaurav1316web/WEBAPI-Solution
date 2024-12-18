@@ -22,11 +22,15 @@ Partial Class rptmilkunion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.ddlReportType = New Telerik.WinControls.UI.RadDropDownList()
+        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.chkRJSBNS = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbdAllTrans = New System.Windows.Forms.RadioButton()
@@ -42,6 +46,7 @@ Partial Class rptmilkunion
         Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -50,6 +55,8 @@ Partial Class rptmilkunion
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
@@ -64,6 +71,8 @@ Partial Class rptmilkunion
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -111,21 +120,44 @@ Partial Class rptmilkunion
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
+        Me.RadPanel1.Controls.Add(Me.ddlReportType)
+        Me.RadPanel1.Controls.Add(Me.MyLabel15)
         Me.RadPanel1.Controls.Add(Me.chkRJSBNS)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
-        Me.RadPanel1.Controls.Add(Me.txtFromDate)
-        Me.RadPanel1.Controls.Add(Me.txtToDate)
-        Me.RadPanel1.Controls.Add(Me.lblToDate)
-        Me.RadPanel1.Controls.Add(Me.lblFromdate)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 363)
         Me.RadPanel1.TabIndex = 15
         '
+        'ddlReportType
+        '
+        Me.ddlReportType.AutoCompleteDisplayMember = Nothing
+        Me.ddlReportType.AutoCompleteValueMember = Nothing
+        Me.ddlReportType.DropDownAnimationEnabled = True
+        Me.ddlReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem1.Text = "Union Wise Status Report"
+        RadListDataItem2.Text = "Union Wise Average Status Report"
+        Me.ddlReportType.Items.Add(RadListDataItem1)
+        Me.ddlReportType.Items.Add(RadListDataItem2)
+        Me.ddlReportType.Location = New System.Drawing.Point(116, 13)
+        Me.ddlReportType.Name = "ddlReportType"
+        Me.ddlReportType.Size = New System.Drawing.Size(203, 20)
+        Me.ddlReportType.TabIndex = 445
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Location = New System.Drawing.Point(15, 14)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(67, 18)
+        Me.MyLabel15.TabIndex = 444
+        Me.MyLabel15.Text = "Report Type"
+        '
         'chkRJSBNS
         '
-        Me.chkRJSBNS.Location = New System.Drawing.Point(583, 21)
+        Me.chkRJSBNS.Location = New System.Drawing.Point(615, 16)
         Me.chkRJSBNS.Name = "chkRJSBNS"
         Me.chkRJSBNS.Size = New System.Drawing.Size(64, 18)
         Me.chkRJSBNS.TabIndex = 443
@@ -138,7 +170,7 @@ Partial Class rptmilkunion
         Me.RadGroupBox2.Controls.Add(Me.rdbPosted)
         Me.RadGroupBox2.Controls.Add(Me.rdbUnposted)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(299, 14)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(329, 14)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
@@ -189,7 +221,7 @@ Partial Class rptmilkunion
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(76, 14)
+        Me.txtFromDate.Location = New System.Drawing.Point(70, 23)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -218,7 +250,7 @@ Partial Class rptmilkunion
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(211, 14)
+        Me.txtToDate.Location = New System.Drawing.Point(205, 23)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -237,7 +269,7 @@ Partial Class rptmilkunion
         'lblToDate
         '
         Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(160, 16)
+        Me.lblToDate.Location = New System.Drawing.Point(154, 25)
         Me.lblToDate.Name = "lblToDate"
         Me.lblToDate.Size = New System.Drawing.Size(45, 18)
         Me.lblToDate.TabIndex = 78
@@ -246,7 +278,7 @@ Partial Class rptmilkunion
         'lblFromdate
         '
         Me.lblFromdate.FieldName = Nothing
-        Me.lblFromdate.Location = New System.Drawing.Point(11, 14)
+        Me.lblFromdate.Location = New System.Drawing.Point(5, 23)
         Me.lblFromdate.Name = "lblFromdate"
         Me.lblFromdate.Size = New System.Drawing.Size(59, 18)
         Me.lblFromdate.TabIndex = 77
@@ -275,12 +307,13 @@ Partial Class rptmilkunion
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(779, 363)
         Me.gv1.TabIndex = 2
+        Me.gv1.VarID = ""
         '
         'btnreset
         '
@@ -318,6 +351,21 @@ Partial Class rptmilkunion
         Me.btnPrint.TabIndex = 330
         Me.btnPrint.Text = "Print"
         '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.lblFromdate)
+        Me.RadGroupBox3.Controls.Add(Me.lblToDate)
+        Me.RadGroupBox3.Controls.Add(Me.txtToDate)
+        Me.RadGroupBox3.Controls.Add(Me.txtFromDate)
+        Me.RadGroupBox3.HeaderText = "Date Range"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(15, 39)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(304, 57)
+        Me.RadGroupBox3.TabIndex = 446
+        Me.RadGroupBox3.Text = "Date Range"
+        '
         'rptmilkunion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -339,6 +387,8 @@ Partial Class rptmilkunion
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
@@ -354,6 +404,9 @@ Partial Class rptmilkunion
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -378,4 +431,7 @@ Partial Class rptmilkunion
     Friend WithEvents rdbUnposted As RadioButton
     Friend WithEvents rbdAllTrans As RadioButton
     Friend WithEvents chkRJSBNS As RadCheckBox
+    Friend WithEvents ddlReportType As RadDropDownList
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox3 As RadGroupBox
 End Class
