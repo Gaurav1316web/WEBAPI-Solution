@@ -23,17 +23,17 @@ Partial Class frmVSP_VLCMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadPrintWatermark1 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadPrintWatermark2 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
         Me.btnclear = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -47,6 +47,7 @@ Partial Class frmVSP_VLCMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIntegrated = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel59 = New common.Controls.MyLabel()
         Me.txtShiftCowLimit = New common.MyNumBox()
         Me.lblMCCName = New common.Controls.MyLabel()
@@ -320,6 +321,7 @@ Partial Class frmVSP_VLCMaster
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkIntegrated, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtShiftCowLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCCName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -670,6 +672,7 @@ Partial Class frmVSP_VLCMaster
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIntegrated)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel59)
         Me.RadPageViewPage1.Controls.Add(Me.txtShiftCowLimit)
         Me.RadPageViewPage1.Controls.Add(Me.lblMCCName)
@@ -720,6 +723,15 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 398)
         Me.RadPageViewPage1.Text = "Secretary Address"
+        '
+        'chkIntegrated
+        '
+        Me.chkIntegrated.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIntegrated.Location = New System.Drawing.Point(178, 162)
+        Me.chkIntegrated.Name = "chkIntegrated"
+        Me.chkIntegrated.Size = New System.Drawing.Size(83, 16)
+        Me.chkIntegrated.TabIndex = 1460
+        Me.chkIntegrated.Text = "Is Integrated"
         '
         'MyLabel59
         '
@@ -969,14 +981,14 @@ Partial Class frmVSP_VLCMaster
         Me.CmbHeadLoadServiceBasis.IsSourceFromTable = False
         Me.CmbHeadLoadServiceBasis.IsSourceFromValueList = False
         Me.CmbHeadLoadServiceBasis.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "%(Percentage)"
-        RadListDataItem3.Text = "Rate/Kg"
-        RadListDataItem4.Text = "Rate/Ltr"
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem1)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem2)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem3)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem4)
+        RadListDataItem9.Text = "Select"
+        RadListDataItem10.Text = "%(Percentage)"
+        RadListDataItem11.Text = "Rate/Kg"
+        RadListDataItem12.Text = "Rate/Ltr"
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem9)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem10)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem11)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem12)
         Me.CmbHeadLoadServiceBasis.Location = New System.Drawing.Point(588, 230)
         Me.CmbHeadLoadServiceBasis.MendatroryField = True
         Me.CmbHeadLoadServiceBasis.MyLinkLable1 = Me.MyLabel54
@@ -1440,10 +1452,10 @@ Partial Class frmVSP_VLCMaster
         Me.cmbGender.IsSourceFromTable = False
         Me.cmbGender.IsSourceFromValueList = False
         Me.cmbGender.IsUnique = False
-        RadListDataItem5.Text = "Male"
-        RadListDataItem6.Text = "Female"
-        Me.cmbGender.Items.Add(RadListDataItem5)
-        Me.cmbGender.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Male"
+        RadListDataItem2.Text = "Female"
+        Me.cmbGender.Items.Add(RadListDataItem1)
+        Me.cmbGender.Items.Add(RadListDataItem2)
         Me.cmbGender.Location = New System.Drawing.Point(178, 134)
         Me.cmbGender.MendatroryField = True
         Me.cmbGender.MyLinkLable1 = Me.MyLabel29
@@ -1482,10 +1494,10 @@ Partial Class frmVSP_VLCMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem7.Text = "Male"
-        RadListDataItem8.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem7)
-        Me.ddlGender.Items.Add(RadListDataItem8)
+        RadListDataItem3.Text = "Male"
+        RadListDataItem4.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem3)
+        Me.ddlGender.Items.Add(RadListDataItem4)
         Me.ddlGender.Location = New System.Drawing.Point(747, 463)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel27
@@ -5142,7 +5154,7 @@ Partial Class frmVSP_VLCMaster
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -5273,7 +5285,7 @@ Partial Class frmVSP_VLCMaster
         Me.ClsMyPrintDocument1.LeftMiddleText = Nothing
         Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
         Me.ClsMyPrintDocument1.LeftUpperText = Nothing
-        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark1
+        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark2
         '
         'frmVSP_VLCMaster
         '
@@ -5299,6 +5311,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkIntegrated, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtShiftCowLimit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCCName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5835,5 +5848,6 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents MyLabel59 As common.Controls.MyLabel
     Friend WithEvents txtShiftCowLimit As common.MyNumBox
+    Friend WithEvents chkIntegrated As RadCheckBox
 End Class
 

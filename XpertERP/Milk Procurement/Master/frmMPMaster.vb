@@ -237,6 +237,7 @@ Public Class FrmMPMaster
                 UcCustomFields1.BlankAllControls()
                 UcCustomFields1.SetDefaultValues()
             End If
+            RadGroupBox2.Visible = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -681,7 +682,7 @@ Public Class FrmMPMaster
     Private Sub FrmMPMaster_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetUserMgmtNew()
 
-        EnableBankFromMaster = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.EnableBankFromMaster & "'")) = 0, False, True)
+        ' EnableBankFromMaster = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.EnableBankFromMaster & "'")) = 0, False, True)
         SettBankIFSCCodeValidateByService = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.BankIFSCCodeValidateByService, clsFixedParameterCode.BankIFSCCodeValidateByService, Nothing)) > 1) ''Means 2 ERP or 3 Service And ERP
 
         SettJanAadharNoMandatory = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.JanAadharNoMandatory, clsFixedParameterCode.JanAadharNoMandatory, Nothing)) > 0)
@@ -2501,6 +2502,7 @@ Public Class FrmMPMaster
         If frm.isPasswordCorrect Then
             txtBankIFSC_M.Enabled = True
             txtAccountNo.Enabled = True
+            RadGroupBox2.Visible = True
         End If
     End Sub
 
@@ -2771,4 +2773,32 @@ Public Class FrmMPMaster
         End If
     End Sub
 
+    Private Sub btnImportBankDetails_Click(sender As Object, e As EventArgs) Handles btnImportBankDetails.Click
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            If transportSql.importExcel(gv, "MP Code", "Account Number", "IFSC Code") Then
+                If clsMpMaster.ImportBankDetail(gv) Then
+                    Throw New Exception("Data Transfer Completed !")
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnExportBlankSheet_Click(sender As Object, e As EventArgs) Handles btnExportBlankSheet.Click
+        Try
+            Dim Qry As String = "Select '' As 'MP Code','' As 'Account Number','' As 'IFSC Code'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt.Rows.Count > 0 Then
+                transportSql.ExporttoExcel(dt, Me)
+                dt = Nothing
+            Else
+                Throw New Exception("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
