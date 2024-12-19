@@ -1026,6 +1026,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDeductionDetails, "Deduction Details", "1.11.02.17", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmReimbursementDetails, "Employee Reimbursement", "1.11.02.18", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmApplyLoan, "Apply Loan", "1.11.02.19", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmArrear, "Arrear", "1.11.02.19", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmGenerateBonus, "Generate Bonus", "1.11.02.20", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmLoanGeneration, "Loan Generation", "1.11.02.21", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmLoanAdjustment, "Loan Adjustment", "1.11.02.22", clsUserMgtCode.SubModuleHRTransaction, 8)
@@ -1879,6 +1880,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmOneDayStop, "One Day Stop", "1.17.03.132", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmLocalMilkSaleRegister, "Local Milk Sale Register", "1.17.03.133", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptFarmerSaleRegister, "Farmer Sale Register", "1.17.03.134", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmMonthWiseBeneficieriesReport, "Month Wise Beneficieris Report", "1.17.03.135", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014

@@ -6675,6 +6675,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmApplyLoan
                         frm = New frmApplyLoan()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmArrear
+                        frm = New frmArrear()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmEmployee_Master
                         frm = New frmEmployee_Master()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8441,6 +8444,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDailyQtyReport
                         frm = New rptDailyQtyReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.frmMonthWiseBeneficieriesReport
+                        frm = New frmMonthWiseBeneficieriesReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptBMCCapacityUtilizationReport
                         frm = New rptBMCCapacityUtilizationReport

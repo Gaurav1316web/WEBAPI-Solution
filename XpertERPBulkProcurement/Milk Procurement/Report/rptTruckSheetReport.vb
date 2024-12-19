@@ -191,7 +191,7 @@ where 1=1 "
                             End If
                         Next
                         qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date, TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail,
-                        TSPL_VLC_MASTER_HEAD.VLC_Name,(CASE WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type='C' THEN 'Cow' else 'Mixed' end) AS [CMType]
+                        (TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader +' - '+TSPL_VLC_MASTER_HEAD.VLC_Name)VLC_Name,(CASE WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type='C' THEN 'Cow' else 'Mixed' end) AS [CMType]
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.SNo,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG
@@ -209,7 +209,7 @@ where 1=1 "
                         dtDCSDetail = clsDBFuncationality.GetDataTable(qry)
 
                         qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date,
-                        TSPL_VLC_MASTER_HEAD.VLC_Name,(CASE WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type='C' THEN 'Cow' else 'Mixed' end) AS [CMType]
+                        (TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader +' - '+TSPL_VLC_MASTER_HEAD.VLC_Name)VLC_Name,(CASE WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type='C' THEN 'Cow' else 'Mixed' end) AS [CMType]
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.SNo,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG

@@ -241,6 +241,7 @@ Public Class clsDocType
     Public Const GTOut As String = "Gate Out"
     Public Const OutgoingProduction As String = "Outgoing Production"
     Public Const RMProcessLoss As String = "RM Process Loss"
+    Public Const DAArrear As String = "DA Arrear"
     Public Const EPF As String = "EP Fund"
     Public Const SRNReturn As String = "Store Receipt Note Return"
     Public Const NIRQC As String = "NIR QC"
@@ -928,6 +929,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.EPF, "", False, False)
             InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
             InsertDefaultValue(clsDocType.RMProcessLoss, "", False, True)
+            InsertDefaultValue(clsDocType.DAArrear, "", False, True)
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)

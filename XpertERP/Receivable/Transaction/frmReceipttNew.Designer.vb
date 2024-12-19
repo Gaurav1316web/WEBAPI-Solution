@@ -1806,9 +1806,9 @@ Partial Class FrmReceipttNew
         Me.lblbankcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblbankcode.Location = New System.Drawing.Point(396, 6)
         Me.lblbankcode.Name = "lblbankcode"
-        Me.lblbankcode.Size = New System.Drawing.Size(66, 16)
+        Me.lblbankcode.Size = New System.Drawing.Size(65, 16)
         Me.lblbankcode.TabIndex = 2
-        Me.lblbankcode.Text = "Book Code"
+        Me.lblbankcode.Text = "Bank Code"
         '
         'chkAutoGeneBT
         '
@@ -2609,6 +2609,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.Size = New System.Drawing.Size(1212, 132)
         Me.dgvReceipt.TabIndex = 2
         Me.dgvReceipt.TabStop = False
+        Me.dgvReceipt.VarID = ""
         '
         'dgvmiscpayment
         '
@@ -2633,6 +2634,7 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.ShowHeaderCellButtons = True
         Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 132)
         Me.dgvmiscpayment.TabIndex = 4
+        Me.dgvmiscpayment.VarID = ""
         '
         'pvpCustomFields
         '
@@ -2972,6 +2974,7 @@ Partial Class FrmReceipttNew
         Me.gvTaxDetail.Size = New System.Drawing.Size(1004, 118)
         Me.gvTaxDetail.TabIndex = 6
         Me.gvTaxDetail.TabStop = False
+        Me.gvTaxDetail.VarID = ""
         '
         'gvItem
         '
@@ -2998,6 +3001,7 @@ Partial Class FrmReceipttNew
         Me.gvItem.Size = New System.Drawing.Size(1004, 200)
         Me.gvItem.TabIndex = 7
         Me.gvItem.TabStop = False
+        Me.gvItem.VarID = ""
         '
         'btnOpenBankCashBook
         '
