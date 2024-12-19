@@ -46111,8 +46111,13 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "datetime not null")
             coll.Add("SYNC_STATUS", "int Null")
-            coll.Add("Template_ID", "varchar(30) NULL")
+            coll.Add("Template_ID", "varchar(100) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SMS_HEAD", coll)
+            qry = clsGetKeys.GetForeignKeyName("TSPL_SMS_HEAD", "Template_ID", Nothing)
+            If clsCommon.myLen(qry) > 0 Then
+                qry = " alter table TSPL_SMS_HEAD alter column Template_ID varchar(100) null "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
             coll("Code") = "varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SMS_HEAD_SYNC", coll)
 
@@ -46145,7 +46150,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Form_Id", "varchar(20) not null primary Key")
-            coll.Add("Template_ID", "varchar(30) NULL")
+            coll.Add("Template_ID", "varchar(100) NULL")
             coll.Add("EMail_Subject", "Varchar(200) NULL")
             coll.Add("EMail_Text", "Text null")
             coll.Add("SMS_Text", "Varchar(2000) null")
@@ -46159,6 +46164,12 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("No_Of_Char", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ES_Content", coll)
+
+            qry = clsGetKeys.GetForeignKeyName("TSPL_ES_CONTENT", "Template_ID", Nothing)
+            If clsCommon.myLen(qry) > 0 Then
+                qry = " alter table TSPL_ES_CONTENT alter column Template_ID varchar(100) null "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Form_Id", "varchar(20) not null REFERENCES TSPL_ES_Content(Form_Id)")
