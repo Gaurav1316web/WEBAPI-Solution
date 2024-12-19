@@ -2181,13 +2181,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         Dim dblTotTax As Double = 0
         For ii As Integer = 1 To 10
             Dim strii As String = clsCommon.myCstr(ii)
-            If Not clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
-                If IntRowNo < 0 Then
+            'If Not clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
+            If IntRowNo < 0 Then
                     dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
                 Else
                     dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
                 End If
-            End If
+            'End If
 
         Next
         Return dblTotTax
@@ -2545,15 +2545,20 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
             lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - dblDisAmt), 2))
         End If
-        lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTotalTcsAmt)
+        'lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTotalTcsAmt)
+        lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
         If chkSampling.Checked Then
             lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt - dblDisAmt), 2)
-            lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
-            lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
+            'lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
+            'lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
+            lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
+            lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
         Else
             lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
-            lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
-            lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+            lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+            lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+            'lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+            'lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
 
         End If
         txtDCAmt.Text = clsCommon.myFormat(dblCommAmt)
@@ -4442,7 +4447,8 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax" + clsCommon.myCstr(7))).Value = clsCommon.myCstr(dt2.Rows(jj)("TAX7"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Rate" + clsCommon.myCstr(7))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX7_Rate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Base_Amt" + clsCommon.myCstr(7))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX7_Base_Amt"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Amt" + clsCommon.myCstr(7))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX2_Rate"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Amt" + clsCommon.myCstr(7))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX7_Amt"))
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Amt" + clsCommon.myCstr(7))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX2_Rate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax" + clsCommon.myCstr(8))).Value = clsCommon.myCstr(dt2.Rows(jj)("TAX8"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Rate" + clsCommon.myCstr(8))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX8_Rate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Base_Amt" + clsCommon.myCstr(8))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX8_Base_Amt"))

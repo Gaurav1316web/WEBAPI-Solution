@@ -271,6 +271,12 @@
     <Compile Include="Milk Procurement\Report\FrmHeadLoadHistory.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmMonthWiseBeneficieriesReport.Designer.vb">
+      <DependentUpon>frmMonthWiseBeneficieriesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmMonthWiseBeneficieriesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmUnionLastGstInvoice.Designer.vb">
       <DependentUpon>frmUnionLastGstInvoice.vb</DependentUpon>
     </Compile>
@@ -1035,6 +1041,9 @@
       <DependentUpon>FrmHeadLoadHistory.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
+    <EmbeddedResource Include="Milk Procurement\Report\frmMonthWiseBeneficieriesReport.resx">
+      <DependentUpon>frmMonthWiseBeneficieriesReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
     </EmbeddedResource>
