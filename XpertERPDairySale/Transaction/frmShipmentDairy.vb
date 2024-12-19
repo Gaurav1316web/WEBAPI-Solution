@@ -8,6 +8,7 @@ Public Class frmShipmentDairy
     Dim trans As SqlTransaction = Nothing
     Dim ParentDocNo As String = ""
     Dim IsOnlyCreditCust As Boolean = True
+    Dim ApplyTPT As Boolean = False
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
@@ -473,6 +474,7 @@ Public Class frmShipmentDairy
         isPO_GRN_MRN_Editable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
         AllowManualVehicleOnDairyDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualvehicleOnDairyBooking, clsFixedParameterCode.AllowManualvehicleOnDairyBooking, Nothing)) = 1, True, False)
         ApplyCommission = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, Nothing)) = 1, True, False)
+        ApplyTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         DispatchPriceCodeForCreditCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchPriceCodeForCreditCustomer, clsFixedParameterCode.DispatchPriceCodeForCreditCustomer, Nothing)) = 1, True, False)
         OPkmMandatoryonDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OPkmMandatoryonDS, clsFixedParameterCode.OPkmMandatoryonDS, Nothing)) = 1, True, False)
@@ -11023,6 +11025,12 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                             dblDisAmt = dblDisAmt + dblTotalDCAmt
                         End If
                     End If
+                    If dblTotalTCAmt > 0 Then
+
+                        If ApplyTPT Then
+                            dblDisAmt = dblDisAmt + dblTotalTCAmt
+                        End If
+                    End If
                 End If
                 Dim dblHeadDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaDDisPer).Value)
                 Dim dblHeadPerDisAmt As Double = (dblAmt * dblHeadDisPer) / 100
@@ -11395,6 +11403,11 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                         End If
                         If ApplyCommission Then
                             dblDisAmt = dblDisAmt + dblTotalDCAmt
+                        End If
+                    End If
+                    If dblTotalTCAmt > 0 Then
+                        If ApplyTPT Then
+                            dblDisAmt = dblDisAmt + dblTotalTCAmt
                         End If
                     End If
                 End If

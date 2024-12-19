@@ -13,6 +13,7 @@ Public Class frmDairyBookingCustomer
     Dim isloadBookingTypeValues As Boolean = True
     Dim EnableLocation As Boolean = True
     Dim ApplyCommission As Boolean = True
+    Dim ApplyTPT As Boolean = True
     Dim ApplyCommissionRateWithTax As Boolean = True
     Dim FORPRICE As Double = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
@@ -299,6 +300,7 @@ Public Class frmDairyBookingCustomer
         ShowDemandDoc = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
         ApplyCommission = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, Nothing)) = 1, True, False)
+        ApplyTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
 
@@ -1835,6 +1837,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         End If
                     End If
                 End If
+                If dblTotalTCAmt > 0 Then
+                    If ApplyTPT Then
+                        dblDisAmt = dblDisAmt + dblTotalTCAmt
+                    End If
+                End If
             End If
             Dim dblTotDiscAmt As Double = 0
             Dim dblAmtAfterDis As Double = 0
@@ -2006,6 +2013,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If dblTotalDCAmt > 0 Then
                     If ApplyCommission Then
                         dblDisAmt = dblDisAmt + dblTotalDCAmt
+                    End If
+                End If
+                If dblTotalTCAmt > 0 Then
+                    If ApplyTPT Then
+                        dblDisAmt = dblDisAmt + dblTotalTCAmt
                     End If
                 End If
             End If
