@@ -1026,6 +1026,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDeductionDetails, "Deduction Details", "1.11.02.17", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmReimbursementDetails, "Employee Reimbursement", "1.11.02.18", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmApplyLoan, "Apply Loan", "1.11.02.19", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmArrear, "Arrear", "1.11.02.19", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmGenerateBonus, "Generate Bonus", "1.11.02.20", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmLoanGeneration, "Loan Generation", "1.11.02.21", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmLoanAdjustment, "Loan Adjustment", "1.11.02.22", clsUserMgtCode.SubModuleHRTransaction, 8)

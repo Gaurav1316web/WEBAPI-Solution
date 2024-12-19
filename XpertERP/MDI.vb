@@ -6675,6 +6675,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmApplyLoan
                         frm = New frmApplyLoan()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmArrear
+                        frm = New frmArrear()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmEmployee_Master
                         frm = New frmEmployee_Master()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
