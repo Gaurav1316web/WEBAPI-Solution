@@ -2674,7 +2674,7 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
                     End If
                 Next
                 If dclTSDDCSRate > 0 AndAlso dclTSDDCSRateSlab > 0 Then
-                    dclRefQATRate = clsCommon.myRoundOFF(((dclTSDDCSRate - dclTSDDCSRateSlab) * dblFATPer / 100), 3, 4)
+                    dclRefQATRate = clsCommon.myRoundOFF(((dclTSDDCSRate - dclTSDDCSRateSlab) * OrgFATPer / 100), 3, 4)
                 End If
                 If dclRefQATRate < 0 Then
                     dclRefQATRate = 0

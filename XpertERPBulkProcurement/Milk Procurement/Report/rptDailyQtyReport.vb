@@ -347,7 +347,7 @@ Public Class rptDailyQtyReport
                           Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM " & BaseQry & " XXXFinal  )xx "
                     qry += "ORDER  BY ROUTE_NO ,[S.No.], Date "
                 ElseIf rdbCollectionWise.Checked = True Then
-                    qry = " select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,FORMAT(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, 'dd/MM/yyyy') AS Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code,
+                    qry = " select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,FORMAT(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, 'dd/MM/yyyy') AS Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code,
                             TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code,
                             TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No,Vehicle_No,Entered_Qty,Entered_FATKg,Entered_SNFKg,
                             CONVERT(DECIMAL(10, 2),( CLR/4 + (0.2*TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.FAT) + " + clsCommon.myCstr(corrFactor) + "),2) AS SNFPer,
@@ -359,7 +359,7 @@ Public Class rptDailyQtyReport
                             left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
                             left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code 
                             WHERE convert(date, TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) 
-                            and convert (date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) "
+                            and convert (date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) order by PK_Id "
                 ElseIf rdbMultiple.Checked = True Then
                     qry = "  SELECT Document_No,max(FORMAT(final.Document_Date, 'dd/MM/yyyy'))Document_Date,max(final.MCC_Code)MCC_Code,max(final.MCC_NAME)MCC_NAME,max(final.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,
                              max(final.Route_Code)Route_Code,max(final.ROUTE_NAME)ROUTE_NAME,max(final.Tanker_No)Tanker_No,max(final.Vehicle_No)Vehicle_No,max(final.Entered_Qty)Entered_Qty,

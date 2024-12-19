@@ -34,6 +34,7 @@ Public Class clsfrmVLCMaster
     Public TFOwnBMC As Boolean = False
     Public OwnBMCDate As Date?
     Public OwnBMC As String = Nothing
+    Public REIL_Integrated As Integer
     Public HeadLoad As Boolean = False
     Public HeadLoadRate As Decimal
     Public HeadLoadBasis As String = Nothing
@@ -181,6 +182,8 @@ Public Class clsfrmVLCMaster
             clsCommon.AddColumnsForChange(coll, "Short_Description", obj.Short_Description)
             clsCommon.AddColumnsForChange(coll, "Apply_Price_Chart_Uploader", IIf(obj.Apply_Price_Chart_Uploader, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Apply_Cow_Price", IIf(obj.Apply_Cow_Price, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "REIL_Integrated", IIf(obj.REIL_Integrated, 1, 0))
+
             clsCommon.AddColumnsForChange(coll, "IsSuspense", IIf(obj.IsSuspense, 1, 0))
             clsCommon.AddColumnsForChange(coll, "SupervisorOrRP", obj.Supervisor)
             clsCommon.AddColumnsForChange(coll, "Milk_Receive_UOM", obj.Milk_Receive_UOM, True)
@@ -448,11 +451,11 @@ Public Class clsfrmVLCMaster
                         '' As 'Supervisor','' As 'District Code','' As 'Block Code','' As 'Zone Code','' As 'Revenue Village Code','' AS 'Grampanchayat Code','' As 'Panchayat Samiti Code','' As 'Vidhan Sabha Code',
                         '' As 'Saving Company Bank','' as 'Current Company Bank','' As 'Bank Code 1','' As 'Bank Name 1','' As 'Branch Name 1','' As 'IFSC Code 1','' As 'Account No 1','' As 'Credit Limit 1',
                         '' As 'Account Type 1','' As 'Security Charges 1',
-                        '' As 'Bank Code 2','' As 'Bank Name 2','' As 'Branch Name 2','' As 'IFSC Code 2','' As 'Credit Limit 2','' As 'Account Type 2','' As 'Security Charges 2','' As 'Shift Cow Quantity Limit'
+                        '' As 'Bank Code 2','' As 'Bank Name 2','' As 'Branch Name 2','' As 'IFSC Code 2','' As 'Credit Limit 2','' As 'Account Type 2','' As 'Security Charges 2','' As 'Shift Cow Quantity Limit','' as 'REIL Integrated'
                         "
             Else
                 strQry = "select TSPL_VLC_MASTER_HEAD.vsp_code  As 'DCS Code',TSPL_VENDOR_MASTER.Vendor_Name As 'DCS Name',TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader  As 'DCS Uploader Code',TSPL_VENDOR_MASTER.PAN As 'PAN No',
-                        TSPL_MCC_MASTER.MCC_Code As MCC,TSPL_VLC_MASTER_HEAD.route_code As 'DCS Route Code',TSPL_VLC_MASTER_HEAD.Active,
+                        TSPL_MCC_MASTER.MCC_Code As MCC,TSPL_VLC_MASTER_HEAD.route_code As 'DCS Route Code',TSPL_VLC_MASTER_HEAD.Active, TSPL_VLC_MASTER_HEAD.REIL_Integrated as 'REIL Integrated',
                         convert(date,TSPL_VLC_MASTER_HEAD.Created_Date,103) As 'Created Date',TSPL_VLC_MASTER_HEAD.Loyalty_Rate 'Loyalty Rate',TSPL_VLC_MASTER_HEAD.isOwnBMC As 'Own BMC',OwnBMCDate As 'Own BMC Date',TSPL_VLC_MASTER_HEAD.Apply_Cow_Price As 'Apply Cow Price',TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate As 'Apply Cow Price Date',TSPL_VENDOR_MASTER.Is_Head_Load As 'Head Load',TSPL_VENDOR_MASTER.Service_Basis_Head_Load As 'Head Load Service Basis',TSPL_VENDOR_MASTER.Rate_Head_Load As 'Head Load Rate',
                         TSPL_VENDOR_MASTER.RegistrationNo As 'Registration No',TSPL_VENDOR_MASTER.RegistrationDate As 'Registration Date',TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER As 'Registered/PDCS/CLUSTER',
                         TSPL_VENDOR_MASTER.Gender,TSPL_VENDOR_MASTER.SupervisorOrRP As 'Supervisor',TSPL_VENDOR_MASTER.DISTRICT_Code As 'District Code',TSPL_VENDOR_MASTER.BLOCK_CODE As 'Block Code',TSPL_VENDOR_MASTER.Zone_Code As 'Zone Code',TSPL_VENDOR_MASTER.REVENUE_VILLAGE_CODE As 'Revenue Village Code',TSPL_VENDOR_MASTER.GRAMPANCHAYAT_CODE AS 'Grampanchayat Code',TSPL_VENDOR_MASTER.PANCHAYAT_SAMITI_CODE As 'Panchayat Samiti Code',TSPL_VENDOR_MASTER.VIDHAN_SABHA_CODE As 'Vidhan Sabha Code',

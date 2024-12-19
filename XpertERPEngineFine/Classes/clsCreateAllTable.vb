@@ -10320,6 +10320,9 @@ Public Class clsCreateAllTable
             coll.Add("Incentive_Amt", "decimal(18,2) null")
             coll.Add("Entry_Source", "varchar(12) NULL")
             coll.Add("MP_MILK_PRICE_PK_ID", "INTEGER null REFERENCES TSPL_MP_MILK_PRICE_RATE(PK_ID)")
+
+            coll.Add("Manual_Weighment", "int null")
+            coll.Add("Manual_Milk_Analyzer", "int null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER", coll, "Primary Key (Doc_No,PK_Id)", False, False, "", "Doc_No", "Doc_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER_SYNC", coll, "Primary Key (Doc_No,PK_Id)", False, False)
 
@@ -13560,6 +13563,7 @@ Public Class clsCreateAllTable
             coll.Add("Loyalty_Rate", "decimal(18, 2) NULL")
             coll.Add("OwnBMCDate", "Date NULL")
             coll.Add("Shift_Cow_Limit", "integer null")
+            coll.Add("REIL_Integrated", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
 
             qry = "update TSPL_VLC_MASTER_HEAD set ApplyCowPriceDate='01/Jan/2022' where ApplyCowPriceDate is null and   Apply_Cow_Price=1 "
@@ -46107,8 +46111,13 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "datetime not null")
             coll.Add("SYNC_STATUS", "int Null")
-            coll.Add("Template_ID", "varchar(30) NULL")
+            coll.Add("Template_ID", "varchar(100) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SMS_HEAD", coll)
+            qry = clsGetKeys.GetForeignKeyName("TSPL_SMS_HEAD", "Template_ID", Nothing)
+            If clsCommon.myLen(qry) > 0 Then
+                qry = " alter table TSPL_SMS_HEAD alter column Template_ID varchar(100) null "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
             coll("Code") = "varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SMS_HEAD_SYNC", coll)
 
@@ -46141,7 +46150,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Form_Id", "varchar(20) not null primary Key")
-            coll.Add("Template_ID", "varchar(30) NULL")
+            coll.Add("Template_ID", "varchar(100) NULL")
             coll.Add("EMail_Subject", "Varchar(200) NULL")
             coll.Add("EMail_Text", "Text null")
             coll.Add("SMS_Text", "Varchar(2000) null")
@@ -46155,6 +46164,12 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("No_Of_Char", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ES_Content", coll)
+
+            qry = clsGetKeys.GetForeignKeyName("TSPL_ES_CONTENT", "Template_ID", Nothing)
+            If clsCommon.myLen(qry) > 0 Then
+                qry = " alter table TSPL_ES_CONTENT alter column Template_ID varchar(100) null "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Form_Id", "varchar(20) not null REFERENCES TSPL_ES_Content(Form_Id)")

@@ -6,6 +6,7 @@ Imports XpertERPEngine
 'Created By Sanjay - Create New report 
 Public Class rptCollectionDataChangeReport
     Dim ButtonToolTip As ToolTip = New ToolTip()
+    Dim PickDataFromRetestingTable As Boolean
     Private Sub SetUserMgmtNew()
 
         If Not (MyBase.isReadFlag) Then
@@ -304,9 +305,12 @@ Public Class rptCollectionDataChangeReport
                 "  order by HistData.[Doc Date],HistData.[Milk Receipt Code] ,HistData.[Sample No]  "
 
             If rbtnMilkProcUpl.Checked Then
-                ' Dim arrDocumentList
-                qry = ""
-                qry = " WITH FirstMilkWeight AS ( SELECT  Document_No as Org_Document_No, SNo, MIN(Hist_Version) AS FirstMilkHistVersion FROM  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data   WHERE Milk_Weight IS NOT NULL GROUP BY  Document_No, SNo ),
+                If PickDataFromRetestingTable Then
+                    qry = LoadDataFromRetestingTable()
+                Else
+                    ' Dim arrDocumentList
+                    qry = ""
+                    qry = " WITH FirstMilkWeight AS ( SELECT  Document_No as Org_Document_No, SNo, MIN(Hist_Version) AS FirstMilkHistVersion FROM  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data   WHERE Milk_Weight IS NOT NULL GROUP BY  Document_No, SNo ),
                    FirstNonNullFatSnf AS ( SELECT Document_No, SNo,MIN(Hist_Version) AS FirstNonNullFatSnfVersion  FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data WHERE (ISNULL(FAT,0) > 0 or isnull(SNF,0) > 0) GROUP BY   Document_No, SNo ) ,
                    MaxVersion AS ( SELECT Document_No, SNo,MAX(Hist_Version) AS MaxHistVersion FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data  GROUP BY Document_No, SNo ), FirstMilkWeightData AS (SELECT FirstMilkWeight.Org_Document_No,FirstMilkWeight.SNo,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Bulk_Route_Code AS Org_Route_No,
                    vh.VLC_Code_VLC_Uploader AS Org_VLC_Code_VLC_Uploader,vh.VLC_Name AS Org_VLC_Name, TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_By as Org_VLC_User,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Milk_Weight AS Org_Milk_Weight, case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API,0)=0 then 1 else TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Manual_Weight end AS Org_Manual_Weight,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.Hist_By AS Org_Weighment_User,
@@ -349,25 +353,26 @@ Public Class rptCollectionDataChangeReport
  FirstNonNullFatSnfData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample  THEN FirstNonNullFatSnfData.Org_Sample_User ELSE (case when ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF then MaxVersionData.Upd_Sample_User else null end ) END AS Upd_Sample_User, CASE when (ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) = MaxVersionData.Upd_FAT and ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) = MaxVersionData.Upd_SNF)  and ISNULL(FirstNonNullFatSnfData.First_Milk_Weight, FirstMilkWeightData.Org_Milk_Weight) <>  MaxVersionData.Upd_Milk_Weight or
 				  FirstMilkWeightData.Org_Route_No <> MaxVersionData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> MaxVersionData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> MaxVersionData.Upd_VLC_Name or  FirstMilkWeightData.Org_Manual_Weight <> MaxVersionData.Upd_Manual_Weight or FirstNonNullFatSnfData.Org_Manual_Sample <> MaxVersionData.Upd_Manual_Sample THEN convert(date,FirstNonNullFatSnfData.Org_Sample_Date,103) ELSE (case when ISNULL(FirstNonNullFatSnfData.First_FAT, FirstMilkWeightData.Org_FAT) <> MaxVersionData.Upd_FAT or ISNULL(FirstNonNullFatSnfData.First_SNF, FirstMilkWeightData.Org_SNF) <> MaxVersionData.Upd_SNF  then convert(date,MaxVersionData.Upd_Sample_Date,103)  else null end )  END AS Upd_Sample_Date FROM 
                   FirstMilkWeightData LEFT JOIN  FirstNonNullFatSnfData  ON FirstMilkWeightData.Org_Document_No = FirstNonNullFatSnfData.Document_No AND FirstMilkWeightData.SNo = FirstNonNullFatSnfData.SNo  LEFT JOIN  MaxVersionData  ON FirstMilkWeightData.Org_Document_No = MaxVersionData.Document_No AND FirstMilkWeightData.SNo = MaxVersionData.SNo WHERE 1=1 "
-                'MaxVersionData.Source_API = 1 
-                If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                    qry += "and MaxVersionData.MCC_CODE  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
-                End If
-                If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                    qry += " and MaxVersionData.Upd_Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
-                End If
-                If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
-                    qry += " and MaxVersionData.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
-                End If
-                qry += " and convert(date,MaxVersionData.Upd_Document_Date,103) = CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' , 103)  "
+                    'MaxVersionData.Source_API = 1 
+                    If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                        qry += "and MaxVersionData.MCC_CODE  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+                    End If
+                    If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                        qry += " and MaxVersionData.Upd_Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+                    End If
+                    If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+                        qry += " and MaxVersionData.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
+                    End If
+                    qry += " and convert(date,MaxVersionData.Upd_Document_Date,103) = CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' , 103)  "
 
-                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-                    qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and convert(date,MaxVersionData.Upd_Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and MaxVersionData.Shift ='M' then 3 else 2 end  )"
+                    If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                        qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and convert(date,MaxVersionData.Upd_Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and MaxVersionData.Shift ='M' then 3 else 2 end  )"
+                    End If
+                    If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
+                        qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and MaxVersionData.Shift ='E' then 3 else 2 end  )"
+                    End If
+                    qry += " order by MaxVersionData.Document_No,MaxVersionData.SNo "
                 End If
-                If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
-                    qry += " and 2=( case when convert(date,MaxVersionData.Upd_Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and MaxVersionData.Shift ='E' then 3 else 2 end  )"
-                End If
-                qry += " order by MaxVersionData.Document_No,MaxVersionData.SNo "
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -429,6 +434,7 @@ Public Class rptCollectionDataChangeReport
             gv1.Columns("Upd_Milk_Weight").HeaderText = "Milk Weight"
             gv1.Columns("Org_Manual_Weight").HeaderText = "Manual Weight"
             gv1.Columns("Upd_Manual_Weight").HeaderText = "Manual Weight"
+            gv1.Columns("Org_SNo").HeaderText = "SNo"
             gv1.Columns("Upd_SNo").HeaderText = "SNo"
             gv1.Columns("Org_Weighment_User").HeaderText = "Weighment User"
             gv1.Columns("Upd_Weighment_User").HeaderText = "Weighment User"
@@ -668,7 +674,57 @@ Public Class rptCollectionDataChangeReport
         End Try
     End Sub
 
+    Function LoadDataFromRetestingTable() As String
+        Dim qry As String = ""
+        qry = "WITH FirstMilkWeightData AS ( SELECT Bulk_Route_Code AS Org_Route_No,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS Org_VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name AS Org_VLC_Name,  Hist_By AS Org_VLC_User,CONVERT(VARCHAR, TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date, 103) AS Org_Document_Date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No as Org_Document_No,
+        SNo,Milk_Weight AS Org_Milk_Weight,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API,0)=0 then 1 else TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Manual_Weight end AS Org_Manual_Weight,Hist_By AS Org_Weighment_User,convert(varchar, Hist_On,103) AS Org_Weighment_Date,ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No, SNo ORDER BY Hist_On ASC
+        ) AS RowNum FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING LEFT JOIN TSPL_VLC_MASTER_HEAD  ON TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.VLC_Code Left join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No WHERE Milk_Weight > 0 ),FirstFatSnf AS ( 
+        SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No,SNo,FAT as Org_FAT,SNF as Org_SNF,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API,0)=0 then 1 else  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Manual_Sample end  AS Org_Manual_Sample,Hist_By AS Org_Sample_User,convert(varchar,Hist_On,103) AS Org_Sample_Date,ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No, SNo 
+        ORDER BY Hist_On ASC ) AS RowNum FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING left join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No WHERE FAT > 0 or SNF > 0 ),UpdatedData AS ( SELECT Bulk_Route_Code AS Upd_Route_No,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.VLC_Code,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Shift ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS Upd_VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name AS Upd_VLC_Name,  Hist_By AS Upd_VLC_User,
+        CONVERT(VARCHAR, TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date, 103) AS Upd_Document_Date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No as Upd_Document_No,SNo as Upd_SNo,Milk_Weight AS Upd_Milk_Weight,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API,0)=0 then 1 else Manual_Weight end AS Upd_Manual_Weight,Hist_By AS Upd_Weighment_User,convert(varchar, Hist_On,103) AS Upd_Weighment_Date,FAT AS Upd_FAT,SNF AS Upd_SNF,
+		case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Source_API,0)=0 then 1 else Manual_Sample end AS Upd_Manual_Sample,Hist_By AS Upd_Sample_User,convert(varchar,Hist_On,103) AS Upd_Sample_Date,ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No, SNo ORDER BY Hist_On DESC ) AS RowNum FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING Left join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Document_No
+        LEFT JOIN TSPL_VLC_MASTER_HEAD  ON TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.VLC_Code )SELECT FirstMilkWeightData.Org_Route_No,Org_VLC_Code_VLC_Uploader,Org_VLC_Name,Org_VLC_User,Org_Document_Date,FirstMilkWeightData.Org_Document_No, FirstMilkWeightData.SNo as Org_SNo,FirstMilkWeightData.Org_Milk_Weight,FirstMilkWeightData.Org_Manual_Weight,FirstMilkWeightData.Org_Weighment_User,FirstMilkWeightData.Org_Weighment_Date ,isnull(FirstFatSnf.Org_FAT,0) as Org_FAT ,isnull(FirstFatSnf.Org_SNF,0) as Org_SNF ,FirstFatSnf.Org_Manual_Sample,
+        FirstFatSnf.Org_Sample_User,FirstFatSnf.Org_Sample_Date,CASE WHEN (FirstMilkWeightData.Org_Route_No = UpdatedData.Upd_Route_No) and (FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT,0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF 
+        or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample) THEN FirstMilkWeightData.Org_Route_No else (case when FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No then UpdatedData.Upd_Route_No else null end) END AS Upd_Route_No, CASE WHEN  ( FirstMilkWeightData.Org_VLC_Code_VLC_Uploader = UpdatedData.Upd_VLC_Code_VLC_Uploader) and (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or 
+        ISNULL(FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample) then FirstMilkWeightData.Org_VLC_Code_VLC_Uploader ELSE (case when FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <>  UpdatedData.Upd_VLC_Code_VLC_Uploader then UpdatedData.Upd_VLC_Code_VLC_Uploader else null end ) END AS Upd_VLC_Code_VLC_Uploader,
+	    CASE WHEN (FirstMilkWeightData.Org_VLC_Code_VLC_Uploader = UpdatedData.Upd_VLC_Code_VLC_Uploader ) and (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No or ISNULL(FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample)THEN FirstMilkWeightData.Org_VLC_Name else (case when FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader 
+        then UpdatedData.Upd_VLC_Name  else null end)  END AS Upd_VLC_Name, CASE when ( FirstMilkWeightData.Org_VLC_Code_VLC_Uploader = UpdatedData.Upd_VLC_Code_VLC_Uploader ) and (ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <>  UpdatedData.Upd_Milk_Weight or FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample)  THEN FirstMilkWeightData.Org_VLC_User ELSE
+        (case when FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <>  UpdatedData.Upd_VLC_Code_VLC_Uploader then UpdatedData.Upd_VLC_User else null end )  END AS Upd_VLC_User, CASE WHEN FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or	ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or
+        ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample	 THEN UpdatedData.Upd_Document_Date ELSE NULL END AS Upd_Document_Date,CASE WHEN FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or   FirstMilkWeightData.Org_Document_Date <> UpdatedData.Upd_Document_Date or FirstMilkWeightData.Org_Document_No <> UpdatedData.Upd_Document_No  or ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or
+        FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample	 THEN UpdatedData.Upd_Document_No ELSE NULL END AS Upd_Document_No,CASE WHEN FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or   FirstMilkWeightData.Org_Document_Date <> UpdatedData.Upd_Document_Date 
+        or FirstMilkWeightData.Org_Document_No <> UpdatedData.Upd_Document_No  or ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample	 THEN UpdatedData.Upd_SNo else null end as Upd_SNo,CASE WHEN (ISNULL(FirstMilkWeightData.Org_Milk_Weight,0) = isnull(UpdatedData.Upd_Milk_Weight,0) ) and ( FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or
+        FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name  or FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample)	 THEN FirstMilkWeightData.Org_Milk_Weight else (case when ISNULL(FirstMilkWeightData.Org_Milk_Weight,0) <>  isnull(UpdatedData.Upd_Milk_Weight,0)  then UpdatedData.Upd_Milk_Weight else null end)  END AS Upd_Milk_Weight,
+	    CASE WHEN (FirstMilkWeightData.Org_Manual_Weight = UpdatedData.Upd_Manual_Weight) and (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight  or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample)	 THEN Org_Manual_Weight else (case when FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight then UpdatedData.Upd_Manual_Weight else null end)  END AS Upd_Manual_Weight,		  
+	    CASE when (ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) = UpdatedData.Upd_Milk_Weight) and (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample)  THEN FirstMilkWeightData.Org_Weighment_User ELSE 
+        (case when ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight then UpdatedData.Upd_Weighment_User else null end ) END AS Upd_Weighment_User,CASE when (ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) = UpdatedData.Upd_Milk_Weight) and  (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or    FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample) THEN FirstMilkWeightData.Org_Weighment_Date
+        ELSE (case when ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight then UpdatedData.Upd_Weighment_Date else null end )  END AS Upd_Weighment_Date,CASE WHEN (ISNULL(FirstFatSnf.Org_FAT, 0) = UpdatedData.Upd_FAT ) and (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or   ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or  ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample) THEN FirstFatSnf.Org_FAT
+        else (case when ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT then UpdatedData.Upd_FAT else null end) END AS Upd_FAT, CASE WHEN (ISNULL(FirstFatSnf.Org_SNF, 0) = UpdatedData.Upd_SNF) and (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or    ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT  or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample) THEN FirstFatSnf.Org_SNF 
+	    else (case when ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF then UpdatedData.Upd_SNF else null end) END AS Upd_SNF,CASE WHEN (FirstFatSnf.Org_Manual_Sample = UpdatedData.Upd_Manual_Sample) and (FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or   ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF)  THEN FirstFatSnf.Org_Manual_Sample
+	    else (case when FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample then UpdatedData.Upd_Manual_Sample else null end) END AS Upd_Manual_Sample,CASE when ( ISNULL(FirstFatSnf.Org_FAT, 0) = UpdatedData.Upd_FAT and ISNULL(FirstFatSnf.Org_SNF, 0) = UpdatedData.Upd_SNF ) and (ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <> UpdatedData.Upd_Milk_Weight or  FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or    FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample)  THEN FirstFatSnf.Org_Sample_User
+        ELSE (case when ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF then UpdatedData.Upd_Sample_User else null end ) END AS Upd_Sample_User, CASE when (ISNULL(FirstFatSnf.Org_FAT, 0) = UpdatedData.Upd_FAT and ISNULL(FirstFatSnf.Org_SNF, 0) = UpdatedData.Upd_SNF)  and (ISNULL( FirstMilkWeightData.Org_Milk_Weight,0) <>  UpdatedData.Upd_Milk_Weight or FirstMilkWeightData.Org_Route_No <> UpdatedData.Upd_Route_No Or FirstMilkWeightData.Org_VLC_Code_VLC_Uploader <> UpdatedData.Upd_VLC_Code_VLC_Uploader or FirstMilkWeightData.Org_VLC_Name <> UpdatedData.Upd_VLC_Name or  FirstMilkWeightData.Org_Manual_Weight <> UpdatedData.Upd_Manual_Weight or FirstFatSnf.Org_Manual_Sample <> UpdatedData.Upd_Manual_Sample) THEN FirstFatSnf.Org_Sample_Date
+        ELSE (case when ISNULL(FirstFatSnf.Org_FAT, 0) <> UpdatedData.Upd_FAT or ISNULL(FirstFatSnf.Org_SNF, 0) <> UpdatedData.Upd_SNF  then UpdatedData.Upd_Sample_Date else null end )  END AS Upd_Sample_Date FROM FirstMilkWeightData 
+        LEFT JOIN FirstFatSnf  ON FirstMilkWeightData.Org_Document_No = FirstFatSnf.Document_No AND FirstMilkWeightData.SNo = FirstFatSnf.SNo and FirstMilkWeightData.RowNum =  FirstFatSnf.RowNum LEFT JOIN UpdatedData  ON FirstMilkWeightData.Org_Document_No = UpdatedData.Upd_Document_No AND FirstMilkWeightData.SNo = UpdatedData.upd_SNo AND UpdatedData.RowNum = 1 LEFT JOIN TSPL_MILK_PROCUREMENT_UPLOADER_HEAD  ON FirstMilkWeightData.Org_Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No WHERE FirstMilkWeightData.RowNum = 1  "
 
+        If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+            qry += "and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_CODE IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+        End If
+        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+            qry += " and UpdatedData.Upd_Route_No  in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+        End If
+        If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+            qry += " and UpdatedData.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
+        End If
+
+        qry += " and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103) = CONVERT(DATE, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' , 103)  "
+        If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+            qry += " and 2=( case when convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date ,103) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and UpdatedData.Shift ='M' then 3 else 2 end  )"
+        End If
+        If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
+            qry += " and 2=( case when convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date ,103) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and UpdatedData.Shift ='E' then 3 else 2 end  )"
+        End If
+        qry += "  ORDER BY FirstMilkWeightData.Org_Document_no, FirstMilkWeightData.SNo "
+        Return qry
+    End Function
     Sub Reset()
         txtMCC.arrValueMember = Nothing
         txtRoute.arrValueMember = Nothing
@@ -728,7 +784,9 @@ Public Class rptCollectionDataChangeReport
         gv1.Columns.Clear()
         gv1.Rows.Clear()
         GetReportID()
-        LoadVersion()
+        If Not PickDataFromRetestingTable AndAlso rbtnMilkProcUpl.Checked Then
+            LoadVersion()
+        End If
         Print(Exporter.Refresh)
     End Sub
 
@@ -766,9 +824,10 @@ Public Class rptCollectionDataChangeReport
 
     Private Sub rptTankerStatusReport_Load(sender As Object, e As EventArgs) Handles Me.Load
         SetUserMgmtNew()
+        PickDataFromRetestingTable = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, Nothing)) > 0)
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         'Try
-        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT Document_No,Hist_Version FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data  GROUP  BY   Document_No ,Hist_Version HAVING sum(1)>1  order by Document_No,Hist_Version desc ", trans)
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Document_No, Hist_Version FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD_Hist_Data  GROUP  BY   Document_No , Hist_Version HAVING sum(1)>1  order by Document_No,Hist_Version desc ", trans)
         '    Dim Hist_version As Integer = 0
         '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
         '        For Each dr As DataRow In dt.Rows
