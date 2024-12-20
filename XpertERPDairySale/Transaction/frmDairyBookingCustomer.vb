@@ -13,6 +13,7 @@ Public Class frmDairyBookingCustomer
     Dim isloadBookingTypeValues As Boolean = True
     Dim EnableLocation As Boolean = True
     Dim ApplyCommission As Boolean = True
+    Dim ApplyTPT As Boolean = True
     Dim ApplyCommissionRateWithTax As Boolean = True
     Dim FORPRICE As Double = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
@@ -299,6 +300,7 @@ Public Class frmDairyBookingCustomer
         ShowDemandDoc = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
         ApplyCommission = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, Nothing)) = 1, True, False)
+        ApplyTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
 
@@ -1835,6 +1837,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         End If
                     End If
                 End If
+                If dblTotalTCAmt > 0 Then
+                    If ApplyTPT Then
+                        dblDisAmt = dblDisAmt + dblTotalTCAmt
+                    End If
+                End If
             End If
             Dim dblTotDiscAmt As Double = 0
             Dim dblAmtAfterDis As Double = 0
@@ -2008,6 +2015,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         dblDisAmt = dblDisAmt + dblTotalDCAmt
                     End If
                 End If
+                If dblTotalTCAmt > 0 Then
+                    If ApplyTPT Then
+                        dblDisAmt = dblDisAmt + dblTotalTCAmt
+                    End If
+                End If
             End If
             Dim dblTotDiscAmt As Decimal = 0
             Dim dblAmtAfterDis As Decimal = 0
@@ -2169,13 +2181,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         Dim dblTotTax As Double = 0
         For ii As Integer = 1 To 10
             Dim strii As String = clsCommon.myCstr(ii)
-            If Not clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
-                If IntRowNo < 0 Then
+            'If Not clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
+            If IntRowNo < 0 Then
                     dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
                 Else
                     dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
                 End If
-            End If
+            'End If
 
         Next
         Return dblTotTax
@@ -2533,15 +2545,20 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             lblDiscountAmt.Text = clsCommon.myFormat(dblDisAmt)
             lblAmtAfterDiscount.Text = clsCommon.myFormat(Math.Round(clsCommon.myCdbl(dblNetAmt - dblDisAmt), 2))
         End If
-        lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTotalTcsAmt)
+        'lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTotalTcsAmt)
+        lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
         If chkSampling.Checked Then
             lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt - dblDisAmt), 2)
-            lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
-            lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
+            'lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
+            'lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTotalTcsAmt + dblTaxTotAmt)
+            lblTotRAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
+            lblTotalDocAmt.Text = clsCommon.myFormat((dblNetAmt - dblDisAmt) + dblTaxTotAmt)
         Else
             lblTotRAmt1.Text = Math.Round(clsCommon.myCdbl(dblNetAmt), 2)
-            lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
-            lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+            lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+            lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt)
+            'lblTotRAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
+            'lblTotalDocAmt.Text = clsCommon.myFormat(dblTotalDocAmt + dblTotalTcsAmt)
 
         End If
         txtDCAmt.Text = clsCommon.myFormat(dblCommAmt)
