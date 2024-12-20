@@ -48,6 +48,7 @@ Public Class frmMilkProcurementUploader
     Dim TotQty As Decimal = 0
     Dim settMilkProcurementBatchPosting As Boolean = False
     Dim SettShowAllDCS As Boolean = False
+    Dim Hidedetaildate As Boolean = False
 
     Dim arrMCCRights As ArrayList
 #End Region
@@ -137,6 +138,7 @@ Public Class frmMilkProcurementUploader
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
         settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
         settLastMilkReceiptQtyTollerance = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.LastMilkReceiptQtyTollerance, clsFixedParameterCode.LastMilkReceiptQtyTollerance, Nothing))
+        Hidedetaildate = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, Nothing)) = 1)
 
         settAlwaysVSPDefaulter = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AlwaysVSPDefaulter, clsFixedParameterCode.AlwaysVSPDefaulter, Nothing)) = 1)
         settSelectMilkRejectDefaulterManually = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SelectMilkRejectDefaulterManually, clsFixedParameterCode.SelectMilkRejectDefaulterManually, Nothing)) = 1)
@@ -183,7 +185,6 @@ Public Class frmMilkProcurementUploader
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
-
         Dim repoDateBox As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoDateBox.Format = DateTimePickerFormat.Custom
         repoDateBox.CustomFormat = "dd/MM/yyyy"
@@ -194,6 +195,7 @@ Public Class frmMilkProcurementUploader
         repoDateBox.IsVisible = True
         repoDateBox.Width = 100
         gv1.MasterTemplate.Columns.Add(repoDateBox)
+
 
 
         Dim repoComboBox As GridViewComboBoxColumn = New GridViewComboBoxColumn()
@@ -852,7 +854,18 @@ Public Class frmMilkProcurementUploader
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
                         Dim objTr As New clsMilkProcurementUploaderDetail()
                         objTr.SNo = ii + 1
-                        objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                        If Hidedetaildate = True Then
+                            gv1.Rows(ii).Cells(colShiftDate).ReadOnly = True
+                            'objTr.Shift_Date = txtDate.Value
+                            objTr.Shift_Date = txtDate.Value
+                        Else
+                            objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                            gv1.Rows(ii).Cells(colShiftDate).ReadOnly = False
+                        End If
+                        'objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+
+                        'objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                        ' objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
                         objTr.Shift = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDockCollectionMilkType).Value)
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
@@ -861,9 +874,9 @@ Public Class frmMilkProcurementUploader
                         objTr.Milk_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMilkWeight).Value)
                         objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colFATPer).Value), 1, MidpointRounding.ToEven)
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNFPer).Value), IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
-                        If obj.Document_Date > objTr.Shift_Date Then
-                            obj.Document_Date = objTr.Shift_Date
-                        End If
+                        'If obj.Document_Date > objTr.Shift_Date Then
+                        '    obj.Document_Date = objTr.Shift_Date
+                        'End If
                         objTr.Reject_Defaulter = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectDefaulter).Value)
                         objTr.Reject_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectRejectType).Value)
                         If chkMilkReject.Checked Then
@@ -961,6 +974,12 @@ Public Class frmMilkProcurementUploader
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Tag = objTr.SNo
+                        If txtDocNo.Value IsNot Nothing AndAlso clsCommon.myLen(txtDocNo.Value) > 0 AndAlso Hidedetaildate Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftDate).ReadOnly = True
+                        Else
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftDate).ReadOnly = False
+
+                        End If
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftDate).Value = objTr.Shift_Date
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftDate).Tag = objTr.Shift_Date
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShift).Value = objTr.Shift
