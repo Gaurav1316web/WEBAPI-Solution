@@ -4,12 +4,15 @@ Public Class clsDAArrear
 #Region "Variable"
     Public document_code As String = Nothing
     Public document_date As Date? = Nothing
+    Public Applicable_date As Date? = Nothing
     Public Pay_Period As String = Nothing
     Public Location As String = Nothing
     Public LocationDesc As String = Nothing
     Public DA_Arrear As Double = 0
     Public Status As String = Nothing
     Public ArrD As List(Of ClsDAArrearDetail) = Nothing
+    Public Arr_PayPeriod As List(Of clsPayPeriod_detail) = Nothing
+    Public Arr_Location As List(Of clsDALocation_detail) = Nothing
     Public Template_Status As String = Nothing
     Public Posting_Date As DateTime?
     Public Fromdate As DateTime?
@@ -36,10 +39,9 @@ Public Class clsDAArrear
             clsCommon.AddColumnsForChange(coll, "Document_Code", obj.document_code)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.document_date, "dd/MMM/yyyy"))
             'clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
-            ' clsCommon.AddColumnsForChange(coll, "Pay_Period", obj.Pay_Period)
+            clsCommon.AddColumnsForChange(coll, "Pay_Period", obj.Pay_Period)
             clsCommon.AddColumnsForChange(coll, "DA_Arrear", obj.DA_Arrear)
-            clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.Fromdate, "dd/MMM/yyyy hh:mm:ss tt "))
-            clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.Todate, "dd/MMM/yyyy hh:mm:ss tt "))
+            clsCommon.AddColumnsForChange(coll, "Applicable_date", clsCommon.GetPrintDate(obj.Applicable_date, "dd/MMM/yyyy hh:mm:ss tt "))
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -52,6 +54,8 @@ Public Class clsDAArrear
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DA_Arrear_Header", OMInsertOrUpdate.Update, "  Document_Code='" + obj.document_code + "'", trans)
             End If
             ClsDAArrearDetail.SaveData(obj.document_code, obj.ArrD, trans)
+            clsPayPeriod_detail.SaveData(obj.document_code, obj.Arr_PayPeriod, trans)
+            clsDALocation_detail.SaveData(obj.document_code, obj.Arr_Location, trans)
             'ClsRmProcessLossDetail.SaveData(obj.document_code, obj.Arr_Pd, trans)
             'clsProductionEntry.SaveData(obj.document_code, obj.Arr_Prod, trans)
             Return True
@@ -69,7 +73,7 @@ Public Class clsDAArrear
         Try
             Dim obj As New clsDAArrear()
             obj.ArrD = New List(Of ClsDAArrearDetail)
-            Dim qry As String = "select TSPL_DA_Arrear_Header.document_Code,document_date,from_date,To_date,TSPL_DA_Arrear_Header.location,Status,DA_Arrear,Location_Desc,Pay_Period from TSPL_DA_Arrear_Header
+            Dim qry As String = "select TSPL_DA_Arrear_Header.document_Code,Document_Date,TSPL_DA_Arrear_Header.location,Status,DA_Arrear,Location_Desc,Pay_Period,TSPL_DA_Arrear_Header.Applicable_date from TSPL_DA_Arrear_Header
             left outer join tspl_location_master on tspl_location_master.location_code=TSPL_DA_Arrear_Header.location "
             Select Case NavType
                 Case NavigatorType.Current
@@ -91,16 +95,13 @@ Public Class clsDAArrear
                 obj.Pay_Period = clsCommon.myCstr(dt.Rows(0)("Pay_Period"))
                 obj.DA_Arrear = clsCommon.myCdbl(dt.Rows(0)("DA_Arrear"))
                 obj.Status = clsCommon.myCstr(dt.Rows(0)("Status"))
-                If Not IsDBNull(dt.Rows(0)("From_date")) Then
-                    obj.Fromdate = clsCommon.myCDate(dt.Rows(0)("From_date"))
-                End If
-                If Not IsDBNull(dt.Rows(0)("To_date")) Then
-                    obj.Todate = clsCommon.myCDate(dt.Rows(0)("To_date"))
+                If Not IsDBNull(dt.Rows(0)("Applicable_date")) Then
+                    obj.Applicable_date = clsCommon.myCDate(dt.Rows(0)("Applicable_date"))
                 End If
                 'obj.QC_Start_date = clsCommon.myCDate(dt.Rows(0)("QC_Start_Date"))
                 'bj.QC_end_date = clsCommon.myCDate(dt.Rows(0)("QC_END_Date"))
                 qry = "	select Apply,TSPL_EMPLOYEE_MASTER.EMP_CODE,TSPL_EMPLOYEE_MASTER.Emp_Name,Basic,da,DA_Arrear,PF from TSPL_DA_Arrear_Detail
-			        left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODe=TSPL_DA_Arrear_Detail.Emp_Code "
+			        left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_DA_Arrear_Detail.Emp_Code "
                 qry += "   where TSPL_DA_Arrear_Detail.document_code ='" + obj.document_code + "'"
                 dt1 = New DataTable()
                 dt1 = clsDBFuncationality.GetDataTable(qry, trans)
@@ -160,6 +161,10 @@ Public Class clsDAArrear
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
             Dim qry As String
+            qry = "delete from TSPL_DAAREAR_PAYPERIOD_DETAIL where Document_code ='" + strCode + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_DAAREAR_Location_DETAIL where Document_code ='" + strCode + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DA_Arrear_Detail where Document_code ='" + strCode + "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "DELETE FROM TSPL_DA_Arrear_Header WHERE Document_code='" + strCode + "'"
@@ -234,3 +239,59 @@ Public Class ClsDAArrearDetail
         End Try
     End Function
 End Class
+Public Class clsPayPeriod_detail
+#Region "variables"
+    Public Document_Code As String = Nothing
+    Public PAY_PERIOD_Code As String = Nothing
+#End Region
+    Public Shared Function SaveData(ByVal strCode As String, ByVal arr As List(Of clsPayPeriod_detail), ByVal trans As SqlTransaction) As Boolean
+        Dim coll As New Hashtable()
+        Try
+            Dim qry As String = "delete from TSPL_DAAREAR_PAYPERIOD_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                For Each objtr As clsPayPeriod_detail In arr
+                    coll = New Hashtable()
+                    'clsCommon.AddColumnsForChange(coll, "PK_Id", objtr.PK_Id)
+                    clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
+                    clsCommon.AddColumnsForChange(coll, "Pay_Period", objtr.PAY_PERIOD_Code)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAAREAR_PAYPERIOD_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+            Return True
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        Finally
+            coll = Nothing
+        End Try
+    End Function
+End Class
+Public Class clsDALocation_detail
+#Region "variables"
+    Public Document_Code As String = Nothing
+    Public Location As String = Nothing
+#End Region
+    Public Shared Function SaveData(ByVal strCode As String, ByVal arr As List(Of clsDALocation_detail), ByVal trans As SqlTransaction) As Boolean
+        Dim coll As New Hashtable()
+        Try
+            Dim qry As String = "delete from TSPL_DAAREAR_Location_DETAIL where document_code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                For Each objtr As clsDALocation_detail In arr
+                    coll = New Hashtable()
+                    'clsCommon.AddColumnsForChange(coll, "PK_Id", objtr.PK_Id)
+                    clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
+                    clsCommon.AddColumnsForChange(coll, "Location", objtr.Location)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAAREAR_Location_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+            Return True
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        Finally
+            coll = Nothing
+        End Try
+    End Function
+End Class
+

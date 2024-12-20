@@ -22,8 +22,8 @@ Partial Class frmArrear
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -32,14 +32,10 @@ Partial Class frmArrear
         Me.txtmultPayperiod = New common.UserControls.txtMultiSelectFinder()
         Me.BtnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtDAArrear = New common.Controls.MyTextBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtTodate = New common.Controls.MyDateTimePicker()
-        Me.RadLabel4 = New common.Controls.MyLabel()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel60 = New common.Controls.MyLabel()
         Me.lblShiftType = New Telerik.WinControls.UI.RadLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.lblPayperiod = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
@@ -49,11 +45,18 @@ Partial Class frmArrear
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.txtApplicabbleDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.fndFromPeriod = New common.UserControls.txtFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,14 +65,10 @@ Partial Class frmArrear
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDAArrear, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTodate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayperiod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,11 +80,15 @@ Partial Class frmArrear
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtApplicabbleDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,6 +105,7 @@ Partial Class frmArrear
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -128,15 +132,15 @@ Partial Class frmArrear
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
+        Me.RadPageViewPage1.Controls.Add(Me.fndFromPeriod)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
+        Me.RadPageViewPage1.Controls.Add(Me.txtApplicabbleDate)
         Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.txtmulLocation)
         Me.RadPageViewPage1.Controls.Add(Me.txtmultPayperiod)
         Me.RadPageViewPage1.Controls.Add(Me.BtnGo)
         Me.RadPageViewPage1.Controls.Add(Me.txtDAArrear)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
-        Me.RadPageViewPage1.Controls.Add(Me.txtTodate)
-        Me.RadPageViewPage1.Controls.Add(Me.txtFromDate)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel60)
         Me.RadPageViewPage1.Controls.Add(Me.lblShiftType)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
@@ -161,7 +165,7 @@ Partial Class frmArrear
         Me.UsLock1.Location = New System.Drawing.Point(529, 2)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(107, 26)
+        Me.UsLock1.Size = New System.Drawing.Size(107, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 1579
         '
@@ -194,9 +198,9 @@ Partial Class frmArrear
         'BtnGo
         '
         Me.BtnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnGo.Location = New System.Drawing.Point(444, 72)
+        Me.BtnGo.Location = New System.Drawing.Point(359, 72)
         Me.BtnGo.Name = "BtnGo"
-        Me.BtnGo.Size = New System.Drawing.Size(67, 19)
+        Me.BtnGo.Size = New System.Drawing.Size(80, 20)
         Me.BtnGo.TabIndex = 1575
         Me.BtnGo.Text = ">>>"
         '
@@ -211,7 +215,7 @@ Partial Class frmArrear
         Me.txtDAArrear.IsSourceFromTable = False
         Me.txtDAArrear.IsSourceFromValueList = False
         Me.txtDAArrear.IsUnique = False
-        Me.txtDAArrear.Location = New System.Drawing.Point(329, 72)
+        Me.txtDAArrear.Location = New System.Drawing.Point(245, 72)
         Me.txtDAArrear.MendatroryField = False
         Me.txtDAArrear.MyLinkLable1 = Nothing
         Me.txtDAArrear.MyLinkLable2 = Nothing
@@ -224,101 +228,11 @@ Partial Class frmArrear
         Me.txtDAArrear.Text = "0"
         Me.txtDAArrear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(149, 73)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(19, 16)
-        Me.MyLabel2.TabIndex = 1574
-        Me.MyLabel2.Text = "To"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(3, 78)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(33, 16)
-        Me.MyLabel1.TabIndex = 1573
-        Me.MyLabel1.Text = "From"
-        '
-        'txtTodate
-        '
-        Me.txtTodate.CalculationExpression = Nothing
-        Me.txtTodate.CustomFormat = "dd/MM/yyyy"
-        Me.txtTodate.FieldCode = Nothing
-        Me.txtTodate.FieldDesc = Nothing
-        Me.txtTodate.FieldMaxLength = 0
-        Me.txtTodate.FieldName = Nothing
-        Me.txtTodate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTodate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtTodate.isCalculatedField = False
-        Me.txtTodate.IsSourceFromTable = False
-        Me.txtTodate.IsSourceFromValueList = False
-        Me.txtTodate.IsUnique = False
-        Me.txtTodate.Location = New System.Drawing.Point(174, 73)
-        Me.txtTodate.MendatroryField = False
-        Me.txtTodate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtTodate.MyLinkLable1 = Me.RadLabel4
-        Me.txtTodate.MyLinkLable2 = Nothing
-        Me.txtTodate.Name = "txtTodate"
-        Me.txtTodate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtTodate.ReferenceFieldDesc = Nothing
-        Me.txtTodate.ReferenceFieldName = Nothing
-        Me.txtTodate.ReferenceTableName = Nothing
-        Me.txtTodate.Size = New System.Drawing.Size(79, 18)
-        Me.txtTodate.TabIndex = 1572
-        Me.txtTodate.TabStop = False
-        Me.txtTodate.Text = "13/06/2011"
-        Me.txtTodate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'RadLabel4
-        '
-        Me.RadLabel4.FieldName = Nothing
-        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(362, 3)
-        Me.RadLabel4.Name = "RadLabel4"
-        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
-        Me.RadLabel4.TabIndex = 1
-        Me.RadLabel4.Text = "Date"
-        '
-        'txtFromDate
-        '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(63, 73)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Me.RadLabel4
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(80, 18)
-        Me.txtFromDate.TabIndex = 1571
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "13/06/2011"
-        Me.txtFromDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
         'MyLabel60
         '
         Me.MyLabel60.FieldName = Nothing
         Me.MyLabel60.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel60.Location = New System.Drawing.Point(256, 75)
+        Me.MyLabel60.Location = New System.Drawing.Point(172, 73)
         Me.MyLabel60.Name = "MyLabel60"
         Me.MyLabel60.Size = New System.Drawing.Size(70, 16)
         Me.MyLabel60.TabIndex = 1545
@@ -360,6 +274,16 @@ Partial Class frmArrear
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011 11:29 AM"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadLabel4
+        '
+        Me.RadLabel4.FieldName = Nothing
+        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel4.Location = New System.Drawing.Point(362, 3)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel4.TabIndex = 1
+        Me.RadLabel4.Text = "Date"
         '
         'RadLabel15
         '
@@ -411,7 +335,7 @@ Partial Class frmArrear
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -435,7 +359,7 @@ Partial Class frmArrear
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(63, 1)
+        Me.txtDocNo.Location = New System.Drawing.Point(66, 1)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -453,7 +377,7 @@ Partial Class frmArrear
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(334, 1)
+        Me.btnAddNew.Location = New System.Drawing.Point(336, 1)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 21)
         Me.btnAddNew.TabIndex = 1
@@ -482,7 +406,7 @@ Partial Class frmArrear
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -492,6 +416,17 @@ Partial Class frmArrear
         Me.gv2.TabIndex = 4
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(291, 3)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(70, 22)
+        Me.btnReverse.TabIndex = 1580
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
         '
         'btnClose
         '
@@ -533,16 +468,103 @@ Partial Class frmArrear
         Me.btnPost.TabIndex = 19
         Me.btnPost.Text = "Post"
         '
-        'btnReverse
+        'RadSplitButton1
         '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(211, 3)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(70, 22)
-        Me.btnReverse.TabIndex = 1580
-        Me.btnReverse.Text = "Reverse"
-        Me.btnReverse.Visible = False
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExcel, Me.rmPDF})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(211, 3)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(77, 22)
+        Me.RadSplitButton1.TabIndex = 1581
+        Me.RadSplitButton1.Text = "Export"
+        '
+        'rmExcel
+        '
+        Me.rmExcel.Name = "rmExcel"
+        Me.rmExcel.Text = "Arrear Summary"
+        Me.rmExcel.UseCompatibleTextRendering = False
+        '
+        'rmPDF
+        '
+        Me.rmPDF.Name = "rmPDF"
+        Me.rmPDF.Text = "Arrear Detail"
+        Me.rmPDF.UseCompatibleTextRendering = False
+        '
+        'txtApplicabbleDate
+        '
+        Me.txtApplicabbleDate.CalculationExpression = Nothing
+        Me.txtApplicabbleDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtApplicabbleDate.FieldCode = Nothing
+        Me.txtApplicabbleDate.FieldDesc = Nothing
+        Me.txtApplicabbleDate.FieldMaxLength = 0
+        Me.txtApplicabbleDate.FieldName = Nothing
+        Me.txtApplicabbleDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtApplicabbleDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtApplicabbleDate.isCalculatedField = False
+        Me.txtApplicabbleDate.IsSourceFromTable = False
+        Me.txtApplicabbleDate.IsSourceFromValueList = False
+        Me.txtApplicabbleDate.IsUnique = False
+        Me.txtApplicabbleDate.Location = New System.Drawing.Point(93, 72)
+        Me.txtApplicabbleDate.MendatroryField = False
+        Me.txtApplicabbleDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtApplicabbleDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtApplicabbleDate.MyLinkLable2 = Nothing
+        Me.txtApplicabbleDate.Name = "txtApplicabbleDate"
+        Me.txtApplicabbleDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtApplicabbleDate.ReferenceFieldDesc = Nothing
+        Me.txtApplicabbleDate.ReferenceFieldName = Nothing
+        Me.txtApplicabbleDate.ReferenceTableName = Nothing
+        Me.txtApplicabbleDate.Size = New System.Drawing.Size(77, 18)
+        Me.txtApplicabbleDate.TabIndex = 1580
+        Me.txtApplicabbleDate.TabStop = False
+        Me.txtApplicabbleDate.Text = "13/06/2011 11:29 AM"
+        Me.txtApplicabbleDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(3, 72)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(86, 16)
+        Me.MyLabel1.TabIndex = 1581
+        Me.MyLabel1.Text = "Applicable Date"
+        '
+        'fndFromPeriod
+        '
+        Me.fndFromPeriod.CalculationExpression = Nothing
+        Me.fndFromPeriod.FieldCode = Nothing
+        Me.fndFromPeriod.FieldDesc = Nothing
+        Me.fndFromPeriod.FieldMaxLength = 0
+        Me.fndFromPeriod.FieldName = Nothing
+        Me.fndFromPeriod.isCalculatedField = False
+        Me.fndFromPeriod.IsSourceFromTable = False
+        Me.fndFromPeriod.IsSourceFromValueList = False
+        Me.fndFromPeriod.IsUnique = False
+        Me.fndFromPeriod.Location = New System.Drawing.Point(481, 30)
+        Me.fndFromPeriod.MendatroryField = True
+        Me.fndFromPeriod.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndFromPeriod.MyLinkLable1 = Nothing
+        Me.fndFromPeriod.MyLinkLable2 = Nothing
+        Me.fndFromPeriod.MyReadOnly = False
+        Me.fndFromPeriod.MyShowMasterFormButton = False
+        Me.fndFromPeriod.Name = "fndFromPeriod"
+        Me.fndFromPeriod.ReferenceFieldDesc = Nothing
+        Me.fndFromPeriod.ReferenceFieldName = Nothing
+        Me.fndFromPeriod.ReferenceTableName = Nothing
+        Me.fndFromPeriod.Size = New System.Drawing.Size(180, 19)
+        Me.fndFromPeriod.TabIndex = 1582
+        Me.fndFromPeriod.Value = ""
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(359, 31)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(117, 16)
+        Me.MyLabel2.TabIndex = 153
+        Me.MyLabel2.Text = "Applicable Pay Period"
         '
         'frmArrear
         '
@@ -565,14 +587,10 @@ Partial Class frmArrear
         Me.RadPageViewPage1.PerformLayout()
         CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDAArrear, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTodate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPayperiod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -584,11 +602,15 @@ Partial Class frmArrear
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtApplicabbleDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -608,11 +630,7 @@ Partial Class frmArrear
     Friend WithEvents txtmultPayperiod As common.UserControls.txtMultiSelectFinder
     Friend WithEvents BtnGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtDAArrear As common.Controls.MyTextBox
-    Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents txtTodate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel4 As common.Controls.MyLabel
-    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel60 As common.Controls.MyLabel
     Friend WithEvents lblShiftType As Telerik.WinControls.UI.RadLabel
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
@@ -624,4 +642,11 @@ Partial Class frmArrear
     Friend WithEvents txtDocNo As common.UserControls.txtNavigator
     Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
+    Friend WithEvents RadSplitButton1 As Telerik.WinControls.UI.RadSplitButton
+    Friend WithEvents rmExcel As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents rmPDF As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtApplicabbleDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents fndFromPeriod As common.UserControls.txtFinder
 End Class
