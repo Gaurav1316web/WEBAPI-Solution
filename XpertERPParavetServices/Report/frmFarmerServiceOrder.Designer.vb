@@ -22,6 +22,7 @@ Partial Class frmFarmerServiceOrder
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -98,10 +99,9 @@ Partial Class frmFarmerServiceOrder
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(764, 491)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -268,12 +268,15 @@ Partial Class frmFarmerServiceOrder
         Me.Gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.Gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'Gv1
+        '
         '
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.AllowDeleteRow = False
         Me.Gv1.MasterTemplate.EnableFiltering = True
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ReadOnly = True
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -281,7 +284,7 @@ Partial Class frmFarmerServiceOrder
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(743, 443)
         Me.Gv1.TabIndex = 5
-        Me.Gv1.Text = "gv"
+        Me.Gv1.VarID = ""
         '
         'RadSplitButton1
         '

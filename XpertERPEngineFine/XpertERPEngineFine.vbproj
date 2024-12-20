@@ -110,6 +110,7 @@
     <Compile Include="Classes\clsBullRating.vb" />
     <Compile Include="Classes\ClsCallType.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
+    <Compile Include="Classes\clsDAArrear.vb" />
     <Compile Include="Classes\clsDailyDemand.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
     <Compile Include="Classes\clsDemandCustItem.vb" />

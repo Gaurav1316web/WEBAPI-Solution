@@ -870,6 +870,8 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(CrystalReportFolder.MilkProcurement, dt, dt8, "crptBankAdviceNewSavingTNK", "Bank Advice Saving", "crptBankAdviceNewSavingTNKSubReport.rpt")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSavingJPR", "Bank Advice Saving")
                     Else
                         frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSaving", "Bank Advice Saving")
                         frmCRV = Nothing
