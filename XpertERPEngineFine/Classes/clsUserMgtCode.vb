@@ -1509,6 +1509,7 @@ Public Class clsUserMgtCode
     Public Const frmAdjustmentVoucher As String = "EMP_ADJUST"
     Public Const frmReimbursementDetails As String = "EMP_REIMBURS"
     Public Const frmApplyLoan As String = "APPLY_LOAN"
+    Public Const frmArrear As String = "Arrear"
     Public Const frmAllowanceDetails As String = "ALLOWANCE"
     Public Const frmDeductionDetails As String = "DEDUCTION"
     Public Const frmEmployeeStatus As String = "EMP_Status"

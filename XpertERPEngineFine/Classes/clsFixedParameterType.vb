@@ -1293,6 +1293,7 @@ Public Class clsFixedParameterType
     Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
     Public Const EnableVehicleType = "Enable Vehicle Type"
     Public Const PickDataFromRetestingTable = "Pick Data From Retesting Table"
+    Public Const ApplyTPT = "Apply Transpoter Commission"
 End Class
 Public Class clsFixedParameterCode
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
@@ -2727,6 +2728,7 @@ Public Class clsFixedParameterCode
     Public Const ShowTodayDemandAsCurrentandUpcoming = "Show Today Demand As Current And Upcoming"
     Public Const EnableVehicleType = "Enable Vehicle Type"
     Public Const PickDataFromRetestingTable = "Pick Data From Retesting Table"
+    Public Const ApplyTPT = "Apply Transpoter Commission"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4325,6 +4327,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, "0", "0:Pick Rate Manually, 1:Pick Rate from Master;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6137,6 +6140,7 @@ Public Class clsFixedParameterProgramMapping
 
         InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
 
