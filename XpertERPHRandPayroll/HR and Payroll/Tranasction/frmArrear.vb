@@ -4,7 +4,6 @@ Imports System
 Imports XpertERPEngine
 Imports Telerik.WinControls.UI
 Imports Telerik.WinControls
-
 Public Class frmArrear
     Inherits FrmMainTranScreen
     Const colApply As String = "Apply"
@@ -84,6 +83,7 @@ Public Class frmArrear
         gv1.EnableSorting = False
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
+        gv1.EnableFiltering = True
         gv1.AllowAddNewRow = False
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -95,13 +95,14 @@ Public Class frmArrear
     Sub Addnew()
         txtDocNo.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = clsCommon.GETSERVERDATE()
-        txtTodate.Value = clsCommon.GETSERVERDATE()
+        txtApplicabbleDate.Value = clsCommon.GETSERVERDATE()
+        txtDAArrear.Text = ""
         gv1.DataSource = Nothing
         LoadBlankGrid()
+        BtnGo.Enabled = True
         gv2.DataSource = Nothing
         txtmultPayperiod.arrValueMember = Nothing
-        txtmultPayperiod.arrValueMember = Nothing
+        txtmulLocation.arrValueMember = Nothing
         isNewEntry = True
         UsLock1.Status = ERPTransactionStatus.Pending
         btnSave.Text = "Save"
@@ -116,9 +117,7 @@ Public Class frmArrear
             End If
             LoadBlankGrid()
             Dim PMCond As String = "''"
-            Dim fromDate As Date = Date.Parse(txtFromDate.Value)
-            Dim toDate As Date = Date.Parse(txtTodate.Value)
-            Dim str As String = clsSalaryGeneration.GetArrearData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False, fromDate, toDate)
+            Dim str As String = clsSalaryGeneration.GetArrearData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(str)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
@@ -136,6 +135,54 @@ Public Class frmArrear
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display ", Me.Text)
             End If
+            Dim payPeriod As String = clsCommon.GetMulcallString(txtmultPayperiod.arrValueMember)
+            Dim stringArray As String() = payPeriod.Replace("'", "").Split(","c)
+            Dim stringList As List(Of String) = New List(Of String)(stringArray)
+            If stringList IsNot Nothing AndAlso stringList.Count > 0 Then
+                Dim strPeriod As String = Nothing
+                Dim PayPeriodName As String = Nothing
+                For Each StrP As String In stringList
+                    If clsCommon.myLen(strPeriod) > 0 Then
+                        strPeriod += ",[" + StrP + "] As [" + StrP + "]"
+                        PayPeriodName += ",[" + StrP + "] "
+                    Else
+                        strPeriod = "[" + StrP + "] As [" + StrP + "]"
+                        PayPeriodName = "[" + StrP + "] "
+                    End If
+                Next
+                Dim DetailData As String = clsSalaryGeneration.GetArrearDetailData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
+
+                Dim Qry As String = "SELECT EMP_CODE, EMPLOYEE_NAME, 
+                       " + strPeriod + "
+                FROM (
+                    SELECT xy.EMP_CODE, 
+                           xy.EMPLOYEE_NAME, 
+                           xy.PAY_PERIOD_CODE, 
+                           SUM(xy.basic) AS basic
+                    FROM (" + DetailData + ")AS xy
+                    GROUP BY xy.EMP_CODE, xy.EMPLOYEE_NAME, xy.PAY_PERIOD_CODE
+                ) AS SourceTable
+                PIVOT (
+                    SUM(basic) 
+                    FOR PAY_PERIOD_CODE IN (" + PayPeriodName + ") 
+                ) AS PivotTable
+                ORDER BY CAST(EMP_CODE AS INT);
+                "
+                Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                gv2.DataSource = Nothing
+                gv2.Rows.Clear()
+                gv2.Columns.Clear()
+                gv2.GroupDescriptors.Clear()
+                gv2.MasterTemplate.SummaryRowsBottom.Clear()
+                gv2.DataSource = dt2
+                gv2.BestFitColumns()
+                gv2.EnableFiltering = True
+                gv2.ShowGroupPanel = False
+                If dt2 Is Nothing OrElse dt2.Rows.Count <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -147,20 +194,7 @@ Public Class frmArrear
     Private Sub txtmultPayperiod__My_Click(sender As Object, e As EventArgs) Handles txtmultPayperiod._My_Click
         Dim qry As String = " select TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE as [Code] ,TSPL_PAYPERIOD_MASTER.PAY_PERIOD_NAME as [Pay Period Name] ,TSPL_PAYPERIOD_MASTER.DATE_FROM as [Date From] ,TSPL_PAYPERIOD_MASTER.DATE_TO as [Date To] ,TSPL_PAYPERIOD_MASTER.DESCRIPTION as [Description] ,TSPL_PAYPERIOD_MASTER.POSTED as [Posted] ,TSPL_PAYPERIOD_MASTER.FREEZED as [Freezed] ,TSPL_PAYPERIOD_MASTER.Posting_Date as [Posting Date] ,TSPL_PAYPERIOD_MASTER.Created_By as [Created By] ,TSPL_PAYPERIOD_MASTER.Created_Date as [Created Date] ,TSPL_PAYPERIOD_MASTER.Modified_By as [Modified By] ,TSPL_PAYPERIOD_MASTER.Modified_Date as [Modified Date]  From TSPL_PAYPERIOD_MASTER  "
         txtmultPayperiod.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Code", txtmultPayperiod.arrValueMember, txtmultPayperiod.arrDispalyMember)
-        Dim payPeriod As String = clsCommon.GetMulcallString(txtmultPayperiod.arrValueMember)
-        Dim stringArray As String() = payPeriod.Replace("'", "").Split(","c)
-        Dim stringList As List(Of String) = New List(Of String)(stringArray)
-        If stringList IsNot Nothing AndAlso stringList.Count > 0 Then
-            Dim strPeriod As String = Nothing
-            For Each Str As String In stringList
-                If clsCommon.myLen(strPeriod) > 0 Then
-                    strPeriod += ",'" + Str + "' As [" + Str + "]"
-                Else
-                    strPeriod = "'" + Str + "' As [" + Str + "]"
-                End If
-            Next
 
-        End If
     End Sub
     Private Sub txtmulLocation__My_Click(sender As Object, e As EventArgs) Handles txtmulLocation._My_Click
         Dim qry As String = " select Location_Code as [Code],Location_Desc as [Description],TSPL_Location_MASTER.Loc_Short_Name as [Short Name],Add1,Add2,Add3,Add4,City_Code as [City Code],State,Pin_Code as [Pin Code],Country,Hoadd1 ,Hoadd2,Telphone,Email,Location_Type as [Location Type],Loc_Status as [Location Status],Status_Date as [Status Date],Excisable,Loc_Segment_Code as [Location Segment Code],Seg.Description as [Location Segment Description],Type,Purchase_Tax_Group as [Purchase Tax Group],Sales_Tax_Group as [Sales Tax Group],Ecc_Number as [ECC Number],Registration_Number as [Registration Number],Commissionerate as [Commission Rate],Range_Code as [Range Code],Range_Name as [Range Name],Range_Address as [Range Address],Division_Code as [Division Code],Division_Name as [Division Name],Division_Address as [Division Address],tspl_location_master.Created_By as [Created By],tspl_location_master.Created_Date as [Created Date],tspl_location_master.Modify_By as [Modify By],tspl_location_master.Modify_Date as [Modify Date],tspl_location_master.Comp_code as [Company Code],TIN_No as [TIN No],TAN_No as [TAN No],TCAN_No as [TCAN No],Service_Tax_Reg_No as [Service Tax Registration No],DutyPaid as [Duty Paid],Purchase_Tax_GroupIS as [Purchase Tax Group Inter State],Sales_Tax_GroupIS as [Sales Tax Group Inter State],Stock_Transfer_Filled_Ac as [Stock Transfer Filled Account],Stock_Transfer_Empty_Ac as [Stock Transfer Empty Account],GIT_Location as [GIT Location],GIT_Type as [GIT Type],Rejected_Type as [Rejected Type],Rejected_Location as [Rejected Location],CSA_Type as [CSA Type],Cust_Code as [Cust Code],CST_No as [CST No],Phone1,Phone2,stock_transfer_ac as [Stock Tranfer A/C],Loss_Ac as [Loss A/C] ,Is_Consumption_Location as [Is Consumption Location],Is_Section as [Is Section],Section_Code as [Section Code],Is_Sub_Location as [Is Sub Location],Main_Location_Code as [Main Location Code],IsSubLocationWise as [Is Sub Location Wise] from TSPL_Location_MASTER  left join TSPL_GL_SEGMENT_CODE as Seg on TSPL_Location_MASTER.Loc_Segment_Code=Seg.Segment_Code   where Location_Type='Physical' "
@@ -169,33 +203,8 @@ Public Class frmArrear
     Private Sub frmArrear_Load_1(sender As Object, e As EventArgs) Handles MyBase.Load
         Addnew()
         LoadBlankGrid()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
-        coll.Add("Document_Date", "datetime  NULL")
-        coll.Add("DA_Arrear", "NUMERIC(18,2)  NULL")
-        coll.Add("Pay_Period", "varchar(12) null")
-        coll.Add("Location", "varchar(12) null")
-        coll.Add("From_Date", "datetime  NULL")
-        coll.Add("To_Date", "datetime  NULL")
-        coll.Add("Created_By", "varchar(12)   NULL")
-        coll.Add("Created_Date", "datetime   NULL")
-        coll.Add("Modify_By", "varchar(12)   NULL")
-        coll.Add("Modify_Date", "datetime   NULL")
-        coll.Add("Posted_By", "varchar(12)   NULL")
-        coll.Add("Posted_Date", "datetime   NULL")
-        coll.Add("Status", "integer not null default 0")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DA_Arrear_Header", coll, "", True)
+        ' Dim coll As Dictionary(Of String, String)
 
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_Code", "varchar(30) null References TSPL_DA_Arrear_Header(Document_Code)")
-        coll.Add("Apply", "char(1) NULL")
-        coll.Add("Emp_Code", "varchar(12) null")
-        coll.Add("Basic", "decimal (18,2)  NULL")
-        coll.Add("DA", "decimal (18,2)  NULL")
-        coll.Add("DA_Arrear", "decimal (18,2) NULL")
-        coll.Add("PF", "decimal (18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DA_Arrear_Detail", coll, "", True)
     End Sub
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
@@ -214,14 +223,7 @@ Public Class frmArrear
                 txtDate.Focus()
                 Return False
             End If
-            If AllowFutureDateTransaction(txtFromDate.Value, Nothing) = False Then
-                txtFromDate.Focus()
-                Return False
-            End If
-            If AllowFutureDateTransaction(txtTodate.Value, Nothing) = False Then
-                txtTodate.Focus()
-                Return False
-            End If
+
             If clsCommon.myLen(txtmulLocation.arrValueMember) <= 0 Then
                 txtmulLocation.Focus()
                 txtmulLocation.Select()
@@ -246,11 +248,9 @@ Public Class frmArrear
             If AllowToSave() Then
                 obj.document_code = clsCommon.myCstr(txtDocNo.Value)
                 obj.document_date = clsCommon.myCDate(txtDate.Value)
-                obj.Location = clsCommon.myCstr(txtmulLocation.arrValueMember)
-                obj.Pay_Period = clsCommon.myCstr(txtmultPayperiod.arrValueMember)
-                obj.Fromdate = clsCommon.myCDate(txtFromDate.Value)
-                obj.Todate = clsCommon.myCDate(txtTodate.Value)
+                obj.Pay_Period = clsCommon.myCstr(fndFromPeriod.Value)
                 obj.DA_Arrear = clsCommon.myCdbl(txtDAArrear.Text)
+                obj.Applicable_date = clsCommon.myCDate(txtApplicabbleDate.Value)
                 obj.ArrD = New List(Of ClsDAArrearDetail)
                 For Each grow As GridViewRowInfo In gv1.Rows
                     objpd = New ClsDAArrearDetail()
@@ -265,6 +265,39 @@ Public Class frmArrear
                         objTr.GPF = clsCommon.myCdbl(grow.Cells(colBasic).Value)
                         obj.ArrD.Add(objTr)
                     End If
+                Next
+                Dim arrUserType As New List(Of String)
+
+                If txtmultPayperiod.arrValueMember IsNot Nothing Then
+                    For i As Integer = 0 To txtmultPayperiod.arrValueMember.Count - 1
+                        arrUserType.Add(txtmultPayperiod.arrValueMember(i))
+                    Next
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Please select at least one Pay Period", Me.Text)
+                    Exit Sub
+                End If
+                obj.Arr_PayPeriod = New List(Of clsPayPeriod_detail)
+                For i As Integer = 0 To arrUserType.Count - 1
+                    Dim objtr As New clsPayPeriod_detail
+                    objtr.PAY_PERIOD_Code = arrUserType(i)
+                    obj.Arr_PayPeriod.Add(objtr)
+                Next
+
+                Dim arrUserTypeLocation As New List(Of String)
+
+                If txtmulLocation.arrValueMember IsNot Nothing Then
+                    For i As Integer = 0 To txtmulLocation.arrValueMember.Count - 1
+                        arrUserTypeLocation.Add(txtmulLocation.arrValueMember(i))
+                    Next
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Please select at least one Location", Me.Text)
+                    Exit Sub
+                End If
+                obj.Arr_Location = New List(Of clsDALocation_detail)
+                For i As Integer = 0 To arrUserTypeLocation.Count - 1
+                    Dim objtr As New clsDALocation_detail
+                    objtr.Location = arrUserTypeLocation(i)
+                    obj.Arr_Location.Add(objtr)
                 Next
                 If clsDAArrear.SaveData(obj, isNewEntry) Then
                     If Not isPost Then
@@ -297,14 +330,13 @@ Public Class frmArrear
                 txtDocNo.Value = obj.document_code
                 txtDate.Value = obj.document_date
                 txtDAArrear.Text = obj.DA_Arrear
-                'txtmulLocation.arrValueMember = obj.Location
-                'txtmultPayperiod.arrValueMember = obj.Pay_Period
-                txtFromDate.Value = obj.Fromdate
-                txtTodate.Value = obj.Todate
+                fndFromPeriod.Value = obj.Pay_Period
+                txtApplicabbleDate.Value = obj.Applicable_date
                 UsLock1.Status = ERPTransactionStatus.Pending
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
                 btnPost.Enabled = True
+                BtnGo.Enabled = False
                 If obj.Status = 1 Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -323,6 +355,68 @@ Public Class frmArrear
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colEPF).Value = objtr.PF
                     Next
                 End If
+                Dim dtPayPeriod As DataTable = clsDBFuncationality.GetDataTable("select Pay_Period from TSPL_DAAREAR_PAYPERIOD_DETAIL  where Document_Code='" + obj.document_code + "'")
+                Dim Arr_Prod As New ArrayList
+                For Each dr As DataRow In dtPayPeriod.Rows
+                    Arr_Prod.Add(dr("Pay_Period"))
+                Next
+                txtmultPayperiod.arrValueMember = Arr_Prod
+
+                Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("select Location from TSPL_DAAREAR_Location_DETAIL  where Document_Code='" + obj.document_code + "'")
+                Dim Arr_Loc As New ArrayList
+                For Each dr As DataRow In dtLocation.Rows
+                    Arr_Loc.Add(dr("Location"))
+                Next
+                txtmulLocation.arrValueMember = Arr_Loc
+                Dim PMCond As String = "''"
+                Dim payPeriod As String = clsCommon.GetMulcallString(txtmultPayperiod.arrValueMember)
+                Dim stringArray As String() = payPeriod.Replace("'", "").Split(","c)
+                Dim stringList As List(Of String) = New List(Of String)(stringArray)
+                If stringList IsNot Nothing AndAlso stringList.Count > 0 Then
+                    Dim strPeriod As String = Nothing
+                    Dim PayPeriodName As String = Nothing
+                    For Each StrP As String In stringList
+                        If clsCommon.myLen(strPeriod) > 0 Then
+                            strPeriod += ",[" + StrP + "] As [" + StrP + "]"
+                            PayPeriodName += ",[" + StrP + "] "
+                        Else
+                            strPeriod = "[" + StrP + "] As [" + StrP + "]"
+                            PayPeriodName = "[" + StrP + "] "
+                        End If
+                    Next
+                    Dim DetailData As String = clsSalaryGeneration.GetArrearDetailData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
+
+                    Dim Qry As String = "SELECT EMP_CODE, EMPLOYEE_NAME, 
+                       " + strPeriod + "
+                FROM (
+                    SELECT xy.EMP_CODE, 
+                           xy.EMPLOYEE_NAME, 
+                           xy.PAY_PERIOD_CODE, 
+                           SUM(xy.basic) AS basic
+                    FROM (" + DetailData + ")AS xy
+                    GROUP BY xy.EMP_CODE, xy.EMPLOYEE_NAME, xy.PAY_PERIOD_CODE
+                ) AS SourceTable
+                PIVOT (
+                    SUM(basic) 
+                    FOR PAY_PERIOD_CODE IN (" + PayPeriodName + ") 
+                ) AS PivotTable
+                ORDER BY CAST(EMP_CODE AS INT);
+                "
+                    Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                    gv2.DataSource = Nothing
+                    gv2.Rows.Clear()
+                    gv2.Columns.Clear()
+                    gv2.GroupDescriptors.Clear()
+                    gv2.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv2.DataSource = dt2
+                    gv2.BestFitColumns()
+                    gv2.EnableFiltering = True
+                    gv2.ShowGroupPanel = False
+                    If dt2 Is Nothing OrElse dt2.Rows.Count <= 0 Then
+                        clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                        Exit Sub
+                    End If
+                End If
             End If
         Catch ex As Exception
             isNewEntry = True
@@ -339,7 +433,7 @@ Public Class frmArrear
             'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             '    whrClas = " Location in (" + objCommonVar.strCurrUserLocations + ") "
             'End If
-            Dim qry As String = "   	select Document_Code as Code,convert(varchar,Document_Date,103)DocumentDate,Case when status=0 then 'Pending' else 'Approved' end as 'Status',convert(varchar,from_date,103)FromDate,convert(varchar,to_date,103)ToDate from TSPL_DA_Arrear_Header "
+            Dim qry As String = " select Document_Code as Code,convert(varchar,Document_Date,103)DocumentDate,Case when status=0 then 'Pending' else 'Approved' end as 'Status' from TSPL_DA_Arrear_Header "
             LoadData(clsCommon.ShowSelectForm("OutgoingQC", qry, "Code", "", txtDocNo.Value, "Code", isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -397,7 +491,6 @@ Public Class frmArrear
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
-
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -411,7 +504,6 @@ Public Class frmArrear
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub frmArrear_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
@@ -426,5 +518,73 @@ Public Class frmArrear
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
+    End Sub
+    Sub print(ByVal exporter As EnumExportTo)
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Document not found")
+            End If
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add(("Date: " + clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")))
+            ' arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            If txtmulLocation.arrValueMember IsNot Nothing AndAlso txtmulLocation.arrValueMember.Count > 0 Then
+                Dim strLocationName As String = clsCommon.GetMulcallStringWithComma(txtmulLocation.arrValueMember)
+                arrHeader.Add((" Location : " + strLocationName + " "))
+            Else
+                arrHeader.Add((" Location : All"))
+            End If
+            If txtmultPayperiod.arrValueMember IsNot Nothing AndAlso txtmultPayperiod.arrValueMember.Count > 0 Then
+                Dim strCustomerCat As String = clsCommon.GetMulcallStringWithComma(txtmultPayperiod.arrValueMember)
+                arrHeader.Add((" Pay Period : " + strCustomerCat + " "))
+            End If
+
+            transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+            clsCommon.MyExportToPDF("Arrear Summary ", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
+    Private Sub rmExcel_Click(sender As Object, e As EventArgs) Handles rmExcel.Click
+        print(EnumExportTo.PDF)
+    End Sub
+    Sub printDetail(ByVal exporter As EnumExportTo)
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Document not found")
+            End If
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add(("Date: " + clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")))
+            'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            If txtmulLocation.arrValueMember IsNot Nothing AndAlso txtmulLocation.arrValueMember.Count > 0 Then
+                Dim strLocationName As String = clsCommon.GetMulcallStringWithComma(txtmulLocation.arrValueMember)
+                arrHeader.Add((" Location : " + strLocationName + " "))
+            Else
+                arrHeader.Add((" Location : All"))
+            End If
+            If txtmultPayperiod.arrValueMember IsNot Nothing AndAlso txtmultPayperiod.arrValueMember.Count > 0 Then
+                Dim strCustomerCat As String = clsCommon.GetMulcallStringWithComma(txtmultPayperiod.arrValueMember)
+                arrHeader.Add((" Pay Period : " + strCustomerCat + " "))
+            End If
+
+            transportSql.applyExportTemplate(gv2, PageSetupReport_ID)
+            clsCommon.MyExportToPDF("Arrear Detail ", gv2, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub rmPDF_Click(sender As Object, e As EventArgs) Handles rmPDF.Click
+        printDetail(EnumExportTo.PDF)
+    End Sub
+
+    Private Sub fndFromPeriod__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndFromPeriod._MYValidating
+        Try
+            Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
+           & " PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
+            fndFromPeriod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", fndFromPeriod.Value, "", isButtonClicked)
+            ' lblFromPeriodName.Text = clsPayPeriodMaster.GetName(fndFromPeriod.Value, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

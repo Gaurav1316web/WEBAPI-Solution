@@ -756,6 +756,8 @@ Public Class clsFixedParameterType
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const Hidedetaildate As String = "Hide Detail Date"
+
     Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
     Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
@@ -1679,6 +1681,8 @@ Public Class clsFixedParameterCode
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const Hidedetaildate As String = "Hide Detail Date"
+
     Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
     Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
@@ -3697,6 +3701,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, "0", "Mix FAT Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, "0", "0:Off, 1:On;")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, "0", "0:Off, 1:On;")
@@ -5068,6 +5074,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkProcurementUploader, clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, EnumControlType.CheckBox)
+
         ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FAAcquisitionEntry, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.POWeighment, clsFixedParameterType.AddHighSecurityOnWeighingIntegratedScreen, clsFixedParameterCode.AddHighSecurityOnWeighingIntegratedScreen, EnumControlType.CheckBox)
