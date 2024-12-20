@@ -6687,6 +6687,7 @@ Public Class clsCreateAllTable
             coll.Add("Unit_Code", "Varchar(12) NULL")
             coll.Add("Qty", "FLOAT NOT NULL DEFAULT 0")
             coll.Add("HSN_Code", "varchar(30)  NULL")
+            coll.Add("Scheme_Item", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
             '=====================
 
@@ -30409,6 +30410,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Unit_Code", "Varchar(12) NULL")
             coll.Add("GP_Qty", "Decimal(18,2) NULL")
             coll.Add("Trip_No", "int NULL")
+            coll.Add("Scheme_Item", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
 
             coll = New Dictionary(Of String, String)()

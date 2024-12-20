@@ -936,8 +936,9 @@ ISNULL(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' Then TSPL_VEHICLE_MASTER.N
 TSPL_LOCATION_MASTER.Add1  as Loc_ADd1,TSPL_LOCATION_MASTER.Add2  as LOC_ADD2,TSPL_LOCATION_MASTER.Add3 as LOC_ADD3,
 TSPL_STATE_MASTER.State_Name as LocationState, case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as LOCPhone,TSPL_LOCATION_MASTER.TIN_No as Loc_TIN_NO, 
 TSPL_SD_SALE_INVOICE_HEAD.Document_Code ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date ,TSPL_SD_SALE_INVOICE_HEAD.Description,  
-TSPL_SD_SALE_INVOICE_HEAD.Lorry_No,TSPL_ITEM_MASTER.Sku_Seq ,TSPL_SD_sale_invoice_DETAIL.Item_Code,(CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (TSPL_SD_sale_invoice_DETAIL.Line_No) end) as Line_No,TSPL_ITEM_MASTER.Item_Desc ,   
-TSPL_SD_sale_invoice_DETAIL.Crate as QtyCrates ,ITEMDETAIL2.Conversion_Factor As ConvFactInCrate,CEILING((TSPL_SD_sale_invoice_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL2.Conversion_Factor) As ConvQtyInCrate,TSPL_SD_sale_invoice_DETAIL.Unit_code, (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (convert(Decimal(18,2), TSPL_SD_sale_invoice_DETAIL.Qty )) end) as Qty_Default
+TSPL_SD_SALE_INVOICE_HEAD.Lorry_No,TSPL_ITEM_MASTER.Sku_Seq ,CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then TSPL_SD_sale_invoice_DETAIL.Item_Code + ' -Scheme' else
+TSPL_SD_sale_invoice_DETAIL.Item_Code end as Item_Code,(CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (TSPL_SD_sale_invoice_DETAIL.Line_No) end) as Line_No,CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then  TSPL_ITEM_MASTER.Item_Desc + ' -Scheme' else TSPL_ITEM_MASTER.Item_Desc  end as Item_Desc ,   
+TSPL_SD_sale_invoice_DETAIL.Crate as QtyCrates ,ITEMDETAIL2.Conversion_Factor As ConvFactInCrate,CEILING((TSPL_SD_sale_invoice_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL2.Conversion_Factor) As ConvQtyInCrate,TSPL_SD_sale_invoice_DETAIL.Unit_code, convert(Decimal(18,2), TSPL_SD_sale_invoice_DETAIL.Qty ) as Qty_Default
 ,(CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (convert(Decimal(18,2), case when TSPL_SD_sale_invoice_DETAIL.Qty > 0 then convert(DECIMAL(18,5),(case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else  TSPL_SD_sale_invoice_DETAIL.Amount end)/ (TSPL_SD_sale_invoice_DETAIL.Qty )) else 0 end )) end) as Rate_Default,  
 (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (convert(Decimal(18,2), TSPL_SD_sale_invoice_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) end) as QtyPCS , 
 coalesce( case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else SUB_QTY end,0) as free_qty, TSPL_SD_sale_invoice_DETAIL.Scheme_Item as FreeSchemeInLitres ,  
@@ -1030,7 +1031,7 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
             Qry += "        
 )TabBatch On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And TabBatch.Parent_Line_No = TSPL_SD_SALE_INVOICE_DETAIL.Line_No
                 where 2 = 2 And TSPL_SD_SALE_INVOICE_HEAD.Document_Code in   (" + strinvoiceNo + ")  
-And Not exists (select 1 from  (select  TSPL_SD_sale_invoice_DETAIL.Item_Code, TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE,TSPL_SD_sale_invoice_DETAIL.Line_No    from TSPL_SD_sale_invoice_DETAIL 
+And  exists (select 1 from  (select  TSPL_SD_sale_invoice_DETAIL.Item_Code, TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE,TSPL_SD_sale_invoice_DETAIL.Line_No    from TSPL_SD_sale_invoice_DETAIL 
 Left OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
 Left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And  TSPL_ITEM_UOM_DETAIL .UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code 
 Left OUTER JOIN TSPL_ITEM_MASTER  ON  TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code 
@@ -1040,9 +1041,9 @@ Left outer join TSPL_LOCATION_MASTER  on  TSPL_LOCATION_MASTER.Location_Code =TS
 Left OUTER JOIN   TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State 
 Full Join(select DOCUMENT_CODE, Item_Code As Scheme_Item_Code, SUM(Qty) As SUB_QTY, SUM(Crate) AS schemeInCrates 
 From TSPL_SD_sale_invoice_DETAIL As inn Where DOCUMENT_CODE In (" + strinvoiceNo + ") And inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code 
-where 2=2 And  TSPL_SD_SALE_INVOICE_HEAD.Document_Code In   (" + strinvoiceNo + ")  And TSPL_SD_sale_invoice_DETAIL.Scheme_Item='N')xx  
+where 2=2 And  TSPL_SD_SALE_INVOICE_HEAD.Document_Code In   (" + strinvoiceNo + ")  )xx  
 where xx.Item_Code = TSPL_SD_sale_invoice_DETAIL.item_CODE And xx.DOCUMENT_CODE = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
-And 2= (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 2 else 3 end)) and TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N'
+)
 ) as final 
 Left outer join ( Select Item_Code, max([CATEGORY RM]) As [CATEGORY RM], max([BRAND]) As [BRAND], max([SUB BRAND]) As [SUB BRAND], max([DESCRP]) As [DESCRP], max([PACK]) As [PACK], max([PACK SIZE]) As [PACK SIZE], max([CATEGORY OT]) As [CATEGORY OT], max([CATEGORY FA]) As [CATEGORY FA], max([P TYPE]) As [P TYPE], max([L TYPE]) As [L TYPE], max([JW]) As [JW], max([SCRAP]) As [SCRAP], max([CATEGORY RMDESC]) As [CATEGORY RMDESC], max([BRANDDESC]) As [BRANDDESC], max([SUB BRANDDESC]) As [SUB BRANDDESC], max([DESCRPDESC]) As [DESCRPDESC], max([PACKDESC]) As [PACKDESC], max([PACK SIZEDESC]) As [PACK SIZEDESC], max([CATEGORY OTDESC]) As [CATEGORY OTDESC], max([CATEGORY FADESC]) As [CATEGORY FADESC], max([P TYPEDESC]) As [P TYPEDESC], max([L TYPEDESC]) As [L TYPEDESC], max([JWDESC]) As [JWDESC], max([SCRAPDESC]) As [SCRAPDESC]  from ( Select * from (   Select TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code, TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code +'DESC' as Item_Category_CodeDesc,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc  
 From TSPL_ITEM_MASTER    
