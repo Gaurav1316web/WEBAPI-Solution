@@ -22,6 +22,7 @@ Partial Class frmCancelledTransactions_DairySale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
@@ -45,6 +46,7 @@ Partial Class frmCancelledTransactions_DairySale
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.cboModule = New common.Controls.MyComboBox()
         Me.RadLabel10 = New common.Controls.MyLabel()
+        Me.btnPrintCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblNoOfRecords = New common.Controls.MyLabel()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,6 +76,7 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -116,6 +119,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.lblNoOfRecords)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -322,22 +326,26 @@ Partial Class frmCancelledTransactions_DairySale
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(886, 233)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'cboTransaction
         '
         Me.cboTransaction.CalculationExpression = Nothing
+        Me.cboTransaction.DropDownAnimationEnabled = True
         Me.cboTransaction.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboTransaction.FieldCode = Nothing
         Me.cboTransaction.FieldDesc = Nothing
@@ -371,6 +379,7 @@ Partial Class frmCancelledTransactions_DairySale
         'cboModule
         '
         Me.cboModule.CalculationExpression = Nothing
+        Me.cboModule.DropDownAnimationEnabled = True
         Me.cboModule.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModule.FieldCode = Nothing
         Me.cboModule.FieldDesc = Nothing
@@ -401,6 +410,17 @@ Partial Class frmCancelledTransactions_DairySale
         Me.RadLabel10.TabIndex = 11
         Me.RadLabel10.Text = "Module"
         '
+        'btnPrintCancel
+        '
+        Me.btnPrintCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.None
+        Me.btnPrintCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintCancel.Location = New System.Drawing.Point(81, 3)
+        Me.btnPrintCancel.Name = "btnPrintCancel"
+        Me.btnPrintCancel.Size = New System.Drawing.Size(69, 22)
+        Me.btnPrintCancel.TabIndex = 7
+        Me.btnPrintCancel.Text = "Print"
+        '
         'btnReset
         '
         Me.btnReset.AccessibleRole = System.Windows.Forms.AccessibleRole.None
@@ -422,13 +442,13 @@ Partial Class frmCancelledTransactions_DairySale
         Me.lblNoOfRecords.TabIndex = 2
         Me.lblNoOfRecords.Text = "0 Record Found"
         '
-        'frmCancelledTransactions_Production
+        'frmCancelledTransactions_DairySale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(914, 459)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmCancelledTransactions_Production"
+        Me.Name = "frmCancelledTransactions_DairySale"
         '
         '
         '
@@ -466,6 +486,7 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
@@ -497,5 +518,6 @@ Partial Class frmCancelledTransactions_DairySale
     Friend WithEvents chkLocSelect As common.Controls.MyRadioButton
     Friend WithEvents chkLocAll As common.Controls.MyRadioButton
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnPrintCancel As RadButton
 End Class
 
