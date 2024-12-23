@@ -29,7 +29,6 @@ Public Class frmEMailAndSMSSetting
     Public Const MPCode As String = "$#MPCode#$"
     Public Const MPUploaderCode As String = "$#MPUploaderCode#$"
 
-
     Public Const VLCDataUploaderDate As String = "$#DATE#$"
     Public Const VLCDataUploaderShift As String = "$#SHIFT#$"
     Public Const VLCDataUploaderMP As String = "$#MPName#$"
@@ -66,7 +65,8 @@ Public Class frmEMailAndSMSSetting
     Public Const SalePerson_Code As String = "$#Sale_Code#$"
     Public Const SalePerson_Name As String = "$#Sale_Name#$"
     Public Const Doc_Date As String = "$#DATE#$"
-    Public Const Doc_No As String = "$#DocNo#$"
+    Public Const Shift As String = "$#SHIFT#$"
+    Public Const Doc_No As String = "$#InvoNo#$"
     Public Const Doc_Type As String = "$#Doc_Type#$"
     Public Const Cust_Code As String = "$#Cust_Code#$"
     Public Const Cust_Name As String = "$#Cust_Name#$"
@@ -175,6 +175,8 @@ Public Class frmEMailAndSMSSetting
     Public Const ContactPerson As String = "$#ContactPerson#$"
     Public Const TotalAmount As String = "$#TotalAmount#$"
     Public Const Form_Code As String = "$#Form_Code#$"
+    Public Const SupplyShift As String = "$#SupplyShift#$"
+    Public Const SupplyDate As String = "$#SupplyDate#$"
 
     Public Const DeliveryNo As String = "$#DeliveryNo#$"
     Public Const DeliveryDate As String = "$#DeliveryDate#$"
@@ -220,7 +222,7 @@ Public Class frmEMailAndSMSSetting
 
     Public Const Route As String = "$#Route#$"
     Public Const RouteName As String = "$#RouteName#$"
-    Public Const Shift As String = "$#Shift#$"
+
     Public Const Flushing As String = "$#Flushing#$"
     Public Const KgFAT As String = "$#KgFAT#$"
     Public Const KgSNF As String = "$#KgSNF#$"
@@ -1032,6 +1034,8 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(CustomerName)
             ContextMenuStrip1.Items.Add(LocationName)
             ContextMenuStrip1.Items.Add(Form_Code)
+            ContextMenuStrip1.Items.Add(SupplyShift)
+            ContextMenuStrip1.Items.Add(SupplyDate)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSaleReturnProductSale) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)

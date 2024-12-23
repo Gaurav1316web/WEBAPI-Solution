@@ -294,6 +294,7 @@ Public Class frmMCCMaterialSale
         LoadBlankGridTax()
         LoadItemType()
         LoadInvoiceType()
+        LoadDeductionType()
         LoadBlankGridAC()
         AddNew()
         SetLength()
@@ -489,6 +490,7 @@ Public Class frmMCCMaterialSale
         txtPriceCode.Text = ""
         txtRoundOff.Text = ""
         chkTaxable.Checked = False
+        cboDeductionType.SelectedValue = ""
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -2090,9 +2092,6 @@ Public Class frmMCCMaterialSale
                         OpenBatchItem()
                     End If
                     If e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colSchemeApplicable) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse e.Column Is gv1.Columns(colShortDesc) OrElse e.Column Is gv1.Columns(colUnit) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal) Then
-                        If (e.Column Is gv1.Columns(colRate)) Then
-
-                        End If
                         If (e.Column Is gv1.Columns(colQty) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse e.Column Is gv1.Columns(colDisPer) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal)) Then
                             If ((e.Column Is gv1.Columns(colQty))) Then
                                 Dim dblPendingQty As Double = 0
@@ -2655,18 +2654,15 @@ Public Class frmMCCMaterialSale
         '----------------------------------------------------------------
         If clsCommon.CompairString(strItemType, RowTypeItem) = CompairStringResult.Equal Then
             Dim qry As String
-            qry = "select * from (select a.DESCRIPTION,a.cat_value, TSPL_ITEM_MASTER.item_code as Item,TSPL_ITEM_MASTER.item_desc as [ItemDesc],TSPL_ITEM_MASTER.Short_Description, " _
-            & " TSPL_ITEM_MASTER.Unit_Code as Unit , TSPL_ITEM_MASTER.Rate as BasicRate,TSPL_ITEM_MASTER.rate as MRP, Weight_Value as [Weight Value] from " _
-            & " TSPL_ITEM_MASTER    left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code," _
-            & " TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value " _
-            & " from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=" _
-            & " TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join " _
-            & " TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code" _
-            & " and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a" _
-            & " on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code "
-
+            qry = "select * from (
+select a.DESCRIPTION,a.cat_value, TSPL_ITEM_MASTER.item_code as Item,TSPL_ITEM_MASTER.item_desc as [ItemDesc],TSPL_ITEM_MASTER.Short_Description, 
+TSPL_ITEM_MASTER.Unit_Code as Unit , TSPL_ITEM_MASTER.Rate as BasicRate,TSPL_ITEM_MASTER.rate as MRP, Weight_Value as [Weight Value] 
+from TSPL_ITEM_MASTER    
+left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,
+TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value  from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' 
+left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code "
             Dim whrcls As String = " "
-            whrcls = " TSPL_ITEM_MASTER.Active = 1 And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
+            whrcls = " TSPL_ITEM_MASTER.Active = 1 and TSPL_ITEM_MASTER.Deduction_Type='" + clsCommon.myCstr(cboDeductionType.SelectedValue) + "' And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) Then
                 whrcls += " and TSPL_ITEM_MASTER.IsTaxable='" + IIf(chkTaxable.Checked, "1", "0") + "'"
             End If
@@ -3441,6 +3437,7 @@ Public Class frmMCCMaterialSale
                 obj.Price_Code = txtPriceCode.Text
                 obj.HeadDisc_Per = txtDiscPer.Text
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
+                obj.Deduction_Type = clsCommon.myCstr(cboDeductionType.SelectedValue)
                 If obj.HeadDisc_Per > 0 Then
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
@@ -4367,6 +4364,7 @@ Public Class frmMCCMaterialSale
                 'chkCreateAutoReceipt.Visible = chkCreateAutoInvoice.Checked
                 chkCreateAutoReceipt.Checked = obj.Is_Create_Auto_Receipt
                 chkTaxable.Checked = obj.Is_Taxable
+                cboDeductionType.SelectedValue = obj.Deduction_Type
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsMCCMaterialSaleDetail In obj.Arr
                         gv1.Rows.AddNew()
@@ -6861,6 +6859,12 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         dt.Rows.Add(dr)
         Return dt
     End Function
+    Sub LoadDeductionType()
+        Dim qry As String = "select '' as Code, '<--Select-->' as Name union all select Document_No as Code, Description as Name from TSPL_DEDUCTION_TYPE_MASTER"
+        cboDeductionType.DataSource = clsDBFuncationality.GetDataTable(qry)
+        cboDeductionType.ValueMember = "Code"
+        cboDeductionType.DisplayMember = "Name"
+    End Sub
     Sub LoadInvoiceType()
         ddlInvoiceType.DataSource = GetInvoiceType()
         ddlInvoiceType.ValueMember = "Code"

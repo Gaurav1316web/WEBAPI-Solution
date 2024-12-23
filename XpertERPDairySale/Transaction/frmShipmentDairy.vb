@@ -9418,7 +9418,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.I AndAlso btnAddNew.Enabled Then
-            PrintInvoiveForAll()
+            PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.T Then
             chkRateDefaultSetting.Visible = Not chkRateDefaultSetting.Visible
             chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
@@ -12574,15 +12574,31 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         'End If
         ''
         ''
-        PrintInvoiveForAll()
+        PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
     End Sub
-    Private Sub PrintInvoiveForAll()
+    Function PrintInvoiveForAll(ByVal DocCode As String, ByVal docDate As DateTime, ByVal invoiceCode As String, ByVal isCancel As Boolean) As String
         Try
+            Dim CancelTable1 As String = Nothing
+            Dim CancelTable2 As String = Nothing
+            Dim CancelTable3 As String = Nothing
+            Dim CancelTable4 As String = Nothing
+            If isCancel Then
+                CancelTable1 = " TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data As TSPL_SD_sale_invoice_DETAIL "
+                CancelTable2 = " TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data As TSPL_SD_SALE_INVOICE_HEAD "
+                CancelTable3 = " TSPL_SD_SHIPMENT_HEAD_Cancel_Data As TSPL_SD_SHIPMENT_HEAD "
+                CancelTable4 = " TSPL_SD_SHIPMENT_DETAIL_Cancel_Data As TSPL_SD_SHIPMENT_DETAIL "
+            Else
+                CancelTable1 = " TSPL_SD_SALE_INVOICE_DETAIL"
+                CancelTable2 = " TSPL_SD_SALE_INVOICE_HEAD "
+                CancelTable3 = " TSPL_SD_SHIPMENT_HEAD "
+                CancelTable4 = " TSPL_SD_SHIPMENT_DETAIL "
+            End If
+
             Dim Qry As String = Nothing
             Dim frmCRV As New frmCrystalReportViewer()
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice
             Dim ItemMain As String = Nothing
-            Dim itemScheme As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SD_sale_invoice_DETAIL where Shipment_Code='" + txtDocNo.Value + "' and Scheme_Applicable='Y'"))
+            Dim itemScheme As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from " + CancelTable1 + " where Shipment_Code='" + DocCode + "' and Scheme_Applicable='Y'"))
 
             If itemScheme > 0 Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
@@ -12610,19 +12626,19 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             'Else
             '    ItemMain = "Y"
             'End If
-            If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+            If Not isCancel AndAlso clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
                 myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
             Else
                 Dim dtDocdate As Date?
                 dtDocdate = Nothing
-                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"
+                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from " + CancelTable2 + " where Document_Code='" + invoiceCode + "'"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
                 If dt1.Rows.Count > 0 Then
                     'IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
                     dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                 End If
-                Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAd where Document_Code in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + txtDocNo.Value + "')"), "Sale_Invoice_No")
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, txtDate.Value, txtVendorNo.Value, ItemMain)
+                Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from " + CancelTable3 + " where Document_Code in(select Document_Code from " + CancelTable3 + " where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, txtVendorNo.Value, ItemMain, CancelTable1, CancelTable2, CancelTable3, CancelTable4, isCancel)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
@@ -12660,7 +12676,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End Try
-    End Sub
+        Return Nothing
+    End Function
     Private Sub btnDrillDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDrillDown.Click
         If clsCommon.myLen(txtReqNo.Value) > 0 Then
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSNSalesOrder, txtReqNo.Value)
@@ -15128,7 +15145,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
     End Sub
 
     Private Sub RadMenuItem9_Click(sender As Object, e As EventArgs) Handles RadMenuItem9.Click
-        PrintInvoiveForAll()
+        PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
     End Sub
 
     Private Sub RadMenuItem10_Click(sender As Object, e As EventArgs) Handles RadMenuItem10.Click
@@ -15187,7 +15204,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
     End Sub
 
     Private Sub btnPrintInvoice_Click_1(sender As Object, e As EventArgs) Handles btnPrintInvoice.Click
-        PrintInvoiveForAll()
+        PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
     End Sub
 End Class
 Class tempSchemStructrue

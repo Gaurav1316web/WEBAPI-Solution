@@ -189,7 +189,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12)  Not NULL")
             coll.Add("Modified_Date", "datetime  Not NULL")
             coll.Add("Description_Hindi", "nvarchar(100) NULL ")
-
+            coll.Add("SNo", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -30201,6 +30201,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BoothSecurity_TotalAmt", "decimal(18,2) null")
             coll.Add("IS_TCS", "Integer not null default 0")
             coll.Add("Vehicle_Type", "varchar(10) null")
+            coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -31944,6 +31945,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("isCardSale", "integer not null default 0")
             coll.Add("IsAdvanceTaxGlEntry", "integer null")
             coll.Add("MonthlySaleInvoiceNo", "varchar(30) NULL")
+            coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)
