@@ -82,6 +82,7 @@ Public Class clsFixedParameterType
     Public Const AndroidMilkCollectionBMCDCS As String = "Android Milk Collection BMC DCS"
     Public Const AndroidDemandBooking As String = "Android Demand Booking"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
+    Public Const DCSQtyDecimalPlaces As String = "DCS Qty Decimal Places"
     Public Const MPIncentiveEntryCycleWiseButNEFTMonthly As String = "MP Incentive Entry Cycle Wise But NEFT Monthly"
     Public Const MPIncentiveEntryMaxMilkLimit As String = "MP Incentive Entry Max Milk Limit"
     Public Const MPIncentiveEntryIncentiveRate As String = "MP Incentive Entry Incentive Rate"
@@ -1423,6 +1424,7 @@ Public Class clsFixedParameterCode
     Public Const comtecxpertsoftposerode As String = "com.tecxpertsoft.amirthaa.erode"
     Public Const XpertMilkCollection As String = "XpertMilkCollection"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
+    Public Const DCSQtyDecimalPlaces As String = "DCS Qty Decimal Places"
     Public Const MPIncentiveEntryCycleWiseButNEFTMonthly As String = "MP Incentive Entry Cycle Wise But NEFT Monthly"
     Public Const MPIncentiveEntryMaxMilkLimit As String = "MP Incentive Entry Max Milk Limit"
     Public Const MPIncentiveEntryIncentiveRate As String = "MP Incentive Entry Incentive Rate"
@@ -2940,6 +2942,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comtecxpertsoftposerode, "", "Version of Amirtha Sales APP [0 Skip]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.XpertMilkCollection, "1.0.0.0", "Xpert Milk Collection Version Control[0.0.0.0 Skip]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, "0", "1:On Apply Monthly,0:Off Apply Payment Cycle Wise")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DCSQtyDecimalPlaces, clsFixedParameterCode.DCSQtyDecimalPlaces, "2", "Value should be 0 to 3")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MPIncentiveEntryCycleWiseButNEFTMonthly, clsFixedParameterCode.MPIncentiveEntryCycleWiseButNEFTMonthly, "0", "1:On,0:Off")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MPIncentiveEntryMaxMilkLimit, clsFixedParameterCode.MPIncentiveEntryMaxMilkLimit, "10000", "Max Farmer milk Limit in a Cycle")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, "0", "Mp Incentive Rate")
@@ -4454,6 +4457,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMPMaster, clsFixedParameterType.BankIFSCCodeValidateByService, clsFixedParameterCode.BankIFSCCodeValidateByService, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.MPIncentiveEntryCycleWiseButNEFTMonthly, clsFixedParameterCode.MPIncentiveEntryCycleWiseButNEFTMonthly, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MPIncentiveEntry, clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.DCSQtyDecimalPlaces, clsFixedParameterCode.DCSQtyDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MPIncentiveEntry, clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MPIncentiveEntry, clsFixedParameterType.MPIncentiveEntryMaxMilkLimit, clsFixedParameterCode.MPIncentiveEntryMaxMilkLimit, EnumControlType.NumericBox)
         'InsertDefaultValue(clsUserMgtCode.VLCProgressReport, clsFixedParameterType.TrendDiffValueForColor, clsFixedParameterCode.TrendDiffValueForColor, EnumControlType.NumericBox)

@@ -1,8 +1,4 @@
-﻿
-Imports common
-Imports System.Data.SqlClient
-Imports System.Windows.Forms
-Imports Telerik.WinControls
+﻿Imports System.Data.SqlClient
 
 '============================Update by preeti gupta====against ticket no[BM00000008159]
 Public Class clsMCCMaterialSale
@@ -185,6 +181,7 @@ Public Class clsMCCMaterialSale
     Public ReceiverName As String = ""
     Public TotalSubsidyAmt As Double = 0
     Public TotalSubsidyDisAmt As Double = 0
+    Public Deduction_Type As String = Nothing
 
 
 #End Region
@@ -305,6 +302,18 @@ Public Class clsMCCMaterialSale
                 End If
             End If
         End If
+
+        qry = "select 1 from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Deduction_Type<>'" + obj.Deduction_Type + "' and Item_Code in ("
+        For Each objtr As clsMCCMaterialSaleDetail In obj.Arr
+            If clsCommon.CompairString(objtr.Row_Type, "Item") = CompairStringResult.Equal Then
+                qry += "'" + objtr.Item_Code + "'"
+            End If
+        Next
+        qry += ")"
+        dt = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Throw New Exception("Deduction type of All item should be [" + obj.Deduction_Type + "]")
+        End If
         Return True
     End Function
 
@@ -318,7 +327,7 @@ Public Class clsMCCMaterialSale
             ''
             ''BHA/09/05/18-000015 By balwinder on 10/05/2018
             AllowToSave(obj, trans)
-            clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
+            clsSerializeInvenotry.DeleteData("SD-In", obj.Document_Code, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
             End If
@@ -443,6 +452,7 @@ Public Class clsMCCMaterialSale
                 obj.InvoiceManualNowithPrefix = Doc_Code
             End If
 
+            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
             '---------------------------------------------------------------------------------------
             clsCommon.AddColumnsForChange(coll, "Customer_Code", obj.Customer_Code)
             clsCommon.AddColumnsForChange(coll, "On_Hold", IIf(obj.On_Hold, 1, 0))
@@ -787,7 +797,7 @@ Public Class clsMCCMaterialSale
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity,TSPL_SD_SHIPMENT_HEAD.RoundOffAmount,TSPL_SD_SHIPMENT_HEAD.Is_Taxable, TSPL_SD_SHIPMENT_HEAD.Electronic_Ref_No " &
-        ",TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt "
+        ",TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt,TSPL_SD_SHIPMENT_HEAD.Deduction_Type "
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SHIPMENT_HEAD.Ship_To_Location "
@@ -836,6 +846,7 @@ Public Class clsMCCMaterialSale
             If dt.Rows(0)("EWayBillDate") IsNot DBNull.Value Then
                 obj.EWayBillDate = clsCommon.myCDate(dt.Rows(0)("EWayBillDate"))
             End If
+            obj.Deduction_Type = clsCommon.myCstr(dt.Rows(0)("Deduction_Type"))
             obj.Electronic_Ref_No = clsCommon.myCstr(dt.Rows(0)("Electronic_Ref_No"))
             obj.EWayBillNo = clsCommon.myCstr(dt.Rows(0)("EWayBillNo"))
             obj.SO_Validity = clsCommon.myCdbl(dt.Rows(0)("SO_Validity"))
@@ -1685,6 +1696,7 @@ Public Class clsMCCMaterialSale
     Private Shared Function ConvertShipmentToSaleInvoice(ByVal objShipment As clsMCCMaterialSale) As clsPSInvoiceHead
         Dim obj As New clsPSInvoiceHead()
         obj = New clsPSInvoiceHead()
+        obj.Deduction_Type = objShipment.Deduction_Type
         obj.Item_Tax_Type = objShipment.isTaxExempted
         obj.podate = objShipment.Document_Date
         obj.Total_Comm_Amt = objShipment.Total_Comm_Amt
