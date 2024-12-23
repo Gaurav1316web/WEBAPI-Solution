@@ -1587,7 +1587,7 @@ Public Class clsSalaryGeneration
         Dim dt As DataTable
         Dim FinalQry As String = ""
         Try
-            FinalQry = GetArrearData(arrPayPeriodCode, arrLocation, arrDivision, strOuterCond, WithArrear, fromdate, todate) & " ORDER BY CAST(EMP_CODE AS INT) asc "
+            FinalQry = GetArrearData(arrPayPeriodCode, arrLocation, arrDivision, strOuterCond, WithArrear) & " ORDER BY CAST(EMP_CODE AS INT) asc "
             If clsCommon.myLen(FinalQry) > 0 Then
                 dt = clsDBFuncationality.GetDataTable(FinalQry)
             Else
@@ -1886,7 +1886,7 @@ Public Class clsSalaryGeneration
         End Try
         Return FinalQry
     End Function
-    Public Shared Function GetArrearData(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal withArrear As Boolean, ByVal fromdate As Date, ByVal todate As Date, Optional ByVal trans As SqlTransaction = Nothing) As String
+    Public Shared Function GetArrearData(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal withArrear As Boolean, Optional ByVal trans As SqlTransaction = Nothing) As String
         Dim dt As DataTable
         Dim FinalQry As String = ""
         Try
@@ -1926,8 +1926,55 @@ Public Class clsSalaryGeneration
                 Dim strQry As String = clsCommon.myCstr(dt.Rows(0)(0))
 
                 FinalQry = " select ([EMP_CODE]) as [EMP_CODE],([EMPLOYEE_NAME]) as [EMPLOYEE_NAME],sum([basic]) as [basic],sum([da]) as [da],sum([Gross]) as [Gross], sum([vepf]) as [vepf] from (" & strQry & ")xy
-						   left outer join (Select DATE_FROM,DATE_TO,PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER )PAyhead on PAyhead.PAY_PERIOD_CODE=xy.PAY_PERIOD_CODE where convert(date,DATE_FROM,103)>=convert(date,'" + fromdate + "',103) and convert(date,DATE_TO,103)<=convert(date,'" + todate + "',103)
 						   group by EMP_CODE,EMPLOYEE_NAME "
+            Else
+                FinalQry = ""
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return FinalQry
+    End Function
+    Public Shared Function GetArrearDetailData(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal withArrear As Boolean, Optional ByVal trans As SqlTransaction = Nothing) As String
+        Dim dt As DataTable
+        Dim FinalQry As String = ""
+        Try
+            '' done by panch Raj Against Ticket No : BM00000007870 on 17/09/2015
+            'Dim objPF As clsPFRulesMaster = clsPFRulesMaster.GetRecentPFRule(arrPayPeriodCode.Item(0), trans)
+            Dim qry As String = ""
+            qry = "declare @TYPE TYPE_TSPL_HEADWISE_SALARY , @STRQ VARCHAR(MAX); "
+            qry = qry & "insert into @TYPE "
+            If Not arrPayPeriodCode Is Nothing AndAlso arrPayPeriodCode.Count > 0 Then
+                For Each Str As String In arrPayPeriodCode
+                    If arrPayPeriodCode.IndexOf(Str) = 0 Then
+                        qry = qry & " select '" & Str & "',null,null "
+                    Else
+                        qry = qry & " union all  select '" & Str & "',null,null "
+                    End If
+                Next
+            End If
+            If Not arrLocation Is Nothing AndAlso arrLocation.Count > 0 Then
+                For Each Str As String In arrLocation
+                    qry = qry & " union all  select null,'" & Str & "',null "
+                Next
+            End If
+            If Not arrDivision Is Nothing AndAlso arrDivision.Count > 0 Then
+                For Each Str As String In arrDivision
+                    qry = qry & " union all  select null,null,'" & Str & "' "
+                Next
+            End If
+            If withArrear Then
+                qry += " EXEC TSPL_HEADWISE_SALARY_With_Arrear @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            Else
+                qry += " EXEC TSPL_HEADWISE_SALARY @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            End If
+
+            qry += "SELECT @STRQ; "
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim strQry As String = clsCommon.myCstr(dt.Rows(0)(0))
+
+                FinalQry = strQry
             Else
                 FinalQry = ""
             End If
@@ -5489,7 +5536,8 @@ Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MA
        & "     ) " _
        & "     FROM TSPL_SALARY_CALCULATION 
              left JOIN TSPL_EMPLOYEE_MASTER  ON TSPL_EMPLOYEE_MASTER.EMP_CODE = TSPL_SALARY_CALCULATION.EMP_CODE WHERE " _
-       & "     COALESCE (FORMULA_AMOUNT, '') <> '' " _
+       & "     COALESCE (FORMULA_AMOUNT, '') <> ''
+       " _
        & "     AND LINE_NO IS NOT NULL  and HEAD_TYPE='F' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
 
         If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
