@@ -511,9 +511,9 @@ Public Class frmSaleReturnDairy
 
     Private Sub ReStoreGridLayout()
         Try
-            If clsCommon.myLen(ReportID) > 0 Then
+            If clsCommon.myLen(MyBase.Form_ID) > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
-                obj = CType(obj.GetData(ReportID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                obj = CType(obj.GetData(Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
                 If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
                     Dim ii As Integer
                     For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
@@ -4212,6 +4212,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 Dim dblPendingQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colPendingQty).Value)
                 Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
                 Dim dblDamageQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDamageQty).Value)
+                Dim dblActualQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value)
                 Dim dblBalSaleQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colBalanceQty).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
                 If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then
@@ -4227,57 +4228,60 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                             'common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                             'Return False
                         End If
-
+                        If (dblActualQty + dblDamageQty) > dblQty Then
+                            common.clsCommon.MyMessageBoxShow("Actual Quantity and Damaged Quantity can't exceed Return Quantity")
+                            Return False
+                        End If
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colSchemeItem).Value), "No") = CompairStringResult.Equal Then
-                            If clsCommon.CompairString(strUOM, clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) = CompairStringResult.Equal Then
-                                If dblQty > dblBalSaleQty Then
-                                    common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblBalSaleQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                                    Return False
+                                If clsCommon.CompairString(strUOM, clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) = CompairStringResult.Equal Then
+                                    If dblQty > dblBalSaleQty Then
+                                        common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblBalSaleQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                                        Return False
+                                    End If
                                 End If
-                            End If
 
 
-                            ''richa agarwal CHECK QTY with balance qty through conversion ERO/30/06/20-001270
-                            If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) > 0 Then
-                                Dim Qry As String = "select convert(decimal(18,2),(" & clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty FROM  tspl_item_uom_detail LtrUnit " & Environment.NewLine &
+                                ''richa agarwal CHECK QTY with balance qty through conversion ERO/30/06/20-001270
+                                If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) > 0 Then
+                                    Dim Qry As String = "select convert(decimal(18,2),(" & clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty FROM  tspl_item_uom_detail LtrUnit " & Environment.NewLine &
 " left join tspl_item_uom_detail StockUnit on StockUnit.item_code='" & strICode & "'    and StockUnit.Stocking_Unit ='Y' " & Environment.NewLine &
 " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code='" & strICode & "' WHERE  CurrentUnit.uom_code='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value) & "' AND  LtrUnit.item_code='" & strICode & "' and LtrUnit.UOM_Code='" & strUOM & "'"
 
-                                Dim dblConvertedQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
-                                If dblConvertedQty > dblBalSaleQty Then
-                                    common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblConvertedQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblBalSaleQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                                    Return False
+                                    Dim dblConvertedQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
+                                    If dblConvertedQty > dblBalSaleQty Then
+                                        common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblConvertedQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblBalSaleQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                                        Return False
+                                    End If
                                 End If
-                            End If
 
-                        End If
-                        ''richa agarwal CHECK QTY for scheme item 
-                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colSchemeItem).Value), "Yes") = CompairStringResult.Equal Then
-                            If clsCommon.CompairString(strUOM, clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) = CompairStringResult.Equal Then
-                                If clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) > dblQty Then
-                                    common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblBalSaleQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                                    Return False
+                            End If
+                            ''richa agarwal CHECK QTY for scheme item 
+                            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colSchemeItem).Value), "Yes") = CompairStringResult.Equal Then
+                                If clsCommon.CompairString(strUOM, clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) = CompairStringResult.Equal Then
+                                    If clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) > dblQty Then
+                                        common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblBalSaleQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                                        Return False
+                                    End If
                                 End If
-                            End If
 
-                            If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) > 0 Then
-                                Dim Qry As String = "select convert(decimal(18,2),(" & clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty FROM  tspl_item_uom_detail LtrUnit " & Environment.NewLine &
+                                If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) > 0 Then
+                                    Dim Qry As String = "select convert(decimal(18,2),(" & clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty FROM  tspl_item_uom_detail LtrUnit " & Environment.NewLine &
 " left join tspl_item_uom_detail StockUnit on StockUnit.item_code='" & strICode & "'    and StockUnit.Stocking_Unit ='Y' " & Environment.NewLine &
 " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code='" & strICode & "' WHERE  CurrentUnit.uom_code='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value) & "' AND  LtrUnit.item_code='" & strICode & "' and LtrUnit.UOM_Code='" & strUOM & "'"
 
-                                Dim dblConvertedQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
-                                If dblConvertedQty > dblQty Then
-                                    common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblConvertedQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblBalSaleQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                                    Return False
+                                    Dim dblConvertedQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
+                                    If dblConvertedQty > dblQty Then
+                                        common.clsCommon.MyMessageBoxShow(Me, "Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblConvertedQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblBalSaleQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                                        Return False
+                                    End If
                                 End If
+
                             End If
 
+                            ''end of scheme item
+
+
                         End If
-
-                        ''end of scheme item
-
-
-                    End If
                         If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal AndAlso IsBatchDetailMandatory(gv1.Rows(ii).Cells(colUnit).Value) Then
                         If clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value) <= 0 Then
                             common.clsCommon.MyMessageBoxShow(Me, "Please enter MRP No for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
@@ -4357,8 +4361,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     Next
                 End If
             Next
-
-
             'clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
             clsPSInvoiceHead.IsValidCustomer(arrReqNo, txtVendorNo.Value, txtDate.Value)
             UcCustomFields1.AllowToSave()
@@ -7878,19 +7880,18 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
 
     Private Sub RadMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem1.Click
-        If clsCommon.myLen(ReportID) > 0 Then
+        If clsCommon.myLen(MyBase.Form_ID) > 0 Then
             gv1.MasterTemplate.FilterDescriptors.Clear()
             Dim obj As New clsGridLayout()
-            obj.ReportID = ReportID
+            obj.ReportID = MyBase.Form_ID
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout = New MemoryStream()
             gv1.SaveLayout(obj.GridLayout)
-            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
+            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
-            ''stuti regarding memory leakage
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
         End If
@@ -7937,7 +7938,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
 
     Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem4.Click
-        clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
+        'clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
+        clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
     End Sub
 
     Private Sub rbtnTaxCalAutomatic_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnTaxCalAutomatic.ToggleStateChanged, rbtnTaxCalManual.ToggleStateChanged

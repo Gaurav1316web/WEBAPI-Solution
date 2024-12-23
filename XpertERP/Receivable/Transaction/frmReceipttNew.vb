@@ -297,6 +297,7 @@ Public Class FrmReceipttNew
             UcCustomFields1.Report_ID = MyBase.Form_ID
             UcCustomFields1.LoadCustomControls()
         End If
+
         '---------End of For Custom Fields----
         Me.txtBaseCurrency.Value = objCommonVar.BaseCurrencyCode
         SetMultiCurrencyVisibility()
@@ -398,14 +399,16 @@ Public Class FrmReceipttNew
         If index > 0 Then
             Cust_Code = sender.tag.ToString.Substring(0, index)
             Doc_Date = sender.tag.ToString.Substring(index + 1)
+
+            fndCustomer.Value = Cust_Code
+            dtRcpt.Value = Doc_Date
+            If clsCommon.myLen(fndCustomer.Value) > 0 Then
+                chk = True
+            End If
+            txtCusName.Text = clsCustomerMaster.GetName(fndCustomer.Value, Nothing)
         End If
 
-        fndCustomer.Value = Cust_Code
-        dtRcpt.Value = Doc_Date
-        If clsCommon.myLen(fndCustomer.Value) > 0 Then
-            chk = True
-        End If
-        txtCusName.Text = clsCustomerMaster.GetName(fndCustomer.Value, Nothing)
+
 
     End Sub
     Sub SetMultiCurrencyVisibility()
@@ -2093,6 +2096,11 @@ Public Class FrmReceipttNew
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
+        AddNew()
+
+    End Sub
+
+    Private Sub AddNew()
         funReset()
         ValidateLength()
         ApplyReadOptions()
