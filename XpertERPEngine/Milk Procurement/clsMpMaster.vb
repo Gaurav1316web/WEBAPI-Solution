@@ -122,7 +122,7 @@ Public Class clsMpMaster
                         obj.BankCityCode = clsCommon.myCstr(dt.Rows(0)("CITY"))
                     End If
                     obj.AccountNO = clsCommon.myCstr(grow.Cells("Account Number").Value)
-                    Dim chkCount As Decimal = clsCommon.myCDecimal("select COUNT(*) from TSPL_MP_MASTER where MP_Code='" + obj.MP_Code + "'")
+                    Dim chkCount As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_MP_MASTER where MP_Code='" + clsCommon.myCstr(obj.MP_Code) + "'", trans))
                     If chkCount > 0 Then
                         Dim UpdateQry As String = "Update TSPL_MP_MASTER Set BankName='" + obj.BankName + "',IFCICode='" + obj.IFCICode + "',AccountNO='" + obj.AccountNO + "' Where MP_Code='" + obj.MP_Code + "'"
                         clsDBFuncationality.ExecuteNonQuery(UpdateQry, trans)

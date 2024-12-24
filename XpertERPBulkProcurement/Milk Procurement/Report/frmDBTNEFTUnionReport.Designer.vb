@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmDBTNEFTUnionReport
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,12 +20,13 @@ Partial Class frmDBTNEFTUnionReport
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkOnlyReject = New System.Windows.Forms.CheckBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
@@ -36,7 +37,8 @@ Partial Class frmDBTNEFTUnionReport
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
-        Me.chkOnlyReject = New System.Windows.Forms.CheckBox()
+        Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -54,6 +56,7 @@ Partial Class frmDBTNEFTUnionReport
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -70,6 +73,7 @@ Partial Class frmDBTNEFTUnionReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -86,7 +90,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 407)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -103,6 +107,16 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'chkOnlyReject
+        '
+        Me.chkOnlyReject.AutoSize = True
+        Me.chkOnlyReject.Location = New System.Drawing.Point(334, 16)
+        Me.chkOnlyReject.Name = "chkOnlyReject"
+        Me.chkOnlyReject.Size = New System.Drawing.Size(84, 17)
+        Me.chkOnlyReject.TabIndex = 15
+        Me.chkOnlyReject.Text = "Only Reject"
+        Me.chkOnlyReject.UseVisualStyleBackColor = True
         '
         'txtToDate
         '
@@ -197,7 +211,7 @@ Partial Class frmDBTNEFTUnionReport
         '
         '
         '
-        Me.Gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.Gv.Name = "Gv"
         Me.Gv.Size = New System.Drawing.Size(779, 359)
         Me.Gv.TabIndex = 0
@@ -238,15 +252,21 @@ Partial Class frmDBTNEFTUnionReport
         Me.btnReport.TabIndex = 7
         Me.btnReport.Text = ">>>"
         '
-        'chkOnlyReject
+        'btnExp
         '
-        Me.chkOnlyReject.AutoSize = True
-        Me.chkOnlyReject.Location = New System.Drawing.Point(334, 16)
-        Me.chkOnlyReject.Name = "chkOnlyReject"
-        Me.chkOnlyReject.Size = New System.Drawing.Size(84, 17)
-        Me.chkOnlyReject.TabIndex = 15
-        Me.chkOnlyReject.Text = "Only Reject"
-        Me.chkOnlyReject.UseVisualStyleBackColor = True
+        Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel})
+        Me.btnExp.Location = New System.Drawing.Point(236, 10)
+        Me.btnExp.Name = "btnExp"
+        Me.btnExp.Size = New System.Drawing.Size(83, 21)
+        Me.btnExp.TabIndex = 158
+        Me.btnExp.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
         '
         'frmDBTNEFTUnionReport
         '
@@ -278,6 +298,7 @@ Partial Class frmDBTNEFTUnionReport
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -297,4 +318,6 @@ Partial Class frmDBTNEFTUnionReport
     Friend WithEvents Gv As RadGridView
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents chkOnlyReject As CheckBox
+    Friend WithEvents btnExp As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
 End Class
