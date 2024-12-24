@@ -7,9 +7,11 @@ Public Class frmShipmentDairy
 #Region "Variables"
     Dim trans As SqlTransaction = Nothing
     Dim ParentDocNo As String = ""
+    Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
     Dim ApplyTPT As Boolean = False
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
+    Dim AllowManualCrateForDispatch As Boolean = True
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
     Dim EnableVehicleType As Boolean = False
@@ -449,6 +451,7 @@ Public Class frmShipmentDairy
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         AllowIncreaseDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, Nothing)) = 1, True, False)
         DisableRouteandVehicle = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, Nothing)) = 1, True, False)
+        AllowManualCrateForDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)) = 1, True, False)
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -482,6 +485,7 @@ Public Class frmShipmentDairy
         ConvertPouchtoCrateonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
         EnableVehicleType = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, Nothing)) = 1, True, False)
+        SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
@@ -5852,6 +5856,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                     End If
                 Next
+                'txtCrate.Value = dblCrateQty
                 If rbtnTaxCalAutomatic.IsChecked Then
                     For ii As Integer = 1 To gv2.Rows.Count
                         If Not clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") = CompairStringResult.Equal OrElse (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code IN (select Tax_Code  from TSPL_TAX_GROUP_DETAILS WHERE TAX_GROUP_CODE='" & txtTaxGroup.Value & "') AND Is_TCS ='Y'", trans)) > 0) Then
@@ -6295,6 +6300,17 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         gvCC.Rows.Clear()
         gvCC.Columns.Clear()
         gv1.ReadOnly = False
+        Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+        Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
+        If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+            txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+            cmbShift.SelectedValue = "PM"
+
+        Else
+            txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+            cmbShift.SelectedValue = "AM"
+        End If
+        cmbDisItemType.SelectedValue = "T"
     End Sub
     Private Sub isValid_CashScheme()
         Dim scheme_Code As String = ""
@@ -9418,7 +9434,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.I AndAlso btnAddNew.Enabled Then
-            PrintInvoiveForAll()
+            PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.T Then
             chkRateDefaultSetting.Visible = Not chkRateDefaultSetting.Visible
             chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
@@ -11237,9 +11253,16 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                             txtCrate.Value = 0
                         End If
                     Else
+                        If AllowManualCrateForDispatch Then
+                            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                                'txtCrate.Value = TotalCrate
+                            Else
+                                txtCrate.Value = TotalCrate
+                            End If
+                        End If
                         txtCrate.Value = TotalCrate
                     End If
-                End If
+                    End If
                 If AutoCalculateCAN = 1 Then
                     If clsCommon.myLen(strICode) > 0 Then 'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColFOC).Value) = 0
                         '' Anubhooti 11-Sep-2014 BM00000003847
@@ -11277,7 +11300,10 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                         TotalCan = TotalCan + gv1.Rows(i).Cells(colCan).Value
                     Next
                     If clsCommon.myCdbl(TotalCan) > 0 Then
+
                         TxtTotalCAN.Value = TotalCan
+
+
                     Else
                         TxtTotalCAN.Value = 0
                     End If
@@ -12574,15 +12600,31 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         'End If
         ''
         ''
-        PrintInvoiveForAll()
+        PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
     End Sub
-    Private Sub PrintInvoiveForAll()
+    Function PrintInvoiveForAll(ByVal DocCode As String, ByVal docDate As DateTime, ByVal invoiceCode As String, ByVal isCancel As Boolean) As String
         Try
+            Dim CancelTable1 As String = Nothing
+            Dim CancelTable2 As String = Nothing
+            Dim CancelTable3 As String = Nothing
+            Dim CancelTable4 As String = Nothing
+            If isCancel Then
+                CancelTable1 = " TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data As TSPL_SD_sale_invoice_DETAIL "
+                CancelTable2 = " TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data As TSPL_SD_SALE_INVOICE_HEAD "
+                CancelTable3 = " TSPL_SD_SHIPMENT_HEAD_Cancel_Data As TSPL_SD_SHIPMENT_HEAD "
+                CancelTable4 = " TSPL_SD_SHIPMENT_DETAIL_Cancel_Data As TSPL_SD_SHIPMENT_DETAIL "
+            Else
+                CancelTable1 = " TSPL_SD_SALE_INVOICE_DETAIL"
+                CancelTable2 = " TSPL_SD_SALE_INVOICE_HEAD "
+                CancelTable3 = " TSPL_SD_SHIPMENT_HEAD "
+                CancelTable4 = " TSPL_SD_SHIPMENT_DETAIL "
+            End If
+
             Dim Qry As String = Nothing
             Dim frmCRV As New frmCrystalReportViewer()
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice
             Dim ItemMain As String = Nothing
-            Dim itemScheme As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SD_sale_invoice_DETAIL where Shipment_Code='" + txtDocNo.Value + "' and Scheme_Applicable='Y'"))
+            Dim itemScheme As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from " + CancelTable1 + " where Shipment_Code='" + DocCode + "' and Scheme_Applicable='Y'"))
 
             If itemScheme > 0 Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
@@ -12610,19 +12652,19 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             'Else
             '    ItemMain = "Y"
             'End If
-            If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+            If Not isCancel AndAlso clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
                 myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
             Else
                 Dim dtDocdate As Date?
                 dtDocdate = Nothing
-                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"
+                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from " + CancelTable2 + " where Document_Code='" + invoiceCode + "'"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
                 If dt1.Rows.Count > 0 Then
                     'IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
                     dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                 End If
-                Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAd where Document_Code in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + txtDocNo.Value + "')"), "Sale_Invoice_No")
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, txtDate.Value, txtVendorNo.Value, ItemMain)
+                Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from " + CancelTable3 + " where Document_Code in(select Document_Code from " + CancelTable3 + " where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, txtVendorNo.Value, ItemMain, CancelTable1, CancelTable2, CancelTable3, CancelTable4, isCancel)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
@@ -12660,7 +12702,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
         End Try
-    End Sub
+        Return Nothing
+    End Function
     Private Sub btnDrillDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDrillDown.Click
         If clsCommon.myLen(txtReqNo.Value) > 0 Then
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSNSalesOrder, txtReqNo.Value)
@@ -15128,7 +15171,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
     End Sub
 
     Private Sub RadMenuItem9_Click(sender As Object, e As EventArgs) Handles RadMenuItem9.Click
-        PrintInvoiveForAll()
+        PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
     End Sub
 
     Private Sub RadMenuItem10_Click(sender As Object, e As EventArgs) Handles RadMenuItem10.Click
@@ -15187,7 +15230,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
     End Sub
 
     Private Sub btnPrintInvoice_Click_1(sender As Object, e As EventArgs) Handles btnPrintInvoice.Click
-        PrintInvoiveForAll()
+        PrintInvoiveForAll(clsCommon.myCstr(txtDocNo.Value), txtDate.Value, clsCommon.myCstr(txtInvoiceNo.Text), False)
     End Sub
 End Class
 Class tempSchemStructrue
