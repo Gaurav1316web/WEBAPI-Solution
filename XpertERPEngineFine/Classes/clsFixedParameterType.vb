@@ -1294,6 +1294,9 @@ Public Class clsFixedParameterType
     Public Const EnableVehicleType = "Enable Vehicle Type"
     Public Const PickDataFromRetestingTable = "Pick Data From Retesting Table"
     Public Const ApplyTPT = "Apply Transpoter Commission"
+    Public Const AllowMultipleUOMForProduct = "Allow Multiple UOM For Product"
+    Public Const AllowManualCrateForDispatch = "Allow Manual Crate For Dispatch"
+    Public Const SetDefaultShiftTime = "Set Default Shift Time"
 End Class
 Public Class clsFixedParameterCode
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
@@ -2729,6 +2732,9 @@ Public Class clsFixedParameterCode
     Public Const EnableVehicleType = "Enable Vehicle Type"
     Public Const PickDataFromRetestingTable = "Pick Data From Retesting Table"
     Public Const ApplyTPT = "Apply Transpoter Commission"
+    Public Const AllowMultipleUOMForProduct = "Allow Multiple UOM For Product"
+    Public Const AllowManualCrateForDispatch = "Allow Manual Crate For Dispatch"
+    Public Const SetDefaultShiftTime = "Set Default Shift Time"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4295,6 +4301,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, "0", "Enter Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, "10:05 AM", "Enter Shift Time Out")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, "04:15 PM", "Enter Default Shift Time")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToSelectShift, clsFixedParameterCode.AllowToSelectShift, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, "0", "0:Off, 1:On;")
@@ -4328,6 +4335,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, "0", "0:Pick Rate Manually, 1:Pick Rate from Master;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6106,6 +6115,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPriceChartBulkProc, clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, clsFixedParameterType.AllowToSelectShift, clsFixedParameterCode.AllowToSelectShift, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, EnumControlType.CheckBox)
@@ -6141,6 +6151,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
 
