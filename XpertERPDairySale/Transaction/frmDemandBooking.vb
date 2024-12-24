@@ -7,10 +7,12 @@ Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim gvFullMode As Boolean = False
+    Dim SetDefaultShiftTime As String = ""
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
     Dim DisableRouteandVehicle As Boolean = False
+    Dim AllowMultipleUOMForProduct As Boolean = False
     Dim EnableResetDemand As Boolean = False
     Dim ConvertPouchtoCrate As Boolean = False
     Dim DontCreateForPouch As Boolean = False
@@ -57,6 +59,7 @@ Public Class frmDemandBooking
     Const colCrate As String = "colCrate"
     Const colLitre As String = "colLitre"
     Const colPCount As String = "colPCount"
+    Const colPCrate As String = "colPCrate"
     Const colPAmt As String = "colPAmt"
     Const colMAmt As String = "colMAmt"
     Const colAmt As String = "COLAMT"
@@ -111,6 +114,8 @@ Public Class frmDemandBooking
             UpdateDemandBeforePost = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UpdateDemandBeforePost, clsFixedParameterCode.UpdateDemandBeforePost, Nothing)) = 1, True, False)
             AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
             DontCreateForPouch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DontCreateForPouch, clsFixedParameterCode.DontCreateForPouch, Nothing)) = 1, True, False)
+            AllowMultipleUOMForProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, Nothing)) = 1, True, False)
+            SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
 
             AddNew()
             SetUserMgmtNew()
@@ -367,7 +372,9 @@ Public Class frmDemandBooking
     Select 'Ambient' as FreshAmbient,tspl_item_master.Item_Code ,tspl_item_master.Short_Description,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,2 as RowNo,tspl_item_master.Sku_Seq,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_ITEM_UOM_DETAIL.Stocking_Unit   from tspl_item_master 
     Left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
     where  tspl_item_master.Is_Ambient = 1 And isnull(TSPL_ITEM_MASTER.CAN, 0) = 0 And isnull(TSPL_ITEM_MASTER.CRATE, 0) = 0 And Item_Type ='F' and tspl_item_master.Active=1 and tspl_item_master.Is_DisplayDemand=1
-    And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1 "
+And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
+
+
         End If
         qry += " )z order by RowNo,Sku_Seq,Item_Code"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -430,6 +437,23 @@ Public Class frmDemandBooking
         repoMAmt.IsPinned = True
         repoCrate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoMAmt)
+        Dim repoPCrate As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoPCrate = New GridViewDecimalColumn()
+        repoPCrate.FormatString = ""
+        repoPCrate.HeaderText = "PCrate"
+        repoPCrate.Name = colPCrate
+        repoPCrate.Width = 80
+        repoPCrate.Minimum = 0
+        repoPCrate.ReadOnly = True
+        If AllowMultipleUOMForProduct Then
+            repoPCrate.IsVisible = True
+        Else
+            repoPCrate.IsVisible = False
+        End If
+
+        repoPCrate.IsPinned = True
+        repoCrate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoPCrate)
         Dim repoPCount As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoPCount = New GridViewDecimalColumn()
         repoPCount.FormatString = ""
@@ -494,7 +518,7 @@ Public Class frmDemandBooking
             intCurrRow = 0
             gv1.CurrentRow = gv1.Rows(intCurrRow)
         End If
-        If gv1.CurrentColumn Is gv1.Columns(gv1.Columns.Count - 8) Then
+        If gv1.CurrentColumn Is gv1.Columns(gv1.Columns.Count - 9) Then
         End If
     End Sub
     Private Sub setGridFocusHome()
@@ -509,9 +533,9 @@ Public Class frmDemandBooking
     Private Sub setGridFocusEnd()
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         If gv1.Rows.Count > 0 Then
-            gv1.Rows(intCurrRow).Cells(gv1.Columns.Count - 8).IsSelected = True
+            gv1.Rows(intCurrRow).Cells(gv1.Columns.Count - 9).IsSelected = True
             gv1.Rows(intCurrRow).IsCurrent = True
-            gv1.Columns(gv1.Columns.Count - 8).IsCurrent = True
+            gv1.Columns(gv1.Columns.Count - 9).IsCurrent = True
         End If
     End Sub
     Private Sub setPagedown()
@@ -559,7 +583,7 @@ Public Class frmDemandBooking
                 Dim TempColGroupCount As Integer = 1
                 Dim obj As ItemValueClass = New ItemValueClass()
                 Dim i As Integer = 1
-                For dblcolumns As Integer = 9 To gv1.Columns.Count - 8
+                For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
                         If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -584,6 +608,7 @@ Public Class frmDemandBooking
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colCrate).Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colLitre).Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colMAmt).Name)
+                view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colPCrate).Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colPCount).Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colPAmt).Name)
                 view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colAmt).Name)
@@ -648,7 +673,7 @@ Public Class frmDemandBooking
             SplitButtonTruckSheet.Enabled = False
             btn_TSCancel.Enabled = True
             btn_Gatepass.Enabled = False
-            btnPrint.Enabled = False
+            btnPrint.Enabled = True
             btn_TSCancel.Enabled = False
             btn_GPCancel.Enabled = False
             txtcustomersearch.Text = ""
@@ -700,6 +725,16 @@ Public Class frmDemandBooking
             LoadBlankGrid()
             FlagPaste = False
             RefreshFormName()
+            Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
+            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                txtDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+                rbtnEvening.IsChecked = True
+
+            Else
+                txtDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+                rbtnMorning.IsChecked = True
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -937,7 +972,7 @@ Public Class frmDemandBooking
                         End If
                         Dim k As Integer = 1
                         Dim isCustRouteNotChanged As Boolean = True
-                        For dblcolumns As Integer = 9 To gv1.Columns.Count - 8
+                        For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
                             If obj1 IsNot Nothing Then
@@ -1208,7 +1243,7 @@ Public Class frmDemandBooking
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), objTr.ShiftType) = CompairStringResult.Equal Then
                                 gv1.Rows(dblrows).Cells(colCreated_By).Value = objTr.Created_By
                                 Dim k As Integer = 1
-                                For columns = 9 To gv1.Columns.Count - 8
+                                For columns = 9 To gv1.Columns.Count - 9
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.ShiftType, "Morning") = CompairStringResult.Equal Then
@@ -1337,8 +1372,13 @@ Public Class frmDemandBooking
     End Function
     Private Sub btnPrint_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         Try
-            LoadData(txtDocNo.Value, NavigatorType.Current)
-            Export()
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                LoadData(txtDocNo.Value, NavigatorType.Current)
+                Export()
+            Else
+                Throw New Exception("Document not found!")
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1588,6 +1628,9 @@ Public Class frmDemandBooking
                     qry += " and ItemType='Both' "
                 End If
             End If
+            If chkIndividualCustomer.Checked Then
+                qry += " and IsIndividualCustomer=1 "
+            End If
             Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             If clsCommon.myLen(DocNo) > 0 Then
                 LoadData(DocNo, NavigatorType.Current)
@@ -1662,7 +1705,7 @@ Public Class frmDemandBooking
             If rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "' ")
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    For dblcolumns As Integer = 9 To gv1.Columns.Count - 8
+                    For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
                         Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                         If obj1 IsNot Nothing Then
                             If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -1820,7 +1863,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 Throw New Exception(ex.Message)
                             End Try
                             Try
-                                For dblcolumns As Integer = 9 To gv1.Columns.Count - 8
+                                For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                                     If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code).ToUpper, "POUCH") = CompairStringResult.Equal Then
                                         gv1.Rows(n).Cells(dblcolumns).Style.DrawFill = True
@@ -1959,7 +2002,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 End If
             Next
             Dim k As Integer = 1
-            For dblcolumns As Integer = 9 To gv1.Columns.Count - 8
+            For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 If obj1 IsNot Nothing Then
                     If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
@@ -2139,10 +2182,12 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim TotalCrate As Double = 0
             Dim TotalLitre As Double = 0
             Dim TotalPCount As Double = 0
+            Dim TotalPCrate As Double = 0
             Dim TotalPAmt As Double = 0
             Dim TotalMAmt As Double = 0
             Dim dblTotalDocAmtRowWise As Decimal = 0
             Dim dblTotalCrateRowWise As Double = 0
+            Dim dblTotalPCrateRowWise As Double = 0
             Dim dblTotalLitreRowWise As Double = 0
             Dim strPriceCode As String = String.Empty
             Dim strItemValueExist As String = String.Empty
@@ -2151,6 +2196,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim dblDocTotalLitre As Double = 0
             Dim dblDocTotalAmt As Double = 0
             Dim dblTotalPCount As Double = 0
+            Dim dblTotalPCrate As Double = 0
             Dim dblToalPouchCount As Double = 0
             Dim dblTotalPAmt As Double = 0
             Dim dblTotalMAmt As Double = 0
@@ -2158,7 +2204,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             For dblrows As Integer = 0 To gv1.Rows.Count - 2
                 Dim k As Integer = 1
                 TotalCrate = 0
+                dblTotalPCrate = 0
                 dblTotalCrateRowWise = 0
+                dblTotalPCrateRowWise = 0
                 TotalLitre = 0
                 dblTotalLitreRowWise = 0
                 dblTotalDocAmtRowWise = 0
@@ -2167,7 +2215,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 9 To gv1.Columns.Count - 8
+                For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -2220,6 +2268,40 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 obj1.FreshItem_QtyInLitres = dblTotalLitreRowWise
                                 ''---------end of litre conversion
                             Else
+                                If AllowMultipleUOMForProduct Then
+                                    If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
+                                        TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                    Else
+                                        Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
+                                        If ItemCrateType = 1 Then
+                                            Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+                                            Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                                            Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                                If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                                                    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+                                                    'If ConvertPouchtoCrate Then
+                                                    If DispatchQty > (CrateConvFactor / 2) Then
+                                                        dblTotalPCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
+                                                    Else
+                                                        dblTotalPCrateRowWise = 0
+                                                    End If
+                                                    'ElseIf DontCreateForPouch Then
+                                                    '    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
+                                                    'Else
+                                                    '    If DispatchQty > (CrateConvFactor / 2) Then
+                                                    '        dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                                    '    Else
+                                                    '        dblTotalCrateRowWise = 0
+                                                    '    End If
+                                                    'End If
+                                                End If
+                                            End If
+                                            dblTotalPCrate = dblTotalPCrate + dblTotalPCrateRowWise
+                                            'obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
+                                        End If
+                                    End If
+                                End If
                                 dblTotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                             End If
                             strItemValueExist = "Yes"
@@ -2373,6 +2455,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 gv1.Rows(dblrows).Cells(colLitre).Value = Math.Round(clsCommon.myCdbl(TotalLitre), 2)
                 gv1.Rows(dblrows).Cells(colMAmt).Value = clsCommon.myCdbl(dblTotalMAmt)
                 gv1.Rows(dblrows).Cells(colPCount).Value = clsCommon.myCdbl(dblTotalPCount)
+                If AllowMultipleUOMForProduct Then
+                    gv1.Rows(dblrows).Cells(colPCrate).Value = clsCommon.myCdbl(dblTotalPCrate)
+                End If
                 gv1.Rows(dblrows).Cells(colPAmt).Value = clsCommon.myCdbl(dblTotalPAmt)
                 gv1.Rows(dblrows).Cells(colAmt).Value = clsCommon.myCdbl(dblTotalDocAmtRowWise)
                 If clsCommon.myLen(gv1.Rows(dblrows).Cells(colItemExist)) > 0 Then
@@ -2383,6 +2468,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 dblDocTotalCrate = dblDocTotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
                 TotalPAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPAmt).Value)
                 TotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPCount).Value)
+                TotalPCrate += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPCrate).Value)
                 TotalMAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colMAmt).Value)
             Next
             lblTotalCrate.Text = clsCommon.myCdbl(dblDocTotalCrate)
@@ -2391,6 +2477,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             lblDocumentAmt.Text = clsCommon.myCdbl(TotalMAmt)
             txtPCount.Text = clsCommon.myCdbl(TotalPCount)
             txtPAmt.Text = clsCommon.myCdbl(TotalPAmt)
+            txtTotalPCrate.Text = clsCommon.myCdbl(TotalPCrate)
             UpdateColumnTotal()
             gv1.Rows(gv1.Rows.Count - 1).IsPinned = True
             gv1.Rows(gv1.Rows.Count - 1).PinPosition = PinnedRowPosition.Bottom
@@ -2447,9 +2534,11 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim TotalLitre As Double = 0
             Dim TotalPCount As Double = 0
             Dim TotalPAmt As Double = 0
+            Dim TotalPCrate As Double = 0
             Dim TotalMAmt As Double = 0
             Dim dblTotalDocAmtRowWise As Decimal = 0
             Dim dblTotalCrateRowWise As Double = 0
+            Dim dblTotalPCrateRowWise As Double = 0
             Dim dblTotalLitreRowWise As Double = 0
             Dim strPriceCode As String = String.Empty
             Dim strItemValueExist As String = String.Empty
@@ -2458,14 +2547,16 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim dblDocTotalLitre As Double = 0
             Dim dblDocTotalAmt As Double = 0
             Dim dblTotalPCount As Double = 0
+            Dim dblTotalPCrate As Double = 0
             Dim dblToalPouchCount As Double = 0
             Dim dblTotalPAmt As Double = 0
             Dim dblTotalMAmt As Double = 0
             Dim colTotalQty As Double = 0
             For dblrows As Integer = 0 To gv1.Rows.Count - 2
                 Dim k As Integer = 1
-                TotalCrate = 0
+                dblTotalPCrate = 0
                 dblTotalCrateRowWise = 0
+                dblTotalPCrateRowWise = 0
                 TotalLitre = 0
                 dblTotalLitreRowWise = 0
                 dblTotalDocAmtRowWise = 0
@@ -2474,7 +2565,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 9 To gv1.Columns.Count - 8
+                For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -2543,6 +2634,40 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 obj1.FreshItem_QtyInLitres = dblTotalLitreRowWise
                                 ''---------end of litre conversion
                             Else
+                                If AllowMultipleUOMForProduct Then
+                                    If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
+                                        TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                    Else
+                                        Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
+                                        If ItemCrateType = 1 Then
+                                            Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+                                            Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                                            Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                                                If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                                                    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+                                                    'If ConvertPouchtoCrate Then
+                                                    If DispatchQty > (CrateConvFactor / 2) Then
+                                                        dblTotalPCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
+                                                    Else
+                                                        dblTotalPCrateRowWise = 0
+                                                    End If
+                                                    'ElseIf DontCreateForPouch Then
+                                                    '    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
+                                                    'Else
+                                                    '    If DispatchQty > (CrateConvFactor / 2) Then
+                                                    '        dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                                    '    Else
+                                                    '        dblTotalCrateRowWise = 0
+                                                    '    End If
+                                                    'End If
+                                                End If
+                                            End If
+                                            dblTotalPCrate = dblTotalPCrate + dblTotalPCrateRowWise
+                                            'obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
+                                        End If
+                                    End If
+                                End If
                                 dblTotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                             End If
                         End If
@@ -2551,6 +2676,10 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 gv1.Rows(dblrows).Cells(colCrate).Value = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
                 gv1.Rows(dblrows).Cells(colLitre).Value = Math.Round(clsCommon.myCdbl(TotalLitre), 2)
                 gv1.Rows(dblrows).Cells(colPCount).Value = clsCommon.myCdbl(dblTotalPCount)
+                If AllowMultipleUOMForProduct Then
+                    gv1.Rows(dblrows).Cells(colPCrate).Value = clsCommon.myCdbl(dblTotalPCrate)
+
+                End If
                 If clsCommon.myLen(gv1.Rows(dblrows).Cells(colItemExist)) > 0 Then
                     gv1.Rows(dblrows).Cells(colItemExist).Value = strItemValueExist
                 End If
@@ -2914,7 +3043,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 rbtnMorning.Focus()
                 Exit Sub
             End If
-            clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsTruckSheetGenerated='Y' where document_no='" & txtDocNo.Value & "' and ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'")
+            'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsTruckSheetGenerated='Y' where document_no='" & txtDocNo.Value & "' and ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'")
             '    Dim Qry As String = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin
             ',TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc
             ',Main_Final.shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc
@@ -4729,7 +4858,7 @@ left join TSPL_CUSTOMER_MASTER on XXXFinal.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_C
                                     Dim code As String = clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value)
                                     If arrCustCodeExist.Contains(code) Then
                                         If clsCommon.CompairString(clsCommon.myCstr(gvImport.Rows(ii).Cells(2).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value)) = CompairStringResult.Equal Then
-                                            For kk As Integer = 5 To arrVisbleColumns.Count - 8
+                                            For kk As Integer = 5 To arrVisbleColumns.Count - 9
                                                 If clsCommon.myCDecimal(gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value) <> clsCommon.myCDecimal(gvImport.Rows(ii).Cells(kk).Value) Then
                                                     gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value = gvImport.Rows(ii).Cells(kk).Value
                                                 End If
@@ -4863,7 +4992,7 @@ left join TSPL_CUSTOMER_MASTER on XXXFinal.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_C
                     For dblrow As Integer = 0 To gv1.Rows.Count - 2
                         If clsCommon.CompairString(gv1.Rows(dblrow).Cells(colCustCode).Value, clsCommon.myCstr(dr.Item("Cust_Code"))) = CompairStringResult.Equal Then
                             Dim k As Integer = 1
-                            For dblcolumns As Integer = 9 To gv1.Columns.Count - 8
+                            For dblcolumns As Integer = 9 To gv1.Columns.Count - 9
                                 Dim obj1 As ItemValueClass = Nothing
                                 Try
                                     obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
