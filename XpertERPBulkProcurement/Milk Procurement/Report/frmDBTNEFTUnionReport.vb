@@ -92,7 +92,14 @@ Public Class frmDBTNEFTUnionReport
         End If
         query = ""
         Dim Qry As String = Nothing
-        dt = clsMilkUnion.UnionDBName()
+        Dim arrUnion As New ArrayList()
+        arrUnion.Add(objCommonVar.CurrComp_Code1)
+        If objCommonVar.RCDFCFP Then
+            dt = clsMilkUnion.UnionDBName()
+        Else
+            dt = clsMilkUnion.UnionDBName1(arrUnion)
+        End If
+        '  dt = clsMilkUnion.UnionDBName()
 
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For ii As Integer = 0 To dt.Rows.Count - 1
@@ -441,5 +448,35 @@ Public Class frmDBTNEFTUnionReport
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+
+    Private Sub ExportGrid(ByVal exporter As EnumExportTo)
+        Try
+            If Gv.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmAutoAdditionDeductionReport & "'"))
+
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            arrHeader.Add("Report Name : " + strHeading)
+            arrHeader.Add("Date Range from : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
+
+            transportSql.applyExportTemplate(Gv, PageSetupReport_ID)
+            If exporter = EnumExportTo.Excel Then
+                'transportSql.QuickExportToExcel(Gv1, "", Me.Text,, arrHeader)
+                transportSql.exportdata(Gv, "", Me.Text, , arrHeader, False, True)
+            Else
+                clsCommon.MyExportToPDF(strHeading, Gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub btnExp_Click(sender As Object, e As EventArgs) Handles btnExp.Click
+        ExportGrid(EnumExportTo.Excel)
     End Sub
 End Class

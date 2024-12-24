@@ -228,11 +228,13 @@ Partial Class frmEmployee_Salary
         Me.gvSalary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSalary.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSalary.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSalary.MyStopExport = False
         Me.gvSalary.Name = "gvSalary"
         Me.gvSalary.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSalary.ShowHeaderCellButtons = True
         Me.gvSalary.Size = New System.Drawing.Size(964, 273)
         Me.gvSalary.TabIndex = 4
+        Me.gvSalary.VarID = ""
         '
         'MyLabel2
         '

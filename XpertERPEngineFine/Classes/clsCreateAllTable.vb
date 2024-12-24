@@ -127,6 +127,44 @@ Public Class clsCreateAllTable
             coll.Add("item_code", "VARCHAR(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TEMP_DELETE_ITEM_COST", coll)
 
+
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "datetime  NULL")
+            coll.Add("DA_Arrear", "NUMERIC(18,2)  NULL")
+            coll.Add("Pay_Period", "varchar(12) null")
+            coll.Add("Created_By", "varchar(12)   NULL")
+            coll.Add("Created_Date", "datetime   NULL")
+            coll.Add("Modify_By", "varchar(12)   NULL")
+            coll.Add("Modify_Date", "datetime   NULL")
+            coll.Add("Posted_By", "varchar(12)   NULL")
+            coll.Add("Posted_Date", "datetime   NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Applicable_date", "datetime  NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DA_Arrear_Header", coll, "", True)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_Code", "varchar(30) null References TSPL_DA_Arrear_Header(Document_Code)")
+            coll.Add("Apply", "char(1) NULL")
+            coll.Add("Emp_Code", "varchar(12) null")
+            coll.Add("Basic", "decimal (18,2)  NULL")
+            coll.Add("DA", "decimal (18,2)  NULL")
+            coll.Add("DA_Arrear", "decimal (18,2) NULL")
+            coll.Add("PF", "decimal (18,2) NULL")
+            coll.Add("GPF", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DA_Arrear_Detail", coll, "", True)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_Code", "varchar(30) null References TSPL_DA_Arrear_Header(Document_Code)")
+            coll.Add("Pay_Period", "varchar(30) null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DAAREAR_PAYPERIOD_DETAIL", coll, "", True)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_Code", "varchar(30) null References TSPL_DA_Arrear_Header(Document_Code)")
+            coll.Add("Location", " varchar(30) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DAAREAR_Location_DETAIL", coll, "", True)
+
             '**************************************************************************************
             coll = New Dictionary(Of String, String)()
             coll.Add("HCODE", "Varchar(30) Not null Primary key")
@@ -151,7 +189,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12)  Not NULL")
             coll.Add("Modified_Date", "datetime  Not NULL")
             coll.Add("Description_Hindi", "nvarchar(100) NULL ")
-
+            coll.Add("SNo", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -30163,6 +30201,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BoothSecurity_TotalAmt", "decimal(18,2) null")
             coll.Add("IS_TCS", "Integer not null default 0")
             coll.Add("Vehicle_Type", "varchar(10) null")
+            coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -31906,6 +31945,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("isCardSale", "integer not null default 0")
             coll.Add("IsAdvanceTaxGlEntry", "integer null")
             coll.Add("MonthlySaleInvoiceNo", "varchar(30) NULL")
+            coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)
