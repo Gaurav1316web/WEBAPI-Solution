@@ -11,6 +11,7 @@ Public Class clsDeductionTypeMaster
     Public Description As String = Nothing
     Public Description_Hindi As String = Nothing
     Public Status As Integer = 0
+    Public SNo As Integer = 0
     Public Arr As List(Of clsHeadLoadDCS) = Nothing
 #End Region
 
@@ -35,6 +36,7 @@ Public Class clsDeductionTypeMaster
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Description_Hindi", obj.Description_Hindi, True, True)
+            clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -61,7 +63,7 @@ Public Class clsDeductionTypeMaster
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsDeductionTypeMaster
         Dim obj As clsDeductionTypeMaster = Nothing
-        Dim qry As String = "select Document_No ,Description,* from TSPL_DEDUCTION_TYPE_MASTER where 2=2 "
+        Dim qry As String = "select * from TSPL_DEDUCTION_TYPE_MASTER where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_DEDUCTION_TYPE_MASTER.Document_No = (select MIN(Document_No) from TSPL_DEDUCTION_TYPE_MASTER)"
@@ -75,12 +77,12 @@ Public Class clsDeductionTypeMaster
                 qry += " and TSPL_DEDUCTION_TYPE_MASTER.Document_No = '" + strCode + "'"
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             obj = New clsDeductionTypeMaster()
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Description_Hindi = clsCommon.myCstr(dt.Rows(0)("Description_Hindi"))
+            obj.SNo = clsCommon.myCDecimal(dt.Rows(0)("SNo"))
         End If
         Return obj
     End Function
