@@ -255,7 +255,7 @@ Public Class rptSalesLedgerReport
                 If rbtnDemand.IsChecked Then
                     whrcls += "  And TSPL_DEMAND_BOOKING_MASTER.Route_No In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 ElseIf rbtnDispatch.IsChecked Then
-                    whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 End If
             End If
 
@@ -263,7 +263,7 @@ Public Class rptSalesLedgerReport
                 If rbtnDemand.IsChecked Then
                     whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
                 ElseIf rbtnDispatch.IsChecked Then
-                    whrcls += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                    whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
                 End If
             End If
             If txtZone.arrValueMember IsNot Nothing Then
@@ -272,10 +272,10 @@ Public Class rptSalesLedgerReport
 
             If rbtnDispatch.IsChecked Then
                 qry = "SELECT max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
-            FROM TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-            where  TSPL_SD_SHIPMENT_HEAD.Status = 1 AND convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
-            and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) " & whrcls & " " & whrclsShift & ""
+            FROM TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+            where  TSPL_SD_SALE_INVOICE_HEAD.Status = 1 AND convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
+            and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) " & whrcls & " " & whrclsShift & ""
             ElseIf rbtnDemand.IsChecked Then
                 qry = " SELECT  max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
             FROM TSPL_DEMAND_BOOKING_DETAIL  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
@@ -350,8 +350,20 @@ Public Class rptSalesLedgerReport
                     End If
                 End If
             End If
-            BaseQry += " " & itemName1 & " SUM(" & itemNamesQty & ") As [Total Qty], " & itemName2 & "SUM(" & itemNamesAmt & ") As [Total Amt],max( Receipt_Amount) As [Deposit Amt] FROM ( 
-            SELECT Receipt.Cust_Code as Cust_Code1  ,Zone_Code,[Zone Name],XX.Cust_Code,Customer_Name,Route_No,Route_Desc,"
+            BaseQry += " " & itemName1 & " SUM(" & itemNamesQty & ") As [Total Qty], " & itemName2 & "SUM(" & itemNamesAmt & ") As [Total Amt],max( Receipt_Amount) As [Deposit Amt] FROM ( "
+
+            If rbtnSummary.IsChecked Then
+                If rbtnCustomer.IsChecked Then
+                    BaseQry += "SELECT max(Zone_Code)Zone_Code,max([Zone Name])[Zone Name], (Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,"
+                ElseIf rbtnRoute.IsChecked Then
+                    BaseQry += "SELECT max(Zone_Code)Zone_Code, max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,(Route_No)Route_No,max(Route_Desc)Route_Desc  , "
+                ElseIf rbtnZone.IsChecked Then
+                    BaseQry += "SELECT (Zone_Code)Zone_Code,  max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,"
+                End If
+                BaseQry += " sum(Crate)Crate,max(Short_Description)Short_Description,max(Item_Description)Item_Description,max(Receipt_Amount)Receipt_Amount,sum(Amount)Amount from ( "
+            End If
+
+            BaseQry += " SELECT Receipt.Cust_Code as Cust_Code1  ,Zone_Code,[Zone Name],XX.Cust_Code,Customer_Name,Route_No,Route_Desc,"
             If rbtnDetail.IsChecked Then
                 BaseQry += " Document_Date,Shift_Type,"
                 If rbtnDispatch.IsChecked Then
@@ -360,14 +372,14 @@ Public Class rptSalesLedgerReport
             End If
             BaseQry += " CRATE,Receipt.Receipt_Amount,Short_Description,Item_Description,Amount FROM ( Select  TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name,"
 
-                If rbtnDispatch.IsChecked Then
-                BaseQry += " TSPL_SD_SHIPMENT_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc,"
+            If rbtnDispatch.IsChecked Then
+                BaseQry += " TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc,"
                 If rbtnDetail.IsChecked Then
-                    BaseQry += " Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM' END AS Shift_Type,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,"
-            End If
-                BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt As Amount, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_DETAIL.Qty as CRATE
-         From TSPL_SD_SHIPMENT_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code Left OUTER Join TSPL_SD_SHIPMENT_HEAD On TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
-         Left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No where 2 = 2  And TSPL_SD_SHIPMENT_HEAD.Status = 1 " & whrcls & " " & whrclsShift & " "
+                    BaseQry += " Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM' END AS Shift_Type,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,"
+                End If
+                BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt As Amount, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty as CRATE
+         From TSPL_SD_SALE_INVOICE_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code Left OUTER Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+         Left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No where 2 = 2  And TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " " & whrclsShift & " "
             ElseIf rbtnDemand.IsChecked Then
                 BaseQry += "  TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,"
                 If rbtnDetail.IsChecked Then
@@ -380,17 +392,24 @@ Public Class rptSalesLedgerReport
          where 2 = 2   and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & " " & whrclsShift & "  "
             End If
 
-                If rbtnSummary.IsChecked Then
+            If rbtnSummary.IsChecked Then
+                If rbtnDispatch.IsChecked Then
+                    BaseQry += "And  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
+                Else
                     BaseQry += "And  convert(date,Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  and   convert(date,Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103) "
-                    If rbtnMorning.IsChecked Then
-                        FinalQuery += " and Shift_Type = 'AM' "
-                    ElseIf rbtnEvening.IsChecked Then
-                        FinalQuery += " and Shift_Type = 'PM'"
-                    End If
                 End If
+                If rbtnMorning.IsChecked Then
+                    FinalQuery += " and Shift_Type = 'AM' "
+                ElseIf rbtnEvening.IsChecked Then
+                    FinalQuery += " and Shift_Type = 'PM'"
+                End If
+            End If
 
             BaseQry += " )xx left join ( select TSPL_RECEIPT_HEADER.Cust_Code ,SUM(Receipt_Amount)Receipt_Amount  from TSPL_RECEIPT_HEADER   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code  
 	        WHERE TSPL_RECEIPT_HEADER.Posted = 'Y' and TSPL_CUSTOMER_MASTER.IsDistributor = 'Y'  GROUP BY TSPL_RECEIPT_HEADER.Cust_Code ) Receipt on Receipt.Cust_Code = XX.Cust_Code )XXX "
+            If rbtnSummary.IsChecked Then
+                BaseQry += " group by " & groupBy & " ) xxxx"
+            End If
             BaseQry += " PIVOT (SUM(CRATE)  FOR Short_Description IN (" & itemNames1 & ") ) AS pivot_crate PIVOT (SUM(Amount)  FOR Item_Description IN (" & itemNames2 & ") ) AS pivot_net_amt  "
 
             If rbtnDetail.IsChecked Then
@@ -531,7 +550,7 @@ Public Class rptSalesLedgerReport
                 gv1.Columns("Shift").IsVisible = False
                 gv1.Columns("Shift_Type").IsVisible = False
             End If
-            End If
+        End If
 
         Dim index As Integer = 0
         Dim summaryRowItem As New GridViewSummaryRowItem()
@@ -694,7 +713,7 @@ Public Class rptSalesLedgerReport
             If rbtnMilkType.IsChecked Then
                 whrcls = " and TSPL_ITEM_MASTER.Is_FreshItem = 1 "
             ElseIf rbtnProductType.IsChecked Then
-                whrcls = " TSPL_ITEM_MASTER.Is_Ambient = 1 "
+                whrcls = " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
             End If
             If rbtnMorning.IsChecked Then
                 whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'AM' "
@@ -702,10 +721,10 @@ Public Class rptSalesLedgerReport
                 whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
             End If
             If txtCustomer.arrValueMember IsNot Nothing Then
-                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
             End If
             If txtRoute.arrValueMember IsNot Nothing Then
-                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
             End If
             If txtZone.arrValueMember IsNot Nothing Then
                 whrcls += " and TSPL_CUSTOMER_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ")"
@@ -720,10 +739,10 @@ Public Class rptSalesLedgerReport
                 GroupByCol = "Zone_Code"
                 query = " select Zone_Code , max([Zone Name])[Zone Name],"
             End If
-            query += " Sale_Invoice_No from ( Select  TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SHIPMENT_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc, Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM' END AS Shift_Type,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
-         From TSPL_SD_SHIPMENT_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code Left OUTER Join TSPL_SD_SHIPMENT_HEAD On TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
-         Left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No where 2 = 2  And TSPL_SD_SHIPMENT_HEAD.Status = 1 and
-		   CONVERT(DATE,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103)  and   CONVERT(DATE,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)  
+            query += " Sale_Invoice_No from ( Select  TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc, Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM' END AS Shift_Type,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
+         From TSPL_SD_SALE_INVOICE_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code Left OUTER Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+         Left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No where 2 = 2  And TSPL_SD_SALE_INVOICE_HEAD.Status = 1 and
+		   CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103)  and   CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)  
 		" & whrcls & " )xx group by " & GroupByCol & ",Sale_Invoice_No "
 
         Catch ex As Exception

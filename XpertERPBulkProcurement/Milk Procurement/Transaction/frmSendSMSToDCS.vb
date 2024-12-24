@@ -312,7 +312,7 @@ from (" + clsMilkShiftEndMCC.GetSMSQry(fndMCCCode.Value, txtDate.Value, clsCommo
         End Try
     End Sub
 
-    Private Sub SendSMSandEmail(ByVal SMSType As String, ByVal Code As String, ByVal strNo As String, ByVal Route As String, ByVal Flushing As String, ByVal FAT As String, ByVal SNF As String, ByVal trans As SqlTransaction)
+    Private Sub SendSMSandEmail(ByVal SMSType As String, ByVal Code As String, ByVal strNo As String, ByVal Route As String, ByVal Flushing As String, ByVal FAT As String, ByVal SNF As String, ByVal Vehicle As String, ByVal Sample_or_Trip As String, ByVal trans As SqlTransaction)
         Try
             Dim strPhoneno As String = Nothing
             Dim dtContent As DataTable = Nothing
@@ -360,13 +360,18 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtQCDate.Value, "dd/MMM/yyyy"))
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCName, clsCommon.myCstr(dt.Rows(0)("Vendor_Name")))
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCUploaderCode, clsCommon.myCstr(DCSCode))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(Route))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.vehicleNo, clsCommon.myCstr(Vehicle))
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SampleNo, clsCommon.myCstr(Sample_or_Trip))
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderFat, FAT)
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderSNF, SNF)
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderCLR, clsCommon.myCstr(clsEkoPro.getClrOnCalculation(FAT, SNF, corrFactor)))
                             ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMS") = CompairStringResult.Equal Then
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtTankerQCDate.Value, "dd/MMM/yyyy"))
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TankerNo, strNo)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.vehicleNo, Vehicle)
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, Route)
+                                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TripNo, Sample_or_Trip)
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Flushing, Flushing)
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.KgFAT, FAT)
                                 objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.KgSNF, SNF)
@@ -416,7 +421,7 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
                 clsCommon.ProgressBarPercentShow()
                 For i As Integer = 0 To dtt.Rows.Count - 1
                     clsCommon.ProgressBarPercentUpdate((i + 1) * 100 / dtt.Rows.Count, " Sending " & (i + 1) & " Of " & dtt.Rows.Count)
-                    SendSMSandEmail("BMCQCSMS", clsCommon.myCstr(dtt.Rows(i)("MCC_Code")), Nothing, Nothing, Nothing, clsCommon.myCstr(dtt.Rows(i)("FAT")), clsCommon.myCstr(dtt.Rows(i)("SNF")), trans)
+                    SendSMSandEmail("BMCQCSMS", clsCommon.myCstr(dtt.Rows(i)("MCC_Code")), Nothing, Nothing, clsCommon.myCstr(dtt.Rows(i)("Route_Code")), clsCommon.myCstr(dtt.Rows(i)("FAT")), clsCommon.myCstr(dtt.Rows(i)("SNF")), clsCommon.myCstr(dtt.Rows(i)("Vehicle_No")), clsCommon.myCstr(dtt.Rows(i)("Sample_No")), trans)
                 Next
                 clsCommon.ProgressBarPercentHide()
                 trans.Commit()
@@ -433,11 +438,12 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
 
     Private Sub txtMultTanker__My_Click(sender As Object, e As EventArgs) Handles txtMultTanker._My_Click
         Try
-            Dim Qry As String = "Select (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As DCS_Contact, 
-TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No
+            Dim Qry As String = "Select (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As Contact, 
+TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No,Vehicle_No,Trip_No,Flushing,FATKG,SNFKG
 from TSPL_VENDOR_MASTER
 Left Outer join TSPL_TANKER_MASTER On TSPL_TANKER_MASTER.Tanker_Transporter_Code=TSPL_VENDOR_MASTER.Vendor_Code
-Inner Join (Select Tanker_No from TSPL_MILK_COLLECTION_MCC Where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(txtTankerQCDate.Value, "dd/MMM/yyyy") + "' Group By Tanker_No )tspl_Milk_collection_MCC On tspl_Milk_collection_MCC.Tanker_No=TSPL_TANKER_MASTER.Tanker_No
+Inner Join (Select TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,tspl_Milk_collection_MCC.Trip_No,(Max(Entered_Qty)-Sum(tspl_Milk_collection_MCC_Detail.Qty))Flushing,(Max(Entered_FATKg)-Sum(FATKG))FATKG,(Max(Entered_SNFKg)-Sum(SNFKG))SNFKG from TSPL_MILK_COLLECTION_MCC
+left Outer Join tspl_Milk_collection_MCC_Detail on tspl_Milk_collection_MCC_Detail.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No Where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(txtTankerQCDate.Value, "dd/MMM/yyyy") + "' Group By Tanker_No,Vehicle_No,Trip_No )tspl_Milk_collection_MCC On tspl_Milk_collection_MCC.Tanker_No=TSPL_TANKER_MASTER.Tanker_No
 where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________')"
             txtMultTanker.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "Tanker@", Qry, "Tanker_No", "", txtMultTanker.arrValueMember, Nothing)
         Catch ex As Exception
@@ -448,8 +454,8 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
     Private Sub btnTankerSMS_Click(sender As Object, e As EventArgs) Handles btnTankerSMS.Click
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            Dim Qry As String = "Select Document_No,Tanker_No,Vehicle_No,Route_Code,(Entered_Qty-Qty)Flushing,(Entered_FATKg-FATKG)FATKG,(Entered_SNFKg-SNFKG)SNFKG  from(
-Select TSPL_MILK_COLLECTION_MCC.Document_No,MAX(TSPL_MILK_COLLECTION_MCC.Tanker_No)Tanker_No,Max(TSPL_MILK_COLLECTION_MCC.Vehicle_No)Vehicle_No,
+            Dim Qry As String = "Select Document_No,Tanker_No,Vehicle_No,Route_Code,(Entered_Qty-Qty)Flushing,(Entered_FATKg-FATKG)FATKG,(Entered_SNFKg-SNFKG)SNFKG,Trip_No  from(
+Select TSPL_MILK_COLLECTION_MCC.Document_No,MAX(TSPL_MILK_COLLECTION_MCC.Tanker_No)Tanker_No,Max(TSPL_MILK_COLLECTION_MCC.Vehicle_No)Vehicle_No,Max(tspl_Milk_collection_MCC.Trip_No)Trip_No,
 MAX(TSPL_MILK_COLLECTION_MCC.Route_Code)Route_Code,
 Max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)Entered_Qty,
 Max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)Entered_FATKg,
@@ -468,7 +474,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                 clsCommon.ProgressBarPercentShow()
                 For i As Integer = 0 To dt.Rows.Count - 1
                     clsCommon.ProgressBarPercentUpdate((i + 1) * 100 / dt.Rows.Count, " Sending " & (i + 1) & " Of " & dt.Rows.Count)
-                    SendSMSandEmail("TANKERQCSMS", clsCommon.myCstr(dt.Rows(i)("Tanker_No")), clsCommon.myCstr(dt.Rows(i)("Vehicle_No")), clsCommon.myCstr(dt.Rows(i)("Route_Code")), clsCommon.myCstr(dt.Rows(i)("Flushing")), clsCommon.myCstr(dt.Rows(i)("FATKG")), clsCommon.myCstr(dt.Rows(i)("SNFKG")), trans)
+                    SendSMSandEmail("TANKERQCSMS", clsCommon.myCstr(dt.Rows(i)("Tanker_No")), clsCommon.myCstr(dt.Rows(i)("Vehicle_No")), clsCommon.myCstr(dt.Rows(i)("Route_Code")), clsCommon.myCstr(dt.Rows(i)("Flushing")), clsCommon.myCstr(dt.Rows(i)("FATKG")), clsCommon.myCstr(dt.Rows(i)("SNFKG")), Nothing, clsCommon.myCstr(dt.Rows(i)("Trip_No")), trans)
                 Next
                 clsCommon.ProgressBarPercentHide()
                 trans.Commit()
