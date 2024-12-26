@@ -1077,16 +1077,19 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         TxtMultiDairyGPassReverse.arrValueMember = Nothing
         txtDriverName.Text = Nothing
         txtDriverMobNo.Text = Nothing
-        Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
-        Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
-        If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
-            txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime)
-            rbtnEvening.IsChecked = True
+        If SetDefaultShiftTime.Length > 0 Then
+            Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
+            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+                rbtnEvening.IsChecked = True
 
-        Else
-            txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
-            rbtnMorning.IsChecked = True
+            Else
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+                rbtnMorning.IsChecked = True
+            End If
         End If
+
     End Sub
     Private Sub cmbitemtype_SelectedIndexChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
         'If isInsideLoadData = False Then

@@ -10,6 +10,7 @@ Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim isRCDFRateControl As Boolean = False
+    Dim ApplyManualScheme As Boolean = False
     Dim isloadBookingTypeValues As Boolean = True
     Dim EnableLocation As Boolean = True
     Dim ApplyCommission As Boolean = True
@@ -303,6 +304,7 @@ Public Class frmDairyBookingCustomer
         ApplyTPT = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
+        ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 0, False, True)
 
         SetMailRight()
         SetUserMgmtNew()
