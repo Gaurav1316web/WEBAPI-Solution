@@ -1991,6 +1991,7 @@
     <None Include="Crystal Reports\Sales Report\rptPenetrationFlavour.rpt" />
     <None Include="Crystal Reports\Sales Report\rptPenetrationPack.rpt" />
     <None Include="Crystal Reports\Sales Report\rptPenetrationSKU.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptProductDemandBooking.rpt" />
     <None Include="Crystal Reports\Sales Report\rptRGP.rpt" />
     <None Include="Crystal Reports\Sales Report\RptRouteHistory.rpt" />
     <None Include="Crystal Reports\Sales Report\rptRouteWiseSalesSummary.rpt" />
