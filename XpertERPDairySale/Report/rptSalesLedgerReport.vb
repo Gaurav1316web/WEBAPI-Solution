@@ -363,14 +363,14 @@ Public Class rptSalesLedgerReport
                 BaseQry += " sum(Crate)Crate,max(Short_Description)Short_Description,max(Item_Description)Item_Description,max(Receipt_Amount)Receipt_Amount,sum(Amount)Amount from ( "
             End If
 
-            BaseQry += " SELECT Receipt.Cust_Code as Cust_Code1  ,Zone_Code,[Zone Name],XX.Cust_Code,Customer_Name,Route_No,Route_Desc,"
+            BaseQry += " SELECT Item_Code, Receipt.Cust_Code as Cust_Code1  ,Zone_Code,[Zone Name],XX.Cust_Code,Customer_Name,Route_No,Route_Desc,"
             If rbtnDetail.IsChecked Then
                 BaseQry += " Document_Date,Shift_Type,"
                 If rbtnDispatch.IsChecked Then
                     BaseQry += "Sale_Invoice_No,"
                 End If
             End If
-            BaseQry += " CRATE,Receipt.Receipt_Amount,Short_Description,Item_Description,Amount FROM ( Select  TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name,"
+            BaseQry += " CRATE,Receipt.Receipt_Amount,Short_Description,Item_Description,Amount FROM ( Select TSPL_ITEM_MASTER.Item_Code, TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name,"
 
             If rbtnDispatch.IsChecked Then
                 BaseQry += " TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc,"
@@ -408,7 +408,7 @@ Public Class rptSalesLedgerReport
             BaseQry += " )xx left join ( select TSPL_RECEIPT_HEADER.Cust_Code ,SUM(Receipt_Amount)Receipt_Amount  from TSPL_RECEIPT_HEADER   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code  
 	        WHERE TSPL_RECEIPT_HEADER.Posted = 'Y' and TSPL_CUSTOMER_MASTER.IsDistributor = 'Y'  GROUP BY TSPL_RECEIPT_HEADER.Cust_Code ) Receipt on Receipt.Cust_Code = XX.Cust_Code )XXX "
             If rbtnSummary.IsChecked Then
-                BaseQry += " group by " & groupBy & " ) xxxx"
+                BaseQry += " group by " & groupBy & ",Item_Code ) xxxx"
             End If
             BaseQry += " PIVOT (SUM(CRATE)  FOR Short_Description IN (" & itemNames1 & ") ) AS pivot_crate PIVOT (SUM(Amount)  FOR Item_Description IN (" & itemNames2 & ") ) AS pivot_net_amt  "
 
@@ -441,7 +441,7 @@ Public Class rptSalesLedgerReport
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
 
-
+                
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()

@@ -1965,8 +1965,93 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
         End Try
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        clsCommon.MyMessageBoxShow(Me, "Print will Comming Soon...", Me.Text)
+        Try
+            Dim whrcls As String = ""
+
+            whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
+            If rbtn_Product.IsChecked Then
+                whrcls += " and TSPL_Product_DEMAND_BOOKING_MASTER.ItemType='Product' "
+            ElseIf rbtn_IceCream.IsChecked Then
+                whrcls += " and TSPL_Product_DEMAND_BOOKING_MASTER.ItemType='IceCream' "
+            End If
+            Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient ,TSPL_ITEM_MASTER.IsTaxable,TSPL_VEHICLE_MASTER.Description,Vehicle_Id,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code  ,(TSPL_ITEM_MASTER.Alies_Name)Short_Description,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code as Booth, "
+            qry += "TSPL_Product_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date, TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
+            qry += " TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+		    		Case When TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount "
+            qry += ",TSPL_CUSTOMER_MASTER.Display_Seq FROM TSPL_PRODUCT_DEMAND_BOOKING_DETAIL "
+
+            qry += " 
+left outer join TSPL_Product_DEMAND_BOOKING_MASTER on TSPL_Product_DEMAND_BOOKING_MASTER.Document_No=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No
+Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_Product_DEMAND_BOOKING_MASTER.Route_No 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code
+LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code
+left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_Product_DEMAND_BOOKING_MASTER.Comp_Code
+left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.vehicle_code
+left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
+where 2 = 2 "
+
+            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Posted = 1 "
+            qry += "" & whrcls & "  "
+            qry += " and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtDate.Value)), "dd/MMM/yyyy") + "'"
+
+            qry += " And TSPL_Product_DEMAND_BOOKING_MASTER.Route_No In ('" + clsCommon.myCstr(txtRouteNo.Value) + "') )"
+
+            Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable("select ROW_NUMBER() over (order by max(Sku_Seq)) as SNO, Item_Code,max(Short_Description)Short_Description,sum(Qty)Qty,max(Unit_code)Unit_code,sum(Amount)Amount from  " & qry & " xx group by item_code order by max(Sku_Seq)")
+            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
+            If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Print", Me.Text)
+                Exit Sub
+            ElseIf dtPrint.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Unit_code)Unit_code from (" + qry + ") x group by Item_Code order by Sku_Seq")
+                Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                For ii As Integer = 1 To dtItems.Rows.Count Step 12
+                    If ii > 1 Then
+                        FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+                    End If
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by max(Display_Seq)) As SNo,'" & IIf(rbtn_Product.IsChecked, "PRODUCT", "ICECREAM") & "' as ProductOrIceCream,'" & IIf(UsLock1.Status = 1, "Approved", "Pending") & "' as Status,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtDate.Value), "dd/MM/yyyy") + "' AS Date, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1,Cust_Code ,max(Booth) as Booth,max(Route_No) as Route_No,max(Route_Desc) as Route_Desc,max(Document_Date) as Document_Date"
+                    For jj As Integer = 1 To 12
+                        Dim strJJ As String = clsCommon.myCstr(jj)
+                        Dim strICODE As String = ""
+                        Dim strIShortDesc As String = ""
+                        Dim strIUnitCode As String
+                        If (ii + jj - 1) > dtItems.Rows.Count Then
+                            strICODE = ""
+                            strIShortDesc = ""
+                            strIUnitCode = ""
+                        Else
+                            strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                            strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
+                            strIUnitCode = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Unit_code"))
+                        End If
+                        FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,'" + strIUnitCode + "' as Item_Unit_code_" + strJJ + "
+,CEILING(sum(case when Item_Code='" + strICODE + "'  then Qty else null end )) as ItemQtyCrate_" + strJJ + ""
+                    Next
+                    If ii > 1 Then
+                        FinalQuery += " ,null as Amount,null as ProductAmount,null as TotalCrates"
+                    Else
+                        FinalQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount,sum(Amount*case when IsTaxable=0 then 0 else 1 end) as ProductAmount,sum(crate)TotalCrates"
+                    End If
+                    FinalQuery += ",max(Display_Seq) as Display_Seq from (
+select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
+left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
+left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.Item_Code and  TabCrateUOM.UOM_Code='Crate' 
+) x group by Cust_Code"
+                Next
+                dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
+                frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductDemandBooking", "Booth Product Demand", "rptSubProductDemandBooking")
+                frmCRV = Nothing
+            End If
+            Exit Sub
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
+
     Private Sub btnAssessment_Click(sender As Object, e As EventArgs) Handles btnAssessment.Click
         Dim frm As New frmAssessmentGrid
         frm.IDate = txtDate.Value
