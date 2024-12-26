@@ -5653,9 +5653,9 @@ a:
             " ,tspl_vendor_master.Account_No,tspl_vendor_master.bank_name,tspl_vendor_master.IFSC_CODE,tspl_vendor_master.Branch_Name " &
             " from TSPL_PURCHASE_ORDER_DETAIL " & Environment.NewLine +
             " left outer join TSPL_PURCHASE_ORDER_HEAD  on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No =TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No"
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                strQuery += "   left outer join TSPL_TENDER_HEADER  on TSPL_TENDER_HEADER.DocumentCode =TSPL_PURCHASE_ORDER_HEAD.RefTendorNo"
-            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+            '    strQuery += "   left outer join TSPL_TENDER_HEADER  on TSPL_TENDER_HEADER.DocumentCode =TSPL_PURCHASE_ORDER_HEAD.RefTendorNo"
+            'End If
             strQuery +=
                 " left outer join tspl_Gl_segment_code on tspl_Gl_segment_code.Segment_code=TSPL_PURCHASE_ORDER_HEAD.Dept and tspl_Gl_segment_code.Seg_No=3 " & Environment.NewLine +
                 " Left Outer Join TSPL_VENDOR_ITEM_DETAIL ON TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_PURCHASE_ORDER_DETAIL.Item_Code AND TSPL_VENDOR_ITEM_DETAIL.vendor_code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code AND TSPL_VENDOR_ITEM_DETAIL.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine +
@@ -5697,7 +5697,8 @@ a:
                     "LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & Environment.NewLine +
                     " left outer join TSPL_VENDOR_QUOTATION_HEAD on TSPL_VENDOR_QUOTATION_HEAD.Code = TSPL_PURCHASE_ORDER_HEAD.Against_Vendor_Quotation " & Environment.NewLine +
                     "left outer join tspl_location_master as Ship_Location on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =Ship_Location.location_code  " & Environment.NewLine +
-                    " left outer join TSPL_Additional_Charges on TSPL_Additional_Charges.Code = TSPL_PURCHASE_ORDER_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Row_Type='Misc'  left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
+                    " left outer join TSPL_Additional_Charges on TSPL_Additional_Charges.Code = TSPL_PURCHASE_ORDER_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Row_Type='Misc' 
+                    left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
 " & Environment.NewLine +
                 " where 2=2"
             strQuery += " and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No in ('" + StrDocNo + "') "
