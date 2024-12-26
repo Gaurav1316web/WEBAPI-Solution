@@ -3839,9 +3839,9 @@ Public Class MDI
                     Case clsUserMgtCode.itemGroups
                         frm = New frmItemGroup(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.itemMaster
-                        frm = New frmItemMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.itemMaster
+                    '    frm = New frmItemMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.locationMaster
                         frm = New frmLocationMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
