@@ -314,6 +314,9 @@ Public Class frmEmployee_Salary
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colPAYPERIOD_Amount).Value = obj1.PAYPERIOD_AMOUNT
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayhead).Value = obj1.Payhead
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = obj1.PayheadMode
+                    If clsCommon.CompairString(obj1.PayHeadCode, "DA Arrear") = CompairStringResult.Equal Then
+                        gvSalary.Rows(gvSalary.Rows.Count - 1).IsVisible = False
+                    End If
                     Dim Payhead As String = gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value
                     Dim PayHeadMode As String = gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayhead).Value
                     If Payhead IsNot Nothing AndAlso Payhead IsNot DBNull.Value Then
@@ -354,6 +357,7 @@ Public Class frmEmployee_Salary
             If (clsMapPayHeadsToSalaStructure.ObjList IsNot Nothing AndAlso clsMapPayHeadsToSalaStructure.ObjList.Count > 0) Then
                 For Each obj As clsMapPayHeadsToSalaStructure In clsMapPayHeadsToSalaStructure.ObjList
                     gvSalary.Rows.AddNew()
+
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colLineNo).Value = obj.LINE_NO
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colpayHeadCode).Value = obj.PAY_HEAD_CODE
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colpayHeadName).Value = obj.PAY_HEAD_NAME
@@ -367,6 +371,9 @@ Public Class frmEmployee_Salary
                         gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = "D"
                     End If
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colHiddenComponent).Value = obj.IsHiddenComponent
+                    If clsCommon.CompairString(obj.PAY_HEAD_CODE, "DA Arrear") = CompairStringResult.Equal Then
+                        gvSalary.Rows(gvSalary.Rows.Count - 1).IsVisible = False
+                    End If
                 Next
             Else
                 gvSalary.Rows.AddNew()
@@ -1145,5 +1152,9 @@ Public Class frmEmployee_Salary
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub gvSalary_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gvSalary.CellFormatting
+
     End Sub
 End Class

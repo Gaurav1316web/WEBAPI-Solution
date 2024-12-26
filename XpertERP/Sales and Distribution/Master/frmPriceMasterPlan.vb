@@ -251,8 +251,8 @@ Public Class frmPriceMasterPlan
                 repoNumBox.Name = colPriceComponentRate + clsCommon.myCstr(ii)
                 repoNumBox.Width = 100
                 repoNumBox.DecimalPlaces = 6
-                repoNumBox.Minimum = 0
-                repoNumBox.Step = 0
+                'repoNumBox.Minimum = 0
+                'repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
                 repoNumBox.IsVisible = (ii < 4)
                 repoNumBox.ReadOnly = False
@@ -273,8 +273,8 @@ Public Class frmPriceMasterPlan
                 repoNumBox.Name = colPriceComponentAmount + clsCommon.myCstr(ii)
                 repoNumBox.Width = 100
                 repoNumBox.DecimalPlaces = 6
-                repoNumBox.Minimum = 0
-                repoNumBox.Step = 0
+                'repoNumBox.Minimum = 0
+                'repoNumBox.Step = 0
                 repoNumBox.ShowUpDownButtons = False
                 repoNumBox.IsVisible = (ii < 4)
                 repoNumBox.ReadOnly = True

@@ -227,6 +227,9 @@ Public Class frmEMailAndSMSSetting
     Public Const Flushing As String = "$#Flushing#$"
     Public Const KgFAT As String = "$#KgFAT#$"
     Public Const KgSNF As String = "$#KgSNF#$"
+    Public Const SampleNo As String = "$#SampleNo#$"
+    Public Const TripNo As String = "$#TripNo#$"
+
 
 #End Region
 
@@ -263,6 +266,9 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderFat)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderSNF)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderCLR)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SampleNo)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkCollectionMCCSample + "4") = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_Date)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCUploaderCode)
@@ -275,10 +281,12 @@ Public Class frmEMailAndSMSSetting
         ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze") = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Flushing)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgFAT)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgSNF)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TripNo)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)

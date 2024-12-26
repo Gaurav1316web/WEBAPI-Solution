@@ -7,9 +7,12 @@ Public Class frmShipmentDairy
 #Region "Variables"
     Dim trans As SqlTransaction = Nothing
     Dim ParentDocNo As String = ""
+    Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
+    Dim ApplyManualScheme As Boolean = False
     Dim ApplyTPT As Boolean = False
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
+    Dim AllowManualCrateForDispatch As Boolean = True
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
     Dim EnableVehicleType As Boolean = False
@@ -449,6 +452,7 @@ Public Class frmShipmentDairy
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         AllowIncreaseDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, Nothing)) = 1, True, False)
         DisableRouteandVehicle = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisableRouteandVehicle, clsFixedParameterCode.DisableRouteandVehicle, Nothing)) = 1, True, False)
+        AllowManualCrateForDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)) = 1, True, False)
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -482,6 +486,8 @@ Public Class frmShipmentDairy
         ConvertPouchtoCrateonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
         EnableVehicleType = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, Nothing)) = 1, True, False)
+        ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 1, True, False)
+        SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
@@ -5852,6 +5858,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                     End If
                 Next
+                'txtCrate.Value = dblCrateQty
                 If rbtnTaxCalAutomatic.IsChecked Then
                     For ii As Integer = 1 To gv2.Rows.Count
                         If Not clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") = CompairStringResult.Equal OrElse (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code IN (select Tax_Code  from TSPL_TAX_GROUP_DETAILS WHERE TAX_GROUP_CODE='" & txtTaxGroup.Value & "') AND Is_TCS ='Y'", trans)) > 0) Then
@@ -6295,6 +6302,20 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         gvCC.Rows.Clear()
         gvCC.Columns.Clear()
         gv1.ReadOnly = False
+        If SetDefaultShiftTime.Length > 0 Then
+            Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
+            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+                cmbShift.SelectedValue = "PM"
+
+            Else
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+                cmbShift.SelectedValue = "AM"
+            End If
+            cmbDisItemType.SelectedValue = "T"
+        End If
+
     End Sub
     Private Sub isValid_CashScheme()
         Dim scheme_Code As String = ""
@@ -11237,7 +11258,16 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                             txtCrate.Value = 0
                         End If
                     Else
-                        txtCrate.Value = TotalCrate
+                        If AllowManualCrateForDispatch Then
+                            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                                'txtCrate.Value = TotalCrate
+                            Else
+                                txtCrate.Value = TotalCrate
+                            End If
+                        Else
+                            txtCrate.Value = TotalCrate
+
+                        End If
                     End If
                 End If
                 If AutoCalculateCAN = 1 Then
@@ -11277,7 +11307,10 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                         TotalCan = TotalCan + gv1.Rows(i).Cells(colCan).Value
                     Next
                     If clsCommon.myCdbl(TotalCan) > 0 Then
+
                         TxtTotalCAN.Value = TotalCan
+
+
                     Else
                         TxtTotalCAN.Value = 0
                     End If

@@ -9,6 +9,16 @@ Public Class frmDeductionTypeMaster
 #End Region
 
     Private Sub frmDeductionTypeMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("SNo", "Integer null")
+        clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_TYPE_MASTER", coll)
+
+        coll = New Dictionary(Of String, String)
+        coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
+
+
         SetUserMgmtNew()
         Addnew()
     End Sub
@@ -23,6 +33,7 @@ Public Class frmDeductionTypeMaster
         txtDocumentNo.Value = ""
         txtDescription.Text = ""
         txtDescriptionHindi.Text = ""
+        txtSNo.Value = 0
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -59,7 +70,7 @@ Public Class frmDeductionTypeMaster
                 obj.Document_No = txtDocumentNo.Value
                 obj.Description = txtDescription.Text
                 obj.Description_Hindi = txtDescriptionHindi.Text
-
+                obj.SNo = txtSNo.Value
                 Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(Document_No) from TSPL_DEDUCTION_TYPE_MASTER where Document_No='" + obj.Document_No + "'")
                 If (qry = 0) Then
                     isNewEntry = True
@@ -83,10 +94,10 @@ Public Class frmDeductionTypeMaster
             Dim obj As New clsDeductionTypeMaster()
             obj = clsDeductionTypeMaster.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0) Then
-
                 txtDocumentNo.Value = obj.Document_No
                 txtDescription.Text = obj.Description
                 txtDescriptionHindi.Text = obj.Description_Hindi
+                txtSNo.Value = obj.SNo
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

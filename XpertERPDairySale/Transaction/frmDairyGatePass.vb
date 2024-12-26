@@ -11,8 +11,10 @@ Public Class frmDairyGatePass
 #Region "Variables"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim strQuery As String
+    Dim SetDefaultShiftTime As String = ""
     Dim VehicleNofromDispatch As Boolean = False
     Dim EnableProductSaleForJPR As Boolean = False
+    Dim AllowManualCrateForDispatch As Boolean = False
     Dim strQueryCANCRate As String
     Dim dt As DataTable
     Private isNewEntry As Boolean = False
@@ -97,8 +99,7 @@ Public Class frmDairyGatePass
         'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
         SetUserMgmtNew()
         isNewEntry = True
-        Addnew()
-        LoadBlankGrid()
+
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtSupplyDate.Value = txtDate.Value
         txtGatepassDate.Value = clsCommon.GETSERVERDATE()
@@ -111,6 +112,10 @@ Public Class frmDairyGatePass
         CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
         VehicleNofromDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, Nothing)))
         EnableProductSaleForJPR = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)))
+        AllowManualCrateForDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)))
+        SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
+        Addnew()
+        LoadBlankGrid()
         Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
         cmbitemtype.Text = "Select"
         txtTransporter.MaxLength = 100
@@ -622,6 +627,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtmultiBooking.arrValueMember = list
                 txtCrateQty.Text = totalCrate
                 txtCanQty.Text = totalCan
+                If AllowManualCrateForDispatch Then
+                    Dim strCrateQty = "select SUM( tspl_sd_shipment_head.Crate) as Crate from tspl_sd_shipment_head where 
+          convert(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "'           
+          and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location = '" + txtLocCode.Value + "' and TSPL_SD_SHIPMENT_HEAD.route_no = '" + fndRouteNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'  and TSPL_SD_SHIPMENT_HEAD.Status = 1"
+                    txtCrateQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strCrateQty))
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
                 ' **************************************************************************************************
@@ -1066,6 +1077,19 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         TxtMultiDairyGPassReverse.arrValueMember = Nothing
         txtDriverName.Text = Nothing
         txtDriverMobNo.Text = Nothing
+        If SetDefaultShiftTime.Length > 0 Then
+            Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
+            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+                rbtnEvening.IsChecked = True
+
+            Else
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+                rbtnMorning.IsChecked = True
+            End If
+        End If
+
     End Sub
     Private Sub cmbitemtype_SelectedIndexChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
         'If isInsideLoadData = False Then

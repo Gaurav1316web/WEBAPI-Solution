@@ -414,6 +414,7 @@ Public Class frmMilkCollectionMCCQC
             gv2.Columns("FATKG").HeaderText = "FAT Kg"
             gv2.Columns("SNF").HeaderText = "SNF"
             gv2.Columns("SNFKG").HeaderText = "SNF Kg"
+            gv2.Columns("Status").HeaderText = "Status"
             'If chkSms.Checked Then
             '    FormatGridGv2()
             'End If
