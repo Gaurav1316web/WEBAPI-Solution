@@ -22,8 +22,8 @@ Partial Class frmMilkCollectionMCCQC
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -131,7 +131,7 @@ Partial Class frmMilkCollectionMCCQC
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -355,10 +355,10 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadPageView2.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView2.Controls.Add(Me.Attachments)
         Me.RadPageView2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView2.Location = New System.Drawing.Point(0, 79)
+        Me.RadPageView2.Location = New System.Drawing.Point(0, 46)
         Me.RadPageView2.Name = "RadPageView2"
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage5
-        Me.RadPageView2.Size = New System.Drawing.Size(848, 346)
+        Me.RadPageView2.Size = New System.Drawing.Size(848, 379)
         Me.RadPageView2.TabIndex = 2
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -368,7 +368,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(827, 298)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(827, 331)
         Me.RadPageViewPage5.Text = "Report"
         '
         'gv2
@@ -380,11 +380,11 @@ Partial Class frmMilkCollectionMCCQC
         '
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(827, 298)
+        Me.gv2.Size = New System.Drawing.Size(827, 331)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -418,7 +418,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(848, 79)
+        Me.Panel2.Size = New System.Drawing.Size(848, 46)
         Me.Panel2.TabIndex = 1
         '
         'GroupBox2
@@ -426,16 +426,16 @@ Partial Class frmMilkCollectionMCCQC
         Me.GroupBox2.Controls.Add(Me.btnUnSelectedAll)
         Me.GroupBox2.Controls.Add(Me.btnSelectedAll)
         Me.GroupBox2.Controls.Add(Me.btnSendSms)
-        Me.GroupBox2.Location = New System.Drawing.Point(418, 2)
+        Me.GroupBox2.Location = New System.Drawing.Point(418, 0)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(419, 36)
+        Me.GroupBox2.Size = New System.Drawing.Size(419, 38)
         Me.GroupBox2.TabIndex = 1066
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Visible = False
         '
         'btnUnSelectedAll
         '
-        Me.btnUnSelectedAll.Location = New System.Drawing.Point(197, 10)
+        Me.btnUnSelectedAll.Location = New System.Drawing.Point(197, 12)
         Me.btnUnSelectedAll.Name = "btnUnSelectedAll"
         Me.btnUnSelectedAll.Size = New System.Drawing.Size(88, 19)
         Me.btnUnSelectedAll.TabIndex = 5
@@ -443,7 +443,7 @@ Partial Class frmMilkCollectionMCCQC
         '
         'btnSelectedAll
         '
-        Me.btnSelectedAll.Location = New System.Drawing.Point(103, 10)
+        Me.btnSelectedAll.Location = New System.Drawing.Point(103, 12)
         Me.btnSelectedAll.Name = "btnSelectedAll"
         Me.btnSelectedAll.Size = New System.Drawing.Size(88, 19)
         Me.btnSelectedAll.TabIndex = 4
@@ -451,7 +451,7 @@ Partial Class frmMilkCollectionMCCQC
         '
         'btnSendSms
         '
-        Me.btnSendSms.Location = New System.Drawing.Point(9, 7)
+        Me.btnSendSms.Location = New System.Drawing.Point(9, 12)
         Me.btnSendSms.Name = "btnSendSms"
         Me.btnSendSms.Size = New System.Drawing.Size(88, 19)
         Me.btnSendSms.TabIndex = 3
