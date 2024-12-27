@@ -401,49 +401,50 @@ Public Class FrmSaleHistory
     End Sub
 
     Private Sub FrmSaleHistory_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        ButtonToolTip.SetToolTip(btnReferesh, "Press Alt+R for Referesh ")
-        ButtonToolTip.SetToolTip(btnReset, "Press Alt+E for Reset ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        Try
+            SetUserMgmtNew()
+            ButtonToolTip.SetToolTip(btnReferesh, "Press Alt+R for Referesh ")
+            ButtonToolTip.SetToolTip(btnReset, "Press Alt+E for Reset ")
+            ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
 
-        cboSelectedBy.Text = "Customer"
-        txtCustomer.Value = strCustId
-        txtCustName.Text = strCustName
+            cboSelectedBy.Text = "Customer"
+            txtCustomer.Value = strCustId
+            txtCustName.Text = strCustName
 
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = txtToDate.Value.AddMonths(-1)
-        gvCustomer.Visible = False
-        rrbPosted.IsChecked = True
-        RadPageView1.Visible = False
-        gvDetails.Visible = False
-        rrbPosted.Visible = False
-        rrbAll.Visible = False
-
-
+            txtToDate.Value = clsCommon.GETSERVERDATE()
+            txtFromDate.Value = txtToDate.Value.AddMonths(-1)
+            gvCustomer.Visible = False
+            rrbPosted.IsChecked = True
+            RadPageView1.Visible = False
+            gvDetails.Visible = False
+            rrbPosted.Visible = False
+            rrbAll.Visible = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
-
-
-
     End Sub
 
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
         Reset()
     End Sub
     Sub Reset()
-
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = txtToDate.Value.AddMonths(-1)
-        gvCustomer.Visible = False
-        cboSelectedBy.Text = "Customer"
-        txtCustomer.Value = ""
-        txtCustName.Text = ""
-        rrbPosted.IsChecked = True
-        lblCustomer.Text = "Customer"
-        RadPageView1.Visible = False
-
+        Try
+            txtToDate.Value = clsCommon.GETSERVERDATE()
+            txtFromDate.Value = txtToDate.Value.AddMonths(-1)
+            gvCustomer.Visible = False
+            cboSelectedBy.Text = "Customer"
+            txtCustomer.Value = ""
+            txtCustName.Text = ""
+            rrbPosted.IsChecked = True
+            lblCustomer.Text = "Customer"
+            RadPageView1.Visible = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub gvCustomer_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gvCustomer.DoubleClick
@@ -613,8 +614,6 @@ Public Class FrmSaleHistory
         gvDetails.Columns("Unit Code").Width = 100
         gvDetails.Columns("Qty").Width = 100
         gvDetails.Columns("Amount").Width = 100
-
-
     End Sub
 
 
@@ -624,7 +623,6 @@ Public Class FrmSaleHistory
         ElseIf clsCommon.CompairString(gvDetails.CurrentRow.Cells("type").Value, "Sale Return") = CompairStringResult.Equal Then
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.saleReturn, gvDetails.CurrentRow.Cells("Doc No").Value)
         End If
-
     End Sub
     Private Sub FrmSaleHistory_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.R AndAlso btnReferesh.Enabled Then
@@ -633,7 +631,6 @@ Public Class FrmSaleHistory
             Reset()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Close()
-
         End If
     End Sub
 

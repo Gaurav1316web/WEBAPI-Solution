@@ -1296,11 +1296,15 @@ Public Class clsSNShipmentHead
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", trans)
             '''' 
+            isSaved = isSaved AndAlso HistoryData(obj.Document_Code, trans)
         Catch err As Exception
-
             Throw New Exception(err.Message)
         End Try
         Return isSaved
+    End Function
+
+    Public Shared Function HistoryData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
     End Function
 
     Public Shared Function UpdateAfterPosting(ByVal obj As clsSNShipmentHead, ByVal trans As SqlTransaction) As Boolean
@@ -2468,6 +2472,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
+                HistoryData(strCode, trans)
                 clsSerializeInvenotry.DeleteData("SD-IN", strCode, trans)
 
                 Dim qry As String = "delete from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
