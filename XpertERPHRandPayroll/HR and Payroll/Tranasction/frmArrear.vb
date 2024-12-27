@@ -236,6 +236,13 @@ Public Class frmArrear
                 clsCommon.MyMessageBoxShow(Me, "Select Pay Period", Me.Text)
                 Return False
             End If
+
+            If clsCommon.myLen(fndFromPeriod.Value) <= 0 Then
+                fndFromPeriod.Focus()
+                fndFromPeriod.Select()
+                clsCommon.MyMessageBoxShow(Me, "Select Applicable Pay Period", Me.Text)
+                Return False
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

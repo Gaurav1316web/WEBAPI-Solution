@@ -9,6 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
+    Dim ApplyManualScheme As Boolean = False
     Dim ApplyTPT As Boolean = False
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
     Dim AllowManualCrateForDispatch As Boolean = True
@@ -485,6 +486,7 @@ Public Class frmShipmentDairy
         ConvertPouchtoCrateonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
         EnableVehicleType = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, Nothing)) = 1, True, False)
+        ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 1, True, False)
         SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
@@ -6300,17 +6302,20 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         gvCC.Rows.Clear()
         gvCC.Columns.Clear()
         gv1.ReadOnly = False
-        Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
-        Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
-        If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
-            txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime)
-            cmbShift.SelectedValue = "PM"
+        If SetDefaultShiftTime.Length > 0 Then
+            Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
+            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+                cmbShift.SelectedValue = "PM"
 
-        Else
-            txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
-            cmbShift.SelectedValue = "AM"
+            Else
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+                cmbShift.SelectedValue = "AM"
+            End If
+            cmbDisItemType.SelectedValue = "T"
         End If
-        cmbDisItemType.SelectedValue = "T"
+
     End Sub
     Private Sub isValid_CashScheme()
         Dim scheme_Code As String = ""
@@ -11259,10 +11264,12 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                             Else
                                 txtCrate.Value = TotalCrate
                             End If
+                        Else
+                            txtCrate.Value = TotalCrate
+
                         End If
-                        txtCrate.Value = TotalCrate
                     End If
-                    End If
+                End If
                 If AutoCalculateCAN = 1 Then
                     If clsCommon.myLen(strICode) > 0 Then 'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColFOC).Value) = 0
                         '' Anubhooti 11-Sep-2014 BM00000003847
