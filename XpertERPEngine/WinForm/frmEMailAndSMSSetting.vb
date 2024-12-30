@@ -66,7 +66,7 @@ Public Class frmEMailAndSMSSetting
     Public Const SalePerson_Name As String = "$#Sale_Name#$"
     Public Const Doc_Date As String = "$#DATE#$"
     Public Const Shift As String = "$#SHIFT#$"
-    Public Const Doc_No As String = "$#InvoNo#$"
+    Public Const Doc_No As String = "$#DocNo#$"
     Public Const Doc_Type As String = "$#Doc_Type#$"
     Public Const Cust_Code As String = "$#Cust_Code#$"
     Public Const Cust_Name As String = "$#Cust_Name#$"

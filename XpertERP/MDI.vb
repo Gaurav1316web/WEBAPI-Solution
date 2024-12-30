@@ -9174,6 +9174,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDailyDemandReport
                         frm = New frmDailyDemandReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptHSNWiseSaleReport
+                        frm = New rptHSNWiseSaleReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
                     Case clsUserMgtCode.SaleIncentiveMaster
@@ -9798,6 +9801,10 @@ Public Class MDI
                     Case clsUserMgtCode.TenderShortPenalty
                         frm = New frmTenderShortPenalty()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.RALNOC
+                        frm = New frmRALNOC()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmShortSupplyPenalty
                         frm = New frmShortSupplyPenalty()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
