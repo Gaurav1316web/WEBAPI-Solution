@@ -134,6 +134,7 @@ Public Class clsItemMaster
     Public Marketing_Seq As Int64 = 0
     Public Arr_Purchase_QC_Parameter As List(Of clsItemPurchaseQCParameter) = Nothing
     Public ArrSchedule As List(Of clsItemSchedule) = Nothing
+    Public ArrNOCSchedule As List(Of clsItemNOCSchedule) = Nothing
     Public ApplyRoundingInStdProd As Boolean = False
     Public Visual_QC As Boolean = False
     Public Security_Deduction As Decimal
@@ -1434,6 +1435,12 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_ITEM_SCHEDULE where Item_Code='" + obj.Item_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_ITEM_NOC_SCHEDULE_PENALTY where Against_NOC_Schedule_PK_Id in (select PK_ID from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + obj.Item_Code + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + obj.Item_Code + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Item_Desc", obj.Item_Desc)
             clsCommon.AddColumnsForChange(coll, "Short_Description", obj.Item_Short_Desc)
@@ -1599,6 +1606,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             chkCanorCarte(obj.Item_Code, IIf(obj.Crate, 1, 0), IIf(obj.Can, 1, 0), trans)
             clsItemPurchaseQCParameter.SaveData(obj.Item_Code, obj.Arr_Purchase_QC_Parameter, trans)
             clsItemSchedule.SaveData(obj.Item_Code, obj.ArrSchedule, trans)
+            clsItemNOCSchedule.SaveData(obj.Item_Code, obj.ArrNOCSchedule, trans)
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -1868,6 +1876,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 End If
                 obj.Arr_Purchase_QC_Parameter = clsItemPurchaseQCParameter.GetData(obj.Item_Code, Nothing)
                 obj.ArrSchedule = clsItemSchedule.GetData(obj.Item_Code, Nothing)
+                obj.ArrNOCSchedule = clsItemNOCSchedule.GetData(obj.Item_Code, Nothing)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

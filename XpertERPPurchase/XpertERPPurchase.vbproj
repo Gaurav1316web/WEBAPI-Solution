@@ -456,6 +456,12 @@
     <Compile Include="Transaction\frmNIRQC.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmRALNOC.Designer.vb">
+      <DependentUpon>frmRALNOC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmRALNOC.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmRMDemandApproval.Designer.vb">
       <DependentUpon>frmRMDemandApproval.vb</DependentUpon>
     </Compile>
@@ -674,6 +680,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmNIRQC.resx">
       <DependentUpon>frmNIRQC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmRALNOC.resx">
+      <DependentUpon>frmRALNOC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmRMDemandApproval.resx">
       <DependentUpon>frmRMDemandApproval.vb</DependentUpon>

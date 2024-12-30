@@ -11,8 +11,10 @@ Public Class frmDairyGatePass
 #Region "Variables"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim strQuery As String
+    Dim SetDefaultShiftTime As String = ""
     Dim VehicleNofromDispatch As Boolean = False
     Dim EnableProductSaleForJPR As Boolean = False
+    Dim AllowManualCrateForDispatch As Boolean = False
     Dim strQueryCANCRate As String
     Dim dt As DataTable
     Private isNewEntry As Boolean = False
@@ -97,8 +99,7 @@ Public Class frmDairyGatePass
         'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEMAND_BOOKING_DETAIL", coll)
         SetUserMgmtNew()
         isNewEntry = True
-        Addnew()
-        LoadBlankGrid()
+
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtSupplyDate.Value = txtDate.Value
         txtGatepassDate.Value = clsCommon.GETSERVERDATE()
@@ -111,6 +112,10 @@ Public Class frmDairyGatePass
         CreateGatePassFromDemand = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, Nothing)))
         VehicleNofromDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VehicleNofromDispatch, clsFixedParameterCode.VehicleNofromDispatch, Nothing)))
         EnableProductSaleForJPR = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)))
+        AllowManualCrateForDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)))
+        SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
+        Addnew()
+        LoadBlankGrid()
         Panel2.Visible = SettCreateProvisionOnOpeningAndClosingKM
         cmbitemtype.Text = "Select"
         txtTransporter.MaxLength = 100
@@ -622,6 +627,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtmultiBooking.arrValueMember = list
                 txtCrateQty.Text = totalCrate
                 txtCanQty.Text = totalCan
+                If AllowManualCrateForDispatch Then
+                    Dim strCrateQty = "select SUM( tspl_sd_shipment_head.Crate) as Crate from tspl_sd_shipment_head where 
+          convert(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "'           
+          and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location = '" + txtLocCode.Value + "' and TSPL_SD_SHIPMENT_HEAD.route_no = '" + fndRouteNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'  and TSPL_SD_SHIPMENT_HEAD.Status = 1"
+                    txtCrateQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strCrateQty))
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
                 ' **************************************************************************************************
@@ -1066,6 +1077,19 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         TxtMultiDairyGPassReverse.arrValueMember = Nothing
         txtDriverName.Text = Nothing
         txtDriverMobNo.Text = Nothing
+        If SetDefaultShiftTime.Length > 0 Then
+            Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
+            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+                rbtnEvening.IsChecked = True
+
+            Else
+                txtSupplyDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+                rbtnMorning.IsChecked = True
+            End If
+        End If
+
     End Sub
     Private Sub cmbitemtype_SelectedIndexChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs)
         'If isInsideLoadData = False Then
@@ -1401,7 +1425,11 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
     Private Function GetAttachQry(ByVal StrCode As String) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
-        Dim Qry As String = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch', Case When CFinLTR > 0 and Final.StokingUOM='LTR' Then ( ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty ) )* CFinPouch ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr', CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then ( crate_qty-( Column_Crate * (Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End)) ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch', CAST( CASE WHEN qty > 0 THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt END AS decimal(18,2) ) AS CrateQtydd, CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2, case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
+        Dim Qry As String = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
+                            Case When CFinLTR > 0 and Final.StokingUOM='LTR' Then ( ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty ) )* CFinPouch ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr',
+                            CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then ( crate_qty-( Column_Crate * (Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End)) ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch',
+                           CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt ELSE 0 END AS decimal(18,2)) AS CrateQtydd,
+                           CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2, case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             Qry += "  ,(qty * Conversion_Factor/CFinPrintUOM ) as PrintUOM,case when UPPER(Unit_code)='CRATE' then qty else 0 end as TotalCrate,case when UPPER(Unit_code)='BOX' then qty else 0 end as TotalBOX,    case when UPPER(Unit_code)='CFC' then qty else 0 end as TotalCFC "
         End If

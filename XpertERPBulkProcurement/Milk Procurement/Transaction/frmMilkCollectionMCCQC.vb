@@ -6,6 +6,8 @@ Public Class frmMilkCollectionMCCQC
     Inherits FrmMainTranScreen
     Dim CorrectionApply As Boolean = False
     Dim OneTimeCheck As Boolean = False
+    Const colCheck As String = "colCheck"
+
     Private Sub FrmPrefixImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtDateReport.Value = txtDate.Value
@@ -356,6 +358,23 @@ Public Class frmMilkCollectionMCCQC
 
         End Try
     End Sub
+    Sub FormatGridGv2()
+        ' gv2.Rows.Clear()
+        'gv2.Columns.Clear()
+
+        Dim repocolCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repocolCheckBox.FormatString = ""
+        repocolCheckBox.HeaderText = "Check"
+        repocolCheckBox.Name = colCheck
+        repocolCheckBox.Width = 100
+        repocolCheckBox.ReadOnly = False
+        gv2.MasterTemplate.Columns.Add(repocolCheckBox)
+
+        gv2.AllowAddNewRow = False
+        '  AddHandler gv2.CellClick, AddressOf gv2_CellClick
+
+    End Sub
+
 
     Private Sub RadButton3_Click_1(sender As Object, e As EventArgs) Handles RadButton3.Click
         Try
@@ -378,6 +397,10 @@ Public Class frmMilkCollectionMCCQC
                 gv2.Columns(ii).ReadOnly = True
                 gv2.Columns(ii).IsVisible = True
             Next
+            'If chkSms.Checked Then
+            '    FormatGridGv2()
+            'End If
+            FormatGridGv2()
             gv2.BestFitColumns()
             gv2.Columns("Document_No").HeaderText = "Document"
             gv2.Columns("PK_Id").HeaderText = "PKID"
@@ -391,6 +414,10 @@ Public Class frmMilkCollectionMCCQC
             gv2.Columns("FATKG").HeaderText = "FAT Kg"
             gv2.Columns("SNF").HeaderText = "SNF"
             gv2.Columns("SNFKG").HeaderText = "SNF Kg"
+            gv2.Columns("Status").HeaderText = "Status"
+            'If chkSms.Checked Then
+            '    FormatGridGv2()
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -488,5 +515,143 @@ Public Class frmMilkCollectionMCCQC
             Throw New Exception(ex.Message)
         End Try
     End Sub
+    Sub VisibleSendButton()
+        If rbtnPending.IsChecked Then
+            chkSms.Visible = True
+            chkSms.Enabled = True
+        Else
+            chkSms.Visible = False
+            chkSms.Enabled = False
+            chkSms.IsChecked = False
+        End If
+    End Sub
+    Private Sub rbtnPending_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnPending.CheckStateChanged
+        VisibleSendButton()
+    End Sub
 
+    Private Sub rbtnAllQCDone_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnAllQCDone.CheckStateChanged
+        VisibleSendButton()
+        VisibleSms()
+    End Sub
+
+    Private Sub rbtnAll_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnAll.CheckStateChanged
+        VisibleSendButton()
+        VisibleSms()
+    End Sub
+
+    Private Sub chkSms_CheckStateChanged(sender As Object, e As EventArgs) Handles chkSms.CheckStateChanged
+        VisibleSms()
+    End Sub
+    Sub VisibleSms()
+        If chkSms.IsChecked Then
+            GroupBox2.Visible = True
+        Else
+            GroupBox2.Visible = False
+        End If
+    End Sub
+
+    ' Private Sub btnSendSms_Click(ByVal RoWNum As Integer, ByVal trans As SqlTransaction)
+    Private Sub btnSendSms_Click(sender As Object, e As EventArgs) Handles btnSendSms.Click
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+
+            'Dim Qry As String = Nothing
+            Dim strPhoneno As String = Nothing
+            Dim dtContent As DataTable = Nothing
+            Dim strBMC As String
+            Dim excStr As String = Nothing
+            If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkCollectionMCCSample) = CompairStringResult.Equal Then
+                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.MilkCollectionMCCSample + "4" + "'", trans)
+                excStr = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ES_Trans_Type_4 from TSPL_PROGRAM_MASTER where Program_Code='" + clsUserMgtCode.MilkCollectionMCCSample + "4" + "'", trans))
+            End If
+
+            Dim DCSCode() As String
+            Dim objEmailH As New clsEMailHead()
+            objEmailH.arrEMail = New List(Of String)()
+            Dim objSMSH As New clsSMSHead()
+            If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+                If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                    For Each grow In gv2.Rows
+                        If clsCommon.myCBool(grow.Cells("colCheck").Value) Then
+                            objSMSH.arrMobilNo = New List(Of String)()
+                            strBMC = Nothing
+                            strBMC = clsCommon.myCstr(grow.Cells("Mcc_Code_VLC_Uploader").Value)
+                            strPhoneno = Nothing
+                            Dim Qry1 As String = "Select (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As DCS_Contact, 
+                                TSPL_VENDOR_MASTER.Vendor_Name from TSPL_VENDOR_MASTER
+                                Left Outer join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code
+                                where TSPL_VENDOR_MASTER.Form_Type='VSP' And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________') And TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader = '" + strBMC + "'"
+                            Dim dtt As DataTable = clsDBFuncationality.GetDataTable(Qry1, trans)
+                            strPhoneno = clsCommon.myCstr(dtt.Rows(0)("DCS_Contact"))
+
+                            DCSCode = (clsCommon.myCstr(grow.Cells("Mcc_Code_VLC_Uploader").Value).Split("-"))
+                            objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCUploaderCode, clsCommon.myCstr(DCSCode(0)))
+                            'objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCUploaderCode, clsCommon.myCstr(dtContent(0)))
+
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCName, clsCommon.myCstr(dtt.Rows(0)("Vendor_Name")))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderFat, clsCommon.myCstr(grow.Cells("FAT").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderSNF, clsCommon.myCstr(grow.Cells("SNF").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderQty, clsCommon.myCstr(grow.Cells("QTY").Value))
+
+                            'objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderCLR, clsCommon.myCstr(grow.Cells("CNF").Value))
+
+                            ' objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.ES_Trans_Type_3, excStr)
+
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, MyBase.Form_ID = "4")
+                            If clsCommon.myLen(strPhoneno) > 0 Then
+                                strPhoneno = strPhoneno.Replace("(", "").Replace(")", "").Replace("+", "").Replace("_____", "").Replace("____", "").Replace("___", "").Replace("__", "").Replace("_", "")
+                            End If
+                            If clsCommon.myLen(strPhoneno) >= 10 Then
+                                objSMSH.arrMobilNo.Add(clsCommon.myCstr(strPhoneno))
+                            End If
+
+                            If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                                objSMSH.SaveData(clsUserMgtCode.MilkCollectionMCCSample + "4", objSMSH, trans)
+                            End If
+                        End If
+                    Next
+                    trans.Commit()
+                End If
+            End If
+            objSMSH = Nothing
+            If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                clsCommon.MyMessageBoxShow(Me, "SMS Send Successfully", Me.Text)
+                If gv2 IsNot Nothing AndAlso gv2.Rows.Count > 0 Then
+                    For i As Integer = 0 To gv2.Rows.Count - 1
+                        gv2.Rows(i).Cells("ColCheck").Value = False
+                    Next
+                End If
+            End If
+
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnSelectedAll_Click(sender As Object, e As EventArgs) Handles btnSelectedAll.Click
+        Try
+            If gv2 IsNot Nothing AndAlso gv2.Rows.Count > 0 Then
+                For i As Integer = 0 To gv2.Rows.Count - 1
+                    gv2.Rows(i).Cells("ColCheck").Value = True
+                Next
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnUnSelectedAll_Click(sender As Object, e As EventArgs) Handles btnUnSelectedAll.Click
+        Try
+            If gv2 IsNot Nothing AndAlso gv2.Rows.Count > 0 Then
+                For i As Integer = 0 To gv2.Rows.Count - 1
+                    gv2.Rows(i).Cells("ColCheck").Value = False
+                Next
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

@@ -23,37 +23,40 @@ Partial Class FrmSaleHistory
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.rrbPosted = New Telerik.WinControls.UI.RadRadioButton
-        Me.btnReferesh = New Telerik.WinControls.UI.RadButton
-        Me.rrbAll = New Telerik.WinControls.UI.RadRadioButton
-        Me.txtCustName = New common.Controls.MyTextBox
-        Me.txtCustomer = New common.UserControls.txtFinder
-        Me.lblCustomer = New common.Controls.MyLabel
-        Me.cboSelectedBy = New common.Controls.MyComboBox
-        Me.lblSelectedBy = New common.Controls.MyLabel
-        Me.txtToDate = New common.Controls.MyDateTimePicker
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.txtFromDate = New common.Controls.MyDateTimePicker
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
-        Me.Panel2 = New System.Windows.Forms.Panel
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem
-        Me.DeleteLaayout = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.gvCustomer = New common.UserControls.MyRadGridView
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.gvDetails = New common.UserControls.MyRadGridView
-        Me.btnReset = New Telerik.WinControls.UI.RadButton
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rrbPosted = New Telerik.WinControls.UI.RadRadioButton()
+        Me.btnReferesh = New Telerik.WinControls.UI.RadButton()
+        Me.rrbAll = New Telerik.WinControls.UI.RadRadioButton()
+        Me.txtCustName = New common.Controls.MyTextBox()
+        Me.txtCustomer = New common.UserControls.txtFinder()
+        Me.lblCustomer = New common.Controls.MyLabel()
+        Me.cboSelectedBy = New common.Controls.MyComboBox()
+        Me.lblSelectedBy = New common.Controls.MyLabel()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
+        Me.DeleteLaayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvCustomer = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvDetails = New common.UserControls.MyRadGridView()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.rrbPosted, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -144,18 +147,39 @@ Partial Class FrmSaleHistory
         '
         'txtCustName
         '
+        Me.txtCustName.CalculationExpression = Nothing
+        Me.txtCustName.FieldCode = Nothing
+        Me.txtCustName.FieldDesc = Nothing
+        Me.txtCustName.FieldMaxLength = 0
+        Me.txtCustName.FieldName = Nothing
         Me.txtCustName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustName.isCalculatedField = False
+        Me.txtCustName.IsSourceFromTable = False
+        Me.txtCustName.IsSourceFromValueList = False
+        Me.txtCustName.IsUnique = False
         Me.txtCustName.Location = New System.Drawing.Point(232, 70)
         Me.txtCustName.MaxLength = 50
         Me.txtCustName.MendatroryField = False
         Me.txtCustName.MyLinkLable1 = Nothing
         Me.txtCustName.MyLinkLable2 = Nothing
         Me.txtCustName.Name = "txtCustName"
+        Me.txtCustName.ReferenceFieldDesc = Nothing
+        Me.txtCustName.ReferenceFieldName = Nothing
+        Me.txtCustName.ReferenceTableName = Nothing
         Me.txtCustName.Size = New System.Drawing.Size(154, 18)
         Me.txtCustName.TabIndex = 5
         '
         'txtCustomer
         '
+        Me.txtCustomer.CalculationExpression = Nothing
+        Me.txtCustomer.FieldCode = Nothing
+        Me.txtCustomer.FieldDesc = Nothing
+        Me.txtCustomer.FieldMaxLength = 0
+        Me.txtCustomer.FieldName = Nothing
+        Me.txtCustomer.isCalculatedField = False
+        Me.txtCustomer.IsSourceFromTable = False
+        Me.txtCustomer.IsSourceFromValueList = False
+        Me.txtCustomer.IsUnique = False
         Me.txtCustomer.Location = New System.Drawing.Point(83, 70)
         Me.txtCustomer.MendatroryField = True
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -164,12 +188,16 @@ Partial Class FrmSaleHistory
         Me.txtCustomer.MyReadOnly = False
         Me.txtCustomer.MyShowMasterFormButton = False
         Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.ReferenceFieldDesc = Nothing
+        Me.txtCustomer.ReferenceFieldName = Nothing
+        Me.txtCustomer.ReferenceTableName = Nothing
         Me.txtCustomer.Size = New System.Drawing.Size(143, 18)
         Me.txtCustomer.TabIndex = 4
         Me.txtCustomer.Value = ""
         '
         'lblCustomer
         '
+        Me.lblCustomer.FieldName = Nothing
         Me.lblCustomer.Location = New System.Drawing.Point(9, 70)
         Me.lblCustomer.Name = "lblCustomer"
         Me.lblCustomer.Size = New System.Drawing.Size(55, 18)
@@ -178,14 +206,21 @@ Partial Class FrmSaleHistory
         '
         'cboSelectedBy
         '
-        Me.cboSelectedBy.AllowShowFocusCues = False
         Me.cboSelectedBy.AutoCompleteDisplayMember = Nothing
         Me.cboSelectedBy.AutoCompleteValueMember = Nothing
+        Me.cboSelectedBy.CalculationExpression = Nothing
+        Me.cboSelectedBy.DropDownAnimationEnabled = True
         Me.cboSelectedBy.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboSelectedBy.FieldCode = Nothing
+        Me.cboSelectedBy.FieldDesc = Nothing
+        Me.cboSelectedBy.FieldMaxLength = 0
+        Me.cboSelectedBy.FieldName = Nothing
+        Me.cboSelectedBy.isCalculatedField = False
+        Me.cboSelectedBy.IsSourceFromTable = False
+        Me.cboSelectedBy.IsSourceFromValueList = False
+        Me.cboSelectedBy.IsUnique = False
         RadListDataItem1.Text = "Customer"
-        RadListDataItem1.TextWrap = True
         RadListDataItem2.Text = "Item Code"
-        RadListDataItem2.TextWrap = True
         Me.cboSelectedBy.Items.Add(RadListDataItem1)
         Me.cboSelectedBy.Items.Add(RadListDataItem2)
         Me.cboSelectedBy.Location = New System.Drawing.Point(83, 46)
@@ -193,11 +228,15 @@ Partial Class FrmSaleHistory
         Me.cboSelectedBy.MyLinkLable1 = Nothing
         Me.cboSelectedBy.MyLinkLable2 = Nothing
         Me.cboSelectedBy.Name = "cboSelectedBy"
+        Me.cboSelectedBy.ReferenceFieldDesc = Nothing
+        Me.cboSelectedBy.ReferenceFieldName = Nothing
+        Me.cboSelectedBy.ReferenceTableName = Nothing
         Me.cboSelectedBy.Size = New System.Drawing.Size(143, 20)
         Me.cboSelectedBy.TabIndex = 2
         '
         'lblSelectedBy
         '
+        Me.lblSelectedBy.FieldName = Nothing
         Me.lblSelectedBy.Location = New System.Drawing.Point(9, 46)
         Me.lblSelectedBy.Name = "lblSelectedBy"
         Me.lblSelectedBy.Size = New System.Drawing.Size(64, 18)
@@ -206,8 +245,17 @@ Partial Class FrmSaleHistory
         '
         'txtToDate
         '
+        Me.txtToDate.CalculationExpression = Nothing
         Me.txtToDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
         Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
         Me.txtToDate.Location = New System.Drawing.Point(232, 11)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -215,6 +263,9 @@ Partial Class FrmSaleHistory
         Me.txtToDate.MyLinkLable2 = Nothing
         Me.txtToDate.Name = "txtToDate"
         Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
         Me.txtToDate.Size = New System.Drawing.Size(82, 20)
         Me.txtToDate.TabIndex = 1
         Me.txtToDate.TabStop = False
@@ -224,15 +275,32 @@ Partial Class FrmSaleHistory
         'gv1
         '
         Me.gv1.Location = New System.Drawing.Point(249, 17)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(10, 10)
         Me.gv1.TabIndex = 1
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'txtFromDate
         '
+        Me.txtFromDate.CalculationExpression = Nothing
         Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
         Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
         Me.txtFromDate.Location = New System.Drawing.Point(82, 11)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -240,6 +308,9 @@ Partial Class FrmSaleHistory
         Me.txtFromDate.MyLinkLable2 = Nothing
         Me.txtFromDate.Name = "txtFromDate"
         Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
         Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
         Me.txtFromDate.TabIndex = 0
         Me.txtFromDate.TabStop = False
@@ -248,6 +319,7 @@ Partial Class FrmSaleHistory
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(167, 13)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(45, 18)
@@ -256,6 +328,7 @@ Partial Class FrmSaleHistory
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Location = New System.Drawing.Point(9, 12)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(59, 18)
@@ -327,16 +400,12 @@ Partial Class FrmSaleHistory
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(734, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Setting"
-        Me.RadMenuItem2.AccessibleName = "Setting"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.SaveLayoutbtn, Me.DeleteLaayout})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Setting"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SaveLayoutbtn
         '
@@ -344,15 +413,11 @@ Partial Class FrmSaleHistory
         Me.SaveLayoutbtn.AccessibleName = "Save layout"
         Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
         Me.SaveLayoutbtn.Text = "Save Layout"
-        Me.SaveLayoutbtn.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'DeleteLaayout
         '
-        Me.DeleteLaayout.AccessibleDescription = "Delete Layout"
-        Me.DeleteLaayout.AccessibleName = "Delete Layout"
         Me.DeleteLaayout.Name = "DeleteLaayout"
         Me.DeleteLaayout.Text = "Delete Layout"
-        Me.DeleteLaayout.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer2
         '
@@ -385,15 +450,13 @@ Partial Class FrmSaleHistory
         '
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
-        Me.RadPageView1.RootElement.Text = "Report1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(734, 316)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Summary"
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Summary"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Details"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Details"
         '
         'RadPageViewPage1
         '
@@ -414,18 +477,23 @@ Partial Class FrmSaleHistory
         Me.gvCustomer.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvCustomer.Location = New System.Drawing.Point(0, 0)
         '
-        'gvCustomer
+        '
         '
         Me.gvCustomer.MasterTemplate.AllowAddNewRow = False
         Me.gvCustomer.MasterTemplate.AllowDeleteRow = False
         Me.gvCustomer.MasterTemplate.EnableFiltering = True
+        Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCustomer.ShowGroupPanel = False
+        Me.gvCustomer.ShowHeaderCellButtons = True
         Me.gvCustomer.Size = New System.Drawing.Size(713, 268)
         Me.gvCustomer.TabIndex = 1
         Me.gvCustomer.TabStop = False
-        Me.gvCustomer.Text = "RadGridView1"
+        Me.gvCustomer.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -451,12 +519,17 @@ Partial Class FrmSaleHistory
         Me.gvDetails.MasterTemplate.AllowAddNewRow = False
         Me.gvDetails.MasterTemplate.AllowDeleteRow = False
         Me.gvDetails.MasterTemplate.EnableFiltering = True
+        Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDetails.ShowGroupPanel = False
+        Me.gvDetails.ShowHeaderCellButtons = True
         Me.gvDetails.Size = New System.Drawing.Size(713, 268)
         Me.gvDetails.TabIndex = 3
-        Me.gvDetails.Text = "RadGridView1"
+        Me.gvDetails.VarID = ""
         '
         'btnReset
         '

@@ -4215,6 +4215,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 Dim dblActualQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value)
                 Dim dblBalSaleQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colBalanceQty).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
+                Dim strActualUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)
                 If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then
                     If clsCommon.myLen(strUOM) <= 0 Then
                         common.clsCommon.MyMessageBoxShow(Me, "Please enter UOM for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1))
@@ -4228,10 +4229,36 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                             'common.clsCommon.MyMessageBoxShow("Item " + strICode + "( " + strIName.Trim() + " ) Entered Quantity(" + clsCommon.myCstr(dblQty) + ") Can't be more Pending Quantity(" + clsCommon.myCstr(dblPendingQty) + ").At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
                             'Return False
                         End If
-                        If (dblActualQty + dblDamageQty) > dblQty Then
-                            common.clsCommon.MyMessageBoxShow("Actual Quantity and Damaged Quantity can't exceed Return Quantity")
-                            Return False
+                        If clsCommon.CompairString(strUOM, clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) = CompairStringResult.Equal Then
+                            If (dblActualQty + dblDamageQty) > dblQty Then
+                                common.clsCommon.MyMessageBoxShow("Actual Quantity and Damaged Quantity can't exceed Return Quantity")
+                                Return False
+                            End If
+                        Else
+                            Dim ActualQty As Decimal = 0
+                            Dim DamageQty As Decimal = 0
+                            If clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) > 0 Then
+                                Dim Qry As String = "select CONVERT(DECIMAL(18, 2), (" & clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colActualQty).Value)) & " * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ISNULL(ConvertDiv.Conversion_Factor, 1) ) AS Actual_QTY
+                                  from TSPL_ITEM_UOM_DETAIL
+                                  INNER JOIN TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code ='" & strICode & "' AND ConvertDiv.UOM_Code ='" & strUOM & "'
+                                  where TSPL_ITEM_UOM_DETAIL.Item_Code='" & strICode & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='" & strActualUOM & "'"
+
+                                ActualQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry))
+                            End If
+                            If clsCommon.myCdbl(gv1.Rows(ii).Cells(colDamageQty).Value) > 0 Then
+                                Dim query As String = "select CONVERT(DECIMAL(18, 2), (" & clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colDamageQty).Value)) & " * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ISNULL(ConvertDiv.Conversion_Factor, 1) ) AS Actual_QTY
+                                  from TSPL_ITEM_UOM_DETAIL
+                                  INNER JOIN TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code ='" & strICode & "' AND ConvertDiv.UOM_Code ='" & strUOM & "'
+                                  where TSPL_ITEM_UOM_DETAIL.Item_Code='" & strICode & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='" & strActualUOM & "'"
+
+                                DamageQty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(query))
+                            End If
+                            If (ActualQty + DamageQty) > dblQty Then
+                                common.clsCommon.MyMessageBoxShow("Actual Quantity and Damaged Quantity can't exceed Return Quantity")
+                                Return False
+                            End If
                         End If
+
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colSchemeItem).Value), "No") = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(strUOM, clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) = CompairStringResult.Equal Then
                                     If dblQty > dblBalSaleQty Then
@@ -5530,10 +5557,10 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 gv1.Columns(colConvAmt).IsVisible = True
                 gv1.Columns(colQty).ReadOnly = True
                 gv1.Columns(colUnit).ReadOnly = True
-            Else
-                gv1.Columns(colActualQty).IsVisible = False
-                gv1.Columns(colActualUOM).IsVisible = False
-                gv1.Columns(colConvAmt).IsVisible = False
+                'Else
+                '    gv1.Columns(colActualQty).IsVisible = False
+                '    gv1.Columns(colActualUOM).IsVisible = False
+                '    gv1.Columns(colConvAmt).IsVisible = False
 
             End If
             If clsCommon.myLen(txtReqNo.Value) > 0 Then
