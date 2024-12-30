@@ -92,41 +92,6 @@ Public Class frmMilkProcurementUploader
         'End If
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("TR_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_PROCUREMENT_UPLOADER_HEAD(Document_No)")
-        coll.Add("SNo", "Integer NULL")
-        coll.Add("Shift_Date", "Date NOT NULL")
-        coll.Add("Shift", "char(1) not null")
-        coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
-        coll.Add("No_Of_Cans", "Integer NULL")
-        coll.Add("Milk_Weight", "Decimal(18,2) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
-        coll.Add("Reject_Defaulter", "Varchar(20) null")
-        coll.Add("Reject_Type", "Varchar(30) null")
-        coll.Add("Against_Milk_Collection_DCS_Detail", "integer null references TSPL_MILK_COLLECTION_DCS_DETAIL(PK_Id)")
-        coll.Add("Bulk_Route_Code", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
-        coll.Add("Manual_Weight", "Integer NULL")
-        coll.Add("Manual_Sample", "Integer NULL")
-        coll.Add("Empty_Sample", "Integer NULL")
-        coll.Add("Page_No", "Integer NULL")
-        coll.Add("Arrival_Time", "Datetime NULL")
-        coll.Add("Weighment_Time", "Datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
-        coll.Item("Document_No") = "Varchar(30) not null"
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
-
-        coll.Item("TR_No") = "Varchar(30) null"
-        coll.Item("VLC_Code") = "Varchar(30) null"
-        coll.Item("Against_Milk_Collection_DCS_Detail") = "integer null"
-        coll.Item("Bulk_Route_Code") = "Varchar(30) null"
-        coll.Add("Hist_By", "varchar(12) NOT NULL")
-        coll.Add("Hist_On", "Datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING", coll, Nothing, False, False)
-
         arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         MyBase.SetUserMgmt(clsUserMgtCode.MilkShiftUploader)
         SettShowAllDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, Nothing))

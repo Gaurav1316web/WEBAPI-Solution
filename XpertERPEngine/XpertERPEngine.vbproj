@@ -169,9 +169,6 @@
     <Reference Include="XpertERPBlankTableScript">
       <HintPath>..\XpertERP\bin\Debug\XpertERPBlankTableScript.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine">
-      <HintPath>..\XpertMIS\bin\Debug\XpertERPEngine.dll</HintPath>
-    </Reference>
     <Reference Include="XpertERPEngineFine, Version=7.1.3.33, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>

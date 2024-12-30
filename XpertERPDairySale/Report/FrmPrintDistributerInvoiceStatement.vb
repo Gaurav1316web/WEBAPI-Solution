@@ -3,6 +3,8 @@ Imports CrystalDecisions.Shared
 Imports CrystalDecisions.Windows.Forms
 Imports common
 Imports System.IO
+Imports System.Net.Mail
+Imports System.Net.Mime
 '' ERO/05/04/19-000545 (work on only on report format in case of taxable invoice)
 Public Class FrmPrintDistributerInvoiceStatement
     Inherits FrmMainTranScreen
@@ -58,6 +60,8 @@ Public Class FrmPrintDistributerInvoiceStatement
             sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=1 and TSPL_LOCATION_MASTER.State<>TSPL_CUSTOMER_MASTER.State and 1 <= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "NT") = CompairStringResult.Equal Then
             sQuery += " and TSPL_SD_SALE_INVOICE_HEAD.is_taxable=0 "
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "AL") = CompairStringResult.Equal Then
+            sQuery += "  and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
         End If
 
         sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103)"
@@ -255,29 +259,34 @@ Public Class FrmPrintDistributerInvoiceStatement
         dr("Name") = "Local Taxable"
         dt.Rows.Add(dr)
 
-        dr = dt.NewRow()
-        dr("Code") = "LWM"
-        dr("Name") = "Local With MandiTax"
-        dt.Rows.Add(dr)
+        'dr = dt.NewRow()
+        'dr("Code") = "LWM"
+        'dr("Name") = "Local With MandiTax"
+        'dt.Rows.Add(dr)
 
-        dr = dt.NewRow()
-        dr("Code") = "IT"
-        dr("Name") = "Interstate Taxable"
-        dt.Rows.Add(dr)
+        'dr = dt.NewRow()
+        'dr("Code") = "IT"
+        'dr("Name") = "Interstate Taxable"
+        'dt.Rows.Add(dr)
 
-        dr = dt.NewRow()
-        dr("Code") = "IWM"
-        dr("Name") = "Interstate With MandiTax"
-        dt.Rows.Add(dr)
+        'dr = dt.NewRow()
+        'dr("Code") = "IWM"
+        'dr("Name") = "Interstate With MandiTax"
+        'dt.Rows.Add(dr)
 
-        dr = dt.NewRow()
-        dr("Code") = "UT"
-        dr("Name") = "UT Taxable"
-        dt.Rows.Add(dr)
+        'dr = dt.NewRow()
+        'dr("Code") = "UT"
+        'dr("Name") = "UT Taxable"
+        'dt.Rows.Add(dr)
 
         dr = dt.NewRow()
         dr("Code") = "NT"
         dr("Name") = "NonTaxable"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "AL"
+        dr("Name") = "ALL"
         dt.Rows.Add(dr)
 
         cboReportType.DataSource = dt
@@ -496,6 +505,9 @@ Public Class FrmPrintDistributerInvoiceStatement
                     pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNew", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                    pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKRPrintDistribution", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
                 Else
                     pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 End If
@@ -1081,7 +1093,7 @@ Public Class FrmPrintDistributerInvoiceStatement
                     strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True)
                     objEmailH.Attachment_1_Path = strRptPath
                     '---------------------------------------------------------------------------
-
+                    Dim Data As Attachment = New Attachment(objEmailH.Attachment_1_Path, MediaTypeNames.Application.Octet)
 
                     Dim emailId As String = ""
                     emailId = clsDBFuncationality.getSingleValue("select Email from TSPL_customer_MASTER where cust_code ='" & clsCommon.myCstr(grow.Cells("Customer_Code").Value) & "' ")
@@ -1091,6 +1103,20 @@ Public Class FrmPrintDistributerInvoiceStatement
                     End If
 
                     objEmailH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objEmailH, Nothing)
+                    Dim MailMsg As New MailMessage()
+                    MailMsg.Subject = objEmailH.Email_Subject
+                    MailMsg.From = New MailAddress("mohdsuhail0677@gmail.com")
+                    MailMsg.To.Add(clsCommon.GetMulcallStringWithComma(objEmailH.arrEMail))
+                    MailMsg.Body = objEmailH.Email_Text
+                    MailMsg.Priority = MailPriority.High
+                    MailMsg.IsBodyHtml = False
+                    MailMsg.Attachments.Add(Data)
+                    Dim SmtpMail As New SmtpClient("smtp.gmail.com")
+                    SmtpMail.Port = clsCommon.myCdbl(587)
+                    SmtpMail.Credentials = New System.Net.NetworkCredential("mohdsuhail0677@gmail.com", "civd wxfw eehy vsoz")
+                    SmtpMail.EnableSsl = True
+
+                    SmtpMail.Send(MailMsg)
                     objEmailH = Nothing
                 End If
             Next

@@ -1296,11 +1296,15 @@ Public Class clsSNShipmentHead
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", trans)
             '''' 
+            isSaved = isSaved AndAlso HistoryData(obj.Document_Code, trans)
         Catch err As Exception
-
             Throw New Exception(err.Message)
         End Try
         Return isSaved
+    End Function
+
+    Public Shared Function HistoryData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
     End Function
 
     Public Shared Function UpdateAfterPosting(ByVal obj As clsSNShipmentHead, ByVal trans As SqlTransaction) As Boolean
@@ -1352,7 +1356,7 @@ Public Class clsSNShipmentHead
 
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_Detail", "Document_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
-
+            HistoryData(Doc_No, trans)
             qry = "delete from TSPL_SD_SHIPMENT_DETAIL where document_code ='" & Doc_No & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -2007,7 +2011,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             qry = "Update TSPL_SD_SHIPMENT_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',Sale_Invoice_No ='" + obj.Sale_Invoice_No + "' "
             qry += " where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            'HistoryData(strDocNo, trans)
             If obj.Is_Create_Auto_Invoice Then
                 If clsCommon.myLen(obj.Sale_Invoice_No) <= 0 Then
                     Dim objSI As clsSNInvoiceHead = ConvertShipmentToSaleInvoice(obj)
@@ -2468,6 +2472,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
+                HistoryData(strCode, trans)
                 clsSerializeInvenotry.DeleteData("SD-IN", strCode, trans)
 
                 Dim qry As String = "delete from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
@@ -2612,6 +2617,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
 
                 Qry = " update TSPL_SD_SHIPMENT_HEAD set is_create_auto_invoice=0 where Document_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                'HistoryData(strCode, trans)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

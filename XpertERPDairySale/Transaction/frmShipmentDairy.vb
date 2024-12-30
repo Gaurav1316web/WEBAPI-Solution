@@ -12611,27 +12611,16 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
     End Sub
     Function PrintInvoiveForAll(ByVal DocCode As String, ByVal docDate As DateTime, ByVal invoiceCode As String, ByVal isCancel As Boolean) As String
         Try
-            Dim CancelTable1 As String = Nothing
-            Dim CancelTable2 As String = Nothing
-            Dim CancelTable3 As String = Nothing
-            Dim CancelTable4 As String = Nothing
-            If isCancel Then
-                CancelTable1 = " TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data As TSPL_SD_sale_invoice_DETAIL "
-                CancelTable2 = " TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data As TSPL_SD_SALE_INVOICE_HEAD "
-                CancelTable3 = " TSPL_SD_SHIPMENT_HEAD_Cancel_Data As TSPL_SD_SHIPMENT_HEAD "
-                CancelTable4 = " TSPL_SD_SHIPMENT_DETAIL_Cancel_Data As TSPL_SD_SHIPMENT_DETAIL "
-            Else
-                CancelTable1 = " TSPL_SD_SALE_INVOICE_DETAIL"
-                CancelTable2 = " TSPL_SD_SALE_INVOICE_HEAD "
-                CancelTable3 = " TSPL_SD_SHIPMENT_HEAD "
-                CancelTable4 = " TSPL_SD_SHIPMENT_DETAIL "
-            End If
-
             Dim Qry As String = Nothing
             Dim frmCRV As New frmCrystalReportViewer()
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice
             Dim ItemMain As String = Nothing
-            Dim itemScheme As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from " + CancelTable1 + " where Shipment_Code='" + DocCode + "' and Scheme_Applicable='Y'"))
+            Dim itemScheme As Double = 0
+            If isCancel Then
+                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data where Shipment_Code='" + DocCode + "' and Scheme_Applicable='Y'"))
+            Else
+                itemScheme = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from  TSPL_SD_SALE_INVOICE_DETAIL where Shipment_Code='" + DocCode + "' and Scheme_Applicable='Y'"))
+            End If
 
             If itemScheme > 0 Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
@@ -12664,14 +12653,24 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             Else
                 Dim dtDocdate As Date?
                 dtDocdate = Nothing
-                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from " + CancelTable2 + " where Document_Code='" + invoiceCode + "'"
+                Dim StrSql As String = Nothing
+                If isCancel Then
+                    StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from  TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data where Document_Code='" + invoiceCode + "'"
+                Else
+                    StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from  TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + invoiceCode + "'"
+                End If
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
                 If dt1.Rows.Count > 0 Then
                     'IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
                     dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                 End If
-                Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from " + CancelTable3 + " where Document_Code in(select Document_Code from " + CancelTable3 + " where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, txtVendorNo.Value, ItemMain, CancelTable1, CancelTable2, CancelTable3, CancelTable4, isCancel)
+                Dim InvoiceNo As String
+                If isCancel Then
+                    InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where Document_Code in(select Document_Code from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
+                Else
+                    InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code in(select Document_Code from  TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
+                End If
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, txtVendorNo.Value, ItemMain, isCancel)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
