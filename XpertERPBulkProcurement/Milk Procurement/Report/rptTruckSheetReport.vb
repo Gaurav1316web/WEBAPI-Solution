@@ -275,7 +275,7 @@ where 1=1 "
                                         ActivateStop = True
                                         Exit For
                                     End If
-                                    If i = 0 AndAlso j = 0 AndAlso rbtnRouteWise.IsChecked = True Then
+                                    If i = 0 AndAlso rbtnRouteWise.IsChecked = True Then
                                         dtReport.Rows.Add(clsCommon.myCstr("Tanker No : " + dtMCCHeadFilter.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
                                     End If
                                     dtReport.Rows.Add(clsCommon.myCstr("BMC : " + dtMCCDetailFilter.Rows(j).Item("MCC_NAME")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
