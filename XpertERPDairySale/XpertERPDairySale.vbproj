@@ -448,6 +448,12 @@
     <Compile Include="Report\rptDetailedCardReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptHSNWiseSaleReport.Designer.vb">
+      <DependentUpon>rptHSNWiseSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptHSNWiseSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptInvoiceDetailReport.designer.vb">
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>
     </Compile>
@@ -1074,6 +1080,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDetailedCardReport.resx">
       <DependentUpon>rptDetailedCardReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptHSNWiseSaleReport.resx">
+      <DependentUpon>rptHSNWiseSaleReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptInvoiceDetailReport.resx">
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>

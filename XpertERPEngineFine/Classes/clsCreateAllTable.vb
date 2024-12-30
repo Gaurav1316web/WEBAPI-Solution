@@ -2440,12 +2440,22 @@ Public Class clsCreateAllTable
             coll.Add("Penalty_Days", "integer NULL")
             coll.Add("Penalty", "Decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_SCHEDULE_PENALTY", coll, "")
-            'Try
-            '    clsDBFuncationality.ExecuteNonQuery("update TSPL_ITEM_MASTER set Created_Date=convert(datetime,Created_Date_XX,103),Modify_Date=convert(datetime,Modified_Date_XX,103)")
-            '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER drop column Created_Date_XX")
-            '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER drop column Modified_Date_XX")
-            'Catch ex As Exception
-            'End Try
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Days", "integer NULL")
+            coll.Add("Qty_Per", "integer NULL")
+            coll.Add("Short_Per", "integer NULL")
+            coll.Add("Late_Days", "integer NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_NOC_SCHEDULE", coll, "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Against_NOC_Schedule_PK_Id", "integer NOT NULL References TSPL_ITEM_NOC_SCHEDULE(PK_Id)")
+            coll.Add("Penalty_Days", "integer NULL")
+            coll.Add("Penalty", "Decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_NOC_SCHEDULE_PENALTY", coll, "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("Item_code", "VARCHAR(50) NOT NULL REFERENCES TSPL_ITEM_MASTER(Item_Code)")
@@ -14586,6 +14596,7 @@ Public Class clsCreateAllTable
             coll.Add("OC", "NUMERIC(10,2) null")               '' OTHER CHARGES
             coll.Add("OC_MAX", "NUMERIC(10,2) null")           '' MAXIMUM LIMIT OF OTHER CHARGES
             coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) null")
+            coll.Add("KKK_Id", "Varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -23929,6 +23940,14 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
+
+            coll.Item("TR_No") = "Varchar(30) null"
+            coll.Item("VLC_Code") = "Varchar(30) null"
+            coll.Item("Against_Milk_Collection_DCS_Detail") = "integer null"
+            coll.Item("Bulk_Route_Code") = "Varchar(30) null"
+            coll.Add("Hist_By", "varchar(12) NOT NULL")
+            coll.Add("Hist_On", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING", coll, Nothing, False, False)
 
             Try
                 qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ADD CONSTRAINT DFC_Manual_Weight_1 DEFAULT 1 FOR Manual_Weight"

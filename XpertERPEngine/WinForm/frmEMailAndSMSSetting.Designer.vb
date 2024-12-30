@@ -387,7 +387,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txtSubject.ReferenceFieldDesc = Nothing
         Me.txtSubject.ReferenceFieldName = Nothing
         Me.txtSubject.ReferenceTableName = Nothing
-        Me.txtSubject.Size = New System.Drawing.Size(488, 0)
+        Me.txtSubject.Size = New System.Drawing.Size(488, 18)
         Me.txtSubject.TabIndex = 38
         '
         'RadLabel12
@@ -556,7 +556,7 @@ Partial Class frmEMailAndSMSSetting
         Me.txt_NotificationCaption.ReferenceFieldDesc = Nothing
         Me.txt_NotificationCaption.ReferenceFieldName = Nothing
         Me.txt_NotificationCaption.ReferenceTableName = Nothing
-        Me.txt_NotificationCaption.Size = New System.Drawing.Size(488, 0)
+        Me.txt_NotificationCaption.Size = New System.Drawing.Size(488, 18)
         Me.txt_NotificationCaption.TabIndex = 38
         '
         'MyLabel13
