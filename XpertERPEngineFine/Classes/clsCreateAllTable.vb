@@ -23930,6 +23930,14 @@ Public Class clsCreateAllTable
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
 
+            coll.Item("TR_No") = "Varchar(30) null"
+            coll.Item("VLC_Code") = "Varchar(30) null"
+            coll.Item("Against_Milk_Collection_DCS_Detail") = "integer null"
+            coll.Item("Bulk_Route_Code") = "Varchar(30) null"
+            coll.Add("Hist_By", "varchar(12) NOT NULL")
+            coll.Add("Hist_On", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING", coll, Nothing, False, False)
+
             Try
                 qry = "ALTER TABLE TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ADD CONSTRAINT DFC_Manual_Weight_1 DEFAULT 1 FOR Manual_Weight"
                 clsDBFuncationality.ExecuteNonQuery(qry)

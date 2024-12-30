@@ -2692,7 +2692,7 @@ Public Class clsUserMgtCode
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"
     Public Const frmDemandUploader As String = "DEM_UPL_TRN"
     Public Const frmDailyDemandReport As String = "DAI-DE-RE"
-
+    Public Const rptHSNWiseSaleReport As String = "HSN_SAL_RPT"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Public Const ModuleXpertAPI As String = "API"
