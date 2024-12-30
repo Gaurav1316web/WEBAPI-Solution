@@ -6,6 +6,7 @@ Public Class clsDocType
     Public Const frmRCDFRateControl As String = "RCDF Rate Control"
     Public Const frmEmployeeDeductionMaster As String = "Employee Deduction Master"
     Public Const TenderPenalty As String = "Tender Penalty"
+    Public Const RALNoc As String = "RAL NOC"
     Public Const BreakDownEntry As String = "Break Down Entry"
     Public Const OutputEntry As String = "Output Entry"
     Public Const ShipToLocation = "Ship To Location"
@@ -775,6 +776,7 @@ Public Class clsDocType
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             InsertDefaultValue(clsDocType.TenderPenalty, "", False, True)
+            InsertDefaultValue(clsDocType.RALNoc, "", False, True)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.RequestService, False, False)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.MCCSaleRequest, False, False)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.MPSale, False, False)
