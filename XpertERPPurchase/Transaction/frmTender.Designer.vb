@@ -44,6 +44,7 @@ Partial Class frmTender
         Me.txtItem = New common.UserControls.txtFinder()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.btnSubmit = New Telerik.WinControls.UI.RadButton()
         Me.UsLock1 = New common.usLock()
         Me.lblAbandonmentNo = New common.Controls.MyLabel()
@@ -127,7 +128,6 @@ Partial Class frmTender
         Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
         Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -150,6 +150,7 @@ Partial Class frmTender
         CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSubmit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAbandonmentNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -213,7 +214,6 @@ Partial Class frmTender
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -256,7 +256,7 @@ Partial Class frmTender
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(1098, 492)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -267,10 +267,10 @@ Partial Class frmTender
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(48.0!, 22.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(52.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1077, 450)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1077, 446)
         Me.RadPageViewPage1.Text = "Tender"
         '
         'SplitContainer2
@@ -320,7 +320,7 @@ Partial Class frmTender
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1077, 450)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1077, 446)
         Me.SplitContainer2.SplitterDistance = 118
         Me.SplitContainer2.TabIndex = 1515
         '
@@ -579,6 +579,16 @@ Partial Class frmTender
         Me.txtDocNo.TabIndex = 0
         Me.txtDocNo.TabStop = False
         Me.txtDocNo.Value = ""
+        '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPPurchase.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(352, 10)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
+        Me.btnAddNew.TabIndex = 1
         '
         'btnSubmit
         '
@@ -850,7 +860,7 @@ Partial Class frmTender
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RadGroupBox1)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1077, 328)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1077, 324)
         Me.SplitContainer3.SplitterDistance = 165
         Me.SplitContainer3.TabIndex = 0
         '
@@ -904,7 +914,7 @@ Partial Class frmTender
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1077, 159)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1077, 155)
         Me.RadGroupBox1.TabIndex = 1511
         Me.RadGroupBox1.Text = "Save"
         '
@@ -929,7 +939,7 @@ Partial Class frmTender
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1057, 129)
+        Me.gv2.Size = New System.Drawing.Size(1057, 125)
         Me.gv2.TabIndex = 17
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -956,7 +966,7 @@ Partial Class frmTender
         Me.RadPageViewPage2.Controls.Add(Me.txtOtherInfo6)
         Me.RadPageViewPage2.Controls.Add(Me.txtOtherInfo3)
         Me.RadPageViewPage2.Controls.Add(Me.txtOtherInfo1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(100.0!, 22.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(104.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1077, 446)
@@ -1147,7 +1157,7 @@ Partial Class frmTender
         Me.RadPageViewPage3.Controls.Add(Me.gvSchedule)
         Me.RadPageViewPage3.Controls.Add(Me.Panel1)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel38)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(80.0!, 22.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(84.0!, 26.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1077, 446)
@@ -1323,7 +1333,7 @@ Partial Class frmTender
         Me.MyLabel38.ForeColor = System.Drawing.SystemColors.Highlight
         Me.MyLabel38.Location = New System.Drawing.Point(0, 433)
         Me.MyLabel38.Name = "MyLabel38"
-        Me.MyLabel38.Size = New System.Drawing.Size(150, 13)
+        Me.MyLabel38.Size = New System.Drawing.Size(1077, 13)
         Me.MyLabel38.TabIndex = 1521
         Me.MyLabel38.Text = "Press F5 To View Penelty Details"
         '
@@ -1564,16 +1574,6 @@ Partial Class frmTender
         Me.RadMenuItem6.Text = "Close"
         Me.RadMenuItem6.UseCompatibleTextRendering = False
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPPurchase.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(352, 10)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
-        Me.btnAddNew.TabIndex = 1
-        '
         'frmTender
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1612,6 +1612,7 @@ Partial Class frmTender
         CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSubmit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAbandonmentNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1679,7 +1680,6 @@ Partial Class frmTender
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
