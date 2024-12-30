@@ -1083,7 +1083,7 @@ Public Class FrmPrintDistributerInvoiceStatement
                     strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True)
                     objEmailH.Attachment_1_Path = strRptPath
                     '---------------------------------------------------------------------------
-                    Dim Data As Attachment = New Attachment(objEmailH.Attachment_1_Path, MediaTypeNames.Application.Octet)
+                    'Dim Data As Attachment = New Attachment(objEmailH.Attachment_1_Path, MediaTypeNames.Application.Octet)
 
                     Dim emailId As String = ""
                     emailId = clsDBFuncationality.getSingleValue("select Email from TSPL_customer_MASTER where cust_code ='" & clsCommon.myCstr(grow.Cells("Customer_Code").Value) & "' ")
@@ -1093,20 +1093,20 @@ Public Class FrmPrintDistributerInvoiceStatement
                     End If
 
                     objEmailH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objEmailH, Nothing)
-                    Dim MailMsg As New MailMessage()
-                    MailMsg.Subject = objEmailH.Email_Subject
-                    MailMsg.From = New MailAddress("mohdsuhail0677@gmail.com")
-                    MailMsg.To.Add(clsCommon.GetMulcallStringWithComma(objEmailH.arrEMail))
-                    MailMsg.Body = objEmailH.Email_Text
-                    MailMsg.Priority = MailPriority.High
-                    MailMsg.IsBodyHtml = False
-                    MailMsg.Attachments.Add(Data)
-                    Dim SmtpMail As New SmtpClient("smtp.gmail.com")
-                    SmtpMail.Port = clsCommon.myCdbl(587)
-                    SmtpMail.Credentials = New System.Net.NetworkCredential("mohdsuhail0677@gmail.com", "civd wxfw eehy vsoz")
-                    SmtpMail.EnableSsl = True
+                    'Dim MailMsg As New MailMessage()
+                    'MailMsg.Subject = objEmailH.Email_Subject
+                    'MailMsg.From = New MailAddress("mohdsuhail0677@gmail.com")
+                    'MailMsg.To.Add(clsCommon.GetMulcallStringWithComma(objEmailH.arrEMail))
+                    'MailMsg.Body = objEmailH.Email_Text
+                    'MailMsg.Priority = MailPriority.High
+                    'MailMsg.IsBodyHtml = False
+                    'MailMsg.Attachments.Add(Data)
+                    'Dim SmtpMail As New SmtpClient("smtp.gmail.com")
+                    'SmtpMail.Port = clsCommon.myCdbl(587)
+                    'SmtpMail.Credentials = New System.Net.NetworkCredential("mohdsuhail0677@gmail.com", "civd wxfw eehy vsoz")
+                    'SmtpMail.EnableSsl = True
 
-                    SmtpMail.Send(MailMsg)
+                    'SmtpMail.Send(MailMsg)
                     objEmailH = Nothing
                 End If
             Next
