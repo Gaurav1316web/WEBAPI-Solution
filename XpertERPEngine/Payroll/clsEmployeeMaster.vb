@@ -81,6 +81,7 @@ Public Class clsEmployeeMaster
     Public RESINATION_SUBMIT_DATE As Date?
     Public NOTICE_IN_DAYS As Integer
     Public FATHERS_NAME As String
+    Public KKK_Id As String
     Public MOTHERS_NAME As String
     Public SPOUSE_NAME As String
     Public ISESI As Boolean
@@ -307,6 +308,7 @@ Public Class clsEmployeeMaster
             obj.membership_id = clsCommon.myCstr(dt.Rows(0)("membership_id"))
             obj.special_desc = clsCommon.myCstr(dt.Rows(0)("special_desc"))
             obj.Lic_id = clsCommon.myCstr(dt.Rows(0)("Lic_No"))
+            obj.KKK_Id = clsCommon.myCstr(dt.Rows(0)("KKK_Id"))
             obj.policy = clsCommon.myCstr(dt.Rows(0)("policy_No"))
             obj.UANNo = clsCommon.myCstr(dt.Rows(0)("UANNo"))
             obj.GPF_no = clsCommon.myCstr(dt.Rows(0)("GPF_No"))
@@ -718,6 +720,7 @@ Public Class clsEmployeeMaster
             clsCommon.AddColumnsForChange(coll, "policy_No", obj.policy)
             clsCommon.AddColumnsForChange(coll, "membership_id", obj.membership_id)
             clsCommon.AddColumnsForChange(coll, "special_desc", obj.special_desc)
+            clsCommon.AddColumnsForChange(coll, "KKK_Id", obj.KKK_Id)
             clsCommon.AddColumnsForChange(coll, "transfer_PF", IIf(obj.Transfer_PF, 1, 0))
             clsCommon.AddColumnsForChange(coll, "transferPF_text", obj.transferText)
             clsCommon.AddColumnsForChange(coll, "Votercard_No", obj.Votercard_No)

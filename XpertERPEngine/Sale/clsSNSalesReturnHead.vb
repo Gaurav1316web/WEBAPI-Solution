@@ -317,8 +317,8 @@ Public Class clsSNSalesReturnHead
             qry = "update TSPL_SD_SALE_RETURN_DETAIL set Weight_UOM= (select Weight_UOM from TSPL_ITEM_MASTER where Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code)  where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '''' 
-
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", trans)
+            isSaved = isSaved AndAlso HistoryData(obj.Document_Code, trans)
             If isSaved Then
                 trans.Commit()
             End If
@@ -327,6 +327,10 @@ Public Class clsSNSalesReturnHead
             Throw New Exception(err.Message)
         End Try
         Return isSaved
+    End Function
+
+    Public Shared Function HistoryData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
     End Function
 
     Public Shared Function GetBalance(ByVal InvoiceNo As String, ByVal ConvFact As Double) As Double
@@ -1502,6 +1506,7 @@ Public Class clsSNSalesReturnHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
+                HistoryData(strCode, trans)
                 clsSerializeInvenotry.DeleteData("Sale Return", strCode, trans)
 
                 Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" + strCode + "'"
