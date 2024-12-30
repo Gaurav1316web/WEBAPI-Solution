@@ -118,7 +118,6 @@ Partial Class frmScrapSale
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtaddamt = New common.Controls.MyTextBox()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -187,6 +186,7 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -458,10 +458,10 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(64.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 22.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1105, 425)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1105, 429)
         Me.RadPageViewPage1.Text = "Shipment"
         '
         'lblCustGSTNo
@@ -696,7 +696,7 @@ Partial Class frmScrapSale
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel3.Location = New System.Drawing.Point(999, 339)
+        Me.MyLabel3.Location = New System.Drawing.Point(999, 343)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(102, 16)
         Me.MyLabel3.TabIndex = 1
@@ -758,7 +758,7 @@ Partial Class frmScrapSale
         Me.lblSecondryInvNo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblSecondryInvNo.FieldName = Nothing
         Me.lblSecondryInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSecondryInvNo.Location = New System.Drawing.Point(747, 409)
+        Me.lblSecondryInvNo.Location = New System.Drawing.Point(747, 413)
         Me.lblSecondryInvNo.Name = "lblSecondryInvNo"
         Me.lblSecondryInvNo.Size = New System.Drawing.Size(62, 16)
         Me.lblSecondryInvNo.TabIndex = 16
@@ -773,7 +773,7 @@ Partial Class frmScrapSale
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(0, 350)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(0, 354)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 75)
@@ -974,7 +974,7 @@ Partial Class frmScrapSale
         Me.txtVatInvNo.BorderVisible = True
         Me.txtVatInvNo.FieldName = Nothing
         Me.txtVatInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVatInvNo.Location = New System.Drawing.Point(815, 403)
+        Me.txtVatInvNo.Location = New System.Drawing.Point(815, 407)
         Me.txtVatInvNo.Name = "txtVatInvNo"
         Me.txtVatInvNo.Size = New System.Drawing.Size(125, 18)
         Me.txtVatInvNo.TabIndex = 14
@@ -1431,7 +1431,7 @@ Partial Class frmScrapSale
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 179)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1105, 162)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1105, 166)
         Me.RadGroupBox2.TabIndex = 19
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1457,7 +1457,7 @@ Partial Class frmScrapSale
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1085, 132)
+        Me.gv1.Size = New System.Drawing.Size(1085, 136)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
         '
@@ -1481,7 +1481,7 @@ Partial Class frmScrapSale
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1071, 439)
@@ -1717,7 +1717,7 @@ Partial Class frmScrapSale
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1071, 439)
@@ -1813,24 +1813,16 @@ Partial Class frmScrapSale
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1071, 439)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1071, 439)
-        Me.UcCustomFields1.TabIndex = 2
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1071, 439)
@@ -1874,7 +1866,7 @@ Partial Class frmScrapSale
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1071, 425)
@@ -2200,7 +2192,7 @@ Partial Class frmScrapSale
         '
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox4)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(121.0!, 26.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(117.0!, 22.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(1105, 425)
@@ -2701,6 +2693,14 @@ Partial Class frmScrapSale
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1126, 503)
         Me.Panel1.TabIndex = 3
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1071, 439)
+        Me.UcCustomFields1.TabIndex = 2
         '
         'frmScrapSale
         '
