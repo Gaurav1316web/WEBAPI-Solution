@@ -2583,7 +2583,7 @@ Public Class FrmDispatchBulkSale
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
             If isPerformaInvoice = False Then
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDispatchBulkSaleBHR", "Milk Sales Dispatch", clsCommon.myCDate(dt.Rows(0)("Dispatch_date")), "rptCompanyAddress.rpt")
 
                 Else
