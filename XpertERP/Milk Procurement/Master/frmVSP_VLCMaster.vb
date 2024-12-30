@@ -183,7 +183,12 @@ Public Class frmVSP_VLCMaster
             lblMCCOwnBMC.Visible = False
             txtOwnBMCDate.Enabled = False
         End If
-        chkCLUSTER.Visible = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            chkCLUSTER.Visible = True
+        Else
+            chkCLUSTER.Visible = False
+        End If
+        'chkCLUSTER.Visible = False
         chkCreateCustomerAlso.Checked = True
     End Sub
     Function CheckMultiCurrency(ByVal trans As SqlTransaction) As Boolean

@@ -725,16 +725,19 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             LoadBlankGrid()
             FlagPaste = False
             RefreshFormName()
-            Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
-            Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
-            If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
-                txtDate.Value = clsCommon.GetPrintDate(CurrDateTime)
-                rbtnEvening.IsChecked = True
+            If SetDefaultShiftTime.Length > 0 Then
+                Dim CurrDateTime As DateTime = clsCommon.GETSERVERDATE
+                Dim EndTime As DateTime = clsCommon.GetPrintDate(SetDefaultShiftTime, "dd/MMM/yyyy hh:mm tt")
+                If CurrDateTime.TimeOfDay < EndTime.TimeOfDay Then
+                    txtDate.Value = clsCommon.GetPrintDate(CurrDateTime)
+                    rbtnEvening.IsChecked = True
 
-            Else
-                txtDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
-                rbtnMorning.IsChecked = True
+                Else
+                    txtDate.Value = clsCommon.GetPrintDate(CurrDateTime.AddDays(1))
+                    rbtnMorning.IsChecked = True
+                End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

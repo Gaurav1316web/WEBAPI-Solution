@@ -3839,9 +3839,9 @@ Public Class MDI
                     Case clsUserMgtCode.itemGroups
                         frm = New frmItemGroup(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.itemMaster
-                        frm = New frmItemMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.itemMaster
+                    '    frm = New frmItemMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.locationMaster
                         frm = New frmLocationMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9801,6 +9801,10 @@ Public Class MDI
                     Case clsUserMgtCode.TenderShortPenalty
                         frm = New frmTenderShortPenalty()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.RALNOC
+                        frm = New frmRALNOC()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmShortSupplyPenalty
                         frm = New frmShortSupplyPenalty()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

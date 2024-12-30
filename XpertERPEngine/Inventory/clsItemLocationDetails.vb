@@ -154,7 +154,7 @@ Public Class clsItemLocationDetails
         qry += " select Trans_Id,Item_Code ,Location_Code,case when InOut='I' then 1 else -1 end as RI,Qty as QtyNew,UOMNew from("
         qry += " select TSPL_INVENTORY_MOVEMENT.Trans_Id, TSPL_INVENTORY_MOVEMENT.Item_Code ,TSPL_INVENTORY_MOVEMENT.Location_Code , TSPL_INVENTORY_MOVEMENT.InOut,TSPL_INVENTORY_MOVEMENT.Stock_Qty as Qty   ,TSPL_INVENTORY_MOVEMENT.Stock_UOM as UOMNew "
         qry += " from TSPL_INVENTORY_MOVEMENT "
-        qry += " where TSPL_INVENTORY_MOVEMENT.Qty<>0 and TSPL_INVENTORY_MOVEMENT.Item_Code='" + _ICode + "' AND PUNCHING_DAte  <= '" + clsCommon.GetPrintDate(_TransDate, "dd/MMM/yyyy hh:mm:ss tt") + "' "
+        qry += " where TSPL_INVENTORY_MOVEMENT.Qty<>0 and TSPL_INVENTORY_MOVEMENT.Item_Code='" + _ICode + "'  "
         If clsCommon.myLen(_LCode) > 0 Then
             qry += "  and Location_Code='" + _LCode + "'"
         End If
