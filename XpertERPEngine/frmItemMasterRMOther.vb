@@ -103,23 +103,6 @@ Public Class FrmItemMasterRMOther
     Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmItemMasterRMOther_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Days", "integer NULL")
-        coll.Add("Qty_Per", "integer NULL")
-        coll.Add("Short_Per", "integer NULL")
-        coll.Add("Late_Days", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_NOC_SCHEDULE", coll, "")
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Against_NOC_Schedule_PK_Id", "integer NOT NULL References TSPL_ITEM_NOC_SCHEDULE(PK_Id)")
-        coll.Add("Penalty_Days", "integer NULL")
-        coll.Add("Penalty", "Decimal(18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_NOC_SCHEDULE_PENALTY", coll, "")
 
         AllowDuplicateItemShortDescriptionInItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, Nothing)) = 1, True, False)
         AllowItemConversionAutomation = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowItemConversionAutomation, clsFixedParameterCode.AllowItemConversionAutomation, Nothing))
