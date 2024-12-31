@@ -220,6 +220,7 @@ Public Class frmDCSAdditionDeduction
                 Else
                     obj.Check_Saving_AC = 0
                 End If
+                obj.IsShare = chkShare.Checked
 
                 obj.Applicable_Value = txtApplyValue.Value
                 obj.GL_Account = txtGLAccount.Value
@@ -264,7 +265,7 @@ Public Class frmDCSAdditionDeduction
 
                 UsLock1.Status = obj.Posted
                 chkInactive.Checked = obj.Inactive
-
+                chkShare.Checked = obj.IsShare
                 If obj.Saving = 1 Then
                     rbtnAdditionTypeSaving.IsChecked = True
                 ElseIf obj.Saving = 2 Then
@@ -487,6 +488,7 @@ Public Class frmDCSAdditionDeduction
         btnPost.Enabled = False
         chkInactive.Enabled = False
         chkInactive.Checked = False
+        chkShare.Checked = False
         btnEndDate.Enabled = False
         cboApplyOn.SelectedValue = ""
         cboApplyType.SelectedValue = ""
