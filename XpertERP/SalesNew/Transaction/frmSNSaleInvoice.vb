@@ -262,7 +262,7 @@ Public Class frmSNSaleInvoice
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        btnHistory.Enabled = False
+        'btnHistory.enabled = False
         SetUserMgmtNew()
         SetMailRight()
         btnprintjvl.Enabled = False
@@ -3190,7 +3190,7 @@ Public Class frmSNSaleInvoice
         chkInternal.Checked = False
         gvAC.Rows.AddNew()
         gvAC.Rows.AddNew()
-        btnHistory.Enabled = False
+        'btnHistory.enabled = False
 
         txtDate.Enabled = True
         txtVendorNo.Enabled = True
@@ -5163,7 +5163,7 @@ Public Class frmSNSaleInvoice
     End Sub
 
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
-        btnHistory.Enabled = True
+        'btnHistory.enabled = True
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             Exit Sub
@@ -7195,13 +7195,18 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
     '----------------------Done By Preeti 29/05/2014-------BM00000002659----------
 
     Private Sub btnHistory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnHistory.Click
-        Dim frm As New FrmSaleHistory
-        frm.strFormId = MyBase.Form_ID
-        frm.strCustId = txtVendorNo.Value
-        frm.strCustName = lblVendorName.Text
-        Dim strvendor As String = txtVendorNo.Value
-        frm.ShowDialog()
-        frm.WindowState = FormWindowState.Maximized
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+            Exit Sub
+        End If
+        clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_DETAIL")
+        'Dim frm As New FrmSaleHistory
+        'frm.strFormId = MyBase.Form_ID
+        'frm.strCustId = txtVendorNo.Value
+        'frm.strCustName = lblVendorName.Text
+        'Dim strvendor As String = txtVendorNo.Value
+        'frm.ShowDialog()
+        'frm.WindowState = FormWindowState.Maximized
     End Sub
 
     Private Sub btnDeliveredTo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDeliveredTo.Click

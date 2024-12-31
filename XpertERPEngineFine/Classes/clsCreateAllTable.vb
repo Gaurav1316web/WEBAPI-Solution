@@ -14596,6 +14596,7 @@ Public Class clsCreateAllTable
             coll.Add("OC", "NUMERIC(10,2) null")               '' OTHER CHARGES
             coll.Add("OC_MAX", "NUMERIC(10,2) null")           '' MAXIMUM LIMIT OF OTHER CHARGES
             coll.Add("OTH_ROUNDOFF_YPE", "varchar(3) null")
+            coll.Add("KKK_Id", "Varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_EMPLOYEE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

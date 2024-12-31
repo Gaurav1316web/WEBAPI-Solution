@@ -1356,7 +1356,7 @@ Public Class clsSNShipmentHead
 
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_Detail", "Document_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
-
+            HistoryData(Doc_No, trans)
             qry = "delete from TSPL_SD_SHIPMENT_DETAIL where document_code ='" & Doc_No & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -2011,7 +2011,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             qry = "Update TSPL_SD_SHIPMENT_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',Sale_Invoice_No ='" + obj.Sale_Invoice_No + "' "
             qry += " where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            'HistoryData(strDocNo, trans)
             If obj.Is_Create_Auto_Invoice Then
                 If clsCommon.myLen(obj.Sale_Invoice_No) <= 0 Then
                     Dim objSI As clsSNInvoiceHead = ConvertShipmentToSaleInvoice(obj)
@@ -2617,6 +2617,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
 
                 Qry = " update TSPL_SD_SHIPMENT_HEAD set is_create_auto_invoice=0 where Document_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                'HistoryData(strCode, trans)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

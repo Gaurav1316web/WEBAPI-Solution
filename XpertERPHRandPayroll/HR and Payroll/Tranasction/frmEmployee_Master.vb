@@ -472,6 +472,7 @@ Public Class frmEmployee_Master
                 obj.SEX = clsCommon.myCstr(CboGender.SelectedValue)
                 obj.FATHERS_NAME = TxtFathersName.Text
                 obj.MOTHERS_NAME = txtMothersName.Text
+                obj.KKK_Id = txtKKKid.Text
                 obj.MARITAL_STATUS = clsCommon.myCstr(CboMaritalStatus.SelectedValue)
                 obj.Pf_Type = clsCommon.myCstr(cboPFType.SelectedValue)
                 obj.SPOUSE_NAME = txtSpouseName.Text
@@ -877,6 +878,7 @@ Public Class frmEmployee_Master
             txtpolicy.Text = obj.policy
             txtmembershipid.Text = obj.membership_id
             txtspecialdesc.Text = obj.special_desc
+            txtKKKid.Text = obj.KKK_Id
             txtEmployeeBand.Value = obj.EMP_Band_Code
             fndcity.Value = obj.Working_City_Code
             txtCode.Value = obj.EMP_CODE
@@ -1489,6 +1491,7 @@ Public Class frmEmployee_Master
         txtMothersName.Text = ""
         CboMaritalStatus.SelectedIndex = 0
         txtSpouseName.Text = ""
+        txtKKKid.Text = ""
         txtShift.Value = ""
         TxtDesignation.Value = ""
         txtSubDepartment.Value = ""
