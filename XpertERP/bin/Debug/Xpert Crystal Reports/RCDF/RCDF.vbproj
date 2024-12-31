@@ -1979,6 +1979,7 @@
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptFluidMilkDemandReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptHSNWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />
