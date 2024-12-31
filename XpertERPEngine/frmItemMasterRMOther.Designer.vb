@@ -290,6 +290,7 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel38 = New common.Controls.MyLabel()
         Me.RadPageViewPage9 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvNOCSchedule = New common.UserControls.MyRadGridView()
+        Me.MyLabel48 = New common.Controls.MyLabel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -315,7 +316,6 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.MyLabel48 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -553,13 +553,13 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage9.SuspendLayout()
         CType(Me.gvNOCSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvNOCSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -602,7 +602,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage9
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView1.Size = New System.Drawing.Size(1207, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4408,6 +4408,18 @@ Partial Class FrmItemMasterRMOther
         Me.gvNOCSchedule.TabStop = False
         Me.gvNOCSchedule.VarID = ""
         '
+        'MyLabel48
+        '
+        Me.MyLabel48.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel48.FieldName = Nothing
+        Me.MyLabel48.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel48.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel48.Location = New System.Drawing.Point(0, 540)
+        Me.MyLabel48.Name = "MyLabel48"
+        Me.MyLabel48.Size = New System.Drawing.Size(1186, 13)
+        Me.MyLabel48.TabIndex = 32
+        Me.MyLabel48.Text = "Press F5 To View NOC Penelty Details"
+        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -4579,18 +4591,6 @@ Partial Class FrmItemMasterRMOther
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
-        '
-        'MyLabel48
-        '
-        Me.MyLabel48.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.MyLabel48.FieldName = Nothing
-        Me.MyLabel48.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel48.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel48.Location = New System.Drawing.Point(0, 540)
-        Me.MyLabel48.Name = "MyLabel48"
-        Me.MyLabel48.Size = New System.Drawing.Size(173, 13)
-        Me.MyLabel48.TabIndex = 32
-        Me.MyLabel48.Text = "Press F5 To View NOC Penelty Details"
         '
         'FrmItemMasterRMOther
         '
@@ -4856,13 +4856,13 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage9.PerformLayout()
         CType(Me.gvNOCSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvNOCSchedule, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

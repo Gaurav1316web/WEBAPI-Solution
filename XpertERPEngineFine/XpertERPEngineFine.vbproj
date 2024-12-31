@@ -190,6 +190,7 @@
     <Compile Include="PJC\clsPJCSettings.vb" />
     <Compile Include="PJC\clsProjectMaster.vb" />
     <Compile Include="PJC\clsProjectStatus.vb" />
+    <Compile Include="Purchase\clsRALNOC.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightCalculation.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightMaster.vb" />
     <Compile Include="BulkProcurement\clsOwnBMCGainLossRate.vb" />
@@ -276,8 +277,6 @@
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Purchase\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

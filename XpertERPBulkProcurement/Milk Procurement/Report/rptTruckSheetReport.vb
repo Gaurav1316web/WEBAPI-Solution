@@ -169,8 +169,8 @@ where 1=1 "
                 For idxDate As Integer = 0 To dtDate.Rows.Count - 1
                     dtReport.Rows.Add(clsCommon.GetPrintDate(dtDate.Rows(idxDate).Item("Document_date"), "dd/MMM/yyyy"), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
                     drFilter = Nothing
-                    drFilter = dtMCCHead.Select("Document_No='" + clsCommon.myCstr(dtMCCHead.Rows(0).Item("Document_No") + "'"))
-                    'drFilter = dtMCCHead.Select("[Document_Date]='" + clsCommon.myCstr(dtDate.Rows(idxDate).Item("Document_Date")) + "'")
+                    'drFilter = dtMCCHead.Select("Document_No='" + clsCommon.myCstr(dtMCCHead.Rows(0).Item("Document_No") + "'"))
+                    drFilter = dtMCCHead.Select("[Document_Date]='" + clsCommon.myCstr(dtDate.Rows(idxDate).Item("Document_Date")) + "'")
                     If drFilter IsNot Nothing AndAlso drFilter.Length > 0 Then
                         dtMCCHeadFilter = drFilter.CopyToDataTable()
                         Dim ArrMCCDoc As New Dictionary(Of String, List(Of String))
@@ -275,7 +275,7 @@ where 1=1 "
                                         ActivateStop = True
                                         Exit For
                                     End If
-                                    If i = 0 AndAlso j = 0 AndAlso rbtnRouteWise.IsChecked = True Then
+                                    If i = 0 AndAlso rbtnRouteWise.IsChecked = True Then
                                         dtReport.Rows.Add(clsCommon.myCstr("Tanker No : " + dtMCCHeadFilter.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
                                     End If
                                     dtReport.Rows.Add(clsCommon.myCstr("BMC : " + dtMCCDetailFilter.Rows(j).Item("MCC_NAME")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D

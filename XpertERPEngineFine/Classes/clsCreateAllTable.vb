@@ -25264,6 +25264,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Apply_Formula", "integer NULL")
             coll.Add("Dont_Generate_DR_CR_Note", "integer NULL")
             coll.Add("Consider_Negative_Amt", "integer NULL")
+            coll.Add("IsShare", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)
