@@ -1799,7 +1799,7 @@ Public Class FrmItemMasterRMOther
                     objtrp.Short_Per = clsCommon.myCDecimal(grow.Cells(ColNOCSchedulePerShort).Value)
                     objtrp.Late_Days = clsCommon.myCDecimal(grow.Cells(ColNOCScheduleLateDays).Value)
                     objtrp.Arr = TryCast(grow.Cells(ColNOCScheduleLateDays).Tag, List(Of clsItemNOCSchedulePenalty))
-                    If objtrp.Days > 0 AndAlso objtrp.Qty_Per > 0 Then
+                    If objtrp.Qty_Per > 0 Then
                         obj.ArrNOCSchedule.Add(objtrp)
                     End If
                 Next
@@ -6695,7 +6695,7 @@ ExitLOOP:
 
 
         repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.HeaderText = "Days"
+        repoNumBox.HeaderText = "Margin Days"
         repoNumBox.Name = ColNOCScheduleDays
         repoNumBox.Minimum = 0
         repoNumBox.Width = 100

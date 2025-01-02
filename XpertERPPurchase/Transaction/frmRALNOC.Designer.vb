@@ -27,7 +27,6 @@ Partial Class frmRALNOC
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.chkMonthEndDate = New System.Windows.Forms.CheckBox()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -50,6 +49,7 @@ Partial Class frmRALNOC
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvSchedule = New common.UserControls.MyRadGridView()
+        Me.MyLabel38 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
@@ -57,7 +57,6 @@ Partial Class frmRALNOC
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel38 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -85,13 +84,13 @@ Partial Class frmRALNOC
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -156,7 +155,6 @@ Partial Class frmRALNOC
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.chkMonthEndDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadButton2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
@@ -184,16 +182,6 @@ Partial Class frmRALNOC
         Me.SplitContainer2.Size = New System.Drawing.Size(728, 325)
         Me.SplitContainer2.SplitterDistance = 139
         Me.SplitContainer2.TabIndex = 1
-        '
-        'chkMonthEndDate
-        '
-        Me.chkMonthEndDate.AutoSize = True
-        Me.chkMonthEndDate.Location = New System.Drawing.Point(301, 50)
-        Me.chkMonthEndDate.Name = "chkMonthEndDate"
-        Me.chkMonthEndDate.Size = New System.Drawing.Size(116, 18)
-        Me.chkMonthEndDate.TabIndex = 1526
-        Me.chkMonthEndDate.Text = "End Date Of Month"
-        Me.chkMonthEndDate.UseVisualStyleBackColor = True
         '
         'RadButton2
         '
@@ -543,6 +531,18 @@ Partial Class frmRALNOC
         Me.gvSchedule.TabIndex = 0
         Me.gvSchedule.VarID = ""
         '
+        'MyLabel38
+        '
+        Me.MyLabel38.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel38.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel38.Location = New System.Drawing.Point(10, 159)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(708, 13)
+        Me.MyLabel38.TabIndex = 1522
+        Me.MyLabel38.Text = "Press F5 To View Penelty Details"
+        '
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
@@ -607,18 +607,6 @@ Partial Class frmRALNOC
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'MyLabel38
-        '
-        Me.MyLabel38.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.MyLabel38.FieldName = Nothing
-        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel38.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel38.Location = New System.Drawing.Point(10, 159)
-        Me.MyLabel38.Name = "MyLabel38"
-        Me.MyLabel38.Size = New System.Drawing.Size(150, 13)
-        Me.MyLabel38.TabIndex = 1522
-        Me.MyLabel38.Text = "Press F5 To View Penelty Details"
-        '
         'frmRALNOC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -660,13 +648,13 @@ Partial Class frmRALNOC
         Me.RadGroupBox2.PerformLayout()
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -704,7 +692,6 @@ Partial Class frmRALNOC
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents UcAttachment1 As ucAttachment
-    Friend WithEvents chkMonthEndDate As CheckBox
     Friend WithEvents MyLabel38 As common.Controls.MyLabel
 End Class
 
