@@ -1,6 +1,7 @@
 ﻿Imports common
 Public Class clsUserMgtCode
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
+    Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
