@@ -59,7 +59,7 @@ Public Class rptHSNWiseSaleReport
             Dim BaseQuery As String = ""
             Dim FinalQuery As String = ""
             If txtTaxCode.arrValueMember IsNot Nothing Then
-                whrcls = " and tax in (" & clsCommon.GetMulcallString(txtTaxCode.arrValueMember) & ") "
+                whrcls = " and tax in (''," & clsCommon.GetMulcallString(txtTaxCode.arrValueMember) & ") "
             End If
 
             If txtItem.arrValueMember IsNot Nothing Then
