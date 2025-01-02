@@ -9,7 +9,7 @@ Public Class frmRALNOC
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
-
+    Dim settIntAddMarginDays As Integer = 10
     Const colScheduleSNo As String = "colScheduleSNo"
     Const colScheduleParentSNo As String = "colScheduleParentSNo"
     Const colScheduleNo As String = "colScheduleNo"
@@ -672,12 +672,15 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
     Private Sub FillData()
         Try
             LoadBlankGrid()
-            Dim qry As String = " select min(From_Date) as From_Date,min(PSNo) as PSNo,SUM(Schedule_Qty) as Schedule_Qty 
+            Dim qry As String = " select min(From_Date) as From_Date,max(To_Date) as To_Date,min(PSNo) as PSNo,SUM(Schedule_Qty) as Schedule_Qty 
 from TSPL_TENDER_SCHEDULE 
 where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.Value + "' and Location_Code='" + txtBillToLocation.Value + "' and Item_Code='" + txtItem.Value + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No RAL Details found")
+            End If
+            If Not (txtDate.Value >= clsCommon.GetDateWithStartTime(dt.Rows(0)("From_Date")) AndAlso txtDate.Value <= clsCommon.GetDateWithStartTime(dt.Rows(0)("To_Date"))) Then
+                Throw New Exception("NOC Date Should be between [" + clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("From_Date")), "dd/MM/yyyy") + "] and [" + clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("To_Date")), "dd/MM/yyyy") + "] ")
             End If
             Dim dtRunningDate As DateTime = clsCommon.myCDate(dt.Rows(0)("From_Date"))
             Dim ArrSch As List(Of clsItemNOCSchedule) = clsItemNOCSchedule.GetData(txtItem.Value, Nothing)
@@ -706,6 +709,10 @@ where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.
                         gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
                         dtRunningDate = dtRunningDate.AddDays(1)
                     End If
+                    If (txtDate.Value >= clsCommon.GetDateWithStartTime(gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value) AndAlso txtDate.Value <= clsCommon.GetDateWithStartTime(gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value)) Then
+                        dtRunningDate = txtDate.Value.AddDays(settIntAddMarginDays)
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                    End If
                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(dt.Rows(0)("PSNo"))
                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(dt.Rows(0)("Schedule_Qty")) * obj.Qty_Per) / 100)
@@ -728,6 +735,8 @@ where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.
         txtTenderNo.Enabled = v
         txtVendorNo.Enabled = v
         txtItem.Enabled = v
+        txtDate.Enabled = v
+        chkMonthEndDate.Enabled = v
     End Sub
 
     Private Function SetNOCSchedulePenalty(ByVal Arr As List(Of clsItemNOCSchedulePenalty), ByVal dtRunningDate As DateTime) As List(Of clsRALNOCSchedulePenelty)
