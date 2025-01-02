@@ -302,6 +302,7 @@ Public Class clsVedorInvoiceHead
     Public ArrAdvanceInterest As List(Of clsAPInvoiceAdvanceInterest)
     Public RCM As Boolean = False
     Public TDS_Provision As Boolean = False
+    'Public Transfer_To_Saving As Boolean = False
     Public IsEInvoice As Boolean = False
 
 
@@ -490,6 +491,7 @@ Public Class clsVedorInvoiceHead
         '------------
         clsCommon.AddColumnsForChange(coll, "RCM", IIf(obj.RCM, 1, 0))
         clsCommon.AddColumnsForChange(coll, "TDS_Provision", IIf(obj.TDS_Provision, 1, 0))
+        'clsCommon.AddColumnsForChange(coll, "Transfer_To_Saving", IIf(obj.Transfer_To_Saving, 1, 0))
         clsCommon.AddColumnsForChange(coll, "IsEInvoice", IIf(obj.IsEInvoice, 1, 0))
 
         'clsCommon.AddColumnsForChange(coll, "TDS_Provision", clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + obj.Vendor_Code + "'", trans)))
@@ -1345,6 +1347,7 @@ Public Class clsVedorInvoiceHead
             obj.RCM = IIf(clsCommon.myCdbl(dt.Rows(0)("RCM")) = 1, True, False)
             obj.IsEInvoice = IIf(clsCommon.myCdbl(dt.Rows(0)("IsEInvoice")) = 1, True, False)
             obj.TDS_Provision = IIf(clsCommon.myCdbl(dt.Rows(0)("TDS_Provision")) = 1, True, False)
+            ' obj.Transfer_To_Saving = IIf(clsCommon.myCdbl(dt.Rows(0)("Transfer_To_Saving")) = 1, True, False)
             obj.No_GST_Credit = IIf(clsCommon.myCdbl(dt.Rows(0)("No_GST_Credit")) = 1, True, False)
             ''======added by monika========================
             obj.Addition_Doc_Type = clsCommon.myCstr(dt.Rows(0)("Addition_Doc_Type"))

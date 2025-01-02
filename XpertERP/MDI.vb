@@ -8481,6 +8481,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTransferToSavingReport
                         frm = New TransferToSavingReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.frmTTSavingReport
+                        frm = New frmTTSavingReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDcsPaymentReport
                         frm = New RptDcsPaymentReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
