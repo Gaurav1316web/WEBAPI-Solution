@@ -295,6 +295,12 @@
     <Compile Include="Milk Procurement\Report\rptBMCCapacityUtilizationReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.Designer.vb">
+      <DependentUpon>rptBMCGazeCapacityUtilizationReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCPerodicalReport.Designer.vb">
       <DependentUpon>rptBMCPerodicalReport.vb</DependentUpon>
     </Compile>
@@ -1061,6 +1067,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBmcCollection.resx">
       <DependentUpon>rptBmcCollection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.resx">
+      <DependentUpon>rptBMCGazeCapacityUtilizationReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCPerodicalReport.resx">
       <DependentUpon>rptBMCPerodicalReport.vb</DependentUpon>

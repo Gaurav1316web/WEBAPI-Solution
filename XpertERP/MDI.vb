@@ -8448,6 +8448,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmMonthWiseBeneficieriesReport
                         frm = New frmMonthWiseBeneficieriesReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBMCGazeCapacityUtilizationReport
+                        frm = New rptBMCGazeCapacityUtilizationReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptBMCCapacityUtilizationReport
                         frm = New rptBMCCapacityUtilizationReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
