@@ -5,6 +5,8 @@ Imports System.IO
 Public Class rptHSNWiseSaleReport
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim dtTax As DataTable = New DataTable()
+    Dim isPrint As Boolean = False
 #End Region
     Private Sub rptHSNWiseSaleReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         funreset()
@@ -42,7 +44,6 @@ Public Class rptHSNWiseSaleReport
     Sub funreset()
         EnableDisableControls(True)
         gv1.DataSource = Nothing
-        txtTaxCode.arrValueMember = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
@@ -58,7 +59,7 @@ Public Class rptHSNWiseSaleReport
             Dim BaseQuery As String = ""
             Dim FinalQuery As String = ""
             If txtTaxCode.arrValueMember IsNot Nothing Then
-                whrcls = " and tax in (" & clsCommon.GetMulcallString(txtTaxCode.arrValueMember) & ") "
+                whrcls = " and tax in (''," & clsCommon.GetMulcallString(txtTaxCode.arrValueMember) & ") "
             End If
 
             If txtItem.arrValueMember IsNot Nothing Then
@@ -72,7 +73,7 @@ Public Class rptHSNWiseSaleReport
             where TSPL_VCGL_Head.Document_No in (select  TSPL_Customer_INVOICE_HEAD.Against_VCGL  from TSPL_Customer_Invoice_Head left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_VCGL ,'')<>''     and convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)   AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')<>'' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0 ) and TSPL_VCGL_Head.Status =1  
             Union all 
             ---------------- Sale Invoice ,BULK SALE,CAN SALE--------------------- 
-            select TSPL_SD_SALE_INVOICE_DETAIL.Document_Code,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code ,TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as UOM, (TSPL_SD_SALE_INVOICE_DETAIL.Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as Item_Net_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt,  '' as Tax,  0 as Tax_Amt ,0 as Tax_Rate   from TSPL_SD_SALE_INVOICE_DETAIL  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.Document_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+            select TSPL_SD_SALE_INVOICE_DETAIL.Document_Code as Document_No,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code ,TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as UOM, (TSPL_SD_SALE_INVOICE_DETAIL.Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as Item_Net_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt,  '' as Tax,  0 as Tax_Amt ,0 as Tax_Rate   from TSPL_SD_SALE_INVOICE_DETAIL  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.Document_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
             left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER .Location_Code  where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code in (select  TSPL_Customer_INVOICE_HEAD.Against_Sale_No  from TSPL_Customer_Invoice_Head  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code where isnull(TSPL_Customer_INVOICE_HEAD.Against_Sale_No ,'')<>''   and convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'01/Dec/2024',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'27/Dec/2024',103)   AND TSPL_Customer_Invoice_Head.Against_Sale_No NOT IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) and TSPL_CUSTOMER_MASTER.GST_Registered =1 and isnull(TSPL_CUSTOMER_MASTER.GSTNO ,'')<>'' and isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) >0 ) and TSPL_SD_SALE_INVOICE_HEAD.Status =1  
             union all 
             select TSPL_CANSALE_INVOICE_detail.Document_No,TSPL_CANSALE_INVOICE_detail.ItemCode ,TSPL_CANSALE_INVOICE_detail.Qty ,TSPL_CANSALE_INVOICE_detail.UOM ,TSPL_CANSALE_INVOICE_detail.Item_Net_Amt ,TSPL_CANSALE_INVOICE_detail.Total_Tax_Amt,'' as Tax,  0 as Tax_Amt ,0 as Tax_Rate  from TSPL_CANSALE_INVOICE_detail left outer join TSPL_CANSALE_INVOICE_HEAD on TSPL_CANSALE_INVOICE_HEAD .Document_no =TSPL_CANSALE_INVOICE_detail.Document_No left outer join TSPL_Customer_INVOICE_HEAD on TSPL_Customer_INVOICE_HEAD .Against_Sale_No =TSPL_CANSALE_INVOICE_HEAD.Document_No 
@@ -136,16 +137,29 @@ Public Class rptHSNWiseSaleReport
             BaseQuery = " select Document_No,xx.Item_Code,UOM,(Qty)Qty, (Item_Net_Amt)Item_Net_Amt,Tax,Tax_Rate,Tax_Amt from ( " & qry & " " & BaseQuery & " )xx  where 2= 2 " & whrcls & " ) xxx  left outer join TSPL_TAX_MASTER ON  TSPL_TAX_MASTER.Tax_Code = XXX.TAX "
             Dim TaxDesc As String = ""
             qry = ""
-            Dim dtTax As DataTable = clsDBFuncationality.GetDataTable(" select Tax,max(Tax_Code_Desc)Tax_Code_Desc from ( " & BaseQuery & " where Tax<> '' group by Tax")
-            For Each dr As DataRow In dtTax.Rows
-                TaxDesc += "[" & dr("Tax_Code_Desc") & " Amount] ,"
-                qry += " ,sum(case when xxx.Tax ='" & dr("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as [" & dr("Tax_Code_Desc") & " Amount] "
+            dtTax = clsDBFuncationality.GetDataTable(" select Tax,max(Tax_Code_Desc)Tax_Code_Desc from ( " & BaseQuery & " where Tax<> '' group by Tax")
+            Dim VoucherCount As String = clsDBFuncationality.getSingleValue("select COUNT(Document_No) Document_No  FROM ( select Document_No from ( " & BaseQuery & "  group by Document_No )XXX ")
+            For ii As Integer = 0 To dtTax.Rows.Count - 1
+                If isPrint Then
+                    TaxDesc += " TaxAmount_" + clsCommon.myCstr(ii + 1) + " ,Tax_" + clsCommon.myCstr(ii + 1) + ", "
+                    qry += " ,'" & dtTax.Rows(ii)("Tax_Code_Desc") & "' as  Tax_" + clsCommon.myCstr(ii + 1) + " "
+                    qry += " ,sum(Case When xxx.Tax ='" & dtTax.Rows(ii)("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as TaxAmount_" + clsCommon.myCstr(ii + 1) + " "
+                Else
+                    TaxDesc += "[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
+                    qry += " ,sum(case when xxx.Tax ='" & dtTax.Rows(ii)("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as [" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] "
+                End If
+
             Next
-            qry = " select TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,convert(decimal(18,2),((Total_Tax_Amt * 100)/(Item_Net_Amt - Total_Tax_Amt) )) as Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt " & qry & " from ( "
+            If isPrint Then
+                qry = " select  " & VoucherCount & " as VoucherCount, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate, case when TSPL_ITEM_MASTER.Item_Type = 'F' then 'Goods' else '' end AS TypeOfSupply, TSPL_COMPANY_MASTER.Comp_Name,  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,convert(decimal(18,2),((Total_Tax_Amt * 100)/(Item_Net_Amt - Total_Tax_Amt) )) as Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt " & qry & " from ( "
 
-            BaseQuery = " " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code"
+            Else
+                qry = " select  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,convert(decimal(18,2),((Total_Tax_Amt * 100)/(Item_Net_Amt - Total_Tax_Amt) )) as Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt " & qry & " from ( "
+
+            End If
+
+            BaseQuery = " " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2		"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQuery)
-
 
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
@@ -155,14 +169,22 @@ Public Class rptHSNWiseSaleReport
             gv1.GroupDescriptors.Clear()
             gv1.EnableFiltering = True
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
             If dt.Rows.Count > 0 Then
-                gv1.DataSource = dt
-                gv1.BestFitColumns()
+                If isPrint Then
+                    RadPageView1.SelectedPage = RadPageViewPage1
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptHSNWiseSale", "HSN Wise Sale")
+                    frmCRV = Nothing
+                Else
+                    gv1.DataSource = dt
+                    gv1.BestFitColumns()
                 SetGridFormation()
                 ReStoreGridLayout()
                 gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.BestFitColumns()
+            End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -180,19 +202,32 @@ Public Class rptHSNWiseSaleReport
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
+            gv1.Columns(ii).Width = 80
+            For Each dr As DataRow In dtTax.Rows
+                If clsCommon.CompairString(gv1.Columns(ii).Name, dr("Tax_Code_Desc") + " Amount") = CompairStringResult.Equal Then
+                    If gv1.Columns(ii).Name.Length > 14 Then
+                        gv1.Columns(ii).HeaderText = gv1.Columns(ii).Name.ToString().Substring(0, 14) + Environment.NewLine + gv1.Columns(ii).Name.ToString().Substring(14, gv1.Columns(ii).Name.Length - 14)
+                        Exit For
+                    End If
+                End If
+            Next
         Next
+
         gv1.ShowGroupPanel = False
-        gv1.Columns("HSN_Code").HeaderText = "HSN"
+        gv1.Columns("HSN_Code").HeaderText = "HSN/SAC"
         gv1.Columns("Short_Description").HeaderText = "Description"
+        gv1.Columns("Short_Description").Width = 110
         gv1.Columns("UOM").HeaderText = "UQC"
-        gv1.Columns("Total_Qty").HeaderText = "Total Quantity"
+        gv1.Columns("Total_Qty").HeaderText = "Total" + Environment.NewLine + " Quantity"
         gv1.Columns("Item_Net_Amt").FormatString = "{0:n2}"
         gv1.Columns("Item_Net_Amt").HeaderText = "Total Value"
         gv1.Columns("Tax_Rate").HeaderText = "Tax Rate"
         gv1.Columns("Taxable_Amt").HeaderText = "Taxable Amount"
-        gv1.Columns("Total_Tax_Amt").HeaderText = "Total Tax Amount"
+        gv1.Columns("Total_Tax_Amt").HeaderText = "Total Tax" + Environment.NewLine + " Amount"
         gv1.Columns("Item_Code").HeaderText = "Item Code"
         gv1.Columns("Item_Code").IsVisible = False
+
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         For ii As Integer = 4 To gv1.Columns.Count - 1
             If ii = 6 Then
@@ -299,6 +334,12 @@ Public Class rptHSNWiseSaleReport
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        isPrint = True
+        LoadData()
+        isPrint = False
     End Sub
 End Class
 

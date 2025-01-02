@@ -225,6 +225,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.ChkTrnsferToSvng = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -302,6 +303,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProRated, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MyLabel9.SuspendLayout()
         CType(Me.txtAdd_Doc_TYpe, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblVCGL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblHirerachy, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -396,6 +398,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.ChkTrnsferToSvng, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -448,7 +451,7 @@ Partial Class FrmAPInvoiceEntry
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.txtSecurityAdjusment)
+        Me.RadPageViewPage1.Controls.Add(Me.ChkTrnsferToSvng)
         Me.RadPageViewPage1.Controls.Add(Me.grpVendorBankDetails)
         Me.RadPageViewPage1.Controls.Add(Me.chkSecurityAdjusment)
         Me.RadPageViewPage1.Controls.Add(Me.chkTDSProvision)
@@ -532,7 +535,7 @@ Partial Class FrmAPInvoiceEntry
         '
         Me.txtSecurityAdjusment.arrDispalyMember = Nothing
         Me.txtSecurityAdjusment.arrValueMember = Nothing
-        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(834, 149)
+        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(-12, 3)
         Me.txtSecurityAdjusment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSecurityAdjusment.MyLinkLable1 = Me.MyLabel15
         Me.txtSecurityAdjusment.MyLinkLable2 = Nothing
@@ -950,6 +953,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv1.Size = New System.Drawing.Size(1048, 104)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'pnlDeduction
         '
@@ -1646,6 +1650,7 @@ Partial Class FrmAPInvoiceEntry
         '
         'MyLabel9
         '
+        Me.MyLabel9.Controls.Add(Me.txtSecurityAdjusment)
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel9.Location = New System.Drawing.Point(847, 26)
@@ -2542,6 +2547,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv2.Size = New System.Drawing.Size(1068, 254)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -2596,6 +2602,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gvAC.Size = New System.Drawing.Size(1073, 361)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
+        Me.gvAC.VarID = ""
         '
         'RadLabel31
         '
@@ -3245,6 +3252,17 @@ Partial Class FrmAPInvoiceEntry
         Me.Panel1.Size = New System.Drawing.Size(1094, 484)
         Me.Panel1.TabIndex = 3
         '
+        'ChkTrnsferToSvng
+        '
+        Me.ChkTrnsferToSvng.Location = New System.Drawing.Point(835, 151)
+        Me.ChkTrnsferToSvng.MyLinkLable1 = Nothing
+        Me.ChkTrnsferToSvng.MyLinkLable2 = Nothing
+        Me.ChkTrnsferToSvng.Name = "ChkTrnsferToSvng"
+        Me.ChkTrnsferToSvng.Size = New System.Drawing.Size(112, 18)
+        Me.ChkTrnsferToSvng.TabIndex = 615
+        Me.ChkTrnsferToSvng.Tag1 = Nothing
+        Me.ChkTrnsferToSvng.Text = "Transfer To Saving"
+        '
         'FrmAPInvoiceEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3344,6 +3362,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtBillNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProRated, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MyLabel9.ResumeLayout(False)
         CType(Me.txtAdd_Doc_TYpe, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblVCGL, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblHirerachy, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3444,6 +3463,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.ChkTrnsferToSvng, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3643,5 +3663,6 @@ Partial Class FrmAPInvoiceEntry
     Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
     Friend WithEvents chkSecurityAdjusment As common.Controls.MyCheckBox
     Friend WithEvents txtSecurityAdjusment As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents ChkTrnsferToSvng As common.Controls.MyCheckBox
 End Class
 

@@ -112,7 +112,7 @@ where 2=2 "
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 0, ERPTransactionStatus.Pending, ERPTransactionStatus.Approved)
 
-            qry = "Select ROW_NUMBER() over(order by TSPL_TRANSFER_TO_SAVING_DETAIL.PK_ID) as SNo,TSPL_TRANSFER_TO_SAVING_DETAIL.* , TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name 
+            qry = "Select ROW_NUMBER() over(order by TSPL_TRANSFER_TO_SAVING_DETAIL.PK_ID) as SNo,TSPL_TRANSFER_TO_SAVING_DETAIL.* , TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name
 from TSPL_TRANSFER_TO_SAVING_DETAIL
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code
 where TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No='" + obj.Document_No + "' ORDER BY TSPL_TRANSFER_TO_SAVING_DETAIL.PK_ID"
@@ -128,6 +128,7 @@ where TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No='" + obj.Document_No + "' ORDER
                         objTr.Vendor_Name = clsCommon.myCstr(dr("VLC_Name"))
                         objTr.VLCUploderCode = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
                         objTr.Amount = clsCommon.myCdbl(dr("Amount"))
+                        'objTr.BalanceAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' and Transfer_To_Saving=1"))
                         obj.Arr.Add(objTr)
                     Next
                 End If
@@ -359,6 +360,7 @@ Public Class clsTransferToSavingDetail
     Public Document_No As String = Nothing
     Public Vendor_Code As String = Nothing
     Public Amount As Decimal = 0
+    'Public BalanceAmount As Decimal = 0
     Public VLCUploderCode As String ''Not a table column
     Public Vendor_Name As String = Nothing ''Not a table column
 #End Region

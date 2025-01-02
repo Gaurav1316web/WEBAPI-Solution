@@ -1,0 +1,208 @@
+﻿Imports System.IO
+Imports common
+
+Public Class frmTTSavingReport
+    Inherits FrmMainTranScreen
+
+#Region "Variables"
+    Dim MultipleFinderFillAuto As Boolean = False
+#End Region
+
+    Private Sub btnReset_Click(sender As Object, e As EventArgs)
+        Reset()
+    End Sub
+
+    Private Sub btnGo_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub frmTTSavingReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        dtpToDate.Value = clsCommon.GETSERVERDATE()
+        fromDate.Value = dtpToDate.Value.AddMonths(-1)
+        Reset()
+    End Sub
+
+    Sub Reset()
+        Gv1.DataSource = Nothing
+        Gv1.Rows.Clear()
+        Gv1.Columns.Clear()
+        RadPageView1.SelectedPage = RadPageViewPage1
+        btnGo.Enabled = True
+        'ControlEnableDisable(True)
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+
+    Private Sub btnGo_Click_1(sender As Object, e As EventArgs) Handles btnGo.Click
+        PrintData()
+    End Sub
+
+    Sub PrintData()
+        Try
+            If fromDate.Value > dtpToDate.Value Then
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
+                fromDate.Focus()
+                Exit Sub
+            End If
+
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+            Dim whrcls As String = Nothing
+            Dim Query As String = String.Empty
+            Dim strWhrClause As String = String.Empty
+            Dim strWhrClause2 As String = String.Empty
+            Dim itemCode As String = String.Empty
+            Dim MainQueryForScheme As String = String.Empty
+            Dim strWhrRoutSummaryPrint As String = String.Empty
+
+            Query = " Select ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
+                      TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type ,
+                      TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Bank_Code,
+                      TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount,TSPL_TRANSFER_TO_SAVING_DETAIL.Amount as TTSAmt,
+                      (TSPL_VENDOR_INVOICE_HEAD.Balance_Amt-TSPL_TRANSFER_TO_SAVING_DETAIL.Amount)As OutstandingBalance,
+                      TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME
+                      from TSPL_VENDOR_INVOICE_DETAIL
+                      left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No
+                      left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                      LEFT OUTER JOIN TSPL_TRANSFER_TO_SAVING_DETAIL ON TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                      left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                      where 2=2  and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
+                      and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<=convert(date,'" + dtpToDate.Value + "',103)
+                      and Transfer_To_Saving=1 "
+
+            If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then
+                Query += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ")"
+            End If
+            If txtMultDCS.arrValueMember IsNot Nothing AndAlso txtMultDCS.arrValueMember.Count > 0 Then
+                Query += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code in (" + clsCommon.GetMulcallString(txtMultDCS.arrValueMember) + ")"
+            End If
+
+            Dim dt As New DataTable
+            dt = clsDBFuncationality.GetDataTable(Query)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.DataSource = dt
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.BestFitColumns()
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+
+            RadPageView1.SelectedPage = RadPageViewPage2
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            FormatGridData()
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub FormatGridData()
+        Gv1.TableElement.TableHeaderHeight = 25
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).Width = 100
+            Gv1.Columns(ii).IsVisible = False
+        Next
+
+        Gv1.Columns("SNo").IsVisible = True
+        Gv1.Columns("SNo").Width = 100
+        Gv1.Columns("SNo").HeaderText = "SNo"
+
+        Gv1.Columns("Invoice_Entry_Date").IsVisible = True
+        Gv1.Columns("Invoice_Entry_Date").Width = 100
+        Gv1.Columns("Invoice_Entry_Date").HeaderText = "Invoice Date"
+
+        Gv1.Columns("VLC_Code_VLC_Uploader").IsVisible = True
+        Gv1.Columns("VLC_Code_VLC_Uploader").Width = 100
+        Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
+
+        Gv1.Columns("Vendor_Name").IsVisible = True
+        Gv1.Columns("Vendor_Name").Width = 100
+        Gv1.Columns("Vendor_Name").HeaderText = "DCS Name"
+
+        Gv1.Columns("Total_Amount").IsVisible = True
+        Gv1.Columns("Total_Amount").Width = 100
+        Gv1.Columns("Total_Amount").HeaderText = "Invoice Amount"
+
+        Gv1.Columns("TTSAmt").IsVisible = True
+        Gv1.Columns("TTSAmt").Width = 100
+        Gv1.Columns("TTSAmt").HeaderText = "Saving Amount"
+
+        Gv1.Columns("Vendor_Bank_Code").IsVisible = True
+        Gv1.Columns("Vendor_Bank_Code").Width = 100
+        Gv1.Columns("Vendor_Bank_Code").HeaderText = "Bank"
+
+        Gv1.Columns("OutstandingBalance").IsVisible = True
+        Gv1.Columns("OutstandingBalance").Width = 100
+        Gv1.Columns("OutstandingBalance").HeaderText = "Balance"
+
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If fromDate.Value > dtpToDate.Value Then
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date", Me.Text)
+                fromDate.Focus()
+                Exit Sub
+            End If
+
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+            Dim whrcls As String = Nothing
+            Dim Query As String = String.Empty
+            Dim strWhrClause As String = String.Empty
+            Dim strWhrClause2 As String = String.Empty
+            Dim itemCode As String = String.Empty
+            Dim MainQueryForScheme As String = String.Empty
+            Dim strWhrRoutSummaryPrint As String = String.Empty
+
+            Query = " Select ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
+                      TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type ,
+                      TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Bank_Code,
+                      TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount,TSPL_TRANSFER_TO_SAVING_DETAIL.Amount as TTSAmt,
+                      (TSPL_VENDOR_INVOICE_HEAD.Balance_Amt-TSPL_TRANSFER_TO_SAVING_DETAIL.Amount)As OutstandingBalance,
+                      TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,
+                      '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "' as ToDate,
+                      TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME
+                      from TSPL_VENDOR_INVOICE_DETAIL
+                      left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No
+                      left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                      LEFT OUTER JOIN TSPL_TRANSFER_TO_SAVING_DETAIL ON TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                      left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                      LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1= '" + objCommonVar.CurrComp_Code1 + "'
+                      where 2=2  and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
+                      and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<=convert(date,'" + dtpToDate.Value + "',103)
+                      and Transfer_To_Saving=1 "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptSavingBalanceReport", "")
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtMultBmc__My_Click(sender As Object, e As EventArgs) Handles txtMultBmc._My_Click
+        Dim qry As String = " select TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where 2=2  "
+        txtMultBmc.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMulSelect", qry, "MCC_NAME", "", txtMultBmc.arrValueMember, txtMultBmc.arrDispalyMember)
+    End Sub
+
+    Private Sub txtMultDCS__My_Click(sender As Object, e As EventArgs) Handles txtMultDCS._My_Click
+        Dim qry As String = " Select VSP_Code AS Code,VLC_Code_VLC_Uploader,VLC_Name as Name from TSPL_VLC_MASTER_HEAD WHERE 2=2 "
+        txtMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMulSelect", qry, "Code", "Name", txtMultDCS.arrValueMember, txtMultDCS.arrDispalyMember)
+    End Sub
+End Class
