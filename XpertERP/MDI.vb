@@ -3839,9 +3839,9 @@ Public Class MDI
                     Case clsUserMgtCode.itemGroups
                         frm = New frmItemGroup(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.itemMaster
-                        frm = New frmItemMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.itemMaster
+                    '    frm = New frmItemMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.locationMaster
                         frm = New frmLocationMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8448,6 +8448,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmMonthWiseBeneficieriesReport
                         frm = New frmMonthWiseBeneficieriesReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBMCGazeCapacityUtilizationReport
+                        frm = New rptBMCGazeCapacityUtilizationReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptBMCCapacityUtilizationReport
                         frm = New rptBMCCapacityUtilizationReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -9177,6 +9180,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDailyDemandReport
                         frm = New frmDailyDemandReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptHSNWiseSaleReport
+                        frm = New rptHSNWiseSaleReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
                     Case clsUserMgtCode.SaleIncentiveMaster
@@ -9801,6 +9807,10 @@ Public Class MDI
                     Case clsUserMgtCode.TenderShortPenalty
                         frm = New frmTenderShortPenalty()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.RALNOC
+                        frm = New frmRALNOC()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmShortSupplyPenalty
                         frm = New frmShortSupplyPenalty()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

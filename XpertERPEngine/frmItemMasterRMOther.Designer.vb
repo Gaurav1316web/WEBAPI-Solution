@@ -48,9 +48,15 @@ Partial Class FrmItemMasterRMOther
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkSFGCF = New common.Controls.MyCheckBox()
+        Me.chkSkipSecurityDed = New common.Controls.MyCheckBox()
+        Me.chkSkipPenaltyDed = New common.Controls.MyCheckBox()
+        Me.chkHighClass = New common.Controls.MyCheckBox()
+        Me.chkFGPL = New common.Controls.MyCheckBox()
         Me.txtUploaderSeq = New common.MyNumBox()
         Me.lblUploaderSeq = New common.Controls.MyLabel()
         Me.txtRptName = New common.Controls.MyTextBox()
@@ -192,10 +198,9 @@ Partial Class FrmItemMasterRMOther
         Me.lblSaleAcSet = New common.Controls.MyLabel()
         Me.lblPurchaseACSet = New common.Controls.MyLabel()
         Me.lblStructurer = New common.Controls.MyLabel()
-        'Me.lblDeduction = New common.Controls.MyLabel()
         Me.txtUOM = New common.UserControls.txtFinder()
-        Me.txtDeductiontype = New common.UserControls.txtFinder()
         Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.txtDeductiontype = New common.UserControls.txtFinder()
         Me.myLabel47 = New common.Controls.MyLabel()
         Me.cboItemType = New common.Controls.MyComboBox()
         Me.txtCategory = New common.UserControls.txtFinder()
@@ -283,6 +288,9 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvSchedule = New common.UserControls.MyRadGridView()
         Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.RadPageViewPage9 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvNOCSchedule = New common.UserControls.MyRadGridView()
+        Me.MyLabel48 = New common.Controls.MyLabel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -308,17 +316,17 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.chkFGPL = New common.Controls.MyCheckBox()
-        Me.chkSFGCF = New common.Controls.MyCheckBox()
-        Me.chkSkipSecurityDed = New common.Controls.MyCheckBox()
-        Me.chkSkipPenaltyDed = New common.Controls.MyCheckBox()
-        Me.chkHighClass = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkHighClass, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtUploaderSeq, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUploaderSeq, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRptName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -454,7 +462,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.lblSaleAcSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPurchaseACSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblStructurer, System.ComponentModel.ISupportInitialize).BeginInit()
-        'CType(Me.lblDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.myLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -543,17 +550,16 @@ Partial Class FrmItemMasterRMOther
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage9.SuspendLayout()
+        CType(Me.gvNOCSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvNOCSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkHighClass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -592,10 +598,11 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage6)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage7)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage8)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage9)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView1.Size = New System.Drawing.Size(1207, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -725,7 +732,6 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Controls.Add(Me.lblSaleAcSet)
         Me.RadPageViewPage1.Controls.Add(Me.lblPurchaseACSet)
         Me.RadPageViewPage1.Controls.Add(Me.lblStructurer)
-        'Me.RadPageViewPage1.Controls.Add(Me.lblDeduction)
         Me.RadPageViewPage1.Controls.Add(Me.txtUOM)
         Me.RadPageViewPage1.Controls.Add(Me.txtDeductiontype)
         Me.RadPageViewPage1.Controls.Add(Me.cboItemType)
@@ -754,6 +760,61 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
+        '
+        'chkSFGCF
+        '
+        Me.chkSFGCF.Location = New System.Drawing.Point(1114, 4)
+        Me.chkSFGCF.MyLinkLable1 = Nothing
+        Me.chkSFGCF.MyLinkLable2 = Nothing
+        Me.chkSFGCF.Name = "chkSFGCF"
+        Me.chkSFGCF.Size = New System.Drawing.Size(77, 18)
+        Me.chkSFGCF.TabIndex = 216
+        Me.chkSFGCF.Tag1 = Nothing
+        Me.chkSFGCF.Text = "SFG For CF "
+        '
+        'chkSkipSecurityDed
+        '
+        Me.chkSkipSecurityDed.Location = New System.Drawing.Point(961, 120)
+        Me.chkSkipSecurityDed.MyLinkLable1 = Nothing
+        Me.chkSkipSecurityDed.MyLinkLable2 = Nothing
+        Me.chkSkipSecurityDed.Name = "chkSkipSecurityDed"
+        Me.chkSkipSecurityDed.Size = New System.Drawing.Size(139, 18)
+        Me.chkSkipSecurityDed.TabIndex = 216
+        Me.chkSkipSecurityDed.Tag1 = Nothing
+        Me.chkSkipSecurityDed.Text = "Skip Security Deduction"
+        '
+        'chkSkipPenaltyDed
+        '
+        Me.chkSkipPenaltyDed.Location = New System.Drawing.Point(961, 140)
+        Me.chkSkipPenaltyDed.MyLinkLable1 = Nothing
+        Me.chkSkipPenaltyDed.MyLinkLable2 = Nothing
+        Me.chkSkipPenaltyDed.Name = "chkSkipPenaltyDed"
+        Me.chkSkipPenaltyDed.Size = New System.Drawing.Size(136, 18)
+        Me.chkSkipPenaltyDed.TabIndex = 216
+        Me.chkSkipPenaltyDed.Tag1 = Nothing
+        Me.chkSkipPenaltyDed.Text = "Skip Penalty Deduction"
+        '
+        'chkHighClass
+        '
+        Me.chkHighClass.Location = New System.Drawing.Point(961, 160)
+        Me.chkHighClass.MyLinkLable1 = Nothing
+        Me.chkHighClass.MyLinkLable2 = Nothing
+        Me.chkHighClass.Name = "chkHighClass"
+        Me.chkHighClass.Size = New System.Drawing.Size(72, 18)
+        Me.chkHighClass.TabIndex = 216
+        Me.chkHighClass.Tag1 = Nothing
+        Me.chkHighClass.Text = "High Class"
+        '
+        'chkFGPL
+        '
+        Me.chkFGPL.Location = New System.Drawing.Point(1052, 22)
+        Me.chkFGPL.MyLinkLable1 = Nothing
+        Me.chkFGPL.MyLinkLable2 = Nothing
+        Me.chkFGPL.Name = "chkFGPL"
+        Me.chkFGPL.Size = New System.Drawing.Size(83, 18)
+        Me.chkFGPL.TabIndex = 197
+        Me.chkFGPL.Tag1 = Nothing
+        Me.chkFGPL.Text = "FG For CF PL"
         '
         'txtUploaderSeq
         '
@@ -2902,7 +2963,6 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel9.TabIndex = 80
         Me.MyLabel9.Text = "MCC Item UOM"
         '
-        '
         'txtDeductiontype
         '
         Me.txtDeductiontype.CalculationExpression = Nothing
@@ -2929,24 +2989,14 @@ Partial Class FrmItemMasterRMOther
         Me.txtDeductiontype.TabIndex = 199
         Me.txtDeductiontype.Value = ""
         '
-        'MYLABEL47
+        'myLabel47
         '
         Me.myLabel47.FieldName = Nothing
         Me.myLabel47.Location = New System.Drawing.Point(301, 435)
-        Me.myLabel47.Name = "MyLabel47"
-        Me.myLabel47.Size = New System.Drawing.Size(86, 18)
+        Me.myLabel47.Name = "myLabel47"
+        Me.myLabel47.Size = New System.Drawing.Size(85, 18)
         Me.myLabel47.TabIndex = 211
         Me.myLabel47.Text = "Deduction Type"
-        '
-        '
-        'Me.lblDeduction.AutoSize = False
-        'Me.lblDeduction.BorderVisible = True
-        'Me.lblDeduction.FieldName = Nothing
-        'Me.lblDeduction.Location = New System.Drawing.Point(590, 415)
-        'Me.lblDeduction.Name = "lblDeduction"
-        'Me.lblDeduction.Size = New System.Drawing.Size(90, 18)
-        'Me.lblDeduction.TabIndex = 92
-        'Me.lblDeduction.Text = ""
         '
         'cboItemType
         '
@@ -3222,7 +3272,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(106.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1121, 553)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage2.Text = "Conversion Factor"
         '
         'gvUOM
@@ -3238,9 +3288,10 @@ Partial Class FrmItemMasterRMOther
         Me.gvUOM.MyStopExport = False
         Me.gvUOM.Name = "gvUOM"
         Me.gvUOM.ShowHeaderCellButtons = True
-        Me.gvUOM.Size = New System.Drawing.Size(1121, 553)
+        Me.gvUOM.Size = New System.Drawing.Size(1186, 553)
         Me.gvUOM.TabIndex = 0
         Me.gvUOM.TabStop = False
+        Me.gvUOM.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -3249,7 +3300,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(110.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(886, 522)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage4.Text = "Category Structure"
         '
         'gvCategory
@@ -3265,9 +3316,10 @@ Partial Class FrmItemMasterRMOther
         Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
-        Me.gvCategory.Size = New System.Drawing.Size(886, 490)
+        Me.gvCategory.Size = New System.Drawing.Size(1186, 521)
         Me.gvCategory.TabIndex = 1
         Me.gvCategory.TabStop = False
+        Me.gvCategory.VarID = ""
         '
         'Panel1
         '
@@ -3277,7 +3329,7 @@ Partial Class FrmItemMasterRMOther
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(886, 32)
+        Me.Panel1.Size = New System.Drawing.Size(1186, 32)
         Me.Panel1.TabIndex = 0
         '
         'lblCategoryStructureCode
@@ -3354,7 +3406,7 @@ Partial Class FrmItemMasterRMOther
         Me.pageviewSerializedIinvenoty.ItemSize = New System.Drawing.SizeF(114.0!, 28.0!)
         Me.pageviewSerializedIinvenoty.Location = New System.Drawing.Point(10, 37)
         Me.pageviewSerializedIinvenoty.Name = "pageviewSerializedIinvenoty"
-        Me.pageviewSerializedIinvenoty.Size = New System.Drawing.Size(886, 522)
+        Me.pageviewSerializedIinvenoty.Size = New System.Drawing.Size(1186, 553)
         Me.pageviewSerializedIinvenoty.Text = "Serialized Inventory"
         '
         'chkApplyRounding
@@ -3850,7 +3902,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Padding = New System.Windows.Forms.Padding(30)
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1087, 553)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage5.Text = "QC Parameter(s)"
         '
         'SplitContainer2
@@ -3870,7 +3922,7 @@ Partial Class FrmItemMasterRMOther
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox3)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1081, 547)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1180, 547)
         Me.SplitContainer2.SplitterDistance = 273
         Me.SplitContainer2.TabIndex = 33
         '
@@ -3882,7 +3934,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadGroupBox1.HeaderText = "Parameter(s)"
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1081, 255)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1180, 255)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = "Parameter(s)"
         '
@@ -3903,9 +3955,10 @@ Partial Class FrmItemMasterRMOther
         Me.gv_param.Name = "gv_param"
         Me.gv_param.ShowGroupPanel = False
         Me.gv_param.ShowHeaderCellButtons = True
-        Me.gv_param.Size = New System.Drawing.Size(1077, 235)
+        Me.gv_param.Size = New System.Drawing.Size(1176, 235)
         Me.gv_param.TabIndex = 0
         Me.gv_param.TabStop = False
+        Me.gv_param.VarID = ""
         '
         'MyLabel22
         '
@@ -3925,7 +3978,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadGroupBox3.HeaderText = "Purchase QC Parameter"
         Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(1081, 270)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(1180, 270)
         Me.RadGroupBox3.TabIndex = 1
         Me.RadGroupBox3.Text = "Purchase QC Parameter"
         '
@@ -3946,9 +3999,10 @@ Partial Class FrmItemMasterRMOther
         Me.gvPurQCPar.Name = "gvPurQCPar"
         Me.gvPurQCPar.ShowGroupPanel = False
         Me.gvPurQCPar.ShowHeaderCellButtons = True
-        Me.gvPurQCPar.Size = New System.Drawing.Size(1077, 250)
+        Me.gvPurQCPar.Size = New System.Drawing.Size(1176, 250)
         Me.gvPurQCPar.TabIndex = 0
         Me.gvPurQCPar.TabStop = False
+        Me.gvPurQCPar.VarID = ""
         '
         'pvpCustomFields
         '
@@ -3956,7 +4010,7 @@ Partial Class FrmItemMasterRMOther
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(988, 522)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1186, 553)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -3964,7 +4018,7 @@ Partial Class FrmItemMasterRMOther
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(988, 522)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1186, 553)
         Me.UcCustomFields1.TabIndex = 1
         '
         'RadPageViewPage3
@@ -3973,7 +4027,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(63.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(988, 522)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage3.Text = "Database"
         '
         'RadGroupBox4
@@ -4008,7 +4062,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(988, 522)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage6.Text = "Attachment"
         '
         'UcAttachment1
@@ -4016,7 +4070,7 @@ Partial Class FrmItemMasterRMOther
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(988, 522)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1186, 553)
         Me.UcAttachment1.TabIndex = 4
         '
         'RadPageViewPage7
@@ -4038,7 +4092,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(54.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(988, 522)
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage7.Text = "Part No"
         '
         'txtPartNo
@@ -4293,7 +4347,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(62.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
-        Me.RadPageViewPage8.Size = New System.Drawing.Size(886, 522)
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage8.Text = "Schedule"
         '
         'gvSchedule
@@ -4309,9 +4363,10 @@ Partial Class FrmItemMasterRMOther
         Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.ShowHeaderCellButtons = True
-        Me.gvSchedule.Size = New System.Drawing.Size(886, 509)
+        Me.gvSchedule.Size = New System.Drawing.Size(1186, 540)
         Me.gvSchedule.TabIndex = 1
         Me.gvSchedule.TabStop = False
+        Me.gvSchedule.VarID = ""
         '
         'MyLabel38
         '
@@ -4319,11 +4374,51 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel38.FieldName = Nothing
         Me.MyLabel38.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel38.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel38.Location = New System.Drawing.Point(0, 509)
+        Me.MyLabel38.Location = New System.Drawing.Point(0, 540)
         Me.MyLabel38.Name = "MyLabel38"
-        Me.MyLabel38.Size = New System.Drawing.Size(886, 13)
+        Me.MyLabel38.Size = New System.Drawing.Size(1186, 13)
         Me.MyLabel38.TabIndex = 31
         Me.MyLabel38.Text = "Press F5 To View Penelty Details"
+        '
+        'RadPageViewPage9
+        '
+        Me.RadPageViewPage9.Controls.Add(Me.gvNOCSchedule)
+        Me.RadPageViewPage9.Controls.Add(Me.MyLabel48)
+        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(89.0!, 28.0!)
+        Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage9.Name = "RadPageViewPage9"
+        Me.RadPageViewPage9.Size = New System.Drawing.Size(1186, 553)
+        Me.RadPageViewPage9.Text = "NOC Schedule"
+        '
+        'gvNOCSchedule
+        '
+        Me.gvNOCSchedule.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvNOCSchedule.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvNOCSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvNOCSchedule.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvNOCSchedule.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvNOCSchedule.MyStopExport = False
+        Me.gvNOCSchedule.Name = "gvNOCSchedule"
+        Me.gvNOCSchedule.ShowHeaderCellButtons = True
+        Me.gvNOCSchedule.Size = New System.Drawing.Size(1186, 540)
+        Me.gvNOCSchedule.TabIndex = 2
+        Me.gvNOCSchedule.TabStop = False
+        Me.gvNOCSchedule.VarID = ""
+        '
+        'MyLabel48
+        '
+        Me.MyLabel48.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel48.FieldName = Nothing
+        Me.MyLabel48.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel48.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel48.Location = New System.Drawing.Point(0, 540)
+        Me.MyLabel48.Name = "MyLabel48"
+        Me.MyLabel48.Size = New System.Drawing.Size(1186, 13)
+        Me.MyLabel48.TabIndex = 32
+        Me.MyLabel48.Text = "Press F5 To View NOC Penelty Details"
         '
         'btnHistory
         '
@@ -4497,61 +4592,6 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'chkFGPL
-        '
-        Me.chkFGPL.Location = New System.Drawing.Point(1052, 22)
-        Me.chkFGPL.MyLinkLable1 = Nothing
-        Me.chkFGPL.MyLinkLable2 = Nothing
-        Me.chkFGPL.Name = "chkFGPL"
-        Me.chkFGPL.Size = New System.Drawing.Size(83, 18)
-        Me.chkFGPL.TabIndex = 197
-        Me.chkFGPL.Tag1 = Nothing
-        Me.chkFGPL.Text = "FG For CF PL"
-        '
-        'chkSFGCF
-        '
-        Me.chkSFGCF.Location = New System.Drawing.Point(1114, 4)
-        Me.chkSFGCF.MyLinkLable1 = Nothing
-        Me.chkSFGCF.MyLinkLable2 = Nothing
-        Me.chkSFGCF.Name = "chkSFGCF"
-        Me.chkSFGCF.Size = New System.Drawing.Size(77, 18)
-        Me.chkSFGCF.TabIndex = 216
-        Me.chkSFGCF.Tag1 = Nothing
-        Me.chkSFGCF.Text = "SFG For CF "
-        '
-        'chkSkipSecurityDed
-        '
-        Me.chkSkipSecurityDed.Location = New System.Drawing.Point(961, 120)
-        Me.chkSkipSecurityDed.MyLinkLable1 = Nothing
-        Me.chkSkipSecurityDed.MyLinkLable2 = Nothing
-        Me.chkSkipSecurityDed.Name = "chkSkipSecurityDed"
-        Me.chkSkipSecurityDed.Size = New System.Drawing.Size(77, 18)
-        Me.chkSkipSecurityDed.TabIndex = 216
-        Me.chkSkipSecurityDed.Tag1 = Nothing
-        Me.chkSkipSecurityDed.Text = "Skip Security Deduction"
-        '
-        'chkSkipPenaltyDed
-        '
-        Me.chkSkipPenaltyDed.Location = New System.Drawing.Point(961, 140)
-        Me.chkSkipPenaltyDed.MyLinkLable1 = Nothing
-        Me.chkSkipPenaltyDed.MyLinkLable2 = Nothing
-        Me.chkSkipPenaltyDed.Name = "chkSkipPenaltyDed"
-        Me.chkSkipPenaltyDed.Size = New System.Drawing.Size(77, 18)
-        Me.chkSkipPenaltyDed.TabIndex = 216
-        Me.chkSkipPenaltyDed.Tag1 = Nothing
-        Me.chkSkipPenaltyDed.Text = "Skip Penalty Deduction"
-        '
-        'chkHighClass
-        '
-        Me.chkHighClass.Location = New System.Drawing.Point(961, 160)
-        Me.chkHighClass.MyLinkLable1 = Nothing
-        Me.chkHighClass.MyLinkLable2 = Nothing
-        Me.chkHighClass.Name = "chkHighClass"
-        Me.chkHighClass.Size = New System.Drawing.Size(77, 18)
-        Me.chkHighClass.TabIndex = 216
-        Me.chkHighClass.Tag1 = Nothing
-        Me.chkHighClass.Text = "High Class"
-        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4572,6 +4612,11 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkHighClass, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtUploaderSeq, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUploaderSeq, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRptName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4713,7 +4758,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.lblSaleAcSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPurchaseACSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblStructurer, System.ComponentModel.ISupportInitialize).EndInit()
-        'CType(Me.lblDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.myLabel47, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4808,17 +4852,17 @@ Partial Class FrmItemMasterRMOther
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage9.ResumeLayout(False)
+        Me.RadPageViewPage9.PerformLayout()
+        CType(Me.gvNOCSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvNOCSchedule, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkFGPL, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkskipSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSkipPenaltyDed, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkHighClass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5089,5 +5133,8 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents chkSkipSecurityDed As Controls.MyCheckBox
     Friend WithEvents chkSkipPenaltyDed As Controls.MyCheckBox
     Friend WithEvents chkHighClass As Controls.MyCheckBox
+    Friend WithEvents RadPageViewPage9 As RadPageViewPage
+    Friend WithEvents gvNOCSchedule As UserControls.MyRadGridView
+    Friend WithEvents MyLabel48 As Controls.MyLabel
 End Class
 

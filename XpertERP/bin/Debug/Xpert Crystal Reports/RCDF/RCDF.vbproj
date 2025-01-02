@@ -359,6 +359,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceSKR.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceSKRPrintDistribution.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceTNK.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer_Challan.rpt" />
@@ -384,6 +385,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDemandBooking.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDemandBookingRouteWise.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDispatchBulkSale.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rptDispatchBulkSaleBHR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDSBoking.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptFormA2MT.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptFreshSaleInvoice.rpt" />
@@ -1978,6 +1980,7 @@
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptFluidMilkDemandReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptHSNWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />

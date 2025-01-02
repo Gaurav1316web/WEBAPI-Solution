@@ -864,7 +864,7 @@ Public Class clsApply_Approval
         Try
             Dim qry As String = ""
             Dim NewLimt As Double = 0
-            qry = "select count(*) as totalCOunt from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL " & _
+            qry = "select count(*) as totalCOunt from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL " &
                   "where comp_code='" + objCommonVar.CurrentCompanyCode + "' and trans_code='" + Form_Id + "' and document_code='" + Document_Code + "' and is_reverse=0 "
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
                 Return False

@@ -464,6 +464,12 @@ Public Class frmPurchaseOrder
             txtRefNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
         End If
 
+        'txtShipToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' " & WhrCls & " "))
+        'If clsCommon.myLen(txtShipToLocation.Value) > 0 Then
+        '    txtShipToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtShipToLocation.Value + "' "))
+        '    txtRefNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtShipToLocation.Value + "'"))
+        'End If
+
         If clsCommon.CompairString(clsFixedParameter.GetData("MilkProc", "EnableMilkProc", Nothing), "1") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterCode.MCCPurchase, clsFixedParameterType.MCCPurchase, Nothing), "1") = CompairStringResult.Equal Then
             Panel2.Visible = True
         Else
@@ -11166,7 +11172,5 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
             SetTax()
         End If
     End Sub
-
-
 End Class
 

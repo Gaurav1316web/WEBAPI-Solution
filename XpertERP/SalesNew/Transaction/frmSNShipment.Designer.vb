@@ -31,6 +31,8 @@ Partial Class frmSNShipment
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel27 = New common.Controls.MyLabel()
+        Me.lblDocCreditLimit = New common.Controls.MyLabel()
         Me.lbltransporter = New common.Controls.MyLabel()
         Me.fndtransporter = New common.UserControls.txtFinder()
         Me.lblRouteNo = New common.Controls.MyLabel()
@@ -262,14 +264,14 @@ Partial Class frmSNShipment
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.MyLabel27 = New common.Controls.MyLabel()
-        Me.lblDocCreditLimit = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDocCreditLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbltransporter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtOrderQty, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -479,8 +481,6 @@ Partial Class frmSNShipment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDocCreditLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -637,6 +637,26 @@ Partial Class frmSNShipment
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage1.Text = "Shipment/Dispatch"
+        '
+        'MyLabel27
+        '
+        Me.MyLabel27.FieldName = Nothing
+        Me.MyLabel27.Location = New System.Drawing.Point(1011, 199)
+        Me.MyLabel27.Name = "MyLabel27"
+        Me.MyLabel27.Size = New System.Drawing.Size(87, 18)
+        Me.MyLabel27.TabIndex = 1435
+        Me.MyLabel27.Text = "Doc Credit Limit"
+        '
+        'lblDocCreditLimit
+        '
+        Me.lblDocCreditLimit.AutoSize = False
+        Me.lblDocCreditLimit.BorderVisible = True
+        Me.lblDocCreditLimit.FieldName = Nothing
+        Me.lblDocCreditLimit.Location = New System.Drawing.Point(1107, 199)
+        Me.lblDocCreditLimit.Name = "lblDocCreditLimit"
+        Me.lblDocCreditLimit.Size = New System.Drawing.Size(122, 19)
+        Me.lblDocCreditLimit.TabIndex = 1434
+        Me.lblDocCreditLimit.TextWrap = False
         '
         'lbltransporter
         '
@@ -2021,6 +2041,7 @@ Partial Class frmSNShipment
         Me.gv1.Size = New System.Drawing.Size(1209, 171)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'RadLabel13
         '
@@ -2345,6 +2366,7 @@ Partial Class frmSNShipment
         Me.gvDCS.Size = New System.Drawing.Size(1234, 459)
         Me.gvDCS.TabIndex = 2
         Me.gvDCS.TabStop = False
+        Me.gvDCS.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -2587,6 +2609,7 @@ Partial Class frmSNShipment
         Me.gv2.Size = New System.Drawing.Size(1229, 353)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
+        Me.gv2.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -2640,6 +2663,7 @@ Partial Class frmSNShipment
         Me.gvAC.Size = New System.Drawing.Size(1234, 447)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
+        Me.gvAC.VarID = ""
         '
         'RadLabel31
         '
@@ -3900,26 +3924,6 @@ Partial Class frmSNShipment
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'MyLabel27
-        '
-        Me.MyLabel27.FieldName = Nothing
-        Me.MyLabel27.Location = New System.Drawing.Point(1011, 199)
-        Me.MyLabel27.Name = "MyLabel27"
-        Me.MyLabel27.Size = New System.Drawing.Size(87, 18)
-        Me.MyLabel27.TabIndex = 1435
-        Me.MyLabel27.Text = "Doc Credit Limit"
-        '
-        'lblDocCreditLimit
-        '
-        Me.lblDocCreditLimit.AutoSize = False
-        Me.lblDocCreditLimit.BorderVisible = True
-        Me.lblDocCreditLimit.FieldName = Nothing
-        Me.lblDocCreditLimit.Location = New System.Drawing.Point(1107, 199)
-        Me.lblDocCreditLimit.Name = "lblDocCreditLimit"
-        Me.lblDocCreditLimit.Size = New System.Drawing.Size(122, 19)
-        Me.lblDocCreditLimit.TabIndex = 1434
-        Me.lblDocCreditLimit.TextWrap = False
-        '
         'frmSNShipment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3942,6 +3946,8 @@ Partial Class frmSNShipment
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDocCreditLimit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbltransporter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtOrderQty, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4166,8 +4172,6 @@ Partial Class frmSNShipment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDocCreditLimit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
