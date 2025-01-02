@@ -225,6 +225,7 @@ select PK_Id,Against_Tender_Schedule_PK_Id,Penalty_Date,Penalty from TSPL_TENDER
                             objRet.Arr.Add(objRetTr)
                         Next
                     End If
+                    ArrSchedule.Add(objRet)
                 Next
             End If
             clsTenderSchedule.SaveData(obj.Tender_No, ArrSchedule, trans)
@@ -268,8 +269,8 @@ select PK_Id,Against_Tender_Schedule_PK_Id,Penalty_Date,Penalty from TSPL_TENDER
             objRet.Arr = New List(Of clsTenderSchedulePenelty)
             For Each objtr As clsRALNOCSchedulePenelty In obj.Arr
                 Dim objRetTR As New clsTenderSchedulePenelty
-                objRetTR.Penalty_Date = objRetTR.Penalty_Date
-                objRetTR.Penalty = objRetTR.Penalty
+                objRetTR.Penalty_Date = objtr.Penalty_Date
+                objRetTR.Penalty = objtr.Penalty
 
                 objRet.Arr.Add(objRetTR)
             Next

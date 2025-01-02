@@ -190,7 +190,7 @@ where 1=1 "
                                 End If
                             End If
                         Next
-                        qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date, TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail,
+                        qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date, FilteredDetails.Against_Milk_Collection_MCC_Detail,
                         (TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader +' - '+TSPL_VLC_MASTER_HEAD.VLC_Name)VLC_Name,(CASE WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type='C' THEN 'Cow' else 'Mixed' end) AS [CMType]
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.SNo,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
                         ,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type
@@ -203,9 +203,10 @@ where 1=1 "
                         ,(case when isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Own_SNFKG,0)>0 then TSPL_MILK_COLLECTION_DCS_DETAIL.Own_SNFKG else isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG,0) end) as Own_SNFKG
                         FROM TSPL_MILK_COLLECTION_DCS_DETAIL
                         left join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.document_no=TSPL_MILK_COLLECTION_DCS_DETAIL.document_no
-                        left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No                 
+                        LEFT JOIN (SELECT PK_Id, Document_No,Against_Milk_Collection_MCC_Detail FROM (SELECT PK_Id,Document_No, Against_Milk_Collection_MCC_Detail,ROW_NUMBER() OVER (PARTITION BY Document_No ORDER BY PK_Id) AS RowNum FROM TSPL_MILK_COLLECTION_DCS_MCC_DETAIL) AS RankedRows WHERE RowNum = 1) AS FilteredDetails
+                       ON TSPL_MILK_COLLECTION_DCS.Document_No = FilteredDetails.Document_No                
                         left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.vlc_code=TSPL_MILK_COLLECTION_DCS_DETAIL.vlc_code
-                        where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail IN (" + StrAgainst_Milk_Collection_MCC_Detail + ") order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
+                        where FilteredDetails.Against_Milk_Collection_MCC_Detail IN (" + StrAgainst_Milk_Collection_MCC_Detail + ") order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
                         dtDCSDetail = clsDBFuncationality.GetDataTable(qry)
 
                         qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date,
@@ -261,6 +262,7 @@ where 1=1 "
 
                             Dim dtMCCDetailFilter As DataTable = Nothing
                             drFilter = Nothing
+                            Dim drMultiTrip As DataRow()
 
 
                             drFilter = dtMCCDetail.Select("[Document_No]='" + clsCommon.myCstr(dtMCCHeadFilter.Rows(i).Item("Document_No")) + "'")
@@ -275,10 +277,18 @@ where 1=1 "
                                         ActivateStop = True
                                         Exit For
                                     End If
-                                    If i = 0 AndAlso rbtnRouteWise.IsChecked = True Then
+                                    drMultiTrip = dtMCCDetail.Select("Document_Date = '" & clsCommon.myCstr(dtMCCHeadFilter.Rows(i).Item("Document_Date")) & "' AND MCC_Code = '" & clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("MCC_Code")) & "'")
+                                    Dim isAdded As Boolean = True
+                                    If drMultiTrip.Length > 1 Then
+                                        isAdded = False
+                                    End If
+                                    If i = 0 AndAlso j = 0 AndAlso rbtnRouteWise.IsChecked = True Then
                                         dtReport.Rows.Add(clsCommon.myCstr("Tanker No : " + dtMCCHeadFilter.Rows(i).Item("Route_Code")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
                                     End If
-                                    dtReport.Rows.Add(clsCommon.myCstr("BMC : " + dtMCCDetailFilter.Rows(j).Item("MCC_NAME")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
+                                    If isAdded Or i = 0 Then
+                                        dtReport.Rows.Add(clsCommon.myCstr("BMC : " + dtMCCDetailFilter.Rows(j).Item("MCC_NAME")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value) ' D
+                                    End If
+
                                     SumQty = 0.0
                                     SumFATKG = 0.0
                                     SumSNFKG = 0.0
@@ -354,7 +364,10 @@ where 1=1 "
 
 
                                     If rbtnRouteWise.IsChecked = True Then
-                                        dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                        If isAdded Or i = 0 Then
+                                            dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                        End If
+
                                     End If
 
                                     Dim VariationQty As Decimal = Math.Round(SumQty - MCCSumQty, 2)

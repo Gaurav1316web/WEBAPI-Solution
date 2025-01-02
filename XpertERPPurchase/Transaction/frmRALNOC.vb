@@ -9,7 +9,7 @@ Public Class frmRALNOC
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
-    Dim settIntAddMarginDays As Integer = 10
+
     Const colScheduleSNo As String = "colScheduleSNo"
     Const colScheduleParentSNo As String = "colScheduleParentSNo"
     Const colScheduleNo As String = "colScheduleNo"
@@ -163,7 +163,6 @@ Public Class frmRALNOC
         'RadButton1.Visible = False
         RadButton2.Enabled = True
         'RadButton3.Enabled = True
-        chkMonthEndDate.Checked = True
         EnabledDisable(True)
     End Sub
 
@@ -679,47 +678,39 @@ where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("No RAL Details found")
             End If
-            If Not (txtDate.Value >= clsCommon.GetDateWithStartTime(dt.Rows(0)("From_Date")) AndAlso txtDate.Value <= clsCommon.GetDateWithStartTime(dt.Rows(0)("To_Date"))) Then
+
+            Dim dtRunningDate As DateTime = clsCommon.myCDate(clsCommon.GetDateWithStartTime(dt.Rows(0)("From_Date")))
+            Dim dtToDate As DateTime = clsCommon.myCDate(clsCommon.GetDateWithEndTime(dt.Rows(0)("To_Date")))
+            If Not (txtDate.Value >= dtRunningDate AndAlso txtDate.Value <= dtToDate) Then
                 Throw New Exception("NOC Date Should be between [" + clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("From_Date")), "dd/MM/yyyy") + "] and [" + clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("To_Date")), "dd/MM/yyyy") + "] ")
             End If
-            Dim dtRunningDate As DateTime = clsCommon.myCDate(dt.Rows(0)("From_Date"))
             Dim ArrSch As List(Of clsItemNOCSchedule) = clsItemNOCSchedule.GetData(txtItem.Value, Nothing)
             If ArrSch IsNot Nothing AndAlso ArrSch.Count > 0 Then
-                For Each obj As clsItemNOCSchedule In ArrSch
-                    gvSchedule.Rows.AddNew()
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
-                    Dim fromDate As Date = clsCommon.myCDate(dtRunningDate)
-                    dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
-                    If chkMonthEndDate.Checked Then
-                        Dim endDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("SELECT EOMONTH(convert(Date,'" + fromDate + "',103)) AS LastDayOfMonth"))
-                        Dim dayCount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select DATEDIFF(DAY,Convert(Date,'" + dtRunningDate + "',103),convert(Date,'" + endDate + "',103))"))
-                        If dayCount > 0 AndAlso dayCount < 2 Then
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
-                            dtRunningDate = endDate.AddDays(1)
-                        ElseIf dayCount < 0 AndAlso dayCount > -2 Then
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
-                            dtRunningDate = endDate.AddDays(1)
+                For ii As Integer = 0 To ArrSch.Count - 1
+                    If clsCommon.GetDateWithStartTime(dtRunningDate) < clsCommon.GetDateWithStartTime(dtToDate) Then
+                        gvSchedule.Rows.AddNew()
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = ArrSch(ii).SNo
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
+                        If ii = 0 Then
+                            dtRunningDate = txtDate.Value.AddDays(ArrSch(ii).Days - 1)
+                            If dtRunningDate > dtToDate Then
+                                dtRunningDate = dtToDate
+                            End If
                         Else
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
-                            dtRunningDate = dtRunningDate.AddDays(1)
+                            dtRunningDate = dtToDate
                         End If
-                    Else
                         gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
                         dtRunningDate = dtRunningDate.AddDays(1)
+
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(dt.Rows(0)("PSNo"))
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = ArrSch(ii).Qty_Per
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(dt.Rows(0)("Schedule_Qty")) * ArrSch(ii).Qty_Per) / 100)
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = ArrSch(ii).Short_Per
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(dt.Rows(0)("Schedule_Qty")) * ArrSch(ii).Short_Per) / 100)
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = ArrSch(ii).Late_Days
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetNOCSchedulePenalty(ArrSch(ii).Arr, dtRunningDate)
                     End If
-                    If (txtDate.Value >= clsCommon.GetDateWithStartTime(gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value) AndAlso txtDate.Value <= clsCommon.GetDateWithStartTime(gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value)) Then
-                        dtRunningDate = txtDate.Value.AddDays(settIntAddMarginDays)
-                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
-                    End If
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(dt.Rows(0)("PSNo"))
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(dt.Rows(0)("Schedule_Qty")) * obj.Qty_Per) / 100)
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(dt.Rows(0)("Schedule_Qty")) * obj.Short_Per) / 100)
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
-                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetNOCSchedulePenalty(obj.Arr, dtRunningDate)
                 Next
                 EnabledDisable(False)
             Else
@@ -736,7 +727,6 @@ where DocumentCode='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.
         txtVendorNo.Enabled = v
         txtItem.Enabled = v
         txtDate.Enabled = v
-        chkMonthEndDate.Enabled = v
     End Sub
 
     Private Function SetNOCSchedulePenalty(ByVal Arr As List(Of clsItemNOCSchedulePenalty), ByVal dtRunningDate As DateTime) As List(Of clsRALNOCSchedulePenelty)
