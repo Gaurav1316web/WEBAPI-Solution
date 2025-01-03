@@ -57,20 +57,33 @@ Public Class frmTTSavingReport
             Dim MainQueryForScheme As String = String.Empty
             Dim strWhrRoutSummaryPrint As String = String.Empty
 
-            Query = " Select ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
-                      TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type ,
-                      TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Bank_Code,
-                      TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount,TSPL_TRANSFER_TO_SAVING_DETAIL.Amount as TTSAmt,
-                      (TSPL_VENDOR_INVOICE_HEAD.Balance_Amt-TSPL_TRANSFER_TO_SAVING_DETAIL.Amount)As OutstandingBalance,
-                      TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME
-                      from TSPL_VENDOR_INVOICE_DETAIL
-                      left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No
-                      left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                      LEFT OUTER JOIN TSPL_TRANSFER_TO_SAVING_DETAIL ON TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                      left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-                      where 2=2  and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
-                      and convert(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<=convert(date,'" + dtpToDate.Value + "',103)
-                      and Transfer_To_Saving=1 "
+            Query = " select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,xxxx.Vendor_Code,TSPL_VENDOR_MASTER.Bank_Code,TSPL_BANK_MASTER.DESCRIPTION AS Bank_Name,xxxx.Total_Amt,xxxx.Settlement_Amt,xxxx.Transfer_Amt,(xxxx.Total_Amt-xxxx.Transfer_Amt) as Outstanding_BLC from 
+(select Vendor_Code,sum(Document_Total)Document_Total,
+sum(Document_Total* case when RI=1 and Posting_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end )  as Total_Amt,
+sum(Document_Total* case when RI=3 and Posting_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'and Posting_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end ) AS Settlement_Amt,
+sum(Document_Total* case when RI=2 and Posting_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end ) AS Transfer_Amt
+
+from (
+select Vendor_Code,Document_No,Posting_Date,Invoice_Entry_Date,Document_Total,1 as RI,1 AS CHK  from TSPL_VENDOR_INVOICE_HEAD
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where Transfer_To_Saving=1 and Posting_Date is not null and Document_Type='C'
+union all
+select Vendor_Code,Document_No,Posting_Date,Invoice_Entry_Date,Document_Total,2 as RI,0 AS CHK  
+from TSPL_VENDOR_INVOICE_HEAD 
+
+where  Against_TransferToSavingPKID is not null and Posting_Date is not null
+union all
+select Vendor_Code,Document_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as Posting_Date ,Invoice_Entry_Date,Document_Total,3 as RI,0 AS CHK  from TSPL_PAYMENT_PROCESS_SAVING
+LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+LEFT OUTER JOIN TSPL_PAYMENT_PROCESS_HEAD ON TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No
+where   TSPL_PAYMENT_PROCESS_HEAD.isPosted=1 
+)xxx   
+group by Vendor_Code)xxxx 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=xxxx.Vendor_Code
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xxxx.Vendor_Code
+left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank
+
+ "
 
             If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then
                 Query += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ")"
@@ -110,39 +123,40 @@ Public Class frmTTSavingReport
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).Width = 100
             Gv1.Columns(ii).IsVisible = False
+            Gv1.Columns(ii).IsVisible = True
         Next
 
-        Gv1.Columns("SNo").IsVisible = True
-        Gv1.Columns("SNo").Width = 100
-        Gv1.Columns("SNo").HeaderText = "SNo"
+        'Gv1.Columns("SNo").IsVisible = True
+        'Gv1.Columns("SNo").Width = 100
+        'Gv1.Columns("SNo").HeaderText = "SNo"
 
-        Gv1.Columns("Invoice_Entry_Date").IsVisible = True
-        Gv1.Columns("Invoice_Entry_Date").Width = 100
-        Gv1.Columns("Invoice_Entry_Date").HeaderText = "Invoice Date"
+        'Gv1.Columns("Invoice_Entry_Date").IsVisible = True
+        'Gv1.Columns("Invoice_Entry_Date").Width = 100
+        'Gv1.Columns("Invoice_Entry_Date").HeaderText = "Invoice Date"
 
-        Gv1.Columns("VLC_Code_VLC_Uploader").IsVisible = True
-        Gv1.Columns("VLC_Code_VLC_Uploader").Width = 100
-        Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
+        'Gv1.Columns("VLC_Code_VLC_Uploader").IsVisible = True
+        'Gv1.Columns("VLC_Code_VLC_Uploader").Width = 100
+        'Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
 
-        Gv1.Columns("Vendor_Name").IsVisible = True
-        Gv1.Columns("Vendor_Name").Width = 100
-        Gv1.Columns("Vendor_Name").HeaderText = "DCS Name"
+        'Gv1.Columns("Vendor_Name").IsVisible = True
+        'Gv1.Columns("Vendor_Name").Width = 100
+        'Gv1.Columns("Vendor_Name").HeaderText = "DCS Name"
 
-        Gv1.Columns("Total_Amount").IsVisible = True
-        Gv1.Columns("Total_Amount").Width = 100
-        Gv1.Columns("Total_Amount").HeaderText = "Invoice Amount"
+        'Gv1.Columns("Total_Amount").IsVisible = True
+        'Gv1.Columns("Total_Amount").Width = 100
+        'Gv1.Columns("Total_Amount").HeaderText = "Invoice Amount"
 
-        Gv1.Columns("TTSAmt").IsVisible = True
-        Gv1.Columns("TTSAmt").Width = 100
-        Gv1.Columns("TTSAmt").HeaderText = "Saving Amount"
+        'Gv1.Columns("TTSAmt").IsVisible = True
+        'Gv1.Columns("TTSAmt").Width = 100
+        'Gv1.Columns("TTSAmt").HeaderText = "Saving Amount"
 
-        Gv1.Columns("Vendor_Bank_Code").IsVisible = True
-        Gv1.Columns("Vendor_Bank_Code").Width = 100
-        Gv1.Columns("Vendor_Bank_Code").HeaderText = "Bank"
+        'Gv1.Columns("Vendor_Bank_Code").IsVisible = True
+        'Gv1.Columns("Vendor_Bank_Code").Width = 100
+        'Gv1.Columns("Vendor_Bank_Code").HeaderText = "Bank"
 
-        Gv1.Columns("OutstandingBalance").IsVisible = True
-        Gv1.Columns("OutstandingBalance").Width = 100
-        Gv1.Columns("OutstandingBalance").HeaderText = "Balance"
+        'Gv1.Columns("OutstandingBalance").IsVisible = True
+        'Gv1.Columns("OutstandingBalance").Width = 100
+        'Gv1.Columns("OutstandingBalance").HeaderText = "Balance"
 
     End Sub
 
