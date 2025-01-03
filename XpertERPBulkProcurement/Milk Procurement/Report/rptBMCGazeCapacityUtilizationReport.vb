@@ -24,10 +24,15 @@ Public Class rptBMCGazeCapacityUtilizationReport
     End Sub
     Sub Print(ByVal isPrint As Boolean)
         Try
-            Dim qry As String = "  Select VLC_Code_VLC_Uploader,MAX(XX.VLC_Name)VLC_Name,SUM(XX.Capacity)Capacity,max(xx.QtyKG)QtyKG,max(XX.QtyLTR)QtyLTR,max(xx.UTILISATION)UTILISATION,max(xx.Zone_Code)Zone_Code,max(xx.Contained_Qty)Contained_Qty from (SELECT VLC_Name, VLC_Code_VLC_Uploader, TSPL_SILO_DETAIL.Silo_Area as  Capacity,
-TSPL_MILK_COLLECTION_MCC_DETAIL.Qty AS QtyKG
-,Format(ROUND((TSPL_MILK_COLLECTION_MCC_DETAIL.Qty / TSPL_WEIGHT_CONVERSION.Contained_Qty), 0),'0.00') AS QtyLTR,
-Format(ROUND(( (TSPL_MILK_COLLECTION_MCC_DETAIL.Qty/TSPL_WEIGHT_CONVERSION.Contained_Qty) /Silo_Capacity ) * 100, 2),'0.00') as  UTILISATION,
+            Dim qry As String = " Select VLC_Code_VLC_Uploader,MAX(XX.VLC_Name)VLC_Name,Max(TSPL_Silo_Detail.Silo_Area)Capacity,
+   sum(GazeQty)GazeQty
+  
+  ,max(xx.UTILISATION)UTILISATION,max(xx.Zone_Code)Zone_Code,max(xx.Contained_Qty)Contained_Qty 
+  
+  from (SELECT MCC_Code,VLC_Name, VLC_Code_VLC_Uploader, 
+TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty as GazeQty,
+
+Format(ROUND(( (TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty/TSPL_WEIGHT_CONVERSION.Contained_Qty) /Silo_Capacity ) * 100, 2),'0.00') as  UTILISATION,
 TSPL_VENDOR_MASTER.Zone_Code,TSPL_WEIGHT_CONVERSION.Contained_Qty
 FROM TSPL_MILK_COLLECTION_MCC_DETAIL 
 left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
@@ -35,7 +40,6 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MCC=TSPL_MILK_COLLE
 left outer join TSPL_VENDOR_MASTER on  TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code
 left outer join TSPL_ZONE_MASTER on  TSPL_ZONE_MASTER.zone_code = TSPL_VENDOR_MASTER.Zone_Code 
 left Outer Join  TSPL_WEIGHT_CONVERSION On  TSPL_WEIGHT_CONVERSION.Contained_UOM='KG'
-left outer join TSPL_Silo_Detail on TSPL_Silo_Detail.Gaze_Reading_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Reading_Code
 
 where isOwnBMC ='1' and  convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103)
  "
@@ -46,7 +50,11 @@ where isOwnBMC ='1' and  convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103
             If clsCommon.myLen(fndZone.Value) > 0 Then
                 qry += " And TSPL_VENDOR_MASTER.Zone_Code = '" + fndZone.Value + "' "
             End If
-            qry += " )xx group by VLC_Code_VLC_Uploader"
+            qry += " )xx  left outer join (Select Trans_Code,Sum(Silo_Area)Silo_Area from TSPL_Silo_Detail "
+            If clsCommon.myLen(fndMcc.Value) > 0 Then
+                qry += " Where MCC_Code = '" + fndMcc.Value + "' "
+            End If
+            qry += " Group By Trans_Code )TSPL_Silo_Detail on TSPL_Silo_Detail.Trans_Code=MCC_Code group by VLC_Code_VLC_Uploader,MCC_Code"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             'Dt  clsDBFuncationality.GetDataTable(qry)
@@ -88,10 +96,12 @@ where isOwnBMC ='1' and  convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103
             Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
             Gv1.Columns("Capacity").IsVisible = True
             Gv1.Columns("Capacity").HeaderText = "Total Capacity (Litre)"
-            Gv1.Columns("QtyKG").IsVisible = False
-            Gv1.Columns("QtyKG").HeaderText = "Qty (KG)"
-            Gv1.Columns("QtyLTR").IsVisible = True
-            Gv1.Columns("QtyLTR").HeaderText = "Qty (LTR)"
+            'Gv1.Columns("QtyKG").IsVisible = False
+            'Gv1.Columns("QtyKG").HeaderText = "Qty (KG)"
+            'Gv1.Columns("QtyLTR").IsVisible = True
+            'Gv1.Columns("QtyLTR").HeaderText = "Qty (LTR)"
+            Gv1.Columns("GazeQty").IsVisible = True
+            Gv1.Columns("GazeQty").HeaderText = "Gaze Qty"
             Gv1.Columns("UTILISATION").IsVisible = True
             Gv1.Columns("UTILISATION").HeaderText = "% UTILISATION"
             Gv1.Columns("Zone_Code").IsVisible = True

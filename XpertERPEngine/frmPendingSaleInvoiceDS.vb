@@ -53,6 +53,9 @@ Public Class frmPendingSaleInvoiceDS
     Const colHVendorCode As String = "VENDOR"
     Const colHVendorName As String = "VENDORNAME"
     Const colSchemCode As String = "colSchemCode"
+    Const colRoute As String = "Route"
+    Const colShift As String = "Shift"
+
 
 #End Region
 
@@ -78,6 +81,9 @@ Public Class frmPendingSaleInvoiceDS
                 gvHead.Rows(gvHead.RowCount - 1).Cells(colHDate).Value = clsCommon.myCstr(dr("TransDate"))
                 gvHead.Rows(gvHead.RowCount - 1).Cells(colHVendorCode).Value = clsCommon.myCstr(dr("Vendor"))
                 gvHead.Rows(gvHead.RowCount - 1).Cells(colHVendorName).Value = clsCommon.myCstr(dr("VendorName"))
+                gvHead.Rows(gvHead.RowCount - 1).Cells(colRoute).Value = clsCommon.myCstr(dr("Route"))
+                gvHead.Rows(gvHead.RowCount - 1).Cells(colShift).Value = clsCommon.myCstr(dr("Shift"))
+
             End If
         Next
         IsInsideLoadData = False
@@ -103,6 +109,8 @@ Public Class frmPendingSaleInvoiceDS
         repoCode.ReadOnly = True
         gvHead.MasterTemplate.Columns.Add(repoCode)
 
+
+
         Dim repoDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoDate.FormatString = ""
         repoDate.HeaderText = "Date"
@@ -126,7 +134,20 @@ Public Class frmPendingSaleInvoiceDS
         repoVendorName.Width = 170
         repoVendorName.ReadOnly = True
         gvHead.MasterTemplate.Columns.Add(repoVendorName)
-
+        Dim repoRoute As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoRoute.FormatString = ""
+        repoRoute.HeaderText = "Route"
+        repoRoute.Name = colRoute
+        repoRoute.Width = 170
+        repoRoute.ReadOnly = True
+        gvHead.MasterTemplate.Columns.Add(repoRoute)
+        Dim repoShift As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoShift.FormatString = ""
+        repoShift.HeaderText = "Shift"
+        repoShift.Name = colShift
+        repoShift.Width = 170
+        repoShift.ReadOnly = True
+        gvHead.MasterTemplate.Columns.Add(repoShift)
         gvHead.ShowFilteringRow = True
         gvHead.EnableFiltering = True
         gvHead.AllowDeleteRow = False
@@ -681,11 +702,13 @@ Public Class frmPendingSaleInvoiceDS
                 StrCondition = ""
             End If
             '-------------------------------------
-            Dim qry As String = "select CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,max(TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as TaxGroupName,ICode,max(IName) as IName,MAX(IType) as IType,Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName, SUM(Qty* case when RI=1 then 1 else 0 end) as POQty, SUM(Qty* case when RI=-1 then 1 else 0 end) as GRNQty, SUM(Unapproved) as UnapprovedQty, SUM((Qty *RI)- Unapproved) as PedningQty ,MAX(Rate) as Rate, MAX(Final.TAX1_Rate) as TAX1_Rate,MAX(Final.TAX2_Rate) as TAX2_Rate,MAX(Final.TAX3_Rate) as TAX3_Rate,MAX(Final.TAX4_Rate) as TAX4_Rate,MAX(Final.TAX5_Rate) as TAX5_Rate,MAX(Final.TAX6_Rate) as TAX6_Rate,MAX(Final.TAX7_Rate) as TAX7_Rate,MAX(Final.TAX8_Rate) as TAX8_Rate,MAX(Final.TAX9_Rate) as TAX9_Rate,MAX(Final.TAX10_Rate) as TAX10_Rate,Final.MRP as MRP ,max(Disc_Per) as Disc_Per,max(TransDate) as TransDate ,MAX(Vendor) as Vendor,MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as VendorName,0 as Assessable, MAX(Batch_No) as  Batch_No ,MAX(Expiry_Date) as Expiry_Date ,MAX(MFG_Date) as MFG_Date,max(Scheme_Code) as Scheme_Code from ( " + Environment.NewLine
-            qry += " select TSPL_SD_SALE_INVOICE_DETAIL.Line_No,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code as Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type as IType, TSPL_SD_SALE_INVOICE_DETAIL.Qty  as Qty,0 as Unapproved,TSPL_SD_SALE_INVOICE_DETAIL.Unit_Code as Unit,TSPL_SD_SALE_INVOICE_DETAIL.Location as Location,1 as RI,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per,Document_Date as TransDate,TSPL_SD_SALE_INVOICE_DETAIL.Assessable ,TSPL_SD_SALE_INVOICE_DETAIL.Batch_No ,TSPL_SD_SALE_INVOICE_DETAIL.Expiry_Date ,TSPL_SD_SALE_INVOICE_DETAIL.MFG_Date " + Environment.NewLine
-            qry += " ,Scheme_Code from TSPL_SD_SALE_INVOICE_DETAIL " + Environment.NewLine
+            Dim qry As String = "select CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,max(TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as TaxGroupName,ICode,max(IName) as IName,MAX(IType) as IType,Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName, SUM(Qty* case when RI=1 then 1 else 0 end) as POQty, SUM(Qty* case when RI=-1 then 1 else 0 end) as GRNQty, SUM(Unapproved) as UnapprovedQty, SUM((Qty *RI)- Unapproved) as PedningQty ,MAX(Rate) as Rate, MAX(Final.TAX1_Rate) as TAX1_Rate,MAX(Final.TAX2_Rate) as TAX2_Rate,MAX(Final.TAX3_Rate) as TAX3_Rate,MAX(Final.TAX4_Rate) as TAX4_Rate,MAX(Final.TAX5_Rate) as TAX5_Rate,MAX(Final.TAX6_Rate) as TAX6_Rate,MAX(Final.TAX7_Rate) as TAX7_Rate,MAX(Final.TAX8_Rate) as TAX8_Rate,MAX(Final.TAX9_Rate) as TAX9_Rate,MAX(Final.TAX10_Rate) as TAX10_Rate,Final.MRP as MRP ,max(Disc_Per) as Disc_Per,max(TransDate) as TransDate ,MAX(Vendor) as Vendor,MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as VendorName,0 as Assessable, MAX(Batch_No) as  Batch_No ,MAX(Expiry_Date) as Expiry_Date ,MAX(MFG_Date) as MFG_Date,max(Scheme_Code) as Scheme_Code,Max(Final.Route_No)Route,Max(Shift_type)Shift from ( " + Environment.NewLine
+            qry += " select TSPL_SD_SALE_INVOICE_DETAIL.Line_No,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code as Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type as IType, TSPL_SD_SALE_INVOICE_DETAIL.Qty  as Qty,0 as Unapproved,TSPL_SD_SALE_INVOICE_DETAIL.Unit_Code as Unit,TSPL_SD_SALE_INVOICE_DETAIL.Location as Location,1 as RI,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.MRP ,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as TransDate,TSPL_SD_SALE_INVOICE_DETAIL.Assessable ,TSPL_SD_SALE_INVOICE_DETAIL.Batch_No ,TSPL_SD_SALE_INVOICE_DETAIL.Expiry_Date ,TSPL_SD_SALE_INVOICE_DETAIL.MFG_Date " + Environment.NewLine
+            qry += " ,Scheme_Code,TSPL_SD_SALE_INVOICE_HEAD.Route_No ,CASE WHEN Shift_type = 'AM' THEN 'Morning' ELSE 'Evening' END AS Shift_type from TSPL_SD_SALE_INVOICE_DETAIL " + Environment.NewLine
             qry += " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code " + Environment.NewLine
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code" + Environment.NewLine
+            qry += " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code" + Environment.NewLine
+
             qry += " where TSPL_SD_SALE_INVOICE_DETAIL.Status=0 and Scheme_Item='N' " & IIf(clsCommon.myLen(Trans_type) > 0, "and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type= '" + Trans_type + "' ", "") & " and TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' and TSPL_SD_SALE_INVOICE_HEAD.Status=1 " + Environment.NewLine
             qry += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) > =convert(date,'" + tp_FromDate.Value + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + tp_ToDate.Value + "',103) AND TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=" & Is_Taxable & " " + Environment.NewLine
 
@@ -707,7 +730,7 @@ Public Class frmPendingSaleInvoiceDS
 
             qry += " union all " + Environment.NewLine
             qry += " select TSPL_SD_SALE_RETURN_DETAIL.Line_No,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code as Code,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,'' as IName,'' as IType,isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0) + isnull(TSPL_SD_SALE_RETURN_DETAIL.DamageQty,0) as Qty,0 as Unapproved,TSPL_SD_SALE_RETURN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI," & IIf(ShowMulMRPOfSameItemOnDairyBookingCustomer = True, " TSPL_SD_SALE_RETURN_DETAIL.Item_Cost ", "0") & " as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate,mrp as MRP,0 as Disc_Per,null as TransDate,isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)as Assessable, '' as  Batch_No ,null as Expiry_Date ,null as MFG_Date" + Environment.NewLine
-            qry += " ,Scheme_Code from TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine
+            qry += " ,Scheme_Code, TSPL_SD_SALE_RETURN_HEAD.Route_No,'' as Shift_type from TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine
             qry += " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.Document_Code " + Environment.NewLine
             qry += " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " + Environment.NewLine
             qry += " where  TSPL_SD_SALE_RETURN_HEAD.Status=1 and Scheme_Item='N'  " & IIf(clsCommon.myLen(Trans_type) > 0, "and TSPL_SD_SALE_RETURN_HEAD.Trans_Type= '" + Trans_type + "' ", "") & "  and TSPL_SD_SALE_RETURN_HEAD.Screen_Type='DS' and len(isnull(TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code,''))>0   " + Environment.NewLine
@@ -718,7 +741,7 @@ Public Class frmPendingSaleInvoiceDS
             End If
             qry += " union all   " + Environment.NewLine
             qry += " select TSPL_SD_SALE_RETURN_DETAIL.Line_No,TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code as Code,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as Vendor,TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,'' as IName,'' as IType,0 as Qty,isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)  + isnull(TSPL_SD_SALE_RETURN_DETAIL.DamageQty,0)  as Unapproved,TSPL_SD_SALE_RETURN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI," & IIf(ShowMulMRPOfSameItemOnDairyBookingCustomer = True, " TSPL_SD_SALE_RETURN_DETAIL.Item_Cost ", "0") & " as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate,mrp as MRP,0 as Disc_Per,null as TransDate,isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)as Assessable, '' as  Batch_No ,null as Expiry_Date ,null as MFG_Date" + Environment.NewLine
-            qry += " ,Scheme_Code from TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine
+            qry += " ,Scheme_Code,TSPL_SD_SALE_RETURN_HEAD.Route_No,'' as Shift_type from TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine
             qry += " left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.Document_Code" + Environment.NewLine
             qry += " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " + Environment.NewLine
             qry += " where  TSPL_SD_SALE_RETURN_HEAD.Status=0 and Scheme_Item='N'  " & IIf(clsCommon.myLen(Trans_type) > 0, "and TSPL_SD_SALE_RETURN_HEAD.Trans_Type= '" + Trans_type + "' ", "") & "  and TSPL_SD_SALE_RETURN_HEAD.Screen_Type='DS' and len(isnull(TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code,''))>0 and TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE not in ('" + strCurrCode + "')  " + Environment.NewLine
