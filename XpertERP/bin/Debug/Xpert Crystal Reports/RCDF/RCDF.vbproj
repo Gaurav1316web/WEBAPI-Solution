@@ -611,6 +611,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G old1.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G-JAL.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-G-SKR.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GALW.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GBKN.rpt" />
@@ -681,6 +682,7 @@
     <None Include="Crystal Reports GST\Purchase Order\SRNReport.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReport17042012With out Landed Cost.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReport-G - Copy.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReport-G-SKR.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReport-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReport.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReportOLD.rpt" />
@@ -1489,6 +1491,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptQualityCheck.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRoutePeriodicalDispatchReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptSavingBalanceReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerGainLossReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLoss.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerProfitLossPrint2.rpt" />
@@ -1979,6 +1982,7 @@
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptFluidMilkDemandReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptHSNWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />

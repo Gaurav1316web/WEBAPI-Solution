@@ -9,6 +9,7 @@ Public Class clsDCSAdditionDeduction
     Public Start_Date As DateTime
     Public End_Date As Date? = Nothing
     Public Inactive As Boolean = False
+    Public IsShare As Boolean = False
     Public Saving As Integer = False ''0-Normal,1-Saving,2-Compulsory
     Public SNo As Integer
     Public Applicable_DCS_Type As Integer ''0-All,1=DCS,2=PDCS,3=BMC,4=Cluster,5=BMC Truck Sheet
@@ -89,6 +90,7 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Check_Saving_AC", obj.Check_Saving_AC)
             clsCommon.AddColumnsForChange(coll, "Conversion", obj.Conversion)
+            clsCommon.AddColumnsForChange(coll, "IsShare", IIf(obj.IsShare, 1, 0))
             If isNewEntry Then
                 obj.Code = clsERPFuncationality.GetNextCode(trans, obj.Start_Date, clsDocType.DCSAdditionDeduction, "", "")
                 If (clsCommon.myLen(obj.Code) <= 0) Then
@@ -221,6 +223,7 @@ Public Class clsDCSAdditionDeduction
                 obj.End_Date = Nothing
             End If
             obj.Inactive = (clsCommon.myCdbl(dt.Rows(0)("Inactive")) = 1)
+            obj.IsShare = (clsCommon.myCdbl(dt.Rows(0)("IsShare")) = 1)
             obj.Saving = clsCommon.myCdbl(dt.Rows(0)("Saving"))
             obj.SNo = clsCommon.myCdbl(dt.Rows(0)("SNo"))
             obj.Applicable_DCS_Type = clsCommon.myCDecimal(dt.Rows(0)("Applicable_DCS_Type"))

@@ -1882,6 +1882,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmLocalMilkSaleRegister, "Local Milk Sale Register", "1.17.03.133", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptFarmerSaleRegister, "Farmer Sale Register", "1.17.03.134", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmMonthWiseBeneficieriesReport, "Month Wise Beneficieris Report", "1.17.03.135", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCGazeCapacityUtilizationReport, "BMC Gaze Capacity Utilization Report", "1.17.03.136", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmTTSavingReport, "Saving Balance Report", "1.17.03.139", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014

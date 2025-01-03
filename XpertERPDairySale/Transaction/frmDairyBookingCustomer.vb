@@ -139,6 +139,7 @@ Public Class frmDairyBookingCustomer
     Const ColSCRate As String = "ColSCRate"
     Const ColSCAmt As String = "ColSCAmt"
     Const ColDCPKID As String = "ColDCPKID"
+    Const ColMainItem As String = "ColMainItem"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim repoBalQty As GridViewDecimalColumn
     Dim repoComplete As GridViewTextBoxColumn
@@ -529,6 +530,17 @@ Public Class frmDairyBookingCustomer
         repoIHSN.ReadOnly = True
         repoIHSN.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoIHSN)
+        If ApplyManualScheme Then
+            Dim repoMainItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoMainItem.FormatString = ""
+            repoMainItem.HeaderText = "Main Item Code"
+            repoMainItem.Name = ColMainItem
+            repoMainItem.HeaderImage = My.Resources.search4
+            repoMainItem.TextImageRelation = TextImageRelation.TextBeforeImage
+            repoMainItem.Width = 100
+            repoMainItem.IsVisible = True
+            gv1.MasterTemplate.Columns.Add(repoMainItem)
+        End If
         Dim repoPriceId As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoPriceId.FormatString = ""
         repoPriceId.HeaderText = "Price Id"
@@ -1306,6 +1318,13 @@ Public Class frmDairyBookingCustomer
                             'ElseIf e.Column Is gv1.Columns(colIsMNDTax) Then
                             '    UpdateCurrentRow(gv1.CurrentRow.Index)
                         End If
+                    ElseIf e.Column Is gv1.Columns(ColMainItem) Then
+                        OpenSchemeItemList(gv1.CurrentRow.Index)
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                            UpdateCurrentRow1(gv1.CurrentRow.Index)
+                        Else
+                            UpdateCurrentRow(gv1.CurrentRow.Index)
+                        End If
                     End If
                 End If
                 isCellValueChangedOpen = False
@@ -1314,6 +1333,28 @@ Public Class frmDairyBookingCustomer
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub OpenSchemeItemList(ByVal IntRowNo As Integer)
+        Try
+            Dim lstItems As List(Of String) = New List(Of String)
+            For i As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myLen(gv1.Rows(i).Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(gv1.Rows(i).Cells(ColMainItem).Value) = 0 Then
+                    lstItems.Add(clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value))
+                End If
+            Next
+            If lstItems.Count > 0 Then
+                Dim strqry As String = "SELECT item AS Code FROM (VALUES"
+                For i As Integer = 0 To lstItems.Count - 2
+                    strqry += "('" + lstItems(i) + "'),"
+                Next
+                strqry += "('" + lstItems(lstItems.Count - 1) + "')) AS Dummytbl(item)"
+                gv1.Rows(IntRowNo).Cells(ColMainItem).Value = clsCommon.ShowSelectForm("Dummytbl", strqry, "Code", "", Nothing, "", True)
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Sub RefreshSerialNo()
         Dim intSerialNo As Integer
         For intCount As Integer = 0 To gv1.Rows.Count - 1
@@ -1356,11 +1397,7 @@ Public Class frmDairyBookingCustomer
                 Exit Sub
             End If
         End If
-        gv1.CurrentRow.Cells(colIName).Value = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
-        gv1.CurrentRow.Cells(colIType).Value = clsDBFuncationality.getSingleValue("select TypeOfItm from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
-        gv1.CurrentRow.Cells(colIShortName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct Short_Description from tspl_item_master where item_code='" + gv1.CurrentRow.Cells(colICode).Value + "'"))
-        gv1.CurrentRow.Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(gv1.CurrentRow.Cells(colICode).Value, Nothing)
-        gv1.CurrentRow.Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Default_UOM=1 and Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
+
         If ShowAvailableQtyOnDairyBooking Then
             gv1.CurrentRow.Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), 0)
         End If
@@ -1775,7 +1812,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             Dim strICode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value)
             Dim strUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value)
             Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
-            Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+            Dim dblRate As Double = IIf(ApplyManualScheme, 0, clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value))
+            Dim dblMainItem As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColMainItem).Value)
             Dim wt_unit As String = 0
             Dim wt_qty As Double = 0
             Dim Item_Weight As Double = 0
@@ -1929,13 +1967,38 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = Math.Round(dblTotTaxAmt, 2)
             gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = Math.Round(dblTotTaxAmt + dblAmtAfterDis, 2)
             If chkSampling.Checked Then
+
                 gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2) + Math.Round(dblAmtAfterDis, 2)
 
             Else
-                gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
+                If ApplyManualScheme Then
+                    If clsCommon.myLen(gv1.Rows(IntRowNo).Cells(ColMainItem).Value) > 0 Then
+                        gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = 0
+                        gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = 0
+                        gv1.Rows(IntRowNo).Cells(colDisAmt).Value = 0
+                    Else
+                        gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
+
+                    End If
+                Else
+                        gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
+
+                End If
 
             End If
-            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
+            If ApplyManualScheme Then
+                If clsCommon.myLen(gv1.Rows(IntRowNo).Cells(ColMainItem).Value) > 0 Then
+                    gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = 0
+                    gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = 0
+                Else
+                    gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
+                End If
+
+
+            Else
+                gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
+
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -2981,6 +3044,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
                 Dim strRemarks As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colRemarks).Value)
+                Dim MainItemLen As Integer = clsCommon.myLen(gv1.Rows(ii).Cells(ColMainItem).Value)
                 Dim isBatchWise As Boolean = clsItemMaster.IsBatchItem(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), trans)
                 'If isNewEntry = False AndAlso clsCommon.myLen(strICode) > 0 Then
                 '    If RunBatchFifowisewithmodifyfunctionality = True AndAlso isBatchWise = True Then
@@ -3112,7 +3176,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         If dblQtyInner > 0 AndAlso clsCommon.CompairString(strInnerICode, strICode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strInnerUOM, strUOM) = CompairStringResult.Equal Then
                             dblEnteredQty += dblQtyInner
                         End If
-                        If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(strICode, strInnerICode) = CompairStringResult.Equal AndAlso MainItemLen = 0 Then
                             ' If ShowMulMRPOfSameItemOnDairyBookingCustomer = True AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ", trans)), "Others") = CompairStringResult.Equal Then
                             If ShowMulMRPOfSameItemOnDairyBookingCustomer = True AndAlso clsCommon.CompairString(strCustomercategory, "Others") = CompairStringResult.Equal Then
                                 Dim dblInnerRate As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colRate).Value)
@@ -3122,9 +3186,20 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                                     Return False
                                 End If
                             Else
-                                Dim Msg As String = "Same Item Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
-                                common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
-                                Return False
+                                Dim Msg As String = ""
+                                If ApplyManualScheme Then
+                                    If Not clsCommon.myLen(gv1.Rows(jj).Cells(ColMainItem).Value) > 0 Then
+                                        Msg = "Same Item Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
+                                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
+                                        Return False
+                                    End If
+                                Else
+                                    Msg = "Same Item Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
+                                    common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
+                                    Return False
+                                End If
+
+
                             End If
                         End If
                     Next
@@ -3372,6 +3447,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         'Dim objBookingitem As clsBookingTemp = TryCast(grow.Cells(ii).Tag, clsBookingTemp)
                         objTr.Vehicle_Code = txtVehicleCode.Value
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
+                        objTr.Scheme_Main_Item = clsCommon.myCstr(grow.Cells(ColMainItem).Value)
                         objTr.Short_Description = ""  'clsCommon.myCstr(grow.Cells(colIShortName).Value)
                         objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                         objTr.PreviousBookingQty = clsCommon.myCdbl(grow.Cells(colPreviousQty).Value)
@@ -4374,6 +4450,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     'gv1.Rows(gv1.Rows.Count - 1).Cells(colIsKKF).Value = (clsCommon.CompairString(clsCommon.myCstr(dt2.Rows(jj)("IsKKFTax")), "YES") = CompairStringResult.Equal)
                     'gv1.Rows(gv1.Rows.Count - 1).Cells(colIsMNDTax).Value = (clsCommon.CompairString(clsCommon.myCstr(dt2.Rows(jj)("IsMNDTax")), "YES") = CompairStringResult.Equal)
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = clsCommon.myCstr(dt2.Rows(jj)("Item_Code"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColMainItem).Value = clsCommon.myCstr(dt2.Rows(jj)("Scheme_Main_Item"))
 
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsCommon.myCstr(dt2.Rows(jj)("item_desc"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIShortName).Value = clsCommon.myCstr(dt2.Rows(jj)("item_Short_Description"))
@@ -8451,6 +8528,9 @@ from
                                 objTr.Customer_Code = txtVendorNo.Value
                                 objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
                                 objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
+                                If ApplyManualScheme Then
+                                    objTr.Scheme_Main_Item = clsCommon.myCstr(grow.Cells(ColMainItem).Value)
+                                End If
                                 objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
                                 objTr.Crate = clsCommon.myCDecimal(grow.Cells(colQty).Value)
                                 If chkSampling.Checked = True Then
@@ -8562,6 +8642,8 @@ from
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDH", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBHR", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceALW", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     Else
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     End If

@@ -24,9 +24,9 @@ Partial Class frmRALNOC
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.SRN_PI = New common.Controls.MyLabel()
-        Me.txtSRN_PI = New common.UserControls.txtFinder()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -48,11 +48,11 @@ Partial Class frmRALNOC
         Me.RadLabel6 = New common.Controls.MyLabel()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.BtnCancel = New Telerik.WinControls.UI.RadButton()
-        Me.btnRecalculate = New Telerik.WinControls.UI.RadButton()
+        Me.gvSchedule = New common.UserControls.MyRadGridView()
+        Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -60,10 +60,12 @@ Partial Class frmRALNOC
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView1.SuspendLayout()
+        Me.RadPageViewPage1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.SRN_PI, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,12 +82,11 @@ Partial Class frmRALNOC
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,14 +106,11 @@ Partial Class frmRALNOC
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.SplitContainer2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnCancel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnRecalculate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -120,6 +118,31 @@ Partial Class frmRALNOC
         Me.SplitContainer1.Size = New System.Drawing.Size(749, 404)
         Me.SplitContainer1.SplitterDistance = 371
         Me.SplitContainer1.TabIndex = 1
+        '
+        'RadPageView1
+        '
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(749, 371)
+        Me.RadPageView1.TabIndex = 3
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
+        Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(728, 325)
+        Me.RadPageViewPage1.Text = "NOC Detail"
         '
         'SplitContainer2
         '
@@ -132,8 +155,6 @@ Partial Class frmRALNOC
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.SRN_PI)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtSRN_PI)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadButton2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
@@ -158,45 +179,9 @@ Partial Class frmRALNOC
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(749, 371)
+        Me.SplitContainer2.Size = New System.Drawing.Size(728, 325)
         Me.SplitContainer2.SplitterDistance = 139
         Me.SplitContainer2.TabIndex = 1
-        '
-        'SRN_PI
-        '
-        Me.SRN_PI.FieldName = Nothing
-        Me.SRN_PI.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SRN_PI.Location = New System.Drawing.Point(531, 30)
-        Me.SRN_PI.Name = "SRN_PI"
-        Me.SRN_PI.Size = New System.Drawing.Size(44, 16)
-        Me.SRN_PI.TabIndex = 148
-        Me.SRN_PI.Text = "SRN PI"
-        '
-        'txtSRN_PI
-        '
-        Me.txtSRN_PI.CalculationExpression = Nothing
-        Me.txtSRN_PI.FieldCode = Nothing
-        Me.txtSRN_PI.FieldDesc = Nothing
-        Me.txtSRN_PI.FieldMaxLength = 0
-        Me.txtSRN_PI.FieldName = Nothing
-        Me.txtSRN_PI.isCalculatedField = False
-        Me.txtSRN_PI.IsSourceFromTable = False
-        Me.txtSRN_PI.IsSourceFromValueList = False
-        Me.txtSRN_PI.IsUnique = False
-        Me.txtSRN_PI.Location = New System.Drawing.Point(581, 28)
-        Me.txtSRN_PI.MendatroryField = False
-        Me.txtSRN_PI.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSRN_PI.MyLinkLable1 = Nothing
-        Me.txtSRN_PI.MyLinkLable2 = Nothing
-        Me.txtSRN_PI.MyReadOnly = False
-        Me.txtSRN_PI.MyShowMasterFormButton = False
-        Me.txtSRN_PI.Name = "txtSRN_PI"
-        Me.txtSRN_PI.ReferenceFieldDesc = Nothing
-        Me.txtSRN_PI.ReferenceFieldName = Nothing
-        Me.txtSRN_PI.ReferenceTableName = Nothing
-        Me.txtSRN_PI.Size = New System.Drawing.Size(88, 18)
-        Me.txtSRN_PI.TabIndex = 147
-        Me.txtSRN_PI.Value = ""
         '
         'RadButton2
         '
@@ -327,7 +312,7 @@ Partial Class frmRALNOC
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBillToLocation.Location = New System.Drawing.Point(301, 29)
         Me.lblBillToLocation.Name = "lblBillToLocation"
-        Me.lblBillToLocation.Size = New System.Drawing.Size(223, 18)
+        Me.lblBillToLocation.Size = New System.Drawing.Size(224, 18)
         Me.lblBillToLocation.TabIndex = 6
         Me.lblBillToLocation.TextWrap = False
         '
@@ -510,79 +495,80 @@ Partial Class frmRALNOC
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.gv1)
+        Me.RadGroupBox2.Controls.Add(Me.gvSchedule)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel38)
         Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = ""
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(749, 228)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(728, 182)
         Me.RadGroupBox2.TabIndex = 18
         '
-        'gv1
+        'gvSchedule
         '
-        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv1.ForeColor = System.Drawing.Color.Black
-        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(10, 20)
+        Me.gvSchedule.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvSchedule.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvSchedule.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvSchedule.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvSchedule.ForeColor = System.Drawing.Color.Black
+        Me.gvSchedule.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvSchedule.Location = New System.Drawing.Point(10, 20)
         '
         '
         '
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv1.ShowGroupPanel = False
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(729, 198)
-        Me.gv1.TabIndex = 0
-        Me.gv1.VarID = ""
+        Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
+        Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSchedule.MyStopExport = False
+        Me.gvSchedule.Name = "gvSchedule"
+        Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvSchedule.ShowGroupPanel = False
+        Me.gvSchedule.ShowHeaderCellButtons = True
+        Me.gvSchedule.Size = New System.Drawing.Size(708, 139)
+        Me.gvSchedule.TabIndex = 0
+        Me.gvSchedule.VarID = ""
         '
-        'BtnCancel
+        'MyLabel38
         '
-        Me.BtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCancel.Location = New System.Drawing.Point(222, 4)
-        Me.BtnCancel.Name = "BtnCancel"
-        Me.BtnCancel.Size = New System.Drawing.Size(69, 22)
-        Me.BtnCancel.TabIndex = 7
-        Me.BtnCancel.Text = "Cancel"
+        Me.MyLabel38.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel38.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel38.Location = New System.Drawing.Point(10, 159)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(708, 13)
+        Me.MyLabel38.TabIndex = 1522
+        Me.MyLabel38.Text = "Press F5 To View Penelty Details"
         '
-        'btnRecalculate
+        'RadPageViewPage2
         '
-        Me.btnRecalculate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnRecalculate.Location = New System.Drawing.Point(435, 4)
-        Me.btnRecalculate.Name = "btnRecalculate"
-        Me.btnRecalculate.Size = New System.Drawing.Size(134, 22)
-        Me.btnRecalculate.TabIndex = 6
-        Me.btnRecalculate.Text = "Recalculate Penalty"
-        Me.btnRecalculate.Visible = False
+        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(728, 325)
+        Me.RadPageViewPage2.Text = "Attachment"
+        '
+        'UcAttachment1
+        '
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(728, 325)
+        Me.UcAttachment1.TabIndex = 5
         '
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(364, 4)
+        Me.btnReverse.Location = New System.Drawing.Point(221, 4)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(69, 22)
         Me.btnReverse.TabIndex = 4
         Me.btnReverse.Text = "Reverse"
         Me.btnReverse.Visible = False
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(293, 4)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(69, 22)
-        Me.btnPrint.TabIndex = 3
-        Me.btnPrint.Text = "Print"
-        Me.btnPrint.Visible = False
         '
         'btnDelete
         '
@@ -621,26 +607,28 @@ Partial Class frmRALNOC
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'frmTenderShortPenalty
+        'frmRALNOC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(749, 404)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmTenderShortPenalty"
+        Me.Name = "frmRALNOC"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "Tender Penalty"
+        Me.Text = "RAL NOC"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageView1.ResumeLayout(False)
+        Me.RadPageViewPage1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.SRN_PI, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -657,12 +645,12 @@ Partial Class frmRALNOC
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -674,7 +662,7 @@ Partial Class frmRALNOC
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents gvSchedule As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
@@ -699,11 +687,11 @@ Partial Class frmRALNOC
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents txtTenderNo As common.UserControls.txtFinder
     Friend WithEvents RadButton2 As RadButton
-    Friend WithEvents btnPrint As RadButton
     Friend WithEvents SplitContainer2 As SplitContainer
-    Friend WithEvents btnRecalculate As RadButton
-    Friend WithEvents BtnCancel As RadButton
-    Friend WithEvents txtSRN_PI As common.UserControls.txtFinder
-    Friend WithEvents SRN_PI As common.Controls.MyLabel
+    Friend WithEvents RadPageView1 As RadPageView
+    Friend WithEvents RadPageViewPage1 As RadPageViewPage
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents UcAttachment1 As ucAttachment
+    Friend WithEvents MyLabel38 As common.Controls.MyLabel
 End Class
 
