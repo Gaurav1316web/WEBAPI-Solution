@@ -3690,7 +3690,12 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
 
 
                 End If
-
+                Dim isSubLocation As Boolean = False
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IsSubLocationWise from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", Nothing)), "Y") = CompairStringResult.Equal Then
+                    isSubLocation = True
+                Else
+                    isSubLocation = False
+                End If
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim Rate_Mcc_Item As Double = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(grow.Cells(colICode).Value), clsCommon.myCstr(grow.Cells(colUnit).Value), txtDate.Value)
                     Dim objTr As New clsMCCMaterialSaleDetail()
@@ -3753,10 +3758,10 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                     objTr.TAX10_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt10).Value)
                     objTr.Total_Tax_Amt = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
                     objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmtAfterTax).Value)
-                    objTr.Location = clsCommon.myCstr(grow.Cells(colLocationCode).Value)
-                    If objTr.Location Is Nothing OrElse clsCommon.myLen(objTr.Location) = 0 Then
-                        objTr.Location = txtBillToLocation.Value
-                    End If
+                    objTr.Location = IIf(isSubLocation, txtSubLocation.Value, txtBillToLocation.Value) 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
+                    'If objTr.Location Is Nothing OrElse clsCommon.myLen(objTr.Location) = 0 Then
+                    '    objTr.Location = txtBillToLocation.Value
+                    'End If
                     objTr.MRP = clsCommon.myCdbl(grow.Cells(colMRP).Value)
                     objTr.Scheme_Applicable = clsCommon.myCstr(grow.Cells(colSchemeApplicable).Value)
                     objTr.Scheme_Code = clsCommon.myCstr(grow.Cells(colFromSchemeCode).Value)
@@ -6786,11 +6791,22 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             If (clsCommon.myLen(clsCommon.myCdbl(gv1.CurrentRow.Cells(colICode).Value)) > 0) Then
                 Dim qry As String = " select Is_Batch_Item from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'"
                 Dim isBatchAvtive As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                Dim isSubLocation As Boolean = False
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IsSubLocationWise from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", Nothing)), "Y") = CompairStringResult.Equal Then
+                    isSubLocation = True
+                Else
+                    isSubLocation = False
+                End If
                 If isBatchAvtive = "1" Then
                     Dim frm As frmBatchItemOut = New frmBatchItemOut()
                     frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                     frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                    frm.strLocationCode = txtBillToLocation.Value
+                    If isSubLocation Then
+                        frm.strLocationCode = txtSubLocation.Value
+                    Else
+                        frm.strLocationCode = txtBillToLocation.Value
+                    End If
+
                     frm.strCurrDocNo = txtDocNo.Value
                     frm.strCurrDocType = "MCC-MSALE"
                     frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
