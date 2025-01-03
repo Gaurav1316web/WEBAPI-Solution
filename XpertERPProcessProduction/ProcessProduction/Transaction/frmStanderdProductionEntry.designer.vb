@@ -22,10 +22,10 @@ Partial Class frmStanderdProductionEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.CboShift = New common.Controls.MyComboBox()
@@ -85,6 +85,7 @@ Partial Class frmStanderdProductionEntry
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -145,6 +146,7 @@ Partial Class frmStanderdProductionEntry
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -163,6 +165,7 @@ Partial Class frmStanderdProductionEntry
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnunpost)
@@ -725,14 +728,14 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.pageBatchProduction
         Me.RadPageView1.Size = New System.Drawing.Size(1036, 312)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Gunny Bag"
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Gunny Bag"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Production"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Production"
         '
         'pageBatchProduction
         '
@@ -773,7 +776,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvBatch.MasterTemplate.AllowAddNewRow = False
         Me.gvBatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBatch.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvBatch.MyStopExport = False
         Me.gvBatch.Name = "gvBatch"
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -782,6 +785,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvBatch.Size = New System.Drawing.Size(995, 236)
         Me.gvBatch.TabIndex = 0
         Me.gvBatch.TabStop = False
+        Me.gvBatch.VarID = ""
         '
         'pageConsumption
         '
@@ -822,7 +826,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvConsumption.MasterTemplate.AllowDeleteRow = False
         Me.gvConsumption.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvConsumption.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvConsumption.MyStopExport = False
         Me.gvConsumption.Name = "gvConsumption"
         Me.gvConsumption.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -831,6 +835,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvConsumption.Size = New System.Drawing.Size(995, 236)
         Me.gvConsumption.TabIndex = 0
         Me.gvConsumption.TabStop = False
+        Me.gvConsumption.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -857,7 +862,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvGunny.MasterTemplate.AllowDeleteRow = False
         Me.gvGunny.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvGunny.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvGunny.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvGunny.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvGunny.MyStopExport = False
         Me.gvGunny.Name = "gvGunny"
         Me.gvGunny.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -866,6 +871,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvGunny.Size = New System.Drawing.Size(1015, 266)
         Me.gvGunny.TabIndex = 1
         Me.gvGunny.TabStop = False
+        Me.gvGunny.VarID = ""
         '
         'pageProductionCost
         '
@@ -906,7 +912,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvProductionCost.MasterTemplate.AllowDeleteRow = False
         Me.gvProductionCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProductionCost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvProductionCost.MyStopExport = False
         Me.gvProductionCost.Name = "gvProductionCost"
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -915,6 +921,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvProductionCost.Size = New System.Drawing.Size(995, 236)
         Me.gvProductionCost.TabIndex = 0
         Me.gvProductionCost.TabStop = False
+        Me.gvProductionCost.VarID = ""
         '
         'RadPageViewPage1
         '
@@ -1033,6 +1040,15 @@ Partial Class frmStanderdProductionEntry
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(566, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(76, 24)
+        Me.btnHistory.TabIndex = 49
+        Me.btnHistory.Text = "History"
+        '
         'frmStanderdProductionEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1109,6 +1125,7 @@ Partial Class frmStanderdProductionEntry
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1173,5 +1190,6 @@ Partial Class frmStanderdProductionEntry
     Friend WithEvents btnShowInventory As RadButton
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gvGunny As common.UserControls.MyRadGridView
+    Friend WithEvents btnHistory As RadButton
 End Class
 
