@@ -8508,6 +8508,7 @@ Public Class clsCreateAllTable
             coll.Add("Cust_Code", "Varchar(12) null")
             coll.Add("Loc_Code", "Varchar(12) null")
             coll.Add("Item_Code", "Varchar(50) null")
+            coll.Add("Scheme_Main_Item", "Varchar(50) null")
             coll.Add("Short_Description", "Varchar(200) null")
             coll.Add("Booking_Qty", "decimal(18,2) null")
             coll.Add("Unit_code", "Varchar(12) null")
@@ -8611,6 +8612,7 @@ Public Class clsCreateAllTable
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("Batch_No", "varchar(30) NULL")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_DETAIL", coll, "", True, False, "TSPL_BOOKING_MATSER", "Document_No", "")
 
             ''richa for Booking detail payment
@@ -30387,7 +30389,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Transporter", "varchar(12) NULL")
             coll.Add("Against_Booking_PK_ID", "int null References TSPL_BOOKING_DETAIL(PK_ID)")
-
+            coll.Add("Scheme_Main_Item", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
             qry = "alter table TSPL_SD_SHIPMENT_detail alter column Amount Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX1_Base_Amt Decimal(18,6) null "

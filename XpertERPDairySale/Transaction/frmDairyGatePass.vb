@@ -681,8 +681,11 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     txtDate.Enabled = False
                     'txtSupplyDate.Enabled = False
                 Next
-                txtCrateQty.Text = totalCrate
-                txtCanQty.Text = totalCan
+                If Not AllowManualCrateForDispatch Then
+                    txtCrateQty.Text = totalCrate
+                    txtCanQty.Text = totalCan
+                End If
+
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "GatePass Entry", MessageBoxButtons.OK, Me.Text)
