@@ -277,6 +277,12 @@
     <Compile Include="Milk Procurement\Report\frmMonthWiseBeneficieriesReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmTTSavingReport.Designer.vb">
+      <DependentUpon>frmTTSavingReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmTTSavingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmUnionLastGstInvoice.Designer.vb">
       <DependentUpon>frmUnionLastGstInvoice.vb</DependentUpon>
     </Compile>
@@ -293,6 +299,12 @@
       <DependentUpon>rptBMCCapacityUtilizationReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCCapacityUtilizationReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.Designer.vb">
+      <DependentUpon>rptBMCGazeCapacityUtilizationReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCPerodicalReport.Designer.vb">
@@ -1047,6 +1059,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmTTSavingReport.resx">
+      <DependentUpon>frmTTSavingReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmUnionLastGstInvoice.resx">
       <DependentUpon>frmUnionLastGstInvoice.vb</DependentUpon>
     </EmbeddedResource>
@@ -1061,6 +1076,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBmcCollection.resx">
       <DependentUpon>rptBmcCollection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.resx">
+      <DependentUpon>rptBMCGazeCapacityUtilizationReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCPerodicalReport.resx">
       <DependentUpon>rptBMCPerodicalReport.vb</DependentUpon>

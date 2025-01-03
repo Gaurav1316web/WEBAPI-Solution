@@ -3081,6 +3081,7 @@ Public Class FrmAPInvoiceEntry
         btnDelete.Enabled = True
         chkRCM.Checked = False
         chkTDSProvision.Checked = False
+        'ChkTrnsferToSvng.Checked = False
         gvAC.Rows.AddNew()
         cmbRefType.SelectedIndex = 1
         cmbRefType.SelectedIndex = 0
@@ -3271,12 +3272,15 @@ Public Class FrmAPInvoiceEntry
                 clsCommon.MyMessageBoxShow("Vendor Invoice Date can't be Greate then Document Date", Me.Text)
                 Return False
             End If
+
+            ' If ChkTrnsferToSvng.Checked = False Then
             If clsCommon.myLen(cmbRefType.SelectedValue) > 0 AndAlso clsCommon.myLen(txtRefDocNo.Value) <= 0 AndAlso cmbRefType.Text <> "Charges" Then
 
-                clsCommon.MyMessageBoxShow("Please select Ref Document No", Me.Text)
-                txtRefDocNo.Focus()
-                Return False
-            End If
+                    clsCommon.MyMessageBoxShow("Please select Ref Document No", Me.Text)
+                    txtRefDocNo.Focus()
+                    Return False
+                End If
+            ' End If
             ''richa agarwal 21/12/2016
             If chkProRated.Checked = True Then
                 If clsCommon.myLen(cmbRefType.SelectedValue) <= 0 Then
@@ -3489,14 +3493,17 @@ Public Class FrmAPInvoiceEntry
                     End If
                 End If
             End If
+            ' If ChkTrnsferToSvng.Checked = False Then
             If clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "C") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(cboDocType.SelectedValue), "D") = CompairStringResult.Equal) Then
-            Else
-                If clsCommon.myLen(txtVendorInvoiceNo.Text) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Please Enter Vendor Invoice No", Me.Text)
-                    txtVendorInvoiceNo.Focus()
-                    Return False
+                Else
+                    If clsCommon.myLen(txtVendorInvoiceNo.Text) <= 0 Then
+                        clsCommon.MyMessageBoxShow("Please Enter Vendor Invoice No", Me.Text)
+                        txtVendorInvoiceNo.Focus()
+                        Return False
+                    End If
                 End If
-            End If
+            ' End If
+
 
             ''RICHA AGARWAL KDI/30/07/18-000413 30 July,2018
             If arrAccountCode IsNot Nothing AndAlso arrAccountCode.Count > 0 Then
@@ -3628,6 +3635,7 @@ Public Class FrmAPInvoiceEntry
                 End If
                 obj.RCM = chkRCM.Checked
                 obj.TDS_Provision = chkTDSProvision.Checked
+                ' obj.Transfer_To_Saving = ChkTrnsferToSvng.Checked
                 '' Anubhooti 06-Apr-2015 (Added two columns)
                 obj.Hirerachy_Level_Code = clsCommon.myCstr(TxtHirerachy.Value)
                 obj.Cost_Centre_Fin_Level_Code = clsCommon.myCstr(TxtCostCentre.Value)
@@ -4079,6 +4087,7 @@ Public Class FrmAPInvoiceEntry
                 '------------------------------------------------------------------
                 chkRCM.Checked = obj.RCM
                 chkTDSProvision.Checked = obj.TDS_Provision
+                ' ChkTrnsferToSvng.Checked = obj.Transfer_To_Saving
 
                 chkProRated.Checked = IIf(clsCommon.CompairString(obj.Is_ProRated, "Y") = CompairStringResult.Equal, True, False)
                 txtlocation.Value = obj.loc_code

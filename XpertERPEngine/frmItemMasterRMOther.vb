@@ -77,6 +77,13 @@ Public Class FrmItemMasterRMOther
     Const ColSchedulePerShort As String = "ColSchedulePerShort"
     Const ColScheduleLateDays As String = "ColScheduleLateDays"
 
+
+    Const ColNOCScheduleSNo As String = "ColNOCScheduleSNo"
+    Const ColNOCScheduleDays As String = "ColNOCScheduleDays"
+    Const ColNOCSchedulePerQty As String = "ColNOCSchedulePerQty"
+    Const ColNOCSchedulePerShort As String = "ColNOCSchedulePerShort"
+    Const ColNOCScheduleLateDays As String = "ColNOCScheduleLateDays"
+
     Dim File_Name As String = ""
     Dim CreateGLAccToItem As Boolean
     Dim SHowCheckBoxChangeRateOnDiaryDispatch As Integer = 0
@@ -96,6 +103,7 @@ Public Class FrmItemMasterRMOther
     Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmItemMasterRMOther_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         AllowDuplicateItemShortDescriptionInItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, Nothing)) = 1, True, False)
         AllowItemConversionAutomation = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowItemConversionAutomation, clsFixedParameterCode.AllowItemConversionAutomation, Nothing))
         AllowDoNotShowDairyTypeItems = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotShowDairyTypeItems, clsFixedParameterCode.DoNotShowDairyTypeItems, Nothing)) = 1, True, False)
@@ -157,6 +165,7 @@ Public Class FrmItemMasterRMOther
         LoadDatabase()
         LoadBlankGridUOM()
         LoadBlankGridSchedule()
+        LoadBlankGridNOCSchedule()
         LoadBlankGridCat()
         LoadItemProductType()
         LoadUsedas()
@@ -354,6 +363,7 @@ Public Class FrmItemMasterRMOther
         txtstnd_pur_rate.Text = "0"
         LoadBlankGridUOM()
         LoadBlankGridSchedule()
+        LoadBlankGridNOCSchedule()
         LoadBlankGridCat()
         txtCode.Value = ""
         File_Name = ""
@@ -1781,6 +1791,19 @@ Public Class FrmItemMasterRMOther
                     End If
                 Next
 
+                obj.ArrNOCSchedule = New List(Of clsItemNOCSchedule)
+                For Each grow As GridViewRowInfo In gvNOCSchedule.Rows
+                    Dim objtrp As New clsItemNOCSchedule()
+                    objtrp.Days = clsCommon.myCDecimal(grow.Cells(ColNOCScheduleDays).Value)
+                    objtrp.Qty_Per = clsCommon.myCDecimal(grow.Cells(ColNOCSchedulePerQty).Value)
+                    objtrp.Short_Per = clsCommon.myCDecimal(grow.Cells(ColNOCSchedulePerShort).Value)
+                    objtrp.Late_Days = clsCommon.myCDecimal(grow.Cells(ColNOCScheduleLateDays).Value)
+                    objtrp.Arr = TryCast(grow.Cells(ColNOCScheduleLateDays).Tag, List(Of clsItemNOCSchedulePenalty))
+                    If objtrp.Qty_Per > 0 Then
+                        obj.ArrNOCSchedule.Add(objtrp)
+                    End If
+                Next
+
                 If obj.SaveDataRMOther(obj, GetDatabase(), isNewEntry) Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
                     UcAttachment1.SaveData(txtCode.Value)
@@ -2929,6 +2952,23 @@ Public Class FrmItemMasterRMOther
                 End If
 
 
+                If obj.ArrNOCSchedule IsNot Nothing AndAlso obj.ArrNOCSchedule.Count > 0 Then
+                    If gvNOCSchedule.Rows.Count = 0 Then
+                        gvNOCSchedule.Rows.AddNew()
+                    End If
+                    For Each objtr As clsItemNOCSchedule In obj.ArrNOCSchedule
+                        gvNOCSchedule.Rows(gvNOCSchedule.Rows.Count - 1).Cells(ColNOCScheduleSNo).Value = objtr.SNo
+                        gvNOCSchedule.Rows(gvNOCSchedule.Rows.Count - 1).Cells(ColNOCScheduleDays).Value = objtr.Days
+                        gvNOCSchedule.Rows(gvNOCSchedule.Rows.Count - 1).Cells(ColNOCSchedulePerQty).Value = objtr.Qty_Per
+                        gvNOCSchedule.Rows(gvNOCSchedule.Rows.Count - 1).Cells(ColNOCSchedulePerShort).Value = objtr.Short_Per
+                        gvNOCSchedule.Rows(gvNOCSchedule.Rows.Count - 1).Cells(ColNOCScheduleLateDays).Value = objtr.Late_Days
+                        gvNOCSchedule.Rows(gvNOCSchedule.Rows.Count - 1).Cells(ColNOCScheduleLateDays).Tag = objtr.Arr
+                        gvNOCSchedule.Rows.AddNew()
+                    Next
+                Else
+                    gvNOCSchedule.Rows.AddNew()
+                End If
+
                 chkCreateSepAssetForEachQty.Checked = IIf(obj.CreateSepAssetForEachQty = "1", True, False)
 
                 btnSave.Enabled = True
@@ -3137,6 +3177,11 @@ Public Class FrmItemMasterRMOther
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                     qry = "delete from TSPL_ITEM_SCHEDULE where Item_Code='" + txtCode.Value + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "delete from TSPL_ITEM_NOC_SCHEDULE_PENALTY where Against_NOC_Schedule_PK_Id in (select PK_ID from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + txtCode.Value + "')"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    qry = "delete from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + txtCode.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                     qry = "delete from TSPL_ITEM_MASTER where Item_Code='" + txtCode.Value + "'"
@@ -6450,6 +6495,8 @@ ExitLOOP:
         gvSchedule.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
+
+
     Private Sub gvSchedule_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvSchedule.CurrentColumnChanged
         If gvSchedule.RowCount > 0 Then
             Dim intCurrRow As Integer = gvSchedule.CurrentRow.Index
@@ -6527,7 +6574,7 @@ ExitLOOP:
                 Next
             Else
                 For ii As Integer = 0 To clsCommon.myCDecimal(gvSchedule.CurrentRow.Cells(ColScheduleLateDays).Value) - 1
-                    If arr.Count < ii Then
+                    If arr.Count <= ii Then
                         Dim dr As DataRow = dt.NewRow
                         dr("Days") = ii + 1
                         dr("Penalty") = 0
@@ -6630,4 +6677,199 @@ ExitLOOP:
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
+
+    Sub LoadBlankGridNOCSchedule()
+        gvNOCSchedule.Rows.Clear()
+        gvNOCSchedule.Columns.Clear()
+
+        Dim repoNumBox As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "SNo"
+        repoNumBox.Name = ColNOCScheduleSNo
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        repoNumBox.ReadOnly = True
+        gvNOCSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Margin Days"
+        repoNumBox.Name = ColNOCScheduleDays
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvNOCSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Qty %"
+        repoNumBox.Name = ColNOCSchedulePerQty
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvNOCSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Short %"
+        repoNumBox.Name = ColNOCSchedulePerShort
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvNOCSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Late Days"
+        repoNumBox.Name = ColNOCScheduleLateDays
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvNOCSchedule.MasterTemplate.Columns.Add(repoNumBox)
+
+
+        gvNOCSchedule.AllowAddNewRow = False
+        gvNOCSchedule.ShowGroupPanel = False
+        gvNOCSchedule.AllowColumnReorder = False
+        gvNOCSchedule.AllowRowReorder = True
+        gvNOCSchedule.AllowDeleteRow = True
+        gvNOCSchedule.AllowEditRow = True
+        gvNOCSchedule.EnableSorting = False
+        gvNOCSchedule.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvNOCSchedule.MasterTemplate.ShowRowHeaderColumn = False
+    End Sub
+
+    Private Sub gvNOCSchedule_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvNOCSchedule.CurrentColumnChanged
+        If gvNOCSchedule.RowCount > 0 Then
+            Dim intCurrRow As Integer = gvNOCSchedule.CurrentRow.Index
+            gvNOCSchedule.CurrentRow.Cells(ColNOCScheduleSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            If intCurrRow = gvNOCSchedule.Rows.Count - 1 Then
+                gvNOCSchedule.Rows.AddNew()
+                gvNOCSchedule.CurrentRow = gvNOCSchedule.Rows(intCurrRow)
+            End If
+        End If
+    End Sub
+    Private Sub gvNOCSchedule_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gvNOCSchedule.CellValidated
+        Try
+            SetNOCScheduleGridFocus()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetNOCScheduleGridFocus()
+        If gvNOCSchedule.CurrentCell IsNot Nothing Then
+            If gvNOCSchedule.CurrentCell.ColumnInfo.Name = ColNOCScheduleDays Then
+                gvNOCSchedule.CurrentColumn = gvNOCSchedule.Columns(ColNOCSchedulePerQty)
+            ElseIf (gvNOCSchedule.CurrentCell.ColumnInfo.Name = ColNOCSchedulePerQty) Then
+                gvNOCSchedule.CurrentColumn = gvNOCSchedule.Columns(ColNOCSchedulePerShort)
+            ElseIf (gvNOCSchedule.CurrentCell.ColumnInfo.Name = ColNOCSchedulePerShort) Then
+                gvNOCSchedule.CurrentColumn = gvNOCSchedule.Columns(ColNOCScheduleLateDays)
+            ElseIf gvNOCSchedule.CurrentCell.ColumnInfo.Name = ColNOCScheduleLateDays Then
+                If gvNOCSchedule.Rows.Count >= gvNOCSchedule.CurrentRow.Index + 1 Then
+                    gvNOCSchedule.CurrentRow = gvNOCSchedule.Rows(gvNOCSchedule.CurrentRow.Index + 1)
+                End If
+                gvNOCSchedule.CurrentColumn = gvNOCSchedule.Columns(ColNOCScheduleDays)
+            End If
+        End If
+    End Sub
+    Private Sub gvNOCSchedule_UserDeletedRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gvNOCSchedule.UserDeletedRow
+        RefeshNOCScheduleSNO()
+    End Sub
+    Private Sub gvNOCSchedule_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvNOCSchedule.UserDeletingRow
+        If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            e.Cancel = True
+        End If
+    End Sub
+    Sub RefeshNOCScheduleSNO()
+        For ii As Integer = 1 To gvNOCSchedule.Rows.Count
+            gvNOCSchedule.Rows(ii - 1).Cells(ColNOCScheduleSNo).Value = ii
+        Next
+    End Sub
+    Private Sub gvNOCSchedule_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvNOCSchedule.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gvNOCSchedule.Columns(ColNOCScheduleLateDays) Then
+                        ShowNOCPenalty()
+                    End If
+                    isCellValueChangedOpen = False
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+    End Sub
+
+    Private Sub gvNOCSchedule_KeyDown(sender As Object, e As KeyEventArgs) Handles gvNOCSchedule.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            gvNOCSchedule.BeginEdit()
+        ElseIf e.KeyCode = Keys.F5 Then
+            ShowNOCPenalty()
+        End If
+    End Sub
+
+    Private Sub ShowNOCPenalty()
+        Try
+            Dim dt As DataTable = New DataTable()
+            dt.Columns.Add("Days", GetType(Integer))
+            dt.Columns.Add("Penalty", GetType(Decimal))
+
+            Dim arr As List(Of clsItemNOCSchedulePenalty) = TryCast(gvNOCSchedule.CurrentRow.Cells(ColNOCScheduleLateDays).Tag, List(Of clsItemNOCSchedulePenalty))
+            If arr Is Nothing OrElse arr.Count <= 0 Then
+                For ii As Integer = 0 To clsCommon.myCDecimal(gvNOCSchedule.CurrentRow.Cells(ColNOCScheduleLateDays).Value) - 1
+                    Dim dr As DataRow = dt.NewRow
+                    dr("Days") = ii + 1
+                    dr("Penalty") = 0
+                    dt.Rows.Add(dr)
+                Next
+            Else
+                For ii As Integer = 0 To clsCommon.myCDecimal(gvNOCSchedule.CurrentRow.Cells(ColNOCScheduleLateDays).Value) - 1
+                    If arr.Count <= ii Then
+                        Dim dr As DataRow = dt.NewRow
+                        dr("Days") = ii + 1
+                        dr("Penalty") = 0
+                        dt.Rows.Add(dr)
+                    Else
+                        Dim dr As DataRow = dt.NewRow
+                        dr("Days") = ii + 1
+                        dr("Penalty") = arr(ii).Penalty
+                        dt.Rows.Add(dr)
+                    End If
+                Next
+            End If
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frm As New FrmFreeGrid
+                frm.dt = dt
+                frm.arrEditableColumn = New List(Of String)
+                frm.arrEditableColumn.Add("Penalty")
+                frm.strFormName = "Set Penalty"
+                frm.ReportID = "SchedulePenalty"
+                frm.WindowState = FormWindowState.Maximized
+                frm.ShowDialog()
+                If frm.dt IsNot Nothing AndAlso frm.dt.Rows.Count > 0 Then
+                    Dim ArrTemp As New List(Of clsItemNOCSchedulePenalty)
+                    Dim obj As clsItemNOCSchedulePenalty = Nothing
+                    For Each dr As DataRow In frm.dt.Rows
+                        obj = New clsItemNOCSchedulePenalty()
+                        obj.Penalty_Days = clsCommon.myCDecimal(dr("Days"))
+                        obj.Penalty = clsCommon.myCDecimal(dr("Penalty"))
+                        ArrTemp.Add(obj)
+                    Next
+                    gvNOCSchedule.CurrentRow.Cells(ColNOCScheduleLateDays).Tag = ArrTemp
+                Else
+                    gvNOCSchedule.CurrentRow.Cells(ColNOCScheduleLateDays).Tag = Nothing
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

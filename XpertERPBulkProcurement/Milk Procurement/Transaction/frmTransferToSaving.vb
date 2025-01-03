@@ -13,6 +13,7 @@ Public Class frmTransferToSaving
     Const colVlcUploderCode As String = "colVlcUploderCode"
     Const colVendorName As String = "colVendorName"
     Const colAmt As String = "colAmt"
+    'Const colBalanceAmt As String = "colBalanceAmt"
 
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim SettShowMCCFinder As Boolean = False
@@ -124,6 +125,16 @@ Public Class frmTransferToSaving
         repoVendorNme.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoVendorNme)
 
+
+        'Dim repoBalanceAmt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        'repoBalanceAmt.FormatString = ""
+        'repoBalanceAmt.HeaderText = "Balance Amount"
+        'repoBalanceAmt.Name = colBalanceAmt
+        'repoBalanceAmt.Width = 100
+        'repoBalanceAmt.IsVisible = True
+        'repoBalanceAmt.ReadOnly = True
+        'gv1.MasterTemplate.Columns.Add(repoBalanceAmt)
+
         Dim repoAmt As GridViewCalculatorColumn = New GridViewCalculatorColumn()
         repoAmt.FormatString = ""
         repoAmt.HeaderText = "Amount"
@@ -131,6 +142,7 @@ Public Class frmTransferToSaving
         repoAmt.Width = 80
         repoAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAmt)
+
 
         gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
@@ -186,6 +198,7 @@ Public Class frmTransferToSaving
         isInsideLoadData = True
         gv1.CurrentRow.Cells(colVendorCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_VLC_MASTER_HEAD.VSP_Code from TSPL_VLC_MASTER_HEAD where   VLC_CODE_VLC_Uploader = '" + gv1.CurrentRow.Cells(colVlcUploderCode).Value + "'"))
         gv1.CurrentRow.Cells(colVendorName).Value = clsVendorMaster.GetName(clsCommon.myCstr(gv1.CurrentRow.Cells(colVendorCode).Value), Nothing)
+        'gv1.CurrentRow.Cells(colBalanceAmt).Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + gv1.CurrentRow.Cells(colVlcUploderCode).Value + "' and Transfer_To_Saving=1"))
         isInsideLoadData = False
     End Sub
 
@@ -251,6 +264,16 @@ Public Class frmTransferToSaving
             If vendorcount <= 0 Then
                 Throw New Exception(" Please enter vendor atleast in one row")
             End If
+
+            'For T = 0 To gv1.Rows.Count - 1
+            '    Dim DCSCode As String = clsCommon.myCstr(gv1.Rows(T).Cells(colVlcUploderCode).Value)
+            '    Dim Balance_Qry As String = clsDBFuncationality.getSingleValue(" select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD 
+            '                          left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+            '                          where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader = '" + DCSCode + "'and Transfer_To_Saving=1 ")
+            '    If clsCommon.myCdbl(gv1.Rows(T).Cells(colAmt).Value) > Balance_Qry Then
+            '        Throw New Exception(" Amount is Greater then Specified Limit On AP Invoice for DCS at Row no  " & clsCommon.myCstr(T + 1))
+            '    End If
+            'Next
 
             UcAttachment1.AllowToSave()
             Return True
@@ -344,6 +367,8 @@ Public Class frmTransferToSaving
                 gv1.Columns(colVendorCode).FieldName = "Vendor_Code"
                 gv1.Columns(colVendorName).FieldName = "VLC_Name"
                 gv1.Columns(colAmt).FieldName = "Amount"
+                'gv1.Columns(colBalanceAmt).FieldName = "Balance_Amt"
+                'gv1.CurrentRow.Cells(colBalanceAmt).Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader= '" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' and Transfer_To_Saving=1"))
 
                 If obj.Status = ERPTransactionStatus.Pending Then
                     gv1.Rows.AddNew()

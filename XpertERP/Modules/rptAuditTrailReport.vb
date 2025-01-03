@@ -2716,6 +2716,21 @@ Public Class rptAuditTrailReport
                     " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'' as [Status] from  TSPL_SD_SHIPMENT_HEAD_Hist_Data " &
                      " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
                     StrOrderBy = " order by Convert (datetime, zz.[Created Date],103)  "
+                ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmSNSaleInvoice) = CompairStringResult.Equal Then
+                    qry = " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_Code as [Document Code],CONCAT(Hist_Version,' - ',Hist_By) AS Description" &
+                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'' as [Status] from  TSPL_SD_SALE_INVOICE_HEAD_Hist_Data " &
+                     " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    StrOrderBy = " order by Convert (datetime, zz.[Created Date],103)  "
+                ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmSNSaleReturn) = CompairStringResult.Equal Then
+                    qry = " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_Code as [Document Code],CONCAT(Hist_Version,' - ',Hist_By) AS Description" &
+                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'' as [Status] from  TSPL_SD_SALE_RETURN_HEAD_Hist_Data " &
+                     " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    StrOrderBy = " order by Convert (datetime, zz.[Created Date],103)  "
+                ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal OrElse clsCommon.CompairString(fndScreen.Value, clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Program_Code from TSPL_PROGRAM_MASTER where Program_Code_Original='" + clsUserMgtCode.ScrapSale + "'"))) = CompairStringResult.Equal Then
+                    qry = " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],shipment_No as [Document Code],CONCAT(Hist_Version,' - ',Hist_By) AS Description" &
+                 " ,convert(varchar,shipment_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'' as [Status] from  TSPL_SCRAPSALE_HEAD_Hist_Data " &
+                  " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    StrOrderBy = " order by Convert (datetime, zz.[Created Date],103)  "
                 End If
             End If
             If clsCommon.myLen(qry) > 0 Then
@@ -3014,7 +3029,7 @@ Public Class rptAuditTrailReport
             "','" + clsUserMgtCode.mbtnAPInvoiceEntryTDS + "','" + clsUserMgtCode.TDSPAYMENT + "" &
             "','" + clsUserMgtCode.FAAcquisitionEntry + "','" + clsUserMgtCode.FAAssetDepreciation + "','" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmAsset_Issue_Return + "','" + clsUserMgtCode.frmAssetStoreRequistion + "','" + clsUserMgtCode.frmIssueItemsToAsset + "','" + clsUserMgtCode.FAAssetWork + "','" + clsUserMgtCode.FAMergeAcquisitionEntry + "" &
             "','" + clsUserMgtCode.frmEXSalesQuotation + "','" + clsUserMgtCode.frmEXSalesOrder + "','" + clsUserMgtCode.frmEXPorformaInvoice + "','" + clsUserMgtCode.frmEXCommercialInvoice + "','" + clsUserMgtCode.frmEXSalesInvoice + "','" + clsUserMgtCode.frmEXSalesReturn + "','" + clsUserMgtCode.frmsaleReturnGateEntryExportSAle + "" &
-            "','" + clsUserMgtCode.DariyProductionUploader + "','" + clsUserMgtCode.frmSNShipment + "')  "
+            "','" + clsUserMgtCode.DariyProductionUploader + "','" + clsUserMgtCode.frmSNShipment + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmSNSaleReturn + "','" + clsUserMgtCode.ScrapSale + "') OR TSPL_PROGRAM_MASTER.Program_Code_Original In ('" + clsUserMgtCode.ScrapSale + "') "
         End If
 
         'strQuery = "select distinct Bill_To_Location as Code,Location_Desc as Description from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code"

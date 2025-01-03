@@ -27,22 +27,20 @@ Partial Class RptTentativeSalary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.lblEmpName = New common.Controls.MyLabel()
         Me.lblFinYear = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtEmpCode = New common.UserControls.txtFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtFinYear = New common.UserControls.txtFinder()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.txtmultiEmpcode = New common.UserControls.txtMultiSelectFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFinYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,10 +83,9 @@ Partial Class RptTentativeSalary
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.lblEmpName)
+        Me.RadPageViewPage1.Controls.Add(Me.txtmultiEmpcode)
         Me.RadPageViewPage1.Controls.Add(Me.lblFinYear)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
-        Me.RadPageViewPage1.Controls.Add(Me.txtEmpCode)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtFinYear)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
@@ -96,18 +93,6 @@ Partial Class RptTentativeSalary
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 366)
         Me.RadPageViewPage1.Text = "Filters"
-        '
-        'lblEmpName
-        '
-        Me.lblEmpName.AutoSize = False
-        Me.lblEmpName.BorderVisible = True
-        Me.lblEmpName.FieldName = Nothing
-        Me.lblEmpName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblEmpName.Location = New System.Drawing.Point(267, 40)
-        Me.lblEmpName.Name = "lblEmpName"
-        Me.lblEmpName.Size = New System.Drawing.Size(232, 18)
-        Me.lblEmpName.TabIndex = 1506
-        Me.lblEmpName.TextWrap = False
         '
         'lblFinYear
         '
@@ -130,32 +115,6 @@ Partial Class RptTentativeSalary
         Me.MyLabel2.Size = New System.Drawing.Size(91, 16)
         Me.MyLabel2.TabIndex = 1504
         Me.MyLabel2.Text = "Employee Code"
-        '
-        'txtEmpCode
-        '
-        Me.txtEmpCode.CalculationExpression = Nothing
-        Me.txtEmpCode.FieldCode = Nothing
-        Me.txtEmpCode.FieldDesc = Nothing
-        Me.txtEmpCode.FieldMaxLength = 0
-        Me.txtEmpCode.FieldName = Nothing
-        Me.txtEmpCode.isCalculatedField = False
-        Me.txtEmpCode.IsSourceFromTable = False
-        Me.txtEmpCode.IsSourceFromValueList = False
-        Me.txtEmpCode.IsUnique = False
-        Me.txtEmpCode.Location = New System.Drawing.Point(92, 40)
-        Me.txtEmpCode.MendatroryField = True
-        Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtEmpCode.MyLinkLable1 = Nothing
-        Me.txtEmpCode.MyLinkLable2 = Nothing
-        Me.txtEmpCode.MyReadOnly = False
-        Me.txtEmpCode.MyShowMasterFormButton = False
-        Me.txtEmpCode.Name = "txtEmpCode"
-        Me.txtEmpCode.ReferenceFieldDesc = Nothing
-        Me.txtEmpCode.ReferenceFieldName = Nothing
-        Me.txtEmpCode.ReferenceTableName = Nothing
-        Me.txtEmpCode.Size = New System.Drawing.Size(169, 18)
-        Me.txtEmpCode.TabIndex = 1503
-        Me.txtEmpCode.Value = ""
         '
         'MyLabel1
         '
@@ -223,6 +182,19 @@ Partial Class RptTentativeSalary
         Me.btnPrint.TabIndex = 1507
         Me.btnPrint.Text = "Print"
         '
+        'txtmultiEmpcode
+        '
+        Me.txtmultiEmpcode.arrDispalyMember = Nothing
+        Me.txtmultiEmpcode.arrValueMember = Nothing
+        Me.txtmultiEmpcode.Location = New System.Drawing.Point(92, 39)
+        Me.txtmultiEmpcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtmultiEmpcode.MyLinkLable1 = Nothing
+        Me.txtmultiEmpcode.MyLinkLable2 = Nothing
+        Me.txtmultiEmpcode.MyNullText = "All"
+        Me.txtmultiEmpcode.Name = "txtmultiEmpcode"
+        Me.txtmultiEmpcode.Size = New System.Drawing.Size(404, 19)
+        Me.txtmultiEmpcode.TabIndex = 1507
+        '
         'RptTentativeSalary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -242,7 +214,6 @@ Partial Class RptTentativeSalary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblFinYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -259,11 +230,10 @@ Partial Class RptTentativeSalary
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents txtFinYear As UserControls.txtFinder
     Friend WithEvents MyLabel2 As Controls.MyLabel
-    Friend WithEvents txtEmpCode As UserControls.txtFinder
     Friend WithEvents MyLabel1 As Controls.MyLabel
-    Friend WithEvents lblEmpName As Controls.MyLabel
     Friend WithEvents lblFinYear As Controls.MyLabel
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents txtmultiEmpcode As UserControls.txtMultiSelectFinder
 End Class

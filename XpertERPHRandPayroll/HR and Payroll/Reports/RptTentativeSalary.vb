@@ -17,38 +17,41 @@ Public Class RptTentativeSalary
         End Try
     End Sub
 
-    Private Sub txtEmpCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtEmpCode._MYValidating
-        Try
-            Dim qry As String = "select emp_code as Code,Emp_Name as Name,Designation,Birth_date as [Birth Date],Joining_date as [Joining Date] from TSPL_EMPLOYEE_MASTER"
-            txtEmpCode.Value = clsCommon.ShowSelectForm("EmpCode", qry, "Code", "", txtEmpCode.Value, "Code", isButtonClicked)
-            lblEmpName.Text = clsDBFuncationality.getSingleValue("Select Emp_Name from TSPL_EMPLOYEE_MASTER where emp_code='" + txtEmpCode.Value + "' ")
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+    'Private Sub txtEmpCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
+    '    Try
+    '        Dim qry As String = "select emp_code as Code,Emp_Name as Name,Designation,Birth_date as [Birth Date],Joining_date as [Joining Date] from TSPL_EMPLOYEE_MASTER"
+    '        txtEmpCode.Value = clsCommon.ShowSelectForm("EmpCode", qry, "Code", "", txtEmpCode.Value, "Code", isButtonClicked)
+    '        lblEmpName.Text = clsDBFuncationality.getSingleValue("Select Emp_Name from TSPL_EMPLOYEE_MASTER where emp_code='" + txtEmpCode.Value + "' ")
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
-        txtEmpCode.Value = ""
-        lblEmpName.Text = ""
+        txtmultiEmpcode.arrValueMember = Nothing
         txtFinYear.Value = ""
         lblFinYear.Text = ""
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
+            Dim whr As String = ""
+            If txtmultiEmpcode.arrValueMember IsNot Nothing AndAlso txtmultiEmpcode.arrValueMember.Count > 0 Then
+                whr = " in (" + clsCommon.GetMulcallString(txtmultiEmpcode.arrValueMember) + ")"
+            End If
             Dim dt As DataTable = Nothing
             Dim FinalQry As String = ""
             Dim finYear As String = txtFinYear.Value
             Dim firstPart As String = finYear.Substring(0, 2)
-            Dim GetLastGenerateMonth As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select top 1 MONTH(DATE_FROM)AS GENERATE_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE='" + txtEmpCode.Value + "' Order By DATE_FROM desc"))
-            Dim GetLastMonthName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select top 1 TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE AS PAY_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE='" + txtEmpCode.Value + "' Order By DATE_FROM desc "))
-            Dim Qry As String = "select emp.Emp_Name,'" + txtFinYear.Value + "' as FinYear,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.City_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_PAYHEAD_MASTER.ISEARNING,case when ISEARNING=1 then 'A'+ ' ' +TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE else 'D'+' '+TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE end  as PayHead,right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) AS PAY_YEAR,MONTH(DATE_FROM)AS GENERATE_MONTH,DATENAME(MONTH,TSPL_PAYPERIOD_MASTER.DATE_FROM )AS PAY_MONTH,0 as Mon,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE,TSPL_GENERATE_SALARY_PAYHEADS.* from TSPL_GENERATE_SALARY_PAYHEADS 
+            Dim GetLastGenerateMonth As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select top 1 MONTH(DATE_FROM)AS GENERATE_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE" + whr + " Order By DATE_FROM desc"))
+            Dim GetLastMonthName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select top 1 TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE AS PAY_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE" + whr + " Order By DATE_FROM desc "))
+            Dim Qry As String = "select emp.Emp_Name,'" + txtFinYear.Value + "' as FinYear,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.City_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_PAYHEAD_MASTER.ISEARNING,case when ISEARNING=1 then 'A'+ ' ' +TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE else 'D'+' '+TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE end  as PayHead,right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) AS PAY_YEAR,MONTH(DATE_FROM)AS GENERATE_MONTH,DATENAME(MONTH,TSPL_PAYPERIOD_MASTER.DATE_FROM )AS PAY_MONTH,MONTH(DATE_FROM)  as Mon,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE,TSPL_GENERATE_SALARY_PAYHEADS.* from TSPL_GENERATE_SALARY_PAYHEADS 
             left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
             INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  
             inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE  
             LEFT OUTER JOIN TSPL_PAYPERIOD_MASTER ON TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
             left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE
             left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=EMP.LOCATION_CODE
-            where  EMP.EMP_CODE='" + txtEmpCode.Value + "' and right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) ='" + firstPart + "' and MONTH(DATE_FROM) not in (1,2,3) "
+            where  EMP.EMP_CODE" + whr + " and right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) ='" + firstPart + "' and MONTH(DATE_FROM) not in (1,2,3) "
 
             If GetLastGenerateMonth > 0 Then
                 Dim m As Integer = (GetLastGenerateMonth + 1)
@@ -63,7 +66,7 @@ Public Class RptTentativeSalary
             LEFT OUTER JOIN TSPL_PAYPERIOD_MASTER ON TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
             left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE
             left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=EMP.LOCATION_CODE
-            where  EMP.EMP_CODE='" + txtEmpCode.Value + "' And TSPL_GENERATE_SALARY.PAY_PERIOD_CODE IN ('" + GetLastMonthName + "') and right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) ='" + firstPart + "'"
+            where  EMP.EMP_CODE" + whr + " And TSPL_GENERATE_SALARY.PAY_PERIOD_CODE IN ('" + GetLastMonthName + "') and right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) ='" + firstPart + "'"
                     m += 1
 
                     If i = 12 Then
@@ -75,7 +78,7 @@ Public Class RptTentativeSalary
                         Exit For
                     End If
                 Next
-                FinalQry = "Select * from (" & Qry & ")YYY order by ISEARNING desc"
+                FinalQry = "Select * from (" & Qry & ")YYY order by ISEARNING desc ,Mon"
             End If
             dt = clsDBFuncationality.GetDataTable(FinalQry)
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
@@ -122,4 +125,8 @@ Public Class RptTentativeSalary
         Return strMonth
     End Function
 
+    Private Sub txtmultiEmpcode__My_Click(sender As Object, e As EventArgs) Handles txtmultiEmpcode._My_Click
+        Dim qry As String = "select emp_code as Code,Emp_Name as Name,Designation,Birth_date as [Birth Date],Joining_date as [Joining Date] from TSPL_EMPLOYEE_MASTER"
+        txtmultiEmpcode.arrValueMember = clsCommon.ShowMultipleSelectForm("DivMulSel", qry, "Code", "Code", txtmultiEmpcode.arrValueMember, txtmultiEmpcode.arrDispalyMember)
+    End Sub
 End Class

@@ -1,6 +1,8 @@
 ﻿Imports common
 Public Class clsUserMgtCode
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
+    Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
+    Public Const frmTTSavingReport As String = "SVNG-BLNCE"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
@@ -1266,6 +1268,7 @@ Public Class clsUserMgtCode
 
     Public Const frmTender As String = "Pur-Tender"
     Public Const TenderShortPenalty As String = "TND-SHT-PNL"
+    Public Const RALNOC As String = "RAL-NOC"
     Public Const frmCorrectionforWrongEntry As String = "CF-WRNG-ENT"
     Public Const frmDeletionForEntry As String = "DEL-FOR-ENT"
     Public Const frmShortSupplyPenalty As String = "SHT-SLY-PLT"
@@ -2692,7 +2695,7 @@ Public Class clsUserMgtCode
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"
     Public Const frmDemandUploader As String = "DEM_UPL_TRN"
     Public Const frmDailyDemandReport As String = "DAI-DE-RE"
-
+    Public Const rptHSNWiseSaleReport As String = "HSN_SAL_RPT"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Public Const ModuleXpertAPI As String = "API"
