@@ -611,6 +611,7 @@
     <None Include="Crystal Reports GST\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G old1.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G-JAL.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-G-SKR.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GALW.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-GBKN.rpt" />
@@ -681,6 +682,7 @@
     <None Include="Crystal Reports GST\Purchase Order\SRNReport.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReport17042012With out Landed Cost.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReport-G - Copy.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReport-G-SKR.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReport-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReport.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\SRNReportThroughReportOLD.rpt" />
