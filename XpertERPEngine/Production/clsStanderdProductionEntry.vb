@@ -57,6 +57,8 @@ Public Class clsStanderdProductionEntry
 
             clsSerializeInvenotry.DeleteData("Production", strCode, trans)
 
+            HistoryData(strCode, trans)
+
             Dim qry As String = "delete from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -247,6 +249,7 @@ Public Class clsStanderdProductionEntry
             isSaved = isSaved AndAlso clsStanderdProductionEntryConsumption.SaveConsumption(obj.PROD_ENTRY_CODE, obj.PROD_DATE, obj.ArrConsm, trans)
             isSaved = isSaved AndAlso clsStanderdProductionEntryConsumptionCost.SaveConsumptionCost(obj.PROD_ENTRY_CODE, obj.ArrConsmCost, trans)
             isSaved = isSaved AndAlso clsStanderdProductionEntryGunnyBag.SaveData(obj.PROD_ENTRY_CODE, obj.ArrGunny, trans)
+            isSaved = isSaved AndAlso HistoryData(obj.PROD_ENTRY_CODE, trans)
             trans.Commit()
 
         Catch err As Exception
@@ -255,6 +258,11 @@ Public Class clsStanderdProductionEntry
         End Try
         Return isSaved
     End Function
+
+    Public Shared Function HistoryData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", "PROD_ENTRY_CODE", trans)
+    End Function
+
     Public Shared Function PostData(ByVal Form_Id As String, ByVal strDocNo As String, ByVal arrloc As String, ByVal isCheckForPosted As Boolean) As Boolean
         Dim trans As SqlTransaction = Nothing
         Try
