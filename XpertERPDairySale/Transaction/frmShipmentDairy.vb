@@ -13543,7 +13543,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             If EnableManualCrateonTaxableDairyDispatch = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
                 txtCrate.ReadOnly = False
             Else
-                txtCrate.ReadOnly = True
+                If AllowManualCrateForDispatch Then
+                    txtCrate.ReadOnly = False
+                Else
+                    txtCrate.ReadOnly = True
+
+                End If
             End If
         End If
         If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then

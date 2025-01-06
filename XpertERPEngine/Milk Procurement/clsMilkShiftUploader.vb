@@ -28,6 +28,7 @@ Public Class clsMilkShiftUploaderHead
     Public Raj_Received_FATKg As Decimal ''Not a table Column
     Public Raj_Received_SNFKg As Decimal ''Not a table Column
     Public Raj_PageNo As Integer
+    Public Tanker_No As String
 
     Public TR_No As String
 
@@ -115,6 +116,7 @@ Public Class clsMilkShiftUploaderHead
             clsCommon.AddColumnsForChange(coll, "Raj_Entered_Qty", obj.Raj_Entered_Qty)
             clsCommon.AddColumnsForChange(coll, "Raj_Entered_FATKg", obj.Raj_Entered_FATKg)
             clsCommon.AddColumnsForChange(coll, "Raj_Entered_SNFKg", obj.Raj_Entered_SNFKg)
+            clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
 
             '' update Sync Satatus
             clsCommon.AddColumnsForChange(coll, "SYNC_STATUS", 0)
@@ -142,7 +144,7 @@ Public Class clsMilkShiftUploaderHead
     End Function
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal ForRaj As Boolean, ByVal isPickCLRInsteadOfSNF As Boolean) As clsMilkShiftUploaderHead
         Dim obj As clsMilkShiftUploaderHead = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name " &
+        Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name,TSPL_MILK_SHIFT_UPLOADER_HEAD.Tanker_No " &
         " FROM TSPL_MILK_SHIFT_UPLOADER_HEAD left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.Dock_Code  left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_HEAD.Raj_Bulk_Route_Code where 2=2 "
         Select Case NavType
             Case NavigatorType.First
@@ -170,6 +172,8 @@ Public Class clsMilkShiftUploaderHead
             obj.MCC_Name = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
             obj.Dock_Code = clsCommon.myCstr(dt.Rows(0)("Dock_Code"))
             obj.Dock_Name = clsCommon.myCstr(dt.Rows(0)("Dock_Name"))
+            obj.Tanker_No = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 2, ERPTransactionStatus.Posted, ERPTransactionStatus.Pending))
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                 obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
@@ -229,10 +233,12 @@ Public Class clsMilkShiftUploaderHead
 
                     Next
                 End If
-                qry += " ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+                qry += " ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo,TSPL_MILK_SHIFT_UPLOADER_HEAD.Tanker_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+				left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
-where Document_No='" + obj.Document_No + "' "
+where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "' "
 
                 Dim qryPage As String = "select PageNo, sum([Good Qty]) as  [Good Qty], isnull( convert(decimal(18,2), ( sum( [Good FATKg]) * 100/ nullif((sum([Good Qty])),0)  )),0) as [Good FAT %], sum([Good FATKg]) as [Good FATKg] , 
 isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty])),0)    )),0) as [Good SNF %],sum([Good SNFKG]) as [Good SNFKG] " + DocRejectType + "  from ( " + qry + " ) XXXFinal group by PageNo"
@@ -1493,6 +1499,7 @@ Public Class clsMilkShiftUploaderDetail
     Public Against_Milk_Collection_DCS_Detail As Integer
     Public BULK_ROUTE_NO As String = Nothing
     Public QAT As Boolean = False
+    Public Tanker_No As String
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal strMCCCode As String, ByVal Arr As List(Of clsMilkShiftUploaderDetail), ByVal trans As SqlTransaction) As Boolean
         Return SaveData(strDocNo, strMCCCode, Arr, trans, "")
@@ -1540,6 +1547,7 @@ Public Class clsMilkShiftUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "QAT", IIf(obj.QAT, 1, 0), True)
                 clsCommon.AddColumnsForChange(coll, "Against_Milk_Collection_DCS_Detail", obj.Against_Milk_Collection_DCS_Detail, True)
                 clsCommon.AddColumnsForChange(coll, "BULK_ROUTE_NO", obj.BULK_ROUTE_NO, True)
+
                 If obj.Dock_Collection_Milk_Type_Auto Then
                     If Not objCommonVar.DisplayTypeInMilkReceipt Then
                         If Is_Seprate_Dock_Cow_Buffalo Then

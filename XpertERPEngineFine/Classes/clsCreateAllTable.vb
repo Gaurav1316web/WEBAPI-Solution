@@ -24342,11 +24342,14 @@ Public Class clsCreateAllTable
             coll.Add("Raj_Entered_Qty", "Decimal(18,3) null")
             coll.Add("Raj_Entered_FATKg", "Decimal(18,3) null")
             coll.Add("Raj_Entered_SNFKg", "Decimal(18,3) null")
+            coll.Add("Tanker_No", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Shift_Date")
+            clsDBFuncationality.ExecuteNonQuery(qry)
             coll("Document_No") = "Varchar(30) null"
             coll("MCC_Code") = "Varchar(30) null"
             coll("Dock_code") = "Varchar(30) null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD_SYNC", coll, Nothing, False, False)
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("TR_No", "Varchar(30) not null Primary key")
@@ -24365,7 +24368,10 @@ Public Class clsCreateAllTable
             coll.Add("BULK_ROUTE_NO", "Varchar(30)  null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("QAT", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "")
+            clsDBFuncationality.ExecuteNonQuery(qry)
+
             coll.Item("Document_No") = "Varchar(30) not null"
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)
