@@ -1098,5 +1098,17 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
         End Try
     End Sub
 
+    Private Sub txtTankerNo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTankerNo.KeyPress
+        If Char.IsLetter(e.KeyChar) AndAlso Char.IsLower(e.KeyChar) Then
+            e.KeyChar = Char.ToUpper(e.KeyChar)
+        End If
+
+        ' Allow only uppercase letters (A-Z), digits (0-9), and control characters (Backspace, etc.)
+        If Not (Char.IsUpper(e.KeyChar) OrElse Char.IsDigit(e.KeyChar) OrElse Char.IsControl(e.KeyChar)) Then
+            ' Block invalid characters (lowercase, punctuation, spaces, etc.)
+            e.Handled = True
+        End If
+    End Sub
+
 
 End Class
