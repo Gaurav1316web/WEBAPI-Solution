@@ -143,6 +143,7 @@ Public Class rptHSNWiseSaleReport
 
             BaseQuery = " select Document_No,xx.Item_Code,UOM,(Qty)Qty, (Item_Net_Amt)Item_Net_Amt,Tax,Tax_Rate,Tax_Amt from ( " & qry & " " & BaseQuery & " )xx  where 2= 2 " & whrcls & " ) xxx  left outer join TSPL_TAX_MASTER ON  TSPL_TAX_MASTER.Tax_Code = XXX.TAX "
             Dim TaxDesc As String = ""
+            Dim TaxAmount As String = ""
             qry = ""
             dtTax = clsDBFuncationality.GetDataTable("with CTERawData as ( select Tax,max(Tax_Code_Desc)Tax_Code_Desc from ( " & BaseQuery & " where Tax<> '' group by Tax )	select CTERawData.* from CTERawData")
             Dim VoucherCount As String = clsDBFuncationality.getSingleValue("select COUNT(Document_No) Document_No  FROM ( select Document_No from ( " & BaseQuery & "  group by Document_No )XXX ")
@@ -151,22 +152,25 @@ Public Class rptHSNWiseSaleReport
                     TaxDesc += " TaxAmount_" + clsCommon.myCstr(ii + 1) + " ,Tax_" + clsCommon.myCstr(ii + 1) + ", "
                     qry += " ,'" & dtTax.Rows(ii)("Tax_Code_Desc") & "' as  Tax_" + clsCommon.myCstr(ii + 1) + " "
                     qry += " ,sum(Case When xxx.Tax ='" & dtTax.Rows(ii)("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as TaxAmount_" + clsCommon.myCstr(ii + 1) + " "
-
                 Else
                     TaxDesc += "[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
                     qry += " ,sum(case when xxx.Tax ='" & dtTax.Rows(ii)("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as [" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount]"
+                    TaxAmount += " sum([" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount])[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
                 End If
 
             Next
             If isPrint Then
-                qry = " Select  " & VoucherCount & " As VoucherCount, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate, case when TSPL_ITEM_MASTER.Item_Type = 'F' then 'Goods' else '' end AS TypeOfSupply, TSPL_COMPANY_MASTER.Comp_Name,  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,   isnull(Tax_Rate,0)Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt,  max( case when (xxx.Tax ='IGST' and isnull(Tax_Rate ,0) > 0)  then isnull(Tax_Rate ,0) else (case when xxx.Tax ='CGST' then 2 * isnull(Tax_Rate ,0) end ) end) as Tax_Rate " & qry & " from ( "
+                qry = " select  " & VoucherCount & " As VoucherCount, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate,max(TypeOfSupply)TypeOfSupply,max(Comp_Name)Comp_Name,max(HSN_Code)HSN_Code,Item_Code,max(Short_Description)Short_Description,max(UOM) AS UOM, sum(Total_Qty) As Total_Qty,sum(Item_Net_Amt)Item_Net_Amt,max(Tax_Rate)Tax_Rate,sum(Taxable_Amt) AS Taxable_Amt,max(Tax_1)Tax1
+               ,max(Tax_2)Tax_2,max(Tax_3)Tax_3,max(Tax_4)Tax_4,max(Tax_5)Tax_5,sum(TaxAmount_1)TaxAmount_1,sum(TaxAmount_2)TaxAmount_2,sum(TaxAmount_3)TaxAmount_3,sum(TaxAmount_4)TaxAmount_4,sum(TaxAmount_5)TaxAmount_5 from (
+                Select  case when TSPL_ITEM_MASTER.Item_Type = 'F' then 'Goods' else '' end AS TypeOfSupply, TSPL_COMPANY_MASTER.Comp_Name,  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,   isnull(Tax_Rate,0)Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt,  max( case when (xxx.Tax ='IGST' and isnull(Tax_Rate ,0) > 0)  then isnull(Tax_Rate ,0) else (case when xxx.Tax ='CGST' then 2 * isnull(Tax_Rate ,0) end ) end) as Tax_Rate " & qry & " from ( "
 
             Else
-                qry = " select  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,   isnull(Tax_Rate,0)Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt,  max( case when (xxx.Tax ='IGST' and isnull(Tax_Rate ,0) > 0)  then isnull(Tax_Rate ,0) else (case when xxx.Tax ='CGST' then 2 * isnull(Tax_Rate ,0) end ) end) as Tax_Rate " & qry & " from ( "
+                qry = "select max(HSN_Code)HSN_Code,Item_Code,max(Short_Description)Short_Description,max(UOM) AS UOM, sum(Total_Qty) As Total_Qty,sum(Item_Net_Amt)Item_Net_Amt,max(Tax_Rate)Tax_Rate,sum(Taxable_Amt) AS Taxable_Amt," & TaxAmount & " sum(Total_Tax_Amt)Total_Tax_Amt  
+              from ( select  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,   isnull(Tax_Rate,0)Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt,  max( case when (xxx.Tax ='IGST' and isnull(Tax_Rate ,0) > 0)  then isnull(Tax_Rate ,0) else (case when xxx.Tax ='CGST' then 2 * isnull(Tax_Rate ,0) end ) end) as Tax_Rate " & qry & " from ( "
 
             End If
 
-            BaseQuery = "with CTERawData as ( " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2	) select CTERawData.* from CTERawData"
+            BaseQuery = "with CTERawData as ( " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2 ) xxxxFinal group by Item_Code ) select CTERawData.* from CTERawData"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQuery)
 
             gv1.DataSource = Nothing
@@ -187,12 +191,12 @@ Public Class rptHSNWiseSaleReport
                 Else
                     gv1.DataSource = dt
                     gv1.BestFitColumns()
-                SetGridFormation()
-                ReStoreGridLayout()
-                gv1.MasterTemplate.AutoExpandGroups = True
-                RadPageView1.SelectedPage = RadPageViewPage2
-                gv1.BestFitColumns()
-            End If
+                    SetGridFormation()
+                    ReStoreGridLayout()
+                    gv1.MasterTemplate.AutoExpandGroups = True
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.BestFitColumns()
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
