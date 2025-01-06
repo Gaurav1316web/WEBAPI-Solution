@@ -530,8 +530,8 @@ Public Class frmDairyBookingCustomer
         repoIHSN.ReadOnly = True
         repoIHSN.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoIHSN)
-        If ApplyManualScheme Then
-            Dim repoMainItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        'If ApplyManualScheme Then
+        Dim repoMainItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
             repoMainItem.FormatString = ""
             repoMainItem.HeaderText = "Main Item Code"
             repoMainItem.Name = ColMainItem
@@ -540,8 +540,8 @@ Public Class frmDairyBookingCustomer
             repoMainItem.Width = 100
             repoMainItem.IsVisible = True
             gv1.MasterTemplate.Columns.Add(repoMainItem)
-        End If
-        Dim repoPriceId As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            'End If
+            Dim repoPriceId As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoPriceId.FormatString = ""
         repoPriceId.HeaderText = "Price Id"
         repoPriceId.Name = colPriceId
@@ -1397,7 +1397,11 @@ Public Class frmDairyBookingCustomer
                 Exit Sub
             End If
         End If
-
+        gv1.CurrentRow.Cells(colIName).Value = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
+        gv1.CurrentRow.Cells(colIType).Value = clsDBFuncationality.getSingleValue("select TypeOfItm from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
+        gv1.CurrentRow.Cells(colIShortName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct Short_Description from tspl_item_master where item_code='" + gv1.CurrentRow.Cells(colICode).Value + "'"))
+        gv1.CurrentRow.Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(gv1.CurrentRow.Cells(colICode).Value, Nothing)
+        gv1.CurrentRow.Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Default_UOM=1 and Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
         If ShowAvailableQtyOnDairyBooking Then
             gv1.CurrentRow.Cells(ColAvailableQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), 0)
         End If
