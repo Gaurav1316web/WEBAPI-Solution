@@ -124,6 +124,7 @@ Partial Class frmTTSavingReport
         Me.txtMultBmc.Name = "txtMultBmc"
         Me.txtMultBmc.Size = New System.Drawing.Size(293, 19)
         Me.txtMultBmc.TabIndex = 441
+        Me.txtMultBmc.Visible = False
         '
         'Txt2
         '
@@ -134,6 +135,7 @@ Partial Class frmTTSavingReport
         Me.Txt2.Size = New System.Drawing.Size(30, 18)
         Me.Txt2.TabIndex = 440
         Me.Txt2.Text = "BMC"
+        Me.Txt2.Visible = False
         '
         'RadGroupBox3
         '
@@ -207,6 +209,7 @@ Partial Class frmTTSavingReport
         Me.txtMultDCS.Name = "txtMultDCS"
         Me.txtMultDCS.Size = New System.Drawing.Size(293, 19)
         Me.txtMultDCS.TabIndex = 439
+        Me.txtMultDCS.Visible = False
         '
         'txt3
         '
@@ -217,6 +220,7 @@ Partial Class frmTTSavingReport
         Me.txt3.Size = New System.Drawing.Size(27, 18)
         Me.txt3.TabIndex = 438
         Me.txt3.Text = "DCS"
+        Me.txt3.Visible = False
         '
         'RadPageViewPage2
         '
@@ -260,6 +264,7 @@ Partial Class frmTTSavingReport
         Me.btnPrint.Size = New System.Drawing.Size(71, 22)
         Me.btnPrint.TabIndex = 162
         Me.btnPrint.Text = "Print"
+        Me.btnPrint.Visible = False
         '
         'btnClose
         '
