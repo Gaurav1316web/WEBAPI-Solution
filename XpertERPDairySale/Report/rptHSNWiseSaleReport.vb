@@ -194,6 +194,7 @@ Public Class rptHSNWiseSaleReport
                     SetGridFormation()
                     ReStoreGridLayout()
                     gv1.MasterTemplate.AutoExpandGroups = True
+                    EnableDisableControls(False)
                     RadPageView1.SelectedPage = RadPageViewPage2
                     gv1.BestFitColumns()
                 End If
