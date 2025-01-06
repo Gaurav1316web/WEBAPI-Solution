@@ -30,13 +30,14 @@ Partial Class frmMultipleShareAllotment
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExportBlank = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtRateOfOneShare = New common.MyNumBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -49,10 +50,9 @@ Partial Class frmMultipleShareAllotment
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
-        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.txtDocumentDate = New common.Controls.MyDateTimePicker()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.txtRateOfOneShare = New common.MyNumBox()
         Me.Panel2.SuspendLayout()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -60,6 +60,7 @@ Partial Class frmMultipleShareAllotment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtRateOfOneShare, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,11 +70,10 @@ Partial Class frmMultipleShareAllotment
         CType(Me.lblUnApplyAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtRateOfOneShare, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -131,17 +131,17 @@ Partial Class frmMultipleShareAllotment
         '
         'RadMenu1
         '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExport})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(897, 20)
         Me.RadMenu1.TabIndex = 3
         '
-        'RadMenuItem3
+        'btnExport
         '
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2, Me.RadMenuItem4, Me.RadMenuItem6, Me.RadMenuItem5})
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "Setting"
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2, Me.btnExportBlank, Me.RadMenuItem6, Me.btnImport})
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Text = "Setting"
         '
         'RadMenuItem1
         '
@@ -153,22 +153,22 @@ Partial Class frmMultipleShareAllotment
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
-        'RadMenuItem4
+        'btnExportBlank
         '
-        Me.RadMenuItem4.AccessibleDescription = "Export"
-        Me.RadMenuItem4.AccessibleName = "Export"
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Export Blank"
+        Me.btnExportBlank.AccessibleDescription = "Export"
+        Me.btnExportBlank.AccessibleName = "Export"
+        Me.btnExportBlank.Name = "btnExportBlank"
+        Me.btnExportBlank.Text = "Export Blank"
         '
         'RadMenuItem6
         '
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Export Grid"
         '
-        'RadMenuItem5
+        'btnImport
         '
-        Me.RadMenuItem5.Name = "RadMenuItem5"
-        Me.RadMenuItem5.Text = "Import"
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Text = "Import"
         '
         'Panel1
         '
@@ -185,13 +185,46 @@ Partial Class frmMultipleShareAllotment
         Me.Panel1.Controls.Add(Me.RadLabel4)
         Me.Panel1.Controls.Add(Me.RadLabel1)
         Me.Panel1.Controls.Add(Me.txtDocumentNo)
-        Me.Panel1.Controls.Add(Me.txtDate)
+        Me.Panel1.Controls.Add(Me.txtDocumentDate)
         Me.Panel1.Controls.Add(Me.btnAddNew)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(897, 96)
         Me.Panel1.TabIndex = 0
+        '
+        'txtRateOfOneShare
+        '
+        Me.txtRateOfOneShare.BackColor = System.Drawing.Color.Transparent
+        Me.txtRateOfOneShare.CalculationExpression = Nothing
+        Me.txtRateOfOneShare.DecimalPlaces = 2
+        Me.txtRateOfOneShare.FieldCode = Nothing
+        Me.txtRateOfOneShare.FieldDesc = Nothing
+        Me.txtRateOfOneShare.FieldMaxLength = 0
+        Me.txtRateOfOneShare.FieldName = Nothing
+        Me.txtRateOfOneShare.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtRateOfOneShare.isCalculatedField = False
+        Me.txtRateOfOneShare.IsSourceFromTable = False
+        Me.txtRateOfOneShare.IsSourceFromValueList = False
+        Me.txtRateOfOneShare.IsUnique = False
+        Me.txtRateOfOneShare.Location = New System.Drawing.Point(473, 28)
+        Me.txtRateOfOneShare.MaxLength = 6
+        Me.txtRateOfOneShare.MendatroryField = False
+        Me.txtRateOfOneShare.MyLinkLable1 = Nothing
+        Me.txtRateOfOneShare.MyLinkLable2 = Nothing
+        Me.txtRateOfOneShare.Name = "txtRateOfOneShare"
+        Me.txtRateOfOneShare.ReferenceFieldDesc = Nothing
+        Me.txtRateOfOneShare.ReferenceFieldName = Nothing
+        Me.txtRateOfOneShare.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.txtRateOfOneShare.RootElement.StretchVertically = True
+        Me.txtRateOfOneShare.Size = New System.Drawing.Size(104, 19)
+        Me.txtRateOfOneShare.TabIndex = 1094
+        Me.txtRateOfOneShare.Text = "0"
+        Me.txtRateOfOneShare.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtRateOfOneShare.Value = 0R
         '
         'txtToDate
         '
@@ -370,39 +403,39 @@ Partial Class frmMultipleShareAllotment
         Me.txtDocumentNo.TabIndex = 49
         Me.txtDocumentNo.Value = ""
         '
-        'txtDate
+        'txtDocumentDate
         '
-        Me.txtDate.CalculationExpression = Nothing
-        Me.txtDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtDate.FieldCode = Nothing
-        Me.txtDate.FieldDesc = Nothing
-        Me.txtDate.FieldMaxLength = 0
-        Me.txtDate.FieldName = Nothing
-        Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtDate.isCalculatedField = False
-        Me.txtDate.IsSourceFromTable = False
-        Me.txtDate.IsSourceFromValueList = False
-        Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(393, 7)
-        Me.txtDate.MendatroryField = True
-        Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDate.MyLinkLable1 = Me.RadLabel4
-        Me.txtDate.MyLinkLable2 = Nothing
-        Me.txtDate.Name = "txtDate"
-        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDate.ReferenceFieldDesc = Nothing
-        Me.txtDate.ReferenceFieldName = Nothing
-        Me.txtDate.ReferenceTableName = Nothing
+        Me.txtDocumentDate.CalculationExpression = Nothing
+        Me.txtDocumentDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDocumentDate.FieldCode = Nothing
+        Me.txtDocumentDate.FieldDesc = Nothing
+        Me.txtDocumentDate.FieldMaxLength = 0
+        Me.txtDocumentDate.FieldName = Nothing
+        Me.txtDocumentDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDocumentDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDocumentDate.isCalculatedField = False
+        Me.txtDocumentDate.IsSourceFromTable = False
+        Me.txtDocumentDate.IsSourceFromValueList = False
+        Me.txtDocumentDate.IsUnique = False
+        Me.txtDocumentDate.Location = New System.Drawing.Point(393, 7)
+        Me.txtDocumentDate.MendatroryField = True
+        Me.txtDocumentDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDocumentDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtDocumentDate.MyLinkLable2 = Nothing
+        Me.txtDocumentDate.Name = "txtDocumentDate"
+        Me.txtDocumentDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDocumentDate.ReferenceFieldDesc = Nothing
+        Me.txtDocumentDate.ReferenceFieldName = Nothing
+        Me.txtDocumentDate.ReferenceTableName = Nothing
         '
         '
         '
-        Me.txtDate.RootElement.StretchVertically = True
-        Me.txtDate.Size = New System.Drawing.Size(88, 19)
-        Me.txtDate.TabIndex = 0
-        Me.txtDate.TabStop = False
-        Me.txtDate.Text = "13/06/2011"
-        Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtDocumentDate.RootElement.StretchVertically = True
+        Me.txtDocumentDate.Size = New System.Drawing.Size(88, 19)
+        Me.txtDocumentDate.TabIndex = 0
+        Me.txtDocumentDate.TabStop = False
+        Me.txtDocumentDate.Text = "13/06/2011"
+        Me.txtDocumentDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
         'btnAddNew
         '
@@ -441,39 +474,6 @@ Partial Class frmMultipleShareAllotment
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
         '
-        'txtRateOfOneShare
-        '
-        Me.txtRateOfOneShare.BackColor = System.Drawing.Color.Transparent
-        Me.txtRateOfOneShare.CalculationExpression = Nothing
-        Me.txtRateOfOneShare.DecimalPlaces = 2
-        Me.txtRateOfOneShare.FieldCode = Nothing
-        Me.txtRateOfOneShare.FieldDesc = Nothing
-        Me.txtRateOfOneShare.FieldMaxLength = 0
-        Me.txtRateOfOneShare.FieldName = Nothing
-        Me.txtRateOfOneShare.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtRateOfOneShare.isCalculatedField = False
-        Me.txtRateOfOneShare.IsSourceFromTable = False
-        Me.txtRateOfOneShare.IsSourceFromValueList = False
-        Me.txtRateOfOneShare.IsUnique = False
-        Me.txtRateOfOneShare.Location = New System.Drawing.Point(473, 28)
-        Me.txtRateOfOneShare.MaxLength = 6
-        Me.txtRateOfOneShare.MendatroryField = False
-        Me.txtRateOfOneShare.MyLinkLable1 = Nothing
-        Me.txtRateOfOneShare.MyLinkLable2 = Nothing
-        Me.txtRateOfOneShare.Name = "txtRateOfOneShare"
-        Me.txtRateOfOneShare.ReferenceFieldDesc = Nothing
-        Me.txtRateOfOneShare.ReferenceFieldName = Nothing
-        Me.txtRateOfOneShare.ReferenceTableName = Nothing
-        '
-        '
-        '
-        Me.txtRateOfOneShare.RootElement.StretchVertically = True
-        Me.txtRateOfOneShare.Size = New System.Drawing.Size(104, 19)
-        Me.txtRateOfOneShare.TabIndex = 1094
-        Me.txtRateOfOneShare.Text = "0"
-        Me.txtRateOfOneShare.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRateOfOneShare.Value = 0R
-        '
         'frmMultipleShareAllotment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -499,6 +499,7 @@ Partial Class frmMultipleShareAllotment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtRateOfOneShare, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -508,11 +509,10 @@ Partial Class frmMultipleShareAllotment
         CType(Me.lblUnApplyAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtRateOfOneShare, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -521,7 +521,7 @@ Partial Class frmMultipleShareAllotment
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
-    Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
@@ -533,11 +533,11 @@ Partial Class frmMultipleShareAllotment
     Friend WithEvents RadLabel4 As common.Controls.MyLabel
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents txtDocumentNo As common.UserControls.txtNavigator
-    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtDocumentDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents lblStatus As common.usLock
-    Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnExportBlank As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem6 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents lblUnApplyAmt As common.Controls.MyLabel
     Friend WithEvents btnGo As Telerik.WinControls.UI.RadButton
