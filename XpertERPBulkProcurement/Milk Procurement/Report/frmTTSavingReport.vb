@@ -158,7 +158,7 @@ left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTE
         Gv1.Columns("Transfer_Amt").HeaderText = "Transfer Amt"
 
         Gv1.Columns("Outstanding_BLC").IsVisible = True
-        Gv1.Columns("Outstanding_BLC").Width = 100
+        Gv1.Columns("Outstanding_BLC").Width = 150
         Gv1.Columns("Outstanding_BLC").HeaderText = "Outstanding Balance"
 
 
@@ -234,5 +234,30 @@ left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTE
     Private Sub txtMultDCS__My_Click(sender As Object, e As EventArgs) Handles txtMultDCS._My_Click
         Dim qry As String = " Select VSP_Code AS Code,VLC_Code_VLC_Uploader,VLC_Name as Name from TSPL_VLC_MASTER_HEAD WHERE 2=2 "
         txtMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMulSelect", qry, "Code", "Name", txtMultDCS.arrValueMember, txtMultDCS.arrDispalyMember)
+    End Sub
+
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        ExportGrid(EnumExportTo.Excel)
+    End Sub
+
+    Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
+        ExportGrid(EnumExportTo.PDF)
+    End Sub
+
+    Private Sub ExportGrid(ByVal exporter As EnumExportTo)
+        Try
+            If Gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+
+            If exporter = EnumExportTo.Excel Then
+                clsCommon.MyExportToExcelGrid("", Gv1, Nothing, Me.Text)
+            Else
+                clsCommon.MyExportToPDF("", Gv1, Nothing, Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
+        End Try
     End Sub
 End Class
