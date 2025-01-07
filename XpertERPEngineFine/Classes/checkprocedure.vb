@@ -2873,7 +2873,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.ShareMaster, "Share Master", "1.46.01.01", clsUserMgtCode.SubModuleShareSetup, 27)
         ''------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleShareTransaction, "Transaction", "1.46.02", clsUserMgtCode.ModuleShare, "SM", 26)
-        InsertDefaultValue(clsUserMgtCode.frmShareAllotment, "Share Allotment", "1.46.02.01", clsUserMgtCode.SubModuleShareTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmMultipleShareAllotment, "Multiple Share Allotment", "1.46.02.01", clsUserMgtCode.SubModuleShareTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmShareAllotment, "Share Allotment", "1.46.02.02", clsUserMgtCode.SubModuleShareTransaction, 8)
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleShareReport, "Report", "1.46.03", clsUserMgtCode.ModuleShare, "SM", 30)
 

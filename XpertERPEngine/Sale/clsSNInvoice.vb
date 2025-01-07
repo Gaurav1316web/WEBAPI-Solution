@@ -413,15 +413,23 @@ Public Class clsSNInvoiceHead
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '''' 
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_SD_SALE_INVOICE_HEAD", trans)
-            isSaved = isSaved AndAlso HistoryData(obj.Document_Code, trans)
+            isSaved = isSaved AndAlso HistoryData("Save", obj.Document_Code, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
         Return isSaved
     End Function
 
-    Public Shared Function HistoryData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
-        Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
+    Public Shared Function HistoryData(ByVal strAction As String, ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Dim chkBool As Boolean = False
+        If clsCommon.CompairString(strAction, "Delete") Then
+            chkBool = clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
+        ElseIf clsCommon.CompairString(strAction, "Cancel") Then
+            chkBool = clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
+        Else
+            chkBool = clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
+        End If
+        Return chkBool
     End Function
 
     Public Shared Function checkSaveNotification(ByVal obj As clsSNInvoiceHead, ByVal trans As SqlTransaction) As Boolean
@@ -1424,7 +1432,7 @@ where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + obj.Document_Code + "' "
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
-                HistoryData(strCode, trans)
+                HistoryData("Delete", strCode, trans)
                 Dim qry As String = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -2020,7 +2028,6 @@ where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + obj.Document_Code + "' "
 
 
             ''delete data from multiple tables
-            HistoryData(InvoiceNo, trans)
             qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & InvoiceNo & "'))"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
