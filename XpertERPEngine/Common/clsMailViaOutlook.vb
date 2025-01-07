@@ -553,6 +553,7 @@ Public Class clsEMailHead
                 cmd.ExecuteNonQuery()
                 br.Close() ' done by stuti reagrding memory leakage
             End If
+
         Catch err As System.Exception
             Throw New System.Exception(err.Message)
         End Try

@@ -1885,6 +1885,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmMonthWiseBeneficieriesReport, "Month Wise Beneficieris Report", "1.17.03.135", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCGazeCapacityUtilizationReport, "BMC Gaze Capacity Utilization Report", "1.17.03.136", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmTTSavingReport, "Saving Balance Report", "1.17.03.139", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBmcTankerProfitLossReport, "Bmc Tanker Profit Loss report", "1.17.03.140", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
