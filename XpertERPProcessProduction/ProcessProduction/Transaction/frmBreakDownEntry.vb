@@ -347,4 +347,12 @@ Public Class frmBreakDownEntry
         Dim roundedDurationHour As Double = Math.Round(durationHour, 2)
         txtHours.Text = roundedDurationHour.ToString()
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Select Doc_No", Me.Text)
+            Exit Sub
+        End If
+        clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Doc_No", "TSPL_BREAK_DOWN_ENTRY", Nothing)
+    End Sub
 End Class

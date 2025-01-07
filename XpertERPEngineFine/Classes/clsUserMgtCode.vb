@@ -320,6 +320,7 @@ Public Class clsUserMgtCode
 
     ''===========ShareTransaction=================
     Public Const SubModuleShareTransaction As String = "SMShareT"
+    Public Const frmMultipleShareAllotment As String = "MU-SHA-ALT"
     Public Const frmShareAllotment As String = "SHA-ALT"
 
     ''============ShareReport=======================
@@ -2223,6 +2224,7 @@ Public Class clsUserMgtCode
     Public Const rptTankerStatusReport As String = "TNK_ST_RPT"
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptTankerUtilization As String = "TANKER_ULT_R"
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
     Public Const rptTankerProfitLossReport As String = "TNR_P_L_R"

@@ -3023,4 +3023,11 @@ Public Class frmBillOfMaterialCosting
         End Try
     End Sub
 
+    Private Sub BtnHistory_Click(sender As Object, e As EventArgs) Handles BtnHistory.Click
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Select BOM_CODE", Me.Text)
+            Exit Sub
+        End If
+        clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "BOM_CODE", "TSPL_MF_BOM_HEAD", "TSPL_MF_BOM_DETAIL")
+    End Sub
 End Class

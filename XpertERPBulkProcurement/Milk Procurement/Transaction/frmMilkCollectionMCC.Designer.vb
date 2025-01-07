@@ -317,6 +317,7 @@ Partial Class frmMilkCollectionMCC
         Me.gvTotal.Size = New System.Drawing.Size(220, 116)
         Me.gvTotal.TabIndex = 7
         Me.gvTotal.TabStop = False
+        Me.gvTotal.VarID = ""
         '
         'Panel1
         '
@@ -1135,6 +1136,7 @@ Partial Class frmMilkCollectionMCC
         Me.gv1.Size = New System.Drawing.Size(1018, 123)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'SplitContainer1
         '
@@ -1199,6 +1201,7 @@ Partial Class frmMilkCollectionMCC
         Me.gvParam.Size = New System.Drawing.Size(794, 116)
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
+        Me.gvParam.VarID = ""
         '
         'frmMilkCollectionMCC
         '
