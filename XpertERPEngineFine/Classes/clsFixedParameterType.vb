@@ -924,6 +924,7 @@ Public Class clsFixedParameterType
     Public Const StopForRepeatedFATSNF As String = "Stop Repeat FAT SNF"
     Public Const SampleFONTSize As String = "Font Size"
     Public Const SMSPrefix As String = "SMS Prefix"
+    Public Const EmailPrefix As String = "Email Prefix"
     Public Const PickPendingMilkSRNinNextPaymentCycle As String = "Pick Pending Milk-SRN in Next Payment Cycle"
     Public Const TreatChequeClearDateAsRecoDate As String = "TreatChequeClearDateAsRecoDate"
     Public Const BookWreckageFromSublocationOrSection As String = "BookWreckageFromSublocationOrSection"
@@ -1299,8 +1300,10 @@ Public Class clsFixedParameterType
     Public Const AllowManualCrateForDispatch = "Allow Manual Crate For Dispatch"
     Public Const SetDefaultShiftTime = "Set Default Shift Time"
     Public Const ApplyManualScheme = "Apply Manual Scheme"
+    Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
 End Class
 Public Class clsFixedParameterCode
+    Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
     Public Const PenaltyCost As String = "Define Penalty Cost Value for Per Unit"
@@ -2342,6 +2345,7 @@ Public Class clsFixedParameterCode
     Public Const SampleFONTSize As String = "Font Size"
     Public Const SMSPrefix As String = "SMS Prefix"
     Public Const InstantSendTheSMS As String = "Instant Send The SMS"
+    Public Const InstantSendTheEmail As String = "Instant Send The Email"
     Public Const PickPendingMilkSRNinNextPaymentCycle As String = "Pick Pending Milk-SRN in Next Payment Cycle"
     '======================Preeti Gupta[29/12/2016]===========================
     Public Const TreatChequeClearDateAsRecoDate As String = "TreatChequeClearDateAsRecoDate"
@@ -2739,6 +2743,7 @@ Public Class clsFixedParameterCode
     Public Const AllowManualCrateForDispatch = "Allow Manual Crate For Dispatch"
     Public Const SetDefaultShiftTime = "Set Default Shift Time"
     Public Const ApplyManualScheme = "Apply Manual Scheme"
+    Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2817,6 +2822,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.ViewDCSMilkPurchaseRegister, "0", "0:OFF,1:ON;Show DCS Milk Purchase register on APP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, "50", "It Should above 50")
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.SetDCSAvgFATSNF, "0", "0:OFF;1:ON")
 
@@ -3912,6 +3918,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkProcurementCounterOnEntryType, clsFixedParameterCode.BulkProcurementCounterOnEntryType, "0", "1:ON;0 OFF Prefixe Generation of Bulk Procurement")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.SMSPrefix, "SMS", "SMS Prefix")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.InstantSendTheSMS, "0", "1:ON;0:OFF Send SMS While saving in SMS table")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EmailPrefix, clsFixedParameterCode.InstantSendTheEmail, "0", "1:ON;0:OFF Send Email While saving in Email table")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, "0", "1:ON;0 OFF In Milk Purchase Invoice Pick Pending SRN")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TreatChequeClearDateAsRecoDate, clsFixedParameterCode.TreatChequeClearDateAsRecoDate, "0", "1:ON;0 OFF Treat Cheque Clear Date As Reco Date")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BookWreckageFromSublocationOrSection, clsFixedParameterCode.BookWreckageFromSublocationOrSection, "1", "1:ON;0 OFF Book Wreckage From Sublocation/Section")
@@ -4343,6 +4350,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowResetCustomerDemandOnRouteChange, clsFixedParameterCode.AllowResetCustomerDemandOnRouteChange, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6161,6 +6169,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.CustomerMaster, clsFixedParameterType.AllowResetCustomerDemandOnRouteChange, clsFixedParameterCode.AllowResetCustomerDemandOnRouteChange, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
 

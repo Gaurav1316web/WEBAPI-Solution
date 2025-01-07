@@ -950,7 +950,20 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                         isNewEntry = True
                     End If
                     If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, trans)) = 1 Then
-                        SaveData(obj, isNewEntry, False, trans)
+                        'SaveData(obj, isNewEntry, False, trans)
+                        For ii As Integer = obj.Arr.Count - 1 To 0 Step -1
+                            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isRepeat from TSPL_ITEM_MASTER where Item_Code='" & obj.Arr(ii).Item_Code & "'", trans)) = 0 Then
+                                obj.Arr.RemoveAt(ii)
+                            Else
+                                If Not isNewEntry Then
+                                    obj.Arr(ii).CustomerReorderCheck = True
+                                End If
+                            End If
+
+                        Next
+                        If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                            SaveData(obj, isNewEntry, False, trans)
+                        End If
                     ElseIf clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, trans)) = 1 Then
                         'For ii As Integer = 0 To obj.Arr.Count - 1
                         '    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 Then
@@ -963,6 +976,8 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                         'Next
                         For ii As Integer = obj.Arr.Count - 1 To 0 Step -1
                             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsReorder  from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Arr(ii).Cust_Code & "'", trans)) = 0 OrElse obj.IsIndividualCustomer = 1 Then
+                                obj.Arr.RemoveAt(ii)
+                            ElseIf clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isRepeat from TSPL_ITEM_MASTER where Item_Code='" & obj.Arr(ii).Item_Code & "'", trans)) = 0 Then
                                 obj.Arr.RemoveAt(ii)
                             Else
                                 If Not isNewEntry Then
@@ -1630,84 +1645,90 @@ Public Class clsDemandBookingSaleDetail
     Public TAX10_Amt As Double = 0
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal trans As SqlTransaction, ByVal strLocCode As String, ByVal ShiftType As String, ByVal isNewEntry As Boolean, ByVal isUploader As Boolean, ByVal strRouteNo As String) As Boolean
-        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-            For Each obj As clsDemandBookingSaleDetail In Arr
-                If clsCommon.myLen(ShiftType) > 0 Then
-                    If Not clsCommon.CompairString(ShiftType, obj.ShiftType) = CompairStringResult.Equal Then
-                        Continue For
+        Try
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                For Each obj As clsDemandBookingSaleDetail In Arr
+                    If clsCommon.myLen(ShiftType) > 0 Then
+                        If Not clsCommon.CompairString(ShiftType, obj.ShiftType) = CompairStringResult.Equal Then
+                            Continue For
+                        End If
                     End If
-                End If
-                If obj.Qty > 0 Then
-                    Dim coll As New Hashtable()
-                    If isUploader Then
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
-                    Else
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+
+                    If obj.Qty > 0 Then
+                        Dim coll As New Hashtable()
+                        If isUploader Then
+                            obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Uploader, strRouteNo, False, True, False, False, False, True)
+                        Else
+                            obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.DetailSale, clsDocTransactionType.Detail, strRouteNo, False, True, False, False, False, True)
+                        End If
+                        clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
+                        clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
+                        clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
+                        clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
+                        clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
+                        clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
+                        clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                        clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
+                        clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                        clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Rate)
+                        clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
+                        clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
+                        clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
+                        clsCommon.AddColumnsForChange(coll, "IsItemUpdate", obj.IsItemUpdate)
+                        clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
+                        clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
+                        clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
+                        clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
+                        clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
+                        clsCommon.AddColumnsForChange(coll, "TAX_Group", obj.TAX_Group)
+                        clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
+                        clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX1_Amt", obj.TAX1_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX2", obj.TAX2)
+                        clsCommon.AddColumnsForChange(coll, "TAX2_Base_Amt", obj.TAX2_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX2_Rate", obj.TAX2_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX2_Amt", obj.TAX2_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX3", obj.TAX3)
+                        clsCommon.AddColumnsForChange(coll, "TAX3_Base_Amt", obj.TAX3_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX3_Rate", obj.TAX3_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX3_Amt", obj.TAX3_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX4", obj.TAX4)
+                        clsCommon.AddColumnsForChange(coll, "TAX4_Base_Amt", obj.TAX4_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX4_Rate", obj.TAX4_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX4_Amt", obj.TAX4_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX5", obj.TAX5)
+                        clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", obj.TAX5_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX5_Rate", obj.TAX5_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX5_Amt", obj.TAX5_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX6", obj.TAX6)
+                        clsCommon.AddColumnsForChange(coll, "TAX6_Base_Amt", obj.TAX6_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX6_Rate", obj.TAX6_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX6_Amt", obj.TAX6_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX7", obj.TAX7)
+                        clsCommon.AddColumnsForChange(coll, "TAX7_Base_Amt", obj.TAX7_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX7_Rate", obj.TAX7_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX7_Amt", obj.TAX7_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX8", obj.TAX8)
+                        clsCommon.AddColumnsForChange(coll, "TAX8_Base_Amt", obj.TAX8_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX8_Rate", obj.TAX8_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX8_Amt", obj.TAX8_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX9", obj.TAX9)
+                        clsCommon.AddColumnsForChange(coll, "TAX9_Base_Amt", obj.TAX9_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX9_Rate", obj.TAX9_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX9_Amt", obj.TAX9_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX10", obj.TAX10)
+                        clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", obj.TAX10_Base_Amt)
+                        clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
+                        clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                     End If
-                    clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
-                    clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
-                    clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
-                    clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
-                    clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
-                    clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
-                    clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-                    clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
-                    clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-                    clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Rate)
-                    clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
-                    clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
-                    clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
-                    clsCommon.AddColumnsForChange(coll, "IsItemUpdate", obj.IsItemUpdate)
-                    clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
-                    clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
-                    clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
-                    clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
-                    clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
-                    clsCommon.AddColumnsForChange(coll, "TAX_Group", obj.TAX_Group)
-                    clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
-                    clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX1_Amt", obj.TAX1_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX2", obj.TAX2)
-                    clsCommon.AddColumnsForChange(coll, "TAX2_Base_Amt", obj.TAX2_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX2_Rate", obj.TAX2_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX2_Amt", obj.TAX2_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX3", obj.TAX3)
-                    clsCommon.AddColumnsForChange(coll, "TAX3_Base_Amt", obj.TAX3_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX3_Rate", obj.TAX3_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX3_Amt", obj.TAX3_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX4", obj.TAX4)
-                    clsCommon.AddColumnsForChange(coll, "TAX4_Base_Amt", obj.TAX4_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX4_Rate", obj.TAX4_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX4_Amt", obj.TAX4_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX5", obj.TAX5)
-                    clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", obj.TAX5_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX5_Rate", obj.TAX5_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX5_Amt", obj.TAX5_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX6", obj.TAX6)
-                    clsCommon.AddColumnsForChange(coll, "TAX6_Base_Amt", obj.TAX6_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX6_Rate", obj.TAX6_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX6_Amt", obj.TAX6_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX7", obj.TAX7)
-                    clsCommon.AddColumnsForChange(coll, "TAX7_Base_Amt", obj.TAX7_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX7_Rate", obj.TAX7_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX7_Amt", obj.TAX7_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX8", obj.TAX8)
-                    clsCommon.AddColumnsForChange(coll, "TAX8_Base_Amt", obj.TAX8_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX8_Rate", obj.TAX8_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX8_Amt", obj.TAX8_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX9", obj.TAX9)
-                    clsCommon.AddColumnsForChange(coll, "TAX9_Base_Amt", obj.TAX9_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX9_Rate", obj.TAX9_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX9_Amt", obj.TAX9_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX10", obj.TAX10)
-                    clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", obj.TAX10_Base_Amt)
-                    clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
-                    clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
-                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-                End If
-            Next
-        End If
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
         Return True
     End Function
     Public Shared Function SaveDeleteData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal trans As SqlTransaction, ByVal strLocCode As String, ByVal ShiftType As String, ByVal isNewEntry As Boolean, ByVal isUploader As Boolean, ByVal strRouteNo As String) As Boolean

@@ -249,6 +249,8 @@ and   TSPL_PAYMENT_PROCESS_HEAD.Doc_No='" + strPPNo + "'  "
                         ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso VendorBankAdviceForSWM = True Then
                             objSMSH.Attachment_1_Path = frmCRViewer.EmailAttachment(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSWM", "Bank Advice")
                         Else
+                            ' objSMSH.Attachment_1_Path = frmCRViewer.EmailAttachment(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
+                            'objSMSH.Attachment_1_Path = frmCRViewer.EmailAttachment(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "ddmmyyyyhhmmssttt"))
                             objSMSH.Attachment_1_Path = frmCRViewer.EmailAttachment(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
                         End If
 

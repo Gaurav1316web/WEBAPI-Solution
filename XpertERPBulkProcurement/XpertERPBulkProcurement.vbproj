@@ -481,6 +481,12 @@
     <Compile Include="Milk Procurement\Report\rptSuspanceDCSReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerapprovalutilization.Designer.vb">
+      <DependentUpon>rptTankerapprovalutilization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerapprovalutilization.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptTankerProfitLossReport.Designer.vb">
       <DependentUpon>rptTankerProfitLossReport.vb</DependentUpon>
     </Compile>
@@ -1157,6 +1163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptSuspanceDCSReport.resx">
       <DependentUpon>rptSuspanceDCSReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTankerapprovalutilization.resx">
+      <DependentUpon>rptTankerapprovalutilization.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTankerProfitLossReport.resx">
       <DependentUpon>rptTankerProfitLossReport.vb</DependentUpon>
