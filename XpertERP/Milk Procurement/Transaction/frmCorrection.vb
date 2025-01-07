@@ -35,11 +35,17 @@ Public Class frmCorrection
                     chkAdjustOwnBMCFATSNF.Visible = True
                     chkDeleteBMCCollection.Visible = True
                     txtFromShift.Enabled = True
+                    chkAvgFATSNF.Visible = False
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        chkAvgFATSNF.Visible = True
+                        chkAdjustOwnBMCFATSNF.Visible = False
+                    End If
                 Else
                     chkAddMissingSample.Visible = True
                     chkAdjustOwnBMCFATSNF.Visible = False
                     chkDeleteBMCCollection.Visible = False
                     txtFromShift.Enabled = True
+                    chkAvgFATSNF.Visible = False
                 End If
                 SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
                 SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
@@ -845,7 +851,49 @@ order by  xx.Shift desc,xx.Qty "
                         End Try
                     End If
                 End If
-            Else
+            ElseIf chkAvgFATSNF.Checked Then
+                If True Then
+                    If txtVLCCMMCC.arrValueMember Is Nothing OrElse txtVLCCMMCC.arrValueMember.Count < 0 Then
+                        txtVLCCMMCC.Focus()
+                        Throw New Exception("Please First select MCC")
+                    End If
+                    If clsCommon.MyMessageBoxShow("Set Average FAT/SNF is DCS having more than one Sample in a shift." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                        Try
+                            For Each strMCC_Code As String In txtVLCCMMCC.arrValueMember
+                                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, strMCC_Code, txtVLCCMToDate.Value, Nothing)
+                                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, strMCC_Code, txtVLCCMToDate.Value, Nothing)
+                            Next
+                            Dim qry As String = "With CTERawData as (
+select TSPL_MILK_SRN_HEAD.MCC_CODE,TSPL_MILK_SRN_HEAD.DOC_CODE,convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) as DOC_DATE,TSPL_MILK_SRN_HEAD.SHIFT,TSPL_MILK_SRN_HEAD.VLC_CODE,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.Qty, TSPL_MILK_SRN_DETAIL.FAT_KG,TSPL_MILK_SRN_DETAIL.SNF_KG,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type
+from TSPL_MILK_SRN_DETAIL 
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE  
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+where TSPL_MILK_SRN_HEAD.MCC_CODE in (" + clsCommon.GetMulcallString(txtVLCCMMCC.arrValueMember) + ") 
+and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtVLCCMFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtVLCCMToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  
+and len(isnull( TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))<=0 and   len(isnull( TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))<=0   "
+                            If Not clsCommon.CompairString(clsCommon.myCstr(cboMPCMShift.SelectedValue), "B") = CompairStringResult.Equal Then
+                                qry += " and TSPL_MILK_SRN_HEAD.SHIFT='" + clsCommon.myCstr(cboVLCCMShift.SelectedValue) + "'"
+                            End If
+                            qry += " )
+select CTERawData.DOC_CODE,CTERawData.Dock_Collection_Milk_Type,TabDCS.Tot_FAT_PER,TabDCS.Tot_SNF_PER from CTERawData 
+inner join (select DOC_DATE,SHIFT,VLC_CODE,SUM(Qty) as Tot_Qty ,case when SUM(Qty)>0 then cast(SUM(FAT_KG)*100/SUM(Qty) as decimal(18,1)) else 0 end as Tot_FAT_PER,SUM(FAT_KG) as Tot_FAT_KG ,case when SUM(Qty)>0 then cast(  SUM(SNF_KG)*100/SUM(Qty) as decimal(18,1)) else 0 end as Tot_SNF_PER,SUM(SNF_KG) as Tot_SNF_KG
+from CTERawData 
+group by DOC_DATE,SHIFT,VLC_CODE having sum(1)>1) as TabDCS on TabDCS.DOC_DATE=CTERawData.DOC_DATE and  TabDCS.SHIFT=CTERawData.SHIFT and  TabDCS.VLC_CODE=CTERawData.VLC_CODE order by CTERawData.VLC_CODE"
+                            Dim dtUploader As DataTable = clsDBFuncationality.GetDataTable(qry)
+                            If dtUploader IsNot Nothing AndAlso dtUploader.Rows.Count > 0 Then
+                                For Each drUploader As DataRow In dtUploader.Rows
+                                    clsMilkSRNMCC.Correction(clsCommon.myCstr(drUploader("DOC_CODE")), clsCommon.myCstr(drUploader("Dock_Collection_Milk_Type")), clsCommon.myCdbl(drUploader("Tot_FAT_PER")), clsCommon.myCdbl(drUploader("Tot_SNF_PER")))
+                                Next
+                            End If
+                            clsCommon.MyMessageBoxShow(Me, "Successfully Updated", Me.Text)
+                        Catch ex As Exception
+                            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                        End Try
+                    End If
+                End If
+                Else
                 If True Then
                     If txtVLCCMMCC.arrValueMember Is Nothing OrElse txtVLCCMMCC.arrValueMember.Count < 0 Then
                         txtVLCCMMCC.Focus()

@@ -925,6 +925,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                     clsMilkSRNMCC.ObjList(0).MILK_Qty = dblQty
                     clsMilkSRNMCC.ObjList(0).ACC_Qty = dblQty * conv_fac
                 End If
+                clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR = dblLTRQty
                 If clsCommon.myCDecimal(MilkWeight_Setting) <= 0 Then
                     Throw New Exception("Please set Fix paratment vale of type-" + clsFixedParameterType.Milk_Can_Weight_Ratio + " and code-" + clsFixedParameterCode.MilkSetting)
                 End If
