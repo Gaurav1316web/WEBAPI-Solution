@@ -574,11 +574,60 @@ Public Class clsCustomerMaster
     Public Function SaveData(ByVal obj As clsCustomerMaster, ByVal arrVisi As List(Of String), ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Dim obj2 As New clsLocation
+        Dim PrevRoute As String = ""
+        Dim strQry As String = ""
+        Dim isResetCustomerDemandOnRouteChange As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowResetCustomerDemandOnRouteChange, clsFixedParameterCode.AllowResetCustomerDemandOnRouteChange, trans)) = 1, True, False)
         'Dim trans As SqlTransaction = Nothing
         Try
             If (obj.Is_Default_Grower = 1) Then
                 Dim qry As String = "update TSPL_CUSTOMER_MASTER set Is_Default_Grower=0 where Is_Default_Grower=1"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            If isResetCustomerDemandOnRouteChange Then
+                If Not isNewEntry Then
+                    PrevRoute = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Cust_Code + "'", trans))
+                    If Not clsCommon.CompairString(PrevRoute, obj.Route_No) = CompairStringResult.Equal Then
+                        strQry = "select TSPL_DEMAND_BOOKING_DETAIL.Document_No,MAX(TSPL_DEMAND_BOOKING_MASTER.Document_Date) as Document_Date ,max(TSPL_DEMAND_BOOKING_MASTER.Location_Code) as Location_Code,max(TSPL_DEMAND_BOOKING_MASTER.ShiftType) as ShiftType,max(TSPL_DEMAND_BOOKING_MASTER.Route_No) as Route_No  from TSPL_DEMAND_BOOKING_MASTER
+left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
+where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BOOKING_MASTER.Posted=0 and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + obj.Cust_Code + "' group by TSPL_DEMAND_BOOKING_DETAIL.Document_No"
+
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            For Each dr As DataRow In dt.Rows
+                                'Dim obj1 As List(Of clsDemandBookingSaleDetail) = New List(Of clsDemandBookingSaleDetail)
+                                strQry = "select * from  TSPL_DEMAND_BOOKING_DETAIL where TR_Code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "' and Cust_Code ='" + obj.Cust_Code + "')"
+
+                                Dim dts As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                                Dim obj1 As List(Of clsDemandBookingSaleDetail) = New List(Of clsDemandBookingSaleDetail)
+
+                                If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
+                                    For Each drs As DataRow In dts.Rows
+                                        Dim objtr As clsDemandBookingSaleDetail = New clsDemandBookingSaleDetail()
+                                        objtr.Cust_Code = clsCommon.myCstr(drs("cust_code"))
+                                        objtr.Item_Code = clsCommon.myCstr(drs("Item_Code"))
+                                        objtr.Unit_code = clsCommon.myCstr(drs("Unit_code"))
+                                        objtr.Price_Code = clsCommon.myCstr(drs("Price_Code"))
+                                        objtr.Vehicle_Code = clsCommon.myCstr(drs("Vehicle_Code"))
+                                        objtr.Document_No = clsCommon.myCstr(drs("Document_No"))
+                                        objtr.Qty = 0
+                                        objtr.ItemNetAmount = 0
+                                        objtr.Line_No = clsCommon.myCdbl(drs("Line_No"))
+                                        objtr.Is_Posted = clsCommon.myCstr(drs("Is_Posted"))
+                                        objtr.TAX_Group = clsCommon.myCstr(drs("TAX_Group"))
+                                        objtr.ShiftType = clsCommon.myCstr(drs("ShiftType"))
+                                        obj1.Add(objtr)
+
+                                    Next
+                                    strQry = "delete from TSPL_DEMAND_BOOKING_DETAIL where TR_Code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "' and ShiftType='" + clsCommon.myCstr(dr("ShiftType")) + "' and Cust_Code ='" + Cust_Code + "')"
+                                    clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+                                    clsDemandBookingSaleDetail.SaveDeleteData(clsCommon.myCstr(dr("Document_No")), clsCommon.myCstr(dr("Document_Date")), obj1, trans, clsCommon.myCstr(dr("Location_Code")), clsCommon.myCstr(dr("ShiftType")), False, False, clsCommon.myCstr(dr("Route_No")))
+                                End If
+                                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(dr("Document_No")), "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+                            Next
+
+                        End If
+                    End If
+                End If
             End If
 
             If True Then

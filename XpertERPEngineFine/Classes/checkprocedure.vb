@@ -1713,6 +1713,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, "Milk Purchase Register", "1.17.03.01", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, "Daily Qty Report", "1.17.03.02", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTempTruckSheetCollectionReport, "BMC Truck sheet report", "1.17.03.03", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerUtilization, "Tanker Approval Utilization Report", "1.17.03.03", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "DCS Payment Deduction Summary", "1.17.03.04", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMarginAmt, "DCS Margin Report", "1.17.03.05", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "BMC Daily Summary Report", "1.17.03.06", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
