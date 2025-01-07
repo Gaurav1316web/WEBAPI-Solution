@@ -22,15 +22,16 @@ Partial Class frmMilkShiftUploaderUCDF
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnRouteprint = New Telerik.WinControls.UI.RadButton()
         Me.btnprint = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -44,6 +45,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.cboDockCollectionMilkType = New common.Controls.MyComboBox()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.MyLabel25 = New common.Controls.MyLabel()
@@ -86,8 +88,9 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.gvP = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
+        Me.txtTankerNo = New common.Controls.MyTextBox()
         Me.Panel2.SuspendLayout()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRouteprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,6 +104,7 @@ Partial Class frmMilkShiftUploaderUCDF
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,7 +147,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTankerNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -165,6 +169,16 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1097, 26)
         Me.Panel2.TabIndex = 2
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(872, 2)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(124, 22)
+        Me.btnReverse.TabIndex = 1034
+        Me.btnReverse.Text = "Reverse and Unpost"
+        Me.btnReverse.Visible = False
         '
         'btnRouteprint
         '
@@ -287,6 +301,8 @@ Partial Class frmMilkShiftUploaderUCDF
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtTankerNo)
+        Me.Panel1.Controls.Add(Me.MyLabel4)
         Me.Panel1.Controls.Add(Me.cboDockCollectionMilkType)
         Me.Panel1.Controls.Add(Me.MyLabel8)
         Me.Panel1.Controls.Add(Me.MyLabel25)
@@ -327,6 +343,16 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1097, 127)
         Me.Panel1.TabIndex = 0
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel4.Location = New System.Drawing.Point(640, 61)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(58, 18)
+        Me.MyLabel4.TabIndex = 34
+        Me.MyLabel4.Text = "Tanker No"
         '
         'cboDockCollectionMilkType
         '
@@ -476,10 +502,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboRejectType.IsSourceFromTable = False
         Me.cboRejectType.IsSourceFromValueList = False
         Me.cboRejectType.IsUnique = False
-        RadListDataItem7.Text = "M"
-        RadListDataItem8.Text = "E"
-        Me.cboRejectType.Items.Add(RadListDataItem7)
-        Me.cboRejectType.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem1)
+        Me.cboRejectType.Items.Add(RadListDataItem2)
         Me.cboRejectType.Location = New System.Drawing.Point(190, 102)
         Me.cboRejectType.MendatroryField = True
         Me.cboRejectType.MyLinkLable1 = Me.MyLabel29
@@ -543,10 +569,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboLate.IsSourceFromTable = False
         Me.cboLate.IsSourceFromValueList = False
         Me.cboLate.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboLate.Items.Add(RadListDataItem1)
-        Me.cboLate.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboLate.Items.Add(RadListDataItem3)
+        Me.cboLate.Items.Add(RadListDataItem4)
         Me.cboLate.Location = New System.Drawing.Point(672, 22)
         Me.cboLate.MendatroryField = True
         Me.cboLate.MyLinkLable1 = Me.MyLabel2
@@ -723,10 +749,10 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem3)
-        Me.cboShift.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem5)
+        Me.cboShift.Items.Add(RadListDataItem6)
         Me.cboShift.Location = New System.Drawing.Point(521, 22)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -1019,7 +1045,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1045,7 +1071,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gvP.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvP.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvP.MyStopExport = False
         Me.gvP.Name = "gvP"
         Me.gvP.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1073,15 +1099,28 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.SplitterDistance = 658
         Me.SplitContainer1.TabIndex = 4
         '
-        'btnReverse
+        'txtTankerNo
         '
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(872, 2)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(124, 22)
-        Me.btnReverse.TabIndex = 1034
-        Me.btnReverse.Text = "Reverse and Unpost"
-        Me.btnReverse.Visible = False
+        Me.txtTankerNo.CalculationExpression = Nothing
+        Me.txtTankerNo.FieldCode = Nothing
+        Me.txtTankerNo.FieldDesc = Nothing
+        Me.txtTankerNo.FieldMaxLength = 0
+        Me.txtTankerNo.FieldName = Nothing
+        Me.txtTankerNo.isCalculatedField = False
+        Me.txtTankerNo.IsSourceFromTable = False
+        Me.txtTankerNo.IsSourceFromValueList = False
+        Me.txtTankerNo.IsUnique = False
+        Me.txtTankerNo.Location = New System.Drawing.Point(705, 58)
+        Me.txtTankerNo.MaxLength = 100
+        Me.txtTankerNo.MendatroryField = True
+        Me.txtTankerNo.MyLinkLable1 = Nothing
+        Me.txtTankerNo.MyLinkLable2 = Nothing
+        Me.txtTankerNo.Name = "txtTankerNo"
+        Me.txtTankerNo.ReferenceFieldDesc = Nothing
+        Me.txtTankerNo.ReferenceFieldName = Nothing
+        Me.txtTankerNo.ReferenceTableName = Nothing
+        Me.txtTankerNo.Size = New System.Drawing.Size(116, 20)
+        Me.txtTankerNo.TabIndex = 384
         '
         'frmMilkShiftUploaderUCDF
         '
@@ -1100,6 +1139,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Milk Shift Uploader"
         Me.Panel2.ResumeLayout(False)
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRouteprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1114,6 +1154,7 @@ Partial Class frmMilkShiftUploaderUCDF
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1157,7 +1198,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTankerNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1219,5 +1260,7 @@ Partial Class frmMilkShiftUploaderUCDF
     Friend WithEvents btnRouteprint As RadButton
     Friend WithEvents gvP As common.UserControls.MyRadGridView
     Friend WithEvents btnReverse As RadButton
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtTankerNo As common.Controls.MyTextBox
 End Class
 

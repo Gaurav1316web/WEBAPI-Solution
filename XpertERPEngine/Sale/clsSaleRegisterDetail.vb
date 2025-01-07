@@ -4233,7 +4233,6 @@ TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_
     Public Shared Function GetReportDataReader(ByVal obj As clsSaleRegisterParameterType) As SqlDataReader
         Dim strRunQuery As String = ""
         strRunQuery = GetReportDataQuery(obj)
-        strRunQuery = "with CTERawData as ( " & strRunQuery & " )	select CTERawData.* from CTERawData "
         Dim rd As SqlDataReader = clsDBFuncationality.GetDataReader(strRunQuery)
         Return rd
     End Function

@@ -51,12 +51,17 @@ Public Class clsProductionBreakDown
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BREAK_DOWN_ENTRY", OMInsertOrUpdate.Update, " doc_no='" + obj.Doc_no + "'", trans)
             End If
+            isSaved = isSaved AndAlso HistoryData(obj.Doc_no, trans)
             trans.Commit()
             Return isSaved
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+    End Function
+
+    Public Shared Function HistoryData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BREAK_DOWN_ENTRY", "Doc_No", trans)
     End Function
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsProductionBreakDown
@@ -99,7 +104,7 @@ Public Class clsProductionBreakDown
         Try
             Dim qry As String = "delete from TSPL_BREAK_DOWN_ENTRY where doc_no='" + strcode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            HistoryData(strcode, trans)
             trans.Commit()
             Return True
         Catch ex As Exception
