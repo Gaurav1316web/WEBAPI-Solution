@@ -2409,6 +2409,7 @@ Public Class clsCreateAllTable
             coll.Add("isSecurityDeduction", "integer Not Null DEFAULT 0")
             coll.Add("isPenaltyDeduction", "integer Not Null  DEFAULT 0")
             coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
+            coll.Add("IsRepeat", "integer NOT Null DEFAULT 1")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
