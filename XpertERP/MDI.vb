@@ -8490,6 +8490,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmTTSavingReport
                         frm = New frmTTSavingReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBmcTankerProfitLossReport
+                        frm = New rptBmcTankerProfitLossReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDcsPaymentReport
                         frm = New RptDcsPaymentReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
