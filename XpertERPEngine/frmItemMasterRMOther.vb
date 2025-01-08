@@ -1600,6 +1600,11 @@ Public Class FrmItemMasterRMOther
                 If clsCommon.myLen(fndGLAcc.Value) > 0 Then
                     obj.GL_Account = fndGLAcc.Value
                 End If
+                If chkIsRepeat.Checked Then
+                    obj.IsRepeat = 1
+                Else
+                    obj.IsRepeat = 0
+                End If
                 ''
                 ' BM00000007860
                 obj.Warranty_Applied_From = clsCommon.myCstr(CmbWarrApp.SelectedValue)
@@ -2640,6 +2645,7 @@ Public Class FrmItemMasterRMOther
                 chkSkipPenaltyDed.Checked = IIf(obj.isPenaltyDeduction = 1, True, False)
                 chkHighClass.Checked = IIf(obj.isHighClass = 1, True, False)
                 'Load buyBackTye and Value
+                chkIsRepeat.Checked = IIf(obj.IsRepeat = 1, True, False)
                 If obj.BuyBackType = 1 Then
                     rbtnBBAmount.IsChecked = True
                     txtBBValue.Text = obj.BuyBackValue

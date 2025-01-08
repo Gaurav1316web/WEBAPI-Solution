@@ -1713,6 +1713,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, "Milk Purchase Register", "1.17.03.01", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, "Daily Qty Report", "1.17.03.02", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTempTruckSheetCollectionReport, "BMC Truck sheet report", "1.17.03.03", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTankerUtilization, "Tanker Approval Utilization Report", "1.17.03.03", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "DCS Payment Deduction Summary", "1.17.03.04", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMarginAmt, "DCS Margin Report", "1.17.03.05", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "BMC Daily Summary Report", "1.17.03.06", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -1884,6 +1885,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmMonthWiseBeneficieriesReport, "Month Wise Beneficieris Report", "1.17.03.135", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCGazeCapacityUtilizationReport, "BMC Gaze Capacity Utilization Report", "1.17.03.136", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmTTSavingReport, "Saving Balance Report", "1.17.03.139", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBmcTankerProfitLossReport, "Bmc Tanker Profit Loss report", "1.17.03.140", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
         '' Anubhooti 05-Aug-2014
