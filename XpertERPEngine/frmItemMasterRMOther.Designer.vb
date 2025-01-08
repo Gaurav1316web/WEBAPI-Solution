@@ -316,6 +316,7 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.chkIsRepeat = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -560,6 +561,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -602,13 +604,14 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1207, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsRepeat)
         Me.RadPageViewPage1.Controls.Add(Me.chkSFGCF)
         Me.RadPageViewPage1.Controls.Add(Me.chkSkipSecurityDed)
         Me.RadPageViewPage1.Controls.Add(Me.chkSkipPenaltyDed)
@@ -4592,6 +4595,17 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
+        'chkIsRepeat
+        '
+        Me.chkIsRepeat.Location = New System.Drawing.Point(961, 188)
+        Me.chkIsRepeat.MyLinkLable1 = Nothing
+        Me.chkIsRepeat.MyLinkLable2 = Nothing
+        Me.chkIsRepeat.Name = "chkIsRepeat"
+        Me.chkIsRepeat.Size = New System.Drawing.Size(66, 18)
+        Me.chkIsRepeat.TabIndex = 217
+        Me.chkIsRepeat.Tag1 = Nothing
+        Me.chkIsRepeat.Text = "Is Repeat"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4863,6 +4877,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5136,5 +5151,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents RadPageViewPage9 As RadPageViewPage
     Friend WithEvents gvNOCSchedule As UserControls.MyRadGridView
     Friend WithEvents MyLabel48 As Controls.MyLabel
+    Friend WithEvents chkIsRepeat As Controls.MyCheckBox
 End Class
 

@@ -1338,7 +1338,9 @@ Public Class frmDairyBookingCustomer
             Dim lstItems As List(Of String) = New List(Of String)
             For i As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myLen(gv1.Rows(i).Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(gv1.Rows(i).Cells(ColMainItem).Value) = 0 Then
-                    lstItems.Add(clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value))
+                    If Not lstItems.Contains(clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value)) Then
+                        lstItems.Add(clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value))
+                    End If
                 End If
             Next
             If lstItems.Count > 0 Then
@@ -1816,7 +1818,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             Dim strICode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value)
             Dim strUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value)
             Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
-            Dim dblRate As Double = IIf(ApplyManualScheme, 0, clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value))
+            Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+            If ApplyManualScheme Then
+                If clsCommon.myLen(gv1.Rows(IntRowNo).Cells(ColMainItem).Value) > 0 Then
+                    dblRate = 0
+                End If
+            End If
             Dim dblMainItem As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColMainItem).Value)
             Dim wt_unit As String = 0
             Dim wt_qty As Double = 0

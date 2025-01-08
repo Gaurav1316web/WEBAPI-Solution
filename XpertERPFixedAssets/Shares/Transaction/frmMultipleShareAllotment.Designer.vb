@@ -30,11 +30,11 @@ Partial Class frmMultipleShareAllotment
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnExportBlank = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.txtRateOfOneShare = New common.MyNumBox()
@@ -131,17 +131,17 @@ Partial Class frmMultipleShareAllotment
         '
         'RadMenu1
         '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExport})
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(897, 20)
         Me.RadMenu1.TabIndex = 3
         '
-        'btnExport
+        'RadMenuItem
         '
-        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2, Me.btnExportBlank, Me.RadMenuItem6, Me.btnImport})
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Text = "Setting"
+        Me.RadMenuItem.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2, Me.btnExportBlank, Me.btnExport, Me.btnImport})
+        Me.RadMenuItem.Name = "RadMenuItem"
+        Me.RadMenuItem.Text = "Setting"
         '
         'RadMenuItem1
         '
@@ -160,10 +160,10 @@ Partial Class frmMultipleShareAllotment
         Me.btnExportBlank.Name = "btnExportBlank"
         Me.btnExportBlank.Text = "Export Blank"
         '
-        'RadMenuItem6
+        'btnExport
         '
-        Me.RadMenuItem6.Name = "RadMenuItem6"
-        Me.RadMenuItem6.Text = "Export Grid"
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Text = "Export Grid"
         '
         'btnImport
         '
@@ -190,7 +190,7 @@ Partial Class frmMultipleShareAllotment
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(897, 96)
+        Me.Panel1.Size = New System.Drawing.Size(897, 82)
         Me.Panel1.TabIndex = 0
         '
         'txtRateOfOneShare
@@ -455,7 +455,7 @@ Partial Class frmMultipleShareAllotment
         Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gv1.ForeColor = System.Drawing.Color.Black
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(0, 116)
+        Me.gv1.Location = New System.Drawing.Point(0, 102)
         '
         '
         '
@@ -469,7 +469,7 @@ Partial Class frmMultipleShareAllotment
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(897, 324)
+        Me.gv1.Size = New System.Drawing.Size(897, 338)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -521,7 +521,7 @@ Partial Class frmMultipleShareAllotment
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
-    Friend WithEvents btnExport As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents RadMenuItem As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
@@ -538,7 +538,7 @@ Partial Class frmMultipleShareAllotment
     Friend WithEvents lblStatus As common.usLock
     Friend WithEvents btnExportBlank As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnImport As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadMenuItem6 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents lblUnApplyAmt As common.Controls.MyLabel
     Friend WithEvents btnGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtBMC As common.UserControls.txtMultiSelectFinder

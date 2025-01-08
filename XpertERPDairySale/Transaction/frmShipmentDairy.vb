@@ -15582,7 +15582,10 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
             Dim lstItems As List(Of String) = New List(Of String)
             For i As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myLen(gv1.Rows(i).Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(gv1.Rows(i).Cells(colSMainItem).Value) = 0 Then
-                    lstItems.Add(clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value))
+                    If Not lstItems.Contains(clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value)) Then
+                        lstItems.Add(clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value))
+
+                    End If
                 End If
             Next
             If lstItems.Count > 0 Then

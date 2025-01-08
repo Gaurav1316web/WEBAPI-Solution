@@ -3,6 +3,8 @@ Public Class clsUserMgtCode
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
     Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
     Public Const frmTTSavingReport As String = "SVNG-BLNCE"
+    Public Const rptBmcTankerProfitLossReport As String = "BMC-TAN-G-L"
+
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
@@ -2224,6 +2226,7 @@ Public Class clsUserMgtCode
     Public Const rptTankerStatusReport As String = "TNK_ST_RPT"
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptTankerUtilization As String = "TANKER_ULT_R"
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
     Public Const rptTankerProfitLossReport As String = "TNR_P_L_R"

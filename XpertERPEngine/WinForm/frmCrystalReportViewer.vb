@@ -442,16 +442,20 @@ Public Class frmCrystalReportViewer
         End Try
         Return PDFPath
     End Function
-
     Public Function EmailAttachment(ByVal crpfolder As CrystalReportFolder, ByVal dt As DataTable, ByVal strReportName As String, ByVal strCaption As String) As String
         Dim pdfpath As String = ""
+
         Try
+            Dim strdate As String = clsCommon.GetPrintDate(DateTime.Now, "yyyyMMddhhmmssfff")
             objCommonVar.SystemClockStatus = False
             Dim rptshow As Boolean
+            'Dim Serverdate As DateTime
             If dt.Rows.Count > 0 Then
                 Dim strReportPath As String = GetReportPath(crpfolder, strReportName)
                 rpdoc.Load(strReportPath)
                 rpdoc.SetDataSource(dt)
+                'Serverdate = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "ddMMyyyyhhmmssttt")
+                'Serverdate = clsCommon.GETSERVERDATE
 
                 crptViewer.ReportSource = rpdoc
                 Me.crptViewer.Refresh()
@@ -461,7 +465,9 @@ Public Class frmCrystalReportViewer
                 If (Not System.IO.Directory.Exists(subPath)) Then
                     System.IO.Directory.CreateDirectory(subPath)
                 End If
-                Dim FilePath As String = strpath + "\Mail Reports\" & strReportName & ".pdf"
+
+                Dim FilePath As String = strpath + "\Mail Reports\" & strReportName + strdate & ".pdf"
+
                 If System.IO.File.Exists(FilePath) Then
                     System.IO.File.Delete(FilePath)
                 End If

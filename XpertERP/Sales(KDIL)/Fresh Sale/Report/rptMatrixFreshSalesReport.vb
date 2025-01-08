@@ -2355,8 +2355,138 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                             '              left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = XXXFinal.[Route No]
                             '              left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_Comp on TSPL_STATE_MASTER_Comp.STATE_CODE = TSPL_COMPANY_MASTER.State  
                             '              group by XXXFinal.[Route No] , [Customer Code],item_code "
-                            MainQuery = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "' as ToDate, max(XXXXXFinal.SNO) as SNO, route_no, [Cust_Code],max(Customer_Name) as Customer_Name,max(Credit_Customer) as Credit_Customer,max(ItemNamePart1) as ItemNamePart1,max(ItemNamePart2) as ItemNamePart2, sum(isnull([Item1],0)) as [Item1] ,sum(isnull([Item2],0)) as [Item2],sum(isnull([Item3],0)) as [Item3],sum(isnull([Item4],0)) as [Item4],sum(isnull([Item5],0)) as [Item5],sum(isnull([Item6],0)) as [Item6],sum(isnull([Item7],0)) as [Item7],sum(isnull([Item8],0)) as [Item8],sum(isnull([Item9],0)) as [Item9],sum(isnull([Item10],0)) as [Item10],sum(isnull([Item11],0)) as [Item11],sum(isnull([Item12],0)) as [Item12], sum (isnull(QtyNotMilkPouch,0)) as QtyNotMilkPouch ,sum(isnull(MilkAmt,0)) as MilkAmt, sum(isnull(ProductAmt,0)) as ProductAmt,
-                                            sum(isnull(MilkAmt,0)) + sum(isnull(ProductAmt,0))  as TotalMilkAmt,
+                            MainQuery = "WITH ItemData AS (
+    SELECT 
+        'Item' + CONVERT(VARCHAR(10), ROW_NUMBER() OVER(ORDER BY M.Sku_Seq, M.Item_Code)) AS Row_Number,
+        M.Item_Code, 
+        M.Alies_Name, 
+        M.Sku_Seq
+    FROM TSPL_ITEM_MASTER M
+    WHERE M.Item_Code IN (
+        SELECT D.Item_Code
+        FROM TSPL_DEMAND_BOOKING_DETAIL D
+        JOIN TSPL_DEMAND_BOOKING_MASTER DM ON D.Document_No = DM.Document_No
+        JOIN TSPL_ITEM_MASTER M ON M.Item_Code = D.Item_Code
+        WHERE M.Is_Milk_Pouch = 1
+          AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+    )
+),
+FilteredProductAmt AS ( SELECT 
+	   D.Cust_Code,sum(D.ItemNetAmount) as MilkProductAmt
+    FROM TSPL_DEMAND_BOOKING_DETAIL D
+	JOIN TSPL_DEMAND_BOOKING_MASTER DM ON D.Document_No = DM.Document_No
+    JOIN TSPL_ITEM_MASTER M ON D.Item_Code = M.Item_Code
+    WHERE M.Is_Milk_Pouch = 0
+	AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+    GROUP BY D.Cust_Code
+),
+DemandData AS (
+    SELECT 
+        ItemData.Row_Number,
+        D.Item_Code,
+        M.Alies_Name,
+        D.Cust_Code,
+        C.Customer_Name,
+        CASE 
+            WHEN M.Is_Milk_Pouch = 1 THEN CONVERT(DECIMAL(18, 2), D.Qty * UOM.Conversion_Factor / NULLIF(UOM_LTR.Conversion_Factor, 0)) 
+            ELSE 0 
+        END AS Qty,
+        CASE 
+            WHEN M.Is_Milk_Pouch = 0 THEN CONVERT(DECIMAL(18, 2), D.Qty * UOM.Conversion_Factor / NULLIF(UOM_LTR.Conversion_Factor, 0)) 
+            ELSE 0 
+        END AS QtyNotMilkPouch,
+         CASE WHEN M.Is_Milk_Pouch = 1 THEN D.ItemNetAmount ELSE 0 END AS MilkAmt,
+        FilteredProductAmt.MilkProductAmt AS ProductAmt,
+        DM.Document_Date AS [Order Date],
+        CASE 
+            WHEN D.Qty = 0 THEN 0 
+            ELSE (D.Qty * UOM.Conversion_Factor) / COALESCE(UOM_LTR.Conversion_Factor, UOM_KG.Conversion_Factor) 
+        END AS QtyLtr,
+        R.City_Code AS [Route_CityCode],
+        CM.Comp_Name,
+        CM.Add1 AS [Comp_Add1],
+        CM.Add2 AS [Comp_Add2],
+        CM.Add3 AS Comp_Add3,
+        CM.Phone1 AS Comp_Phone,
+        CM.Phone2 AS Comp_Phone2,
+        CM.Fax AS Comp_Fax,
+        CM.Email AS CompEmail,
+        CM.State AS Comp_StateCode,
+        S.STATE_NAME AS Comp_STATE_NAME,
+        CM.Pincode AS Comp_Pincode,
+        DM.route_no,
+        ISNULL(C.Credit_Customer, 'N') AS Credit_Customer,
+        SUBSTRING(M.Alies_Name, LEN(M.Alies_Name) - CHARINDEX(' ', REVERSE(M.Alies_Name)) + 2, LEN(M.Alies_Name)) AS ItemNamePart2,
+        SUBSTRING(M.Alies_Name, 0, LEN(M.Alies_Name) - CHARINDEX(' ', REVERSE(M.Alies_Name)) + 1) AS ItemNamePart1,
+        T.Transporter_Name
+    FROM TSPL_DEMAND_BOOKING_DETAIL D
+    JOIN TSPL_DEMAND_BOOKING_MASTER DM ON D.Document_No = DM.Document_No
+    JOIN TSPL_ITEM_MASTER M ON M.Item_Code = D.Item_Code
+    LEFT JOIN TSPL_ITEM_UOM_DETAIL UOM_LTR ON D.Item_Code = UOM_LTR.Item_Code AND UOM_LTR.UOM_Code = 'LTR'
+    LEFT JOIN TSPL_ITEM_UOM_DETAIL UOM_KG ON D.Item_Code = UOM_KG.Item_Code AND UOM_KG.UOM_Code = 'KG'
+    LEFT JOIN TSPL_ITEM_UOM_DETAIL UOM ON D.Item_Code = UOM.Item_Code AND D.Unit_code = UOM.UOM_Code
+    LEFT JOIN TSPL_CUSTOMER_MASTER C ON D.Cust_Code = C.Cust_Code
+    LEFT JOIN TSPL_COMPANY_MASTER CM ON DM.Comp_Code = CM.Comp_Code
+    LEFT JOIN TSPL_ROUTE_MASTER R ON DM.route_no = R.Route_No
+    LEFT JOIN TSPL_STATE_MASTER S ON CM.State = S.STATE_CODE
+    LEFT JOIN TSPL_VEHICLE_MASTER V ON R.vehicle_code = V.Vehicle_Id
+    LEFT JOIN tspl_transport_master T ON T.Transport_Id = V.Transport_Id
+    LEFT JOIN ItemData ON ItemData.Item_Code = D.Item_Code
+    LEFT JOIN FilteredProductAmt ON FilteredProductAmt.Cust_Code = D.Cust_Code
+    WHERE M.Is_Milk_Pouch = 1
+      AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+),
+SaleReturnData AS (
+    SELECT 
+        CTE.Row_Number,
+        TSPL_ITEM_MASTER.Item_Code,
+        max(TSPL_ITEM_MASTER.Alies_Name) Alies_Name ,
+        null AS Cust_Code,
+        null AS Customer_Name,
+        TSPL_SD_SALE_RETURN_DETAIL.ActualQty AS Qty,
+        NULL AS QtyNotMilkPouch,
+		CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 THEN TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt ELSE 0 END AS MilkAmt,
+        CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch = 0 THEN TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt ELSE 0 END AS ProductAmt,
+        NULL AS [Order Date],
+        ROUND((ISNULL(TSPL_SD_SALE_RETURN_DETAIL.ActualQty, 0) * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ConvertDiv.Conversion_Factor, 2) AS QtyLtr,
+        max(R.City_Code) AS [Route_CityCode],
+        max(CM.Comp_Name) AS Comp_Name,
+        max(CM.Add1) AS [Comp_Add1],
+        max(CM.Add2) AS [Comp_Add2],
+        max(CM.Add3) AS Comp_Add3,
+        max(cm.Phone1) AS Comp_Phone,
+        max(CM.Phone2) AS Comp_Phone2,
+        max(CM.Fax) AS Comp_Fax,
+        max(CM.Email) AS CompEmail,
+        max(CM.State) AS Comp_StateCode,
+        max(S.STATE_NAME) AS Comp_STATE_NAME,
+        max(CM.Pincode) AS Comp_Pincode,
+        max(TSPL_SD_SALE_RETURN_HEAD.Route_No) AS route_no,
+        'R' AS Credit_Customer,
+         max(SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) - CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name)) + 2, LEN(TSPL_ITEM_MASTER.Alies_Name))) AS ItemNamePart2,
+        max(SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, 0, LEN(TSPL_ITEM_MASTER.Alies_Name) - CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name)) + 1)) AS ItemNamePart1,
+        max(T.Transporter_Name) AS Transporter_Name
+    FROM TSPL_SD_SALE_RETURN_HEAD
+inner join TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Document_Code = TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No
+left outer join TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE = TSPL_SD_SHIPMENT_HEAD.Document_Code
+left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code = TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
+left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.ActualUOM 
+INNER JOIN TSPL_ITEM_UOM_DETAIL AS ConvertDiv ON ConvertDiv.Item_Code =TSPL_SD_SALE_RETURN_DETAIL.Item_Code AND ConvertDiv.UOM_Code = 'LTR'
+LEFT JOIN DemandData CTE ON CTE.Item_Code = TSPL_ITEM_MASTER.Item_Code
+left outer join TSPL_COMPANY_MASTER as CM on 2=2
+LEFT JOIN TSPL_CUSTOMER_MASTER C ON TSPL_SD_SALE_RETURN_HEAD.Customer_Code = C.Cust_Code
+LEFT JOIN TSPL_ROUTE_MASTER R ON TSPL_SD_SALE_RETURN_HEAD.route_no = R.Route_No
+LEFT JOIN TSPL_STATE_MASTER S ON CM.State = S.STATE_CODE
+LEFT JOIN TSPL_VEHICLE_MASTER V ON R.vehicle_code = V.Vehicle_Id
+LEFT JOIN tspl_transport_master T ON T.Transport_Id = V.Transport_Id
+where  2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 and  convert(date, TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' and TSPL_SD_SALE_RETURN_HEAD.Status=1 group by TSPL_ITEM_MASTER.Item_Code,ActualQty,Item_Net_Amt,Is_Milk_Pouch,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,ConvertDiv.Conversion_Factor
+,CTE.Row_Number
+)"
+                            MainQuery += " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "' as ToDate, max(XXXXXFinal.SNO) as SNO, route_no, [Cust_Code],max(Customer_Name) as Customer_Name,max(Credit_Customer) as Credit_Customer,max(ItemNamePart1) as ItemNamePart1,max(ItemNamePart2) as ItemNamePart2, sum(isnull([Item1],0)) as [Item1] ,sum(isnull([Item2],0)) as [Item2],sum(isnull([Item3],0)) as [Item3],sum(isnull([Item4],0)) as [Item4],sum(isnull([Item5],0)) as [Item5],sum(isnull([Item6],0)) as [Item6],sum(isnull([Item7],0)) as [Item7],sum(isnull([Item8],0)) as [Item8],sum(isnull([Item9],0)) as [Item9],sum(isnull([Item10],0)) as [Item10],sum(isnull([Item11],0)) as [Item11],sum(isnull([Item12],0)) as [Item12], sum (isnull(QtyNotMilkPouch,0)) as QtyNotMilkPouch ,sum(isnull(MilkAmt,0)) as MilkAmt, MAX(isnull(ProductAmt,0)) as ProductAmt,
+                                            sum(isnull(MilkAmt,0)) + MAX(isnull(ProductAmt,0))  as TotalMilkAmt,
                                             sum(isnull(QtyLtr,0)) as QtyLtr ,
                                             max( [Route_CityCode]) as [Route_CityCode], max(Comp_Name) as Comp_Name, max([Comp_Add1]) as [Comp_Add1] , max([Comp_Add2]) as [Comp_Add2] , max(Comp_Add3) as Comp_Add3 , max(Comp_Phone) as Comp_Phone , max(Comp_Phone2) as Comp_Phone2, max(Comp_Fax) as Comp_Fax , max(CompEmail) as CompEmail , max(Comp_StateCode) as Comp_StateCode ,max(Comp_STATE_NAME) as Comp_STATE_NAME 
                                             , max(P1Item1) as P1Item1, max(P1Item2) as P1Item2, max(P1Item3) as P1Item3, max(P1Item4) as P1Item4, max(P1Item5) as P1Item5, max(P1Item6) as P1Item6, max(P1Item7) as P1Item7, max(P1Item8) as P1Item8, max(P1Item9) as P1Item9, max(P1Item10) as P1Item10, max(P1Item11) as P1Item11, max(P1Item12 ) as P1Item12
@@ -2365,42 +2495,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                                             select 1 as SNO, route_no, [Cust_Code],(Customer_Name) as Customer_Name,Credit_Customer,ItemNamePart1,ItemNamePart2, (isnull([Item1],0)) as [Item1] ,(isnull([Item2],0)) as [Item2],(isnull([Item3],0)) as [Item3],(isnull([Item4],0)) as [Item4],(isnull([Item5],0)) as [Item5],(isnull([Item6],0)) as [Item6],(isnull([Item7],0)) as [Item7],(isnull([Item8],0)) as [Item8],(isnull([Item9],0)) as [Item9],(isnull([Item10],0)) as [Item10],(isnull([Item11],0)) as [Item11],(isnull([Item12],0)) as [Item12], isnull(QtyNotMilkPouch,0) as QtyNotMilkPouch ,isnull(MilkAmt,0) as MilkAmt, isnull(ProductAmt,0) as ProductAmt,  isnull(QtyLtr,0) as QtyLtr ,
                                             ( [Route_CityCode]) as [Route_CityCode], (Comp_Name) as Comp_Name, ([Comp_Add1]) as [Comp_Add1] , ([Comp_Add2]) as [Comp_Add2] , (Comp_Add3) as Comp_Add3 , (Comp_Phone) as Comp_Phone , (Comp_Phone2) as Comp_Phone2, (Comp_Fax) as Comp_Fax , (CompEmail) as CompEmail , (Comp_StateCode) as Comp_StateCode ,(Comp_STATE_NAME) as Comp_STATE_NAME,item_code,Transporter_Name,Comp_Pincode
                                             from (
-                                            select max(Final.Row_Number) as ItemNo, Final.Item_Code , max(Final.Alies_Name) as Alies_Name, Final.Cust_Code, max(Final.Customer_Name) as Customer_Name, sum(Qty) as Qty ,sum(QtyNotMilkPouch) as QtyNotMilkPouch ,sum(MilkAmt) as MilkAmt, sum(ProductAmt) as ProductAmt, max([Order Date]) as [Order Date],sum(Final.QtyLtr) as QtyLtr,max(Final. [Route_CityCode]) as [Route_CityCode], max(Final.Comp_Name) as Comp_Name, max(Final.[Comp_Add1]) as [Comp_Add1] , max(Final.[Comp_Add2] ) as [Comp_Add2] , max(Final. Comp_Add3) as Comp_Add3 , max(Final.Comp_Phone) as Comp_Phone , max(Final.Comp_Phone2) as Comp_Phone2, max(Final.Comp_Fax) as Comp_Fax , max(Final.CompEmail) as CompEmail , max(Final.Comp_StateCode) as Comp_StateCode ,max(Final.Comp_STATE_NAME) as Comp_STATE_NAME,  max(Final.Comp_Pincode) as Comp_Pincode,max(Final.route_no) as route_no, max(Credit_Customer) as Credit_Customer,max(ItemNamePart1) as ItemNamePart1, max(ItemNamePart2) as ItemNamePart2, max(Transporter_Name) as Transporter_Name from (
-                                            select TBL_ITEM12.Row_Number, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Alies_Name,
-                                            TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_CUSTOMER_MASTER.Customer_Name, case when TSPL_ITEM_MASTER.Is_Milk_Pouch =1 then convert (decimal(18,2), TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAILUOM.Conversion_Factor / nullif ( TSPL_ITEM_UOM_DETAILLTR.Conversion_Factor,0)) else 0 end as Qty,
-                                            case when TSPL_ITEM_MASTER.Is_Milk_Pouch =0 then convert (decimal(18,2), TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAILUOM.Conversion_Factor / nullif ( TSPL_ITEM_UOM_DETAILLTR.Conversion_Factor,0)) else 0 end as QtyNotMilkPouch,
-                                            case when TSPL_ITEM_MASTER.Is_Milk_Pouch =1 then TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount else 0 end as MilkAmt,case when TSPL_ITEM_MASTER.Is_Milk_Pouch =0 then TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount else 0 end as ProductAmt,
-                                                                                      TSPL_DEMAND_BOOKING_MASTER.Document_Date As [Order Date],
-                                            (CASE WHEN TSPL_DEMAND_BOOKING_DETAIL.Qty=0 THEN 0 ELSE (TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAILUOM.Conversion_Factor)/coalesce(TSPL_ITEM_UOM_DETAILltr.Conversion_Factor,TSPL_ITEM_UOM_DETAILKG.Conversion_Factor) END) AS QtyLtr,
-                                            (TSPL_ROUTE_MASTER.City_Code) as [Route_CityCode], ( TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, (TSPL_COMPANY_MASTER.Add1) as [Comp_Add1] , (TSPL_COMPANY_MASTER.Add2) as [Comp_Add2] , (TSPL_COMPANY_MASTER.Add3) as Comp_Add3 , (TSPL_COMPANY_MASTER.Phone1) as Comp_Phone , (TSPL_COMPANY_MASTER.Phone2) as Comp_Phone2, (TSPL_COMPANY_MASTER.Fax) as Comp_Fax , (TSPL_COMPANY_MASTER.Email) as CompEmail , (TSPL_COMPANY_MASTER.State) as Comp_StateCode ,(TSPL_STATE_MASTER_Comp.STATE_NAME) as Comp_STATE_NAME,  (TSPL_COMPANY_MASTER.Pincode) as Comp_Pincode,
-                                                                                      TSPL_DEMAND_BOOKING_MASTER.route_no , isnull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N') as Credit_Customer
-										                                              ,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', 
-                                            REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name)) AS ItemNamePart2
-                                            ,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name,0, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', 
-                                            REVERSE(TSPL_ITEM_MASTER.Alies_Name))+1) AS ItemNamePart1 , tspl_transport_master.Transporter_Name
-                                            from TSPL_DEMAND_BOOKING_DETAIL 
-                                            left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No =  TSPL_DEMAND_BOOKING_MASTER.Document_No 
-                                            inner Join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
-                                            left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILLTR on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILLTR.Item_Code and TSPL_ITEM_UOM_DETAILLTR.UOM_Code='LTR'
-        left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILKG on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILKG.Item_Code and TSPL_ITEM_UOM_DETAILKG.UOM_Code='KG'
-left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILCREATE on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILCREATE.Item_Code and TSPL_ITEM_UOM_DETAILCREATE.UOM_Code='CRATE'
-left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAILUOM on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAILUOM.Item_Code and TSPL_DEMAND_BOOKING_DETAIL.Unit_code =TSPL_ITEM_UOM_DETAILUOM.UOM_Code 
-                                            left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_DEMAND_BOOKING_MASTER.Comp_Code
-                                                                                      left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no
-                                                                                      left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_Comp on TSPL_STATE_MASTER_Comp.STATE_CODE = TSPL_COMPANY_MASTER.State 
-										                                              left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id 
-										                                              left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
-                                                                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  
-                                                                                      left outer join TSPL_LOCATION_MASTER on TSPL_DEMAND_BOOKING_MASTER.Location_Code = TSPL_LOCATION_MASTER.Location_Code   
-                                            left outer join (select 'Item'+Convert(varchar(10), ROW_NUMBER() OVER(ORDER BY TSPL_ITEM_MASTER.Sku_Seq,TSPL_ITEM_MASTER.Item_Code)) AS Row_Number, TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Alies_Name, TSPL_ITEM_MASTER.Sku_Seq from TSPL_ITEM_MASTER where
-TSPL_ITEM_MASTER.Item_Code in (select TSPL_DEMAND_BOOKING_DETAIL.Item_Code from TSPL_DEMAND_BOOKING_DETAIL
-left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No =  TSPL_DEMAND_BOOKING_MASTER.Document_No 
-                                                              inner Join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-                                                              left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no
-                                                              left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id 
-                                                              left outer join TSPL_LOCATION_MASTER on TSPL_DEMAND_BOOKING_MASTER.Location_Code = TSPL_LOCATION_MASTER.Location_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code where 2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 " + strWhrClause2 + " )  ) TBL_ITEM12 on TBL_ITEM12.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-                                            where 2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 " + strWhrClause2 + "
-                                            ) Final group by Final.[route_no] , Final.[Cust_Code],Final.item_code 
+                                            select max(Final.Row_Number) as ItemNo, Final.Item_Code , max(Final.Alies_Name) as Alies_Name, Final.Cust_Code, max(Final.Customer_Name) as Customer_Name, sum(Qty) as Qty ,sum(QtyNotMilkPouch) as QtyNotMilkPouch ,sum(MilkAmt) as MilkAmt, MAX(ProductAmt) as ProductAmt, max([Order Date]) as [Order Date],sum(Final.QtyLtr) as QtyLtr,max(Final. [Route_CityCode]) as [Route_CityCode], max(Final.Comp_Name) as Comp_Name, max(Final.[Comp_Add1]) as [Comp_Add1] , max(Final.[Comp_Add2] ) as [Comp_Add2] , max(Final. Comp_Add3) as Comp_Add3 , max(Final.Comp_Phone) as Comp_Phone , max(Final.Comp_Phone2) as Comp_Phone2, max(Final.Comp_Fax) as Comp_Fax , max(Final.CompEmail) as CompEmail , max(Final.Comp_StateCode) as Comp_StateCode ,max(Final.Comp_STATE_NAME) as Comp_STATE_NAME,  max(Final.Comp_Pincode) as Comp_Pincode,max(Final.route_no) as route_no, max(Credit_Customer) as Credit_Customer,max(ItemNamePart1) as ItemNamePart1, max(ItemNamePart2) as ItemNamePart2, max(Transporter_Name) as Transporter_Name from (SELECT * FROM DemandData UNION ALL SELECT * FROM SaleReturnData) Final group by Final.[route_no] , Final.[Cust_Code],Final.item_code 
                                             ) XXXFinal 
                                             pivot ( sum(XXXFinal.Qty) for ItemNo in ([Item1],[Item2],[Item3],[Item4],[Item5],[Item6],[Item7],[Item8],[Item9],[Item10],[Item11],[Item12]) ) QtyPivot 
                                              ) XXXXXFinal 

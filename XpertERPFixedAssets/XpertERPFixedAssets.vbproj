@@ -449,7 +449,9 @@
     <Compile Include="Shares\Transaction\frmMultipleShareAllotment.Designer.vb">
       <DependentUpon>frmMultipleShareAllotment.vb</DependentUpon>
     </Compile>
-    <Compile Include="Shares\Transaction\frmMultipleShareAllotment.vb" />
+    <Compile Include="Shares\Transaction\frmMultipleShareAllotment.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shares\Transaction\frmShareAllotment.Designer.vb">
       <DependentUpon>frmShareAllotment.vb</DependentUpon>
     </Compile>

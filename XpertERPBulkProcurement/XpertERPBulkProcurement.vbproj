@@ -325,6 +325,12 @@
     <Compile Include="Milk Procurement\Report\rptBmcTankerInOutReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptBmcTankerProfitLossReport.Designer.vb">
+      <DependentUpon>rptBmcTankerProfitLossReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBmcTankerProfitLossReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptDBTCappingReport.Designer.vb">
       <DependentUpon>rptDBTCappingReport.vb</DependentUpon>
     </Compile>
@@ -479,6 +485,12 @@
       <DependentUpon>rptSuspanceDCSReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptSuspanceDCSReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerapprovalutilization.Designer.vb">
+      <DependentUpon>rptTankerapprovalutilization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerapprovalutilization.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptTankerProfitLossReport.Designer.vb">
@@ -1095,6 +1107,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptBmcTankerInOutReport.resx">
       <DependentUpon>rptBmcTankerInOutReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBmcTankerProfitLossReport.resx">
+      <DependentUpon>rptBmcTankerProfitLossReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCTankerTesting.resx">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>
     </EmbeddedResource>
@@ -1157,6 +1172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptSuspanceDCSReport.resx">
       <DependentUpon>rptSuspanceDCSReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTankerapprovalutilization.resx">
+      <DependentUpon>rptTankerapprovalutilization.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTankerProfitLossReport.resx">
       <DependentUpon>rptTankerProfitLossReport.vb</DependentUpon>
