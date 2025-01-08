@@ -892,7 +892,7 @@ Public Class objCommonVar
         objCommonVar.ApplyGovtRulesInTDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyGovtRulesInTDS, clsFixedParameterCode.ApplyGovtRulesInTDS, Nothing)) = 1, True, False)
         objCommonVar.PricePlan = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OpenPriceChartPlanningScreenOnTotalSolid, clsFixedParameterCode.OpenPriceChartPlanningScreenOnTotalSolid, Nothing))
         objCommonVar.InstantSendTheSMS = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.InstantSendTheSMS, Nothing)) = 1)
-        objCommonVar.InstantSendTheEmail = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmailPrefix, clsFixedParameterCode.InstantSendTheEmail, Nothing)) = 0)
+        objCommonVar.InstantSendTheEmail = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmailPrefix, clsFixedParameterCode.InstantSendTheEmail, Nothing)) = 1)
         objCommonVar.MaxFATPerForRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxFATPerLimit, Nothing))
         objCommonVar.MaxSNFPerForRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
         objCommonVar.MilkSRNFATSNFDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkSRNFATSNFDecimalPlaces, clsFixedParameterCode.MilkSRNFATSNFDecimalPlaces, Nothing))

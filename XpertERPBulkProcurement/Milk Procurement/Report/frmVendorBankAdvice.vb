@@ -1039,22 +1039,23 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
             Gv1.Columns("GRPColumn").HeaderText = "Group Range"
             Gv1.Columns("GRPColumn").IsVisible = False
 
-            Gv1.Columns("GRPColumns").HeaderText = "Group Ranges"
-            Gv1.Columns("GRPColumns").IsVisible = False
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
+                Gv1.Columns("GRPColumns").HeaderText = "Group Ranges"
+                Gv1.Columns("GRPColumns").IsVisible = False
 
-            Gv1.Columns("Bank_Name").HeaderText = "Bank_Name"
-            Gv1.Columns("Bank_Name").IsVisible = False
+                Gv1.Columns("Bank_Name").HeaderText = "Bank_Name"
+                Gv1.Columns("Bank_Name").IsVisible = False
 
+                Gv1.Columns("BankAccountNo").HeaderText = "BankAccountNo"
+                Gv1.Columns("BankAccountNo").IsVisible = False
 
-            Gv1.Columns("BankAccountNo").HeaderText = "BankAccountNo"
-            Gv1.Columns("BankAccountNo").IsVisible = False
+                Gv1.Columns("BankIFSCCode").HeaderText = "BankIFSCCode"
+                Gv1.Columns("BankIFSCCode").IsVisible = False
 
+                Gv1.Columns("BankBranchAddress").HeaderText = "BankBranchAddress"
+                Gv1.Columns("BankBranchAddress").IsVisible = False
+            End If
 
-            Gv1.Columns("BankIFSCCode").HeaderText = "BankIFSCCode"
-            Gv1.Columns("BankIFSCCode").IsVisible = False
-
-            Gv1.Columns("BankBranchAddress").HeaderText = "BankBranchAddress"
-            Gv1.Columns("BankBranchAddress").IsVisible = False
 
             Gv1.Columns("Comp_Name").HeaderText = "Company Name"
             Gv1.Columns("Comp_Name").IsVisible = False
@@ -1079,6 +1080,14 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
 
             Gv1.Columns("MCC_NAME").HeaderText = "Area"
             Gv1.Columns("MCC_NAME").IsVisible = False
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Gv1.Columns("FD").HeaderText = "FD"
+                Gv1.Columns("FD").IsVisible = False
+
+                Gv1.Columns("TD").HeaderText = "TD"
+                Gv1.Columns("TD").IsVisible = False
+            End If
 
             If MultipleFinderFillAuto Then
             Else

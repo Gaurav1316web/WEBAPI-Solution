@@ -8187,6 +8187,10 @@ Public Class MDI
                         frm = New rptPaymentProcessRouteReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.BmcLabReport
+                        frm = New BmcLabReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptPaymentProcessReport
                         frm = New rptPaymentProcessReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
