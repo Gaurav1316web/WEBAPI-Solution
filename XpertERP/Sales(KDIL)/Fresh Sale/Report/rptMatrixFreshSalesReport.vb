@@ -2368,7 +2368,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
         JOIN TSPL_DEMAND_BOOKING_MASTER DM ON D.Document_No = DM.Document_No
         JOIN TSPL_ITEM_MASTER M ON M.Item_Code = D.Item_Code
         WHERE M.Is_Milk_Pouch = 1
-          AND DM.Document_Date BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+          AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
     )
 ),
 FilteredProductAmt AS ( SELECT 
@@ -2377,7 +2377,7 @@ FilteredProductAmt AS ( SELECT
 	JOIN TSPL_DEMAND_BOOKING_MASTER DM ON D.Document_No = DM.Document_No
     JOIN TSPL_ITEM_MASTER M ON D.Item_Code = M.Item_Code
     WHERE M.Is_Milk_Pouch = 0
-	AND DM.Document_Date BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+	AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
     GROUP BY D.Cust_Code
 ),
 DemandData AS (
@@ -2434,7 +2434,7 @@ DemandData AS (
     LEFT JOIN ItemData ON ItemData.Item_Code = D.Item_Code
     LEFT JOIN FilteredProductAmt ON FilteredProductAmt.Cust_Code = D.Cust_Code
     WHERE M.Is_Milk_Pouch = 1
-      AND DM.Document_Date BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
+      AND convert(date,DM.Document_Date,103) BETWEEN '" + clsCommon.GetPrintDate(fromDate.Value) + "' AND '" + clsCommon.GetPrintDate(ToDate.Value) + "'
 ),
 SaleReturnData AS (
     SELECT 

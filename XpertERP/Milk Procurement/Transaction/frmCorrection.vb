@@ -878,13 +878,18 @@ and len(isnull( TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))<=0 and   len(is
                             End If
                             qry += " )
 select CTERawData.DOC_CODE,CTERawData.Dock_Collection_Milk_Type,TabDCS.Tot_FAT_PER,TabDCS.Tot_SNF_PER from CTERawData 
-inner join (select DOC_DATE,SHIFT,VLC_CODE,SUM(Qty) as Tot_Qty ,case when SUM(Qty)>0 then cast(SUM(FAT_KG)*100/SUM(Qty) as decimal(18,1)) else 0 end as Tot_FAT_PER,SUM(FAT_KG) as Tot_FAT_KG ,case when SUM(Qty)>0 then cast(  SUM(SNF_KG)*100/SUM(Qty) as decimal(18,1)) else 0 end as Tot_SNF_PER,SUM(SNF_KG) as Tot_SNF_KG
+inner join (select DOC_DATE,SHIFT,VLC_CODE,SUM(Qty) as Tot_Qty ,case when SUM(Qty)>0 then  (SUM(FAT_KG)*100/SUM(Qty)) else 0 end as Tot_FAT_PER,SUM(FAT_KG) as Tot_FAT_KG ,case when SUM(Qty)>0 then    (SUM(SNF_KG)*100/SUM(Qty))   else 0 end as Tot_SNF_PER,SUM(SNF_KG) as Tot_SNF_KG
 from CTERawData 
 group by DOC_DATE,SHIFT,VLC_CODE having sum(1)>1) as TabDCS on TabDCS.DOC_DATE=CTERawData.DOC_DATE and  TabDCS.SHIFT=CTERawData.SHIFT and  TabDCS.VLC_CODE=CTERawData.VLC_CODE order by CTERawData.VLC_CODE"
                             Dim dtUploader As DataTable = clsDBFuncationality.GetDataTable(qry)
                             If dtUploader IsNot Nothing AndAlso dtUploader.Rows.Count > 0 Then
                                 For Each drUploader As DataRow In dtUploader.Rows
-                                    clsMilkSRNMCC.Correction(clsCommon.myCstr(drUploader("DOC_CODE")), clsCommon.myCstr(drUploader("Dock_Collection_Milk_Type")), clsCommon.myCdbl(drUploader("Tot_FAT_PER")), clsCommon.myCdbl(drUploader("Tot_SNF_PER")))
+                                    Dim dclFATPer As Decimal = clsCommon.myCDecimal(drUploader("Tot_FAT_PER"))
+                                    Dim dclSNFPer As Decimal = clsCommon.myCDecimal(drUploader("Tot_SNF_PER"))
+                                    dclFATPer = clsCommon.myRoundOFF(dclFATPer, 1, 4)
+                                    dclSNFPer = clsCommon.myRoundOFF(dclSNFPer, 1, 4)
+
+                                    clsMilkSRNMCC.Correction(clsCommon.myCstr(drUploader("DOC_CODE")), clsCommon.myCstr(drUploader("Dock_Collection_Milk_Type")), dclFATPer, dclSNFPer)
                                 Next
                             End If
                             clsCommon.MyMessageBoxShow(Me, "Successfully Updated", Me.Text)
