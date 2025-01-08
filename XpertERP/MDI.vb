@@ -9995,7 +9995,7 @@ Public Class MDI
                         frm = New ShareMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmMultipleShareAllotment
-                        frm = New frmShareAllotment
+                        frm = New frmMultipleShareAllotment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmShareAllotment
                         frm = New frmShareAllotment
