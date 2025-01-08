@@ -49,14 +49,13 @@ Public Class FrmPrintDistributerInvoiceStatement
                                 Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE 
         WHEN Shift_type = 'AM' THEN 'Morning'
         ELSE 'Evening'
-    END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date,TSPL_ROUTE_MASTER.Route_No as [Route_Code],TSPL_ROUTE_MASTER.Route_Desc as [Route_Name]
-                                from TSPL_SD_SALE_INVOICE_HEAD  left join  TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code 
+    END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
+                                from TSPL_SD_SALE_INVOICE_HEAD
                                 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
                                left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
                                left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
-                               left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
-                               left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No
-                               where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' "
+     left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' "
 
 
         If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "LT") = CompairStringResult.Equal Then
@@ -189,14 +188,6 @@ Public Class FrmPrintDistributerInvoiceStatement
         gv.Columns("Shift_Type").IsVisible = True
         gv.Columns("Shift_Type").Width = 100
         gv.Columns("Shift_Type").HeaderText = "Shift"
-
-        gv.Columns("Route_Code").IsVisible = True
-        gv.Columns("Route_Code").Width = 100
-        gv.Columns("Route_Code").HeaderText = "Route Code"
-
-        gv.Columns("Route_Name").IsVisible = True
-        gv.Columns("Route_Name").Width = 100
-        gv.Columns("Route_Name").HeaderText = "Route Name"
 
         'gv.Columns("DespatchDocumentNo").IsVisible = False
         'gv.Columns("DespatchDocumentNo").Width = 100
@@ -1131,8 +1122,6 @@ Public Class FrmPrintDistributerInvoiceStatement
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Supply_Shift").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
                     '------------------------code for attchament-------------------------------------
                     strRptPath = ""
