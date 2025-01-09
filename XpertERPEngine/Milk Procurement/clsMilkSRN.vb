@@ -916,6 +916,12 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                     conv_fac = 1 + (clsMilkSRNMCC.ObjList(0).CLR / 1000)
                 End If
 
+                If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+                    clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 1
+                End If
+                If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
+                    clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 2
+                End If
                 If clsCommon.CompairString(Unit_Code, "KG") = CompairStringResult.Equal Then
                     clsMilkSRNMCC.ObjList(0).ACC_Qty = dblQty
                     clsMilkSRNMCC.ObjList(0).MILK_Qty = dblQty

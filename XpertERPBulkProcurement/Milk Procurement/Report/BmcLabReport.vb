@@ -8,11 +8,15 @@ Public Class BmcLabReport
     Dim StrPermission As String
 
     Sub Reset()
+        txtRoute.arrValueMember = Nothing
+        TxtTankerNo.arrValueMember = Nothing
+        txtBMC.arrValueMember = Nothing
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
         btnGo.Enabled = True
+        Gv1.DataSource = Nothing
         'ControlEnableDisable(True)
     End Sub
 
@@ -58,7 +62,7 @@ Public Class BmcLabReport
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy")) + " ")
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMobileAppMilkCollection & "'"))
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.BmcLabReport & "'"))
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, Me.Text)
             common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
@@ -73,7 +77,7 @@ Public Class BmcLabReport
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy")) + " ")
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMobileAppMilkCollection & "'"))
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.BmcLabReport & "'"))
 
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
@@ -107,8 +111,8 @@ Public Class BmcLabReport
             Dim ConversionFactor As String = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
             Dim dt As New DataTable
             Dim strQry As String = ""
-            strQry = " select TSPL_BULK_ROUTE_MASTER.ROUTE_NO as [Route No],TSPL_MILK_COLLECTION_MCC.Tanker_No as [Tanker No],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Dcs/Bmc],
-                                    TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as [Sample No], TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty as Liter," + ConversionFactor + " as CF,
+            strQry = " select FORMAT(TSPL_MILK_COLLECTION_MCC.Document_Date, 'dd/MM/yyyy') AS Document_Date, TSPL_BULK_ROUTE_MASTER.ROUTE_NO as [Route No],TSPL_MILK_COLLECTION_MCC.Tanker_No as [Tanker No],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Dcs/Bmc],
+                                    TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as [Sample No], TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty as Liter,
                                     (SNF- " + ConversionFactor + " -0.2*FAT)*4 as CLR,
                                     TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as [Fat%],TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as [Snf%],
                                     TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as [Fat Kg],TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as [Snf Kg] 
@@ -158,12 +162,54 @@ Public Class BmcLabReport
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             End If
-
+            SetGridFormationOFGV1()
             Gv1.BestFitColumns()
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub SetGridFormationOFGV1()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+
+        Next
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        ' gvData.GroupDescriptors.Add(New GridGroupByExpression("Route as RouteName format ""{0}: {1}"" Group By Route"))
+
+        'For i As Integer = 10 To gvData.Columns.Count - 1
+        '    Dim aa = gvData.Columns(i).HeaderText()
+        '    Dim item8 As New GridViewSummaryItem("[Total Amount]", "{0:F2}", GridAggregateFunction.Sum)
+        '    summaryRowItem.Add(item8)
+
+        'Next
+        'Dim aa = gvData.Columns(i).HeaderText()
+        Dim item81 As New GridViewSummaryItem("Sample No", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item81)
+
+        Dim item82 As New GridViewSummaryItem("Liter", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item82)
+
+        Dim item83 As New GridViewSummaryItem("Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item83)
+
+        Dim item84 As New GridViewSummaryItem("Fat Kg", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item84)
+
+        Dim item85 As New GridViewSummaryItem("Snf Kg", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item85)
+        Gv1.ShowGroupPanel = True
+        Gv1.MasterTemplate.AutoExpandGroups = True
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Gv1.MasterTemplate.ShowTotals = True
+        'ReStoreGridLayout()
+
     End Sub
 
 End Class

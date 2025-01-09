@@ -55203,7 +55203,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(10) NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BREAK_DOWN_ENTRY", coll, "", False)
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BREAK_DOWN_ENTRY", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null PRIMARY KEY")
