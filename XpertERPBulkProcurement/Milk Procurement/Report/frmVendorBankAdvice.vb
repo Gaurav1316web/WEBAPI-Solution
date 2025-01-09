@@ -435,24 +435,24 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
                     End If
                     BaseQry += " TSPL_VENDOR_MASTER.Branch_Name,case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,"
 
-                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                            BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)),0) as Payable_Amount "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)),0) as Payable_Amount "
+                    Else
+                        If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
+                            BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0)),0) as Payable_Amount  "
                         Else
-                            If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
-                                BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0)),0) as Payable_Amount  "
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                                ' BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
+                                BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0))  as Payable_Amount  "
+
                             Else
-                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                                    ' BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
-                                    BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0))  as Payable_Amount  "
-
-                                Else
-                                    BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0))  as Payable_Amount  "
-                                End If
+                                BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0))  as Payable_Amount  "
                             End If
-
                         End If
+
                     End If
-                    BaseQry += ",TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status] "
+                End If
+                BaseQry += ",TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status] "
                 BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
                                 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
@@ -546,12 +546,21 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.F
             If rbtnBankAdvice.IsChecked OrElse rbtnSaving.IsChecked Then
                 ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    FinalQuery = " select max([Company Bank])[Company Bank],max([Company Bank Account No])[Company Bank Account No],max(CycleRange)CycleRange,max(GRPColumn)GRPColumn,max(Comp_Name)Comp_Name,max(Comp_address)Comp_address,
+                    FinalQuery = " select "
+                    If rbtnBankAdvice.IsChecked Then
+                        FinalQuery += " max([Company Bank])[Company Bank],max([Company Bank Account No])[Company Bank Account No],"
+                    End If
+                    FinalQuery += " max(CycleRange)CycleRange,max(GRPColumn)GRPColumn,max(Comp_Name)Comp_Name,max(Comp_address)Comp_address,
                                   max(CompPhone)CompPhone,max(Regn_No)Regn_No,max(MCC_NAME)MCC_NAME,max(From_Date)From_Date,max(GSTReg_No)GSTReg_No,
                                   max(Doc_No)Doc_No,max(Fiscal_Name)Fiscal_Name,max(CycleNo)CycleNo,max(Date_Range)Date_Range,VLC_CODE_Uploader,
                                   max(Payee_Joint_Name)Payee_Joint_Name,max(Bank_Code)Bank_Code,max(Branch_Name)Branch_Name,max(Bank_Code_Desc)Bank_Code_Desc,
                                   max(Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,sum(Payable_Amount)Payable_Amount,
-                                  max(FD)FD,max(TD)TD,max([Bank Advise No])[Bank Advise No],max([Bank Advise Date])[Bank Advise Date],max([Bank Advice Status])[Bank Advice Status] from ( " + BaseQry + ")xxx group by xxx.VLC_CODE_Uploader order by Payee_Joint_Account_No asc "
+                                  max(FD)FD,max(TD)TD "
+                    If rbtnBankAdvice.IsChecked Then
+                        FinalQuery += " ,max([Bank Advise No])[Bank Advise No],max([Bank Advise Date])[Bank Advise Date],max([Bank Advice Status])[Bank Advice Status] "
+                    End If
+
+                    FinalQuery += "from ( " + BaseQry + ")xxx group by xxx.VLC_CODE_Uploader order by Payee_Joint_Account_No asc "
                 Else
                     FinalQuery = "select * from ( " + BaseQry + ")xxx order by Bank_Code, "
 
@@ -1032,6 +1041,12 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
 
+            Gv1.Columns("FD").HeaderText = "FD"
+            Gv1.Columns("FD").IsVisible = False
+
+            Gv1.Columns("TD").HeaderText = "TD"
+            Gv1.Columns("TD").IsVisible = False
+
         ElseIf rbtnBankAdvice.IsChecked OrElse rbtnCompulsory.IsChecked Then
             Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
             Gv1.Columns("CycleRange").IsVisible = False
@@ -1081,22 +1096,22 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
             Gv1.Columns("MCC_NAME").HeaderText = "Area"
             Gv1.Columns("MCC_NAME").IsVisible = False
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                Gv1.Columns("FD").HeaderText = "FD"
-                Gv1.Columns("FD").IsVisible = False
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            Gv1.Columns("FD").HeaderText = "FD"
+            Gv1.Columns("FD").IsVisible = False
 
-                Gv1.Columns("TD").HeaderText = "TD"
-                Gv1.Columns("TD").IsVisible = False
+            Gv1.Columns("TD").HeaderText = "TD"
+            Gv1.Columns("TD").IsVisible = False
 
-                'Gv1.Columns("[Bank Advise No]").HeaderText = "Bank Advise No"
-                'Gv1.Columns("[Bank Advise No]").IsVisible = True
+            'Gv1.Columns("[Bank Advise No]").HeaderText = "Bank Advise No"
+            'Gv1.Columns("[Bank Advise No]").IsVisible = True
 
-                'Gv1.Columns("[Bank Advise Date]").HeaderText = "Bank Advise Date"
-                'Gv1.Columns("[Bank Advise Date]").IsVisible = False
+            'Gv1.Columns("[Bank Advise Date]").HeaderText = "Bank Advise Date"
+            'Gv1.Columns("[Bank Advise Date]").IsVisible = False
 
-                'Gv1.Columns("Bank Advice Status").HeaderText = "Bank Advice Status"
-                'Gv1.Columns("Bank Advice Status").IsVisible = False
-            End If
+            'Gv1.Columns("Bank Advice Status").HeaderText = "Bank Advice Status"
+            'Gv1.Columns("Bank Advice Status").IsVisible = False
+            'End If
 
             If MultipleFinderFillAuto Then
             Else

@@ -111,17 +111,75 @@ Public Class BmcLabReport
             Dim ConversionFactor As String = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
             Dim dt As New DataTable
             Dim strQry As String = ""
-            strQry = " select FORMAT(TSPL_MILK_COLLECTION_MCC.Document_Date, 'dd/MM/yyyy') AS Document_Date, TSPL_BULK_ROUTE_MASTER.ROUTE_NO as [Route No],TSPL_MILK_COLLECTION_MCC.Tanker_No as [Tanker No],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Dcs/Bmc],
-                                    TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as [Sample No], TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty as Liter,
-                                    (SNF- " + ConversionFactor + " -0.2*FAT)*4 as CLR,
-                                    TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as [Fat%],TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as [Snf%],
-                                    TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as [Fat Kg],TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as [Snf Kg] 
-                                    from TSPL_MILK_COLLECTION_MCC
-                                    left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
-                                    left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
-                                    left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-                                    where TSPL_MILK_COLLECTION_MCC.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_MCC.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
-                                     "
+            'strQry = " select FORMAT(TSPL_MILK_COLLECTION_MCC.Document_Date, 'dd/MM/yyyy') AS Document_Date, TSPL_BULK_ROUTE_MASTER.ROUTE_NO as [Route No],TSPL_MILK_COLLECTION_MCC.Tanker_No as [Tanker No],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Dcs/Bmc],
+            '                        TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as [Sample No], TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty as Liter,
+            '                        (SNF- " + ConversionFactor + " -0.2*FAT)*4 as CLR,
+            '                        TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as [Fat%],TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as [Snf%],
+            '                        TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as [Fat Kg],TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as [Snf Kg] 
+            '                        from TSPL_MILK_COLLECTION_MCC
+            '                        left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
+            '                        left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
+            '                        left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+            '                        where TSPL_MILK_COLLECTION_MCC.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_MCC.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'"
+
+            strQry = "SELECT 
+                            1 AS 'S.No.', 
+                            FORMAT(TSPL_MILK_COLLECTION_MCC.Document_Date, 'dd/MM/yyyy') AS Document_Date, 
+                            TSPL_BULK_ROUTE_MASTER.ROUTE_NO AS [Route No], 
+                            TSPL_MILK_COLLECTION_MCC.Tanker_No AS [Tanker No], 
+                            TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader AS [Dcs/Bmc], 
+                            TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No AS [Sample No], 
+                            TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty AS Liter, 
+                            (SNF - 0.14 - 0.2 * FAT) * 4 AS CLR, 
+                            TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty AS Qty, 
+                            TSPL_MILK_COLLECTION_MCC_DETAIL.FAT AS [Fat%], 
+                            TSPL_MILK_COLLECTION_MCC_DETAIL.SNF AS [Snf%], 
+                            TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG AS [Fat Kg], 
+                            TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG AS [Snf Kg]
+                        FROM 
+                            TSPL_MILK_COLLECTION_MCC
+                        LEFT OUTER JOIN 
+                            TSPL_BULK_ROUTE_MASTER 
+                            ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_MCC.Route_Code
+                        LEFT OUTER JOIN 
+                            TSPL_MILK_COLLECTION_MCC_DETAIL 
+                            ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_MCC.Document_No
+                        LEFT OUTER JOIN 
+                            TSPL_MCC_MASTER 
+                            ON TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code"
+
+            strQry += "" & Environment.NewLine & " Union all " & Environment.NewLine & ""
+            strQry += " SELECT 
+                        2 AS 'S.No.', 
+                        'Total' AS Document_Date, 
+                        TSPL_BULK_ROUTE_MASTER.ROUTE_NO AS [Route No], 
+                        NULL AS [Tanker No], 
+                        NULL AS [Dcs/Bmc], 
+                        NULL AS [Sample No], 
+                        SUM(TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty) AS Liter, 
+                        NULL AS CLR, 
+                        SUM(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty) AS Qty, 
+                        NULL AS [Fat%], 
+                        NULL AS [Snf%], 
+                        SUM(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG) AS [Fat Kg], 
+                        SUM(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG) AS [Snf Kg]
+                    FROM 
+                        TSPL_MILK_COLLECTION_MCC
+                    LEFT OUTER JOIN 
+                        TSPL_BULK_ROUTE_MASTER 
+                        ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_MCC.Route_Code
+                    LEFT OUTER JOIN 
+                        TSPL_MILK_COLLECTION_MCC_DETAIL 
+                        ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_MCC.Document_No
+                    LEFT OUTER JOIN 
+                        TSPL_MCC_MASTER 
+                        ON TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+                    where TSPL_MILK_COLLECTION_MCC.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_MCC.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+                    GROUP BY 
+                    TSPL_BULK_ROUTE_MASTER.ROUTE_NO "
+
+            strQry += "ORDER BY 
+             [Route No], [S.No.], Document_Date"
 
 
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then

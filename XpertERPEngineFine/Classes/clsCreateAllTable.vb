@@ -28881,7 +28881,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Admin_Charge", "float null")
             coll.Add("PROD_Drawing_No", "varchar(100) null")
             coll.Add("LOCATION_CODE", "varchar(12) NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, False, False, "", "BOM_CODE", "BOM_DATE")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, True, False, "", "BOM_CODE", "BOM_DATE")
 
             ''TSPL_MF_BOM_DETAIL
 
@@ -28902,7 +28902,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("CONSM_Drawing_No", "varchar(100) null")
             coll.Add("Percentage", "NUMERIC(18,6) NOT NULL DEFAULT 0")
             coll.Add("Alternate_Item_Code", "VARCHAR(50) NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_DETAIL", coll, Nothing, False, False, "TSPL_MF_BOM_HEAD", "BOM_CODE", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_DETAIL", coll, Nothing, True, False, "TSPL_MF_BOM_HEAD", "BOM_CODE", "")
 
             ''TSPL_MF_BOM_OPERATIONS
 
