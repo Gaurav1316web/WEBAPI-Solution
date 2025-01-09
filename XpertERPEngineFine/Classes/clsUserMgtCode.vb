@@ -2654,6 +2654,7 @@ Public Class clsUserMgtCode
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"
+    Public Const FrmItemCapacityLimt As String = "ITM-CAP-LMT"
     Public Const VehicleMasterForProductSale As String = "VM_PS"
     Public Const frmMRPForProduction As String = "PP_MRP"
     Public Const frmPriceMasterPS As String = "PRC-MST-PS"
