@@ -1131,8 +1131,10 @@ Public Class FrmPrintDistributerInvoiceStatement
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Supply_Shift").Value))
+                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(grow.Cells("Route_Name").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
                     '------------------------code for attchament-------------------------------------
                     strRptPath = ""
