@@ -2557,6 +2557,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim colTotalQty As Double = 0
             For dblrows As Integer = 0 To gv1.Rows.Count - 2
                 Dim k As Integer = 1
+                TotalCrate = 0
                 dblTotalPCrate = 0
                 dblTotalCrateRowWise = 0
                 dblTotalPCrateRowWise = 0

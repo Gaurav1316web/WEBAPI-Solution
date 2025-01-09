@@ -1721,6 +1721,11 @@ Public Class rptSaleRegisterDetail
         If IsFormLoad = False Then
             Exit Sub
         End If
+        If ddlReportType.SelectedValue = "Document Detail" Then
+            btnPrint.Visible = True
+        Else
+            btnPrint.Visible = False
+        End If
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
             If ddlReportType.SelectedValue = "Document Detail" AndAlso (txtTransaction.arrValueMember Is Nothing OrElse txtTransaction.arrValueMember.Contains("Misc Sale")) Then
                 lblSubCategory.Visible = True
@@ -1854,5 +1859,9 @@ Public Class rptSaleRegisterDetail
         Else
             txtTransaction.Enabled = True
         End If
+    End Sub
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Dim obj As clsSaleRegisterParameterType = ReturnFilterData()
+        Dim qry As String = clsSaleRegisterDetail.GetReportDataReaderForPrint(obj)
     End Sub
 End Class

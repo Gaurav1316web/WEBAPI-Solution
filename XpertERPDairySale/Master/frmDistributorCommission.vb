@@ -539,18 +539,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Doc_No) > 0) Then
                 isNewEntry = False
                 LoadBlankGrid()
-                If obj.IsPosted = ERPTransactionStatus.Approved Then
-                    btnSave.Enabled = False
-                    btnPost.Enabled = False
-                    lblStatus.Status = ERPTransactionStatus.Approved
-                    btnDelete.Enabled = False
-                Else
-                    btnSave.Enabled = True
-                    btnPost.Enabled = True
-                    btnSave.Text = "Update"
-                    btnDelete.Enabled = True
-                    lblStatus.Status = ERPTransactionStatus.Pending
-                End If
                 btnGo.Enabled = False
                 txtDocNo.Value = obj.Doc_No
                 txtDate.Value = obj.Document_Date

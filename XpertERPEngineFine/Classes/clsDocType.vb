@@ -558,6 +558,7 @@ Public Class clsDocType
     Public Const DistributorCommission As String = "Distributor Commission"
     Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
     Public Const DailyDemand As String = "DailyDemand"
+    Public Const ItemCapacityLimit As String = "ItemCapacityLimit"
 
 
     Public Const frmNotification As String = "Notifications screen"
@@ -1563,6 +1564,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
+            InsertDefaultValue(clsDocType.ItemCapacityLimit, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)
             InsertDefaultValue(clsDocType.frmNotification, "", False, True, True)
 
