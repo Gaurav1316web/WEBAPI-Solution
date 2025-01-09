@@ -24012,6 +24012,9 @@ Public Class clsCreateAllTable
             coll.Add("Status", "Integer NOT NULL DEFAULT 0")
             coll.Add("Posted_Date", "datetime null")
             coll.Add("Posted_By", "varchar(12)  NULL")
+            coll.Add("Unposted_By", "varchar(12)  NULL")
+            coll.Add("Unposted_Date", "datetime null")
+            coll.Add("Milk_Not_Picked", "int Null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
