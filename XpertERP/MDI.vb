@@ -8190,6 +8190,10 @@ Public Class MDI
                         frm = New rptPaymentProcessRouteReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.BmcLabReport
+                        frm = New BmcLabReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptPaymentProcessReport
                         frm = New rptPaymentProcessReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8492,6 +8496,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.frmTTSavingReport
                         frm = New frmTTSavingReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBmcTankerProfitLossReport
+                        frm = New rptBmcTankerProfitLossReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDcsPaymentReport
                         frm = New RptDcsPaymentReport
@@ -10001,7 +10008,7 @@ Public Class MDI
                         frm = New ShareMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmMultipleShareAllotment
-                        frm = New frmShareAllotment
+                        frm = New frmMultipleShareAllotment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmShareAllotment
                         frm = New frmShareAllotment

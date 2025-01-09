@@ -111,7 +111,7 @@ Public Class clsBillOfMaterial
         Try
             Dim issaved As Boolean = True
             issaved = issaved AndAlso UnpostData(strCode, FormId, trans)
-
+            HistoryData(strCode, trans)
             trans.Commit()
             Return issaved
         Catch ex As Exception
@@ -453,7 +453,7 @@ Public Class clsBillOfMaterial
     End Function
 
     Public Shared Function PostData(ByVal strDocNo As String, ByVal isCheckForPosted As Boolean) As Boolean
-        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Code not found to Post")
@@ -470,9 +470,10 @@ Public Class clsBillOfMaterial
 
             Dim qry As String = "Update TSPL_MF_BOM_HEAD set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where BOM_CODE ='" + strDocNo + "' and trans_type='BOM'"
             clsDBFuncationality.ExecuteNonQuery(qry)
-            'trans.Commit()
+            HistoryData(strDocNo, trans)
+            trans.Commit()
         Catch ex As Exception
-            'trans.Rollback()
+            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True

@@ -27,7 +27,7 @@ Public Class RptBoothNilDemandl
             Dim Routewhr As String = ""
             Dim status As String = ""
             If txtrouteNo.arrValueMember IsNot Nothing AndAlso txtrouteNo.arrValueMember.Count > 0 Then
-                Routewhr = "  Route_No in (" + clsCommon.GetMulcallString(txtrouteNo.arrValueMember) + ")  "
+                Routewhr = " and  Route_No in (" + clsCommon.GetMulcallString(txtrouteNo.arrValueMember) + ")  "
             End If
             If rdbActive.Checked Then
                 status += " and Status='N' "
@@ -54,10 +54,10 @@ Public Class RptBoothNilDemandl
             If rdbMonth.Checked Then
                 Whr += "and convert(date,document_date,103)>='" + Slot1 + "' and convert(date,document_date,103)<='" + clsCommon.myCstr(clsCommon.GetPrintDate(Slot2)) + "' "
             End If
-            Dim Qry As String = " select row_number() over(order by(select 1)) as SNo,Cust_Code as [Booth Code],customer_name as [Booth Name],Route_No as [Route No],Status,tspl_customer_master.Phone1 as [Mobile No] from tspl_customer_master where " + Routewhr + " and  not exists  (
+            Dim Qry As String = " select row_number() over(order by(select 1)) as SNo,Cust_Code as [Booth Code],customer_name as [Booth Name],Route_No as [Route No],Status,tspl_customer_master.Phone1 as [Mobile No] from tspl_customer_master where " + Routewhr + "   not exists  (
 select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.document_no=TSPL_DEMAND_BOOKING_MASTER.Document_No  
-where  tspl_customer_master.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code " + Whr + "  and " + Routewhr + ") and tspl_customer_master.IsDistributor='N'   " + status + " "
+where  tspl_customer_master.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code " + Whr + "   " + Routewhr + ") and tspl_customer_master.IsDistributor='N'   " + status + " "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Gv1.DataSource = Nothing
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
@@ -102,7 +102,7 @@ where  tspl_customer_master.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code " + W
         ToDate.Value = clsCommon.GETSERVERDATE()
         fromDate.Value = clsCommon.GETSERVERDATE()
         monthlyDate.Value = clsCommon.GETSERVERDATE()
-        rbnmorning.Checked = False
+        rbnmorning.Checked = True
         rbnEvening.Checked = False
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()

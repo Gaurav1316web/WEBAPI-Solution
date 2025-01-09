@@ -540,7 +540,7 @@ Public Class clsEMailHead
                 Dim prm As New SqlParameter("@BLOBData", bData)
                 cmd.Parameters.Add(prm)
                 cmd.ExecuteNonQuery()
-                br.Close() ' done by stuti reagrding memory leakage
+                br.Close() 'done by stuti reagrding memory leakage
             End If
             If clsCommon.myLen(obj.Attachment_2_Path) > 0 Then
                 Dim bData As Byte()
@@ -553,9 +553,94 @@ Public Class clsEMailHead
                 cmd.ExecuteNonQuery()
                 br.Close() ' done by stuti reagrding memory leakage
             End If
+            SendRemaingEmailMain(obj, strEmail, trans)
         Catch err As System.Exception
             Throw New System.Exception(err.Message)
         End Try
+        Return True
+    End Function
+
+    Private Shared Function SendRemaingEmailMain(ByVal obj As clsEMailHead, strEmail As String, ByVal trans As SqlTransaction) As Boolean
+        If objCommonVar.InstantSendTheEmail Then
+            Dim isEmailSettingExists As Boolean = False
+            Dim dtEmailConfig As DataTable = clsDBFuncationality.GetDataTable("select EMail_SMTP_Client,EMail_Port,EMail_ID,EMail_Pwd,EMail_Enabel_SSL from TSPL_ES_CONFIG", trans)
+            If dtEmailConfig IsNot Nothing AndAlso dtEmailConfig.Rows.Count > 0 Then
+                If clsCommon.myLen(dtEmailConfig.Rows(0)("EMail_SMTP_Client")) > 0 AndAlso clsCommon.myLen(dtEmailConfig.Rows(0)("EMail_ID")) > 0 AndAlso clsCommon.myLen(dtEmailConfig.Rows(0)("EMail_Pwd")) > 0 Then
+                    isEmailSettingExists = True
+                End If
+            End If
+            If isEmailSettingExists Then
+                Try
+                    Using MailMsg As MailMessage = New MailMessage()
+                        MailMsg.Subject = obj.Email_Subject
+                        MailMsg.From = New MailAddress(clsCommon.myCstr(dtEmailConfig.Rows(0)("EMail_ID")))
+                        Dim separators As String() = {";"}
+                        Dim words As String() = strEmail.Split(separators, StringSplitOptions.RemoveEmptyEntries)
+                        'Dim wordsCC As String() = clsCommon.myCstr(dr("Email_ID_CC")).Split(separators, StringSplitOptions.RemoveEmptyEntries)
+                        'Dim wordsBCC As String() = clsCommon.myCstr(dr("Email_ID_BCC")).Split(separators, StringSplitOptions.RemoveEmptyEntries)
+                        If words IsNot Nothing AndAlso words.Length > 0 Then
+                            For Each item As String In words
+                                MailMsg.[To].Add(item)
+                            Next
+                            'If wordsCC IsNot Nothing AndAlso wordsCC.Length > 0 Then
+                            '    For Each itemCC As String In wordsCC
+                            '        MailMsg.CC.Add(itemCC)
+                            '    Next
+                            'End If
+                            'If wordsBCC IsNot Nothing AndAlso wordsBCC.Length > 0 Then
+
+                            '    For Each itemBCC As String In wordsBCC
+                            '        MailMsg.Bcc.Add(itemBCC)
+                            '    Next
+                            'End If
+                            MailMsg.Body = obj.Email_Text
+                            MailMsg.Priority = MailPriority.High
+                            MailMsg.IsBodyHtml = clsCommon.myCBool(obj.IsBodyHtml)
+                            Dim SmtpMail As SmtpClient = New SmtpClient(clsCommon.myCstr(dtEmailConfig.Rows(0)("EMail_SMTP_Client")))
+                            SmtpMail.Port = CInt(clsCommon.myCdbl(dtEmailConfig.Rows(0)("EMail_Port")))
+                            SmtpMail.Credentials = New System.Net.NetworkCredential(clsCommon.myCstr(dtEmailConfig.Rows(0)("EMail_ID")), clsCommon.myCstr(dtEmailConfig.Rows(0)("EMail_Pwd")))
+                            SmtpMail.EnableSsl = If(clsCommon.myCdbl(clsCommon.myCstr(dtEmailConfig.Rows(0)("EMail_Enabel_SSL"))) > 0, True, False)
+                            SmtpMail.Timeout = 300000
+                            If clsCommon.myLen(obj.Attachment_1_Path) > 0 Then
+                                MailMsg.Attachments.Add(New Attachment(obj.Attachment_1_Path))
+                            End If
+                            If clsCommon.myLen(obj.Attachment_2_Path) > 0 Then
+                                MailMsg.Attachments.Add(New Attachment(obj.Attachment_2_Path))
+                            End If
+                            If clsCommon.myLen(obj.Against_PO_NO) > 0 Then
+                                Dim qryAtt As String = "select CODE,FormId,TransactionId,SNo,FileName,FileData, COMMENTS from TSPL_ATTACHMENTS where 1=1  and FormId = 'PO-ODR' and TransactionId ='" & obj.Against_PO_NO & "'"
+                                Dim dtAtt As DataTable = clsDBFuncationality.GetDataTable(qryAtt, trans)
+                                If dtAtt IsNot Nothing AndAlso dtAtt.Rows.Count > 0 Then
+                                    For Each drAtt As DataRow In dtAtt.Rows
+                                        Dim filename As String = clsCommon.myCstr(drAtt("FileName"))
+                                        Dim blob As Byte() = CType(drAtt("FileData"), Byte())
+                                        Dim file_path As String = "C:\ERPTempFolder"
+                                        Dim dir As DirectoryInfo = New DirectoryInfo(file_path)
+                                        If dir.Exists = False Then
+                                            dir.Create()
+                                        End If
+                                        file_path += "\" & clsCommon.myCstr(drAtt("FileName"))
+                                        If File.Exists(file_path) Then
+                                            File.Delete(file_path)
+                                        End If
+                                        Dim fs As FileStream = File.Create(file_path)
+                                        fs.Write(blob, 0, blob.Length)
+                                        fs.Close()
+                                        fs.Dispose()
+                                        MailMsg.Attachments.Add(New Attachment(file_path))
+                                    Next
+                                End If
+                            End If
+                            SmtpMail.Send(MailMsg)
+                        End If
+                        Dim qry As String = "Update TSPL_EMAIL_HEAD set send_on=getdate(),Sender_Replay='Send' where code='" & obj.Code & "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    End Using
+                Catch ex As Exception
+                    Throw New Exception("Error while sending instant Email " + Environment.NewLine + ex.Message)
+                End Try
+            End If
+        End If
         Return True
     End Function
 End Class

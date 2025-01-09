@@ -3,6 +3,8 @@ Public Class clsUserMgtCode
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
     Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
     Public Const frmTTSavingReport As String = "SVNG-BLNCE"
+    Public Const rptBmcTankerProfitLossReport As String = "BMC-TAN-G-L"
+
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
@@ -2361,6 +2363,7 @@ Public Class clsUserMgtCode
     Public Const rptMilkBillProcurementSummary As String = "MCC_MB_PS"
     Public Const frmVendorBankAdvice As String = "MCC_VB_ADV"
     Public Const rptPaymentProcessRouteReport As String = "ROUT_PR_RPT"
+    Public Const BmcLabReport As String = "BMC_LB_RPT"
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
     Public Const rptSocietyLedgerReport As String = "MCC_SOC_LED"
     Public Const rptMilkCostReport As String = "MCC_MLK_COST"

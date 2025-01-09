@@ -4230,6 +4230,13 @@ TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_
         'End If
 
     End Function
+    Public Shared Function GetReportDataReaderForPrint(ByVal obj As clsSaleRegisterParameterType) As String
+        Dim strRunQuery As String = ""
+        strRunQuery = GetReportDataQuery(obj)
+        'Dim rd As SqlDataReader = clsDBFuncationality.GetDataReader(strRunQuery)
+        Dim PrintQuery As String = strRunQuery
+        Return PrintQuery
+    End Function
     Public Shared Function GetReportDataReader(ByVal obj As clsSaleRegisterParameterType) As SqlDataReader
         Dim strRunQuery As String = ""
         strRunQuery = GetReportDataQuery(obj)

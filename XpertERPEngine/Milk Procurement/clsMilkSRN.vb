@@ -916,6 +916,12 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                     conv_fac = 1 + (clsMilkSRNMCC.ObjList(0).CLR / 1000)
                 End If
 
+                If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+                    clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 1
+                End If
+                If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
+                    clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 2
+                End If
                 If clsCommon.CompairString(Unit_Code, "KG") = CompairStringResult.Equal Then
                     clsMilkSRNMCC.ObjList(0).ACC_Qty = dblQty
                     clsMilkSRNMCC.ObjList(0).MILK_Qty = dblQty
@@ -925,6 +931,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                     clsMilkSRNMCC.ObjList(0).MILK_Qty = dblQty
                     clsMilkSRNMCC.ObjList(0).ACC_Qty = dblQty * conv_fac
                 End If
+                clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR = dblLTRQty
                 If clsCommon.myCDecimal(MilkWeight_Setting) <= 0 Then
                     Throw New Exception("Please set Fix paratment vale of type-" + clsFixedParameterType.Milk_Can_Weight_Ratio + " and code-" + clsFixedParameterCode.MilkSetting)
                 End If
