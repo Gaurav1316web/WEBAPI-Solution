@@ -41,13 +41,15 @@ Partial Class rptSalesStock
         Me.txtfromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvData = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmenuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.txtMultiStructureCode = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -67,11 +69,12 @@ Partial Class rptSalesStock
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -104,13 +107,15 @@ Partial Class rptSalesStock
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 409)
         Me.RadPageView1.TabIndex = 74
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
+        Me.RadPageViewPage1.Controls.Add(Me.txtMultiStructureCode)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.ddlReportType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
@@ -128,7 +133,7 @@ Partial Class rptSalesStock
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(332, 61)
+        Me.MyLabel2.Location = New System.Drawing.Point(379, 61)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(69, 16)
         Me.MyLabel2.TabIndex = 337
@@ -145,7 +150,7 @@ Partial Class rptSalesStock
         Me.ddlReportType.Items.Add(RadListDataItem1)
         Me.ddlReportType.Items.Add(RadListDataItem2)
         Me.ddlReportType.Items.Add(RadListDataItem3)
-        Me.ddlReportType.Location = New System.Drawing.Point(404, 60)
+        Me.ddlReportType.Location = New System.Drawing.Point(460, 60)
         Me.ddlReportType.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlReportType.Name = "ddlReportType"
         Me.ddlReportType.Size = New System.Drawing.Size(228, 20)
@@ -155,7 +160,7 @@ Partial Class rptSalesStock
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(18, 61)
+        Me.MyLabel1.Location = New System.Drawing.Point(12, 62)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(52, 16)
         Me.MyLabel1.TabIndex = 336
@@ -172,7 +177,7 @@ Partial Class rptSalesStock
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(75, 60)
+        Me.txtLocation.Location = New System.Drawing.Point(94, 60)
         Me.txtLocation.MendatroryField = False
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Nothing
@@ -201,7 +206,7 @@ Partial Class rptSalesStock
         '
         Me.txtMultiItem.arrDispalyMember = Nothing
         Me.txtMultiItem.arrValueMember = Nothing
-        Me.txtMultiItem.Location = New System.Drawing.Point(75, 85)
+        Me.txtMultiItem.Location = New System.Drawing.Point(95, 85)
         Me.txtMultiItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultiItem.MyLinkLable1 = Me.MyLabel13
         Me.txtMultiItem.MyLinkLable2 = Nothing
@@ -297,6 +302,15 @@ Partial Class rptSalesStock
         Me.gvData.TabIndex = 0
         Me.gvData.VarID = ""
         '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(174, 9)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(74, 18)
+        Me.btnPrint.TabIndex = 167
+        Me.btnPrint.Text = "Print"
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -346,14 +360,28 @@ Partial Class rptSalesStock
         Me.btnGo.TabIndex = 165
         Me.btnGo.Text = ">>>"
         '
-        'btnPrint
+        'txtMultiStructureCode
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(174, 9)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(74, 18)
-        Me.btnPrint.TabIndex = 167
-        Me.btnPrint.Text = "Print"
+        Me.txtMultiStructureCode.arrDispalyMember = Nothing
+        Me.txtMultiStructureCode.arrValueMember = Nothing
+        Me.txtMultiStructureCode.Location = New System.Drawing.Point(95, 110)
+        Me.txtMultiStructureCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultiStructureCode.MyLinkLable1 = Me.MyLabel13
+        Me.txtMultiStructureCode.MyLinkLable2 = Nothing
+        Me.txtMultiStructureCode.MyNullText = "All"
+        Me.txtMultiStructureCode.Name = "txtMultiStructureCode"
+        Me.txtMultiStructureCode.Size = New System.Drawing.Size(251, 19)
+        Me.txtMultiStructureCode.TabIndex = 339
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(12, 111)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(81, 18)
+        Me.MyLabel3.TabIndex = 340
+        Me.MyLabel3.Text = "Structure Code"
         '
         'rptSalesStock
         '
@@ -388,11 +416,12 @@ Partial Class rptSalesStock
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -421,4 +450,6 @@ Partial Class rptSalesStock
     Friend WithEvents ddlReportType As RadDropDownList
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents txtMultiStructureCode As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
 End Class

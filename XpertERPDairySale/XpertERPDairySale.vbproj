@@ -216,12 +216,6 @@
     <Compile Include="Master\frmDistributorCommission.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Master\FrmItemCapacityLimit.Designer.vb">
-      <DependentUpon>FrmItemCapacityLimit.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Master\FrmItemCapacityLimit.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Master\frmItemSublocationMapping.Designer.vb">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </Compile>
@@ -646,6 +640,12 @@
     <Compile Include="Report\rptTransporterWiseReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptUnionStock.Designer.vb">
+      <DependentUpon>rptUnionStock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptUnionStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptUnpostedDocumentReport.Designer.vb">
       <DependentUpon>rptUnpostedDocumentReport.vb</DependentUpon>
     </Compile>
@@ -984,9 +984,6 @@
     <EmbeddedResource Include="Master\frmDistributorCommission.resx">
       <DependentUpon>frmDistributorCommission.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Master\FrmItemCapacityLimit.resx">
-      <DependentUpon>FrmItemCapacityLimit.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmItemSublocationMapping.resx">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </EmbeddedResource>
@@ -1197,6 +1194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptTransporterWiseReport.resx">
       <DependentUpon>rptTransporterWiseReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptUnionStock.resx">
+      <DependentUpon>rptUnionStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptUnpostedDocumentReport.resx">
       <DependentUpon>rptUnpostedDocumentReport.vb</DependentUpon>
