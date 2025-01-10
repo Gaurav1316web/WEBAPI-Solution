@@ -123,6 +123,7 @@
     <Compile Include="Classes\ClsIncomeTaxSlab.vb" />
     <Compile Include="Classes\ClsInvestmentDeclaration.vb" />
     <Compile Include="Classes\clsInvestmentType.vb" />
+    <Compile Include="Classes\clsItemCapacityLimitHead.vb" />
     <Compile Include="Classes\clsITSection.vb" />
     <Compile Include="Classes\clsMCCMaterailSalePriceChat.vb" />
     <Compile Include="Classes\clsODMaster.vb" />
