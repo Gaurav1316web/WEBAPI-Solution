@@ -52,12 +52,12 @@ Public Class rptSalesStock
             Dim Qry As String = ""
             Dim Whr As String = ""
             Dim dt As DataTable = Nothing
-
+            Dim StructureCode As String = ""
             If txtMultiItem.arrValueMember IsNot Nothing AndAlso txtMultiItem.arrValueMember.Count > 0 Then
                 Whr = " and Item_Code in (" + clsCommon.GetMulcallString(txtMultiItem.arrValueMember) + ")"
             End If
             If txtMultiStructureCode.arrValueMember IsNot Nothing AndAlso txtMultiStructureCode.arrValueMember.Count > 0 Then
-                Whr = " and TSPL_ITEM_MASTER.Structure_Code in (" + clsCommon.GetMulcallString(txtMultiStructureCode.arrValueMember) + ")"
+                StructureCode = " and TSPL_ITEM_MASTER.Structure_Code in (" + clsCommon.GetMulcallString(txtMultiStructureCode.arrValueMember) + ")"
             End If
             If ddlReportType.SelectedValue = "Stock Journal" Then
                 If clsCommon.myLen(txtLocation.Value) <= 0 Then
@@ -92,7 +92,10 @@ Public Class rptSalesStock
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     Location = " and Location_Code='" + txtLocation.Value + "'"
                 End If
-            Qry = " select TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Item_Code,max(TSPL_ITEM_MASTER.Short_Description)Item_Desc,MAX(I.UOM_Code)Report_UOM,
+                If txtMultiItem.arrValueMember IsNot Nothing AndAlso txtMultiItem.arrValueMember.Count > 0 Then
+                    Whr = " and TSPL_ITEM_MASTER.Item_Code in (" + clsCommon.GetMulcallString(txtMultiItem.arrValueMember) + ")"
+                End If
+                Qry = " select TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Item_Code,max(TSPL_ITEM_MASTER.Short_Description)Item_Desc,MAX(I.UOM_Code)Report_UOM,
                  convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))))  AS [OPBal]
                  ,convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))))  AS Received_Qty
                 , convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 0 else 1.00 end) )))  AS Issued_Qty,convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end)) )) AS [Balance_Qty],max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.City_Code)City_Code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "' as fromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "' as Todate
@@ -101,8 +104,8 @@ Public Class rptSalesStock
                  left outer join TSPL_STRUCTURE_MASTER on TSPL_STRUCTURE_MASTER.Structure_Code=TSPL_ITEM_MASTER.Structure_Code
                  left outer join  TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_INVENTORY_MOVEMENT.Stock_UOM
                  left join ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON TSPL_INVENTORY_MOVEMENT.Item_Code = I.item_code
-                 left outer join TSPL_COMPANY_MASTER on 2=2
-                where TSPL_ITEM_MASTER.Item_Type= 'F' " + Location + " " + Whr + "
+                 left outer join TSPL_COMPANY_MASTER  on 2=2
+                where TSPL_ITEM_MASTER.Item_Type= 'F' " + Location + " " + StructureCode + " " + Whr + "
                 Group by TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Structure_Code order by Structure_Code "
 
             End If
