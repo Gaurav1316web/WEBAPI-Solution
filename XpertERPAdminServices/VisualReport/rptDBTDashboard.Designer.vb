@@ -22,18 +22,18 @@ Partial Class rptDBTDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.MyRadGridView3 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -82,7 +82,10 @@ Partial Class rptDBTDashboard
         Me.dtpToDate_Transport = New common.Controls.MyDateTimePicker()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rdbUnposted = New System.Windows.Forms.RadioButton()
+        Me.rbtnAll = New System.Windows.Forms.RadioButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.rdbPosted = New System.Windows.Forms.RadioButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
@@ -103,9 +106,6 @@ Partial Class rptDBTDashboard
         Me.gvPaymentStatus = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvJanAdh = New common.UserControls.MyRadGridView()
-        Me.rbtnAll = New System.Windows.Forms.RadioButton()
-        Me.rdbPosted = New System.Windows.Forms.RadioButton()
-        Me.rdbUnposted = New System.Windows.Forms.RadioButton()
         Me.RadPageViewPage6.SuspendLayout()
         CType(Me.MyRadGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyRadGridView3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -198,13 +198,14 @@ Partial Class rptDBTDashboard
         '
         Me.MyRadGridView3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MyRadGridView3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.MyRadGridView3.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.MyRadGridView3.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.MyRadGridView3.MyStopExport = False
         Me.MyRadGridView3.Name = "MyRadGridView3"
         Me.MyRadGridView3.ReadOnly = True
         Me.MyRadGridView3.ShowHeaderCellButtons = True
         Me.MyRadGridView3.Size = New System.Drawing.Size(1083, 514)
         Me.MyRadGridView3.TabIndex = 9
+        Me.MyRadGridView3.VarID = ""
         '
         'RadPageViewPage7
         '
@@ -250,13 +251,14 @@ Partial Class rptDBTDashboard
         '
         Me.gvTransportcost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransportcost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransportcost.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvTransportcost.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvTransportcost.MyStopExport = False
         Me.gvTransportcost.Name = "gvTransportcost"
         Me.gvTransportcost.ReadOnly = True
         Me.gvTransportcost.ShowHeaderCellButtons = True
         Me.gvTransportcost.Size = New System.Drawing.Size(1076, 498)
         Me.gvTransportcost.TabIndex = 4
+        Me.gvTransportcost.VarID = ""
         '
         'GroupBox7
         '
@@ -365,10 +367,10 @@ Partial Class rptDBTDashboard
         Me.ddlTransportMonth.IsSourceFromTable = False
         Me.ddlTransportMonth.IsSourceFromValueList = False
         Me.ddlTransportMonth.IsUnique = False
-        RadListDataItem5.Text = "MCC"
-        RadListDataItem6.Text = "PLANT"
-        Me.ddlTransportMonth.Items.Add(RadListDataItem5)
-        Me.ddlTransportMonth.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "MCC"
+        RadListDataItem2.Text = "PLANT"
+        Me.ddlTransportMonth.Items.Add(RadListDataItem1)
+        Me.ddlTransportMonth.Items.Add(RadListDataItem2)
         Me.ddlTransportMonth.Location = New System.Drawing.Point(685, 28)
         Me.ddlTransportMonth.MendatroryField = True
         Me.ddlTransportMonth.MyLinkLable1 = Nothing
@@ -670,10 +672,10 @@ Partial Class rptDBTDashboard
         Me.ddlStoreMonth.IsSourceFromTable = False
         Me.ddlStoreMonth.IsSourceFromValueList = False
         Me.ddlStoreMonth.IsUnique = False
-        RadListDataItem1.Text = "MCC"
-        RadListDataItem2.Text = "PLANT"
-        Me.ddlStoreMonth.Items.Add(RadListDataItem1)
-        Me.ddlStoreMonth.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "MCC"
+        RadListDataItem4.Text = "PLANT"
+        Me.ddlStoreMonth.Items.Add(RadListDataItem3)
+        Me.ddlStoreMonth.Items.Add(RadListDataItem4)
         Me.ddlStoreMonth.Location = New System.Drawing.Point(678, 20)
         Me.ddlStoreMonth.MendatroryField = True
         Me.ddlStoreMonth.MyLinkLable1 = Nothing
@@ -716,13 +718,14 @@ Partial Class rptDBTDashboard
         '
         Me.gv_po.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_po.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_po.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv_po.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv_po.MyStopExport = False
         Me.gv_po.Name = "gv_po"
         Me.gv_po.ReadOnly = True
         Me.gv_po.ShowHeaderCellButtons = True
         Me.gv_po.Size = New System.Drawing.Size(1072, 250)
         Me.gv_po.TabIndex = 4
+        Me.gv_po.VarID = ""
         '
         'gv_store
         '
@@ -733,13 +736,14 @@ Partial Class rptDBTDashboard
         '
         Me.gv_store.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_store.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_store.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv_store.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv_store.MyStopExport = False
         Me.gv_store.Name = "gv_store"
         Me.gv_store.ReadOnly = True
         Me.gv_store.ShowHeaderCellButtons = True
         Me.gv_store.Size = New System.Drawing.Size(1072, 224)
         Me.gv_store.TabIndex = 5
+        Me.gv_store.VarID = ""
         '
         'RadPageViewPage8
         '
@@ -878,6 +882,26 @@ Partial Class rptDBTDashboard
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Filter"
         '
+        'rdbUnposted
+        '
+        Me.rdbUnposted.AutoSize = True
+        Me.rdbUnposted.Location = New System.Drawing.Point(346, 20)
+        Me.rdbUnposted.Name = "rdbUnposted"
+        Me.rdbUnposted.Size = New System.Drawing.Size(75, 17)
+        Me.rdbUnposted.TabIndex = 336
+        Me.rdbUnposted.Text = "UnPosted"
+        Me.rdbUnposted.UseVisualStyleBackColor = True
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.AutoSize = True
+        Me.rbtnAll.Location = New System.Drawing.Point(426, 20)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(38, 17)
+        Me.rbtnAll.TabIndex = 12
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.UseVisualStyleBackColor = True
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -886,6 +910,18 @@ Partial Class rptDBTDashboard
         Me.btnPrint.Size = New System.Drawing.Size(77, 20)
         Me.btnPrint.TabIndex = 335
         Me.btnPrint.Text = "Print"
+        '
+        'rdbPosted
+        '
+        Me.rdbPosted.AutoSize = True
+        Me.rdbPosted.Checked = True
+        Me.rdbPosted.Location = New System.Drawing.Point(280, 20)
+        Me.rdbPosted.Name = "rdbPosted"
+        Me.rdbPosted.Size = New System.Drawing.Size(60, 17)
+        Me.rdbPosted.TabIndex = 13
+        Me.rdbPosted.TabStop = True
+        Me.rdbPosted.Text = "Posted"
+        Me.rdbPosted.UseVisualStyleBackColor = True
         '
         'btnreset
         '
@@ -1062,12 +1098,13 @@ Partial Class rptDBTDashboard
         Me.gvDBTSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDBTSummary.MasterTemplate.ShowGroupedColumns = True
         Me.gvDBTSummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDBTSummary.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gvDBTSummary.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvDBTSummary.MyStopExport = False
         Me.gvDBTSummary.Name = "gvDBTSummary"
         Me.gvDBTSummary.ShowHeaderCellButtons = True
         Me.gvDBTSummary.Size = New System.Drawing.Size(1033, 512)
         Me.gvDBTSummary.TabIndex = 3
+        Me.gvDBTSummary.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -1091,12 +1128,13 @@ Partial Class rptDBTDashboard
         Me.gvMismatchqty.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMismatchqty.MasterTemplate.ShowGroupedColumns = True
         Me.gvMismatchqty.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMismatchqty.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvMismatchqty.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvMismatchqty.MyStopExport = False
         Me.gvMismatchqty.Name = "gvMismatchqty"
         Me.gvMismatchqty.ShowHeaderCellButtons = True
         Me.gvMismatchqty.Size = New System.Drawing.Size(1033, 512)
         Me.gvMismatchqty.TabIndex = 2
+        Me.gvMismatchqty.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -1120,12 +1158,13 @@ Partial Class rptDBTDashboard
         Me.gvPaymentStatus.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPaymentStatus.MasterTemplate.ShowGroupedColumns = True
         Me.gvPaymentStatus.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPaymentStatus.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvPaymentStatus.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvPaymentStatus.MyStopExport = False
         Me.gvPaymentStatus.Name = "gvPaymentStatus"
         Me.gvPaymentStatus.ShowHeaderCellButtons = True
         Me.gvPaymentStatus.Size = New System.Drawing.Size(1033, 512)
         Me.gvPaymentStatus.TabIndex = 3
+        Me.gvPaymentStatus.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -1149,44 +1188,13 @@ Partial Class rptDBTDashboard
         Me.gvJanAdh.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvJanAdh.MasterTemplate.ShowGroupedColumns = True
         Me.gvJanAdh.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvJanAdh.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gvJanAdh.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvJanAdh.MyStopExport = False
         Me.gvJanAdh.Name = "gvJanAdh"
         Me.gvJanAdh.ShowHeaderCellButtons = True
         Me.gvJanAdh.Size = New System.Drawing.Size(1033, 512)
         Me.gvJanAdh.TabIndex = 3
-        '
-        'rbtnAll
-        '
-        Me.rbtnAll.AutoSize = True
-        Me.rbtnAll.Location = New System.Drawing.Point(426, 20)
-        Me.rbtnAll.Name = "rbtnAll"
-        Me.rbtnAll.Size = New System.Drawing.Size(38, 17)
-        Me.rbtnAll.TabIndex = 12
-        Me.rbtnAll.Text = "All"
-        Me.rbtnAll.UseVisualStyleBackColor = True
-        '
-        'rdbPosted
-        '
-        Me.rdbPosted.AutoSize = True
-        Me.rdbPosted.Checked = True
-        Me.rdbPosted.Location = New System.Drawing.Point(280, 20)
-        Me.rdbPosted.Name = "rdbPosted"
-        Me.rdbPosted.Size = New System.Drawing.Size(60, 17)
-        Me.rdbPosted.TabIndex = 13
-        Me.rdbPosted.TabStop = True
-        Me.rdbPosted.Text = "Posted"
-        Me.rdbPosted.UseVisualStyleBackColor = True
-        '
-        'rdbUnposted
-        '
-        Me.rdbUnposted.AutoSize = True
-        Me.rdbUnposted.Location = New System.Drawing.Point(346, 20)
-        Me.rdbUnposted.Name = "rdbUnposted"
-        Me.rdbUnposted.Size = New System.Drawing.Size(75, 17)
-        Me.rdbUnposted.TabIndex = 336
-        Me.rdbUnposted.Text = "UnPosted"
-        Me.rdbUnposted.UseVisualStyleBackColor = True
+        Me.gvJanAdh.VarID = ""
         '
         'rptDBTDashboard
         '
