@@ -82,7 +82,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Telerik.WinControls">
-      <HintPath>..\..\DLL\Telerik.WinControls.dll</HintPath>
+      <HintPath>..\..\..\GIT\XpertERPRCDF\XpertERP\bin\Debug\Telerik.WinControls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.ChartView">
       <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.ChartView.dll</HintPath>
@@ -126,7 +126,7 @@
       <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.Design.dll</HintPath>
     </Reference>
     <Reference Include="TelerikCommon">
-      <HintPath>..\..\DLL\TelerikCommon.dll</HintPath>
+      <HintPath>..\..\..\GIT\XpertERPRCDF\XpertERP\bin\Debug\TelerikCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>

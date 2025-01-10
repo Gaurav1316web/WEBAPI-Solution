@@ -409,7 +409,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
                         BaseQry += " TSPL_Vendor_MASTER.Bank_Code+TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code as GRPColumn,"
 
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal AndAlso SettVSPHoldPaymentNotCompanyBank = True Then
-                        BaseQry += "  TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code as GRPColumn,"
+                        BaseQry += "  TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Branch_Name as GRPColumn,"
                     Else
                         BaseQry += " TSPL_Vendor_MASTER.Bank_Code as GRPColumn,"
                     End If
@@ -428,7 +428,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.Fr
 
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal AndAlso SettVSPHoldPaymentNotCompanyBank = True Then
                         'If SettVSPHoldPaymentNotCompanyBank = True Then
-                        BaseQry += "  TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code,"
+                        BaseQry += "  TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Branch_Name ,"
                         'End If
                     Else
                         BaseQry += "  TSPL_Vendor_MASTER.Bank_Code,"
@@ -1054,167 +1054,185 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
             Gv1.Columns("GRPColumn").HeaderText = "Group Range"
             Gv1.Columns("GRPColumn").IsVisible = False
 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                Gv1.Columns("Payee_Joint_Branch_Name").HeaderText = "Payee_Joint_Branch_Name"
+                Gv1.Columns("Payee_Joint_Branch_Name").IsVisible = False
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Gv1.Columns("Bank_Code").HeaderText = "Bank"
+                Gv1.Columns("Bank_Code").IsVisible = False
+
+                Gv1.Columns("Branch_Name").HeaderText = "Branch"
+                Gv1.Columns("Branch_Name").IsVisible = False
+            End If
+
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
-                Gv1.Columns("GRPColumns").HeaderText = "Group Ranges"
-                Gv1.Columns("GRPColumns").IsVisible = False
+                    Gv1.Columns("GRPColumns").HeaderText = "Group Ranges"
+                    Gv1.Columns("GRPColumns").IsVisible = False
 
-                Gv1.Columns("Bank_Name").HeaderText = "Bank_Name"
-                Gv1.Columns("Bank_Name").IsVisible = False
+                    Gv1.Columns("Bank_Name").HeaderText = "Bank_Name"
+                    Gv1.Columns("Bank_Name").IsVisible = False
 
-                Gv1.Columns("BankAccountNo").HeaderText = "BankAccountNo"
-                Gv1.Columns("BankAccountNo").IsVisible = False
+                    Gv1.Columns("BankAccountNo").HeaderText = "BankAccountNo"
+                    Gv1.Columns("BankAccountNo").IsVisible = False
 
-                Gv1.Columns("BankIFSCCode").HeaderText = "BankIFSCCode"
-                Gv1.Columns("BankIFSCCode").IsVisible = False
+                    Gv1.Columns("BankIFSCCode").HeaderText = "BankIFSCCode"
+                    Gv1.Columns("BankIFSCCode").IsVisible = False
 
-                Gv1.Columns("BankBranchAddress").HeaderText = "BankBranchAddress"
-                Gv1.Columns("BankBranchAddress").IsVisible = False
-            End If
+                    Gv1.Columns("BankBranchAddress").HeaderText = "BankBranchAddress"
+                    Gv1.Columns("BankBranchAddress").IsVisible = False
 
+                    Gv1.Columns("Company Bank").HeaderText = "Company Bank"
+                    Gv1.Columns("Company Bank").IsVisible = False
 
-            Gv1.Columns("Comp_Name").HeaderText = "Company Name"
-            Gv1.Columns("Comp_Name").IsVisible = False
+                    Gv1.Columns("Company Bank Account No").HeaderText = "Company Bank Account No"
+                    Gv1.Columns("Company Bank Account No").IsVisible = False
 
-            Gv1.Columns("Comp_address").HeaderText = "Company Address"
-            Gv1.Columns("Comp_address").IsVisible = False
+                    Gv1.Columns("Bank_Code").HeaderText = "Bank"
+                    Gv1.Columns("Bank_Code").IsVisible = True
 
-            Gv1.Columns("From_Date").HeaderText = "Date"
-            Gv1.Columns("From_Date").IsVisible = False
-
-            Gv1.Columns("GSTReg_No").HeaderText = "GSTIN"
-            Gv1.Columns("GSTReg_No").IsVisible = False
-
-            Gv1.Columns("Doc_No").HeaderText = "Documant No"
-            Gv1.Columns("Doc_No").IsVisible = False
-
-            Gv1.Columns("CompPhone").HeaderText = "Phone No"
-            Gv1.Columns("CompPhone").IsVisible = False
-
-            Gv1.Columns("Regn_No").HeaderText = "Regn No"
-            Gv1.Columns("Regn_No").IsVisible = False
-
-            Gv1.Columns("MCC_NAME").HeaderText = "Area"
-            Gv1.Columns("MCC_NAME").IsVisible = False
-
-            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            Gv1.Columns("FD").HeaderText = "FD"
-            Gv1.Columns("FD").IsVisible = False
-
-            Gv1.Columns("TD").HeaderText = "TD"
-            Gv1.Columns("TD").IsVisible = False
-
-            'Gv1.Columns("[Bank Advise No]").HeaderText = "Bank Advise No"
-            'Gv1.Columns("[Bank Advise No]").IsVisible = True
-
-            'Gv1.Columns("[Bank Advise Date]").HeaderText = "Bank Advise Date"
-            'Gv1.Columns("[Bank Advise Date]").IsVisible = False
-
-            'Gv1.Columns("Bank Advice Status").HeaderText = "Bank Advice Status"
-            'Gv1.Columns("Bank Advice Status").IsVisible = False
-            'End If
-
-            If MultipleFinderFillAuto Then
-            Else
-                If clsCommon.myLen(Gv1.Columns("Location_Code")) Then
-                    Gv1.Columns("Location_Code").HeaderText = "Location"
-                    Gv1.Columns("Location_Code").IsVisible = False
+                    Gv1.Columns("Branch_Name").HeaderText = "Branch"
+                    Gv1.Columns("Branch_Name").IsVisible = True
                 End If
-                If clsCommon.myLen(Gv1.Columns("Location_Desc")) Then
-                    Gv1.Columns("Location_Desc").HeaderText = "Location Name"
-                    Gv1.Columns("Location_Desc").IsVisible = False
+
+
+                Gv1.Columns("Comp_Name").HeaderText = "Company Name"
+                Gv1.Columns("Comp_Name").IsVisible = False
+
+                Gv1.Columns("Comp_address").HeaderText = "Company Address"
+                Gv1.Columns("Comp_address").IsVisible = False
+
+                Gv1.Columns("From_Date").HeaderText = "Date"
+                Gv1.Columns("From_Date").IsVisible = False
+
+                Gv1.Columns("GSTReg_No").HeaderText = "GSTIN"
+                Gv1.Columns("GSTReg_No").IsVisible = False
+
+                Gv1.Columns("Doc_No").HeaderText = "Documant No"
+                Gv1.Columns("Doc_No").IsVisible = False
+
+                Gv1.Columns("CompPhone").HeaderText = "Phone No"
+                Gv1.Columns("CompPhone").IsVisible = False
+
+                Gv1.Columns("Regn_No").HeaderText = "Regn No"
+                Gv1.Columns("Regn_No").IsVisible = False
+
+                Gv1.Columns("MCC_NAME").HeaderText = "Area"
+                Gv1.Columns("MCC_NAME").IsVisible = False
+
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Gv1.Columns("FD").HeaderText = "FD"
+                Gv1.Columns("FD").IsVisible = False
+
+                Gv1.Columns("TD").HeaderText = "TD"
+                Gv1.Columns("TD").IsVisible = False
+
+
+                'Gv1.Columns("[Bank Advise No]").HeaderText = "Bank Advise No"
+                'Gv1.Columns("[Bank Advise No]").IsVisible = True
+
+                'Gv1.Columns("[Bank Advise Date]").HeaderText = "Bank Advise Date"
+                'Gv1.Columns("[Bank Advise Date]").IsVisible = False
+
+                'Gv1.Columns("Bank Advice Status").HeaderText = "Bank Advice Status"
+                'Gv1.Columns("Bank Advice Status").IsVisible = False
+                'End If
+
+                If MultipleFinderFillAuto Then
+                Else
+                    If clsCommon.myLen(Gv1.Columns("Location_Code")) Then
+                        Gv1.Columns("Location_Code").HeaderText = "Location"
+                        Gv1.Columns("Location_Code").IsVisible = False
+                    End If
+                    If clsCommon.myLen(Gv1.Columns("Location_Desc")) Then
+                        Gv1.Columns("Location_Desc").HeaderText = "Location Name"
+                        Gv1.Columns("Location_Desc").IsVisible = False
+                    End If
                 End If
-            End If
 
 
-            Gv1.Columns("Fiscal_Name").HeaderText = "Fiscal Year"
-            Gv1.Columns("Fiscal_Name").IsVisible = False
+                Gv1.Columns("Fiscal_Name").HeaderText = "Fiscal Year"
+                Gv1.Columns("Fiscal_Name").IsVisible = False
 
-            Gv1.Columns("CycleNo").HeaderText = "Cycle No"
-            Gv1.Columns("CycleNo").IsVisible = False
+                Gv1.Columns("CycleNo").HeaderText = "Cycle No"
+                Gv1.Columns("CycleNo").IsVisible = False
 
-            Gv1.Columns("Date_Range").HeaderText = "Date Range"
-            Gv1.Columns("Date_Range").IsVisible = False
+                Gv1.Columns("Date_Range").HeaderText = "Date Range"
+                Gv1.Columns("Date_Range").IsVisible = False
 
-            Gv1.Columns("VLC_CODE_Uploader").HeaderText = "DCS Code"
-            Gv1.Columns("VLC_CODE_Uploader").IsVisible = True
+                Gv1.Columns("VLC_CODE_Uploader").HeaderText = "DCS Code"
+                Gv1.Columns("VLC_CODE_Uploader").IsVisible = True
 
-            Gv1.Columns("Payee_Joint_Name").HeaderText = "Society Name"
-            Gv1.Columns("Payee_Joint_Name").IsVisible = True
+                Gv1.Columns("Payee_Joint_Name").HeaderText = "Society Name"
+                Gv1.Columns("Payee_Joint_Name").IsVisible = True
 
-            Gv1.Columns("Bank_Code").HeaderText = "Bank"
-            Gv1.Columns("Bank_Code").IsVisible = False
+                Gv1.Columns("Bank_Code_Desc").HeaderText = "Bank Name"
+                Gv1.Columns("Bank_Code_Desc").IsVisible = MultipleFinderFillAuto
 
-            Gv1.Columns("Branch_Name").HeaderText = "Branch"
-            Gv1.Columns("Branch_Name").IsVisible = False
+                Gv1.Columns("Payee_Joint_IFSC_Code").HeaderText = "IFSC Code"
+                Gv1.Columns("Payee_Joint_IFSC_Code").IsVisible = MultipleFinderFillAuto
 
+                Gv1.Columns("Payee_Joint_Account_No").HeaderText = "Account No"
+                Gv1.Columns("Payee_Joint_Account_No").IsVisible = True
 
-            Gv1.Columns("Bank_Code_Desc").HeaderText = "Bank Name"
-            Gv1.Columns("Bank_Code_Desc").IsVisible = MultipleFinderFillAuto
-
-            Gv1.Columns("Payee_Joint_IFSC_Code").HeaderText = "IFSC Code"
-            Gv1.Columns("Payee_Joint_IFSC_Code").IsVisible = MultipleFinderFillAuto
-
-            Gv1.Columns("Payee_Joint_Account_No").HeaderText = "Account No"
-            Gv1.Columns("Payee_Joint_Account_No").IsVisible = True
-
-            Gv1.Columns("Payable_Amount").HeaderText = "Amount"
-            Gv1.Columns("Payable_Amount").IsVisible = True
-            'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+                Gv1.Columns("Payable_Amount").HeaderText = "Amount"
+                Gv1.Columns("Payable_Amount").IsVisible = True
+                'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
 
 
-        ElseIf rbtnBankWiseSummary.IsChecked Then
+            ElseIf rbtnBankWiseSummary.IsChecked Then
 
-            Gv1.Columns("SNO").HeaderText = "SNo"
-            Gv1.Columns("SNO").IsVisible = True
+                Gv1.Columns("SNO").HeaderText = "SNo"
+                Gv1.Columns("SNO").IsVisible = True
 
-            Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
-            Gv1.Columns("CycleRange").IsVisible = False
+                Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
+                Gv1.Columns("CycleRange").IsVisible = False
 
-            Gv1.Columns("GRPColumn").HeaderText = "Group Range"
-            Gv1.Columns("GRPColumn").IsVisible = False
+                Gv1.Columns("GRPColumn").HeaderText = "Group Range"
+                Gv1.Columns("GRPColumn").IsVisible = False
 
-            Gv1.Columns("Comp_Name").HeaderText = "Company Name"
-            Gv1.Columns("Comp_Name").IsVisible = False
+                Gv1.Columns("Comp_Name").HeaderText = "Company Name"
+                Gv1.Columns("Comp_Name").IsVisible = False
 
-            Gv1.Columns("Comp_address").HeaderText = "Company Address"
-            Gv1.Columns("Comp_address").IsVisible = False
+                Gv1.Columns("Comp_address").HeaderText = "Company Address"
+                Gv1.Columns("Comp_address").IsVisible = False
 
-            Gv1.Columns("From_Date").HeaderText = "Date"
-            Gv1.Columns("From_Date").IsVisible = False
+                Gv1.Columns("From_Date").HeaderText = "Date"
+                Gv1.Columns("From_Date").IsVisible = False
 
-            Gv1.Columns("GSTReg_No").HeaderText = "GSTIN"
-            Gv1.Columns("GSTReg_No").IsVisible = False
+                Gv1.Columns("GSTReg_No").HeaderText = "GSTIN"
+                Gv1.Columns("GSTReg_No").IsVisible = False
 
-            Gv1.Columns("Fiscal_Name").HeaderText = "Fiscal Year"
-            Gv1.Columns("Fiscal_Name").IsVisible = False
+                Gv1.Columns("Fiscal_Name").HeaderText = "Fiscal Year"
+                Gv1.Columns("Fiscal_Name").IsVisible = False
 
-            Gv1.Columns("CycleNo").HeaderText = "Cycle No"
-            Gv1.Columns("CycleNo").IsVisible = False
+                Gv1.Columns("CycleNo").HeaderText = "Cycle No"
+                Gv1.Columns("CycleNo").IsVisible = False
 
-            Gv1.Columns("Date_Range").HeaderText = "Date Range"
-            Gv1.Columns("Date_Range").IsVisible = False
+                Gv1.Columns("Date_Range").HeaderText = "Date Range"
+                Gv1.Columns("Date_Range").IsVisible = False
 
-            Gv1.Columns("Bank_Code").HeaderText = "Bank"
-            Gv1.Columns("Bank_Code").IsVisible = True
+                Gv1.Columns("Bank_Code").HeaderText = "Bank"
+                Gv1.Columns("Bank_Code").IsVisible = True
 
-            Gv1.Columns("Branch_Name").HeaderText = "Branch"
-            Gv1.Columns("Branch_Name").IsVisible = True
+                Gv1.Columns("Branch_Name").HeaderText = "Branch"
+                Gv1.Columns("Branch_Name").IsVisible = True
 
-            Gv1.Columns("Bank_Code_Desc").HeaderText = "Bank Name"
-            Gv1.Columns("Bank_Code_Desc").IsVisible = MultipleFinderFillAuto
+                Gv1.Columns("Bank_Code_Desc").HeaderText = "Bank Name"
+                Gv1.Columns("Bank_Code_Desc").IsVisible = MultipleFinderFillAuto
 
-            Gv1.Columns("Payee_Joint_IFSC_Code").HeaderText = "IFSC Code"
-            Gv1.Columns("Payee_Joint_IFSC_Code").IsVisible = MultipleFinderFillAuto
+                Gv1.Columns("Payee_Joint_IFSC_Code").HeaderText = "IFSC Code"
+                Gv1.Columns("Payee_Joint_IFSC_Code").IsVisible = MultipleFinderFillAuto
 
-            Gv1.Columns("Payee_Joint_Account_No").HeaderText = "Account No"
-            Gv1.Columns("Payee_Joint_Account_No").IsVisible = MultipleFinderFillAuto
+                Gv1.Columns("Payee_Joint_Account_No").HeaderText = "Account No"
+                Gv1.Columns("Payee_Joint_Account_No").IsVisible = MultipleFinderFillAuto
 
-            Gv1.Columns("Payable_Amount").HeaderText = "Amount"
-            Gv1.Columns("Payable_Amount").IsVisible = True
-            Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
-            'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
-        ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnCompulsoryWiseSummary.IsChecked Then
-            Gv1.Columns("Payable_Amount").HeaderText = "Amount"
+                Gv1.Columns("Payable_Amount").HeaderText = "Amount"
+                Gv1.Columns("Payable_Amount").IsVisible = True
+                Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+                'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
+            ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnCompulsoryWiseSummary.IsChecked Then
+                Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
             Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
             'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
