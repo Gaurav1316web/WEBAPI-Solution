@@ -12,11 +12,16 @@ Public Class rptHSNWiseSaleReport
         funreset()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
+        chkKKFMandi.Visible = False
     End Sub
 
     Private Sub txtTaxCode__My_Click(sender As Object, e As EventArgs) Handles txtTaxCode._My_Click
         Try
             Dim qry As String = "select Tax_Code as [Tax Code],Tax_Code_Desc as [Tax Name] from TSPL_TAX_MASTER  "
+            If chkKKFMandi.Checked Then
+            Else
+                qry += " where Type in ('SGST','CGST','IGST') OR Is_TCS = 'Y' "
+            End If
             txtTaxCode.arrValueMember = clsCommon.ShowMultipleSelectForm("HSNTax", qry, "Tax Code", "Tax Name", txtTaxCode.arrValueMember, txtTaxCode.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -159,21 +164,40 @@ Public Class rptHSNWiseSaleReport
             Dim TaxDesc As String = ""
             Dim TaxAmount As String = ""
             qry = ""
-            dtTax = clsDBFuncationality.GetDataTable("with CTERawData as ( select Tax,max(Tax_Code_Desc)Tax_Code_Desc,Sequence_No,max(Type)Type from ( select tax,Tax_Code_Desc ,Type,case when type = 'M' then 1 when type = 'K' then 2 when type = 'SGST' then 3  when type = 'CGST' then 4 when type = 'IGST' then 5 when type = 'T' then 6  end as Sequence_No from ( " & BaseQuery & " left outer join TSPL_ITEM_MASTER ON  tspl_item_master.Item_Code = XXX.Item_Code where Tax<> '' and  tspl_item_master.Item_Type = 'F' ) XXXXX   group by Tax,Sequence_No )	select CTERawData.* from CTERawData order by Sequence_No")
+            If chkKKFMandi.Checked Then
+                dtTax = clsDBFuncationality.GetDataTable("with CTERawData as ( select Tax,max(Tax_Code_Desc)Tax_Code_Desc,Sequence_No,max(Type)Type from ( select tax,Tax_Code_Desc ,Type,case when type = 'M' then 1 when type = 'K' then 2 when type = 'SGST' then 3  when type = 'CGST' then 4 when type = 'IGST' then 5 when Is_TCS = 'Y' then 6  end as Sequence_No from ( " & BaseQuery & " left outer join TSPL_ITEM_MASTER ON  tspl_item_master.Item_Code = XXX.Item_Code where Tax<> '' and  tspl_item_master.Item_Type = 'F' ) XXXXX   group by Tax,Sequence_No )	select CTERawData.* from CTERawData order by Sequence_No")
+            Else
+                dtTax = clsDBFuncationality.GetDataTable("SELECT * FROM ( select Tax_Code,Tax_Code_Desc,type,case when type = 'SGST' then 1 when type = 'CGST' then 2  when type = 'IGST' then 3  end as Sequence_No from TSPL_TAX_MASTER where Type in ('SGST','CGST','IGST') )X Order by Sequence_No ")
+            End If
+
             Dim VoucherCount As String = clsDBFuncationality.getSingleValue("select COUNT(Document_No) Document_No  FROM ( select Document_No from ( " & BaseQuery & "  group by Document_No )XXX ")
             For ii As Integer = 0 To dtTax.Rows.Count - 1
-                If isPrint Then
-                    TaxDesc += " TaxAmount_" + clsCommon.myCstr(ii + 1) + " ,Tax_" + clsCommon.myCstr(ii + 1) + ", "
-                    qry += " ,'" & dtTax.Rows(ii)("Tax_Code_Desc") & "' as  Tax_" + clsCommon.myCstr(ii + 1) + " "
-                    qry += " ,sum(Case When xxx.Tax ='" & dtTax.Rows(ii)("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as TaxAmount_" + clsCommon.myCstr(ii + 1) + " "
-                    TaxAmount += ",max(Tax_" + clsCommon.myCstr(ii + 1) + ") as  Tax_" + clsCommon.myCstr(ii + 1) + " , sum(TaxAmount_" + clsCommon.myCstr(ii + 1) + ") as TaxAmount_" + clsCommon.myCstr(ii + 1) + ""
+                If chkKKFMandi.Checked Then
+                    If isPrint Then
+                        TaxDesc += " TaxAmount_" + clsCommon.myCstr(ii + 1) + " ,Tax_" + clsCommon.myCstr(ii + 1) + ", "
+                        qry += " ,'" & dtTax.Rows(ii)("Tax_Code_Desc") & "' as  Tax_" + clsCommon.myCstr(ii + 1) + " "
+                        qry += " ,sum(Case When xxx.Tax ='" & dtTax.Rows(ii)("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as TaxAmount_" + clsCommon.myCstr(ii + 1) + " "
+                        TaxAmount += ",max(Tax_" + clsCommon.myCstr(ii + 1) + ") as  Tax_" + clsCommon.myCstr(ii + 1) + " , sum(TaxAmount_" + clsCommon.myCstr(ii + 1) + ") as TaxAmount_" + clsCommon.myCstr(ii + 1) + ""
+                    Else
+                        TaxDesc += "[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
+                        qry += " ,sum(case when xxx.Tax ='" & dtTax.Rows(ii)("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as [" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount]"
+                        TaxAmount += " sum([" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount])[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
+                    End If
                 Else
-                    TaxDesc += "[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
-                    qry += " ,sum(case when xxx.Tax ='" & dtTax.Rows(ii)("Tax") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as [" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount]"
-                    TaxAmount += " sum([" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount])[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
+                    If isPrint Then
+                        TaxDesc += " TaxAmount_" + clsCommon.myCstr(ii + 1) + " ,Tax_" + clsCommon.myCstr(ii + 1) + ", "
+                        qry += " ,'" & dtTax.Rows(ii)("Tax_Code_Desc") & "' as  Tax_" + clsCommon.myCstr(ii + 1) + " "
+                        qry += " ,sum(Case When xxx.Type ='" & dtTax.Rows(ii)("Type") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as TaxAmount_" + clsCommon.myCstr(ii + 1) + " "
+                        TaxAmount += ",max(Tax_" + clsCommon.myCstr(ii + 1) + ") as  Tax_" + clsCommon.myCstr(ii + 1) + " , sum(TaxAmount_" + clsCommon.myCstr(ii + 1) + ") as TaxAmount_" + clsCommon.myCstr(ii + 1) + ""
+                    Else
+                        TaxDesc += "[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
+                        qry += " ,sum(case when xxx.Type ='" & dtTax.Rows(ii)("Type") & "' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as [" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount]"
+                        TaxAmount += " sum([" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount])[" & dtTax.Rows(ii)("Tax_Code_Desc") & " Amount] ,"
+                    End If
                 End If
+
             Next
-            BaseQuery = " select xxx.*,Type from (  " & BaseQuery & "  )xxx "
+            BaseQuery = " select xxx.*,Type,Is_TCS from (  " & BaseQuery & "  )xxx "
             Dim isShowKFFMandiAdd As String = ""
             Dim isShowKFFMandiRemove As String
             If chkKKFMandi.Checked Then
@@ -187,12 +211,12 @@ Public Class rptHSNWiseSaleReport
             qry += ",Type "
             If isPrint Then
                 qry = " select  " & VoucherCount & " As VoucherCount, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate,max(TypeOfSupply)TypeOfSupply,max(Comp_Name)Comp_Name,max(HSN_Code)HSN_Code,Item_Code,max(Short_Description)Short_Description,max(UOM) AS UOM, sum(Total_Qty) As Total_Qty,sum(Item_Net_Amt)Item_Net_Amt,max(Tax_Rate)Tax_Rate," & isShowKFFMandiAdd & "
-               " & TaxAmount & " ," & isShowKFFMandiRemove & " from (
-                Select  case when TSPL_ITEM_MASTER.Item_Type = 'F' then 'Goods' else '' end AS TypeOfSupply, TSPL_COMPANY_MASTER.Comp_Name,  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,   isnull(Tax_Rate,0)Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt,kkfAmt,MandiAmt  from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt,  max( case when (xxx.Tax ='IGST' and isnull(Tax_Rate ,0) > 0)  then isnull(Tax_Rate ,0) else (case when xxx.Tax ='CGST' then 2 * isnull(Tax_Rate ,0) end ) end) as Tax_Rate,sum(case when xxx.Type ='K' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as kkfAmt, sum(case when xxx.Type ='M' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as MandiAmt  " & qry & " from ( "
+               " & TaxAmount & ",max(Tax_4) as  Tax_4 ,sum(TaxAmount_4)TaxAmount_4  ," & isShowKFFMandiRemove & " from (
+                Select  case when TSPL_ITEM_MASTER.Item_Type = 'F' then 'Goods' else '' end AS TypeOfSupply, TSPL_COMPANY_MASTER.Comp_Name,  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,   isnull(Tax_Rate,0)Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & "TaxAmount_4,Tax_4, Total_Tax_Amt,kkfAmt,MandiAmt  from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt,  max( case when (xxx.Tax ='IGST' and isnull(Tax_Rate ,0) > 0)  then isnull(Tax_Rate ,0) else (case when xxx.Tax ='CGST' then 2 * isnull(Tax_Rate ,0) end ) end) as Tax_Rate,sum(case when xxx.Type ='K' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as kkfAmt, sum(case when xxx.Type ='M' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as MandiAmt  " & qry & ",sum(case when Is_TCS = 'Y' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as TaxAmount_4, 'TCS'  as Tax_4 from ( "
 
             Else
-                qry = "select max(HSN_Code)HSN_Code,Item_Code,max(Short_Description)Short_Description,max(UOM) AS UOM, sum(Total_Qty) As Total_Qty,sum(Item_Net_Amt)Item_Net_Amt,max(Tax_Rate)Tax_Rate," & isShowKFFMandiAdd & "," & TaxAmount & " " & isShowKFFMandiRemove & "
-              from ( select  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,   isnull(Tax_Rate,0)Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & " Total_Tax_Amt,kkfAmt,MandiAmt  from (  select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt,  max( case when (xxx.Tax ='IGST' and isnull(Tax_Rate ,0) > 0)  then isnull(Tax_Rate ,0) else (case when xxx.Tax ='CGST' then 2 * isnull(Tax_Rate ,0) end ) end) as Tax_Rate,sum(case when xxx.Type ='K' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as kkfAmt, sum(case when xxx.Type ='M' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as MandiAmt  " & qry & " from ( "
+                qry = "select max(HSN_Code)HSN_Code,Item_Code,max(Short_Description)Short_Description,max(UOM) AS UOM, sum(Total_Qty) As Total_Qty,sum(Item_Net_Amt)Item_Net_Amt,max(Tax_Rate)Tax_Rate," & isShowKFFMandiAdd & "," & TaxAmount & " sum([TCS Amount])[TCS Amount]," & isShowKFFMandiRemove & "
+              from ( select  TSPL_ITEM_MASTER.HSN_Code,FINAL.Item_Code,TSPL_ITEM_MASTER.Short_Description,I.UOM_Code + '-' + I.UOM_Description AS UOM, isnull((Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Total_Qty,Item_Net_Amt,   isnull(Tax_Rate,0)Tax_Rate,(Item_Net_Amt - Total_Tax_Amt) AS Taxable_Amt, " & TaxDesc & "[TCS Amount], Total_Tax_Amt,kkfAmt,MandiAmt  from ( select xxx.Item_Code,UOM,SUM(Qty)Qty, sum(Item_Net_Amt)Item_Net_Amt, sum(Tax_Amt)Total_Tax_Amt,  max( case when (xxx.Tax ='IGST' and isnull(Tax_Rate ,0) > 0)  then isnull(Tax_Rate ,0) else (case when xxx.Tax ='CGST' then 2 * isnull(Tax_Rate ,0) end ) end) as Tax_Rate,sum(case when xxx.Type ='K' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as kkfAmt, sum(case when xxx.Type ='M' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as MandiAmt  " & qry & ",sum(case when Is_TCS = 'Y' then 1 else 0 end *  (isnull(Tax_Amt ,0))) as [TCS Amount] from ( "
             End If
 
             BaseQuery = "with CTERawData as ( " & qry & " " & BaseQuery & " GROUP BY xxx.Item_Code,UOM,Type ) FINAL left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FINAL.Item_Code  LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = FINAL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = FINAL.UOM	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON FINAL.Item_Code = I.item_code left outer join TSPL_COMPANY_MASTER on 2 =2   where tspl_item_master.Item_Type = 'F') xxxxFinal group by Item_Code ) select CTERawData.* from CTERawData"
@@ -211,7 +235,11 @@ Public Class rptHSNWiseSaleReport
                 If isPrint Then
                     RadPageView1.SelectedPage = RadPageViewPage1
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptHSNWiseSale", "HSN Wise Sale")
+                    If chkKKFMandi.Checked Then
+                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptHSNWiseSale", "HSN Wise Sale")
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptHSNWiseSaleALW", "HSN Wise Sale")
+                    End If
                     frmCRV = Nothing
                 Else
                     gv1.DataSource = dt
@@ -242,9 +270,9 @@ Public Class rptHSNWiseSaleReport
             gv1.Columns(ii).IsVisible = True
             gv1.Columns(ii).Width = 80
             If chkKKFMandi.Checked = False Then
-                If gv1.Columns(ii).Name.Contains("KKF") OrElse gv1.Columns(ii).Name.Contains("Mandi") OrElse gv1.Columns(ii).Name.Contains("MANDI") Then
-                    gv1.Columns(ii).IsVisible = False
-                End If
+                'If gv1.Columns(ii).Name.Contains("KKF") OrElse gv1.Columns(ii).Name.Contains("Mandi") OrElse gv1.Columns(ii).Name.Contains("MANDI") Then
+                '    gv1.Columns(ii).IsVisible = False
+                'End If
             End If
 
             'For Each dr As DataRow In dtTax.Rows
@@ -399,6 +427,12 @@ Public Class rptHSNWiseSaleReport
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rptHSNWiseSaleReport_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F12 Then
+            chkKKFMandi.Visible = True
+        End If
     End Sub
 End Class
 

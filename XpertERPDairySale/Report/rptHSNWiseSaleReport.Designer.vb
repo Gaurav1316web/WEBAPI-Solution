@@ -22,7 +22,7 @@ Partial Class rptHSNWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +32,7 @@ Partial Class rptHSNWiseSaleReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkKKFMandi = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtTransaction = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtTaxCode = New common.UserControls.txtMultiSelectFinder()
@@ -51,7 +52,6 @@ Partial Class rptHSNWiseSaleReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.chkKKFMandi = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -63,6 +63,7 @@ Partial Class rptHSNWiseSaleReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkKKFMandi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -78,7 +79,6 @@ Partial Class rptHSNWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkKKFMandi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -179,6 +179,16 @@ Partial Class rptHSNWiseSaleReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(504, 131)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'chkKKFMandi
+        '
+        Me.chkKKFMandi.Location = New System.Drawing.Point(350, 11)
+        Me.chkKKFMandi.Margin = New System.Windows.Forms.Padding(4)
+        Me.chkKKFMandi.Name = "chkKKFMandi"
+        Me.chkKKFMandi.Size = New System.Drawing.Size(146, 18)
+        Me.chkKKFMandi.TabIndex = 431
+        Me.chkKKFMandi.Text = "Show KKF and Mandi Tax"
+        Me.chkKKFMandi.Visible = False
         '
         'txtTransaction
         '
@@ -349,7 +359,7 @@ Partial Class rptHSNWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -419,17 +429,6 @@ Partial Class rptHSNWiseSaleReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'chkKKFMandi
-        '
-        Me.chkKKFMandi.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkKKFMandi.Location = New System.Drawing.Point(350, 11)
-        Me.chkKKFMandi.Margin = New System.Windows.Forms.Padding(4)
-        Me.chkKKFMandi.Name = "chkKKFMandi"
-        Me.chkKKFMandi.Size = New System.Drawing.Size(146, 18)
-        Me.chkKKFMandi.TabIndex = 431
-        Me.chkKKFMandi.Text = "Show KKF and Mandi Tax"
-        Me.chkKKFMandi.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
         'rptHSNWiseSaleReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -455,6 +454,7 @@ Partial Class rptHSNWiseSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkKKFMandi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).EndInit()
@@ -470,7 +470,6 @@ Partial Class rptHSNWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkKKFMandi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
