@@ -271,6 +271,7 @@ Public Class clsUserMgtCode
     Public Const rptBookingReport As String = "BOOKING_RPT"
     Public Const rptBookingQtyAmtReport As String = "DEMD_BK_RPT"
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
+    Public Const rptSalesStock As String = "SAL_STK_RPT"
     Public Const rptSalesComparisonReport As String = "SAL_CMP_RPT"
     Public Const FrmBoothDemandReport As String = "BO_DE_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"

@@ -2382,6 +2382,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBookingReport, "Booking Report", "1.36.03.15", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBookingQtyAmtReport, "Demand Booking Report", "1.36.03.17", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSalesLedgerReport, "Sales Ledger Report", "1.36.03.18", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesStock, "Sales Stock Report", "1.36.03.18", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptAvgSaleDetailReport, "Average Sale Detail Report", "1.36.03.19", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptdairydispatch, "Dairy Dispatch Report", "1.36.03.20", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptRouteSaleRegister, "Route Sale Register", "1.36.03.21", clsUserMgtCode.SubModuleSaleDairyReport, 37)
