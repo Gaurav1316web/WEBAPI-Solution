@@ -7,6 +7,8 @@ Public Class clsMultipleShareAllotment
     Public Document_No As String = Nothing
     Public Document_date As Date? = Nothing
     Public Rate_Of_One_Share As Decimal
+    Public From_Date As Date? = Nothing
+    Public To_Date As Date? = Nothing
     Public Status As Integer = 0
     Public Arr As List(Of clsMultipleShareAllotmentDetail) = Nothing
 #End Region
@@ -30,6 +32,8 @@ Public Class clsMultipleShareAllotment
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_date", clsCommon.GetPrintDate(obj.Document_date, "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Rate_Of_One_Share", obj.Rate_Of_One_Share)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -61,7 +65,7 @@ Public Class clsMultipleShareAllotment
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMultipleShareAllotment
         Dim obj As clsMultipleShareAllotment = Nothing
-        Dim qry As String = "select Document_No , Document_date,Rate_Of_One_Share  ,ISNULL( Status,0) as Status from TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD where 2=2 "
+        Dim qry As String = "select Document_No , Document_date,Rate_Of_One_Share  ,ISNULL( Status,0) as Status,From_Date,To_Date from TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD.Document_No = (select MIN(Document_No) from TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD)"
@@ -81,6 +85,8 @@ Public Class clsMultipleShareAllotment
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Rate_Of_One_Share = clsCommon.myCdbl(dt.Rows(0)("Rate_Of_One_Share"))
             obj.Document_date = clsCommon.myCDate(dt.Rows(0)("Document_date"))
+            obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From_Date"))
+            obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.Arr = clsMultipleShareAllotmentDetail.GetData(obj.Document_No, trans)
         End If
@@ -89,7 +95,7 @@ Public Class clsMultipleShareAllotment
 
     Public Shared Function getFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim sql As String = "select Document_No as DocumentNo ,convert(varchar(12),Document_date,103) as DocumentDate,Rate_Of_One_Share as [Rate of One Share],case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD"
+        Dim sql As String = "select Document_No as DocumentNo ,convert(varchar(12),Document_date,103) as DocumentDate,From_Date as [From Date],To_Date as [To Date],Rate_Of_One_Share as [Rate of One Share],case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD"
         str = clsCommon.ShowSelectForm("HeadLoad", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
         Return str
     End Function
