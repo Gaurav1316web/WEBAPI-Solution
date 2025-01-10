@@ -24012,6 +24012,9 @@ Public Class clsCreateAllTable
             coll.Add("Status", "Integer NOT NULL DEFAULT 0")
             coll.Add("Posted_Date", "datetime null")
             coll.Add("Posted_By", "varchar(12)  NULL")
+            coll.Add("Unposted_By", "varchar(12)  NULL")
+            coll.Add("Unposted_Date", "datetime null")
+            coll.Add("Milk_Not_Picked", "int Null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
@@ -28881,7 +28884,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Admin_Charge", "float null")
             coll.Add("PROD_Drawing_No", "varchar(100) null")
             coll.Add("LOCATION_CODE", "varchar(12) NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, False, False, "", "BOM_CODE", "BOM_DATE")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, True, False, "", "BOM_CODE", "BOM_DATE")
 
             ''TSPL_MF_BOM_DETAIL
 
@@ -28902,7 +28905,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("CONSM_Drawing_No", "varchar(100) null")
             coll.Add("Percentage", "NUMERIC(18,6) NOT NULL DEFAULT 0")
             coll.Add("Alternate_Item_Code", "VARCHAR(50) NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_DETAIL", coll, Nothing, False, False, "TSPL_MF_BOM_HEAD", "BOM_CODE", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_DETAIL", coll, Nothing, True, False, "TSPL_MF_BOM_HEAD", "BOM_CODE", "")
 
             ''TSPL_MF_BOM_OPERATIONS
 
@@ -55203,7 +55206,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "varchar(10) NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BREAK_DOWN_ENTRY", coll, "", False)
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BREAK_DOWN_ENTRY", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null PRIMARY KEY")

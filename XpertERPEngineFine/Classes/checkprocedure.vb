@@ -2308,6 +2308,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.VehicleMasterForDairySale, "Vehicle Master", "1.36.01.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, "Distributor Commission", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, "Distributor Route Tagging", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmItemCapacityLimt, "Item Capacity Limit", "1.36.01.13", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         'InsertDefaultValue(clsUserMgtCode.CardSale, "Card Sale", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         'InsertDefaultValue(clsUserMgtCode.frmCustCategoryWiseDefaultItemUomMaster, "Customer Category UOM", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
@@ -2381,6 +2382,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBookingReport, "Booking Report", "1.36.03.15", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBookingQtyAmtReport, "Demand Booking Report", "1.36.03.17", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSalesLedgerReport, "Sales Ledger Report", "1.36.03.18", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesStock, "Sales Stock Report", "1.36.03.18", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptAvgSaleDetailReport, "Average Sale Detail Report", "1.36.03.19", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptdairydispatch, "Dairy Dispatch Report", "1.36.03.20", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptRouteSaleRegister, "Route Sale Register", "1.36.03.21", clsUserMgtCode.SubModuleSaleDairyReport, 37)

@@ -216,6 +216,12 @@
     <Compile Include="Master\frmDistributorCommission.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\FrmItemCapacityLimit.Designer.vb">
+      <DependentUpon>FrmItemCapacityLimit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\FrmItemCapacityLimit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmItemSublocationMapping.Designer.vb">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </Compile>
@@ -610,6 +616,12 @@
     <Compile Include="Report\rptSalesLedgerReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptSalesStock.Designer.vb">
+      <DependentUpon>rptSalesStock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSalesStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\RptSalesSummaryReport.Designer.vb">
       <DependentUpon>RptSalesSummaryReport.vb</DependentUpon>
     </Compile>
@@ -966,6 +978,9 @@
     <EmbeddedResource Include="Master\frmDistributorCommission.resx">
       <DependentUpon>frmDistributorCommission.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\FrmItemCapacityLimit.resx">
+      <DependentUpon>FrmItemCapacityLimit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmItemSublocationMapping.resx">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </EmbeddedResource>
@@ -1161,6 +1176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSalesStock.resx">
+      <DependentUpon>rptSalesStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\RptSalesSummaryReport.resx">
       <DependentUpon>RptSalesSummaryReport.vb</DependentUpon>

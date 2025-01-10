@@ -886,8 +886,8 @@ group by DOC_DATE,SHIFT,VLC_CODE having sum(1)>1) as TabDCS on TabDCS.DOC_DATE=C
                                 For Each drUploader As DataRow In dtUploader.Rows
                                     Dim dclFATPer As Decimal = clsCommon.myCDecimal(drUploader("Tot_FAT_PER"))
                                     Dim dclSNFPer As Decimal = clsCommon.myCDecimal(drUploader("Tot_SNF_PER"))
-                                    dclFATPer = clsCommon.myRoundOFF(dclFATPer, 1, 4)
-                                    dclSNFPer = clsCommon.myRoundOFF(dclSNFPer, 1, 4)
+                                    dclFATPer = clsCommon.myRoundOFF(dclFATPer, 1, 5)
+                                    dclSNFPer = clsCommon.myRoundOFF(dclSNFPer, 1, 5)
 
                                     clsMilkSRNMCC.Correction(clsCommon.myCstr(drUploader("DOC_CODE")), clsCommon.myCstr(drUploader("Dock_Collection_Milk_Type")), dclFATPer, dclSNFPer)
                                 Next

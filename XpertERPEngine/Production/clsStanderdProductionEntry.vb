@@ -299,6 +299,7 @@ Public Class clsStanderdProductionEntry
         Dim qry As String = "Update TSPL_SPP_PRODUCTION_ENTRY set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where PROD_ENTRY_CODE ='" + strDocNo + "'"
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
         isSaved = isSaved And JournalEntry(trans, obj)
+        HistoryData(strDocNo, trans)
         Return isSaved
 
     End Function
@@ -607,7 +608,7 @@ Public Class clsStanderdProductionEntry
         Try
             Dim issaved As Boolean = True
             issaved = issaved AndAlso UnpostData(strCode, FormId, trans)
-
+            HistoryData(strCode, trans)
             trans.Commit()
             Return issaved
         Catch ex As Exception

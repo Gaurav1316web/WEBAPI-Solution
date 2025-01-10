@@ -94,12 +94,12 @@ Public Class rptTankerapprovalutilization
         gv1.Columns("FatKG").HeaderText = "Fat(KG)"
         gv1.Columns("FatKG").Width = 500
         gv1.Columns("FatKG").IsVisible = True
-        gv1.Columns("FatKG").FormatString = "{0:n2}"
+        gv1.Columns("FatKG").FormatString = "{0:n3}"
 
         gv1.Columns("SNFKG").HeaderText = "SNF(KG)"
         gv1.Columns("SNFKG").Width = 500
         gv1.Columns("SNFKG").IsVisible = True
-        gv1.Columns("SNFKG").FormatString = "{0:n2}"
+        gv1.Columns("SNFKG").FormatString = "{0:n3}"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Qty", "{0:n2}", GridAggregateFunction.Sum)
@@ -112,9 +112,9 @@ Public Class rptTankerapprovalutilization
         summaryRowItem.Add(item4)
         Dim item5 As New GridViewSummaryItem("Flushing", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
-        Dim item6 As New GridViewSummaryItem("FatKG", "{0:n2}", GridAggregateFunction.Sum)
+        Dim item6 As New GridViewSummaryItem("FatKG", "{0:n3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
-        Dim item7 As New GridViewSummaryItem("SNFKG", "{0:n2}", GridAggregateFunction.Sum)
+        Dim item7 As New GridViewSummaryItem("SNFKG", "{0:n3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom

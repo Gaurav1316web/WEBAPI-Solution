@@ -178,6 +178,8 @@ Public Class frmEMailAndSMSSetting
     Public Const Form_Code As String = "$#Form_Code#$"
     Public Const SupplyShift As String = "$#SupplyShift#$"
     Public Const SupplyDate As String = "$#SupplyDate#$"
+    Public Const Route As String = "$#Route#$"
+    Public Const RouteName As String = "$#RouteName#$"
 
     Public Const DeliveryNo As String = "$#DeliveryNo#$"
     Public Const DeliveryDate As String = "$#DeliveryDate#$"
@@ -221,8 +223,7 @@ Public Class frmEMailAndSMSSetting
     Public Const DateRange As String = "$#DateRange#$"
     Public Const Bank As String = "$#Bank#$"
 
-    Public Const Route As String = "$#Route#$"
-    Public Const RouteName As String = "$#RouteName#$"
+
 
     Public Const Flushing As String = "$#Flushing#$"
     Public Const KgFAT As String = "$#KgFAT#$"
@@ -1067,6 +1068,8 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(Form_Code)
             ContextMenuStrip1.Items.Add(SupplyShift)
             ContextMenuStrip1.Items.Add(SupplyDate)
+            ContextMenuStrip1.Items.Add(Route)
+            ContextMenuStrip1.Items.Add(RouteName)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSaleReturnProductSale) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)

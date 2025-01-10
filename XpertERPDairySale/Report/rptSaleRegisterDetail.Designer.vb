@@ -35,6 +35,7 @@ Partial Class rptSaleRegisterDetail
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkSupplyDate = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkBatchWise = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.TxtMultiASO = New common.UserControls.txtMultiSelectFinder()
@@ -118,13 +119,14 @@ Partial Class rptSaleRegisterDetail
         Me.rmSetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSend = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkSupplyDate = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkBatchWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -191,7 +193,7 @@ Partial Class rptSaleRegisterDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -211,6 +213,7 @@ Partial Class rptSaleRegisterDetail
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnBack)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
@@ -290,6 +293,15 @@ Partial Class rptSaleRegisterDetail
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1007, 410)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkSupplyDate
+        '
+        Me.chkSupplyDate.Location = New System.Drawing.Point(834, 12)
+        Me.chkSupplyDate.Margin = New System.Windows.Forms.Padding(4)
+        Me.chkSupplyDate.Name = "chkSupplyDate"
+        Me.chkSupplyDate.Size = New System.Drawing.Size(81, 18)
+        Me.chkSupplyDate.TabIndex = 431
+        Me.chkSupplyDate.Text = "Supply Date"
         '
         'chkBatchWise
         '
@@ -1259,14 +1271,15 @@ Partial Class rptSaleRegisterDetail
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '
-        'chkSupplyDate
+        'btnPrint
         '
-        Me.chkSupplyDate.Location = New System.Drawing.Point(834, 12)
-        Me.chkSupplyDate.Margin = New System.Windows.Forms.Padding(4)
-        Me.chkSupplyDate.Name = "chkSupplyDate"
-        Me.chkSupplyDate.Size = New System.Drawing.Size(81, 18)
-        Me.chkSupplyDate.TabIndex = 431
-        Me.chkSupplyDate.Text = "Supply Date"
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(535, 4)
+        Me.btnPrint.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(91, 22)
+        Me.btnPrint.TabIndex = 151
+        Me.btnPrint.Text = "Print"
         '
         'rptSaleRegisterDetail
         '
@@ -1289,6 +1302,7 @@ Partial Class rptSaleRegisterDetail
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkBatchWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1358,7 +1372,7 @@ Partial Class rptSaleRegisterDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1450,5 +1464,6 @@ Partial Class rptSaleRegisterDetail
     Friend WithEvents TxtMultiRSM As common.UserControls.txtMultiSelectFinder
     Friend WithEvents chkBatchWise As RadCheckBox
     Friend WithEvents chkSupplyDate As RadCheckBox
+    Friend WithEvents btnPrint As RadButton
 End Class
 
