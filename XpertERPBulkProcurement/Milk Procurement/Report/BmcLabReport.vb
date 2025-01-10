@@ -7,6 +7,9 @@ Public Class BmcLabReport
     Inherits FrmMainTranScreen
     Dim StrPermission As String
 
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        Reset()
+    End Sub
     Sub Reset()
         txtRoute.arrValueMember = Nothing
         TxtTankerNo.arrValueMember = Nothing
@@ -17,45 +20,10 @@ Public Class BmcLabReport
         RadPageView1.SelectedPage = RadPageViewPage1
         btnGo.Enabled = True
         Gv1.DataSource = Nothing
+        dtpToDate.Value = clsCommon.GETSERVERDATE()
+        fromDate.Value = clsCommon.GETSERVERDATE()
         'ControlEnableDisable(True)
     End Sub
-
-    Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
-        Try
-            Dim qry As String = "select ROUTE_NO,ROUTE_NAME from TSPL_BULK_ROUTE_MASTER where 2=2 "
-            txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "ROUTE_NO", "ROUTE_NAME", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-
-    Private Sub TxtTankerNo__My_Click(sender As Object, e As EventArgs) Handles TxtTankerNo._My_Click
-        Try
-            Dim qry As String = " select Tanker_No as TankerNo from TSPL_MILK_COLLECTION_MCC where 2=2 "
-            TxtTankerNo.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUTankerNo", qry, "TankerNo", " ", TxtTankerNo.arrValueMember, TxtTankerNo.arrDispalyMember)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub txtBMC__My_Click(sender As Object, e As EventArgs) Handles txtBMC._My_Click
-        Try
-            Dim qry As String = "select Mcc_Code_VLC_Uploader from TSPL_MCC_MASTER where 2=2 "
-            txtBMC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUMCC", qry, "Mcc_Code_VLC_Uploader", " ", txtBMC.arrValueMember, txtBMC.arrDispalyMember)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    'Private Sub TxtMultiSelectFinder1__My_Click(sender As Object, e As EventArgs) Handles TxtTankerNo._My_Click
-    '    Try
-    '        Dim qry As String = " select Tanker_No as Bmc from TSPL_MILK_COLLECTION_MCC "
-    '        TxtTankerNo.arrValueMember = clsCommon.ShowMultipleSelectForm("MultiTanker", qry, "Tanker_No", " ", TxtTankerNo.arrValueMember, TxtTankerNo.arrDispalyMember)
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '    End Try
-    'End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
@@ -102,6 +70,8 @@ Public Class BmcLabReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        PageSetupReport_ID = MyBase.Form_ID
+        TemplateGridview = Gv1
         LoadData()
         'ControlEnableDisable(False)
     End Sub
@@ -111,6 +81,19 @@ Public Class BmcLabReport
             Dim ConversionFactor As String = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
             Dim dt As New DataTable
             Dim strQry As String = ""
+            Dim strQryy As String = ""
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                strQryy += " and TSPL_BULK_ROUTE_MASTER.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+            End If
+
+            If txtBMC.arrValueMember IsNot Nothing AndAlso txtBMC.arrValueMember.Count > 0 Then
+                strQryy += " and TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
+            End If
+
+            If TxtTankerNo.arrValueMember IsNot Nothing AndAlso TxtTankerNo.arrValueMember.Count > 0 Then
+                strQryy += " and TSPL_MILK_COLLECTION_MCC.Tanker_No in (" + clsCommon.GetMulcallString(TxtTankerNo.arrValueMember) + ")"
+            End If
+
             'strQry = " select FORMAT(TSPL_MILK_COLLECTION_MCC.Document_Date, 'dd/MM/yyyy') AS Document_Date, TSPL_BULK_ROUTE_MASTER.ROUTE_NO as [Route No],TSPL_MILK_COLLECTION_MCC.Tanker_No as [Tanker No],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Dcs/Bmc],
             '                        TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as [Sample No], TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty as Liter,
             '                        (SNF- " + ConversionFactor + " -0.2*FAT)*4 as CLR,
@@ -135,7 +118,7 @@ Public Class BmcLabReport
                             TSPL_MILK_COLLECTION_MCC_DETAIL.FAT AS [Fat%], 
                             TSPL_MILK_COLLECTION_MCC_DETAIL.SNF AS [Snf%], 
                             TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG AS [Fat Kg], 
-                            TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG AS [Snf Kg]
+                            TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG AS [Snf Kg],'' as Remarks
                         FROM 
                             TSPL_MILK_COLLECTION_MCC
                         LEFT OUTER JOIN 
@@ -146,7 +129,8 @@ Public Class BmcLabReport
                             ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_MCC.Document_No
                         LEFT OUTER JOIN 
                             TSPL_MCC_MASTER 
-                            ON TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code"
+                            ON TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+                         where TSPL_MILK_COLLECTION_MCC.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_MCC.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "' " + strQryy + " "
 
             strQry += "" & Environment.NewLine & " Union all " & Environment.NewLine & ""
             strQry += " SELECT 
@@ -162,7 +146,8 @@ Public Class BmcLabReport
                         NULL AS [Fat%], 
                         NULL AS [Snf%], 
                         SUM(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG) AS [Fat Kg], 
-                        SUM(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG) AS [Snf Kg]
+                        SUM(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG) AS [Snf Kg],
+                        '' as Remarks
                     FROM 
                         TSPL_MILK_COLLECTION_MCC
                     LEFT OUTER JOIN 
@@ -174,7 +159,7 @@ Public Class BmcLabReport
                     LEFT OUTER JOIN 
                         TSPL_MCC_MASTER 
                         ON TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-                    where TSPL_MILK_COLLECTION_MCC.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_MCC.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+                    where TSPL_MILK_COLLECTION_MCC.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_MCC.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "' " + strQryy + "
                     GROUP BY 
                     TSPL_BULK_ROUTE_MASTER.ROUTE_NO "
 
@@ -182,17 +167,7 @@ Public Class BmcLabReport
              [Route No], [S.No.], Document_Date"
 
 
-            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                strQry += " and TSPL_BULK_ROUTE_MASTER.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
-            End If
 
-            If txtBMC.arrValueMember IsNot Nothing AndAlso txtBMC.arrValueMember.Count > 0 Then
-                strQry += " and TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader in (" + clsCommon.GetMulcallString(txtBMC.arrValueMember) + ")"
-            End If
-
-            If TxtTankerNo.arrValueMember IsNot Nothing AndAlso TxtTankerNo.arrValueMember.Count > 0 Then
-                strQry += " and TSPL_MILK_COLLECTION_MCC.Tanker_No in (" + clsCommon.GetMulcallString(TxtTankerNo.arrValueMember) + ")"
-            End If
 
             'If rbtnBMC.Checked Then
             '    strQry += " Group by TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code"
@@ -222,6 +197,7 @@ Public Class BmcLabReport
             End If
             SetGridFormationOFGV1()
             Gv1.BestFitColumns()
+            ReStoreGridLayout()
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -266,8 +242,79 @@ Public Class BmcLabReport
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         Gv1.MasterTemplate.ShowTotals = True
-        'ReStoreGridLayout()
+        ReStoreGridLayout()
 
+    End Sub
+
+    Private Sub ReStoreGridLayout()
+        Try
+            If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+                Dim obj As clsGridLayout = New clsGridLayout()
+                obj = CType(obj.GetData(PageSetupReport_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                If Not obj Is Nothing AndAlso obj.GridColumns >= Gv1.ColumnCount Then
+                    Dim ii As Integer
+                    For ii = 0 To Gv1.Columns.Count - 1 Step ii + 1
+                        Gv1.Columns(ii).IsVisible = False
+                        Gv1.Columns(ii).VisibleInColumnChooser = True
+                    Next
+                    Gv1.LoadLayout(obj.GridLayout)
+                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                End If
+            End If
+        Catch err As Exception
+            MessageBox.Show(err.Message)
+        End Try
+    End Sub
+
+
+    Private Sub rmSaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
+        If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
+            Dim obj As New clsGridLayout()
+            obj.ReportID = PageSetupReport_ID
+            obj.UserID = objCommonVar.CurrentUserCode
+            obj.GridLayout = New MemoryStream()
+            Gv1.SaveLayout(obj.GridLayout)
+            obj.GridColumns = Gv1.ColumnCount
+            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+            If obj.SaveData() Then
+                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            End If
+            obj.GridLayout.Close()
+            obj.GridLayout.Dispose()
+        End If
+    End Sub
+
+    Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
+        clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
+        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+    End Sub
+
+    Private Sub txtRoute__My_Click_1(sender As Object, e As EventArgs) Handles txtRoute._My_Click
+        Try
+            Dim qry As String = "select ROUTE_NO,ROUTE_NAME from TSPL_BULK_ROUTE_MASTER where 2=2 "
+            txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("PCURoute", qry, "ROUTE_NO", "ROUTE_NAME", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub TxtTankerNo__My_Click_1(sender As Object, e As EventArgs) Handles TxtTankerNo._My_Click
+        Try
+            Dim qry As String = " select DISTINCT Tanker_No as TankerNo from TSPL_MILK_COLLECTION_MCC where 2=2 "
+            TxtTankerNo.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUTankerNo", qry, "TankerNo", " ", TxtTankerNo.arrValueMember, TxtTankerNo.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtBMC__My_Click_1(sender As Object, e As EventArgs) Handles txtBMC._My_Click
+        Try
+            Dim qry As String = "select Mcc_Code_VLC_Uploader from TSPL_MCC_MASTER where 2=2 "
+            txtBMC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUMCC", qry, "Mcc_Code_VLC_Uploader", " ", txtBMC.arrValueMember, txtBMC.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 End Class
