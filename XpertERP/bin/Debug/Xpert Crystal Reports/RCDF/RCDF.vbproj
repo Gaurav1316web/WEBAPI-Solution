@@ -1356,6 +1356,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntryNewTNK.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptRGPNew.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSGSWaiverLetterMT.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptStockSummaryALW.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSubInvoiceDetails.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSubReportExciseTransferSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSupplyCrate.rpt" />
