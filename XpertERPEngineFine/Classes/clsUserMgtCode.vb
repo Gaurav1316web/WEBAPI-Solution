@@ -36,6 +36,7 @@ Public Class clsUserMgtCode
     Public Const ModuleCommonServices As String = "MCommSer"
     Public Const ModuleReceivable As String = "MReceivable"
     Public Const MPMilkPrice As String = "PCU-MCC"
+    Public Const frmUnpostBmcDcs As String = "Unpo-BM-DC"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"
