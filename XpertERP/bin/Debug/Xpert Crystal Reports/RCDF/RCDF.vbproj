@@ -1299,6 +1299,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptPerDayDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptRouteWiseReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptZoneWiseReport.rpt" />
