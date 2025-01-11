@@ -73,21 +73,6 @@ Public Class frmUnpostBmcDcs
             Exit Sub
         End If
 
-        'If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-        '    clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
-        '    Exit Sub
-        'End If
-        'If clsCommon.myCDate(txtFromDate.Value) >= objCommonVar.GSTApplicableDate AndAlso clsCommon.myCDate(txtToDate.Value) >= objCommonVar.GSTApplicableDate Then
-        '    If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "") = CompairStringResult.Equal Then
-        '        clsCommon.MyMessageBoxShow(Me, "Please Select Report Type.", Me.Text)
-        '        cboReportType.Focus()
-        '        Exit Sub
-        '    End If
-        'End If
-
-        'Dim dtContent As DataTable = Nothing
-        'dtContent = clsDBFuncationality.GetDataTable("select Status from TSPL_MILK_COLLECTION_BMCDCS where PK_ID=" + PKID + "", trans)
-
         sQuery = " select Cast(0 as BIT) as 'Check',  TSPL_MILK_COLLECTION_BMCDCS.Status, TSPL_MILK_COLLECTION_BMCDCS.PK_ID, TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,Mcc_Code_VLC_Uploader,MCC_NAME from TSPL_MILK_COLLECTION_BMCDCS
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
 left outer join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
@@ -97,15 +82,7 @@ and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCo
         If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then
             sQuery += " and TSPL_MILK_COLLECTION_BMCDCS.MCC_Code in (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ") "
         End If
-        'If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
-        '    If clsCommon.myLen(dtContent.Rows(0)("PK_ID")) > 0 Then
-        '        For Each grow In gv1.Rows
-        '            If clsCommon.myCBool(grow.Cells("colCheck").Value) Then
 
-        '            End If
-        '        Next
-        '    End If
-        'End If
         Dim dtgv As New DataTable
         dtgv = clsDBFuncationality.GetDataTable(sQuery)
         If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
@@ -219,7 +196,7 @@ and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCo
                 qrypi = " select Cast(0 as BIT) as 'Check',  TSPL_MILK_COLLECTION_BMCDCS.Status, TSPL_MILK_COLLECTION_BMCDCS.PK_ID, TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,Mcc_Code_VLC_Uploader,MCC_NAME from TSPL_MILK_COLLECTION_BMCDCS
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
 left outer join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
-where 2=2 and TSPL_MILK_COLLECTION_BMCDCS.Status='1' 
+where 2=2 and TSPL_MILK_COLLECTION_BMCDCS.Status='1' and and TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID is null
 and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCommon.GetPrintDate(txtToDate1.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103) <=convert(date,'" + clsCommon.GetPrintDate(txtFromDate1.Value, "dd/MMM/yyyy") + "' ,103) "
 
                 If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then

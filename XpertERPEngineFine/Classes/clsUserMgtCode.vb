@@ -2706,6 +2706,7 @@ Public Class clsUserMgtCode
     Public Const rptHSNWiseSaleReport As String = "HSN_SAL_RPT"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
     Public Const FrmperdayDetailRpt As String = "PER_DAY_RPT"
+    Public Const rptBookingVsDispatchReport As String = "BOOK-VS-DI"
 
     Public Const ModuleXpertAPI As String = "API"
     Public Const SubModuleXpertAPISetup As String = "MXAPIMaster"

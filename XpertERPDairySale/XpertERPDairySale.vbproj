@@ -328,6 +328,12 @@
     <Compile Include="Report\FrmZoneWiseSKUReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptBookingVsDispatchReport.Designer.vb">
+      <DependentUpon>rptBookingVsDispatchReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptBookingVsDispatchReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\RptBoothNilDemandl.Designer.vb">
       <DependentUpon>RptBoothNilDemandl.vb</DependentUpon>
     </Compile>
@@ -1038,6 +1044,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptBookingVsDispatchReport.resx">
+      <DependentUpon>rptBookingVsDispatchReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\RptBoothNilDemandl.resx">
       <DependentUpon>RptBoothNilDemandl.vb</DependentUpon>

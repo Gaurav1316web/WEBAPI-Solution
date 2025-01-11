@@ -9206,6 +9206,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmperdayDetailRpt
                         frm = New FrmperdayDetailRpt()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptBookingVsDispatchReport
+                        frm = New rptBookingVsDispatchReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
                     Case clsUserMgtCode.SaleIncentiveMaster
