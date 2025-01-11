@@ -9,6 +9,7 @@ Public Class rptSalesStock
         dt = New DataTable
         dt.Columns.Add("Code", GetType(String))
         dt.Rows.Add("Stock Journal")
+        dt.Rows.Add("Stock Summary")
         ddlReportType.DataSource = dt
         ddlReportType.ValueMember = "Code"
         ddlReportType.DisplayMember = "Code"
@@ -51,15 +52,19 @@ Public Class rptSalesStock
             Dim Qry As String = ""
             Dim Whr As String = ""
             Dim dt As DataTable = Nothing
+            Dim StructureCode As String = ""
+            If txtMultiItem.arrValueMember IsNot Nothing AndAlso txtMultiItem.arrValueMember.Count > 0 Then
+                Whr = " and Item_Code in (" + clsCommon.GetMulcallString(txtMultiItem.arrValueMember) + ")"
+            End If
+            If txtMultiStructureCode.arrValueMember IsNot Nothing AndAlso txtMultiStructureCode.arrValueMember.Count > 0 Then
+                StructureCode = " and TSPL_ITEM_MASTER.Structure_Code in (" + clsCommon.GetMulcallString(txtMultiStructureCode.arrValueMember) + ")"
+            End If
             If ddlReportType.SelectedValue = "Stock Journal" Then
                 If clsCommon.myLen(txtLocation.Value) <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Please select location")
                     Exit Sub
                 End If
-                If txtMultiItem.arrValueMember IsNot Nothing AndAlso txtMultiItem.arrValueMember.Count > 0 Then
-                    Whr = " and Item_Code in (" + clsCommon.GetMulcallString(txtMultiItem.arrValueMember) + ")"
-                End If
-                Qry = "Select SUM([INWARDQTYReportUom]) as [INWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Max(uom_code)UOM,Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc ,Sum(INWARDQTY) as INWARDQTY,SUM(OUTWARDQTY) as OUTWARDQTY,max(From_Location) as From_Location,max(To_Location) as To_Location,MAX(location_desc) as location_desc,max(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "' As  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,Max(INUOM)INUOM from 
+                Qry = "Select SUM([INWARDQTYReportUom]) as [INWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc ,Max(uom_code)UOM,Sum(INWARDQTY) as INWARDQTY,SUM(OUTWARDQTY) as OUTWARDQTY,max(From_Location) as From_Location,max(To_Location) as To_Location,MAX(location_desc) as location_desc,max(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "' As  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,Max(INUOM)INUOM from 
                 (select TSPL_ITEM_master.structure_code,tspl_location_master.location_desc,City_code,TSPL_TRANSFER_ORDER_HEAD.document_no,TSPL_INVENTORY_MOVEMENT.Trans_Type,source_doc_date,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,Inout,ItemConvinUOM.Conversion_Factor,ItemConvReportUOM.uom_code,
             Case when Inout='I' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [INWARDQTYReportUom],Case when Inout='O' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [OUTWARDQTYReportUom],TSPL_INVENTORY_MOVEMENT.item_code,TSPL_ITEM_master.item_desc,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as INWARDQTY ,Case when TSPL_INVENTORY_MOVEMENT.Inout='O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY,TSPL_INVENTORY_MOVEMENT.Qty,tspl_location_master.IsMainPlant,TSPL_ITEM_master.Item_Type,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.uom else '' end as INUOM
                      from TSPL_INVENTORY_MOVEMENT
@@ -73,7 +78,7 @@ Public Class rptSalesStock
                     and xx.Item_Type='F' and From_Location='" + txtLocation.Value + "' " + Whr + "
                     Group by item_code
                     union all
-                    Select  SUM([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Max(uom_code)UOM,Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc,Sum(INWARDQTY) as INWARDQTY,SUM(OUTWARDQTY) as OUTWARDQTY,max(From_Location) as From_Location,max(To_Location) as To_Location ,MAX(location_desc) as location_desc,MAX(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "'  as  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,MAX(INUOM)INUOM from (select TSPL_ITEM_master.structure_code,Location_Desc,City_code,TSPL_TRANSFER_ORDER_HEAD.document_no,TSPL_INVENTORY_MOVEMENT.Trans_Type,source_doc_date,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,Inout,ItemConvinUOM.Conversion_Factor,ItemConvReportUOM.uom_code,Case when Inout='I' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [INWARDQTYReportUom],Case when Inout='O' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [OUTWARDQTYReportUom],TSPL_INVENTORY_MOVEMENT.item_code,TSPL_ITEM_master.item_desc,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as INWARDQTY ,Case when TSPL_INVENTORY_MOVEMENT.Inout='O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY,TSPL_INVENTORY_MOVEMENT.Qty,tspl_location_master.IsMainPlant,TSPL_ITEM_master.Item_Type,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.uom else '' end as INUOM
+                    Select  SUM([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc,Max(uom_code)UOM,Sum(INWARDQTY) as INWARDQTY,SUM(OUTWARDQTY) as OUTWARDQTY,max(From_Location) as From_Location,max(To_Location) as To_Location ,MAX(location_desc) as location_desc,MAX(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "'  as  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,MAX(INUOM)INUOM from (select TSPL_ITEM_master.structure_code,Location_Desc,City_code,TSPL_TRANSFER_ORDER_HEAD.document_no,TSPL_INVENTORY_MOVEMENT.Trans_Type,source_doc_date,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,Inout,ItemConvinUOM.Conversion_Factor,ItemConvReportUOM.uom_code,Case when Inout='I' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [INWARDQTYReportUom],Case when Inout='O' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [OUTWARDQTYReportUom],TSPL_INVENTORY_MOVEMENT.item_code,TSPL_ITEM_master.item_desc,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as INWARDQTY ,Case when TSPL_INVENTORY_MOVEMENT.Inout='O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY,TSPL_INVENTORY_MOVEMENT.Qty,tspl_location_master.IsMainPlant,TSPL_ITEM_master.Item_Type,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.uom else '' end as INUOM
                      from TSPL_INVENTORY_MOVEMENT
                     left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No=TSPL_INVENTORY_MOVEMENT.Source_Doc_No 
                     left join tspl_location_master on tspl_location_master.location_code=TSPL_TRANSFER_ORDER_HEAD.from_location or tspl_location_master.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
@@ -82,32 +87,58 @@ Public Class rptSalesStock
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_INVENTORY_MOVEMENT.Item_Code = ItemConvinUOM.Item_Code and TSPL_INVENTORY_MOVEMENT.uom = ItemConvinUOM.UOM_Code 
                     where trans_type in ('ITransfer','Trasnfer') ) XX  where convert(date,source_doc_date,103)>='" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "'  and convert(date,source_doc_date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  and xx.IsMainPlant=1 and xx.Item_Type='F'  and To_Location='" + txtLocation.Value + "' " + Whr + "
                     Group by item_code "
-                dt = clsDBFuncationality.GetDataTable(Qry)
-                If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                    If Print = True Then
-                        Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptJournalStockALW", "")
-                        frmCRV = Nothing
-                    Else
-                        gvData.DataSource = Nothing
-                        gvData.Rows.Clear()
-                        gvData.Columns.Clear()
-                        gvData.GroupDescriptors.Clear()
-                        gvData.MasterTemplate.SummaryRowsBottom.Clear()
-                        gvData.MasterView.Refresh()
-                        gvData.DataSource = dt
-                        For ii As Integer = 0 To gvData.Columns.Count - 1
-                            gvData.Columns(ii).ReadOnly = True
-                        Next
-                        RadPageView1.SelectedPage = RadPageViewPage2
-                        gvData.EnableFiltering = True
-                        SetGridFormat()
-                        gvData.BestFitColumns()
-                    End If
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            ElseIf ddlReportType.SelectedValue = "Stock Summary" Then
+                Dim Location As String = ""
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
+                    Location = " and Location_Code='" + txtLocation.Value + "'"
                 End If
+                If txtMultiItem.arrValueMember IsNot Nothing AndAlso txtMultiItem.arrValueMember.Count > 0 Then
+                    Whr = " and TSPL_ITEM_MASTER.Item_Code in (" + clsCommon.GetMulcallString(txtMultiItem.arrValueMember) + ")"
+                End If
+                Qry = " select TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Item_Code,max(TSPL_ITEM_MASTER.Short_Description)Item_Desc,MAX(I.UOM_Code)Report_UOM,
+                 convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))))  AS [OPBal]
+                 ,convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))))  AS Received_Qty
+                , convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 0 else 1.00 end) )))  AS Issued_Qty,convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end)) )) AS [Balance_Qty],max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.City_Code)City_Code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "' as fromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "' as Todate
+                 from TSPL_INVENTORY_MOVEMENT
+                 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
+                 left outer join TSPL_STRUCTURE_MASTER on TSPL_STRUCTURE_MASTER.Structure_Code=TSPL_ITEM_MASTER.Structure_Code
+                 left outer join  TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_INVENTORY_MOVEMENT.Stock_UOM
+                 left join ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON TSPL_INVENTORY_MOVEMENT.Item_Code = I.item_code
+                 left outer join TSPL_COMPANY_MASTER  on 2=2
+                where TSPL_ITEM_MASTER.Item_Type= 'F' " + Location + " " + StructureCode + " " + Whr + "
+                Group by TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Structure_Code order by Structure_Code "
+
             End If
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                If Print = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    If ddlReportType.SelectedValue = "Stock Summary" Then
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptStockSummaryALW", "")
+                    ElseIf ddlReportType.SelectedValue = "Stock Journal" Then
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptJournalStockALW", "")
+                    End If
+                    frmCRV = Nothing
+                Else
+                    gvData.DataSource = Nothing
+                    gvData.Rows.Clear()
+                    gvData.Columns.Clear()
+                    gvData.GroupDescriptors.Clear()
+                    gvData.MasterTemplate.SummaryRowsBottom.Clear()
+                    gvData.MasterView.Refresh()
+                    gvData.DataSource = dt
+                    For ii As Integer = 0 To gvData.Columns.Count - 1
+                        gvData.Columns(ii).ReadOnly = True
+                    Next
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gvData.EnableFiltering = True
+                    SetGridFormat()
+                    gvData.BestFitColumns()
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
+
         Catch ex As Exception
 
         End Try
@@ -135,29 +166,134 @@ Public Class rptSalesStock
                 gvData.Columns(ii).ReadOnly = True
                 gvData.Columns(ii).BestFit()
             Next
-            gvData.Columns("Item_Code").Name = "Item Code"
-            gvData.Columns("Item_Code").IsVisible = True
-            gvData.Columns("Item_Desc").HeaderText = "Item Name"
-            gvData.Columns("Item_Desc").Width = 250
-            gvData.Columns("Item_Desc").IsVisible = True
-            'gvData.Columns("VLC_Name").FormatString = "{0:n2}"
-            gvData.Columns("UOM").HeaderText = "UOM"
-            gvData.Columns("UOM").Width = 500
-            gvData.Columns("INWARDQTYReportUom").HeaderText = "Inward Qty"
-            gvData.Columns("INWARDQTYReportUom").Width = 250
-            gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
+            If ddlReportType.SelectedValue = "Stock Journal" Then
 
-            gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Outward Qty"
-            gvData.Columns("OUTWARDQTYReportUom").Width = 500
-            gvData.Columns("OUTWARDQTYReportUom").IsVisible = True
+                gvData.Columns("INWARDQTYReportUom").HeaderText = "Report UOM Inward Qty"
+                gvData.Columns("INWARDQTYReportUom").Width = 250
+                gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
+                gvData.Columns("INWARDQTYReportUom").IsVisible = False
 
-            Dim summaryRowItem As New GridViewSummaryRowItem()
-            Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item1)
-            Dim item2 As New GridViewSummaryItem("OUTWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item2)
-            gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-            gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Report UOM Outward Qty"
+                gvData.Columns("OUTWARDQTYReportUom").Width = 500
+                gvData.Columns("OUTWARDQTYReportUom").IsVisible = False
+
+                gvData.Columns("Qty").HeaderText = "Total Qty"
+                gvData.Columns("Qty").Width = 500
+                gvData.Columns("Qty").IsVisible = False
+
+                'gvData.Columns("Item_Code").Name = "Item Code"
+                'gvData.Columns("Item_Code").IsVisible = True
+
+                gvData.Columns("Item_Desc").HeaderText = "Item Name"
+                gvData.Columns("Item_Desc").Width = 250
+                gvData.Columns("Item_Desc").IsVisible = True
+
+                'gvData.Columns("VLC_Name").FormatString = "{0:n2}"
+                gvData.Columns("UOM").HeaderText = "UOM"
+                gvData.Columns("UOM").Width = 500
+
+                gvData.Columns("INWARDQTY").HeaderText = "Inward QTY"
+                gvData.Columns("INWARDQTY").Width = 250
+                gvData.Columns("INWARDQTY").FormatString = "{0:n2}"
+                gvData.Columns("INWARDQTY").IsVisible = True
+
+                gvData.Columns("OUTWARDQTY").HeaderText = "Outward QTY"
+                gvData.Columns("OUTWARDQTY").Width = 250
+                gvData.Columns("OUTWARDQTY").FormatString = "{0:n2}"
+                gvData.Columns("OUTWARDQTY").IsVisible = True
+
+                gvData.Columns("From_Location").HeaderText = "From Location"
+                gvData.Columns("From_Location").Width = 250
+                gvData.Columns("From_Location").IsVisible = False
+
+                gvData.Columns("To_Location").HeaderText = "To Location"
+                gvData.Columns("To_Location").Width = 250
+                gvData.Columns("To_Location").IsVisible = False
+
+                gvData.Columns("location_desc").HeaderText = "location Name"
+                gvData.Columns("location_desc").Width = 250
+                gvData.Columns("location_desc").IsVisible = False
+
+                gvData.Columns("structure_code").HeaderText = "Structure Code"
+                gvData.Columns("structure_code").Width = 250
+                gvData.Columns("structure_code").IsVisible = False
+
+                gvData.Columns("From_Date").HeaderText = "From Date"
+                gvData.Columns("From_Date").Width = 250
+                gvData.Columns("From_Date").IsVisible = False
+
+                gvData.Columns("To_Date").HeaderText = "To Date"
+                gvData.Columns("To_Date").Width = 250
+                gvData.Columns("To_Date").IsVisible = False
+
+                gvData.Columns("City_code").HeaderText = "City code"
+                gvData.Columns("City_code").Width = 250
+                gvData.Columns("City_code").IsVisible = False
+
+                gvData.Columns("INUOM").HeaderText = "INUOM"
+                gvData.Columns("INUOM").Width = 250
+                gvData.Columns("INUOM").IsVisible = False
+
+
+                Dim summaryRowItem As New GridViewSummaryRowItem()
+                Dim item1 As New GridViewSummaryItem("INWARDQTY", "{0:n2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item1)
+                Dim item2 As New GridViewSummaryItem("OUTWARDQTY", "{0:n2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item2)
+                gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+            ElseIf ddlReportType.SelectedValue = "Stock Summary" Then
+
+                gvData.Columns("Structure_Code").HeaderText = "Structure Code"
+                gvData.Columns("Structure_Code").IsVisible = True
+
+                gvData.Columns("Item_Type").IsVisible = False
+
+                gvData.Columns("Item_Code").HeaderText = "Item Code"
+                gvData.Columns("Item_Code").IsVisible = True
+
+                gvData.Columns("Item_Desc").HeaderText = "Item Name"
+                gvData.Columns("Item_Desc").Width = 250
+                gvData.Columns("Item_Desc").IsVisible = True
+
+                gvData.Columns("Report_UOM").HeaderText = "UOM"
+                gvData.Columns("Report_UOM").Width = 500
+
+                gvData.Columns("OPBal").HeaderText = "Opening Balance"
+                gvData.Columns("OPBal").Width = 250
+                gvData.Columns("OPBal").FormatString = "{0:n2}"
+
+                gvData.Columns("Received_Qty").HeaderText = "Inwards Qty"
+                gvData.Columns("Received_Qty").Width = 500
+                gvData.Columns("Received_Qty").IsVisible = True
+
+                gvData.Columns("Issued_Qty").HeaderText = "Outwards Qty"
+                gvData.Columns("Issued_Qty").Width = 500
+                gvData.Columns("Issued_Qty").IsVisible = True
+
+                gvData.Columns("Balance_Qty").HeaderText = "Closing Balance"
+                gvData.Columns("Balance_Qty").Width = 500
+                gvData.Columns("Balance_Qty").IsVisible = True
+
+                gvData.Columns("Comp_Name").IsVisible = False
+                gvData.Columns("City_Code").IsVisible = False
+                gvData.Columns("fromDate").IsVisible = False
+                gvData.Columns("Todate").IsVisible = False
+
+
+                Dim summaryRowItem As New GridViewSummaryRowItem()
+                Dim item1 As New GridViewSummaryItem("OPBal", "{0:n2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item1)
+                Dim item2 As New GridViewSummaryItem("Received_Qty", "{0:n2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item2)
+                Dim item3 As New GridViewSummaryItem("Issued_Qty", "{0:n2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item3)
+                Dim item4 As New GridViewSummaryItem("Balance_Qty", "{0:n2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item4)
+                gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -189,5 +325,10 @@ Public Class rptSalesStock
     End Sub
     Private Sub rmenuPDF_Click(sender As Object, e As EventArgs) Handles rmenuPDF.Click
         ExportGrid(EnumExportTo.PDF)
+    End Sub
+
+    Private Sub txtMultiStructureCode__My_Click(sender As Object, e As EventArgs) Handles txtMultiStructureCode._My_Click
+        Dim qry As String = " select Structure_Code as Code, Structure_Descq as Name  from TSPL_STRUCTURE_MASTER "
+        txtMultiStructureCode.arrValueMember = clsCommon.ShowMultipleSelectForm("StrucMulSel", qry, "Code", "Name", txtMultiStructureCode.arrValueMember, txtMultiStructureCode.arrDispalyMember)
     End Sub
 End Class

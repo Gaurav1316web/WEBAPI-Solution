@@ -40,6 +40,10 @@ Partial Class BmcLabReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -64,6 +68,7 @@ Partial Class BmcLabReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +86,7 @@ Partial Class BmcLabReport
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadMenu1)
         '
         'SplitContainer1.Panel2
         '
@@ -97,11 +103,11 @@ Partial Class BmcLabReport
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(797, 337)
-        Me.RadPageView1.TabIndex = 12
+        Me.RadPageView1.Size = New System.Drawing.Size(797, 317)
+        Me.RadPageView1.TabIndex = 14
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -116,7 +122,7 @@ Partial Class BmcLabReport
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(776, 289)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(776, 269)
         Me.RadPageViewPage1.Text = "Filters"
         '
         'LblTanker
@@ -281,6 +287,33 @@ Partial Class BmcLabReport
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
         '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(797, 20)
+        Me.RadMenu1.TabIndex = 3
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmsaveLayout, Me.rmDeleteLayout})
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Setting"
+        Me.RadMenuItem1.UseCompatibleTextRendering = False
+        '
+        'rmsaveLayout
+        '
+        Me.rmsaveLayout.Name = "rmsaveLayout"
+        Me.rmsaveLayout.Text = "Save Layout"
+        Me.rmsaveLayout.UseCompatibleTextRendering = False
+        '
+        'rmDeleteLayout
+        '
+        Me.rmDeleteLayout.Name = "rmDeleteLayout"
+        Me.rmDeleteLayout.Text = "Delete Layout"
+        Me.rmDeleteLayout.UseCompatibleTextRendering = False
+        '
         'btnSplitExport
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -346,6 +379,7 @@ Partial Class BmcLabReport
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "BmcLabReport"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -365,6 +399,7 @@ Partial Class BmcLabReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -375,11 +410,22 @@ Partial Class BmcLabReport
     End Sub
 
     Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents btnSplitExport As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents rmiPDF As RadMenuItem
+    Friend WithEvents btnClose As RadButton
+    Friend WithEvents btnGo As RadButton
+    Friend WithEvents btnReset As RadButton
+    Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents RadMenuItem1 As RadMenuItem
+    Friend WithEvents rmsaveLayout As RadMenuItem
+    Friend WithEvents rmDeleteLayout As RadMenuItem
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
-    Friend WithEvents txtBMC As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents LblTanker As common.Controls.MyLabel
+    Friend WithEvents TxtTankerNo As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblBMC As common.Controls.MyLabel
-    Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents txtBMC As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblRoute As common.Controls.MyLabel
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
@@ -388,13 +434,6 @@ Partial Class BmcLabReport
     Friend WithEvents fromDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents btnSplitExport As RadSplitButton
-    Friend WithEvents rmiExcel As RadMenuItem
-    Friend WithEvents rmiPDF As RadMenuItem
-    Friend WithEvents btnClose As RadButton
-    Friend WithEvents btnGo As RadButton
-    Friend WithEvents btnReset As RadButton
-    Friend WithEvents LblTanker As common.Controls.MyLabel
-    Friend WithEvents TxtTankerNo As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
 End Class
 

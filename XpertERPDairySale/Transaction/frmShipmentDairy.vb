@@ -6177,7 +6177,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 If (EnableManualCrateonTaxableDairyDispatch = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal) Then
                     txtCrateQty.Value = txtCrate.Value
                 Else
-                    txtCrateQty.Value = dblCrateQty
+                    If AllowManualCrateForDispatch Then
+                        txtCrateQty.Value = txtCrate.Value
+                    Else
+                        txtCrateQty.Value = dblCrateQty
+
+                    End If
                 End If
                 TxtTotalCAN.Value = dblCanQty
                 FillVehicleCharges(trans)
