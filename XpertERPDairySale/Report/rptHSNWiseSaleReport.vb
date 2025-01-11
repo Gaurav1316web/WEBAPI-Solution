@@ -232,8 +232,16 @@ Public Class rptHSNWiseSaleReport
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt.Rows.Count > 0 Then
+                gv1.DataSource = dt
+                gv1.BestFitColumns()
+                SetGridFormation()
+                ReStoreGridLayout()
+                gv1.MasterTemplate.AutoExpandGroups = True
+                EnableDisableControls(False)
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.BestFitColumns()
+
                 If isPrint Then
-                    RadPageView1.SelectedPage = RadPageViewPage1
                     Dim frmCRV As New frmCrystalReportViewer()
                     If chkKKFMandi.Checked Then
                         frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptHSNWiseSale", "HSN Wise Sale")
@@ -241,15 +249,6 @@ Public Class rptHSNWiseSaleReport
                         frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptHSNWiseSaleALW", "HSN Wise Sale")
                     End If
                     frmCRV = Nothing
-                Else
-                    gv1.DataSource = dt
-                    gv1.BestFitColumns()
-                    SetGridFormation()
-                    ReStoreGridLayout()
-                    gv1.MasterTemplate.AutoExpandGroups = True
-                    EnableDisableControls(False)
-                    RadPageView1.SelectedPage = RadPageViewPage2
-                    gv1.BestFitColumns()
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
@@ -300,9 +299,34 @@ Public Class rptHSNWiseSaleReport
         gv1.Columns("Item_Code").IsVisible = False
         gv1.Columns("Tax_Rate").FormatString = "{0:n2}"
 
+        If isPrint Then
+            gv1.Columns("Tax_1").IsVisible = False
+            gv1.Columns("Tax_2").IsVisible = False
+            gv1.Columns("Tax_3").IsVisible = False
+            gv1.Columns("Tax_4").IsVisible = False
+
+            gv1.Columns("VoucherCount").IsVisible = False
+            gv1.Columns("Comp_Name").IsVisible = False
+            gv1.Columns("TypeOfSupply").IsVisible = False
+            gv1.Columns("FromDate").IsVisible = False
+            gv1.Columns("ToDate").IsVisible = False
+            For ii As Integer = 0 To dtTax.Rows.Count - 1
+                gv1.Columns("TaxAmount_" & clsCommon.myCstr(ii + 1) & "").HeaderText = dtTax.Rows(ii)("Tax_Code_Desc")
+            Next
+            If chkKKFMandi.Checked = False Then
+                gv1.Columns("TaxAmount_4").HeaderText = "TCS Amount"
+            End If
+        End If
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        For ii As Integer = 4 To gv1.Columns.Count - 1
-            If ii = 6 Then
+        Dim j As Integer = 0
+        If isPrint Then
+            j = 9
+        Else
+            j = 4
+        End If
+        For ii As Integer = j To gv1.Columns.Count - 1
+            If clsCommon.CompairString(gv1.Columns(ii).Name, "Tax_Rate") = CompairStringResult.Equal Then
             Else
                 summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
             End If

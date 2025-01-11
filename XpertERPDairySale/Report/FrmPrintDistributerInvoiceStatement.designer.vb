@@ -22,7 +22,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -61,6 +61,13 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBothShift = New System.Windows.Forms.RadioButton()
+        Me.rbtnEvening = New System.Windows.Forms.RadioButton()
+        Me.rbtnMorning = New System.Windows.Forms.RadioButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSupplyDate = New System.Windows.Forms.RadioButton()
+        Me.rbtnDocumentDate = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -95,6 +102,10 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -151,6 +162,8 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.fndCustom)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
@@ -437,7 +450,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -590,6 +603,91 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.btnGo.TabIndex = 17
         Me.btnGo.Text = ">>>"
         '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnBothShift)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnEvening)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnMorning)
+        Me.RadGroupBox4.HeaderText = "Shift"
+        Me.RadGroupBox4.Location = New System.Drawing.Point(508, 100)
+        Me.RadGroupBox4.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(327, 45)
+        Me.RadGroupBox4.TabIndex = 420
+        Me.RadGroupBox4.Text = "Shift"
+        '
+        'rbtnBothShift
+        '
+        Me.rbtnBothShift.AutoSize = True
+        Me.rbtnBothShift.Checked = True
+        Me.rbtnBothShift.Location = New System.Drawing.Point(229, 16)
+        Me.rbtnBothShift.Name = "rbtnBothShift"
+        Me.rbtnBothShift.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBothShift.TabIndex = 2
+        Me.rbtnBothShift.TabStop = True
+        Me.rbtnBothShift.Text = "Both"
+        Me.rbtnBothShift.UseVisualStyleBackColor = True
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.AutoSize = True
+        Me.rbtnEvening.Location = New System.Drawing.Point(129, 16)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(66, 17)
+        Me.rbtnEvening.TabIndex = 1
+        Me.rbtnEvening.TabStop = True
+        Me.rbtnEvening.Text = "Evening"
+        Me.rbtnEvening.UseVisualStyleBackColor = True
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.AutoSize = True
+        Me.rbtnMorning.Location = New System.Drawing.Point(30, 16)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(70, 17)
+        Me.rbtnMorning.TabIndex = 0
+        Me.rbtnMorning.TabStop = True
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.UseVisualStyleBackColor = True
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSupplyDate)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDocumentDate)
+        Me.RadGroupBox2.HeaderText = "Date"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(508, 49)
+        Me.RadGroupBox2.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(327, 45)
+        Me.RadGroupBox2.TabIndex = 421
+        Me.RadGroupBox2.Text = "Date"
+        '
+        'rbtnSupplyDate
+        '
+        Me.rbtnSupplyDate.AutoSize = True
+        Me.rbtnSupplyDate.Location = New System.Drawing.Point(181, 16)
+        Me.rbtnSupplyDate.Name = "rbtnSupplyDate"
+        Me.rbtnSupplyDate.Size = New System.Drawing.Size(87, 17)
+        Me.rbtnSupplyDate.TabIndex = 1
+        Me.rbtnSupplyDate.Text = "Supply Date"
+        Me.rbtnSupplyDate.UseVisualStyleBackColor = True
+        '
+        'rbtnDocumentDate
+        '
+        Me.rbtnDocumentDate.AutoSize = True
+        Me.rbtnDocumentDate.Checked = True
+        Me.rbtnDocumentDate.Location = New System.Drawing.Point(32, 16)
+        Me.rbtnDocumentDate.Name = "rbtnDocumentDate"
+        Me.rbtnDocumentDate.Size = New System.Drawing.Size(105, 17)
+        Me.rbtnDocumentDate.TabIndex = 0
+        Me.rbtnDocumentDate.TabStop = True
+        Me.rbtnDocumentDate.Text = "Document Date"
+        Me.rbtnDocumentDate.UseVisualStyleBackColor = True
+        '
         'FrmPrintDistributerInvoiceStatement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -639,6 +737,12 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -681,5 +785,12 @@ Partial Class FrmPrintDistributerInvoiceStatement
     Friend WithEvents lblCustomer As common.Controls.MyLabel
     Friend WithEvents fndCustom As common.UserControls.txtFinder
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents rbtnBothShift As RadioButton
+    Friend WithEvents rbtnEvening As RadioButton
+    Friend WithEvents rbtnMorning As RadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnSupplyDate As RadioButton
+    Friend WithEvents rbtnDocumentDate As RadioButton
 End Class
 
