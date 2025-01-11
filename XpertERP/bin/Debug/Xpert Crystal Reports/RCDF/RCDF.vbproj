@@ -344,6 +344,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoice_ForSeperateScheme.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptGatePassEntry.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptNonTaxableInvoiceBKN.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptPerDayDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductDeliveryOrderReport.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleNonTaxableChallan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleOrderReport.rpt" />

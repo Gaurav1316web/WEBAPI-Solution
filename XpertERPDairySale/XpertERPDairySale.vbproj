@@ -310,6 +310,12 @@
     <Compile Include="Report\frmGatepassDetailReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\FrmperdayDetailRpt.Designer.vb">
+      <DependentUpon>FrmperdayDetailRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FrmperdayDetailRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\FrmPrintMultipleGatepass.Designer.vb">
       <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>
     </Compile>
@@ -1023,6 +1029,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmGatepassDetailReport.resx">
       <DependentUpon>frmGatepassDetailReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\FrmperdayDetailRpt.resx">
+      <DependentUpon>FrmperdayDetailRpt.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmPrintMultipleGatepass.resx">
       <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>

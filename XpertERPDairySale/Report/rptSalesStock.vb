@@ -212,7 +212,7 @@ Public Class rptSalesStock
 
                 gvData.Columns("location_desc").HeaderText = "location Name"
                 gvData.Columns("location_desc").Width = 250
-                gvData.Columns("location_desc").IsVisible = True
+                gvData.Columns("location_desc").IsVisible = False
 
                 gvData.Columns("structure_code").HeaderText = "Structure Code"
                 gvData.Columns("structure_code").Width = 250
@@ -236,9 +236,9 @@ Public Class rptSalesStock
 
 
                 Dim summaryRowItem As New GridViewSummaryRowItem()
-                Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+                Dim item1 As New GridViewSummaryItem("INWARDQTY", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
-                Dim item2 As New GridViewSummaryItem("OUTWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+                Dim item2 As New GridViewSummaryItem("OUTWARDQTY", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom

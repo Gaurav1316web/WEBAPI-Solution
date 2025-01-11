@@ -2433,6 +2433,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDemandReport, "Demand Report", "1.06.03.54", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDailyDemandReport, "Daily Demand Report", "1.06.03.55", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptHSNWiseSaleReport, "HSN Wise Sale Report", "1.06.03.56", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmperdayDetailRpt, "PER Day Detail Report", "1.06.03.59", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
