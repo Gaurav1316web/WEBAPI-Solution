@@ -42,12 +42,7 @@ Public Class rptUnionStock
         Me.Close()
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        Try
-            Dim dt As DataTable = Nothing
-            Dim Qry As String = ""
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+
     End Sub
 
     Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles BtnReset.Click
@@ -58,5 +53,13 @@ Public Class rptUnionStock
     End Sub
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
 
+    End Sub
+    Sub Print()
+        Try
+            Dim dt As DataTable = Nothing
+            Dim Qry As String = ""
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
