@@ -229,6 +229,12 @@
     <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmUnpostBmcDcs.Designer.vb">
+      <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmUnpostBmcDcs.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\BmcLabReport.Designer.vb">
       <DependentUpon>BmcLabReport.vb</DependentUpon>
     </Compile>
@@ -1045,6 +1051,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.resx">
       <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmUnpostBmcDcs.resx">
+      <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\BmcLabReport.resx">
       <DependentUpon>BmcLabReport.vb</DependentUpon>

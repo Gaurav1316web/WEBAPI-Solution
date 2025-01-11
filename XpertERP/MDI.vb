@@ -7539,6 +7539,9 @@ Public Class MDI
                     Case clsUserMgtCode.MPMilkPrice
                         frm = New frmMPMilkPrice
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmUnpostBmcDcs
+                        frm = New frmUnpostBmcDcs
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
