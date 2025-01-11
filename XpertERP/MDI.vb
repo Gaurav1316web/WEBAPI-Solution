@@ -3126,6 +3126,10 @@ Public Class MDI
                         frm = New FrmLockTransactionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptBoothWiseBillReport
+                        frm = New rptBoothWiseBillReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     '------------------ Common services Transactions---------------------------------------
                     Case clsUserMgtCode.bankTransfer
                         frm = New FrmBankTransfer(lblUserCode.Text, objCommonVar.CurrentCompanyCode)

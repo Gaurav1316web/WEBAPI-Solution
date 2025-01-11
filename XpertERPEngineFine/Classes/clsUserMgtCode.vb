@@ -1,6 +1,7 @@
 ﻿Imports common
 Public Class clsUserMgtCode
 
+    Public Const rptBoothWiseBillReport As String = "BOOTH-WI-BI"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
