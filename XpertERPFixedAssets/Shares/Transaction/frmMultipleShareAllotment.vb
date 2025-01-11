@@ -30,6 +30,8 @@ Public Class frmMultipleShareAllotment
         coll = New Dictionary(Of String, String)()
         coll.Add("Document_No", "varchar(30) Not NULL Primary Key")
         coll.Add("Document_date", "DateTime Not NULL")
+        coll.Add("From_Date", "DateTime Not NULL")
+        coll.Add("To_Date", "DateTime Not NULL")
         coll.Add("Rate_Of_One_Share", "Decimal(18,2) NULL ")
         coll.Add("Status", "int not null default 0")
         coll.Add("Created_By", "varchar(12)  Not NULL")
@@ -83,7 +85,7 @@ Public Class frmMultipleShareAllotment
         repoSNO.FormatString = ""
         repoSNO.HeaderText = "SNo"
         repoSNO.Name = colSNo
-        repoSNO.Width = 70
+        repoSNO.Width = 40
         repoSNO.ReadOnly = True
         repoSNO.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoSNO)
@@ -92,7 +94,7 @@ Public Class frmMultipleShareAllotment
         repoDCSUploaderCode.FormatString = ""
         repoDCSUploaderCode.HeaderText = "DCS Code"
         repoDCSUploaderCode.Name = colDCSUploaderNo
-        repoDCSUploaderCode.Width = 100
+        repoDCSUploaderCode.Width = 70
         repoDCSUploaderCode.ReadOnly = True
         repoDCSUploaderCode.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoDCSUploaderCode)
@@ -110,7 +112,7 @@ Public Class frmMultipleShareAllotment
         repoDCSName.FormatString = ""
         repoDCSName.HeaderText = "DCS Name"
         repoDCSName.Name = colDCSName
-        repoDCSName.Width = 100
+        repoDCSName.Width = 150
         repoDCSName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDCSName)
 
@@ -209,15 +211,16 @@ Public Class frmMultipleShareAllotment
     End Sub
     Function AllowToSave() As Boolean
 
-        'If clsCommon.myLen(txtDescription.Text) <= 0 Then
-        '    txtDescription.Focus()
-        '    Throw New Exception("Description can't be blank.")
-        'End If
-
         If txtRateOfOneShare.Value = 0 Then
             txtRateOfOneShare.Focus()
             Throw New Exception("Rate Of One Share can't be blank.")
         End If
+
+        Dim isDocExist As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count(1) from TSPL_MULTIPLE_SHARE_ALLOTMENT_head where convert(date,from_date ,103)>=  convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) and convert(date,To_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103)") > 0)
+        If isDocExist Then
+            Throw New Exception("Document already exist in this cycle")
+        End If
+
         Return True
     End Function
 
@@ -228,6 +231,8 @@ Public Class frmMultipleShareAllotment
                 obj.Document_No = txtDocumentNo.Value
                 obj.Rate_Of_One_Share = txtRateOfOneShare.Value
                 obj.Document_date = clsCommon.myCDate(txtDocumentDate.Value)
+                obj.From_Date = clsCommon.myCDate(txtFromDate.Value)
+                obj.To_Date = clsCommon.myCDate(txtToDate.Value)
                 obj.Arr = New List(Of clsMultipleShareAllotmentDetail)
 
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -360,6 +365,8 @@ Public Class frmMultipleShareAllotment
                 End If
                 txtDocumentNo.Value = obj.Document_No
                 txtDocumentDate.Value = obj.Document_date
+                txtFromDate.Value = obj.From_Date
+                txtToDate.Value = obj.To_Date
                 txtRateOfOneShare.Value = obj.Rate_Of_One_Share
 
                 If (obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0) Then
@@ -421,7 +428,7 @@ Public Class frmMultipleShareAllotment
 
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        If clsCommon.myLen(txtRateOfOneShare.Value) <= 0 Then
+        If (txtRateOfOneShare.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please Enter Rate of One Share", Me.Text)
             Exit Sub
         End If
@@ -465,6 +472,9 @@ Public Class frmMultipleShareAllotment
                         gv1.Rows.AddNew()
 
                     Next
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No DCS Found", Me.Text)
+                    Exit Sub
                 End If
             End If
         Catch ex As Exception
@@ -487,7 +497,7 @@ Public Class frmMultipleShareAllotment
             If dblAllocatedShare > 0 Then
                 dblBalance_Amt = (dblDeducted_Amt Mod dblRatePerShare)
             Else
-                dblBalance_Amt = 0
+                dblBalance_Amt = dblDeducted_Amt
             End If
             gv1.Rows(IntRowNo).Cells(colNoOfShareToBeAllocated).Value = dblAllocatedShare
             gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value = dblBalance_Amt
@@ -595,7 +605,7 @@ Public Class frmMultipleShareAllotment
 
         Me.Controls.Add(gvImport)
         Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gvImport, "DCS Uploader No", "DCS Code", "DCS Name", "BMC Uploader No", "BMC Name", "Head Load Basis", "Head Load Rate", "Cycle Frequency") Then
+        If transportSql.importExcel(gvImport, "DCS Code", "DCS Name", "Share Captial Opening Amount", "Total Share Captial Deducted Amount", "Balance Amt", "Share Rate Per Share", "No of Share to be allocated", "Share Certificate No Start From", "Share Certificate No To") Then
             Try
                 clsCommon.ProgressBarPercentShow()
                 For ii As Integer = 0 To gvImport.Rows.Count - 1
@@ -605,10 +615,8 @@ Public Class frmMultipleShareAllotment
                         Try
 
                             gv1.Rows(ii).Cells("DCS Code").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value)
-                            gv1.Rows(ii).Cells("DCS Uploader No").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Uploader No").Value)
-                            gv1.Rows(ii).Cells("DCS Name").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Name").Value)
-                            gv1.Rows(ii).Cells("BMC Uploader No").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("BMC Uploader No").Value)
-                            gv1.Rows(ii).Cells("BMC Name").Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("BMC Name").Value)
+                            gv1.Rows(ii).Cells("DCS Name").Value = clsDBFuncationality.getSingleValue("Select VLC_NAME FROM TSPL_VLC_MASTER_HEAD VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
+                            gv1.Rows(ii).Cells("Vendor Code").Value = clsDBFuncationality.getSingleValue("Select VSP_CODE FROM TSPL_VLC_MASTER_HEAD VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
                             If clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Kg") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Ltr") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Kg") = CompairStringResult.Equal OrElse clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Cycle Wise Rate/Ltr") = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(gvImport.Rows(ii).Cells("Head Load Basis").Value, "Rate/Kg") = CompairStringResult.Equal Then
                                     gv1.Rows(ii).Cells("Head Load Basis").Value = "K"
@@ -623,15 +631,18 @@ Public Class frmMultipleShareAllotment
                                 clsCommon.MyMessageBoxShow(Me, " This Head load basis does not exist in Head Load Master", Me.Text)
                                 Exit Sub
                             End If
-                            gv1.Rows(ii).Cells("Head Load Rate").Value = Math.Round(clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Head Load Rate").Value), 2)
+                            gv1.Rows(ii).Cells(colShareCaptialOpeningAmount).Value = Math.Round(clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Share Captial Opening Amount").Value), 2)
 
-                            gv1.Rows(ii).Cells("Cycle Frequency").Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Cycle Frequency").Value)
-
+                            gv1.Rows(ii).Cells(colShareDeductedAmount).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Share Captial Deducted Amount").Value)
+                            UpdateCurrentRow(ii)
+                            'gv1.Rows(ii).Cells(colBalanceAmt).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Balance Amt").Value)
+                            'gv1.Rows(ii).Cells(colRatePerShare).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Share Rate Per Share").Value)
+                            'gv1.Rows(ii).Cells(colNoOfShareToBeAllocated).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Share Captial Deducted Amount").Value)
+                            txtRateOfOneShare.Value = gv1.Rows(ii).Cells(colRatePerShare).Value
                             If clsCommon.myLen(txtDocumentNo.Value) = 0 Then
                                 If gv1.Rows.Count = gvImport.Rows.Count Then
                                 Else
                                     gv1.Rows.AddNew()
-
                                 End If
                             End If
 
