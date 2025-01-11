@@ -26,7 +26,9 @@ Public Class FrmPrintDistributerInvoiceStatement
     End Sub
 
     Public Sub loadReport()
+        Dim sQuery As String = Nothing
         Dim WhrCls As String = " and 2=2 "
+        Dim Whr As String = ""
         If txtFromDate.Value > txtToDate.Value Then
             common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
@@ -36,6 +38,11 @@ Public Class FrmPrintDistributerInvoiceStatement
         '    clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
         '    Exit Sub
         'End If
+        If rbtnEvening.Checked Then
+            Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
+        ElseIf rbtnMorning.Checked Then
+            Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+        End If
         If clsCommon.myCDate(txtFromDate.Value) >= objCommonVar.GSTApplicableDate AndAlso clsCommon.myCDate(txtToDate.Value) >= objCommonVar.GSTApplicableDate Then
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "") = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "Please Select Report Type.", Me.Text)
@@ -44,18 +51,38 @@ Public Class FrmPrintDistributerInvoiceStatement
             End If
         End If
 
-
-        Dim sQuery As String = " select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date ,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name  ,
-                                Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE 
-        WHEN Shift_type = 'AM' THEN 'Morning'
-        ELSE 'Evening'
-    END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
+        If rbtnDocumentDate.Checked Then
+            sQuery += "  select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
+                                TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name  ,
+                                Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,
+	                            CASE 
+                                WHEN Shift_type = 'AM' THEN 'Morning'
+                                ELSE 'Evening'
+                                END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
                                 from TSPL_SD_SALE_INVOICE_HEAD
                                 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
-                               left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
-                               left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
-     left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
-where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' "
+                                left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                                left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
+                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+                                where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS'
+                                and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
+        ElseIf rbtnSupplyDate.Checked Then
+            sQuery += " select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code 
+                                ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,
+                                TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name  ,
+                                Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE 
+                                WHEN Shift_type = 'AM' THEN 'Morning'
+                                ELSE 'Evening'
+                                END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
+                                from TSPL_SD_SALE_INVOICE_HEAD
+                                left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+                                left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                                left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
+                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+                                where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS'
+                                and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
+        End If
+
 
 
         If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "LT") = CompairStringResult.Equal Then
@@ -74,7 +101,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
             sQuery += "  and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
         End If
 
-        sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103)"
+        'sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103)"
         '==============update by preeti gupta Against Ticket No [BM00000005410]
 
         'If chkLocationSelect.IsChecked And cbgLocation.CheckedValue.Count > 0 Then
@@ -159,6 +186,10 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         gv.Columns("Document_Date").HeaderText = " Date"
         'gv.Columns("Document_Date").FormatString = "{0:d}"
 
+        gv.Columns("Route_Code").IsVisible = True
+        gv.Columns("Route_Code").Width = 100
+        gv.Columns("Route_Code").HeaderText = "Route Code"
+
         gv.Columns("Location_Desc").IsVisible = True
         gv.Columns("Location_Desc").Width = 100
         gv.Columns("Location_Desc").HeaderText = "Location"
@@ -216,6 +247,9 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         loadReport()
     End Sub
     Sub Reset()
+        rbtnDocumentDate.Checked = True
+        RadGroupBox2.Visible = True
+        RadGroupBox4.Visible = False
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
         'LoadLocation()
@@ -767,6 +801,8 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
 
     Private Sub FrmPrintDistributerInvoiceStatement_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+            RadGroupBox2.Visible = True
+            RadGroupBox4.Visible = False
             'Dim coll As Dictionary(Of String, String)
             'coll = New Dictionary(Of String, String)
             'coll.Add("MonthlySaleInvoiceNo", "varchar(30) NULL")
@@ -1273,5 +1309,14 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         Dim strQuery As String = " select Cust_Code as Code , Customer_Name as Name from TSPL_CUSTOMER_MASTER "
         fndCustom.Value = clsCommon.ShowSelectForm("PrintSaleInvoiceMonthly", strQuery, "Code", "", fndCustom.Value, "Code", isButtonClicked)
         lblCustomer.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code = '" + fndCustom.Value + "' "))
+    End Sub
+
+    Private Sub rbtnSupplyDate_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnSupplyDate.CheckedChanged
+        If rbtnSupplyDate.Checked Then
+            RadGroupBox4.Visible = True
+        End If
+        If rbtnDocumentDate.Checked Then
+            RadGroupBox4.Visible = False
+        End If
     End Sub
 End Class
