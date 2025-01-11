@@ -2048,6 +2048,9 @@ Public Class FrmItemMasterRMOther
                 'txtUOM.Value = ""
                 Dim strUOM As String = ""
                 Dim CountDefaultUnit As Integer = 0
+                Dim CountPrintUOM As Integer = 0
+                Dim CountReportUOM As Integer = 0
+
                 Dim countRmProcessLoss As Integer = 0
                 Dim isCustomConversion As Boolean = False
                 For ii As Integer = 0 To gvUOM.RowCount - 1
@@ -2079,6 +2082,12 @@ Public Class FrmItemMasterRMOther
                         If gvUOM.Rows(ii).Cells(UOMDefault).Value = True Then
                             CountDefaultUnit = CountDefaultUnit + 1
                         End If
+                        If gvUOM.Rows(ii).Cells(PrintUOM).Value = True Then
+                            CountPrintUOM = CountPrintUOM + 1
+                        End If
+                        If gvUOM.Rows(ii).Cells(ReportUOM).Value = True Then
+                            CountReportUOM = CountReportUOM + 1
+                        End If
                         If gvUOM.Rows(ii).Cells(RMProcessloss).Value = True Then
                             countRmProcessLoss = countRmProcessLoss + 1
                         End If
@@ -2107,6 +2116,14 @@ Public Class FrmItemMasterRMOther
                 If CountDefaultUnit > 1 Then
                     RadPageView1.SelectedPage = RadPageViewPage2
                     Throw New Exception("Default UOM should be 1")
+                End If
+                If CountPrintUOM > 1 Then
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Throw New Exception("Print UOM should be 1")
+                End If
+                If CountReportUOM > 1 Then
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Throw New Exception("Report UOM should be 1")
                 End If
                 If countRmProcessLoss > 1 Then
                     RadPageView1.SelectedPage = RadPageViewPage2
