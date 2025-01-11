@@ -203,6 +203,7 @@ Public Class clsPSInvoiceHead
     Public Transport_Code As String = Nothing
     Public Transporter_Name As String = Nothing
     Public Freight_Distance As Integer = 0
+    Public Deduction_Type As String = Nothing
 #End Region
 
     Public Function SaveData(ByVal obj As clsPSInvoiceHead, ByVal isNewEntry As Boolean, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal IsTaxable As Boolean = False) As Boolean
@@ -503,6 +504,7 @@ Public Class clsPSInvoiceHead
             Else
                 clsCommon.AddColumnsForChange(coll, "cust_po_date", clsCommon.GetPrintDate(obj.podate, "dd/MMM/yyyy hh:mm tt"))
             End If
+            clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
             clsCommon.AddColumnsForChange(coll, "IsSampling", obj.IsSampling)
             clsCommon.AddColumnsForChange(coll, "TotalCAN", obj.TotalCAN)
             clsCommon.AddColumnsForChange(coll, "ShippedCAN", obj.ShippedCAN)
@@ -853,7 +855,8 @@ Public Class clsPSInvoiceHead
     " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.SO_Validity,TSPL_SD_SALE_INVOICE_HEAD.Commission_Apply,TSPL_SD_SALE_INVOICE_HEAD.Total_Comm_Amt,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_date " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Terms,TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Period,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Capacity " &
-    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance FROM TSPL_SD_SALE_INVOICE_HEAD " &
+    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type 
+    FROM TSPL_SD_SALE_INVOICE_HEAD " &
     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
     " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location " &
     " left outer join  TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code= TSPL_SD_SALE_INVOICE_HEAD.Tax_Group " &
@@ -907,9 +910,9 @@ Public Class clsPSInvoiceHead
 
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsPSInvoiceHead()
+            obj.Deduction_Type = clsCommon.myCstr(dt.Rows(0)("Deduction_Type"))
             If IsDBNull(dt.Rows(0)("cust_po_date")) = True Then
                 obj.podate = Nothing
             Else
@@ -1441,7 +1444,7 @@ Case when ISNULL( TSPL_SD_SALE_INVOICE_DETAIL.tax1, '' ) = 'IGST' THEN TSPL_SD_S
 when ISNULL( TSPL_SD_SALE_INVOICE_DETAIL.tax1, '' ) = 'CGST' AND ISNULL( TSPL_SD_SALE_INVOICE_DETAIL.tax2, '' ) = 'SGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate + TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate ELSE 0 end  as ItemGstRt,
 
 Case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX3 = 'SGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX4 = 'CGST' then ((TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Base_Amt )* (TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate ) )/100 when TSPL_SD_SALE_INVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX4 = 'SGST' then ((TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Base_Amt)* (TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate ) )/100 else 0 end) else (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'SGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX2 = 'CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else 0 end) end ItemSgstAmt,
-Case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else 0 end ItemIgstAmt, case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX4 = 'SGST' then ((TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Base_Amt )* (TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate ) )/100 when TSPL_SD_SALE_INVOICE_DETAIL.TAX3 = 'SGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX4 = 'CGST' then ((TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Base_Amt )* (TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate) )/100 else 0 end) else (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'SGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX2 = 'CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else 0 end) end ItemCgstAmt,
+Case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt else (case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')= 'KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')= 'KKF' then(case when TSPL_SD_SALE_INVOICE_DETAIL.TAX3 = 'IGST' then ( (TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Base_Amt)* (TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate))/ 100 else 0 end) else 0 end)  end ItemIgstAmt, case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX3 = 'CGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX4 = 'SGST' then ((TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Base_Amt )* (TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate ) )/100 when TSPL_SD_SALE_INVOICE_DETAIL.TAX3 = 'SGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX4 = 'CGST' then ((TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Base_Amt )* (TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate) )/100 else 0 end) else (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'CGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX2 = 'SGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'SGST' AND TSPL_SD_SALE_INVOICE_DETAIL.TAX2 = 'CGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else 0 end) end ItemCgstAmt,
 
 Case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' then (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX5='TCS' then 0 else 0 end) else (case when TSPL_SD_SALE_INVOICE_DETAIL.tax3='TCS' then 0 else 0 end) end as ItemOthChrg,
 

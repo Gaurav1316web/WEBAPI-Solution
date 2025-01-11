@@ -134,6 +134,7 @@ Public Class clsItemMaster
     Public Marketing_Seq As Int64 = 0
     Public Arr_Purchase_QC_Parameter As List(Of clsItemPurchaseQCParameter) = Nothing
     Public ArrSchedule As List(Of clsItemSchedule) = Nothing
+    Public ArrNOCSchedule As List(Of clsItemNOCSchedule) = Nothing
     Public ApplyRoundingInStdProd As Boolean = False
     Public Visual_QC As Boolean = False
     Public Security_Deduction As Decimal
@@ -142,6 +143,7 @@ Public Class clsItemMaster
     Public Alies_Name_Hindi As String = Nothing
     Public BuyBackType As Integer = 0
     Public BuyBackValue As Decimal = 0
+    Public IsRepeat As Integer = 0
 #End Region
     ''Richa 20201616
     '==================================
@@ -1434,6 +1436,12 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_ITEM_SCHEDULE where Item_Code='" + obj.Item_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_ITEM_NOC_SCHEDULE_PENALTY where Against_NOC_Schedule_PK_Id in (select PK_ID from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + obj.Item_Code + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + obj.Item_Code + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Item_Desc", obj.Item_Desc)
             clsCommon.AddColumnsForChange(coll, "Short_Description", obj.Item_Short_Desc)
@@ -1509,6 +1517,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             '' Anubhooti 11-Sep-2014 BM00000003891
             clsCommon.AddColumnsForChange(coll, "Is_CrateType", IIf(obj.Is_CrateType, 1, 0))
             clsCommon.AddColumnsForChange(coll, "GL_Account", obj.GL_Account, True)
+            clsCommon.AddColumnsForChange(coll, "IsRepeat", obj.IsRepeat)
             ''
             'If Not String.IsNullOrEmpty(obj.Rack_No) Then
             clsCommon.AddColumnsForChange(coll, "Rack_No", obj.Rack_No)
@@ -1599,6 +1608,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             chkCanorCarte(obj.Item_Code, IIf(obj.Crate, 1, 0), IIf(obj.Can, 1, 0), trans)
             clsItemPurchaseQCParameter.SaveData(obj.Item_Code, obj.Arr_Purchase_QC_Parameter, trans)
             clsItemSchedule.SaveData(obj.Item_Code, obj.ArrSchedule, trans)
+            clsItemNOCSchedule.SaveData(obj.Item_Code, obj.ArrNOCSchedule, trans)
             trans.Commit()
         Catch err As Exception
             trans.Rollback()
@@ -1784,6 +1794,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Scrap_Item_Code = clsCommon.myCstr(dt.Rows(0)("Scrap_Item_Code"))
                 obj.Is_Leakage_Not_Applicable = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Leakage_Not_Applicable")) = 1, True, False)
                 obj.Is_Insurance = clsCommon.myCdbl(dt.Rows(0)("Is_Insurance"))
+                obj.IsRepeat = clsCommon.myCdbl(dt.Rows(0)("IsRepeat"))
                 If clsCommon.myCdbl(dt.Rows(0)("Is_Insurance")) > 0 Then
                     obj.InsuranceNo = clsCommon.myCstr(dt.Rows(0)("InsuranceNo"))
                     obj.InsuranceFromDate = clsCommon.myCDate(dt.Rows(0)("InsuranceFromDate"), "dd/MMM/yyyy")
@@ -1868,6 +1879,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 End If
                 obj.Arr_Purchase_QC_Parameter = clsItemPurchaseQCParameter.GetData(obj.Item_Code, Nothing)
                 obj.ArrSchedule = clsItemSchedule.GetData(obj.Item_Code, Nothing)
+                obj.ArrNOCSchedule = clsItemNOCSchedule.GetData(obj.Item_Code, Nothing)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

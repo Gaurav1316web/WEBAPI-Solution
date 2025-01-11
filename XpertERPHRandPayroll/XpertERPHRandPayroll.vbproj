@@ -1005,6 +1005,12 @@
     <Compile Include="HR and Payroll\Tranasction\frmApplyLoan.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmArrear.Designer.vb">
+      <DependentUpon>frmArrear.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmArrear.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Tranasction\frmAttendanceImport.Designer.vb">
       <DependentUpon>frmAttendanceImport.vb</DependentUpon>
     </Compile>
@@ -2173,6 +2179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmApplyLoan.resx">
       <DependentUpon>frmApplyLoan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Tranasction\frmArrear.resx">
+      <DependentUpon>frmArrear.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmAttendanceImport.resx">
       <DependentUpon>frmAttendanceImport.vb</DependentUpon>

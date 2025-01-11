@@ -110,6 +110,7 @@
     <Compile Include="Classes\clsBullRating.vb" />
     <Compile Include="Classes\ClsCallType.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
+    <Compile Include="Classes\clsDAArrear.vb" />
     <Compile Include="Classes\clsDailyDemand.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
     <Compile Include="Classes\clsDemandCustItem.vb" />
@@ -122,6 +123,7 @@
     <Compile Include="Classes\ClsIncomeTaxSlab.vb" />
     <Compile Include="Classes\ClsInvestmentDeclaration.vb" />
     <Compile Include="Classes\clsInvestmentType.vb" />
+    <Compile Include="Classes\clsItemCapacityLimitHead.vb" />
     <Compile Include="Classes\clsITSection.vb" />
     <Compile Include="Classes\clsMCCMaterailSalePriceChat.vb" />
     <Compile Include="Classes\clsODMaster.vb" />
@@ -189,6 +191,8 @@
     <Compile Include="PJC\clsPJCSettings.vb" />
     <Compile Include="PJC\clsProjectMaster.vb" />
     <Compile Include="PJC\clsProjectStatus.vb" />
+    <Compile Include="Purchase\clsRALNOC.vb" />
+    <Compile Include="Purchase\clsTenderDetail.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightCalculation.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightMaster.vb" />
     <Compile Include="BulkProcurement\clsOwnBMCGainLossRate.vb" />
@@ -228,6 +232,7 @@
     </Compile>
     <Compile Include="Sales Distribution\clsEInvoiceHead.vb" />
     <Compile Include="Seed\clsSeedSelectionEntry.vb" />
+    <Compile Include="Share\clsMultipleShareAllotment.vb" />
     <Compile Include="Share\clsShareAllotment.vb" />
     <Compile Include="Share\ClsShareMaster.vb" />
     <Compile Include="Share\ClsShareMovement.vb" />
@@ -275,8 +280,6 @@
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Purchase\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

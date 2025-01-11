@@ -49,6 +49,11 @@ Partial Class frmMilkCollectionMCCQC
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.btnUnSelectedAll = New Telerik.WinControls.UI.RadButton()
+        Me.btnSelectedAll = New Telerik.WinControls.UI.RadButton()
+        Me.btnSendSms = New Telerik.WinControls.UI.RadButton()
+        Me.chkSms = New common.Controls.MyCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.rbtnAllQCDone = New common.Controls.MyRadioButton()
         Me.rbtnPending = New common.Controls.MyRadioButton()
@@ -86,6 +91,11 @@ Partial Class frmMilkCollectionMCCQC
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         Me.Panel2.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        CType(Me.btnUnSelectedAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSelectedAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSendSms, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSms, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.rbtnAllQCDone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnPending, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -301,7 +311,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(869, 473)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -345,10 +355,10 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadPageView2.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView2.Controls.Add(Me.Attachments)
         Me.RadPageView2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView2.Location = New System.Drawing.Point(0, 38)
+        Me.RadPageView2.Location = New System.Drawing.Point(0, 46)
         Me.RadPageView2.Name = "RadPageView2"
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage5
-        Me.RadPageView2.Size = New System.Drawing.Size(848, 387)
+        Me.RadPageView2.Size = New System.Drawing.Size(848, 379)
         Me.RadPageView2.TabIndex = 2
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -358,7 +368,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(827, 339)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(827, 331)
         Me.RadPageViewPage5.Text = "Report"
         '
         'gv2
@@ -374,7 +384,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(827, 339)
+        Me.gv2.Size = New System.Drawing.Size(827, 331)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -399,6 +409,8 @@ Partial Class frmMilkCollectionMCCQC
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.GroupBox2)
+        Me.Panel2.Controls.Add(Me.chkSms)
         Me.Panel2.Controls.Add(Me.GroupBox1)
         Me.Panel2.Controls.Add(Me.MyLabel1)
         Me.Panel2.Controls.Add(Me.txtDateReport)
@@ -406,8 +418,55 @@ Partial Class frmMilkCollectionMCCQC
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(848, 38)
+        Me.Panel2.Size = New System.Drawing.Size(848, 46)
         Me.Panel2.TabIndex = 1
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.btnUnSelectedAll)
+        Me.GroupBox2.Controls.Add(Me.btnSelectedAll)
+        Me.GroupBox2.Controls.Add(Me.btnSendSms)
+        Me.GroupBox2.Location = New System.Drawing.Point(418, 0)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(419, 38)
+        Me.GroupBox2.TabIndex = 1066
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Visible = False
+        '
+        'btnUnSelectedAll
+        '
+        Me.btnUnSelectedAll.Location = New System.Drawing.Point(197, 12)
+        Me.btnUnSelectedAll.Name = "btnUnSelectedAll"
+        Me.btnUnSelectedAll.Size = New System.Drawing.Size(88, 19)
+        Me.btnUnSelectedAll.TabIndex = 5
+        Me.btnUnSelectedAll.Text = "UnSelected All"
+        '
+        'btnSelectedAll
+        '
+        Me.btnSelectedAll.Location = New System.Drawing.Point(103, 12)
+        Me.btnSelectedAll.Name = "btnSelectedAll"
+        Me.btnSelectedAll.Size = New System.Drawing.Size(88, 19)
+        Me.btnSelectedAll.TabIndex = 4
+        Me.btnSelectedAll.Text = "Selected All"
+        '
+        'btnSendSms
+        '
+        Me.btnSendSms.Location = New System.Drawing.Point(9, 12)
+        Me.btnSendSms.Name = "btnSendSms"
+        Me.btnSendSms.Size = New System.Drawing.Size(88, 19)
+        Me.btnSendSms.TabIndex = 3
+        Me.btnSendSms.Text = "Send Sms"
+        '
+        'chkSms
+        '
+        Me.chkSms.Location = New System.Drawing.Point(371, 11)
+        Me.chkSms.MyLinkLable1 = Nothing
+        Me.chkSms.MyLinkLable2 = Nothing
+        Me.chkSms.Name = "chkSms"
+        Me.chkSms.Size = New System.Drawing.Size(41, 18)
+        Me.chkSms.TabIndex = 1065
+        Me.chkSms.Tag1 = Nothing
+        Me.chkSms.Text = "Sms"
         '
         'GroupBox1
         '
@@ -550,6 +609,11 @@ Partial Class frmMilkCollectionMCCQC
         Me.Attachments.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        CType(Me.btnUnSelectedAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSelectedAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSendSms, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSms, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.rbtnAllQCDone, System.ComponentModel.ISupportInitialize).EndInit()
@@ -594,5 +658,10 @@ Partial Class frmMilkCollectionMCCQC
     Friend WithEvents Panel2 As Panel
     Friend WithEvents btnCorrection As RadButton
     Friend WithEvents btnExport As RadButton
+    Friend WithEvents chkSms As common.Controls.MyCheckBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents btnSendSms As RadButton
+    Friend WithEvents btnSelectedAll As RadButton
+    Friend WithEvents btnUnSelectedAll As RadButton
 End Class
 

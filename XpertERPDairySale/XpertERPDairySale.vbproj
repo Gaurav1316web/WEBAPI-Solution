@@ -145,7 +145,8 @@
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon">
+    <Reference Include="XpertCommon, Version=2.1.6.81, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngine">
@@ -315,6 +316,12 @@
     <Compile Include="Report\frmGatepassDetailReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\FrmperdayDetailRpt.Designer.vb">
+      <DependentUpon>FrmperdayDetailRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\FrmperdayDetailRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\FrmPrintMultipleGatepass.Designer.vb">
       <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>
     </Compile>
@@ -325,6 +332,12 @@
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\FrmZoneWiseSKUReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptBookingVsDispatchReport.Designer.vb">
+      <DependentUpon>rptBookingVsDispatchReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptBookingVsDispatchReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\RptBoothNilDemandl.Designer.vb">
@@ -451,6 +464,12 @@
       <DependentUpon>rptDetailedCardReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptDetailedCardReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptHSNWiseSaleReport.Designer.vb">
+      <DependentUpon>rptHSNWiseSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptHSNWiseSaleReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptInvoiceDetailReport.designer.vb">
@@ -609,6 +628,12 @@
     <Compile Include="Report\rptSalesLedgerReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptSalesStock.Designer.vb">
+      <DependentUpon>rptSalesStock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSalesStock.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\RptSalesSummaryReport.Designer.vb">
       <DependentUpon>RptSalesSummaryReport.vb</DependentUpon>
     </Compile>
@@ -625,6 +650,12 @@
       <DependentUpon>rptTransporterWiseReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptTransporterWiseReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptUnionStock.Designer.vb">
+      <DependentUpon>rptUnionStock.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptUnionStock.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptUnpostedDocumentReport.Designer.vb">
@@ -1011,11 +1042,17 @@
     <EmbeddedResource Include="Report\frmGatepassDetailReport.resx">
       <DependentUpon>frmGatepassDetailReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\FrmperdayDetailRpt.resx">
+      <DependentUpon>FrmperdayDetailRpt.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmPrintMultipleGatepass.resx">
       <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptBookingVsDispatchReport.resx">
+      <DependentUpon>rptBookingVsDispatchReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\RptBoothNilDemandl.resx">
       <DependentUpon>RptBoothNilDemandl.vb</DependentUpon>
@@ -1082,6 +1119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDetailedCardReport.resx">
       <DependentUpon>rptDetailedCardReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptHSNWiseSaleReport.resx">
+      <DependentUpon>rptHSNWiseSaleReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptInvoiceDetailReport.resx">
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>
@@ -1161,6 +1201,9 @@
     <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
       <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSalesStock.resx">
+      <DependentUpon>rptSalesStock.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\RptSalesSummaryReport.resx">
       <DependentUpon>RptSalesSummaryReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1169,6 +1212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptTransporterWiseReport.resx">
       <DependentUpon>rptTransporterWiseReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptUnionStock.resx">
+      <DependentUpon>rptUnionStock.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptUnpostedDocumentReport.resx">
       <DependentUpon>rptUnpostedDocumentReport.vb</DependentUpon>

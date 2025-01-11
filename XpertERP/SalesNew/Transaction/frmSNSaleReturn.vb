@@ -250,7 +250,7 @@ Public Class frmSNSaleReturn
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        btnHistory.Enabled = False
+        'btnHistory.Enabled = False
         isInsideLoadForm = True
         SetUserMgmtNew()
         SetMailRight()
@@ -3219,7 +3219,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
         'gvAC.Rows.AddNew()
         txtDate.Enabled = True
         txtVendorNo.Enabled = True
-        btnHistory.Enabled = False
+        'btnHistory.Enabled = False
 
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -4789,7 +4789,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             clsCommon.MyMessageBoxShow("Please select Location first")
             Exit Sub
         End If
-        btnHistory.Enabled = True
+        'btnHistory.Enabled = True
         ''-------richa 12/08/2014 Ticket No. BM00000003242---------
         Dim strwherecls As String = ""
         Dim strwhrcondition As String = ""
@@ -6616,13 +6616,18 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
     End Sub
     '----------------------Done By Preeti Gupta 29/05/2014-------BM00000002659----------
     Private Sub btnHistory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnHistory.Click
-        Dim frm As New FrmSaleHistory
-        frm.strFormId = MyBase.Form_ID
-        frm.strCustId = txtVendorNo.Value
-        frm.strCustName = lblVendorName.Text
-        Dim strvendor As String = txtVendorNo.Value
-        frm.ShowDialog()
-        frm.WindowState = FormWindowState.Maximized
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+            Exit Sub
+        End If
+        clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_Code", "TSPL_SD_SALE_RETURN_HEAD", "TSPL_SD_SALE_RETURN_DETAIL")
+        'Dim frm As New FrmSaleHistory
+        'frm.strFormId = MyBase.Form_ID
+        'frm.strCustId = txtVendorNo.Value
+        'frm.strCustName = lblVendorName.Text
+        'Dim strvendor As String = txtVendorNo.Value
+        'frm.ShowDialog()
+        'frm.WindowState = FormWindowState.Maximized
     End Sub
     Private Sub SetTax()
         GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)

@@ -1461,6 +1461,7 @@ Public Class clsBookingDetailDairySale
     Public Disc_Scheme_Pers As Double = 0
     Public Disc_Scheme_Amount As Double = 0
     Public OrgRate As Double = 0
+    Public Scheme_Main_Item As String = Nothing
     Public Booking_Status As Integer = 1
     Public CreditApproval_Reqd As String = Nothing
     Public Posted As Integer = 0
@@ -1570,6 +1571,7 @@ Public Class clsBookingDetailDairySale
                 clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                 clsCommon.AddColumnsForChange(coll, "Loc_Code", obj.Loc_Code)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Scheme_Main_Item", obj.Scheme_Main_Item)
                 clsCommon.AddColumnsForChange(coll, "PreviousBookingQty", obj.PreviousBookingQty)
                 clsCommon.AddColumnsForChange(coll, "Booking_Qty", obj.Booking_Qty)
                 clsCommon.AddColumnsForChange(coll, "DO_Qty", obj.Booking_Qty)
@@ -1991,6 +1993,7 @@ Public Class clsBookingDetailDairySale
                     obj.Item_Price_ID = clsCommon.myCdbl(dt.Rows(i)("Item_Price_ID"))
                     obj.Item_Rate = clsCommon.myCdbl(dt.Rows(i)("Item_Rate"))
                     obj.Loc_Code = clsCommon.myCstr(dt.Rows(i)("Loc_Code"))
+                    obj.Scheme_Main_Item = clsCommon.myCstr(dt.Rows(i)("Scheme_Main_Item"))
                     obj.Amount_with_Tax = clsCommon.myCdbl(dt.Rows(i)("Amount_with_Tax"))
                     obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(i)("Vehicle_Code"))
                     obj.Route_No = clsCommon.myCstr(dt.Rows(i)("Route_No"))

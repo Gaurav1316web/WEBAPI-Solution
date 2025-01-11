@@ -1,5 +1,9 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
+    Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
+    Public Const frmTTSavingReport As String = "SVNG-BLNCE"
+    Public Const rptBmcTankerProfitLossReport As String = "BMC-TAN-G-L"
 
     Public Const rptBoothWiseBillReport As String = "BOOTH-WI-BI"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
@@ -33,6 +37,7 @@ Public Class clsUserMgtCode
     Public Const ModuleCommonServices As String = "MCommSer"
     Public Const ModuleReceivable As String = "MReceivable"
     Public Const MPMilkPrice As String = "PCU-MCC"
+    Public Const frmUnpostBmcDcs As String = "Unpo-BM-DC"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"
@@ -268,6 +273,7 @@ Public Class clsUserMgtCode
     Public Const rptBookingReport As String = "BOOKING_RPT"
     Public Const rptBookingQtyAmtReport As String = "DEMD_BK_RPT"
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
+    Public Const rptSalesStock As String = "SAL_STK_RPT"
     Public Const rptSalesComparisonReport As String = "SAL_CMP_RPT"
     Public Const FrmBoothDemandReport As String = "BO_DE_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
@@ -319,6 +325,7 @@ Public Class clsUserMgtCode
 
     ''===========ShareTransaction=================
     Public Const SubModuleShareTransaction As String = "SMShareT"
+    Public Const frmMultipleShareAllotment As String = "MU-SHA-ALT"
     Public Const frmShareAllotment As String = "SHA-ALT"
 
     ''============ShareReport=======================
@@ -1267,6 +1274,7 @@ Public Class clsUserMgtCode
 
     Public Const frmTender As String = "Pur-Tender"
     Public Const TenderShortPenalty As String = "TND-SHT-PNL"
+    Public Const RALNOC As String = "RAL-NOC"
     Public Const frmCorrectionforWrongEntry As String = "CF-WRNG-ENT"
     Public Const frmDeletionForEntry As String = "DEL-FOR-ENT"
     Public Const frmShortSupplyPenalty As String = "SHT-SLY-PLT"
@@ -1510,6 +1518,7 @@ Public Class clsUserMgtCode
     Public Const frmAdjustmentVoucher As String = "EMP_ADJUST"
     Public Const frmReimbursementDetails As String = "EMP_REIMBURS"
     Public Const frmApplyLoan As String = "APPLY_LOAN"
+    Public Const frmArrear As String = "Arrear"
     Public Const frmAllowanceDetails As String = "ALLOWANCE"
     Public Const frmDeductionDetails As String = "DEDUCTION"
     Public Const frmEmployeeStatus As String = "EMP_Status"
@@ -2220,6 +2229,7 @@ Public Class clsUserMgtCode
     Public Const rptTankerStatusReport As String = "TNK_ST_RPT"
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptTankerUtilization As String = "TANKER_ULT_R"
     Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptBMCPerodicalReport As String = "BMC_PERO_R"
     Public Const rptTankerProfitLossReport As String = "TNR_P_L_R"
@@ -2356,6 +2366,7 @@ Public Class clsUserMgtCode
     Public Const rptMilkBillProcurementSummary As String = "MCC_MB_PS"
     Public Const frmVendorBankAdvice As String = "MCC_VB_ADV"
     Public Const rptPaymentProcessRouteReport As String = "ROUT_PR_RPT"
+    Public Const BmcLabReport As String = "BMC_LB_RPT"
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
     Public Const rptSocietyLedgerReport As String = "MCC_SOC_LED"
     Public Const rptMilkCostReport As String = "MCC_MLK_COST"
@@ -2649,6 +2660,7 @@ Public Class clsUserMgtCode
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"
+    Public Const FrmItemCapacityLimt As String = "ITM-CAP-LMT"
     Public Const VehicleMasterForProductSale As String = "VM_PS"
     Public Const frmMRPForProduction As String = "PP_MRP"
     Public Const frmPriceMasterPS As String = "PRC-MST-PS"
@@ -2692,8 +2704,10 @@ Public Class clsUserMgtCode
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"
     Public Const frmDemandUploader As String = "DEM_UPL_TRN"
     Public Const frmDailyDemandReport As String = "DAI-DE-RE"
-
+    Public Const rptHSNWiseSaleReport As String = "HSN_SAL_RPT"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
+    Public Const FrmperdayDetailRpt As String = "PER_DAY_RPT"
+    Public Const rptBookingVsDispatchReport As String = "BOOK-VS-DI"
 
     Public Const ModuleXpertAPI As String = "API"
     Public Const SubModuleXpertAPISetup As String = "MXAPIMaster"

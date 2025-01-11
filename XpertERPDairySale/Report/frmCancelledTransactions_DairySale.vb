@@ -41,6 +41,11 @@ Public Class frmCancelledTransactions_DairySale
             dtpToDate.Value = Todate
             ShowData()
         End If
+        If clsCommon.CompairString(cboTransaction.Text, "Dispatch") <> CompairStringResult.Equal Then
+            btnPrintCancel.Visible = False
+        Else
+            btnPrintCancel.Visible = True
+        End If
     End Sub
     Public Sub LoadModuleType()
         Dim dt As DataTable = New DataTable()
@@ -344,6 +349,41 @@ convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_On,103) AS [Canceled Da
         chkLocAll.CheckState = CheckState.Checked
         ChkUserAll.CheckState = CheckState.Checked
         gv1.DataSource = Nothing
+    End Sub
+
+    Private Sub btnPrintCancel_Click(sender As Object, e As EventArgs) Handles btnPrintCancel.Click
+        Try
+            Dim Doc_Code As String = Nothing
+            Dim Doc_Date As DateTime = Nothing
+            Dim Inv_Code As String = Nothing
+            Dim Cust_Code As String = Nothing
+            Dim objPrintInvoice As New frmShipmentDairy
+            If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+                If gv1.CurrentCell.IsSelected Then
+                    Doc_Code = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value)
+                    Doc_Date = clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value)
+                    Inv_Code = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Invoice No").Value)
+                    Cust_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Customer_Code from TSPL_SD_SHIPMENT_HEAD_Cancel_Data where Document_Code='" + Doc_Code + "'"))
+                End If
+            Else
+                Throw New Exception("Data not found !")
+            End If
+            objPrintInvoice.PrintInvoiveForAll(Doc_Code, Doc_Date, Inv_Code, True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub cboTransaction_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboTransaction.SelectedValueChanged
+        Try
+            If clsCommon.CompairString(cboTransaction.Text, "Dispatch") <> CompairStringResult.Equal Then
+                btnPrintCancel.Visible = False
+            Else
+                btnPrintCancel.Visible = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     'Private Sub gv1_CellEditorInitialized(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellEditorInitialized

@@ -3098,5 +3098,13 @@ where TSPL_ITEM_UOM_DETAIL.Net_Weight > 0"
             End If
         End If
     End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Select PROD_ENTRY_CODE", Me.Text)
+            Exit Sub
+        End If
+        clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "PROD_ENTRY_CODE", "TSPL_SPP_PRODUCTION_ENTRY", "TSPL_SPP_PRODUCTION_ENTRY_DETAIL")
+    End Sub
 End Class
 

@@ -300,7 +300,7 @@ Public Class clsDairyGatePassEntry
                 Throw New Exception("Already Posted")
             End If
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, trans)) = 1 Then
-                Dim strqry As String = "select distinct Document_Code from TSPL_SD_SHIPMENT_DETAIL where PK_ID in(select PK_ID from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" + obj.GPCode + "')"
+                Dim strqry As String = "select distinct Document_Code from TSPL_SD_SHIPMENT_DETAIL where PK_ID in(select PK_ID from                          where GPCode='" + obj.GPCode + "')"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     'Dim objGP As clsPSShipmentHead
@@ -632,6 +632,7 @@ Public Class clsDairyGPDetail
     Public Qty As Double = 0
     Public HSN_Code As String = Nothing
     Public PK_ID As Integer
+    Public Scheme_Item As String = Nothing
     Public Trip_No As Integer = 1
 
 #End Region
@@ -645,6 +646,7 @@ Public Class clsDairyGPDetail
                 clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "HSN_Code", obj.HSN_Code)
+                clsCommon.AddColumnsForChange(coll, "Scheme_Item", obj.Scheme_Item)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAIRYSALE_GATEPASS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
@@ -657,6 +659,7 @@ Public Class clsDairyGPDetail
                     clsCommon.AddColumnsForChange(coll1, "Item_Code", obj.Item_Code)
                     clsCommon.AddColumnsForChange(coll1, "Unit_Code", obj.Unit_Code)
                     clsCommon.AddColumnsForChange(coll1, "GP_Qty", obj.Qty)
+                    clsCommon.AddColumnsForChange(coll1, "Scheme_Item", obj.Scheme_Item)
                     clsCommon.AddColumnsForChange(coll1, "Trip_No", obj.Trip_No)
                     clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 End If
@@ -689,7 +692,7 @@ Public Class clsDairyGPDetail
         '             "convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' AND  " &
         '             "Document_Code not in (select DOCno From TSPL_DAIRYSALE_GATEPASS_DETAIL ) "
         'End If
-        qry = " select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code,max([Item_Desc]) as [Item Desc],TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Unit_Code as Unit,CONVERT(INT, MAX(GP_Qty)) Quantity ,max(TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code)HSN_Code   from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL
+        qry = " select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code,max([Item_Desc]) as [Item Desc],TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Unit_Code as Unit,CONVERT(INT, MAX(GP_Qty)) Quantity ,max(TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code)HSN_Code, max(TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item)Scheme_Item  from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL
                         left outer join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode  
 						left outer join TSPL_ITEM_MASTER on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code   
 						where TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode= '" & strCode & "'  
@@ -717,7 +720,7 @@ Public Class clsDairyGPDetail
                 obj.Unit_Code = clsCommon.myCstr(dr("Unit"))
                 obj.Qty = clsCommon.myCstr(dr("Quantity"))
                 obj.HSN_Code = clsCommon.myCstr(dr("HSN_Code"))
-
+                obj.Scheme_Item = clsCommon.myCstr(dr("Scheme_Item"))
 
 
                 arr.Add(obj)

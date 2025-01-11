@@ -226,7 +226,7 @@ Public Class frmDBTRecoVsIncentiveReport
                     , isnull(sum(INCENTIVE.MPCount),0) as [MP Count]
                     ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]"
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                        Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))=0 then 'Match' else 'Not Match' end) as [Status] "
+                        Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<= 0.01 then 'Match' else 'Not Match' end) as [Status] "
                     Else
                         Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1 then 'Match' else 'Not Match' end) as [Status]  "
                     End If
@@ -241,7 +241,7 @@ Public Class frmDBTRecoVsIncentiveReport
                     ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]"
 
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                        Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))=0 then 'Match' else 'Not Match' end) as [Status] "
+                        Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<= 0.01 then 'Match' else 'Not Match' end) as [Status] "
                     Else
                         Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1 then 'Match' else 'Not Match' end) as [Status]  "
                     End If
@@ -252,13 +252,13 @@ Public Class frmDBTRecoVsIncentiveReport
                 End If
                 If rbtnMatch.IsChecked = True Then
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                        Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))=0 "
+                        Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<= 0.01 "
                     Else
                         Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1"
                     End If
                 ElseIf rbtnNotMatch.IsChecked = True Then
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                        Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>0 "
+                        Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>0.01 "
                     Else
                         Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>=1"
                     End If

@@ -57,6 +57,8 @@ Public Class frmMPDCSIncentiveReco
     Dim SettApplyZoneOnDBT As Boolean = False
     Dim SettPickMilkPurchaseInvoiceQtyOrRecoQty As Boolean = False
     Dim ApplyMonthlySetting As Boolean = False
+
+    Dim SettDCSQtyDecimalPlaces As Integer = 2
 #End Region
     Public Sub New()
         InitializeComponent()
@@ -64,7 +66,7 @@ Public Class frmMPDCSIncentiveReco
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         SettMPIncentiveEntryApplyMonthly = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, Nothing)) > 0)
-
+        SettDCSQtyDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DCSQtyDecimalPlaces, clsFixedParameterCode.DCSQtyDecimalPlaces, Nothing))
         UcAttachment1.Form_ID = MyBase.Form_ID
         UcAttachment1.isDeleteTheAttachment = False
         UcAttachment1.settAutoAttachment = True
@@ -1235,7 +1237,8 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                 whrMonthCycleQry = " where convert(Date, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) ='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
             End If
             loadBlankGrid()
-            Dim qry As String = "select TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xx.CycleYear,xx.CycleMonth,Convert(decimal(18,3),xx.Qty) As Qty,xx.UOM_Code,xx.FAT_KG,xx.SNF_KG,xx.AMOUNT,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name from (
+
+            Dim qry As String = "select TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xx.CycleYear,xx.CycleMonth,Convert(decimal(18," + clsCommon.myCstr(SettDCSQtyDecimalPlaces) + "),xx.Qty) As Qty,xx.UOM_Code,xx.FAT_KG,xx.SNF_KG,xx.AMOUNT,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name from (
 select VSP_CODE,CycleYear,CycleMonth,sum(Qty+RQty) as Qty,max(UOM_Code) as UOM_Code,sum(FAT_KG) as FAT_KG,sum(SNF_KG) as SNF_KG,sum(AMOUNT) as AMOUNT  from (
 select TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,DATEPART(YEAR, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleYear,
 DATEPART(MONTH, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleMonth

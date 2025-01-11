@@ -294,6 +294,7 @@ Public Class frmMCCMaterialSale
         LoadBlankGridTax()
         LoadItemType()
         LoadInvoiceType()
+        LoadDeductionType()
         LoadBlankGridAC()
         AddNew()
         SetLength()
@@ -489,6 +490,7 @@ Public Class frmMCCMaterialSale
         txtPriceCode.Text = ""
         txtRoundOff.Text = ""
         chkTaxable.Checked = False
+        cboDeductionType.SelectedValue = ""
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -2090,9 +2092,6 @@ Public Class frmMCCMaterialSale
                         OpenBatchItem()
                     End If
                     If e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colSchemeApplicable) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse e.Column Is gv1.Columns(colShortDesc) OrElse e.Column Is gv1.Columns(colUnit) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal) Then
-                        If (e.Column Is gv1.Columns(colRate)) Then
-
-                        End If
                         If (e.Column Is gv1.Columns(colQty) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse e.Column Is gv1.Columns(colDisPer) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal)) Then
                             If ((e.Column Is gv1.Columns(colQty))) Then
                                 Dim dblPendingQty As Double = 0
@@ -2655,18 +2654,15 @@ Public Class frmMCCMaterialSale
         '----------------------------------------------------------------
         If clsCommon.CompairString(strItemType, RowTypeItem) = CompairStringResult.Equal Then
             Dim qry As String
-            qry = "select * from (select a.DESCRIPTION,a.cat_value, TSPL_ITEM_MASTER.item_code as Item,TSPL_ITEM_MASTER.item_desc as [ItemDesc],TSPL_ITEM_MASTER.Short_Description, " _
-            & " TSPL_ITEM_MASTER.Unit_Code as Unit , TSPL_ITEM_MASTER.Rate as BasicRate,TSPL_ITEM_MASTER.rate as MRP, Weight_Value as [Weight Value] from " _
-            & " TSPL_ITEM_MASTER    left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code," _
-            & " TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value " _
-            & " from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=" _
-            & " TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join " _
-            & " TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code" _
-            & " and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a" _
-            & " on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code "
-
+            qry = "select * from (
+select a.DESCRIPTION,a.cat_value, TSPL_ITEM_MASTER.item_code as Item,TSPL_ITEM_MASTER.item_desc as [ItemDesc],TSPL_ITEM_MASTER.Short_Description, 
+TSPL_ITEM_MASTER.Unit_Code as Unit , TSPL_ITEM_MASTER.Rate as BasicRate,TSPL_ITEM_MASTER.rate as MRP, Weight_Value as [Weight Value] 
+from TSPL_ITEM_MASTER    
+left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,
+TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value  from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' 
+left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code "
             Dim whrcls As String = " "
-            whrcls = " TSPL_ITEM_MASTER.Active = 1 And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
+            whrcls = " TSPL_ITEM_MASTER.Active = 1 and TSPL_ITEM_MASTER.Deduction_Type='" + clsCommon.myCstr(cboDeductionType.SelectedValue) + "' And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) Then
                 whrcls += " and TSPL_ITEM_MASTER.IsTaxable='" + IIf(chkTaxable.Checked, "1", "0") + "'"
             End If
@@ -3159,7 +3155,7 @@ Public Class frmMCCMaterialSale
 
         End If
         SETGSTControl()
-        If AllowPlandDeptMCCLocation = False Then
+        If AllowPlandDeptMCCLocation = True Then
             Dim obj As New clsMCCCodes()
             obj = clsMCCCodes.GetData(True)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 1 Then
@@ -3168,6 +3164,7 @@ Public Class frmMCCMaterialSale
             Else
             End If
         End If
+
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean) As Boolean
         If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
@@ -3441,6 +3438,7 @@ Public Class frmMCCMaterialSale
                 obj.Price_Code = txtPriceCode.Text
                 obj.HeadDisc_Per = txtDiscPer.Text
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
+                obj.Deduction_Type = clsCommon.myCstr(cboDeductionType.SelectedValue)
                 If obj.HeadDisc_Per > 0 Then
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
@@ -3693,7 +3691,12 @@ Public Class frmMCCMaterialSale
 
 
                 End If
-
+                Dim isSubLocation As Boolean = False
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IsSubLocationWise from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", Nothing)), "Y") = CompairStringResult.Equal Then
+                    isSubLocation = True
+                Else
+                    isSubLocation = False
+                End If
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim Rate_Mcc_Item As Double = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(grow.Cells(colICode).Value), clsCommon.myCstr(grow.Cells(colUnit).Value), txtDate.Value)
                     Dim objTr As New clsMCCMaterialSaleDetail()
@@ -3756,10 +3759,10 @@ Public Class frmMCCMaterialSale
                     objTr.TAX10_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt10).Value)
                     objTr.Total_Tax_Amt = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
                     objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmtAfterTax).Value)
-                    objTr.Location = clsCommon.myCstr(grow.Cells(colLocationCode).Value)
-                    If objTr.Location Is Nothing OrElse clsCommon.myLen(objTr.Location) = 0 Then
-                        objTr.Location = txtBillToLocation.Value
-                    End If
+                    objTr.Location = IIf(isSubLocation, txtSubLocation.Value, txtBillToLocation.Value) 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
+                    'If objTr.Location Is Nothing OrElse clsCommon.myLen(objTr.Location) = 0 Then
+                    '    objTr.Location = txtBillToLocation.Value
+                    'End If
                     objTr.MRP = clsCommon.myCdbl(grow.Cells(colMRP).Value)
                     objTr.Scheme_Applicable = clsCommon.myCstr(grow.Cells(colSchemeApplicable).Value)
                     objTr.Scheme_Code = clsCommon.myCstr(grow.Cells(colFromSchemeCode).Value)
@@ -4367,6 +4370,7 @@ Public Class frmMCCMaterialSale
                 'chkCreateAutoReceipt.Visible = chkCreateAutoInvoice.Checked
                 chkCreateAutoReceipt.Checked = obj.Is_Create_Auto_Receipt
                 chkTaxable.Checked = obj.Is_Taxable
+                cboDeductionType.SelectedValue = obj.Deduction_Type
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsMCCMaterialSaleDetail In obj.Arr
                         gv1.Rows.AddNew()
@@ -5332,20 +5336,22 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
     End Sub
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
         btnHistory.Enabled = True
-        If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-            If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                txtBillToLocation.Value = clsDBFuncationality.getSingleValue(" select MCC from TSPL_VLC_MASTER_HEAD where (VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(txtVendorNo.Value) + "' or VSP_Code = '" + clsCommon.myCstr(txtVendorNo.Value) + "') ")
-                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + txtBillToLocation.Value + "'"))
-            End If
+        If AllowPlandDeptMCCLocation Then
             If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
                 If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                    clsCommon.MyMessageBoxShow("Please Enter valid customer Code/VLC Uploader Code", Me.Text)
-                    txtVendorNo.Value = ""
-                    txtVendorNo.Focus()
-                Else
-                    clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
+                    txtBillToLocation.Value = clsDBFuncationality.getSingleValue(" select MCC from TSPL_VLC_MASTER_HEAD where (VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(txtVendorNo.Value) + "' or VSP_Code = '" + clsCommon.myCstr(txtVendorNo.Value) + "') ")
+                    lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + txtBillToLocation.Value + "'"))
                 End If
-                Exit Sub
+                If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
+                    If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                        clsCommon.MyMessageBoxShow("Please Enter valid customer Code/VLC Uploader Code", Me.Text)
+                        txtVendorNo.Value = ""
+                        txtVendorNo.Focus()
+                    Else
+                        clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
+                    End If
+                    Exit Sub
+                End If
             End If
         End If
 
@@ -5440,10 +5446,17 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                         If clsCommon.myLen(txtVendorNo.Value) > 0 Then
                             txtVendorNo.Value = clsDBFuncationality.getSingleValue(" select  VSP_Code from TSPL_VLC_MASTER_HEAD  where (VSP_Code = '" + txtVendorNo.Value + "' or VLC_Code_VLC_Uploader = '" + txtVendorNo.Value + "' )")
                         End If
-                        txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer List", qry, "Vlc_Code", " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and mcc='" & txtBillToLocation.Value & "'", txtVendorNo.Value, "Code", isButtonClicked)
+                        Dim whr As String = " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0  "
+                        If AllowPlandDeptMCCLocation Then
+                            whr += "and mcc='" & txtBillToLocation.Value & "'"
+                        End If
+                        txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer List", qry, "Vlc_Code", whr, txtVendorNo.Value, "Code", isButtonClicked)
                         qry += " where 2=2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
+                        txtBillToLocation.Value = clsDBFuncationality.getSingleValue("select mcc from TSPL_VLC_MASTER_HEAD  where VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(txtVendorNo.Value) + "' ")
+                        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + txtBillToLocation.Value + "'"))
+
                     End If
-                End If
+                    End If
             End If
         End If
         '-----------------------------------------------------
@@ -5484,38 +5497,41 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
         "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' WHERE TSPL_LOCATION_MASTER.Location_Code = '" + Convert.ToString(txtBillToLocation.Value) + "'"
         Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(qry)
-        Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
-        Dim strLocState As String = clsCommon.myCstr(dtLocation.Rows(0)("State"))
-        If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal Then
-            strExcise = True
-        Else
-            strExcise = False
-        End If
-        If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-            qry = "select Price_Code,price_CodeNon,State,price_group_code from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"
-            dt = clsDBFuncationality.GetDataTable(qry)
-            If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(loc, "Y") = CompairStringResult.Equal Then
-                txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+        If dtLocation IsNot Nothing AndAlso dtLocation.Rows.Count > 0 Then
+            Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
+            Dim strLocState As String = clsCommon.myCstr(dtLocation.Rows(0)("State"))
+            If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal Then
+                strExcise = True
             Else
-                txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
+                strExcise = False
             End If
-            '' code commented by Panch Raj against ticket no: KDI/17/05/18-000318 after discussion with Ranjana mam
-            'txtVendorNo.Enabled = False
-            chkTaxable.Enabled = False
-            If clsCommon.CompairString(clsCommon.myCstr(dtLocation.Rows(0)("State")), clsCommon.myCstr(dt.Rows(0)("State"))) = CompairStringResult.Equal Then
-                txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("LocalTaxGroup"))
-                lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Local_Tax_GroupName"))
-            Else
-                txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("InterstateTaxGroup"))
-                lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Interstate_Tax_GroupName"))
+            If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                qry = "select Price_Code,price_CodeNon,State,price_group_code from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"
+                dt = clsDBFuncationality.GetDataTable(qry)
+                If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(loc, "Y") = CompairStringResult.Equal Then
+                    txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+                Else
+                    txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
+                End If
+                '' code commented by Panch Raj against ticket no: KDI/17/05/18-000318 after discussion with Ranjana mam
+                'txtVendorNo.Enabled = False
+                chkTaxable.Enabled = False
+                If clsCommon.CompairString(clsCommon.myCstr(dtLocation.Rows(0)("State")), clsCommon.myCstr(dt.Rows(0)("State"))) = CompairStringResult.Equal Then
+                    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("LocalTaxGroup"))
+                    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Local_Tax_GroupName"))
+                Else
+                    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("InterstateTaxGroup"))
+                    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Interstate_Tax_GroupName"))
+                End If
             End If
-        End If
-        '''' priti change ends here
-        SetTax()
-        If chkTaxable.Checked = False AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
-            txtVendorNo.Value = ""
-            clsCommon.MyMessageBoxShow("Please Map exempted Tax Group on Location " & txtBillToLocation.Value)
-            Exit Sub
+
+            '''' priti change ends here
+            SetTax()
+            If chkTaxable.Checked = False AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
+                txtVendorNo.Value = ""
+                clsCommon.MyMessageBoxShow("Please Map exempted Tax Group on Location " & txtBillToLocation.Value)
+                Exit Sub
+            End If
         End If
         SetTermDetails()
     End Sub
@@ -6788,11 +6804,22 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             If (clsCommon.myLen(clsCommon.myCdbl(gv1.CurrentRow.Cells(colICode).Value)) > 0) Then
                 Dim qry As String = " select Is_Batch_Item from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'"
                 Dim isBatchAvtive As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                Dim isSubLocation As Boolean = False
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IsSubLocationWise from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", Nothing)), "Y") = CompairStringResult.Equal Then
+                    isSubLocation = True
+                Else
+                    isSubLocation = False
+                End If
                 If isBatchAvtive = "1" Then
                     Dim frm As frmBatchItemOut = New frmBatchItemOut()
                     frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                     frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                    frm.strLocationCode = txtBillToLocation.Value
+                    If isSubLocation Then
+                        frm.strLocationCode = txtSubLocation.Value
+                    Else
+                        frm.strLocationCode = txtBillToLocation.Value
+                    End If
+
                     frm.strCurrDocNo = txtDocNo.Value
                     frm.strCurrDocType = "MCC-MSALE"
                     frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
@@ -6861,6 +6888,12 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         dt.Rows.Add(dr)
         Return dt
     End Function
+    Sub LoadDeductionType()
+        Dim qry As String = "select '' as Code, '<--Select-->' as Name union all select Document_No as Code, Description as Name from TSPL_DEDUCTION_TYPE_MASTER"
+        cboDeductionType.DataSource = clsDBFuncationality.GetDataTable(qry)
+        cboDeductionType.ValueMember = "Code"
+        cboDeductionType.DisplayMember = "Name"
+    End Sub
     Sub LoadInvoiceType()
         ddlInvoiceType.DataSource = GetInvoiceType()
         ddlInvoiceType.ValueMember = "Code"

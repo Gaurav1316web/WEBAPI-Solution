@@ -6,6 +6,7 @@ Public Class clsDocType
     Public Const frmRCDFRateControl As String = "RCDF Rate Control"
     Public Const frmEmployeeDeductionMaster As String = "Employee Deduction Master"
     Public Const TenderPenalty As String = "Tender Penalty"
+    Public Const RALNoc As String = "RAL NOC"
     Public Const BreakDownEntry As String = "Break Down Entry"
     Public Const OutputEntry As String = "Output Entry"
     Public Const ShipToLocation = "Ship To Location"
@@ -241,6 +242,7 @@ Public Class clsDocType
     Public Const GTOut As String = "Gate Out"
     Public Const OutgoingProduction As String = "Outgoing Production"
     Public Const RMProcessLoss As String = "RM Process Loss"
+    Public Const DAArrear As String = "DA Arrear"
     Public Const EPF As String = "EP Fund"
     Public Const SRNReturn As String = "Store Receipt Note Return"
     Public Const NIRQC As String = "NIR QC"
@@ -401,6 +403,7 @@ Public Class clsDocType
     Public Const MilkCollectionDCSMuliple As String = "Milk Collection DCS Multiple"
     Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
+    Public Const MultipleShareAllotment As String = "Multiple Share Allotment"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
     Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
     Public Const BullInsurance As String = "Bull Insurance"
@@ -555,6 +558,7 @@ Public Class clsDocType
     Public Const DistributorCommission As String = "Distributor Commission"
     Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
     Public Const DailyDemand As String = "DailyDemand"
+    Public Const ItemCapacityLimit As String = "ItemCapacityLimit"
 
 
     Public Const frmNotification As String = "Notifications screen"
@@ -774,6 +778,7 @@ Public Class clsDocType
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             InsertDefaultValue(clsDocType.TenderPenalty, "", False, True)
+            InsertDefaultValue(clsDocType.RALNoc, "", False, True)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.RequestService, False, False)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.MCCSaleRequest, False, False)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.MPSale, False, False)
@@ -928,6 +933,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.EPF, "", False, False)
             InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
             InsertDefaultValue(clsDocType.RMProcessLoss, "", False, True)
+            InsertDefaultValue(clsDocType.DAArrear, "", False, True)
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)
@@ -1558,6 +1564,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
+            InsertDefaultValue(clsDocType.ItemCapacityLimit, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)
             InsertDefaultValue(clsDocType.frmNotification, "", False, True, True)
 

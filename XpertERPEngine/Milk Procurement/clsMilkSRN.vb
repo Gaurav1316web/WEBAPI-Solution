@@ -837,7 +837,13 @@ Public Class clsMilkSRNMCC
         End Try
     End Sub
     Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal Form_ID As String)
-        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, False, Form_ID, "")
+        Dim qry As String = "select case when len(ISNULL(TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No,''))>0 then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type else TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type end as Reject_Type
+from TSPL_MILK_SRN_HEAD 
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
+        Dim strRejectType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, Trans))
+        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, False, Form_ID, strRejectType)
     End Sub
 
     Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String)
@@ -910,6 +916,12 @@ Public Class clsMilkSRNMCC
                     conv_fac = 1 + (clsMilkSRNMCC.ObjList(0).CLR / 1000)
                 End If
 
+                If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+                    clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 1
+                End If
+                If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
+                    clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 2
+                End If
                 If clsCommon.CompairString(Unit_Code, "KG") = CompairStringResult.Equal Then
                     clsMilkSRNMCC.ObjList(0).ACC_Qty = dblQty
                     clsMilkSRNMCC.ObjList(0).MILK_Qty = dblQty
@@ -919,6 +931,7 @@ Public Class clsMilkSRNMCC
                     clsMilkSRNMCC.ObjList(0).MILK_Qty = dblQty
                     clsMilkSRNMCC.ObjList(0).ACC_Qty = dblQty * conv_fac
                 End If
+                clsMilkSRNMCC.ObjList(0).ACC_Qty_LTR = dblLTRQty
                 If clsCommon.myCDecimal(MilkWeight_Setting) <= 0 Then
                     Throw New Exception("Please set Fix paratment vale of type-" + clsFixedParameterType.Milk_Can_Weight_Ratio + " and code-" + clsFixedParameterCode.MilkSetting)
                 End If

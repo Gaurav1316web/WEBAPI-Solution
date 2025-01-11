@@ -29,7 +29,6 @@ Public Class frmEMailAndSMSSetting
     Public Const MPCode As String = "$#MPCode#$"
     Public Const MPUploaderCode As String = "$#MPUploaderCode#$"
 
-
     Public Const VLCDataUploaderDate As String = "$#DATE#$"
     Public Const VLCDataUploaderShift As String = "$#SHIFT#$"
     Public Const VLCDataUploaderMP As String = "$#MPName#$"
@@ -66,6 +65,7 @@ Public Class frmEMailAndSMSSetting
     Public Const SalePerson_Code As String = "$#Sale_Code#$"
     Public Const SalePerson_Name As String = "$#Sale_Name#$"
     Public Const Doc_Date As String = "$#DATE#$"
+    Public Const Shift As String = "$#SHIFT#$"
     Public Const Doc_No As String = "$#DocNo#$"
     Public Const Doc_Type As String = "$#Doc_Type#$"
     Public Const Cust_Code As String = "$#Cust_Code#$"
@@ -90,6 +90,7 @@ Public Class frmEMailAndSMSSetting
     Public Const MilkTypeCode As String = "$#MilkTypeCode#$"
     Public Const MilkTypeName As String = "$#MilkTypeName#$"
     Public Const TotalQty As String = "$#TotalQty#$"
+
     Public Const PriceCode As String = "$#PriceCode#$"
     Public Const Rate As String = "$#Rate#$"
     Public Const VSPCode As String = "$#VSPCode#$"
@@ -175,6 +176,10 @@ Public Class frmEMailAndSMSSetting
     Public Const ContactPerson As String = "$#ContactPerson#$"
     Public Const TotalAmount As String = "$#TotalAmount#$"
     Public Const Form_Code As String = "$#Form_Code#$"
+    Public Const SupplyShift As String = "$#SupplyShift#$"
+    Public Const SupplyDate As String = "$#SupplyDate#$"
+    Public Const Route As String = "$#Route#$"
+    Public Const RouteName As String = "$#RouteName#$"
 
     Public Const DeliveryNo As String = "$#DeliveryNo#$"
     Public Const DeliveryDate As String = "$#DeliveryDate#$"
@@ -218,12 +223,14 @@ Public Class frmEMailAndSMSSetting
     Public Const DateRange As String = "$#DateRange#$"
     Public Const Bank As String = "$#Bank#$"
 
-    Public Const Route As String = "$#Route#$"
-    Public Const RouteName As String = "$#RouteName#$"
-    Public Const Shift As String = "$#Shift#$"
+
+
     Public Const Flushing As String = "$#Flushing#$"
     Public Const KgFAT As String = "$#KgFAT#$"
     Public Const KgSNF As String = "$#KgSNF#$"
+    Public Const SampleNo As String = "$#SampleNo#$"
+    Public Const TripNo As String = "$#TripNo#$"
+
 
 #End Region
 
@@ -260,13 +267,38 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderFat)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderSNF)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderCLR)
-        ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze") = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SampleNo)
+
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkCollectionMCCSample + "4") = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(Doc_Date)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCUploaderCode)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCName)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderFat)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderSNF)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderCLR)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderQty)
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSendSMSToDCS + "1") = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Flushing)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgFAT)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgSNF)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TripNo)
+
+        ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze") = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Flushing)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgFAT)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgSNF)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TripNo)
+
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)
@@ -532,6 +564,8 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(MilkTypeName)
             ContextMenuStrip1.Items.Add(TotalQty)
             ContextMenuStrip1.Items.Add(BookingAmount)
+
+
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmPOBulkProc) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_Date)
             ContextMenuStrip1.Items.Add(Doc_No)
@@ -1032,6 +1066,10 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(CustomerName)
             ContextMenuStrip1.Items.Add(LocationName)
             ContextMenuStrip1.Items.Add(Form_Code)
+            ContextMenuStrip1.Items.Add(SupplyShift)
+            ContextMenuStrip1.Items.Add(SupplyDate)
+            ContextMenuStrip1.Items.Add(Route)
+            ContextMenuStrip1.Items.Add(RouteName)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSaleReturnProductSale) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)

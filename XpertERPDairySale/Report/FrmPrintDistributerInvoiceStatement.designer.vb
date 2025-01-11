@@ -22,9 +22,13 @@ Partial Class FrmPrintDistributerInvoiceStatement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblCustomer = New common.Controls.MyLabel()
+        Me.fndCustom = New common.UserControls.txtFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtMultRoute = New common.UserControls.txtMultiSelectFinder()
         Me.cboReportType = New common.Controls.MyComboBox()
         Me.lblRoute = New common.Controls.MyLabel()
@@ -57,15 +61,21 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.lblCustomer = New common.Controls.MyLabel()
-        Me.fndCustom = New common.UserControls.txtFinder()
-        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBothShift = New System.Windows.Forms.RadioButton()
+        Me.rbtnEvening = New System.Windows.Forms.RadioButton()
+        Me.rbtnMorning = New System.Windows.Forms.RadioButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSupplyDate = New System.Windows.Forms.RadioButton()
+        Me.rbtnDocumentDate = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboReportType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,8 +102,10 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -140,18 +152,18 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
-        Me.RadPageView1.RootElement.Text = "Report1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1125, 367)
         Me.RadPageView1.TabIndex = 5
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.fndCustom)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
@@ -169,6 +181,54 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1104, 319)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'lblCustomer
+        '
+        Me.lblCustomer.AutoSize = False
+        Me.lblCustomer.BorderVisible = True
+        Me.lblCustomer.FieldName = Nothing
+        Me.lblCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomer.Location = New System.Drawing.Point(223, 52)
+        Me.lblCustomer.Name = "lblCustomer"
+        Me.lblCustomer.Size = New System.Drawing.Size(230, 18)
+        Me.lblCustomer.TabIndex = 419
+        Me.lblCustomer.TextWrap = False
+        '
+        'fndCustom
+        '
+        Me.fndCustom.CalculationExpression = Nothing
+        Me.fndCustom.FieldCode = Nothing
+        Me.fndCustom.FieldDesc = Nothing
+        Me.fndCustom.FieldMaxLength = 0
+        Me.fndCustom.FieldName = Nothing
+        Me.fndCustom.isCalculatedField = False
+        Me.fndCustom.IsSourceFromTable = False
+        Me.fndCustom.IsSourceFromValueList = False
+        Me.fndCustom.IsUnique = False
+        Me.fndCustom.Location = New System.Drawing.Point(85, 52)
+        Me.fndCustom.MendatroryField = True
+        Me.fndCustom.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndCustom.MyLinkLable1 = Nothing
+        Me.fndCustom.MyLinkLable2 = Nothing
+        Me.fndCustom.MyReadOnly = False
+        Me.fndCustom.MyShowMasterFormButton = False
+        Me.fndCustom.Name = "fndCustom"
+        Me.fndCustom.ReferenceFieldDesc = Nothing
+        Me.fndCustom.ReferenceFieldName = Nothing
+        Me.fndCustom.ReferenceTableName = Nothing
+        Me.fndCustom.Size = New System.Drawing.Size(136, 18)
+        Me.fndCustom.TabIndex = 418
+        Me.fndCustom.Value = ""
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(0, 53)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel2.TabIndex = 417
+        Me.MyLabel2.Text = "Customer"
         '
         'txtMultRoute
         '
@@ -188,6 +248,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.cboReportType.AutoCompleteDisplayMember = Nothing
         Me.cboReportType.AutoCompleteValueMember = Nothing
         Me.cboReportType.CalculationExpression = Nothing
+        Me.cboReportType.DropDownAnimationEnabled = True
         Me.cboReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboReportType.FieldCode = Nothing
         Me.cboReportType.FieldDesc = Nothing
@@ -387,14 +448,17 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1104, 319)
         Me.gv.TabIndex = 3
-        Me.gv.Text = "gv"
+        Me.gv.VarID = ""
         '
         'RadMenu1
         '
@@ -403,27 +467,20 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1125, 20)
         Me.RadMenu1.TabIndex = 4
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiSaveLayout, Me.rmiDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmiSaveLayout
         '
-        Me.rmiSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmiSaveLayout.AccessibleName = "Save Layout"
         Me.rmiSaveLayout.Name = "rmiSaveLayout"
         Me.rmiSaveLayout.Text = "Save Layout"
         '
         'rmiDeleteLayout
         '
-        Me.rmiDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmiDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmiDeleteLayout.Name = "rmiDeleteLayout"
         Me.rmiDeleteLayout.Text = "Delete Layout"
         '
@@ -508,15 +565,11 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         'rmExcel
         '
-        Me.rmExcel.AccessibleDescription = "Excel"
-        Me.rmExcel.AccessibleName = "Excel"
         Me.rmExcel.Name = "rmExcel"
         Me.rmExcel.Text = "Excel"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
@@ -550,54 +603,90 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.btnGo.TabIndex = 17
         Me.btnGo.Text = ">>>"
         '
-        'lblCustomer
+        'RadGroupBox4
         '
-        Me.lblCustomer.AutoSize = False
-        Me.lblCustomer.BorderVisible = True
-        Me.lblCustomer.FieldName = Nothing
-        Me.lblCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomer.Location = New System.Drawing.Point(223, 52)
-        Me.lblCustomer.Name = "lblCustomer"
-        Me.lblCustomer.Size = New System.Drawing.Size(230, 18)
-        Me.lblCustomer.TabIndex = 419
-        Me.lblCustomer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblCustomer.TextWrap = False
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnBothShift)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnEvening)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnMorning)
+        Me.RadGroupBox4.HeaderText = "Shift"
+        Me.RadGroupBox4.Location = New System.Drawing.Point(508, 100)
+        Me.RadGroupBox4.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(327, 45)
+        Me.RadGroupBox4.TabIndex = 420
+        Me.RadGroupBox4.Text = "Shift"
         '
-        'fndCustom
+        'rbtnBothShift
         '
-        Me.fndCustom.CalculationExpression = Nothing
-        Me.fndCustom.FieldCode = Nothing
-        Me.fndCustom.FieldDesc = Nothing
-        Me.fndCustom.FieldMaxLength = 0
-        Me.fndCustom.FieldName = Nothing
-        Me.fndCustom.isCalculatedField = False
-        Me.fndCustom.IsSourceFromTable = False
-        Me.fndCustom.IsSourceFromValueList = False
-        Me.fndCustom.IsUnique = False
-        Me.fndCustom.Location = New System.Drawing.Point(85, 52)
-        Me.fndCustom.MendatroryField = True
-        Me.fndCustom.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndCustom.MyLinkLable1 = Nothing
-        Me.fndCustom.MyLinkLable2 = Nothing
-        Me.fndCustom.MyReadOnly = False
-        Me.fndCustom.MyShowMasterFormButton = False
-        Me.fndCustom.Name = "fndCustom"
-        Me.fndCustom.ReferenceFieldDesc = Nothing
-        Me.fndCustom.ReferenceFieldName = Nothing
-        Me.fndCustom.ReferenceTableName = Nothing
-        Me.fndCustom.Size = New System.Drawing.Size(136, 18)
-        Me.fndCustom.TabIndex = 418
-        Me.fndCustom.Value = ""
+        Me.rbtnBothShift.AutoSize = True
+        Me.rbtnBothShift.Checked = True
+        Me.rbtnBothShift.Location = New System.Drawing.Point(229, 16)
+        Me.rbtnBothShift.Name = "rbtnBothShift"
+        Me.rbtnBothShift.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBothShift.TabIndex = 2
+        Me.rbtnBothShift.TabStop = True
+        Me.rbtnBothShift.Text = "Both"
+        Me.rbtnBothShift.UseVisualStyleBackColor = True
         '
-        'MyLabel2
+        'rbtnEvening
         '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(0, 53)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(55, 16)
-        Me.MyLabel2.TabIndex = 417
-        Me.MyLabel2.Text = "Customer"
+        Me.rbtnEvening.AutoSize = True
+        Me.rbtnEvening.Location = New System.Drawing.Point(129, 16)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(66, 17)
+        Me.rbtnEvening.TabIndex = 1
+        Me.rbtnEvening.TabStop = True
+        Me.rbtnEvening.Text = "Evening"
+        Me.rbtnEvening.UseVisualStyleBackColor = True
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.AutoSize = True
+        Me.rbtnMorning.Location = New System.Drawing.Point(30, 16)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(70, 17)
+        Me.rbtnMorning.TabIndex = 0
+        Me.rbtnMorning.TabStop = True
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.UseVisualStyleBackColor = True
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSupplyDate)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDocumentDate)
+        Me.RadGroupBox2.HeaderText = "Date"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(508, 49)
+        Me.RadGroupBox2.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(327, 45)
+        Me.RadGroupBox2.TabIndex = 421
+        Me.RadGroupBox2.Text = "Date"
+        '
+        'rbtnSupplyDate
+        '
+        Me.rbtnSupplyDate.AutoSize = True
+        Me.rbtnSupplyDate.Location = New System.Drawing.Point(181, 16)
+        Me.rbtnSupplyDate.Name = "rbtnSupplyDate"
+        Me.rbtnSupplyDate.Size = New System.Drawing.Size(87, 17)
+        Me.rbtnSupplyDate.TabIndex = 1
+        Me.rbtnSupplyDate.Text = "Supply Date"
+        Me.rbtnSupplyDate.UseVisualStyleBackColor = True
+        '
+        'rbtnDocumentDate
+        '
+        Me.rbtnDocumentDate.AutoSize = True
+        Me.rbtnDocumentDate.Checked = True
+        Me.rbtnDocumentDate.Location = New System.Drawing.Point(32, 16)
+        Me.rbtnDocumentDate.Name = "rbtnDocumentDate"
+        Me.rbtnDocumentDate.Size = New System.Drawing.Size(105, 17)
+        Me.rbtnDocumentDate.TabIndex = 0
+        Me.rbtnDocumentDate.TabStop = True
+        Me.rbtnDocumentDate.Text = "Document Date"
+        Me.rbtnDocumentDate.UseVisualStyleBackColor = True
         '
         'FrmPrintDistributerInvoiceStatement
         '
@@ -619,6 +708,8 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboReportType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -646,8 +737,12 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -690,5 +785,12 @@ Partial Class FrmPrintDistributerInvoiceStatement
     Friend WithEvents lblCustomer As common.Controls.MyLabel
     Friend WithEvents fndCustom As common.UserControls.txtFinder
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents rbtnBothShift As RadioButton
+    Friend WithEvents rbtnEvening As RadioButton
+    Friend WithEvents rbtnMorning As RadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnSupplyDate As RadioButton
+    Friend WithEvents rbtnDocumentDate As RadioButton
 End Class
 

@@ -48,6 +48,7 @@ Public Class frmMilkProcurementUploader
     Dim TotQty As Decimal = 0
     Dim settMilkProcurementBatchPosting As Boolean = False
     Dim SettShowAllDCS As Boolean = False
+    Dim Hidedetaildate As Boolean = False
 
     Dim arrMCCRights As ArrayList
 #End Region
@@ -91,41 +92,6 @@ Public Class frmMilkProcurementUploader
         'End If
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("TR_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_PROCUREMENT_UPLOADER_HEAD(Document_No)")
-        coll.Add("SNo", "Integer NULL")
-        coll.Add("Shift_Date", "Date NOT NULL")
-        coll.Add("Shift", "char(1) not null")
-        coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
-        coll.Add("No_Of_Cans", "Integer NULL")
-        coll.Add("Milk_Weight", "Decimal(18,2) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
-        coll.Add("Reject_Defaulter", "Varchar(20) null")
-        coll.Add("Reject_Type", "Varchar(30) null")
-        coll.Add("Against_Milk_Collection_DCS_Detail", "integer null references TSPL_MILK_COLLECTION_DCS_DETAIL(PK_Id)")
-        coll.Add("Bulk_Route_Code", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
-        coll.Add("Manual_Weight", "Integer NULL")
-        coll.Add("Manual_Sample", "Integer NULL")
-        coll.Add("Empty_Sample", "Integer NULL")
-        coll.Add("Page_No", "Integer NULL")
-        coll.Add("Arrival_Time", "Datetime NULL")
-        coll.Add("Weighment_Time", "Datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
-        coll.Item("Document_No") = "Varchar(30) not null"
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
-
-        coll.Item("TR_No") = "Varchar(30) null"
-        coll.Item("VLC_Code") = "Varchar(30) null"
-        coll.Item("Against_Milk_Collection_DCS_Detail") = "integer null"
-        coll.Item("Bulk_Route_Code") = "Varchar(30) null"
-        coll.Add("Hist_By", "varchar(12) NOT NULL")
-        coll.Add("Hist_On", "Datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING", coll, Nothing, False, False)
-
         arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         MyBase.SetUserMgmt(clsUserMgtCode.MilkShiftUploader)
         SettShowAllDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, Nothing))
@@ -137,6 +103,7 @@ Public Class frmMilkProcurementUploader
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
         settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
         settLastMilkReceiptQtyTollerance = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.LastMilkReceiptQtyTollerance, clsFixedParameterCode.LastMilkReceiptQtyTollerance, Nothing))
+        Hidedetaildate = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, Nothing)) = 1)
 
         settAlwaysVSPDefaulter = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AlwaysVSPDefaulter, clsFixedParameterCode.AlwaysVSPDefaulter, Nothing)) = 1)
         settSelectMilkRejectDefaulterManually = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SelectMilkRejectDefaulterManually, clsFixedParameterCode.SelectMilkRejectDefaulterManually, Nothing)) = 1)
@@ -183,7 +150,6 @@ Public Class frmMilkProcurementUploader
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
-
         Dim repoDateBox As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoDateBox.Format = DateTimePickerFormat.Custom
         repoDateBox.CustomFormat = "dd/MM/yyyy"
@@ -194,6 +160,7 @@ Public Class frmMilkProcurementUploader
         repoDateBox.IsVisible = True
         repoDateBox.Width = 100
         gv1.MasterTemplate.Columns.Add(repoDateBox)
+
 
 
         Dim repoComboBox As GridViewComboBoxColumn = New GridViewComboBoxColumn()
@@ -852,7 +819,18 @@ Public Class frmMilkProcurementUploader
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
                         Dim objTr As New clsMilkProcurementUploaderDetail()
                         objTr.SNo = ii + 1
-                        objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                        If Hidedetaildate = True Then
+                            gv1.Rows(ii).Cells(colShiftDate).ReadOnly = True
+                            'objTr.Shift_Date = txtDate.Value
+                            objTr.Shift_Date = txtDate.Value
+                        Else
+                            objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                            gv1.Rows(ii).Cells(colShiftDate).ReadOnly = False
+                        End If
+                        'objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+
+                        'objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                        ' objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
                         objTr.Shift = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDockCollectionMilkType).Value)
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
@@ -861,9 +839,9 @@ Public Class frmMilkProcurementUploader
                         objTr.Milk_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMilkWeight).Value)
                         objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colFATPer).Value), 1, MidpointRounding.ToEven)
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNFPer).Value), IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
-                        If obj.Document_Date > objTr.Shift_Date Then
-                            obj.Document_Date = objTr.Shift_Date
-                        End If
+                        'If obj.Document_Date > objTr.Shift_Date Then
+                        '    obj.Document_Date = objTr.Shift_Date
+                        'End If
                         objTr.Reject_Defaulter = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectDefaulter).Value)
                         objTr.Reject_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectRejectType).Value)
                         If chkMilkReject.Checked Then
@@ -961,6 +939,12 @@ Public Class frmMilkProcurementUploader
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Tag = objTr.SNo
+                        If txtDocNo.Value IsNot Nothing AndAlso clsCommon.myLen(txtDocNo.Value) > 0 AndAlso Hidedetaildate Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftDate).ReadOnly = True
+                        Else
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftDate).ReadOnly = False
+
+                        End If
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftDate).Value = objTr.Shift_Date
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftDate).Tag = objTr.Shift_Date
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShift).Value = objTr.Shift

@@ -149,7 +149,7 @@ Public Class frmMilkShiftUploaderUCDF
 
         txtMCC.Value = ""
         LblMccName.Text = ""
-
+        txtTankerNo.Text = ""
         'txtTotEnteredQty.Text = ""
         'txtTotEnteredFAT.Text = ""
         'txtTotEnteredSNF.Text = ""
@@ -356,6 +356,7 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                 obj.Shift = clsCommon.myCstr(cboShift.SelectedValue)
                 'obj.Description = txtDesc.Text
                 obj.MCC_Code = txtMCC.Value
+                obj.Tanker_No = txtTankerNo.Text
                 'obj.Dock_Code = txtDockCode.Value
                 'obj.Mix_Milk = chkMixMilk.Checked
 
@@ -435,6 +436,8 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                 txtMCC.Value = obj.MCC_Code
                 LblMccName.Text = obj.MCC_Name
                 cboLate.SelectedValue = obj.Raj_Late
+                txtTankerNo.Text = obj.Tanker_No
+
                 'SNo.Value = obj.S_No
 
                 'txtDockCode.Value = obj.Dock_Code
@@ -523,6 +526,7 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                     gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     gv1.Columns("TR_No").IsVisible = False
                     gv1.Columns("Route Code").IsVisible = False
+
                     lblTotEntry.Text = gv1.Rows.Count
                     '===================Page wise Grid Summary total ======================
                     Dim summaryRowItem2 As New GridViewSummaryRowItem()
@@ -850,9 +854,19 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
             txtBulkRoute.Value = clsCommon.ShowSelectForm("dd33ShUp", qry, "Code", whrCls, txtBulkRoute.Value, "Code", isButtonClicked)
             If clsCommon.myLen(txtBulkRoute.Value) > 0 Then
                 'qry = "select  TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_BULK_ROUTE_MASTER.Tanker_No,TSPL_TANKER_MASTER.TANKER_NAME from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + txtBulkRoute.Value + "'"
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " where ROUTE_NO='" + txtBulkRoute.Value + "' ")
+                'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " where ROUTE_NO='" + txtBulkRoute.Value + "' ")
+                'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                '    lblBulkRoute.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
+                'End If
+
+                qry = "select  TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_BULK_ROUTE_MASTER.Tanker_No from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + txtBulkRoute.Value + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    lblBulkRoute.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
+                    lblBulkRoute.Text = clsCommon.myCstr(dt.Rows(0)("ROUTE_NAME"))
+                    ' If settFillRouteTankerNo Then
+                    txtTankerNo.Text = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+                    'txtVehicleNo.Text = clsCommon.myCstr(dt.Rows(0)("TANKER_NAME"))
+                    'End If
                 End If
             End If
         Catch ex As Exception
@@ -1083,4 +1097,18 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub txtTankerNo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTankerNo.KeyPress
+        If Char.IsLetter(e.KeyChar) AndAlso Char.IsLower(e.KeyChar) Then
+            e.KeyChar = Char.ToUpper(e.KeyChar)
+        End If
+
+        ' Allow only uppercase letters (A-Z), digits (0-9), and control characters (Backspace, etc.)
+        If Not (Char.IsUpper(e.KeyChar) OrElse Char.IsDigit(e.KeyChar) OrElse Char.IsControl(e.KeyChar)) Then
+            ' Block invalid characters (lowercase, punctuation, spaces, etc.)
+            e.Handled = True
+        End If
+    End Sub
+
+
 End Class

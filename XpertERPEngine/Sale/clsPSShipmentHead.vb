@@ -1568,7 +1568,7 @@ Public Class clsPSShipmentHead
             "TSPL_SD_SHIPMENT_DETAIL.FOC_Item,TSPL_SD_SHIPMENT_DETAIL.Item_Weight,TSPL_SD_SHIPMENT_DETAIL.Price_Date, " &
             "TSPL_SD_SHIPMENT_DETAIL.HeadDiscPer,TSPL_SD_SHIPMENT_DETAIL.HeadDiscPerAmt,TSPL_SD_SHIPMENT_DETAIL.Bin_No,TSPL_SD_SHIPMENT_DETAIL.TotalItem_Weight,TSPL_SD_SHIPMENT_DETAIL.Conv_Factor,TSPL_SD_SHIPMENT_DETAIL.Purchase_Cost,TSPL_SD_SHIPMENT_DETAIL.OrgRate,  " &
             "TSPL_SD_SHIPMENT_DETAIL.vendor_code,TSPL_SD_SHIPMENT_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_DETAIL.Markup_On,TSPL_SD_SHIPMENT_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_DETAIL.CasdDiscScheme_Code " &
-            ",TSPL_SD_SHIPMENT_DETAIL.Item_Group,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,TSPL_SD_SHIPMENT_DETAIL.TAX_PAID,TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission "
+            ",TSPL_SD_SHIPMENT_DETAIL.Item_Group,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,TSPL_SD_SHIPMENT_DETAIL.TAX_PAID,TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Scheme_Main_Item "
             qry += " ,TSPL_SD_SHIPMENT_DETAIL.Alternate_UOM,TSPL_SD_SHIPMENT_DETAIL.RATE_UOM,TSPL_BOOKING_MATSER.Document_No," &
                    " TSPL_BOOKING_MATSER.Created_By as Booking_User_Code,TSPL_USER_MASTER.Distributor_Retailer_Code,SecCust.Customer_Name as Distributor_Retailer_Name,SecCust.Email as Distributor_Retailer_Email,TSPL_Additional_Charges.Description as  AddChargeDesc,TSPL_SD_SHIPMENT_DETAIL.Sampling,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter FROM TSPL_SD_SHIPMENT_DETAIL "
             qry += " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code "
@@ -1752,7 +1752,7 @@ Public Class clsPSShipmentHead
                     objTr.Bin_No = clsCommon.myCstr(dr("Bin_No"))
                     objTr.HeadDiscPer = clsCommon.myCdbl(dr("HeadDiscPer"))
                     objTr.HeadDiscPerAmt = clsCommon.myCdbl(dr("HeadDiscPerAmt"))
-
+                    objTr.Scheme_Main_Item = clsCommon.myCstr(dr("Scheme_Main_Item"))
                     '' done by panch Raj for WhollyCow
                     objTr.Booking_User_Code = clsCommon.myCstr(dr("Booking_User_Code"))
                     objTr.Distributor_Retailer_Code = clsCommon.myCstr(dr("Distributor_Retailer_Code"))
@@ -3857,6 +3857,7 @@ Public Class clsPSShipmentHeadDetail
     Public Line_No As Integer = 0
     Public Row_Type As String = Nothing
     Public Item_Code As String = Nothing
+    Public Scheme_Main_Item As String = Nothing
     Public Item_Desc As String = Nothing 'Not a Table Field
     Public Bar_Code As String = Nothing
     Public Qty As Double = 0
@@ -4055,6 +4056,7 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
                 clsCommon.AddColumnsForChange(coll, "Row_Type", obj.Row_Type)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Scheme_Main_Item", obj.Scheme_Main_Item, True)
                 clsCommon.AddColumnsForChange(coll, "Bar_Code", obj.Bar_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "Sampling", obj.Sampling)

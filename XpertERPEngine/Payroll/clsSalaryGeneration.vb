@@ -1583,6 +1583,21 @@ Public Class clsSalaryGeneration
         End Try
         Return dt
     End Function
+    Public Shared Function GetArrearDataGrid(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal WithArrear As Boolean, ByVal fromdate As Date, ByVal todate As Date) As DataTable
+        Dim dt As DataTable
+        Dim FinalQry As String = ""
+        Try
+            FinalQry = GetArrearData(arrPayPeriodCode, arrLocation, arrDivision, strOuterCond, WithArrear) & " ORDER BY CAST(EMP_CODE AS INT) asc "
+            If clsCommon.myLen(FinalQry) > 0 Then
+                dt = clsDBFuncationality.GetDataTable(FinalQry)
+            Else
+                dt = New DataTable
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return dt
+    End Function
     Public Shared Function GetSalaryReportData1(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal employee As String, ByVal WithArrear As Boolean) As DataTable
         Dim dt As DataTable
         Dim FinalQry As String = ""
@@ -1863,6 +1878,103 @@ Public Class clsSalaryGeneration
                     " AND Final.EMP_CODE=GSP.EMP_CODE LEFT JOIN TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=Final.EMP_CODE "
 
 
+            Else
+                FinalQry = ""
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return FinalQry
+    End Function
+    Public Shared Function GetArrearData(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal withArrear As Boolean, Optional ByVal trans As SqlTransaction = Nothing) As String
+        Dim dt As DataTable
+        Dim FinalQry As String = ""
+        Try
+            '' done by panch Raj Against Ticket No : BM00000007870 on 17/09/2015
+            'Dim objPF As clsPFRulesMaster = clsPFRulesMaster.GetRecentPFRule(arrPayPeriodCode.Item(0), trans)
+            Dim qry As String = ""
+            qry = "declare @TYPE TYPE_TSPL_HEADWISE_SALARY , @STRQ VARCHAR(MAX); "
+            qry = qry & "insert into @TYPE "
+            If Not arrPayPeriodCode Is Nothing AndAlso arrPayPeriodCode.Count > 0 Then
+                For Each Str As String In arrPayPeriodCode
+                    If arrPayPeriodCode.IndexOf(Str) = 0 Then
+                        qry = qry & " select '" & Str & "',null,null "
+                    Else
+                        qry = qry & " union all  select '" & Str & "',null,null "
+                    End If
+                Next
+            End If
+            If Not arrLocation Is Nothing AndAlso arrLocation.Count > 0 Then
+                For Each Str As String In arrLocation
+                    qry = qry & " union all  select null,'" & Str & "',null "
+                Next
+            End If
+            If Not arrDivision Is Nothing AndAlso arrDivision.Count > 0 Then
+                For Each Str As String In arrDivision
+                    qry = qry & " union all  select null,null,'" & Str & "' "
+                Next
+            End If
+            If withArrear Then
+                qry += " EXEC TSPL_HEADWISE_SALARY_With_Arrear @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            Else
+                qry += " EXEC TSPL_HEADWISE_SALARY @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            End If
+
+            qry += "SELECT @STRQ; "
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim strQry As String = clsCommon.myCstr(dt.Rows(0)(0))
+
+                FinalQry = " select ([EMP_CODE]) as [EMP_CODE],([EMPLOYEE_NAME]) as [EMPLOYEE_NAME],sum([basic]) as [basic],sum([da]) as [da],sum([Gross]) as [Gross], sum([vepf]) as [vepf] from (" & strQry & ")xy
+						   group by EMP_CODE,EMPLOYEE_NAME "
+            Else
+                FinalQry = ""
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return FinalQry
+    End Function
+    Public Shared Function GetArrearDetailData(ByVal arrPayPeriodCode As ArrayList, ByVal arrLocation As ArrayList, ByVal arrDivision As ArrayList, ByVal strOuterCond As String, ByVal withArrear As Boolean, Optional ByVal trans As SqlTransaction = Nothing) As String
+        Dim dt As DataTable
+        Dim FinalQry As String = ""
+        Try
+            '' done by panch Raj Against Ticket No : BM00000007870 on 17/09/2015
+            'Dim objPF As clsPFRulesMaster = clsPFRulesMaster.GetRecentPFRule(arrPayPeriodCode.Item(0), trans)
+            Dim qry As String = ""
+            qry = "declare @TYPE TYPE_TSPL_HEADWISE_SALARY , @STRQ VARCHAR(MAX); "
+            qry = qry & "insert into @TYPE "
+            If Not arrPayPeriodCode Is Nothing AndAlso arrPayPeriodCode.Count > 0 Then
+                For Each Str As String In arrPayPeriodCode
+                    If arrPayPeriodCode.IndexOf(Str) = 0 Then
+                        qry = qry & " select '" & Str & "',null,null "
+                    Else
+                        qry = qry & " union all  select '" & Str & "',null,null "
+                    End If
+                Next
+            End If
+            If Not arrLocation Is Nothing AndAlso arrLocation.Count > 0 Then
+                For Each Str As String In arrLocation
+                    qry = qry & " union all  select null,'" & Str & "',null "
+                Next
+            End If
+            If Not arrDivision Is Nothing AndAlso arrDivision.Count > 0 Then
+                For Each Str As String In arrDivision
+                    qry = qry & " union all  select null,null,'" & Str & "' "
+                Next
+            End If
+            If withArrear Then
+                qry += " EXEC TSPL_HEADWISE_SALARY_With_Arrear @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            Else
+                qry += " EXEC TSPL_HEADWISE_SALARY @Type," & strOuterCond & ",@STRQ OUTPUT; "
+            End If
+
+            qry += "SELECT @STRQ; "
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim strQry As String = clsCommon.myCstr(dt.Rows(0)(0))
+
+                FinalQry = strQry
             Else
                 FinalQry = ""
             End If
@@ -4874,8 +4986,11 @@ Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MA
         Else
             Throw New Exception("PF Rules not found !")
         End If
-
-
+        Dim PAyCode As String = clsDBFuncationality.getSingleValue("select isnull(Pay_Period,'')Pay_Period from TSPL_DA_ARREAR_HEADER
+                                                                    left join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.pay_period_code=TSPL_DA_ARREAR_HEADER.pay_period where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "'")
+        If clsCommon.myLen(PAyCode) < 0 Then
+            Throw New Exception("DA Arrear Not Found !")
+        End If
         strq = "INSERT INTO " & strTableName & " ( EMP_CODE, EMP_SAL_CODE,SALARY_STRUCTURE_CODE,ISHIDDENCOMPONENT,PAY_HEAD_CODE, LINE_NO, " _
            & " HEAD_TYPE,SUB_HEAD_TYPE,CALC_BASIS,PAYHEAD_FORMULA,RATE_AMOUNT,STD_AMOUNT,PAYPERIOD_DAYS, " _
            & " PRESENT_DAYS,ABSENT_DAYS,LEAVE_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,LOP_DAYS,IS_PF_APPL,IS_PF_ATTN_ENABLE, " _
@@ -4885,8 +5000,8 @@ Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MA
            & " )( " _
            & " SELECT DISTINCT(T1.EMP_CODE),T1.EMP_SAL_CODE,T1.SALARY_STRUCTURE_CODE,T2.ISHIDDENCOMPONENT,T2.PAY_HEAD_CODE,T2.LINE_NO,T4.HEAD_TYPE,T4.SUB_HEAD_TYPE," _
            & " T4.CALC_BASIS,T2.PAYHEAD_FORMULA, " _
-           & " (CASE WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED','F') and (t4.SUB_HEAD_TYPE not in('COPF')) THEN T2.RATE_AMOUNT WHEN (t4.SUB_HEAD_TYPE in('COPF') and t4.ISEARNING=0) THEN T7.EMPEPF_PER WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS RATE , " _
-           & " (CASE WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED','F') and (t4.SUB_HEAD_TYPE not in('COPF')) THEN T2.RATE_AMOUNT WHEN (t4.SUB_HEAD_TYPE in('COPF') and t4.ISEARNING=0) THEN T7.EMPEPF_PER WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS STD_AMOUNT , " _
+           & " (CASE when ((t4.SUB_HEAD_TYPE)='DAARREAR' and t4.ISEARNING=1) then isnull(daarrear.da_arrear,0) WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED','F') and (t4.SUB_HEAD_TYPE not in('COPF')) THEN T2.RATE_AMOUNT WHEN (t4.SUB_HEAD_TYPE in('COPF') and t4.ISEARNING=0) THEN T7.EMPEPF_PER WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0)  ELSE 0 End) AS RATE , " _
+           & " (CASE when ((t4.SUB_HEAD_TYPE)='DAARREAR' and t4.ISEARNING=1) then isnull(daarrear.da_arrear,0) WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED','F') and (t4.SUB_HEAD_TYPE not in('COPF')) THEN T2.RATE_AMOUNT WHEN (t4.SUB_HEAD_TYPE in('COPF') and t4.ISEARNING=0) THEN T7.EMPEPF_PER WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS STD_AMOUNT , " _
            & " T6.PAYPERIOD_DAYS,T6.PRESENT_DAYS,T6.ABSENT_DAYS,T6.LEAVE_DAYS,T6.HOLIDAY_DAYS,T6.PAYABLE_DAYS,T6.LOP_DAYS,T7.IS_PF_APPL, " _
            & " " + SettPFCalculationOnHeadValue + " AS IS_PF_ATTN_ENABLE,(CASE WHEN T7.Max_Amount_EPF>0  THEN T7.Max_Amount_EPF ELSE PF_Rule_Max_Lim END) AS EPF_MAX_LIM,T7.EPS_TO_EPF,EPS_MAX AS EPS_MAX,COEPF_ROUNDOFF_YPE AS COEPF_ROUNDOFF_YPE,EMPEPF_ROUNDOFF_YPE AS EMPEPF_ROUNDOFF_YPE, " _
            & " T7.IS_ESI_APPL,T2.PAYHEAD_FORMULA AS FORMULA_HEAD,T7.IS_OT_APPL,T7.OT_CODE,NULL AS OT_HOURS,NULL AS OT_RATE, " _
@@ -4922,7 +5037,10 @@ Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MA
            & "  " _
            & "  " _
            & " ) AS T2 ON T1.EMP_SAL_CODE = T2.EMP_SAL_CODE AND T1.EMP_CODE = T2.EMP_CODE) AS T1 " _
-           & " LEFT JOIN TSPL_EMPLOYEE_SALARY_PAYHEADS T2 ON T1.EMP_SAL_CODE = T2.EMP_SAL_CODE " _
+           & " LEFT JOIN TSPL_EMPLOYEE_SALARY_PAYHEADS T2 ON T1.EMP_SAL_CODE = T2.EMP_SAL_CODE  left join (Select TSPL_DA_ARREAR_DETAIL.Emp_Code,TSPL_DA_ARREAR_DETAIL.DA_Arrear,Pay_Period from TSPL_DA_ARREAR_HEADER
+left outer join TSPL_DA_ARREAR_DETAIL on TSPL_DA_ARREAR_DETAIL.Document_Code=TSPL_DA_ARREAR_HEADER.Document_Code
+left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_DA_ARREAR_DETAIL.Emp_Code
+where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DAArrear.Emp_Code=T1.EMP_CODE  " _
            & " LEFT JOIN TSPL_SALSTRUCT_PAYHEADS T3 ON T1.SALARY_STRUCTURE_CODE = T3.SALARY_STRUCTURE_CODE  And T3.PAY_HEAD_CODE = T2.PAY_HEAD_CODE  " _
            & " LEFT JOIN TSPL_PAYHEAD_MASTER T4 ON T2.PAY_HEAD_CODE = T4.PAY_HEAD_CODE " _
            & " LEFT JOIN (" _
@@ -5424,7 +5542,8 @@ Group By EMP.EMP_CODE)xxx Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MA
        & "     ) " _
        & "     FROM TSPL_SALARY_CALCULATION 
              left JOIN TSPL_EMPLOYEE_MASTER  ON TSPL_EMPLOYEE_MASTER.EMP_CODE = TSPL_SALARY_CALCULATION.EMP_CODE WHERE " _
-       & "     COALESCE (FORMULA_AMOUNT, '') <> '' " _
+       & "     COALESCE (FORMULA_AMOUNT, '') <> ''
+       " _
        & "     AND LINE_NO IS NOT NULL  and HEAD_TYPE='F' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
 
         If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then

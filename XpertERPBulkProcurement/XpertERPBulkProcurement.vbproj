@@ -229,6 +229,18 @@
     <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmUnpostBmcDcs.Designer.vb">
+      <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmUnpostBmcDcs.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\BmcLabReport.Designer.vb">
+      <DependentUpon>BmcLabReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\BmcLabReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\FrmDcscollectionHistory.Designer.vb">
       <DependentUpon>FrmDcscollectionHistory.vb</DependentUpon>
     </Compile>
@@ -271,6 +283,18 @@
     <Compile Include="Milk Procurement\Report\FrmHeadLoadHistory.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmMonthWiseBeneficieriesReport.Designer.vb">
+      <DependentUpon>frmMonthWiseBeneficieriesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmMonthWiseBeneficieriesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmTTSavingReport.Designer.vb">
+      <DependentUpon>frmTTSavingReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmTTSavingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmUnionLastGstInvoice.Designer.vb">
       <DependentUpon>frmUnionLastGstInvoice.vb</DependentUpon>
     </Compile>
@@ -289,6 +313,12 @@
     <Compile Include="Milk Procurement\Report\rptBMCCapacityUtilizationReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.Designer.vb">
+      <DependentUpon>rptBMCGazeCapacityUtilizationReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptBMCPerodicalReport.Designer.vb">
       <DependentUpon>rptBMCPerodicalReport.vb</DependentUpon>
     </Compile>
@@ -299,6 +329,12 @@
       <DependentUpon>rptBmcTankerInOutReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptBmcTankerInOutReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBmcTankerProfitLossReport.Designer.vb">
+      <DependentUpon>rptBmcTankerProfitLossReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBmcTankerProfitLossReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptDBTCappingReport.Designer.vb">
@@ -455,6 +491,12 @@
       <DependentUpon>rptSuspanceDCSReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptSuspanceDCSReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerapprovalutilization.Designer.vb">
+      <DependentUpon>rptTankerapprovalutilization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTankerapprovalutilization.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptTankerProfitLossReport.Designer.vb">
@@ -1010,6 +1052,12 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.resx">
       <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmUnpostBmcDcs.resx">
+      <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\BmcLabReport.resx">
+      <DependentUpon>BmcLabReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\FrmDcscollectionHistory.resx">
       <DependentUpon>FrmDcscollectionHistory.vb</DependentUpon>
     </EmbeddedResource>
@@ -1035,8 +1083,14 @@
       <DependentUpon>FrmHeadLoadHistory.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\FrmMCCMilkRegister.resx" />
+    <EmbeddedResource Include="Milk Procurement\Report\frmMonthWiseBeneficieriesReport.resx">
+      <DependentUpon>frmMonthWiseBeneficieriesReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmTDSReport.resx">
       <DependentUpon>frmTDSReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmTTSavingReport.resx">
+      <DependentUpon>frmTTSavingReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmUnionLastGstInvoice.resx">
       <DependentUpon>frmUnionLastGstInvoice.vb</DependentUpon>
@@ -1053,11 +1107,17 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptBmcCollection.resx">
       <DependentUpon>rptBmcCollection.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBMCGazeCapacityUtilizationReport.resx">
+      <DependentUpon>rptBMCGazeCapacityUtilizationReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCPerodicalReport.resx">
       <DependentUpon>rptBMCPerodicalReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBmcTankerInOutReport.resx">
       <DependentUpon>rptBmcTankerInOutReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBmcTankerProfitLossReport.resx">
+      <DependentUpon>rptBmcTankerProfitLossReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCTankerTesting.resx">
       <DependentUpon>rptBMCTankerTesting.vb</DependentUpon>
@@ -1121,6 +1181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptSuspanceDCSReport.resx">
       <DependentUpon>rptSuspanceDCSReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTankerapprovalutilization.resx">
+      <DependentUpon>rptTankerapprovalutilization.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTankerProfitLossReport.resx">
       <DependentUpon>rptTankerProfitLossReport.vb</DependentUpon>

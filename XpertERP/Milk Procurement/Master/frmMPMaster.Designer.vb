@@ -22,14 +22,14 @@ Partial Class FrmMPMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -158,6 +158,8 @@ Partial Class FrmMPMaster
         Me.txtNoofCows = New common.MyNumBox()
         Me.dgvNoofCows = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnExportBlankSheet = New Telerik.WinControls.UI.RadButton()
         Me.btnImportBankDetails = New Telerik.WinControls.UI.RadButton()
         Me.pnlBankDetailsManual = New System.Windows.Forms.Panel()
         Me.txtBankIFSC_M = New common.Controls.MyTextBox()
@@ -209,6 +211,7 @@ Partial Class FrmMPMaster
         Me.txtPayeeName = New common.Controls.MyTextBox()
         Me.lblPayeeName = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -231,9 +234,6 @@ Partial Class FrmMPMaster
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.btnExportBlankSheet = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -354,6 +354,9 @@ Partial Class FrmMPMaster
         CType(Me.dgvNoofCows, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvNoofCows.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.btnExportBlankSheet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImportBankDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlBankDetailsManual.SuspendLayout()
         CType(Me.txtBankIFSC_M, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -403,9 +406,6 @@ Partial Class FrmMPMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.btnExportBlankSheet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -552,10 +552,10 @@ Partial Class FrmMPMaster
         Me.RadPageViewPage1.Controls.Add(Me.lblMPCode)
         Me.RadPageViewPage1.Controls.Add(Me.fndMPCode)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnReset)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(51.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1027, 551)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1027, 547)
         Me.RadPageViewPage1.Text = "General"
         '
         'txtDistrict
@@ -1259,10 +1259,10 @@ Partial Class FrmMPMaster
         Me.ddlTypeOfFormer.IsSourceFromTable = False
         Me.ddlTypeOfFormer.IsSourceFromValueList = False
         Me.ddlTypeOfFormer.IsUnique = False
-        RadListDataItem7.Text = "Common"
-        RadListDataItem8.Text = "Influence"
-        Me.ddlTypeOfFormer.Items.Add(RadListDataItem7)
-        Me.ddlTypeOfFormer.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Common"
+        RadListDataItem2.Text = "Influence"
+        Me.ddlTypeOfFormer.Items.Add(RadListDataItem1)
+        Me.ddlTypeOfFormer.Items.Add(RadListDataItem2)
         Me.ddlTypeOfFormer.Location = New System.Drawing.Point(98, 20)
         Me.ddlTypeOfFormer.MendatroryField = True
         Me.ddlTypeOfFormer.MyLinkLable1 = Me.lblTypeOfFormer
@@ -1316,10 +1316,10 @@ Partial Class FrmMPMaster
         Me.CboMaritalStatus.IsSourceFromTable = False
         Me.CboMaritalStatus.IsSourceFromValueList = False
         Me.CboMaritalStatus.IsUnique = False
-        RadListDataItem1.Text = "Single"
-        RadListDataItem2.Text = "Married"
-        Me.CboMaritalStatus.Items.Add(RadListDataItem1)
-        Me.CboMaritalStatus.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Single"
+        RadListDataItem4.Text = "Married"
+        Me.CboMaritalStatus.Items.Add(RadListDataItem3)
+        Me.CboMaritalStatus.Items.Add(RadListDataItem4)
         Me.CboMaritalStatus.Location = New System.Drawing.Point(464, 121)
         Me.CboMaritalStatus.MendatroryField = True
         Me.CboMaritalStatus.MyLinkLable1 = Me.MyLabel5
@@ -1357,10 +1357,10 @@ Partial Class FrmMPMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem3.Text = "Male"
-        RadListDataItem4.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem3)
-        Me.ddlGender.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Male"
+        RadListDataItem6.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem5)
+        Me.ddlGender.Items.Add(RadListDataItem6)
         Me.ddlGender.Location = New System.Drawing.Point(737, 101)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel4
@@ -2403,7 +2403,7 @@ Partial Class FrmMPMaster
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.SplitContainer3)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(99.0!, 24.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(103.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1027, 547)
@@ -2484,7 +2484,7 @@ Partial Class FrmMPMaster
         '
         Me.dgvNoofBuffaloes.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvNoofBuffaloes.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvNoofBuffaloes.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.dgvNoofBuffaloes.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.dgvNoofBuffaloes.MyStopExport = False
         Me.dgvNoofBuffaloes.Name = "dgvNoofBuffaloes"
         Me.dgvNoofBuffaloes.ShowHeaderCellButtons = True
@@ -2495,7 +2495,7 @@ Partial Class FrmMPMaster
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer4)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(91.0!, 24.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1027, 547)
@@ -2576,7 +2576,7 @@ Partial Class FrmMPMaster
         '
         Me.dgvNoofCows.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvNoofCows.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvNoofCows.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.dgvNoofCows.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.dgvNoofCows.MyStopExport = False
         Me.dgvNoofCows.Name = "dgvNoofCows"
         Me.dgvNoofCows.ShowHeaderCellButtons = True
@@ -2610,11 +2610,32 @@ Partial Class FrmMPMaster
         Me.RadPageViewPage5.Controls.Add(Me.lblBankName)
         Me.RadPageViewPage5.Controls.Add(Me.txtPayeeName)
         Me.RadPageViewPage5.Controls.Add(Me.lblPayeeName)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(137.0!, 24.0!)
-        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(141.0!, 28.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1027, 551)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1027, 547)
         Me.RadPageViewPage5.Text = "Bank Detail for Payments"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.btnExportBlankSheet)
+        Me.RadGroupBox2.Controls.Add(Me.btnImportBankDetails)
+        Me.RadGroupBox2.HeaderText = "Excel"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(740, 141)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(205, 48)
+        Me.RadGroupBox2.TabIndex = 1063
+        Me.RadGroupBox2.Text = "Excel"
+        '
+        'btnExportBlankSheet
+        '
+        Me.btnExportBlankSheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnExportBlankSheet.Location = New System.Drawing.Point(95, 18)
+        Me.btnExportBlankSheet.Name = "btnExportBlankSheet"
+        Me.btnExportBlankSheet.Size = New System.Drawing.Size(103, 21)
+        Me.btnExportBlankSheet.TabIndex = 1063
+        Me.btnExportBlankSheet.Text = "&Export Blank Sheet"
         '
         'btnImportBankDetails
         '
@@ -3605,16 +3626,24 @@ Partial Class FrmMPMaster
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(77.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(81.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1027, 547)
         Me.pvpCustomFields.Text = "Custom Field"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1027, 547)
+        Me.UcCustomFields1.TabIndex = 3
+        '
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(1027, 547)
@@ -3766,35 +3795,6 @@ Partial Class FrmMPMaster
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "&Save"
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.btnExportBlankSheet)
-        Me.RadGroupBox2.Controls.Add(Me.btnImportBankDetails)
-        Me.RadGroupBox2.HeaderText = "Excel"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(740, 141)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(205, 48)
-        Me.RadGroupBox2.TabIndex = 1063
-        Me.RadGroupBox2.Text = "Excel"
-        '
-        'btnExportBlankSheet
-        '
-        Me.btnExportBlankSheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExportBlankSheet.Location = New System.Drawing.Point(95, 18)
-        Me.btnExportBlankSheet.Name = "btnExportBlankSheet"
-        Me.btnExportBlankSheet.Size = New System.Drawing.Size(103, 21)
-        Me.btnExportBlankSheet.TabIndex = 1063
-        Me.btnExportBlankSheet.Text = "&Export Blank Sheet"
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1027, 547)
-        Me.UcCustomFields1.TabIndex = 3
-        '
         'FrmMPMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3934,6 +3934,9 @@ Partial Class FrmMPMaster
         CType(Me.dgvNoofCows, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
         Me.RadPageViewPage5.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        CType(Me.btnExportBlankSheet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImportBankDetails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlBankDetailsManual.ResumeLayout(False)
         Me.pnlBankDetailsManual.PerformLayout()
@@ -3986,9 +3989,6 @@ Partial Class FrmMPMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        CType(Me.btnExportBlankSheet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

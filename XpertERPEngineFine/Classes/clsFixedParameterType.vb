@@ -82,6 +82,7 @@ Public Class clsFixedParameterType
     Public Const AndroidMilkCollectionBMCDCS As String = "Android Milk Collection BMC DCS"
     Public Const AndroidDemandBooking As String = "Android Demand Booking"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
+    Public Const DCSQtyDecimalPlaces As String = "DCS Qty Decimal Places"
     Public Const MPIncentiveEntryCycleWiseButNEFTMonthly As String = "MP Incentive Entry Cycle Wise But NEFT Monthly"
     Public Const MPIncentiveEntryMaxMilkLimit As String = "MP Incentive Entry Max Milk Limit"
     Public Const MPIncentiveEntryIncentiveRate As String = "MP Incentive Entry Incentive Rate"
@@ -756,6 +757,8 @@ Public Class clsFixedParameterType
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const Hidedetaildate As String = "Hide Detail Date"
+
     Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
     Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
@@ -921,6 +924,7 @@ Public Class clsFixedParameterType
     Public Const StopForRepeatedFATSNF As String = "Stop Repeat FAT SNF"
     Public Const SampleFONTSize As String = "Font Size"
     Public Const SMSPrefix As String = "SMS Prefix"
+    Public Const EmailPrefix As String = "Email Prefix"
     Public Const PickPendingMilkSRNinNextPaymentCycle As String = "Pick Pending Milk-SRN in Next Payment Cycle"
     Public Const TreatChequeClearDateAsRecoDate As String = "TreatChequeClearDateAsRecoDate"
     Public Const BookWreckageFromSublocationOrSection As String = "BookWreckageFromSublocationOrSection"
@@ -1291,8 +1295,15 @@ Public Class clsFixedParameterType
     Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
     Public Const EnableVehicleType = "Enable Vehicle Type"
     Public Const PickDataFromRetestingTable = "Pick Data From Retesting Table"
+    Public Const ApplyTPT = "Apply Transpoter Commission"
+    Public Const AllowMultipleUOMForProduct = "Allow Multiple UOM For Product"
+    Public Const AllowManualCrateForDispatch = "Allow Manual Crate For Dispatch"
+    Public Const SetDefaultShiftTime = "Set Default Shift Time"
+    Public Const ApplyManualScheme = "Apply Manual Scheme"
+    Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
 End Class
 Public Class clsFixedParameterCode
+    Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
     Public Const PenaltyCost As String = "Define Penalty Cost Value for Per Unit"
@@ -1420,6 +1431,7 @@ Public Class clsFixedParameterCode
     Public Const comtecxpertsoftposerode As String = "com.tecxpertsoft.amirthaa.erode"
     Public Const XpertMilkCollection As String = "XpertMilkCollection"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
+    Public Const DCSQtyDecimalPlaces As String = "DCS Qty Decimal Places"
     Public Const MPIncentiveEntryCycleWiseButNEFTMonthly As String = "MP Incentive Entry Cycle Wise But NEFT Monthly"
     Public Const MPIncentiveEntryMaxMilkLimit As String = "MP Incentive Entry Max Milk Limit"
     Public Const MPIncentiveEntryIncentiveRate As String = "MP Incentive Entry Incentive Rate"
@@ -1678,6 +1690,8 @@ Public Class clsFixedParameterCode
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const Hidedetaildate As String = "Hide Detail Date"
+
     Public Const ShowNewFormatofPDF As String = "Show New Format of PDF"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
     Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
@@ -2331,6 +2345,7 @@ Public Class clsFixedParameterCode
     Public Const SampleFONTSize As String = "Font Size"
     Public Const SMSPrefix As String = "SMS Prefix"
     Public Const InstantSendTheSMS As String = "Instant Send The SMS"
+    Public Const InstantSendTheEmail As String = "Instant Send The Email"
     Public Const PickPendingMilkSRNinNextPaymentCycle As String = "Pick Pending Milk-SRN in Next Payment Cycle"
     '======================Preeti Gupta[29/12/2016]===========================
     Public Const TreatChequeClearDateAsRecoDate As String = "TreatChequeClearDateAsRecoDate"
@@ -2723,6 +2738,12 @@ Public Class clsFixedParameterCode
     Public Const ShowTodayDemandAsCurrentandUpcoming = "Show Today Demand As Current And Upcoming"
     Public Const EnableVehicleType = "Enable Vehicle Type"
     Public Const PickDataFromRetestingTable = "Pick Data From Retesting Table"
+    Public Const ApplyTPT = "Apply Transpoter Commission"
+    Public Const AllowMultipleUOMForProduct = "Allow Multiple UOM For Product"
+    Public Const AllowManualCrateForDispatch = "Allow Manual Crate For Dispatch"
+    Public Const SetDefaultShiftTime = "Set Default Shift Time"
+    Public Const ApplyManualScheme = "Apply Manual Scheme"
+    Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2801,6 +2822,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.ViewDCSMilkPurchaseRegister, "0", "0:OFF,1:ON;Show DCS Milk Purchase register on APP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, "50", "It Should above 50")
         InsertDefaultValueFixedParameter(clsFixedParameterType.XpertAPI, clsFixedParameterCode.SetDCSAvgFATSNF, "0", "0:OFF;1:ON")
 
@@ -2934,6 +2956,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comtecxpertsoftposerode, "", "Version of Amirtha Sales APP [0 Skip]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.XpertMilkCollection, "1.0.0.0", "Xpert Milk Collection Version Control[0.0.0.0 Skip]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, "0", "1:On Apply Monthly,0:Off Apply Payment Cycle Wise")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DCSQtyDecimalPlaces, clsFixedParameterCode.DCSQtyDecimalPlaces, "2", "Value should be 0 to 3")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MPIncentiveEntryCycleWiseButNEFTMonthly, clsFixedParameterCode.MPIncentiveEntryCycleWiseButNEFTMonthly, "0", "1:On,0:Off")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MPIncentiveEntryMaxMilkLimit, clsFixedParameterCode.MPIncentiveEntryMaxMilkLimit, "10000", "Max Farmer milk Limit in a Cycle")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, "0", "Mp Incentive Rate")
@@ -3695,6 +3718,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, "0", "Mix FAT Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, "0", "0:Off, 1:On;")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowNewFormatofPDF, clsFixedParameterCode.ShowNewFormatofPDF, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, "0", "0:Off, 1:On;")
@@ -3893,6 +3918,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.BulkProcurementCounterOnEntryType, clsFixedParameterCode.BulkProcurementCounterOnEntryType, "0", "1:ON;0 OFF Prefixe Generation of Bulk Procurement")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.SMSPrefix, "SMS", "SMS Prefix")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.InstantSendTheSMS, "0", "1:ON;0:OFF Send SMS While saving in SMS table")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.EmailPrefix, clsFixedParameterCode.InstantSendTheEmail, "0", "1:ON;0:OFF Send Email While saving in Email table")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, "0", "1:ON;0 OFF In Milk Purchase Invoice Pick Pending SRN")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TreatChequeClearDateAsRecoDate, clsFixedParameterCode.TreatChequeClearDateAsRecoDate, "0", "1:ON;0 OFF Treat Cheque Clear Date As Reco Date")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BookWreckageFromSublocationOrSection, clsFixedParameterCode.BookWreckageFromSublocationOrSection, "1", "1:ON;0 OFF Book Wreckage From Sublocation/Section")
@@ -4287,6 +4313,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, "0", "Enter Tolerance Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, "10:05 AM", "Enter Shift Time Out")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, "04:15 PM", "Enter Default Shift Time")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowToSelectShift, clsFixedParameterCode.AllowToSelectShift, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, "0", "0:Off, 1:On;")
@@ -4319,6 +4346,11 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, "0", "0:Pick Rate Manually, 1:Pick Rate from Master;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowResetCustomerDemandOnRouteChange, clsFixedParameterCode.AllowResetCustomerDemandOnRouteChange, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -4445,6 +4477,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMPMaster, clsFixedParameterType.BankIFSCCodeValidateByService, clsFixedParameterCode.BankIFSCCodeValidateByService, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.MPIncentiveEntryCycleWiseButNEFTMonthly, clsFixedParameterCode.MPIncentiveEntryCycleWiseButNEFTMonthly, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MPIncentiveEntry, clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.DCSQtyDecimalPlaces, clsFixedParameterCode.DCSQtyDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MPIncentiveEntry, clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MPIncentiveEntry, clsFixedParameterType.MPIncentiveEntryMaxMilkLimit, clsFixedParameterCode.MPIncentiveEntryMaxMilkLimit, EnumControlType.NumericBox)
         'InsertDefaultValue(clsUserMgtCode.VLCProgressReport, clsFixedParameterType.TrendDiffValueForColor, clsFixedParameterCode.TrendDiffValueForColor, EnumControlType.NumericBox)
@@ -5065,6 +5098,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkProcurementUploader, clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, EnumControlType.CheckBox)
+
         ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FAAcquisitionEntry, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.POWeighment, clsFixedParameterType.AddHighSecurityOnWeighingIntegratedScreen, clsFixedParameterCode.AddHighSecurityOnWeighingIntegratedScreen, EnumControlType.CheckBox)
@@ -6094,6 +6130,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPriceChartBulkProc, clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, clsFixedParameterType.AllowToSelectShift, clsFixedParameterCode.AllowToSelectShift, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.CustomersListReport, clsFixedParameterType.ApplyOrderByNumeric, clsFixedParameterCode.ApplyOrderByNumeric, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, EnumControlType.CheckBox)
@@ -6128,6 +6165,11 @@ Public Class clsFixedParameterProgramMapping
 
         InsertDefaultValue(clsUserMgtCode.rptMonthWiseDMRReport, clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyTPT, clsFixedParameterCode.ApplyTPT, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowMultipleUOMForProduct, clsFixedParameterCode.AllowMultipleUOMForProduct, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.CustomerMaster, clsFixedParameterType.AllowResetCustomerDemandOnRouteChange, clsFixedParameterCode.AllowResetCustomerDemandOnRouteChange, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
 

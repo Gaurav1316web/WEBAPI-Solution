@@ -183,7 +183,12 @@ Public Class frmVSP_VLCMaster
             lblMCCOwnBMC.Visible = False
             txtOwnBMCDate.Enabled = False
         End If
-        chkCLUSTER.Visible = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            chkCLUSTER.Visible = True
+        Else
+            chkCLUSTER.Visible = False
+        End If
+        'chkCLUSTER.Visible = False
         chkCreateCustomerAlso.Checked = True
     End Sub
     Function CheckMultiCurrency(ByVal trans As SqlTransaction) As Boolean
@@ -1176,6 +1181,7 @@ Public Class frmVSP_VLCMaster
             obj.IsSuspense = chkSuspense.Checked
             obj.Loyalty_Rate = txtLoyaltyPer.Value
             obj.Shift_Cow_Limit = txtShiftCowLimit.Value
+            obj.REIL_Integrated = chkIntegrated.Checked
             If chkOwnBMC.Checked Then
                 obj.TFOwnBMC = True
                 obj.OwnBMCDate = txtOwnBMCDate.Value
@@ -6401,6 +6407,10 @@ Public Class frmVSP_VLCMaster
         gv1.Columns("Head_Load_Rate").HeaderText = "Head Load Rate"
         gv1.Columns("Cycle_Frequency").FormatString = ""
         gv1.Columns("Cycle_Frequency").HeaderText = "Cycle Frequency"
+    End Sub
+
+    Private Sub MenuExport_Click(sender As Object, e As EventArgs) Handles MenuExport.Click
+
     End Sub
 
     Private Sub txtCurrentCompanyBank__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCurrentCompanyBank._MYValidating
