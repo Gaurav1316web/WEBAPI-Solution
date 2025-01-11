@@ -12,8 +12,13 @@ Imports CrystalDecisions.ReportSource
 Imports CrystalDecisions.Shared
 
 Public Class FrmperdayDetailRpt
+
+    Private Sub FrmperdayDetailRpt_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        fromdate.Value = clsCommon.GETSERVERDATE
+        ToDate.Value = clsCommon.GETSERVERDATE
+    End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Print()
+        print()
     End Sub
 
     Sub print()
@@ -132,4 +137,5 @@ convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,('" + 
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
 End Class
