@@ -22,16 +22,19 @@ Partial Class rptSaleRegisterDetail
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -105,6 +108,7 @@ Partial Class rptSaleRegisterDetail
         Me.rdmenufile1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnBack = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
@@ -119,7 +123,8 @@ Partial Class rptSaleRegisterDetail
         Me.rmSetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSend = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.ddlUOMType = New Telerik.WinControls.UI.RadDropDownList()
+        Me.MyLabel17 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -186,6 +191,7 @@ Partial Class rptSaleRegisterDetail
         CType(Me.gvCogsDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCogsDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -193,7 +199,8 @@ Partial Class rptSaleRegisterDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlUOMType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -241,6 +248,8 @@ Partial Class rptSaleRegisterDetail
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel17)
+        Me.RadPageViewPage1.Controls.Add(Me.ddlUOMType)
         Me.RadPageViewPage1.Controls.Add(Me.chkSupplyDate)
         Me.RadPageViewPage1.Controls.Add(Me.chkBatchWise)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel16)
@@ -546,12 +555,12 @@ Partial Class rptSaleRegisterDetail
         Me.ddlSubCategory.AutoCompleteDisplayMember = Nothing
         Me.ddlSubCategory.AutoCompleteValueMember = Nothing
         Me.ddlSubCategory.DropDownAnimationEnabled = True
-        RadListDataItem1.Text = "Both"
-        RadListDataItem2.Text = "Sale Invoice"
-        RadListDataItem3.Text = "Sale Return"
-        Me.ddlSubCategory.Items.Add(RadListDataItem1)
-        Me.ddlSubCategory.Items.Add(RadListDataItem2)
-        Me.ddlSubCategory.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Both"
+        RadListDataItem5.Text = "Sale Invoice"
+        RadListDataItem6.Text = "Sale Return"
+        Me.ddlSubCategory.Items.Add(RadListDataItem4)
+        Me.ddlSubCategory.Items.Add(RadListDataItem5)
+        Me.ddlSubCategory.Items.Add(RadListDataItem6)
         Me.ddlSubCategory.Location = New System.Drawing.Point(1098, 94)
         Me.ddlSubCategory.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlSubCategory.Name = "ddlSubCategory"
@@ -889,12 +898,12 @@ Partial Class rptSaleRegisterDetail
         Me.ddlReportType.AutoCompleteDisplayMember = Nothing
         Me.ddlReportType.AutoCompleteValueMember = Nothing
         Me.ddlReportType.DropDownAnimationEnabled = True
-        RadListDataItem4.Text = "Both"
-        RadListDataItem5.Text = "Sale Invoice"
-        RadListDataItem6.Text = "Sale Return"
-        Me.ddlReportType.Items.Add(RadListDataItem4)
-        Me.ddlReportType.Items.Add(RadListDataItem5)
-        Me.ddlReportType.Items.Add(RadListDataItem6)
+        RadListDataItem7.Text = "Both"
+        RadListDataItem8.Text = "Sale Invoice"
+        RadListDataItem9.Text = "Sale Return"
+        Me.ddlReportType.Items.Add(RadListDataItem7)
+        Me.ddlReportType.Items.Add(RadListDataItem8)
+        Me.ddlReportType.Items.Add(RadListDataItem9)
         Me.ddlReportType.Location = New System.Drawing.Point(552, 60)
         Me.ddlReportType.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlReportType.Name = "ddlReportType"
@@ -1164,6 +1173,16 @@ Partial Class rptSaleRegisterDetail
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(535, 4)
+        Me.btnPrint.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(91, 22)
+        Me.btnPrint.TabIndex = 151
+        Me.btnPrint.Text = "Print"
+        '
         'btnBack
         '
         Me.btnBack.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1271,15 +1290,32 @@ Partial Class rptSaleRegisterDetail
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '
-        'btnPrint
+        'ddlUOMType
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(535, 4)
-        Me.btnPrint.Margin = New System.Windows.Forms.Padding(4)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(91, 22)
-        Me.btnPrint.TabIndex = 151
-        Me.btnPrint.Text = "Print"
+        Me.ddlUOMType.AutoCompleteDisplayMember = Nothing
+        Me.ddlUOMType.AutoCompleteValueMember = Nothing
+        Me.ddlUOMType.DropDownAnimationEnabled = True
+        RadListDataItem1.Text = "Both"
+        RadListDataItem2.Text = "Sale Invoice"
+        RadListDataItem3.Text = "Sale Return"
+        Me.ddlUOMType.Items.Add(RadListDataItem1)
+        Me.ddlUOMType.Items.Add(RadListDataItem2)
+        Me.ddlUOMType.Items.Add(RadListDataItem3)
+        Me.ddlUOMType.Location = New System.Drawing.Point(508, 10)
+        Me.ddlUOMType.Margin = New System.Windows.Forms.Padding(4)
+        Me.ddlUOMType.Name = "ddlUOMType"
+        Me.ddlUOMType.Size = New System.Drawing.Size(130, 20)
+        Me.ddlUOMType.TabIndex = 432
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Location = New System.Drawing.Point(440, 10)
+        Me.MyLabel17.Margin = New System.Windows.Forms.Padding(4)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(60, 18)
+        Me.MyLabel17.TabIndex = 433
+        Me.MyLabel17.Text = "UOM Type"
         '
         'rptSaleRegisterDetail
         '
@@ -1365,6 +1401,7 @@ Partial Class rptSaleRegisterDetail
         CType(Me.gvCogsDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCogsDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBack, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1372,7 +1409,8 @@ Partial Class rptSaleRegisterDetail
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlUOMType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1465,5 +1503,7 @@ Partial Class rptSaleRegisterDetail
     Friend WithEvents chkBatchWise As RadCheckBox
     Friend WithEvents chkSupplyDate As RadCheckBox
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents ddlUOMType As RadDropDownList
 End Class
 
