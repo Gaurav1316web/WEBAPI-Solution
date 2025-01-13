@@ -236,18 +236,18 @@ Public Class frmEMailAndSMSSetting
 
     Private Sub frmEMailAndSMSSetting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         If Not isForEMail Then
-            RadPageView1.Pages("RadPageViewPage1").Item.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
+            RadPageView1.Pages("RadPageViewPage1").Item.Visibility = Telerik.WinControls.ElementVisibility.Visible
         Else
             RadPageView1.SelectedPage = RadPageViewPage1
         End If
         If Not isForSMS Then
-            RadPageView1.Pages("RadPageViewPage2").Item.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
+            RadPageView1.Pages("RadPageViewPage2").Item.Visibility = Telerik.WinControls.ElementVisibility.Visible
         Else
             RadPageView1.SelectedPage = RadPageViewPage2
         End If
 
         If Not isForNotification Then
-            RadPageView1.Pages("RadPageViewPage4").Item.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
+            RadPageView1.Pages("RadPageViewPage4").Item.Visibility = Telerik.WinControls.ElementVisibility.Visible
         Else
             RadPageView1.SelectedPage = RadPageViewPage4
         End If

@@ -152,7 +152,7 @@ Public Class clsBillOfMaterial
         Dim obj As New clsBillOfMaterial()
         Dim objtr As New clsBillOfMaterial()
         Dim objLoc As New clsMCCCodes()
-        objLoc = clsMCCCodes.GetData()
+        objLoc = clsMCCCodes.GetData(trans)
 
         If objLoc.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(objLoc.arrLocCodes) > 0 Then
             arrLoc = objLoc.arrLocCodes
@@ -370,7 +370,7 @@ Public Class clsBillOfMaterial
             If Not obj.ObjListCosting Is Nothing Then
                 isSaved = isSaved AndAlso clsBOMCosting.SaveData(obj.BOM_CODE, obj.ObjListCosting, trans)
             End If
-            HistoryData(strDocNo, trans)
+            HistoryData(obj.BOM_CODE, trans)
             If isSaved Then
                 trans.Commit()
             End If
@@ -458,7 +458,8 @@ Public Class clsBillOfMaterial
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Code not found to Post")
             End If
-            Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt")
+
+            Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim obj As clsBillOfMaterial = clsBillOfMaterial.GetData(strDocNo, NavigatorType.Current)
 
             If (obj Is Nothing OrElse clsCommon.myLen(obj.BOM_CODE) <= 0) Then
