@@ -1302,6 +1302,7 @@ Partial Class rptSaleRegisterDetail
         Me.ddlUOMType.Items.Add(RadListDataItem2)
         Me.ddlUOMType.Items.Add(RadListDataItem3)
         Me.ddlUOMType.Location = New System.Drawing.Point(508, 10)
+        'Me.ddlUOMType.Location = New System.Drawing.Point(440, 10)
         Me.ddlUOMType.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlUOMType.Name = "ddlUOMType"
         Me.ddlUOMType.Size = New System.Drawing.Size(130, 20)
@@ -1309,13 +1310,13 @@ Partial Class rptSaleRegisterDetail
         '
         'MyLabel17
         '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Location = New System.Drawing.Point(440, 10)
-        Me.MyLabel17.Margin = New System.Windows.Forms.Padding(4)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(60, 18)
-        Me.MyLabel17.TabIndex = 433
-        Me.MyLabel17.Text = "UOM Type"
+        'Me.MyLabel17.FieldName = Nothing
+        'Me.MyLabel17.Location = New System.Drawing.Point(440, 10)
+        'Me.MyLabel17.Margin = New System.Windows.Forms.Padding(4)
+        'Me.MyLabel17.Name = "MyLabel17"
+        'Me.MyLabel17.Size = New System.Drawing.Size(60, 18)
+        'Me.MyLabel17.TabIndex = 433
+        'Me.MyLabel17.Text = "UOM Type"
         '
         'rptSaleRegisterDetail
         '
