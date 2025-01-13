@@ -64,11 +64,11 @@ Public Class rptSalesStock
                     clsCommon.MyMessageBoxShow(Me, "Please select location")
                     Exit Sub
                 End If
-                Qry = "Select SUM([INWARDQTYReportUom]) as [INWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc ,Max(uom_code)UOM,Sum(INWARDQTY) as INWARDQTY,SUM(OUTWARDQTY) as OUTWARDQTY,max(From_Location) as From_Location,max(To_Location) as To_Location,MAX(location_desc) as location_desc,max(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "' As  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,Max(INUOM)INUOM from 
+                Qry = " Select Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc ,Max(UOM)UOM,Sum([INWARDQTYReportUom]) as [INWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],max(From_Location) as From_Location,max(To_Location) as To_Location,MAX(location_desc) as location_desc,max(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "' As  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,Max(INUOM)INUOM from (Select SUM([INWARDQTYReportUom]) as [INWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc ,Max(uom_code)UOM,Sum(INWARDQTY) as INWARDQTY,SUM(OUTWARDQTY) as OUTWARDQTY,max(From_Location) as From_Location,max(To_Location) as To_Location,MAX(location_desc) as location_desc,max(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "' As  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,Max(INUOM)INUOM from 
                 (select TSPL_ITEM_master.structure_code,tspl_location_master.location_desc,City_code,TSPL_TRANSFER_ORDER_HEAD.document_no,TSPL_INVENTORY_MOVEMENT.Trans_Type,source_doc_date,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,Inout,ItemConvinUOM.Conversion_Factor,ItemConvReportUOM.uom_code,
             Case when Inout='I' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [INWARDQTYReportUom],Case when Inout='O' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [OUTWARDQTYReportUom],TSPL_INVENTORY_MOVEMENT.item_code,TSPL_ITEM_master.item_desc,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as INWARDQTY ,Case when TSPL_INVENTORY_MOVEMENT.Inout='O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY,TSPL_INVENTORY_MOVEMENT.Qty,tspl_location_master.IsMainPlant,TSPL_ITEM_master.Item_Type,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.uom else '' end as INUOM
                      from TSPL_INVENTORY_MOVEMENT
-                    left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No=TSPL_INVENTORY_MOVEMENT.Source_Doc_No 
+                    left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No=TSPL_INVENTORY_MOVEMENT.Source_Doc_No and TSPL_TRANSFER_ORDER_HEAD.From_Location=TSPL_INVENTORY_MOVEMENT.Location_Code
                     left join tspl_location_master on tspl_location_master.location_code=TSPL_TRANSFER_ORDER_HEAD.from_location or tspl_location_master.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
                     inner join TSPL_ITEM_master  on TSPL_ITEM_master.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code 
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM=1
@@ -78,15 +78,16 @@ Public Class rptSalesStock
                     and xx.Item_Type='F' and From_Location='" + txtLocation.Value + "' " + Whr + "
                     Group by item_code
                     union all
-                    Select  SUM([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc,Max(uom_code)UOM,Sum(INWARDQTY) as INWARDQTY,SUM(OUTWARDQTY) as OUTWARDQTY,max(From_Location) as From_Location,max(To_Location) as To_Location ,MAX(location_desc) as location_desc,MAX(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "'  as  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,MAX(INUOM)INUOM from (select TSPL_ITEM_master.structure_code,Location_Desc,City_code,TSPL_TRANSFER_ORDER_HEAD.document_no,TSPL_INVENTORY_MOVEMENT.Trans_Type,source_doc_date,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,Inout,ItemConvinUOM.Conversion_Factor,ItemConvReportUOM.uom_code,Case when Inout='I' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [INWARDQTYReportUom],Case when Inout='O' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [OUTWARDQTYReportUom],TSPL_INVENTORY_MOVEMENT.item_code,TSPL_ITEM_master.item_desc,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as INWARDQTY ,Case when TSPL_INVENTORY_MOVEMENT.Inout='O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY,TSPL_INVENTORY_MOVEMENT.Qty,tspl_location_master.IsMainPlant,TSPL_ITEM_master.Item_Type,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.uom else '' end as INUOM
+                    Select  SUM([INWARDQTYReportUom]) as [INWARDQTYReportUom],Sum([OUTWARDQTYReportUom]) as [OUTWARDQTYReportUom],Sum(Qty) as Qty,Item_Code,max(Item_Desc) as Item_Desc,Max(uom_code)UOM,Sum(INWARDQTY) as INWARDQTY,SUM(OUTWARDQTY) as OUTWARDQTY,max(From_Location) as From_Location,max(To_Location) as To_Location ,MAX(location_desc) as location_desc,MAX(structure_code) AS structure_code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "'  as  From_Date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  as To_Date,MAX(City_code) as City_code ,MAX(INUOM)INUOM from (select TSPL_ITEM_master.structure_code,Location_Desc,City_code,TSPL_TRANSFER_ORDER_HEAD.document_no,TSPL_INVENTORY_MOVEMENT.Trans_Type,source_doc_date,TSPL_TRANSFER_ORDER_HEAD.From_Location,TSPL_TRANSFER_ORDER_HEAD.To_Location,Inout,ItemConvinUOM.Conversion_Factor,ItemConvReportUOM.uom_code,Case when Inout='I' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [INWARDQTYReportUom],Case when Inout='O' then cast((TSPL_INVENTORY_MOVEMENT.Qty*ItemConvinUOM.Conversion_Factor/ItemConvReportUOM.Conversion_Factor) as Decimal(18,2)) else 0 end as [OUTWARDQTYReportUom],TSPL_INVENTORY_MOVEMENT.item_code,TSPL_ITEM_master.item_desc,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as INWARDQTY ,Case when TSPL_INVENTORY_MOVEMENT.Inout='O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY,TSPL_INVENTORY_MOVEMENT.Qty,tspl_location_master.IsMainPlant,TSPL_ITEM_master.Item_Type,Case when TSPL_INVENTORY_MOVEMENT.Inout='I' then TSPL_INVENTORY_MOVEMENT.uom else '' end as INUOM
                      from TSPL_INVENTORY_MOVEMENT
-                    left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No=TSPL_INVENTORY_MOVEMENT.Source_Doc_No 
+                    left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No=TSPL_INVENTORY_MOVEMENT.Source_Doc_No and TSPL_TRANSFER_ORDER_HEAD.To_Location=TSPL_INVENTORY_MOVEMENT.Location_Code
                     left join tspl_location_master on tspl_location_master.location_code=TSPL_TRANSFER_ORDER_HEAD.from_location or tspl_location_master.Location_Code=TSPL_TRANSFER_ORDER_HEAD.To_Location
                     inner join TSPL_ITEM_master  on TSPL_ITEM_master.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code 
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM=1
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_INVENTORY_MOVEMENT.Item_Code = ItemConvinUOM.Item_Code and TSPL_INVENTORY_MOVEMENT.uom = ItemConvinUOM.UOM_Code 
                     where trans_type in ('ITransfer','Trasnfer') ) XX  where convert(date,source_doc_date,103)>='" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "'  and convert(date,source_doc_date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "'  and xx.IsMainPlant=1 and xx.Item_Type='F'  and To_Location='" + txtLocation.Value + "' " + Whr + "
-                    Group by item_code "
+                    Group by item_code )  xxx
+					group by xxx.item_Code "
             ElseIf ddlReportType.SelectedValue = "Stock Summary" Then
                 Dim Location As String = ""
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
@@ -96,9 +97,9 @@ Public Class rptSalesStock
                     Whr = " and TSPL_ITEM_MASTER.Item_Code in (" + clsCommon.GetMulcallString(txtMultiItem.arrValueMember) + ")"
                 End If
                 Qry = " select TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.Item_Code,max(TSPL_ITEM_MASTER.Short_Description)Item_Desc,MAX(I.UOM_Code)Report_UOM,
-                 convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))))  AS [OPBal]
-                 ,convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))))  AS Received_Qty
-                , convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtfromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 0 else 1.00 end) )))  AS Issued_Qty,convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end)) )) AS [Balance_Qty],max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.City_Code)City_Code,'" + clsCommon.GetPrintDate(txtfromDate.Value, "dd-MMM-yyyy") + "' as fromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "' as Todate
+                 convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))))  AS [OPBal]
+                 ,convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))))  AS Received_Qty
+                , convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 0 else 1.00 end) )))  AS Issued_Qty,convert(decimal(18,2), (SUM(isnull((Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end)) )) AS [Balance_Qty],max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,max(TSPL_COMPANY_MASTER.City_Code)City_Code,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "' as fromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "' as Todate
                  from TSPL_INVENTORY_MOVEMENT
                  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
                  left outer join TSPL_STRUCTURE_MASTER on TSPL_STRUCTURE_MASTER.Structure_Code=TSPL_ITEM_MASTER.Structure_Code
@@ -192,15 +193,15 @@ Public Class rptSalesStock
                 gvData.Columns("UOM").HeaderText = "UOM"
                 gvData.Columns("UOM").Width = 500
 
-                gvData.Columns("INWARDQTY").HeaderText = "Inward QTY"
-                gvData.Columns("INWARDQTY").Width = 250
-                gvData.Columns("INWARDQTY").FormatString = "{0:n2}"
-                gvData.Columns("INWARDQTY").IsVisible = True
+                gvData.Columns("INWARDQTYReportUom").HeaderText = "Inward QTY"
+                gvData.Columns("INWARDQTYReportUom").Width = 250
+                gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
+                gvData.Columns("INWARDQTYReportUom").IsVisible = True
 
-                gvData.Columns("OUTWARDQTY").HeaderText = "Outward QTY"
-                gvData.Columns("OUTWARDQTY").Width = 250
-                gvData.Columns("OUTWARDQTY").FormatString = "{0:n2}"
-                gvData.Columns("OUTWARDQTY").IsVisible = True
+                gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Outward QTY"
+                gvData.Columns("OUTWARDQTYReportUom").Width = 250
+                gvData.Columns("OUTWARDQTYReportUom").FormatString = "{0:n2}"
+                gvData.Columns("OUTWARDQTYReportUom").IsVisible = True
 
                 gvData.Columns("From_Location").HeaderText = "From Location"
                 gvData.Columns("From_Location").Width = 250
@@ -236,9 +237,9 @@ Public Class rptSalesStock
 
 
                 Dim summaryRowItem As New GridViewSummaryRowItem()
-                Dim item1 As New GridViewSummaryItem("INWARDQTY", "{0:n2}", GridAggregateFunction.Sum)
+                Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
-                Dim item2 As New GridViewSummaryItem("OUTWARDQTY", "{0:n2}", GridAggregateFunction.Sum)
+                Dim item2 As New GridViewSummaryItem("OUTWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom

@@ -343,8 +343,8 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoicePartyForPreFormat.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptFreshSaleInvoice_ForSeperateScheme.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptGatePassEntry.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptNonTaxableInvoiceALW1.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptNonTaxableInvoiceBKN.rpt" />
-    <None Include="Crystal Reports GST\Kwality Sales Report\crptPerDayDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductDeliveryOrderReport.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleNonTaxableChallan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleOrderReport.rpt" />
@@ -353,6 +353,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceALW.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceALW1.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBHR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
@@ -1287,6 +1288,8 @@
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingNonTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBookingTaxableChallan.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptBoothWiseBillDetail.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptBoothWiseBillSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\CrptCreditCustomerReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDailyStatementDistributorWiseDetail.rpt" />
@@ -1299,6 +1302,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDemandReturn.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptPerDayDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptRouteWiseReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptZoneWiseReport.rpt" />
@@ -1342,6 +1346,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptFreshSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptGPRouteWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptInvoiceBulkSale.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptJournalStockALW.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptLCIssuingApplicationMT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMTFormat2.rpt" />
@@ -1357,7 +1362,6 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntryNewTNK.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptRGPNew.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSGSWaiverLetterMT.rpt" />
-    <None Include="Crystal Reports\Kwality Sales Report\rptStockSummaryALW.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSubInvoiceDetails.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSubReportExciseTransferSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSupplyCrate.rpt" />
@@ -1985,7 +1989,6 @@
     <None Include="Crystal Reports\Sales Report\rptFluidMilkDemandReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
     <None Include="Crystal Reports\Sales Report\rptHSNWiseSale.rpt" />
-    <None Include="Crystal Reports\Sales Report\rptHSNWiseSaleALW.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />
