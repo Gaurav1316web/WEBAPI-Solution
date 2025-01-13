@@ -7,6 +7,7 @@ Public Class frmVendorBankAdvice
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim MultipleFinderFillAuto As Boolean = False
+    Dim DCSWiseFilterEnable As Boolean = False
     Dim ConvertVlcCodeUploaderToInt As Boolean = False
     Dim AreaWiseBilling As Boolean = False
     Dim VendorBankAdviceForSWM As Boolean = False
@@ -37,6 +38,7 @@ Public Class frmVendorBankAdvice
     Sub FormLoad()
         SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
 
+        DCSWiseFilterEnable = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DCSWiseFilterEnableOnSavingCheck, clsFixedParameterCode.DCSWiseFilterEnableOnSavingCheck, Nothing)) = 0)
         IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         ConvertVlcCodeUploaderToInt = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, Nothing)) = 1)
