@@ -29,7 +29,7 @@ Public Class frmMilkCollectionMCC
     Const colFATKG As String = "colFATKG"
     Const colSNFKG As String = "colSNFKG"
     Const colTemp As String = "colTemp"
-
+    Const ColMilkNotPicked As String = "ColMilkNotPicked"
 
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
@@ -104,6 +104,10 @@ Public Class frmMilkCollectionMCC
         'End If
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)
+        coll.Add("Milk_Not_Picked", "int Null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
+
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
@@ -485,6 +489,15 @@ Public Class frmMilkCollectionMCC
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        Dim repoCheck As New GridViewCheckBoxColumn()
+        repoCheck.FormatString = ""
+        repoCheck.HeaderText = "Milk Not Picked"
+        repoCheck.Name = ColMilkNotPicked
+        repoCheck.IsVisible = False
+        repoCheck.ReadOnly = False
+        repoCheck.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoCheck)
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = ""
@@ -1007,9 +1020,9 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
         Dim Arr As New List(Of clsMilkCollectionMCCDetail)
         For ii As Integer = 0 To gv1.RowCount - 1
             If clsCommon.myLen(gv1.Rows(ii).Cells(colMCCCode).Value) > 0 Then
-                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 Then
+                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 OrElse clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value) Then
                     Dim flag As Boolean = True
-                    If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColPKID).Value) > 0 AndAlso isMissingOnly Then
+                    If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColPKID).Value) > 0 AndAlso isMissingOnly AndAlso Not clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value) Then
                         flag = False
                     End If
                     If flag Then
@@ -1021,6 +1034,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColAgainst_Multiple_Days_Merge_Day_Detail).Value)
 
                         objTr.Sample_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSampleNo).Value)
+                        objTr.Milk_Not_Picked = clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value)
                         objTr.MCC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colMCCCode).Value)
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
                         objTr.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
@@ -1109,6 +1123,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGazeQty).Value = objTr.Gaze_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCSiloCapacity).Value = objTr.Silo_Capacity
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTemp).Value = objTr.Temp
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColMilkNotPicked).Value = objTr.Milk_Not_Picked
                     Next
                 End If
                 UpdateAllTotal()
@@ -2530,11 +2545,10 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                     If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                         lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
                         isNewEntry = False
-                        BMCEntry(lst)
                     Else
                         isNewEntry = True
-                        BMCEntry(lst)
                     End If
+                    BMCEntry(lst)
                 Next
                 clsCommon.MyMessageBoxShow(Me, "BMC Truck Sheet Data saved successfully", Me.Text)
             Else
@@ -2575,7 +2589,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
         Dim Arr As New List(Of clsMilkCollectionMCCDetail)
         For ii As Integer = 0 To lst.Arr_BMCDCS_Trip.Count - 1
             If clsCommon.myLen(lst.MCC_Code) > 0 Then
-                If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty) > 0 Then
+                If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty) > 0 OrElse lst.Milk_Not_Picked Then
                     Dim flag As Boolean = True
                     If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID) > 0 AndAlso isMissingOnly Then
                         flag = False
@@ -2597,6 +2611,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                         objTr.Silo_Capacity = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Silo_Capacity)
                         objTr.Sample_No = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Sample_No)
                         objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID)
+                        objTr.Milk_Not_Picked = lst.Milk_Not_Picked
                         If clsCommon.myLen(objTr.Gaze_Reading_Code) > 0 Then
                             objTr.Gaze_Qty = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty)
                         End If
