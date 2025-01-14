@@ -687,6 +687,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmIndentReport, "Pending Indent Report", "1.07.03.16", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmExpiredItemDetails, "Expired Item Details Report", "1.07.03.17", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.stockRecoNew, "Stock Reco", "1.07.03.18", clsUserMgtCode.SubModuleMaterialReport, 37)
+        InsertDefaultValue(clsUserMgtCode.UnionStockReport, "Union Stock Report ", "1.07.03.18", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.stockRecoBatch, "Stock Reco Batch ", "1.07.03.19", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmBarCodeGenerator1, "Serial No BarCode Generator", "1.07.03.20", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmItemSerialTrackingReport, "Item Serial Tracking Report", "1.07.03.21", clsUserMgtCode.SubModuleMaterialReport, 37)

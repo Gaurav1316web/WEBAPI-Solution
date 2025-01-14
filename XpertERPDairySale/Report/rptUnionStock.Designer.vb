@@ -22,11 +22,16 @@ Partial Class rptUnionStock
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.rbtnSummary = New common.Controls.MyRadioButton()
+        Me.TxtItemType = New common.UserControls.txtFinder()
         Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.lblBillToLocation = New common.Controls.MyLabel()
         Me.txtBillToLocation = New common.UserControls.txtFinder()
@@ -45,17 +50,16 @@ Partial Class rptUnionStock
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.TxtItemType = New common.UserControls.txtFinder()
-        Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnDetail = New common.Controls.MyRadioButton()
-        Me.rbtnSummary = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,10 +74,6 @@ Partial Class rptUnionStock
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -128,6 +128,67 @@ Partial Class rptUnionStock
         Me.RadPageViewPage1.Size = New System.Drawing.Size(783, 370)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(374, 18)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(155, 46)
+        Me.RadGroupBox2.TabIndex = 442
+        '
+        'rbtnDetail
+        '
+        Me.rbtnDetail.Location = New System.Drawing.Point(15, 9)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 396
+        Me.rbtnDetail.TabStop = False
+        Me.rbtnDetail.Text = "Detail"
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnSummary.Location = New System.Drawing.Point(79, 9)
+        Me.rbtnSummary.MyLinkLable1 = Nothing
+        Me.rbtnSummary.MyLinkLable2 = Nothing
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnSummary.TabIndex = 391
+        Me.rbtnSummary.Text = "Summary"
+        Me.rbtnSummary.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'TxtItemType
+        '
+        Me.TxtItemType.CalculationExpression = Nothing
+        Me.TxtItemType.FieldCode = Nothing
+        Me.TxtItemType.FieldDesc = Nothing
+        Me.TxtItemType.FieldMaxLength = 0
+        Me.TxtItemType.FieldName = Nothing
+        Me.TxtItemType.isCalculatedField = False
+        Me.TxtItemType.IsSourceFromTable = False
+        Me.TxtItemType.IsSourceFromValueList = False
+        Me.TxtItemType.IsUnique = False
+        Me.TxtItemType.Location = New System.Drawing.Point(86, 97)
+        Me.TxtItemType.MendatroryField = True
+        Me.TxtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtItemType.MyLinkLable1 = Nothing
+        Me.TxtItemType.MyLinkLable2 = Nothing
+        Me.TxtItemType.MyReadOnly = False
+        Me.TxtItemType.MyShowMasterFormButton = False
+        Me.TxtItemType.Name = "TxtItemType"
+        Me.TxtItemType.ReferenceFieldDesc = Nothing
+        Me.TxtItemType.ReferenceFieldName = Nothing
+        Me.TxtItemType.ReferenceTableName = Nothing
+        Me.TxtItemType.Size = New System.Drawing.Size(282, 18)
+        Me.TxtItemType.TabIndex = 348
+        Me.TxtItemType.Value = ""
+        '
         'MyLabel8
         '
         Me.MyLabel8.FieldName = Nothing
@@ -137,6 +198,19 @@ Partial Class rptUnionStock
         Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
         Me.MyLabel8.TabIndex = 347
         Me.MyLabel8.Text = "Item Type"
+        '
+        'TxtItem
+        '
+        Me.TxtItem.arrDispalyMember = Nothing
+        Me.TxtItem.arrValueMember = Nothing
+        Me.TxtItem.Location = New System.Drawing.Point(87, 121)
+        Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtItem.MyLinkLable1 = Nothing
+        Me.TxtItem.MyLinkLable2 = Nothing
+        Me.TxtItem.MyNullText = "All"
+        Me.TxtItem.Name = "TxtItem"
+        Me.TxtItem.Size = New System.Drawing.Size(281, 21)
+        Me.TxtItem.TabIndex = 45
         '
         'Label4
         '
@@ -301,7 +375,7 @@ Partial Class rptUnionStock
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
@@ -371,80 +445,6 @@ Partial Class rptUnionStock
         Me.btnGo.TabIndex = 58
         Me.btnGo.Text = ">>"
         '
-        'TxtItemType
-        '
-        Me.TxtItemType.CalculationExpression = Nothing
-        Me.TxtItemType.FieldCode = Nothing
-        Me.TxtItemType.FieldDesc = Nothing
-        Me.TxtItemType.FieldMaxLength = 0
-        Me.TxtItemType.FieldName = Nothing
-        Me.TxtItemType.isCalculatedField = False
-        Me.TxtItemType.IsSourceFromTable = False
-        Me.TxtItemType.IsSourceFromValueList = False
-        Me.TxtItemType.IsUnique = False
-        Me.TxtItemType.Location = New System.Drawing.Point(86, 97)
-        Me.TxtItemType.MendatroryField = True
-        Me.TxtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtItemType.MyLinkLable1 = Nothing
-        Me.TxtItemType.MyLinkLable2 = Nothing
-        Me.TxtItemType.MyReadOnly = False
-        Me.TxtItemType.MyShowMasterFormButton = False
-        Me.TxtItemType.Name = "TxtItemType"
-        Me.TxtItemType.ReferenceFieldDesc = Nothing
-        Me.TxtItemType.ReferenceFieldName = Nothing
-        Me.TxtItemType.ReferenceTableName = Nothing
-        Me.TxtItemType.Size = New System.Drawing.Size(282, 18)
-        Me.TxtItemType.TabIndex = 348
-        Me.TxtItemType.Value = ""
-        '
-        'TxtItem
-        '
-        Me.TxtItem.arrDispalyMember = Nothing
-        Me.TxtItem.arrValueMember = Nothing
-        Me.TxtItem.Location = New System.Drawing.Point(87, 121)
-        Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtItem.MyLinkLable1 = Nothing
-        Me.TxtItem.MyLinkLable2 = Nothing
-        Me.TxtItem.MyNullText = "All"
-        Me.TxtItem.Name = "TxtItem"
-        Me.TxtItem.Size = New System.Drawing.Size(281, 21)
-        Me.TxtItem.TabIndex = 45
-        '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(374, 18)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(155, 46)
-        Me.RadGroupBox2.TabIndex = 442
-        '
-        'rbtnDetail
-        '
-        Me.rbtnDetail.Location = New System.Drawing.Point(15, 9)
-        Me.rbtnDetail.MyLinkLable1 = Nothing
-        Me.rbtnDetail.MyLinkLable2 = Nothing
-        Me.rbtnDetail.Name = "rbtnDetail"
-        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
-        Me.rbtnDetail.TabIndex = 396
-        Me.rbtnDetail.TabStop = False
-        Me.rbtnDetail.Text = "Detail"
-        '
-        'rbtnSummary
-        '
-        Me.rbtnSummary.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnSummary.Location = New System.Drawing.Point(79, 9)
-        Me.rbtnSummary.MyLinkLable1 = Nothing
-        Me.rbtnSummary.MyLinkLable2 = Nothing
-        Me.rbtnSummary.Name = "rbtnSummary"
-        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
-        Me.rbtnSummary.TabIndex = 391
-        Me.rbtnSummary.Text = "Summary"
-        Me.rbtnSummary.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
         'rptUnionStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -464,6 +464,11 @@ Partial Class rptUnionStock
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -479,11 +484,6 @@ Partial Class rptUnionStock
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

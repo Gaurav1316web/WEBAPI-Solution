@@ -1219,6 +1219,7 @@ Public Class clsUserMgtCode
     Public Const FrmPendingIndentTransferReport As String = "PEN-IND-RPT"
     Public Const FrmExpiredItemDetails As String = "EXP-ITM-RPT"
     Public Const stockRecoNew As String = "STO-REC-RPT"
+    Public Const UnionStockReport As String = "UNN-STK-RPT"
     Public Const FATSNFGainLoss As String = "FAT-SNF-GAN"
     Public Const MeterialstockReco As String = "MTRL-STO-REC"
     Public Const stockRecoBatch As String = "STO-RECB-RPT"

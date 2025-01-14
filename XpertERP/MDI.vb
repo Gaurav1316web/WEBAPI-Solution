@@ -4262,6 +4262,10 @@ Public Class MDI
                     Case clsUserMgtCode.stockRecoNew
                         frm = New FrmStockReco(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.UnionStockReport
+                        frm = New rptUnionStock()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FATSNFGainLoss
                         frm = New frmFATSNFGainLoss(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
