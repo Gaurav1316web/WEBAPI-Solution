@@ -384,7 +384,7 @@ Partial Class frmMilkCollectionMCC
         '
         'btnTankerData
         '
-        Me.btnTankerData.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport, Me.btnExport})
+        Me.btnTankerData.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExport, Me.btnImport})
         Me.btnTankerData.Location = New System.Drawing.Point(18, 69)
         Me.btnTankerData.Name = "btnTankerData"
         Me.btnTankerData.Size = New System.Drawing.Size(154, 24)
