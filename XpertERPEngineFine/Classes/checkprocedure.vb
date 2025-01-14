@@ -2436,7 +2436,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDailyDemandReport, "Daily Demand Report", "1.06.03.55", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptHSNWiseSaleReport, "HSN Wise Sale Report", "1.06.03.56", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmperdayDetailRpt, "PER Day Detail Report", "1.06.03.59", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptBookingVsDispatchReport, "Booking Vs Dispatch Report", "1.06.03.60", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBookingVsDispatchReport, "Booking Pending Report", "1.06.03.60", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBoothWiseBillReport, "Booth Wise Bill Print", "1.06.03.61", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
