@@ -11,6 +11,7 @@
     Public Entered_FATKg As Decimal
     Public Entered_SNFKg As Decimal
     Public REF_PK_ID As Integer
+    Public Milk_Not_Picked As Boolean = False
     'Public Arr_BMCDCS_DCS As List(Of clsBMCDCS_DCS) = Nothing
     Public Arr_BMCDCS_Trip As List(Of clsBMCDCS_Trip) = Nothing
     Public Shared Function GetData(ByVal IDate As Date) As List(Of clsBMCDCSMobile)
@@ -21,8 +22,8 @@
             Dim obj_Trip As New clsBMCDCS_Trip()
             Arr = New List(Of clsBMCDCSMobile)
             Dim strQry As String = "select XXX.* from (
-select max(XX.REF_PK_ID) as REF_PK_ID,max(XX.PK_ID) as PK_ID,max(XX.IDate)as Document_Date,max(XX.Route_Code) as Route_Code,max(XX.MCC_Code)as MCC_Code, max(XX.Vehicle_No) as Vehicle_No,sum(XX.Qty) as Qty,sum(XX.FATKG)as FATKG, sum(XX.SNFKG) as SNFKG,XX.Trip_No from ( 
-select TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID as PK_ID,TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID as REF_PK_ID, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG 
+select max(XX.REF_PK_ID) as REF_PK_ID,max(XX.PK_ID) as PK_ID,max(XX.IDate)as Document_Date,max(XX.Route_Code) as Route_Code,max(XX.MCC_Code)as MCC_Code, max(XX.Vehicle_No) as Vehicle_No,sum(XX.Qty) as Qty,sum(XX.FATKG)as FATKG, sum(XX.SNFKG) as SNFKG,XX.Trip_No,max(Milk_Not_Picked) as Milk_Not_Picked from ( 
+select TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID as PK_ID,TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID as REF_PK_ID, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG,TSPL_MILK_COLLECTION_BMCDCS.Milk_Not_Picked 
 from TSPL_MILK_COLLECTION_BMCDCS
 left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID 
 where convert ( date, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103 ) = convert (date, '" + clsCommon.GetPrintDate(IDate, "dd/MMM/yyyy") + "', 103) "
@@ -39,13 +40,22 @@ where convert ( date, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103 ) = convert (date, 
                     obj.MCC_Code = clsCommon.myCstr(dr("MCC_Code"))
                     obj.Document_Date = clsCommon.GetPrintDate(dr("Document_Date"), "dd/MMM/yyyy")
                     obj.Route_Code = clsCommon.myCstr(dr("Route_Code"))
-                    obj.Tanker_No = GetTrankerNO(clsCommon.myCstr(dr("Route_Code")))
+                    obj.Tanker_No = clsCommon.myCstr(dr("Vehicle_No")) '' GetTrankerNO(clsCommon.myCstr(dr("Route_Code"))) by balwider on 11/01/2025 verified by prabhat
+                    If clsCommon.myLen(obj.Tanker_No) <= 0 Then
+                        obj.Tanker_No = GetTrankerNO(clsCommon.myCstr(dr("Route_Code")))
+                    End If
+                    If clsCommon.myLen(obj.Tanker_No) <= 0 Then
+                        Throw New Exception("Please define tanker No for Route [" + clsCommon.myCstr(dr("Route_Code")) + "]")
+                    End If
                     obj.Vehicle_No = clsCommon.myCstr(dr("Vehicle_No"))
                     obj.Entered_Qty = clsCommon.myCDecimal(dr("Qty"))
                     obj.Entered_FATKg = clsCommon.myCDecimal(dr("FATKG"))
                     obj.Entered_SNFKg = clsCommon.myCDecimal(dr("SNFKG"))
                     obj.Trip_No = clsCommon.myCDecimal(dr("Trip_No"))
-                    obj.Arr_BMCDCS_Trip = clsBMCDCS_Trip.GetBMCDCS_Trip(obj.Route_Code, obj.Document_Date, obj.Trip_No)
+
+                    obj.Milk_Not_Picked = (clsCommon.myCDecimal(dr("Milk_Not_Picked")) = 1)
+
+                    obj.Arr_BMCDCS_Trip = clsBMCDCS_Trip.GetBMCDCS_Trip(obj.Route_Code, obj.Document_Date, obj.Trip_No, obj.Vehicle_No)
                     ' obj.Arr_BMCDCS_DCS = clsBMCDCS_DCS.GetBMCDCS_DCS(obj.REF_PK_ID)
                     Arr.Add(obj)
                 Next
@@ -92,7 +102,7 @@ Public Class clsBMCDCS_Trip
     Public Sample_No As Integer = 0
 
     Public MCC_Code As String = ""
-    Public Shared Function GetBMCDCS_Trip(ByVal Route_Code As String, ByVal Document_Date As DateTime, ByVal Trip_No As Integer) As List(Of clsBMCDCS_Trip)
+    Public Shared Function GetBMCDCS_Trip(ByVal Route_Code As String, ByVal Document_Date As DateTime, ByVal Trip_No As Integer, ByVal strVehicleNo As String) As List(Of clsBMCDCS_Trip)
         Dim obj As clsBMCDCSMobile = New clsBMCDCSMobile()
         Try
             Dim dt As DataTable
@@ -108,7 +118,7 @@ TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Rea
 TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,
 TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No from TSPL_MILK_COLLECTION_BMCDCS_TRIP
 left join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID= TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID
-where TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code=" + clsCommon.myCstr(Route_Code) + " and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "' and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No=" + clsCommon.myCstr(Trip_No)
+where TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code='" + clsCommon.myCstr(Route_Code) + "'  and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No='" + clsCommon.myCstr(strVehicleNo) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "' and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No=" + clsCommon.myCstr(Trip_No)
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then

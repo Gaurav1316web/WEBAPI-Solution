@@ -74,6 +74,7 @@ Partial Class rptMccMasterDetail
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadDuplicateAccDetails = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -108,6 +109,7 @@ Partial Class rptMccMasterDetail
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadDuplicateAccDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -172,6 +174,7 @@ Partial Class rptMccMasterDetail
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadDuplicateAccDetails)
         Me.RadPageViewPage1.Controls.Add(Me.lblArea)
         Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -619,6 +622,7 @@ Partial Class rptMccMasterDetail
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(671, 278)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnSplitExport
         '
@@ -670,6 +674,14 @@ Partial Class rptMccMasterDetail
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'RadDuplicateAccDetails
+        '
+        Me.RadDuplicateAccDetails.Location = New System.Drawing.Point(275, 244)
+        Me.RadDuplicateAccDetails.Name = "RadDuplicateAccDetails"
+        Me.RadDuplicateAccDetails.Size = New System.Drawing.Size(148, 18)
+        Me.RadDuplicateAccDetails.TabIndex = 1470
+        Me.RadDuplicateAccDetails.Text = "Duplicate Account Details"
+        '
         'rptMccMasterDetail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -720,6 +732,7 @@ Partial Class rptMccMasterDetail
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadDuplicateAccDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -770,5 +783,6 @@ Partial Class rptMccMasterDetail
     Friend WithEvents rbtnJanVerified As RadioButton
     Friend WithEvents lblArea As common.Controls.MyLabel
     Friend WithEvents fndArea As common.UserControls.txtFinder
+    Friend WithEvents RadDuplicateAccDetails As RadCheckBox
 End Class
 

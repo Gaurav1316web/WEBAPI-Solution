@@ -40,6 +40,7 @@ Public Class FrmStockRecoBatch
         txtToDate.Value = clsCommon.GETSERVERDATE
         arrBack = New List(Of String)
         SetUserMgmtNew()
+        LoadUomType()
         LoadCategory()
         LoadUnit()
         LoadLocation()
@@ -93,7 +94,36 @@ Public Class FrmStockRecoBatch
 
         End If
     End Sub
+    Sub LoadUomType()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "StockUOM"
+        dr("Name") = "Stock UOM"
+        dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("Code") = "ReportUOM"
+        dr("Name") = "Report UOM"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "UOM"
+        dr("Name") = "UOM"
+        dt.Rows.Add(dr)
+
+        cboUOMType.DataSource = dt
+        cboUOMType.ValueMember = "Code"
+        cboUOMType.DisplayMember = "Name"
+
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            cboUOMType.SelectedValue = "ReportUOM"
+        Else
+            cboUOMType.SelectedValue = "StockUOM"
+        End If
+    End Sub
     Sub LoadLocation()
         gvLocation.DataSource = Nothing
         Dim qry As String = " select cast( 0 as bit) as SEL,Location_Code as CODE,Location_Desc as NAME from TSPL_LOCATION_MASTER where ((Is_Section='N' and Is_Sub_Location='N' and Location_Type IN ('Physical','Logical','Virtual') ) or (CSA_Type='Y') ) "
@@ -397,27 +427,27 @@ Public Class FrmStockRecoBatch
             qry += " case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end as Main_Location_Code,MainLocationTable.Location_Desc as MainLocationDesc, InventroyMovement.Location_Code,TSPL_LOCATION_MASTER.Location_Desc AS [Loc Desp],TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then ''  else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.Pin_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.Pin_Code) End End End  as [LocAddress],SourceCode,SourceName,SourceType  ,Item_Group.Item_Group,Item_Group.Group_Description, InventroyMovement.Item_Code, InventroyMovement.Batch_No,InventroyMovement.Manual_BatchNo,InventroyMovement.Manufacture_Date,InventroyMovement.Expiry_Date, InventroyMovement.MRP ,TSPL_ITEM_MASTER.Item_Desc,tspl_item_master.itf_code,"
             qry += " IsFromMilk,MilkFATKG,MilkSNFKG,case when IsFromMilk=1 then MilkFatPer else isnull((select TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) end as MilkFatPer,case when IsFromMilk=1 then MilkSNFPer else isnull((select TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) end as MilkSNFPer,TSPL_LOCATION_MASTER.Is_Section,TSPL_LOCATION_MASTER.Is_Sub_Location,"
             qry += " isnull((InventroyMovement.Stock_Qty * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end))  ,0) as QtyKG,"
-            If clsCommon.myLen(cmbUnit.SelectedValue) > 0 Then
-                qry += " '" + clsCommon.myCstr(cmbUnit.SelectedValue) + "' as Stock_UOM,(InventroyMovement.Stock_Qty / TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as Stock_Qty,"
-                qry += " isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end) * (TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) as FatPer,"
-                qry += " isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end) * (TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) as SNFPer,"
-            Else
+            If clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "StockUOM") = CompairStringResult.Equal Then
                 qry += " InventroyMovement.Stock_UOM,InventroyMovement.Stock_Qty,"
                 qry += " isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end)) from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) as FatPer,"
                 qry += " isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end)) from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) as SNFPer,"
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "ReportUOM") = CompairStringResult.Equal Then
+                qry += " TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM,(InventroyMovement.Stock_Qty / TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as Stock_Qty,"
+                qry += " isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end) * (TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) as FatPer,"
+                qry += " isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end) * (TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) as SNFPer,"
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "UOM") = CompairStringResult.Equal Then
+                If clsCommon.myLen(cmbUnit.SelectedValue) <= 0 Then
+                    Throw New Exception("Please select UOM")
+                End If
+                qry += " '" + clsCommon.myCstr(cmbUnit.SelectedValue) + "' as Stock_UOM,(InventroyMovement.Stock_Qty / TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as Stock_Qty,"
+                qry += " isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end) * (TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) as FatPer,"
+                qry += " isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end) * (TSPL_ITEM_UOM_DETAIL.Conversion_Factor)) from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) as SNFPer,"
             End If
             qry += " (case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then LIFO_Cost else Avg_Cost end end ) as Cost,TSPL_ITEM_MASTER.Item_Category_Struct_Code " + Environment.NewLine
-
-            'If clsCommon.myLen(strCategoryTable) > 0 Then
-            '    qry += "," + strCodeColumn + "," + strCodeDescColumn
-            'End If
 
             If clsCommon.myLen(strCategoryTable) > 0 Then
                 qry += "," + strCodeColumnSelect + "," + strCodeDescColumnSelect
             End If
-            'If ChkMRPWise.Checked = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item And Batch Wise Summary") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Document Wise Detail") = CompairStringResult.Equal) Then
-            '    qry += ",MRP "
-            'End If
             qry += " ,TSPL_ITEM_MASTER.Item_Type,VirtualTableItemType.Name as Item_Type_Name,TSPL_INVENTORY_SOURCE_CODE.In_Category,TSPL_INVENTORY_SOURCE_CODE.Out_Category "
             qry += " from ( " + Environment.NewLine + _
             " select TSPL_INVENTORY_MOVEMENT.Trans_Id,TSPL_INVENTORY_MOVEMENT.Trans_Type,TSPL_INVENTORY_MOVEMENT.Source_Doc_No,TSPL_INVENTORY_MOVEMENT.Punching_Date,TSPL_INVENTORY_MOVEMENT.InOut,TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_INVENTORY_MOVEMENT.Item_Code,BatchTABLE.Batch_No,BatchTABLE.Manual_BatchNo,Convert (varchar,BatchTABLE.Manufacture_Date,103) as Manufacture_Date,Convert(varchar,BatchTABLE.Expiry_Date,103) as Expiry_Date,   BatchTABLE.MRP,TSPL_INVENTORY_MOVEMENT.Stock_UOM,convert(decimal(18,2), TSPL_INVENTORY_MOVEMENT.Stock_Qty*BatchTABLE.ConvRatio) as Stock_Qty,convert(decimal(18,2), TSPL_INVENTORY_MOVEMENT.FIFO_Cost*BatchTABLE.ConvRatio) as FIFO_Cost,convert(decimal(18,2), TSPL_INVENTORY_MOVEMENT.LIFO_Cost*BatchTABLE.ConvRatio) as LIFO_Cost,convert(decimal(18,2), TSPL_INVENTORY_MOVEMENT.Avg_Cost*BatchTABLE.ConvRatio) as Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 as MilkSNFKG,case when TSPL_INVENTORY_MOVEMENT.cust_code is not null and len(TSPL_INVENTORY_MOVEMENT.cust_code)>0 then cust_code else case when TSPL_INVENTORY_MOVEMENT.Vendor_Code is not null and len(TSPL_INVENTORY_MOVEMENT.Vendor_Code)>0 then Vendor_Code else TSPL_INVENTORY_MOVEMENT.Other_Location_Code end end as SourceCode,case when TSPL_INVENTORY_MOVEMENT.cust_code is not null and len(TSPL_INVENTORY_MOVEMENT.cust_code)>0 then TSPL_INVENTORY_MOVEMENT.Cust_Name else case when TSPL_INVENTORY_MOVEMENT.Vendor_Code is not null and len(TSPL_INVENTORY_MOVEMENT.Vendor_Code)>0 then TSPL_INVENTORY_MOVEMENT.Vendor_Name else TSPL_INVENTORY_MOVEMENT.Other_Location_Desc end end as SourceName, case when TSPL_INVENTORY_MOVEMENT.cust_code is not null and len(TSPL_INVENTORY_MOVEMENT.cust_code)>0 then 'C' else case when TSPL_INVENTORY_MOVEMENT.Vendor_Code is not null and len(TSPL_INVENTORY_MOVEMENT.Vendor_Code)>0 then 'V' else case when TSPL_INVENTORY_MOVEMENT.Other_Location_Code is not null and len(TSPL_INVENTORY_MOVEMENT.Other_Location_Code)>0 then 'L' else '' end end end as SourceType from  (" + Environment.NewLine + _
@@ -436,7 +466,10 @@ Public Class FrmStockRecoBatch
             qry += " left outer join TSPL_LOCATION_MASTER as MainLocationTable on MainLocationTable.Location_Code =(case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end)"
             qry += " left outer join TSPL_ITEM_UOM_DETAIL as FATSNFConvertedUnit on FATSNFConvertedUnit.Item_Code=InventroyMovement.Item_Code and FATSNFConvertedUnit.UOM_Code='KG'"
             qry += " left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=InventroyMovement.Trans_Type"
-            If clsCommon.myLen(cmbUnit.SelectedValue) > 0 Then
+
+            If clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "ReportUOM") = CompairStringResult.Equal Then
+                qry += " inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=InventroyMovement.Item_Code and isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)=1 "
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "UOM") = CompairStringResult.Equal Then
                 qry += " inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=InventroyMovement.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='" + clsCommon.myCstr(cmbUnit.SelectedValue) + "'"
             End If
             If clsCommon.myLen(strCategoryTable) > 0 Then
@@ -3918,5 +3951,13 @@ Public Class FrmStockRecoBatch
 
     Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
         print(EnumExportTo.PDF)
+    End Sub
+
+    Private Sub cboUOMType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cboUOMType.SelectedIndexChanged
+        If clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "UOM") = CompairStringResult.Equal Then
+            cmbUnit.Visible = True
+        Else
+            cmbUnit.Visible = False
+        End If
     End Sub
 End Class

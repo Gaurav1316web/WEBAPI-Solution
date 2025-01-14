@@ -30,6 +30,8 @@ Partial Class frmVendorBankAdvice
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.txtDCS = New common.UserControls.txtMultiSelectFinder()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -62,6 +64,7 @@ Partial Class frmVendorBankAdvice
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnBankSummary = New Telerik.WinControls.UI.RadButton()
         Me.btnExportBankWise = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintSWM = New Telerik.WinControls.UI.RadButton()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
@@ -72,7 +75,6 @@ Partial Class frmVendorBankAdvice
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnBankSummary = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -80,6 +82,7 @@ Partial Class frmVendorBankAdvice
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -107,13 +110,13 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnBankSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintSWM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnBankSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -181,6 +184,8 @@ Partial Class frmVendorBankAdvice
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
+        Me.RadPageViewPage1.Controls.Add(Me.txtDCS)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel1)
@@ -215,6 +220,31 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(794, 296)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(274, 75)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(27, 18)
+        Me.MyLabel15.TabIndex = 1080
+        Me.MyLabel15.Text = "DCS"
+        Me.MyLabel15.Visible = False
+        '
+        'txtDCS
+        '
+        Me.txtDCS.arrDispalyMember = Nothing
+        Me.txtDCS.arrValueMember = Nothing
+        Me.txtDCS.Location = New System.Drawing.Point(303, 74)
+        Me.txtDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDCS.MyLinkLable1 = Nothing
+        Me.txtDCS.MyLinkLable2 = Nothing
+        Me.txtDCS.MyNullText = "All"
+        Me.txtDCS.Name = "txtDCS"
+        Me.txtDCS.Size = New System.Drawing.Size(199, 19)
+        Me.txtDCS.TabIndex = 1079
+        Me.txtDCS.Visible = False
         '
         'RadLabel2
         '
@@ -669,6 +699,18 @@ Partial Class frmVendorBankAdvice
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(794, 278)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
+        '
+        'btnBankSummary
+        '
+        Me.btnBankSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnBankSummary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBankSummary.Location = New System.Drawing.Point(453, 15)
+        Me.btnBankSummary.Name = "btnBankSummary"
+        Me.btnBankSummary.Size = New System.Drawing.Size(71, 22)
+        Me.btnBankSummary.TabIndex = 159
+        Me.btnBankSummary.Text = "Print"
+        Me.btnBankSummary.Visible = False
         '
         'btnExportBankWise
         '
@@ -752,17 +794,6 @@ Partial Class frmVendorBankAdvice
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'btnBankSummary
-        '
-        Me.btnBankSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnBankSummary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBankSummary.Location = New System.Drawing.Point(453, 15)
-        Me.btnBankSummary.Name = "btnBankSummary"
-        Me.btnBankSummary.Size = New System.Drawing.Size(71, 22)
-        Me.btnBankSummary.TabIndex = 159
-        Me.btnBankSummary.Text = "Print"
-        Me.btnBankSummary.Visible = False
-        '
         'frmVendorBankAdvice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -784,6 +815,7 @@ Partial Class frmVendorBankAdvice
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -812,13 +844,13 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnBankSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintSWM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnBankSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -874,5 +906,7 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents rbtnSavingSummary As common.Controls.MyRadioButton
     Friend WithEvents btnExportBankWise As RadButton
     Friend WithEvents btnBankSummary As RadButton
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents txtDCS As common.UserControls.txtMultiSelectFinder
 End Class
 
