@@ -40,6 +40,7 @@ Partial Class FrmTankerMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkInactive = New common.Controls.MyCheckBox()
         Me.txtProvMinQty = New common.MyNumBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtTankerNo = New common.Controls.MyTextBox()
@@ -130,6 +131,7 @@ Partial Class FrmTankerMaster
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtProvMinQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTankerNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -315,6 +317,7 @@ Partial Class FrmTankerMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkInactive)
         Me.RadGroupBox1.Controls.Add(Me.txtProvMinQty)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel16)
         Me.RadGroupBox1.Controls.Add(Me.txtTankerNo)
@@ -337,10 +340,21 @@ Partial Class FrmTankerMaster
         Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(4, 3)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(4, -1)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(769, 428)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(769, 429)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'chkInactive
+        '
+        Me.chkInactive.Location = New System.Drawing.Point(692, 11)
+        Me.chkInactive.MyLinkLable1 = Nothing
+        Me.chkInactive.MyLinkLable2 = Nothing
+        Me.chkInactive.Name = "chkInactive"
+        Me.chkInactive.Size = New System.Drawing.Size(59, 18)
+        Me.chkInactive.TabIndex = 96
+        Me.chkInactive.Tag1 = Nothing
+        Me.chkInactive.Text = "Inactive"
         '
         'txtProvMinQty
         '
@@ -483,7 +497,7 @@ Partial Class FrmTankerMaster
         Me.RadGroupBox4.Controls.Add(Me.GroupBox2)
         Me.RadGroupBox4.Controls.Add(Me.GroupBox1)
         Me.RadGroupBox4.HeaderText = "Basic of Freight Payments"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(9, 97)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(8, 97)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Size = New System.Drawing.Size(758, 327)
         Me.RadGroupBox4.TabIndex = 17
@@ -644,6 +658,7 @@ Partial Class FrmTankerMaster
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(472, 280)
         Me.gv.TabIndex = 96
+        Me.gv.VarID = ""
         '
         'rbtKmrange
         '
@@ -1298,7 +1313,7 @@ Partial Class FrmTankerMaster
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(62.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(774, 439)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(774, 428)
         Me.RadPageViewPage3.Text = "Chamber"
         '
         'GroupBox5
@@ -1307,7 +1322,7 @@ Partial Class FrmTankerMaster
         Me.GroupBox5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox5.Location = New System.Drawing.Point(0, 26)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(774, 413)
+        Me.GroupBox5.Size = New System.Drawing.Size(774, 402)
         Me.GroupBox5.TabIndex = 65
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Chamber Desc"
@@ -1325,8 +1340,9 @@ Partial Class FrmTankerMaster
         Me.gvChamber.MyStopExport = False
         Me.gvChamber.Name = "gvChamber"
         Me.gvChamber.ShowHeaderCellButtons = True
-        Me.gvChamber.Size = New System.Drawing.Size(768, 392)
+        Me.gvChamber.Size = New System.Drawing.Size(768, 381)
         Me.gvChamber.TabIndex = 63
+        Me.gvChamber.VarID = ""
         '
         'Panel1
         '
@@ -1392,7 +1408,7 @@ Partial Class FrmTankerMaster
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(774, 439)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(774, 428)
         Me.RadPageViewPage2.Text = "Attachment"
         '
         'UcAttachment1
@@ -1400,7 +1416,7 @@ Partial Class FrmTankerMaster
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(774, 439)
+        Me.UcAttachment1.Size = New System.Drawing.Size(774, 428)
         Me.UcAttachment1.TabIndex = 2
         '
         'btnclose
@@ -1622,6 +1638,7 @@ Partial Class FrmTankerMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtProvMinQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTankerNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1806,5 +1823,6 @@ Partial Class FrmTankerMaster
     Friend WithEvents txtMRPDDieselRate As common.MyNumBox
     Friend WithEvents txtProvMinQty As common.MyNumBox
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents chkInactive As common.Controls.MyCheckBox
 End Class
 
