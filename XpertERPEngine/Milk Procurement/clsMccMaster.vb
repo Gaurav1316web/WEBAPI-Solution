@@ -3181,4 +3181,25 @@ Public Class clsMccMasterDetailReport
                             where 1=1 group by EMP_CODE) Document on Document.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE "
         Return qry
     End Function
+
+    Public Shared Function getQueryRadDuplicateAccDetails() As String
+        Dim qry As String = "SELECT  (tspl_mp_master.AccountNO) AccountNO,(tspl_mp_master_ac.acnt) as [Repeated Account Count] , 
+CASE WHEN ISNULL(tspl_MP_Master.Active, '') = 1 THEN 'N' ELSE 'Y' END AS [Active], TSPL_VLC_MASTER_HEAD.VLC_Code AS [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name AS [DCS Name], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS [DCS Uploader Code], tspl_mp_master.MP_Code AS [MP Code], tspl_mp_master.MP_Name AS [MP Name], tspl_mp_master.MP_CODE_VLC_UPLOADER AS [MP Uploader Code] FROM TSPL_VLC_MASTER_HEAD 
+LEFT JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code
+LEFT JOIN (SELECT DISTINCT Route_CODE, VLC_CODE FROM TSPL_MCC_ROUTE_VLC_MAPPING
+) AS TSPL_MCC_ROUTE_VLC_MAPPING ON TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE = TSPL_VLC_MASTER_HEAD.VLC_Code
+LEFT JOIN tspl_mcc_route_master ON tspl_mcc_route_master.Route_Code = TSPL_MCC_ROUTE_VLC_MAPPING.Route_CODE
+LEFT JOIN TSPL_Primary_Vehicle_Master ON TSPL_Primary_Vehicle_Master.Vehicle_Code = tspl_mcc_route_master.Vehicle_Code
+LEFT JOIN TSPL_VENDOR_MASTER AS Transporter ON Transporter.Vendor_Code = TSPL_Primary_Vehicle_Master.Vendor_Code
+LEFT JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC
+LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_MCC_MASTER.MCC_Code = TSPL_LOCATION_MASTER.Location_Code
+LEFT OUTER JOIN TSPL_LOCATION_MASTER AS tspl_Plant_Code ON tspl_Plant_Code.Location_Code = TSPL_MCC_MASTER.plant_code
+LEFT OUTER JOIN tspl_mp_master ON tspl_mp_master.VLC_Code = TSPL_VLC_MASTER_HEAD.VLC_Code
+left outer join (select AccountNO,count(*) acnt from  TSPL_MP_MASTER group by AccountNO) tspl_mp_master_ac on tspl_mp_master_ac.AccountNO=tspl_mp_master.AccountNO
+LEFT OUTER JOIN TSPL_VIDHAN_SABHA_MASTER ON TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_CODE = TSPL_MP_MASTER.VIDHAN_SABHA_CODE
+LEFT OUTER JOIN TSPL_DISTRICT_MASTER ON TSPL_DISTRICT_MASTER.Code = TSPL_MP_MASTER.DISTRICT_Code WHERE tspl_mp_master.AccountNO IN
+( SELECT AccountNO FROM tspl_mp_master GROUP BY AccountNO HAVING COUNT(AccountNO) >= 2) "
+        Return qry
+    End Function
+
 End Class

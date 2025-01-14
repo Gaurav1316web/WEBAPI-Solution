@@ -5,6 +5,7 @@ Public Class clsUserMgtCode
     Public Const frmTTSavingReport As String = "SVNG-BLNCE"
     Public Const rptBmcTankerProfitLossReport As String = "BMC-TAN-G-L"
 
+    Public Const rptBoothWiseBillReport As String = "BOOTH-WI-BI"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"

@@ -177,7 +177,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(566, 404)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -290,7 +290,7 @@ Partial Class frmEMailAndSMSSetting
         Me.MyLabel9.ForeColor = System.Drawing.SystemColors.Highlight
         Me.MyLabel9.Location = New System.Drawing.Point(0, 340)
         Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(545, 16)
+        Me.MyLabel9.Size = New System.Drawing.Size(167, 16)
         Me.MyLabel9.TabIndex = 26
         Me.MyLabel9.Text = "Right Click for Add Constants"
         '
@@ -398,7 +398,7 @@ Partial Class frmEMailAndSMSSetting
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
         Me.RadLabel12.Location = New System.Drawing.Point(0, 340)
         Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(545, 16)
+        Me.RadLabel12.Size = New System.Drawing.Size(167, 16)
         Me.RadLabel12.TabIndex = 25
         Me.RadLabel12.Text = "Right Click for Add Constants"
         '
@@ -567,7 +567,7 @@ Partial Class frmEMailAndSMSSetting
         Me.MyLabel13.ForeColor = System.Drawing.SystemColors.Highlight
         Me.MyLabel13.Location = New System.Drawing.Point(0, 340)
         Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(545, 16)
+        Me.MyLabel13.Size = New System.Drawing.Size(167, 16)
         Me.MyLabel13.TabIndex = 39
         Me.MyLabel13.Text = "Right Click for Add Constants"
         '

@@ -103,8 +103,8 @@ Public Class clsProductionBreakDown
     Public Shared Function DeleteData(ByVal strcode As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim qry As String = "delete from TSPL_BREAK_DOWN_ENTRY where doc_no='" + strcode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             HistoryData(strcode, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
             Return True
         Catch ex As Exception

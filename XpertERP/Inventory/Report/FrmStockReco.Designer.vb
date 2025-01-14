@@ -22,12 +22,16 @@ Partial Class FrmStockReco
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.chkShowTransactionData = New Telerik.WinControls.UI.RadCheckBox()
@@ -66,7 +70,6 @@ Partial Class FrmStockReco
         Me.txtTransaction = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtItem = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.cmbUnit = New common.Controls.MyComboBox()
         Me.lblModeofTransport = New common.Controls.MyLabel()
         Me.cboType = New common.Controls.MyComboBox()
@@ -98,6 +101,7 @@ Partial Class FrmStockReco
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.cboUOMType = New common.Controls.MyComboBox()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -141,7 +145,6 @@ Partial Class FrmStockReco
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblModeofTransport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -164,6 +167,7 @@ Partial Class FrmStockReco
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboUOMType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -178,11 +182,11 @@ Partial Class FrmStockReco
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(888, 404)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.cboUOMType)
         Me.RadPageViewPage1.Controls.Add(Me.chkShowTransactionData)
         Me.RadPageViewPage1.Controls.Add(Me.chkNoTransaction)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeConsumptionLoc)
@@ -205,7 +209,6 @@ Partial Class FrmStockReco
         Me.RadPageViewPage1.Controls.Add(Me.txtTransaction)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.txtItem)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.cmbUnit)
         Me.RadPageViewPage1.Controls.Add(Me.lblModeofTransport)
         Me.RadPageViewPage1.Controls.Add(Me.cboType)
@@ -252,6 +255,7 @@ Partial Class FrmStockReco
         Me.cboFATSNF.AutoCompleteDisplayMember = Nothing
         Me.cboFATSNF.AutoCompleteValueMember = Nothing
         Me.cboFATSNF.CalculationExpression = Nothing
+        Me.cboFATSNF.DropDownAnimationEnabled = True
         Me.cboFATSNF.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboFATSNF.FieldCode = Nothing
         Me.cboFATSNF.FieldDesc = Nothing
@@ -270,7 +274,7 @@ Partial Class FrmStockReco
         Me.cboFATSNF.ReferenceFieldDesc = Nothing
         Me.cboFATSNF.ReferenceFieldName = Nothing
         Me.cboFATSNF.ReferenceTableName = Nothing
-        Me.cboFATSNF.Size = New System.Drawing.Size(83, 18)
+        Me.cboFATSNF.Size = New System.Drawing.Size(96, 18)
         Me.cboFATSNF.TabIndex = 349
         '
         'cboFatSNFType
@@ -278,6 +282,7 @@ Partial Class FrmStockReco
         Me.cboFatSNFType.AutoCompleteDisplayMember = Nothing
         Me.cboFatSNFType.AutoCompleteValueMember = Nothing
         Me.cboFatSNFType.CalculationExpression = Nothing
+        Me.cboFatSNFType.DropDownAnimationEnabled = True
         Me.cboFatSNFType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboFatSNFType.FieldCode = Nothing
         Me.cboFatSNFType.FieldDesc = Nothing
@@ -288,7 +293,7 @@ Partial Class FrmStockReco
         Me.cboFatSNFType.IsSourceFromTable = False
         Me.cboFatSNFType.IsSourceFromValueList = False
         Me.cboFatSNFType.IsUnique = False
-        Me.cboFatSNFType.Location = New System.Drawing.Point(481, 67)
+        Me.cboFatSNFType.Location = New System.Drawing.Point(495, 67)
         Me.cboFatSNFType.MendatroryField = False
         Me.cboFatSNFType.MyLinkLable1 = Nothing
         Me.cboFatSNFType.MyLinkLable2 = Nothing
@@ -296,7 +301,7 @@ Partial Class FrmStockReco
         Me.cboFatSNFType.ReferenceFieldDesc = Nothing
         Me.cboFatSNFType.ReferenceFieldName = Nothing
         Me.cboFatSNFType.ReferenceTableName = Nothing
-        Me.cboFatSNFType.Size = New System.Drawing.Size(141, 18)
+        Me.cboFatSNFType.Size = New System.Drawing.Size(125, 18)
         Me.cboFatSNFType.TabIndex = 347
         '
         'chkIncludeGIT
@@ -331,6 +336,7 @@ Partial Class FrmStockReco
         Me.cboDisplayMethod.AutoCompleteDisplayMember = Nothing
         Me.cboDisplayMethod.AutoCompleteValueMember = Nothing
         Me.cboDisplayMethod.CalculationExpression = Nothing
+        Me.cboDisplayMethod.DropDownAnimationEnabled = True
         Me.cboDisplayMethod.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDisplayMethod.FieldCode = Nothing
         Me.cboDisplayMethod.FieldDesc = Nothing
@@ -366,13 +372,13 @@ Partial Class FrmStockReco
         '
         Me.txtItemType.arrDispalyMember = Nothing
         Me.txtItemType.arrValueMember = Nothing
-        Me.txtItemType.Location = New System.Drawing.Point(481, 25)
+        Me.txtItemType.Location = New System.Drawing.Point(495, 25)
         Me.txtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemType.MyLinkLable1 = Me.MyLabel8
         Me.txtItemType.MyLinkLable2 = Nothing
         Me.txtItemType.MyNullText = "All"
         Me.txtItemType.Name = "txtItemType"
-        Me.txtItemType.Size = New System.Drawing.Size(373, 19)
+        Me.txtItemType.Size = New System.Drawing.Size(357, 19)
         Me.txtItemType.TabIndex = 4
         '
         'ChkMRPWise
@@ -404,14 +410,17 @@ Partial Class FrmStockReco
         Me.gvLocation.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvLocation.Location = New System.Drawing.Point(10, 40)
         '
-        'gvLocation
         '
+        '
+        Me.gvLocation.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLocation.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLocation.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvLocation.MyStopExport = False
         Me.gvLocation.Name = "gvLocation"
         Me.gvLocation.ShowHeaderCellButtons = True
         Me.gvLocation.Size = New System.Drawing.Size(368, 199)
         Me.gvLocation.TabIndex = 3
-        Me.gvLocation.Text = "RadGridView1"
+        Me.gvLocation.VarID = ""
         '
         'Panel4
         '
@@ -501,14 +510,17 @@ Partial Class FrmStockReco
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(432, 198)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
+        Me.gvCategory.VarID = ""
         '
         'Panel2
         '
@@ -592,6 +604,7 @@ Partial Class FrmStockReco
         Me.cboInOutType.AutoCompleteDisplayMember = Nothing
         Me.cboInOutType.AutoCompleteValueMember = Nothing
         Me.cboInOutType.CalculationExpression = Nothing
+        Me.cboInOutType.DropDownAnimationEnabled = True
         Me.cboInOutType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboInOutType.FieldCode = Nothing
         Me.cboInOutType.FieldDesc = Nothing
@@ -602,12 +615,12 @@ Partial Class FrmStockReco
         Me.cboInOutType.IsSourceFromTable = False
         Me.cboInOutType.IsSourceFromValueList = False
         Me.cboInOutType.IsUnique = False
-        RadListDataItem1.Text = "By Road"
-        RadListDataItem2.Text = "By Air"
-        RadListDataItem3.Text = "By Sea"
-        Me.cboInOutType.Items.Add(RadListDataItem1)
-        Me.cboInOutType.Items.Add(RadListDataItem2)
-        Me.cboInOutType.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "By Road"
+        RadListDataItem5.Text = "By Air"
+        RadListDataItem6.Text = "By Sea"
+        Me.cboInOutType.Items.Add(RadListDataItem4)
+        Me.cboInOutType.Items.Add(RadListDataItem5)
+        Me.cboInOutType.Items.Add(RadListDataItem6)
         Me.cboInOutType.Location = New System.Drawing.Point(333, 4)
         Me.cboInOutType.MendatroryField = False
         Me.cboInOutType.MyLinkLable1 = Me.MyLabel7
@@ -688,20 +701,12 @@ Partial Class FrmStockReco
         Me.txtItem.Size = New System.Drawing.Size(325, 19)
         Me.txtItem.TabIndex = 8
         '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Location = New System.Drawing.Point(397, 46)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(33, 18)
-        Me.MyLabel3.TabIndex = 25
-        Me.MyLabel3.Text = "UOM"
-        '
         'cmbUnit
         '
         Me.cmbUnit.AutoCompleteDisplayMember = Nothing
         Me.cmbUnit.AutoCompleteValueMember = Nothing
         Me.cmbUnit.CalculationExpression = Nothing
+        Me.cmbUnit.DropDownAnimationEnabled = True
         Me.cmbUnit.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbUnit.FieldCode = Nothing
         Me.cmbUnit.FieldDesc = Nothing
@@ -712,16 +717,16 @@ Partial Class FrmStockReco
         Me.cmbUnit.IsSourceFromTable = False
         Me.cmbUnit.IsSourceFromValueList = False
         Me.cmbUnit.IsUnique = False
-        Me.cmbUnit.Location = New System.Drawing.Point(481, 46)
+        Me.cmbUnit.Location = New System.Drawing.Point(495, 46)
         Me.cmbUnit.MendatroryField = False
-        Me.cmbUnit.MyLinkLable1 = Me.MyLabel3
         Me.cmbUnit.MyLinkLable2 = Nothing
         Me.cmbUnit.Name = "cmbUnit"
         Me.cmbUnit.ReferenceFieldDesc = Nothing
         Me.cmbUnit.ReferenceFieldName = Nothing
         Me.cmbUnit.ReferenceTableName = Nothing
-        Me.cmbUnit.Size = New System.Drawing.Size(141, 18)
+        Me.cmbUnit.Size = New System.Drawing.Size(125, 18)
         Me.cmbUnit.TabIndex = 7
+        Me.cmbUnit.Visible = False
         '
         'lblModeofTransport
         '
@@ -737,6 +742,7 @@ Partial Class FrmStockReco
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
         Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.FieldCode = Nothing
         Me.cboType.FieldDesc = Nothing
@@ -747,13 +753,13 @@ Partial Class FrmStockReco
         Me.cboType.IsSourceFromTable = False
         Me.cboType.IsSourceFromValueList = False
         Me.cboType.IsUnique = False
-        RadListDataItem4.Text = "By Road"
-        RadListDataItem5.Text = "By Air"
-        RadListDataItem6.Text = "By Sea"
-        Me.cboType.Items.Add(RadListDataItem4)
-        Me.cboType.Items.Add(RadListDataItem5)
-        Me.cboType.Items.Add(RadListDataItem6)
-        Me.cboType.Location = New System.Drawing.Point(481, 4)
+        RadListDataItem7.Text = "By Road"
+        RadListDataItem8.Text = "By Air"
+        RadListDataItem9.Text = "By Sea"
+        Me.cboType.Items.Add(RadListDataItem7)
+        Me.cboType.Items.Add(RadListDataItem8)
+        Me.cboType.Items.Add(RadListDataItem9)
+        Me.cboType.Location = New System.Drawing.Point(495, 4)
         Me.cboType.MendatroryField = False
         Me.cboType.MyLinkLable1 = Me.lblModeofTransport
         Me.cboType.MyLinkLable2 = Nothing
@@ -761,7 +767,7 @@ Partial Class FrmStockReco
         Me.cboType.ReferenceFieldDesc = Nothing
         Me.cboType.ReferenceFieldName = Nothing
         Me.cboType.ReferenceTableName = Nothing
-        Me.cboType.Size = New System.Drawing.Size(373, 18)
+        Me.cboType.Size = New System.Drawing.Size(357, 18)
         Me.cboType.TabIndex = 2
         '
         'MyLabel2
@@ -859,12 +865,15 @@ Partial Class FrmStockReco
         '
         '
         '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(850, 356)
         Me.gv1.TabIndex = 3
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'vsb
         '
@@ -888,14 +897,17 @@ Partial Class FrmStockReco
         Me.gvDetail.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvDetail.Location = New System.Drawing.Point(0, 0)
         '
-        'gvDetail
         '
+        '
+        Me.gvDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetail.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvDetail.MyStopExport = False
         Me.gvDetail.Name = "gvDetail"
         Me.gvDetail.ShowHeaderCellButtons = True
         Me.gvDetail.Size = New System.Drawing.Size(867, 356)
         Me.gvDetail.TabIndex = 4
-        Me.gvDetail.Text = "RadGridView1"
+        Me.gvDetail.VarID = ""
         '
         'RadMenu1
         '
@@ -904,27 +916,20 @@ Partial Class FrmStockReco
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(888, 20)
         Me.RadMenu1.TabIndex = 22
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItemSaveeLayout3
         '
-        Me.RadMenuItemSaveeLayout3.AccessibleDescription = "Setting"
-        Me.RadMenuItemSaveeLayout3.AccessibleName = "Setting"
         Me.RadMenuItemSaveeLayout3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItemSett1, Me.RadMenuItem2})
         Me.RadMenuItemSaveeLayout3.Name = "RadMenuItemSaveeLayout3"
         Me.RadMenuItemSaveeLayout3.Text = "Setting"
         '
         'RadMenuItemSett1
         '
-        Me.RadMenuItemSett1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItemSett1.AccessibleName = "Save Layout"
         Me.RadMenuItemSett1.Name = "RadMenuItemSett1"
         Me.RadMenuItemSett1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
@@ -963,36 +968,26 @@ Partial Class FrmStockReco
         '
         'QExpExcel
         '
-        Me.QExpExcel.AccessibleDescription = "Excel"
-        Me.QExpExcel.AccessibleName = "Excel"
         Me.QExpExcel.Name = "QExpExcel"
         Me.QExpExcel.Text = "Excel"
         '
         'QExpCSV
         '
-        Me.QExpCSV.AccessibleDescription = "CSV"
-        Me.QExpCSV.AccessibleName = "CSV"
         Me.QExpCSV.Name = "QExpCSV"
         Me.QExpCSV.Text = "CSV"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
         'BulkExcel
         '
-        Me.BulkExcel.AccessibleDescription = "Bulk Excel"
-        Me.BulkExcel.AccessibleName = "Bulk Excel"
         Me.BulkExcel.Name = "BulkExcel"
         Me.BulkExcel.Text = "Bulk Excel"
         '
         'BulkCSV
         '
-        Me.BulkCSV.AccessibleDescription = "Bulk CSV"
-        Me.BulkCSV.AccessibleName = "Bulk CSV"
         Me.BulkCSV.Name = "BulkCSV"
         Me.BulkCSV.Text = "Bulk CSV"
         '
@@ -1055,6 +1050,33 @@ Partial Class FrmStockReco
         Me.RadButton1.TabIndex = 0
         Me.RadButton1.Text = ">>>"
         '
+        'cboUOMType
+        '
+        Me.cboUOMType.AutoCompleteDisplayMember = Nothing
+        Me.cboUOMType.AutoCompleteValueMember = Nothing
+        Me.cboUOMType.CalculationExpression = Nothing
+        Me.cboUOMType.DropDownAnimationEnabled = True
+        Me.cboUOMType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboUOMType.FieldCode = Nothing
+        Me.cboUOMType.FieldDesc = Nothing
+        Me.cboUOMType.FieldMaxLength = 0
+        Me.cboUOMType.FieldName = Nothing
+        Me.cboUOMType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboUOMType.isCalculatedField = False
+        Me.cboUOMType.IsSourceFromTable = False
+        Me.cboUOMType.IsSourceFromValueList = False
+        Me.cboUOMType.IsUnique = False
+        Me.cboUOMType.Location = New System.Drawing.Point(397, 46)
+        Me.cboUOMType.MendatroryField = False
+        Me.cboUOMType.MyLinkLable1 = Nothing
+        Me.cboUOMType.MyLinkLable2 = Nothing
+        Me.cboUOMType.Name = "cboUOMType"
+        Me.cboUOMType.ReferenceFieldDesc = Nothing
+        Me.cboUOMType.ReferenceFieldName = Nothing
+        Me.cboUOMType.ReferenceTableName = Nothing
+        Me.cboUOMType.Size = New System.Drawing.Size(96, 18)
+        Me.cboUOMType.TabIndex = 353
+        '
         'FrmStockReco
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1115,7 +1137,6 @@ Partial Class FrmStockReco
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblModeofTransport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1139,6 +1160,7 @@ Partial Class FrmStockReco
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboUOMType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1163,7 +1185,6 @@ Partial Class FrmStockReco
     Protected WithEvents txtToDate As common.Controls.MyDateTimePicker
     Protected WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Protected WithEvents cboType As common.Controls.MyComboBox
-    Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Protected WithEvents cmbUnit As common.Controls.MyComboBox
     Friend WithEvents ChkMRPWise As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents gvCategory As common.UserControls.MyRadGridView
@@ -1214,5 +1235,6 @@ Partial Class FrmStockReco
     Friend WithEvents chkExcludeConsumptionLoc As RadCheckBox
     Friend WithEvents chkNoTransaction As RadCheckBox
     Friend WithEvents chkShowTransactionData As RadCheckBox
+    Protected WithEvents cboUOMType As common.Controls.MyComboBox
 End Class
 
