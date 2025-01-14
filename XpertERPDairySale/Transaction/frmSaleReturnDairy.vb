@@ -398,8 +398,8 @@ Public Class frmSaleReturnDairy
             gv1.Columns(colActualUOM).IsVisible = True
             gv1.Columns(colConvAmt).IsVisible = True
         Else
-            gv1.Columns(colActualQty).IsVisible = False
-            gv1.Columns(colActualUOM).IsVisible = False
+            gv1.Columns(colActualQty).IsVisible = True
+            gv1.Columns(colActualUOM).IsVisible = True
             gv1.Columns(colActualRetQty).IsVisible = False
             gv1.Columns(colConvAmt).IsVisible = False
         End If
@@ -844,7 +844,7 @@ Public Class frmSaleReturnDairy
         repoActualRetQty.Name = colActualRetQty
         repoActualRetQty.Width = 80
         repoActualRetQty.Minimum = 0
-        repoActualRetQty.IsVisible = True
+        repoActualRetQty.IsVisible = False
         repoActualRetQty.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoActualRetQty)
 
@@ -2798,6 +2798,45 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         gv2.MasterTemplate.ShowRowHeaderColumn = False
 
     End Sub
+    Public Sub ItemPrice(ByVal strItem As String, ByVal strUnit As String, ByVal intQty As Decimal, ByVal introw As Integer, ByVal isFORPrice As Boolean)
+        Dim dt As New DataTable()
+        Dim dblRate As Double = 0
+        Dim dblTotal As Double = 0
+        Dim dblItemBasicPrice As Double = 0
+        Dim whrcls As String = ""
+        Dim qry As String = ""
+        Dim Price_code As String = ""
+
+        Price_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT price_CodeNon FROM tspl_customer_master where cust_code='" + txtVendorNo.Value + "'"))
+        whrcls = " and TSPL_ITEM_PRICE_MASTER.Price_Code='" & Price_code & "'"
+
+
+        qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,XXXE.TAX1_Rate, " &
+        " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
+        "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
+        " XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, " &
+        " XXXE.TAX4,XXXE.TAX5,XXXE.TAX6,XXXE.TAX7, " &
+        " XXXE.TAX8,XXXE.TAX9,XXXE.TAX10,XXXE.TAX1_Amt, " &
+        " XXXE.TAX2_Amt,XXXE.TAX3_Amt,XXXE.TAX4_Amt,XXXE.Against_Plan_TR_Code  from ( " &
+        "Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
+        "Start_Date Desc) as RowNo,Is_With_Tax, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
+        "Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,TSPL_ITEM_PRICE_MASTER.TAX1_Rate,  " &
+        "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate,  " &
+        " TSPL_ITEM_PRICE_MASTER.TAX6_Rate, TSPL_ITEM_PRICE_MASTER.TAX7_Rate, TSPL_ITEM_PRICE_MASTER.TAX8_Rate, TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+        " TSPL_ITEM_PRICE_MASTER.TAX10_Rate, TSPL_ITEM_PRICE_MASTER.TAX1, TSPL_ITEM_PRICE_MASTER.TAX2, TSPL_ITEM_PRICE_MASTER.TAX3, " &
+        " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
+        " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
+        "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
+        "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  " & whrcls & "  " &
+        " and UOM='" & strUnit & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & strItem & "'  AND Location_Code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'  " &
+        ") XXXE WHERE RowNo=1  "
+        dt = clsDBFuncationality.GetDataTable(qry)
+        If dt.Rows.Count > 0 Then
+            gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+            gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Net"))
+        End If
+        UpdateCurrentRow(introw)
+    End Sub
 
     Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
@@ -2846,6 +2885,23 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                         ElseIf e.Column Is gv1.Columns(colICode) Then
                             OpenItemList(False)
+                        ElseIf e.Column Is gv1.Columns(colActualUOM) Then
+                            Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                            If clsCommon.myLen(strICode) > 0 Then
+                                OpenUOMList(False)
+                            Else
+                                Throw New Exception("Please fill item first.")
+                                isCellValueChangedOpen = False
+                                Exit Sub
+                            End If
+                            Dim strActualUOM As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colActualUOM).Value)
+                            ItemPrice(strICode, strActualUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colActualQty).Value), gv1.CurrentRow.Index, False)
+                        ElseIf e.Column Is gv1.Columns(colActualQty) Then
+                            Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                            Dim strActualUOM As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colActualUOM).Value)
+                            '' Dim dblActualqty As Decimal = clsCommon.myCdbl(gv1.CurrentRow.Cells(colActualQty).Value)
+                            ItemPrice(strICode, strActualUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colActualQty).Value), gv1.CurrentRow.Index, False)
+
                         ElseIf e.Column Is gv1.Columns(colUnit) Then
                             OpenUOMList(False)
 
@@ -7608,6 +7664,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
             Dim dblAlterQty As Double = 0
             Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
+            Dim dblActualQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colActualQty).Value)
             Dim dblDamageQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDamageQty).Value)
             Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
             Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value)
@@ -7651,7 +7708,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             Dim dblCashAmt As Double = gv1.Rows(IntRowNo).Cells(colCash_Amt).Value
             Dim strOrgUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value)
             Dim dblBasicAmt As Double = dblQty * dblRate
-            Dim dblReturnAmt As Double = (dblQty * dblRate)
+            Dim dblReturnAmt As Double = (dblActualQty * dblRate)
             Dim dblDamageAmt As Double = (dblDamageQty * dblRate)
             Dim dblAmt As Double = dblReturnAmt + dblDamageAmt ''+ dblFAmt
             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colIsMannualAmt).Value) = 0 Then
