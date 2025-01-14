@@ -87,7 +87,16 @@ Public Class rptSaleRegisterDetail
         ddlReportType.DisplayMember = "Code"
     End Sub
 
-
+    Sub UOMLoadTypes()
+        dt = New DataTable
+        dt.Columns.Add("Code", GetType(String))
+        dt.Rows.Add("Report UOM")
+        dt.Rows.Add("Stock UOM")
+        dt.Rows.Add("Custom UOM")
+        ddlUOMType.DataSource = dt
+        ddlUOMType.ValueMember = "Code"
+        ddlUOMType.DisplayMember = "Code"
+    End Sub
     Sub LoadSubCategory()
         dt = New DataTable
         dt.Columns.Add("Code", GetType(String))
@@ -128,6 +137,7 @@ Public Class rptSaleRegisterDetail
 
             clsCommon.ProgressBarShow()
             ddlReportType.Enabled = False
+            ddlUOMType.Enabled = False
             txtState.Enabled = False
             txtLocation.Enabled = False
             txtTransaction.Enabled = False
@@ -449,6 +459,7 @@ Public Class rptSaleRegisterDetail
         obj.Other_Cond = Other_Cond
         obj.Unit_Code = txtUOM.Value
         obj.ReportType = ddlReportType.SelectedValue
+        obj.UOMType = ddlUOMType.SelectedValue
         obj.From_Date = fromDate.Value
         obj.To_Date = ToDate.Value
         obj.stockinguom = chk_stockingunit.Checked
@@ -957,8 +968,14 @@ Public Class rptSaleRegisterDetail
         'fromDate.Value = New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
         txtUOM.Value = ""
         LoadTypes()
+        UOMLoadTypes()
         LoadSubCategory()
         ddlReportType.SelectedValue = "Total Sale"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            ddlUOMType.SelectedValue = "Report UOM"
+        Else
+            ddlUOMType.SelectedValue = "Stock UOM"
+        End If
         lblSubCategory.Visible = False
         ddlSubCategory.Visible = False
         ddlSubCategory.SelectedValue = "All"
@@ -979,6 +996,7 @@ Public Class rptSaleRegisterDetail
         TxtMultiASM.arrValueMember = Nothing
         TxtMultiASO.arrValueMember = Nothing
         ddlReportType.Enabled = True
+        ddlUOMType.Enabled = True
         txtState.Enabled = True
         txtLocation.Enabled = True
         txtItemGroup.Enabled = True
@@ -1099,6 +1117,7 @@ Public Class rptSaleRegisterDetail
         Document_No = ""
         Document_No_Old = ""
         ddlReportType.Enabled = True
+        ddlUOMType.Enabled = True
         txtTransaction.Enabled = True
         txtState.Enabled = True
         txtLocation.Enabled = True

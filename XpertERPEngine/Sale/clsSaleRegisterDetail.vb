@@ -947,7 +947,7 @@ Public Class clsSaleRegisterDetail
         ''End If
         ' ''===================added by preeti gupta against ticket no[BM00000009858]
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowParticluarColumnInSalesRegisterForGopalJee, clsFixedParameterCode.ShowParticluarColumnInSalesRegisterForGopalJee, Nothing)) = 1 Then
-            strMCCMaterial = " select convert(decimal(18,2),( [Quantity] * isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) /I.Conversion_Factor) as Report_UOM_Qty,i.UOM_Code as Report_UOM, [Trans Type],[Document_date],[Document No],[Narration],[Location Code]as [Warehouse Code], [Location Name] as [Warehouse Name],Cust.Cust_Group_Code as [Customer Group Code],Cust_Group.Cust_Group_Desc as [Customer Group Description],[Customer Code],[Customer Name],Item_Group.Item_Group as [Product Group Code],Item_Group.Group_Description as [Product Group Description],Vehicle_Code as [Vehicle Code],Vehicle_No as [Vehicle No] "
+            strMCCMaterial = " select  [Trans Type],[Document_date],[Document No],[Narration],[Location Code]as [Warehouse Code], [Location Name] as [Warehouse Name],Cust.Cust_Group_Code as [Customer Group Code],Cust_Group.Cust_Group_Desc as [Customer Group Description],[Customer Code],[Customer Name],Item_Group.Item_Group as [Product Group Code],Item_Group.Group_Description as [Product Group Description],Vehicle_Code as [Vehicle Code],Vehicle_No as [Vehicle No] "
 
             strMCCMaterial += " , [Item Code] as [Product Code],[Item Name] as [Product Name],cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Pack Sold]," & IIf(clsCommon.myLen(Unit_Code) <= 0, IIf(Stock_uom = True, "TransStock.UOM_Code", "xx.[UOM]"), "'" & Unit_Code & "'") & " as [Unit of sale],"
             If clsCommon.myLen(Unit_Code) <= 0 AndAlso Not Stock_uom Then
@@ -964,20 +964,37 @@ Public Class clsSaleRegisterDetail
                 strMCCMaterial += " IM.Avg_Cost as [COGS], "
             End If
             'added by richa  BHA/17/08/18-000441 route
-            strMCCMaterial += " convert(decimal(18,2),( [Quantity] * isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) /I.Conversion_Factor) as Report_UOM_Qty,i.UOM_Code as Report_UOM, case when len([Form Type])>0 then [Form Type] else   _Type end  as [Form Type],[Trans Type],[Location Code],[Location Name],Loc.State as [Location State],GSTState.GST_STATE_Code as [GST State Code],loc.GSTNO as [Dispatch Location GSTIN No], (CASE WHEN [Invoice Type]='T' THEN 'Tax' when [Invoice Type]='R' then 'Retail' when [Invoice Type]='N' then 'None' else [Invoice Type] end) as [Invoice Type],[Document No],[Document_date],CONVERT(varchar, [Supply_Date], 103) AS Supply_Date,Vehicle_Code as [Vehicle Code],Vehicle_No as [Vehicle No],cast(Additional_Charge as numeric(18,2)) as [Additional Amount],[Customer Code],[Customer Name],[Customer Address],Route_Table.Route_No as Route_no,Route_Table.Route_Desc,Cust.Struct_Code,xx.[Registered],[Composition],[City Code],[Place of Supply],[Customer GST State Code],Cust.Cust_Group_Code as [Customer Group Code],Cust_Group.Cust_Group_Desc as [Customer Group Description],Cust.cust_category_code as [Customer Category],Cust.Zone_Code as [Customer Zone Code],Zone.Description as [Customer Zone Description], [Parent Customer No],[Parent Customer Code], [Parent Customer Name],coalesce(Cust.State_Code,Cust.State_Code) as [Customer State Code],coalesce(Cust.State_Name,Cust_Loc.State_Name) as [Customer State Desc],coalesce(Cust.Tin_No,cust_loc.Tin_No) as [Tin No],Item_Group.Item_Group as [Item Group Code],Item_Group.Group_Description as [Item Group Description] "
+            strMCCMaterial += "  case when len([Form Type])>0 then [Form Type] else   _Type end  as [Form Type],[Trans Type],[Location Code],[Location Name],Loc.State as [Location State],GSTState.GST_STATE_Code as [GST State Code],loc.GSTNO as [Dispatch Location GSTIN No], (CASE WHEN [Invoice Type]='T' THEN 'Tax' when [Invoice Type]='R' then 'Retail' when [Invoice Type]='N' then 'None' else [Invoice Type] end) as [Invoice Type],[Document No],[Document_date],CONVERT(varchar, [Supply_Date], 103) AS Supply_Date,Vehicle_Code as [Vehicle Code],Vehicle_No as [Vehicle No],cast(Additional_Charge as numeric(18,2)) as [Additional Amount],[Customer Code],[Customer Name],[Customer Address],Route_Table.Route_No as Route_no,Route_Table.Route_Desc,Cust.Struct_Code,xx.[Registered],[Composition],[City Code],[Place of Supply],[Customer GST State Code],Cust.Cust_Group_Code as [Customer Group Code],Cust_Group.Cust_Group_Desc as [Customer Group Description],Cust.cust_category_code as [Customer Category],Cust.Zone_Code as [Customer Zone Code],Zone.Description as [Customer Zone Description], [Parent Customer No],[Parent Customer Code], [Parent Customer Name],coalesce(Cust.State_Code,Cust.State_Code) as [Customer State Code],coalesce(Cust.State_Name,Cust_Loc.State_Name) as [Customer State Desc],coalesce(Cust.Tin_No,cust_loc.Tin_No) as [Tin No],Item_Group.Item_Group as [Item Group Code],Item_Group.Group_Description as [Item Group Description] "
             If clsCommon.myLen(strCategoryTable) > 0 Then
                 ''richa agarwal to avoid ambiguous error
                 '  strMCCMaterial += "," + strCodeColumn + "," + strCodeDescColumn
                 strMCCMaterial += "," + strCodeColumnForVirtual + "," + strCodeDescColumn
             End If
             ' BM00000008438 BM00000008391           
-            strMCCMaterial += " , [Item Code],[Item Name],[HSN Code],cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Quantity]," & IIf(clsCommon.myLen(Unit_Code) <= 0, IIf(Stock_uom = True, "TransStock.UOM_Code", "xx.[UOM]"), "'" & Unit_Code & "'") & " as [UOM],"
+            strMCCMaterial += " , [Item Code],[Item Name],[HSN Code],"
+            If obj.UOMType = "Stock UOM" OrElse obj.ReportType = "Custom Type" Then
+                strMCCMaterial += "cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Quantity],"
+                strMCCMaterial += " " & IIf(clsCommon.myLen(Unit_Code) <= 0, IIf(Stock_uom = True, "TransStock.UOM_Code", "xx.[UOM]"), "'" & Unit_Code & "'") & " as [UOM],"
+            Else
+                strMCCMaterial += " Isnull(convert(decimal(18,2),( [Quantity] * isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) /I.Conversion_Factor),0) as Quantity,I.UOM_Code as UOM,"
+            End If
+
             If clsCommon.myLen(Unit_Code) <= 0 AndAlso Not Stock_uom Then
                 'sanjay
                 'strMCCMaterial += " cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  as [Item Rate] "
-                strMCCMaterial += " case when Scheme_Item='Y' then 0 else"
-                strMCCMaterial += " cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3)) "
-                strMCCMaterial += " end as [Item Rate]"
+                If obj.UOMType = "Stock UOM" OrElse obj.ReportType = "Custom Type" Then
+                    strMCCMaterial += " case when Scheme_Item='Y' then 0 else"
+                    strMCCMaterial += " cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3)) "
+                    strMCCMaterial += " end as [Item Rate]"
+                Else
+                    strMCCMaterial += " case when Scheme_Item='Y' then 0 else"
+                    strMCCMaterial += " cast(([Item Cost]*I.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3)) "
+                    strMCCMaterial += " end as [Item Rate]"
+
+                End If
+                'strMCCMaterial += " case when Scheme_Item='Y' then 0 else"
+                'strMCCMaterial += " cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3)) "
+                'strMCCMaterial += " end as [Item Rate]"
                 'sanjay
             Else
                 strMCCMaterial += " case when Scheme_Item='Y' then 0 else"
@@ -3079,7 +3096,7 @@ Public Class clsSaleRegisterDetail
         End If
 
         strMCCMaterial += " LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = xx.[Item Code] and TSPL_ITEM_UOM_DETAIL.UOM_Code = xx.uom	 
-             LEFT JOIN  ( select item_code,uom_code,conversion_factor from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON xx.[Item Code] = I.item_code  where 2 = 2  "
+             Inner JOIN  ( select item_code,uom_code,conversion_factor from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON xx.[Item Code] = I.item_code  where 2 = 2  "
         ''convert(date,xx.Document_Date,103) >= convert(date,('" + From_Date + "'),103) and convert(date,xx.Document_Date,103) <= convert(date,('" + To_Date + "'),103) 
         ''===========Monika
         If obj.Location_Code_List IsNot Nothing AndAlso obj.Location_Code_List.Count > 0 Then
@@ -3425,7 +3442,15 @@ Public Class clsSaleRegisterDetail
             End If
             ' BM00000008438 BM00000008391
             'strMCCMaterial += " , [Item Code],[Item Name],cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Quantity]," & IIf(clsCommon.myLen(Unit_Code) <= 0, "xx.[UOM]", "'" & Unit_Code & "'") & " as [UOM],[Item Cost] as [Item Rate],[Fat Per] as [FAT %],[SNF Per] as [SNF %],cast(([Quantity]*[Fat Per]*Stock_SU.Conversion_Factor)/(100*coalesce(StockKG.Conversion_Factor,1)) as numeric(18,3)) as [FAT KG],cast(([Quantity]*[SNF Per]*Stock_SU.Conversion_Factor)/(100*coalesce(StockKG.Conversion_Factor,1)) as Numeric(18,3)) as [SNF KG],Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],[Amount Less Discount]  as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ",case when [trans type]='Fresh Sale Retturn' then [Amount Less Discount] + case when coalesce([Total Tax Amount],0)<0 then 0 else coalesce( [Scheme Amount],0) end else ([Total Amount]-[Total Tax Amount] + case when coalesce([Total Tax Amount],0)>0 then 0 else coalesce( [Scheme Amount],0) end) end as [Sale Amount],[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount], " & _
-            strMCCMaterial += " , [Item Code],[Item Name],cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Quantity]," & IIf(clsCommon.myLen(Unit_Code) <= 0, IIf(stock_uom = True, "TransStock.UOM_Code", "xx.[UOM]"), "'" & Unit_Code & "'") & " as [UOM],"
+            strMCCMaterial += " , [Item Code],[Item Name],"
+
+            If obj.UOMType = "Stock UOM" OrElse obj.ReportType = "Custom Type" Then
+                strMCCMaterial += " cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3)) as [Quantity],"
+                strMCCMaterial += " " & IIf(clsCommon.myLen(Unit_Code) <= 0, IIf(stock_uom = True, "TransStock.UOM_Code", "xx.[UOM]"), "'" & Unit_Code & "'") & " as [UOM],"
+            Else
+                strMCCMaterial += " Isnull(convert(decimal(18,2),( [Quantity] * isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) /I.Conversion_Factor),0) as Quantity,I.UOM_Code as UOM,"
+            End If
+
             If clsCommon.myLen(Unit_Code) <= 0 AndAlso Not stock_uom Then
                 strMCCMaterial += " cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  as [Item Rate] "
             Else
@@ -4389,7 +4414,7 @@ TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_
                 strRunQuery = "select [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description],sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum([Sale Amount]) as [Total Sale Amount],sum([Additional Amount]) as [Total Additional Amount],sum([Total Tax Amount]) as [Total Tax Amount],sum([Total Amount] ) as [Total Amount] from (" & strMain & ") as Final group by [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description]"
             ElseIf obj.ReportType = "Item Wise" Then
                 'KUNAL > WHOLLY JOY > TICKET : VERBAL DISCUSSION > DATE : 3 -JAN -2016 
-                strRunQuery = "select [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Item Code],[Item Name], isnull(SUM(Report_UOM_Qty),0) [Quantity], isnull((Report_UOM),'') [UOM] ,sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum([Sale Amount]) as [Total Sale Amount],sum([Additional Amount]) as [Total Additional Amount],sum([Total Tax Amount]) as [Total Tax Amount],sum([Total Amount] ) as [Total Amount] from (" & strMain & ") as Final group by [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Item Code],[Item Name] ,  Report_UOM  "
+                strRunQuery = "select [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Item Code],[Item Name],Isnull(Sum(Quantity),0)Quantity,isnull(max(UOM),'') [UOM] ,sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum([Sale Amount]) as [Total Sale Amount],sum([Additional Amount]) as [Total Additional Amount],sum([Total Tax Amount]) as [Total Tax Amount],sum([Total Amount] ) as [Total Amount] from (" & strMain & ") as Final group by [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Item Code],[Item Name]  "
             ElseIf obj.ReportType = "Customer Wise" Then
                 ''richa BHA/23/08/19-000924
                 'strRunQuery = "select [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description],[Customer Code],[Customer Name],max( [Customer Zone Code]) as  [Customer Zone Code],Route_no,Route_desc,[Item Code],[Item Name],[Scheme Type], Sampling,sum([Quantity]) as [Total Quantity],max(UOM) as UOM,sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum([Sale Amount]) as [Total Sale Amount],sum([Additional Amount]) as [Total Additional Amount],sum([Total Tax Amount]) as [Total Tax Amount],sum([Total Amount] ) as [Total Amount],sum(COGS) as COGS from (" & strMain & ") as Final group by [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description],[Item Code],[Item Name],[Customer Code],[Customer Name],Route_No,Route_desc, [Scheme Type], Sampling"
@@ -4407,8 +4432,10 @@ TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_
             ElseIf obj.ReportType = "Document Detail" Then
                 If obj.QuickLoad Then
                     strRunQuery = strMain & " order by convert(date,[Document_Date],103),[Document No]"
+                    'strRunQuery = "Select * from ( " & strMain & "  )xy where  xy.Report_UOM_Qty>0 order by convert(date,xy.[Document_Date],103),xy.[Document No]"
                 Else
                     strRunQuery = strMain & " order by convert(date,[Document_Date],103),[Document No]"
+                    'strRunQuery = "Select * from ( " & strMain & "  )xy where  xy.Report_UOM_Qty>0 order by convert(date,xy.[Document_Date],103),xy.[Document No]"
                 End If
 
             ElseIf obj.ReportType = "Net Sale" Then

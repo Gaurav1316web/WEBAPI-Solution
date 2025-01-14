@@ -251,14 +251,16 @@ where 2=2"
             End If
             'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Document_Date, trans)
             For Each objtr As clsMilkCollectionMCCDetail In obj.Arr
-                If objtr.Qty <= 0 Then
-                    Throw New Exception("Qty is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
-                End If
-                If objtr.FAT <= 0 Then
-                    Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
-                End If
-                If objtr.SNF <= 0 Then
-                    Throw New Exception("SNF is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                If Not objtr.Milk_Not_Picked Then
+                    If objtr.Qty <= 0 Then
+                        Throw New Exception("Qty is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                    End If
+                    If objtr.FAT <= 0 Then
+                        Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                    End If
+                    If objtr.SNF <= 0 Then
+                        Throw New Exception("SNF is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                    End If
                 End If
             Next
 
@@ -405,6 +407,7 @@ Public Class clsMilkCollectionMCCDetail
     Public Document_No As String
     Public SNo As Integer
     Public Sample_No As Integer
+    Public Milk_Not_Picked As Boolean
     Public MCC_Uploader_Code As String ''Not a Table Column
     Public MCC_Code As String
     Public MCC_Name As String
@@ -493,7 +496,7 @@ Public Class clsMilkCollectionMCCDetail
                         End If
                     End If
                 End If
-
+                clsCommon.AddColumnsForChange(coll, "Milk_Not_Picked", IIf(obj.Milk_Not_Picked, 1, 0), True)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
@@ -585,6 +588,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
                 objTr.Against_Multiple_Days = clsCommon.myCDecimal(dr("Against_Multiple_Days"))
                 objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(dr("REF_PK_ID_BMCDCS_TRIP"))
+                objTr.Milk_Not_Picked = (clsCommon.myCDecimal(dr("Milk_Not_Picked")) = 1)
                 objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(dr("Against_Multiple_Days_Merge_Day_Detail"))
 
                 arr.Add(objTr)

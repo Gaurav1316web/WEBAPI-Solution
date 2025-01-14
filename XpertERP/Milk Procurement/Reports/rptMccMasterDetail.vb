@@ -77,6 +77,9 @@ Public Class rptMccMasterDetail
                 qry = clsMccMasterDetailReport.getQueryMccMasterDetailTransporter(chkActiveStatus.Checked)
             ElseIf clsCommon.CompairString(cmbReportType.Text, "Employee") = CompairStringResult.Equal Then
                 qry = clsMccMasterDetailReport.getQueryMccMasterDetailEmployee()
+            ElseIf clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
+                PageSetupReport_ID = PageSetupReport_ID + IIf(RadDuplicateAccDetails.Checked = True, "S", "")
+                qry = clsMccMasterDetailReport.getQueryRadDuplicateAccDetails()
             Else
                 If txtDistrict.arrValueMember IsNot Nothing AndAlso txtDistrict.arrValueMember.Count > 0 Then
                     If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal Then
@@ -216,12 +219,7 @@ Public Class rptMccMasterDetail
                 Else
                     qry += " order by TSPL_MCC_MASTER.MCC_NAME  "
                 End If
-
-
             End If
-
-
-
             dt = clsDBFuncationality.GetDataTable(qry)
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -229,11 +227,9 @@ Public Class rptMccMasterDetail
             Gv1.GroupDescriptors.Clear()
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
             Gv1.MasterView.Refresh()
-
             If Gv1.Columns.Contains("Vehicle") Then
                 Gv1.Columns("Vehicle").IsVisible = ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster
             End If
-
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
                 Gv1.DataSource = dt
                 For ii As Integer = 0 To Gv1.Columns.Count - 1

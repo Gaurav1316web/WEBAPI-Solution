@@ -5,6 +5,7 @@ Public Class clsUserMgtCode
     Public Const frmTTSavingReport As String = "SVNG-BLNCE"
     Public Const rptBmcTankerProfitLossReport As String = "BMC-TAN-G-L"
 
+    Public Const rptBoothWiseBillReport As String = "BOOTH-WI-BI"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
@@ -1219,6 +1220,7 @@ Public Class clsUserMgtCode
     Public Const FrmPendingIndentTransferReport As String = "PEN-IND-RPT"
     Public Const FrmExpiredItemDetails As String = "EXP-ITM-RPT"
     Public Const stockRecoNew As String = "STO-REC-RPT"
+    Public Const UnionStockReport As String = "UNN-STK-RPT"
     Public Const FATSNFGainLoss As String = "FAT-SNF-GAN"
     Public Const MeterialstockReco As String = "MTRL-STO-REC"
     Public Const stockRecoBatch As String = "STO-RECB-RPT"
@@ -2706,6 +2708,7 @@ Public Class clsUserMgtCode
     Public Const rptHSNWiseSaleReport As String = "HSN_SAL_RPT"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
     Public Const FrmperdayDetailRpt As String = "PER_DAY_RPT"
+    Public Const rptBookingVsDispatchReport As String = "BOOK-VS-DI"
 
     Public Const ModuleXpertAPI As String = "API"
     Public Const SubModuleXpertAPISetup As String = "MXAPIMaster"

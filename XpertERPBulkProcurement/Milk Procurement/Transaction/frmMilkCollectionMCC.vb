@@ -29,7 +29,7 @@ Public Class frmMilkCollectionMCC
     Const colFATKG As String = "colFATKG"
     Const colSNFKG As String = "colSNFKG"
     Const colTemp As String = "colTemp"
-
+    Const ColMilkNotPicked As String = "ColMilkNotPicked"
 
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
@@ -485,6 +485,15 @@ Public Class frmMilkCollectionMCC
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        Dim repoCheck As New GridViewCheckBoxColumn()
+        repoCheck.FormatString = ""
+        repoCheck.HeaderText = "Milk Not Picked"
+        repoCheck.Name = ColMilkNotPicked
+        repoCheck.IsVisible = False
+        repoCheck.ReadOnly = False
+        repoCheck.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoCheck)
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = ""
@@ -1007,9 +1016,9 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
         Dim Arr As New List(Of clsMilkCollectionMCCDetail)
         For ii As Integer = 0 To gv1.RowCount - 1
             If clsCommon.myLen(gv1.Rows(ii).Cells(colMCCCode).Value) > 0 Then
-                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 Then
+                If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 OrElse clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value) Then
                     Dim flag As Boolean = True
-                    If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColPKID).Value) > 0 AndAlso isMissingOnly Then
+                    If clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColPKID).Value) > 0 AndAlso isMissingOnly AndAlso Not clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value) Then
                         flag = False
                     End If
                     If flag Then
@@ -1021,6 +1030,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColAgainst_Multiple_Days_Merge_Day_Detail).Value)
 
                         objTr.Sample_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSampleNo).Value)
+                        objTr.Milk_Not_Picked = clsCommon.myCBool(gv1.Rows(ii).Cells(ColMilkNotPicked).Value)
                         objTr.MCC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colMCCCode).Value)
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
                         objTr.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
@@ -1109,6 +1119,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGazeQty).Value = objTr.Gaze_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCSiloCapacity).Value = objTr.Silo_Capacity
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTemp).Value = objTr.Temp
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColMilkNotPicked).Value = objTr.Milk_Not_Picked
                     Next
                 End If
                 UpdateAllTotal()
@@ -2525,16 +2536,15 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
             ' Add MCC Truck Sheet Entry
             If Arr.Count > 0 Then
                 For Each lst As clsBMCDCSMobile In Arr
-                    Dim strQry = "select Document_No from TSPL_MILK_COLLECTION_MCC where Route_Code='" + clsCommon.myCstr(lst.Route_Code) + "' and Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "' and Trip_No=" + clsCommon.myCstr(lst.Trip_No)
+                    Dim strQry = "select Document_No from TSPL_MILK_COLLECTION_MCC where Route_Code='" + clsCommon.myCstr(lst.Route_Code) + "' and Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "'  and Tanker_No='" + clsCommon.myCstr(lst.Tanker_No) + "' And Trip_No = " + clsCommon.myCstr(lst.Trip_No)
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
                     If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                         lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
                         isNewEntry = False
-                        BMCEntry(lst)
                     Else
                         isNewEntry = True
-                        BMCEntry(lst)
                     End If
+                    BMCEntry(lst)
                 Next
                 clsCommon.MyMessageBoxShow(Me, "BMC Truck Sheet Data saved successfully", Me.Text)
             Else
@@ -2575,7 +2585,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
         Dim Arr As New List(Of clsMilkCollectionMCCDetail)
         For ii As Integer = 0 To lst.Arr_BMCDCS_Trip.Count - 1
             If clsCommon.myLen(lst.MCC_Code) > 0 Then
-                If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty) > 0 Then
+                If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty) > 0 OrElse lst.Milk_Not_Picked Then
                     Dim flag As Boolean = True
                     If clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID) > 0 AndAlso isMissingOnly Then
                         flag = False
@@ -2597,6 +2607,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                         objTr.Silo_Capacity = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Silo_Capacity)
                         objTr.Sample_No = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Sample_No)
                         objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID)
+                        objTr.Milk_Not_Picked = lst.Milk_Not_Picked
                         If clsCommon.myLen(objTr.Gaze_Reading_Code) > 0 Then
                             objTr.Gaze_Qty = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Qty)
                         End If
@@ -2634,14 +2645,11 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
                 Try
-                    'trans = clsDBFuncationality.GetTransactin()
                     clsCommon.ProgressBarShow()
                     For Each grow As GridViewRowInfo In gv.Rows
-
                         Dim obj As New clsMilkCollectionMCC()
                         Try
                             linno += 1
-
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Document Date").Value))) Then
                                 Throw New Exception("Document Date is Blank at Line No" + clsCommon.myCstr(linno))
                             Else
@@ -2650,17 +2658,10 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Route No").Value))) Then
                                 Throw New Exception("Route No is Blank at Line No" + clsCommon.myCstr(linno))
                             Else
-                                'Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Route_No from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route No").Value) + "'"))
-                                'If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Route No").Value)) = CompairStringResult.Equal Then
                                 obj.Route_Code = clsCommon.myCstr(grow.Cells("Route No").Value)
-                                'Else
-                                'Throw New Exception("Route No is Invalid at Line No" + clsCommon.myCstr(linno))
-                                'End If
-
                             End If
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Tanker No").Value))) Then
                                 Throw New Exception("Tanker No is Blank at Line No" + clsCommon.myCstr(linno))
-
                             Else
                                 obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No").Value)
                             End If
@@ -2669,48 +2670,38 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                             Else
                                 obj.Trip_No = clsCommon.myCDecimal(grow.Cells("Trip No").Value)
                             End If
-
                             obj.Temp = clsCommon.myCDecimal(grow.Cells("TEMP.").Value)
                             obj.Acidity = clsCommon.myCDecimal(grow.Cells("ACIDITY").Value)
                             obj.ORG = clsCommon.myCstr(grow.Cells("ORG.").Value)
-
                             If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Remark").Value)) > 0 Then
                                 obj.Description = clsCommon.myCstr(grow.Cells("Remark").Value)
                             Else
                                 obj.Description = txtDesc.Text
                             End If
-
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Qty").Value))) Then
                                 Throw New Exception("Qty is Blank at Line No" + clsCommon.myCstr(linno))
-
                             Else
                                 If (clsCommon.myCDecimal(grow.Cells("Qty").Value)) > 0 Then
                                     obj.Entered_Qty = clsCommon.myCDecimal(grow.Cells("Qty").Value)
                                 Else
                                     Throw New Exception("Qty is Zero at Line No" + clsCommon.myCstr(linno))
                                 End If
-
                             End If
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("FAT").Value))) Then
                                 Throw New Exception("FAT is Blank at Line No" + clsCommon.myCstr(linno))
-
                             Else
                                 If (clsCommon.myCDecimal(grow.Cells("FAT").Value)) > 0 Then
                                     If SettMilkCollectionFATSNFType = 0 Then
                                         obj.Entered_FATKg = obj.Entered_Qty * (clsCommon.myCstr(grow.Cells("FAT").Value) / 100)
                                     Else
                                         obj.Entered_FATKg = clsCommon.myCDecimal(grow.Cells("FAT").Value)
-
                                     End If
                                 Else
                                     Throw New Exception("FAT is Zero at Line No" + clsCommon.myCstr(linno))
-
                                 End If
-
                             End If
                             If (String.IsNullOrEmpty(clsCommon.myCDecimal(grow.Cells("SNF").Value))) Then
                                 Throw New Exception("SNF is Blank at Line No" + clsCommon.myCstr(linno))
-
                             Else
                                 If (clsCommon.myCDecimal(grow.Cells("SNF").Value)) > 0 Then
                                     If SettMilkCollectionFATSNFType = 0 Then
@@ -2721,11 +2712,9 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                                 Else
                                     Throw New Exception("SNF is Zero at Line No" + clsCommon.myCstr(linno))
                                 End If
-
-
                             End If
-                            Dim Doc_No As String = clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC.Document_No from  TSPL_MILK_COLLECTION_MCC where CONVERT(Date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(grow.Cells("Document Date").Value) + "' and TSPL_MILK_COLLECTION_MCC.Route_Code='" + obj.Route_Code + "' and Trip_No=" + clsCommon.myCstr(obj.Trip_No) + "  and Status=0")
 
+                            Dim Doc_No As String = clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC.Document_No from  TSPL_MILK_COLLECTION_MCC where CONVERT(Date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(grow.Cells("Document Date").Value) + "' and TSPL_MILK_COLLECTION_MCC.Route_Code='" + obj.Route_Code + "' and TSPL_MILK_COLLECTION_MCC.Tanker_No='" + obj.Tanker_No + "'  and Trip_No=" + clsCommon.myCstr(obj.Trip_No) + "  and Status=0")
                             If clsCommon.myLen(Doc_No) <= 0 Then
                                 Throw New Exception("Data not exists for Line No" + clsCommon.myCstr(linno))
                             Else
@@ -2745,9 +2734,8 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                                     Throw New Exception("Milk Purchase Invoice Generated [" + clsCommon.myCstr(dt.Rows(0)("DOC_CODE")) + "]")
                                 End If
                                 obj.Document_No = Doc_No
-
                             End If
-                            str = clsCommon.myCstr(obj.Document_Date) + clsCommon.myCstr(obj.Route_Code) + clsCommon.myCstr(obj.Trip_No)
+                            str = clsCommon.myCstr(obj.Document_Date) + clsCommon.myCstr(obj.Route_Code) + clsCommon.myCstr(obj.Trip_No) + clsCommon.myCstr(obj.Tanker_No)
                             If chkdp.Contains(str) Then
                                 Throw New Exception("Duplicate Data Found at Line No " + clsCommon.myCstr(linno))
                             Else
@@ -2764,7 +2752,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                     Next
                     clsCommon.ProgressBarHide()
 
-                    If clsCommon.MyMessageBoxShow(Me, "Total Valid Document [" + clsCommon.myCstr(Arr.Count) + "] and Invalid Document  [" + clsCommon.myCstr(linno - Arr.Count) + "] Are You Sure.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.OK Then
+                    If clsCommon.MyMessageBoxShow(Me, "Total Valid Document [" + clsCommon.myCstr(Arr.Count) + "] and Invalid Document  [" + clsCommon.myCstr(linno - Arr.Count) + "] Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         If DtError IsNot Nothing AndAlso DtError.Rows.Count > 0 Then
                             Dim frm As New FrmFreeGrid()
                             frm.strFormName = "Error In Import Tranker Data "
@@ -2776,16 +2764,20 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                                 Dim isCorrection As Integer = 0
                                 For Each objMCC As clsMilkCollectionMCC In Arr
                                     clsMilkCollectionMCC.CorrectionData(objMCC, isCorrection)
-                                    'clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
                                 Next
-                                common.clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text, MessageBoxButtons.OK)
+                                common.clsCommon.MyMessageBoxShow(Me, "Data saved sucessfully", Me.Text, MessageBoxButtons.OK)
                             End If
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
+                        If DtError IsNot Nothing AndAlso DtError.Rows.Count > 0 Then
+                            Dim frm As New FrmFreeGrid()
+                            frm.strFormName = "Error In Import Tranker Data "
+                            frm.dt = DtError
+                            frm.ReportID = "BMC Truck Sheet"
+                            frm.ShowDialog()
+                        End If
                     End If
                     clsCommon.ProgressBarHide()
-
                 Catch ex As Exception
                     clsCommon.ProgressBarHide()
                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2793,8 +2785,6 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             Else
                 clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
             End If
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
