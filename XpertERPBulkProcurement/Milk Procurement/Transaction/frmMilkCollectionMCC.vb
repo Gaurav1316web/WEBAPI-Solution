@@ -1421,7 +1421,7 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                     txtTankerNo.Value = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
                 End If
             End If
-            txtTankerNo.Value = clsfrmTankerMaster.GetFinder("", txtTankerNo.Value, isButtonClicked)
+            txtTankerNo.Value = clsfrmTankerMaster.GetFinder(" isnull( TSPL_TANKER_MASTER.Inactive,0)=0 ", txtTankerNo.Value, isButtonClicked)
             txtVehicleNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TANKER_NAME from TSPL_TANKER_MASTER where Tanker_No='" & txtTankerNo.Value & "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2619,10 +2619,6 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
         Return Arr
     End Function
 
-    Private Sub gv1_Validating(sender As Object, e As CancelEventArgs) Handles gv1.Validating
-
-    End Sub
-
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
         Import()
     End Sub
@@ -2630,6 +2626,18 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
         Export()
     End Sub
+
+    Public Sub Export()
+        Try
+            Dim qry As String = "select replace( convert(varchar, Document_Date,106),' ','/') as [Document Date],Route_Code as [Route No],Tanker_No as [Tanker No],Trip_No as [Trip No],Entered_Qty as [Qty],cast((case when isnull(Entered_Qty,0)=0 then 0 else cast( Entered_FATKg*100/Entered_Qty as decimal(18,2)) end) as varchar) as [FAT],cast((case when isnull(Entered_Qty,0)=0 then 0 else cast(Entered_SNFKg*100/Entered_Qty as decimal(18,2)) end) as varchar) as [SNF],Temp as [TEMP.],Acidity as [ACIDITY],ORG as [ORG.],Description as [Remark] from TSPL_MILK_COLLECTION_MCC "
+            Dim Whrcls As String = " and  convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(txtMDate.Value, "dd/MMM/yyyy") + "' and  isnull(TSPL_MILK_COLLECTION_MCC.Status,0)=0 "
+            ListImpExpColumnsMandatory = New List(Of String)({"Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF"})
+            transportSql.ExporttoExcel(qry, Whrcls, Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Public Sub Import()
         Try
             Dim gv As New RadGridView()
@@ -2641,7 +2649,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
             Dim chkdp As New List(Of String)
             Dim str As String = ""
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gv, "Tanker No", "Route No", "TEMP.", "FAT", "SNF", "ACIDITY", "ORG.", "Document Date", "Remark", "Qty", "Trip No") Then
+            If transportSql.importExcel(gv, "Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF", "TEMP.", "ACIDITY", "ORG.", "Remark") Then
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
                 Try
@@ -2785,18 +2793,6 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             Else
                 clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
             End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-    Public Sub Export()
-        Try
-            Dim str As String = "select  '' as [Tanker No], '' as [Route No], '' as [TEMP.], '' as [FAT], '' as [SNF],'' as [ACIDITY],'' as [ORG.],'' as [Document Date],'' as [Remark], '' as [Qty], '' as [Trip No]"
-            Dim whrCls As String = ""
-
-            ListImpExpColumnsMandatory = New List(Of String)({"Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF"})
-            transportSql.ExporttoExcel(str, whrCls, Me)
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
