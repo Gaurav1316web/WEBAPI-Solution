@@ -23,6 +23,12 @@ Public Class FrmTankerMaster
 #End Region
 
     Private Sub FrmTankerMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Inactive", "integer null")
+        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_TANKER_MASTER", coll, Nothing, True)
+
+
+
         Reset()
         SetUserMgmtNew()
         RadPageView1.SelectedPage = RadPageViewPage1
@@ -166,6 +172,7 @@ Public Class FrmTankerMaster
         LoadBlankGridChamber()
         loadBlankgv()
         gv.Rows.AddNew()
+        chkInactive.Checked = False
     End Sub
     Function isBlankGV() As Boolean
         Dim rValue As Boolean = True
@@ -546,6 +553,7 @@ Public Class FrmTankerMaster
                     Next
                 End If
             End If
+            obj.Inactive = chkInactive.Checked
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
                 If clsfrmTankerMaster.SaveData(obj.tankerno, isNewEntry, obj, trans) Then
@@ -1025,8 +1033,8 @@ Public Class FrmTankerMaster
                     txtavgkm.Text = ""
                     txtRentalAmt.Text = ""
                 End If
+                chkInactive.Checked = obj.Inactive
 
-                
                 Dim kmRange As Boolean = False
                 Dim arrObjSlab As List(Of clsSlabRangeDetail) = clsSlabRangeDetail.getData(Me.Form_ID, obj.tankerno)
                 If arrObjSlab IsNot Nothing AndAlso arrObjSlab.Count > 0 Then

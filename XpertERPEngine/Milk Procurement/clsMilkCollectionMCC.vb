@@ -384,7 +384,8 @@ Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection
             qry += " left outer join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.MCCOwnBMC=TSPL_MCC_MASTER.MCC_Code "
             qry += " left outer Join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=tspl_Milk_collection_MCC.Route_Code"
         End If
-        qry += " where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(TranDate, "dd/MMM/yyyy") + "' "
+        qry += " where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(TranDate, "dd/MMM/yyyy") + "' 
+and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Not_Picked,0)=0   "
         'qry += " and Status=0 "
         If PendingStatus = 1 Then ''ALL
             qry += " and 2=2 "

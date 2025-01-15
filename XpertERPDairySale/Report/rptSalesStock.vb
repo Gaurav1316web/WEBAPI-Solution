@@ -153,9 +153,6 @@ Public Class rptSalesStock
     End Sub
     Sub SetGridFormat()
         Try
-
-
-
             gvData.AutoExpandGroups = True
             gvData.ShowGroupPanel = True
             gvData.ShowRowHeaderColumn = False
