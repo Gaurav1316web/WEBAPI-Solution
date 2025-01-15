@@ -79,7 +79,7 @@ Public Class frmMapPayHeadsToSalaStructure
                             FROM TSPL_SALSTRUCT_PAYHEADS 
                             WHERE SALARY_STRUCTURE_CODE = '" + txtCode.Value + "'
                             EXCEPT
-                            SELECT TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE, PAY_HEAD_CODE,LINE_NO
+                            SELECT DISTINCT TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE, PAY_HEAD_CODE,LINE_NO
                             FROM TSPL_EMPLOYEE_SALARY_PAYHEADS
                             LEFT OUTER JOIN TSPL_EMPLOYEE_SALARY 
                                 ON TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE = TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE
