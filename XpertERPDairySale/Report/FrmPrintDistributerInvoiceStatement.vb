@@ -1073,7 +1073,7 @@ Public Class FrmPrintDistributerInvoiceStatement
     End Sub
 
     Private Sub txtMultLocation__My_Click(sender As Object, e As EventArgs) Handles txtMultLocation._My_Click
-        strQry = "select Location_Code  as [Code],Location_Desc as [Name] from TSPL_LOCATION_MASTER"
+        strQry = "select Location_Code  as [Code],Location_Desc as [Name] from TSPL_LOCATION_MASTER where Type='PLANT' "
         txtMultLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultLocation", strQry, "Code", "Name", txtMultLocation.arrValueMember, txtMultLocation.arrDispalyMember)
     End Sub
 
@@ -1161,7 +1161,8 @@ Public Class FrmPrintDistributerInvoiceStatement
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(grow.Cells("Route_Name").Value))
+                    Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
+                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
                     '------------------------code for attchament-------------------------------------
                     strRptPath = ""
@@ -1192,7 +1193,7 @@ Public Class FrmPrintDistributerInvoiceStatement
                     'SmtpMail.EnableSsl = True
 
                     'SmtpMail.Send(MailMsg)
-                    objEmailH = Nothing
+                    'objEmailH = Nothing
                 End If
             Next
             'clsCommon.ProgressBarUpdate("Gathering information regarding PF Rules...")
@@ -1319,4 +1320,93 @@ Public Class FrmPrintDistributerInvoiceStatement
             RadGroupBox4.Visible = False
         End If
     End Sub
+
+    Private Sub BtnSMS_Click(sender As Object, e As EventArgs) Handles BtnSMS.Click
+        Try
+            Dim dtContent1 As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
+            If dtContent1 Is Nothing OrElse dtContent1.Rows.Count = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "First do SMS setting", Me.Text)
+                Exit Sub
+            End If
+
+            'For Each grow As GridViewRowInfo In gv.Rows
+            '    If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+            '        Dim objSMSH As New clsSMSHead()
+            '        objSMSH.arrSMS = New List(Of String)()
+            '        objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells(("Document_Code")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells(("Document_Date")).Value, "dd/MMM/yyyy"))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells(("Customer_Code")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells(("Customer_Name")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells(("Total_Amt")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells(("Location_Desc")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells(("Shift_type")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells(("Supply_Date")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells(("Route_Code")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(grow.Cells(("Route_Name")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
+            '        'strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True)
+            '        Dim SMS_Text As String = ""
+            '        SMS_Text = clsDBFuncationality.getSingleValue("select email from TSPL_customer_MASTER where cust_code ='" & clsCommon.myCstr(grow.Cells("Customer_Code").Value) & "' ")
+
+            '        If clsCommon.myLen(SMS_Text) > 0 Then
+            '            objSMSH.arrEMail.Add(SMS_Text)
+            '        End If
+            '        objSMSH.SendSMS(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objSMSH, Nothing)
+            '    End If
+            'Next
+            ''clsCommon.ProgressBarUpdate("Gathering information regarding PF Rules...")
+            'clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+            ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' Shaurya Rajput
+            For Each grow As GridViewRowInfo In gv.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    Dim strContactPerson As String = ""
+                    Dim strotherno As String = Nothing
+                    strotherno = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_customer_MASTER where cust_code ='" & clsCommon.myCstr(grow.Cells("Customer_Code").Value) & "'"))
+
+                    'Dim emailId As String = ""
+                    'emailId = clsDBFuncationality.getSingleValue("select Email from TSPL_customer_MASTER where cust_code ='" & clsCommon.myCstr(grow.Cells("Customer_Code").Value) & "'")
+
+                    'If clsCommon.myLen(emailId) > 0 Then
+                    '    objEmailH.arrEMail.Add(emailId)
+                    'End If
+
+
+                    Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
+                    Dim objSMSH As New clsSMSHead()
+                    objSMSH.arrMobilNo = New List(Of String)()
+                    objSMSH.arrMobilNo.Add(clsCommon.myCstr(strotherno))
+                    If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+
+                        If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+
+                            objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                            Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
+                        End If
+
+                        If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                            objSMSH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objSMSH, Nothing)
+                            objSMSH = Nothing
+                        End If
+                    End If
+                End If
+            Next
+            clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
+        End Try
+    End Sub
+
+
 End Class
