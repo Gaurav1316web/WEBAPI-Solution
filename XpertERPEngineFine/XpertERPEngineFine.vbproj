@@ -155,6 +155,9 @@
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />
     <Compile Include="DemandUploaderClass\clsDemandBookingUploader.vb" />
+    <Compile Include="Electrical\clsDailyElectricalEntry.vb" />
+    <Compile Include="Electrical\clsDGMaster.vb" />
+    <Compile Include="Electrical\clsSlotMaster.vb" />
     <Compile Include="Inventory\clsBatchInventory.vb" />
     <Compile Include="Inventory\clsBatchInventoryNew.vb" />
     <Compile Include="Inventory\clsCode.vb" />

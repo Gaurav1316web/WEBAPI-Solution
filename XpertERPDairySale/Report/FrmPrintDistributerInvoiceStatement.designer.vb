@@ -26,6 +26,13 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSupplyDate = New System.Windows.Forms.RadioButton()
+        Me.rbtnDocumentDate = New System.Windows.Forms.RadioButton()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBothShift = New System.Windows.Forms.RadioButton()
+        Me.rbtnEvening = New System.Windows.Forms.RadioButton()
+        Me.rbtnMorning = New System.Windows.Forms.RadioButton()
         Me.lblCustomer = New common.Controls.MyLabel()
         Me.fndCustom = New common.UserControls.txtFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -49,6 +56,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.rmiSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnCombinedInvoice = New Telerik.WinControls.UI.RadButton()
+        Me.BtnSMS = New Telerik.WinControls.UI.RadButton()
         Me.btnBatchWiseInvoice = New Telerik.WinControls.UI.RadButton()
         Me.btnPrePrintFormat = New Telerik.WinControls.UI.RadButton()
         Me.BtnEmailSms = New Telerik.WinControls.UI.RadButton()
@@ -67,6 +75,10 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboReportType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,6 +97,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCombinedInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnSMS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBatchWiseInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrePrintFormat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnEmailSms, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -115,6 +128,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCombinedInvoice)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BtnSMS)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnBatchWiseInvoice)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrePrintFormat)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnEmailSms)
@@ -151,6 +165,8 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.fndCustom)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
@@ -168,6 +184,91 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1104, 319)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSupplyDate)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDocumentDate)
+        Me.RadGroupBox2.HeaderText = "Date"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(508, 49)
+        Me.RadGroupBox2.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(327, 45)
+        Me.RadGroupBox2.TabIndex = 421
+        Me.RadGroupBox2.Text = "Date"
+        '
+        'rbtnSupplyDate
+        '
+        Me.rbtnSupplyDate.AutoSize = True
+        Me.rbtnSupplyDate.Location = New System.Drawing.Point(181, 16)
+        Me.rbtnSupplyDate.Name = "rbtnSupplyDate"
+        Me.rbtnSupplyDate.Size = New System.Drawing.Size(87, 17)
+        Me.rbtnSupplyDate.TabIndex = 1
+        Me.rbtnSupplyDate.Text = "Supply Date"
+        Me.rbtnSupplyDate.UseVisualStyleBackColor = True
+        '
+        'rbtnDocumentDate
+        '
+        Me.rbtnDocumentDate.AutoSize = True
+        Me.rbtnDocumentDate.Checked = True
+        Me.rbtnDocumentDate.Location = New System.Drawing.Point(32, 16)
+        Me.rbtnDocumentDate.Name = "rbtnDocumentDate"
+        Me.rbtnDocumentDate.Size = New System.Drawing.Size(105, 17)
+        Me.rbtnDocumentDate.TabIndex = 0
+        Me.rbtnDocumentDate.TabStop = True
+        Me.rbtnDocumentDate.Text = "Document Date"
+        Me.rbtnDocumentDate.UseVisualStyleBackColor = True
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnBothShift)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnEvening)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnMorning)
+        Me.RadGroupBox4.HeaderText = "Shift"
+        Me.RadGroupBox4.Location = New System.Drawing.Point(508, 100)
+        Me.RadGroupBox4.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(327, 45)
+        Me.RadGroupBox4.TabIndex = 420
+        Me.RadGroupBox4.Text = "Shift"
+        '
+        'rbtnBothShift
+        '
+        Me.rbtnBothShift.AutoSize = True
+        Me.rbtnBothShift.Checked = True
+        Me.rbtnBothShift.Location = New System.Drawing.Point(229, 16)
+        Me.rbtnBothShift.Name = "rbtnBothShift"
+        Me.rbtnBothShift.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBothShift.TabIndex = 2
+        Me.rbtnBothShift.TabStop = True
+        Me.rbtnBothShift.Text = "Both"
+        Me.rbtnBothShift.UseVisualStyleBackColor = True
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.AutoSize = True
+        Me.rbtnEvening.Location = New System.Drawing.Point(129, 16)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(66, 17)
+        Me.rbtnEvening.TabIndex = 1
+        Me.rbtnEvening.TabStop = True
+        Me.rbtnEvening.Text = "Evening"
+        Me.rbtnEvening.UseVisualStyleBackColor = True
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.AutoSize = True
+        Me.rbtnMorning.Location = New System.Drawing.Point(30, 16)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(70, 17)
+        Me.rbtnMorning.TabIndex = 0
+        Me.rbtnMorning.TabStop = True
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.UseVisualStyleBackColor = True
         '
         'lblCustomer
         '
@@ -475,17 +576,27 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.btnCombinedInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCombinedInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCombinedInvoice.Location = New System.Drawing.Point(851, 6)
+        Me.btnCombinedInvoice.Location = New System.Drawing.Point(635, 6)
         Me.btnCombinedInvoice.Name = "btnCombinedInvoice"
         Me.btnCombinedInvoice.Size = New System.Drawing.Size(109, 22)
         Me.btnCombinedInvoice.TabIndex = 46
         Me.btnCombinedInvoice.Text = "Combined Invoice"
         '
+        'BtnSMS
+        '
+        Me.BtnSMS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnSMS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnSMS.Location = New System.Drawing.Point(562, 6)
+        Me.BtnSMS.Name = "BtnSMS"
+        Me.BtnSMS.Size = New System.Drawing.Size(71, 22)
+        Me.BtnSMS.TabIndex = 47
+        Me.BtnSMS.Text = "Send SMS"
+        '
         'btnBatchWiseInvoice
         '
         Me.btnBatchWiseInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnBatchWiseInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBatchWiseInvoice.Location = New System.Drawing.Point(703, 6)
+        Me.btnBatchWiseInvoice.Location = New System.Drawing.Point(888, 6)
         Me.btnBatchWiseInvoice.Name = "btnBatchWiseInvoice"
         Me.btnBatchWiseInvoice.Size = New System.Drawing.Size(142, 22)
         Me.btnBatchWiseInvoice.TabIndex = 45
@@ -495,7 +606,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.btnPrePrintFormat.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrePrintFormat.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrePrintFormat.Location = New System.Drawing.Point(596, 6)
+        Me.btnPrePrintFormat.Location = New System.Drawing.Point(784, 6)
         Me.btnPrePrintFormat.Name = "btnPrePrintFormat"
         Me.btnPrePrintFormat.Size = New System.Drawing.Size(101, 22)
         Me.btnPrePrintFormat.TabIndex = 44
@@ -505,7 +616,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.BtnEmailSms.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnEmailSms.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnEmailSms.Location = New System.Drawing.Point(519, 6)
+        Me.BtnEmailSms.Location = New System.Drawing.Point(489, 6)
         Me.BtnEmailSms.Name = "BtnEmailSms"
         Me.BtnEmailSms.Size = New System.Drawing.Size(71, 22)
         Me.BtnEmailSms.TabIndex = 43
@@ -515,7 +626,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.BtnPrintChallan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnPrintChallan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnPrintChallan.Location = New System.Drawing.Point(429, 6)
+        Me.BtnPrintChallan.Location = New System.Drawing.Point(403, 6)
         Me.BtnPrintChallan.Name = "BtnPrintChallan"
         Me.BtnPrintChallan.Size = New System.Drawing.Size(84, 22)
         Me.BtnPrintChallan.TabIndex = 42
@@ -524,7 +635,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         'btnUnSelect
         '
         Me.btnUnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnSelect.Location = New System.Drawing.Point(244, 6)
+        Me.btnUnSelect.Location = New System.Drawing.Point(224, 6)
         Me.btnUnSelect.Name = "btnUnSelect"
         Me.btnUnSelect.Size = New System.Drawing.Size(80, 22)
         Me.btnUnSelect.TabIndex = 22
@@ -534,7 +645,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.BtnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnPrint.Location = New System.Drawing.Point(167, 6)
+        Me.BtnPrint.Location = New System.Drawing.Point(151, 6)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(71, 22)
         Me.BtnPrint.TabIndex = 21
@@ -544,7 +655,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExcel, Me.PDF})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(330, 6)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(306, 6)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
         Me.RadSplitButton1.TabIndex = 19
@@ -564,7 +675,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReset.Location = New System.Drawing.Point(90, 6)
+        Me.BtnReset.Location = New System.Drawing.Point(78, 6)
         Me.BtnReset.Name = "BtnReset"
         Me.BtnReset.Size = New System.Drawing.Size(71, 22)
         Me.BtnReset.TabIndex = 18
@@ -574,7 +685,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(1023, 7)
+        Me.btnclose.Location = New System.Drawing.Point(1034, 6)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(84, 22)
         Me.btnclose.TabIndex = 20
@@ -584,7 +695,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(13, 6)
+        Me.btnGo.Location = New System.Drawing.Point(5, 6)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 17
@@ -610,6 +721,12 @@ Partial Class FrmPrintDistributerInvoiceStatement
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboReportType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -629,6 +746,7 @@ Partial Class FrmPrintDistributerInvoiceStatement
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCombinedInvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnSMS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBatchWiseInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrePrintFormat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnEmailSms, System.ComponentModel.ISupportInitialize).EndInit()
@@ -681,5 +799,13 @@ Partial Class FrmPrintDistributerInvoiceStatement
     Friend WithEvents lblCustomer As common.Controls.MyLabel
     Friend WithEvents fndCustom As common.UserControls.txtFinder
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents rbtnBothShift As RadioButton
+    Friend WithEvents rbtnEvening As RadioButton
+    Friend WithEvents rbtnMorning As RadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnSupplyDate As RadioButton
+    Friend WithEvents rbtnDocumentDate As RadioButton
+    Friend WithEvents BtnSMS As RadButton
 End Class
 

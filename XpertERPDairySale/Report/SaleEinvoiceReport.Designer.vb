@@ -22,11 +22,12 @@ Partial Class SaleEinvoiceReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.MyDate = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtItem = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnDocumentdate = New common.Controls.MyRadioButton()
         Me.rbtnSupplydate = New common.Controls.MyRadioButton()
@@ -54,15 +55,17 @@ Partial Class SaleEinvoiceReport
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.txtItem = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.BtnMorning = New common.Controls.MyRadioButton()
+        Me.BtnEvening = New common.Controls.MyRadioButton()
+        Me.BtnBoth = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.MyDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.rbtnDocumentdate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -88,7 +91,11 @@ Partial Class SaleEinvoiceReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.BtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnBoth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,9 +134,9 @@ Partial Class SaleEinvoiceReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.txtItem)
-        Me.RadPageViewPage1.Controls.Add(Me.MyDate)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.TxtRoute)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
@@ -144,32 +151,48 @@ Partial Class SaleEinvoiceReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(707, 279)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'MyDate
+        'MyLabel4
         '
-        Me.MyDate.FieldName = Nothing
-        Me.MyDate.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyDate.Location = New System.Drawing.Point(15, 92)
-        Me.MyDate.Name = "MyDate"
-        Me.MyDate.Size = New System.Drawing.Size(30, 18)
-        Me.MyDate.TabIndex = 447
-        Me.MyDate.Text = "Date"
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(12, 150)
+        Me.MyLabel4.Margin = New System.Windows.Forms.Padding(4)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel4.TabIndex = 449
+        Me.MyLabel4.Text = "Item"
+        '
+        'txtItem
+        '
+        Me.txtItem.arrDispalyMember = Nothing
+        Me.txtItem.arrValueMember = Nothing
+        Me.txtItem.Location = New System.Drawing.Point(73, 149)
+        Me.txtItem.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItem.MyLinkLable1 = Nothing
+        Me.txtItem.MyLinkLable2 = Nothing
+        Me.txtItem.MyNullText = "All"
+        Me.txtItem.Name = "txtItem"
+        Me.txtItem.Size = New System.Drawing.Size(299, 19)
+        Me.txtItem.TabIndex = 448
         '
         'RadGroupBox5
         '
         Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox5.Controls.Add(Me.rbtnDocumentdate)
         Me.RadGroupBox5.Controls.Add(Me.rbtnSupplydate)
-        Me.RadGroupBox5.HeaderText = ""
-        Me.RadGroupBox5.Location = New System.Drawing.Point(90, 83)
+        Me.RadGroupBox5.HeaderText = "Date Type"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(16, 51)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox5.Size = New System.Drawing.Size(299, 34)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(254, 40)
         Me.RadGroupBox5.TabIndex = 446
+        Me.RadGroupBox5.Text = "Date Type"
         '
         'rbtnDocumentdate
         '
         Me.rbtnDocumentdate.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDocumentdate.Location = New System.Drawing.Point(30, 9)
+        Me.rbtnDocumentdate.Location = New System.Drawing.Point(30, 17)
         Me.rbtnDocumentdate.MyLinkLable1 = Nothing
         Me.rbtnDocumentdate.MyLinkLable2 = Nothing
         Me.rbtnDocumentdate.Name = "rbtnDocumentdate"
@@ -180,7 +203,7 @@ Partial Class SaleEinvoiceReport
         '
         'rbtnSupplydate
         '
-        Me.rbtnSupplydate.Location = New System.Drawing.Point(180, 9)
+        Me.rbtnSupplydate.Location = New System.Drawing.Point(152, 15)
         Me.rbtnSupplydate.MyLinkLable1 = Nothing
         Me.rbtnSupplydate.MyLinkLable2 = Nothing
         Me.rbtnSupplydate.Name = "rbtnSupplydate"
@@ -193,7 +216,7 @@ Partial Class SaleEinvoiceReport
         '
         Me.TxtRoute.arrDispalyMember = Nothing
         Me.TxtRoute.arrValueMember = Nothing
-        Me.TxtRoute.Location = New System.Drawing.Point(90, 180)
+        Me.TxtRoute.Location = New System.Drawing.Point(73, 122)
         Me.TxtRoute.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtRoute.MyLinkLable1 = Me.MyLabel10
@@ -207,7 +230,7 @@ Partial Class SaleEinvoiceReport
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(16, 181)
+        Me.MyLabel10.Location = New System.Drawing.Point(13, 123)
         Me.MyLabel10.Margin = New System.Windows.Forms.Padding(4)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
@@ -220,7 +243,7 @@ Partial Class SaleEinvoiceReport
         Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
         Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(543, 26)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(531, 8)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(158, 37)
@@ -255,13 +278,13 @@ Partial Class SaleEinvoiceReport
         Me.RadGroupBox1.Controls.Add(Me.chkB2C)
         Me.RadGroupBox1.Controls.Add(Me.ChkBoth)
         Me.RadGroupBox1.Controls.Add(Me.ChkB2B)
-        Me.RadGroupBox1.HeaderText = "Invoice"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(336, 21)
+        Me.RadGroupBox1.HeaderText = "Invoice Type"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(276, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(199, 42)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(245, 42)
         Me.RadGroupBox1.TabIndex = 422
-        Me.RadGroupBox1.Text = "Invoice"
+        Me.RadGroupBox1.Text = "Invoice Type"
         '
         'chkB2C
         '
@@ -297,7 +320,7 @@ Partial Class SaleEinvoiceReport
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(15, 142)
+        Me.MyLabel13.Location = New System.Drawing.Point(12, 97)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel13.TabIndex = 334
@@ -307,7 +330,7 @@ Partial Class SaleEinvoiceReport
         '
         Me.txtMultiCustomer.arrDispalyMember = Nothing
         Me.txtMultiCustomer.arrValueMember = Nothing
-        Me.txtMultiCustomer.Location = New System.Drawing.Point(90, 141)
+        Me.txtMultiCustomer.Location = New System.Drawing.Point(73, 98)
         Me.txtMultiCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultiCustomer.MyLinkLable1 = Me.MyLabel13
         Me.txtMultiCustomer.MyLinkLable2 = Nothing
@@ -324,17 +347,17 @@ Partial Class SaleEinvoiceReport
         Me.RadGroupBox4.Controls.Add(Me.txtToDate)
         Me.RadGroupBox4.Controls.Add(Me.txtfDate)
         Me.RadGroupBox4.HeaderText = "Date Range"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(16, 21)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(16, 3)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(310, 42)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(254, 42)
         Me.RadGroupBox4.TabIndex = 53
         Me.RadGroupBox4.Text = "Date Range"
         '
         'MyLabel17
         '
         Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Location = New System.Drawing.Point(142, 16)
+        Me.MyLabel17.Location = New System.Drawing.Point(135, 16)
         Me.MyLabel17.Name = "MyLabel17"
         Me.MyLabel17.Size = New System.Drawing.Size(19, 18)
         Me.MyLabel17.TabIndex = 3
@@ -353,7 +376,7 @@ Partial Class SaleEinvoiceReport
         '
         Me.txtToDate.CustomFormat = "dd/MM/yyyy"
         Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.Location = New System.Drawing.Point(169, 15)
+        Me.txtToDate.Location = New System.Drawing.Point(159, 15)
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.Name = "txtToDate"
         Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -395,7 +418,7 @@ Partial Class SaleEinvoiceReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
@@ -452,30 +475,53 @@ Partial Class SaleEinvoiceReport
         Me.btnGo.TabIndex = 161
         Me.btnGo.Text = ">>>"
         '
-        'txtItem
+        'RadGroupBox3
         '
-        Me.txtItem.arrDispalyMember = Nothing
-        Me.txtItem.arrValueMember = Nothing
-        Me.txtItem.Location = New System.Drawing.Point(90, 221)
-        Me.txtItem.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtItem.MyLinkLable1 = Nothing
-        Me.txtItem.MyLinkLable2 = Nothing
-        Me.txtItem.MyNullText = "All"
-        Me.txtItem.Name = "txtItem"
-        Me.txtItem.Size = New System.Drawing.Size(299, 19)
-        Me.txtItem.TabIndex = 448
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.BtnBoth)
+        Me.RadGroupBox3.Controls.Add(Me.BtnMorning)
+        Me.RadGroupBox3.Controls.Add(Me.BtnEvening)
+        Me.RadGroupBox3.HeaderText = "Date Type"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(276, 51)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(245, 40)
+        Me.RadGroupBox3.TabIndex = 450
+        Me.RadGroupBox3.Text = "Date Type"
         '
-        'MyLabel4
+        'BtnMorning
         '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(16, 222)
-        Me.MyLabel4.Margin = New System.Windows.Forms.Padding(4)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(29, 18)
-        Me.MyLabel4.TabIndex = 449
-        Me.MyLabel4.Text = "Item"
+        Me.BtnMorning.Location = New System.Drawing.Point(13, 15)
+        Me.BtnMorning.MyLinkLable1 = Nothing
+        Me.BtnMorning.MyLinkLable2 = Nothing
+        Me.BtnMorning.Name = "BtnMorning"
+        Me.BtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.BtnMorning.TabIndex = 393
+        Me.BtnMorning.TabStop = False
+        Me.BtnMorning.Text = "Morning"
+        '
+        'BtnEvening
+        '
+        Me.BtnEvening.Location = New System.Drawing.Point(92, 15)
+        Me.BtnEvening.MyLinkLable1 = Nothing
+        Me.BtnEvening.MyLinkLable2 = Nothing
+        Me.BtnEvening.Name = "BtnEvening"
+        Me.BtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.BtnEvening.TabIndex = 393
+        Me.BtnEvening.TabStop = False
+        Me.BtnEvening.Text = "Evening"
+        '
+        'BtnBoth
+        '
+        Me.BtnBoth.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.BtnBoth.Location = New System.Drawing.Point(168, 15)
+        Me.BtnBoth.MyLinkLable1 = Nothing
+        Me.BtnBoth.MyLinkLable2 = Nothing
+        Me.BtnBoth.Name = "BtnBoth"
+        Me.BtnBoth.Size = New System.Drawing.Size(44, 18)
+        Me.BtnBoth.TabIndex = 394
+        Me.BtnBoth.Text = "Both"
+        Me.BtnBoth.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'SaleEinvoiceReport
         '
@@ -496,7 +542,7 @@ Partial Class SaleEinvoiceReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.MyDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -526,7 +572,12 @@ Partial Class SaleEinvoiceReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.BtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnBoth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -559,11 +610,14 @@ Partial Class SaleEinvoiceReport
     Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents TxtRoute As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents MyDate As common.Controls.MyLabel
     Friend WithEvents RadGroupBox5 As RadGroupBox
     Friend WithEvents rbtnDocumentdate As common.Controls.MyRadioButton
     Friend WithEvents rbtnSupplydate As common.Controls.MyRadioButton
     Friend WithEvents txtItem As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents BtnMorning As common.Controls.MyRadioButton
+    Friend WithEvents BtnEvening As common.Controls.MyRadioButton
+    Friend WithEvents BtnBoth As common.Controls.MyRadioButton
 End Class
 

@@ -687,6 +687,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmIndentReport, "Pending Indent Report", "1.07.03.16", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmExpiredItemDetails, "Expired Item Details Report", "1.07.03.17", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.stockRecoNew, "Stock Reco", "1.07.03.18", clsUserMgtCode.SubModuleMaterialReport, 37)
+        InsertDefaultValue(clsUserMgtCode.UnionStockReport, "Union Stock Report ", "1.07.03.18", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.stockRecoBatch, "Stock Reco Batch ", "1.07.03.19", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmBarCodeGenerator1, "Serial No BarCode Generator", "1.07.03.20", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmItemSerialTrackingReport, "Item Serial Tracking Report", "1.07.03.21", clsUserMgtCode.SubModuleMaterialReport, 37)
@@ -1632,6 +1633,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSFinancialHead, "DCS Financial Head", "1.17.01.77", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSSupervisorTagging, "DCS Supervisor Tagging", "1.17.01.78", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.MPMilkPrice, "MP Milk Price", "1.17.01.79", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmUnpostBmcDcs, "Unpost BMC DCS", "1.17.01.80", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "BMC Milk Collection", "1.17.02.01", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
@@ -1886,8 +1889,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBMCGazeCapacityUtilizationReport, "BMC Gaze Capacity Utilization Report", "1.17.03.136", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmTTSavingReport, "Saving Balance Report", "1.17.03.139", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBmcTankerProfitLossReport, "Bmc Tanker Profit Loss report", "1.17.03.140", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-
-        InsertDefaultValue(clsUserMgtCode.BmcLabReport, "Bmc Lab Report", "1.17.03.140", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.BmcLabReport, "Bmc Lab Report", "1.17.03.141", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.CompareVoucherReport, "Compare Voucher Report", "1.17.03.142", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
@@ -2434,6 +2437,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDailyDemandReport, "Daily Demand Report", "1.06.03.55", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptHSNWiseSaleReport, "HSN Wise Sale Report", "1.06.03.56", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmperdayDetailRpt, "PER Day Detail Report", "1.06.03.59", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBookingVsDispatchReport, "Booking Pending Report", "1.06.03.60", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBoothWiseBillReport, "Booth Wise Bill Print", "1.06.03.61", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

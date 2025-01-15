@@ -3126,6 +3126,10 @@ Public Class MDI
                         frm = New FrmLockTransactionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptBoothWiseBillReport
+                        frm = New rptBoothWiseBillReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     '------------------ Common services Transactions---------------------------------------
                     Case clsUserMgtCode.bankTransfer
                         frm = New FrmBankTransfer(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
@@ -4261,6 +4265,10 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.stockRecoNew
                         frm = New FrmStockReco(strProgramCode)
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.UnionStockReport
+                        frm = New rptUnionStock()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FATSNFGainLoss
                         frm = New frmFATSNFGainLoss(strProgramCode)
@@ -7539,6 +7547,9 @@ Public Class MDI
                     Case clsUserMgtCode.MPMilkPrice
                         frm = New frmMPMilkPrice
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmUnpostBmcDcs
+                        frm = New frmUnpostBmcDcs
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8570,7 +8581,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTemporaryPaymentDeductionSummary
                         frm = New rptTemporaryPaymentDeductionSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-
+                    Case clsUserMgtCode.CompareVoucherReport
+                        frm = New frmCompareVoucherReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -9202,6 +9215,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmperdayDetailRpt
                         frm = New FrmperdayDetailRpt()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptBookingVsDispatchReport
+                        frm = New rptBookingVsDispatchReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 

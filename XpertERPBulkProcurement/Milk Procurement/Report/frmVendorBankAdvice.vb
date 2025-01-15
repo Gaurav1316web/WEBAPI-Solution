@@ -7,6 +7,7 @@ Public Class frmVendorBankAdvice
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim MultipleFinderFillAuto As Boolean = False
+    Dim DCSWiseFilterEnable As Boolean = False
     Dim ConvertVlcCodeUploaderToInt As Boolean = False
     Dim AreaWiseBilling As Boolean = False
     Dim VendorBankAdviceForSWM As Boolean = False
@@ -37,6 +38,7 @@ Public Class frmVendorBankAdvice
     Sub FormLoad()
         SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
 
+        DCSWiseFilterEnable = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DCSWiseFilterEnableOnSavingCheck, clsFixedParameterCode.DCSWiseFilterEnableOnSavingCheck, Nothing)) = 0)
         IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         ConvertVlcCodeUploaderToInt = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertVlcCodeUploaderToInt, clsFixedParameterCode.ConvertVlcCodeUploaderToInt, Nothing)) = 1)
@@ -287,11 +289,14 @@ Public Class frmVendorBankAdvice
                 If clsCommon.myLen(fndArea.Value) > 0 Then
                     BaseQry += " And TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" + fndArea.Value + "' "
                 End If
+                If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                    BaseQry += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ")  "
+                End If
                 'If rbtnSavingSummary.IsChecked Then
                 '    BaseQry = " select  ROW_NUMBER() over ( order by Bank_Code) as SNO ,max(Bank_Code) as GRPColumn,sum(Payable_Amount) as Payable_Amount ,max(Branch_Name) as Bank_Desc from (" + BaseQry + ") xx group by xx.Bank_Code "
                 'End If
             ElseIf rbtnCompulsory.IsChecked Then
-                BaseQry = " select max(x.CycleRange)CycleRange,x.GRPColumn,max(x.[Company Bank])[Company Bank],max(x.[Company Bank Account No])[Company Bank Account No],
+                    BaseQry = " select max(x.CycleRange)CycleRange,x.GRPColumn,max(x.[Company Bank])[Company Bank],max(x.[Company Bank Account No])[Company Bank Account No],
                             max(x.Comp_Name)Comp_Name,max(x.Comp_address)Comp_address,max(x.CompPhone)CompPhone,max(x.Regn_No)Regn_No,max(x.MCC_NAME)MCC_NAME,
                             max(x.From_Date)From_Date,max(x.GSTReg_No)GSTReg_No,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.CycleNo)CycleNo,
                             max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,
@@ -327,14 +332,14 @@ Public Class frmVendorBankAdvice
     mp_V.Joint_Account_No
   ) end as Payee_Joint_Account_No,"
 
-                If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
-                    BaseQry += " Round(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as Payable_Amount "
-                Else
-                    BaseQry += " TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount  "
+                    If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
+                        BaseQry += " Round(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as Payable_Amount "
+                    Else
+                        BaseQry += " TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount  "
 
-                End If
+                    End If
 
-                BaseQry += " from TSPL_PAYMENT_PROCESS_COMPULSORY 
+                    BaseQry += " from TSPL_PAYMENT_PROCESS_COMPULSORY 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No
                             left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No
                             left outer join TSPL_MP_MASTER mp on mp.MP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code 
@@ -347,17 +352,17 @@ Public Class frmVendorBankAdvice
                             left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank
                             left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
                             where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
-                If clsCommon.myLen(txtMCC.Value) > 0 Then
-                    BaseQry += " And TSPL_MCC_MASTER.MCC_Code = '" + txtMCC.Value + "' "
-                End If
-                If clsCommon.myLen(fndArea.Value) > 0 Then
-                    BaseQry += " And TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" + fndArea.Value + "' "
-                End If
-                BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 )x
+                    If clsCommon.myLen(txtMCC.Value) > 0 Then
+                        BaseQry += " And TSPL_MCC_MASTER.MCC_Code = '" + txtMCC.Value + "' "
+                    End If
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        BaseQry += " And TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" + fndArea.Value + "' "
+                    End If
+                    BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 )x
 							group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No "
 
-            ElseIf rbtnCompulsoryWiseSummary.IsChecked Then
-                BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
+                ElseIf rbtnCompulsoryWiseSummary.IsChecked Then
+                    BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     BaseQry += " TSPL_Vendor_MASTER.Bank_Code+TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code as GRPColumn,"
                 Else
@@ -1628,6 +1633,7 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
     Private Sub rbtnSaving_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnSaving.ToggleStateChanged, rbtnCompulsory.ToggleStateChanged, rbtnCompulsoryWiseSummary.ToggleStateChanged
         If rbtnSaving.IsChecked OrElse rbtnCompulsory.IsChecked OrElse rbtnCompulsoryWiseSummary.IsChecked Then
             rbtnBothSavCur.IsChecked = False
+
             If Not flagCurrent Then
                 flagSaving = True
                 rbtnBankAdvice.IsChecked = False
@@ -1636,6 +1642,10 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                 rbtnBothSavCur.IsChecked = False
                 flagSaving = False
             End If
+        End If
+        If rbtnSaving.IsChecked AndAlso DCSWiseFilterEnable = True Then
+            txtDCS.Visible = True
+            MyLabel15.Visible = True
         End If
 
 
@@ -2179,6 +2189,25 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                     clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 End If
             End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtDCS__My_Click(sender As Object, e As EventArgs) Handles txtDCS._My_Click
+        Try
+            'If txtRoute.arrValueMember Is Nothing OrElse txtRoute.arrValueMember.Count <= 0 Then
+            '    txtRoute.Focus()
+            '    Throw New Exception("Please select at least route")
+            'End If
+            Dim qry As String = " select  TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name],TSPL_VLC_MASTER_HEAD.VSP_Code,isnull(TSPL_VENDOR_MASTER.Zone_Code,'') AS Zone
+		                          from TSPL_VLC_MASTER_HEAD 
+		                          left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code"
+            'If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+            '    qry += " and TSPL_VLC_MASTER_HEAD.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
+            'End If
+
+            txtDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "VSP_Code", "DCS Name", txtDCS.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

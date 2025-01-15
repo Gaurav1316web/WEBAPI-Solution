@@ -26,7 +26,9 @@ Public Class FrmPrintDistributerInvoiceStatement
     End Sub
 
     Public Sub loadReport()
+        Dim sQuery As String = Nothing
         Dim WhrCls As String = " and 2=2 "
+        Dim Whr As String = ""
         If txtFromDate.Value > txtToDate.Value Then
             common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             txtFromDate.Focus()
@@ -36,6 +38,11 @@ Public Class FrmPrintDistributerInvoiceStatement
         '    clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
         '    Exit Sub
         'End If
+        If rbtnEvening.Checked Then
+            Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
+        ElseIf rbtnMorning.Checked Then
+            Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+        End If
         If clsCommon.myCDate(txtFromDate.Value) >= objCommonVar.GSTApplicableDate AndAlso clsCommon.myCDate(txtToDate.Value) >= objCommonVar.GSTApplicableDate Then
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "") = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "Please Select Report Type.", Me.Text)
@@ -44,18 +51,38 @@ Public Class FrmPrintDistributerInvoiceStatement
             End If
         End If
 
-
-        Dim sQuery As String = " select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date ,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name  ,
-                                Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE 
-        WHEN Shift_type = 'AM' THEN 'Morning'
-        ELSE 'Evening'
-    END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
+        If rbtnDocumentDate.Checked Then
+            sQuery += "  select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,
+                                TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name  ,
+                                Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,
+	                            CASE 
+                                WHEN Shift_type = 'AM' THEN 'Morning'
+                                ELSE 'Evening'
+                                END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
                                 from TSPL_SD_SALE_INVOICE_HEAD
                                 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
-                               left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
-                               left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
-     left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
-where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' "
+                                left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                                left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
+                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+                                where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS'
+                                and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
+        ElseIf rbtnSupplyDate.Checked Then
+            sQuery += " select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code 
+                                ,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,
+                                TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name  ,
+                                Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE 
+                                WHEN Shift_type = 'AM' THEN 'Morning'
+                                ELSE 'Evening'
+                                END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
+                                from TSPL_SD_SALE_INVOICE_HEAD
+                                left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+                                left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                                left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.State 
+                                left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+                                where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS'
+                                and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
+        End If
+
 
 
         If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "LT") = CompairStringResult.Equal Then
@@ -74,7 +101,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
             sQuery += "  and TSPL_LOCATION_MASTER.State=TSPL_CUSTOMER_MASTER.State  and 0= (select count(*) from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and Tax_Code in(select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y'))"
         End If
 
-        sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103)"
+        'sQuery += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103)"
         '==============update by preeti gupta Against Ticket No [BM00000005410]
 
         'If chkLocationSelect.IsChecked And cbgLocation.CheckedValue.Count > 0 Then
@@ -159,6 +186,10 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         gv.Columns("Document_Date").HeaderText = " Date"
         'gv.Columns("Document_Date").FormatString = "{0:d}"
 
+        gv.Columns("Route_Code").IsVisible = True
+        gv.Columns("Route_Code").Width = 100
+        gv.Columns("Route_Code").HeaderText = "Route Code"
+
         gv.Columns("Location_Desc").IsVisible = True
         gv.Columns("Location_Desc").Width = 100
         gv.Columns("Location_Desc").HeaderText = "Location"
@@ -216,6 +247,9 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         loadReport()
     End Sub
     Sub Reset()
+        rbtnDocumentDate.Checked = True
+        RadGroupBox2.Visible = True
+        RadGroupBox4.Visible = False
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
         'LoadLocation()
@@ -767,6 +801,8 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
 
     Private Sub FrmPrintDistributerInvoiceStatement_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+            RadGroupBox2.Visible = True
+            RadGroupBox4.Visible = False
             'Dim coll As Dictionary(Of String, String)
             'coll = New Dictionary(Of String, String)
             'coll.Add("MonthlySaleInvoiceNo", "varchar(30) NULL")
@@ -1037,7 +1073,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
     End Sub
 
     Private Sub txtMultLocation__My_Click(sender As Object, e As EventArgs) Handles txtMultLocation._My_Click
-        strQry = "select Location_Code  as [Code],Location_Desc as [Name] from TSPL_LOCATION_MASTER"
+        strQry = "select Location_Code  as [Code],Location_Desc as [Name] from TSPL_LOCATION_MASTER where Type='PLANT' "
         txtMultLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultLocation", strQry, "Code", "Name", txtMultLocation.arrValueMember, txtMultLocation.arrDispalyMember)
     End Sub
 
@@ -1125,7 +1161,8 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(grow.Cells("Route_Name").Value))
+                    Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
+                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
                     '------------------------code for attchament-------------------------------------
                     strRptPath = ""
@@ -1156,7 +1193,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                     'SmtpMail.EnableSsl = True
 
                     'SmtpMail.Send(MailMsg)
-                    objEmailH = Nothing
+                    'objEmailH = Nothing
                 End If
             Next
             'clsCommon.ProgressBarUpdate("Gathering information regarding PF Rules...")
@@ -1274,4 +1311,102 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         fndCustom.Value = clsCommon.ShowSelectForm("PrintSaleInvoiceMonthly", strQuery, "Code", "", fndCustom.Value, "Code", isButtonClicked)
         lblCustomer.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code = '" + fndCustom.Value + "' "))
     End Sub
+
+    Private Sub rbtnSupplyDate_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnSupplyDate.CheckedChanged
+        If rbtnSupplyDate.Checked Then
+            RadGroupBox4.Visible = True
+        End If
+        If rbtnDocumentDate.Checked Then
+            RadGroupBox4.Visible = False
+        End If
+    End Sub
+
+    Private Sub BtnSMS_Click(sender As Object, e As EventArgs) Handles BtnSMS.Click
+        Try
+            Dim dtContent1 As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
+            If dtContent1 Is Nothing OrElse dtContent1.Rows.Count = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "First do SMS setting", Me.Text)
+                Exit Sub
+            End If
+
+            'For Each grow As GridViewRowInfo In gv.Rows
+            '    If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+            '        Dim objSMSH As New clsSMSHead()
+            '        objSMSH.arrSMS = New List(Of String)()
+            '        objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells(("Document_Code")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells(("Document_Date")).Value, "dd/MMM/yyyy"))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells(("Customer_Code")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells(("Customer_Name")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells(("Total_Amt")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells(("Location_Desc")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells(("Shift_type")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells(("Supply_Date")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells(("Route_Code")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(grow.Cells(("Route_Name")).Value))
+            '        objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
+            '        'strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True)
+            '        Dim SMS_Text As String = ""
+            '        SMS_Text = clsDBFuncationality.getSingleValue("select email from TSPL_customer_MASTER where cust_code ='" & clsCommon.myCstr(grow.Cells("Customer_Code").Value) & "' ")
+
+            '        If clsCommon.myLen(SMS_Text) > 0 Then
+            '            objSMSH.arrEMail.Add(SMS_Text)
+            '        End If
+            '        objSMSH.SendSMS(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objSMSH, Nothing)
+            '    End If
+            'Next
+            ''clsCommon.ProgressBarUpdate("Gathering information regarding PF Rules...")
+            'clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+            ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' Shaurya Rajput
+            For Each grow As GridViewRowInfo In gv.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    Dim strContactPerson As String = ""
+                    Dim strotherno As String = Nothing
+                    strotherno = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Phone1 from TSPL_customer_MASTER where cust_code ='" & clsCommon.myCstr(grow.Cells("Customer_Code").Value) & "'"))
+
+                    'Dim emailId As String = ""
+                    'emailId = clsDBFuncationality.getSingleValue("select Email from TSPL_customer_MASTER where cust_code ='" & clsCommon.myCstr(grow.Cells("Customer_Code").Value) & "'")
+
+                    'If clsCommon.myLen(emailId) > 0 Then
+                    '    objEmailH.arrEMail.Add(emailId)
+                    'End If
+
+
+                    Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmPrintDistributerInvoiceStatement + "'", Nothing)
+                    Dim objSMSH As New clsSMSHead()
+                    objSMSH.arrMobilNo = New List(Of String)()
+                    objSMSH.arrMobilNo.Add(clsCommon.myCstr(strotherno))
+                    If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+
+                        If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+
+                            objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(grow.Cells("Document_Code").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(grow.Cells("Document_Date").Value, "dd/MMM/yyyy"))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerNo, clsCommon.myCstr(grow.Cells("Customer_Code").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerName, clsCommon.myCstr(grow.Cells("Customer_Name").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(grow.Cells("Total_Amt").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.LocationName, clsCommon.myCstr(grow.Cells("Location_Desc").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyShift, clsCommon.myCstr(grow.Cells("Shift_type").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SupplyDate, clsCommon.myCstr(grow.Cells("Supply_Date").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Route, clsCommon.myCstr(grow.Cells("Route_Code").Value))
+                            Dim routeName = clsDBFuncationality.getSingleValue("SELECT Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route_Code").Value) + "'", Nothing)
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.RouteName, clsCommon.myCstr(routeName))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
+                        End If
+
+                        If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                            objSMSH.SaveData(clsUserMgtCode.FrmPrintDistributerInvoiceStatement, objSMSH, Nothing)
+                            objSMSH = Nothing
+                        End If
+                    End If
+                End If
+            Next
+            clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
+        End Try
+    End Sub
+
+
 End Class

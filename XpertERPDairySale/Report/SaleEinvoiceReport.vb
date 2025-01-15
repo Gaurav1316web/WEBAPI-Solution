@@ -1,4 +1,5 @@
-﻿Imports common
+﻿'''''''' Created Report By Shaurya Rajput
+Imports common
 Imports System.IO
 Public Class SaleEinvoiceReport
 
@@ -8,6 +9,7 @@ Public Class SaleEinvoiceReport
         ChkBoth.Checked = True
         txtItem.Visible = False
         MyLabel4.Visible = False
+        RadGroupBox3.Visible = False
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         reset()
@@ -21,6 +23,7 @@ Public Class SaleEinvoiceReport
         gvData.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
         ChkBoth.Checked = True
+        RadGroupBox3.Visible = False
     End Sub
 
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
@@ -78,6 +81,13 @@ Public Class SaleEinvoiceReport
         ElseIf rbtnSupplydate.IsChecked Then
             VarID += "_SD"
         End If
+        If BtnMorning.IsChecked Then
+            VarID += "_MO"
+        ElseIf BtnEvening.IsChecked Then
+            VarID += "_EV"
+        ElseIf BtnBoth.IsChecked Then
+            VarID += "_BO"
+        End If
         If chkB2C.Checked = True Then
             VarID += "_BC"
         ElseIf ChkB2B.Checked = True Then
@@ -97,6 +107,11 @@ Public Class SaleEinvoiceReport
             Dim strtxtfDate As String = clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy")
             Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
             Dim qry As String = ""
+            If BtnMorning.IsChecked Then
+                Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+            ElseIf BtnEvening.IsChecked Then
+                Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
+            End If
             If rbtnDocumentdate.IsChecked Then
                 Whr += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
                                 Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
@@ -123,7 +138,7 @@ Public Class SaleEinvoiceReport
             End If
             If rbtnSummary.IsChecked Then
                 GetReportGridID()
-                qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SALE_INVOICE_HEAD.Posting_Date, 103)) as [Supply Date],
+                qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
                            CASE WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'AM' THEN 'Morning' WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'PM' THEN 'Evening'  end as [Shift Type],
                            max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) AS [Location],
                            max(TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code) AS [Sub Location],
@@ -225,7 +240,7 @@ Public Class SaleEinvoiceReport
                            left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
                            left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " + Whr + "  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
             ElseIf rbtnDetail.IsChecked Then
-                qry = "SELECT  CONVERT(varchar,TSPL_SD_SALE_INVOICE_HEAD.Posting_Date, 103) as [Supply Date],
+                qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' THEN 'Morning' WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' THEN 'Evening'  end as [Shift Type], 
                                 TSPL_SD_SHIPMENT_HEAD.Bill_To_Location AS [Location],
                                 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -417,6 +432,7 @@ Public Class SaleEinvoiceReport
                 gvData.AllowDeleteRow = False
                 gvData.EnableFiltering = True
                 gvData.ShowFilteringRow = True
+                'SetGridFormat()
                 gvData.BestFitColumns()
             End If
         Catch ex As Exception
@@ -424,6 +440,152 @@ Public Class SaleEinvoiceReport
         End Try
 
     End Sub
+
+    'Sub SetGridFormat()
+    'Try
+    '    gvData.AutoExpandGroups = True
+    '    gvData.ShowGroupPanel = True
+    '    gvData.ShowRowHeaderColumn = False
+    '    gvData.AllowAddNewRow = False
+    '    gvData.AllowDeleteRow = False
+    '    gvData.EnableFiltering = True
+    '    gvData.ShowFilteringRow = True
+    '    For ii As Integer = 0 To gvData.Columns.Count - 1
+    '        gvData.Columns(ii).ReadOnly = True
+    '        gvData.Columns(ii).BestFit()
+    '    Next
+    '    If ddlReportType.SelectedValue = "Stock Journal" Then
+
+    '        gvData.Columns("INWARDQTYReportUom").HeaderText = "Report UOM Inward Qty"
+    '        gvData.Columns("INWARDQTYReportUom").Width = 250
+    '        gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
+    '        gvData.Columns("INWARDQTYReportUom").IsVisible = False
+
+    '        gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Report UOM Outward Qty"
+    '        gvData.Columns("OUTWARDQTYReportUom").Width = 500
+    '        gvData.Columns("OUTWARDQTYReportUom").IsVisible = False
+
+    '        gvData.Columns("Qty").HeaderText = "Total Qty"
+    '        gvData.Columns("Qty").Width = 500
+    '        gvData.Columns("Qty").IsVisible = False
+
+    '        'gvData.Columns("Item_Code").Name = "Item Code"
+    '        'gvData.Columns("Item_Code").IsVisible = True
+
+    '        gvData.Columns("Item_Desc").HeaderText = "Item Name"
+    '        gvData.Columns("Item_Desc").Width = 250
+    '        gvData.Columns("Item_Desc").IsVisible = True
+
+    '        'gvData.Columns("VLC_Name").FormatString = "{0:n2}"
+    '        gvData.Columns("UOM").HeaderText = "UOM"
+    '        gvData.Columns("UOM").Width = 500
+
+    '        gvData.Columns("INWARDQTYReportUom").HeaderText = "Inward QTY"
+    '        gvData.Columns("INWARDQTYReportUom").Width = 250
+    '        gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
+    '        gvData.Columns("INWARDQTYReportUom").IsVisible = True
+
+    '        gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Outward QTY"
+    '        gvData.Columns("OUTWARDQTYReportUom").Width = 250
+    '        gvData.Columns("OUTWARDQTYReportUom").FormatString = "{0:n2}"
+    '        gvData.Columns("OUTWARDQTYReportUom").IsVisible = True
+
+    '        gvData.Columns("From_Location").HeaderText = "From Location"
+    '        gvData.Columns("From_Location").Width = 250
+    '        gvData.Columns("From_Location").IsVisible = False
+
+    '        gvData.Columns("To_Location").HeaderText = "To Location"
+    '        gvData.Columns("To_Location").Width = 250
+    '        gvData.Columns("To_Location").IsVisible = False
+
+    '        gvData.Columns("location_desc").HeaderText = "location Name"
+    '        gvData.Columns("location_desc").Width = 250
+    '        gvData.Columns("location_desc").IsVisible = False
+
+    '        gvData.Columns("structure_code").HeaderText = "Structure Code"
+    '        gvData.Columns("structure_code").Width = 250
+    '        gvData.Columns("structure_code").IsVisible = False
+
+    '        gvData.Columns("From_Date").HeaderText = "From Date"
+    '        gvData.Columns("From_Date").Width = 250
+    '        gvData.Columns("From_Date").IsVisible = False
+
+    '        gvData.Columns("To_Date").HeaderText = "To Date"
+    '        gvData.Columns("To_Date").Width = 250
+    '        gvData.Columns("To_Date").IsVisible = False
+
+    '        gvData.Columns("City_code").HeaderText = "City code"
+    '        gvData.Columns("City_code").Width = 250
+    '        gvData.Columns("City_code").IsVisible = False
+
+    '        gvData.Columns("INUOM").HeaderText = "INUOM"
+    '        gvData.Columns("INUOM").Width = 250
+    '        gvData.Columns("INUOM").IsVisible = False
+
+
+    '        Dim summaryRowItem As New GridViewSummaryRowItem()
+    '        Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item1)
+    '        Dim item2 As New GridViewSummaryItem("OUTWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item2)
+    '        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+    '        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    '    ElseIf ddlReportType.SelectedValue = "Stock Summary" Then
+
+    '        gvData.Columns("Structure_Code").HeaderText = "Structure Code"
+    '        gvData.Columns("Structure_Code").IsVisible = True
+
+    '        gvData.Columns("Item_Type").IsVisible = False
+
+    '        gvData.Columns("Item_Code").HeaderText = "Item Code"
+    '        gvData.Columns("Item_Code").IsVisible = True
+
+    '        gvData.Columns("Item_Desc").HeaderText = "Item Name"
+    '        gvData.Columns("Item_Desc").Width = 250
+    '        gvData.Columns("Item_Desc").IsVisible = True
+
+    '        gvData.Columns("Report_UOM").HeaderText = "UOM"
+    '        gvData.Columns("Report_UOM").Width = 500
+
+    '        gvData.Columns("OPBal").HeaderText = "Opening Balance"
+    '        gvData.Columns("OPBal").Width = 250
+    '        gvData.Columns("OPBal").FormatString = "{0:n2}"
+
+    '        gvData.Columns("Received_Qty").HeaderText = "Inwards Qty"
+    '        gvData.Columns("Received_Qty").Width = 500
+    '        gvData.Columns("Received_Qty").IsVisible = True
+
+    '        gvData.Columns("Issued_Qty").HeaderText = "Outwards Qty"
+    '        gvData.Columns("Issued_Qty").Width = 500
+    '        gvData.Columns("Issued_Qty").IsVisible = True
+
+    '        gvData.Columns("Balance_Qty").HeaderText = "Closing Balance"
+    '        gvData.Columns("Balance_Qty").Width = 500
+    '        gvData.Columns("Balance_Qty").IsVisible = True
+
+    '        gvData.Columns("Comp_Name").IsVisible = False
+    '        gvData.Columns("City_Code").IsVisible = False
+    '        gvData.Columns("fromDate").IsVisible = False
+    '        gvData.Columns("Todate").IsVisible = False
+
+
+    '        Dim summaryRowItem As New GridViewSummaryRowItem()
+    '        Dim item1 As New GridViewSummaryItem("OPBal", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item1)
+    '        Dim item2 As New GridViewSummaryItem("Received_Qty", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item2)
+    '        Dim item3 As New GridViewSummaryItem("Issued_Qty", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item3)
+    '        Dim item4 As New GridViewSummaryItem("Balance_Qty", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item4)
+    '        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+    '        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    '    End If
+
+    'Catch ex As Exception
+    '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    'End Try
+    'End Sub
 
 
 
@@ -698,5 +860,13 @@ Public Class SaleEinvoiceReport
     Private Sub rbtnSummary_Click(sender As Object, e As EventArgs) Handles rbtnSummary.Click
         txtItem.Visible = False
         MyLabel4.Visible = False
+    End Sub
+
+    Private Sub rbtnSupplydate_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnSupplydate.CheckStateChanged
+        If rbtnSupplydate.IsChecked Then
+            RadGroupBox3.Visible = True
+        Else
+            RadGroupBox3.Visible = False
+        End If
     End Sub
 End Class

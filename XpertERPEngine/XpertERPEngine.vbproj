@@ -283,9 +283,6 @@
     <Compile Include="Common\UserControl\clsGatePassPS.vb" />
     <Compile Include="CustomerComplaint\clsCustomerComplain.vb" />
     <Compile Include="CustomerComplaint\clsCustomerComplaintMaster.vb" />
-    <Compile Include="Electrical\clsDailyElectricalEntry.vb" />
-    <Compile Include="Electrical\clsDGMaster.vb" />
-    <Compile Include="Electrical\clsSlotMaster.vb" />
     <Compile Include="EngAndPlantManagement\clsEngLogSheet.vb" />
     <Compile Include="EngAndPlantManagement\clsEngSection.vb" />
     <Compile Include="EngAndPlantManagement\clsWorkEstimationHead.vb" />
