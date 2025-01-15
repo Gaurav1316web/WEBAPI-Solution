@@ -119,8 +119,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.WinControls.UI">
-      <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.dll</HintPath>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

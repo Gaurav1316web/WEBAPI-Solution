@@ -2213,6 +2213,7 @@ Public Class clsUserMgtCode
     Public Const rptTemporaryPaymentDeductionSummary As String = "TPDS_R"
     Public Const rptAutoMultipleAdditionDeduction As String = "AMAD-R"
     Public Const rptBmcCollection As String = "BMC-COL-RPT"
+    Public Const CompareVoucherReport As String = "CMP-VCH-RPT"
     Public Const rptDBTMilkPayment As String = "DBT-MPAYM"
     Public Const rptDBTSummaryMonthlyWise As String = "DBT-Monthly"
     Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
