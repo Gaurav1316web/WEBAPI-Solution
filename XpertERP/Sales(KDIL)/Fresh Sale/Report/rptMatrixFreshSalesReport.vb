@@ -2443,7 +2443,7 @@ SaleReturnData AS (
         max(TSPL_ITEM_MASTER.Alies_Name) Alies_Name ,
         null AS Cust_Code,
         null AS Customer_Name,
-        TSPL_SD_SALE_RETURN_DETAIL.ActualQty AS Qty,
+       round((isnull(TSPL_SD_SALE_RETURN_DETAIL.ActualQty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/ConvertDiv.Conversion_Factor,2) AS Qty,
         NULL AS QtyNotMilkPouch,
 		CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 THEN TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt ELSE 0 END AS MilkAmt,
         CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch = 0 THEN TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt ELSE 0 END AS ProductAmt,

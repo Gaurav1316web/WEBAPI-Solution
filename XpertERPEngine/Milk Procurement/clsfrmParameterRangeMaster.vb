@@ -344,6 +344,7 @@ Public Class clsfrmTankerMaster
     Public Total_Chamber As Integer
     Public arrChamber As List(Of clsTankerChamberDetail) = Nothing
     Public Provision_Min_Qty As Integer
+    Public Inactive As Boolean = False
 #End Region
 
     Public Shared Function GetFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
@@ -373,7 +374,13 @@ Public Class clsfrmTankerMaster
         Try
             Dim isSaved As Boolean = True
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_TANKER_CHAMBER_DETAIL where Tanker_No='" + obj.tankerno + "'", trans)
-
+            If obj.Inactive Then
+                Dim qry As String = "select ROUTE_NO from TSPL_bulk_route_master where Tanker_No='" + tankerno + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Throw New Exception("You can't Inactive Tanker No [" + tankerno + "] it is tagged with route no [" + clsCommon.myCstr(dt.Rows(0)("ROUTE_NO")) + "]")
+                End If
+            End If
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Tanker_Transporter_Code", obj.code)
@@ -406,6 +413,7 @@ Public Class clsfrmTankerMaster
 
             clsCommon.AddColumnsForChange(coll, "Total_Chamber", obj.Total_Chamber)
             clsCommon.AddColumnsForChange(coll, "Provision_Min_Qty", obj.Provision_Min_Qty)
+            clsCommon.AddColumnsForChange(coll, "Inactive", IIf(obj.Inactive, 1, 0))
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
@@ -424,7 +432,9 @@ Public Class clsfrmTankerMaster
     Public Shared Function GetData(ByVal tankerno As String, ByVal NavType As NavigatorType) As clsfrmTankerMaster
         Try
             Dim obj As New clsfrmTankerMaster()
-            Dim qry As String = "select TSPL_TANKER_MASTER.tanker_transporter_code as Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No,TSPL_TANKER_MASTER.tanker_name,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_TANKER_MASTER.StorageCapacityDesc,TSPL_TANKER_MASTER.Year,TSPL_TANKER_MASTER.Inner_SS,TSPL_TANKER_MASTER.Outer_SS,TSPL_TANKER_MASTER.Shift_Charges,TSPL_TANKER_MASTER.Avg_KM_Ltr,TSPL_TANKER_MASTER.Diesel_Rate,TSPL_TANKER_MASTER.Price_KM,TSPL_TANKER_MASTER.Rate_Type,TSPL_TANKER_MASTER.Price_Ltr_Kg,TSPL_TANKER_MASTER.Rental_Type,TSPL_TANKER_MASTER.Rental_Amount,TSPL_TANKER_MASTER.Status,TSPL_TANKER_MASTER.Total_Chamber ,TSPL_TANKER_MASTER.Provision_Min_Qty from TSPL_VENDOR_MASTER right outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_Transporter_Code=TSPL_VENDOR_MASTER.Vendor_Code"
+            Dim qry As String = "select TSPL_TANKER_MASTER.tanker_transporter_code as Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No,TSPL_TANKER_MASTER.tanker_name,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_TANKER_MASTER.StorageCapacityDesc,TSPL_TANKER_MASTER.Year,TSPL_TANKER_MASTER.Inner_SS,TSPL_TANKER_MASTER.Outer_SS,TSPL_TANKER_MASTER.Shift_Charges,TSPL_TANKER_MASTER.Avg_KM_Ltr,TSPL_TANKER_MASTER.Diesel_Rate,TSPL_TANKER_MASTER.Price_KM,TSPL_TANKER_MASTER.Rate_Type,TSPL_TANKER_MASTER.Price_Ltr_Kg,TSPL_TANKER_MASTER.Rental_Type,TSPL_TANKER_MASTER.Rental_Amount,TSPL_TANKER_MASTER.Status,TSPL_TANKER_MASTER.Total_Chamber ,TSPL_TANKER_MASTER.Provision_Min_Qty,TSPL_TANKER_MASTER.Inactive 
+from TSPL_VENDOR_MASTER 
+right outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_Transporter_Code=TSPL_VENDOR_MASTER.Vendor_Code "
 
             Select Case (NavType)
                 Case NavigatorType.Current
@@ -473,6 +483,7 @@ Public Class clsfrmTankerMaster
                 obj.inner = clsCommon.myCstr(dt.Rows(0)("inner_ss"))
                 obj.outer = clsCommon.myCstr(dt.Rows(0)("outer_ss"))
                 obj.Total_Chamber = clsCommon.myCdbl(dt.Rows(0)("Total_Chamber"))
+                obj.Inactive = (clsCommon.myCDecimal(dt.Rows(0)("Inactive")) = 1)
                 obj.arrChamber = clsTankerChamberDetail.GetData(obj.tankerno)
             End If
             Return obj
