@@ -432,6 +432,7 @@ Public Class SaleEinvoiceReport
                 gvData.AllowDeleteRow = False
                 gvData.EnableFiltering = True
                 gvData.ShowFilteringRow = True
+                'SetGridFormat()
                 gvData.BestFitColumns()
             End If
         Catch ex As Exception
@@ -439,6 +440,152 @@ Public Class SaleEinvoiceReport
         End Try
 
     End Sub
+
+    'Sub SetGridFormat()
+    'Try
+    '    gvData.AutoExpandGroups = True
+    '    gvData.ShowGroupPanel = True
+    '    gvData.ShowRowHeaderColumn = False
+    '    gvData.AllowAddNewRow = False
+    '    gvData.AllowDeleteRow = False
+    '    gvData.EnableFiltering = True
+    '    gvData.ShowFilteringRow = True
+    '    For ii As Integer = 0 To gvData.Columns.Count - 1
+    '        gvData.Columns(ii).ReadOnly = True
+    '        gvData.Columns(ii).BestFit()
+    '    Next
+    '    If ddlReportType.SelectedValue = "Stock Journal" Then
+
+    '        gvData.Columns("INWARDQTYReportUom").HeaderText = "Report UOM Inward Qty"
+    '        gvData.Columns("INWARDQTYReportUom").Width = 250
+    '        gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
+    '        gvData.Columns("INWARDQTYReportUom").IsVisible = False
+
+    '        gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Report UOM Outward Qty"
+    '        gvData.Columns("OUTWARDQTYReportUom").Width = 500
+    '        gvData.Columns("OUTWARDQTYReportUom").IsVisible = False
+
+    '        gvData.Columns("Qty").HeaderText = "Total Qty"
+    '        gvData.Columns("Qty").Width = 500
+    '        gvData.Columns("Qty").IsVisible = False
+
+    '        'gvData.Columns("Item_Code").Name = "Item Code"
+    '        'gvData.Columns("Item_Code").IsVisible = True
+
+    '        gvData.Columns("Item_Desc").HeaderText = "Item Name"
+    '        gvData.Columns("Item_Desc").Width = 250
+    '        gvData.Columns("Item_Desc").IsVisible = True
+
+    '        'gvData.Columns("VLC_Name").FormatString = "{0:n2}"
+    '        gvData.Columns("UOM").HeaderText = "UOM"
+    '        gvData.Columns("UOM").Width = 500
+
+    '        gvData.Columns("INWARDQTYReportUom").HeaderText = "Inward QTY"
+    '        gvData.Columns("INWARDQTYReportUom").Width = 250
+    '        gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
+    '        gvData.Columns("INWARDQTYReportUom").IsVisible = True
+
+    '        gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Outward QTY"
+    '        gvData.Columns("OUTWARDQTYReportUom").Width = 250
+    '        gvData.Columns("OUTWARDQTYReportUom").FormatString = "{0:n2}"
+    '        gvData.Columns("OUTWARDQTYReportUom").IsVisible = True
+
+    '        gvData.Columns("From_Location").HeaderText = "From Location"
+    '        gvData.Columns("From_Location").Width = 250
+    '        gvData.Columns("From_Location").IsVisible = False
+
+    '        gvData.Columns("To_Location").HeaderText = "To Location"
+    '        gvData.Columns("To_Location").Width = 250
+    '        gvData.Columns("To_Location").IsVisible = False
+
+    '        gvData.Columns("location_desc").HeaderText = "location Name"
+    '        gvData.Columns("location_desc").Width = 250
+    '        gvData.Columns("location_desc").IsVisible = False
+
+    '        gvData.Columns("structure_code").HeaderText = "Structure Code"
+    '        gvData.Columns("structure_code").Width = 250
+    '        gvData.Columns("structure_code").IsVisible = False
+
+    '        gvData.Columns("From_Date").HeaderText = "From Date"
+    '        gvData.Columns("From_Date").Width = 250
+    '        gvData.Columns("From_Date").IsVisible = False
+
+    '        gvData.Columns("To_Date").HeaderText = "To Date"
+    '        gvData.Columns("To_Date").Width = 250
+    '        gvData.Columns("To_Date").IsVisible = False
+
+    '        gvData.Columns("City_code").HeaderText = "City code"
+    '        gvData.Columns("City_code").Width = 250
+    '        gvData.Columns("City_code").IsVisible = False
+
+    '        gvData.Columns("INUOM").HeaderText = "INUOM"
+    '        gvData.Columns("INUOM").Width = 250
+    '        gvData.Columns("INUOM").IsVisible = False
+
+
+    '        Dim summaryRowItem As New GridViewSummaryRowItem()
+    '        Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item1)
+    '        Dim item2 As New GridViewSummaryItem("OUTWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item2)
+    '        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+    '        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    '    ElseIf ddlReportType.SelectedValue = "Stock Summary" Then
+
+    '        gvData.Columns("Structure_Code").HeaderText = "Structure Code"
+    '        gvData.Columns("Structure_Code").IsVisible = True
+
+    '        gvData.Columns("Item_Type").IsVisible = False
+
+    '        gvData.Columns("Item_Code").HeaderText = "Item Code"
+    '        gvData.Columns("Item_Code").IsVisible = True
+
+    '        gvData.Columns("Item_Desc").HeaderText = "Item Name"
+    '        gvData.Columns("Item_Desc").Width = 250
+    '        gvData.Columns("Item_Desc").IsVisible = True
+
+    '        gvData.Columns("Report_UOM").HeaderText = "UOM"
+    '        gvData.Columns("Report_UOM").Width = 500
+
+    '        gvData.Columns("OPBal").HeaderText = "Opening Balance"
+    '        gvData.Columns("OPBal").Width = 250
+    '        gvData.Columns("OPBal").FormatString = "{0:n2}"
+
+    '        gvData.Columns("Received_Qty").HeaderText = "Inwards Qty"
+    '        gvData.Columns("Received_Qty").Width = 500
+    '        gvData.Columns("Received_Qty").IsVisible = True
+
+    '        gvData.Columns("Issued_Qty").HeaderText = "Outwards Qty"
+    '        gvData.Columns("Issued_Qty").Width = 500
+    '        gvData.Columns("Issued_Qty").IsVisible = True
+
+    '        gvData.Columns("Balance_Qty").HeaderText = "Closing Balance"
+    '        gvData.Columns("Balance_Qty").Width = 500
+    '        gvData.Columns("Balance_Qty").IsVisible = True
+
+    '        gvData.Columns("Comp_Name").IsVisible = False
+    '        gvData.Columns("City_Code").IsVisible = False
+    '        gvData.Columns("fromDate").IsVisible = False
+    '        gvData.Columns("Todate").IsVisible = False
+
+
+    '        Dim summaryRowItem As New GridViewSummaryRowItem()
+    '        Dim item1 As New GridViewSummaryItem("OPBal", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item1)
+    '        Dim item2 As New GridViewSummaryItem("Received_Qty", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item2)
+    '        Dim item3 As New GridViewSummaryItem("Issued_Qty", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item3)
+    '        Dim item4 As New GridViewSummaryItem("Balance_Qty", "{0:n2}", GridAggregateFunction.Sum)
+    '        summaryRowItem.Add(item4)
+    '        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+    '        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    '    End If
+
+    'Catch ex As Exception
+    '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    'End Try
+    'End Sub
 
 
 
