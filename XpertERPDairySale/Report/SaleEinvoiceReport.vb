@@ -1,4 +1,5 @@
-﻿Imports common
+﻿'''''''' Created Report By Shaurya Rajput
+Imports common
 Imports System.IO
 Public Class SaleEinvoiceReport
 
@@ -8,6 +9,7 @@ Public Class SaleEinvoiceReport
         ChkBoth.Checked = True
         txtItem.Visible = False
         MyLabel4.Visible = False
+        RadGroupBox3.Visible = False
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         reset()
@@ -21,6 +23,7 @@ Public Class SaleEinvoiceReport
         gvData.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
         ChkBoth.Checked = True
+        RadGroupBox3.Visible = False
     End Sub
 
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
@@ -78,6 +81,13 @@ Public Class SaleEinvoiceReport
         ElseIf rbtnSupplydate.IsChecked Then
             VarID += "_SD"
         End If
+        If BtnMorning.IsChecked Then
+            VarID += "_MO"
+        ElseIf BtnEvening.IsChecked Then
+            VarID += "_EV"
+        ElseIf BtnBoth.IsChecked Then
+            VarID += "_BO"
+        End If
         If chkB2C.Checked = True Then
             VarID += "_BC"
         ElseIf ChkB2B.Checked = True Then
@@ -97,6 +107,11 @@ Public Class SaleEinvoiceReport
             Dim strtxtfDate As String = clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy")
             Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
             Dim qry As String = ""
+            If BtnMorning.IsChecked Then
+                Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+            ElseIf BtnEvening.IsChecked Then
+                Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
+            End If
             If rbtnDocumentdate.IsChecked Then
                 Whr += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
                                 Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
@@ -123,7 +138,7 @@ Public Class SaleEinvoiceReport
             End If
             If rbtnSummary.IsChecked Then
                 GetReportGridID()
-                qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SALE_INVOICE_HEAD.Posting_Date, 103)) as [Supply Date],
+                qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
                            CASE WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'AM' THEN 'Morning' WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'PM' THEN 'Evening'  end as [Shift Type],
                            max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) AS [Location],
                            max(TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code) AS [Sub Location],
@@ -225,7 +240,7 @@ Public Class SaleEinvoiceReport
                            left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
                            left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " + Whr + "  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
             ElseIf rbtnDetail.IsChecked Then
-                qry = "SELECT  CONVERT(varchar,TSPL_SD_SALE_INVOICE_HEAD.Posting_Date, 103) as [Supply Date],
+                qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' THEN 'Morning' WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' THEN 'Evening'  end as [Shift Type], 
                                 TSPL_SD_SHIPMENT_HEAD.Bill_To_Location AS [Location],
                                 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -698,5 +713,13 @@ Public Class SaleEinvoiceReport
     Private Sub rbtnSummary_Click(sender As Object, e As EventArgs) Handles rbtnSummary.Click
         txtItem.Visible = False
         MyLabel4.Visible = False
+    End Sub
+
+    Private Sub rbtnSupplydate_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnSupplydate.CheckStateChanged
+        If rbtnSupplydate.IsChecked Then
+            RadGroupBox3.Visible = True
+        Else
+            RadGroupBox3.Visible = False
+        End If
     End Sub
 End Class
