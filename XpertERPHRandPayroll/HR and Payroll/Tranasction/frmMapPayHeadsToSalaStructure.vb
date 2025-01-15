@@ -47,37 +47,7 @@ Public Class frmMapPayHeadsToSalaStructure
                 For Each grow As GridViewRowInfo In gv1.Rows
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colPayHeadCode).Value)) > 0 Then
                         obj = New clsMapPayHeadsToSalaStructure()
-                        Dim dtCheckStructure As DataTable = clsDBFuncationality.GetDataTable("select SALARY_STRUCTURE_CODE from TSPL_EMPLOYEE_SALARY where SALARY_STRUCTURE_CODE='" + txtCode.Value + "' ")
-                        If dtCheckStructure IsNot Nothing AndAlso dtCheckStructure.Rows.Count > 0 Then
-                            Dim dtpayheaddiff As DataTable = clsDBFuncationality.GetDataTable("SELECT SALARY_STRUCTURE_CODE, PAY_HEAD_CODE,LINE_NO
-                            FROM TSPL_SALSTRUCT_PAYHEADS 
-                            WHERE SALARY_STRUCTURE_CODE = '" + txtCode.Value + "'
-                            EXCEPT
-                            SELECT TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE, PAY_HEAD_CODE,LINE_NO
-                            FROM TSPL_EMPLOYEE_SALARY_PAYHEADS
-                            LEFT OUTER JOIN TSPL_EMPLOYEE_SALARY 
-                                ON TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE = TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE
-                            WHERE TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE = '" + txtCode.Value + "' ")
-                            If dtpayheaddiff IsNot Nothing AndAlso dtpayheaddiff.Rows.Count > 0 Then
-                                Dim dtcountEmp As DataTable = clsDBFuncationality.GetDataTable("select EMP_CODE from TSPL_EMPLOYEE_SALARY  WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "'")
-                                For Each drE As DataRow In dtcountEmp.Rows
-                                    For Each dr As DataRow In dtpayheaddiff.Rows
-                                        Dim EMPPAYHEADCode As String = clsCommon.myCstr(dr("PAY_HEAD_CODE"))
-                                        Dim LineNo As Integer = Convert.ToInt16(dr("LINE_NO"))
-                                        Dim Createdby As String = clsDBFuncationality.getSingleValue("select Created_By from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
-                                        Dim CreatedDate As String = clsDBFuncationality.getSingleValue("select Created_Date from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
-                                        Dim Modifiedby As String = clsDBFuncationality.getSingleValue("select Modified_By from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
-                                        Dim convertCreateddate As String = clsCommon.GetPrintDate(CreatedDate, "yyyy-MM-dd")
-                                        Dim ModifiedDate As String = clsDBFuncationality.getSingleValue("select Modified_Date from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
-                                        Dim convertModifieddate As String = clsCommon.GetPrintDate(ModifiedDate, "yyyy-MM-dd")
-                                        Dim strempSalCode As String = clsDBFuncationality.getSingleValue("select emp_sal_code from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
-                                        Dim qry As String = " INSERT INTO TSPL_EMPLOYEE_SALARY_PAYHEADS values  ( '" & strempSalCode & "', " & LineNo & ", '" & EMPPAYHEADCode & "', '', 0, null, '" & Createdby & "', '" & convertCreateddate & "', '" & Modifiedby & "', '" & convertModifieddate & "', 0, 0, null, null, '', 0 ) "
-                                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                                    Next
-                                Next
-                            End If
 
-                        End If
                         obj.SALARY_STRUCTURE_CODE = txtCode.Value
                         obj.Location_Code = fndLocation.Value
                         obj.LINE_NO = Convert.ToInt16(grow.Cells(colLineNo).Value)
@@ -103,6 +73,36 @@ Public Class frmMapPayHeadsToSalaStructure
                     End If
                 Next
                 If (obj.SaveData(txtCode.Value, ObjList)) Then
+                    Dim dtCheckStructure As DataTable = clsDBFuncationality.GetDataTable("select SALARY_STRUCTURE_CODE from TSPL_EMPLOYEE_SALARY where SALARY_STRUCTURE_CODE='" + txtCode.Value + "' ")
+                    If dtCheckStructure IsNot Nothing AndAlso dtCheckStructure.Rows.Count > 0 Then
+                        Dim dtpayheaddiff As DataTable = clsDBFuncationality.GetDataTable("SELECT SALARY_STRUCTURE_CODE, PAY_HEAD_CODE,LINE_NO
+                            FROM TSPL_SALSTRUCT_PAYHEADS 
+                            WHERE SALARY_STRUCTURE_CODE = '" + txtCode.Value + "'
+                            EXCEPT
+                            SELECT TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE, PAY_HEAD_CODE,LINE_NO
+                            FROM TSPL_EMPLOYEE_SALARY_PAYHEADS
+                            LEFT OUTER JOIN TSPL_EMPLOYEE_SALARY 
+                                ON TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE = TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE
+                            WHERE TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE = '" + txtCode.Value + "' ")
+                        If dtpayheaddiff IsNot Nothing AndAlso dtpayheaddiff.Rows.Count > 0 Then
+                            Dim dtcountEmp As DataTable = clsDBFuncationality.GetDataTable("select EMP_CODE from TSPL_EMPLOYEE_SALARY  WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "'")
+                            For Each drE As DataRow In dtcountEmp.Rows
+                                For Each dr As DataRow In dtpayheaddiff.Rows
+                                    Dim EMPPAYHEADCode As String = clsCommon.myCstr(dr("PAY_HEAD_CODE"))
+                                    Dim LineNo As Integer = Convert.ToInt16(dr("LINE_NO"))
+                                    Dim Createdby As String = clsDBFuncationality.getSingleValue("select Created_By from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
+                                    Dim CreatedDate As String = clsDBFuncationality.getSingleValue("select Created_Date from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
+                                    Dim Modifiedby As String = clsDBFuncationality.getSingleValue("select Modified_By from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
+                                    Dim convertCreateddate As String = clsCommon.GetPrintDate(CreatedDate, "yyyy-MM-dd")
+                                    Dim ModifiedDate As String = clsDBFuncationality.getSingleValue("select Modified_Date from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
+                                    Dim convertModifieddate As String = clsCommon.GetPrintDate(ModifiedDate, "yyyy-MM-dd")
+                                    Dim strempSalCode As String = clsDBFuncationality.getSingleValue("select emp_sal_code from TSPL_EMPLOYEE_SALARY WHERE SALARY_STRUCTURE_CODE='" + txtCode.Value + "' and EMP_CODE='" + clsCommon.myCstr(drE("EMP_CODE")) + "' ")
+                                    Dim qry As String = " INSERT INTO TSPL_EMPLOYEE_SALARY_PAYHEADS values  ( '" & strempSalCode & "', " & LineNo & ", '" & EMPPAYHEADCode & "', '', 0, null, '" & Createdby & "', '" & convertCreateddate & "', '" & Modifiedby & "', '" & convertModifieddate & "', 0, 0, null, null, '', 0 ) "
+                                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                                Next
+                            Next
+                        End If
+                    End If
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
                 LoadData(obj.SALARY_STRUCTURE_CODE, NavigatorType.Current)
