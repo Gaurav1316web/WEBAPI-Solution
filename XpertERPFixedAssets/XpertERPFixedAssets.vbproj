@@ -452,6 +452,12 @@
     <Compile Include="Shares\Transaction\frmMultipleShareAllotment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Shares\Transaction\frmMultipleShareAPInvoiceDetails.Designer.vb">
+      <DependentUpon>frmMultipleShareAPInvoiceDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shares\Transaction\frmMultipleShareAPInvoiceDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shares\Transaction\frmShareAllotment.Designer.vb">
       <DependentUpon>frmShareAllotment.vb</DependentUpon>
     </Compile>
@@ -624,6 +630,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Shares\Transaction\frmMultipleShareAllotment.resx">
       <DependentUpon>frmMultipleShareAllotment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shares\Transaction\frmMultipleShareAPInvoiceDetails.resx">
+      <DependentUpon>frmMultipleShareAPInvoiceDetails.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Shares\Transaction\frmShareAllotment.resx">
       <DependentUpon>frmShareAllotment.vb</DependentUpon>

@@ -1827,7 +1827,9 @@ TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code + '-Scheme' else TSPL_DAIRYSALE_GATEPAS
             End If
         Next
         If clsCommon.myCdbl(TotalCrate) > 0 Then
-            txtCrateQty.Text = TotalCrate
+            If Not AllowManualCrateForDispatch Then
+                txtCrateQty.Text = TotalCrate
+            End If
             'Else
             '    txtCrateQty.Text = 0
         End If
