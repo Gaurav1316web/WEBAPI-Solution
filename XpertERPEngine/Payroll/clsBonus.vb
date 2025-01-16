@@ -10,6 +10,7 @@ Public Class clsBonus
     Public Division_Code As String
     Public FROM_PAY_PERIOD_CODE As String
     Public TO_PAY_PERIOD_CODE As String
+    Public ToDate As Date
     Public PAYABLE_PAY_PERIOD_CODE As String
     Public DESCRIPTION As String
     Public POSTED As Boolean
@@ -117,6 +118,7 @@ Public Class clsBonus
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code, True)
             clsCommon.AddColumnsForChange(coll, "Division_Code", obj.Division_Code, True)
+            clsCommon.AddColumnsForChange(coll, "ToDate", clsCommon.GetPrintDate(obj.ToDate, "dd/MMM/yyyy"))
 
             clsCommon.AddColumnsForChange(coll, "FROM_PAY_PERIOD_CODE", obj.FROM_PAY_PERIOD_CODE)
             clsCommon.AddColumnsForChange(coll, "TO_PAY_PERIOD_CODE", obj.TO_PAY_PERIOD_CODE)
@@ -149,9 +151,10 @@ Public Class clsBonus
             End If
             isSaved = isSaved AndAlso objBonusDetails.SaveData(obj, trans)
             '' SAVE BONUS GENERATION DETAIL
-            qry = clsBonus.GetGenerateBonusDetailBaseQuery(obj.Location_Code, obj.Division_Code, obj.FROM_PAY_PERIOD_CODE, obj.TO_PAY_PERIOD_CODE, obj.PAYABLE_PAY_PERIOD_CODE, "")
-            Dim qryInsert As String = "INSERT INTO TSPL_BONUS_GENERATION_DETAIL (EMP_BONUS_CODE,EMP_CODE,DEPARTMENT_CODE,Designation_Code,Location_Code,Division_Code, " & _
-                " PAY_PERIOD_CODE,STD_AMOUNT,ACTUAL_AMOUNT,PAYPERIOD_DAYS,PAYABLE_DAYS,BONUS_ON,BONUS_CODE,BONUS_RATE,BONUS_AMOUNT) " & _
+            Dim Days As Integer = CalculateLeapYearDays(obj.ToDate)
+            qry = clsBonus.GetGenerateBonusDetailBaseQuery(obj.Location_Code, obj.Division_Code, obj.FROM_PAY_PERIOD_CODE, obj.TO_PAY_PERIOD_CODE, obj.PAYABLE_PAY_PERIOD_CODE, Days)
+            Dim qryInsert As String = "INSERT INTO TSPL_BONUS_GENERATION_DETAIL (EMP_BONUS_CODE,EMP_CODE,DEPARTMENT_CODE,Designation_Code,Location_Code,Division_Code, " &
+                " PAY_PERIOD_CODE,STD_AMOUNT,ACTUAL_AMOUNT,PAYPERIOD_DAYS,PAYABLE_DAYS,BONUS_ON,BONUS_CODE,BONUS_RATE,BONUS_AMOUNT) " &
                 " SELECT '" & obj.EMP_BONUS_CODE & "',EMP_CODE,DEPARTMENT_CODE,Designation,Location_Code,'" & obj.Division_Code & "',PAY_PERIOD_CODE_MAIN,Std_Basic,Actual_Basic,PAYPERIOD_DAYS,PAYABLE_DAYS,BONUS_ON,BONUS_CODE,BONUS_RATE,BONUS_AMOUNT FROM (" & qry & ") AS BONUS"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qryInsert, trans)
 
@@ -159,6 +162,22 @@ Public Class clsBonus
             Throw New Exception(ex.Message)
         End Try
         Return isSaved
+    End Function
+    Public Shared Function CalculateLeapYearDays(txtCheckLeapyear As String) As Integer
+        Dim inputDate As DateTime
+        Dim NoOfDays As Integer = 0
+        If DateTime.TryParse(txtCheckLeapyear, inputDate) Then
+            Dim year As Integer = inputDate.Year
+            Dim isLeapYear As Boolean = DateTime.IsLeapYear(year)
+            If isLeapYear Then
+                NoOfDays = 366
+            Else
+                NoOfDays = 365
+            End If
+        Else
+            MessageBox.Show("Invalid date format.")
+        End If
+        Return NoOfDays
     End Function
 
     Public Shared Function PostData(ByVal strDocNo As String, ByVal isCheckForPosted As Boolean) As Boolean

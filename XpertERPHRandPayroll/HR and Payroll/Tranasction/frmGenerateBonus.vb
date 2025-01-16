@@ -33,6 +33,7 @@ Public Class frmGenerateBonus
                 obj.EMP_BONUS_CODE = txtCode.Value
                 obj.Location_Code = fndLocation.Value
                 obj.Division_Code = fndDivision.Value
+                obj.ToDate=txtCheckLeapyear.Text
 
                 obj.FROM_PAY_PERIOD_CODE = txtFromPayPeriodCode.Value
                 obj.TO_PAY_PERIOD_CODE = txtToPayPeriodCode.Value
@@ -255,6 +256,24 @@ Public Class frmGenerateBonus
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("EMP_BONUS_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY")
+        coll.Add("Location_Code", "VARCHAR(12)  NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Division_Code", "VARCHAR(30)  NULL ")
+        coll.Add("FROM_PAY_PERIOD_CODE", "VARCHAR(30)  NOT NULL REFERENCES TSPL_PAYPERIOD_MASTER(PAY_PERIOD_CODE)")
+        coll.Add("TO_PAY_PERIOD_CODE", "VARCHAR(30)  NOT NULL REFERENCES TSPL_PAYPERIOD_MASTER(PAY_PERIOD_CODE)")
+        coll.Add("PAYABLE_PAY_PERIOD_CODE", "VARCHAR(30)  NOT NULL REFERENCES TSPL_PAYPERIOD_MASTER(PAY_PERIOD_CODE)")
+        coll.Add("DESCRIPTION", "VARCHAR(100) NULL")
+        coll.Add("POSTED", "BIT NOT NULL")
+        coll.Add("Posting_Date", "Datetime NULL")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        coll.Add("ToDate", "Date NULL")
+
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_BONUS", coll, Nothing, False, False)
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -267,7 +286,6 @@ Public Class frmGenerateBonus
         btndelete.Visible = MyBase.isDeleteFlag
 
     End Sub
-
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
         funReset()
     End Sub
