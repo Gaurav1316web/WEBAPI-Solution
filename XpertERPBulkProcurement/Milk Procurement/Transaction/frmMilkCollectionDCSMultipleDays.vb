@@ -1690,7 +1690,7 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
 
     Private Sub btnBlankSheetUploder_Click(sender As Object, e As EventArgs) Handles btnBlankSheetUploder.Click
         Try
-            Dim Str As String = "select '02/Apr/2024' as [BMC Date], '' as Route, '' as BMC,0.00 as [BMC Qty], 0.00 as [BMC FAT], 0.00 as  [BMC CLR] ,'01/Apr/2024' as [DCS Date],'' as DCS,'Good' as [Milk Type],0.00 as [DCS Qty], 0.00 as [DCS FAT], 0.00 as  [DCS CLR] "
+            Dim Str As String = "select '02/Apr/2024' as [BMC Date], '' as Route,'' as Trip, '' as BMC,0.00 as [BMC Qty], 0.00 as [BMC FAT], 0.00 as  [BMC CLR] ,'01/Apr/2024' as [DCS Date],'' as DCS,'Good' as [Milk Type],0.00 as [DCS Qty], 0.00 as [DCS FAT], 0.00 as  [DCS CLR] "
             transportSql.ExporttoExcel(Str, Me)
             Str = Nothing
         Catch ex As Exception
@@ -1709,7 +1709,7 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
         Dim snfPer As Decimal = 0
         Dim arr As New Dictionary(Of String, clsMilkCollectionDCSMulipleDays)
         Dim qry As String
-        If transportSql.importExcel(gv, "BMC Date", "Route", "BMC", "BMC Qty", "BMC FAT", "BMC CLR", "DCS Date", "Milk Type", "DCS Qty", "DCS FAT", "DCS CLR") Then
+        If transportSql.importExcel(gv, "BMC Date", "Route", "Trip", "BMC", "BMC Qty", "BMC FAT", "BMC CLR", "DCS Date", "Milk Type", "DCS Qty", "DCS FAT", "DCS CLR") Then
             Try
                 clsCommon.ProgressBarPercentShow()
                 Try
@@ -1748,6 +1748,7 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
                             objtemp.IDate = clsCommon.myCDate(grow.Cells("DCS Date").Value)
                             objtemp.IShift = "M"
                             objtemp.RejectType = clsCommon.myCstr(grow.Cells("Milk Type").Value)
+                            objtemp.Trip = clsCommon.myCstr(grow.Cells("Trip").Value)
                             If clsCommon.myLen(objtemp.RejectType) > 0 Then
                                 If clsCommon.CompairString(objtemp.RejectType, "Good") = CompairStringResult.Equal OrElse clsCommon.CompairString(objtemp.RejectType, "Sweet") = CompairStringResult.Equal Then
                                     objtemp.RejectType = ""
@@ -1764,7 +1765,7 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
                             objtemp.SNF = clsCommon.myCDecimal(grow.Cells("DCS CLR").Value)
 
 
-                            Dim UniqueCombination As String = objtemp.MCC + clsCommon.GetPrintDate(objtemp.HDate, "dd/MM/yyyy") + objtemp.BulkRoute
+                            Dim UniqueCombination As String = objtemp.MCC + clsCommon.GetPrintDate(objtemp.HDate, "dd/MM/yyyy") + objtemp.BulkRoute + "Trip-" + objtemp.Trip
                             If Not arr.ContainsKey(UniqueCombination) Then
                                 qry = "select Document_No from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS where convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(objtemp.HDate, "dd/MMM/yyyy") + "' and Route_Code='" + objtemp.BulkRoute + "' and MCC_Code='" + objtemp.MCC + "'"
                                 dt = clsDBFuncationality.GetDataTable(qry)
@@ -1783,7 +1784,7 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
                                     obj.Tanker_No = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
                                     obj.Vehicle_No = clsCommon.myCstr(dt.Rows(0)("TANKER_NAME"))
                                 End If
-                                obj.Trip_No = 1
+                                obj.Trip_No = objtemp.Trip
                                 obj.Entered_Qty = objtemp.HQty
                                 obj.FAT = objtemp.HFAT
                                 obj.Entered_FATKg = Math.Round(clsCommon.myCDivide((objtemp.HQty * objtemp.HFAT), 100), 3, MidpointRounding.ToEven)
