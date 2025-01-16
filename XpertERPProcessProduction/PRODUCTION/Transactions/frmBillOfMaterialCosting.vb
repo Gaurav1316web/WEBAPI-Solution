@@ -1373,7 +1373,7 @@ Public Class frmBillOfMaterialCosting
             'End If
             Me.cboBOMStatus.Text = "Approved"
             If (myMessages.postConfirm()) Then
-                SavingData(True)
+                'SavingData(True)
                 If (clsBillOfMaterial.PostData(txtCode.Value, True)) Then
                     common.clsCommon.MyMessageBoxShow("Successfully Posted")
                     LoadData(txtCode.Value, NavigatorType.Current)

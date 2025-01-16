@@ -359,20 +359,25 @@ Public Class frmMilkCollectionMCCQC
         End Try
     End Sub
     Sub FormatGridGv2()
-        ' gv2.Rows.Clear()
-        'gv2.Columns.Clear()
+        Dim flag As Boolean = True
+        For ii As Integer = 0 To gv2.Columns.Count - 1
+            If clsCommon.CompairString(gv2.Columns(ii).Name, colCheck) = CompairStringResult.Equal Then
+                flag = False
+                Exit For
+            End If
+        Next
+        If flag Then
+            Dim repocolCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+            repocolCheckBox.FormatString = ""
+            repocolCheckBox.HeaderText = "Check"
+            repocolCheckBox.Name = colCheck
+            repocolCheckBox.Width = 100
+            repocolCheckBox.ReadOnly = False
+            gv2.MasterTemplate.Columns.Add(repocolCheckBox)
 
-        Dim repocolCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
-        repocolCheckBox.FormatString = ""
-        repocolCheckBox.HeaderText = "Check"
-        repocolCheckBox.Name = colCheck
-        repocolCheckBox.Width = 100
-        repocolCheckBox.ReadOnly = False
-        gv2.MasterTemplate.Columns.Add(repocolCheckBox)
-
-        gv2.AllowAddNewRow = False
-        '  AddHandler gv2.CellClick, AddressOf gv2_CellClick
-
+            gv2.AllowAddNewRow = False
+        End If
+        gv2.Columns(colCheck).ReadOnly = Not chkSms.Checked
     End Sub
 
 
@@ -455,9 +460,23 @@ Public Class frmMilkCollectionMCCQC
     End Sub
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-        Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [DATE], '1'as [S NO], '1' as [NO.], 'gadota' as [BMC Name]," &
-               " '1000' as [R.NO.], '1-1' as [DCS], '7' as [FAT], '9' as [SNF], '27' as [CLR],'0.125' as [ACIDITY],'' as [REMARKS]"
-        transportSql.ExporttoExcel(qry, Me)
+        Dim frm1 As New frmMyDateTimePicker2
+        frm1.Text = "Select Date"
+        frm1.RetValue = Me.txtDate.Value
+        frm1.ShowDialog()
+        txtDate.Value = frm1.RetValue
+        If frm1.RetValue IsNot Nothing Then
+            'Dim qry As String = "Select '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") + "' as [DATE], '1'as [S NO], '1' as [NO.], 'gadota' as [BMC Name]," &
+            '   " '1000' as [R.NO.], '1-1' as [DCS], '7' as [FAT], '9' as [SNF], '27' as [CLR],'0.125' as [ACIDITY],'' as [REMARKS]"
+            Dim qry As String = "  select convert(varchar, Document_Date,103) as [DATE], ROW_NUMBER() OVER (ORDER BY Document_Date) as [S NO],
+ TSPL_MILK_COLLECTION_MCC_DETAIL.SNo  AS  [NO.],TSPL_MCC_MASTER.MCC_NAME as [BMC Name],TSPL_MILK_COLLECTION_MCC.Route_Code as  [R.NO.],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader+'-'+cast(TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No as varchar) as [DCS],cast(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as varchar) as FAT,cast(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as varchar) as SNF,'' as  [CLR],'' as [ACIDITY],'' as [REMARKS]
+ from  TSPL_MILK_COLLECTION_MCC_DETAIL
+ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  
+where  convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(frm1.RetValue, "dd/MMM/yyyy") + "' and  isnull(TSPL_MILK_COLLECTION_MCC.Status,0)=0   and isnull(TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Not_Picked,0)=0  "
+            transportSql.OpenExporttoExcel(qry, Me)
+        End If
+
     End Sub
 
 
@@ -554,7 +573,6 @@ Public Class frmMilkCollectionMCCQC
     Private Sub btnSendSms_Click(sender As Object, e As EventArgs) Handles btnSendSms.Click
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-
             'Dim Qry As String = Nothing
             Dim strPhoneno As String = Nothing
             Dim dtContent As DataTable = Nothing
@@ -652,6 +670,13 @@ Public Class frmMilkCollectionMCCQC
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkSms_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkSms.ToggleStateChanged
+        Try
+            gv2.Columns(colCheck).ReadOnly = Not chkSms.Checked
+        Catch ex As Exception
         End Try
     End Sub
 End Class

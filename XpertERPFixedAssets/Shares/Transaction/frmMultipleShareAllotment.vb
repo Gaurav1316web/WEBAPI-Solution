@@ -23,38 +23,15 @@ Public Class frmMultipleShareAllotment
     Const colShareCertificateNoTo As String = "colShareCertificateNoTo"
     Dim isLoadData As Boolean = False
     Dim isCopyData As Boolean = False
+    Dim j As Integer = 0
+    Dim obj As New clsMultipleShareAllotment()
+    Dim objtr As New clsMultipleShareAllotmentDetail()
 #End Region
 
     Private Sub frmMultipleShareAllotment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_No", "varchar(30) Not NULL Primary Key")
-        coll.Add("Document_date", "DateTime Not NULL")
-        coll.Add("From_Date", "DateTime Not NULL")
-        coll.Add("To_Date", "DateTime Not NULL")
-        coll.Add("Rate_Of_One_Share", "Decimal(18,2) NULL ")
-        coll.Add("Status", "int not null default 0")
-        coll.Add("Created_By", "varchar(12)  Not NULL")
-        coll.Add("Created_Date", "DateTime  Not NULL")
-        coll.Add("Modified_By", "varchar(12)  Not NULL")
-        coll.Add("Modified_Date", "datetime  Not NULL")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime NULL")
 
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD", coll, "", True, False, Nothing, Nothing, Nothing, False)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "Integer Not NULL identity (1,1) primary key")
-        coll.Add("Document_No", "VARCHAR(30) Not NULL REFERENCES TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD(Document_No)")
-        coll.Add("Vendor_Code", "VARCHAR(12) Not NULL REFERENCES TSPL_VENDOR_MASTER(Vendor_Code)")
-        coll.Add("Share_Opening_Amt", "Decimal(18,2) NULL")
-        coll.Add("Share_Deducted_Amt", "Decimal(18,2) NULL")
-        coll.Add("Balance_Amt", "Decimal(18,2) NULL")
-        coll.Add("Rate_Per_Share", "Decimal(18,2) NULL")
-        coll.Add("Allocated_Share", "Decimal(18,2) NULL")
-        coll.Add("Share_Certificate_From", "varchar(20) NULL")
-        coll.Add("Share_Certificate_To", "varchar(20) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL", coll, Nothing, True, False, "TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD", "Document_No", "")
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtToDate.Value = clsCommon.GETSERVERDATE()
 
         SetUserMgmtNew()
         Addnew()
@@ -187,10 +164,10 @@ Public Class frmMultipleShareAllotment
         gv1.AutoSizeRows = False
         gv1.Rows.AddNew()
         gv1.BestFitColumns()
-        ReStoreGridLayout()
+        ReStoreGridLayoutgv1()
     End Sub
 
-    Private Sub ReStoreGridLayout()
+    Private Sub ReStoreGridLayoutgv1()
         Try
 
             Dim obj As clsGridLayout = New clsGridLayout()
@@ -208,6 +185,10 @@ Public Class frmMultipleShareAllotment
         Catch err As Exception
             MessageBox.Show(err.Message)
         End Try
+    End Sub
+
+    Private Sub EnableDisableControls(ByVal val As Boolean)
+        RadGroupBox1.Enabled = val
     End Sub
     Function AllowToSave() As Boolean
 
@@ -227,7 +208,7 @@ Public Class frmMultipleShareAllotment
     Sub SaveData()
         Try
             If (AllowToSave()) Then
-                Dim obj As New clsMultipleShareAllotment()
+                obj = New clsMultipleShareAllotment()
                 obj.Document_No = txtDocumentNo.Value
                 obj.Rate_Of_One_Share = txtRateOfOneShare.Value
                 obj.Document_date = clsCommon.myCDate(txtDocumentDate.Value)
@@ -246,9 +227,11 @@ Public Class frmMultipleShareAllotment
                     objTr.Share_Certificate_From = clsCommon.myCDecimal((grow.Cells(colShareCertificateNoStartFrom).Value))
                     objTr.Share_Certificate_To = clsCommon.myCDecimal((grow.Cells(colShareCertificateNoTo).Value))
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colDCSUploaderNo).Value)) > 0 Then
+                        objTr.ArrAPInvoiceAllDetails = TryCast(grow.Cells(colDCSUploaderNo).Tag, List(Of clsMultipleShareAllotmentAPInvoiceDetail))
                         obj.Arr.Add(objTr)
                     End If
                 Next
+
 
                 If (obj.SaveData(obj, isNewEntry, Nothing, False)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -267,8 +250,6 @@ Public Class frmMultipleShareAllotment
         btnSave.Enabled = True
         btnPost.Enabled = True
         txtDocumentDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = clsCommon.GETSERVERDATE()
-        txtToDate.Value = clsCommon.GETSERVERDATE()
         btnSave.Text = "Save"
         txtRateOfOneShare.Value = 0
         txtRateOfOneShare.Enabled = True
@@ -276,7 +257,9 @@ Public Class frmMultipleShareAllotment
         isInsideLoadData = False
         btnDelete.Enabled = True
         lblStatus.Status = ERPTransactionStatus.Pending
-        ReStoreGridLayout()
+        ReStoreGridLayoutgv1()
+        RadPageView1.SelectedPage = RadPageViewPage1
+        EnableDisableControls(True)
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -346,10 +329,10 @@ Public Class frmMultipleShareAllotment
             btnSave.Enabled = True
             btnPost.Enabled = True
             LoadBlankGrid()
-            Dim obj As New clsMultipleShareAllotment()
+            obj = New clsMultipleShareAllotment()
             obj = clsMultipleShareAllotment.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0) Then
-
+                isLoadData = True
                 isNewEntry = False
                 btnSave.Text = "Update"
                 If obj.Status = 1 Then
@@ -373,6 +356,7 @@ Public Class frmMultipleShareAllotment
                     For Each objtr As clsMultipleShareAllotmentDetail In obj.Arr
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = gv1.Rows.Count
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderNo).Value = objtr.VLC_Code_VLC_Uploader
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderNo).Tag = objtr.ArrAPInvoiceAllDetails
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = objtr.Vendor_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSName).Value = objtr.VLC_Name
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShareCaptialOpeningAmount).Value = objtr.Share_Opening_Amt
@@ -385,13 +369,10 @@ Public Class frmMultipleShareAllotment
                         gv1.Rows.AddNew()
                     Next
                 End If
-            Else
-                isLoadData = True
-                LoadGridData(isLoadData)
+
             End If
             isInsideLoadData = True
             isInsideLoadData = False
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -411,13 +392,22 @@ Public Class frmMultipleShareAllotment
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                '  btnReverseUnpost.Visible = True
+            'Dim frm As New FrmPWD(Nothing)
+            'frm.strType = "SIRC"
+            'frm.strCode = "SIReversAndCreate"
+            'frm.ShowDialog()
+            'If frm.isPasswordCorrect Then
+            '    '  btnReverseUnpost.Visible = True
+            'End If
+            Dim frm As frmMultipleShareAPInvoiceDetails = New frmMultipleShareAPInvoiceDetails()
+            frm.strDCSCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSUploaderNo).Value)
+            frm.strDCSName = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSName).Value)
+            If isLoadData Then
+                frm.arr = obj.ArrAPInvoiceDetails
+            Else
+                frm.arr = objtr.ArrAPInvoiceAllDetails
             End If
+            frm.ShowDialog()
         End If
     End Sub
 
@@ -433,54 +423,83 @@ Public Class frmMultipleShareAllotment
             Exit Sub
         End If
         LoadBlankGrid()
+        j = 0
+        EnableDisableControls(False)
         isLoadData = False
         LoadGridData(isLoadData)
     End Sub
 
     Private Sub LoadGridData(ByVal isLoadData As Boolean)
         Try
-            If isLoadData = True Then
-                If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
-                    LoadBlankGrid()
-                    Addnew()
-                    Exit Sub
-                End If
-            Else
-                Dim qry As String = ""
-                qry = "select VLC_Code_VLC_Uploader,max(Vendor_CODE)Vendor_CODE,max(VLC_Name)VLC_Name,0 as Opening_Amt,sum(Deducted_Amt)Deducted_Amt from ( select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount as Deducted_Amt
-						from TSPL_PAYMENT_PROCESS_DEDUCTION left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-						left outer join TSPL_DCS_ADDITION_DEDUCTION  on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
-                        left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC
-						where  TSPL_DCS_ADDITION_DEDUCTION.IsShare = 1 and TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_Date >= '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") & "' and TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_Date < = '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") & "' "
+            Dim qry As String = ""
+            Dim Baseqry As String = ""
+            Baseqry = " select TSPL_VENDOR_INVOICE_HEAD.Posting_Date as Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name, (TSPL_VENDOR_INVOICE_HEAD.Document_Total) as Deducted_Amt,1 as RI
+						from TSPL_PAYMENT_PROCESS_DEDUCTION left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
+						left outer join TSPL_DCS_ADDITION_DEDUCTION  on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC
+						where  TSPL_DCS_ADDITION_DEDUCTION.IsShare = 1 and TSPL_VENDOR_INVOICE_HEAD.Posting_Date >= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) < = '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' "
 
-                If txtBMC.arrValueMember IsNot Nothing Then
-                    qry += " and TSPL_VLC_MASTER_HEAD.MCC in ( " & clsCommon.GetMulcallString(txtBMC.arrValueMember) & " ) "
-                End If
-                qry += "  )xx group by VLC_Code_VLC_Uploader order by VLC_Code_VLC_Uploader"
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If txtBMC.arrValueMember IsNot Nothing Then
+                Baseqry += " and TSPL_VLC_MASTER_HEAD.MCC in ( " & clsCommon.GetMulcallString(txtBMC.arrValueMember) & " ) "
+            End If
+            qry = "select VLC_Code_VLC_Uploader,xxxx.Vendor_Code,VLC_Name,case when isnull(tab2.Opening_Amt,0) = 0 then 0 else tab2.Opening_Amt end as Opening_Amt,Deducted_Amt from ( select VLC_Code_VLC_Uploader,max(Vendor_CODE)Vendor_CODE,max(VLC_Name)VLC_Name,0 as Opening_Amt,sum(Deducted_Amt)Deducted_Amt,max(Date)Date from ( select max(Date)Date, AP_Invoice_No,max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(Vendor_CODE)Vendor_CODE,max(VLC_Name)VLC_Name,sum(ri* Deducted_Amt)Deducted_Amt from ( " & Baseqry & " 
+           " & Environment.NewLine & " union all  " & Environment.NewLine & " select null as Date,AP_Invoice_No,'' as VLC_Code_VLC_Uploader,'' as Vendor_CODE, '' as VLC_Name,Used_Amt as Deducted_Amt,-1 as RI
+                       from TSPL_MULTIPLE_SHARE_ALLOTMENT_AP_INVOICE_DETAIL inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_MULTIPLE_SHARE_ALLOTMENT_AP_INVOICE_DETAIL.AP_Invoice_No  )xx group by AP_Invoice_No ) xxx group by VLC_Code_VLC_Uploader "
+            qry += " )xxxx outer APPLY ( SELECT TOP 1 TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL.Vendor_Code, TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD.To_Date, TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL.Balance_Amt as Opening_Amt,TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL.Share_Deducted_Amt,TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL.Balance_Amt FROM TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD LEFT outer JOIN  
+                TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL ON TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL.Document_No = TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD.Document_No WHERE TSPL_MULTIPLE_SHARE_ALLOTMENT_DETAIL.Vendor_Code = xxxx.Vendor_CODE  
+			    and convert(date, TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD.To_Date,103) <=  convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) ORDER BY TSPL_MULTIPLE_SHARE_ALLOTMENT_HEAD.To_Date DESC  ) AS tab2 order  by Date, VLC_Code_VLC_Uploader "
+            Baseqry = " select ROW_NUMBER( ) over( order by Date,VLC_Code_VLC_Uploader) as SNo, Date,AP_Invoice_No AS [AP Invoice No],VLC_Code_VLC_Uploader as [DCS Code],VLC_Name as [DCS Name],Deducted_Amt as [Balance Amount] from ( " & Baseqry & " )x order by date"
 
-                If dt.Rows.Count > 0 Then
-                    For ii As Integer = 0 To dt.Rows.Count - 1
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = ii + 1
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderNo).Value = dt.Rows(ii)("VLC_Code_VLC_Uploader")
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = dt.Rows(ii)("Vendor_CODE")
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSName).Value = dt.Rows(ii)("VLC_Name")
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShareCaptialOpeningAmount).Value = dt.Rows(ii)("Opening_Amt")
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShareDeductedAmount).Value = dt.Rows(ii)("Deducted_Amt")
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRatePerShare).Value = txtRateOfOneShare.Value
-                        UpdateCurrentRow(ii)
-                        gv1.Rows.AddNew()
+            Dim dtDetails As DataTable = clsDBFuncationality.GetDataTable(Baseqry)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
+            If dt.Rows.Count > 0 Then
+                obj = New clsMultipleShareAllotment()
+                objtr.ArrAPInvoiceAllDetails = New List(Of clsMultipleShareAllotmentAPInvoiceDetail)
+
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    Dim Used_Amt As Decimal = 0
+                    obj.ArrAPInvoiceDetails = New List(Of clsMultipleShareAllotmentAPInvoiceDetail)
+                    Dim row As DataRow() = Nothing
+                    row = dtDetails.Select("[DCS Code] ='" + clsCommon.myCstr(dt.Rows(ii)("VLC_Code_VLC_Uploader")) + "'")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = ii + 1
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderNo).Value = dt.Rows(ii)("VLC_Code_VLC_Uploader")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = dt.Rows(ii)("Vendor_CODE")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSName).Value = dt.Rows(ii)("VLC_Name")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShareCaptialOpeningAmount).Value = dt.Rows(ii)("Opening_Amt")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShareDeductedAmount).Value = dt.Rows(ii)("Deducted_Amt")
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRatePerShare).Value = txtRateOfOneShare.Value
+                    UpdateCurrentRow(ii)
+                    Used_Amt = (txtRateOfOneShare.Value * gv1.Rows(gv1.Rows.Count - 1).Cells(colNoOfShareToBeAllocated).Value)
+
+                    For j As Integer = 0 To row.Length - 1
+                        Dim objInvoice As clsMultipleShareAllotmentAPInvoiceDetail = New clsMultipleShareAllotmentAPInvoiceDetail()
+                        objInvoice.AP_Date = clsCommon.myCstr(row(j)("Date"))
+                        objInvoice.VLC_Code_VLC_Uploader = clsCommon.myCstr(row(j)("DCS Code"))
+                        objInvoice.VLC_Name = clsCommon.myCstr(row(j)("DCS Name"))
+                        objInvoice.AP_Invoice_No = clsCommon.myCstr(row(j)("AP Invoice No"))
+                        objInvoice.Balance_Amt = clsCommon.myCdbl(row(j)("Balance Amount"))
+                        If Used_Amt > objInvoice.Balance_Amt Then
+                            objInvoice.Used_Amt = clsCommon.myCdbl(row(j)("Balance Amount"))
+                            Used_Amt = Used_Amt - objInvoice.Balance_Amt
+                        Else
+                            objInvoice.Used_Amt = Used_Amt
+                        End If
+                        obj.ArrAPInvoiceDetails.Add(objInvoice)
+                        objtr.ArrAPInvoiceAllDetails.Add(objInvoice)
                     Next
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "No DCS Found", Me.Text)
-                    Exit Sub
-                End If
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderNo).Tag = obj.ArrAPInvoiceDetails
+                    gv1.Rows.AddNew()
+
+                Next
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No DCS Found", Me.Text)
+                Exit Sub
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
 
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
         Dim dblDeducted_Amt As Double = 0
@@ -502,97 +521,13 @@ Public Class frmMultipleShareAllotment
             gv1.Rows(IntRowNo).Cells(colNoOfShareToBeAllocated).Value = dblAllocatedShare
             gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value = dblBalance_Amt
 
-            If IntRowNo = 0 Then
-                If gv1.Rows(IntRowNo).Cells(colNoOfShareToBeAllocated).Value > 0 Then
-                    gv1.Rows(IntRowNo).Cells(colShareCertificateNoStartFrom).Value = 1
-                    gv1.Rows(IntRowNo).Cells(colShareCertificateNoTo).Value = dblAllocatedShare
-                Else
-                    gv1.Rows(IntRowNo).Cells(colShareCertificateNoStartFrom).Value = 0
-                    gv1.Rows(IntRowNo).Cells(colShareCertificateNoTo).Value = 0
-                End If
-            Else
-                If gv1.Rows(IntRowNo).Cells(colNoOfShareToBeAllocated).Value > 0 Then
-                    gv1.Rows(IntRowNo).Cells(colShareCertificateNoStartFrom).Value = gv1.Rows(IntRowNo - 1).Cells(colNoOfShareToBeAllocated).Value
-                    gv1.Rows(IntRowNo).Cells(colShareCertificateNoTo).Value = (gv1.Rows(IntRowNo - 1).Cells(colNoOfShareToBeAllocated).Value) + dblAllocatedShare
-                Else
-                    gv1.Rows(IntRowNo).Cells(colShareCertificateNoStartFrom).Value = 0
-                    gv1.Rows(IntRowNo).Cells(colShareCertificateNoTo).Value = 0
-                End If
-            End If
 
-        End If
-    End Sub
-
-    Private Sub FormatGrid(isLoadData As Boolean)
-        gv1.AllowAddNewRow = False
-        gv1.TableElement.TableHeaderHeight = 40
-        gv1.MasterTemplate.ShowRowHeaderColumn = False
-        gv1.MasterTemplate.SummaryRowsBottom.Clear()
-        If gv1.Columns("Document_No") IsNot Nothing Then
-            gv1.Columns("Document_No").IsVisible = False
-
-        End If
-        gv1.Columns("BMC Code").IsVisible = False
-
-        For ii As Integer = 0 To gv1.Columns.Count - 1
-            gv1.Columns(ii).ReadOnly = True
-            gv1.Columns(ii).Width = 140
-        Next
-
-        If txtDocumentNo.Value <> "Default" Then
-            Dim repoShareRatePerShare As GridViewDecimalColumn = New GridViewDecimalColumn()
-            repoShareRatePerShare.HeaderText = "Head Load Rate"
-            repoShareRatePerShare.Name = "Head Load Rate"
-            repoShareRatePerShare.Width = 130
-            repoShareRatePerShare.ReadOnly = False
-            repoShareRatePerShare.ShowUpDownButtons = False
-            repoShareRatePerShare.FormatString = ""
-
-            Dim repoNoOfShareToBeAllocated As GridViewDecimalColumn = New GridViewDecimalColumn()
-            repoNoOfShareToBeAllocated.HeaderText = "Cycle Frequency"
-            repoNoOfShareToBeAllocated.Name = "Cycle Frequency"
-            repoNoOfShareToBeAllocated.Width = 130
-            repoNoOfShareToBeAllocated.ReadOnly = False
-            repoNoOfShareToBeAllocated.ShowUpDownButtons = False
-            repoNoOfShareToBeAllocated.FormatString = ""
-
-            If isLoadData = False Then
-                ' gv1.MasterTemplate.Columns.Insert(6, repoBalanceAmt)
-
-                gv1.MasterTemplate.Columns.Insert(7, repoShareRatePerShare)
-                gv1.MasterTemplate.Columns.Insert(8, repoNoOfShareToBeAllocated)
-            Else
-                ' gv1.MasterTemplate.Columns.Insert(7, repoBalanceAmt)
-                gv1.MasterTemplate.Columns.Insert(8, repoShareRatePerShare)
-                gv1.MasterTemplate.Columns.Insert(9, repoNoOfShareToBeAllocated)
-            End If
-
-
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select  Head_Load_Basis, Head_Load_Rate as [Head Load Rate], Cycle_Frequency as [Cycle Frequency] ,VLC_CODE from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For ii As Integer = 0 To gv1.Rows.Count - 1
-                    For jj As Integer = 0 To dt.Rows.Count - 1
-                        If clsCommon.CompairString(gv1.Rows(ii).Cells("DCS Code").Value, dt.Rows(jj)("VLC_CODE")) = CompairStringResult.Equal Then
-                            gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(jj)("Head_Load_Basis"))
-                            gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCDecimal(dt.Rows(jj)("Head Load Rate"))
-                            gv1.Rows(ii).Cells("Cycle Frequency").Value = clsCommon.myCdbl(dt.Rows(jj)("Cycle Frequency"))
-                            Exit For
-                        Else
-                            gv1.Rows(ii).Cells("Cycle Frequency").Value = txtRateOfOneShare.Value
-                            gv1.Rows(ii).Cells("Head Load Rate").Value = txtRateOfOneShare.Value
-                            txtRateOfOneShare.Value = 0
-                            gv1.Rows(ii).Cells("Head Load Rate").Value = 0.00
-
-                        End If
-                    Next
-                Next
-            Else
-                For ii As Integer = 0 To gv1.Rows.Count - 1
-                    gv1.Rows(ii).Cells("Cycle Frequency").Value = txtRateOfOneShare.Value
-                Next
+            If gv1.Rows(IntRowNo).Cells(colNoOfShareToBeAllocated).Value > 0 Then
+                gv1.Rows(IntRowNo).Cells(colShareCertificateNoStartFrom).Value = j + 1
+                gv1.Rows(IntRowNo).Cells(colShareCertificateNoTo).Value = j + dblAllocatedShare
+                j = gv1.Rows(IntRowNo).Cells(colShareCertificateNoTo).Value
             End If
         End If
-        ReStoreGridLayout()
     End Sub
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
@@ -686,6 +621,23 @@ Public Class frmMultipleShareAllotment
         For ii As Integer = 1 To gv1.Rows.Count
             gv1.Rows(ii - 1).Cells(colSNo).Value = ii
         Next
+    End Sub
+
+    Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
+        If gv1.CurrentCell.ColumnInfo.Name Is colDCSUploaderNo Then
+            OpenAPInvoiceDetails()
+        End If
+    End Sub
+    Sub OpenAPInvoiceDetails()
+        Dim frm As frmMultipleShareAPInvoiceDetails = New frmMultipleShareAPInvoiceDetails()
+        frm.strDCSCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSUploaderNo).Value)
+        frm.strDCSName = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSName).Value)
+        frm.arr = TryCast(gv1.CurrentRow.Cells(colDCSUploaderNo).Tag, List(Of clsMultipleShareAllotmentAPInvoiceDetail))
+        frm.ShowDialog()
+        If Not frm.isCencelButtonClicked Then
+            gv1.CurrentRow.Cells(colDCSUploaderNo).Tag = frm.arr
+        End If
+
     End Sub
 
 End Class

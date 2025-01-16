@@ -11531,11 +11531,21 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                         TotalCrate = TotalCrate + clsCommon.myRoundOFF(clsCommon.myCdbl(gv1.Rows(i).Cells(colCrate).Value), 0, 6)
                     Next
                     If Not (EnableManualCrateonTaxableDairyDispatch = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal) Then
-                        If clsCommon.myCdbl(TotalCrate) > 0 Then
-                            txtCrate.Value = TotalCrate
+                        If AllowManualCrateForDispatch Then
+                            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                                'txtCrate.Value = TotalCrate
+                            Else
+                                txtCrate.Value = TotalCrate
+                            End If
                         Else
                             txtCrate.Value = 0
+
                         End If
+                        'If clsCommon.myCdbl(TotalCrate) > 0 Then
+                        '    txtCrate.Value = TotalCrate
+                        'Else
+                        '    txtCrate.Value = 0
+                        'End If
                     Else
                         If AllowManualCrateForDispatch Then
                             If clsCommon.myLen(txtDocNo.Value) > 0 Then

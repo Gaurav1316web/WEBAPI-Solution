@@ -395,7 +395,7 @@ Public Class FrmBulkRoutMaster
 
     Private Sub txtTankerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTankerNo._MYValidating
         Try
-            txtTankerNo.Value = clsfrmTankerMaster.GetFinder("", txtTankerNo.Value, isButtonClicked)
+            txtTankerNo.Value = clsfrmTankerMaster.GetFinder(" isnull( TSPL_TANKER_MASTER.Inactive,0)=0 ", txtTankerNo.Value, isButtonClicked)
             txtVehicleNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TANKER_NAME from TSPL_TANKER_MASTER where Tanker_No='" & txtTankerNo.Value & "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

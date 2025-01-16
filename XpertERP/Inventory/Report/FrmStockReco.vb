@@ -1,11 +1,7 @@
 ﻿
-Imports common
-Imports System.Threading
-Imports Telerik.WinControls.UI.Export
-Imports Telerik.WinControls.UI.Export.ExcelML
-Imports System.IO
-Imports Microsoft.Office.Interop
 Imports System.ComponentModel
+Imports System.IO
+Imports common
 
 ''Check in sanjay 23/06/2020
 Public Class FrmStockReco
@@ -1434,8 +1430,13 @@ goAlreadyAdded:
                         strFinalQry += "  and Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
                     End If
                 End If
+                If clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "ReportUOM") = CompairStringResult.Equal Then
+                    strFinalQry += " and isnull(TSPL_ITEM_UOM_DETAIL.Report_UOM,0)=1 "
+                Else
+                    strFinalQry += " and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' "
+                End If
 
-                strFinalQry += "  and TSPL_ITEM_UOM_DETAIL.Stocking_Unit='Y' and TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items" &
+                strFinalQry += " And TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) Items" &
                 " left join (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as Fat_Per  from TSPL_ITEM_QC_PARAMETER_MASTER " &
                 " left join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where TSPL_PARAMETER_MASTER.Type='FAT') Fat on Items.Item_Code=Fat.Item_Code " &
                 " left join  (select TSPL_ITEM_QC_PARAMETER_MASTER.Item_Code,TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range as SNF_Per  from TSPL_ITEM_QC_PARAMETER_MASTER " &

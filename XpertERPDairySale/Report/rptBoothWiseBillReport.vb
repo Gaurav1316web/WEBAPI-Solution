@@ -37,8 +37,15 @@ Public Class rptBoothWiseBillReport
         RadGroupBox1.Enabled = isEnable
         txtRoute.Enabled = isEnable
         TxtCustomer.Enabled = isEnable
+        rbtnDetail.Enabled = isEnable
+        rbtnSummary.Enabled = isEnable
+        btnShiftEvening.Enabled = isEnable
+        btnShiftMorning.Enabled = isEnable
+        btnShiftBoth.Enabled = isEnable
+        rdbBoth.Enabled = isEnable
+        rdbMilk.Enabled = isEnable
+        rdbProduct.Enabled = isEnable
     End Sub
-
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Try
             Reset()
@@ -186,6 +193,17 @@ Public Class rptBoothWiseBillReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Function GetReportID() As String
+        Dim VarID As String = MyBase.Form_ID
+        If rdbMilk.IsChecked Then
+            VarID += "_M"
+        ElseIf rdbProduct.IsChecked Then
+            VarID += "_P"
+        ElseIf rdbBoth.IsChecked Then
+            VarID += "_B"
+        End If
+        Return VarID
+    End Function
 
     Private Sub ReStoreGridLayout()
         Try
@@ -343,39 +361,27 @@ Public Class rptBoothWiseBillReport
             AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)" + Whr + " ORDER BY CAST(TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS INT) "
 
         ElseIf rbtnSummary.IsChecked Then
-            qry = "SELECT ROW_NUMBER() OVER (ORDER BY Date) AS Sl_No, MAX(From_Date) AS From_Date,MAX(To_Date) AS To_Date, MAX(CAST(Logo_Img AS VARBINARY(MAX))) AS Logo_Img, max(SellerGST) AS SellerGST, max(Pan_No) AS Pan_No, MAX(Comp_Name) AS Comp_Name, 
-            max(City_Code) AS City_Code, MAX(comp_code) AS comp_code, MAX(add1) AS add1,MAX(add2) AS add2, MAX(Add3) AS add3, MAX(Fax) AS Fax, MAX(Email) AS Email,MAX(Phone1) AS Phone1,MAX(Phone2) AS Phone2, MAX(add1) AS CusAdd1,
-            MAX(add2) AS CusAdd2,MAX(add3) AS CusAdd3, MAX(State) as State,MAX(Zone_Code) AS Zone_Code,max(PAN) AS CustPan,
-            max(Cust_GST_NO) AS Cust_GST_NO, max(XX.Quantity) as Quantity, (XX.Date) as Date, max([Booth Code]) as Booth_Code, max(Booth)[Booth], max (shiftType) shiftType, max ([Customer Name])[Customer Name], max ([Mobile No])[Mobile No],
-            max ([Route])[Route], max ([Route Name])[Route Name], Short_Description as Short_Description, max (QTY) as QTY, max (HSN_Code)HSN_Code, max(Unit_Code)Unit_Code, max(Item_rate)Item_rate,  sum(Amount)Amount FROM (SELECT '" + fromDate.Value + "' As 'From_Date',Convert(Varchar(10),'" + ToDate.Value + "') As 'To_Date',
-            TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.GSTReg_No As SellerGST, TSPL_COMPANY_MASTER.Pan_No, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.City_Code, TSPL_COMPANY_MASTER.comp_code, TSPL_COMPANY_MASTER.add1, TSPL_COMPANY_MASTER.add2, TSPL_COMPANY_MASTER.add3, TSPL_COMPANY_MASTER.Fax, TSPL_COMPANY_MASTER.Email,
-            TSPL_COMPANY_MASTER.Phone1, TSPL_COMPANY_MASTER.Phone2, TSPL_CUSTOMER_MASTER.add1 as CusAdd1, TSPL_CUSTOMER_MASTER.Add2 as CusAdd2, TSPL_CUSTOMER_MASTER.Add3 as CusAdd3, TSPL_CUSTOMER_MASTER.State, TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_CUSTOMER_MASTER.PAN, TSPL_CUSTOMER_MASTER.GSTNO as Cust_GST_NO, TSPL_ITEM_MASTER.HSN_Code, 
-            TSPL_ITEM_MASTER.Unit_Code, TSPL_DEMAND_BOOKING_DETAIL.Item_rate, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount, " + Sumitemdesc + " CASE WHEN ITEMDETAIL1.Report_UOM = 1 THEN ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor) END AS [Quantity], CONVERT(VARCHAR, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103) AS [Date], TSPL_DEMAND_BOOKING_DETAIL.Cust_Code As[Booth Code], CAST(TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS INT) As[Booth], CASE WHEN TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 1 WHEN  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 2 end as shiftType,
-            TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name], TSPL_CUSTOMER_MASTER.Phone1 AS [Mobile No], TSPL_ROUTE_MASTER.Route_No AS [Route], TSPL_CUSTOMER_MASTER.Route_Desc AS [Route Name], CASE WHEN  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' then 'M' WHEN  TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' then 'E' end  AS [Shift], tspl_item_master.Short_Description +' '+ '['+TSPL_DEMAND_BOOKING_DETAIL.Unit_code+']' as Short_Description, TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise AS QTY FROM	TSPL_DEMAND_BOOKING_MASTER
+            qry = "SELECT ROW_NUMBER() OVER (PARTITION BY TSPL_DEMAND_BOOKING_DETAIL.Cust_Code ORDER BY TSPL_DEMAND_BOOKING_MASTER.Document_Date) AS Sl_No, '" + fromDate.Value + "' As 'From_Date',Convert(Varchar(10),'" + ToDate.Value + "') As 'To_Date', MAX(CAST(Logo_Img AS VARBINARY(MAX))) AS Logo_Img, max(TSPL_COMPANY_MASTER.GSTReg_No) As SellerGST, max (TSPL_COMPANY_MASTER.Pan_No) as [Comp Pan], max (TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, max (TSPL_COMPANY_MASTER.City_Code) as City_Code, max (TSPL_COMPANY_MASTER.comp_code) as comp_code, max (TSPL_COMPANY_MASTER.add1) as Add1, max (TSPL_COMPANY_MASTER.add2) as add2, max (TSPL_COMPANY_MASTER.add3)as add3, max (TSPL_COMPANY_MASTER.Fax) as Fax, max(TSPL_COMPANY_MASTER.Email) as Email, max (TSPL_COMPANY_MASTER.Phone1) as Phone1, max (TSPL_COMPANY_MASTER.Phone2) as Phone2, max(TSPL_CUSTOMER_MASTER.add1) as CusAdd1, max(TSPL_CUSTOMER_MASTER.Add2) as CusAdd2, max(TSPL_CUSTOMER_MASTER.Add3) as CusAdd3, max (TSPL_CUSTOMER_MASTER.State) as State, max (TSPL_CUSTOMER_MASTER.Zone_Code) as [Zone_Code], max (TSPL_CUSTOMER_MASTER.PAN) as [Cust Pan], max (TSPL_CUSTOMER_MASTER.GSTNO) as Cust_GST_NO, max (TSPL_CUSTOMER_MASTER.Customer_Name) AS [Customer Name], max (TSPL_CUSTOMER_MASTER.Phone1) AS [Mobile No], max(TSPL_LOCATION_MASTER.Location_Desc) as Location,  max(TSPL_ROUTE_MASTER.Route_No) AS [Route], max (TSPL_CUSTOMER_MASTER.Route_Desc) AS [Route Name],  max(CONVERT(VARCHAR, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103)) AS [Date],  (CAST(TSPL_DEMAND_BOOKING_DETAIL.Cust_Code AS INT)) As [Booth Code], 
+			MAX(CASE WHEN TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning' THEN 1 WHEN TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening' THEN 2 END) AS ShiftType,
+			MAX(CASE WHEN TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Morning' THEN 'M' WHEN TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening' THEN 'E' END) AS [Shift],
+			max (TSPL_ITEM_MASTER.Short_Description) AS Short_Description, max (HSN_Code)HSN_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Code, max (TSPL_DEMAND_BOOKING_DETAIL.Qty) as Qty, 
+			MAX(CASE WHEN ITEMDETAIL1.Report_UOM = 1 THEN ((Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ITEMDETAIL1.Conversion_Factor)END) AS [Quantity_Pouch],
+			-- MAX(CASE WHEN ITEMDETAIL1.Report_UOM = 1 THEN ((TSPL_DEMAND_BOOKING_DETAIL.Item_Rate) / ITEMDETAIL1.Conversion_Factor )END )  as  Rate_Item,
+			sum(ItemNetAmount)as ItemNetAmount, max(TSPL_DEMAND_BOOKING_DETAIL.Item_Rate)Item_Rate,
+			max (case when isnull(ITEMDETAIL1.Report_UOM,0) = 1 then  ITEMDETAIL1.UOM_Code end) as [Report_UOM] FROM TSPL_DEMAND_BOOKING_MASTER
             LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
             LEFT JOIN TSPL_DEMAND_BOOKING_DETAIL ON TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
             LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
             LEFT JOIN tspl_item_master ON TSPL_DEMAND_BOOKING_DETAIL.item_code = tspl_item_master.item_code
+			LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_DEMAND_BOOKING_MASTER.Location_Code
             LEFT JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = tspl_item_master.item_code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
-            left outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code =TSPL_DEMAND_BOOKING_MASTER.Comp_Code 
-            LEFT JOIN (SELECT Conversion_Factor, Item_Code, Report_UOM, UOM_Code FROM TSPL_ITEM_UOM_DETAIL ) AS ITEMDETAIL1 
-            ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103) " + Whr + " 
-            ) AS SourceData PIVOT (SUM([qty])FOR Short_Description IN (" + itemdesc + ")) AS PivotTable GROUP BY [Booth Code]"
+            left outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code =TSPL_DEMAND_BOOKING_MASTER.Comp_Code          
+            iNNER  JOIN (SELECT Conversion_Factor, Item_Code, Report_UOM, UOM_Code FROM TSPL_ITEM_UOM_DETAIL WHERE Report_UOM = 1 ) AS ITEMDETAIL1 
+            ON ITEMDETAIL1.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code	 where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103)>=convert(date,'" + fromDate.Value + "',103) 
+            AND convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<=convert(date,'" + ToDate.Value + "',103)" + Whr + " Group by TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Code ORDER BY TSPL_DEMAND_BOOKING_MASTER.Document_Date"
         End If
 
         Return qry
-    End Function
-
-    Private Function GetReportID() As String
-        Dim VarID As String = MyBase.Form_ID
-        If rdbMilk.IsChecked Then
-            VarID += "_M"
-        ElseIf rdbProduct.IsChecked Then
-            VarID += "_P"
-        ElseIf rdbBoth.IsChecked Then
-            VarID += "_B"
-        End If
-        Return VarID
     End Function
 
     Private Sub PrintBoothBill_Click(sender As Object, e As EventArgs) Handles PrintBoothBill.Click

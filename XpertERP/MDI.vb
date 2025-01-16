@@ -4266,6 +4266,10 @@ Public Class MDI
                     Case clsUserMgtCode.stockRecoNew
                         frm = New FrmStockReco(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.UnionStockReport
+                        frm = New rptUnionStock()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FATSNFGainLoss
                         frm = New frmFATSNFGainLoss(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7488,9 +7492,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmDistributorCommission
                         frm = New frmDistributorCommission
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.FrmItemCapacityLimt
-                    '    frm = New FrmItemCapacityLimit
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmItemCapacityLimt
+                        frm = New FrmItemCapacityLimit
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDayBook
+                        frm = New frmDayBook
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.VehicleMasterForProductSale
                         frm = New frmVehicleMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8577,7 +8584,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTemporaryPaymentDeductionSummary
                         frm = New rptTemporaryPaymentDeductionSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-
+                    Case clsUserMgtCode.CompareVoucherReport
+                        frm = New frmCompareVoucherReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
