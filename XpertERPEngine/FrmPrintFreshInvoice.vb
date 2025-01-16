@@ -1081,8 +1081,11 @@ Left outer join TSPL_LOCATION_MASTER  on  TSPL_LOCATION_MASTER.Location_Code =TS
 Left OUTER JOIN   TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State 
 Full Join(select DOCUMENT_CODE, Item_Code As Scheme_Item_Code, SUM(Qty) As SUB_QTY, SUM(Crate) AS schemeInCrates 
 From " + IIf(isCancel, "TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data", "TSPL_SD_SALE_INVOICE_DETAIL") + " As inn Where DOCUMENT_CODE In (" + strinvoiceNo + ") And inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code 
-where 2=2 And  TSPL_SD_SALE_INVOICE_HEAD.Document_Code In   (" + strinvoiceNo + ")  And TSPL_SD_sale_invoice_DETAIL.Scheme_Item='N')xx  
-where xx.Item_Code = TSPL_SD_sale_invoice_DETAIL.item_CODE And xx.DOCUMENT_CODE = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
+where 2=2 And  TSPL_SD_SALE_INVOICE_HEAD.Document_Code In   (" + strinvoiceNo + ") "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal Then
+                Qry += "   And TSPL_SD_sale_invoice_DETAIL.Scheme_Item ='N'  "
+            End If
+            Qry += " )xx where xx.Item_Code = TSPL_SD_sale_invoice_DETAIL.item_CODE And xx.DOCUMENT_CODE = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
 )
 ) as final 
 Left outer join ( Select Item_Code, max([CATEGORY RM]) As [CATEGORY RM], max([BRAND]) As [BRAND], max([SUB BRAND]) As [SUB BRAND], max([DESCRP]) As [DESCRP], max([PACK]) As [PACK], max([PACK SIZE]) As [PACK SIZE], max([CATEGORY OT]) As [CATEGORY OT], max([CATEGORY FA]) As [CATEGORY FA], max([P TYPE]) As [P TYPE], max([L TYPE]) As [L TYPE], max([JW]) As [JW], max([SCRAP]) As [SCRAP], max([CATEGORY RMDESC]) As [CATEGORY RMDESC], max([BRANDDESC]) As [BRANDDESC], max([SUB BRANDDESC]) As [SUB BRANDDESC], max([DESCRPDESC]) As [DESCRPDESC], max([PACKDESC]) As [PACKDESC], max([PACK SIZEDESC]) As [PACK SIZEDESC], max([CATEGORY OTDESC]) As [CATEGORY OTDESC], max([CATEGORY FADESC]) As [CATEGORY FADESC], max([P TYPEDESC]) As [P TYPEDESC], max([L TYPEDESC]) As [L TYPEDESC], max([JWDESC]) As [JWDESC], max([SCRAPDESC]) As [SCRAPDESC]  from ( Select * from (   Select TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code, TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code +'DESC' as Item_Category_CodeDesc,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc  
