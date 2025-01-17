@@ -155,8 +155,8 @@ Public Class SaleEinvoiceReport
                            CASE WHEN max(TSPL_SD_SHIPMENT_HEAD.DO_Item_Type) = 'T' THEN 'Taxable'  
                            WHEN max(TSPL_SD_SHIPMENT_HEAD.DO_Item_Type) ='NT' THEN 'Non-Taxable' 
                            END AS [Invoice Type],
-                           max(TSPL_SD_SALE_INVOICE_HEAD.Route_No) as [Route No],
                            max(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt) AS [Invoice Value],
+                           max(TSPL_SD_SALE_INVOICE_HEAD.Route_No) as [Route No],
                            max(TSPL_CUSTOMER_MASTER.GSTNO) AS [Recipient Gst No], 
                            max(IRN_No) AS [IRN No],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EwayBillNo) AS [EwayBillNo],
@@ -259,8 +259,8 @@ Public Class SaleEinvoiceReport
                                 TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],
                                 tspl_item_master.Item_Code as [Item Code],
                                 tspl_item_master.Item_Desc as [Item Name],
-                                tspl_item_master.HSN_Code as [HSN Code],
                                 TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount AS [Item Amount],
+                                tspl_item_master.HSN_Code as [HSN Code],                               
                                 TSPL_SD_SALE_INVOICE_DETAIL.Qty as [Qty],
                                 TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [UOM],
                                 TSPL_CUSTOMER_MASTER.GSTNO AS [Recipient Gst No], 
@@ -422,8 +422,6 @@ Public Class SaleEinvoiceReport
                 gvData.MasterTemplate.SummaryRowsBottom.Clear()
                 gvData.DataSource = dt
 
-
-
                 SetGridFormationOFGV1()
                 gvData.AutoExpandGroups = True
                 gvData.ShowGroupPanel = True
@@ -432,8 +430,8 @@ Public Class SaleEinvoiceReport
                 gvData.AllowDeleteRow = False
                 gvData.EnableFiltering = True
                 gvData.ShowFilteringRow = True
-                'SetGridFormat()
-                gvData.BestFitColumns()
+                SetGridFormat()
+                'gvData.BestFitColumns()
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -441,153 +439,316 @@ Public Class SaleEinvoiceReport
 
     End Sub
 
-    'Sub SetGridFormat()
-    'Try
-    '    gvData.AutoExpandGroups = True
-    '    gvData.ShowGroupPanel = True
-    '    gvData.ShowRowHeaderColumn = False
-    '    gvData.AllowAddNewRow = False
-    '    gvData.AllowDeleteRow = False
-    '    gvData.EnableFiltering = True
-    '    gvData.ShowFilteringRow = True
-    '    For ii As Integer = 0 To gvData.Columns.Count - 1
-    '        gvData.Columns(ii).ReadOnly = True
-    '        gvData.Columns(ii).BestFit()
-    '    Next
-    '    If ddlReportType.SelectedValue = "Stock Journal" Then
+    Sub SetGridFormat()
+        Try
+            gvData.AutoExpandGroups = True
+            gvData.ShowGroupPanel = True
+            gvData.ShowRowHeaderColumn = False
+            gvData.AllowAddNewRow = False
+            gvData.AllowDeleteRow = False
+            gvData.EnableFiltering = True
+            gvData.ShowFilteringRow = True
+            For ii As Integer = 0 To gvData.Columns.Count - 1
+                gvData.Columns(ii).ReadOnly = True
+                gvData.Columns(ii).BestFit()
+            Next
+            If rbtnSummary.IsChecked Then
 
-    '        gvData.Columns("INWARDQTYReportUom").HeaderText = "Report UOM Inward Qty"
-    '        gvData.Columns("INWARDQTYReportUom").Width = 250
-    '        gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
-    '        gvData.Columns("INWARDQTYReportUom").IsVisible = False
+                gvData.Columns("Supply Date").HeaderText = "Supply Date"
+                gvData.Columns("Supply Date").Width = 100
+                gvData.Columns("Supply Date").IsVisible = True
 
-    '        gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Report UOM Outward Qty"
-    '        gvData.Columns("OUTWARDQTYReportUom").Width = 500
-    '        gvData.Columns("OUTWARDQTYReportUom").IsVisible = False
+                gvData.Columns("Shift Type").HeaderText = "Shift Type"
+                gvData.Columns("Shift Type").Width = 100
+                gvData.Columns("Shift Type").IsVisible = True
 
-    '        gvData.Columns("Qty").HeaderText = "Total Qty"
-    '        gvData.Columns("Qty").Width = 500
-    '        gvData.Columns("Qty").IsVisible = False
+                gvData.Columns("Location").HeaderText = "Location"
+                gvData.Columns("Location").Width = 100
+                gvData.Columns("Location").IsVisible = True
 
-    '        'gvData.Columns("Item_Code").Name = "Item Code"
-    '        'gvData.Columns("Item_Code").IsVisible = True
+                gvData.Columns("Sub Location").HeaderText = "Sub Location"
+                gvData.Columns("Sub Location").Width = 100
+                gvData.Columns("Sub Location").IsVisible = True
 
-    '        gvData.Columns("Item_Desc").HeaderText = "Item Name"
-    '        gvData.Columns("Item_Desc").Width = 250
-    '        gvData.Columns("Item_Desc").IsVisible = True
+                gvData.Columns("GST No").HeaderText = "GST No"
+                gvData.Columns("GST No").Width = 100
+                gvData.Columns("GST No").IsVisible = True
 
-    '        'gvData.Columns("VLC_Name").FormatString = "{0:n2}"
-    '        gvData.Columns("UOM").HeaderText = "UOM"
-    '        gvData.Columns("UOM").Width = 500
+                gvData.Columns("State Code").HeaderText = "State Code"
+                gvData.Columns("State Code").Width = 100
+                gvData.Columns("State Code").IsVisible = True
 
-    '        gvData.Columns("INWARDQTYReportUom").HeaderText = "Inward QTY"
-    '        gvData.Columns("INWARDQTYReportUom").Width = 250
-    '        gvData.Columns("INWARDQTYReportUom").FormatString = "{0:n2}"
-    '        gvData.Columns("INWARDQTYReportUom").IsVisible = True
+                gvData.Columns("Customer Code").HeaderText = "Customer Code"
+                gvData.Columns("Customer Code").Width = 100
+                gvData.Columns("Customer Code").IsVisible = True
 
-    '        gvData.Columns("OUTWARDQTYReportUom").HeaderText = "Outward QTY"
-    '        gvData.Columns("OUTWARDQTYReportUom").Width = 250
-    '        gvData.Columns("OUTWARDQTYReportUom").FormatString = "{0:n2}"
-    '        gvData.Columns("OUTWARDQTYReportUom").IsVisible = True
+                gvData.Columns("Customer Name").HeaderText = "Customer Name"
+                gvData.Columns("Customer Name").Width = 100
+                gvData.Columns("Customer Name").IsVisible = True
 
-    '        gvData.Columns("From_Location").HeaderText = "From Location"
-    '        gvData.Columns("From_Location").Width = 250
-    '        gvData.Columns("From_Location").IsVisible = False
+                gvData.Columns("Party State").HeaderText = "Party State"
+                gvData.Columns("Party State").Width = 100
+                gvData.Columns("Party State").IsVisible = True
 
-    '        gvData.Columns("To_Location").HeaderText = "To Location"
-    '        gvData.Columns("To_Location").Width = 250
-    '        gvData.Columns("To_Location").IsVisible = False
+                gvData.Columns("E Invoice Type").HeaderText = "E Invoice Type"
+                gvData.Columns("E Invoice Type").Width = 100
+                gvData.Columns("E Invoice Type").IsVisible = True
 
-    '        gvData.Columns("location_desc").HeaderText = "location Name"
-    '        gvData.Columns("location_desc").Width = 250
-    '        gvData.Columns("location_desc").IsVisible = False
+                gvData.Columns("Ack No").HeaderText = "Ack No"
+                gvData.Columns("Ack No").Width = 100
+                gvData.Columns("Ack No").IsVisible = True
 
-    '        gvData.Columns("structure_code").HeaderText = "Structure Code"
-    '        gvData.Columns("structure_code").Width = 250
-    '        gvData.Columns("structure_code").IsVisible = False
+                gvData.Columns("Ack Date").HeaderText = "Ack Date"
+                gvData.Columns("Ack Date").Width = 100
+                gvData.Columns("Ack Date").IsVisible = True
 
-    '        gvData.Columns("From_Date").HeaderText = "From Date"
-    '        gvData.Columns("From_Date").Width = 250
-    '        gvData.Columns("From_Date").IsVisible = False
+                gvData.Columns("Invoice No").HeaderText = "Invoice No"
+                gvData.Columns("Invoice No").Width = 100
+                gvData.Columns("Invoice No").IsVisible = True
 
-    '        gvData.Columns("To_Date").HeaderText = "To Date"
-    '        gvData.Columns("To_Date").Width = 250
-    '        gvData.Columns("To_Date").IsVisible = False
+                gvData.Columns("Invoice Date").HeaderText = "Invoice Date"
+                gvData.Columns("Invoice Date").Width = 100
+                gvData.Columns("Invoice Date").IsVisible = True
 
-    '        gvData.Columns("City_code").HeaderText = "City code"
-    '        gvData.Columns("City_code").Width = 250
-    '        gvData.Columns("City_code").IsVisible = False
+                gvData.Columns("Invoice Type").HeaderText = "Invoice Type"
+                gvData.Columns("Invoice Type").Width = 100
+                gvData.Columns("Invoice Type").IsVisible = True
 
-    '        gvData.Columns("INUOM").HeaderText = "INUOM"
-    '        gvData.Columns("INUOM").Width = 250
-    '        gvData.Columns("INUOM").IsVisible = False
+                gvData.Columns("Route No").HeaderText = "Route No"
+                gvData.Columns("Route No").Width = 100
+                gvData.Columns("Route No").IsVisible = True
 
+                gvData.Columns("Invoice Value").HeaderText = "Invoice Value"
+                gvData.Columns("Invoice Value").Width = 100
+                gvData.Columns("Invoice Value").IsVisible = True
 
-    '        Dim summaryRowItem As New GridViewSummaryRowItem()
-    '        Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
-    '        summaryRowItem.Add(item1)
-    '        Dim item2 As New GridViewSummaryItem("OUTWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
-    '        summaryRowItem.Add(item2)
-    '        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-    '        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-    '    ElseIf ddlReportType.SelectedValue = "Stock Summary" Then
+                gvData.Columns("Recipient Gst No").HeaderText = "Recipient Gst No"
+                gvData.Columns("Recipient Gst No").Width = 100
+                gvData.Columns("Recipient Gst No").IsVisible = True
 
-    '        gvData.Columns("Structure_Code").HeaderText = "Structure Code"
-    '        gvData.Columns("Structure_Code").IsVisible = True
+                gvData.Columns("IRN No").HeaderText = "IRN No"
+                gvData.Columns("IRN No").Width = 100
+                gvData.Columns("IRN No").IsVisible = True
 
-    '        gvData.Columns("Item_Type").IsVisible = False
+                gvData.Columns("EwayBillNo").HeaderText = "EwayBillNo"
+                gvData.Columns("EwayBillNo").Width = 100
+                gvData.Columns("EwayBillNo").IsVisible = True
 
-    '        gvData.Columns("Item_Code").HeaderText = "Item Code"
-    '        gvData.Columns("Item_Code").IsVisible = True
+                gvData.Columns("EwayBillDate").HeaderText = "EwayBillDate"
+                gvData.Columns("EwayBillDate").Width = 100
+                gvData.Columns("EwayBillDate").IsVisible = True
 
-    '        gvData.Columns("Item_Desc").HeaderText = "Item Name"
-    '        gvData.Columns("Item_Desc").Width = 250
-    '        gvData.Columns("Item_Desc").IsVisible = True
+                gvData.Columns("Base Amount").HeaderText = "Base Amount"
+                gvData.Columns("Base Amount").Width = 100
+                gvData.Columns("Base Amount").IsVisible = True
 
-    '        gvData.Columns("Report_UOM").HeaderText = "UOM"
-    '        gvData.Columns("Report_UOM").Width = 500
+                gvData.Columns("KKF Amt").HeaderText = "KKF Amt"
+                gvData.Columns("KKF Amt").Width = 100
+                gvData.Columns("KKF Amt").IsVisible = True
 
-    '        gvData.Columns("OPBal").HeaderText = "Opening Balance"
-    '        gvData.Columns("OPBal").Width = 250
-    '        gvData.Columns("OPBal").FormatString = "{0:n2}"
+                gvData.Columns("Mandi Tax Amt").HeaderText = "Mandi Tax Amt"
+                gvData.Columns("Mandi Tax Amt").Width = 100
+                gvData.Columns("Mandi Tax Amt").IsVisible = True
 
-    '        gvData.Columns("Received_Qty").HeaderText = "Inwards Qty"
-    '        gvData.Columns("Received_Qty").Width = 500
-    '        gvData.Columns("Received_Qty").IsVisible = True
+                gvData.Columns("CGST Amt").HeaderText = "CGST Amt"
+                gvData.Columns("CGST Amt").Width = 100
+                gvData.Columns("CGST Amt").IsVisible = True
 
-    '        gvData.Columns("Issued_Qty").HeaderText = "Outwards Qty"
-    '        gvData.Columns("Issued_Qty").Width = 500
-    '        gvData.Columns("Issued_Qty").IsVisible = True
+                gvData.Columns("SGST Amt").HeaderText = "SGST Amt"
+                gvData.Columns("SGST Amt").Width = 100
+                gvData.Columns("SGST Amt").IsVisible = True
 
-    '        gvData.Columns("Balance_Qty").HeaderText = "Closing Balance"
-    '        gvData.Columns("Balance_Qty").Width = 500
-    '        gvData.Columns("Balance_Qty").IsVisible = True
+                gvData.Columns("IGST Amt").HeaderText = "IGST Amt"
+                gvData.Columns("IGST Amt").Width = 100
+                gvData.Columns("IGST Amt").IsVisible = True
 
-    '        gvData.Columns("Comp_Name").IsVisible = False
-    '        gvData.Columns("City_Code").IsVisible = False
-    '        gvData.Columns("fromDate").IsVisible = False
-    '        gvData.Columns("Todate").IsVisible = False
+                gvData.Columns("TCS Amt").HeaderText = "TCS Amt"
+                gvData.Columns("TCS Amt").Width = 100
+                gvData.Columns("TCS Amt").IsVisible = True
 
+                'Dim summaryRowItem As New GridViewSummaryRowItem()
+                'Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item1)
+                'Dim item2 As New GridViewSummaryItem("OUTWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item2)
+                'gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                'gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
-    '        Dim summaryRowItem As New GridViewSummaryRowItem()
-    '        Dim item1 As New GridViewSummaryItem("OPBal", "{0:n2}", GridAggregateFunction.Sum)
-    '        summaryRowItem.Add(item1)
-    '        Dim item2 As New GridViewSummaryItem("Received_Qty", "{0:n2}", GridAggregateFunction.Sum)
-    '        summaryRowItem.Add(item2)
-    '        Dim item3 As New GridViewSummaryItem("Issued_Qty", "{0:n2}", GridAggregateFunction.Sum)
-    '        summaryRowItem.Add(item3)
-    '        Dim item4 As New GridViewSummaryItem("Balance_Qty", "{0:n2}", GridAggregateFunction.Sum)
-    '        summaryRowItem.Add(item4)
-    '        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-    '        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-    '    End If
+            ElseIf rbtnDetail.IsChecked Then
 
-    'Catch ex As Exception
-    '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    'End Try
-    'End Sub
+                gvData.Columns("Supply Date").HeaderText = "Supply Date"
+                gvData.Columns("Supply Date").Width = 100
+                gvData.Columns("Supply Date").IsVisible = True
 
+                gvData.Columns("Shift Type").HeaderText = "Shift Type"
+                gvData.Columns("Shift Type").Width = 100
+                gvData.Columns("Shift Type").IsVisible = True
 
+                gvData.Columns("Location").HeaderText = "Location"
+                gvData.Columns("Location").Width = 100
+                gvData.Columns("Location").IsVisible = True
+
+                gvData.Columns("Sub Location").HeaderText = "Sub Location"
+                gvData.Columns("Sub Location").Width = 100
+                gvData.Columns("Sub Location").IsVisible = True
+
+                gvData.Columns("GST No").HeaderText = "GST No"
+                gvData.Columns("GST No").Width = 100
+                gvData.Columns("GST No").IsVisible = True
+
+                gvData.Columns("State Code").HeaderText = "State Code"
+                gvData.Columns("State Code").Width = 100
+                gvData.Columns("State Code").IsVisible = True
+
+                gvData.Columns("Customer Code").HeaderText = "Customer Code"
+                gvData.Columns("Customer Code").Width = 100
+                gvData.Columns("Customer Code").IsVisible = True
+
+                gvData.Columns("Customer Name").HeaderText = "Customer Name"
+                gvData.Columns("Customer Name").Width = 100
+                gvData.Columns("Customer Name").IsVisible = True
+
+                gvData.Columns("Party State").HeaderText = "Party State"
+                gvData.Columns("Party State").Width = 100
+                gvData.Columns("Party State").IsVisible = True
+
+                gvData.Columns("E Invoice Type").HeaderText = "E Invoice Type"
+                gvData.Columns("E Invoice Type").Width = 100
+                gvData.Columns("E Invoice Type").IsVisible = True
+
+                gvData.Columns("Ack No").HeaderText = "Ack No"
+                gvData.Columns("Ack No").Width = 100
+                gvData.Columns("Ack No").IsVisible = True
+
+                gvData.Columns("Ack Date").HeaderText = "Ack Date"
+                gvData.Columns("Ack Date").Width = 100
+                gvData.Columns("Ack Date").IsVisible = True
+
+                gvData.Columns("Invoice No").HeaderText = "Invoice No"
+                gvData.Columns("Invoice No").Width = 100
+                gvData.Columns("Invoice No").IsVisible = True
+
+                gvData.Columns("Invoice Date").HeaderText = "Invoice Date"
+                gvData.Columns("Invoice Date").Width = 100
+                gvData.Columns("Invoice Date").IsVisible = True
+
+                gvData.Columns("Invoice Type").HeaderText = "Invoice Type"
+                gvData.Columns("Invoice Type").Width = 100
+                gvData.Columns("Invoice Type").IsVisible = True
+
+                gvData.Columns("Route No").HeaderText = "Route No"
+                gvData.Columns("Route No").Width = 100
+                gvData.Columns("Route No").IsVisible = True
+
+                gvData.Columns("Item Code").HeaderText = "Item Code"
+                gvData.Columns("Item Code").Width = 100
+                gvData.Columns("Item Code").IsVisible = True
+
+                gvData.Columns("Item Name").HeaderText = "Item Name"
+                gvData.Columns("Item Name").Width = 100
+                gvData.Columns("Item Name").IsVisible = True
+
+                gvData.Columns("Item Amount").HeaderText = "Item Amount"
+                gvData.Columns("Item Amount").Width = 100
+                gvData.Columns("Item Amount").IsVisible = True
+
+                gvData.Columns("HSN Code").HeaderText = "HSN Code"
+                gvData.Columns("HSN Code").Width = 100
+                gvData.Columns("HSN Code").IsVisible = True
+
+                gvData.Columns("Qty").HeaderText = "Qty"
+                gvData.Columns("Qty").Width = 100
+                gvData.Columns("Qty").IsVisible = True
+
+                gvData.Columns("UOM").HeaderText = "UOM"
+                gvData.Columns("UOM").Width = 100
+                gvData.Columns("UOM").IsVisible = True
+
+                gvData.Columns("Recipient Gst No").HeaderText = "Recipient Gst No"
+                gvData.Columns("Recipient Gst No").Width = 100
+                gvData.Columns("Recipient Gst No").IsVisible = True
+
+                gvData.Columns("IRN No").HeaderText = "IRN No"
+                gvData.Columns("IRN No").Width = 100
+                gvData.Columns("IRN No").IsVisible = True
+
+                gvData.Columns("EwayBillNo").HeaderText = "EwayBillNo"
+                gvData.Columns("EwayBillNo").Width = 100
+                gvData.Columns("EwayBillNo").IsVisible = True
+
+                gvData.Columns("EwayBillDate").HeaderText = "EwayBillDate"
+                gvData.Columns("EwayBillDate").Width = 100
+                gvData.Columns("EwayBillDate").IsVisible = True
+
+                gvData.Columns("KKF %").HeaderText = "KKF %"
+                gvData.Columns("KKF %").Width = 100
+                gvData.Columns("KKF %").IsVisible = True
+
+                gvData.Columns("KKF Amt").HeaderText = "KKF Amt"
+                gvData.Columns("KKF Amt").Width = 100
+                gvData.Columns("KKF Amt").IsVisible = True
+
+                gvData.Columns("Mandi Tax %").HeaderText = "Mandi Tax %"
+                gvData.Columns("Mandi Tax %").Width = 100
+                gvData.Columns("Mandi Tax %").IsVisible = True
+
+                gvData.Columns("Mandi Tax Amt").HeaderText = "Mandi Tax Amt"
+                gvData.Columns("Mandi Tax Amt").Width = 100
+                gvData.Columns("Mandi Tax Amt").IsVisible = True
+
+                gvData.Columns("CGST %").HeaderText = "CGST %"
+                gvData.Columns("CGST %").Width = 100
+                gvData.Columns("CGST %").IsVisible = True
+
+                gvData.Columns("CGST Amt").HeaderText = "CGST Amt"
+                gvData.Columns("CGST Amt").Width = 100
+                gvData.Columns("CGST Amt").IsVisible = True
+
+                gvData.Columns("IGST %").HeaderText = "IGST %"
+                gvData.Columns("IGST %").Width = 100
+                gvData.Columns("IGST %").IsVisible = True
+
+                gvData.Columns("IGST Amt").HeaderText = "IGST Amt"
+                gvData.Columns("IGST Amt").Width = 100
+                gvData.Columns("IGST Amt").IsVisible = True
+
+                gvData.Columns("SGST %").HeaderText = "SGST %"
+                gvData.Columns("SGST %").Width = 100
+                gvData.Columns("SGST %").IsVisible = True
+
+                gvData.Columns("SGST Amt").HeaderText = "SGST Amt"
+                gvData.Columns("SGST Amt").Width = 100
+                gvData.Columns("SGST Amt").IsVisible = True
+
+                gvData.Columns("TCS %").HeaderText = "TCS %"
+                gvData.Columns("TCS %").Width = 100
+                gvData.Columns("TCS %").IsVisible = True
+
+                gvData.Columns("TCS Amt").HeaderText = "TCS Amt"
+                gvData.Columns("TCS Amt").Width = 100
+                gvData.Columns("TCS Amt").IsVisible = True
+
+                gvData.Columns("Total Amount").HeaderText = "Total Amount"
+                gvData.Columns("Total Amount").Width = 100
+                gvData.Columns("Total Amount").IsVisible = True
+
+                'Dim summaryRowItem As New GridViewSummaryRowItem()
+                'Dim item1 As New GridViewSummaryItem("OPBal", "{0:n2}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item1)
+                'Dim item2 As New GridViewSummaryItem("Received_Qty", "{0:n2}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item2)
+                'Dim item3 As New GridViewSummaryItem("Issued_Qty", "{0:n2}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item3)
+                'Dim item4 As New GridViewSummaryItem("Balance_Qty", "{0:n2}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item4)
+                'gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                'gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
     'Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
     '    Dim dt As DataTable = Nothing
@@ -757,8 +918,6 @@ Public Class SaleEinvoiceReport
     '        gvData.ShowFilteringRow = True
     '        gvData.BestFitColumns()
     '    End If
-
-
     'End Sub
 
     Sub SetGridFormationOFGV1()

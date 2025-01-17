@@ -153,44 +153,44 @@ where TSPL_MILK_COLLECTION_MCC.Document_Date>='" + strFromDate + "' and TSPL_MIL
 
 
 
-                Dim MCCQty As New GridViewSummaryItem("TankerQty", "{0:F2}", GridAggregateFunction.Sum)
+                Dim MCCQty As New GridViewSummaryItem("TankerQty", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(MCCQty)
-                Dim MCCFatKg As New GridViewSummaryItem("TankerFATKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim MCCFatKg As New GridViewSummaryItem("TankerFATKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(MCCFatKg)
-                Dim MCCSnfKg As New GridViewSummaryItem("TankerSNFKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim MCCSnfKg As New GridViewSummaryItem("TankerSNFKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(MCCSnfKg)
-                Dim DCSQty As New GridViewSummaryItem("BMCQty", "{0:F2}", GridAggregateFunction.Sum)
+                Dim DCSQty As New GridViewSummaryItem("BMCQty", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DCSQty)
-                Dim DCSFatKg As New GridViewSummaryItem("BMCFATKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim DCSFatKg As New GridViewSummaryItem("BMCFATKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DCSFatKg)
-                Dim DCSSnfKg As New GridViewSummaryItem("BMCSNFKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim DCSSnfKg As New GridViewSummaryItem("BMCSNFKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DCSSnfKg)
-                Dim DiffQty As New GridViewSummaryItem("DCSQty", "{0:F2}", GridAggregateFunction.Sum)
+                Dim DiffQty As New GridViewSummaryItem("DCSQty", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DiffQty)
-                Dim DiffFatKg As New GridViewSummaryItem("DCSFATKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim DiffFatKg As New GridViewSummaryItem("DCSFATKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DiffFatKg)
-                Dim DiffSnfKg As New GridViewSummaryItem("DCSSNFKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim DiffSnfKg As New GridViewSummaryItem("DCSSNFKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DiffSnfKg)
 
-                Dim TANBMCQty As New GridViewSummaryItem("TankerBMCQty", "{0:F2}", GridAggregateFunction.Sum)
+                Dim TANBMCQty As New GridViewSummaryItem("TankerBMCQty", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(TANBMCQty)
-                Dim TANBMCFATKg As New GridViewSummaryItem("TankerBMCFATKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim TANBMCFATKg As New GridViewSummaryItem("TankerBMCFATKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(TANBMCFATKg)
-                Dim TANBMCSNFKg As New GridViewSummaryItem("TankerBMCSNFKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim TANBMCSNFKg As New GridViewSummaryItem("TankerBMCSNFKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(TANBMCSNFKg)
 
-                Dim BMCDCSQty As New GridViewSummaryItem("BMCDCSQty", "{0:F2}", GridAggregateFunction.Sum)
+                Dim BMCDCSQty As New GridViewSummaryItem("BMCDCSQty", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(BMCDCSQty)
-                Dim BMCDCSFATKg As New GridViewSummaryItem("BMCDCSFATKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim BMCDCSFATKg As New GridViewSummaryItem("BMCDCSFATKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(BMCDCSFATKg)
-                Dim BMCDCSSNFKg As New GridViewSummaryItem("BMCDCSSNFKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim BMCDCSSNFKg As New GridViewSummaryItem("BMCDCSSNFKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(BMCDCSSNFKg)
 
-                Dim TankerDCSQty As New GridViewSummaryItem("TankerDCSQty", "{0:F2}", GridAggregateFunction.Sum)
+                Dim TankerDCSQty As New GridViewSummaryItem("TankerDCSQty", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(TankerDCSQty)
-                Dim TankerDCSFATKg As New GridViewSummaryItem("TankerDCSFATKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim TankerDCSFATKg As New GridViewSummaryItem("TankerDCSFATKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(TankerDCSFATKg)
-                Dim TankerDCSSNFKg As New GridViewSummaryItem("TankerDCSSNFKg", "{0:F3}", GridAggregateFunction.Sum)
+                Dim TankerDCSSNFKg As New GridViewSummaryItem("TankerDCSSNFKg", "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(TankerDCSSNFKg)
                 Gv1.SummaryRowsBottom.Add(summaryRowItem)
                 ControlEnableDisable(False)
@@ -217,50 +217,50 @@ where TSPL_MILK_COLLECTION_MCC.Document_Date>='" + strFromDate + "' and TSPL_MIL
         Gv1.Columns("Route_Code").HeaderText = "Route"
 
         Gv1.Columns("TankerQty").HeaderText = "Qty"
-        Gv1.Columns("TankerQty").FormatString = "{0:n3}"
+        Gv1.Columns("TankerQty").FormatString = "{0:n2}"
         Gv1.Columns("TankerFATKg").HeaderText = "FAT KG"
-        Gv1.Columns("TankerFATKg").FormatString = "{0:n2}"
+        Gv1.Columns("TankerFATKg").FormatString = "{0:n3}"
         Gv1.Columns("TankerSNFKg").HeaderText = "SNF KG"
-        Gv1.Columns("TankerSNFKg").FormatString = "{0:n2}"
+        Gv1.Columns("TankerSNFKg").FormatString = "{0:n3}"
 
         Gv1.Columns("BMCQty").HeaderText = "Qty"
-        Gv1.Columns("BMCQty").FormatString = "{0:n3}"
+        Gv1.Columns("BMCQty").FormatString = "{0:n2}"
         Gv1.Columns("BMCFATKg").HeaderText = "FAT KG"
-        Gv1.Columns("BMCFATKg").FormatString = "{0:n2}"
+        Gv1.Columns("BMCFATKg").FormatString = "{0:n3}"
         Gv1.Columns("BMCSNFKg").HeaderText = "SNF KG"
-        Gv1.Columns("BMCSNFKg").FormatString = "{0:n2}"
+        Gv1.Columns("BMCSNFKg").FormatString = "{0:n3}"
 
 
         Gv1.Columns("DCSQty").HeaderText = "Qty"
-        Gv1.Columns("DCSQty").FormatString = "{0:n3}"
+        Gv1.Columns("DCSQty").FormatString = "{0:n2}"
         Gv1.Columns("DCSFATKg").HeaderText = "FAT KG"
-        Gv1.Columns("DCSFATKg").FormatString = "{0:n2}"
+        Gv1.Columns("DCSFATKg").FormatString = "{0:n3}"
         Gv1.Columns("DCSSNFKg").HeaderText = "SNF KG"
-        Gv1.Columns("DCSSNFKg").FormatString = "{0:n2}"
+        Gv1.Columns("DCSSNFKg").FormatString = "{0:n3}"
 
 
         Gv1.Columns("TankerBMCQty").HeaderText = "Qty"
-        Gv1.Columns("TankerBMCQty").FormatString = "{0:n3}"
+        Gv1.Columns("TankerBMCQty").FormatString = "{0:n2}"
         Gv1.Columns("TankerBMCFATKg").HeaderText = "FAT KG"
-        Gv1.Columns("TankerBMCFATKg").FormatString = "{0:n2}"
+        Gv1.Columns("TankerBMCFATKg").FormatString = "{0:n3}"
         Gv1.Columns("TankerBMCSNFKg").HeaderText = "SNF KG"
-        Gv1.Columns("TankerBMCSNFKg").FormatString = "{0:n2}"
+        Gv1.Columns("TankerBMCSNFKg").FormatString = "{0:n3}"
 
 
         Gv1.Columns("BMCDCSQty").HeaderText = "Qty"
-        Gv1.Columns("BMCDCSQty").FormatString = "{0:n3}"
+        Gv1.Columns("BMCDCSQty").FormatString = "{0:n2}"
         Gv1.Columns("BMCDCSFATKg").HeaderText = "FAT KG"
-        Gv1.Columns("BMCDCSFATKg").FormatString = "{0:n2}"
+        Gv1.Columns("BMCDCSFATKg").FormatString = "{0:n3}"
         Gv1.Columns("BMCDCSSNFKg").HeaderText = "SNF KG"
-        Gv1.Columns("BMCDCSSNFKg").FormatString = "{0:n2}"
+        Gv1.Columns("BMCDCSSNFKg").FormatString = "{0:n3}"
 
 
         Gv1.Columns("TankerDCSQty").HeaderText = "Qty"
-        Gv1.Columns("TankerDCSQty").FormatString = "{0:n3}"
+        Gv1.Columns("TankerDCSQty").FormatString = "{0:n2}"
         Gv1.Columns("TankerDCSFATKg").HeaderText = "FAT KG"
-        Gv1.Columns("TankerDCSFATKg").FormatString = "{0:n2}"
+        Gv1.Columns("TankerDCSFATKg").FormatString = "{0:n3}"
         Gv1.Columns("TankerDCSSNFKg").HeaderText = "SNF KG"
-        Gv1.Columns("TankerDCSSNFKg").FormatString = "{0:n2}"
+        Gv1.Columns("TankerDCSSNFKg").FormatString = "{0:n3}"
     End Sub
     Sub View()
         If Gv1.Rows.Count > 0 Then

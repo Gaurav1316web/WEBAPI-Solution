@@ -7322,6 +7322,7 @@ Public Class clsTempFATSNFAmt
     Public AccountNo As String
 
     Public BulkRoute As String
+    Public Trip As String
     Public RejectType As String
     Public QAT As Integer
     Public DockCollectionMilkType As String
