@@ -57,7 +57,7 @@ Public Class frmTTSavingReport
             Dim MainQueryForScheme As String = String.Empty
             Dim strWhrRoutSummaryPrint As String = String.Empty
 
-            Query = " select ROW_NUMBER() over(order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xxxx.Vendor_Code,TSPL_VENDOR_MASTER.Bank_Code,
+            Query = " select ROW_NUMBER() over(order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as SNo,'" + fromDate.Value + "' as FD,'" + dtpToDate.Value + "' as TD,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xxxx.Vendor_Code,TSPL_VENDOR_MASTER.Bank_Code,
                       TSPL_BANK_MASTER.DESCRIPTION AS Bank_Name,xxxx.Total_Amt,xxxx.Settlement_Amt,xxxx.Transfer_Amt,(xxxx.Total_Amt-xxxx.Settlement_Amt) as Outstanding_BLC from 
 (select Vendor_Code,sum(Document_Total)Document_Total,
 sum(Document_Total* case when RI=2 and Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'and Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end )  as Total_Amt,
@@ -107,6 +107,7 @@ left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTE
             RadPageView1.SelectedPage = RadPageViewPage2
             Dim summaryRowItem As New GridViewSummaryRowItem()
             FormatGridData()
+            EnableDisaableControls(False)
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -128,6 +129,14 @@ left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTE
         Gv1.Columns("SNo").IsVisible = True
         Gv1.Columns("SNo").Width = 100
         Gv1.Columns("SNo").HeaderText = "SNo"
+
+        Gv1.Columns("FD").IsVisible = True
+        Gv1.Columns("FD").Width = 100
+        Gv1.Columns("FD").HeaderText = "From Date"
+
+        Gv1.Columns("TD").IsVisible = True
+        Gv1.Columns("TD").Width = 100
+        Gv1.Columns("TD").HeaderText = "To Date"
 
         'Gv1.Columns("Invoice_Entry_Date").IsVisible = True
         'Gv1.Columns("Invoice_Entry_Date").Width = 100
@@ -259,5 +268,19 @@ left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTE
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
         End Try
+    End Sub
+
+    Private Sub btnReset_Click_1(sender As Object, e As EventArgs) Handles btnReset.Click
+        EnableDisaableControls(True)
+        Gv1.DataSource = Nothing
+        RadPageView1.SelectedPage = RadPageViewPage1
+    End Sub
+
+    Sub EnableDisaableControls(ByVal flag As Boolean)
+        fromDate.Enabled = flag
+        dtpToDate.Enabled = flag
+        'Gv1.DataSource = Nothing
+        'RadPageView1.SelectedPage = RadPageViewPage1
+
     End Sub
 End Class
