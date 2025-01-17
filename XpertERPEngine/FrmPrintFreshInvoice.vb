@@ -999,7 +999,7 @@ TSPL_SD_SALE_INVOICE_HEAD.TAX1,(select type from TSPL_TAX_MASTER where Tax_Code=
 (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX5) as TaxType5,TSPL_SD_SALE_INVOICE_HEAD.TAX5, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt,0.00) As TAX5_Amt,
 (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX6) as TaxType6,TSPL_SD_SALE_INVOICE_HEAD.TAX6, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt,0.00) As TAX6_Amt,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt, isnull(TSPL_SD_SHIPMENT_HEAD.Against_booking_no,'') as Against_Delivery_Code
 ,TabBatch.Batch_No as batchNO,"
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                 Qry += " TabBatch.BATCH_QTY AS Batchqty,"
             End If
             Qry += "
@@ -1056,7 +1056,7 @@ and TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code and  
 
             Qry += "
 left outer join (select Document_Code,Parent_Line_No,"
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                 Qry += " STRING_AGG(Batch_No,CHAR(10)) as Batch_No , STRING_AGG(Qty,CHAR(10)) as Batch_Qty"
             Else
                 Qry += " STRING_AGG(Batch_No +'('+convert(varchar(8),Qty)+')', ',') as Batch_No "
