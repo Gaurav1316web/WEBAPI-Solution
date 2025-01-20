@@ -9213,6 +9213,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptHSNWiseSaleReport
                         frm = New rptHSNWiseSaleReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptMilkSupplySaleReport
+                        frm = New rptMilkSupplySaleReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmperdayDetailRpt
                         frm = New FrmperdayDetailRpt()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

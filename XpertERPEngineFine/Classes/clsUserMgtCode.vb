@@ -2710,7 +2710,7 @@ Public Class clsUserMgtCode
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
     Public Const FrmperdayDetailRpt As String = "PER_DAY_RPT"
     Public Const rptBookingVsDispatchReport As String = "BOOK-VS-DI"
-
+    Public Const rptMilkSupplySaleReport As String = "MLK_SUP_RPT"
     Public Const ModuleXpertAPI As String = "API"
     Public Const SubModuleXpertAPISetup As String = "MXAPIMaster"
     Public Const SubModuleXpertAPITrans As String = "MAPITrans"
