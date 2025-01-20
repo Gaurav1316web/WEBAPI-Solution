@@ -5,15 +5,33 @@
     Public Cust_Name As String = ""
     Public TaxGroup As String = ""
     Public InvoiceNo As String = ""
-    Public DebitAmt As Decimal = 0
-    Public CreditAmt As Decimal = 0
+    Public DebitAmt As String = 0
+    Public CreditAmt As String = 0
+    Public Bank_Code As String = ""
     Public Arr As List(Of clsDayBookItems) = Nothing
     Public ArrTax As List(Of clsDayBookTaxDetail) = Nothing
 #End Region
-    Public Shared Function GetData(ByVal docDate As DateTime) As List(Of clsDayBookHead)
+    Public Shared Function GetData(ByVal docDate As DateTime, ByVal strLocation As String) As List(Of clsDayBookHead)
         Dim lstobj As New List(Of clsDayBookHead)
+        Dim strqry As String = ""
         Try
-            Dim strqry As String = "select Document_Date,Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,Total_Amt from TSPL_SD_SALE_INVOICE_HEAD
+            strqry = "select Receipt_Date,Receipt_No,Bank_Code,Cust_Code,Customer_Name,Receipt_Amount from TSPL_RECEIPT_HEADER where convert(date,Receipt_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'"
+            Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable(strqry)
+            If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
+                For Each drReceipt As DataRow In dtReceipt.Rows
+                    Dim obj As New clsDayBookHead()
+                    obj.Document_Date = clsCommon.myCDate(drReceipt("Receipt_Date"))
+                    obj.Cust_Code = clsCommon.myCstr(drReceipt("Cust_Code"))
+                    obj.Cust_Name = clsCommon.myCstr(drReceipt("Customer_Name"))
+                    obj.InvoiceNo = clsCommon.myCstr(drReceipt("Receipt_No"))
+                    obj.Bank_Code = clsCommon.myCstr(drReceipt("Bank_Code"))
+                    obj.TaxGroup = "Receipt"
+                    obj.DebitAmt = clsCommon.myCstr(clsCommon.myCdbl(drReceipt("Receipt_Amount")))
+                    obj.CreditAmt = clsCommon.myCstr(clsCommon.myCdbl(drReceipt("Receipt_Amount")))
+                    lstobj.Add(obj)
+                Next
+            End If
+            strqry = "select Document_Date,Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,Total_Amt from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
 where CONVERT(date,Document_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
@@ -27,18 +45,45 @@ where CONVERT(date,Document_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/M
                     obj.InvoiceNo = clsCommon.myCstr(dr("Document_Code"))
                     obj.TaxGroup = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Tax_Group_Desc from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" + clsCommon.myCstr(dr("Tax_Group")) + "' and Tax_Group_Type='S'"))
                     'obj.TaxGroup = clsCommon.myCstr(dr("Tax_Group"))
-                    obj.DebitAmt = clsCommon.myCdbl(dr("Total_Amt"))
+                    obj.DebitAmt = clsCommon.myCstr(clsCommon.myCdbl(dr("Total_Amt")))
                     Dim qry As String = "select sum(TSPL_SD_SALE_INVOICE_DETAIL.Amount) as Amount from TSPL_SD_SALE_INVOICE_DETAIL
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code where DOCUMENT_CODE='" + obj.InvoiceNo + "' group by DOCUMENT_CODE"
-                    obj.CreditAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+                    obj.CreditAmt = clsCommon.myCstr(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)))
                     obj.Arr = clsDayBookItems.GetData(obj.InvoiceNo)
                     obj.ArrTax = clsDayBookTaxDetail.GetData(obj.InvoiceNo)
                     lstobj.Add(obj)
                 Next
-            Else
-                Throw New Exception("No Data Found!")
             End If
+            strqry = "
+    select TSPL_TRANSFER_ORDER_HEAD.document_no, TSPL_INVENTORY_MOVEMENT.Trans_Type, source_doc_date, TSPL_TRANSFER_ORDER_HEAD.From_Location, 
+      TSPL_TRANSFER_ORDER_HEAD.To_Location, Inout,TSPL_INVENTORY_MOVEMENT.item_code,TSPL_ITEM_master.item_desc,Case when TSPL_INVENTORY_MOVEMENT.Inout = 'I' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as INWARDQTY, 
+      Case when TSPL_INVENTORY_MOVEMENT.Inout = 'O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY, TSPL_INVENTORY_MOVEMENT.Qty,TSPL_ITEM_master.Item_Type,TSPL_INVENTORY_MOVEMENT.uom as UOM 
+    from TSPL_INVENTORY_MOVEMENT 
+      left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No = TSPL_INVENTORY_MOVEMENT.Source_Doc_No           
+      left join TSPL_ITEM_master on TSPL_ITEM_master.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code     
+    where TSPL_INVENTORY_MOVEMENT.trans_type in ('ITransfer', 'Trasnfer') and CONVERT(date,TSPL_TRANSFER_ORDER_HEAD.document_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'  and TSPL_INVENTORY_MOVEMENT.Location_Code='" + strLocation + "' and TSPL_TRANSFER_ORDER_HEAD.Status=1 "
 
+            Dim dtTransfer As DataTable = clsDBFuncationality.GetDataTable(strqry)
+            If dtTransfer IsNot Nothing AndAlso dtTransfer.Rows.Count > 0 Then
+                For Each drt As DataRow In dtTransfer.Rows
+                    Dim obj As New clsDayBookHead()
+                    obj.Document_Date = clsCommon.myCDate(drt("source_doc_date"))
+                    obj.Cust_Code = clsCommon.myCstr(drt("item_code"))
+                    obj.Cust_Name = clsCommon.myCstr(drt("item_desc"))
+                    obj.InvoiceNo = clsCommon.myCstr(drt("document_no"))
+                    obj.TaxGroup = clsCommon.myCstr(drt("Inout"))
+                    If clsCommon.CompairString(obj.TaxGroup, "O") = CompairStringResult.Equal Then
+                        obj.CreditAmt = clsCommon.myCstr(clsCommon.myCdbl(drt("OUTWARDQTY"))) + " " + clsCommon.myCstr(drt("UOM"))
+
+                    Else
+                        obj.DebitAmt = clsCommon.myCstr(clsCommon.myCdbl(drt("INWARDQTY"))) + " " + clsCommon.myCstr(drt("UOM"))
+
+                    End If
+                    'obj.Arr = clsDayBookItems.GetData(obj.InvoiceNo)
+                    'obj.ArrTax = clsDayBookTaxDetail.GetData(obj.InvoiceNo)
+                    lstobj.Add(obj)
+                Next
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
