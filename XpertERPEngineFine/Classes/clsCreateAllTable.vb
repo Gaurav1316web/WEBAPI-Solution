@@ -20289,6 +20289,7 @@ Public Class clsCreateAllTable
             coll.Add("Insurance_Terms", "varchar(500) null")
             coll.Add("Auto_Calculate", "integer not null default 0")
             coll.Add("Subject", "text null")
+            coll.Add("termscondition", "text null")
             coll.Add("Content_Subject", "text null")
             coll.Add("Kind_Attentation", "varchar(500) null")
             coll.Add("MT_HS_Classification_No", "varchar(30) null")
