@@ -159,7 +159,7 @@ Public Class clsfrmVLCMaster
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.vlcCode)
             clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code)
-            'clsCommon.AddColumnsForChange(coll, "Bank_Code_Desc", obj.Bank_Name)
+            clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name)
             clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Bank_Branch)
             clsCommon.AddColumnsForChange(coll, "IFSC_Code", obj.IFSC_Code)
             clsCommon.AddColumnsForChange(coll, "Account_No", obj.Account_No)
