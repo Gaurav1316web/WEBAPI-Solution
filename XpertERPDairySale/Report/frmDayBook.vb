@@ -98,11 +98,12 @@ Public Class frmDayBook
         Try
             LoadBlankGrid()
 
-            Dim lstObj As List(Of clsDayBookHead) = clsDayBookHead.GetData(txtfDate.Value)
+            Dim lstObj As List(Of clsDayBookHead) = clsDayBookHead.GetData(txtfDate.Value, txtLocation.Value)
             Dim rowcount As Integer = 0
             Dim rowItem As Integer = 0
             Dim rowtax As Integer = 1
             Dim totalItemAmt As Integer = 0
+            Dim lststr As New List(Of String)
             If lstObj IsNot Nothing AndAlso lstObj.Count > 0 Then
                 For i As Integer = 0 To lstObj.Count - 1
                     gvData.Rows.AddNew()
@@ -110,27 +111,61 @@ Public Class frmDayBook
                     For Each cell As GridViewCellInfo In row1.Cells
                         cell.Style.Font = New Font("Arial", 10, FontStyle.Bold)
                     Next
-                    gvData.Rows(rowItem).Cells(colDate).Value = clsCommon.GetPrintDate(lstObj(i).Document_Date, "dd/MM/yyyy")
+                    If Not lststr.Contains(clsCommon.myCstr(lstObj(i).InvoiceNo)) Then
+                        gvData.Rows(rowItem).Cells(colDate).Value = clsCommon.GetPrintDate(lstObj(i).Document_Date, "dd/MM/yyyy")
+                        gvData.Rows(rowItem).Cells(colVchNo).Value = clsCommon.myCstr(lstObj(i).InvoiceNo)
+                        If clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal Then
+                            gvData.Rows(rowItem).Cells(colVchType).Value = "Stock Journal"
+
+                        ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
+                            gvData.Rows(rowItem).Cells(colVchType).Value = "Stock Journal"
+
+                        Else
+                            gvData.Rows(rowItem).Cells(colVchType).Value = clsCommon.myCstr(lstObj(i).TaxGroup)
+
+                        End If
+
+                        lststr.Add(clsCommon.myCstr(lstObj(i).InvoiceNo))
+                    End If
                     gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Cust_Name)
-                    gvData.Rows(rowItem).Cells(colVchType).Value = clsCommon.myCstr(lstObj(i).TaxGroup)
-                    gvData.Rows(rowItem).Cells(colVchNo).Value = clsCommon.myCstr(lstObj(i).InvoiceNo)
-                    gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
-                    gvData.Rows.AddNew()
-                    rowItem += 1
-                    Dim row2 As GridViewRowInfo = gvData.Rows(rowItem)
-                    For Each cell As GridViewCellInfo In row2.Cells
-                        cell.Style.Font = New Font("Arial", 10, FontStyle.Bold)
-                    Next
-                    gvData.Rows(rowItem).Cells(colParticulars).Value = "SALES GST"
-                    gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
-                    For Each items As clsDayBookItems In lstObj(i).Arr
+                    If clsCommon.CompairString(lstObj(i).TaxGroup, "Receipt") = CompairStringResult.Equal Then
+                        gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
+                    ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal Then
+                        gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
+                    ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
+                        gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
+                    Else
+                        gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
+
+                    End If
+                    If Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "Stock Journal") = CompairStringResult.Equal AndAlso Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "") = CompairStringResult.Equal Then
                         gvData.Rows.AddNew()
                         rowItem += 1
-                        gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(items.Item_Name)
-                        gvData.Rows(rowItem).Cells(colVchType).Value = clsCommon.myCstr(items.Qty) + " " + clsCommon.myCstr(items.UOM) + "  " + clsCommon.myCstr(items.Item_Rate) + " " + clsCommon.myCstr(items.UOM)
-                        gvData.Rows(rowItem).Cells(colVchNo).Value = clsCommon.myCstr(items.Amount)
-                        totalItemAmt += items.Amount
-                    Next
+                        Dim row2 As GridViewRowInfo = gvData.Rows(rowItem)
+                        For Each cell As GridViewCellInfo In row2.Cells
+                            cell.Style.Font = New Font("Arial", 10, FontStyle.Bold)
+                        Next
+                        If clsCommon.CompairString(lstObj(i).TaxGroup, "Receipt") = CompairStringResult.Equal Then
+                            gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Bank_Code)
+                            gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
+                        Else
+                            gvData.Rows(rowItem).Cells(colParticulars).Value = "SALES GST"
+                            gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
+                        End If
+                    End If
+
+
+                    If lstObj(i).Arr IsNot Nothing AndAlso lstObj(i).Arr.Count > 0 Then
+                        For Each items As clsDayBookItems In lstObj(i).Arr
+                            gvData.Rows.AddNew()
+                            rowItem += 1
+                            gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(items.Item_Name)
+                            gvData.Rows(rowItem).Cells(colVchType).Value = clsCommon.myCstr(items.Qty) + " " + clsCommon.myCstr(items.UOM) + "  " + clsCommon.myCstr(items.Item_Rate) + " " + clsCommon.myCstr(items.UOM)
+                            gvData.Rows(rowItem).Cells(colVchNo).Value = clsCommon.myCstr(items.Amount)
+                            totalItemAmt += items.Amount
+                        Next
+                    End If
+
                     If lstObj(i).ArrTax IsNot Nothing AndAlso lstObj(i).ArrTax.Count > 0 Then
                         For Each items As clsDayBookTaxDetail In lstObj(i).ArrTax
                             gvData.Rows.AddNew()
@@ -282,6 +317,19 @@ Public Class frmDayBook
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
+        Try
+            Dim whrcls As String = ""
+            whrcls = "    Location_Type='Physical' "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
+            End If
+            Dim qry As String = " select Location_Code as [Code],Location_Desc as [Description],TSPL_Location_MASTER.Loc_Short_Name as [Short Name],Add1,Add2,Add3,Add4,City_Code as [City Code],State,Pin_Code as [Pin Code],Country,Hoadd1 ,Hoadd2,Telphone,Email,Location_Type as [Location Type],Loc_Status as [Location Status],Status_Date as [Status Date],Excisable,Loc_Segment_Code as [Location Segment Code],Seg.Description as [Location Segment Description],Type,Purchase_Tax_Group as [Purchase Tax Group],Sales_Tax_Group as [Sales Tax Group],Ecc_Number as [ECC Number],Registration_Number as [Registration Number],Commissionerate as [Commission Rate],Range_Code as [Range Code],Range_Name as [Range Name],Range_Address as [Range Address],Division_Code as [Division Code],Division_Name as [Division Name],Division_Address as [Division Address],tspl_location_master.Created_By as [Created By],tspl_location_master.Created_Date as [Created Date],tspl_location_master.Modify_By as [Modify By],tspl_location_master.Modify_Date as [Modify Date],tspl_location_master.Comp_code as [Company Code],TIN_No as [TIN No],TAN_No as [TAN No],TCAN_No as [TCAN No],Service_Tax_Reg_No as [Service Tax Registration No],DutyPaid as [Duty Paid],Purchase_Tax_GroupIS as [Purchase Tax Group Inter State],Sales_Tax_GroupIS as [Sales Tax Group Inter State],Stock_Transfer_Filled_Ac as [Stock Transfer Filled Account],Stock_Transfer_Empty_Ac as [Stock Transfer Empty Account],GIT_Location as [GIT Location],GIT_Type as [GIT Type],Rejected_Type as [Rejected Type],Rejected_Location as [Rejected Location],CSA_Type as [CSA Type],Cust_Code as [Cust Code],CST_No as [CST No],Phone1,Phone2,stock_transfer_ac as [Stock Tranfer A/C],Loss_Ac as [Loss A/C] ,Is_Consumption_Location as [Is Consumption Location],Is_Section as [Is Section],Section_Code as [Section Code],Is_Sub_Location as [Is Sub Location],Main_Location_Code as [Main Location Code],IsSubLocationWise as [Is Sub Location Wise] from TSPL_Location_MASTER  left join TSPL_GL_SEGMENT_CODE as Seg on TSPL_Location_MASTER.Loc_Segment_Code=Seg.Segment_Code "
+            txtLocation.Value = clsCommon.ShowSelectForm("Location", qry, "Code", " ", txtLocation.Value, "code", isButtonClicked)
+        Catch ex As Exception
         End Try
     End Sub
 End Class

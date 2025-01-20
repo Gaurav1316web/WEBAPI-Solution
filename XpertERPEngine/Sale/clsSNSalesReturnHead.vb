@@ -318,7 +318,8 @@ Public Class clsSNSalesReturnHead
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '''' 
             isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "Document_Code", obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", trans)
-            isSaved = isSaved AndAlso HistoryData(obj.Document_Code, trans)
+            isSaved = isSaved AndAlso clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+
             If isSaved Then
                 trans.Commit()
             End If
@@ -329,9 +330,7 @@ Public Class clsSNSalesReturnHead
         Return isSaved
     End Function
 
-    Public Shared Function HistoryData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
-        Return clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
-    End Function
+
 
     Public Shared Function GetBalance(ByVal InvoiceNo As String, ByVal ConvFact As Double) As Double
         Dim Qry As String = "Select Sum(Qty*RI) from (select TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_SD_SALE_INVOICE_DETAIL.Qty*" + clsCommon.myCstr(ConvFact) + " As Qty,1 as RI 
@@ -1506,7 +1505,8 @@ Public Class clsSNSalesReturnHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
-                HistoryData(strCode, trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
+
                 clsSerializeInvenotry.DeleteData("Sale Return", strCode, trans)
 
                 Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" + strCode + "'"

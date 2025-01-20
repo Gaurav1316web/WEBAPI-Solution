@@ -71,6 +71,7 @@ Public Class clsfrmVLCMaster
     Public Bank_Credit As Decimal = 0
     Public Shift_Cow_Limit As Integer
     Public Bank_Code_Desc As String = Nothing
+    Public Branch_Name As String = Nothing
 
 
 #End Region
@@ -153,6 +154,7 @@ Public Class clsfrmVLCMaster
             Dim coll As New Hashtable()
             strCode = obj.vlcCode
             '----------insert head block--------------------------------------------------
+            'clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name)
 
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.vlcCode)

@@ -22,7 +22,7 @@ Partial Class frmDayBook
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -37,6 +37,8 @@ Partial Class frmDayBook
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtLocation = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -56,6 +58,7 @@ Partial Class frmDayBook
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -87,13 +90,15 @@ Partial Class frmDayBook
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 409)
         Me.RadPageView1.TabIndex = 74
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
+        Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
         Me.RadPageViewPage1.Controls.Add(Me.rgbDate)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
@@ -180,7 +185,7 @@ Partial Class frmDayBook
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
@@ -224,6 +229,42 @@ Partial Class frmDayBook
         Me.btnGo.TabIndex = 424
         Me.btnGo.Text = ">>>"
         '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel1.Location = New System.Drawing.Point(16, 68)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(52, 16)
+        Me.MyLabel1.TabIndex = 338
+        Me.MyLabel1.Text = "Location "
+        '
+        'txtLocation
+        '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
+        Me.txtLocation.Location = New System.Drawing.Point(75, 65)
+        Me.txtLocation.MendatroryField = False
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Nothing
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
+        Me.txtLocation.Size = New System.Drawing.Size(251, 19)
+        Me.txtLocation.TabIndex = 339
+        Me.txtLocation.Value = ""
+        '
         'frmDayBook
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -242,6 +283,7 @@ Partial Class frmDayBook
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
         CType(Me.rgbDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbDate.ResumeLayout(False)
         Me.rgbDate.PerformLayout()
@@ -256,6 +298,7 @@ Partial Class frmDayBook
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -275,4 +318,6 @@ Partial Class frmDayBook
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gvData As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtLocation As common.UserControls.txtFinder
 End Class
