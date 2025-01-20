@@ -422,11 +422,9 @@ Public Class clsSNInvoiceHead
 
     Public Shared Function HistoryData(ByVal strAction As String, ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Dim chkBool As Boolean = False
-        If clsCommon.CompairString(strAction, "Delete") Then
+        If clsCommon.CompairString(strAction, "Delete") = CompairStringResult.Equal Then
             chkBool = clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
-        ElseIf clsCommon.CompairString(strAction, "Cancel") Then
-            chkBool = clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
-        Else
+        ElseIf clsCommon.CompairString(strAction, "Save") = CompairStringResult.Equal Then
             chkBool = clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
         End If
         Return chkBool
