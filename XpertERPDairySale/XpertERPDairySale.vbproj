@@ -216,6 +216,12 @@
     <Compile Include="Master\frmDistributorCommission.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\FrmItemCapacityLimit.Designer.vb">
+      <DependentUpon>FrmItemCapacityLimit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\FrmItemCapacityLimit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmItemSublocationMapping.Designer.vb">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </Compile>
@@ -267,6 +273,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Report\frmDayBook.Designer.vb">
+      <DependentUpon>frmDayBook.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDayBook.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptBoothWiseBillReport.Designer.vb">
       <DependentUpon>rptBoothWiseBillReport.vb</DependentUpon>
@@ -1002,6 +1014,9 @@
     <EmbeddedResource Include="Master\frmDistributorCommission.resx">
       <DependentUpon>frmDistributorCommission.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\FrmItemCapacityLimit.resx">
+      <DependentUpon>FrmItemCapacityLimit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmItemSublocationMapping.resx">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </EmbeddedResource>
@@ -1041,6 +1056,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmDairySaleSchemeReport.resx">
       <DependentUpon>FrmDairySaleSchemeReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDayBook.resx">
+      <DependentUpon>frmDayBook.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmDemandHistory.resx">
       <DependentUpon>frmDemandHistory.vb</DependentUpon>

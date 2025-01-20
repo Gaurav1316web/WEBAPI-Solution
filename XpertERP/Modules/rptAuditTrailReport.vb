@@ -2739,13 +2739,29 @@ Public Class rptAuditTrailReport
                     StrOrderBy = " order by Convert (datetime, zz.[Created Date],103)  "
                 ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmSNSaleReturn) = CompairStringResult.Equal Then
                     qry = " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_Code as [Document Code],CONCAT(Hist_Version,' - ',Hist_By) AS Description" &
-                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'' as [Status] from  TSPL_SD_SALE_RETURN_HEAD_Hist_Data " &
+                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Save/Update' as [Status] from  TSPL_SD_SALE_RETURN_HEAD_Hist_Data " &
+                     " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    qry += " Union All "
+                    qry += " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_Code as [Document Code],Delete_By AS Description" &
+                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Delete' as [Status] from  TSPL_SD_SALE_RETURN_HEAD_Delete_Data " &
+                     " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    qry += " Union All "
+                    qry += " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_Code as [Document Code],Cancel_By AS Description" &
+                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Cancel' as [Status] from  TSPL_SD_SALE_RETURN_HEAD_Cancel_Data " &
                      " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
                     StrOrderBy = " order by Convert (datetime, zz.[Created Date],103)  "
                 ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal OrElse clsCommon.CompairString(fndScreen.Value, clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Program_Code from TSPL_PROGRAM_MASTER where Program_Code_Original='" + clsUserMgtCode.ScrapSale + "'"))) = CompairStringResult.Equal Then
                     qry = " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],shipment_No as [Document Code],CONCAT(Hist_Version,' - ',Hist_By) AS Description" &
-                 " ,convert(varchar,shipment_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'' as [Status] from  TSPL_SCRAPSALE_HEAD_Hist_Data " &
-                  " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    " ,convert(varchar,shipment_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Save/Update' as [Status] from  TSPL_SCRAPSALE_HEAD_Hist_Data " &
+                     " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    qry += " Union All "
+                    qry += " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],shipment_No as [Document Code],Delete_By AS Description" &
+                    " ,convert(varchar,shipment_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Delete' as [Status] from  TSPL_SCRAPSALE_HEAD_Delete_Data " &
+                     " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
+                    qry += " Union All "
+                    qry += " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],shipment_No as [Document Code],Cancel_By AS Description" &
+                    " ,convert(varchar,shipment_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Cancel' as [Status] from  TSPL_SCRAPSALE_HEAD_Cancel_Data " &
+                     " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
                     StrOrderBy = " order by Convert (datetime, zz.[Created Date],103)  "
                 End If
             End If

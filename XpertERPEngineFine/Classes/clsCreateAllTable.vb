@@ -32399,7 +32399,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Transporter_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
 
             coll = New Dictionary(Of String, String)
@@ -32576,7 +32576,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Transporter", "varchar(12) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -33215,7 +33215,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("FAT", "decimal(18, 2) NULL")
             coll.Add("SNF", "decimal(18, 2) NULL")
             coll.Add("ItemwiseTaxCode", "varchar(30) null ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_DETAIL", coll, Nothing, True, True, "TSPL_SCRAPSALE_HEAD", "shipment_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_DETAIL", coll, Nothing, True, True, "TSPL_SCRAPSALE_HEAD", "shipment_No", "", True)
 
             '' by Parteek
             coll = New Dictionary(Of String, String)
