@@ -70,6 +70,8 @@ Public Class clsfrmVLCMaster
     Public Bank2_Credit2 As Decimal = 0
     Public Bank_Credit As Decimal = 0
     Public Shift_Cow_Limit As Integer
+    Public Bank_Code_Desc As String = Nothing
+    Public Branch_Name As String = Nothing
 
 
 #End Region
@@ -139,6 +141,79 @@ Public Class clsfrmVLCMaster
         Dim RouteNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_code  from TSPL_VLC_MASTER_HEAD inner join tspl_Mcc_Master on mcc=Mcc_Code and mcc_Code_vlc_Uploader='" & MccCode & "' where VLc_Code_vlc_uploader='" & VLcCode & "'", trans))
         Return RouteNo
     End Function
+
+    'varsha add
+    Public Shared Function SaveDataBankDetail(ByVal strCode As String, ByVal isNewEntry As Boolean, ByVal obj As clsfrmVLCMaster, ByVal arr As List(Of clsfrmVLCMaster), ByVal trans As SqlTransaction) As Boolean
+        Dim IsTransactionExist As Boolean = IIf(trans Is Nothing, False, True)
+
+        If IsTransactionExist = False Then
+            trans = clsDBFuncationality.GetTransactin()
+        End If
+        Try
+            Dim isSaved As Boolean = True
+            Dim coll As New Hashtable()
+            strCode = obj.vlcCode
+            '----------insert head block--------------------------------------------------
+            'clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name)
+
+            clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.vlcCode)
+            clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code)
+            'clsCommon.AddColumnsForChange(coll, "Bank_Code_Desc", obj.Bank_Name)
+            clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Bank_Branch)
+            clsCommon.AddColumnsForChange(coll, "IFSC_Code", obj.IFSC_Code)
+            clsCommon.AddColumnsForChange(coll, "Account_No", obj.Account_No)
+
+            clsCommon.AddColumnsForChange(coll, "BankCode2", obj.Bank_Code2)
+            clsCommon.AddColumnsForChange(coll, "BankName2", obj.Bank_Name2)
+            clsCommon.AddColumnsForChange(coll, "BankBranch2", obj.Bank_Branch2)
+            clsCommon.AddColumnsForChange(coll, "IFSCCode2", obj.IFSC_Code2)
+            clsCommon.AddColumnsForChange(coll, "AccNo2", obj.AccNo2)
+            clsCommon.AddColumnsForChange(coll, "AccountType2", obj.Account_Type2)
+            clsCommon.AddColumnsForChange(coll, "Credit2", obj.Bank2_Credit2)
+
+            clsCommon.AddColumnsForChange(coll, "SecurityCharges2", obj.Security_Charges2)
+            clsCommon.AddColumnsForChange(coll, "Company_Bank_Current", obj.Company_Bank_Current)
+            clsCommon.AddColumnsForChange(coll, "Company_Bank", obj.Company_Bank)
+            clsCommon.AddColumnsForChange(coll, "Bank_Code_Desc", obj.Bank_Code_Desc)
+
+            If isNewEntry Then
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Update, " TSPL_VENDOR_MASTER.Vendor_Code='" + obj.vlcCode + "'", trans)
+            End If
+            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.vlcCode), "TSPL_VLC_MASTER_HEAD", "vlc_code", trans)
+            'isSaved = isSaved AndAlso SaveVLCPriceCode(obj.vlcCode, obj.vspCode, obj.MCCCOde, trans)
+            SaveVLCPriceCode(obj.vlcCode, obj.vspCode, obj.MCCCOde, trans)
+            '----------insert detail block--------------------------------------------------
+            isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.vlcCode, obj.arrCustomFields, trans)
+
+            coll = New Hashtable()
+
+
+            If IsTransactionExist = False Then
+                trans.Commit()
+            End If
+            Return True
+        Catch ex As Exception
+            If IsTransactionExist = False Then
+                trans.Rollback()
+            End If
+            If clsCommon.myCstr(ex.Message).Contains("uk_VLC_Code_VLC_Uploader") Then
+                Throw New Exception("Duplicate DCS Code for DCS Uploader ")
+                Return False
+            Else
+                Throw New Exception(ex.Message)
+                Return False
+            End If
+            'Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+    'varsha end
+
 
     Public Shared Function SaveData(ByVal strCode As String, ByVal isNewEntry As Boolean, ByVal obj As clsfrmVLCMaster, ByVal arr As List(Of clsfrmVLCMaster), ByVal trans As SqlTransaction) As Boolean
         Dim IsTransactionExist As Boolean = IIf(trans Is Nothing, False, True)
@@ -445,7 +520,7 @@ Public Class clsfrmVLCMaster
             End If
             Dim strQry As String = Nothing
             If exportSheet.Contains("BlankSheet") Then
-                strQry = "select ''  As 'DCS Code','' As 'DCS Name',''  As 'DCS Uploader Code','' As 'PAN No','' As MCC,'' As 'DCS Route Code','' As Active,
+                strQry = "select  '' AS 'Bank Code Desc',''  As 'DCS Code','' As 'DCS Name',''  As 'DCS Uploader Code','' As 'PAN No','' As MCC,'' As 'DCS Route Code','' As Active,
                         '' As 'Created Date','' As  'Loyalty Rate','' As 'Own BMC','' 'Own BMC Date','' As 'Apply Cow Price','' As 'Apply Cow Price Date','' As 'Head Load','' As 'Head Load Service Basis','' As 'Head Load Rate',
                         '' As 'Registration No','' As 'Registration Date','' As 'Registered/PDCS/CLUSTER',
                         '' As 'Supervisor','' As 'District Code','' As 'Block Code','' As 'Zone Code','' As 'Revenue Village Code','' AS 'Grampanchayat Code','' As 'Panchayat Samiti Code','' As 'Vidhan Sabha Code',
@@ -454,12 +529,12 @@ Public Class clsfrmVLCMaster
                         '' As 'Bank Code 2','' As 'Bank Name 2','' As 'Branch Name 2','' As 'IFSC Code 2','' As 'Credit Limit 2','' As 'Account Type 2','' As 'Security Charges 2','' As 'Shift Cow Quantity Limit','' as 'REIL Integrated'
                         "
             Else
-                strQry = "select TSPL_VLC_MASTER_HEAD.vsp_code  As 'DCS Code',TSPL_VENDOR_MASTER.Vendor_Name As 'DCS Name',TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader  As 'DCS Uploader Code',TSPL_VENDOR_MASTER.PAN As 'PAN No',
+                strQry = "select  TSPL_VLC_MASTER_HEAD.vsp_code  As 'DCS Code',TSPL_VENDOR_MASTER.Vendor_Name As 'DCS Name',TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader  As 'DCS Uploader Code',TSPL_VENDOR_MASTER.PAN As 'PAN No',
                         TSPL_MCC_MASTER.MCC_Code As MCC,TSPL_VLC_MASTER_HEAD.route_code As 'DCS Route Code',TSPL_VLC_MASTER_HEAD.Active, TSPL_VLC_MASTER_HEAD.REIL_Integrated as 'REIL Integrated',
                         convert(date,TSPL_VLC_MASTER_HEAD.Created_Date,103) As 'Created Date',TSPL_VLC_MASTER_HEAD.Loyalty_Rate 'Loyalty Rate',TSPL_VLC_MASTER_HEAD.isOwnBMC As 'Own BMC',OwnBMCDate As 'Own BMC Date',TSPL_VLC_MASTER_HEAD.Apply_Cow_Price As 'Apply Cow Price',TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate As 'Apply Cow Price Date',TSPL_VENDOR_MASTER.Is_Head_Load As 'Head Load',TSPL_VENDOR_MASTER.Service_Basis_Head_Load As 'Head Load Service Basis',TSPL_VENDOR_MASTER.Rate_Head_Load As 'Head Load Rate',
                         TSPL_VENDOR_MASTER.RegistrationNo As 'Registration No',TSPL_VENDOR_MASTER.RegistrationDate As 'Registration Date',TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER As 'Registered/PDCS/CLUSTER',
                         TSPL_VENDOR_MASTER.Gender,TSPL_VENDOR_MASTER.SupervisorOrRP As 'Supervisor',TSPL_VENDOR_MASTER.DISTRICT_Code As 'District Code',TSPL_VENDOR_MASTER.BLOCK_CODE As 'Block Code',TSPL_VENDOR_MASTER.Zone_Code As 'Zone Code',TSPL_VENDOR_MASTER.REVENUE_VILLAGE_CODE As 'Revenue Village Code',TSPL_VENDOR_MASTER.GRAMPANCHAYAT_CODE AS 'Grampanchayat Code',TSPL_VENDOR_MASTER.PANCHAYAT_SAMITI_CODE As 'Panchayat Samiti Code',TSPL_VENDOR_MASTER.VIDHAN_SABHA_CODE As 'Vidhan Sabha Code',
-                        TSPL_VENDOR_MASTER.Company_Bank As 'Saving Company Bank',Company_Bank_Current as 'Current Company Bank',TSPL_VENDOR_MASTER.Bank_Code As 'Bank Code 1',TSPL_VENDOR_MASTER.Bank_Name As 'Bank Name 1',TSPL_VENDOR_MASTER.Branch_Name As 'Branch Name 1',TSPL_VENDOR_MASTER.IFSC_Code As 'IFSC Code 1',TSPL_VENDOR_MASTER.Account_No As 'Account No 1',TSPL_VENDOR_MASTER.Credit_Limit As 'Credit Limit 1',
+                        TSPL_VENDOR_MASTER.Company_Bank As 'Saving Company Bank',Company_Bank_Current as 'Current Company Bank',TSPL_VENDOR_MASTER.Bank_Code As 'Bank Code 1',TSPL_VENDOR_MASTER.Bank_Name As 'Bank Name 1',Bank_Code_Desc AS 'Bank Code Desc',TSPL_VENDOR_MASTER.Branch_Name As 'Branch Name 1',TSPL_VENDOR_MASTER.IFSC_Code As 'IFSC Code 1',TSPL_VENDOR_MASTER.Account_No As 'Account No 1',TSPL_VENDOR_MASTER.Credit_Limit As 'Credit Limit 1',
                         TSPL_VENDOR_MASTER.Account_Type As 'Account Type 1',TSPL_VENDOR_MASTER.Security_Amount As 'Security Charges 1',
                         TSPL_VENDOR_MASTER.BankCode2 As 'Bank Code 2',TSPL_VENDOR_MASTER.BankName2 As 'Bank Name 2',TSPL_VENDOR_MASTER.BankBranch2 As 'Branch Name 2',TSPL_VENDOR_MASTER.IFSCCode2 As 'IFSC Code 2',TSPL_VENDOR_MASTER.AccNo2 As 'Account No 2',TSPL_VENDOR_MASTER.Credit2 As 'Credit Limit 2',TSPL_VENDOR_MASTER.AccountType2 As 'Account Type 2',TSPL_VENDOR_MASTER.SecurityCharges2 As 'Security Charges 2'
                         from TSPL_VLC_MASTER_HEAD 
