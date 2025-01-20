@@ -3949,8 +3949,10 @@ Public Class frmVSP_VLCMaster
                         Else
                             obj.Active = False
                         End If
+                        'obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
+
                         obj.Bank_Code = clsCommon.myCstr(grow.Cells("Bank Code 1").Value)
-                        obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
+                        'obj.Bank_Code_Desc = clsCommon.myCstr(grow.Cells("Bank Name").Value)
                         obj.Bank_Branch = clsCommon.myCstr(grow.Cells("Branch Name 1").Value)
                         obj.IFSC_Code = clsCommon.myCstr(grow.Cells("IFSC Code 1").Value)
                         obj.Account_No = clsCommon.myCstr(grow.Cells("Account No 1").Value)
@@ -3971,7 +3973,7 @@ Public Class frmVSP_VLCMaster
 
                         ' ImportBankDetails(obj, trans)
 
-                        CreateMasterByImport(obj, trans)
+                        'CreateMasterByImport(obj, trans)
                         Dim objVCode As New clsfrmVillageMaster
                         If clsCommon.myLen(objVCode.villcode) > 0 Then
                             obj.mainvillcode = objVCode.villcode
