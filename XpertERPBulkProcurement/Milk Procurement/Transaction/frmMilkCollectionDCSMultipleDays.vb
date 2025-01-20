@@ -1809,8 +1809,8 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
                             objtr.FATKG = Math.Round(objtemp.Qty * objtemp.FAT / 100, 3, MidpointRounding.ToEven)
 
                             objtr.SNF = objtemp.SNF
-                            snfPer = clsEkoPro.getSnfOnCalculation(objtemp.FAT, objtemp.SNF, corrFactor, -1, 6)
-                            objtr.SNFKG = Math.Round(clsCommon.myCDivide((objtemp.Qty * snfPer), 100), 3, MidpointRounding.ToEven)
+                            snfPer = clsEkoPro.getSnfOnCalculation(objtemp.FAT, objtemp.SNF, corrFactor)
+                            objtr.SNFKG = Math.Round(clsCommon.myCDivide((objtemp.Qty * snfPer), 100), 2, MidpointRounding.ToEven)
                             arr(UniqueCombination).Arr.Add(objtr)
                             indxSuccess += 1
                         End If
