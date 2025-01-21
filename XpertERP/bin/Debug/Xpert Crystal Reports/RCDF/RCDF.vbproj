@@ -1359,6 +1359,8 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMTFormat2.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMilkPriceChartMaster.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptMonthlyBillSummary.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptMonthlyBillSummaryCustomerWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptNRGP.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptPartyWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductExciseTransfer.rpt" />
