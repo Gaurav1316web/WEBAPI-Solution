@@ -1023,7 +1023,8 @@ Public Class ClsScrapSaleHead
                 End If
 
                 'done by stuti on 15/12/2016
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.strInvoiceNo, "TSPL_SCRAPINVOICE_HEAD", "invoice_no", "TSPL_SCRAPINVOICE_DETAIL", "invoice_no", trans)
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.strInvoiceNo, "TSPL_SCRAPINVOICE_HEAD", "invoice_no", "TSPL_SCRAPINVOICE_DETAIL", "invoice_no", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, obj.strInvoiceNo, "TSPL_SCRAPINVOICE_HEAD", "invoice_no", "TSPL_SCRAPINVOICE_DETAIL", "invoice_no", trans)
                 '=====end here===========
 
                 '------------Saving Data in cancel tables
@@ -1034,7 +1035,6 @@ Public Class ClsScrapSaleHead
                 'clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 '------------End of Saving Data in cancel tables
                 HistoryUpdate(strCode, trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.strInvoiceNo), "TSPL_SCRAPINVOICE_HEAD", "invoice_No", "TSPL_SCRAPINVOICE_DETAIL", "invoice_No", trans)
                 Dim qry As String = "delete from TSPL_SCRAPSALE_DETAIL where shipment_No='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 

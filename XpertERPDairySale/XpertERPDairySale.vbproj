@@ -490,6 +490,12 @@
     <Compile Include="Report\rptInvoiceDetailReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptMilkSupplySaleReport.Designer.vb">
+      <DependentUpon>rptMilkSupplySaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptMilkSupplySaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptMonthlyBillSummary.Designer.vb">
       <DependentUpon>rptMonthlyBillSummary.vb</DependentUpon>
     </Compile>
@@ -1149,6 +1155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptInvoiceDetailReport.resx">
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptMilkSupplySaleReport.resx">
+      <DependentUpon>rptMilkSupplySaleReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptMonthlyBillSummary.resx">
       <DependentUpon>rptMonthlyBillSummary.vb</DependentUpon>

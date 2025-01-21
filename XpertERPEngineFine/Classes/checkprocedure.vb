@@ -1847,7 +1847,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkProcurementVisualReport, "Visual Report Procurement", "1.17.03.86", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptPaymentProcessReport, "Payment Process Report", "1.17.03.87", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptLiabilityReport, "Liability Report", "1.17.03.89", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, "VSP Milk Not Sold", "1.17.03.90", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, "Closed DCS Outstanding Report", "1.17.03.90", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkBillProcurementSummary, "Milk Bill Procurement Summary", "1.17.03.91", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkAnalysis, "Milk Analysis", "1.17.03.92", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSocietyLedgerReport, "Society Ledger", "1.17.03.95", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -2441,6 +2441,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBookingVsDispatchReport, "Booking Pending Report", "1.06.03.60", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBoothWiseBillReport, "Booth Wise Bill Print", "1.06.03.61", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDayBook, "Day Book", "1.06.03.62", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMilkSupplySaleReport, "Milk Supply Sale Report", "1.06.03.62", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
