@@ -600,7 +600,7 @@ Public Class frmMultipleShareAllotment
 
     Private Sub txtBMC__My_Click(sender As Object, e As EventArgs) Handles txtBMC._My_Click
         Try
-            Dim qry As String = "select MCC_Code as [MCC Code],MCC_NAME as [MCC Name] from tspl_mcc_master where In_active = 0 "
+            Dim qry As String = "select Mcc_Code_VLC_Uploader as [Mcc Uploader Code], MCC_Code as [MCC Code],MCC_NAME as [MCC Name] from tspl_mcc_master where In_active = 0 "
             txtBMC.arrValueMember = clsCommon.ShowMultipleSelectForm("AllotmentBMC", qry, "MCC Code", "MCC Name", txtBMC.arrValueMember, txtBMC.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
