@@ -24,13 +24,12 @@ Partial Class frmGenerateBonus
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGenerateBonus))
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGenerateBonus))
         Me.UsLock1 = New common.usLock()
         Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.lblPayablePayPeriodName = New common.Controls.MyLabel()
         Me.lblFromPayPeriodName = New common.Controls.MyLabel()
         Me.lblToPayPeriodName = New common.Controls.MyLabel()
@@ -54,6 +53,7 @@ Partial Class frmGenerateBonus
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.txtCheckLeapyear = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.lblDivision = New common.Controls.MyLabel()
         Me.fndDivision = New common.UserControls.txtFinder()
@@ -67,9 +67,8 @@ Partial Class frmGenerateBonus
         Me.gvBonusSummary = New common.UserControls.MyRadGridView()
         Me.pageBonusDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvBonusDetail = New common.UserControls.MyRadGridView()
-        Me.txtCheckLeapyear = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayablePayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblFromPayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblToPayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,6 +89,7 @@ Partial Class frmGenerateBonus
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.txtCheckLeapyear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,7 +105,7 @@ Partial Class frmGenerateBonus
         Me.pageBonusDetail.SuspendLayout()
         CType(Me.gvBonusDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvBonusDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCheckLeapyear, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -128,15 +128,6 @@ Partial Class frmGenerateBonus
         Me.MyLabel3.Size = New System.Drawing.Size(33, 16)
         Me.MyLabel3.TabIndex = 179
         Me.MyLabel3.Text = "Code"
-        '
-        'btnNew
-        '
-        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(358, 16)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 20)
-        Me.btnNew.TabIndex = 1
-        Me.btnNew.Text = " "
         '
         'lblPayablePayPeriodName
         '
@@ -464,6 +455,17 @@ Partial Class frmGenerateBonus
         Me.SplitContainer3.SplitterDistance = 178
         Me.SplitContainer3.TabIndex = 0
         '
+        'txtCheckLeapyear
+        '
+        Me.txtCheckLeapyear.AutoSize = False
+        Me.txtCheckLeapyear.BorderVisible = True
+        Me.txtCheckLeapyear.FieldName = Nothing
+        Me.txtCheckLeapyear.Location = New System.Drawing.Point(553, 130)
+        Me.txtCheckLeapyear.Name = "txtCheckLeapyear"
+        Me.txtCheckLeapyear.Size = New System.Drawing.Size(189, 18)
+        Me.txtCheckLeapyear.TabIndex = 15
+        Me.txtCheckLeapyear.Visible = False
+        '
         'MyLabel7
         '
         Me.MyLabel7.FieldName = Nothing
@@ -577,10 +579,10 @@ Partial Class frmGenerateBonus
         'PageFinalBonus
         '
         Me.PageFinalBonus.Controls.Add(Me.gv1)
-        Me.PageFinalBonus.ItemSize = New System.Drawing.SizeF(76.0!, 26.0!)
-        Me.PageFinalBonus.Location = New System.Drawing.Point(10, 35)
+        Me.PageFinalBonus.ItemSize = New System.Drawing.SizeF(72.0!, 22.0!)
+        Me.PageFinalBonus.Location = New System.Drawing.Point(10, 31)
         Me.PageFinalBonus.Name = "PageFinalBonus"
-        Me.PageFinalBonus.Size = New System.Drawing.Size(934, 242)
+        Me.PageFinalBonus.Size = New System.Drawing.Size(934, 246)
         Me.PageFinalBonus.Text = "Final Bonus"
         '
         'gv1
@@ -597,7 +599,7 @@ Partial Class frmGenerateBonus
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(934, 242)
+        Me.gv1.Size = New System.Drawing.Size(934, 246)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -605,7 +607,7 @@ Partial Class frmGenerateBonus
         'pageBonusSummary
         '
         Me.pageBonusSummary.Controls.Add(Me.gvBonusSummary)
-        Me.pageBonusSummary.ItemSize = New System.Drawing.SizeF(100.0!, 26.0!)
+        Me.pageBonusSummary.ItemSize = New System.Drawing.SizeF(96.0!, 22.0!)
         Me.pageBonusSummary.Location = New System.Drawing.Point(10, 35)
         Me.pageBonusSummary.Name = "pageBonusSummary"
         Me.pageBonusSummary.Size = New System.Drawing.Size(934, 242)
@@ -634,7 +636,7 @@ Partial Class frmGenerateBonus
         'pageBonusDetail
         '
         Me.pageBonusDetail.Controls.Add(Me.gvBonusDetail)
-        Me.pageBonusDetail.ItemSize = New System.Drawing.SizeF(80.0!, 26.0!)
+        Me.pageBonusDetail.ItemSize = New System.Drawing.SizeF(76.0!, 22.0!)
         Me.pageBonusDetail.Location = New System.Drawing.Point(10, 35)
         Me.pageBonusDetail.Name = "pageBonusDetail"
         Me.pageBonusDetail.Size = New System.Drawing.Size(934, 242)
@@ -660,16 +662,14 @@ Partial Class frmGenerateBonus
         Me.gvBonusDetail.TabStop = False
         Me.gvBonusDetail.VarID = ""
         '
-        'txtCheckLeapyear
+        'btnNew
         '
-        Me.txtCheckLeapyear.AutoSize = False
-        Me.txtCheckLeapyear.BorderVisible = True
-        Me.txtCheckLeapyear.FieldName = Nothing
-        Me.txtCheckLeapyear.Location = New System.Drawing.Point(553, 130)
-        Me.txtCheckLeapyear.Name = "txtCheckLeapyear"
-        Me.txtCheckLeapyear.Size = New System.Drawing.Size(189, 18)
-        Me.txtCheckLeapyear.TabIndex = 15
-        Me.txtCheckLeapyear.Visible = False
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.Location = New System.Drawing.Point(358, 16)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(14, 20)
+        Me.btnNew.TabIndex = 1
+        Me.btnNew.Text = " "
         '
         'frmGenerateBonus
         '
@@ -685,7 +685,6 @@ Partial Class frmGenerateBonus
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "Generate Bonus"
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPayablePayPeriodName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblFromPayPeriodName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblToPayPeriodName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -707,6 +706,7 @@ Partial Class frmGenerateBonus
         Me.SplitContainer3.Panel1.PerformLayout()
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.txtCheckLeapyear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -722,7 +722,7 @@ Partial Class frmGenerateBonus
         Me.pageBonusDetail.ResumeLayout(False)
         CType(Me.gvBonusDetail.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvBonusDetail, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCheckLeapyear, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -1847,7 +1847,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkProcurementVisualReport, "Visual Report Procurement", "1.17.03.86", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptPaymentProcessReport, "Payment Process Report", "1.17.03.87", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptLiabilityReport, "Liability Report", "1.17.03.89", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, "VSP Milk Not Sold", "1.17.03.90", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, "Closed DCS Outstanding Report", "1.17.03.90", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkBillProcurementSummary, "Milk Bill Procurement Summary", "1.17.03.91", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkAnalysis, "Milk Analysis", "1.17.03.92", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSocietyLedgerReport, "Society Ledger", "1.17.03.95", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
@@ -2404,6 +2404,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptSalesComparisonReport, "Sales Comparison Report", "1.36.03.33", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmBoothDemandReport, "Booth Demand Report", "1.36.03.34", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDemandNill, "Booth Nill Demand Report", "1.36.03.35", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMonthlyBillSummaryReport, "Monthly Bill Summary Report", "1.36.03.36", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
@@ -2439,6 +2440,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmperdayDetailRpt, "PER Day Detail Report", "1.06.03.59", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBookingVsDispatchReport, "Booking Pending Report", "1.06.03.60", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBoothWiseBillReport, "Booth Wise Bill Print", "1.06.03.61", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDayBook, "Day Book", "1.06.03.62", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMilkSupplySaleReport, "Milk Supply Sale Report", "1.06.03.62", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

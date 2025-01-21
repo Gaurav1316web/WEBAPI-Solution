@@ -612,6 +612,8 @@ where  convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(frm1.RetValu
                             objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderFat, clsCommon.myCstr(grow.Cells("FAT").Value))
                             objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderSNF, clsCommon.myCstr(grow.Cells("SNF").Value))
                             objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderQty, clsCommon.myCstr(grow.Cells("QTY").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.vehicleNo, clsCommon.myCstr(grow.Cells("vehicleNo").Value))
+                            objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.SampleNo, clsCommon.myCstr(grow.Cells("SampleNo").Value))
 
                             'objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderCLR, clsCommon.myCstr(grow.Cells("CNF").Value))
 

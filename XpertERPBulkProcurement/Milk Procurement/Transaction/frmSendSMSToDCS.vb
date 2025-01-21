@@ -440,12 +440,12 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
     Private Sub txtMultTanker__My_Click(sender As Object, e As EventArgs) Handles txtMultTanker._My_Click
         Try
             Dim Qry As String = "Select ID,(Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As Contact, 
-TSPL_VENDOR_MASTER.Vendor_Name,tspl_Milk_collection_MCC.Route_Code,TSPL_TANKER_MASTER.Tanker_No,Vehicle_No,Trip_No,Flushing,FATKG,SNFKG
+TSPL_VENDOR_MASTER.Vendor_Name,tspl_Milk_collection_MCC.Route_Code,TSPL_TANKER_MASTER.Tanker_No,Vehicle_No,Trip_No,Flushing,FATKG,SNFKG,TSPL_MILK_COLLECTION_MCC.Status
 from TSPL_VENDOR_MASTER
 Left Outer join TSPL_TANKER_MASTER On TSPL_TANKER_MASTER.Tanker_Transporter_Code=TSPL_VENDOR_MASTER.Vendor_Code
-Inner Join (Select Max(tspl_Milk_collection_MCC_Detail.PK_Id)ID,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,tspl_Milk_collection_MCC.Trip_No,(Max(Entered_Qty)-Sum(tspl_Milk_collection_MCC_Detail.Qty))Flushing,(Max(Entered_FATKg)-Sum(FATKG))FATKG,(Max(Entered_SNFKg)-Sum(SNFKG))SNFKG from TSPL_MILK_COLLECTION_MCC
+Inner Join (Select max(TSPL_MILK_COLLECTION_MCC.Status)Status,Max(tspl_Milk_collection_MCC_Detail.PK_Id)ID,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,tspl_Milk_collection_MCC.Trip_No,(Max(Entered_Qty)-Sum(tspl_Milk_collection_MCC_Detail.Qty))Flushing,(Max(Entered_FATKg)-Sum(FATKG))FATKG,(Max(Entered_SNFKg)-Sum(SNFKG))SNFKG from TSPL_MILK_COLLECTION_MCC
 left Outer Join tspl_Milk_collection_MCC_Detail on tspl_Milk_collection_MCC_Detail.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No Where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(txtTankerQCDate.Value, "dd/MMM/yyyy") + "' Group By Route_Code,Tanker_No,Vehicle_No,Trip_No )tspl_Milk_collection_MCC On tspl_Milk_collection_MCC.Tanker_No=TSPL_TANKER_MASTER.Tanker_No
-where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________')"
+where TSPL_VENDOR_MASTER.Form_Type='TTM' and TSPL_MILK_COLLECTION_MCC.Status=1 And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________')"
             txtMultTanker.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "Tanker@", Qry, "ID", "", txtMultTanker.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -592,13 +592,13 @@ where Convert(Date, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103) ='" + 
 
     Private Sub txtMultTankerException__My_Click(sender As Object, e As EventArgs) Handles txtMultTankerEx._My_Click
         Try
-            Dim Qry As String = "Select (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As Contact, 
-TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TANKER_MASTER.Tanker_No,Vehicle_No,Trip_No,Flushing,FATKG,SNFKG
+            Dim Qry As String = "Select ID,(Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As Contact, 
+TSPL_VENDOR_MASTER.Vendor_Name,tspl_Milk_collection_MCC.Route_Code,TSPL_TANKER_MASTER.Tanker_No,Vehicle_No,Trip_No,Flushing,FATKG,SNFKG,TSPL_MILK_COLLECTION_MCC.Status
 from TSPL_VENDOR_MASTER
 Left Outer join TSPL_TANKER_MASTER On TSPL_TANKER_MASTER.Tanker_Transporter_Code=TSPL_VENDOR_MASTER.Vendor_Code
-Inner Join (Select TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,tspl_Milk_collection_MCC.Trip_No,(Max(Entered_Qty)-Sum(tspl_Milk_collection_MCC_Detail.Qty))Flushing,(Max(Entered_FATKg)-Sum(FATKG))FATKG,(Max(Entered_SNFKg)-Sum(SNFKG))SNFKG from TSPL_MILK_COLLECTION_MCC
-left Outer Join tspl_Milk_collection_MCC_Detail on tspl_Milk_collection_MCC_Detail.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No Where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.GetPrintDate(txtTankerQCDateException.Value, "dd/MMM/yyyy") + "' Group By Tanker_No,Vehicle_No,Trip_No )tspl_Milk_collection_MCC On tspl_Milk_collection_MCC.Tanker_No=TSPL_TANKER_MASTER.Tanker_No
-where   TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________')"
+Inner Join (Select max(TSPL_MILK_COLLECTION_MCC.Status)Status,Max(tspl_Milk_collection_MCC_Detail.PK_Id)ID,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,tspl_Milk_collection_MCC.Trip_No,(Max(Entered_Qty)-Sum(tspl_Milk_collection_MCC_Detail.Qty))Flushing,(Max(Entered_FATKg)-Sum(FATKG))FATKG,(Max(Entered_SNFKg)-Sum(SNFKG))SNFKG from TSPL_MILK_COLLECTION_MCC
+left Outer Join tspl_Milk_collection_MCC_Detail on tspl_Milk_collection_MCC_Detail.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No Where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) =Convert(date,'" + clsCommon.GetPrintDate(txtTankerQCDate.Value, "dd/MMM/yyyy") + "',103) Group By Route_Code,Tanker_No,Vehicle_No,Trip_No )tspl_Milk_collection_MCC On tspl_Milk_collection_MCC.Tanker_No=TSPL_TANKER_MASTER.Tanker_No
+where TSPL_VENDOR_MASTER.Form_Type='TTM' and TSPL_MILK_COLLECTION_MCC.Status=0 And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________')"
             txtMultTankerEx.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "Tanker@", Qry, "Tanker_No", "", txtMultTankerEx.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

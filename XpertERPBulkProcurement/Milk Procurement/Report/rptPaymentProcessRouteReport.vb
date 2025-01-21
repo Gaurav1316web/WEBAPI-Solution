@@ -2473,13 +2473,16 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
             If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
                 sQueryDD += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ") "
             End If
-            sQueryDD += " union all select TSPL_SD_SHIPMENT_HEAD.Document_Code as DOCNO, Customer_Code as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME,TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_VLC_MASTER_HEAD.Route_Code as ROUTE_No,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount from TSPL_SD_SHIPMENT_DETAIL
-left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
-left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_ITEM_MASTER.Deduction_Type
-where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate + "'),103) and
-convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + Todate + "'),103)"
+            sQueryDD += " union all 
+                            select TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No as DOCNO, TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_CODE,
+                            TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME,TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_VLC_MASTER_HEAD.Route_Code as ROUTE_No,
+                            (TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount from TSPL_PAYMENT_PROCESS_MCC_SALE
+                            left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No
+                            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Item_Code
+                            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_Code
+                            left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_SD_SHIPMENT_HEAD.Deduction_Type
+                            where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate + "'),103) and
+                            convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + Todate + "'),103)  "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 sQueryDD += " ) xx where xx.AMOUNT > 0 group by   xx.Doc_No,xx.VSP_Uploader_Code, xx.Vendor_CODE, Vendor_NAME, xx.Ded_Code,xx.ROUTE_NO ,xx.Mcc_Code_VLC_Uploader HAVING SUM (AMOUNT)>0 "
@@ -3208,7 +3211,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + Toda
             'Dim mccname As String = clsCommon.myCstr(clsDBFuncationality("select mcc_name from tspl_mcc_master where mcc_code in (" & clsCommon.GetMulcallString(txtMultiMCC.arrValueMember)) & " )")
             If Gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                Dim arrFooter As List(Of String) = New List(Of String)()
+                'Dim arrFooter As List(Of String) = New List(Of String)()
                 If AreaWiseBilling = True Then
                     If TxtFinderArea.Value IsNot Nothing AndAlso clsCommon.myLen(TxtFinderArea.Value) > 0 Then
                         'If clsCommon.myLen(TxtFinderArea.Value) > 0 Then
@@ -3230,7 +3233,7 @@ convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + Toda
                     clsCommon.MyOldExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER", PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
                 End If
-                arrFooter.Add(" clerk in.        Store in.        P&I in.        Plant signature ")
+                'arrFooter.Add(" clerk in.        Store in.        P&I in.        Plant signature ")
             End If
 
         Catch ex As Exception

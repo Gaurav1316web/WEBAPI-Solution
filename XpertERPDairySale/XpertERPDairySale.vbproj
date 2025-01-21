@@ -216,6 +216,12 @@
     <Compile Include="Master\frmDistributorCommission.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\FrmItemCapacityLimit.Designer.vb">
+      <DependentUpon>FrmItemCapacityLimit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\FrmItemCapacityLimit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmItemSublocationMapping.Designer.vb">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </Compile>
@@ -267,6 +273,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Report\frmDayBook.Designer.vb">
+      <DependentUpon>frmDayBook.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDayBook.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptBoothWiseBillReport.Designer.vb">
       <DependentUpon>rptBoothWiseBillReport.vb</DependentUpon>
@@ -476,6 +488,18 @@
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptInvoiceDetailReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptMilkSupplySaleReport.Designer.vb">
+      <DependentUpon>rptMilkSupplySaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptMilkSupplySaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptMonthlyBillSummary.Designer.vb">
+      <DependentUpon>rptMonthlyBillSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptMonthlyBillSummary.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptMonthWiseDMRReport.Designer.vb">
@@ -996,6 +1020,9 @@
     <EmbeddedResource Include="Master\frmDistributorCommission.resx">
       <DependentUpon>frmDistributorCommission.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\FrmItemCapacityLimit.resx">
+      <DependentUpon>FrmItemCapacityLimit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmItemSublocationMapping.resx">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </EmbeddedResource>
@@ -1035,6 +1062,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmDairySaleSchemeReport.resx">
       <DependentUpon>FrmDairySaleSchemeReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDayBook.resx">
+      <DependentUpon>frmDayBook.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmDemandHistory.resx">
       <DependentUpon>frmDemandHistory.vb</DependentUpon>
@@ -1125,6 +1155,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptInvoiceDetailReport.resx">
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptMilkSupplySaleReport.resx">
+      <DependentUpon>rptMilkSupplySaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptMonthlyBillSummary.resx">
+      <DependentUpon>rptMonthlyBillSummary.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptMonthWiseDMRReport.resx">
       <DependentUpon>rptMonthWiseDMRReport.vb</DependentUpon>
