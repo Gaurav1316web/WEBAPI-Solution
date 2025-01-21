@@ -69,34 +69,7 @@ Public Class rptMilkSupplySaleReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        GetReportID()
         LoadData()
-    End Sub
-
-    Sub GetReportID()
-        Dim VarID As String = ""
-
-        If rbtnDetail.IsChecked Then
-            VarID += "_D"
-        ElseIf rbtnSummary.IsChecked Then
-            VarID += "_S"
-        End If
-        If rbtnCustRoute.IsChecked Then
-            VarID += "_R"
-        ElseIf rbtnCustomer.IsChecked Then
-            VarID += "_C"
-        End If
-
-        If rbtnMorning.IsChecked Then
-            VarID += "_MS"
-        ElseIf rbtnEvening.IsChecked Then
-            VarID += "_PS"
-        ElseIf rbtnBothShift.IsChecked Then
-            VarID += "_BS"
-        End If
-
-        'gv1.VarID = VarID
-
     End Sub
 
     Sub funreset()
@@ -116,68 +89,11 @@ Public Class rptMilkSupplySaleReport
 
     Private Sub LoadData()
         Try
-            If rbtnDetail.IsChecked Then
-                If rbtnCustRoute.IsChecked Then
-                    If txtCustomer.arrValueMember IsNot Nothing Then
-                        If txtCustomer.arrValueMember.Count > 1 Then
-                            clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Customer at a time with Detail with Customer-Route Wise option", Me.Text)
-                            Exit Sub
-                        End If
-                    End If
-                End If
-            End If
-
-            Dim whrcls As String = ""
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") <> clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
-                    whrcls = " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= CONVERT(DATE, '" & txtToDate.Value.AddDays(+1) & "', 103)"
-                Else
-                    whrcls = " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103)"
-                End If
-            Else
-                whrcls = " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" & txtFromDate.Value & "', 103)  and   convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103)"
-            End If
-
-            If rbtnMorning.IsChecked Then
-                whrcls += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
-            ElseIf rbtnEvening.IsChecked Then
-                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
-            ElseIf rbtnBothShift.IsChecked Then
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                    If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
-                        whrcls += " and Shift_Type = 'PM' "
-                    Else
-                        whrcls += "  AND ((CONVERT(DATE, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  AND TSPL_SD_SHIPMENT_HEAD.Shift_Type IN ('PM')) 
-        OR (CONVERT(DATE, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type IN ('AM', 'PM')) 
-        OR (CONVERT(DATE, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value.AddDays(+1), "dd/MMM/yyyy") + "'  AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM') )"
-                    End If
-                End If
-            End If
-            whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
-
-            If txtRoute.arrValueMember IsNot Nothing Then
-                whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
-            End If
-
-            If txtCustomer.arrValueMember IsNot Nothing Then
-                whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
-            End If
-
             Dim BaseQry As String = ""
-
-            BaseQry = " Select TSPL_ITEM_MASTER.Item_Code ,Sku_Seq, TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,"
-            If rbtnDetail.IsChecked Then
-                BaseQry += " Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'Morning' else 'Evening' END AS Shift_Type,convert(varchar, Supply_Date,103) as Supply_Date,"
-            End If
-            BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt As Amount, TSPL_ITEM_MASTER.Short_Description + ' (' +  I.UOM_Code + ')' as Short_Description,isnull((TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Report_UOM_Qty
-            From TSPL_SD_SALE_INVOICE_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code Left OUTER Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-            LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = I.item_code
-            where 2 = 2   and TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " order by Supply_Date, TSPL_SD_SHIPMENT_HEAD.Shift_Type, Sku_Seq "
-
+            BaseQry = ReturnQry()
             Me.PvtGrid.RowGroupDescriptions.Clear()
             Me.PvtGrid.AggregateDescriptions.Clear()
             Me.PvtGrid.ColumnGroupDescriptions.Clear()
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
             If dt.Rows.Count > 0 Then
                 PvtGrid.DataSource = dt
@@ -319,6 +235,65 @@ Public Class rptMilkSupplySaleReport
         End Try
     End Sub
 
+    Private Function ReturnQry() As String
+        If rbtnDetail.IsChecked Then
+            If rbtnCustRoute.IsChecked Then
+                If txtCustomer.arrValueMember IsNot Nothing Then
+                    If txtCustomer.arrValueMember.Count > 1 Then
+                        clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Customer at a time with Detail with Customer-Route Wise option", Me.Text)
+                        Return ""
+                        Exit Function
+                    End If
+                End If
+            End If
+        End If
+        Dim BaseQry As String
+        Dim whrcls As String = ""
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") <> clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
+                whrcls = " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103)  and   convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value.AddDays(+1), "dd/MMM/yyyy") & "', 103)"
+            Else
+                whrcls = " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103)  and   convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)"
+            End If
+        Else
+            whrcls = " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103)  and   convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)"
+        End If
+
+        If rbtnMorning.IsChecked Then
+            whrcls += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+        ElseIf rbtnEvening.IsChecked Then
+            whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
+        ElseIf rbtnBothShift.IsChecked Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
+                    whrcls += " and Shift_Type = 'PM' "
+                Else
+                    whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
+                    whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value.AddDays(+1)), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value.AddDays(+1)), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' then 3 else 2 end  )"
+                End If
+            End If
+        End If
+        whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
+
+        If txtRoute.arrValueMember IsNot Nothing Then
+            whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+        End If
+
+        If txtCustomer.arrValueMember IsNot Nothing Then
+            whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+        End If
+
+        BaseQry = " Select  '" & objCommonVar.CurrentUserCode & "' as UserName,tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate, TSPL_ITEM_MASTER.Item_Code ,Sku_Seq, TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,"
+        If rbtnDetail.IsChecked Then
+            BaseQry += " Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'Morning' else 'Evening' END AS Shift_Type,convert(varchar, Supply_Date,103) as Supply_Date,"
+        End If
+        BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt As Amount, TSPL_ITEM_MASTER.Short_Description + ' (' +  I.UOM_Code + ' )' as Short_Description,isnull((TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Report_UOM_Qty
+            From TSPL_SD_SALE_INVOICE_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code Left OUTER Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+            LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = I.item_code
+          left outer join tspl_company_master on 2 = 2  where 2 = 2   and TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " order by Supply_Date, TSPL_SD_SHIPMENT_HEAD.Shift_Type, Sku_Seq "
+
+        Return BaseQry
+    End Function
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
         Dim s As String = "default.xml"
         Dim dialog As New SaveFileDialog()
@@ -339,13 +314,7 @@ Public Class rptMilkSupplySaleReport
     '        s = dialog.FileName
     '    End If
     '    Me.RadPivotGrid1.LoadLayout(s)
-    'End Sub
-
-
-    Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
-        clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
-    End Sub
+    'End Sub   
 
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         Try
@@ -440,4 +409,25 @@ Public Class rptMilkSupplySaleReport
         Me.Close()
     End Sub
 
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Dim BaseQry As String = ""
+        BaseQry = ReturnQry()
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Dim frmCRV As New frmCrystalReportViewer()
+            If rbtnDetail.IsChecked Then
+                If rbtnCustRoute.IsChecked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptMilkSupplySaleCustRouteWiseDetail", "")
+                ElseIf rbtnCustomer.IsChecked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptMilkSupplySaleCustomerWiseDetail", "")
+                End If
+            ElseIf rbtnSummary.IsChecked Then
+                If rbtnCustRoute.IsChecked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptMilkSupplySaleCustRouteWiseSummary", "")
+                ElseIf rbtnCustomer.IsChecked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptMilkSupplySaleCustomerWiseSummary", "")
+                End If
+            End If
+        End If
+    End Sub
 End Class
