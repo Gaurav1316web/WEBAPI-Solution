@@ -300,7 +300,7 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SNFPL)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TripNo)
 
-        ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze1") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSendSMSToDCS + "2") = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_No)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
@@ -317,7 +317,7 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SNFPL)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TripNo)
 
-        ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze2") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSendSMSToDCS + "3") = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_No)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)

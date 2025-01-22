@@ -419,11 +419,9 @@ Public Class FrmMainTranScreen
                     Dim strFormID As String = Me.Form_ID
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Dim dr As DataRow = dt.NewRow()
-                        If clsCommon.CompairString(Me.Form_ID, "BMC Gaze") <> CompairStringResult.Equal Then
-                            dr("Code") = Me.Form_ID
-                            dr("Name") = "Transaction"
-                            dt.Rows.InsertAt(dr, 0)
-                        End If
+                        dr("Code") = Me.Form_ID
+                        dr("Name") = "Transaction"
+                        dt.Rows.InsertAt(dr, 0)
 
                         Dim frmFC As New FrmFreeComboBox
                         frmFC.ComboSource = dt

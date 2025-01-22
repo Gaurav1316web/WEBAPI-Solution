@@ -322,9 +322,9 @@ from (" + clsMilkShiftEndMCC.GetSMSQry(fndMCCCode.Value, txtDate.Value, clsCommo
             If clsCommon.CompairString(SMSType, "BMCQCSMS") = CompairStringResult.Equal Then
                 dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.MilkCollectionMCCSample + "'", trans)
             ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMS") = CompairStringResult.Equal Then
-                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='BMC Gaze1'", trans)
+                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmSendSMSToDCS + "3'", trans)
             ElseIf clsCommon.CompairString(SMSType, "TANKERPLSMS") = CompairStringResult.Equal Then
-                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='BMC Gaze2'", trans)
+                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmSendSMSToDCS + "2'", trans)
             ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMSException") = CompairStringResult.Equal Then
                 dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmSendSMSToDCS + "1'", trans)
             End If
@@ -435,9 +435,9 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
                                 If clsCommon.CompairString(SMSType, "BMCQCSMS") = CompairStringResult.Equal Then
                                     objSMSH.SaveData(clsUserMgtCode.MilkCollectionMCCSample, objSMSH, trans)
                                 ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMS") = CompairStringResult.Equal Then
-                                    objSMSH.SaveData("BMC Gaze1", objSMSH, trans)
+                                    objSMSH.SaveData(clsUserMgtCode.frmSendSMSToDCS + "3", objSMSH, trans)
                                 ElseIf clsCommon.CompairString(SMSType, "TANKERPLSMS") = CompairStringResult.Equal Then
-                                    objSMSH.SaveData("BMC Gaze2", objSMSH, trans)
+                                    objSMSH.SaveData(clsUserMgtCode.frmSendSMSToDCS + "2", objSMSH, trans)
                                 ElseIf clsCommon.CompairString(SMSType, "TANKERQCSMSException") = CompairStringResult.Equal Then
                                     objSMSH.SaveData(clsUserMgtCode.frmSendSMSToDCS + "1", objSMSH, trans)
                                 End If
