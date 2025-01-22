@@ -281,7 +281,7 @@ and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCo
                 clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly ")
 
             Else
-                clsCommon.MyMessageBoxShow("Allready Posted ")
+                clsCommon.MyMessageBoxShow("Allready UnPosted ")
             End If
             trans.Commit()
         Catch ex As Exception

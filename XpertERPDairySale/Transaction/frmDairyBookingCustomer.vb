@@ -10,6 +10,7 @@ Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim isRCDFRateControl As Boolean = False
+    Dim OneTimeCheck As Boolean = False
     Dim ApplyManualScheme As Boolean = False
     Dim isloadBookingTypeValues As Boolean = True
     Dim EnableLocation As Boolean = True
@@ -6107,8 +6108,26 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     End If
                 End If
             End If
+            'Dim frm1 As New FrmPWD(Nothing)
+            'frm1.strType = clsFixedParameterType.Transactionupdate
+            'frm1.strCode = clsFixedParameterCode.BookingCancel
+            'frm1.ShowDialog()
+            'If frm1.isPasswordCorrect Then
+            '    CancelData()
+            '    OneTimeCheck = True
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub CancelData()
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Throw New Exception("Document Not Found!")
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa ERO/11/12/18-000431 -------------- 11 Dec,2018

@@ -17,6 +17,8 @@ Public Class FrmPrintDistributerInvoiceStatement
     Dim AllowSeperateSchemeItemOnPrint As Boolean = False
     Dim strRptPath As String = ""
     Dim ApplyMilkPouchPrint As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
+
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmPrintDistributerInvoiceStatement)
         If Not (MyBase.isReadFlag) Then
@@ -43,6 +45,16 @@ Public Class FrmPrintDistributerInvoiceStatement
         ElseIf rbtnMorning.Checked Then
             Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
         End If
+
+        If EnableProductSaleForJPR Then
+            If rbtnMilk.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type IN ('S','') "
+            ElseIf rbtnProduct.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='P' "
+            ElseIf rbtnIceCream.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='I' "
+            End If
+        End If
         If clsCommon.myCDate(txtFromDate.Value) >= objCommonVar.GSTApplicableDate AndAlso clsCommon.myCDate(txtToDate.Value) >= objCommonVar.GSTApplicableDate Then
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "") = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "Please Select Report Type.", Me.Text)
@@ -58,7 +70,7 @@ Public Class FrmPrintDistributerInvoiceStatement
 	                            CASE 
                                 WHEN Shift_type = 'AM' THEN 'Morning'
                                 ELSE 'Evening'
-                                END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
+                                END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date,TSPL_CUSTOMER_MASTER.Email as Email,TSPL_CUSTOMER_MASTER.Phone1 as Mobile_no
                                 from TSPL_SD_SALE_INVOICE_HEAD
                                 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
                                 left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
@@ -73,7 +85,7 @@ Public Class FrmPrintDistributerInvoiceStatement
                                 Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE 
                                 WHEN Shift_type = 'AM' THEN 'Morning'
                                 ELSE 'Evening'
-                                END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date
+                                END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date,TSPL_CUSTOMER_MASTER.Email as Email,TSPL_CUSTOMER_MASTER.Phone1 as Mobile_no
                                 from TSPL_SD_SALE_INVOICE_HEAD
                                 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
                                 left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
@@ -219,6 +231,14 @@ Public Class FrmPrintDistributerInvoiceStatement
         gv.Columns("Shift_Type").IsVisible = True
         gv.Columns("Shift_Type").Width = 100
         gv.Columns("Shift_Type").HeaderText = "Shift"
+
+        gv.Columns("Email").IsVisible = True
+        gv.Columns("Email").Width = 200
+        gv.Columns("Email").HeaderText = "Email"
+
+        gv.Columns("Mobile_no").IsVisible = True
+        gv.Columns("Mobile_no").Width = 100
+        gv.Columns("Mobile_no").HeaderText = "Mobile no"
 
         'gv.Columns("DespatchDocumentNo").IsVisible = False
         'gv.Columns("DespatchDocumentNo").Width = 100
@@ -507,31 +527,43 @@ Public Class FrmPrintDistributerInvoiceStatement
 
     End Sub
 
-    Private Function Printing(Optional ByVal DocNo As String = "", Optional ByVal isPdf As Boolean = False, Optional ByVal isPrePrintFormat As Boolean = False) As String
+    Private Function Printing(Optional ByVal DocNo As String = "", Optional ByVal isPdf As Boolean = False, Optional ByVal isPrePrintFormat As Boolean = False, Optional ByVal isPdfForMail As Boolean = False) As String
         Dim pdfPath As String = Nothing
         clsCommon.ProgressBarPercentShow()
         Dim ii As Integer = 1
         Dim Total As Integer = 0
-        For Each grow As GridViewRowInfo In gv.Rows
-            If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
-                Total += 1
-            End If
-        Next
+
         Dim Qry As String = Nothing
         'Dim frmCRV As New frmCrystalReportViewer()
         Dim objMultPrintInvoice As New FrmPrintFreshInvoice
         ' Dim strInvoice As String
         ' If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
         Dim lstinvNo As New List(Of String)
-        For Each grow As GridViewRowInfo In gv.Rows
-            'clsCommon.ProgressBarPercentUpdate((ii) * 100 / gv.Rows.Count, " Send Email " & (ii) & " Of " & gv.Rows.Count)
-            If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
-                clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Send Email " & (ii) & " Of " & Total)
-                lstinvNo.Add(clsCommon.myCstr(grow.Cells("Document_Code").Value))
-                ii += 1
-            End If
-            'ii += 1
-        Next
+
+        If isPdfForMail = True Then
+            Total = 1
+            lstinvNo.Add(DocNo)
+        Else
+            For Each grow As GridViewRowInfo In gv.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    Total += 1
+                End If
+            Next
+
+            For Each grow As GridViewRowInfo In gv.Rows
+                'clsCommon.ProgressBarPercentUpdate((ii) * 100 / gv.Rows.Count, " Send Email " & (ii) & " Of " & gv.Rows.Count)
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    clsCommon.ProgressBarPercentUpdate((ii) * 100 / Total, " Send Email " & (ii) & " Of " & Total)
+                    lstinvNo.Add(clsCommon.myCstr(grow.Cells("Document_Code").Value))
+                    ii += 1
+                End If
+                'ii += 1
+            Next
+        End If
+
+
+
+
         Try
             If lstinvNo.Count <= 0 Then
                 myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
@@ -803,6 +835,12 @@ Public Class FrmPrintDistributerInvoiceStatement
         Try
             RadGroupBox2.Visible = True
             RadGroupBox4.Visible = False
+            EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+            If EnableProductSaleForJPR Then
+                RadGroupBox6.Visible = True
+            Else
+                RadGroupBox6.Visible = False
+            End If
             'Dim coll As Dictionary(Of String, String)
             'coll = New Dictionary(Of String, String)
             'coll.Add("MonthlySaleInvoiceNo", "varchar(30) NULL")
@@ -817,6 +855,7 @@ Public Class FrmPrintDistributerInvoiceStatement
             ButtonToolTip.SetToolTip(BtnPrint, "Press Alt+P For Print")
             ButtonToolTip.SetToolTip(BtnReset, "Press Alt+N Adding New")
             LoadReportType()
+            btnUnSelect.Text = "Select All"
             Reset()
             isInsideLoadData = False
         Catch ex As Exception
@@ -948,31 +987,35 @@ Public Class FrmPrintDistributerInvoiceStatement
     End Sub
 
     Private Sub btnUnSelect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUnSelect.Click
-        'If clsCommon.CompairString(btnUnSelect.Text, "UnSelect All") = CompairStringResult.Equal Then
-        '    If gv IsNot Nothing AndAlso gv.ChildRows.Count > 0 Then
-        '        For i As Integer = 0 To gv.ChildRows.Count - 1
-        '            gv.ChildRows(i).Cells(0).Value = False
-        '        Next
-        '    End If
-        'Else
-        '    If gv IsNot Nothing AndAlso gv.ChildRows.Count > 0 Then
-        '        For i As Integer = 0 To gv.ChildRows.Count - 1
-        '            gv.ChildRows(i).Cells(0).Value = True
-        '        Next
-        '    End If
-        'End If
         If clsCommon.CompairString(btnUnSelect.Text, "UnSelect All") = CompairStringResult.Equal Then
-            For Each grow As GridViewRowInfo In gv.Rows
-                grow.Cells(0).Value = False
-
-            Next
-            btnUnSelect.Text = "Select All"
+            If gv IsNot Nothing AndAlso gv.ChildRows.Count > 0 Then
+                For i As Integer = 0 To gv.ChildRows.Count - 1
+                    gv.ChildRows(i).Cells(0).Value = False
+                Next
+            End If
         Else
-            For Each grow As GridViewRowInfo In gv.Rows
-                grow.Cells(0).Value = True
-            Next
-            btnUnSelect.Text = "UnSelect All"
+            If gv IsNot Nothing AndAlso gv.ChildRows.Count > 0 Then
+                For i As Integer = 0 To gv.ChildRows.Count - 1
+                    gv.ChildRows(i).Cells(0).Value = True
+                Next
+            End If
         End If
+        'If clsCommon.CompairString(btnUnSelect.Text, "UnSelect All") = CompairStringResult.Equal Then
+        '    For Each grow As GridViewRowInfo In gv.Rows
+        '        grow.Cells(0).Value = False
+
+        '    Next
+        '    btnUnSelect.Text = "Select All"
+        'Else
+        '    For Each grow As GridViewRowInfo In gv.Rows
+        '        If clsCommon.myCstr(grow.Cells("Email").Value) IsNot Nothing And clsCommon.myLen(grow.Cells("Email").Value) > 0 Then
+        '            grow.Cells(0).Value = True
+        '        Else
+        '            grow.Cells(0).Value = False
+        '        End If
+        '    Next
+        '    btnUnSelect.Text = "UnSelect All"
+        'End If
     End Sub
     Private Sub ExportToExcel(ByVal exporter As EnumExportTo)
         Try
@@ -1166,7 +1209,7 @@ Public Class FrmPrintDistributerInvoiceStatement
                     objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, Me.Form_ID)
                     '------------------------code for attchament-------------------------------------
                     strRptPath = ""
-                    strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True)
+                    strRptPath = Printing(clsCommon.myCstr(grow.Cells("Document_Code").Value), True, False, True)
                     objEmailH.Attachment_1_Path = strRptPath
                     '---------------------------------------------------------------------------
                     'Dim Data As Attachment = New Attachment(objEmailH.Attachment_1_Path, MediaTypeNames.Application.Octet)
@@ -1199,7 +1242,8 @@ Public Class FrmPrintDistributerInvoiceStatement
             'clsCommon.ProgressBarUpdate("Gathering information regarding PF Rules...")
             clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            'common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 

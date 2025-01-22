@@ -7,13 +7,22 @@ Public Class rptSalesComparisonReport
 #Region "Variables"
     Dim dtitemName As DataTable
     Dim dt As DataTable
+    Dim EnableProductSaleForJPR As Boolean = False
 #End Region
     Private Sub rptSalesComparisonReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         funreset()
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
         txtFromDate2.Value = clsCommon.GETSERVERDATE()
         txtFromDate1.Value = clsCommon.GETSERVERDATE()
         txtToDate1.Value = clsCommon.GETSERVERDATE()
         txtToDate2.Value = clsCommon.GETSERVERDATE()
+        If EnableProductSaleForJPR Then
+            rbtnIceCream.Visible = True
+            rbtnBothType.Visible = False
+        Else
+            rbtnIceCream.Visible = False
+            rbtnBothType.Visible = True
+        End If
     End Sub
 
     Sub View()
@@ -112,16 +121,47 @@ Public Class rptSalesComparisonReport
             Dim Date2 As String = "'" + clsCommon.GetPrintDate(txtToDate1.Value, "dd/MM/yyyy") + "-" + clsCommon.GetPrintDate(txtToDate2.Value, "dd/MM/yyyy") + "'"
             Dim BaseQry As String = ""
             Dim groupBy As String = ""
-            If rbtnMilkType.IsChecked Then
-                whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 "
-            ElseIf rbtnProductType.IsChecked Then
-                whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 "
+            Dim TableNameMaster As String = ""
+            Dim TableNameDetail As String = ""
+            If EnableProductSaleForJPR Then
+                If rbtnDemand.IsChecked Then
+                    If rbtnMilkType.IsChecked Then
+                        TableNameMaster = " TSPL_DEMAND_BOOKING_MASTER"
+                        TableNameDetail = " TSPL_DEMAND_BOOKING_DETAIL"
+                        whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 "
+                    ElseIf rbtnProductType.IsChecked Then
+                        TableNameMaster = " TSPL_PRODUCT_DEMAND_BOOKING_MASTER "
+                        TableNameDetail = " TSPL_PRODUCT_DEMAND_BOOKING_detail "
+                        whrcls += " and TSPL_PRODUCT_DEMAND_BOOKING_MASTER.ItemType='Product' "
+                    ElseIf rbtnIceCream.IsChecked Then
+                        TableNameDetail = " TSPL_PRODUCT_DEMAND_BOOKING_detail "
+                        TableNameMaster = " TSPL_PRODUCT_DEMAND_BOOKING_MASTER "
+                        whrcls += "and TSPL_PRODUCT_DEMAND_BOOKING_MASTER.ItemType='IceCream' "
+                    End If
+                ElseIf rbtnDispatch.IsChecked Then
+                    If rbtnMilkType.IsChecked Then
+                        whrcls += " and TSPL_SD_SHIPMENT_HEAD.item_type IN ('S','') "
+                    ElseIf rbtnProductType.IsChecked Then
+                        whrcls += " and TSPL_SD_SHIPMENT_HEAD.item_type='P' "
+                    ElseIf rbtnIceCream.IsChecked Then
+                        whrcls += " and TSPL_SD_SHIPMENT_HEAD.item_type='I' "
+                    End If
+                End If
+
+            Else
+                TableNameMaster = " TSPL_DEMAND_BOOKING_MASTER"
+                TableNameDetail = " TSPL_DEMAND_BOOKING_DETAIL"
+                If rbtnMilkType.IsChecked Then
+                    whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 "
+                ElseIf rbtnProductType.IsChecked Then
+                    whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 "
+                End If
             End If
             If rbtnDemand.IsChecked Then
                 If rbtnCustomer.IsChecked Then
-                    groupBy += "  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code"
+                    groupBy += "  " & TableNameDetail & ".Cust_Code"
                 ElseIf rbtnRoute.IsChecked Then
-                    groupBy += " TSPL_DEMAND_BOOKING_MASTER.Route_No "
+                    groupBy += " " & TableNameMaster & ".Route_No "
                 End If
             ElseIf rbtnDispatch.IsChecked Then
                 If rbtnCustomer.IsChecked Then
@@ -132,7 +172,7 @@ Public Class rptSalesComparisonReport
             End If
             If clsCommon.myLen(txtRoute.Value) > 0 Then
                 If rbtnDemand.IsChecked Then
-                    whrcls += "  And TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + txtRoute.Value + "'"
+                    whrcls += "  And " & TableNameMaster & ".Route_No = '" + txtRoute.Value + "'"
                 ElseIf rbtnDispatch.IsChecked Then
                     whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No = '" + txtRoute.Value + "'"
                 End If
@@ -140,7 +180,7 @@ Public Class rptSalesComparisonReport
 
             If clsCommon.myLen(txtCustomer.Value) > 0 Then
                 If rbtnDemand.IsChecked Then
-                    whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code = '" + txtCustomer.Value + "' "
+                    whrcls += " and " & TableNameDetail & ".Cust_Code = '" + txtCustomer.Value + "' "
                 ElseIf rbtnDispatch.IsChecked Then
                     whrcls += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code = '" + txtCustomer.Value + "'"
                 End If
@@ -151,10 +191,10 @@ Public Class rptSalesComparisonReport
 
             If rbtnDemand.IsChecked Then
                 qry1 = " SELECT TSPL_ITEM_MASTER.Item_Code ,  " + Date1 + " + max(TSPL_ITEM_MASTER.Short_Description)  as Prev_Item," + Date1 + " + max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Prev_Item_Amt,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,max(TSPL_ITEM_MASTER.Short_Description)Short_Description "
-                BaseQry = " FROM TSPL_DEMAND_BOOKING_DETAIL left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
-			left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-			left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-            where  TSPL_DEMAND_BOOKING_MASTER.Posted = 1 AND TSPL_ITEM_MASTER.Is_DisplayDemand = 1 " & whrcls & "  "
+                BaseQry = " FROM " & TableNameDetail & " left outer join " & TableNameMaster & " on " & TableNameMaster & ".Document_No = " & TableNameDetail & ".Document_No 
+			left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=" & TableNameDetail & ".Item_Code
+			left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=" & TableNameDetail & ".Cust_Code
+            where  " & TableNameMaster & ".Posted = 1 AND TSPL_ITEM_MASTER.Is_DisplayDemand = 1 " & whrcls & "  "
                 qry2 = " SELECT TSPL_ITEM_MASTER.Item_Code ,  " + Date2 + " + max(TSPL_ITEM_MASTER.Short_Description)  as Current_Item," + Date2 + " + max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Current_Item_Amt,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq " & BaseQry & "  "
                 BaseQry += "" & whrclsDate1 & ""
 
@@ -245,11 +285,11 @@ Public Class rptSalesComparisonReport
                 ElseIf rbtnRoute.IsChecked Then
                     qry1 += " max(TSPL_CUSTOMER_MASTER.Cust_Code)Cust_Code ,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name, (TSPL_ROUTE_MASTER.Route_No)Route_No,"
                 End If
-                qry1 += " max(TSPL_ROUTE_MASTER.Route_Desc)Route_Desc, sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount)Amount, max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code)UOM, "
-                BaseQry += "" & qry1 & "" + Date1 + " + max(TSPL_ITEM_MASTER.Short_Description)  as Prev_Item," + Date1 + " + max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Prev_Item_Amt,convert(Decimal(18,2),( SUM(TSPL_DEMAND_BOOKING_DETAIL.Qty) * isnull(max(TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /max(I.Conversion_Factor)) As Prev_Qty "
-                qry2 = " " + Date2 + " + max(TSPL_ITEM_MASTER.Short_Description)  as Current_Item," + Date2 + " + max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Current_Item_Amt,( SUM(TSPL_DEMAND_BOOKING_DETAIL.Qty) * isnull(max(TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /max(I.Conversion_Factor) As Current_Qty "
-                qry3 = " FROM TSPL_DEMAND_BOOKING_DETAIL  LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No Left OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No 
-            LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code LEFT JOIN  ( select item_code,uom_code,conversion_factor from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code  where 2 = 2   and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 AND TSPL_ITEM_MASTER.Is_DisplayDemand = 1 " & whrcls & "  "
+                qry1 += " max(TSPL_ROUTE_MASTER.Route_Desc)Route_Desc, sum(" & TableNameDetail & ".ItemNetAmount)Amount, max(" & TableNameDetail & ".Unit_code)UOM, "
+                BaseQry += "" & qry1 & "" + Date1 + " + max(TSPL_ITEM_MASTER.Short_Description)  as Prev_Item," + Date1 + " + max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Prev_Item_Amt,convert(Decimal(18,2),( SUM(" & TableNameDetail & ".Qty) * isnull(max(TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /max(I.Conversion_Factor)) As Prev_Qty "
+                qry2 = " " + Date2 + " + max(TSPL_ITEM_MASTER.Short_Description)  as Current_Item," + Date2 + " + max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Current_Item_Amt,( SUM(" & TableNameDetail & ".Qty) * isnull(max(TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /max(I.Conversion_Factor) As Current_Qty "
+                qry3 = " FROM " & TableNameDetail & "  LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = " & TableNameDetail & ".Item_Code LEFT OUTER JOIN " & TableNameMaster & " ON " & TableNameMaster & ".Document_No = " & TableNameDetail & ".Document_No Left OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = " & TableNameDetail & ".Cust_Code left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = " & TableNameMaster & ".Route_No 
+            LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = " & TableNameDetail & ".Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = " & TableNameDetail & ".Unit_code LEFT JOIN  ( select item_code,uom_code,conversion_factor from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON " & TableNameDetail & ".Item_Code = I.item_code  where 2 = 2   and " & TableNameMaster & ".Posted = 1 AND TSPL_ITEM_MASTER.Is_DisplayDemand = 1 " & whrcls & "  "
 
                 BaseQry += "" & qry3 & ""
                 BaseQry += "" & whrclsDate1 & " group by " & groupBy & ",TSPL_ITEM_MASTER.Item_Code  "
