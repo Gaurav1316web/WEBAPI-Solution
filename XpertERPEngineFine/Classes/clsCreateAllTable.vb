@@ -26103,6 +26103,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Document_No", "varchar(30) NOT NULL References TSPL_TRANSFER_TO_SAVING(Document_No)")
             coll.Add("Vendor_Code", "varchar(12)  NOT NULL")
             coll.Add("Amount", "decimal (18,2) NULL")
+            coll.Add("Org_Amount", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TRANSFER_TO_SAVING_DETAIL", coll, Nothing, True, False, "TSPL_TRANSFER_TO_SAVING", "Document_No", "")
 
 
