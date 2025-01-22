@@ -26,8 +26,14 @@ Partial Class frmvendoraccountset
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkFarmer = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadScrollablePanel2 = New Telerik.WinControls.UI.RadScrollablePanel()
-        Me.txtArrear = New common.UserControls.txtFinder()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.lblTrnsferTS = New common.Controls.MyLabel()
+        Me.TxtTrnsferTS = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
+        Me.txtRetention = New common.UserControls.txtFinder()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.lblRetention = New common.Controls.MyLabel()
+        Me.txtArrear = New common.UserControls.txtFinder()
         Me.txtProData = New common.UserControls.txtFinder()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.lblArrear = New common.Controls.MyLabel()
@@ -119,9 +125,6 @@ Partial Class frmvendoraccountset
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtRetention = New common.UserControls.txtFinder()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.lblRetention = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -131,7 +134,11 @@ Partial Class frmvendoraccountset
         CType(Me.RadScrollablePanel2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadScrollablePanel2.PanelContainer.SuspendLayout()
         Me.RadScrollablePanel2.SuspendLayout()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTrnsferTS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblArrear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblProData, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -193,8 +200,6 @@ Partial Class frmvendoraccountset
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -261,6 +266,9 @@ Partial Class frmvendoraccountset
         'RadScrollablePanel2.PanelContainer
         '
         Me.RadScrollablePanel2.PanelContainer.BackColor = System.Drawing.Color.Transparent
+        Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.MyLabel17)
+        Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.lblTrnsferTS)
+        Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.TxtTrnsferTS)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.txtRetention)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.lblRetention)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.MyLabel15)
@@ -344,6 +352,108 @@ Partial Class frmvendoraccountset
         Me.RadScrollablePanel2.Size = New System.Drawing.Size(659, 348)
         Me.RadScrollablePanel2.TabIndex = 363
         '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Location = New System.Drawing.Point(1, 570)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(98, 18)
+        Me.MyLabel17.TabIndex = 379
+        Me.MyLabel17.Text = "Transfer To Saving"
+        Me.MyLabel17.Visible = False
+        '
+        'lblTrnsferTS
+        '
+        Me.lblTrnsferTS.AutoSize = False
+        Me.lblTrnsferTS.BorderVisible = True
+        Me.lblTrnsferTS.FieldName = Nothing
+        Me.lblTrnsferTS.Location = New System.Drawing.Point(338, 570)
+        Me.lblTrnsferTS.Name = "lblTrnsferTS"
+        Me.lblTrnsferTS.Size = New System.Drawing.Size(301, 19)
+        Me.lblTrnsferTS.TabIndex = 373
+        Me.lblTrnsferTS.Visible = False
+        '
+        'TxtTrnsferTS
+        '
+        Me.TxtTrnsferTS.CalculationExpression = Nothing
+        Me.TxtTrnsferTS.FieldCode = Nothing
+        Me.TxtTrnsferTS.FieldDesc = Nothing
+        Me.TxtTrnsferTS.FieldMaxLength = 0
+        Me.TxtTrnsferTS.FieldName = Nothing
+        Me.TxtTrnsferTS.isCalculatedField = False
+        Me.TxtTrnsferTS.IsSourceFromTable = False
+        Me.TxtTrnsferTS.IsSourceFromValueList = False
+        Me.TxtTrnsferTS.IsUnique = False
+        Me.TxtTrnsferTS.Location = New System.Drawing.Point(149, 570)
+        Me.TxtTrnsferTS.MendatroryField = False
+        Me.TxtTrnsferTS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtTrnsferTS.MyLinkLable1 = Nothing
+        Me.TxtTrnsferTS.MyLinkLable2 = Me.MyLabel14
+        Me.TxtTrnsferTS.MyReadOnly = False
+        Me.TxtTrnsferTS.MyShowMasterFormButton = False
+        Me.TxtTrnsferTS.Name = "TxtTrnsferTS"
+        Me.TxtTrnsferTS.ReferenceFieldDesc = Nothing
+        Me.TxtTrnsferTS.ReferenceFieldName = Nothing
+        Me.TxtTrnsferTS.ReferenceTableName = Nothing
+        Me.TxtTrnsferTS.Size = New System.Drawing.Size(188, 19)
+        Me.TxtTrnsferTS.TabIndex = 378
+        Me.TxtTrnsferTS.Value = ""
+        Me.TxtTrnsferTS.Visible = False
+        '
+        'MyLabel14
+        '
+        Me.MyLabel14.FieldName = Nothing
+        Me.MyLabel14.Location = New System.Drawing.Point(2, 551)
+        Me.MyLabel14.Name = "MyLabel14"
+        Me.MyLabel14.Size = New System.Drawing.Size(37, 18)
+        Me.MyLabel14.TabIndex = 374
+        Me.MyLabel14.Text = "Arrear"
+        '
+        'txtRetention
+        '
+        Me.txtRetention.CalculationExpression = Nothing
+        Me.txtRetention.FieldCode = Nothing
+        Me.txtRetention.FieldDesc = Nothing
+        Me.txtRetention.FieldMaxLength = 0
+        Me.txtRetention.FieldName = Nothing
+        Me.txtRetention.isCalculatedField = False
+        Me.txtRetention.IsSourceFromTable = False
+        Me.txtRetention.IsSourceFromValueList = False
+        Me.txtRetention.IsUnique = False
+        Me.txtRetention.Location = New System.Drawing.Point(149, 531)
+        Me.txtRetention.MendatroryField = False
+        Me.txtRetention.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRetention.MyLinkLable1 = Nothing
+        Me.txtRetention.MyLinkLable2 = Me.MyLabel15
+        Me.txtRetention.MyReadOnly = False
+        Me.txtRetention.MyShowMasterFormButton = False
+        Me.txtRetention.Name = "txtRetention"
+        Me.txtRetention.ReferenceFieldDesc = Nothing
+        Me.txtRetention.ReferenceFieldName = Nothing
+        Me.txtRetention.ReferenceTableName = Nothing
+        Me.txtRetention.Size = New System.Drawing.Size(188, 19)
+        Me.txtRetention.TabIndex = 376
+        Me.txtRetention.Value = ""
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Location = New System.Drawing.Point(2, 531)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel15.TabIndex = 377
+        Me.MyLabel15.Text = "Retention"
+        '
+        'lblRetention
+        '
+        Me.lblRetention.AutoSize = False
+        Me.lblRetention.BorderVisible = True
+        Me.lblRetention.FieldName = Nothing
+        Me.lblRetention.Location = New System.Drawing.Point(338, 531)
+        Me.lblRetention.Name = "lblRetention"
+        Me.lblRetention.Size = New System.Drawing.Size(301, 19)
+        Me.lblRetention.TabIndex = 375
+        '
         'txtArrear
         '
         Me.txtArrear.CalculationExpression = Nothing
@@ -369,15 +479,6 @@ Partial Class frmvendoraccountset
         Me.txtArrear.Size = New System.Drawing.Size(188, 19)
         Me.txtArrear.TabIndex = 373
         Me.txtArrear.Value = ""
-        '
-        'MyLabel14
-        '
-        Me.MyLabel14.FieldName = Nothing
-        Me.MyLabel14.Location = New System.Drawing.Point(2, 551)
-        Me.MyLabel14.Name = "MyLabel14"
-        Me.MyLabel14.Size = New System.Drawing.Size(37, 18)
-        Me.MyLabel14.TabIndex = 374
-        Me.MyLabel14.Text = "Arrear"
         '
         'txtProData
         '
@@ -1676,51 +1777,6 @@ Partial Class frmvendoraccountset
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
         '
-        'txtRetention
-        '
-        Me.txtRetention.CalculationExpression = Nothing
-        Me.txtRetention.FieldCode = Nothing
-        Me.txtRetention.FieldDesc = Nothing
-        Me.txtRetention.FieldMaxLength = 0
-        Me.txtRetention.FieldName = Nothing
-        Me.txtRetention.isCalculatedField = False
-        Me.txtRetention.IsSourceFromTable = False
-        Me.txtRetention.IsSourceFromValueList = False
-        Me.txtRetention.IsUnique = False
-        Me.txtRetention.Location = New System.Drawing.Point(149, 531)
-        Me.txtRetention.MendatroryField = False
-        Me.txtRetention.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRetention.MyLinkLable1 = Nothing
-        Me.txtRetention.MyLinkLable2 = Me.MyLabel15
-        Me.txtRetention.MyReadOnly = False
-        Me.txtRetention.MyShowMasterFormButton = False
-        Me.txtRetention.Name = "txtRetention"
-        Me.txtRetention.ReferenceFieldDesc = Nothing
-        Me.txtRetention.ReferenceFieldName = Nothing
-        Me.txtRetention.ReferenceTableName = Nothing
-        Me.txtRetention.Size = New System.Drawing.Size(188, 19)
-        Me.txtRetention.TabIndex = 376
-        Me.txtRetention.Value = ""
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Location = New System.Drawing.Point(2, 531)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(55, 18)
-        Me.MyLabel15.TabIndex = 377
-        Me.MyLabel15.Text = "Retention"
-        '
-        'lblRetention
-        '
-        Me.lblRetention.AutoSize = False
-        Me.lblRetention.BorderVisible = True
-        Me.lblRetention.FieldName = Nothing
-        Me.lblRetention.Location = New System.Drawing.Point(338, 531)
-        Me.lblRetention.Name = "lblRetention"
-        Me.lblRetention.Size = New System.Drawing.Size(301, 19)
-        Me.lblRetention.TabIndex = 375
-        '
         'frmvendoraccountset
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1745,7 +1801,11 @@ Partial Class frmvendoraccountset
         Me.RadScrollablePanel2.PanelContainer.PerformLayout()
         CType(Me.RadScrollablePanel2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadScrollablePanel2.ResumeLayout(False)
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTrnsferTS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblArrear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblProData, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1807,8 +1867,6 @@ Partial Class frmvendoraccountset
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1914,5 +1972,8 @@ Partial Class frmvendoraccountset
     Friend WithEvents txtRetention As common.UserControls.txtFinder
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents lblRetention As common.Controls.MyLabel
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents lblTrnsferTS As common.Controls.MyLabel
+    Friend WithEvents TxtTrnsferTS As common.UserControls.txtFinder
 End Class
 
