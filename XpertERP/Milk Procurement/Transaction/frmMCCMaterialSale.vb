@@ -5443,9 +5443,9 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                         LblVlc_Code.Text = clsCommon.ShowSelectForm("MCCCustomerList1", qry, "Vlc_Code", " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and mcc='" & txtBillToLocation.Value & "'", txtVendorNo.Value, "Vlc_Code", isButtonClicked)
                         qry += " where 2=2 and VLC_Code_VLC_Uploader ='" + LblVlc_Code.Text + "' and mcc='" & txtBillToLocation.Value & "' "
                     Else
-                        If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                            txtVendorNo.Value = clsDBFuncationality.getSingleValue(" select  VSP_Code from TSPL_VLC_MASTER_HEAD  where (VSP_Code = '" + txtVendorNo.Value + "' or VLC_Code_VLC_Uploader = '" + txtVendorNo.Value + "' )")
-                        End If
+                        'If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                        '    txtVendorNo.Value = clsDBFuncationality.getSingleValue(" select  VSP_Code from TSPL_VLC_MASTER_HEAD  where (VSP_Code = '" + txtVendorNo.Value + "' or VLC_Code_VLC_Uploader = '" + txtVendorNo.Value + "' )")
+                        'End If
                         Dim whr As String = " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0  "
                         If AllowPlandDeptMCCLocation Then
                             whr += "and mcc='" & txtBillToLocation.Value & "'"

@@ -22,12 +22,12 @@ Partial Class rptMilkSupplySaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim PropertyGroupDescription1 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
-        Dim GroupNameComparer1 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
-        Dim PropertyGroupDescription2 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
-        Dim GroupNameComparer2 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
-        Dim PropertyGroupDescription3 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
-        Dim GroupNameComparer3 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
+        Dim PropertyGroupDescription4 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
+        Dim GroupNameComparer4 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
+        Dim PropertyGroupDescription5 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
+        Dim GroupNameComparer5 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
+        Dim PropertyGroupDescription6 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
+        Dim GroupNameComparer6 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -64,6 +64,7 @@ Partial Class rptMilkSupplySaleReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -102,6 +103,7 @@ Partial Class rptMilkSupplySaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -144,6 +146,7 @@ Partial Class rptMilkSupplySaleReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -469,38 +472,37 @@ Partial Class rptMilkSupplySaleReport
         'PvtGrid
         '
         Me.PvtGrid.ColumnGrandTotalsPosition = Telerik.WinControls.UI.TotalsPos.None
-        PropertyGroupDescription1.AutoShowSubTotals = True
-        PropertyGroupDescription1.CustomName = "Short_Description"
-        PropertyGroupDescription1.GroupComparer = GroupNameComparer1
-        PropertyGroupDescription1.GroupFilter = Nothing
-        PropertyGroupDescription1.PropertyName = "Short_Description"
-        PropertyGroupDescription1.ShowGroupsWithNoData = False
-        PropertyGroupDescription1.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
-        Me.PvtGrid.ColumnGroupDescriptions.Add(PropertyGroupDescription1)
+        PropertyGroupDescription4.AutoShowSubTotals = True
+        PropertyGroupDescription4.CustomName = "Short_Description"
+        PropertyGroupDescription4.GroupComparer = GroupNameComparer4
+        PropertyGroupDescription4.GroupFilter = Nothing
+        PropertyGroupDescription4.PropertyName = "Short_Description"
+        PropertyGroupDescription4.ShowGroupsWithNoData = False
+        PropertyGroupDescription4.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
+        Me.PvtGrid.ColumnGroupDescriptions.Add(PropertyGroupDescription4)
         Me.PvtGrid.ColumnHeaderHeight = 29
         Me.PvtGrid.ColumnsSubTotalsPosition = Telerik.WinControls.UI.TotalsPos.None
         Me.PvtGrid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PvtGrid.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PvtGrid.Location = New System.Drawing.Point(0, 0)
         Me.PvtGrid.Name = "PvtGrid"
-        PropertyGroupDescription2.AutoShowSubTotals = True
-        PropertyGroupDescription2.CustomName = "Customer Code"
-        PropertyGroupDescription2.GroupComparer = GroupNameComparer2
-        PropertyGroupDescription2.GroupFilter = Nothing
-        PropertyGroupDescription2.PropertyName = "Cust_Code"
-        PropertyGroupDescription2.ShowGroupsWithNoData = False
-        PropertyGroupDescription2.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
-        PropertyGroupDescription3.AutoShowSubTotals = True
-        PropertyGroupDescription3.CustomName = "Customer Name"
-        PropertyGroupDescription3.GroupComparer = GroupNameComparer3
-        PropertyGroupDescription3.GroupFilter = Nothing
-        PropertyGroupDescription3.PropertyName = "Customer_Name"
-        PropertyGroupDescription3.ShowGroupsWithNoData = False
-        PropertyGroupDescription3.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
-        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription2)
-        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription3)
+        PropertyGroupDescription5.AutoShowSubTotals = True
+        PropertyGroupDescription5.CustomName = "Customer Code"
+        PropertyGroupDescription5.GroupComparer = GroupNameComparer5
+        PropertyGroupDescription5.GroupFilter = Nothing
+        PropertyGroupDescription5.PropertyName = "Cust_Code"
+        PropertyGroupDescription5.ShowGroupsWithNoData = False
+        PropertyGroupDescription5.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
+        PropertyGroupDescription6.AutoShowSubTotals = True
+        PropertyGroupDescription6.CustomName = "Customer Name"
+        PropertyGroupDescription6.GroupComparer = GroupNameComparer6
+        PropertyGroupDescription6.GroupFilter = Nothing
+        PropertyGroupDescription6.PropertyName = "Customer_Name"
+        PropertyGroupDescription6.ShowGroupsWithNoData = False
+        PropertyGroupDescription6.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
+        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription5)
+        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription6)
         Me.PvtGrid.RowsSubTotalsPosition = Telerik.WinControls.UI.TotalsPos.None
-        Me.PvtGrid.ShowFilterArea = True
         Me.PvtGrid.Size = New System.Drawing.Size(671, 388)
         Me.PvtGrid.TabIndex = 2
         '
@@ -555,6 +557,16 @@ Partial Class rptMilkSupplySaleReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(263, 15)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 155
+        Me.btnPrint.Text = "Print"
         '
         'rptMilkSupplySaleReport
         '
@@ -612,6 +624,7 @@ Partial Class rptMilkSupplySaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -653,5 +666,6 @@ Partial Class rptMilkSupplySaleReport
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents RadGroupBox4 As RadGroupBox
     Friend WithEvents PvtGrid As RadPivotGrid
+    Friend WithEvents btnPrint As RadButton
 End Class
 

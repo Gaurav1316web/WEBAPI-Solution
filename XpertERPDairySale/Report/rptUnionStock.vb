@@ -317,7 +317,7 @@ END AS Issued_Qty
         )
 END AS [Balance_Qty]
 
-				,(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,(TSPL_COMPANY_MASTER.City_Code)City_Code,'20-Dec-2024' as fromDate,'30-Dec-2024' as Todate
+				,(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,(TSPL_COMPANY_MASTER.City_Code)City_Code,'" + txtFromDate.Value + "' as fromDate,'" + txtToDate.Value + "' as Todate
                  from TSPL_INVENTORY_MOVEMENT
                  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
                  left outer join TSPL_STRUCTURE_MASTER on TSPL_STRUCTURE_MASTER.Structure_Code=TSPL_ITEM_MASTER.Structure_Code

@@ -20289,6 +20289,7 @@ Public Class clsCreateAllTable
             coll.Add("Insurance_Terms", "varchar(500) null")
             coll.Add("Auto_Calculate", "integer not null default 0")
             coll.Add("Subject", "text null")
+            coll.Add("termscondition", "text null")
             coll.Add("Content_Subject", "text null")
             coll.Add("Kind_Attentation", "varchar(500) null")
             coll.Add("MT_HS_Classification_No", "varchar(30) null")
@@ -26401,7 +26402,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Ack_Date", "Datetime NULL")
             coll.Add("BarCode_Img", "image null")
             coll.Add("Against_TransferToSavingPKID", "integer null References TSPL_TRANSFER_TO_SAVING_DETAIL(PK_ID)")
-            'coll.Add("Transfer_To_Saving", "Integer not null default 0")
+            coll.Add("Transfer_To_Saving", "Integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_No", "Posting_Date", True)
 
             coll = New Dictionary(Of String, String)()
