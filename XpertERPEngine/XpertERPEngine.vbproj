@@ -207,12 +207,10 @@
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
     <Compile Include="AdminServices\clsSendSMSEmailSetting.vb" />
-    <Compile Include="Business Intelligence\clsCreateBIFilter.vb" />
-    <Compile Include="Business Intelligence\clsCreateBIReport.vb" />
-    <Compile Include="Business Intelligence\clsCreateDashboard.vb" />
+    <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
+    <Compile Include="API\clsEWayBill.vb" />
     <Compile Include="clsAllEnum.vb" />
     <Compile Include="clscomplaintdetail.vb" />
-    <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
     <Compile Include="clsfrmNotificationScreen.vb" />
     <Compile Include="clsRcptEntryHeader.vb" />
     <Compile Include="Common\clsAdditionalCharge.vb" />
@@ -591,6 +589,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Seed\clsSeedGrowerMaster.vb" />
+    <Compile Include="TDS\clsRemitanceEntry.vb" />
+    <Compile Include="TDS\clsRemittance.vb" />
+    <Compile Include="TDS\ClsTDSPayment.vb" />
     <Compile Include="UserControl\ucCustomFields.Designer.vb">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
     </Compile>
@@ -1006,8 +1007,6 @@
     <Compile Include="Sale\ProductSale\clsDispatchChecklist.vb" />
     <Compile Include="Sale\ProductSale\clsPSDispatchAdvice.vb" />
     <Compile Include="Sale\ProductSale\ClsUDLSalesQuery.vb" />
-    <Compile Include="TDS\clsRemitanceEntry.vb" />
-    <Compile Include="TDS\clsRemittance.vb" />
     <Compile Include="Finance\clsGLEntry.vb" />
     <Compile Include="Finance\ClsGlTrialAccountExcluded.vb" />
     <Compile Include="HR\ClsGrievanceAllocation.vb" />
@@ -1231,7 +1230,6 @@
     <Compile Include="Common\clsWorkCenterMaster.vb" />
     <Compile Include="Common\ClsZoneMaster.vb" />
     <Compile Include="Common\SnDUtility.vb" />
-    <Compile Include="TDS\ClsTDSPayment.vb" />
     <Compile Include="UserControl\frmBalanceQty.designer.vb">
       <DependentUpon>frmBalanceQty.vb</DependentUpon>
     </Compile>

@@ -5555,7 +5555,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             'Exit Function
             Return 0
         End If
-        Dim str As String=txtTaxGroup.Value
+        Dim str As String = txtTaxGroup.Value
         'Dim dt1 As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", txtVendorNo.Value, txtBillToLocation.Value, trans)
         'If dt1.Rows.Count > 0 Then
         '    TAXGroup = clsCommon.myCstr(dt1.Rows(0)("Tax_Group_Code"))

@@ -8249,7 +8249,7 @@ Public Class MDI
                         frm = New RptTankerDispatchvsAckn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-                    Case clsUserMgtCode.rptSalesComparisonReport
+                    Case clsUserMgtCode.RptDairyBookingDistributorReport
                         frm = New RptDairyBookingDistributorReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
@@ -8282,6 +8282,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDemandNill
                         frm = New RptBoothNilDemandl()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptMonthlyBillSummaryReport
+                        frm = New rptMonthlyBillSummary()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()

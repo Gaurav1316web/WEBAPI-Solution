@@ -22,10 +22,10 @@ Partial Class frmSendSMSToDCS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtMultTankerEx = New common.UserControls.txtMultiSelectFinder()
@@ -63,6 +63,12 @@ Partial Class frmSendSMSToDCS
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtMultQCTanker = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.txtDateQC = New common.Controls.MyDateTimePicker()
+        Me.btnTankerQC = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -102,6 +108,12 @@ Partial Class frmSendSMSToDCS
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDateQC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnTankerQC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,6 +127,7 @@ Partial Class frmSendSMSToDCS
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox6)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox5)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox4)
@@ -208,7 +221,7 @@ Partial Class frmSendSMSToDCS
         '
         'BtnTankerSMSException
         '
-        Me.BtnTankerSMSException.Location = New System.Drawing.Point(307, 38)
+        Me.BtnTankerSMSException.Location = New System.Drawing.Point(307, 37)
         Me.BtnTankerSMSException.Name = "BtnTankerSMSException"
         Me.BtnTankerSMSException.Size = New System.Drawing.Size(85, 20)
         Me.BtnTankerSMSException.TabIndex = 289
@@ -258,10 +271,10 @@ Partial Class frmSendSMSToDCS
         Me.cboShiftCrateEntry.IsSourceFromTable = False
         Me.cboShiftCrateEntry.IsSourceFromValueList = False
         Me.cboShiftCrateEntry.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboShiftCrateEntry.Items.Add(RadListDataItem5)
-        Me.cboShiftCrateEntry.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShiftCrateEntry.Items.Add(RadListDataItem1)
+        Me.cboShiftCrateEntry.Items.Add(RadListDataItem2)
         Me.cboShiftCrateEntry.Location = New System.Drawing.Point(171, 16)
         Me.cboShiftCrateEntry.MendatroryField = True
         Me.cboShiftCrateEntry.MyLinkLable1 = Me.MyLabel10
@@ -353,12 +366,12 @@ Partial Class frmSendSMSToDCS
         Me.RadGroupBox4.Controls.Add(Me.MyLabel7)
         Me.RadGroupBox4.Controls.Add(Me.txtTankerQCDate)
         Me.RadGroupBox4.Controls.Add(Me.btnTankerSMS)
-        Me.RadGroupBox4.HeaderText = "TANKER QC SMS"
+        Me.RadGroupBox4.HeaderText = "TANKER P/L SMS"
         Me.RadGroupBox4.Location = New System.Drawing.Point(12, 160)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Size = New System.Drawing.Size(397, 71)
         Me.RadGroupBox4.TabIndex = 280
-        Me.RadGroupBox4.Text = "TANKER QC SMS"
+        Me.RadGroupBox4.Text = "TANKER P/L SMS"
         '
         'txtMultTanker
         '
@@ -608,10 +621,10 @@ Partial Class frmSendSMSToDCS
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem3)
+        Me.cboShift.Items.Add(RadListDataItem4)
         Me.cboShift.Location = New System.Drawing.Point(164, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -682,6 +695,93 @@ Partial Class frmSendSMSToDCS
         Me.btnClose.TabIndex = 9
         Me.btnClose.Text = "Close"
         '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.txtMultQCTanker)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel3)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel11)
+        Me.RadGroupBox6.Controls.Add(Me.txtDateQC)
+        Me.RadGroupBox6.Controls.Add(Me.btnTankerQC)
+        Me.RadGroupBox6.HeaderText = "TANKER QC SMS"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(415, 237)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Size = New System.Drawing.Size(397, 71)
+        Me.RadGroupBox6.TabIndex = 283
+        Me.RadGroupBox6.Text = "TANKER QC SMS"
+        '
+        'txtMultQCTanker
+        '
+        Me.txtMultQCTanker.arrDispalyMember = Nothing
+        Me.txtMultQCTanker.arrValueMember = Nothing
+        Me.txtMultQCTanker.Location = New System.Drawing.Point(45, 38)
+        Me.txtMultQCTanker.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultQCTanker.MyLinkLable1 = Nothing
+        Me.txtMultQCTanker.MyLinkLable2 = Nothing
+        Me.txtMultQCTanker.MyNullText = "Please select..."
+        Me.txtMultQCTanker.Name = "txtMultQCTanker"
+        Me.txtMultQCTanker.Size = New System.Drawing.Size(261, 19)
+        Me.txtMultQCTanker.TabIndex = 387
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel3.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(40, 18)
+        Me.MyLabel3.TabIndex = 295
+        Me.MyLabel3.Text = "Tanker"
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(5, 17)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel11.TabIndex = 293
+        Me.MyLabel11.Text = "Date"
+        '
+        'txtDateQC
+        '
+        Me.txtDateQC.CalculationExpression = Nothing
+        Me.txtDateQC.CustomFormat = "dd/MM/yyyy"
+        Me.txtDateQC.FieldCode = Nothing
+        Me.txtDateQC.FieldDesc = Nothing
+        Me.txtDateQC.FieldMaxLength = 0
+        Me.txtDateQC.FieldName = Nothing
+        Me.txtDateQC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDateQC.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDateQC.isCalculatedField = False
+        Me.txtDateQC.IsSourceFromTable = False
+        Me.txtDateQC.IsSourceFromValueList = False
+        Me.txtDateQC.IsUnique = False
+        Me.txtDateQC.Location = New System.Drawing.Point(45, 16)
+        Me.txtDateQC.MendatroryField = True
+        Me.txtDateQC.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDateQC.MyLinkLable1 = Me.MyLabel11
+        Me.txtDateQC.MyLinkLable2 = Nothing
+        Me.txtDateQC.Name = "txtDateQC"
+        Me.txtDateQC.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDateQC.ReferenceFieldDesc = Nothing
+        Me.txtDateQC.ReferenceFieldName = Nothing
+        Me.txtDateQC.ReferenceTableName = Nothing
+        Me.txtDateQC.Size = New System.Drawing.Size(83, 18)
+        Me.txtDateQC.TabIndex = 290
+        Me.txtDateQC.TabStop = False
+        Me.txtDateQC.Text = "13/06/2011"
+        Me.txtDateQC.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'btnTankerQC
+        '
+        Me.btnTankerQC.Location = New System.Drawing.Point(307, 37)
+        Me.btnTankerQC.Name = "btnTankerQC"
+        Me.btnTankerQC.Size = New System.Drawing.Size(85, 20)
+        Me.btnTankerQC.TabIndex = 289
+        Me.btnTankerQC.Text = "Send SMS"
+        Me.btnTankerQC.TextWrap = True
+        '
         'frmSendSMSToDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -738,6 +838,13 @@ Partial Class frmSendSMSToDCS
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDateQC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnTankerQC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -780,4 +887,10 @@ Partial Class frmSendSMSToDCS
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtTankerQCDateException As common.Controls.MyDateTimePicker
     Friend WithEvents BtnTankerSMSException As RadButton
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents txtMultQCTanker As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents txtDateQC As common.Controls.MyDateTimePicker
+    Friend WithEvents btnTankerQC As RadButton
 End Class

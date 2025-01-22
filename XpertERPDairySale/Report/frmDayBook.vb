@@ -103,10 +103,12 @@ Public Class frmDayBook
             Dim rowItem As Integer = 0
             Dim rowtax As Integer = 1
             Dim totalItemAmt As Integer = 0
+            Dim flag As Boolean = True
             Dim lststr As New List(Of String)
             If lstObj IsNot Nothing AndAlso lstObj.Count > 0 Then
                 For i As Integer = 0 To lstObj.Count - 1
                     gvData.Rows.AddNew()
+                    flag = True
                     Dim row1 As GridViewRowInfo = gvData.Rows(rowItem)
                     For Each cell As GridViewCellInfo In row1.Cells
                         cell.Style.Font = New Font("Arial", 10, FontStyle.Bold)
@@ -114,31 +116,47 @@ Public Class frmDayBook
                     If Not lststr.Contains(clsCommon.myCstr(lstObj(i).InvoiceNo)) Then
                         gvData.Rows(rowItem).Cells(colDate).Value = clsCommon.GetPrintDate(lstObj(i).Document_Date, "dd/MM/yyyy")
                         gvData.Rows(rowItem).Cells(colVchNo).Value = clsCommon.myCstr(lstObj(i).InvoiceNo)
-                        If clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
                             gvData.Rows(rowItem).Cells(colVchType).Value = "Stock Journal"
 
-                        ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
-                            gvData.Rows(rowItem).Cells(colVchType).Value = "Stock Journal"
+                            'ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
+                            '    gvData.Rows(rowItem).Cells(colVchType).Value = "Stock Journal"
 
                         Else
                             gvData.Rows(rowItem).Cells(colVchType).Value = clsCommon.myCstr(lstObj(i).TaxGroup)
 
                         End If
+                        gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Cust_Name)
+                        If Not clsCommon.CompairString(lstObj(i).TaxGroup, "Purchase") = CompairStringResult.Equal Then
+                            gvData.Rows.AddNew()
+                            rowItem += 1
+                            gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Bank_Code)
+                        End If
 
+                        flag = False
                         lststr.Add(clsCommon.myCstr(lstObj(i).InvoiceNo))
                     End If
-                    gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Cust_Name)
+                    If (clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal) AndAlso flag Then
+                        'gvData.Rows.AddNew()
+                        'rowItem += 1
+                        gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Cust_Name)
+                    ElseIf Not clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
+                        gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Cust_Name)
+
+                    End If
                     If clsCommon.CompairString(lstObj(i).TaxGroup, "Receipt") = CompairStringResult.Equal Then
                         gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
                     ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal Then
                         gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
                     ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
                         gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
+                    ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "Purchase") = CompairStringResult.Equal Then
+                        gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
                     Else
                         gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
 
                     End If
-                    If Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "Stock Journal") = CompairStringResult.Equal AndAlso Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "") = CompairStringResult.Equal Then
+                    If Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "Stock Journal") = CompairStringResult.Equal AndAlso Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "") = CompairStringResult.Equal AndAlso Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "Purchase") = CompairStringResult.Equal Then
                         gvData.Rows.AddNew()
                         rowItem += 1
                         Dim row2 As GridViewRowInfo = gvData.Rows(rowItem)
@@ -160,9 +178,15 @@ Public Class frmDayBook
                             gvData.Rows.AddNew()
                             rowItem += 1
                             gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(items.Item_Name)
-                            gvData.Rows(rowItem).Cells(colVchType).Value = clsCommon.myCstr(items.Qty) + " " + clsCommon.myCstr(items.UOM) + "  " + clsCommon.myCstr(items.Item_Rate) + " " + clsCommon.myCstr(items.UOM)
-                            gvData.Rows(rowItem).Cells(colVchNo).Value = clsCommon.myCstr(items.Amount)
-                            totalItemAmt += items.Amount
+                            If Not clsCommon.CompairString(lstObj(i).TaxGroup, "Purchase") = CompairStringResult.Equal Then
+
+                                gvData.Rows(rowItem).Cells(colVchType).Value = clsCommon.myCstr(items.Qty) + " " + clsCommon.myCstr(items.UOM) + "  " + clsCommon.myCstr(items.Item_Rate) + " " + clsCommon.myCstr(items.UOM)
+                                gvData.Rows(rowItem).Cells(colVchNo).Value = clsCommon.myCstr(items.Amount)
+                                totalItemAmt += items.Amount
+                            Else
+                                gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(items.Amount)
+
+                            End If
                         Next
                     End If
 
@@ -175,8 +199,13 @@ Public Class frmDayBook
                                 cell.Style.Font = New Font("Arial", 10, FontStyle.Bold)
                             Next
                             gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(items.Tax_Name) + " " + clsCommon.myCstr(items.Tax_Rate)
+                            If Not clsCommon.CompairString(lstObj(i).TaxGroup, "Purchase") = CompairStringResult.Equal Then
+                                gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(items.Tax_Amt)
 
-                            gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(items.Tax_Amt)
+                            Else
+                                gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(items.Tax_Amt)
+
+                            End If
 
                         Next
                     End If

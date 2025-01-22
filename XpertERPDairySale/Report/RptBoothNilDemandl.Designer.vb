@@ -56,6 +56,7 @@ Partial Class RptBoothNilDemandl
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -141,7 +142,7 @@ Partial Class RptBoothNilDemandl
         Me.RadGroupBox2.Controls.Add(Me.rdbInActive)
         Me.RadGroupBox2.Controls.Add(Me.rdbActive)
         Me.RadGroupBox2.HeaderText = "Customer Status"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(510, 20)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(563, 20)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(194, 45)
@@ -269,6 +270,7 @@ Partial Class RptBoothNilDemandl
         'gbDocStatus
         '
         Me.gbDocStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.gbDocStatus.Controls.Add(Me.rbtnIceCream)
         Me.gbDocStatus.Controls.Add(Me.rdbDemandBoth)
         Me.gbDocStatus.Controls.Add(Me.rdbProduct)
         Me.gbDocStatus.Controls.Add(Me.rdbMilk)
@@ -276,7 +278,7 @@ Partial Class RptBoothNilDemandl
         Me.gbDocStatus.Location = New System.Drawing.Point(310, 20)
         Me.gbDocStatus.Name = "gbDocStatus"
         Me.gbDocStatus.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbDocStatus.Size = New System.Drawing.Size(194, 45)
+        Me.gbDocStatus.Size = New System.Drawing.Size(247, 45)
         Me.gbDocStatus.TabIndex = 402
         Me.gbDocStatus.Text = "Demand"
         '
@@ -493,6 +495,18 @@ Partial Class RptBoothNilDemandl
         Me.btnReset.TabIndex = 157
         Me.btnReset.Text = "Reset"
         '
+        'rbtnIceCream
+        '
+        Me.rbtnIceCream.AutoSize = True
+        Me.rbtnIceCream.Location = New System.Drawing.Point(137, 16)
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnIceCream.TabIndex = 7
+        Me.rbtnIceCream.TabStop = True
+        Me.rbtnIceCream.Text = "Ice Cream"
+        Me.rbtnIceCream.UseVisualStyleBackColor = True
+        Me.rbtnIceCream.Visible = False
+        '
         'RptBoothNilDemandl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -575,4 +589,5 @@ Partial Class RptBoothNilDemandl
     Friend WithEvents rdbCustomerStatus As RadioButton
     Friend WithEvents rdbInActive As RadioButton
     Friend WithEvents rdbActive As RadioButton
+    Friend WithEvents rbtnIceCream As RadioButton
 End Class
