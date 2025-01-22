@@ -252,9 +252,15 @@ Public Class frmTransferToSaving
 
             Dim k As Integer
             Dim vendorcount As Integer = 0
+            Dim vendorCodesSet As New HashSet(Of String)
             For k = 0 To gv1.Rows.Count - 1
                 Dim strOuterVendorCode As String = clsCommon.myCstr(gv1.Rows(k).Cells(colVendorCode).Value)
                 If clsCommon.myLen(strOuterVendorCode) > 0 Then
+                    If vendorCodesSet.Contains(strOuterVendorCode) Then
+                        Throw New Exception("Duplicate Vendor Code found: " & strOuterVendorCode & " at Row no " & clsCommon.myCstr(k + 1))
+                    Else
+                        vendorCodesSet.Add(strOuterVendorCode) ' Add the vendor code to the set
+                    End If
                     If clsCommon.myCdbl(gv1.Rows(k).Cells(colAmt).Value) <= 0 Then
                         Throw New Exception(" Please enter Amount at Row no  " & clsCommon.myCstr(k + 1))
                     End If
@@ -265,15 +271,36 @@ Public Class frmTransferToSaving
                 Throw New Exception(" Please enter vendor atleast in one row")
             End If
 
-            'For T = 0 To gv1.Rows.Count - 1
-            '    Dim DCSCode As String = clsCommon.myCstr(gv1.Rows(T).Cells(colVlcUploderCode).Value)
-            '    Dim Balance_Qry As String = clsDBFuncationality.getSingleValue(" select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD 
-            '                          left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-            '                          where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader = '" + DCSCode + "'and Transfer_To_Saving=1 ")
-            '    If clsCommon.myCdbl(gv1.Rows(T).Cells(colAmt).Value) > Balance_Qry Then
-            '        Throw New Exception(" Amount is Greater then Specified Limit On AP Invoice for DCS at Row no  " & clsCommon.myCstr(T + 1))
-            '    End If
-            'Next
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+
+                Dim dt As DataTable = Nothing
+                Dim Balance_Qry As String = " Select (AP_Amt-TTS_Amt)Balance_Amt,Vendor_Code from (select 
+                                                    sum(Document_Total * case when RI=1 --And Document_Date <= '21/Jan/2025 11:59 PM'
+                                    then 1 else 0 end )  as TTS_Amt,
+                                    sum(Document_Total * case when RI=-1 And Posting_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end )  as AP_Amt,xx.Vendor_Code,max(xx.Transfer_To_Saving)Transfer_To_Saving from (
+                                    Select  Vendor_Code,TSPL_TRANSFER_TO_SAVING.Document_No,Document_Date As Document_Date,Posted_Date As Posting_Date ,Amount As Document_Total,1 As RI,0 As Transfer_To_Saving  
+                                    From TSPL_TRANSFER_TO_SAVING_DETAIL
+                                    Left outer join TSPL_TRANSFER_TO_SAVING on TSPL_TRANSFER_TO_SAVING.Document_No = TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No
+                                    Union all
+                                    Select  Vendor_Code,Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date As Document_Date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date ,Document_Total,-1 As RI,Transfer_To_Saving  from TSPL_VENDOR_INVOICE_HEAD
+                                    where  2 = 2 And Transfer_To_Saving = 1) xx group by xx.Vendor_Code)xy where xy.Transfer_To_Saving=1 "
+                dt = clsDBFuncationality.GetDataTable(Balance_Qry)
+                For T = 0 To gv1.Rows.Count - 2
+                    For Each dr As DataRow In dt.Rows
+                        If clsCommon.CompairString(gv1.Rows(T).Cells(colVendorCode).Value, dr("Vendor_Code")) = CompairStringResult.Equal Then
+                            If clsCommon.myCdbl(gv1.Rows(T).Cells(colAmt).Value) > dr("Balance_Amt") Then
+                                Throw New Exception(" Amount is Greater then Specified Limit On AP Invoice for DCS at Row no  " & clsCommon.myCstr(T + 1))
+                            End If
+                            Exit For
+                        End If
+                    Next
+                    'Dim DCSCode As String = clsCommon.myCstr(gv1.Rows(T).Cells(colVlcUploderCode).Value)
+                    '    Dim DCS_Code As String = clsCommon.myCstr(gv1.Rows(T).Cells(colVendorCode).Value)
+
+                    ''If DCSCode =
+
+                Next
+            End If
 
             UcAttachment1.AllowToSave()
             Return True
