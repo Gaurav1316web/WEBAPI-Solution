@@ -283,6 +283,8 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderSNF)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderCLR)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderQty)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SampleNo)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSendSMSToDCS + "1") = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_No)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
@@ -321,7 +323,7 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_No)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
-            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
+            'ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.EnteredQty)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Flushing)
