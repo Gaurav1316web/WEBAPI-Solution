@@ -281,6 +281,7 @@ Public Class frmTransferToSaving
                                     Select  Vendor_Code,TSPL_TRANSFER_TO_SAVING.Document_No,Document_Date As Document_Date,Posted_Date As Posting_Date ,Amount As Document_Total,1 As RI,0 As Transfer_To_Saving  
                                     From TSPL_TRANSFER_TO_SAVING_DETAIL
                                     Left outer join TSPL_TRANSFER_TO_SAVING on TSPL_TRANSFER_TO_SAVING.Document_No = TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No
+                                    where TSPL_TRANSFER_TO_SAVING.Document_No Not in ('" + txtDocNo.Value + "')
                                     Union all
                                     Select  Vendor_Code,Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date As Document_Date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date ,Document_Total,-1 As RI,Transfer_To_Saving  from TSPL_VENDOR_INVOICE_HEAD
                                     where  2 = 2 And Transfer_To_Saving = 1) xx group by xx.Vendor_Code)xy where xy.Transfer_To_Saving=1 "
