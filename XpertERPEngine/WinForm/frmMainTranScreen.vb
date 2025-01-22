@@ -406,22 +406,24 @@ Public Class FrmMainTranScreen
                 frmPWD.strCode = clsFixedParameterCode.SMSEMailPassword
                 frmPWD.ShowDialog()
                 If frmPWD.isPasswordCorrect Then
-                    Dim qry As String = "select * from ( select Program_Code+'1' as Code,ES_Trans_Type_1 as Name  from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine + _
-                     "union all" + Environment.NewLine + _
-                     "select Program_Code+'2' as Code,ES_Trans_Type_2 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine + _
-                     "union all" + Environment.NewLine + _
-                     "select Program_Code+'3' as Code,ES_Trans_Type_3 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine + _
-                     "union all" + Environment.NewLine + _
-                     "select Program_Code+'4' as Code,ES_Trans_Type_4 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine + _
-                     "union all" + Environment.NewLine + _
+                    Dim qry As String = "select * from ( select Program_Code+'1' as Code,ES_Trans_Type_1 as Name  from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine +
+                     "union all" + Environment.NewLine +
+                     "select Program_Code+'2' as Code,ES_Trans_Type_2 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine +
+                     "union all" + Environment.NewLine +
+                     "select Program_Code+'3' as Code,ES_Trans_Type_3 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine +
+                     "union all" + Environment.NewLine +
+                     "select Program_Code+'4' as Code,ES_Trans_Type_4 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine +
+                     "union all" + Environment.NewLine +
                      "select Program_Code+'5' as Code,ES_Trans_Type_5 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "')xx where len(isnull(Name,''))>0"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     Dim strFormID As String = Me.Form_ID
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Dim dr As DataRow = dt.NewRow()
-                        dr("Code") = Me.Form_ID
-                        dr("Name") = "Transaction"
-                        dt.Rows.InsertAt(dr, 0)
+                        If clsCommon.CompairString(Me.Form_ID, "BMC Gaze") <> CompairStringResult.Equal Then
+                            dr("Code") = Me.Form_ID
+                            dr("Name") = "Transaction"
+                            dt.Rows.InsertAt(dr, 0)
+                        End If
 
                         Dim frmFC As New FrmFreeComboBox
                         frmFC.ComboSource = dt
@@ -1414,7 +1416,7 @@ Public Class FrmMainTranScreen
             Exit Sub
         End If
         Me.Form_ID = FormID
-        qry = " select Parent_Code  from TSPL_PROGRAM_MASTER where program_code in (" & _
+        qry = " select Parent_Code  from TSPL_PROGRAM_MASTER where program_code in (" &
               " select Parent_Code from TSPL_PROGRAM_MASTER where program_code='" & Form_ID & "')"
 
 

@@ -148,6 +148,8 @@ Public Class frmMilkCollectionMCC
         If Check <= 0 Then
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_PROGRAM_MASTER Set Is_SMS_Applied=1 Where Program_Code='" + Form_ID + "'")
         End If
+        Dim Qry As String = "Update TSPL_PROGRAM_MASTER Set ES_Trans_Type_1='BMC Tanker QC SMS',ES_Trans_Type_2='BMC Tanker P/L SMS' where (ISNULL(ES_Trans_Type_1,'')='' OR ISNULL(ES_Trans_Type_2,'')='') And Program_Code='" + Form_ID + "' "
+        clsDBFuncationality.ExecuteNonQuery(Qry)
     End Sub
     Public Sub LoadLate()
         Dim dt As DataTable = New DataTable()
