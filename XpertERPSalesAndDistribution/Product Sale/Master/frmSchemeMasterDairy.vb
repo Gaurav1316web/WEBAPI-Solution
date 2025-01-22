@@ -457,6 +457,7 @@ Public Class FrmSchemeMasterDairy
         dt.Rows.Add(0, "None")
         dt.Rows.Add(1, "Max Limit")
         dt.Rows.Add(2, "Increment Value")
+        dt.Rows.Add(3, "Increment Slab")
         cboQuantitiveType.DataSource = dt
         cboQuantitiveType.ValueMember = "Code"
         cboQuantitiveType.DisplayMember = "Name"

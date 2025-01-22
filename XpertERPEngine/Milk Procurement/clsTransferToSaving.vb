@@ -181,11 +181,10 @@ where TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No='" + obj.Document_No + "' ORDER
             objVendInv.Against_TransferToSavingPKID = objTr.PK_ID
             objVendInv.isDeduction = 1
             Dim qry As String = "Select TSPL_VENDOR_ACCOUNT_SET.Payable_Account,TSPL_VENDOR_MASTER.GSTRegistered,TSPL_VENDOR_MASTER.Vendor_Account,TSPL_VENDOR_MASTER.Terms_Code ,TSPL_TERMS_MASTER.Terms_Desc,TSPL_TERMS_MASTER.No_Days   
-        from TSPL_VENDOR_MASTER 
-        left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code =TSPL_VENDOR_MASTER.Terms_Code 
-        left outer join TSPL_VENDOR_ACCOUNT_SET on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code = TSPL_VENDOR_MASTER.Vendor_Account
-        where TSPL_VENDOR_MASTER.Vendor_Code ='" + objTr.Vendor_Code + "'"
-
+from TSPL_VENDOR_MASTER 
+left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code =TSPL_VENDOR_MASTER.Terms_Code 
+left outer join TSPL_VENDOR_ACCOUNT_SET on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code = TSPL_VENDOR_MASTER.Vendor_Account
+where TSPL_VENDOR_MASTER.Vendor_Code ='" + objTr.Vendor_Code + "'"
             Dim dtVendor As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dtVendor IsNot Nothing AndAlso dtVendor.Rows.Count > 0 Then
                 objVendInv.Terms_Code = clsCommon.myCstr(dtVendor.Rows(0)("Terms_Code"))
@@ -352,6 +351,20 @@ where TSPL_TRANSFER_TO_SAVING_DETAIL.Document_No='" + obj.Document_No + "' ORDER
         Return True
     End Function
 
+
+    Private Shared Sub UpdateTransferToSaving(intPKID As Integer, NewAmount As Decimal, trans As SqlTransaction)
+        Dim qry As String = "update TSPL_TRANSFER_TO_SAVING_DETAIL set Org_Amount=Amount where PK_ID='" + clsCommon.myCstr(intPKID) + "' and Org_Amount is null"
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        qry = "update TSPL_TRANSFER_TO_SAVING_DETAIL set Amount=" + clsCommon.myCstr(NewAmount) + " where PK_ID='" + clsCommon.myCstr(intPKID) + "'"
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        qry = "select Document_No from TSPL_VENDOR_INVOICE_HEAD where Against_TransferToSavingPKID=" + clsCommon.myCstr(intPKID) + ""
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        For Each dr As DataRow In dt.Rows
+
+        Next
+    End Sub
 End Class
 
 Public Class clsTransferToSavingDetail

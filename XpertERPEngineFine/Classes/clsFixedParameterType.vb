@@ -1317,6 +1317,7 @@ Public Class clsFixedParameterCode
     Public Const ItemMaster As String = "Item Master"
     Public Const DemandUnpost As String = "Demand Unpost"
     Public Const DispatchCancel As String = "Dispatch Cancel"
+    Public Const BookingCancel As String = "Booking Cancel"
     Public Const EWayBillUpdate As String = "Update E-Way Bill"
     Public Const GatePassCancel As String = "GatePass Cancel"
     Public Const CustomerMaster As String = "Customer Master"
@@ -3323,6 +3324,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.DemandUnpost, "Demand@123", "Demand Password for Unpost")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.EWayBillUpdate, "EwayBill@123", "Dipatch Password for Cancel")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.DispatchCancel, "Dispatch@123", "Dipatch Password for Cancel")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.BookingCancel, "Booking@123", "Booking Password for Cancel")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.GatePassCancel, "GatePass@123", "GatePass Password for Cancel")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.CustomerMaster, "Customer@123", "Customer Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.POAmendmentType, clsFixedParameterCode.POAmendment, "admin@123", "")

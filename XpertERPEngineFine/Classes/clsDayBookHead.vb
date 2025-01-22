@@ -15,7 +15,7 @@
         Dim lstobj As New List(Of clsDayBookHead)
         Dim strqry As String = ""
         Try
-            strqry = "select Receipt_Date,Receipt_No,Bank_Code,Cust_Code,Customer_Name,Receipt_Amount from TSPL_RECEIPT_HEADER where convert(date,Receipt_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'"
+            strqry = "select Receipt_Date,Receipt_No,Bank_Code,Cust_Code,Customer_Name,Receipt_Amount from TSPL_RECEIPT_HEADER where convert(date,Receipt_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and Posted='Y'"
             Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
                 For Each drReceipt As DataRow In dtReceipt.Rows
@@ -33,7 +33,7 @@
             End If
             strqry = "select Document_Date,Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,Total_Amt from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where CONVERT(date,Document_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'"
+where CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location='" + strLocation + "' and TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
@@ -54,12 +54,30 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DE
                     lstobj.Add(obj)
                 Next
             End If
-            strqry = "
-    select TSPL_TRANSFER_ORDER_HEAD.document_no, TSPL_INVENTORY_MOVEMENT.Trans_Type, source_doc_date, TSPL_TRANSFER_ORDER_HEAD.From_Location, 
+            strqry = "select TSPL_SRN_HEAD.SRN_Date,SRN_No,Vendor_Code,Vendor_Name,SRN_Total_Amt from TSPL_SRN_HEAD 
+where CONVERT(date,TSPL_SRN_HEAD.SRN_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and TSPL_SRN_HEAD.Item_Type='F' and TSPL_SRN_HEAD.Status=1 and Bill_To_Location='" + strLocation + "'"
+
+            Dim dtSRN As DataTable = clsDBFuncationality.GetDataTable(strqry)
+            If dtSRN IsNot Nothing AndAlso dtSRN.Rows.Count > 0 Then
+                For Each drt As DataRow In dtSRN.Rows
+                    Dim obj As New clsDayBookHead()
+                    obj.Document_Date = clsCommon.myCDate(drt("SRN_Date"))
+                    obj.Cust_Code = clsCommon.myCstr(drt("Vendor_Code"))
+                    obj.Cust_Name = clsCommon.myCstr(drt("Vendor_Name"))
+                    obj.InvoiceNo = clsCommon.myCstr(drt("SRN_No"))
+                    obj.TaxGroup = "Purchase"
+                    obj.CreditAmt = clsCommon.myCstr(clsCommon.myCdbl(drt("SRN_Total_Amt")))
+                    obj.Arr = clsDayBookItems.GetSRNData(obj.InvoiceNo)
+                    obj.ArrTax = clsDayBookTaxDetail.GetSRNData(obj.InvoiceNo)
+                    lstobj.Add(obj)
+                Next
+            End If
+            strqry = " select TSPL_TRANSFER_ORDER_HEAD.document_no,tspl_location_master.location_desc, TSPL_INVENTORY_MOVEMENT.Trans_Type, source_doc_date, TSPL_TRANSFER_ORDER_HEAD.From_Location, 
       TSPL_TRANSFER_ORDER_HEAD.To_Location, Inout,TSPL_INVENTORY_MOVEMENT.item_code,TSPL_ITEM_master.item_desc,Case when TSPL_INVENTORY_MOVEMENT.Inout = 'I' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as INWARDQTY, 
       Case when TSPL_INVENTORY_MOVEMENT.Inout = 'O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY, TSPL_INVENTORY_MOVEMENT.Qty,TSPL_ITEM_master.Item_Type,TSPL_INVENTORY_MOVEMENT.uom as UOM 
     from TSPL_INVENTORY_MOVEMENT 
-      left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No = TSPL_INVENTORY_MOVEMENT.Source_Doc_No           
+      left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No = TSPL_INVENTORY_MOVEMENT.Source_Doc_No 
+left join tspl_location_master on tspl_location_master.location_code=TSPL_TRANSFER_ORDER_HEAD.from_location
       left join TSPL_ITEM_master on TSPL_ITEM_master.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code     
     where TSPL_INVENTORY_MOVEMENT.trans_type in ('ITransfer', 'Trasnfer') and CONVERT(date,TSPL_TRANSFER_ORDER_HEAD.document_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'  and TSPL_INVENTORY_MOVEMENT.Location_Code='" + strLocation + "' and TSPL_TRANSFER_ORDER_HEAD.Status=1 "
 
@@ -79,6 +97,7 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DE
                         obj.DebitAmt = clsCommon.myCstr(clsCommon.myCdbl(drt("INWARDQTY"))) + " " + clsCommon.myCstr(drt("UOM"))
 
                     End If
+                    obj.Bank_Code = clsCommon.myCstr(drt("location_desc"))
                     'obj.Arr = clsDayBookItems.GetData(obj.InvoiceNo)
                     'obj.ArrTax = clsDayBookTaxDetail.GetData(obj.InvoiceNo)
                     lstobj.Add(obj)
@@ -136,6 +155,34 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DE
         End Try
         Return arrObj
     End Function
+    Public Shared Function GetSRNData(ByVal strDoc As String) As List(Of clsDayBookItems)
+        Dim arrObj As List(Of clsDayBookItems) = Nothing
+        Dim obj As clsDayBookItems = Nothing
+        Try
+
+            Dim strQry As String = "select SRN_No,Item_Code,Item_Desc,SRN_Qty,Unit_code,Amount from TSPL_SRN_DETAIL where SRN_No='" + strDoc + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                arrObj = New List(Of clsDayBookItems)
+                For Each dr As DataRow In dt.Rows
+                    obj = New clsDayBookItems()
+                    obj.DOCUMENT_CODE = clsCommon.myCstr(dr("SRN_No"))
+                    obj.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                    obj.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+                    obj.Qty = clsCommon.myCdbl(dr("SRN_Qty"))
+                    obj.UOM = clsCommon.myCstr(dr("Unit_code"))
+                    'obj.Item_Rate = clsCommon.myCdbl(dr("Item_Rate"))
+                    obj.Amount = clsCommon.myCdbl(dr("Amount"))
+                    arrObj.Add(obj)
+                Next
+            Else
+                Throw New Exception("No Data Found!")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return arrObj
+    End Function
 End Class
 Public Class clsDayBookTaxDetail
 #Region "Variable"
@@ -172,6 +219,47 @@ Public Class clsDayBookTaxDetail
                 For Each dr As DataRow In dt.Rows
                     obj = New clsDayBookTaxDetail()
                     obj.DOCUMENT_CODE = clsCommon.myCstr(dr("DOCUMENT_CODE"))
+                    obj.Tax_Name = clsCommon.myCstr(dr("Tax"))
+                    obj.Tax_Rate = clsCommon.myCstr(dr("Tax_Rate"))
+                    obj.Tax_Amt = clsCommon.myCdbl(dr("TaxAmt"))
+                    ArrTaxObj.Add(obj)
+                Next
+
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return ArrTaxObj
+    End Function
+    Public Shared Function GetSRNData(ByVal strDoc As String) As List(Of clsDayBookTaxDetail)
+        Dim ArrTaxObj As List(Of clsDayBookTaxDetail) = Nothing
+        Dim obj As clsDayBookTaxDetail = Nothing
+        Try
+            Dim strQry As String = "Select XX.* From ( SELECT SRN_NO,ISNULL(TAX1, '') AS Tax,TAX1_Rate AS Tax_Rate,sum(TAX1_Amt) as TaxAmt FROM TSPL_SRN_Detail
+    WHERE TAX1 <> '' and TAX1_Amt>0 and SRN_NO='" + strDoc + "'	group by TAX1,SRN_NO,TAX1_Rate    
+    UNION    
+    SELECT SRN_NO,ISNULL(TAX2, '') AS Tax,TAX2_Rate AS Tax_Rate,Sum(TAX2_Amt) as TaxAmt FROM TSPL_SRN_Detail
+    WHERE TAX2 <> ''  and TAX2_Amt>0 and SRN_NO='" + strDoc + "' group by TAX2,SRN_NO,TAX2_Rate
+    UNION    
+    SELECT  SRN_NO, ISNULL(TAX3, '') AS Tax,TAX3_Rate AS Tax_Rate,Sum(TAX3_Amt) as TaxAmt FROM TSPL_SRN_Detail
+    WHERE TAX3 <> ''  and TAX3_Amt>0 and SRN_NO='" + strDoc + "' group by Tax3,SRN_NO,TAX3_Rate
+    UNION    
+    SELECT  SRN_NO,ISNULL(TAX4, '') AS Tax,TAX4_Rate AS Tax_Rate,Sum(TAX4_Amt) as TaxAmt FROM TSPL_SRN_Detail
+    WHERE TAX4 <> ''  and TAX4_Amt>0 and SRN_NO='" + strDoc + "' group by Tax4,SRN_NO,TAX4_Rate
+    UNION    
+    SELECT  SRN_NO,ISNULL(TAX5, '') AS Tax,TAX5_Rate AS Tax_Rate,Sum(TAX5_Amt) as TaxAmt FROM TSPL_SRN_Detail
+    WHERE TAX5 <> ''  and TAX5_Amt>0  and SRN_NO='" + strDoc + "' group by Tax5,SRN_NO,TAX5_Rate
+	 UNION    
+    SELECT SRN_NO, ISNULL(TAX6, '') AS Tax,TAX6_Rate AS Tax_Rate,Sum(TAX6_Amt) as TaxAmt FROM TSPL_SRN_Detail
+    WHERE TAX6 <> ''  and TAX6_Amt>0 and SRN_NO='" + strDoc + "' group by Tax6,SRN_NO,TAX6_Rate ) xx order by xx.Tax_Rate"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                ArrTaxObj = New List(Of clsDayBookTaxDetail)
+                For Each dr As DataRow In dt.Rows
+                    obj = New clsDayBookTaxDetail()
+                    obj.Document_Code = clsCommon.myCstr(dr("SRN_NO"))
                     obj.Tax_Name = clsCommon.myCstr(dr("Tax"))
                     obj.Tax_Rate = clsCommon.myCstr(dr("Tax_Rate"))
                     obj.Tax_Amt = clsCommon.myCdbl(dr("TaxAmt"))

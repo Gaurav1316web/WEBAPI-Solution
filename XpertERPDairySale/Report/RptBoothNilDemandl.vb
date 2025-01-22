@@ -3,8 +3,18 @@ Public Class RptBoothNilDemandl
     Inherits FrmMainTranScreen
     Dim Slot1 As DateTime = Nothing
     Dim Slot2 As DateTime = Nothing
+    Dim EnableProductSaleForJPR As Boolean = False
+
     Private Sub RptBoothNilDemandl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Addnew()
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+        If EnableProductSaleForJPR Then
+            rbtnIceCream.Visible = True
+            rdbDemandBoth.Visible = False
+        Else
+            rbtnIceCream.Visible = False
+            rdbDemandBoth.Visible = True
+        End If
     End Sub
     Private Sub rdbDay_CheckedChanged(sender As Object, e As EventArgs) Handles rdbDay.CheckedChanged
         If rdbDay.Checked Then
@@ -41,10 +51,12 @@ Public Class RptBoothNilDemandl
             'ElseIf rdbDemandBoth.Checked Then
             '    Whr += " and TSPL_DEMAND_BOOKING_MASTER.ItemType='Both' "
             'End If
-            If rbnEvening.Checked Then
-                Whr += "and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' "
-            ElseIf rbnmorning.Checked Then
-                Whr += " and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' "
+            If Not EnableProductSaleForJPR Then
+                If rbnEvening.Checked Then
+                    Whr += "and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening' "
+                ElseIf rbnmorning.Checked Then
+                    Whr += " and TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning' "
+                End If
             End If
             If rdbDay.Checked Then
                 Whr += "  and convert(date,document_date,103)='" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value)) + "' "
@@ -54,10 +66,28 @@ Public Class RptBoothNilDemandl
             If rdbMonth.Checked Then
                 Whr += "and convert(date,document_date,103)>='" + Slot1 + "' and convert(date,document_date,103)<='" + clsCommon.myCstr(clsCommon.GetPrintDate(Slot2)) + "' "
             End If
-            Dim Qry As String = " select row_number() over(order by(select 1)) as SNo,Cust_Code as [Booth Code],customer_name as [Booth Name],Route_No as [Route No],Status,tspl_customer_master.Phone1 as [Mobile No] from tspl_customer_master where " + Routewhr + "   not exists  (
-select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER
-left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.document_no=TSPL_DEMAND_BOOKING_MASTER.Document_No  
-where  tspl_customer_master.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code " + Whr + "   " + Routewhr + ") and tspl_customer_master.IsDistributor='N'   " + status + " "
+
+            If EnableProductSaleForJPR Then
+                If rdbProduct.Checked Then
+                    Whr += " and TSPL_PRODUCT_DEMAND_BOOKING_MASTER.ItemType='Product' "
+                ElseIf rbtnIceCream.Checked Then
+                    Whr += " and TSPL_PRODUCT_DEMAND_BOOKING_MASTER.ItemType='IceCream' "
+                End If
+            End If
+            Dim Qry As String = " select row_number() over(order by(select 1)) as SNo,Cust_Code as [Booth Code],customer_name as [Booth Name],Route_No as [Route No],Status,tspl_customer_master.Phone1 as [Mobile No] from tspl_customer_master where " + Routewhr + "   not exists  ( "
+            If rdbMilk.Checked Then
+                Qry += " Select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER
+left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.document_no=TSPL_DEMAND_BOOKING_MASTER.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+where  tspl_customer_master.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code " + Whr + "   " + Routewhr + ")"
+            End If
+            If EnableProductSaleForJPR Then
+                If rdbProduct.Checked OrElse rbtnIceCream.Checked Then
+                    Qry += " Select  TSPL_PRODUCT_DEMAND_BOOKING_detail.Cust_Code from TSPL_PRODUCT_DEMAND_BOOKING_MASTER
+left join TSPL_PRODUCT_DEMAND_BOOKING_detail on TSPL_PRODUCT_DEMAND_BOOKING_detail.document_no=TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PRODUCT_DEMAND_BOOKING_detail.Item_Code
+where  tspl_customer_master.Cust_Code=TSPL_PRODUCT_DEMAND_BOOKING_detail.Cust_Code " + Whr + "   " + Routewhr + ")"
+                End If
+            End If
+            Qry += " And tspl_customer_master.IsDistributor='N'   " + status + " "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             Gv1.DataSource = Nothing
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
@@ -88,6 +118,7 @@ where  tspl_customer_master.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code " + W
         Me.Close()
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        rdbMilk.Checked = True
 
     End Sub
     Sub Addnew()
@@ -104,6 +135,7 @@ where  tspl_customer_master.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code " + W
         monthlyDate.Value = clsCommon.GETSERVERDATE()
         rbnmorning.Checked = True
         rbnEvening.Checked = False
+        rdbMilk.Checked = True
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()

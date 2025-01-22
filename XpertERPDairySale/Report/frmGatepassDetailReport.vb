@@ -2,13 +2,23 @@
 Imports common
 Public Class frmGatepassDetailReport
     Inherits FrmMainTranScreen
+    Dim EnableProductSaleForJPR As Boolean = False
+
     Private Sub frmGatepassDetailReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
             fromDate.Value = clsCommon.GETSERVERDATE()
             ToDate.Value = clsCommon.GETSERVERDATE()
             rbtnGatepassDate.Checked = True
             rbtnBothShift.Checked = True
             rbtnBoth.Checked = True
+            If EnableProductSaleForJPR Then
+                rbtnIceCream.Visible = True
+                rbtnBoth.Visible = False
+            Else
+                rbtnIceCream.Visible = False
+                rbtnBoth.Visible = True
+            End If
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -26,6 +36,7 @@ Public Class frmGatepassDetailReport
             RadGroupBox4.Enabled = True
             btnGo.Enabled = True
             BlankGrid()
+            rbtnMilk.Checked = True
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -82,11 +93,22 @@ left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DAIRYSALE_GATEPAS
             Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType='Evening' "
         End If
 
-        If rbtnMilk.Checked Then
-            Qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
-        ElseIf rbtnProduct.Checked Then
-            Qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+        If EnableProductSaleForJPR Then
+            If rbtnMilk.Checked Then
+                Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='M' "
+            ElseIf rbtnProduct.Checked Then
+                Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='P' "
+            ElseIf rbtnIceCream.Checked Then
+                Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='I' "
+            End If
+        Else
+            If rbtnMilk.Checked Then
+                Qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+            ElseIf rbtnProduct.Checked Then
+                Qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+            End If
         End If
+
 
         If txtMultRoute.arrValueMember IsNot Nothing AndAlso txtMultRoute.arrValueMember.Count > 0 Then
             Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No In (" & clsCommon.GetMulcallString(txtMultRoute.arrValueMember) & ") "
