@@ -2,7 +2,7 @@
 Imports common
 Imports System.IO
 Public Class SaleEinvoiceReport
-
+    Dim EnableProductSaleForJPR As Boolean = False
     Private Sub RmSecurityDeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         txtfDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
@@ -10,6 +10,12 @@ Public Class SaleEinvoiceReport
         txtItem.Visible = False
         MyLabel4.Visible = False
         RadGroupBox3.Visible = False
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+        If EnableProductSaleForJPR Then
+            RadGroupBox6.Visible = True
+        Else
+            RadGroupBox6.Visible = False
+        End If
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         reset()
@@ -24,6 +30,7 @@ Public Class SaleEinvoiceReport
         RadPageView1.SelectedPage = RadPageViewPage1
         ChkBoth.Checked = True
         RadGroupBox3.Visible = False
+        rbtnMilk.Checked = True
     End Sub
 
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
@@ -136,6 +143,16 @@ Public Class SaleEinvoiceReport
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
                 Whr += " and TSPL_ITEM_MASTER.Item_Code in(" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")" + Environment.NewLine
             End If
+
+            If EnableProductSaleForJPR Then
+                If rbtnMilk.Checked Then
+                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type IN ('S','') "
+                ElseIf rbtnProduct.Checked Then
+                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='P' "
+                ElseIf rbtnIceCream.Checked Then
+                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='I' "
+                End If
+            End If
             If rbtnSummary.IsChecked Then
                 GetReportGridID()
                 qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
@@ -147,8 +164,11 @@ Public Class SaleEinvoiceReport
                            max(TSPL_CUSTOMER_MASTER.Cust_Code) AS [Customer Code],
                            max(TSPL_CUSTOMER_MASTER.Customer_Name) AS [Customer Name],
                            maX(TSPL_STATE_MASTER.GST_STATE_Code) AS [Party State],
-                           max(TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type) as [E Invoice Type],
-                           max(Ack_No) AS [Ack No],
+                           max(TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type) as [E Invoice Type],"
+                If EnableProductSaleForJPR Then
+                    qry += "max(TSPL_SD_SALE_INVOICE_HEAD.item_type )as [Item Type],"
+                End If
+                qry += " max(Ack_No) AS [Ack No],
                            max(CONVERT(varchar,Ack_Date, 103)) AS [Ack Date],
                            TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
                            max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date, 103)) AS [Invoice Date],
@@ -249,8 +269,11 @@ Public Class SaleEinvoiceReport
                                 TSPL_CUSTOMER_MASTER.Cust_Code AS [Customer Code],
                                 TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name],
                                 TSPL_STATE_MASTER.GST_STATE_Code AS [Party State],
-                                TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [E Invoice Type],
-                                Ack_No AS [Ack No],
+                                TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [E Invoice Type],"
+ If EnableProductSaleForJPR Then
+                    qry += "TSPL_SD_SALE_INVOICE_HEAD.item_type as [Item Type],"
+                End If
+                qry += " Ack_No AS [Ack No],
                                 CONVERT(varchar,Ack_Date, 103) AS [Ack Date],
                                 TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
                                 CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) AS [Invoice Date],

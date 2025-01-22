@@ -17,6 +17,8 @@ Public Class FrmPrintDistributerInvoiceStatement
     Dim AllowSeperateSchemeItemOnPrint As Boolean = False
     Dim strRptPath As String = ""
     Dim ApplyMilkPouchPrint As Boolean = False
+    Dim EnableProductSaleForJPR As Boolean = False
+
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmPrintDistributerInvoiceStatement)
         If Not (MyBase.isReadFlag) Then
@@ -42,6 +44,16 @@ Public Class FrmPrintDistributerInvoiceStatement
             Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
         ElseIf rbtnMorning.Checked Then
             Whr += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+        End If
+
+        If EnableProductSaleForJPR Then
+            If rbtnMilk.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type IN ('S','') "
+            ElseIf rbtnProduct.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='P' "
+            ElseIf rbtnIceCream.Checked Then
+                Whr += " and TSPL_SD_SALE_INVOICE_HEAD.item_type='I' "
+            End If
         End If
         If clsCommon.myCDate(txtFromDate.Value) >= objCommonVar.GSTApplicableDate AndAlso clsCommon.myCDate(txtToDate.Value) >= objCommonVar.GSTApplicableDate Then
             If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "") = CompairStringResult.Equal Then
@@ -547,7 +559,7 @@ Public Class FrmPrintDistributerInvoiceStatement
                 End If
                 Dim frmCRV As New frmCrystalReportViewer()
                 ' Dim InvoiceNO As String = clsCommon.GetMulcallString(lstinvNo)
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "")
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "",)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
                     pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
@@ -803,6 +815,12 @@ Public Class FrmPrintDistributerInvoiceStatement
         Try
             RadGroupBox2.Visible = True
             RadGroupBox4.Visible = False
+            EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+            If EnableProductSaleForJPR Then
+                RadGroupBox6.Visible = True
+            Else
+                RadGroupBox6.Visible = False
+            End If
             'Dim coll As Dictionary(Of String, String)
             'coll = New Dictionary(Of String, String)
             'coll.Add("MonthlySaleInvoiceNo", "varchar(30) NULL")

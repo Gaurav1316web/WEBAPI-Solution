@@ -22,10 +22,14 @@ Partial Class SaleEinvoiceReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.BtnBoth = New common.Controls.MyRadioButton()
+        Me.BtnMorning = New common.Controls.MyRadioButton()
+        Me.BtnEvening = New common.Controls.MyRadioButton()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtItem = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
@@ -55,16 +59,21 @@ Partial Class SaleEinvoiceReport
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.BtnMorning = New common.Controls.MyRadioButton()
-        Me.BtnEvening = New common.Controls.MyRadioButton()
-        Me.BtnBoth = New common.Controls.MyRadioButton()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
+        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
+        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.BtnBoth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
@@ -91,11 +100,8 @@ Partial Class SaleEinvoiceReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.BtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnBoth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,7 +122,7 @@ Partial Class SaleEinvoiceReport
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
-        Me.SplitContainer1.Size = New System.Drawing.Size(728, 366)
+        Me.SplitContainer1.Size = New System.Drawing.Size(792, 366)
         Me.SplitContainer1.SplitterDistance = 327
         Me.SplitContainer1.TabIndex = 0
         '
@@ -128,12 +134,13 @@ Partial Class SaleEinvoiceReport
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(728, 327)
+        Me.RadPageView1.Size = New System.Drawing.Size(792, 327)
         Me.RadPageView1.TabIndex = 73
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.txtItem)
@@ -148,8 +155,56 @@ Partial Class SaleEinvoiceReport
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(707, 279)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(771, 279)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.BtnBoth)
+        Me.RadGroupBox3.Controls.Add(Me.BtnMorning)
+        Me.RadGroupBox3.Controls.Add(Me.BtnEvening)
+        Me.RadGroupBox3.HeaderText = "Date Type"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(276, 51)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(245, 40)
+        Me.RadGroupBox3.TabIndex = 450
+        Me.RadGroupBox3.Text = "Date Type"
+        '
+        'BtnBoth
+        '
+        Me.BtnBoth.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.BtnBoth.Location = New System.Drawing.Point(168, 15)
+        Me.BtnBoth.MyLinkLable1 = Nothing
+        Me.BtnBoth.MyLinkLable2 = Nothing
+        Me.BtnBoth.Name = "BtnBoth"
+        Me.BtnBoth.Size = New System.Drawing.Size(44, 18)
+        Me.BtnBoth.TabIndex = 394
+        Me.BtnBoth.Text = "Both"
+        Me.BtnBoth.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'BtnMorning
+        '
+        Me.BtnMorning.Location = New System.Drawing.Point(13, 15)
+        Me.BtnMorning.MyLinkLable1 = Nothing
+        Me.BtnMorning.MyLinkLable2 = Nothing
+        Me.BtnMorning.Name = "BtnMorning"
+        Me.BtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.BtnMorning.TabIndex = 393
+        Me.BtnMorning.TabStop = False
+        Me.BtnMorning.Text = "Morning"
+        '
+        'BtnEvening
+        '
+        Me.BtnEvening.Location = New System.Drawing.Point(92, 15)
+        Me.BtnEvening.MyLinkLable1 = Nothing
+        Me.BtnEvening.MyLinkLable2 = Nothing
+        Me.BtnEvening.Name = "BtnEvening"
+        Me.BtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.BtnEvening.TabIndex = 393
+        Me.BtnEvening.TabStop = False
+        Me.BtnEvening.Text = "Evening"
         '
         'MyLabel4
         '
@@ -418,7 +473,7 @@ Partial Class SaleEinvoiceReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
@@ -429,7 +484,7 @@ Partial Class SaleEinvoiceReport
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(648, 5)
+        Me.btnClose.Location = New System.Drawing.Point(712, 5)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 18)
         Me.btnClose.TabIndex = 164
@@ -475,59 +530,60 @@ Partial Class SaleEinvoiceReport
         Me.btnGo.TabIndex = 161
         Me.btnGo.Text = ">>>"
         '
-        'RadGroupBox3
+        'RadGroupBox6
         '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.BtnBoth)
-        Me.RadGroupBox3.Controls.Add(Me.BtnMorning)
-        Me.RadGroupBox3.Controls.Add(Me.BtnEvening)
-        Me.RadGroupBox3.HeaderText = "Date Type"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(276, 51)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(245, 40)
-        Me.RadGroupBox3.TabIndex = 450
-        Me.RadGroupBox3.Text = "Date Type"
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.rbtnIceCream)
+        Me.RadGroupBox6.Controls.Add(Me.rbtnProduct)
+        Me.RadGroupBox6.Controls.Add(Me.rbtnMilk)
+        Me.RadGroupBox6.HeaderText = "Type"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(528, 52)
+        Me.RadGroupBox6.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(239, 45)
+        Me.RadGroupBox6.TabIndex = 451
+        Me.RadGroupBox6.Text = "Type"
+        Me.RadGroupBox6.Visible = False
         '
-        'BtnMorning
+        'rbtnIceCream
         '
-        Me.BtnMorning.Location = New System.Drawing.Point(13, 15)
-        Me.BtnMorning.MyLinkLable1 = Nothing
-        Me.BtnMorning.MyLinkLable2 = Nothing
-        Me.BtnMorning.Name = "BtnMorning"
-        Me.BtnMorning.Size = New System.Drawing.Size(63, 18)
-        Me.BtnMorning.TabIndex = 393
-        Me.BtnMorning.TabStop = False
-        Me.BtnMorning.Text = "Morning"
+        Me.rbtnIceCream.AutoSize = True
+        Me.rbtnIceCream.Location = New System.Drawing.Point(153, 17)
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnIceCream.TabIndex = 5
+        Me.rbtnIceCream.TabStop = True
+        Me.rbtnIceCream.Text = "Ice Cream"
+        Me.rbtnIceCream.UseVisualStyleBackColor = True
         '
-        'BtnEvening
+        'rbtnProduct
         '
-        Me.BtnEvening.Location = New System.Drawing.Point(92, 15)
-        Me.BtnEvening.MyLinkLable1 = Nothing
-        Me.BtnEvening.MyLinkLable2 = Nothing
-        Me.BtnEvening.Name = "BtnEvening"
-        Me.BtnEvening.Size = New System.Drawing.Size(59, 18)
-        Me.BtnEvening.TabIndex = 393
-        Me.BtnEvening.TabStop = False
-        Me.BtnEvening.Text = "Evening"
+        Me.rbtnProduct.AutoSize = True
+        Me.rbtnProduct.Location = New System.Drawing.Point(73, 16)
+        Me.rbtnProduct.Name = "rbtnProduct"
+        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProduct.TabIndex = 3
+        Me.rbtnProduct.TabStop = True
+        Me.rbtnProduct.Text = "Product"
+        Me.rbtnProduct.UseVisualStyleBackColor = True
         '
-        'BtnBoth
+        'rbtnMilk
         '
-        Me.BtnBoth.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.BtnBoth.Location = New System.Drawing.Point(168, 15)
-        Me.BtnBoth.MyLinkLable1 = Nothing
-        Me.BtnBoth.MyLinkLable2 = Nothing
-        Me.BtnBoth.Name = "BtnBoth"
-        Me.BtnBoth.Size = New System.Drawing.Size(44, 18)
-        Me.BtnBoth.TabIndex = 394
-        Me.BtnBoth.Text = "Both"
-        Me.BtnBoth.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.rbtnMilk.AutoSize = True
+        Me.rbtnMilk.Location = New System.Drawing.Point(10, 16)
+        Me.rbtnMilk.Name = "rbtnMilk"
+        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.TabIndex = 2
+        Me.rbtnMilk.TabStop = True
+        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.UseVisualStyleBackColor = True
         '
         'SaleEinvoiceReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(728, 366)
+        Me.ClientSize = New System.Drawing.Size(792, 366)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "SaleEinvoiceReport"
         '
@@ -542,6 +598,12 @@ Partial Class SaleEinvoiceReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.BtnBoth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
@@ -572,12 +634,9 @@ Partial Class SaleEinvoiceReport
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.BtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnBoth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -619,5 +678,9 @@ Partial Class SaleEinvoiceReport
     Friend WithEvents BtnMorning As common.Controls.MyRadioButton
     Friend WithEvents BtnEvening As common.Controls.MyRadioButton
     Friend WithEvents BtnBoth As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents rbtnIceCream As RadioButton
+    Friend WithEvents rbtnProduct As RadioButton
+    Friend WithEvents rbtnMilk As RadioButton
 End Class
 
