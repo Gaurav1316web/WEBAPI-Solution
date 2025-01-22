@@ -1331,13 +1331,16 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                 If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
                     If corrTypeSRNQty Then
                         Arr(0).Milk_Weight = dblQty
+                        Arr(0).IsUpdate = True
                     End If
                     If corrTypeSRNVLC Then
                         Arr(0).VLC_Code = strVLCCode
+                        Arr(0).IsUpdate = True
                     End If
                     If corrTypeSRNFATSNF Then
                         Arr(0).FAT = dblFAT
                         Arr(0).SNF = dblSNFOrCLR
+                        Arr(0).IsUpdate = True
                     End If
                     Arr(0).Reject_Type = strRejectType
                     intAgainst_Milk_Collection_DCS_Detail = Arr(0).Against_Milk_Collection_DCS_Detail
