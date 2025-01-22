@@ -3952,7 +3952,7 @@ Public Class frmVSP_VLCMaster
                         'obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
 
                         obj.Bank_Code = clsCommon.myCstr(grow.Cells("Bank Code 1").Value)
-                        'obj.Bank_Code_Desc = clsCommon.myCstr(grow.Cells("Bank Name").Value)
+                        obj.Bank_Name = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
                         obj.Bank_Branch = clsCommon.myCstr(grow.Cells("Branch Name 1").Value)
                         obj.IFSC_Code = clsCommon.myCstr(grow.Cells("IFSC Code 1").Value)
                         obj.Account_No = clsCommon.myCstr(grow.Cells("Account No 1").Value)

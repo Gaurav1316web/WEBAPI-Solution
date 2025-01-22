@@ -5488,6 +5488,7 @@ Public Class frmPurchaseOrder
                 obj.Against_Tender = IIf(chkTender.Checked = True, "Y", "N")
                 obj.ServiceBill_Date = clsCommon.myCDate(dtBillDate.Value)
                 obj.ServiceBill_No = clsCommon.myCstr(txtBillNo.Text)
+                obj.termscondition = clsCommon.myCstr(txtermscondition.Text)
                 If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.WorkOrderEng) = CompairStringResult.Equal Then
                     obj.RefTendorNo = txtRefTendorNo.Text
                 Else
@@ -6329,6 +6330,7 @@ Public Class frmPurchaseOrder
                 lblSubLocation.Text = obj.SubLocationName
                 txtRemarks.Text = obj.Remarks
                 txtSubject.Text = obj.Subject
+                txtermscondition.Text = obj.termscondition
 
                 txtContentSubject.Text = obj.Content_Subject
                 txtKindAttentation.Text = obj.Kind_Attentation

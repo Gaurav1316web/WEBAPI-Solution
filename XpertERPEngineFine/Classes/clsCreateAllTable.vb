@@ -20289,6 +20289,7 @@ Public Class clsCreateAllTable
             coll.Add("Insurance_Terms", "varchar(500) null")
             coll.Add("Auto_Calculate", "integer not null default 0")
             coll.Add("Subject", "text null")
+            coll.Add("termscondition", "text null")
             coll.Add("Content_Subject", "text null")
             coll.Add("Kind_Attentation", "varchar(500) null")
             coll.Add("MT_HS_Classification_No", "varchar(30) null")
@@ -24263,6 +24264,7 @@ Public Class clsCreateAllTable
             coll.Add("Correction_FAT", "Decimal(18,2) null")
             coll.Add("Correction_SNF", "Decimal(18,2) null")
             coll.Add("Gaze_Qty", "Decimal(18,2) null")
+            coll.Add("Milk_Not_Picked", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -32399,7 +32401,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Transporter_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
 
             coll = New Dictionary(Of String, String)
@@ -32576,7 +32578,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Transporter", "varchar(12) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "", True)
 
 
             coll = New Dictionary(Of String, String)()
@@ -33215,7 +33217,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("FAT", "decimal(18, 2) NULL")
             coll.Add("SNF", "decimal(18, 2) NULL")
             coll.Add("ItemwiseTaxCode", "varchar(30) null ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_DETAIL", coll, Nothing, True, True, "TSPL_SCRAPSALE_HEAD", "shipment_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_DETAIL", coll, Nothing, True, True, "TSPL_SCRAPSALE_HEAD", "shipment_No", "", True)
 
             '' by Parteek
             coll = New Dictionary(Of String, String)

@@ -265,6 +265,7 @@ Public Class clsUserMgtCode
     Public Const FrmDairySaleSchemeReport As String = "DS_SCH_REP"
     Public Const rptBookingWiseRegister As String = "DS_BW_RPT"
     Public Const rptDemandNill As String = "DM_NL_RPT"
+    Public Const rptMonthlyBillSummaryReport As String = "MON_BLL_RPT"
     Public Const frmDemandHistory As String = "DS_DEM_HIS"
     Public Const rptBankDetailsWithVendorMargin As String = "RPT_BDWVM"
     Public Const rptAbsentBooth As String = "ABS_BOOTH"
@@ -2711,7 +2712,7 @@ Public Class clsUserMgtCode
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
     Public Const FrmperdayDetailRpt As String = "PER_DAY_RPT"
     Public Const rptBookingVsDispatchReport As String = "BOOK-VS-DI"
-
+    Public Const rptMilkSupplySaleReport As String = "MLK_SUP_RPT"
     Public Const ModuleXpertAPI As String = "API"
     Public Const SubModuleXpertAPISetup As String = "MXAPIMaster"
     Public Const SubModuleXpertAPITrans As String = "MAPITrans"
