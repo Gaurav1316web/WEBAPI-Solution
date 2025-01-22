@@ -2427,61 +2427,68 @@ Public Class clsSchemeApplyOnDairy
                                     Dim qty As Integer = Math.Floor((Main_Item_Qty - MainQty) / clsCommon.myCdbl(dr("Increment_Value")))
                                     objtr.Schm_Qty = System.Math.Round(((1 + qty) * clsCommon.myCdbl(dr("free_qty"))), 2)
                                 End If
+                            ElseIf clsCommon.myCdbl(dr("Quantitive_Type")) = 3 Then
+                                If clsCommon.CompairString(MainUOM, Main_Item_Unit) = CompairStringResult.Equal AndAlso Main_Item_Qty >= MainQty Then
+                                    Dim qty As Double = Main_Item_Qty
+                                    objtr.Schm_Qty = System.Math.Round(clsCommon.myCdbl(dr("free_qty")) * qty, 2)
+                                End If
                             Else
                                 '=in qty scheme if main item unit and filled item unit is same only then free item given else no free item
                                 If clsCommon.CompairString(MainUOM, Main_Item_Unit) = CompairStringResult.Equal AndAlso Main_Item_Qty >= MainQty Then
-                                    mode = Main_Item_Qty Mod MainQty
-                                    Dim qty As Double = Main_Item_Qty - mode
-                                    qty = qty / MainQty
-                                    objtr.Schm_Qty = System.Math.Round(clsCommon.myCdbl(dr("free_qty")) * qty, 2)
-                                Else
-                                    Dim strStockingUnit As String = clsItemMaster.GetStockUnit(Main_Item_Code, trans)
-                                    Dim Cnvrsn_qty As Double = 0
-                                    If clsCommon.CompairString(MainUOM, Main_Item_Unit) <> CompairStringResult.Equal Then
-                                        Dim qrySchemeItemUom As String = "select CurrentUnit.conversion_factor " &
-                                       " From " &
-                                       " tspl_item_uom_detail LtrUnit" &
-                                       " left join tspl_item_uom_detail StockUnit on StockUnit.item_code='" & Main_Item_Code & "'     and StockUnit.Stocking_Unit ='Y'" &
-                                       " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code='" & Main_Item_Code & "'  " &
-                                       " and   CurrentUnit.uom_code= '" & MainUOM & "' " &
-                                       " where   LtrUnit.item_code='" & Main_Item_Code & "'       and LtrUnit.UOM_Code='" & strStockingUnit & "'"
+                                        mode = Main_Item_Qty Mod MainQty
+                                        Dim qty As Double = Main_Item_Qty - mode
+                                        qty = qty / MainQty
+                                        objtr.Schm_Qty = System.Math.Round(clsCommon.myCdbl(dr("free_qty")) * qty, 2)
+                                    Else
+                                        Dim strStockingUnit As String = clsItemMaster.GetStockUnit(Main_Item_Code, trans)
+                                        Dim Cnvrsn_qty As Double = 0
+                                        If clsCommon.CompairString(MainUOM, Main_Item_Unit) <> CompairStringResult.Equal Then
+                                            Dim qrySchemeItemUom As String = "select CurrentUnit.conversion_factor " &
+                                           " From " &
+                                           " tspl_item_uom_detail LtrUnit" &
+                                           " left join tspl_item_uom_detail StockUnit on StockUnit.item_code='" & Main_Item_Code & "'     and StockUnit.Stocking_Unit ='Y'" &
+                                           " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code='" & Main_Item_Code & "'  " &
+                                           " and   CurrentUnit.uom_code= '" & MainUOM & "' " &
+                                           " where   LtrUnit.item_code='" & Main_Item_Code & "'       and LtrUnit.UOM_Code='" & strStockingUnit & "'"
 
-                                        Dim dblSchemeItem As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qrySchemeItemUom, trans))
+                                            Dim dblSchemeItem As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qrySchemeItemUom, trans))
 
-                                        Dim qryTransactionItemUom As String = "select convert(decimal(18,2),(" & Main_Item_Qty & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty " & _
-                                     " From " & _
-                                     " tspl_item_uom_detail LtrUnit" & _
-                                     " left join tspl_item_uom_detail StockUnit on StockUnit.item_code='" & Main_Item_Code & "'     and StockUnit.Stocking_Unit ='Y'" & _
-                                     " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code='" & Main_Item_Code & "'  " & _
-                                     " and   CurrentUnit.uom_code= '" & Main_Item_Unit & "' " & _
-                                     " where   LtrUnit.item_code='" & Main_Item_Code & "'       and LtrUnit.UOM_Code='" & strStockingUnit & "'"
+                                            Dim qryTransactionItemUom As String = "select convert(decimal(18,2),(" & Main_Item_Qty & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty " &
+                                         " From " &
+                                         " tspl_item_uom_detail LtrUnit" &
+                                         " left join tspl_item_uom_detail StockUnit on StockUnit.item_code='" & Main_Item_Code & "'     and StockUnit.Stocking_Unit ='Y'" &
+                                         " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code='" & Main_Item_Code & "'  " &
+                                         " and   CurrentUnit.uom_code= '" & Main_Item_Unit & "' " &
+                                         " where   LtrUnit.item_code='" & Main_Item_Code & "'       and LtrUnit.UOM_Code='" & strStockingUnit & "'"
 
-                                        Dim TransactionItem As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qryTransactionItemUom, trans))
-                                        Dim qty As Double = 0
-                                        If dblSchemeItem > 0 Then
-                                            qty = clsCommon.myCdbl(TransactionItem / dblSchemeItem)
-                                            qty = Math.Floor(qty)
+                                            Dim TransactionItem As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qryTransactionItemUom, trans))
+                                            Dim qty As Double = 0
+                                            If dblSchemeItem > 0 Then
+                                                qty = clsCommon.myCdbl(TransactionItem / dblSchemeItem)
+                                                qty = Math.Floor(qty)
+                                            End If
+
+                                            'mode = Main_Item_Qty Mod MainQty
+                                            'Dim qty As Double = Main_Item_Qty - mode
+                                            'qty = qty / MainQty
+                                            'objtr.Schm_Qty = System.Math.Round(clsCommon.myCdbl(dr("free_qty")) * qty, 2)
+
+
+                                            If qty >= MainQty Then
+                                                mode = Main_Item_Qty Mod MainQty
+                                                qty = (qty - mode) / MainQty
+                                                qty = CInt(qty)
+                                                objtr.Schm_Qty = System.Math.Round(clsCommon.myCdbl(dr("free_qty")) * qty, 2)
+                                            Else
+                                                objtr.Schm_Qty = 0
+                                            End If
+
                                         End If
 
-                                        'mode = Main_Item_Qty Mod MainQty
-                                        'Dim qty As Double = Main_Item_Qty - mode
-                                        'qty = qty / MainQty
-                                        'objtr.Schm_Qty = System.Math.Round(clsCommon.myCdbl(dr("free_qty")) * qty, 2)
-
-
-                                        If qty >= MainQty Then
-                                            mode = Main_Item_Qty Mod MainQty
-                                            qty = (qty - mode) / MainQty
-                                            qty = CInt(qty)
-                                            objtr.Schm_Qty = System.Math.Round(clsCommon.myCdbl(dr("free_qty")) * qty, 2)
-                                        Else
-                                            objtr.Schm_Qty = 0
-                                        End If
 
                                     End If
 
-                                   
-                                End If
+
                             End If
                         End If
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("Scheme_Type")), "Volume") = CompairStringResult.Equal Then
