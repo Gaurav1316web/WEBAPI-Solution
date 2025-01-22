@@ -223,11 +223,15 @@ Public Class frmEMailAndSMSSetting
     Public Const DateRange As String = "$#DateRange#$"
     Public Const Bank As String = "$#Bank#$"
 
-
-
+    Public Const Acidity As String = "$#Acidity#$"
+    Public Const EnteredQty As String = "$#EnteredQty#$"
     Public Const Flushing As String = "$#Flushing#$"
+    Public Const FAT_Per As String = "$#FAT_Per#$"
+    Public Const SNF_Per As String = "$#SNF_Per#$"
     Public Const KgFAT As String = "$#KgFAT#$"
     Public Const KgSNF As String = "$#KgSNF#$"
+    Public Const FATPL As String = "$#FATPL#$"
+    Public Const SNFPL As String = "$#SNFPL#$"
     Public Const SampleNo As String = "$#SampleNo#$"
     Public Const TripNo As String = "$#TripNo#$"
 
@@ -280,23 +284,54 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderCLR)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderQty)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSendSMSToDCS + "1") = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_No)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.EnteredQty)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Acidity)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Flushing)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.FAT_Per)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SNF_Per)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgFAT)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgSNF)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.FATPL)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SNFPL)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TripNo)
 
-        ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze1") = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_No)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.EnteredQty)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Flushing)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Acidity)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.FAT_Per)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SNF_Per)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgFAT)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgSNF)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.FATPL)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SNFPL)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TripNo)
+
+        ElseIf clsCommon.CompairString(Form_ID, "BMC Gaze2") = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_No)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Doc_Date)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TankerNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.vehicleNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Route)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.EnteredQty)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Flushing)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.Acidity)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.FAT_Per)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SNF_Per)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgFAT)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.KgSNF)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.FATPL)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.SNFPL)
             ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TripNo)
 
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
