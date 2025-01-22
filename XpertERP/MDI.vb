@@ -8249,7 +8249,7 @@ Public Class MDI
                         frm = New RptTankerDispatchvsAckn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-                    Case clsUserMgtCode.rptSalesComparisonReport
+                    Case clsUserMgtCode.RptDairyBookingDistributorReport
                         frm = New RptDairyBookingDistributorReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 

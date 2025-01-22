@@ -23,10 +23,10 @@ Partial Class frmGatepassDetailReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -35,6 +35,7 @@ Partial Class frmGatepassDetailReport
         Me.rbtnEvening = New System.Windows.Forms.RadioButton()
         Me.rbtnMorning = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
         Me.rbtnBoth = New System.Windows.Forms.RadioButton()
         Me.rbtnProduct = New System.Windows.Forms.RadioButton()
         Me.rbtnMilk = New System.Windows.Forms.RadioButton()
@@ -51,15 +52,15 @@ Partial Class frmGatepassDetailReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
+        Me.rdmenufile1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rdmenufile1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -83,11 +84,11 @@ Partial Class frmGatepassDetailReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,10 +136,10 @@ Partial Class frmGatepassDetailReport
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
         Me.RadPageViewPage1.Controls.Add(Me.ddlSubCategory)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(42.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 276)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 272)
         Me.RadPageViewPage1.Text = "Filters"
         '
         'RadGroupBox4
@@ -192,6 +193,7 @@ Partial Class frmGatepassDetailReport
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnIceCream)
         Me.RadGroupBox2.Controls.Add(Me.rbtnBoth)
         Me.RadGroupBox2.Controls.Add(Me.rbtnProduct)
         Me.RadGroupBox2.Controls.Add(Me.rbtnMilk)
@@ -203,6 +205,18 @@ Partial Class frmGatepassDetailReport
         Me.RadGroupBox2.Size = New System.Drawing.Size(327, 45)
         Me.RadGroupBox2.TabIndex = 361
         Me.RadGroupBox2.Text = "Type"
+        '
+        'rbtnIceCream
+        '
+        Me.rbtnIceCream.AutoSize = True
+        Me.rbtnIceCream.Location = New System.Drawing.Point(229, 16)
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnIceCream.TabIndex = 5
+        Me.rbtnIceCream.TabStop = True
+        Me.rbtnIceCream.Text = "Ice Cream"
+        Me.rbtnIceCream.UseVisualStyleBackColor = True
+        Me.rbtnIceCream.Visible = False
         '
         'rbtnBoth
         '
@@ -303,12 +317,12 @@ Partial Class frmGatepassDetailReport
         Me.ddlSubCategory.AutoCompleteDisplayMember = Nothing
         Me.ddlSubCategory.AutoCompleteValueMember = Nothing
         Me.ddlSubCategory.DropDownAnimationEnabled = True
-        RadListDataItem4.Text = "Both"
-        RadListDataItem5.Text = "Sale Invoice"
-        RadListDataItem6.Text = "Sale Return"
-        Me.ddlSubCategory.Items.Add(RadListDataItem4)
-        Me.ddlSubCategory.Items.Add(RadListDataItem5)
-        Me.ddlSubCategory.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Both"
+        RadListDataItem2.Text = "Sale Invoice"
+        RadListDataItem3.Text = "Sale Return"
+        Me.ddlSubCategory.Items.Add(RadListDataItem1)
+        Me.ddlSubCategory.Items.Add(RadListDataItem2)
+        Me.ddlSubCategory.Items.Add(RadListDataItem3)
         Me.ddlSubCategory.Location = New System.Drawing.Point(1098, 94)
         Me.ddlSubCategory.Margin = New System.Windows.Forms.Padding(4)
         Me.ddlSubCategory.Name = "ddlSubCategory"
@@ -385,7 +399,7 @@ Partial Class frmGatepassDetailReport
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.Gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 268)
@@ -404,13 +418,44 @@ Partial Class frmGatepassDetailReport
         Me.Gv1.MasterTemplate.AllowEditRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(779, 268)
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
+        '
+        'rdmenufile
+        '
+        Me.rdmenufile.BackColor = System.Drawing.Color.Transparent
+        Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile1})
+        Me.rdmenufile.Location = New System.Drawing.Point(0, 0)
+        Me.rdmenufile.Margin = New System.Windows.Forms.Padding(4)
+        Me.rdmenufile.Name = "rdmenufile"
+        Me.rdmenufile.Size = New System.Drawing.Size(800, 20)
+        Me.rdmenufile.TabIndex = 74
+        '
+        'rdmenufile1
+        '
+        Me.rdmenufile1.AccessibleDescription = "File"
+        Me.rdmenufile1.AccessibleName = "File"
+        Me.rdmenufile1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
+        Me.rdmenufile1.Name = "rdmenufile1"
+        Me.rdmenufile1.Text = "Settings"
+        Me.rdmenufile1.UseCompatibleTextRendering = False
+        '
+        'rmSaveLayout
+        '
+        Me.rmSaveLayout.Name = "rmSaveLayout"
+        Me.rmSaveLayout.Text = "Save Layout"
+        Me.rmSaveLayout.UseCompatibleTextRendering = False
+        '
+        'rmDeleteLayout
+        '
+        Me.rmDeleteLayout.Name = "rmDeleteLayout"
+        Me.rmDeleteLayout.Text = "Delete Layout"
+        Me.rmDeleteLayout.UseCompatibleTextRendering = False
         '
         'btnClose
         '
@@ -459,37 +504,6 @@ Partial Class frmGatepassDetailReport
         Me.btnReset.TabIndex = 160
         Me.btnReset.Text = "Reset"
         '
-        'rdmenufile1
-        '
-        Me.rdmenufile1.AccessibleDescription = "File"
-        Me.rdmenufile1.AccessibleName = "File"
-        Me.rdmenufile1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
-        Me.rdmenufile1.Name = "rdmenufile1"
-        Me.rdmenufile1.Text = "Settings"
-        Me.rdmenufile1.UseCompatibleTextRendering = False
-        '
-        'rmSaveLayout
-        '
-        Me.rmSaveLayout.Name = "rmSaveLayout"
-        Me.rmSaveLayout.Text = "Save Layout"
-        Me.rmSaveLayout.UseCompatibleTextRendering = False
-        '
-        'rmDeleteLayout
-        '
-        Me.rmDeleteLayout.Name = "rmDeleteLayout"
-        Me.rmDeleteLayout.Text = "Delete Layout"
-        Me.rmDeleteLayout.UseCompatibleTextRendering = False
-        '
-        'rdmenufile
-        '
-        Me.rdmenufile.BackColor = System.Drawing.Color.Transparent
-        Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile1})
-        Me.rdmenufile.Location = New System.Drawing.Point(0, 0)
-        Me.rdmenufile.Margin = New System.Windows.Forms.Padding(4)
-        Me.rdmenufile.Name = "rdmenufile"
-        Me.rdmenufile.Size = New System.Drawing.Size(800, 20)
-        Me.rdmenufile.TabIndex = 74
-        '
         'frmGatepassDetailReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -531,11 +545,11 @@ Partial Class frmGatepassDetailReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -574,4 +588,5 @@ Partial Class frmGatepassDetailReport
     Friend WithEvents rdmenufile1 As RadMenuItem
     Friend WithEvents rmSaveLayout As RadMenuItem
     Friend WithEvents rmDeleteLayout As RadMenuItem
+    Friend WithEvents rbtnIceCream As RadioButton
 End Class

@@ -56,13 +56,14 @@ Partial Class rptSalesComparisonReport
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.rbtnIceCream = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -99,11 +100,12 @@ Partial Class rptSalesComparisonReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnIceCream, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -367,6 +369,7 @@ Partial Class rptSalesComparisonReport
         'RadGroupBox4
         '
         Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnIceCream)
         Me.RadGroupBox4.Controls.Add(Me.rbtnMilkType)
         Me.RadGroupBox4.Controls.Add(Me.rbtnProductType)
         Me.RadGroupBox4.Controls.Add(Me.rbtnBothType)
@@ -374,7 +377,7 @@ Partial Class rptSalesComparisonReport
         Me.RadGroupBox4.Location = New System.Drawing.Point(5, 237)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(269, 39)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(316, 39)
         Me.RadGroupBox4.TabIndex = 442
         '
         'rbtnMilkType
@@ -587,6 +590,16 @@ Partial Class rptSalesComparisonReport
         Me.gv1.TabIndex = 2
         Me.gv1.VarID = ""
         '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(332, 14)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(188, 18)
+        Me.MyLabel2.TabIndex = 390
+        Me.MyLabel2.Text = "Update Report UOM in Item Master "
+        '
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -639,15 +652,16 @@ Partial Class rptSalesComparisonReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'MyLabel2
+        'rbtnIceCream
         '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(332, 14)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(29, 18)
-        Me.MyLabel2.TabIndex = 390
-        Me.MyLabel2.Text = "Update Report UOM in Item Master "
+        Me.rbtnIceCream.Location = New System.Drawing.Point(199, 10)
+        Me.rbtnIceCream.MyLinkLable1 = Nothing
+        Me.rbtnIceCream.MyLinkLable2 = Nothing
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(70, 18)
+        Me.rbtnIceCream.TabIndex = 394
+        Me.rbtnIceCream.TabStop = False
+        Me.rbtnIceCream.Text = "Ice Cream"
         '
         'rptSalesComparisonReport
         '
@@ -703,11 +717,12 @@ Partial Class rptSalesComparisonReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnIceCream, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -753,5 +768,6 @@ Partial Class rptSalesComparisonReport
     Friend WithEvents txtCustomer As common.UserControls.txtFinder
     Friend WithEvents txtRoute As common.UserControls.txtFinder
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents rbtnIceCream As common.Controls.MyRadioButton
 End Class
 
