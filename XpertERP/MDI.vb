@@ -8283,6 +8283,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptDemandNill
                         frm = New RptBoothNilDemandl()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptMonthlyBillSummaryReport
+                        frm = New rptMonthlyBillSummary()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

@@ -1359,6 +1359,8 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMT.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMerchantDeclarationMTFormat2.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMilkPriceChartMaster.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptMonthlyBillSummary.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptMonthlyBillSummaryCustomerWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptNRGP.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptPartyWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductExciseTransfer.rpt" />
@@ -1447,6 +1449,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLeger.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLegerJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLegerRJS.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessLegerRJSS.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptRouteWiseHeadLoad.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptRouteWisePrintReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptRouteWiseUnitMilkCollection.rpt" />
