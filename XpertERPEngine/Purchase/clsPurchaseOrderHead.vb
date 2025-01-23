@@ -989,7 +989,7 @@ left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_TENDE
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal arrLoc As String, ByVal trans As SqlTransaction, Optional ByVal IsMerchantTrade As String = "", Optional ByVal FORMTYPE As String = "") As clsPurchaseOrderHead
         Dim obj As clsPurchaseOrderHead = Nothing
         Dim qry As String = "SELECT TSPL_PURCHASE_ORDER_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipFromLocationName," &
-        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName  " &
+        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName    " &
         " FROM TSPL_PURCHASE_ORDER_HEAD " &
         " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location " &
         " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location " &

@@ -25,7 +25,8 @@ Public Class clsVendorBankMaster
     Public Shared Function GetFinder(ByVal whrCls As String, ByVal CurrCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         ' Dim qry As String = " select  tspl_vendor_bank_master.Bank_Code as [BankCode] ,tspl_vendor_bank_master.Bank_Name as [Bank Name] ,tspl_vendor_bank_master.Branch_Code as [Branch Code] ,tspl_vendor_bank_master.Branch_Name as [Branch Name] ,tspl_vendor_bank_master.IFSC_Code as [IFSC Code] ,tspl_vendor_bank_master.Add1 as [Address1] ,tspl_vendor_bank_master.Add2 as [Address2] ,tspl_vendor_bank_master.Add3 as [Address3] ,tspl_vendor_bank_master.Country_Code as [Country Code] ,tspl_vendor_bank_master.State_Code as [State Code] ,tspl_vendor_bank_master.City_Code as [City Code] ,tspl_vendor_bank_master.Created_By as [Created By] ,tspl_vendor_bank_master.Created_Date as [Created Date] ,tspl_vendor_bank_master.Modified_By as [Modified By] ,tspl_vendor_bank_master.Modified_Date as [Modified Date],tspl_vendor_bank_master.Comp_Code as [Company Code]  From tspl_vendor_bank_master "
-        Dim qry As String = " select  tspl_vendor_bank_master.Bank_Code as [BankCode] ,tspl_vendor_bank_master.Bank_Name as [Bank Name] ,tspl_vendor_bank_master.Add1 as [Address1] ,tspl_vendor_bank_master.Add2 as [Address2] ,tspl_vendor_bank_master.Add3 as [Address3] ,tspl_vendor_bank_master.Country_Code as [Country Code] ,tspl_vendor_bank_master.State_Code as [State Code] ,tspl_vendor_bank_master.City_Code as [City Code] ,tspl_vendor_bank_master.Created_By as [Created By] ,tspl_vendor_bank_master.Created_Date as [Created Date] ,tspl_vendor_bank_master.Modified_By as [Modified By] ,tspl_vendor_bank_master.Modified_Date as [Modified Date],tspl_vendor_bank_master.Comp_Code as [Company Code]  From tspl_vendor_bank_master "
+        Dim qry As String = " select  TSPL_Vendor_Bank_Branch_Details.Branch_Name as [Branch_Name] , tspl_vendor_bank_master.Bank_Code as [BankCode] ,tspl_vendor_bank_master.Bank_Name as [Bank Name] ,tspl_vendor_bank_master.Add1 as [Address1] ,tspl_vendor_bank_master.Add2 as [Address2] ,tspl_vendor_bank_master.Add3 as [Address3] ,tspl_vendor_bank_master.Country_Code as [Country Code] ,tspl_vendor_bank_master.State_Code as [State Code] ,tspl_vendor_bank_master.City_Code as [City Code] ,tspl_vendor_bank_master.Created_By as [Created By] ,tspl_vendor_bank_master.Created_Date as [Created Date] ,tspl_vendor_bank_master.Modified_By as [Modified By] ,tspl_vendor_bank_master.Modified_Date as [Modified Date],tspl_vendor_bank_master.Comp_Code as [Company Code]  From tspl_vendor_bank_master 
+                              left outer join TSPL_Vendor_Bank_Branch_Details on TSPL_Vendor_Bank_Master.Bank_Code=TSPL_Vendor_Bank_Branch_Details.Bank_Code"
         str = clsCommon.ShowSelectForm("VENBNKMFND", qry, "BankCode", whrCls, CurrCode, "BankCode", isButtonClicked)
 
         Return str
@@ -133,11 +134,13 @@ Public Class clsVendorBankMaster
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsVendorBankMaster
         Try
             Dim obj As New clsVendorBankMaster
-            Dim qry As String = "select * from TSPL_Vendor_Bank_Master where 2=2"
+            Dim qry As String = "select TSPL_Vendor_Bank_Branch_Details.Branch_Name,* from TSPL_Vendor_Bank_Master 
+                                 left outer join TSPL_Vendor_Bank_Branch_Details on TSPL_Vendor_Bank_Master.Bank_Code=TSPL_Vendor_Bank_Branch_Details.Bank_Code
+                                where 2=2"
 
             Select Case NavType
                 Case NavigatorType.Current
-                    qry += " and Bank_code='" + strCode + "'"
+                    qry += " and TSPL_Vendor_Bank_Master.Bank_code='" + strCode + "'"
                 Case NavigatorType.First
                     qry += " and Bank_code in (select min(Bank_code) from tspl_Vendor_Bank_Master)"
                 Case NavigatorType.Last
