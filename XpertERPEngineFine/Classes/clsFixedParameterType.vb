@@ -80,6 +80,7 @@ Public Class clsFixedParameterType
     Public Const AndroidAPPVersion As String = "Android APP Version"
     Public Const AndroidMPMaster As String = "Android MP Master"
     Public Const AndroidMPIncetiveEntry As String = "Android MP Incetive Entry"
+
     Public Const AndroidMilkCollectionBMCDCS As String = "Android Milk Collection BMC DCS"
     Public Const AndroidDemandBooking As String = "Android Demand Booking"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
@@ -1414,6 +1415,7 @@ Public Class clsFixedParameterCode
     Public Const MultipleEntryScreen As String = "Multiple Entry Screen"
     Public Const MultipleEntryScreenAdmin As String = "Multiple Entry Screen Admin"
     Public Const QtyDecimalPlaces As String = "Qty Decimal Places"
+    Public Const SkipPaymentCycle As String = "Skip Payment Cycle"
     Public Const TolleranceQty As String = "Tollerance Qty"
     Public Const TolleranceFAT As String = "Tollerance FAT"
     Public Const TolleranceSNF As String = "Tollerance SNF"
@@ -2931,6 +2933,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreen, "0", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreenAdmin, "1", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.QtyDecimalPlaces, "0", "[0,1,2] Qty Decimal Places In MP Incentive Entry")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.SkipPaymentCycle, "1", "Skip to set to date accroding to payment cycle wise")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.DashboardDays, "3", "No of Days To Show Dashboard")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.UOM, "0", "0-Both;1-Crate;2-Pouch")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.Shift, "0", "0-Both;1-Morning;2-Evening")
