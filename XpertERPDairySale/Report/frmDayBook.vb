@@ -93,6 +93,7 @@ Public Class frmDayBook
         gvData.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvData.MasterTemplate.ShowRowHeaderColumn = False
         gvData.TableElement.TableHeaderHeight = 40
+
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
@@ -127,16 +128,21 @@ Public Class frmDayBook
 
                         End If
                         gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Cust_Name)
-                        If Not clsCommon.CompairString(lstObj(i).TaxGroup, "Purchase") = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
+                            gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
+                        ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal Then
+                            gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
+                        End If
+                        If clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal Then
                             gvData.Rows.AddNew()
                             rowItem += 1
                             gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Bank_Code)
                         End If
 
                         flag = False
-                        lststr.Add(clsCommon.myCstr(lstObj(i).InvoiceNo))
-                    End If
-                    If (clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal OrElse clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal) AndAlso flag Then
+                            lststr.Add(clsCommon.myCstr(lstObj(i).InvoiceNo))
+                        End If
+                    If clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal AndAlso flag Then
                         'gvData.Rows.AddNew()
                         'rowItem += 1
                         gvData.Rows(rowItem).Cells(colParticulars).Value = clsCommon.myCstr(lstObj(i).Cust_Name)
@@ -146,17 +152,18 @@ Public Class frmDayBook
                     End If
                     If clsCommon.CompairString(lstObj(i).TaxGroup, "Receipt") = CompairStringResult.Equal Then
                         gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
-                    ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal Then
+                    ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "O") = CompairStringResult.Equal And flag Then
                         gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
-                    ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
-                        gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
+                        'ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "I") = CompairStringResult.Equal Then
+                        '    gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
                     ElseIf clsCommon.CompairString(lstObj(i).TaxGroup, "Purchase") = CompairStringResult.Equal Then
                         gvData.Rows(rowItem).Cells(colCreditAmt).Value = clsCommon.myCstr(lstObj(i).CreditAmt)
                     Else
-                        gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
-
+                        If Not clsCommon.CompairString(lstObj(i).DebitAmt, "0") = CompairStringResult.Equal Then
+                            gvData.Rows(rowItem).Cells(colDebitAmt).Value = clsCommon.myCstr(lstObj(i).DebitAmt)
+                        End If
                     End If
-                    If Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "Stock Journal") = CompairStringResult.Equal AndAlso Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "") = CompairStringResult.Equal AndAlso Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "Purchase") = CompairStringResult.Equal Then
+                        If Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "Stock Journal") = CompairStringResult.Equal AndAlso Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "") = CompairStringResult.Equal AndAlso Not clsCommon.CompairString(clsCommon.myCstr(gvData.Rows(rowItem).Cells(colVchType).Value), "Purchase") = CompairStringResult.Equal Then
                         gvData.Rows.AddNew()
                         rowItem += 1
                         Dim row2 As GridViewRowInfo = gvData.Rows(rowItem)
@@ -328,6 +335,7 @@ Public Class frmDayBook
         'If e.Column.Name = colCreditAmt Then
         '    e.CellElement.Font = New Font("Arial", 10, FontStyle.Bold)
         'End If
+        e.CellElement.TextWrap = True
         e.CellElement.DrawBorder = False
         e.CellElement.RowElement.DrawBorder = False
 
@@ -337,6 +345,7 @@ Public Class frmDayBook
         Try
 
             e.PrintCell.DrawBorder = False
+
             ' e.p.DrawBorder = False
             If (Not (clsCommon.CompairString(clsCommon.myCstr(e.Row.Cells(colDate).Value), "") = CompairStringResult.Equal)) OrElse clsCommon.myCstr(e.Row.Cells(colParticulars).Value).Contains("SALES GST") OrElse clsCommon.myCstr(e.Row.Cells(colParticulars).Value).Contains("CGST") OrElse clsCommon.myCstr(e.Row.Cells(colParticulars).Value).Contains("SGST") OrElse clsCommon.myCstr(e.Row.Cells(colParticulars).Value).Contains("IGST") OrElse clsCommon.myCstr(e.Row.Cells(colParticulars).Value).Contains("KKF") OrElse clsCommon.myCstr(e.Row.Cells(colParticulars).Value).Contains("Tax") OrElse (Not (clsCommon.CompairString(clsCommon.myCstr(e.Row.Cells(colDebitAmt).Value), "") = CompairStringResult.Equal)) OrElse (Not (clsCommon.CompairString(clsCommon.myCstr(e.Row.Cells(colCreditAmt).Value), "") = CompairStringResult.Equal)) Then
 
