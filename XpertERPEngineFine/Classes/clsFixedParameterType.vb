@@ -196,6 +196,7 @@ Public Class clsFixedParameterType
     Public Const AllowZeroQtyOnDairyBookingUploader = "AllowZeroQtyOnDairyBookingUploader"
     Public Const AllowtoPostNoOFDocofDOatatime = "AllowtoPostNoOFDocofDOatatime"
     Public Const DonotIncludeSecurityInCustomerOutstanding = "DonotIncludeSecurityInCustomerOutstanding"
+    Public Const IsManualTCS = "Manual TCS"
     Public Const DefaultLocationForCardSaleIntegration = "DefaultLocationForCardSaleIntegration"
     Public Const ApplyNoGSTCreditIndependentlyOnVendorServiceCharge = "ApplyNoGSTCreditIndependentlyOnVendorServiceCharge"
     Public Const CheckNoOfDaysforCardSaleBooking = "CheckNoOfDaysforCardSaleBooking"
@@ -1546,6 +1547,7 @@ Public Class clsFixedParameterCode
     Public Const AllowZeroQtyOnDairyBookingUploader = "AllowZeroQtyOnDairyBookingUploader"
     Public Const AllowtoPostNoOFDocofDOatatime = "AllowtoPostNoOFDocofDOatatime"
     Public Const DonotIncludeSecurityInCustomerOutstanding = "DonotIncludeSecurityInCustomerOutstanding"
+    Public Const IsManualTCS = "Manual TCS"
     Public Const DefaultLocationForCardSaleIntegration = "DefaultLocationForCardSaleIntegration"
     Public Const ApplyNoGSTCreditIndependentlyOnVendorServiceCharge = "ApplyNoGSTCreditIndependentlyOnVendorServiceCharge"
     Public Const CheckNoOfDaysforCardSaleBooking = "CheckNoOfDaysforCardSaleBooking"
@@ -3049,6 +3051,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowZeroQtyOnDairyBookingUploader, clsFixedParameterCode.AllowZeroQtyOnDairyBookingUploader, "0", "Allow Zero Qty On Dairy Booking Uploader")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowtoPostNoOFDocofDOatatime, clsFixedParameterCode.AllowtoPostNoOFDocofDOatatime, "0", "AllowtoPostNoOFDocofDOatatime on Dispatch Multiple screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DonotIncludeSecurityInCustomerOutstanding, clsFixedParameterCode.DonotIncludeSecurityInCustomerOutstanding, "0", "0-OFF;1-Do not Include Security In Customer Outstanding On Dairy Booking Customer")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, "0", "0-OFF;1-Apply Manual TCS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultLocationForCardSaleIntegration, clsFixedParameterCode.DefaultLocationForCardSaleIntegration, "", "Default Location For Card Sale Integration")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, clsFixedParameterCode.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, "0", "0-OFF;1-ApplyNoGSTCreditIndependentlyOnVendorServiceCharge")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckNoOfDaysforCardSaleBooking, clsFixedParameterCode.CheckNoOfDaysforCardSaleBooking, "1", "CheckNoOfDaysforCardSaleBooking")
@@ -6012,6 +6015,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.UseCutOffTimeonRouteForERP, clsFixedParameterCode.UseCutOffTimeonRouteForERP, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingUploader, clsFixedParameterType.AllowZeroQtyOnDairyBookingUploader, clsFixedParameterCode.AllowZeroQtyOnDairyBookingUploader, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.DonotIncludeSecurityInCustomerOutstanding, clsFixedParameterCode.DonotIncludeSecurityInCustomerOutstanding, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmVendorService, clsFixedParameterType.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, clsFixedParameterCode.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmbookingdairyFreshSale, clsFixedParameterType.CheckNoOfDaysforCardSaleBooking, clsFixedParameterCode.CheckNoOfDaysforCardSaleBooking, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowBookingTypeDropDownonDairyBookingCustomer, clsFixedParameterCode.ShowBookingTypeDropDownonDairyBookingCustomer, EnumControlType.CheckBox)
