@@ -1306,6 +1306,12 @@ Public Class frmvendoraccountset
         lblRetention.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + txtRetention.Value + "' ")
     End Sub
 
+    Private Sub TxtTrnsferTS__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtTrnsferTS._MYValidating
+        Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts "
+        TxtTrnsferTS.Value = clsCommon.ShowSelectForm("REC_CONfnd", qry, "AccountCode", " ControlAccount ='Y' ", TxtTrnsferTS.Value, "", isButtonClicked)
+        lblTrnsferTS.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + TxtTrnsferTS.Value + "' ")
+    End Sub
+
     Private Sub txtProData__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtProData._MYValidating
         Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts "
         txtProData.Value = clsCommon.ShowSelectForm("ProfitAndLossAccFndr", qry, "AccountCode", " ControlAccount ='Y' ", txtProData.Value, "", isButtonClicked)
