@@ -33,7 +33,7 @@
             End If
             strqry = "select Document_Date,Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,Total_Amt from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location='" + strLocation + "' and TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
+where CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and  (TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location='" + strLocation + "' or TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code='" + strLocation + "') and TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
@@ -55,7 +55,7 @@ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DE
                 Next
             End If
             strqry = "select TSPL_SRN_HEAD.SRN_Date,SRN_No,Vendor_Code,Vendor_Name,SRN_Total_Amt from TSPL_SRN_HEAD 
-where CONVERT(date,TSPL_SRN_HEAD.SRN_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and TSPL_SRN_HEAD.Item_Type='F' and TSPL_SRN_HEAD.Status=1 and Bill_To_Location='" + strLocation + "'"
+where CONVERT(date,TSPL_SRN_HEAD.SRN_Date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "' and TSPL_SRN_HEAD.Item_Type='F' and TSPL_SRN_HEAD.Status=1 and (Bill_To_Location='" + strLocation + "' or Sublocation_Code='" + strLocation + "')"
 
             Dim dtSRN As DataTable = clsDBFuncationality.GetDataTable(strqry)
             If dtSRN IsNot Nothing AndAlso dtSRN.Rows.Count > 0 Then
@@ -77,7 +77,7 @@ where CONVERT(date,TSPL_SRN_HEAD.SRN_Date,103)='" + clsCommon.GetPrintDate(docDa
       Case when TSPL_INVENTORY_MOVEMENT.Inout = 'O' then TSPL_INVENTORY_MOVEMENT.qty else 0 end as OUTWARDQTY, TSPL_INVENTORY_MOVEMENT.Qty,TSPL_ITEM_master.Item_Type,TSPL_INVENTORY_MOVEMENT.uom as UOM 
     from TSPL_INVENTORY_MOVEMENT 
       left join TSPL_TRANSFER_ORDER_HEAD ON TSPL_TRANSFER_ORDER_HEAD.DOCUMENT_No = TSPL_INVENTORY_MOVEMENT.Source_Doc_No 
-left join tspl_location_master on tspl_location_master.location_code=TSPL_TRANSFER_ORDER_HEAD.from_location
+left join tspl_location_master on tspl_location_master.location_code=TSPL_TRANSFER_ORDER_HEAD.To_Location
       left join TSPL_ITEM_master on TSPL_ITEM_master.Item_Code = TSPL_INVENTORY_MOVEMENT.Item_Code     
     where TSPL_INVENTORY_MOVEMENT.trans_type in ('ITransfer', 'Trasnfer') and CONVERT(date,TSPL_TRANSFER_ORDER_HEAD.document_date,103)='" + clsCommon.GetPrintDate(docDate, "dd/MMM/yyyy") + "'  and TSPL_INVENTORY_MOVEMENT.Location_Code='" + strLocation + "' and TSPL_TRANSFER_ORDER_HEAD.Status=1 "
 

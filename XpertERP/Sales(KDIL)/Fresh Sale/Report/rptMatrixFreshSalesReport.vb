@@ -1840,20 +1840,28 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
         Try
             Dim suppyDate As String
             Dim whr As String
+            Dim whrRtrn As String
             Dim strWhrClause As String = String.Empty
             Dim strWhrClause2 As String = String.Empty
+            Dim rtnWhrClause As String = String.Empty
+            Dim rtnWhrClause2 As String = String.Empty
             Dim qry As String
+            Dim finalQry As String
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
                 Dim ss As String = clsCommon.GetMulcallString(txtCustomer.arrValueMember)
                 Dim sss As String = ss.Replace("'", "''")
                 strWhrClause += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + sss + ")  "
                 strWhrClause2 += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + ss + ")  "
+                rtnWhrClause += " and TSPL_SD_SALE_RETURN_HEAD.Customer_Code in (" + sss + ")  "
+                rtnWhrClause2 += " and TSPL_SD_SALE_RETURN_HEAD.Customer_Code in (" + ss + ")  "
             End If
             If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
                 Dim ss As String = clsCommon.GetMulcallString(TxtRoute.arrValueMember)
                 Dim sss As String = ss.Replace("'", "''")
                 strWhrClause += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + sss + ")  "
                 strWhrClause2 += " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + ss + ")  "
+                rtnWhrClause += " and TSPL_SD_SALE_RETURN_HEAD.Route_No in (" + sss + ")  "
+                rtnWhrClause2 += " and TSPL_SD_SALE_RETURN_HEAD.Route_No in (" + ss + ")  "
             End If
             If ChkSupplyDate.Checked Then
                 suppyDate = "'" + txtSupplyDate.Text + "' as Date,"
@@ -1865,7 +1873,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
             Else
                 whr = " where convert(date,Document_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' "
             End If
-            qry = " select max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,TSPL_SD_SHIPMENT_HEAD.Route_No,(TSPL_SD_SHIPMENT_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name ," + suppyDate + " max(TSPL_SD_SHIPMENT_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SHIPMENT_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
+            whrRtrn = " where convert(date,Document_Date,103) between '" + clsCommon.GetPrintDate(Slot1) + "' and '" + clsCommon.GetPrintDate(Slot2) + "' "
+            qry = " select 1 As RI,Max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No)Invoice_No,max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_SD_SHIPMENT_HEAD.Route_No)Route_No,(TSPL_SD_SHIPMENT_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name ," + suppyDate + " max(TSPL_SD_SHIPMENT_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SHIPMENT_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SHIPMENT_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SHIPMENT_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
                         sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax4_amt,0)) as txt4amt,   max(tax5.Tax_Code_Desc) as tax5name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax5_amt,0)) as txt5amt,   max(tax6.Tax_Code_Desc) as tax6name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax6_amt,0)) as txt6amt,   max(tax7.Tax_Code_Desc) as tax7name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax7_amt,0)) as txt7amt,   max(tax8.Tax_Code_Desc) as tax8name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax8_amt,0)) as txt8amt,   max(tax9.Tax_Code_Desc) as tax9name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax9_amt,0)) as txt9amt,   max(tax10.Tax_Code_Desc) as tax10name,sum(isnull (TSPL_SD_SHIPMENT_DETAIL.tax10_amt,0)) as txt10amt  from TSPL_SD_SHIPMENT_HEAD 
                         left outer join TSPL_SD_SHIPMENT_DETAIL ON TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
                         left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
@@ -1878,8 +1887,41 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx " + whr + 
                         left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) ITEMDETAIL3 ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = ITEMDETAIL3.item_code
                        " + whr + " and TSPL_SD_SHIPMENT_HEAD.Status=1
                         " + strWhrClause2 + "
-                        group by TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_HEAD.Route_No,Customer_Code "
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        group by TSPL_SD_SHIPMENT_DETAIL.Item_Code,Customer_Code "
+
+            qry += " Union All "
+                qry += " select -1 As RI,Max(TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No)Invoice_No,max(TSPL_ITEM_MASTER.IsTaxable)Is_FreshItem,max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_SD_SALE_RETURN_HEAD.Route_No)Route_No,(TSPL_SD_SALE_RETURN_HEAD.Customer_Code)Customer_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name ," + suppyDate + " max(TSPL_SD_SALE_RETURN_HEAD.Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(TSPL_SD_SALE_RETURN_DETAIL.Security_Amt,0))Security_Amt,sum(isnull(TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt,0))Item_Net_Amt,sum(TSPL_SD_SALE_RETURN_DETAIL.Total_Basic_Amt)Total_Basic_Amt,sum(TSPL_SD_SALE_RETURN_DETAIL.Qty)Qty,sum(Case when tspl_item_master.Is_FreshItem = 1 then (( TSPL_SD_SALE_RETURN_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.LTR,1))  when tspl_item_master.Is_Ambient = 1 then ((TSPL_SD_SALE_RETURN_DETAIL.Qty *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) / coalesce(ITEMDETAIL3.kg,1)) end ) as QTY_LTRKG,TSPL_SD_SALE_RETURN_DETAIL.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(tax1.Tax_Code_Desc) as tax1name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax1_amt,0)) as txt1amt,   max(tax2.Tax_Code_Desc) as tax2name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax2_amt,0)) as txt2amt,   max(tax3.Tax_Code_Desc) as tax3name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax3_amt,0)) as txt3amt,   max(tax4.Tax_Code_Desc) as tax4name,
+                        sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax4_amt,0)) as txt4amt,   max(tax5.Tax_Code_Desc) as tax5name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax5_amt,0)) as txt5amt,   max(tax6.Tax_Code_Desc) as tax6name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax6_amt,0)) as txt6amt,   max(tax7.Tax_Code_Desc) as tax7name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax7_amt,0)) as txt7amt,   max(tax8.Tax_Code_Desc) as tax8name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax8_amt,0)) as txt8amt,   max(tax9.Tax_Code_Desc) as tax9name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax9_amt,0)) as txt9amt,   max(tax10.Tax_Code_Desc) as tax10name,sum(isnull (TSPL_SD_SALE_RETURN_DETAIL.tax10_amt,0)) as txt10amt  from TSPL_SD_SALE_RETURN_HEAD 
+                        left outer join TSPL_SD_SALE_RETURN_DETAIL ON TSPL_SD_SALE_RETURN_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_RETURN_HEAD.Document_Code
+                        left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_RETURN_DETAIL.Item_Code
+                        left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_RETURN_DETAIL.tax1   left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_RETURN_DETAIL.tax2   left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_RETURN_DETAIL .TAX3   left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_RETURN_DETAIL .tax4   left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_RETURN_DETAIL .tax5   left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX6   left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX7   left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX8   left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX9  left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_RETURN_DETAIL .TAX10
+                        left outer join TSPL_COMPANY_MASTER on 1=1
+                        left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SALE_RETURN_HEAD.Route_No
+                        left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code
+                        left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code And   
+                        TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SALE_RETURN_DETAIL.Unit_code
+                        left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) ITEMDETAIL3 ON TSPL_SD_SALE_RETURN_DETAIL.Item_Code = ITEMDETAIL3.item_code
+                       " + whrRtrn + " and TSPL_SD_SALE_RETURN_HEAD.Status=1
+                        " + rtnWhrClause2 + "
+                        group by TSPL_SD_SALE_RETURN_DETAIL.Item_Code,Customer_Code "
+
+
+            finalQry = " Select max(Is_FreshItem)Is_FreshItem,max(Comp_Name)Comp_Name,Max(Route_No)Route_No,Customer_Code,Max(Customer_Name)Customer_Name,Max(Date)Date, 
+ max(Document_Code)Document_Code,max(Document_Date)Document_Date,sum(isnull(Security_Amt,0)*RI)Security_Amt,sum(isnull(Item_Net_Amt,0)*RI)Item_Net_Amt,
+sum(Total_Basic_Amt*RI)Total_Basic_Amt,sum(Qty*RI)Qty,sum(QTY_LTRKG*RI)as QTY_LTRKG, Item_Code,max(Item_Desc)Item_Desc,
+sum(isnull (txt1amt,0)*RI) as txt1amt,   max(tax1name) as tax1name,
+sum(isnull (txt2amt,0)*RI) as txt2amt,   max(tax2name) as tax2name,
+sum(isnull (txt3amt,0)*RI) as txt3amt,   max(tax3name) as tax3name,
+sum(isnull (txt4amt,0)*RI) as txt4amt,   max(tax4name) as tax4name,
+sum(isnull (txt5amt,0)*RI) as txt5amt,   max(tax5name) as tax5name,
+sum(isnull (txt6amt,0)*RI) as txt6amt,   max(tax6name) as tax6name,
+sum(isnull (txt7amt,0)*RI) as txt7amt,   max(tax7name) as tax7name,
+sum(isnull (txt8amt,0)*RI) as txt8amt,   max(tax8name) as tax8name,
+sum(isnull (txt9amt,0)*RI) as txt9amt,   max(tax9name) as tax9name, 
+sum(isnull (txt10amt,0)*RI) as txt10amt, max(tax10name) as tax10name
+ from (" + qry + ")xyz group by Item_Code,Customer_Code "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(finalQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
