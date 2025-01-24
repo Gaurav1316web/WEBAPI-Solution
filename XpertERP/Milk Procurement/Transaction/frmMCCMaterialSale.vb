@@ -4,6 +4,7 @@ Imports common
 Public Class frmMCCMaterialSale
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim chkTaxGroup As String
     Dim arrMCCRights As ArrayList
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Dim UseDescInsteadOFCodeOnMCCMAterialSale As Boolean = False
@@ -2697,6 +2698,20 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                     Dim dblConvF As Double
                     dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
                     gv1.CurrentRow.Cells(colConvF).Value = dblConvF
+                    If chkTaxable.Checked Then
+                        txtTaxGroup.Value = clsDBFuncationality.getSingleValue("select Top 1 TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code from TSPL_ITEM_WISE_TAX 
+Inner Join TSPL_ITEM_WISE_TAX_AUTHORITY On TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE=TSPL_ITEM_WISE_TAX.HCODE
+Inner Join TSPL_ITEM_WISE_TAX_GROUP On TSPL_ITEM_WISE_TAX_GROUP.HCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE
+where TSPL_ITEM_WISE_TAX.Type='S' And TSPL_ITEM_WISE_TAX.Status=1 And TSPL_ITEM_WISE_TAX_GROUP.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'
+Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
+                        SetTaxDetails()
+                        If clsCommon.myLen(chkTaxGroup) > 0 Then
+                            If clsCommon.CompairString(txtTaxGroup.Value, chkTaxGroup) <> CompairStringResult.Equal Then
+                                Throw New Exception("Item (" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + ") does not belong to tax group (" + txtTaxGroup.Value + ") in Item Wise Tax.")
+                            End If
+                        End If
+                        chkTaxGroup = txtTaxGroup.Value
+                    End If
                     SetitemWiseTaxSetting(True, True)
                 End If
             Else
@@ -5456,7 +5471,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + txtBillToLocation.Value + "'"))
 
                     End If
-                    End If
+                End If
             End If
         End If
         '-----------------------------------------------------
