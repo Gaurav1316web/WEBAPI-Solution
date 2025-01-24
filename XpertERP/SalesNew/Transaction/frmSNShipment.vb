@@ -232,6 +232,7 @@ Public Class frmSNShipment
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Dim DoNotConsiderCustomerCreditLimit As Integer = 0
     Dim DonotIncludeSecurityInCustomerOutstanding As Boolean = False
+    Dim ApplyManualTCS As Boolean = False
     Public DocumentNo As String = Nothing
     Dim SettCheckBalanceOnSave As Boolean = False
 #End Region
@@ -290,6 +291,7 @@ Public Class frmSNShipment
         isPO_GRN_MRN_Editable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
         DoNotConsiderCustomerCreditLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotConsiderCustomerCreditLimit, clsFixedParameterCode.DoNotConsiderCustomerCreditLimit, Nothing))
         DonotIncludeSecurityInCustomerOutstanding = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DonotIncludeSecurityInCustomerOutstanding, clsFixedParameterCode.DonotIncludeSecurityInCustomerOutstanding, Nothing)) = 1, True, False)
+        ApplyManualTCS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, Nothing)) = 1, True, False)
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         dtpLR_GR_Date.Value = clsCommon.GETSERVERDATE
@@ -302,6 +304,11 @@ Public Class frmSNShipment
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+A Create Additional Cost")
         RadPageView1.SelectedPage = RadPageViewPage1
+        If ApplyManualTCS = True Then
+            rbtnManualTCS.Visible = True
+        Else
+            rbtnManualTCS.Visible = False
+        End If
         LoadBlankGrid()
         LoadBlankGridTax()
         LoadItemType()
@@ -3219,6 +3226,7 @@ Public Class frmSNShipment
         Next
     End Sub
 
+
     Private Sub UpdateAllTotals()
         Dim dblCashDisAmt As Double = 0
         Dim dblHeadDisPerAmt As Double = 0
@@ -3239,7 +3247,7 @@ Public Class frmSNShipment
         Dim dblTaxBaseAmt8 As Double = 0
         Dim dblTaxBaseAmt9 As Double = 0
         Dim dblTaxBaseAmt10 As Double = 0
-
+        Dim ManualTCS As Double = 0
         Dim dblTaxAmt1 As Double = 0
         Dim dblTaxAmt2 As Double = 0
         Dim dblTaxAmt3 As Double = 0
@@ -3293,18 +3301,27 @@ Public Class frmSNShipment
             End If
         Next
 
-        If rbtnTaxCalAutomatic.IsChecked Then
+        If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
             For ii As Integer = 1 To gv2.Rows.Count
                 Select Case (ii)
                     Case 1
+
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then 'AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1)
                             dblTaxBaseAmt1 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             'dblTaxBaseAmt1 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt1 = (dblTaxBaseAmt1 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
+
+                            If rbtnManualTCS.IsChecked = False Then
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
+                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
+                            Else
+                                dblTaxAmt1 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
+                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
+                            End If
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt1, 2)
+
                         Else
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt1, 2)
@@ -3317,14 +3334,23 @@ Public Class frmSNShipment
 
 
                     Case 2
+
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1)
                             dblTaxBaseAmt2 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt2 = (dblTaxBaseAmt2 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
+
+                            If rbtnManualTCS.IsChecked = False Then
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
+                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
+                            Else
+                                dblTaxAmt2 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
+                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
+                            End If
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
+
                         Else
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
@@ -3336,14 +3362,23 @@ Public Class frmSNShipment
                         End If
 
                     Case 3
+
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2)
-                            dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
+                            dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             'dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
+
+                            If rbtnManualTCS.IsChecked = False Then
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
+                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
+                            Else
+                                dblTaxAmt3 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
+                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
+                            End If
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt3, 2)
+
                         Else
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt3, 2)
@@ -3355,14 +3390,23 @@ Public Class frmSNShipment
                         End If
 
                     Case 4
+
                         If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code='" & clsCommon.myCstr(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value) & "' AND Is_TCS ='Y'")) > 0) Then ' AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
                             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTaxBaseAmt1 + dblTaxAmt1 + dblTaxAmt2 + dblTaxAmt3)
                             dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             'dblTaxBaseAmt4 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt4 = (dblTaxBaseAmt4 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt4
-                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
+
+                            If rbtnManualTCS.IsChecked = False Then
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
+                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt4
+                            Else
+                                dblTaxAmt4 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
+                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt4
+                            End If
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt4, 2)
+
                         Else
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt4, 2)
@@ -3883,6 +3927,7 @@ Public Class frmSNShipment
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.Salesman_Code = txtSalesman.Value
                 obj.Salesman_Name = lblSalesman.Text
+                obj.Is_ManualTCS = IIf(rbtnManualTCS.IsChecked, 1, 0)
                 obj.Is_Internal = chkInternal.Checked
                 obj.PROJECT_ID = fndProject.Value
                 obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
@@ -4317,6 +4362,7 @@ Public Class frmSNShipment
                     lblTaxGrpName.Text = objTaxGrpMaster.Tax_Group_Desc
                 End If
                 chkInternal.Checked = obj.Is_Internal
+
                 cboItemType.SelectedValue = obj.Item_Type
                 txtDept.Value = obj.Dept
                 lblDept.Text = obj.Dept_Desc
@@ -4654,11 +4700,16 @@ Public Class frmSNShipment
 
                 lblAddCharges.Text = clsCommon.myFormat(obj.Total_Add_Charge)
                 lblAddCharges1.Text = clsCommon.myFormat(obj.Total_Add_Charge)
-                If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
-                    rbtnTaxCalAutomatic.IsChecked = True
-                ElseIf obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
-                    rbtnTaxCalManual.IsChecked = True
+                If obj.Is_ManualTCS = 1 Then
+                    rbtnManualTCS.IsChecked = IIf(obj.Is_ManualTCS = 1, True, False)
+                Else
+                    If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
+                        rbtnTaxCalAutomatic.IsChecked = True
+                    ElseIf obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
+                        rbtnTaxCalManual.IsChecked = True
+                    End If
                 End If
+
 
 
 
@@ -5620,7 +5671,7 @@ Public Class frmSNShipment
                 gv2.Rows.AddNew()
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = clsCommon.myCstr(dr("Tax_Code"))
                 gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = clsCommon.myCstr(dr("Tax_Code_Desc"))
-                If rbtnTaxCalAutomatic.IsChecked Then
+                If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
                     'gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = dr("TaxRate")
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_TCS  from tspl_tax_master where tax_code ='" & clsCommon.myCstr(dr("Tax_Code")) & "' ")), "Y") = CompairStringResult.Equal Then
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtCustomer.Value & "'")), "0") = CompairStringResult.Equal Then
@@ -6935,7 +6986,7 @@ Public Class frmSNShipment
 
             For ii As Integer = 1 To 10
                 Dim Strii As String = clsCommon.myCstr(ii)
-                If rbtnTaxCalAutomatic.IsChecked Then
+                If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
                     Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
                     If clsCommon.myLen(strTaxCode) > 0 Then
                         Dim dblTaxRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
@@ -7126,8 +7177,16 @@ Public Class frmSNShipment
 
     Private Sub rbtnTaxCalAutomatic_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnTaxCalAutomatic.ToggleStateChanged, rbtnTaxCalManual.ToggleStateChanged
         If Not isInsideLoadData Then
-            If rbtnTaxCalAutomatic.IsChecked Then
+            If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
                 SetTaxDetails()
+                If rbtnManualTCS.IsChecked Then
+                    For intRowNo As Integer = 0 To gv2.Rows.Count - 1
+                        If clsCommon.CompairString(gv2.Rows(intRowNo).Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal Then
+                            gv2.Rows(intRowNo).Cells(colTTaxAmt).Value = Nothing
+                            gv2.Rows(intRowNo).Cells(colTTaxRate).Value = 0
+                        End If
+                    Next
+                End If
             ElseIf rbtnTaxCalManual.IsChecked Then
                 For intRowNo As Integer = 0 To gv2.Rows.Count - 1
                     gv2.Rows(intRowNo).Cells(colTTaxRate).Value = Nothing
@@ -7144,12 +7203,16 @@ Public Class frmSNShipment
             End If
         End If
     End Sub
-
     Private Sub gv2_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv2.CellFormatting
         Try
             If e.Column.Index >= 0 Then
                 If (e.Column Is gv2.Columns(colTTaxAmt)) Then
                     gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = rbtnTaxCalAutomatic.IsChecked
+                    If clsCommon.CompairString(gv2.CurrentRow.Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal And rbtnManualTCS.IsChecked Then
+                        gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = False
+                    Else
+                        gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = True
+                    End If
                 End If
 
                 Dim cell As GridDataCellElement = TryCast(e.CellElement, GridDataCellElement)

@@ -18994,6 +18994,7 @@ Public Class clsCreateAllTable
             coll.Add("PRO_DATA_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("IsFarmer", "integer NOT NULL default 0")
             coll.Add("Arrear_Account", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
+            'coll.Add("Transfer_To_Saving", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_ACCOUNT_SET", coll, "", True)
 
             coll = New Dictionary(Of String, String)
@@ -30238,6 +30239,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("IS_TCS", "Integer not null default 0")
             coll.Add("Vehicle_Type", "varchar(10) null")
             coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
+            coll.Add("Is_ManualTCS", "Integer Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
