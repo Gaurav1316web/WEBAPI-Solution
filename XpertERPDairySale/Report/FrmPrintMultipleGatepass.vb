@@ -16,6 +16,7 @@ Public Class FrmPrintMultipleGatepass
     Dim ApplyMilkPouchPrint As Boolean = False
     Public Shift As String = ""
     Dim atchqry As String = ""
+    Dim EnableProductSaleForJPR As Boolean = False
 
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmPrintDistributerInvoiceStatement)
@@ -41,6 +42,7 @@ Public Class FrmPrintMultipleGatepass
         TxtMultiVehicle.arrValueMember = Nothing
         cboShiftType.SelectedValue = ""
         gv.DataSource = Nothing
+        rbtnMilk.Checked = True
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
@@ -84,6 +86,12 @@ Public Class FrmPrintMultipleGatepass
         ButtonToolTip.SetToolTip(BtnReset, "Press Alt+N Adding New")
         LoadReportType()
         Reset()
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+        If EnableProductSaleForJPR Then
+            RadGroupBox6.Visible = True
+        Else
+            RadGroupBox6.Visible = False
+        End If
     End Sub
 
     Private Sub txtMultLocation__My_Click(sender As Object, e As EventArgs) Handles txtMultLocation._My_Click
@@ -128,7 +136,7 @@ Public Class FrmPrintMultipleGatepass
             Dim qry As String = Nothing
             Dim whrcls As String = Nothing
 
-            qry = " select Cast(1 as BIT) as 'Check',TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as GPDate,
+            qry = " select Cast(1 as BIT) as 'Check'," & IIf(EnableProductSaleForJPR, "case when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'M' then 'Milk' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'P' then 'Product' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'I' then 'Ice Cream' end  as [Item Type],", "") & " TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as GPDate,
                    TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_route_master.Route_Desc,
                    TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,
                    TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate from TSPL_DAIRYSALE_GATEPASS_MASTER
@@ -152,6 +160,15 @@ Public Class FrmPrintMultipleGatepass
                 ' ElseIf clsCommon.CompairString(clsCommon.myCstr(cboShiftType.SelectedValue), "B") = CompairStringResult.Equal Then
             End If
 
+            If EnableProductSaleForJPR Then
+                If rbtnMilk.Checked Then
+                    whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='M' "
+                ElseIf rbtnProduct.Checked Then
+                    whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='P' "
+                ElseIf rbtnIceCream.Checked Then
+                    whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='I' "
+                End If
+            End If
             qry += whrcls
 
             Dim dtgv As New DataTable
@@ -202,6 +219,9 @@ Public Class FrmPrintMultipleGatepass
             gv.Columns(ii).IsVisible = False
         Next
 
+        If EnableProductSaleForJPR Then
+            gv.Columns("Item Type").IsVisible = True
+        End If
         gv.Columns("Check").IsVisible = True
         gv.Columns("Check").Width = 100
         gv.Columns("Check").HeaderText = " "
@@ -280,6 +300,15 @@ Public Class FrmPrintMultipleGatepass
         End If
         If TxtMultiVehicle.arrValueMember IsNot Nothing AndAlso TxtMultiVehicle.arrValueMember.Count > 0 Then
             whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id in (" + clsCommon.GetMulcallString(TxtMultiVehicle.arrValueMember) + ") "
+        End If
+        If EnableProductSaleForJPR Then
+            If rbtnMilk.Checked Then
+                whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='M' "
+            ElseIf rbtnProduct.Checked Then
+                whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='P' "
+            ElseIf rbtnIceCream.Checked Then
+                whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='I' "
+            End If
         End If
         If clsCommon.CompairString(clsCommon.myCstr(cboShiftType.SelectedValue), "M") = CompairStringResult.Equal Then
             whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType= 'Morning' "

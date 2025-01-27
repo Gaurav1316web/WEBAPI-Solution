@@ -30,8 +30,8 @@ Public Class frmCorrection
         Dim id As String = Form_ID
         Try
             If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
-                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
-                    chkAddMissingSample.Visible = False
+                'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                chkAddMissingSample.Visible = False
                     chkAdjustOwnBMCFATSNF.Visible = True
                     chkDeleteBMCCollection.Visible = True
                     txtFromShift.Enabled = True
@@ -40,14 +40,14 @@ Public Class frmCorrection
                         chkAvgFATSNF.Visible = True
                         chkAdjustOwnBMCFATSNF.Visible = False
                     End If
-                Else
-                    chkAddMissingSample.Visible = True
-                    chkAdjustOwnBMCFATSNF.Visible = False
-                    chkDeleteBMCCollection.Visible = False
-                    txtFromShift.Enabled = True
-                    chkAvgFATSNF.Visible = False
-                End If
-                SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
+                    'Else
+                    '    chkAddMissingSample.Visible = True
+                    '    chkAdjustOwnBMCFATSNF.Visible = False
+                    '    chkDeleteBMCCollection.Visible = False
+                    '    txtFromShift.Enabled = True
+                    '    chkAvgFATSNF.Visible = False
+                    'End If
+                    SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
                 SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
                 SettShowAllMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing))
 

@@ -5269,7 +5269,7 @@ AND (
         WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'M' 
             THEN CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103)
         ELSE NULL  
-    END) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "')"
+    END) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "') ORDER BY TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.SNO ASC"
             Else
                 strquery = "SELECT 
     TSPL_MILK_COLLECTION_MCC.Route_Code AS [Route Code],

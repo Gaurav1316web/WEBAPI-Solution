@@ -2,13 +2,23 @@
 Imports common
 Public Class frmGatepassDetailReport
     Inherits FrmMainTranScreen
+    Dim EnableProductSaleForJPR As Boolean = False
+
     Private Sub frmGatepassDetailReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
             fromDate.Value = clsCommon.GETSERVERDATE()
             ToDate.Value = clsCommon.GETSERVERDATE()
             rbtnGatepassDate.Checked = True
             rbtnBothShift.Checked = True
             rbtnBoth.Checked = True
+            If EnableProductSaleForJPR Then
+                rbtnIceCream.Visible = True
+                rbtnBoth.Visible = False
+            Else
+                rbtnIceCream.Visible = False
+                rbtnBoth.Visible = True
+            End If
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -26,6 +36,7 @@ Public Class frmGatepassDetailReport
             RadGroupBox4.Enabled = True
             btnGo.Enabled = True
             BlankGrid()
+            rbtnMilk.Checked = True
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -57,7 +68,12 @@ Public Class frmGatepassDetailReport
         Dim ItemCode As String = Nothing
         Dim ItemName As String = Nothing
         Dim tItem As String = Nothing
-        Dim Qry As String = "select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode As [Gatepass No],Format(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,'dd/MM/yyyy hh:mm tt') as [Gatepass Date],Format(TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,'dd/MM/yyyy') as [Supply Date],"
+        Dim ItemType As String = ""
+        If EnableProductSaleForJPR Then
+            ItemType = " MainFinal.[Item Type] ,"
+        End If
+
+        Dim Qry As String = "select TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode As [Gatepass No],case when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'M' then 'Milk' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'P' then 'Product' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'I' then 'Ice Cream' end  as [Item Type] ,Format(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,'dd/MM/yyyy hh:mm tt') as [Gatepass Date],Format(TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,'dd/MM/yyyy') as [Supply Date],"
         Qry += "TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType As [Shift Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No As [Route No],TSPL_ROUTE_MASTER.Route_Desc As [Route Desc],
 TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As [Distributor Name],TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number As [Vehicle Number],TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name As [Driver Name],TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo As [Driver Contact No.],TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip As [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER.Remarks,TSPL_DAIRYSALE_GATEPASS_MASTER.Comments,TSPL_DAIRYSALE_GATEPASS_MASTER.Trip_No As [Trip No],TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate As [Total Crate],
 TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code As [Item Code],TSPL_ITEM_MASTER.Short_Description As [Short Description],TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code As [Unit Code],
@@ -82,11 +98,22 @@ left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DAIRYSALE_GATEPAS
             Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType='Evening' "
         End If
 
-        If rbtnMilk.Checked Then
-            Qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
-        ElseIf rbtnProduct.Checked Then
-            Qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+        If EnableProductSaleForJPR Then
+            If rbtnMilk.Checked Then
+                Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='M' "
+            ElseIf rbtnProduct.Checked Then
+                Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='P' "
+            ElseIf rbtnIceCream.Checked Then
+                Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='I' "
+            End If
+        Else
+            If rbtnMilk.Checked Then
+                Qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+            ElseIf rbtnProduct.Checked Then
+                Qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+            End If
         End If
+
 
         If txtMultRoute.arrValueMember IsNot Nothing AndAlso txtMultRoute.arrValueMember.Count > 0 Then
             Qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No In (" & clsCommon.GetMulcallString(txtMultRoute.arrValueMember) & ") "
@@ -117,14 +144,14 @@ left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DAIRYSALE_GATEPAS
         End If
 
         dt = Nothing
-        Dim finalQry As String = "Select xxxfinal.[Gatepass No],xxxfinal.[Gatepass Date],xxxfinal.[Supply Date],xxxfinal.[Shift Type],xxxfinal.[Route No],Max(xxxfinal.[Route Desc])[Route Desc],Max([Distributor Name])[Distributor Name],Max(xxxfinal.[Vehicle Number])[Vehicle Number],Max(xxxfinal.[Driver Name])[Driver Name],Max(xxxfinal.[Driver Contact No.])[Driver Contact No.],Max(xxxfinal.[Loading Slip])[Loading Slip],Max(xxxfinal.Remarks)[Remarks],Max(xxxfinal.Comments)[Comments],Max(xxxfinal.[Trip No])[Trip No],Max(xxxfinal.[Total Crate])[Total Crate] "
+        Dim finalQry As String = "Select xxxfinal.[Gatepass No],xxxfinal.[Item Type],xxxfinal.[Gatepass Date],xxxfinal.[Supply Date],xxxfinal.[Shift Type],xxxfinal.[Route No],Max(xxxfinal.[Route Desc])[Route Desc],Max([Distributor Name])[Distributor Name],Max(xxxfinal.[Vehicle Number])[Vehicle Number],Max(xxxfinal.[Driver Name])[Driver Name],Max(xxxfinal.[Driver Contact No.])[Driver Contact No.],Max(xxxfinal.[Loading Slip])[Loading Slip],Max(xxxfinal.Remarks)[Remarks],Max(xxxfinal.Comments)[Comments],Max(xxxfinal.[Trip No])[Trip No],Max(xxxfinal.[Total Crate])[Total Crate] "
         finalQry += "" + ItemName + ""
-        finalQry += " from (" + Qry + ") As xxxfinal  Group By xxxfinal.[Gatepass No],xxxfinal.[Gatepass Date],xxxfinal.[Supply Date],xxxfinal.[Shift Type],xxxfinal.[Route No],xxxfinal.[Item Code]"
+        finalQry += " from (" + Qry + ") As xxxfinal  Group By xxxfinal.[Gatepass No],xxxfinal.[Item Type],xxxfinal.[Gatepass Date],xxxfinal.[Supply Date],xxxfinal.[Shift Type],xxxfinal.[Route No],xxxfinal.[Item Code]"
 
-        Qry = "Select MainFinal.[Gatepass No],MainFinal.[Gatepass Date],MainFinal.[Supply Date],"
+        Qry = "Select MainFinal.[Gatepass No]," & ItemType & " MainFinal.[Gatepass Date],MainFinal.[Supply Date],"
         Qry += "MainFinal.[Shift Type],MainFinal.[Route No],Max(MainFinal.[Route Desc])[Route Desc],Max(MainFinal.[Distributor Name])[Distributor Name],Max(MainFinal.[Vehicle Number])[Vehicle Number],Max(MainFinal.[Driver Name])[Driver Name],Max(MainFinal.[Driver Contact No.])[Driver Contact No.],Max(MainFinal.[Loading Slip])[Loading Slip],Max(MainFinal.Remarks)[Remarks],Max(MainFinal.Comments)[Comments],Max(MainFinal.[Trip No])[Trip No],Max(MainFinal.[Total Crate])[Total Crate] "
         Qry += "" + tItem + ""
-        Qry += "from (" + finalQry + ")As MainFinal Group By MainFinal.[Gatepass No],MainFinal.[Gatepass Date],MainFinal.[Supply Date],MainFinal.[Shift Type],MainFinal.[Route No],MainFinal.[Vehicle Number],MainFinal.[Loading Slip]"
+        Qry += "from (" + finalQry + ")As MainFinal Group By MainFinal.[Gatepass No]," & ItemType & "MainFinal.[Gatepass Date],MainFinal.[Supply Date],MainFinal.[Shift Type],MainFinal.[Route No],MainFinal.[Vehicle Number],MainFinal.[Loading Slip]"
         dt = clsDBFuncationality.GetDataTable(Qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             BlankGrid()

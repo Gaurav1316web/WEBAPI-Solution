@@ -35,8 +35,7 @@ Partial Class FrmAPInvoiceEntry
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtSecurityAdjusment = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.ChkTrnsferToSvng = New common.Controls.MyCheckBox()
         Me.grpVendorBankDetails = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtVendor_Bank_ACNo = New common.Controls.MyTextBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -92,6 +91,7 @@ Partial Class FrmAPInvoiceEntry
         Me.txtMCC = New common.Controls.MyTextBox()
         Me.lblMCC = New common.Controls.MyTextBox()
         Me.lblMCC2 = New common.Controls.MyLabel()
+        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtDataAndTimeSelection = New common.Controls.MyDateTimePicker()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtTapalNo = New common.Controls.MyTextBox()
@@ -105,6 +105,7 @@ Partial Class FrmAPInvoiceEntry
         Me.txtBillNo = New common.Controls.MyTextBox()
         Me.chkProRated = New common.Controls.MyCheckBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.txtSecurityAdjusment = New common.UserControls.txtMultiSelectFinder()
         Me.txtAdd_Doc_TYpe = New common.Controls.MyLabel()
         Me.LblVCGL = New common.Controls.MyTextBox()
         Me.TxtCostCentre = New common.UserControls.txtFinder()
@@ -225,14 +226,13 @@ Partial Class FrmAPInvoiceEntry
         Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.ChkTrnsferToSvng = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkTrnsferToSvng, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpVendorBankDetails.SuspendLayout()
         CType(Me.txtVendor_Bank_ACNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -290,6 +290,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -398,7 +399,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.ChkTrnsferToSvng, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -531,29 +531,17 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1073, 400)
         Me.RadPageViewPage1.Text = "Document"
         '
-        'txtSecurityAdjusment
+        'ChkTrnsferToSvng
         '
-        Me.txtSecurityAdjusment.arrDispalyMember = Nothing
-        Me.txtSecurityAdjusment.arrValueMember = Nothing
-        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(-12, 3)
-        Me.txtSecurityAdjusment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSecurityAdjusment.MyLinkLable1 = Me.MyLabel15
-        Me.txtSecurityAdjusment.MyLinkLable2 = Nothing
-        Me.txtSecurityAdjusment.MyNullText = "Please select"
-        Me.txtSecurityAdjusment.Name = "txtSecurityAdjusment"
-        Me.txtSecurityAdjusment.Size = New System.Drawing.Size(231, 20)
-        Me.txtSecurityAdjusment.TabIndex = 615
-        Me.txtSecurityAdjusment.Visible = False
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(284, 215)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(82, 16)
-        Me.MyLabel15.TabIndex = 607
-        Me.MyLabel15.Text = "Date And Time"
+        Me.ChkTrnsferToSvng.Location = New System.Drawing.Point(835, 151)
+        Me.ChkTrnsferToSvng.MyLinkLable1 = Nothing
+        Me.ChkTrnsferToSvng.MyLinkLable2 = Nothing
+        Me.ChkTrnsferToSvng.Name = "ChkTrnsferToSvng"
+        Me.ChkTrnsferToSvng.Size = New System.Drawing.Size(112, 18)
+        Me.ChkTrnsferToSvng.TabIndex = 615
+        Me.ChkTrnsferToSvng.Tag1 = Nothing
+        Me.ChkTrnsferToSvng.Text = "Transfer To Saving"
+        Me.ChkTrnsferToSvng.Visible = False
         '
         'grpVendorBankDetails
         '
@@ -1415,6 +1403,16 @@ Partial Class FrmAPInvoiceEntry
         Me.lblMCC2.TabIndex = 609
         Me.lblMCC2.Text = "MCC/PLANT"
         '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(284, 215)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel15.TabIndex = 607
+        Me.MyLabel15.Text = "Date And Time"
+        '
         'txtDataAndTimeSelection
         '
         Me.txtDataAndTimeSelection.CalculationExpression = Nothing
@@ -1658,6 +1656,20 @@ Partial Class FrmAPInvoiceEntry
         Me.MyLabel9.Size = New System.Drawing.Size(31, 16)
         Me.MyLabel9.TabIndex = 55
         Me.MyLabel9.Text = "Type"
+        '
+        'txtSecurityAdjusment
+        '
+        Me.txtSecurityAdjusment.arrDispalyMember = Nothing
+        Me.txtSecurityAdjusment.arrValueMember = Nothing
+        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(-12, 3)
+        Me.txtSecurityAdjusment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSecurityAdjusment.MyLinkLable1 = Me.MyLabel15
+        Me.txtSecurityAdjusment.MyLinkLable2 = Nothing
+        Me.txtSecurityAdjusment.MyNullText = "Please select"
+        Me.txtSecurityAdjusment.Name = "txtSecurityAdjusment"
+        Me.txtSecurityAdjusment.Size = New System.Drawing.Size(231, 20)
+        Me.txtSecurityAdjusment.TabIndex = 615
+        Me.txtSecurityAdjusment.Visible = False
         '
         'txtAdd_Doc_TYpe
         '
@@ -3252,17 +3264,6 @@ Partial Class FrmAPInvoiceEntry
         Me.Panel1.Size = New System.Drawing.Size(1094, 484)
         Me.Panel1.TabIndex = 3
         '
-        'ChkTrnsferToSvng
-        '
-        Me.ChkTrnsferToSvng.Location = New System.Drawing.Point(835, 151)
-        Me.ChkTrnsferToSvng.MyLinkLable1 = Nothing
-        Me.ChkTrnsferToSvng.MyLinkLable2 = Nothing
-        Me.ChkTrnsferToSvng.Name = "ChkTrnsferToSvng"
-        Me.ChkTrnsferToSvng.Size = New System.Drawing.Size(112, 18)
-        Me.ChkTrnsferToSvng.TabIndex = 615
-        Me.ChkTrnsferToSvng.Tag1 = Nothing
-        Me.ChkTrnsferToSvng.Text = "Transfer To Saving"
-        '
         'FrmAPInvoiceEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3284,7 +3285,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkTrnsferToSvng, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpVendorBankDetails.ResumeLayout(False)
         Me.grpVendorBankDetails.PerformLayout()
@@ -3349,6 +3350,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3463,7 +3465,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.ChkTrnsferToSvng, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

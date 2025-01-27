@@ -381,7 +381,7 @@ Partial Class FrmSchemeMasterDairy
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(980, 409)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1394,12 +1394,17 @@ Partial Class FrmSchemeMasterDairy
         Me.gvItem.MasterTemplate.AutoGenerateColumns = False
         Me.gvItem.MasterTemplate.EnableFiltering = True
         Me.gvItem.MasterTemplate.EnableGrouping = False
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(959, 235)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
+        Me.gvItem.VarID = ""
         '
         'RadPageViewPage2
         '
@@ -1529,12 +1534,17 @@ Partial Class FrmSchemeMasterDairy
         Me.gvCustomer.MasterTemplate.AllowAddNewRow = False
         Me.gvCustomer.MasterTemplate.EnableFiltering = True
         Me.gvCustomer.MasterTemplate.EnableGrouping = False
+        Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvCustomer.ShowHeaderCellButtons = True
         Me.gvCustomer.Size = New System.Drawing.Size(959, 331)
         Me.gvCustomer.TabIndex = 0
         Me.gvCustomer.TabStop = False
+        Me.gvCustomer.VarID = ""
         '
         'pvpCustomFields
         '
@@ -1698,6 +1708,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvTS.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTS.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTS.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTS.MyStopExport = False
         Me.gvTS.Name = "gvTS"
         Me.gvTS.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTS.ShowGroupPanel = False
@@ -1705,6 +1716,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvTS.Size = New System.Drawing.Size(485, 290)
         Me.gvTS.TabIndex = 1
         Me.gvTS.TabStop = False
+        Me.gvTS.VarID = ""
         '
         'gvTS2
         '
@@ -1721,6 +1733,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvTS2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTS2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTS2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvTS2.MyStopExport = False
         Me.gvTS2.Name = "gvTS2"
         Me.gvTS2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTS2.ShowGroupPanel = False
@@ -1728,6 +1741,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvTS2.Size = New System.Drawing.Size(466, 290)
         Me.gvTS2.TabIndex = 2
         Me.gvTS2.TabStop = False
+        Me.gvTS2.VarID = ""
         '
         'chkSlabWise
         '
@@ -1879,6 +1893,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvVolumeSlab.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvVolumeSlab.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvVolumeSlab.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvVolumeSlab.MyStopExport = False
         Me.gvVolumeSlab.Name = "gvVolumeSlab"
         Me.gvVolumeSlab.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvVolumeSlab.ShowGroupPanel = False
@@ -1886,6 +1901,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvVolumeSlab.Size = New System.Drawing.Size(959, 300)
         Me.gvVolumeSlab.TabIndex = 2
         Me.gvVolumeSlab.TabStop = False
+        Me.gvVolumeSlab.VarID = ""
         '
         'RadPageViewPage4
         '
@@ -2040,6 +2056,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvCashDisGrid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCashDisGrid.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCashDisGrid.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvCashDisGrid.MyStopExport = False
         Me.gvCashDisGrid.Name = "gvCashDisGrid"
         Me.gvCashDisGrid.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCashDisGrid.ShowGroupPanel = False
@@ -2047,6 +2064,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvCashDisGrid.Size = New System.Drawing.Size(959, 281)
         Me.gvCashDisGrid.TabIndex = 3
         Me.gvCashDisGrid.TabStop = False
+        Me.gvCashDisGrid.VarID = ""
         '
         'btnClose
         '

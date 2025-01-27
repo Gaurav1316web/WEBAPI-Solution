@@ -5361,6 +5361,7 @@ Public Class frmSNSaleInvoice
                     End If
                     'txtElecttefNo.Text = objOrderHead.Electronic_Ref_No
                     '' currency details
+
                     txtCurrencyCode.Value = objOrderHead.CURRENCY_CODE
                     Me.txtConversionRate.Text = objOrderHead.ConvRate
                     If objOrderHead.ApplicableFrom IsNot Nothing Then
@@ -5423,10 +5424,10 @@ Public Class frmSNSaleInvoice
                     End If
 
 
-                    If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
-                        txtTaxGroup.Value = objOrderHead.Tax_Group
+                    'If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
+                    txtTaxGroup.Value = objOrderHead.Tax_Group
                         SetTaxDetails()
-                    End If
+                    'End If
 
                     If clsCommon.myLen(txtSalesman.Value) <= 0 Then
                         txtSalesman.Value = objOrderHead.Salesman_Code

@@ -7492,9 +7492,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmDistributorCommission
                         frm = New frmDistributorCommission
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.FrmItemCapacityLimt
-                    '    frm = New FrmItemCapacityLimit
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmItemCapacityLimt
+                        frm = New FrmItemCapacityLimit
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDayBook
+                        frm = New frmDayBook
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.VehicleMasterForProductSale
                         frm = New frmVehicleMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8246,7 +8249,7 @@ Public Class MDI
                         frm = New RptTankerDispatchvsAckn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-                    Case clsUserMgtCode.rptSalesComparisonReport
+                    Case clsUserMgtCode.RptDairyBookingDistributorReport
                         frm = New RptDairyBookingDistributorReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
@@ -8279,6 +8282,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptDemandNill
                         frm = New RptBoothNilDemandl()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptMonthlyBillSummaryReport
+                        frm = New rptMonthlyBillSummary()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDemandHistory
                         frm = New frmDemandHistory()
@@ -9212,6 +9218,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptHSNWiseSaleReport
                         frm = New rptHSNWiseSaleReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptMilkSupplySaleReport
+                        frm = New rptMilkSupplySaleReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmperdayDetailRpt
                         frm = New FrmperdayDetailRpt()

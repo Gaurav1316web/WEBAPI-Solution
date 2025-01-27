@@ -194,13 +194,48 @@ Public Class clsPaymentProcessHead
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date from TSPL_PAYMENT_PROCESS_HEAD where Doc_No='" + DocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, clsCommon.myCstr(dt.Rows(0)("Loc_Seg_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, clsCommon.myCstr(dt.Rows(0)("Area_Location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
-
             End If
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, Area_Location_Code, Doc_Date, trans)
+            Dim qry As String = ""
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                Dim baseQry As String = "select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Posting_Date, TSPL_VENDOR_INVOICE_HEAD.Document_Total,Against_TransferToSavingPKID 
+            from TSPL_PAYMENT_PROCESS_SAVING 
+            left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+            where 2=2 and Doc_No='" + obj.Doc_No + "' 
+            and TSPL_VENDOR_INVOICE_HEAD.Against_TransferToSavingPKID is not null"
 
-            Dim qry As String = " update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=1, Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where doc_no='" & obj.Doc_No & "'"
+                qry = "select xxx.*,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount from (
+            select Vendor_Code,min(Against_TransferToSavingPKID) as Min_Against_TransferToSavingPKID,max(Against_TransferToSavingPKID) as Max_Against_TransferToSavingPKID,sum(Document_Total) as Document_Total from (" + baseQry + ")xx group by Vendor_Code 
+            )xxx
+            left outer join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + obj.Doc_No + "'  and TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE=xxx.Vendor_Code 
+            where xxx.Document_Total>TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount "
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        If clsCommon.myCDecimal(dr("Min_Against_TransferToSavingPKID")) = clsCommon.myCDecimal(dr("Max_Against_TransferToSavingPKID")) Then
+                            UpdateTransferToSaving(clsCommon.myCDecimal(dr("Min_Against_TransferToSavingPKID")), clsCommon.myCDecimal(dr("Payable_Amount")), trans)
+                        Else
+                            qry = baseQry + " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code='" + clsCommon.myCstr(dr("Vendor_Code")) + "' order by TSPL_VENDOR_INVOICE_HEAD.Document_Total desc"
+                            Dim dtInner As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                            If dtInner IsNot Nothing AndAlso dtInner.Rows.Count > 0 Then
+                                Dim BalAmt As Decimal = clsCommon.myCDecimal(dr("Document_Total")) - clsCommon.myCDecimal(dr("Payable_Amount"))
+                                For Each drInner As DataRow In dtInner.Rows
+                                    If BalAmt > clsCommon.myCDecimal(drInner("Document_Total")) Then
+                                        UpdateTransferToSaving(clsCommon.myCDecimal(drInner("Against_TransferToSavingPKID")), 0, trans)
+                                        BalAmt -= clsCommon.myCDecimal(drInner("Document_Total"))
+                                    Else
+                                        BalAmt -= clsCommon.myCDecimal(drInner("Document_Total"))
+                                        UpdateTransferToSaving(clsCommon.myCDecimal(drInner("Against_TransferToSavingPKID")), Math.Abs(BalAmt), trans)
+                                        Exit For
+                                    End If
+                                Next
+                            End If
+                        End If
+                    Next
+                End If
+            End If
+
+            qry = " update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=1, Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where doc_no='" & obj.Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
         Catch ex As Exception
@@ -210,6 +245,36 @@ Public Class clsPaymentProcessHead
         Return True
     End Function
 
+    Private Shared Sub UpdateTransferToSaving(intPKID As Integer, NewAmount As Decimal, trans As SqlTransaction)
+        Dim qry As String = "update TSPL_TRANSFER_TO_SAVING_DETAIL set Org_Amount=Amount where PK_ID='" + clsCommon.myCstr(intPKID) + "' and Org_Amount is null"
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        qry = "update TSPL_TRANSFER_TO_SAVING_DETAIL set Amount=" + clsCommon.myCstr(NewAmount) + " where PK_ID='" + clsCommon.myCstr(intPKID) + "'"
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        qry = "select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_JOURNAL_MASTER.Voucher_No 
+from TSPL_VENDOR_INVOICE_HEAD 
+left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_VENDOR_INVOICE_HEAD.Document_No 
+where Against_TransferToSavingPKID=" + clsCommon.myCstr(intPKID) + ""
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        For Each dr As DataRow In dt.Rows
+            qry = "update TSPL_VENDOR_INVOICE_HEAD set Document_Total=" + clsCommon.myCstr(NewAmount) + "
+,Balance_Amt=" + clsCommon.myCstr(NewAmount) + "
+,Amount_Less_Discount=" + clsCommon.myCstr(NewAmount) + "
+,Discount_Base=" + clsCommon.myCstr(NewAmount) + "
+where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "update TSPL_VENDOR_INVOICE_DETAIL set Amount=" + clsCommon.myCstr(NewAmount) + "
+,Amount_less_Discount=" + clsCommon.myCstr(NewAmount) + "
+,Total_Amount=" + clsCommon.myCstr(NewAmount) + "
+where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            Dim objVI As clsVedorInvoiceHead = clsVedorInvoiceHead.GetData(clsCommon.myCstr(dr("Document_No")), "", trans)
+            clsVedorInvoiceHead.CreateJournalEntry(objVI, "", objVI.Posting_Date, trans)
+        Next
+    End Sub
 
     Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String) As Boolean
         Return ProcessData(DocNo, Desc, True)
@@ -3939,9 +4004,11 @@ Public Class clsPaymentProcessMCCSale
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.* 
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_TYPE_MASTER.Document_No as DeductionType 
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
+left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Sale_Doc_No    
+left outer join TSPL_DEDUCTION_TYPE_MASTER on TSPL_DEDUCTION_TYPE_MASTER.Document_No=TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type 
 where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_MCC_SALE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception

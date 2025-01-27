@@ -335,7 +335,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\XpertERPBlankTableScript.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPBulkProcurement, Version=7.1.3.33, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertERPBulkProcurement, Version=7.1.3.71, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPBulkProcurement\bin\Debug\XpertERPBulkProcurement.dll</HintPath>
     </Reference>
@@ -4994,12 +4994,6 @@
     <Compile Include="Utilities\frmVersion.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utilities\Reports\frmUserPerformanceDetail.Designer.vb">
-      <DependentUpon>frmUserPerformanceDetail.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\Reports\frmUserPerformanceDetail.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Web References\BSWS\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -7667,10 +7661,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\frmVersion.resx">
       <DependentUpon>frmVersion.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utilities\Reports\frmUserPerformanceDetail.resx">
-      <DependentUpon>frmUserPerformanceDetail.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

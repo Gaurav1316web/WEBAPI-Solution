@@ -112,6 +112,10 @@ Public Class FrmPaymentProcess
     Public Const colALPaymentDate As String = "colALPaymentDate"
     Public Const colALPaymentAmt As String = "colALPaymentAmt"
 
+    Public Const colDeductionTypeCode As String = "colDeductionTypeCode"
+    Public Const colSequenceNo1 As String = "colSequenceNo1"
+    Public Const colSequenceNo2 As String = "colSequenceNo2"
+
     Dim colChkBox As GridViewCheckBoxColumn = Nothing
     Dim colTextBox As GridViewTextBoxColumn = Nothing
     Dim colDate As GridViewDateTimeColumn = Nothing
@@ -2073,6 +2077,23 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
 
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Deduction Type"
+        colTextBox.Name = colDeductionTypeCode
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gvMccSale.MasterTemplate.Columns.Add(colTextBox)
+
+        colDecimal = New GridViewDecimalColumn()
+        colDecimal.FormatString = ""
+        colDecimal.HeaderText = "Deduction SNo"
+        colDecimal.Name = colSequenceNo2
+        colDecimal.Width = 100
+        colDecimal.ReadOnly = True
+        colDecimal.IsVisible = False
+        gvMccSale.MasterTemplate.Columns.Add(colDecimal)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
         colTextBox.HeaderText = "VLC Code Uploader"
         colTextBox.Name = colVLCUploaderCode
         colTextBox.Width = 200
@@ -2095,26 +2116,6 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colTextBox.Width = 200
         colTextBox.ReadOnly = True
         gvMccSale.MasterTemplate.Columns.Add(colTextBox)
-
-
-
-        'colTextBox = New GridViewTextBoxColumn()
-        'colTextBox.FormatString = ""
-        'colTextBox.HeaderText = "Item Code"
-        'colTextBox.Name = colItemCode
-        'colTextBox.Width = 200
-        'colTextBox.ReadOnly = True
-        'gvMccSale.MasterTemplate.Columns.Add(colTextBox)
-
-
-
-        'colTextBox = New GridViewTextBoxColumn()
-        'colTextBox.FormatString = ""
-        'colTextBox.HeaderText = "Item Desc"
-        'colTextBox.Name = colItemDesc
-        'colTextBox.Width = 200
-        'colTextBox.ReadOnly = True
-        'gvMccSale.MasterTemplate.Columns.Add(colTextBox)
 
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
@@ -2286,23 +2287,6 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
 
 
 
-        'colTextBox = New GridViewTextBoxColumn()
-        'colTextBox.FormatString = ""
-        'colTextBox.HeaderText = "Item Code"
-        'colTextBox.Name = colItemCode
-        'colTextBox.Width = 200
-        'colTextBox.ReadOnly = True
-        'gvMccsaleReturn.MasterTemplate.Columns.Add(colTextBox)
-
-
-
-        'colTextBox = New GridViewTextBoxColumn()
-        'colTextBox.FormatString = ""
-        'colTextBox.HeaderText = "Item Desc"
-        'colTextBox.Name = colItemDesc
-        'colTextBox.Width = 200
-        'colTextBox.ReadOnly = True
-        'gvMccsaleReturn.MasterTemplate.Columns.Add(colTextBox)
 
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
@@ -2311,16 +2295,6 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colDecimal.Width = 200
         colDecimal.ReadOnly = True
         GvMccSaleReturn.MasterTemplate.Columns.Add(colDecimal)
-
-        'colDecimal = New GridViewDecimalColumn()
-        'colDecimal.FormatString = ""
-        'colDecimal.HeaderText = "Reduce" & Environment.NewLine & "Deduction"
-        'colDecimal.Name = colReduceDeduc
-        'colDecimal.Width = 100
-        'colDecimal.ReadOnly = False
-        'colDecimal.WrapText = True
-        'GvMccSaleReturn.MasterTemplate.Columns.Add(colDecimal)
-
 
         GvMccSaleReturn.AllowAddNewRow = False
         GvMccSaleReturn.AllowDeleteRow = False
@@ -2389,7 +2363,6 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colTextBox.ReadOnly = True
         gvDeduction.MasterTemplate.Columns.Add(colTextBox)
 
-
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
         colTextBox.HeaderText = "Vendor Name"
@@ -2397,8 +2370,6 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colTextBox.Width = 200
         colTextBox.ReadOnly = True
         gvDeduction.MasterTemplate.Columns.Add(colTextBox)
-
-
 
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
@@ -2420,6 +2391,23 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
 
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
+        colDecimal.HeaderText = "Sequence No 1"
+        colDecimal.Name = colSequenceNo1
+        colDecimal.Width = 100
+        colDecimal.ReadOnly = True
+        colDecimal.IsVisible = False
+        gvDeduction.MasterTemplate.Columns.Add(colDecimal)
+
+        colDecimal = New GridViewDecimalColumn()
+        colDecimal.FormatString = ""
+        colDecimal.HeaderText = "Sequence No 2"
+        colDecimal.Name = colSequenceNo2
+        colDecimal.ReadOnly = True
+        colDecimal.IsVisible = False
+        gvDeduction.MasterTemplate.Columns.Add(colDecimal)
+
+        colDecimal = New GridViewDecimalColumn()
+        colDecimal.FormatString = ""
         colDecimal.HeaderText = "Amount"
         colDecimal.Name = colItemAmt
         colDecimal.Width = 200
@@ -2434,6 +2422,7 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colDecimal.Width = 200
         colDecimal.ReadOnly = False
         gvDeduction.MasterTemplate.Columns.Add(colDecimal)
+
 
         gvDeduction.AllowAddNewRow = False
         gvDeduction.AllowDeleteRow = False
@@ -2809,6 +2798,12 @@ And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>''
                 gvDeduction.Columns(colDeductionDesc).FieldName = "Deduction_Desc"
                 gvDeduction.Columns(colItemAmt).FieldName = "Total_Amount"
 
+                gvDeduction.Columns(colItemAmt).FieldName = "Total_Amount"
+                gvDeduction.Columns(colItemAmt).FieldName = "Total_Amount"
+
+                gvDeduction.Columns(colSequenceNo1).FieldName = "Sequence_No"
+                gvDeduction.Columns(colSequenceNo2).FieldName = "Sequence_No2"
+
                 For jj As Integer = 0 To gvDeduction.Rows.Count - 1
                     gvDeduction.Columns(colSlno).DataSourceNullValue = jj + 1
                 Next
@@ -2909,14 +2904,12 @@ And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>''
 from TSPL_VENDOR_INVOICE_head   
 left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_head.Document_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Transfer_To_Saving=0 and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
             Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE  where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no not in ('" + fndDocNo.Value + "')) "
-
             If clsCommon.myLen(strVendorCode) <= 0 Then
             Else
                 whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
             End If
-
             If MultipleFinderFillAuto Then
                 Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable("select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")")
                 If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
@@ -3298,14 +3291,15 @@ order by Payment_Date "
     Sub LoadMccSaleGridData()
         LoadBlankGridMccSale()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by xx.[Shipment_No]) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, Loc_Code,[Shipment_No],[Shipment_Date] ,[Vendor_Code] ,[Vendor_Name] ,Sale_Invoice_No,[Sale_Inoivce_Date] ,[AR_Invoice_No],[AR_Invoice_Date],Balance_Amt as OriginalBalanceAmt,InstallmentAmount,case when InstallmentAmount>0 then case when Balance_Amt>(InstallmentAmount+1.00) then InstallmentAmount else Balance_Amt end else Balance_Amt end as Balance_Amt from (  
+            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by xx.[Shipment_No]) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, Loc_Code,[Shipment_No],[Shipment_Date] ,[Vendor_Code] ,[Vendor_Name] ,Sale_Invoice_No,[Sale_Inoivce_Date] ,[AR_Invoice_No],[AR_Invoice_Date],DeductionSNo,DeductionTypeCode,Balance_Amt as OriginalBalanceAmt,InstallmentAmount,case when InstallmentAmount>0 then case when Balance_Amt>(InstallmentAmount+1.00) then InstallmentAmount else Balance_Amt end else Balance_Amt end as Balance_Amt from (  
 select TSPL_Customer_Invoice_Head.Loc_Code, TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE as [Shipment_No],TSPL_SD_SHIPMENT_HEAD.Document_Date as [Shipment_Date] ,TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code [Vendor_Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [Vendor_Name] , TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [Sale_Inoivce_Date] ,TSPL_Customer_Invoice_Head.Document_No as [AR_Invoice_No] ,   TSPL_Customer_Invoice_Head.Document_Date as [AR_Invoice_Date], TSPL_Customer_Invoice_Head.Balance_Amt , 
-convert(decimal(18,2), case when isnull(TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment,0)=0 then 0 else TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment " + IIf(IsRoundOffPaiseAmount, "-((TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment)%1)", "") + "  end) as InstallmentAmount  
+convert(decimal(18,2), case when isnull(TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment,0)=0 then 0 else TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment " + IIf(IsRoundOffPaiseAmount, "-((TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment)%1)", "") + "  end) as InstallmentAmount, TSPL_DEDUCTION_TYPE_MASTER.SNo  as DeductionSNo,TSPL_DEDUCTION_TYPE_MASTER.Document_No as DeductionTypeCode 
 from TSPL_SD_SHIPMENT_HEAD  
 left outer join  TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code     
 inner join TSPL_Customer_Invoice_Head on  TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No  and coalesce(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>''   
 left outer join TSPL_VENDOR_MASTER   on  TSPL_VENDOR_MASTER .Vendor_code  =TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code   
 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No    
+left outer join TSPL_DEDUCTION_TYPE_MASTER on TSPL_DEDUCTION_TYPE_MASTER.Document_No=TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type
 where  isnull(TSPL_SD_SHIPMENT_HEAD.Is_CashSale,'N')='N' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and " & IIf(chkSkipPrevMccSale.Checked, " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'") + " and tspl_customer_invoice_head.Balance_Amt<>0 "
             If clsCommon.myLen(strVendorCode) > 0 Then
                 qry += " and TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code  in (  " & strVendorCode & " )"
@@ -3331,6 +3325,8 @@ where  isnull(TSPL_SD_SHIPMENT_HEAD.Is_CashSale,'N')='N' and TSPL_SD_SHIPMENT_HE
                 gvMccSale.Columns(colItemAmt).FieldName = "Balance_Amt"
                 gvMccSale.Columns(colOrgBalanceAmt).FieldName = "OriginalBalanceAmt"
                 gvMccSale.Columns(colInstallmentAmt).FieldName = "InstallmentAmount"
+                gvMccSale.Columns(colDeductionTypeCode).FieldName = "DeductionTypeCode"
+                gvMccSale.Columns(colSequenceNo2).FieldName = "DeductionSNo"
             End If
         End If
     End Sub
@@ -3385,9 +3381,7 @@ tspl_customer_invoice_head.Balance_Amt<>0 "
     End Sub
 
     Sub LoadBlankGridItemIssue()
-        'gvItemIssue.Rows.Clear()
         gvItemIssue.Columns.Clear()
-
         gvItemIssue.DataSource = Nothing
 
         colChkBox = New GridViewCheckBoxColumn()
@@ -4774,6 +4768,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvMccSale.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
                     gvMccSale.Columns(colOrgBalanceAmt).FieldName = "Original_Balance_Amount"
                     gvMccSale.Columns(colInstallmentAmt).FieldName = "Instalment_Amt"
+                    gvMccSale.Columns(colDeductionTypeCode).FieldName = "DeductionType"
                 End If
                 If obj.dtClsPaymentProcessItemIssue IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssue.Rows.Count > 0 Then
                     gvItemIssue.DataSource = Nothing
@@ -5585,58 +5580,142 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
 
         isCellValueChanged = False
         If PayableAmountZeroForMCCSale Then
+            Dim dtOrder As New DataTable("ExampleTable")
+            dtOrder.Columns.Add("Grid", GetType(Integer))
+            dtOrder.Columns.Add("Index", GetType(Integer))
+            dtOrder.Columns.Add("SNo", GetType(Integer))
+            dtOrder.Columns.Add("SequenceNo1", GetType(Integer))
+            dtOrder.Columns.Add("SequenceNo2", GetType(Integer))
+            dtOrder.Columns.Add("Amount", GetType(Decimal))
+
             For ii As Integer = 0 To gv.Rows.Count - 1
                 Dim strVSPCode As String = clsCommon.myCstr(gv.Rows(ii).Cells(colVendorCode).Value)
                 Dim dblAmt As Decimal = Math.Round(clsCommon.myCdbl(gv.Rows(ii).Cells(colPaybleAmt).Value), 2, MidpointRounding.AwayFromZero)
-                ''1. Advance
-                ''Handled on above
-                ''2 MCC Sale
                 If dblAmt < 0 Then ''IF amount negative
                     dblAmt = Math.Abs(dblAmt)
-                    For jj As Integer = gvMccSale.Rows.Count - 1 To 0 Step -1
+                    dtOrder.Rows.Clear()
+
+                    For jj As Integer = 0 To gvDeduction.Rows.Count - 1
+                        If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvDeduction.Rows(jj).Cells(colVendorCode).Value)) = CompairStringResult.Equal Then
+                            If clsCommon.myCBool(gvDeduction.Rows(jj).Cells(colSelect).Value) Then
+                                Dim row As DataRow = dtOrder.NewRow()
+                                row("Grid") = 1
+                                row("Index") = jj
+                                row("SNo") = clsCommon.myCDecimal(gvDeduction.Rows(jj).Cells(colSlno).Value)
+                                row("SequenceNo1") = clsCommon.myCDecimal(gvDeduction.Rows(jj).Cells(colSequenceNo1).Value)
+                                row("SequenceNo2") = clsCommon.myCDecimal(gvDeduction.Rows(jj).Cells(colSequenceNo2).Value)
+                                row("Amount") = clsCommon.myCDecimal(gvDeduction.Rows(jj).Cells(colItemAmt).Value)
+                                dtOrder.Rows.Add(row)
+                            Else
+                                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = 0
+                            End If
+                        End If
+                    Next
+                    For jj As Integer = 0 To gvMccSale.Rows.Count - 1
                         If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvMccSale.Rows(jj).Cells(colCustomerCode).Value)) = CompairStringResult.Equal Then
                             If clsCommon.myCBool(gvMccSale.Rows(jj).Cells(colSelect).Value) Then
-                                gvMccSale.CurrentColumn = gvMccSale.Columns(colReduceDeduc)
-                                gvMccSale.CurrentRow = gvMccSale.Rows(jj)
-                                If dblAmt > clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value) Then
-                                    gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-                                    dblAmt -= Math.Round(clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-                                Else
-                                    gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = dblAmt
-                                    dblAmt = 0
-                                    Exit For
-                                End If
+                                Dim row As DataRow = dtOrder.NewRow()
+                                row("Grid") = 2
+                                row("Index") = jj
+                                row("SNo") = clsCommon.myCDecimal(gvMccSale.Rows(jj).Cells(colSlno).Value)
+                                row("SequenceNo1") = 0
+                                row("SequenceNo2") = clsCommon.myCDecimal(gvMccSale.Rows(jj).Cells(colSequenceNo2).Value)
+                                row("Amount") = clsCommon.myCDecimal(gvMccSale.Rows(jj).Cells(colItemAmt).Value)
+                                dtOrder.Rows.Add(row)
                             Else
                                 gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = 0
                             End If
                         End If
                     Next
-                    ''3 Debit Note
-                    If dblAmt <> 0 Then ''IF amount negative
-                        For jj As Integer = gvDeduction.Rows.Count - 1 To 0 Step -1
-                            If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvDeduction.Rows(jj).Cells(colVendorCode).Value)) = CompairStringResult.Equal Then
-                                If clsCommon.myCBool(gvDeduction.Rows(jj).Cells(colSelect).Value) Then
-                                    gvDeduction.CurrentColumn = gvDeduction.Columns(colReduceDeduc)
-                                    gvDeduction.CurrentRow = gvDeduction.Rows(jj)
-                                    If dblAmt > clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value) Then
-                                        gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-                                        dblAmt -= Math.Round(clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-                                    Else
-                                        gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = dblAmt
-                                        dblAmt = 0
-                                        Exit For
-                                    End If
+
+                    If dtOrder IsNot Nothing AndAlso dtOrder.Rows.Count > 0 Then
+                        Dim sortedRows() As DataRow = dtOrder.Select("", "SequenceNo1 ASC, SequenceNo2 ASC,SNo ASC")
+                        For jj As Integer = sortedRows.Length - 1 To 0 Step -1
+                            Dim row As DataRow = sortedRows(jj)
+                            If clsCommon.myCDecimal(row("Grid")) = 1 Then
+                                gvDeduction.CurrentColumn = gvDeduction.Columns(colReduceDeduc)
+                                gvDeduction.CurrentRow = gvDeduction.Rows(clsCommon.myCDecimal(row("Index")))
+                                If dblAmt > clsCommon.myCDecimal(clsCommon.myCDecimal(row("Amount"))) Then
+                                    gvDeduction.Rows(clsCommon.myCDecimal(row("Index"))).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCDecimal(row("Amount")), 2, MidpointRounding.AwayFromZero)
+                                    dblAmt -= Math.Round(clsCommon.myCDecimal(row("Amount")), 2, MidpointRounding.AwayFromZero)
                                 Else
-                                    gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = 0
+                                    gvDeduction.Rows(clsCommon.myCDecimal(row("Index"))).Cells(colReduceDeduc).Value = dblAmt
+                                    dblAmt = 0
+                                    Exit For
                                 End If
+                            ElseIf clsCommon.myCDecimal(row("Grid")) = 2 Then
+                                gvMccSale.CurrentColumn = gvMccSale.Columns(colReduceDeduc)
+                                gvMccSale.CurrentRow = gvMccSale.Rows(clsCommon.myCDecimal(row("Index")))
+                                If dblAmt > clsCommon.myCDecimal(clsCommon.myCDecimal(row("Amount"))) Then
+                                    gvMccSale.Rows(clsCommon.myCDecimal(row("Index"))).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCDecimal(row("Amount")), 2, MidpointRounding.AwayFromZero)
+                                    dblAmt -= Math.Round(clsCommon.myCDecimal(row("Amount")), 2, MidpointRounding.AwayFromZero)
+                                Else
+                                    gvMccSale.Rows(clsCommon.myCDecimal(row("Index"))).Cells(colReduceDeduc).Value = dblAmt
+                                    dblAmt = 0
+                                    Exit For
+                                End If
+                            Else
+                                Throw New Exception("Wrong Grid")
                             End If
                         Next
                     End If
-                    ''End of Debit Note
                 End If
-                ''End of MCC Sale
             Next
         End If
+
+        'If PayableAmountZeroForMCCSale Then
+        '    For ii As Integer = 0 To gv.Rows.Count - 1
+        '        Dim strVSPCode As String = clsCommon.myCstr(gv.Rows(ii).Cells(colVendorCode).Value)
+        '        Dim dblAmt As Decimal = Math.Round(clsCommon.myCdbl(gv.Rows(ii).Cells(colPaybleAmt).Value), 2, MidpointRounding.AwayFromZero)
+        '        ''1. Advance
+        '        ''Handled on above
+        '        ''2 MCC Sale
+        '        If dblAmt < 0 Then ''IF amount negative
+        '            dblAmt = Math.Abs(dblAmt)
+        '            For jj As Integer = gvMccSale.Rows.Count - 1 To 0 Step -1
+        '                If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvMccSale.Rows(jj).Cells(colCustomerCode).Value)) = CompairStringResult.Equal Then
+        '                    If clsCommon.myCBool(gvMccSale.Rows(jj).Cells(colSelect).Value) Then
+        '                        gvMccSale.CurrentColumn = gvMccSale.Columns(colReduceDeduc)
+        '                        gvMccSale.CurrentRow = gvMccSale.Rows(jj)
+        '                        If dblAmt > clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value) Then
+        '                            gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
+        '                            dblAmt -= Math.Round(clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
+        '                        Else
+        '                            gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = dblAmt
+        '                            dblAmt = 0
+        '                            Exit For
+        '                        End If
+        '                    Else
+        '                        gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = 0
+        '                    End If
+        '                End If
+        '            Next
+        '            ''3 Debit Note
+        '            If dblAmt <> 0 Then ''IF amount negative
+        '                For jj As Integer = gvDeduction.Rows.Count - 1 To 0 Step -1
+        '                    If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvDeduction.Rows(jj).Cells(colVendorCode).Value)) = CompairStringResult.Equal Then
+        '                        If clsCommon.myCBool(gvDeduction.Rows(jj).Cells(colSelect).Value) Then
+        '                            gvDeduction.CurrentColumn = gvDeduction.Columns(colReduceDeduc)
+        '                            gvDeduction.CurrentRow = gvDeduction.Rows(jj)
+        '                            If dblAmt > clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value) Then
+        '                                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
+        '                                dblAmt -= Math.Round(clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
+        '                            Else
+        '                                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = dblAmt
+        '                                dblAmt = 0
+        '                                Exit For
+        '                            End If
+        '                        Else
+        '                            gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = 0
+        '                        End If
+        '                    End If
+        '                Next
+        '            End If
+        '            ''End of Debit Note
+        '        End If
+        '        ''End of MCC Sale
+        '    Next
+        'End If
         AddCompularyAmtInPaybleAmount(-1)
     End Sub
     Sub AddCompularyAmtInPaybleAmount(ByVal indx As Integer)

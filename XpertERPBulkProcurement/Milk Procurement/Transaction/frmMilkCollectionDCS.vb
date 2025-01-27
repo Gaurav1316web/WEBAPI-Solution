@@ -1872,13 +1872,14 @@ where 2=2 "
     Private Sub LoadTransactionData(ByVal strMilkType As String)
         Try
             If clsCommon.myLen(txtMCC.Tag) > 0 AndAlso clsCommon.myLen(txtMCC.Value) > 0 Then
-                Dim qry As String = "select TSPL_MILK_COLLECTION_DCS.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type from tspl_milk_Collection_DCS_MCC_Detail
+                Dim qry As String = "select Document_No,Milk_Type from ( select TSPL_MILK_COLLECTION_DCS.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type from tspl_milk_Collection_DCS_MCC_Detail
 left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=tspl_milk_Collection_DCS_MCC_Detail.Document_No
 left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=tspl_milk_Collection_DCS_MCC_Detail.Against_Milk_Collection_MCC_Detail
 where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + clsCommon.myCstr(txtMCC.Tag) + "'"
                 If clsCommon.myLen(strMilkType) > 0 Then
                     qry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type='" + strMilkType + "'"
                 End If
+                qry += " )xx group by Document_No,Milk_Type "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim strDocNo As String = ""
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

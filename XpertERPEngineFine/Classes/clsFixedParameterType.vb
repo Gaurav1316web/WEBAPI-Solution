@@ -80,6 +80,7 @@ Public Class clsFixedParameterType
     Public Const AndroidAPPVersion As String = "Android APP Version"
     Public Const AndroidMPMaster As String = "Android MP Master"
     Public Const AndroidMPIncetiveEntry As String = "Android MP Incetive Entry"
+
     Public Const AndroidMilkCollectionBMCDCS As String = "Android Milk Collection BMC DCS"
     Public Const AndroidDemandBooking As String = "Android Demand Booking"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
@@ -196,6 +197,7 @@ Public Class clsFixedParameterType
     Public Const AllowZeroQtyOnDairyBookingUploader = "AllowZeroQtyOnDairyBookingUploader"
     Public Const AllowtoPostNoOFDocofDOatatime = "AllowtoPostNoOFDocofDOatatime"
     Public Const DonotIncludeSecurityInCustomerOutstanding = "DonotIncludeSecurityInCustomerOutstanding"
+    Public Const IsManualTCS = "Manual TCS"
     Public Const DefaultLocationForCardSaleIntegration = "DefaultLocationForCardSaleIntegration"
     Public Const ApplyNoGSTCreditIndependentlyOnVendorServiceCharge = "ApplyNoGSTCreditIndependentlyOnVendorServiceCharge"
     Public Const CheckNoOfDaysforCardSaleBooking = "CheckNoOfDaysforCardSaleBooking"
@@ -1317,6 +1319,7 @@ Public Class clsFixedParameterCode
     Public Const ItemMaster As String = "Item Master"
     Public Const DemandUnpost As String = "Demand Unpost"
     Public Const DispatchCancel As String = "Dispatch Cancel"
+    Public Const BookingCancel As String = "Booking Cancel"
     Public Const EWayBillUpdate As String = "Update E-Way Bill"
     Public Const GatePassCancel As String = "GatePass Cancel"
     Public Const CustomerMaster As String = "Customer Master"
@@ -1413,6 +1416,7 @@ Public Class clsFixedParameterCode
     Public Const MultipleEntryScreen As String = "Multiple Entry Screen"
     Public Const MultipleEntryScreenAdmin As String = "Multiple Entry Screen Admin"
     Public Const QtyDecimalPlaces As String = "Qty Decimal Places"
+    Public Const SkipPaymentCycle As String = "Skip Payment Cycle"
     Public Const TolleranceQty As String = "Tollerance Qty"
     Public Const TolleranceFAT As String = "Tollerance FAT"
     Public Const TolleranceSNF As String = "Tollerance SNF"
@@ -1545,6 +1549,7 @@ Public Class clsFixedParameterCode
     Public Const AllowZeroQtyOnDairyBookingUploader = "AllowZeroQtyOnDairyBookingUploader"
     Public Const AllowtoPostNoOFDocofDOatatime = "AllowtoPostNoOFDocofDOatatime"
     Public Const DonotIncludeSecurityInCustomerOutstanding = "DonotIncludeSecurityInCustomerOutstanding"
+    Public Const IsManualTCS = "Manual TCS"
     Public Const DefaultLocationForCardSaleIntegration = "DefaultLocationForCardSaleIntegration"
     Public Const ApplyNoGSTCreditIndependentlyOnVendorServiceCharge = "ApplyNoGSTCreditIndependentlyOnVendorServiceCharge"
     Public Const CheckNoOfDaysforCardSaleBooking = "CheckNoOfDaysforCardSaleBooking"
@@ -2930,6 +2935,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreen, "0", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreenAdmin, "1", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.QtyDecimalPlaces, "0", "[0,1,2] Qty Decimal Places In MP Incentive Entry")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.SkipPaymentCycle, "1", "Skip to set to date accroding to payment cycle wise")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.DashboardDays, "3", "No of Days To Show Dashboard")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.UOM, "0", "0-Both;1-Crate;2-Pouch")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.Shift, "0", "0-Both;1-Morning;2-Evening")
@@ -3048,6 +3054,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowZeroQtyOnDairyBookingUploader, clsFixedParameterCode.AllowZeroQtyOnDairyBookingUploader, "0", "Allow Zero Qty On Dairy Booking Uploader")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowtoPostNoOFDocofDOatatime, clsFixedParameterCode.AllowtoPostNoOFDocofDOatatime, "0", "AllowtoPostNoOFDocofDOatatime on Dispatch Multiple screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DonotIncludeSecurityInCustomerOutstanding, clsFixedParameterCode.DonotIncludeSecurityInCustomerOutstanding, "0", "0-OFF;1-Do not Include Security In Customer Outstanding On Dairy Booking Customer")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, "0", "0-OFF;1-Apply Manual TCS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultLocationForCardSaleIntegration, clsFixedParameterCode.DefaultLocationForCardSaleIntegration, "", "Default Location For Card Sale Integration")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, clsFixedParameterCode.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, "0", "0-OFF;1-ApplyNoGSTCreditIndependentlyOnVendorServiceCharge")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckNoOfDaysforCardSaleBooking, clsFixedParameterCode.CheckNoOfDaysforCardSaleBooking, "1", "CheckNoOfDaysforCardSaleBooking")
@@ -3323,6 +3330,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.DemandUnpost, "Demand@123", "Demand Password for Unpost")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.EWayBillUpdate, "EwayBill@123", "Dipatch Password for Cancel")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.DispatchCancel, "Dispatch@123", "Dipatch Password for Cancel")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.BookingCancel, "Booking@123", "Booking Password for Cancel")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.GatePassCancel, "GatePass@123", "GatePass Password for Cancel")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.CustomerMaster, "Customer@123", "Customer Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.POAmendmentType, clsFixedParameterCode.POAmendment, "admin@123", "")
@@ -6010,6 +6018,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.UseCutOffTimeonRouteForERP, clsFixedParameterCode.UseCutOffTimeonRouteForERP, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingUploader, clsFixedParameterType.AllowZeroQtyOnDairyBookingUploader, clsFixedParameterCode.AllowZeroQtyOnDairyBookingUploader, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.DonotIncludeSecurityInCustomerOutstanding, clsFixedParameterCode.DonotIncludeSecurityInCustomerOutstanding, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmVendorService, clsFixedParameterType.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, clsFixedParameterCode.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmbookingdairyFreshSale, clsFixedParameterType.CheckNoOfDaysforCardSaleBooking, clsFixedParameterCode.CheckNoOfDaysforCardSaleBooking, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowBookingTypeDropDownonDairyBookingCustomer, clsFixedParameterCode.ShowBookingTypeDropDownonDairyBookingCustomer, EnumControlType.CheckBox)
