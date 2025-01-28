@@ -4508,9 +4508,20 @@ Public Class clsCreateAllTable
             coll.Add("Quantitive_Type_Structure_Free_UOM", "varchar(12) null REFERENCES TSPL_UNIT_MASTER(Unit_Code)")
             coll.Add("CASHDISVOL_RANGE_UOM", "varchar(12) NULL REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
             coll.Add("CASHDISVOL_UOM", "varchar(12)  NULL REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
+            coll.Add("MainUOM", "varchar(12)  NULL REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
+            coll.Add("MinQty", "decimal(18,2) null")
+            coll.Add("SchemeItem", "varchar(50) null REFERENCES TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("SchemeUOM", "varchar(12)  NULL REFERENCES TSPL_UNIT_MASTER (Unit_Code)")
+            coll.Add("SchemeQty", "decimal(18,2) null")
 
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SCHEME_MASTER_NEW", coll)
+            Try
 
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SCHEME_MASTER_NEW alter COLUMN Scheme_Type varchar(20) NOT NULL")
+
+            Catch ex As Exception
+
+            End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("Scheme_Code", "Varchar(12) not null REFERENCES TSPL_SCHEME_MASTER_NEW(Scheme_Code)")
             coll.Add("Structure_Code", "Varchar(12) not null REFERENCES TSPL_STRUCTURE_MASTER(Structure_Code)")
