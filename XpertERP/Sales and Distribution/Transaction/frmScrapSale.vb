@@ -3830,13 +3830,13 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                                                     End If
                                                 Else
                                                     Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" & fndcustNo.Value & "'"))
-                                                    If rbtnManualTCS.IsChecked = False Then
-                                                        If clsCommon.myLen(panno) > 0 Then
+                                                    'If rbtnManualTCS.IsChecked = False Then
+                                                    If clsCommon.myLen(panno) > 0 Then
                                                             gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
                                                         Else
                                                             gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
                                                         End If
-                                                    End If
+                                                    'End If
                                                 End If
 
                                             Else
@@ -5328,8 +5328,6 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                     gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = rbtnTaxCalAutomatic.IsChecked
                     If clsCommon.CompairString(gv2.CurrentRow.Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal And rbtnManualTCS.IsChecked Then
                         gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = False
-                    Else
-                        gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = True
                     End If
                 End If
 

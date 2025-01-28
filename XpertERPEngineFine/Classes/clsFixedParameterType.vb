@@ -6020,6 +6020,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.DonotIncludeSecurityInCustomerOutstanding, clsFixedParameterCode.DonotIncludeSecurityInCustomerOutstanding, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.ScrapSale, clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNSaleReturn, clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmVendorService, clsFixedParameterType.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, clsFixedParameterCode.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmbookingdairyFreshSale, clsFixedParameterType.CheckNoOfDaysforCardSaleBooking, clsFixedParameterCode.CheckNoOfDaysforCardSaleBooking, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowBookingTypeDropDownonDairyBookingCustomer, clsFixedParameterCode.ShowBookingTypeDropDownonDairyBookingCustomer, EnumControlType.CheckBox)
