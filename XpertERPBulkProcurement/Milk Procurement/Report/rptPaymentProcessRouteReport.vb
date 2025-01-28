@@ -2477,12 +2477,18 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
             End If
             sQueryDD += " union all 
                             select TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No as DOCNO, TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_CODE,
-                            TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME,TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_VLC_MASTER_HEAD.Route_Code as ROUTE_No,
-                            (TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount from TSPL_PAYMENT_PROCESS_MCC_SALE
+                            TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME,TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_VLC_MASTER_HEAD.Route_Code as ROUTE_No,"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                sQueryDD += " TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,"
+            End If
+            sQueryDD += " (TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount from TSPL_PAYMENT_PROCESS_MCC_SALE
                             left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No
                             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Item_Code
-                            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_Code
-                            left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_SD_SHIPMENT_HEAD.Deduction_Type
+                            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_Code"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                sQueryDD += " Left Outer Join TSPL_MCC_MASTER On TSPL_VLC_MASTER_HEAD.MCC = TSPL_MCC_MASTER.MCC_Code "
+            End If
+            sQueryDD += "  left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_SD_SHIPMENT_HEAD.Deduction_Type
                             where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate + "'),103) and
                             convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + Todate + "'),103)  "
 

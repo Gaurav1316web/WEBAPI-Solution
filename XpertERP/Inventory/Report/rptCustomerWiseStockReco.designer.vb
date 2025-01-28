@@ -22,12 +22,16 @@ Partial Class rptCustomerWiseStockReco
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.lblItem = New common.Controls.MyLabel()
@@ -171,10 +175,9 @@ Partial Class rptCustomerWiseStockReco
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(888, 382)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -223,7 +226,6 @@ Partial Class rptCustomerWiseStockReco
         Me.lblItem.Name = "lblItem"
         Me.lblItem.Size = New System.Drawing.Size(189, 18)
         Me.lblItem.TabIndex = 353
-        Me.lblItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItem.TextWrap = False
         '
         'txtItem
@@ -257,6 +259,7 @@ Partial Class rptCustomerWiseStockReco
         Me.cboFATSNF.AutoCompleteDisplayMember = Nothing
         Me.cboFATSNF.AutoCompleteValueMember = Nothing
         Me.cboFATSNF.CalculationExpression = Nothing
+        Me.cboFATSNF.DropDownAnimationEnabled = True
         Me.cboFATSNF.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboFATSNF.FieldCode = Nothing
         Me.cboFATSNF.FieldDesc = Nothing
@@ -284,6 +287,7 @@ Partial Class rptCustomerWiseStockReco
         Me.cboFatSNFType.AutoCompleteDisplayMember = Nothing
         Me.cboFatSNFType.AutoCompleteValueMember = Nothing
         Me.cboFatSNFType.CalculationExpression = Nothing
+        Me.cboFatSNFType.DropDownAnimationEnabled = True
         Me.cboFatSNFType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboFatSNFType.FieldCode = Nothing
         Me.cboFatSNFType.FieldDesc = Nothing
@@ -341,6 +345,7 @@ Partial Class rptCustomerWiseStockReco
         Me.cboDisplayMethod.AutoCompleteDisplayMember = Nothing
         Me.cboDisplayMethod.AutoCompleteValueMember = Nothing
         Me.cboDisplayMethod.CalculationExpression = Nothing
+        Me.cboDisplayMethod.DropDownAnimationEnabled = True
         Me.cboDisplayMethod.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDisplayMethod.FieldCode = Nothing
         Me.cboDisplayMethod.FieldDesc = Nothing
@@ -418,14 +423,17 @@ Partial Class rptCustomerWiseStockReco
         Me.gvLocation.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvLocation.Location = New System.Drawing.Point(10, 40)
         '
-        'gvLocation
         '
+        '
+        Me.gvLocation.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLocation.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLocation.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvLocation.MyStopExport = False
         Me.gvLocation.Name = "gvLocation"
         Me.gvLocation.ShowHeaderCellButtons = True
         Me.gvLocation.Size = New System.Drawing.Size(368, 216)
         Me.gvLocation.TabIndex = 3
-        Me.gvLocation.Text = "RadGridView1"
+        Me.gvLocation.VarID = ""
         '
         'Panel4
         '
@@ -516,14 +524,17 @@ Partial Class rptCustomerWiseStockReco
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(432, 22)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
+        Me.gvCategory.VarID = ""
         '
         'Panel2
         '
@@ -608,6 +619,7 @@ Partial Class rptCustomerWiseStockReco
         Me.cboInOutType.AutoCompleteDisplayMember = Nothing
         Me.cboInOutType.AutoCompleteValueMember = Nothing
         Me.cboInOutType.CalculationExpression = Nothing
+        Me.cboInOutType.DropDownAnimationEnabled = True
         Me.cboInOutType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboInOutType.FieldCode = Nothing
         Me.cboInOutType.FieldDesc = Nothing
@@ -710,6 +722,7 @@ Partial Class rptCustomerWiseStockReco
         Me.cmbUnit.AutoCompleteDisplayMember = Nothing
         Me.cmbUnit.AutoCompleteValueMember = Nothing
         Me.cmbUnit.CalculationExpression = Nothing
+        Me.cmbUnit.DropDownAnimationEnabled = True
         Me.cmbUnit.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbUnit.FieldCode = Nothing
         Me.cmbUnit.FieldDesc = Nothing
@@ -746,6 +759,7 @@ Partial Class rptCustomerWiseStockReco
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
         Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.FieldCode = Nothing
         Me.cboType.FieldDesc = Nothing
@@ -867,14 +881,17 @@ Partial Class rptCustomerWiseStockReco
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(850, 334)
         Me.gv1.TabIndex = 3
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'vsb
         '
@@ -900,12 +917,15 @@ Partial Class rptCustomerWiseStockReco
         '
         '
         '
+        Me.gvDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetail.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvDetail.MyStopExport = False
         Me.gvDetail.Name = "gvDetail"
         Me.gvDetail.ShowHeaderCellButtons = True
         Me.gvDetail.Size = New System.Drawing.Size(867, 334)
         Me.gvDetail.TabIndex = 4
-        Me.gvDetail.Text = "RadGridView1"
+        Me.gvDetail.VarID = ""
         '
         'RadMenu1
         '
@@ -914,27 +934,20 @@ Partial Class rptCustomerWiseStockReco
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(888, 20)
         Me.RadMenu1.TabIndex = 22
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItemSaveeLayout3
         '
-        Me.RadMenuItemSaveeLayout3.AccessibleDescription = "Setting"
-        Me.RadMenuItemSaveeLayout3.AccessibleName = "Setting"
         Me.RadMenuItemSaveeLayout3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItemSett1, Me.RadMenuItem2})
         Me.RadMenuItemSaveeLayout3.Name = "RadMenuItemSaveeLayout3"
         Me.RadMenuItemSaveeLayout3.Text = "Setting"
         '
         'RadMenuItemSett1
         '
-        Me.RadMenuItemSett1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItemSett1.AccessibleName = "Save Layout"
         Me.RadMenuItemSett1.Name = "RadMenuItemSett1"
         Me.RadMenuItemSett1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
@@ -973,36 +986,26 @@ Partial Class rptCustomerWiseStockReco
         '
         'QExpExcel
         '
-        Me.QExpExcel.AccessibleDescription = "Excel"
-        Me.QExpExcel.AccessibleName = "Excel"
         Me.QExpExcel.Name = "QExpExcel"
         Me.QExpExcel.Text = "Excel"
         '
         'QExpCSV
         '
-        Me.QExpCSV.AccessibleDescription = "CSV"
-        Me.QExpCSV.AccessibleName = "CSV"
         Me.QExpCSV.Name = "QExpCSV"
         Me.QExpCSV.Text = "CSV"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
         'BulkExcel
         '
-        Me.BulkExcel.AccessibleDescription = "Bulk Excel"
-        Me.BulkExcel.AccessibleName = "Bulk Excel"
         Me.BulkExcel.Name = "BulkExcel"
         Me.BulkExcel.Text = "Bulk Excel"
         '
         'BulkCSV
         '
-        Me.BulkCSV.AccessibleDescription = "Bulk CSV"
-        Me.BulkCSV.AccessibleName = "Bulk CSV"
         Me.BulkCSV.Name = "BulkCSV"
         Me.BulkCSV.Text = "Bulk CSV"
         '
