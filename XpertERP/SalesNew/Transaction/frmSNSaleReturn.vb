@@ -28,7 +28,7 @@ Public Class frmSNSaleReturn
     Private isPO_GRN_MRN_Editable As Boolean = False
     Public Const RowTypeItem As String = "Item"
     Public Const RowTypeMisc As String = "Misc"
-
+    Dim ApplyManualTCS As Boolean = False
     Const ReportID As String = "SRShipmentSNItemGrid"
     Public strSRNno As String = Nothing
     Private isCellValueChangedOpen As Boolean = False
@@ -254,6 +254,7 @@ Public Class frmSNSaleReturn
         isInsideLoadForm = True
         SetUserMgmtNew()
         SetMailRight()
+        ApplyManualTCS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, Nothing)) = 1, True, False)
 
         blnBackCalculation = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsRateBackCalculation from TSPL_inv_parameters")) = 0, False, True)
         PurchaseOneItemOneVendor = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='PurchaseOneItemOneVendor'")) = 0, False, True)
@@ -280,7 +281,11 @@ Public Class frmSNSaleReturn
             LoadData(strSRNno, NavigatorType.Current)
         End If
         chkRateDefaultSetting.ToggleState = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SalesRateEditable, clsFixedParameterCode.SalesRateEditable, Nothing)) = 1, ToggleState.On, ToggleState.Off)
-
+        If ApplyManualTCS = True Then
+            rbtnManualTCS.Visible = True
+        Else
+            rbtnManualTCS.Visible = False
+        End If
         ''For Custom Fields
         RadPageView1.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -3021,6 +3026,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
         Dim dblTaxAmt10 As Double = 0
         Dim dblHeadDisPerAmt As Double = 0
         Dim dblHeadDisAmt As Double = 0
+        Dim dbltcs As Double = 0
 
 
         Dim dblTaxTotAmt As Double = 0
@@ -3063,7 +3069,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             End If
         Next
 
-        If rbtnTaxCalAutomatic.IsChecked Then
+        If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
 
             For ii As Integer = 1 To gv2.Rows.Count
                 Select Case (ii)
@@ -3076,7 +3082,14 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                             gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                         End If
                     Case 2
-                        gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
+                        If clsCommon.CompairString(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal Then
+                            If rbtnManualTCS.IsChecked = False Then
+                                dbltcs = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dbltcs, 2)
+                            End If
+                        Else
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
+                        End If
                         gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
                         If dblTaxBaseAmt2 <> 0 Then
                             gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt2 * 100) / dblTaxBaseAmt2, 2)
@@ -3084,7 +3097,14 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                             gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                         End If
                     Case 3
-                        gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
+                        If rbtnManualTCS.IsChecked = False Then
+                            gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
+                        Else
+                            If clsCommon.CompairString(gv2.Rows(ii - 1).Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal Then
+                                dbltcs = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
+                                gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dbltcs, 2)
+                            End If
+                        End If
                         gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt3, 2)
                         If dblTaxBaseAmt3 <> 0 Then
                             gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt3 * 100) / dblTaxBaseAmt3, 2)
@@ -3162,7 +3182,11 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
         lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
         lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt)
         lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
-        lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
+        If rbtnManualTCS.IsChecked = True Then
+            lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dbltcs)
+        Else
+            lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
+        End If
 
         lblAddCharges.Text = clsCommon.myFormat(dblACAmount)
         lblAddCharges1.Text = clsCommon.myFormat(dblACAmount)
@@ -3411,6 +3435,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.PROJECT_ID = fndProject.Text
                 obj.Is_Internal = chkInternal.Checked
+                obj.Is_ManualTCS = IIf(rbtnManualTCS.IsChecked, 1, 0)
                 If (gv2.Rows.Count > 0) Then
                     obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
                     obj.TAX1_Rate = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxRate).Value)
@@ -4125,10 +4150,14 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
 
                 lblAddCharges.Text = clsCommon.myFormat(obj.Total_Add_Charge)
                 lblAddCharges1.Text = clsCommon.myFormat(obj.Total_Add_Charge)
-                If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
-                    rbtnTaxCalAutomatic.IsChecked = True
-                ElseIf obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
-                    rbtnTaxCalManual.IsChecked = True
+                If obj.Is_ManualTCS = 1 Then
+                    rbtnManualTCS.IsChecked = IIf(obj.Is_ManualTCS = 1, True, False)
+                Else
+                    If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
+                        rbtnTaxCalAutomatic.IsChecked = True
+                    ElseIf obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
+                        rbtnTaxCalManual.IsChecked = True
+                    End If
                 End If
 
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -5994,7 +6023,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
 
             For ii As Integer = 1 To 10
                 Dim Strii As String = clsCommon.myCstr(ii)
-                If rbtnTaxCalAutomatic.IsChecked Then
+                If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
                     Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
                     If clsCommon.myLen(strTaxCode) > 0 Then
                         Dim dblTaxRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
@@ -6145,8 +6174,16 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
 
     Private Sub rbtnTaxCalAutomatic_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnTaxCalAutomatic.ToggleStateChanged, rbtnTaxCalManual.ToggleStateChanged
         If Not isInsideLoadData Then
-            If rbtnTaxCalAutomatic.IsChecked Then
+            If rbtnTaxCalAutomatic.IsChecked OrElse rbtnManualTCS.IsChecked Then
                 SetTaxDetails()
+                If rbtnManualTCS.IsChecked Then
+                    For intRowNo As Integer = 0 To gv2.Rows.Count - 1
+                        If clsCommon.CompairString(gv2.Rows(intRowNo).Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal Then
+                            gv2.Rows(intRowNo).Cells(colTTaxAmt).Value = Nothing
+                            gv2.Rows(intRowNo).Cells(colTTaxRate).Value = 0
+                        End If
+                    Next
+                End If
             ElseIf rbtnTaxCalManual.IsChecked Then
                 For intRowNo As Integer = 0 To gv2.Rows.Count - 1
                     gv2.Rows(intRowNo).Cells(colTTaxRate).Value = Nothing

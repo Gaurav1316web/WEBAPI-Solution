@@ -9,6 +9,7 @@ Public Class RptMatrixFreshSalesReport
     Dim ApplyMilkPouchPrint As Boolean = False
     Dim Slot1 As DateTime = Nothing
     Dim Slot2 As DateTime = Nothing
+    Dim EnableProductSaleForJPR As Boolean = False
     Private Sub txtCustomerGroup__My_Click(sender As Object, e As EventArgs) Handles txtCustomerGroup._My_Click
         strQry = "Select Cust_Group_Code as Code, Cust_Group_Desc as Name from TSPL_CUSTOMER_GROUP_MASTER"
         txtCustomerGroup.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtCustomerGroup.arrValueMember, txtCustomerGroup.arrDispalyMember)
@@ -2444,7 +2445,8 @@ DemandData AS (
             WHEN D.Qty = 0 THEN 0 
             ELSE (D.Qty * UOM.Conversion_Factor) / COALESCE(UOM_LTR.Conversion_Factor, UOM_KG.Conversion_Factor) 
         END AS QtyLtr,
-        R.City_Code AS [Route_CityCode],
+                            	d.TAX1_Base_Amt,
+                            R.City_Code AS [Route_CityCode],
         CM.Comp_Name,
         CM.Add1 AS [Comp_Add1],
         CM.Add2 AS [Comp_Add2],
@@ -2491,7 +2493,8 @@ SaleReturnData AS (
         CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch = 0 THEN TSPL_SD_SALE_RETURN_DETAIL.Item_Net_Amt ELSE 0 END AS ProductAmt,
         NULL AS [Order Date],
         ROUND((ISNULL(TSPL_SD_SALE_RETURN_DETAIL.ActualQty, 0) * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ConvertDiv.Conversion_Factor, 2) AS QtyLtr,
-        max(R.City_Code) AS [Route_CityCode],
+                           			max(TSPL_SD_SALE_RETURN_DETAIL.TAX1_Base_Amt)TAX1_Base_Amt,
+              max(R.City_Code) AS [Route_CityCode],
         max(CM.Comp_Name) AS Comp_Name,
         max(CM.Add1) AS [Comp_Add1],
         max(CM.Add2) AS [Comp_Add2],
@@ -2529,15 +2532,16 @@ where  2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 and  convert(date, TSPL_SD_SAL
 )"
                             MainQuery += " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "' as ToDate, max(XXXXXFinal.SNO) as SNO, route_no, [Cust_Code],max(Customer_Name) as Customer_Name,max(Credit_Customer) as Credit_Customer,max(ItemNamePart1) as ItemNamePart1,max(ItemNamePart2) as ItemNamePart2, sum(isnull([Item1],0)) as [Item1] ,sum(isnull([Item2],0)) as [Item2],sum(isnull([Item3],0)) as [Item3],sum(isnull([Item4],0)) as [Item4],sum(isnull([Item5],0)) as [Item5],sum(isnull([Item6],0)) as [Item6],sum(isnull([Item7],0)) as [Item7],sum(isnull([Item8],0)) as [Item8],sum(isnull([Item9],0)) as [Item9],sum(isnull([Item10],0)) as [Item10],sum(isnull([Item11],0)) as [Item11],sum(isnull([Item12],0)) as [Item12], sum (isnull(QtyNotMilkPouch,0)) as QtyNotMilkPouch ,sum(isnull(MilkAmt,0)) as MilkAmt, MAX(isnull(ProductAmt,0)) as ProductAmt,
                                             sum(isnull(MilkAmt,0)) + MAX(isnull(ProductAmt,0))  as TotalMilkAmt,
+max(TAX1_Base_Amt)TAX1_Base_Amt,
                                             sum(isnull(QtyLtr,0)) as QtyLtr ,
                                             max( [Route_CityCode]) as [Route_CityCode], max(Comp_Name) as Comp_Name, max([Comp_Add1]) as [Comp_Add1] , max([Comp_Add2]) as [Comp_Add2] , max(Comp_Add3) as Comp_Add3 , max(Comp_Phone) as Comp_Phone , max(Comp_Phone2) as Comp_Phone2, max(Comp_Fax) as Comp_Fax , max(CompEmail) as CompEmail , max(Comp_StateCode) as Comp_StateCode ,max(Comp_STATE_NAME) as Comp_STATE_NAME 
                                             , max(P1Item1) as P1Item1, max(P1Item2) as P1Item2, max(P1Item3) as P1Item3, max(P1Item4) as P1Item4, max(P1Item5) as P1Item5, max(P1Item6) as P1Item6, max(P1Item7) as P1Item7, max(P1Item8) as P1Item8, max(P1Item9) as P1Item9, max(P1Item10) as P1Item10, max(P1Item11) as P1Item11, max(P1Item12 ) as P1Item12
                                              , max(P2Item1) as P2Item1, max(P2Item2) as P2Item2, max(P2Item3) as P2Item3, max(P2Item4) as P2Item4, max(P2Item5) as P2Item5, max(P2Item6) as P2Item6, max(P2Item7) as P2Item7, max(P2Item8) as P2Item8, max(P2Item9) as P2Item9, max(P2Item10) as P2Item10, max(P2Item11) as P2Item11, max(P2Item12 ) as P2Item12 , max(Transporter_Name) as Transporter_Name, max(Comp_Pincode) as Comp_Pincode
                                             from (
-                                            select 1 as SNO, route_no, [Cust_Code],(Customer_Name) as Customer_Name,Credit_Customer,ItemNamePart1,ItemNamePart2, (isnull([Item1],0)) as [Item1] ,(isnull([Item2],0)) as [Item2],(isnull([Item3],0)) as [Item3],(isnull([Item4],0)) as [Item4],(isnull([Item5],0)) as [Item5],(isnull([Item6],0)) as [Item6],(isnull([Item7],0)) as [Item7],(isnull([Item8],0)) as [Item8],(isnull([Item9],0)) as [Item9],(isnull([Item10],0)) as [Item10],(isnull([Item11],0)) as [Item11],(isnull([Item12],0)) as [Item12], isnull(QtyNotMilkPouch,0) as QtyNotMilkPouch ,isnull(MilkAmt,0) as MilkAmt, isnull(ProductAmt,0) as ProductAmt,  isnull(QtyLtr,0) as QtyLtr ,
+                                            select 1 as SNO, route_no, [Cust_Code],(Customer_Name) as Customer_Name,Credit_Customer,ItemNamePart1,ItemNamePart2, (isnull([Item1],0)) as [Item1] ,(isnull([Item2],0)) as [Item2],(isnull([Item3],0)) as [Item3],(isnull([Item4],0)) as [Item4],(isnull([Item5],0)) as [Item5],(isnull([Item6],0)) as [Item6],(isnull([Item7],0)) as [Item7],(isnull([Item8],0)) as [Item8],(isnull([Item9],0)) as [Item9],(isnull([Item10],0)) as [Item10],(isnull([Item11],0)) as [Item11],(isnull([Item12],0)) as [Item12], isnull(QtyNotMilkPouch,0) as QtyNotMilkPouch ,isnull(MilkAmt,0) as MilkAmt, isnull(ProductAmt,0) as ProductAmt,  isnull(QtyLtr,0) as QtyLtr ,isnull(TAX1_Base_Amt,0)TAX1_Base_Amt,
                                             ( [Route_CityCode]) as [Route_CityCode], (Comp_Name) as Comp_Name, ([Comp_Add1]) as [Comp_Add1] , ([Comp_Add2]) as [Comp_Add2] , (Comp_Add3) as Comp_Add3 , (Comp_Phone) as Comp_Phone , (Comp_Phone2) as Comp_Phone2, (Comp_Fax) as Comp_Fax , (CompEmail) as CompEmail , (Comp_StateCode) as Comp_StateCode ,(Comp_STATE_NAME) as Comp_STATE_NAME,item_code,Transporter_Name,Comp_Pincode
                                             from (
-                                            select max(Final.Row_Number) as ItemNo, Final.Item_Code , max(Final.Alies_Name) as Alies_Name, Final.Cust_Code, max(Final.Customer_Name) as Customer_Name, sum(Qty) as Qty ,sum(QtyNotMilkPouch) as QtyNotMilkPouch ,sum(MilkAmt) as MilkAmt, MAX(ProductAmt) as ProductAmt, max([Order Date]) as [Order Date],sum(Final.QtyLtr) as QtyLtr,max(Final. [Route_CityCode]) as [Route_CityCode], max(Final.Comp_Name) as Comp_Name, max(Final.[Comp_Add1]) as [Comp_Add1] , max(Final.[Comp_Add2] ) as [Comp_Add2] , max(Final. Comp_Add3) as Comp_Add3 , max(Final.Comp_Phone) as Comp_Phone , max(Final.Comp_Phone2) as Comp_Phone2, max(Final.Comp_Fax) as Comp_Fax , max(Final.CompEmail) as CompEmail , max(Final.Comp_StateCode) as Comp_StateCode ,max(Final.Comp_STATE_NAME) as Comp_STATE_NAME,  max(Final.Comp_Pincode) as Comp_Pincode,max(Final.route_no) as route_no, max(Credit_Customer) as Credit_Customer,max(ItemNamePart1) as ItemNamePart1, max(ItemNamePart2) as ItemNamePart2, max(Transporter_Name) as Transporter_Name from (SELECT * FROM DemandData UNION ALL SELECT * FROM SaleReturnData) Final group by Final.[route_no] , Final.[Cust_Code],Final.item_code 
+                                            select max(TAX1_Base_Amt)TAX1_Base_Amt, max(Final.Row_Number) as ItemNo, Final.Item_Code , max(Final.Alies_Name) as Alies_Name, Final.Cust_Code, max(Final.Customer_Name) as Customer_Name, sum(Qty) as Qty ,sum(QtyNotMilkPouch) as QtyNotMilkPouch ,sum(MilkAmt) as MilkAmt, MAX(ProductAmt) as ProductAmt, max([Order Date]) as [Order Date],sum(Final.QtyLtr) as QtyLtr,max(Final. [Route_CityCode]) as [Route_CityCode], max(Final.Comp_Name) as Comp_Name, max(Final.[Comp_Add1]) as [Comp_Add1] , max(Final.[Comp_Add2] ) as [Comp_Add2] , max(Final. Comp_Add3) as Comp_Add3 , max(Final.Comp_Phone) as Comp_Phone , max(Final.Comp_Phone2) as Comp_Phone2, max(Final.Comp_Fax) as Comp_Fax , max(Final.CompEmail) as CompEmail , max(Final.Comp_StateCode) as Comp_StateCode ,max(Final.Comp_STATE_NAME) as Comp_STATE_NAME,  max(Final.Comp_Pincode) as Comp_Pincode,max(Final.route_no) as route_no, max(Credit_Customer) as Credit_Customer,max(ItemNamePart1) as ItemNamePart1, max(ItemNamePart2) as ItemNamePart2, max(Transporter_Name) as Transporter_Name from (SELECT * FROM DemandData UNION ALL SELECT * FROM SaleReturnData) Final group by Final.[route_no] , Final.[Cust_Code],Final.item_code 
                                             ) XXXFinal 
                                             pivot ( sum(XXXFinal.Qty) for ItemNo in ([Item1],[Item2],[Item3],[Item4],[Item5],[Item6],[Item7],[Item8],[Item9],[Item10],[Item11],[Item12]) ) QtyPivot 
                                              ) XXXXXFinal 
@@ -2892,6 +2896,12 @@ where  2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 and  convert(date, TSPL_SD_SAL
     End Sub
     Private Sub RptMatrixFreshSalesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ToDate.Value = clsCommon.GETSERVERDATE()
+        EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
+        If EnableProductSaleForJPR Then
+            RadGroupBox8.Visible = True
+        Else
+            RadGroupBox8.Visible = False
+        End If
         fromDate.Value = clsCommon.GETSERVERDATE()
         txtPTSDateFrom.Value = clsCommon.GETSERVERDATE()
         ' txtPTSDateTo.Value = clsCommon.GETSERVERDATE()
@@ -3184,7 +3194,16 @@ where  2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 and  convert(date, TSPL_SD_SAL
     End Sub
     Private Sub btnPrintTrkSht_Click(sender As Object, e As EventArgs) Handles btnPrintTrkSht.Click
         Try
-            clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)
+
+            If EnableProductSaleForJPR Then
+                If rbtnMilkType.Checked Then
+                    clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)
+                ElseIf rbtnProductType.Checked OrElse rbtnIceCream.Checked Then
+                    clsProductDemandBookingSale.PrintDemandProductData(TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, True, False)
+                End If
+            Else
+                clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)
+            End If
         Catch ex As Exception
             MessageBox.Show(ex.Message, Me.Text)
         End Try
@@ -3613,10 +3632,13 @@ where  2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 and  convert(date, TSPL_SD_SAL
                 whrcls += " And TSPL_ITEM_MASTER.Is_Ambient=1"
             End If
             Dim Qry As String = Nothing
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                Qry = " select TSPL_DEMAND_BOOKING_MASTER.Route_No ,TSPL_ROUTE_MASTER.Route_Desc, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Qty, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Is_FreshItem, TSPL_ITEM_MASTER.Sku_Seq, TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_MASTER.ShiftType, TSPL_ROUTE_MASTER.Route_Desc as Route_Desc, TSPL_DEMAND_BOOKING_MASTER.Route_No as Route_No, Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Tonk Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName, TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, case when TSPL_ITEM_MASTER.Is_FreshItem=1 then ((TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAILCrate.CFForCrate) else 0 end as QtyCrate, case when TSPL_ITEM_MASTER.Is_FreshItem=1 then ((TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAILLTR.CFForLTR) else 0 end as QtyLTR,  case   WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code = 'CUP' then qty * ITEMDETAILcup.Conversion_factor / ITEMDETAILCrate.CFForCrate when TSPL_ITEM_MASTER.Is_FreshItem=0 then (TSPL_DEMAND_BOOKING_DETAIL.Qty) else 0 end as PQty, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code Left Join (select Conversion_factor AS CFForCrate,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='CRATE') as ITEMDETAILCrate on ITEMDETAILCrate.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code Left Join (select Conversion_factor AS CFForLTR,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAILLTR on ITEMDETAILLTR.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code  Left Join (select Conversion_factor AS Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='CUP') as ITEMDETAILcup on ITEMDETAILcup.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' " + whrcls
+            If EnableProductSaleForJPR AndAlso (rbtnProductType.Checked OrElse rbtnIceCream.Checked) Then
+                clsProductDemandBookingSale.PrintDemandProductData(TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, False, True)
             Else
-                Qry = "select Max(TSPL_DEMAND_BOOKING_DETAIL.ShiftType)ShiftType,
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    Qry = " select TSPL_DEMAND_BOOKING_MASTER.Route_No ,TSPL_ROUTE_MASTER.Route_Desc, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Qty, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Is_FreshItem, TSPL_ITEM_MASTER.Sku_Seq, TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_MASTER.ShiftType, TSPL_ROUTE_MASTER.Route_Desc as Route_Desc, TSPL_DEMAND_BOOKING_MASTER.Route_No as Route_No, Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Tonk Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName, TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, case when TSPL_ITEM_MASTER.Is_FreshItem=1 then ((TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAILCrate.CFForCrate) else 0 end as QtyCrate, case when TSPL_ITEM_MASTER.Is_FreshItem=1 then ((TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAILLTR.CFForLTR) else 0 end as QtyLTR,  case   WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code = 'CUP' then qty * ITEMDETAILcup.Conversion_factor / ITEMDETAILCrate.CFForCrate when TSPL_ITEM_MASTER.Is_FreshItem=0 then (TSPL_DEMAND_BOOKING_DETAIL.Qty) else 0 end as PQty, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code Left Join (select Conversion_factor AS CFForCrate,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='CRATE') as ITEMDETAILCrate on ITEMDETAILCrate.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code Left Join (select Conversion_factor AS CFForLTR,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAILLTR on ITEMDETAILLTR.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code  Left Join (select Conversion_factor AS Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='CUP') as ITEMDETAILcup on ITEMDETAILcup.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' " + whrcls
+                Else
+                    Qry = "select Max(TSPL_DEMAND_BOOKING_DETAIL.ShiftType)ShiftType,
                                 Max(TSPL_ITEM_MASTER.Short_Description)Short_Description,Sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) as Qty,Max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code)Unit_code,
                                 Case When Max(TSPL_DEMAND_BOOKING_DETAIL.Unit_Code)='Crate' Then Sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) Else 0 End As Crate,
                                 Case When Max(TSPL_DEMAND_BOOKING_DETAIL.Unit_Code)='Pouch' Then Sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) Else 0 End As Pouch,
@@ -3638,23 +3660,23 @@ where  2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 and  convert(date, TSPL_SD_SAL
                                 Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
                                 Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
                                 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'" + whrcls
-                Qry += " Group By TSPL_DEMAND_BOOKING_MASTER.Route_No,ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_DEMAND_BOOKING_DETAIL.Item_Code "
-            End If
-
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWiseTNK", "Demand Booking")
-
-                Else
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWise", "Demand Booking")
+                    Qry += " Group By TSPL_DEMAND_BOOKING_MASTER.Route_No,ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_DEMAND_BOOKING_DETAIL.Item_Code "
                 End If
-                frmCRV = Nothing
-            Else
-                Throw New Exception("Data Not Found!")
-            End If
 
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWiseTNK", "Demand Booking")
+
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWise", "Demand Booking")
+                    End If
+                    frmCRV = Nothing
+                Else
+                    Throw New Exception("Data Not Found!")
+                End If
+            End If
             'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWise", "Demand Booking")
             'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
@@ -5046,22 +5068,25 @@ where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsC
                 If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
                     qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
                 End If
+
                 If rbtnMilk.Checked Then
-                    qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
-                ElseIf rbtnProduct.Checked Then
-                    qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
-                End If
+                        qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+                    ElseIf rbtnProduct.Checked Then
+                        qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+                    End If
                 qry += "group by TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,TSPL_ITEM_MASTER.Sku_Seq "
-
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptGPRouteWiseSummary", "GatePass Route Wise")
-                    frmCRV = Nothing
+                If EnableProductSaleForJPR AndAlso (rbtnProductType.Checked OrElse rbtnIceCream.Checked) Then
+                    PrintGatePassProductData()
                 Else
-                    Throw New Exception("No Data Found!")
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptGPRouteWiseSummary", "GatePass Route Wise")
+                        frmCRV = Nothing
+                    Else
+                        Throw New Exception("No Data Found!")
+                    End If
                 End If
-
             Else
                 Throw New Exception("Please Select Shift.")
             End If
@@ -5070,7 +5095,112 @@ where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsC
             Throw New Exception(ex.Message)
         End Try
     End Sub
+    Function PrintGatePassProductData() As Boolean
+        Try
+            Dim whrcls As String = ""
+            Dim ItemType As String = ""
+            If rbtnProductType.Checked Then
+                ItemType = "PRODUCT"
+                whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='P' "
+            ElseIf rbtnIceCream.Checked Then
+                ItemType = "ICECREAM"
+                whrcls += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='I' "
+            End If
 
+            Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient ,TSPL_ITEM_MASTER.IsTaxable,TSPL_VEHICLE_MASTER.Description,tspl_vehicle_master.Vehicle_Id,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1   ,(TSPL_ITEM_MASTER.Alies_Name)Short_Description, "
+            qry += "TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
+            qry += " TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_code, Case When TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_code='Crate' Then TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty Else 0 end CRATE,TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+		    		Case When TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_code='Pouch' Then TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount "
+            qry += " FROM TSPL_DAIRYSALE_GATEPASS_DETAIL "
+
+            qry += " 
+left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode
+Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code
+left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_number
+left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
+where 2 = 2 "
+            If rbtnMrng.Checked Then
+                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = 'Morning' "
+            ElseIf rbtnEvng.Checked Then
+                qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = 'Evening' "
+            End If
+            qry += "" & whrcls & "  "
+            qry += " and Cast(TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtPTSDateFrom.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtPTSDateFrom.Value)), "dd/MMM/yyyy") + "'"
+
+            If TxtRoute.arrValueMember IsNot Nothing Then
+                qry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No In (" & clsCommon.GetMulcallString(TxtRoute.arrValueMember) & ") "
+            End If
+            qry += " ) "
+
+            Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable("select ROW_NUMBER() over (order by max(Sku_Seq)) as SNO, Item_Code,max(Short_Description)Short_Description,sum(Qty)Qty,max(Unit_code)Unit_code from  " & qry & " xx group by item_code order by max(Sku_Seq)")
+            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
+            If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Print")
+                Return False
+                Exit Function
+            ElseIf dtPrint.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Unit_code)Unit_code from (" + qry + ") x group by Item_Code order by Sku_Seq")
+                Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                For ii As Integer = 1 To dtItems.Rows.Count Step 13
+                    If ii > 1 Then
+                        FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+                    End If
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by (Route_No)) As SNo,'" + ItemType + "' as ProductOrIceCream,'Approved' as Status,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtPTSDateFrom.Value), "dd/MM/yyyy") + "' AS Date, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1 ,"
+                    'If isRouteSummary Then
+                    'FinalQuery += "max(Cust_Code)Cust_Code, Route_No,"
+                    'Else
+                    'End If
+                    FinalQuery += " Route_No,max(Route_Desc) as Route_Desc,max(Supply_Date) as Document_Date"
+                    For jj As Integer = 1 To 13
+                        Dim strJJ As String = clsCommon.myCstr(jj)
+                        Dim strICODE As String = ""
+                        Dim strIShortDesc As String = ""
+                        Dim strIUnitCode As String
+                        If (ii + jj - 1) > dtItems.Rows.Count Then
+                            strICODE = ""
+                            strIShortDesc = ""
+                            strIUnitCode = ""
+                        Else
+                            strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                            strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
+                            strIUnitCode = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Unit_code"))
+                        End If
+                        FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,'" + strIUnitCode + "' as Item_Unit_code_" + strJJ + "
+,CEILING(sum(case when Item_Code='" + strICODE + "'  then Qty else null end )) as ItemQtyCrate_" + strJJ + ""
+                    Next
+                    If ii > 1 Then
+                        FinalQuery += " ,null as Amount,null as ProductAmount,null as TotalCrates"
+                    Else
+                        FinalQuery += ",sum(crate)TotalCrates"
+                    End If
+                    FinalQuery += " from (
+select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
+left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
+left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.Item_Code and  TabCrateUOM.UOM_Code='Crate' 
+) x group by Route_No"
+
+
+                Next
+                dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
+                If dtPrint.Rows.Count > 0 Then
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dtPrint, dtSubReport, "rptProductIceCreamGatePassRouteSummary", "Route Product Gate Pass", "rptSubProductDemandBooking")
+                End If
+
+                frmCRV = Nothing
+            End If
+            Return False
+            Exit Function
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Private Sub txtDistributor__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDistributor._MYValidating
         Try
             Dim sQuery As String = " Select Cust_Code as Code , Customer_Name as Name  from TSPL_CUSTOMER_MASTER  "
@@ -5183,26 +5313,42 @@ where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsC
             Dim SumitemDesc As String = ""
             If clsCommon.myLen(ddlPTSShift.Text) > 0 Then
                 Dim whr As String = ""
-                If rbtnMilk.Checked Then
-                    whr = " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
-                ElseIf rbtnProduct.Checked Then
-                    whr = " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+                If EnableProductSaleForJPR Then
+                    If rbtnMilkType.Checked Then
+                        whr = " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='M'"
+                    ElseIf rbtnProductType.Checked Then
+                        whr = " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='P'"
+                    ElseIf rbtnIceCream.Checked Then
+                        whr = " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='I'"
+                    End If
+                Else
+                    If rbtnMilk.Checked Then
+                        whr = " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+                    ElseIf rbtnProduct.Checked Then
+                        whr = " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+                    End If
                 End If
+
                 ItemQry = " SELECT distinct max(TSPL_ITEM_MASTER.Short_Description) as Short_Description,  TSPL_ITEM_MASTER.Sku_Seq FROM TSPL_DAIRYSALE_GATEPASS_MASTER LEFT JOIN TSPL_DAIRYSALE_GATEPASS_DETAIL ON TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode = TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode LEFT JOIN TSPL_ROUTE_MASTER ON TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No LEFT JOIN TSPL_ITEM_MASTER ON TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code WHERE convert(date, TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date) = '" & clsCommon.GetPrintDate(txtPTSDateFrom.Value) & "' AND TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = '" & ddlPTSShift.Text & "' " + whr + " GROUP BY TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code, TSPL_ITEM_MASTER.Sku_Seq ORDER BY TSPL_ITEM_MASTER.Sku_Seq "
                 Dim dtItem As DataTable = clsDBFuncationality.GetDataTable(ItemQry)
-                For kk As Integer = 0 To dtItem.Rows.Count - 1
-                    If clsCommon.myLen(itemdesc) > 0 Then
-                        itemdesc += ",[" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "]"
-                        SumitemDesc += ",Sum([" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "])  As [" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "] "
-                    Else
-                        itemdesc = "[" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "]"
-                        SumitemDesc += "Sum([" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "])  As [" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "] "
+                If dtItem.Rows.Count > 0 Then
+                    For kk As Integer = 0 To dtItem.Rows.Count - 1
+                        If clsCommon.myLen(itemdesc) > 0 Then
+                            itemdesc += ",[" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "]"
+                            SumitemDesc += ",Sum([" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "])  As [" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "] "
+                        Else
+                            itemdesc = "[" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "]"
+                            SumitemDesc += "Sum([" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "])  As [" + clsCommon.myCstr(dtItem.Rows(kk)("Short_Description")) + "] "
 
-                    End If
-                Next
+                        End If
+                    Next
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
+                End If
                 Dim qry As String = " ( Select TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
                     max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Desc,max(TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType) as ShiftType,max(TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date) as Supply_Date,
-                    max(TSPL_VEHICLE_MASTER.Vehicle_No) as Vehicle_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,
+                    max(TSPL_VEHICLE_MASTER.Vehicle_No) as Vehicle_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code," & IIf(EnableProductSaleForJPR, " max(case when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'M' then 'Milk' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'P' then 'Product' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'I' then 'Ice Cream' end  )  as [Item Type],", "") & "
                     max(TSPL_ITEM_MASTER.Short_Description) as Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
                     TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty) as Qty,
                     case when max(TSPL_ITEM_MASTER.Is_FreshItem)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor)) when max(TSPL_ITEM_MASTER.Is_Ambient)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInKG.Conversion_Factor)) else (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor)) end as [Qty In LTR/KG],case when max(TSPL_ITEM_MASTER.Is_FreshItem)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor)) when max(TSPL_ITEM_MASTER.Is_Ambient)=1 then (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInKG.Conversion_Factor)) else (sum(TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty)*max(ItemConvinUOM.Conversion_Factor)/max(ItemConvInLtr.Conversion_Factor))end as PPAmt,
@@ -5220,15 +5366,25 @@ where 2=2 and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date)='" & clsC
                 If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
                     qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
                 End If
-                If rbtnMilk.Checked Then
-                    qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
-                ElseIf rbtnProduct.Checked Then
-                    qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+                If EnableProductSaleForJPR Then
+                    If rbtnMilkType.Checked Then
+                        qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='M'"
+                    ElseIf rbtnProductType.Checked Then
+                        qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='P'"
+                    ElseIf rbtnIceCream.Checked Then
+                        qry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.item_type='I'"
+                    End If
+                Else
+                    If rbtnMilk.Checked Then
+                        qry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+                    ElseIf rbtnProduct.Checked Then
+                        qry += " and TSPL_ITEM_MASTER.Is_Ambient=1 "
+                    End If
                 End If
-                qry += "group by TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,TSPL_ITEM_MASTER.Sku_Seq ) AS SourceTable"
+                qry += " group by TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code,TSPL_ITEM_MASTER.Sku_Seq ) AS SourceTable"
 
                 qry += " PIVOT (sum([Qty In LTR/KG]) FOR Short_Description IN (" + itemdesc + ") ) AS PivotTable group by Route_No "
-                Dim Finalqry As String = "select * from (SELECT row_number() over(order by(select 1)) as SNo, Route_No as [Route No], max(Route_Desc)[Route Desc], max(ShiftType)[Shift Type], CONVERT(VARCHAR(20), MAX(Supply_Date), 103)[Supply Date]," + SumitemDesc + " ,sum(PPAmt) as [Qty In LTR]
+                Dim Finalqry As String = "select * from (SELECT row_number() over(order by(select 1)) as SNo, Route_No as [Route No], max(Route_Desc)[Route Desc], max(ShiftType)[Shift Type], CONVERT(VARCHAR(20), MAX(Supply_Date), 103)[Supply Date]," & IIf(EnableProductSaleForJPR, " max([Item Type]) as [Item Type],", "") & "" + SumitemDesc + " ,sum(PPAmt) as [Qty In LTR]
 FROM 
 " + qry + " )  pp"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Finalqry)
@@ -5244,7 +5400,11 @@ FROM
                     If Gv1.Rows.Count > 0 Then
                         Dim summaryRowItem As New GridViewSummaryRowItem()
                         ' Dim item As Integer = 0
-                        For i As Integer = 5 To Gv1.Columns.Count - 1
+                        Dim j As Integer = 5
+                        If EnableProductSaleForJPR Then
+                            j = 6
+                        End If
+                        For i As Integer = j To Gv1.Columns.Count - 1
                             Dim aa = Gv1.Columns(i).HeaderText()
                             Dim item8 As New GridViewSummaryItem(aa, "{0:F2}", GridAggregateFunction.Sum)
                             summaryRowItem.Add(item8)
@@ -5254,15 +5414,15 @@ FROM
                         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     End If
                 Else
-                    Throw New Exception("No Data Found!")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found!", Me.Text)
                 End If
 
             Else
-                Throw New Exception("Please Select Shift.")
+                clsCommon.MyMessageBoxShow(Me, "Please Select Shift.", Me.Text)
             End If
 
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub ExportGrid()
