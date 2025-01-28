@@ -2713,15 +2713,15 @@ Public Class rptAuditTrailReport
             ElseIf clsCommon.CompairString(strModuleCode, clsUserMgtCode.ModuleSalesNew) = CompairStringResult.Equal Then
                 If clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmSNShipment) = CompairStringResult.Equal Then
                     qry = " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_Code as [Document Code],CONCAT(Hist_Version,' - ',Hist_By) AS Description" &
-                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Save/Update' as [Status] from  TSPL_SD_SHIPMENT_HEAD_Hist_Data " &
+                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],CONCAT(Case When Isnull([Status],0)=0 Then 'Pending' Else 'Approved' End,' (Save)') As  [Status] from  TSPL_SD_SHIPMENT_HEAD_Hist_Data " &
                      " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
                     qry += " Union All "
                     qry += " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_Code as [Document Code],Delete_By AS Description" &
-                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Delete' as [Status] from  TSPL_SD_SHIPMENT_HEAD_Delete_Data " &
+                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],CONCAT(Case When Isnull([Status],0)=0 Then 'Pending' Else 'Approved' End,' (Delete)') As  [Status] from  TSPL_SD_SHIPMENT_HEAD_Delete_Data " &
                      " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
                     qry += " Union All "
                     qry += " select  '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Document_Code as [Document Code],Cancel_By AS Description" &
-                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],'Cancel' as [Status] from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data " &
+                    " ,convert(varchar,Document_Date,103) as [Document Date],Created_By as [Created By],convert(varchar,Created_Date,103) as [Created Date],Modify_By  as [Modified By],convert(varchar,Modify_Date ,103) as [Modified Date],CONCAT(Case When Isnull([Status],0)=0 Then 'Pending' Else 'Approved' End,' (Cancel)') As  [Status] from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data " &
                      " where 2=2  and Convert (date,Modify_Date,103)  > = Convert (date, '" + txtFromDate.Value + "'  ,103) and Convert (date, Modify_Date,103)  < = convert ( date, '" + txtToDate.Value + "',103) "
                     StrOrderBy = " order by Convert (datetime, zz.[Created Date],103)  "
                 ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmSNSaleInvoice) = CompairStringResult.Equal Then
@@ -2793,6 +2793,7 @@ Public Class rptAuditTrailReport
                 End If
 
                 gv1.DataSource = dt
+                AddHistoryButtonInGrid()
                 SetGridFormationOFGV1()
                 gv1.BestFitColumns()
 
@@ -2804,6 +2805,28 @@ Public Class rptAuditTrailReport
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
+    End Sub
+
+    Private Sub AddHistoryButtonInGrid()
+        If clsCommon.CompairString(strModuleCode, clsUserMgtCode.ModuleSalesNew) = CompairStringResult.Equal Then
+            Dim buttonColumn As New GridViewCommandColumn()
+            buttonColumn.Name = "ActionButton"
+            buttonColumn.HeaderText = "History"
+            buttonColumn.UseDefaultText = True
+            buttonColumn.DefaultText = "Show"
+            gv1.Columns.Add(buttonColumn)
+        End If
+    End Sub
+
+    Private Sub gv1_CommandCellClick(sender As Object, e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellClick
+        If e.Column.Name = "ActionButton" Then
+            Dim rowIndex As Integer = e.Row.Index
+            Dim ScreenName As String = clsCommon.myCstr(e.Row.Cells("Screen Name").Value)
+            Dim DocumentCode As String = clsCommon.myCstr(e.Row.Cells("Document Code").Value)
+            If clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmSNShipment) = CompairStringResult.Equal Then
+                clsERPFuncationalityOLD.ShowTransHistoryData(DocumentCode, "Document_Code", "TSPL_SD_SHIPMENT_HEAD", "TSPL_SD_SHIPMENT_Detail", Nothing)
+            End If
+        End If
     End Sub
 
 

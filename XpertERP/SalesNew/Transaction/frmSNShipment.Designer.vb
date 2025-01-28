@@ -22,12 +22,12 @@ Partial Class frmSNShipment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSNShipment))
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -143,6 +143,7 @@ Partial Class frmSNShipment
         Me.gvDCS = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnManualTCS = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalAutomatic = New common.Controls.MyRadioButton()
         Me.txtTaxGroup = New common.UserControls.txtFinder()
@@ -162,6 +163,7 @@ Partial Class frmSNShipment
         Me.RadLabel31 = New common.Controls.MyLabel()
         Me.lblAddCharges = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -263,8 +265,6 @@ Partial Class frmSNShipment
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.rbtnManualTCS = New common.Controls.MyRadioButton()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -375,6 +375,7 @@ Partial Class frmSNShipment
         CType(Me.gvDCS.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -482,7 +483,6 @@ Partial Class frmSNShipment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -634,7 +634,7 @@ Partial Class frmSNShipment
         Me.RadPageViewPage1.Controls.Add(Me.btnDrillDown)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(107.0!, 22.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(111.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1234, 491)
@@ -2034,7 +2034,7 @@ Partial Class frmSNShipment
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2309,7 +2309,7 @@ Partial Class frmSNShipment
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.SplitContainer3)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(67.0!, 22.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(71.0!, 26.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(1234, 491)
@@ -2359,7 +2359,7 @@ Partial Class frmSNShipment
         Me.gvDCS.MasterTemplate.AllowDeleteRow = False
         Me.gvDCS.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDCS.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDCS.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvDCS.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDCS.MyStopExport = False
         Me.gvDCS.Name = "gvDCS"
         Me.gvDCS.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2380,10 +2380,10 @@ Partial Class frmSNShipment
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1234, 495)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'GroupBox1
@@ -2397,6 +2397,16 @@ Partial Class frmSNShipment
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Tax Calculation Type"
+        '
+        'rbtnManualTCS
+        '
+        Me.rbtnManualTCS.Location = New System.Drawing.Point(152, 13)
+        Me.rbtnManualTCS.MyLinkLable1 = Nothing
+        Me.rbtnManualTCS.MyLinkLable2 = Nothing
+        Me.rbtnManualTCS.Name = "rbtnManualTCS"
+        Me.rbtnManualTCS.Size = New System.Drawing.Size(80, 18)
+        Me.rbtnManualTCS.TabIndex = 2
+        Me.rbtnManualTCS.Text = "Manual TCS"
         '
         'rbtnTaxCalManual
         '
@@ -2472,7 +2482,7 @@ Partial Class frmSNShipment
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(1076, 391)
+        Me.RadLabel10.Location = New System.Drawing.Point(1076, 387)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
@@ -2490,7 +2500,7 @@ Partial Class frmSNShipment
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 404)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 400)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1234, 87)
@@ -2604,12 +2614,12 @@ Partial Class frmSNShipment
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1229, 353)
+        Me.gv2.Size = New System.Drawing.Size(1229, 349)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -2617,10 +2627,10 @@ Partial Class frmSNShipment
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1234, 495)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer2
@@ -2638,8 +2648,8 @@ Partial Class frmSNShipment
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadLabel31)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblAddCharges)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1234, 495)
-        Me.SplitContainer2.SplitterDistance = 447
+        Me.SplitContainer2.Size = New System.Drawing.Size(1234, 491)
+        Me.SplitContainer2.SplitterDistance = 443
         Me.SplitContainer2.TabIndex = 0
         '
         'gvAC
@@ -2657,13 +2667,13 @@ Partial Class frmSNShipment
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(1234, 447)
+        Me.gvAC.Size = New System.Drawing.Size(1234, 443)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
         Me.gvAC.VarID = ""
@@ -2695,16 +2705,24 @@ Partial Class frmSNShipment
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 31)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1234, 495)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1234, 491)
         Me.pvpCustomFields.Text = "Custom Fields"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1234, 491)
+        Me.UcCustomFields1.TabIndex = 1
         '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1234, 491)
@@ -2752,10 +2770,10 @@ Partial Class frmSNShipment
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1234, 495)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage4.Text = "Total"
         '
         'txtTCSTaxRate
@@ -3096,7 +3114,7 @@ Partial Class frmSNShipment
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(963, 477)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(963, 473)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(268, 18)
         Me.btnReverseAndUnpost.TabIndex = 9
@@ -3915,27 +3933,9 @@ Partial Class frmSNShipment
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
-        '
-        'rbtnManualTCS
-        '
-        Me.rbtnManualTCS.Location = New System.Drawing.Point(152, 13)
-        Me.rbtnManualTCS.MyLinkLable1 = Nothing
-        Me.rbtnManualTCS.MyLinkLable2 = Nothing
-        Me.rbtnManualTCS.Name = "rbtnManualTCS"
-        Me.rbtnManualTCS.Size = New System.Drawing.Size(80, 18)
-        Me.rbtnManualTCS.TabIndex = 2
-        Me.rbtnManualTCS.Text = "Manual TCS"
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1234, 495)
-        Me.UcCustomFields1.TabIndex = 1
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'frmSNShipment
         '
@@ -4069,6 +4069,7 @@ Partial Class frmSNShipment
         Me.RadPageViewPage2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4185,7 +4186,6 @@ Partial Class frmSNShipment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
