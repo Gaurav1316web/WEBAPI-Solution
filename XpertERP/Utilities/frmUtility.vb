@@ -26634,11 +26634,11 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
                         trans.Commit()
                     Catch ex As Exception
                         trans.Rollback()
-                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                        Throw New Exception(ex.Message)
                     End Try
                 Next
             End If
-            clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+            ' clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
