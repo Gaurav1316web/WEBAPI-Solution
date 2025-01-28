@@ -7210,8 +7210,6 @@ Public Class frmSNShipment
                     gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = rbtnTaxCalAutomatic.IsChecked
                     If clsCommon.CompairString(gv2.CurrentRow.Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal And rbtnManualTCS.IsChecked Then
                         gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = False
-                    Else
-                        gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = True
                     End If
                 End If
 
