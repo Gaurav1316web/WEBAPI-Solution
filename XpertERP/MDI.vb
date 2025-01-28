@@ -8594,6 +8594,9 @@ Public Class MDI
                     Case clsUserMgtCode.CompareVoucherReport
                         frm = New frmCompareVoucherReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBankSavingAdvice
+                        frm = New rptBankSavingAdvice
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

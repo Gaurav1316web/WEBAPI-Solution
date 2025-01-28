@@ -64,39 +64,46 @@ Public Class frmUnpostBmcDcs
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        Dim sQuery As String = Nothing
-        Dim WhrCls As String = " and 2=2 "
-        If txtFromDate.Value > txtToDate.Value Then
-            common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
-            txtFromDate.Focus()
-            Exit Sub
-        End If
+        Try
+            Dim sQuery As String = Nothing
+            Dim WhrCls As String = " and 2=2 "
+            If clsCommon.GetDateWithStartTime(txtFromDate.Value) > clsCommon.GetDateWithStartTime(txtToDate.Value) Then
+                txtFromDate.Focus()
+                Throw New Exception("From date can not be greater then to Date")
+            End If
 
-        sQuery = " select Cast(0 as BIT) as 'Check',  TSPL_MILK_COLLECTION_BMCDCS.Status, TSPL_MILK_COLLECTION_BMCDCS.PK_ID, TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,Mcc_Code_VLC_Uploader,MCC_NAME from TSPL_MILK_COLLECTION_BMCDCS
+            sQuery = " select Cast(0 as BIT) as 'Check',  TSPL_MILK_COLLECTION_BMCDCS.Status, TSPL_MILK_COLLECTION_BMCDCS.PK_ID, TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,Mcc_Code_VLC_Uploader,MCC_NAME from TSPL_MILK_COLLECTION_BMCDCS
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
 left outer join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
 left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
 where 2=2 and TSPL_MILK_COLLECTION_BMCDCS.Status='1' and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id is null
 and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCommon.GetPrintDate(txtToDate1.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103) <=convert(date,'" + clsCommon.GetPrintDate(txtFromDate1.Value, "dd/MMM/yyyy") + "' ,103) "
 
-        If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then
-            sQuery += " and TSPL_MILK_COLLECTION_BMCDCS.MCC_Code in (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ") "
-        End If
+            If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then
+                sQuery += " and TSPL_MILK_COLLECTION_BMCDCS.MCC_Code in (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ") "
+            End If
 
-        Dim dtgv As New DataTable
-        dtgv = clsDBFuncationality.GetDataTable(sQuery)
-        If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
-            gv1.DataSource = dtgv
-            gv1.GroupDescriptors.Clear()
-            gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            FormatGridGv2()
-            btnPost.Visible = True
-        Else
-            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-        End If
+
+
+            Dim dtgv As New DataTable
+            dtgv = clsDBFuncationality.GetDataTable(sQuery)
+            If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
+                gv1.DataSource = dtgv
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                FormatGridGv2()
+                btnPost.Visible = True
+            Else
+                Throw New Exception("No Data Found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+
     End Sub
 
     Private Sub btnPost_Click(sender As Object, e As EventArgs)
@@ -190,100 +197,100 @@ from TSPL_MCC_MASTER "
     End Sub
 
     Private Sub btnPost_Click_1(sender As Object, e As EventArgs) Handles btnPost.Click
-        'Try
-        Dim ii As Integer = 1
-        Dim Total As Integer = 0
-        For Each grow As GridViewRowInfo In gv1.Rows
-            If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
-                Total += 1
-            End If
-        Next
-        Dim Qry As String = Nothing
-        Dim objMultPrintInvoice As New FrmPrintFreshInvoice
-        Dim Pkid As New List(Of String)
-        For Each grow As GridViewRowInfo In gv1.Rows
-            If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
-                Pkid.Add(clsCommon.myCstr(grow.Cells("PK_ID").Value))
-                ii += 1
-            End If
-            'ii += 1
-        Next
-        If Pkid.Count <= 0 Then
-            myMessages.blankValue(Me, "PK ID not found", Me.Text)
-        Else
-            Dim dtDocdate As Date?
-            dtDocdate = Nothing
-            Dim PKIDNO As String = clsCommon.GetMulcallString(Pkid)
-            Dim StrSql As String = "select Status,PK_ID from TSPL_MILK_COLLECTION_BMCDCS where PK_ID in(" + PKIDNO + ")"
-
-            StrSql = "select 1 from TSPL_MILK_COLLECTION_BMCDCS_TRIP inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_trip.PK_ID where TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID in (" + PKIDNO + ")"
-
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
-            If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                ReverseAndUnpost(PKIDNO)
-                'clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
+        Try
+            Dim ii As Integer = 1
+            Dim Total As Integer = 0
+            For Each grow As GridViewRowInfo In gv1.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    Total += 1
+                End If
+            Next
+            Dim Qry As String = Nothing
+            Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+            Dim Pkid As New List(Of String)
+            For Each grow As GridViewRowInfo In gv1.Rows
+                If clsCommon.CompairString(clsCommon.myCBool(grow.Cells(0).Value), True) = CompairStringResult.Equal Then
+                    Pkid.Add(clsCommon.myCstr(grow.Cells("PK_ID").Value))
+                    ii += 1
+                End If
+                'ii += 1
+            Next
+            If Pkid.Count <= 0 Then
+                myMessages.blankValue(Me, "PK ID not found", Me.Text)
+            Else
+                Dim dtDocdate As Date?
+                dtDocdate = Nothing
+                Dim PKIDNO As String = clsCommon.GetMulcallString(Pkid)
+                Dim StrSql As String = "select Status,PK_ID from TSPL_MILK_COLLECTION_BMCDCS where PK_ID in(" + PKIDNO + ")"
 
 
-                Dim sqlload As String = Nothing
-                sqlload = " select Cast(0 as BIT) as 'Check',  TSPL_MILK_COLLECTION_BMCDCS.Status, TSPL_MILK_COLLECTION_BMCDCS.PK_ID, TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,Mcc_Code_VLC_Uploader,MCC_NAME from TSPL_MILK_COLLECTION_BMCDCS
+                If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    ReverseAndUnpost(PKIDNO)
+                    'clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
+
+
+                    Dim sqlload As String = Nothing
+                    sqlload = " select Cast(0 as BIT) as 'Check',  TSPL_MILK_COLLECTION_BMCDCS.Status, TSPL_MILK_COLLECTION_BMCDCS.PK_ID, TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,Mcc_Code_VLC_Uploader,MCC_NAME from TSPL_MILK_COLLECTION_BMCDCS
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code
 left outer join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
 left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
 where 2=2 and TSPL_MILK_COLLECTION_BMCDCS.Status='1' and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id is null
 and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCommon.GetPrintDate(txtToDate1.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103) <=convert(date,'" + clsCommon.GetPrintDate(txtFromDate1.Value, "dd/MMM/yyyy") + "' ,103) "
 
-                If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then
-                    sqlload += " and TSPL_MILK_COLLECTION_BMCDCS.MCC_Code in (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ") "
-                End If
-                Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(sqlload)
-                ' If dt2 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                'gv1.Rows.Clear()
-                '    gv1.Columns.Clear()
-                gv1.DataSource = Nothing
+                    If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then
+                        sqlload += " and TSPL_MILK_COLLECTION_BMCDCS.MCC_Code in (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ") "
+                    End If
+                    Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(sqlload)
+                    ' If dt2 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                    'gv1.Rows.Clear()
+                    '    gv1.Columns.Clear()
+                    gv1.DataSource = Nothing
                     gv1.GroupDescriptors.Clear()
                     gv1.SummaryRowsBottom.Clear()
                     gv1.DataSource = dt2
-                gv1.BestFitColumns()
-                FormatGridGv2()
-                'End If
-                ' LoadData(PKIDNO, NavigatorType.Current)
+                    gv1.BestFitColumns()
+                    FormatGridGv2()
+                    'End If
+                    ' LoadData(PKIDNO, NavigatorType.Current)
 
-                'gv1.DataSource = Nothing
-                'gv1.Rows.Clear()
-                'gv1.Columns.Clear()
+                    'gv1.DataSource = Nothing
+                    'gv1.Rows.Clear()
+                    'gv1.Columns.Clear()
+                End If
             End If
-            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
 
-    Public Shared Function ReverseAndUnpost(ByVal PKIDNO As String) As Boolean
+    Public Function ReverseAndUnpost(ByVal PKIDNO As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
 
-            Dim Qry As String = clsCommon.myCstr("select Status from TSPL_MILK_COLLECTION_BMCDCS where PK_ID  in(" + PKIDNO + ")")
+            Dim Qry As String = "select 1 from TSPL_MILK_COLLECTION_BMCDCS_TRIP inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_trip.PK_ID where TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID in (" + PKIDNO + ")"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Document is used you cannot unpost it")
+            End If
 
-            If dt IsNot Nothing AndAlso clsCommon.myCdbl(dt.Rows(0)("Status")) > 0 Then
+            Qry = clsCommon.myCstr("select Status from TSPL_MILK_COLLECTION_BMCDCS where PK_ID  in(" + PKIDNO + ")")
+            dt = clsDBFuncationality.GetDataTable(Qry, trans)
 
-
-                'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
-
-                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    Throw New Exception("Document No [" + PKIDNO + "] not found for reverse and unpost")
-                End If
-
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If Not clsCommon.myCdbl(dt.Rows(0)("Status")) = 1 Then
                     Throw New Exception("Transaction status should be posted for reverse and unpost")
                 End If
                 Qry = "Update TSPL_MILK_COLLECTION_BMCDCS set Status = 0 where PK_ID  in(" + PKIDNO + ")"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-                clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly ")
-
+                trans.Commit()
+                clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly ", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow("Allready UnPosted ")
+                Throw New Exception("Document No [" + PKIDNO + "] not found for reverse and unpost")
             End If
-            trans.Commit()
+
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
