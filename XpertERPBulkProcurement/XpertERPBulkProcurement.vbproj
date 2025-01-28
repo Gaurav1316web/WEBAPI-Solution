@@ -235,6 +235,12 @@
     <Compile Include="Milk Procurement\Report\frmCompareVoucherReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.Designer.vb">
+      <DependentUpon>FrmDayWiseMilkCollectionVsDispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmUnpostBmcDcs.Designer.vb">
       <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
     </Compile>
@@ -1066,6 +1072,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmCompareVoucherReport.resx">
       <DependentUpon>frmCompareVoucherReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.resx">
+      <DependentUpon>FrmDayWiseMilkCollectionVsDispatch.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmUnpostBmcDcs.resx">
       <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>
