@@ -1644,6 +1644,7 @@
     <None Include="Crystal Reports\Purchase Order\RMConsumptionBreakup.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptBalanceStockForJobWork.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptCompanyAddress.rpt" />
+    <None Include="Crystal Reports\Purchase Order\rptCustomerStockReco.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptissue.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptissueNewV.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptMRDA.rpt" />
