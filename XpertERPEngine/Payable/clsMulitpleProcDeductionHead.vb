@@ -91,7 +91,7 @@ where Document_No ='" + obj.Document_No + "'", trans))
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MULTIPLE_DEDUCTION_HEAD", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
         End If
 
-        isSaved = isSaved AndAlso clsMultipleProcDeductionDetail.SaveData(obj.Document_No, Arr, trans)
+        isSaved = isSaved AndAlso clsMultipleProcDeductionDetail.SaveData(obj.Document_No, obj.MCC_Code, Arr, trans)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MULTIPLE_DEDUCTION_HEAD", "Document_No", "TSPL_MULTIPLE_DEDUCTION_DETAIL", "Document_No", trans)
 
 
@@ -511,7 +511,7 @@ Public Class clsMultipleProcDeductionDetail
     Public VLCUploderCode As String ''Not a table column
 #End Region
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMultipleProcDeductionDetail), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal strMCCCode As String, ByVal Arr As List(Of clsMultipleProcDeductionDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMultipleProcDeductionDetail In Arr
                 Dim coll As New Hashtable()
@@ -533,7 +533,16 @@ Public Class clsMultipleProcDeductionDetail
                 clsCommon.AddColumnsForChange(coll, "Account_Set", obj.Account_Set)
                 clsCommon.AddColumnsForChange(coll, "GSTRegistered", obj.GSTRegistered)
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
-                clsCommon.AddColumnsForChange(coll, "BMC_CODE", obj.BMC_CODE)
+
+                Dim isMCCexist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_MCC_MASTER where MCC_Code = '" & strMCCCode & "'", trans)
+                If isMCCexist > 0 Then
+                    obj.BMC_CODE = strMCCCode
+
+                Else
+                    obj.BMC_CODE = clsDBFuncationality.getSingleValue("select TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD where VSP_Code = '" & obj.Vendor_Code & "' ", trans)
+                End If
+
+                clsCommon.AddColumnsForChange(coll, "BMC_CODE", obj.BMC_CODE, True)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MULTIPLE_DEDUCTION_DETAIL", OMInsertOrUpdate.Insert, "", trans)
 
             Next
