@@ -11,6 +11,7 @@ Public Class frmDairyBookingCustomer
 #Region "Variables"
     Dim isRCDFRateControl As Boolean = False
     Dim OneTimeCheck As Boolean = False
+    Dim ApplyDefaultTCSIsChecked As Boolean = False
     Dim ApplyManualScheme As Boolean = False
     Dim isloadBookingTypeValues As Boolean = True
     Dim EnableLocation As Boolean = True
@@ -307,6 +308,7 @@ Public Class frmDairyBookingCustomer
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
         ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 0, False, True)
+        ApplyDefaultTCSIsChecked = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, Nothing)) = 0, False, True)
 
         SetMailRight()
         SetUserMgmtNew()
@@ -2722,7 +2724,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         IsTotalQtyinKG = False
         rgbItemType.Visible = True
         rgbItemType.Enabled = True
-        chkTPT.Checked = True
+        If ApplyDefaultTCSIsChecked Then
+            chkTPT.Checked = True
+        Else
+            chkTPT.Checked = False
+        End If
+
         chkisTCS.Checked = True
         lblShiftType.Text = ""
         btnGatePassPrint.Visible = False
