@@ -12957,7 +12957,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 If isCancel Then
                     InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where Document_Code in(select Document_Code from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
                 Else
-                    InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code in(select Document_Code from  TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
+                    InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo in(select ParentDocNo from  TSPL_SD_SHIPMENT_HEAD where Document_Code='" + DocCode + "')"), "Sale_Invoice_No")
                 End If
                 Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, txtVendorNo.Value, ItemMain, isCancel)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
