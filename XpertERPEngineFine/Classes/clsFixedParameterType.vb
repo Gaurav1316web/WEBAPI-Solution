@@ -1304,6 +1304,7 @@ Public Class clsFixedParameterType
     Public Const SetDefaultShiftTime = "Set Default Shift Time"
     Public Const ApplyManualScheme = "Apply Manual Scheme"
     Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
+    Public Const AutoSchemeOnTotalDispatchQty = "Auto Scheme On Total Dispatch Qty"
 End Class
 Public Class clsFixedParameterCode
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
@@ -2751,6 +2752,7 @@ Public Class clsFixedParameterCode
     Public Const SetDefaultShiftTime = "Set Default Shift Time"
     Public Const ApplyManualScheme = "Apply Manual Scheme"
     Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
+    Public Const AutoSchemeOnTotalDispatchQty = "Auto Scheme On Total Dispatch Qty"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4362,6 +4364,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowResetCustomerDemandOnRouteChange, clsFixedParameterCode.AllowResetCustomerDemandOnRouteChange, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoSchemeOnTotalDispatchQty, clsFixedParameterCode.AutoSchemeOnTotalDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6020,6 +6023,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.DonotIncludeSecurityInCustomerOutstanding, clsFixedParameterCode.DonotIncludeSecurityInCustomerOutstanding, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.ScrapSale, clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNSaleReturn, clsFixedParameterType.IsManualTCS, clsFixedParameterCode.IsManualTCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmVendorService, clsFixedParameterType.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, clsFixedParameterCode.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmbookingdairyFreshSale, clsFixedParameterType.CheckNoOfDaysforCardSaleBooking, clsFixedParameterCode.CheckNoOfDaysforCardSaleBooking, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowBookingTypeDropDownonDairyBookingCustomer, clsFixedParameterCode.ShowBookingTypeDropDownonDairyBookingCustomer, EnumControlType.CheckBox)
@@ -6184,6 +6188,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.CustomerMaster, clsFixedParameterType.AllowResetCustomerDemandOnRouteChange, clsFixedParameterCode.AllowResetCustomerDemandOnRouteChange, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.CustomerMaster, clsFixedParameterType.AutoSchemeOnTotalDispatchQty, clsFixedParameterCode.AutoSchemeOnTotalDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
 

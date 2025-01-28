@@ -857,6 +857,9 @@ Public Class clsMilkProcurementUploaderDetail
     Public Arrival_Time As DateTime? = Nothing
     Public Weighment_Time As DateTime? = Nothing
     Public IsUpdate As Boolean = False
+    Public Hist_On As DateTime? = Nothing
+    Public Hist_By As String
+
     'Public Retesting_FAT As Decimal
     'Public Retesting_SNF As Decimal
 #End Region
@@ -946,6 +949,49 @@ Public Class clsMilkProcurementUploaderDetail
         Return True
     End Function
 
+    Public Shared Function SaveRetestingData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkProcurementUploaderDetail), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+
+            For Each obj As clsMilkProcurementUploaderDetail In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "TR_No", obj.TR_No)
+                clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
+                clsCommon.AddColumnsForChange(coll, "Shift_Date", clsCommon.GetPrintDate(obj.Shift_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Shift", obj.Shift)
+                clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
+                clsCommon.AddColumnsForChange(coll, "No_Of_Cans", obj.No_Of_Cans)
+                clsCommon.AddColumnsForChange(coll, "Milk_Weight", obj.Milk_Weight)
+                clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
+                clsCommon.AddColumnsForChange(coll, "Reject_Type", obj.Reject_Type, True)
+                clsCommon.AddColumnsForChange(coll, "Reject_Defaulter", obj.Reject_Defaulter)
+                clsCommon.AddColumnsForChange(coll, "Against_Milk_Collection_DCS_Detail", obj.Against_Milk_Collection_DCS_Detail, True)
+                clsCommon.AddColumnsForChange(coll, "Bulk_Route_Code", obj.Bulk_Route_Code, True)
+                If obj.Arrival_Time Is Nothing Then
+                    clsCommon.AddColumnsForChange(coll, "Arrival_Time", obj.Arrival_Time, True)
+                Else
+                    clsCommon.AddColumnsForChange(coll, "Arrival_Time", clsCommon.GetPrintDate(obj.Arrival_Time, "dd/MMM/yyyy hh:mm:ss tt"))
+                End If
+                If obj.Weighment_Time Is Nothing Then
+                    clsCommon.AddColumnsForChange(coll, "Weighment_Time", obj.Weighment_Time, True)
+                Else
+                    clsCommon.AddColumnsForChange(coll, "Weighment_Time", clsCommon.GetPrintDate(obj.Weighment_Time, "dd/MMM/yyyy hh:mm:ss tt"))
+                End If
+                clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", obj.Dock_Collection_Milk_Type)
+
+                clsCommon.AddColumnsForChange(coll, "Manual_Weight", obj.Manual_Weight)
+                clsCommon.AddColumnsForChange(coll, "Manual_Sample", obj.Manual_Sample)
+                clsCommon.AddColumnsForChange(coll, "Empty_Sample", obj.Empty_Sample, True)
+                clsCommon.AddColumnsForChange(coll, "Page_No", obj.Page_No, True)
+
+                clsCommon.AddColumnsForChange(coll, "Hist_By", obj.Hist_By)
+                clsCommon.AddColumnsForChange(coll, "Hist_On", clsCommon.GetPrintDate(obj.Hist_On, "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
     Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsMilkProcurementUploaderDetail)
         Dim arr As List(Of clsMilkProcurementUploaderDetail) = Nothing
         Dim qry As String = "SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code] 
