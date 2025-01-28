@@ -6093,38 +6093,44 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
     End Sub
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Try
-            Dim isSaved As Boolean = True
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                If clsCommon.myLen(lblDONumber.Text) > 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Booking Can not cancelled, DO already created!", Me.Text)
-                    Exit Sub
-                End If
-                If common.clsCommon.MyMessageBoxShow("Do you want to cancel the Booking?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
-                    Dim qrySaveCancel = "Update tspl_booking_matser set Is_Cancelled=1 where Document_No='" & txtDocNo.Value & "'"
-                    isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qrySaveCancel)
-                    If isSaved = True Then
-                        clsCommon.MyMessageBoxShow(Me, "Booking cancelled successfully!", Me.Text)
-                        LoadData(txtDocNo.Value, NavigatorType.Current)
-                    End If
-                End If
-            End If
-            'Dim frm1 As New FrmPWD(Nothing)
-            'frm1.strType = clsFixedParameterType.Transactionupdate
-            'frm1.strCode = clsFixedParameterCode.BookingCancel
-            'frm1.ShowDialog()
-            'If frm1.isPasswordCorrect Then
-            '    CancelData()
-            '    OneTimeCheck = True
+            'Dim isSaved As Boolean = True
+            'If clsCommon.myLen(txtDocNo.Value) > 0 Then
+            '    If clsCommon.myLen(lblDONumber.Text) > 0 Then
+            '        clsCommon.MyMessageBoxShow(Me, "Booking Can not cancelled, DO already created!", Me.Text)
+            '        Exit Sub
+            '    End If
+            '    If common.clsCommon.MyMessageBoxShow("Do you want to cancel the Booking?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            '        Dim qrySaveCancel = "Update tspl_booking_matser set Is_Cancelled=1 where Document_No='" & txtDocNo.Value & "'"
+            '        isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qrySaveCancel)
+            '        If isSaved = True Then
+            '            clsCommon.MyMessageBoxShow(Me, "Booking cancelled successfully!", Me.Text)
+            '            LoadData(txtDocNo.Value, NavigatorType.Current)
+            '        End If
+            '    End If
             'End If
+            Dim frm1 As New FrmPWD(Nothing)
+            frm1.strType = clsFixedParameterType.Transactionupdate
+            frm1.strCode = clsFixedParameterCode.BookingCancel
+            frm1.ShowDialog()
+            If frm1.isPasswordCorrect Then
+                CancelData()
+                OneTimeCheck = True
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub CancelData()
         Try
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+            Dim strQry As String = ""
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Document Not Found!")
             End If
+            strQry = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No ='" + txtDocNo.Value + "'"
+            If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry))) > 0 Then
+                Throw New Exception("You cannot cancelled this document because Dispatch (" + clsCommon.myCstr(txtDocNo.Value) + ") has been created.")
+            End If
+            clsBookingEntryDairySale.CancelData(Me.Form_ID, txtDocNo.Value, NavigatorType.Current)
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

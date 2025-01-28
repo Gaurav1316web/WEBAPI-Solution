@@ -166,7 +166,7 @@ Public Class SaleEinvoiceReport
                            maX(TSPL_STATE_MASTER.GST_STATE_Code) AS [Party State],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type) as [E Invoice Type],"
                 If EnableProductSaleForJPR Then
-                    qry += "max(TSPL_SD_SALE_INVOICE_HEAD.item_type )as [Item Type],"
+                    qry += "max(case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end  )  as [Item Type],"
                 End If
                 qry += " max(Ack_No) AS [Ack No],
                            max(CONVERT(varchar,Ack_Date, 103)) AS [Ack Date],
@@ -271,7 +271,7 @@ Public Class SaleEinvoiceReport
                                 TSPL_STATE_MASTER.GST_STATE_Code AS [Party State],
                                 TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [E Invoice Type],"
  If EnableProductSaleForJPR Then
-                    qry += "TSPL_SD_SALE_INVOICE_HEAD.item_type as [Item Type],"
+                    qry += "case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream'  end as [Item Type],"
                 End If
                 qry += " Ack_No AS [Ack No],
                                 CONVERT(varchar,Ack_Date, 103) AS [Ack Date],

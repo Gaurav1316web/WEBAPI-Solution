@@ -854,8 +854,11 @@ Public Class FrmPrintFreshInvoice
     Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String, ByVal isMainPrint As String) As String
         Return PrintInvoiceForAll(strinvoiceNo, docDate, CustCode, "Y", False)
     End Function
+    Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String, ByVal isMainPrint As String, ByVal ItemType As String) As String
+        Return PrintInvoiceForAll(strinvoiceNo, docDate, CustCode, "Y", False, ItemType)
+    End Function
     ' Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String) As String
-    Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String, ByVal isMainPrint As String, ByVal isCancel As Boolean) As String
+    Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String, ByVal isMainPrint As String, ByVal isCancel As Boolean, ByVal ItemType As String) As String
         Dim Qry As String = Nothing
         If clsCommon.myLen(strinvoiceNo) > 0 Then
 
@@ -1070,8 +1073,12 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
             'End If
             Qry += "        
 )TabBatch On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And TabBatch.Parent_Line_No = TSPL_SD_SALE_INVOICE_DETAIL.Line_No
-                where 2 = 2 And TSPL_SD_SALE_INVOICE_HEAD.Document_Code in   (" + strinvoiceNo + ")  
-And  exists (select 1 from  (select  TSPL_SD_sale_invoice_DETAIL.Item_Code, TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE,TSPL_SD_sale_invoice_DETAIL.Line_No    from " + SD_SALE_INVOICE_DETAIL + " 
+                where 2 = 2 And TSPL_SD_SALE_INVOICE_HEAD.Document_Code in   (" + strinvoiceNo + ")  "
+
+            If clsCommon.myLen(ItemType) > 0 Then
+                Qry += " and TSPL_SD_SALE_INVOICE_HEAD.item_type IN (" & ItemType & ") "
+            End If
+            Qry += "  And  exists (select 1 from  (select  TSPL_SD_sale_invoice_DETAIL.Item_Code, TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE,TSPL_SD_sale_invoice_DETAIL.Line_No    from " + SD_SALE_INVOICE_DETAIL + " 
 Left OUTER JOIN " + SD_SALE_INVOICE_HEAD + " ON TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
 Left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And  TSPL_ITEM_UOM_DETAIL .UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code 
 Left OUTER JOIN TSPL_ITEM_MASTER  ON  TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code 
@@ -1082,10 +1089,10 @@ Left OUTER JOIN   TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATIO
 Full Join(select DOCUMENT_CODE, Item_Code As Scheme_Item_Code, SUM(Qty) As SUB_QTY, SUM(Crate) AS schemeInCrates 
 From " + IIf(isCancel, "TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data", "TSPL_SD_SALE_INVOICE_DETAIL") + " As inn Where DOCUMENT_CODE In (" + strinvoiceNo + ") And inn.Scheme_Item='Y'   group by DOCUMENT_CODE,Item_Code)  TSPL_SD_sale_invoice_DETAIL_Sub on TSPL_SD_sale_invoice_DETAIL_sub.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and  TSPL_SD_sale_invoice_DETAIL_sub.Scheme_Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code 
 where 2=2 And  TSPL_SD_SALE_INVOICE_HEAD.Document_Code In   (" + strinvoiceNo + ") "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal Then
-                Qry += "   And TSPL_SD_sale_invoice_DETAIL.Scheme_Item ='N'  "
-            End If
-            Qry += " )xx where xx.Item_Code = TSPL_SD_sale_invoice_DETAIL.item_CODE And xx.DOCUMENT_CODE = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal Then
+                    Qry += "   And TSPL_SD_sale_invoice_DETAIL.Scheme_Item ='N'  "
+                End If
+                Qry += " )xx where xx.Item_Code = TSPL_SD_sale_invoice_DETAIL.item_CODE And xx.DOCUMENT_CODE = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
 )
 ) as final 
 Left outer join ( Select Item_Code, max([CATEGORY RM]) As [CATEGORY RM], max([BRAND]) As [BRAND], max([SUB BRAND]) As [SUB BRAND], max([DESCRP]) As [DESCRP], max([PACK]) As [PACK], max([PACK SIZE]) As [PACK SIZE], max([CATEGORY OT]) As [CATEGORY OT], max([CATEGORY FA]) As [CATEGORY FA], max([P TYPE]) As [P TYPE], max([L TYPE]) As [L TYPE], max([JW]) As [JW], max([SCRAP]) As [SCRAP], max([CATEGORY RMDESC]) As [CATEGORY RMDESC], max([BRANDDESC]) As [BRANDDESC], max([SUB BRANDDESC]) As [SUB BRANDDESC], max([DESCRPDESC]) As [DESCRPDESC], max([PACKDESC]) As [PACKDESC], max([PACK SIZEDESC]) As [PACK SIZEDESC], max([CATEGORY OTDESC]) As [CATEGORY OTDESC], max([CATEGORY FADESC]) As [CATEGORY FADESC], max([P TYPEDESC]) As [P TYPEDESC], max([L TYPEDESC]) As [L TYPEDESC], max([JWDESC]) As [JWDESC], max([SCRAPDESC]) As [SCRAPDESC]  from ( Select * from (   Select TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code, TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code +'DESC' as Item_Category_CodeDesc,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc  
@@ -1094,23 +1101,23 @@ Left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_cod
 Left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code And TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values   where 2=3 )xx  
 Pivot(max(Item_Cagetory_Values) For Item_Category_Code   In ( [CATEGORY RM], [BRAND],[SUB BRAND], [DESCRP], [PACK],[PACK SIZE],[CATEGORY OT],[CATEGORY FA],[P TYPE],[L TYPE], [JW], [SCRAP])  ) Pivt   Pivot  ( max(Category_Value_Desc) For Item_Category_CodeDesc In ([CATEGORY RMDESC], 
 [BRANDDESC],[SUB BRANDDESC], [DESCRPDESC], [PACKDESC],[PACK SIZEDESC],[CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC], [JWDESC], [SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code )  as tbl_Brand on tbl_Brand.Item_Code=final.item_Code  ) AS Main_Final left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code=Main_Final.comp_code "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                Qry += "  left join TSPL_BOOKING_DETAIL on Main_Final.Against_Delivery_Code=TSPL_BOOKING_DETAIL.Document_No
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    Qry += "  left join TSPL_BOOKING_DETAIL on Main_Final.Against_Delivery_Code=TSPL_BOOKING_DETAIL.Document_No
   Left Join TSPL_BOOKING_Matser on TSPL_BOOKING_DETAIL.document_No=TSPL_BOOKING_Matser.document_NO
   Left Join TSPL_RECEIPT_HEADER on TSPL_BOOKING_Matser.Against_Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No  "
+                End If
+                Qry += " ) Final "
+                'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                '    Qry += " Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2, 
+                '             'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=Final.CopyType ORDER BY Line_No,YYY.COL2 "
+                'End If
+
+
+
+
+                'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
             End If
-            Qry += " ) Final "
-            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            '    Qry += " Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2, 
-            '             'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=Final.CopyType ORDER BY Line_No,YYY.COL2 "
-            'End If
-
-
-
-
-            'Qry += " ) Final  order  by Final.Line_No asc,Final.Sku_Seq"
-        End If
-        Return Qry
+            Return Qry
 
     End Function
 

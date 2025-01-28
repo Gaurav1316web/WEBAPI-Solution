@@ -143,6 +143,7 @@ Partial Class frmSNShipment
         Me.gvDCS = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnManualTCS = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalAutomatic = New common.Controls.MyRadioButton()
         Me.txtTaxGroup = New common.UserControls.txtFinder()
@@ -374,6 +375,7 @@ Partial Class frmSNShipment
         CType(Me.gvDCS.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2379,21 +2381,32 @@ Partial Class frmSNShipment
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1234, 495)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.rbtnManualTCS)
         Me.GroupBox1.Controls.Add(Me.rbtnTaxCalManual)
         Me.GroupBox1.Controls.Add(Me.rbtnTaxCalAutomatic)
         Me.GroupBox1.Location = New System.Drawing.Point(547, -2)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(163, 36)
+        Me.GroupBox1.Size = New System.Drawing.Size(234, 36)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Tax Calculation Type"
+        '
+        'rbtnManualTCS
+        '
+        Me.rbtnManualTCS.Location = New System.Drawing.Point(152, 13)
+        Me.rbtnManualTCS.MyLinkLable1 = Nothing
+        Me.rbtnManualTCS.MyLinkLable2 = Nothing
+        Me.rbtnManualTCS.Name = "rbtnManualTCS"
+        Me.rbtnManualTCS.Size = New System.Drawing.Size(80, 18)
+        Me.rbtnManualTCS.TabIndex = 2
+        Me.rbtnManualTCS.Text = "Manual TCS"
         '
         'rbtnTaxCalManual
         '
@@ -2469,7 +2482,7 @@ Partial Class frmSNShipment
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(1076, 391)
+        Me.RadLabel10.Location = New System.Drawing.Point(1076, 387)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
@@ -2487,7 +2500,7 @@ Partial Class frmSNShipment
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 404)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 400)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1234, 87)
@@ -2606,7 +2619,7 @@ Partial Class frmSNShipment
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1229, 353)
+        Me.gv2.Size = New System.Drawing.Size(1229, 349)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -2615,9 +2628,9 @@ Partial Class frmSNShipment
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1234, 495)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer2
@@ -2635,8 +2648,8 @@ Partial Class frmSNShipment
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadLabel31)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblAddCharges)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1234, 495)
-        Me.SplitContainer2.SplitterDistance = 447
+        Me.SplitContainer2.Size = New System.Drawing.Size(1234, 491)
+        Me.SplitContainer2.SplitterDistance = 443
         Me.SplitContainer2.TabIndex = 0
         '
         'gvAC
@@ -2660,7 +2673,7 @@ Partial Class frmSNShipment
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(1234, 447)
+        Me.gvAC.Size = New System.Drawing.Size(1234, 443)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
         Me.gvAC.VarID = ""
@@ -2693,9 +2706,9 @@ Partial Class frmSNShipment
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 31)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1234, 495)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1234, 491)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'Attachments
@@ -3921,7 +3934,7 @@ Partial Class frmSNShipment
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1234, 495)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1234, 491)
         Me.UcCustomFields1.TabIndex = 1
         '
         'frmSNShipment
@@ -4056,6 +4069,7 @@ Partial Class frmSNShipment
         Me.RadPageViewPage2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4413,5 +4427,6 @@ Partial Class frmSNShipment
     Friend WithEvents btnCancel As RadButton
     Friend WithEvents MyLabel27 As common.Controls.MyLabel
     Friend WithEvents lblDocCreditLimit As common.Controls.MyLabel
+    Friend WithEvents rbtnManualTCS As common.Controls.MyRadioButton
 End Class
 

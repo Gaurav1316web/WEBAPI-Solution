@@ -43,13 +43,17 @@ Partial Class FrmPrintMultipleGatepass
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.lblToDate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv = New common.UserControls.MyRadGridView()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnUnSelect = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint2 = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.gv = New common.UserControls.MyRadGridView()
-        Me.btnUnSelect = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
+        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
+        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -68,14 +72,16 @@ Partial Class FrmPrintMultipleGatepass
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,6 +122,7 @@ Partial Class FrmPrintMultipleGatepass
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage1.Controls.Add(Me.cboShiftType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.TxtMultiVehicle)
@@ -333,6 +340,51 @@ Partial Class FrmPrintMultipleGatepass
         Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 369)
         Me.RadPageViewPage2.Text = "Report"
         '
+        'gv
+        '
+        Me.gv.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.gv.ForeColor = System.Drawing.Color.Black
+        Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv.MasterTemplate.AllowAddNewRow = False
+        Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
+        Me.gv.Name = "gv"
+        Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv.ShowGroupPanel = False
+        Me.gv.ShowHeaderCellButtons = True
+        Me.gv.Size = New System.Drawing.Size(779, 369)
+        Me.gv.TabIndex = 4
+        Me.gv.VarID = ""
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Location = New System.Drawing.Point(717, 4)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(80, 20)
+        Me.btnClose.TabIndex = 24
+        Me.btnClose.Text = "Close"
+        '
+        'btnUnSelect
+        '
+        Me.btnUnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnSelect.Location = New System.Drawing.Point(316, 4)
+        Me.btnUnSelect.Name = "btnUnSelect"
+        Me.btnUnSelect.Size = New System.Drawing.Size(80, 20)
+        Me.btnUnSelect.TabIndex = 23
+        Me.btnUnSelect.Text = "UnSelect All"
+        '
         'btnPrint2
         '
         Me.btnPrint2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -373,49 +425,55 @@ Partial Class FrmPrintMultipleGatepass
         Me.btnGo.TabIndex = 423
         Me.btnGo.Text = ">>>"
         '
-        'gv
+        'RadGroupBox6
         '
-        Me.gv.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.gv.ForeColor = System.Drawing.Color.Black
-        Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv.Location = New System.Drawing.Point(0, 0)
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.rbtnIceCream)
+        Me.RadGroupBox6.Controls.Add(Me.rbtnProduct)
+        Me.RadGroupBox6.Controls.Add(Me.rbtnMilk)
+        Me.RadGroupBox6.HeaderText = "Type"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(475, 70)
+        Me.RadGroupBox6.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(239, 45)
+        Me.RadGroupBox6.TabIndex = 452
+        Me.RadGroupBox6.Text = "Type"
+        Me.RadGroupBox6.Visible = False
         '
+        'rbtnIceCream
         '
+        Me.rbtnIceCream.AutoSize = True
+        Me.rbtnIceCream.Location = New System.Drawing.Point(153, 17)
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnIceCream.TabIndex = 5
+        Me.rbtnIceCream.TabStop = True
+        Me.rbtnIceCream.Text = "Ice Cream"
+        Me.rbtnIceCream.UseVisualStyleBackColor = True
         '
-        Me.gv.MasterTemplate.AllowAddNewRow = False
-        Me.gv.MasterTemplate.AllowDeleteRow = False
-        Me.gv.MasterTemplate.EnableFiltering = True
-        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gv.MyStopExport = False
-        Me.gv.Name = "gv"
-        Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv.ShowGroupPanel = False
-        Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(779, 369)
-        Me.gv.TabIndex = 4
+        'rbtnProduct
         '
-        'btnUnSelect
+        Me.rbtnProduct.AutoSize = True
+        Me.rbtnProduct.Location = New System.Drawing.Point(73, 16)
+        Me.rbtnProduct.Name = "rbtnProduct"
+        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProduct.TabIndex = 3
+        Me.rbtnProduct.TabStop = True
+        Me.rbtnProduct.Text = "Product"
+        Me.rbtnProduct.UseVisualStyleBackColor = True
         '
-        Me.btnUnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnSelect.Location = New System.Drawing.Point(316, 4)
-        Me.btnUnSelect.Name = "btnUnSelect"
-        Me.btnUnSelect.Size = New System.Drawing.Size(80, 20)
-        Me.btnUnSelect.TabIndex = 23
-        Me.btnUnSelect.Text = "UnSelect All"
+        'rbtnMilk
         '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(717, 4)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(80, 20)
-        Me.btnClose.TabIndex = 24
-        Me.btnClose.Text = "Close"
+        Me.rbtnMilk.AutoSize = True
+        Me.rbtnMilk.Checked = True
+        Me.rbtnMilk.Location = New System.Drawing.Point(10, 16)
+        Me.rbtnMilk.Name = "rbtnMilk"
+        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.TabIndex = 2
+        Me.rbtnMilk.TabStop = True
+        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.UseVisualStyleBackColor = True
         '
         'FrmPrintMultipleGatepass
         '
@@ -449,14 +507,17 @@ Partial Class FrmPrintMultipleGatepass
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUnSelect, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -486,4 +547,8 @@ Partial Class FrmPrintMultipleGatepass
     Friend WithEvents gv As common.UserControls.MyRadGridView
     Friend WithEvents btnUnSelect As RadButton
     Friend WithEvents btnClose As RadButton
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents rbtnIceCream As RadioButton
+    Friend WithEvents rbtnProduct As RadioButton
+    Friend WithEvents rbtnMilk As RadioButton
 End Class
