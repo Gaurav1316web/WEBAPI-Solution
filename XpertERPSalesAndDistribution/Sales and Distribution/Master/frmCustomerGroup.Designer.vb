@@ -71,7 +71,7 @@ Partial Class frmCustomerGroup
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtVSPPriceCodeCredit = New common.UserControls.txtFinder()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New XpertERPSalesAndDistribution.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCustomerGroupDesc, System.ComponentModel.ISupportInitialize).BeginInit()

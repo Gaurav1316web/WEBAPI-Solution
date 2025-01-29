@@ -2278,7 +2278,12 @@ Public Class FrmAPInvoiceEntry
 
                         ElseIf (clsCommon.CompairString(e.Column.Name, colACCode) = CompairStringResult.Equal) AndAlso cmbRefType.Text <> "Charges" Then
                             If Not isDeductionFinder Then
+                                'If ChkTrnsferToSvng.Checked = True Then
+
+                                'Else
                                 OpenGLAccount(False)
+                                'End If
+
                             End If
                         ElseIf (clsCommon.CompairString(e.Column.Name, colDeductionCode) = CompairStringResult.Equal) Then
                             OpenDeduction(False)

@@ -411,12 +411,6 @@
     <Compile Include="Service\Transaction\FrmQuickComplaintDetailEntry.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="User Controls\ucCustomFields.Designer.vb">
-      <DependentUpon>ucCustomFields.vb</DependentUpon>
-    </Compile>
-    <Compile Include="User Controls\ucCustomFields.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\licenses.licx" />
@@ -525,9 +519,6 @@
     <EmbeddedResource Include="Service\Transaction\FrmQuickComplaintDetailEntry.resx">
       <DependentUpon>FrmQuickComplaintDetailEntry.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Controls\ucCustomFields.resx">
-      <DependentUpon>ucCustomFields.vb</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -555,6 +546,9 @@
     <Content Include="Resources\PIE.png" />
     <Content Include="Resources\search4.png" />
     <Content Include="Resources\search41.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="User Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

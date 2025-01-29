@@ -45,7 +45,7 @@ Partial Class frmPurcahseAccountSetCode
         Me.txtPurchaseLoss = New Telerik.WinControls.UI.RadTextBox()
         Me.fndFAAccount = New common.UserControls.txtFinder()
         Me.lblFaAccountDes = New Telerik.WinControls.UI.RadTextBox()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadLabel1 = New Telerik.WinControls.UI.RadLabel()
         Me.txtStoreConsumtion = New Telerik.WinControls.UI.RadTextBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
@@ -2603,7 +2603,7 @@ Partial Class frmPurcahseAccountSetCode
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
     Friend WithEvents fndFAAccount As common.UserControls.txtFinder
     Friend WithEvents lblFaAccountDes As Telerik.WinControls.UI.RadTextBox
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents RadLabel1 As Telerik.WinControls.UI.RadLabel
     Friend WithEvents Bsws1 As ERP.BSWS.BSWS
     Friend WithEvents fndPurchaseLoss As common.UserControls.txtFinder
