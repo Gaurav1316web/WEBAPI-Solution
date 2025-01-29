@@ -1964,10 +1964,10 @@ union all"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 sQuery += " Select * from(select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount,99 as SNo from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
-                            )xx order by  xx.Description "
+                            )xx order by  xx.SNo "
             Else
                 sQuery += " Select * from(select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
-                            )xx order by  xx.SNo  "
+                            )xx order by  xx.Description  "
             End If
 
             dtDebit = clsDBFuncationality.GetDataTable(sQuery)
