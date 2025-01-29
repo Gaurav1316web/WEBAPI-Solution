@@ -391,7 +391,7 @@ Partial Class frmPurchaseOrder
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -6733,7 +6733,7 @@ Partial Class frmPurchaseOrder
     Friend WithEvents txtTermRemark As common.Controls.MyTextBox
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents pnlCurrConv As System.Windows.Forms.Panel
     Friend WithEvents txtCurrencyCode As common.UserControls.txtFinder
     Friend WithEvents lblEffectiveFrom As common.Controls.MyLabel
