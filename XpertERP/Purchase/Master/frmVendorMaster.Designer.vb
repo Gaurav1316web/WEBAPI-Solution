@@ -275,7 +275,7 @@ Partial Class frmVendorMaster
         Me.txtCategoryStructureCode = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -5188,7 +5188,7 @@ Partial Class frmVendorMaster
     Friend WithEvents fndVendorCurrency As common.UserControls.txtFinder
     Friend WithEvents lblBaseCurrency As common.Controls.MyLabel
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents chkTagAsFranchise As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtvndrtype As common.Controls.MyTextBox

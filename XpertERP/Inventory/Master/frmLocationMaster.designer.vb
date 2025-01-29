@@ -327,7 +327,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -5622,7 +5622,7 @@ Partial Class frmLocationMaster
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents lblPhone1 As common.Controls.MyLabel
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents lblvendor As common.Controls.MyLabel
     Friend WithEvents chkthirdparty As common.Controls.MyCheckBox
     Friend WithEvents txtvndrcode As common.UserControls.txtFinder

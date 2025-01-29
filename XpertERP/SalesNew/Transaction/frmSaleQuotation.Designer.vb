@@ -80,7 +80,7 @@ Partial Class frmSaleQuotation
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnPreview = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSend = New Telerik.WinControls.UI.RadMenuItem()
@@ -1388,7 +1388,7 @@ Partial Class frmSaleQuotation
     Friend WithEvents chkRateDefaultSetting As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents chkRateUserCustomer As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents lblCurrency As common.Controls.MyLabel
     Friend WithEvents lblEffectiveFrom As common.Controls.MyLabel
     Friend WithEvents lblConvRate As common.Controls.MyLabel

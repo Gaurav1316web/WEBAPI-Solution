@@ -211,7 +211,7 @@ Partial Class FrmMPMaster
         Me.txtPayeeName = New common.Controls.MyTextBox()
         Me.lblPayeeName = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -4110,7 +4110,7 @@ Partial Class FrmMPMaster
     Friend WithEvents lblAccountType As common.Controls.MyLabel
     Friend WithEvents mnuExportMPCode As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents UcCamControl1 As XpertERPEngine.ucCamControl
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents ddlGender As common.Controls.MyComboBox

@@ -15190,6 +15190,7 @@ Public Class clsCreateAllTable
             coll.Add("Ref_Doc_No", "varchar(50) NULL")
             coll.Add("Total_Chamber", "integer null")
             coll.Add("Provision_Min_Qty", "integer null")
+            coll.Add("Inactive", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_TANKER_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()

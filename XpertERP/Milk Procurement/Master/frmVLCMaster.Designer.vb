@@ -79,7 +79,7 @@ Partial Class FrmVLCMaster
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -1084,7 +1084,7 @@ Partial Class FrmVLCMaster
     Friend WithEvents lblMCCCode As common.Controls.MyLabel
     Friend WithEvents fndPriceCode As common.UserControls.txtFinder
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents fndMcc As common.UserControls.txtFinder
     Friend WithEvents txtGroupCodeDesc As common.Controls.MyLabel
     Friend WithEvents fndgroupcode As common.UserControls.txtFinder

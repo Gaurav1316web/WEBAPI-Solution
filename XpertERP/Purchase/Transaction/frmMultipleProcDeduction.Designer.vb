@@ -648,6 +648,7 @@ Partial Class FrmMultipleProcDeduction
         Me.gv1.Size = New System.Drawing.Size(1000, 247)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        Me.gv1.VarID = ""
         '
         'Attachments
         '
@@ -655,7 +656,7 @@ Partial Class FrmMultipleProcDeduction
         Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(1073, 400)
+        Me.Attachments.Size = New System.Drawing.Size(1020, 412)
         Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
@@ -664,7 +665,7 @@ Partial Class FrmMultipleProcDeduction
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Margin = New System.Windows.Forms.Padding(4)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1073, 400)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1020, 412)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
         '
@@ -939,7 +940,7 @@ Partial Class FrmMultipleProcDeduction
     Friend WithEvents Attachments As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents LblLocDesp As common.Controls.MyLabel
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents Panel1 As Panel
     Friend WithEvents txtMCC As common.Controls.MyTextBox
     Friend WithEvents lblMCC As common.Controls.MyTextBox

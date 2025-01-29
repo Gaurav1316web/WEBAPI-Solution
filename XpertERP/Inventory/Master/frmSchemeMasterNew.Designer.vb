@@ -77,7 +77,7 @@ Partial Class FrmSchemeMasterNew
         Me.RadLabel13 = New common.Controls.MyLabel
         Me.gvCustomer = New common.UserControls.MyRadGridView
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage
-        Me.UcCustomFields1 = New ERP.ucCustomFields
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields
         Me.btnClose = New Telerik.WinControls.UI.RadButton
         Me.btnDelete = New Telerik.WinControls.UI.RadButton
         Me.btnSave = New Telerik.WinControls.UI.RadButton
@@ -926,7 +926,7 @@ Partial Class FrmSchemeMasterNew
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
