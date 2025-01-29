@@ -3608,7 +3608,7 @@ Partial Class FrmAPInvoiceEntry
     Friend WithEvents RadLabel21 As Telerik.WinControls.UI.RadLabel
     Friend WithEvents mnuCreditNoteExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents mnuImportCreditNote As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents LblVCGL As common.Controls.MyTextBox
     Friend WithEvents txtAmtAfterCashDiscount As common.Controls.MyLabel
     Friend WithEvents lblAmtAfterCashDiscount As common.Controls.MyLabel

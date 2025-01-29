@@ -64,7 +64,7 @@ Partial Class frmShipToLocation
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
         Me.Details = New Telerik.WinControls.UI.RadPageViewPage
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage
-        Me.UcCustomFields1 = New XpertERPCommanServices.ucCustomFields
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields
         CType(Me.txtCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -520,6 +520,6 @@ Partial Class frmShipToLocation
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents Details As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As XpertERPCommanServices.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
 End Class
 

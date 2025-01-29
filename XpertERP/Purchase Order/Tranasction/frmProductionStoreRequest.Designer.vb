@@ -76,7 +76,7 @@ Partial Class frmProductionStoreRequest
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btncancel = New Telerik.WinControls.UI.RadButton()
@@ -1198,7 +1198,7 @@ Partial Class frmProductionStoreRequest
     Friend WithEvents RadLabel14 As common.Controls.MyLabel
     Friend WithEvents btnUnpost As Telerik.WinControls.UI.RadButton
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents Attachments As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents UcItemBalance1 As XpertERPEngine.ucItemBalance

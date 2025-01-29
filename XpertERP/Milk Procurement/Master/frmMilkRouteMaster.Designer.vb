@@ -81,7 +81,7 @@ Partial Class FrmMilkRouteMaster
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvVLC = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -1418,7 +1418,7 @@ Partial Class FrmMilkRouteMaster
     Friend WithEvents rmVLCDetails As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents chkInActive As common.Controls.MyCheckBox
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents txtLastVLCToMCCDis As common.MyNumBox
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
     Friend WithEvents txtReachingTimeM As common.Controls.MyDateTimePicker
