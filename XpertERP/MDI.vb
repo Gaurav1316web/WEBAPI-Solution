@@ -6433,12 +6433,12 @@ Public Class MDI
 
 
                     'Dipti----------------------Utility---------------------------------------------------------
-                    Case clsUserMgtCode.mbtnCreateReceiptAgainstSale
-                        frm = New FrmCreateReceiptAgainstSales()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.mbtnCreateReceiptAgainstInvoice
-                        frm = New FrmCreateReceiptAgainstInvoice()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.mbtnCreateReceiptAgainstSale
+                    '    frm = New FrmCreateReceiptAgainstSales()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.mbtnCreateReceiptAgainstInvoice
+                    '    frm = New FrmCreateReceiptAgainstInvoice()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.mbtnTakeBackup
                         frm = New FrmBackup()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
