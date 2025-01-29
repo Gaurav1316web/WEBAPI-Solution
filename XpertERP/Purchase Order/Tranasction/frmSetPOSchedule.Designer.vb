@@ -45,7 +45,7 @@ Partial Class frmSetPOSchedule
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.Setting = New Telerik.WinControls.UI.RadMenuItem()
         Me.saveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
@@ -613,7 +613,7 @@ Partial Class frmSetPOSchedule
     Friend WithEvents txtVendor As common.UserControls.txtFinder
     Friend WithEvents lblVendorName As common.Controls.MyLabel
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents Attachments As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents Setting As Telerik.WinControls.UI.RadMenuItem

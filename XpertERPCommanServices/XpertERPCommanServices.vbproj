@@ -945,12 +945,6 @@
     <Compile Include="User Controls\ucCheckSetting.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="User Controls\ucCustomFields.Designer.vb">
-      <DependentUpon>ucCustomFields.vb</DependentUpon>
-    </Compile>
-    <Compile Include="User Controls\ucCustomFields.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="User Controls\ucMilkAnalyzer.Designer.vb">
       <DependentUpon>ucMilkAnalyzer.vb</DependentUpon>
     </Compile>
@@ -1308,10 +1302,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User Controls\ucCheckSetting.resx">
       <DependentUpon>ucCheckSetting.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="User Controls\ucCustomFields.resx">
-      <DependentUpon>ucCustomFields.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="User Controls\ucMilkAnalyzer.resx">

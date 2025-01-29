@@ -356,7 +356,7 @@ Partial Class frmCustomer
         Me.txtCategoryStructureCode = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.CrateAccounting = New Telerik.WinControls.UI.RadPageViewPage()
@@ -6895,7 +6895,7 @@ Partial Class frmCustomer
     Friend WithEvents dtpAggClose As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents fndCustCurrency As common.UserControls.txtFinder
     Friend WithEvents lblBaseCurrency As common.Controls.MyLabel
     Friend WithEvents Attachments As Telerik.WinControls.UI.RadPageViewPage

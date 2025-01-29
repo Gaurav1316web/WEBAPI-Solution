@@ -121,7 +121,7 @@ Partial Class FrmShipToLocationDetails
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.Details = New Telerik.WinControls.UI.RadPageViewPage()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New XpertERPCommanServices.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txtDriverFinder = New common.UserControls.txtFinder()
@@ -2130,7 +2130,7 @@ Partial Class FrmShipToLocationDetails
     Friend WithEvents MasterTemplate As common.UserControls.MyRadGridView
     Friend WithEvents ddlShipToType As common.Controls.MyComboBox
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As XpertERPCommanServices.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtCSTNo As common.Controls.MyTextBox

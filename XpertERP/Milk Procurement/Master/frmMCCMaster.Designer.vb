@@ -639,7 +639,7 @@ Partial Class FrmMCCMaster
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadSplitContainer1.SuspendLayout
@@ -10433,7 +10433,7 @@ Partial Class FrmMCCMaster
     Friend WithEvents MyLabel58 As common.Controls.MyLabel
     Friend WithEvents FndIncentive As common.UserControls.txtFinder
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadPageView2 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage4 As Telerik.WinControls.UI.RadPageViewPage
