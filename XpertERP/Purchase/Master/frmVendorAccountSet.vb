@@ -465,6 +465,9 @@ Public Class frmvendoraccountset
         ElseIf CheckControlAccount("Arrear", txtArrear.Value) = False Then
             txtArrear.Focus()
             Exit Sub
+            'ElseIf CheckControlAccount("Transfer To Saving", TxtTrnsferTS.Value) = False Then
+            '    txtArrear.Focus()
+            '    Exit Sub
         Else
             If MyBase.isModifyonPasswordFlag Then
                 If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.vendoraccountset, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then

@@ -11,6 +11,7 @@ Public Class frmDairyBookingCustomer
 #Region "Variables"
     Dim isRCDFRateControl As Boolean = False
     Dim OneTimeCheck As Boolean = False
+    Dim ApplyDefaultTCSIsChecked As Boolean = False
     Dim ApplyManualScheme As Boolean = False
     Dim isloadBookingTypeValues As Boolean = True
     Dim EnableLocation As Boolean = True
@@ -307,6 +308,7 @@ Public Class frmDairyBookingCustomer
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
         ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 0, False, True)
+        ApplyDefaultTCSIsChecked = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, Nothing)) = 0, False, True)
 
         SetMailRight()
         SetUserMgmtNew()
@@ -1507,7 +1509,7 @@ Public Class frmDairyBookingCustomer
             '    End If
             'End IfF
         Else
-                If Not isFORPrice Then
+            If Not isFORPrice Then
                 Throw New Exception("Please create Price chart for customer " & txtVendorNo.Value & " for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) & ".")
                 blnSaveTotalQTy = False
                 Exit Sub
@@ -1993,7 +1995,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
 
                     End If
                 Else
-                        gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
+                    gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
 
                 End If
 
@@ -2238,10 +2240,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 Dim dblNetPrice As Decimal = dblAmtAfterDis / dblQty
             End If
             Dim dblTotTaxAmt As Decimal = GetCurrentRowTotalTaxAmt(IntRowNo)
-            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = clsCommon.myRoundOFF(dblAmtAfterDis - dblTotTaxAmt, 2, 4)
-            gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = clsCommon.myRoundOFF(dblAmtAfterDis - dblTotTaxAmt, 2, 4)
-            gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = clsCommon.myRoundOFF(dblTotTaxAmt, 2, 4)
-            gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = clsCommon.myRoundOFF(dblAmtAfterDis, 2, 4)
+            gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis - dblTotTaxAmt, 3), 2, 4)
+            gv1.Rows(IntRowNo).Cells(colTBaseAmt).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis - dblTotTaxAmt, 3), 2, 4)
+            gv1.Rows(IntRowNo).Cells(colTTaxAmt).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblTotTaxAmt, 3), 2, 4)
+            gv1.Rows(IntRowNo).Cells(colAmountWithTax).Value = clsCommon.myRoundOFF(TruncateToDecimalPlaces(dblAmtAfterDis, 3), 2, 4)
             If chkSampling.Checked Then
                 gv1.Rows(IntRowNo).Cells(colDisAmt).Value = clsCommon.myRoundOFF(dblDisAmt, 2, 4) + clsCommon.myRoundOFF(dblAmtAfterDis, 2, 4)
 
@@ -2260,10 +2262,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             Dim strii As String = clsCommon.myCstr(ii)
             'If Not clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax" + strii)).Value), "TCS") = CompairStringResult.Equal Then
             If IntRowNo < 0 Then
-                    dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
-                Else
-                    dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
-                End If
+                dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.CurrentRow.Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
+            Else
+                dblTotTax = dblTotTax + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax_Amt" + strii)).Value)
+            End If
             'End If
 
         Next
@@ -2722,7 +2724,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         IsTotalQtyinKG = False
         rgbItemType.Visible = True
         rgbItemType.Enabled = True
-        chkTPT.Checked = True
+        If ApplyDefaultTCSIsChecked Then
+            chkTPT.Checked = True
+        Else
+            chkTPT.Checked = False
+        End If
+
         chkisTCS.Checked = True
         lblShiftType.Text = ""
         btnGatePassPrint.Visible = False
@@ -5267,7 +5274,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
             arrHeader.Add(strtemp)
             strtemp = "Location : " + clsCommon.myCstr(lblLocation.Text)
             arrHeader.Add(strtemp)
-            strtemp = "Document Amount : " + clsCommon.myCdbl(lblTotRAmt1.Text)
+            strtemp = "Document Amount : " + clsCommon.myCstr(clsCommon.myCdbl(lblTotRAmt1.Text))
             arrHeader.Add(strtemp)
             strtemp = "Created By : " + strCreatedBy
             arrHeader.Add(strtemp)

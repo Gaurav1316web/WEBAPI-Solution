@@ -223,9 +223,9 @@ Public Class clsPSInvoiceHead
     End Function
 
     Public Function SaveData(ByVal obj As clsPSInvoiceHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal IsTaxable As Boolean = False) As Boolean
-        Return SaveData(obj, isNewEntry, False, trans, IsDairyModule, IsTaxable)
+        Return SaveData(obj, isNewEntry, False, clsDocType.frmSaleInvoiceProductSale, trans, IsDairyModule, IsTaxable)
     End Function
-    Public Function SaveData(ByVal obj As clsPSInvoiceHead, ByVal isNewEntry As Boolean, ByVal isCashSale As Boolean, ByVal trans As SqlTransaction, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal IsTaxable As Boolean = False) As Boolean
+    Public Function SaveData(ByVal obj As clsPSInvoiceHead, ByVal isNewEntry As Boolean, ByVal isCashSale As Boolean, ByVal SaleInvoiceProductSale As String, ByVal trans As SqlTransaction, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal IsTaxable As Boolean = False) As Boolean
         Dim isSaved As Boolean = True
 
         Try
@@ -299,37 +299,37 @@ Public Class clsPSInvoiceHead
                         If clsCommon.CompairString(obj.Invoice_Type, "T") = CompairStringResult.Equal Then
                             If clsCommon.CompairString(strItemCategory, "L") = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "C") = CompairStringResult.Equal Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteLocal, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteLocal, obj.Bill_To_Location, False, isIncrementCounter)
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "S") = CompairStringResult.Equal Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryLocal, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryLocal, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.GSTLocal, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.GSTLocal, obj.Bill_To_Location, False, isIncrementCounter)
                                 End If
                             Else
                                 If clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "C") = CompairStringResult.Equal Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteInterstate, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "S") = CompairStringResult.Equal Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryInterstate, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.GSTInterstate, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.GSTInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                                 End If
                             End If
                         Else
                             If clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "C") = CompairStringResult.Equal Then
-                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
                             ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "S") = CompairStringResult.Equal Then
-                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
                             Else
                                 If IsDairyModule = False Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.GSTNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.GSTNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
                                     If IsTaxable = False Then
-                                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.GSTNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
+                                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.GSTNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
                                     Else
                                         If clsCommon.CompairString(strItemCategory, "L") = CompairStringResult.Equal Then
-                                            obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.GSTLocal, obj.Bill_To_Location, False, isIncrementCounter)
+                                            obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.GSTLocal, obj.Bill_To_Location, False, isIncrementCounter)
                                         Else
-                                            obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.GSTInterstate, obj.Bill_To_Location, False, isIncrementCounter)
+                                            obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.GSTInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                                         End If
                                     End If
                                 End If
@@ -342,26 +342,26 @@ Public Class clsPSInvoiceHead
                         If clsCommon.CompairString(obj.Invoice_Type, "T") = CompairStringResult.Equal Then
                             If intExempted = 1 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "C") = CompairStringResult.Equal Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteLocal, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteLocal, obj.Bill_To_Location, False, isIncrementCounter)
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "S") = CompairStringResult.Equal Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryLocal, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryLocal, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
                                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.CommonSaleSeries, clsDocTransactionType.GSTBillofSupply, obj.Bill_To_Location, False, isIncrementCounter)
                                 End If
                             Else
                                 If clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "C") = CompairStringResult.Equal Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteInterstate, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                                 ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "S") = CompairStringResult.Equal Then
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryInterstate, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
                                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.CommonSaleSeries, clsDocTransactionType.GSTTaxable, obj.Bill_To_Location, False, isIncrementCounter)
                                 End If
                             End If
                         Else
                             If clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "C") = CompairStringResult.Equal Then
-                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
                             ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "S") = CompairStringResult.Equal Then
-                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
                             Else
                                 If IsDairyModule = False Then
                                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.CommonSaleSeries, clsDocTransactionType.GSTBillofSupply, obj.Bill_To_Location, False, isIncrementCounter)
@@ -394,17 +394,17 @@ Public Class clsPSInvoiceHead
                     Dim strcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(Item_Code) FROM TSPL_LOCATION_WISE_ITEM_MASTER where Location_Code='" & clsCommon.myCstr(obj.Bill_To_Location) & "' and Item_Category='" & strItemCategory & "' and Item_Code='" & stritemcode & "'", trans))
                     Dim Desc As String = String.Empty
                     If isCashSale Then
-                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.CashSale, obj.Bill_To_Location, False, isIncrementCounter)
+                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.CashSale, obj.Bill_To_Location, False, isIncrementCounter)
                     Else
                         If strcount > 0 Then
-                            obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location, False, isIncrementCounter)
+                            obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location, False, isIncrementCounter)
                             obj.Invoice_Type = "A"
                         Else
                             ''richa agarwal 17/03/2015 sale invoice series generation setting based
 
                             Dim strExcise As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Excisable from TSPL_LOCATION_MASTER where Location_Code='" + obj.Bill_To_Location + "'", trans)) = "T", True, False)
                             If obj.Item_Tax_Type = 1 Then
-                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location, False, isIncrementCounter)
                             ElseIf obj.Item_Tax_Type = 2 AndAlso strExcise = True Then
                                 'If strExcise = False Then
                                 '    Throw New Exception("Both Location and Item should be excisable.")
@@ -416,7 +416,7 @@ Public Class clsPSInvoiceHead
                                 If clsCommon.CompairString(Desc, "1") = CompairStringResult.Equal Then
                                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleInvoice, clsDocTransactionType.SaleInvoiceTax, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceTax, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceTax, obj.Bill_To_Location, False, isIncrementCounter)
                                 End If
                                 'obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceTax, obj.Bill_To_Location, False, isIncrementCounter)
                             ElseIf clsCommon.CompairString(obj.Invoice_Type, "R") = CompairStringResult.Equal Then
@@ -424,14 +424,14 @@ Public Class clsPSInvoiceHead
                                 If clsCommon.CompairString(Desc, "1") = CompairStringResult.Equal Then
                                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleInvoice, clsDocTransactionType.SaleInvoiceRetail, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceRetail, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceRetail, obj.Bill_To_Location, False, isIncrementCounter)
                                 End If
                             ElseIf clsCommon.CompairString(obj.Invoice_Type, "I") = CompairStringResult.Equal Then
                                 Desc = clsFixedParameter.GetData(clsFixedParameterType.AllowToGenerateSaleInvoiceSeriesRetailTypeatPS, clsFixedParameterCode.AllowToGenerateSaleInvoiceSeriesRetailTypeatPS, trans)
                                 If clsCommon.CompairString(Desc, "1") = CompairStringResult.Equal Then
                                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleInvoice, clsDocTransactionType.SaleInvoiceInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceInterstate, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                                 End If
                                 ' obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceRetail, obj.Bill_To_Location, False, isIncrementCounter)
                             ElseIf clsCommon.CompairString(obj.Invoice_Type, "E") = CompairStringResult.Equal Then
@@ -439,11 +439,11 @@ Public Class clsPSInvoiceHead
                                 If clsCommon.CompairString(Desc, "1") = CompairStringResult.Equal Then
                                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleInvoice, clsDocTransactionType.SaleInvoiceExcise, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
-                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceExcise, obj.Bill_To_Location, False, isIncrementCounter)
+                                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceExcise, obj.Bill_To_Location, False, isIncrementCounter)
                                 End If
                                 '  obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceExcise, obj.Bill_To_Location, False, isIncrementCounter)
                             ElseIf clsCommon.CompairString(obj.Invoice_Type, "S") = CompairStringResult.Equal Then
-                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceService, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceService, obj.Bill_To_Location, False, isIncrementCounter)
                             End If
                         End If
                     End If
@@ -454,21 +454,21 @@ Public Class clsPSInvoiceHead
                             If clsCommon.CompairString(Desc, "1") = CompairStringResult.Equal Then
                                 obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleInvoice, clsDocTransactionType.SaleInvoiceRetail, obj.Bill_To_Location, False, isIncrementCounter)
                             Else
-                                obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceRetail, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceRetail, obj.Bill_To_Location, False, isIncrementCounter)
                             End If
                             obj.VatInvoice_Type = VatInvoiceType
                         ElseIf clsCommon.CompairString(VatInvoiceType, "T") = CompairStringResult.Equal Then
                             If clsCommon.CompairString(Desc, "1") = CompairStringResult.Equal Then
                                 obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleInvoice, clsDocTransactionType.SaleInvoiceTax, obj.Bill_To_Location, False, isIncrementCounter)
                             Else
-                                obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceTax, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceTax, obj.Bill_To_Location, False, isIncrementCounter)
                             End If
                             obj.VatInvoice_Type = VatInvoiceType
                         ElseIf clsCommon.CompairString(VatInvoiceType, "I") = CompairStringResult.Equal Then
                             If clsCommon.CompairString(Desc, "1") = CompairStringResult.Equal Then
                                 obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.SNSaleInvoice, clsDocTransactionType.SaleInvoiceInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                             Else
-                                obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceInterstate, obj.Bill_To_Location, False, isIncrementCounter)
+                                obj.VAT_InvoiceNo = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceInterstate, obj.Bill_To_Location, False, isIncrementCounter)
                             End If
                             obj.VatInvoice_Type = VatInvoiceType
                         End If

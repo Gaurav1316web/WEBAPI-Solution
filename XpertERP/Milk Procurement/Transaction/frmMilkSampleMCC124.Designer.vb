@@ -155,7 +155,7 @@ Partial Class frmMilkSampleMCC124
         Me.MyLabel35 = New common.Controls.MyLabel()
         Me.LblSNFPanel4 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
@@ -2502,7 +2502,7 @@ End Sub
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox

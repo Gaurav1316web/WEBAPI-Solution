@@ -47,6 +47,11 @@ Public Class clsSchemeMasterDairy
     Public Quantitive_Type_Structure_Free_Item As String
     Public Quantitive_Type_Structure_Free_Qty As Decimal
     Public Quantitive_Type_Structure_Free_UOM As String
+    Public MainUOM As String
+    Public MinQty As Decimal = 0
+    Public SchemeItem As String
+    Public SchemeUOM As String
+    Public SchemeQty As Decimal = 0
     Public ArrCashDiscountVolumneDetails As List(Of clsCashDiscountVolumneDetail) = Nothing
     Public ArrCashDisSturctureMapping As ArrayList
 #End Region
@@ -125,6 +130,11 @@ Public Class clsSchemeMasterDairy
             clsCommon.AddColumnsForChange(coll, "Quantitive_Type_Structure_Free_Item", obj.Quantitive_Type_Structure_Free_Item, True)
             clsCommon.AddColumnsForChange(coll, "Quantitive_Type_Structure_Free_Qty", obj.Quantitive_Type_Structure_Free_Qty)
             clsCommon.AddColumnsForChange(coll, "Quantitive_Type_Structure_Free_UOM", obj.Quantitive_Type_Structure_Free_UOM, True)
+            clsCommon.AddColumnsForChange(coll, "MainUOM", obj.MainUOM, True)
+            clsCommon.AddColumnsForChange(coll, "MinQty", obj.MinQty, True)
+            clsCommon.AddColumnsForChange(coll, "SchemeItem", obj.SchemeItem, True)
+            clsCommon.AddColumnsForChange(coll, "SchemeUOM", obj.SchemeUOM, True)
+            clsCommon.AddColumnsForChange(coll, "SchemeQty", obj.SchemeQty, True)
             If isNewEntry Then
                 obj.Scheme_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select MAX(Scheme_Code) from TSPL_SCHEME_MASTER_NEW", trans))
                 If clsCommon.myLen(obj.Scheme_Code) <= 0 Then
@@ -236,6 +246,11 @@ Public Class clsSchemeMasterDairy
             obj.Quantitive_Type_Structure_Free_UOM = clsCommon.myCstr(dt.Rows(0)("Quantitive_Type_Structure_Free_UOM"))
             obj.CASHDISVOL_RANGE_UOM = clsCommon.myCstr(dt.Rows(0)("CASHDISVOL_RANGE_UOM"))
             obj.CASHDISVOL_UOM = clsCommon.myCstr(dt.Rows(0)("CASHDISVOL_UOM"))
+            obj.MainUOM = clsCommon.myCstr(dt.Rows(0)("MainUOM"))
+            obj.MinQty = clsCommon.myCdbl(dt.Rows(0)("MinQty"))
+            obj.SchemeItem = clsCommon.myCstr(dt.Rows(0)("SchemeItem"))
+            obj.SchemeUOM = clsCommon.myCstr(dt.Rows(0)("SchemeUOM"))
+            obj.SchemeQty = clsCommon.myCdbl(dt.Rows(0)("SchemeQty"))
 
 
 

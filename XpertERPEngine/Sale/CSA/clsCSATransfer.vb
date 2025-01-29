@@ -2326,6 +2326,35 @@ Public Class clsSchemeApplyOnDairy
     Public Arr As List(Of clsSchemeApplyOnDairy) = Nothing
 #End Region
 
+    Public Shared Function GetSchemeDataOnTotalQty(ByVal MainUOM As String, ByVal totalQty As Decimal, ByVal Scheme_Code As String, ByVal trans As SqlTransaction) As clsSchemeApplyOnDairy
+        Try
+
+            Dim obj As New clsSchemeApplyOnDairy()
+            Dim strQry As String = " select Scheme_Code,Scheme_Type,MainUOM,MinQty,Schemeitem,schemeUOM,schemeQty from TSPL_SCHEME_MASTER_NEW where Scheme_Code='" + Scheme_Code + "'"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If totalQty >= clsCommon.myCdbl(dt.Rows(0)("MinQty")) Then
+                    obj.Schm_Code = clsCommon.myCstr(dt.Rows(0)("Scheme_Code"))
+                    obj.schm_Type = clsCommon.myCstr(dt.Rows(0)("Scheme_Type"))
+                    obj.Schm_Icode = clsCommon.myCstr(dt.Rows(0)("Schemeitem"))
+                    obj.Schm_Item_Uom = clsCommon.myCstr(dt.Rows(0)("schemeUOM"))
+                    obj.Schm_Iname = clsItemMaster.GetItemName(obj.Schm_Icode, trans)
+                    obj.Schm_Item_CSA_Type = clsItemMaster.GetItemCSAType(obj.Schm_Icode, trans)
+                    obj.Schm_Qty = System.Math.Round(clsCommon.myCdbl(dt.Rows(0)("schemeQty")) * totalQty, 2)
+                    obj.Schm_IUnit_Rate = 0
+                End If
+
+
+            End If
+
+
+            Return obj
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
     Public Shared Function GetSchemeData(ByVal Main_Item_Code As String, ByVal Main_Item_Unit As String, ByVal Main_Item_Qty As Decimal, ByVal Cust_Code As String, ByVal Scheme_Type As String, Optional ByVal Return_Scheme_Code As String = Nothing, Optional ByVal DOCdate As Date? = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As clsSchemeApplyOnDairy
         Try
             Dim MainQty As Decimal = Nothing

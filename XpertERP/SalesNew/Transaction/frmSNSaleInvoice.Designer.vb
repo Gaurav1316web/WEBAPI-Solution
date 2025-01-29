@@ -124,7 +124,7 @@ Partial Class frmSNSaleInvoice
         Me.RadLabel31 = New common.Controls.MyLabel()
         Me.lblAddCharges = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -457,7 +457,7 @@ Partial Class frmSNSaleInvoice
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1282, 436)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3658,7 +3658,7 @@ Partial Class frmSNSaleInvoice
     Friend WithEvents chkRateUserCustomer As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents chkRateDefaultSetting As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents pnlCurrConv As System.Windows.Forms.Panel
     Friend WithEvents txtCurrencyCode As common.UserControls.txtFinder
     Friend WithEvents lblEffectiveFrom As common.Controls.MyLabel

@@ -180,6 +180,96 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
+    <Compile Include="Export Sale\DuplicateForm\frmPendingQuotation.Designer.vb">
+      <DependentUpon>frmPendingQuotation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\DuplicateForm\frmPendingQuotation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\DuplicateForm\frmPendingSaleInvoice.Designer.vb">
+      <DependentUpon>frmPendingSaleInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\DuplicateForm\frmPendingSaleInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\DuplicateForm\frmPendingSaleOrder.Designer.vb">
+      <DependentUpon>frmPendingSaleOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\DuplicateForm\frmPendingSaleOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\DuplicateForm\frmPendingSaleQuotation.Designer.vb">
+      <DependentUpon>frmPendingSaleQuotation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\DuplicateForm\frmPendingSaleQuotation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Master\frmCHAChargeMaster.Designer.vb">
+      <DependentUpon>frmCHAChargeMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Master\frmCHAChargeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Master\frmEnquiryMaster.Designer.vb">
+      <DependentUpon>frmEnquiryMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Master\frmEnquiryMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Master\frmExIncentiveMaster.Designer.vb">
+      <DependentUpon>frmExIncentiveMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Master\frmExIncentiveMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Master\frmNotifiedPartyMaster.Designer.vb">
+      <DependentUpon>frmNotifiedPartyMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Master\frmNotifiedPartyMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXCommercialInvoice.Designer.vb">
+      <DependentUpon>frmEXCommercialInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXCommercialInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXPorformaInvoice.Designer.vb">
+      <DependentUpon>frmEXPorformaInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXPorformaInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesInvoice.Designer.vb">
+      <DependentUpon>frmEXSalesInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesOrder.Designer.vb">
+      <DependentUpon>frmEXSalesOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesOrderReturn.Designer.vb">
+      <DependentUpon>frmEXSalesOrderReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesOrderReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesQuotation.Designer.vb">
+      <DependentUpon>frmEXSalesQuotation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesQuotation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesReturn.Designer.vb">
+      <DependentUpon>frmEXSalesReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Transaction\frmEXSalesReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmShowInvoiceNo.Designer.vb">
       <DependentUpon>frmShowInvoiceNo.vb</DependentUpon>
     </Compile>
@@ -1002,6 +1092,61 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingQuotation.resx">
+      <DependentUpon>frmPendingQuotation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingSaleInvoice.resx">
+      <DependentUpon>frmPendingSaleInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingSaleOrder.resx">
+      <DependentUpon>frmPendingSaleOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingSaleQuotation.resx">
+      <DependentUpon>frmPendingSaleQuotation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Master\frmCHAChargeMaster.resx">
+      <DependentUpon>frmCHAChargeMaster.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Master\frmEnquiryMaster.resx">
+      <DependentUpon>frmEnquiryMaster.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Master\frmExIncentiveMaster.resx">
+      <DependentUpon>frmExIncentiveMaster.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Master\frmNotifiedPartyMaster.resx">
+      <DependentUpon>frmNotifiedPartyMaster.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Transaction\frmEXCommercialInvoice.resx">
+      <DependentUpon>frmEXCommercialInvoice.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Transaction\frmEXPorformaInvoice.resx">
+      <DependentUpon>frmEXPorformaInvoice.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Transaction\frmEXSalesInvoice.resx">
+      <DependentUpon>frmEXSalesInvoice.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Transaction\frmEXSalesOrder.resx">
+      <DependentUpon>frmEXSalesOrder.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Transaction\frmEXSalesOrderReturn.resx">
+      <DependentUpon>frmEXSalesOrderReturn.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Transaction\frmEXSalesQuotation.resx">
+      <DependentUpon>frmEXSalesQuotation.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Transaction\frmEXSalesReturn.resx">
+      <DependentUpon>frmEXSalesReturn.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmShowInvoiceNo.resx">
       <DependentUpon>frmShowInvoiceNo.vb</DependentUpon>
     </EmbeddedResource>

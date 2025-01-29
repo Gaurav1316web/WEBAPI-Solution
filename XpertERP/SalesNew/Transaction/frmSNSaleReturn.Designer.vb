@@ -104,6 +104,7 @@ Partial Class frmSNSaleReturn
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnManualTCS = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalAutomatic = New common.Controls.MyRadioButton()
         Me.txtTaxGroup = New common.UserControls.txtFinder()
@@ -123,7 +124,7 @@ Partial Class frmSNSaleReturn
         Me.RadLabel31 = New common.Controls.MyLabel()
         Me.lblAddCharges = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -253,6 +254,7 @@ Partial Class frmSNSaleReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -367,7 +369,7 @@ Partial Class frmSNSaleReturn
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(970, 399)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1625,21 +1627,32 @@ Partial Class frmSNSaleReturn
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(949, 357)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(949, 353)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.rbtnManualTCS)
         Me.GroupBox1.Controls.Add(Me.rbtnTaxCalManual)
         Me.GroupBox1.Controls.Add(Me.rbtnTaxCalAutomatic)
         Me.GroupBox1.Location = New System.Drawing.Point(547, -2)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(163, 36)
+        Me.GroupBox1.Size = New System.Drawing.Size(238, 36)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Tax Calculation Type"
+        '
+        'rbtnManualTCS
+        '
+        Me.rbtnManualTCS.Location = New System.Drawing.Point(152, 12)
+        Me.rbtnManualTCS.MyLinkLable1 = Nothing
+        Me.rbtnManualTCS.MyLinkLable2 = Nothing
+        Me.rbtnManualTCS.Name = "rbtnManualTCS"
+        Me.rbtnManualTCS.Size = New System.Drawing.Size(80, 18)
+        Me.rbtnManualTCS.TabIndex = 6
+        Me.rbtnManualTCS.Text = "Manual TCS"
         '
         'rbtnTaxCalManual
         '
@@ -1715,7 +1728,7 @@ Partial Class frmSNSaleReturn
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(791, 253)
+        Me.RadLabel10.Location = New System.Drawing.Point(791, 249)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
@@ -1733,7 +1746,7 @@ Partial Class frmSNSaleReturn
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 266)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 262)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(949, 87)
@@ -1852,7 +1865,7 @@ Partial Class frmSNSaleReturn
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(944, 215)
+        Me.gv2.Size = New System.Drawing.Size(944, 211)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -1939,9 +1952,9 @@ Partial Class frmSNSaleReturn
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 31)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(949, 357)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(949, 353)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -1949,7 +1962,7 @@ Partial Class frmSNSaleReturn
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(949, 357)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(949, 353)
         Me.UcCustomFields1.TabIndex = 2
         '
         'Attachments
@@ -2684,6 +2697,7 @@ Partial Class frmSNSaleReturn
         Me.RadPageViewPage2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2865,7 +2879,7 @@ Partial Class frmSNSaleReturn
     Friend WithEvents chkRateUserCustomer As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents chkRateDefaultSetting As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents pnlCurrConv As System.Windows.Forms.Panel
     Friend WithEvents txtCurrencyCode As common.UserControls.txtFinder
     Friend WithEvents lblEffectiveFrom As common.Controls.MyLabel
@@ -2915,5 +2929,6 @@ Partial Class frmSNSaleReturn
     Friend WithEvents chkIsTaxable As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents btnInvoiceJE As RadButton
     Friend WithEvents btnCancel As RadButton
+    Friend WithEvents rbtnManualTCS As common.Controls.MyRadioButton
 End Class
 

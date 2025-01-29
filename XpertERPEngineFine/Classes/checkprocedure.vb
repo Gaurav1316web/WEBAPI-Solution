@@ -1892,6 +1892,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.BmcLabReport, "Bmc Lab Report", "1.17.03.141", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmDayWiseMilkCollectionVsDispatch, "Day Wise Milk Collection Vs Dispatch", "1.17.03.142", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.CompareVoucherReport, "Compare Voucher Report", "1.17.03.143", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBankSavingAdvice, "Bank Saving Advice", "1.17.03.144", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================

@@ -95,7 +95,7 @@ Partial Class frmMilkReceiptMCC
         Me.lbErrors = New Telerik.WinControls.UI.RadListControl()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.BtnExportImport = New Telerik.WinControls.UI.RadSplitButton()
@@ -1624,7 +1624,7 @@ Partial Class frmMilkReceiptMCC
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox

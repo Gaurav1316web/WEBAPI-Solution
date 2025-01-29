@@ -596,7 +596,7 @@ Public Class FrmPrintDistributerInvoiceStatement
                         ItemType = " 'I' "
                     End If
                 End If
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", ItemType)
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNO, txtFromDate.Value, "", "Y", False, ItemType)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
                     pdfPath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceTNK", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())

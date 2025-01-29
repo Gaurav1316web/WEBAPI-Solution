@@ -23,11 +23,6 @@ Public Class FrmTankerMaster
 #End Region
 
     Private Sub FrmTankerMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Inactive", "integer null")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_TANKER_MASTER", coll, Nothing, True)
-
-
 
         Reset()
         SetUserMgmtNew()
