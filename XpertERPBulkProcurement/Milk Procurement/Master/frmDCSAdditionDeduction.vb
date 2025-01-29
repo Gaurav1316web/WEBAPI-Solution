@@ -211,6 +211,11 @@ Public Class frmDCSAdditionDeduction
                 ElseIf rbtnQtyUOMKG.IsChecked Then
                     obj.Qty_UOM = 2
                 End If
+                If chkMarginDCS.Checked Then
+                    obj.MarginDCS = 1
+                Else
+                    obj.MarginDCS = 0
+                End If
                 If chkSavingAC.Checked Then
                     If rbtnACExists.IsChecked Then
                         obj.Check_Saving_AC = 1
@@ -262,7 +267,6 @@ Public Class frmDCSAdditionDeduction
                 Else
                     dtpEndDate.Checked = False
                 End If
-
                 UsLock1.Status = obj.Posted
                 chkInactive.Checked = obj.Inactive
                 chkShare.Checked = obj.IsShare
@@ -273,6 +277,13 @@ Public Class frmDCSAdditionDeduction
                 Else
                     rbtnAdditionTypeNormal.IsChecked = True
                 End If
+
+                If obj.MarginDCS = 1 Then
+                    chkMarginDCS.Checked = True
+                Else
+                    chkMarginDCS.Checked = False
+                End If
+
 
                 txtSNo.Value = obj.SNo
                 If obj.Applicable_DCS_Type = 0 Then
@@ -303,6 +314,7 @@ Public Class frmDCSAdditionDeduction
                 ElseIf obj.Nature_Type = 1 Then
                     rbtnNatureTypeDeduction.IsChecked = True
                 End If
+                'chkMarginDCS.Checked = obj.MarginDCS
                 chkApplyTDS.Checked = obj.Apply_TDS
                 cboApplyType.SelectedValue = clsCommon.myCstr(obj.Applicable_Type)
                 cboApplyOn.SelectedValue = clsCommon.myCstr(obj.Applicable_On)
@@ -523,6 +535,7 @@ Public Class frmDCSAdditionDeduction
         rbtnACNotExists.Visible = False
         txtConvertsion.Value = 1
         chkNegativeAmt.Checked = False
+        chkMarginDCS.Checked = False
     End Sub
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso rdbtnreset.Enabled Then

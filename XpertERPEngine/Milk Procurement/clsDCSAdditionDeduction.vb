@@ -34,6 +34,7 @@ Public Class clsDCSAdditionDeduction
     Public Consider_Negative_Amt As Boolean
     Public Arr As ArrayList = Nothing
     Public ArrDCSExclude As ArrayList = Nothing
+    Public MarginDCS As Integer = 0
 #End Region
     Public Function SaveData(ByVal obj As clsDCSAdditionDeduction, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -74,6 +75,8 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Applicable_On", obj.Applicable_On)
             clsCommon.AddColumnsForChange(coll, "Qty_UOM", obj.Qty_UOM)
             clsCommon.AddColumnsForChange(coll, "Applicable_Type", obj.Applicable_Type)
+            clsCommon.AddColumnsForChange(coll, "MarginDCS", obj.MarginDCS)
+
             clsCommon.AddColumnsForChange(coll, "Applicable_Value", obj.Applicable_Value)
             clsCommon.AddColumnsForChange(coll, "GL_Account", obj.GL_Account)
             clsCommon.AddColumnsForChange(coll, "MappingCode", obj.MappingCode)
@@ -246,6 +249,7 @@ Public Class clsDCSAdditionDeduction
             obj.Consider_Negative_Amt = IIf(clsCommon.myCdbl(dt.Rows(0)("Consider_Negative_Amt")) = 1, True, False)
             obj.Check_Saving_AC = clsCommon.myCdbl(dt.Rows(0)("Check_Saving_AC"))
             obj.Conversion = clsCommon.myCdbl(dt.Rows(0)("Conversion"))
+            obj.MarginDCS = clsCommon.myCDecimal(dt.Rows(0)("MarginDCS"))
 
             obj.Arr = Nothing
             qry = " select Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where Code='" + obj.Code + "' "
