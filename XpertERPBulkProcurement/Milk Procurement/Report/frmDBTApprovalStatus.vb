@@ -52,8 +52,8 @@ Public Class frmDBTApprovalStatus
     End Sub
     Private Sub fndUnion__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndUnion._MYValidating
         Try
-            Dim Sqlqry As String = "select DISTINCT DB_Name as [Code] from TSPL_DBT_NEFT_RCDF "
-            fndUnion.Value = clsCommon.ShowSelectForm("DbCode", Sqlqry, "Code", "", fndUnion.Value, "Code", isButtonClicked)
+            Dim Sqlqry As String = "SELECT [TSPL_APP_LOCATION].Location_Name as [Location Name],[TSPL_APP_LOCATION].DataBase_Name as DataBaseName FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION]   "
+            fndUnion.Value = clsCommon.ShowSelectForm("DbCode", Sqlqry, "DataBaseName", " Union_Report=1 ", fndUnion.Value, "Location_Name", isButtonClicked)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
@@ -66,14 +66,24 @@ Public Class frmDBTApprovalStatus
             Throw New Exception("Database[TSPL_MASTER] not found")
         End If
         BaseQry = ""
-        dt = clsMilkUnion.UnionDBName()
+
+        Dim arrUnion As ArrayList = New ArrayList()
+        If clsCommon.myLen(fndUnion.Value) > 0 Then
+            arrUnion.Add(fndUnion.Value)
+            dt = clsMilkUnion.UnionDBName1(arrUnion)
+        Else
+            dt = clsMilkUnion.UnionDBName()
+        End If
         If rbtnSummary.IsChecked Then
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To dt.Rows.Count - 1
+                    If ii > 0 Then
+                        BaseQry &= "" & Environment.NewLine & " Union all " & Environment.NewLine & ""
+                    End If
                     BaseQry &= "Select DB_Name as [Union Name], Document_Code As [Document Code], Convert(varchar,TSPL_DBT_NEFT_RCDF.From_Date,103) AS [From Date], Convert(varchar,TSPL_DBT_NEFT_RCDF.To_Date,103) AS [TO Date],Created_By
                             AS [Created By], Convert(varchar,TSPL_DBT_NEFT_RCDF.Created_Date,103) AS [Created Date], Post_By as [Approved By], Convert(varchar,TSPL_DBT_NEFT_RCDF.Post_Date,103) as [Approved Date & Time], "
                     BaseQry &= "CASE WHEN ISNULL(Status,0) = 0 THEN 'Pending' ELSE 'Approved' END AS Status "
-                    BaseQry &= "FROM TSPL_DBT_NEFT_RCDF WHERE DB_Name ='" & clsCommon.myCstr(fndUnion.Value) & "' "
+                    BaseQry &= "FROM TSPL_DBT_NEFT_RCDF WHERE DB_Name ='" & clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) & "' "
                     BaseQry &= "AND CONVERT(date, From_Date, 103) >= CONVERT(date,'" & Slot1 & "', 103) "
                     BaseQry &= "AND CONVERT(date, To_Date, 103) <= CONVERT(date,'" & Slot2 & "', 103) "
                     ' Check if rbtnTransactionPosted is checked
@@ -105,6 +115,12 @@ Public Class frmDBTApprovalStatus
     Private Sub btnReport_Click(sender As Object, e As EventArgs) Handles btnReport.Click
         Try
             GetReportID()
+            If rbtnDetail.IsChecked Then
+                If clsCommon.myLen(fndUnion.Value) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please select union for Detail option", Me.Text)
+                    Exit Sub
+                End If
+            End If
             Dim query = ReportQry()
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then

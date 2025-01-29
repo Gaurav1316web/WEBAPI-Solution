@@ -338,9 +338,9 @@ Public Class clsMCCMaterialSale
             If isNewEntry Then
                 If clsERPFuncationality.GetGSTStatus(obj.Document_Date) Then
                     If obj.isTaxExempted Then
-                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location)
+                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DCSDispatch, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location)
                     Else
-                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.Other, obj.Bill_To_Location)
+                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DCSDispatch, clsDocTransactionType.Other, obj.Bill_To_Location)
                     End If
                     'If obj.Is_Taxable Then
                     '    Dim strTaxType = clsLocationWiseTax.TaxType(obj.Bill_To_Location, obj.Customer_Code, "S", obj.Document_Date, trans)
@@ -354,9 +354,9 @@ Public Class clsMCCMaterialSale
                     'End If
                 Else
                     If obj.isTaxExempted Then
-                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location)
+                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DCSDispatch, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location)
                     Else
-                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.Other, obj.Bill_To_Location)
+                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DCSDispatch, clsDocTransactionType.Other, obj.Bill_To_Location)
                     End If
                 End If
                 'If clsCommon.CompairString(obj.Item_Type, "F") = CompairStringResult.Equal Then
@@ -662,12 +662,12 @@ Public Class clsMCCMaterialSale
             ''''  for automatic invoice
             Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj)
             If clsCommon.myLen(obj.Sale_Invoice_No) > 0 Then
-                objSI.SaveData(objSI, False, trans)
+                objSI.SaveData(objSI, False, False, clsDocType.DCSInvoice, trans)
             Else
                 If clsCommon.CompairString(obj.Is_CashSale, "Y") = CompairStringResult.Equal Then
-                    objSI.SaveData(objSI, True, True, trans)
+                    objSI.SaveData(objSI, True, True, clsDocType.DCSInvoice, trans)
                 Else
-                    objSI.SaveData(objSI, True, trans)
+                    objSI.SaveData(objSI, True, False, clsDocType.DCSInvoice, trans)
                 End If
 
             End If

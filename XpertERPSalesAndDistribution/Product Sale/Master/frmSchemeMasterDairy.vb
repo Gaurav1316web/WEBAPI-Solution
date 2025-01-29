@@ -445,6 +445,7 @@ Public Class FrmSchemeMasterDairy
         dt.Rows.Add("Structure")
         dt.Rows.Add("Fixed")
         dt.Rows.Add("VolumeSlab_Cash")
+        dt.Rows.Add("OnTotal Qty")
         ddlType.DataSource = dt
         ddlType.ValueMember = "Code"
         ddlType.DisplayMember = "Code"
@@ -623,6 +624,7 @@ Public Class FrmSchemeMasterDairy
                             txtAmount.Visible = True
                             txtAmount.Enabled = True
                         End If
+                        gbScheme.Visible = False
                     ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Volume") = CompairStringResult.Equal Then
                         FillMainItemGrid()
 
@@ -637,6 +639,7 @@ Public Class FrmSchemeMasterDairy
                         RadLabel10.Visible = False
                         txtAmount.Visible = False
                         txtAmount.Enabled = False
+                        gbScheme.Visible = False
                     ElseIf clsCommon.CompairString(ddlType.SelectedValue, "MaxLimit") = CompairStringResult.Equal Then
                         LoadBlankItemGrid()
                         FillMainItemGrid()
@@ -655,6 +658,7 @@ Public Class FrmSchemeMasterDairy
                         RadLabel10.Visible = False
                         txtAmount.Visible = False
                         txtAmount.Enabled = False
+                        gbScheme.Visible = False
                     ElseIf clsCommon.CompairString(ddlType.SelectedValue, "VolumeSlab") = CompairStringResult.Equal Then
                         LoadBlankItemGrid()
                         loadBlankVolumeslabGrid()
@@ -681,6 +685,17 @@ Public Class FrmSchemeMasterDairy
                         RadLabel10.Visible = False
                         txtAmount.Visible = False
                         txtAmount.Enabled = False
+                        lblMainUOM.Visible = False
+                        'txtMainUOM.Visible = False
+                        'lblMinQty.Visible = False
+                        'txtMinQty.Visible = False
+                        'lblSchemeItem.Visible = False
+                        'txtSchemeItem.Visible = False
+                        'lblSchemeUOM.Visible = False
+                        'txtSchemeUOM.Visible = False
+                        'lblSchemeQty.Visible = False
+                        'txtSchemeQty.Visible = False
+                        gbScheme.Visible = False
                     ElseIf clsCommon.CompairString(ddlType.SelectedValue, "VolumeSlab_Cash") = CompairStringResult.Equal Then
                         LoadBlankItemGrid()
                         LoadBlankVolumeSlabCashDisGrid()
@@ -688,6 +703,38 @@ Public Class FrmSchemeMasterDairy
                         RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Visible
                         RadPageView1.SelectedPage = RadPageViewPage4
                         'gvVolumeSlab.Rows.AddNew()
+                    ElseIf clsCommon.CompairString(ddlType.SelectedValue, "OnTotal Qty") = CompairStringResult.Equal Then
+                        LoadBlankItemGrid()
+                        lblMainUOM.Visible = True
+                        txtMainUOM.Visible = True
+                        lblMinQty.Visible = True
+                        txtMinQty.Visible = True
+                        lblSchemeItem.Visible = True
+                        txtSchemeItem.Visible = True
+                        lblSchemeUOM.Visible = True
+                        txtSchemeUOM.Visible = True
+                        lblSchemeQty.Visible = True
+                        txtSchemeQty.Visible = True
+                        gbScheme.Visible = True
+                        gbScheme.Location = New System.Drawing.Point(626, 0)
+                        txtUnitCode.Visible = False
+                        txtQty.Visible = False
+                        lblUnit.Visible = False
+                        lblQty.Visible = False
+                        txtFromDate.Visible = True
+                        txtToDate.Visible = True
+                        lblFromDate.Visible = True
+                        lblToDate.Visible = True
+                        GrpQuantiiveType.Visible = False
+
+                        MyLabel1.Visible = False
+                        txtPercentage.Visible = False
+                        txtPercentage.Enabled = False
+                        RadLabel10.Visible = False
+                        txtAmount.Visible = False
+                        txtAmount.Enabled = False
+                        gvItem.Visible = False
+
                     End If
                     If clsCommon.CompairString(ddlType.SelectedValue, "Quantitive") = CompairStringResult.Equal Then
                     ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Cash") = CompairStringResult.Equal Then
@@ -922,16 +969,44 @@ Public Class FrmSchemeMasterDairy
                     RadLabel10.Visible = True
                     txtAmount.Visible = True
                     txtAmount.Enabled = True
+                    gbScheme.Visible = False
+
                 ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Volume") = CompairStringResult.Equal Then
                     txtUnitCode.Visible = True
                     txtQty.Visible = True
                     lblUnit.Visible = True
                     lblQty.Visible = True
+                    gbScheme.Visible = False
+
                 ElseIf clsCommon.CompairString(ddlType.SelectedValue, "MaxLimit") = CompairStringResult.Equal Then
                     txtFromDate.Visible = True
                     txtToDate.Visible = True
                     lblFromDate.Visible = True
                     lblToDate.Visible = True
+                    gbScheme.Visible = False
+                ElseIf clsCommon.CompairString(ddlType.SelectedValue, "OnTotal Qty") = CompairStringResult.Equal Then
+                    txtFromDate.Visible = True
+                    txtToDate.Visible = True
+                    lblFromDate.Visible = True
+                    lblToDate.Visible = True
+                    gvItem.Visible = False
+                    gbScheme.Visible = True
+                    gbScheme.Location = New System.Drawing.Point(626, 0)
+                    lblMainUOM.Visible = True
+                    txtMainUOM.Visible = True
+                    lblMinQty.Visible = True
+                    txtMinQty.Visible = True
+                    lblSchemeItem.Visible = True
+                    txtSchemeItem.Visible = True
+                    lblSchemeUOM.Visible = True
+                    txtSchemeUOM.Visible = True
+                    lblSchemeQty.Visible = True
+                    txtSchemeQty.Visible = True
+                    txtMainUOM.Value = obj.MainUOM
+                    txtMinQty.Text = obj.MinQty
+                    txtSchemeItem.Value = obj.SchemeItem
+                    txtSchemeUOM.Value = obj.SchemeUOM
+                    txtSchemeQty.Text = obj.SchemeQty
                 End If
                 ''For Custom Fields
 
@@ -1152,6 +1227,24 @@ Public Class FrmSchemeMasterDairy
             common.clsCommon.MyMessageBoxShow("inactive date can not be before than scheme date.")
             dtpInactive.Focus()
             Return False
+        ElseIf clsCommon.CompairString(ddlType.SelectedValue, "OnTotal Qty") = CompairStringResult.Equal Then
+            If clsCommon.myLen(txtMainUOM.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Please select Main UOM.")
+                Return False
+            ElseIf clsCommon.myCdbl(txtMinQty.Text) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Please Enter Minimum Qty.")
+                Return False
+            ElseIf clsCommon.myLen(txtSchemeItem.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Please Select Scheme Item.")
+                Return False
+            ElseIf clsCommon.myLen(txtSchemeUOM.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Please Select Scheme UOM.")
+                Return False
+            ElseIf clsCommon.myCdbl(txtSchemeQty.Text) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Please Enter Scheme Qty.")
+                Return False
+
+            End If
         End If
         For ii As Integer = 0 To gvItem.Rows.Count - 1
             Dim strMainICode As String = clsCommon.myCstr(gvItem.Rows(ii).Cells(colMainICode).Value)
@@ -1511,6 +1604,12 @@ Public Class FrmSchemeMasterDairy
                     obj.Quantitive_Type_Structure_Free_Item = txtQuantitiveStructureFreeICode.Value
                     obj.Quantitive_Type_Structure_Free_Qty = txtQuantitiveStructureFreeQty.Value
                     obj.Quantitive_Type_Structure_Free_UOM = txtQuantitiveStructureFreeUOM.Value
+                ElseIf clsCommon.CompairString(ddlType.SelectedValue, "OnTotal Qty") = CompairStringResult.Equal Then
+                    obj.MainUOM = txtMainUOM.Value
+                    obj.MinQty = clsCommon.myCdbl(txtMinQty.Text)
+                    obj.SchemeItem = txtSchemeItem.Value
+                    obj.SchemeUOM = txtSchemeUOM.Value
+                    obj.SchemeQty = clsCommon.myCdbl(txtSchemeQty.Text)
                 End If
 
 
@@ -1555,7 +1654,7 @@ Public Class FrmSchemeMasterDairy
                         Count += 1
                     End If
                 Next
-                If Not (clsCommon.CompairString(ddlType.SelectedValue, "VolumeSlab") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "Structure") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "VolumeSlab_Cash") = CompairStringResult.Equal) Then
+                If Not (clsCommon.CompairString(ddlType.SelectedValue, "VolumeSlab") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "Structure") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "VolumeSlab_Cash") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlType.SelectedValue, "OnTotal Qty") = CompairStringResult.Equal) Then
                     If (obj.ArrDTL Is Nothing OrElse obj.ArrDTL.Count <= 0) Then
                         Throw New Exception("Please Fill at list one Item.")
                     End If
@@ -1787,6 +1886,22 @@ Public Class FrmSchemeMasterDairy
         btn_Apply.Visible = False
         strMsg = ""
         RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Collapsed
+        'lblMainUOM.Visible = False
+        'txtMainUOM.Visible = False
+        'lblMinQty.Visible = False
+        'txtMinQty.Visible = False
+        'lblSchemeItem.Visible = False
+        'txtSchemeItem.Visible = False
+        'lblSchemeUOM.Visible = False
+        'txtSchemeUOM.Visible = False
+        'lblSchemeQty.Visible = False
+        'txtSchemeQty.Visible = False
+        gbScheme.Visible = False
+        txtMainUOM.Value = ""
+        txtMinQty.Text = ""
+        txtSchemeItem.Value = ""
+        txtSchemeUOM.Value = ""
+        txtSchemeQty.Text = ""
     End Sub
 
     Private Sub rmiClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiClose.Click
@@ -3682,6 +3797,48 @@ Public Class FrmSchemeMasterDairy
     End Sub
 
     Private Sub gvTS_Click(sender As Object, e As EventArgs) Handles gvTS.Click
+
+    End Sub
+
+    Private Sub txtSchemeUOM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSchemeUOM._MYValidating
+        Try
+            If clsCommon.myLen(txtSchemeItem.Value) > 0 Then
+                Dim strQry As String = "select distinct Unit_Code as Code,Unit_Desc as Description from TSPL_UNIT_MASTER "
+                Dim whrCls As String = " unit_code in (select uom_code from TSPL_ITEM_UOM_DETAIL where item_code='" + txtSchemeItem.Value + "' )"
+                txtSchemeUOM.Value = clsCommon.ShowSelectForm("UOMFinder@SCHUOM", strQry, "Code", whrCls, txtSchemeUOM.Value, "", isButtonClicked)
+            Else
+                Throw New Exception("Please select Scheme Item.")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub txtMainUOM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMainUOM._MYValidating
+        Try
+
+            Dim strQry As String = "select distinct Unit_Code as Code,Unit_Desc as Description from TSPL_UNIT_MASTER "
+            Dim whrCls As String = "unit_code in (select uom_code from TSPL_ITEM_UOM_DETAIL where item_code in (select item_code from tspl_item_master where Is_FreshItem=1 and Item_Type='F'))"
+
+            txtMainUOM.Value = clsCommon.ShowSelectForm("UOMFinder@MUOM", strQry, "Code", whrCls, txtMainUOM.Value, "", isButtonClicked)
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub txtSchemeItem__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSchemeItem._MYValidating
+        Try
+            Dim strQry As String = "select Item_Code as Code,Short_Description from TSPL_ITEM_MASTER "
+            Dim whrCls As String = " Is_FreshItem=1 and Item_Type='F' "
+            txtSchemeItem.Value = clsCommon.ShowSelectForm("ItemFinder@SCHItem", strQry, "Code", whrCls, txtSchemeItem.Value, "", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
 
     End Sub
 End Class

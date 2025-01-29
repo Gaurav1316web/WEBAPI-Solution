@@ -6433,12 +6433,12 @@ Public Class MDI
 
 
                     'Dipti----------------------Utility---------------------------------------------------------
-                    Case clsUserMgtCode.mbtnCreateReceiptAgainstSale
-                        frm = New FrmCreateReceiptAgainstSales()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.mbtnCreateReceiptAgainstInvoice
-                        frm = New FrmCreateReceiptAgainstInvoice()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.mbtnCreateReceiptAgainstSale
+                    '    frm = New FrmCreateReceiptAgainstSales()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.mbtnCreateReceiptAgainstInvoice
+                    '    frm = New FrmCreateReceiptAgainstInvoice()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.mbtnTakeBackup
                         frm = New FrmBackup()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8593,6 +8593,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.CompareVoucherReport
                         frm = New frmCompareVoucherReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBankSavingAdvice
+                        frm = New rptBankSavingAdvice
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
                         frm = New rptAutoMultipleAdditionDeduction

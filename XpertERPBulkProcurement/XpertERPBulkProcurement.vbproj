@@ -187,6 +187,24 @@
     <Compile Include="Bulk Procurement\Transaction\BulkProcurementUploader.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FrmMCCSummary.Designer.vb">
+      <DependentUpon>FrmMCCSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMCCSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMCCWeightDiifferenceRpt.Designer.vb">
+      <DependentUpon>FrmMCCWeightDiifferenceRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMCCWeightDiifferenceRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmOneDayStop.Designer.vb">
+      <DependentUpon>FrmOneDayStop.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmOneDayStop.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmChillingChargesSlab.Designer.vb">
       <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
     </Compile>
@@ -239,6 +257,12 @@
       <DependentUpon>FrmDayWiseMilkCollectionVsDispatch.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBankSavingAdvice.Designer.vb">
+      <DependentUpon>rptBankSavingAdvice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptBankSavingAdvice.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmUnpostBmcDcs.Designer.vb">
@@ -1049,6 +1073,16 @@
     <EmbeddedResource Include="Bulk Procurement\Transaction\BulkProcurementUploader.resx">
       <DependentUpon>BulkProcurementUploader.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmMCCSummary.resx">
+      <DependentUpon>FrmMCCSummary.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMCCWeightDiifferenceRpt.resx">
+      <DependentUpon>FrmMCCWeightDiifferenceRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmOneDayStop.resx">
+      <DependentUpon>FrmOneDayStop.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmChillingChargesSlab.resx">
       <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
     </EmbeddedResource>
@@ -1075,6 +1109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\FrmDayWiseMilkCollectionVsDispatch.resx">
       <DependentUpon>FrmDayWiseMilkCollectionVsDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptBankSavingAdvice.resx">
+      <DependentUpon>rptBankSavingAdvice.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmUnpostBmcDcs.resx">
       <DependentUpon>frmUnpostBmcDcs.vb</DependentUpon>

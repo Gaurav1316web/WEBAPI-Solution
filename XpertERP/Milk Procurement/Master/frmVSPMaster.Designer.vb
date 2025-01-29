@@ -407,7 +407,7 @@ Partial Class frmVSPMaster
         Me.MyLabel24 = New common.Controls.MyLabel()
         Me.ChkOwnAsset = New Telerik.WinControls.UI.RadCheckBox()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.Pg_GST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -8042,7 +8042,7 @@ Partial Class frmVSPMaster
     Friend WithEvents fndVendorCurrency As common.UserControls.txtFinder
     Friend WithEvents lblBaseCurrency As common.Controls.MyLabel
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents chkTagAsFranchise As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtvndrtype As common.Controls.MyTextBox

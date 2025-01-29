@@ -43,7 +43,7 @@ Partial Class frmAssetDispatch
         Me.txtGPDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel20 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New XpertERPService.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnprint = New Telerik.WinControls.UI.RadButton()

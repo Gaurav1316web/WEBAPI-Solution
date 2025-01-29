@@ -47,12 +47,17 @@ Partial Class FrmSchemeMasterDairy
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.RadLabel10 = New common.Controls.MyLabel()
-        Me.btn_Apply = New Telerik.WinControls.UI.RadButton()
-        Me.txtAmount = New common.MyNumBox()
-        Me.lblUnit = New common.Controls.MyLabel()
-        Me.txtPercentage = New common.MyNumBox()
-        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.gbScheme = New System.Windows.Forms.GroupBox()
+        Me.lblMainUOM = New common.Controls.MyLabel()
+        Me.txtMainUOM = New common.UserControls.txtFinder()
+        Me.txtSchemeQty = New common.MyNumBox()
+        Me.lblMinQty = New common.Controls.MyLabel()
+        Me.lblSchemeQty = New common.Controls.MyLabel()
+        Me.txtMinQty = New common.MyNumBox()
+        Me.lblSchemeUOM = New common.Controls.MyLabel()
+        Me.txtSchemeItem = New common.UserControls.txtFinder()
+        Me.lblSchemeItem = New common.Controls.MyLabel()
+        Me.txtSchemeUOM = New common.UserControls.txtFinder()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.txtQuantitiveStructureFreeUOM = New common.UserControls.txtFinder()
         Me.MyLabel10 = New common.Controls.MyLabel()
@@ -66,6 +71,12 @@ Partial Class FrmSchemeMasterDairy
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.txtQuantitiveStructureCode = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.RadLabel10 = New common.Controls.MyLabel()
+        Me.btn_Apply = New Telerik.WinControls.UI.RadButton()
+        Me.txtAmount = New common.MyNumBox()
+        Me.lblUnit = New common.Controls.MyLabel()
+        Me.txtPercentage = New common.MyNumBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtComment = New common.Controls.MyTextBox()
         Me.RadLabel9 = New common.Controls.MyLabel()
         Me.txtQty = New common.MyNumBox()
@@ -111,7 +122,6 @@ Partial Class FrmSchemeMasterDairy
         Me.RadLabel13 = New common.Controls.MyLabel()
         Me.gvCustomer = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New XpertERPSalesAndDistribution.ucCustomFields()
         Me.pgAttachmentSchMst = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -147,6 +157,7 @@ Partial Class FrmSchemeMasterDairy
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -157,12 +168,14 @@ Partial Class FrmSchemeMasterDairy
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btn_Apply, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblUnit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPercentage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbScheme.SuspendLayout()
+        CType(Me.lblMainUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSchemeQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMinQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSchemeQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtMinQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSchemeUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSchemeItem, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtQuantitiveStructureFreeQty, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -172,6 +185,12 @@ Partial Class FrmSchemeMasterDairy
         CType(Me.txtQuantitiveStructureMainQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btn_Apply, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblUnit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPercentage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtQty, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -266,7 +285,7 @@ Partial Class FrmSchemeMasterDairy
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(980, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1303, 18)
         Me.RadMenu1.TabIndex = 3
         '
         'RadMenuItem1
@@ -352,7 +371,7 @@ Partial Class FrmSchemeMasterDairy
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer1.IsSplitterFixed = True
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 18)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -365,8 +384,8 @@ Partial Class FrmSchemeMasterDairy
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(980, 439)
-        Me.SplitContainer1.SplitterDistance = 409
+        Me.SplitContainer1.Size = New System.Drawing.Size(1303, 434)
+        Me.SplitContainer1.SplitterDistance = 404
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -382,17 +401,17 @@ Partial Class FrmSchemeMasterDairy
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(980, 409)
+        Me.RadPageView1.Size = New System.Drawing.Size(1303, 404)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer3)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(92.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(88.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(959, 361)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1282, 360)
         Me.RadPageViewPage1.Text = "Scheme Details"
         '
         'SplitContainer3
@@ -405,13 +424,14 @@ Partial Class FrmSchemeMasterDairy
         '
         'SplitContainer3.Panel1
         '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.gbScheme)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.GroupBox1)
         Me.SplitContainer3.Panel1.Controls.Add(Me.RadLabel10)
         Me.SplitContainer3.Panel1.Controls.Add(Me.btn_Apply)
         Me.SplitContainer3.Panel1.Controls.Add(Me.txtAmount)
         Me.SplitContainer3.Panel1.Controls.Add(Me.lblUnit)
         Me.SplitContainer3.Panel1.Controls.Add(Me.txtPercentage)
         Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.GroupBox1)
         Me.SplitContainer3.Panel1.Controls.Add(Me.txtComment)
         Me.SplitContainer3.Panel1.Controls.Add(Me.txtQty)
         Me.SplitContainer3.Panel1.Controls.Add(Me.lblQty)
@@ -449,107 +469,219 @@ Partial Class FrmSchemeMasterDairy
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.gvItem)
-        Me.SplitContainer3.Size = New System.Drawing.Size(959, 361)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1282, 360)
         Me.SplitContainer3.SplitterDistance = 122
         Me.SplitContainer3.TabIndex = 0
         '
-        'RadLabel10
+        'gbScheme
         '
-        Me.RadLabel10.FieldName = Nothing
-        Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel10.Location = New System.Drawing.Point(759, 97)
-        Me.RadLabel10.Name = "RadLabel10"
-        Me.RadLabel10.Size = New System.Drawing.Size(45, 16)
-        Me.RadLabel10.TabIndex = 28
-        Me.RadLabel10.Text = "Amount"
-        Me.RadLabel10.Visible = False
+        Me.gbScheme.Controls.Add(Me.lblMainUOM)
+        Me.gbScheme.Controls.Add(Me.txtMainUOM)
+        Me.gbScheme.Controls.Add(Me.txtSchemeQty)
+        Me.gbScheme.Controls.Add(Me.lblMinQty)
+        Me.gbScheme.Controls.Add(Me.lblSchemeQty)
+        Me.gbScheme.Controls.Add(Me.txtMinQty)
+        Me.gbScheme.Controls.Add(Me.lblSchemeUOM)
+        Me.gbScheme.Controls.Add(Me.txtSchemeItem)
+        Me.gbScheme.Controls.Add(Me.txtSchemeUOM)
+        Me.gbScheme.Controls.Add(Me.lblSchemeItem)
+        Me.gbScheme.Location = New System.Drawing.Point(994, 6)
+        Me.gbScheme.Name = "gbScheme"
+        Me.gbScheme.Size = New System.Drawing.Size(211, 114)
+        Me.gbScheme.TabIndex = 49
+        Me.gbScheme.TabStop = False
         '
-        'btn_Apply
+        'lblMainUOM
         '
-        Me.btn_Apply.Location = New System.Drawing.Point(858, 92)
-        Me.btn_Apply.Name = "btn_Apply"
-        Me.btn_Apply.Size = New System.Drawing.Size(96, 18)
-        Me.btn_Apply.TabIndex = 35
-        Me.btn_Apply.Text = "Apply"
-        Me.btn_Apply.Visible = False
+        Me.lblMainUOM.FieldName = Nothing
+        Me.lblMainUOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMainUOM.Location = New System.Drawing.Point(17, 13)
+        Me.lblMainUOM.Name = "lblMainUOM"
+        Me.lblMainUOM.Size = New System.Drawing.Size(60, 16)
+        Me.lblMainUOM.TabIndex = 40
+        Me.lblMainUOM.Text = "Main UOM"
+        Me.lblMainUOM.Visible = False
         '
-        'txtAmount
+        'txtMainUOM
         '
-        Me.txtAmount.BackColor = System.Drawing.Color.White
-        Me.txtAmount.CalculationExpression = Nothing
-        Me.txtAmount.DecimalPlaces = 2
-        Me.txtAmount.FieldCode = Nothing
-        Me.txtAmount.FieldDesc = Nothing
-        Me.txtAmount.FieldMaxLength = 0
-        Me.txtAmount.FieldName = Nothing
-        Me.txtAmount.isCalculatedField = False
-        Me.txtAmount.IsSourceFromTable = False
-        Me.txtAmount.IsSourceFromValueList = False
-        Me.txtAmount.IsUnique = False
-        Me.txtAmount.Location = New System.Drawing.Point(811, 93)
-        Me.txtAmount.MendatroryField = False
-        Me.txtAmount.MyLinkLable1 = Nothing
-        Me.txtAmount.MyLinkLable2 = Nothing
-        Me.txtAmount.Name = "txtAmount"
-        Me.txtAmount.ReferenceFieldDesc = Nothing
-        Me.txtAmount.ReferenceFieldName = Nothing
-        Me.txtAmount.ReferenceTableName = Nothing
-        Me.txtAmount.Size = New System.Drawing.Size(46, 20)
-        Me.txtAmount.TabIndex = 12
-        Me.txtAmount.Text = "0"
-        Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAmount.Value = 0R
-        Me.txtAmount.Visible = False
+        Me.txtMainUOM.CalculationExpression = Nothing
+        Me.txtMainUOM.FieldCode = Nothing
+        Me.txtMainUOM.FieldDesc = Nothing
+        Me.txtMainUOM.FieldMaxLength = 0
+        Me.txtMainUOM.FieldName = Nothing
+        Me.txtMainUOM.isCalculatedField = False
+        Me.txtMainUOM.IsSourceFromTable = False
+        Me.txtMainUOM.IsSourceFromValueList = False
+        Me.txtMainUOM.IsUnique = False
+        Me.txtMainUOM.Location = New System.Drawing.Point(83, 11)
+        Me.txtMainUOM.MendatroryField = True
+        Me.txtMainUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMainUOM.MyLinkLable1 = Me.lblMainUOM
+        Me.txtMainUOM.MyLinkLable2 = Nothing
+        Me.txtMainUOM.MyReadOnly = False
+        Me.txtMainUOM.MyShowMasterFormButton = False
+        Me.txtMainUOM.Name = "txtMainUOM"
+        Me.txtMainUOM.ReferenceFieldDesc = Nothing
+        Me.txtMainUOM.ReferenceFieldName = Nothing
+        Me.txtMainUOM.ReferenceTableName = Nothing
+        Me.txtMainUOM.Size = New System.Drawing.Size(118, 18)
+        Me.txtMainUOM.TabIndex = 39
+        Me.txtMainUOM.Value = ""
+        Me.txtMainUOM.Visible = False
         '
-        'lblUnit
+        'txtSchemeQty
         '
-        Me.lblUnit.FieldName = Nothing
-        Me.lblUnit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUnit.Location = New System.Drawing.Point(630, 72)
-        Me.lblUnit.Name = "lblUnit"
-        Me.lblUnit.Size = New System.Drawing.Size(26, 16)
-        Me.lblUnit.TabIndex = 17
-        Me.lblUnit.Text = "Unit"
-        Me.lblUnit.Visible = False
+        Me.txtSchemeQty.BackColor = System.Drawing.Color.White
+        Me.txtSchemeQty.CalculationExpression = Nothing
+        Me.txtSchemeQty.DecimalPlaces = 2
+        Me.txtSchemeQty.FieldCode = Nothing
+        Me.txtSchemeQty.FieldDesc = Nothing
+        Me.txtSchemeQty.FieldMaxLength = 0
+        Me.txtSchemeQty.FieldName = Nothing
+        Me.txtSchemeQty.isCalculatedField = False
+        Me.txtSchemeQty.IsSourceFromTable = False
+        Me.txtSchemeQty.IsSourceFromValueList = False
+        Me.txtSchemeQty.IsUnique = False
+        Me.txtSchemeQty.Location = New System.Drawing.Point(83, 92)
+        Me.txtSchemeQty.MendatroryField = False
+        Me.txtSchemeQty.MyLinkLable1 = Nothing
+        Me.txtSchemeQty.MyLinkLable2 = Nothing
+        Me.txtSchemeQty.Name = "txtSchemeQty"
+        Me.txtSchemeQty.ReferenceFieldDesc = Nothing
+        Me.txtSchemeQty.ReferenceFieldName = Nothing
+        Me.txtSchemeQty.ReferenceTableName = Nothing
+        Me.txtSchemeQty.Size = New System.Drawing.Size(118, 20)
+        Me.txtSchemeQty.TabIndex = 47
+        Me.txtSchemeQty.Text = "0"
+        Me.txtSchemeQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSchemeQty.Value = 0R
+        Me.txtSchemeQty.Visible = False
         '
-        'txtPercentage
+        'lblMinQty
         '
-        Me.txtPercentage.BackColor = System.Drawing.Color.White
-        Me.txtPercentage.CalculationExpression = Nothing
-        Me.txtPercentage.DecimalPlaces = 2
-        Me.txtPercentage.FieldCode = Nothing
-        Me.txtPercentage.FieldDesc = Nothing
-        Me.txtPercentage.FieldMaxLength = 0
-        Me.txtPercentage.FieldName = Nothing
-        Me.txtPercentage.isCalculatedField = False
-        Me.txtPercentage.IsSourceFromTable = False
-        Me.txtPercentage.IsSourceFromValueList = False
-        Me.txtPercentage.IsUnique = False
-        Me.txtPercentage.Location = New System.Drawing.Point(663, 94)
-        Me.txtPercentage.MendatroryField = False
-        Me.txtPercentage.MyLinkLable1 = Nothing
-        Me.txtPercentage.MyLinkLable2 = Nothing
-        Me.txtPercentage.Name = "txtPercentage"
-        Me.txtPercentage.ReferenceFieldDesc = Nothing
-        Me.txtPercentage.ReferenceFieldName = Nothing
-        Me.txtPercentage.ReferenceTableName = Nothing
-        Me.txtPercentage.Size = New System.Drawing.Size(43, 20)
-        Me.txtPercentage.TabIndex = 11
-        Me.txtPercentage.Text = "0"
-        Me.txtPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPercentage.Value = 0R
-        Me.txtPercentage.Visible = False
+        Me.lblMinQty.FieldName = Nothing
+        Me.lblMinQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMinQty.Location = New System.Drawing.Point(17, 33)
+        Me.lblMinQty.Name = "lblMinQty"
+        Me.lblMinQty.Size = New System.Drawing.Size(45, 16)
+        Me.lblMinQty.TabIndex = 42
+        Me.lblMinQty.Text = "Min Qty"
+        Me.lblMinQty.Visible = False
         '
-        'MyLabel1
+        'lblSchemeQty
         '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(640, 96)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(16, 16)
-        Me.MyLabel1.TabIndex = 27
-        Me.MyLabel1.Text = "%"
-        Me.MyLabel1.Visible = False
+        Me.lblSchemeQty.FieldName = Nothing
+        Me.lblSchemeQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSchemeQty.Location = New System.Drawing.Point(8, 95)
+        Me.lblSchemeQty.Name = "lblSchemeQty"
+        Me.lblSchemeQty.Size = New System.Drawing.Size(69, 16)
+        Me.lblSchemeQty.TabIndex = 48
+        Me.lblSchemeQty.Text = "Scheme Qty"
+        Me.lblSchemeQty.Visible = False
+        '
+        'txtMinQty
+        '
+        Me.txtMinQty.BackColor = System.Drawing.Color.White
+        Me.txtMinQty.CalculationExpression = Nothing
+        Me.txtMinQty.DecimalPlaces = 2
+        Me.txtMinQty.FieldCode = Nothing
+        Me.txtMinQty.FieldDesc = Nothing
+        Me.txtMinQty.FieldMaxLength = 0
+        Me.txtMinQty.FieldName = Nothing
+        Me.txtMinQty.isCalculatedField = False
+        Me.txtMinQty.IsSourceFromTable = False
+        Me.txtMinQty.IsSourceFromValueList = False
+        Me.txtMinQty.IsUnique = False
+        Me.txtMinQty.Location = New System.Drawing.Point(83, 30)
+        Me.txtMinQty.MendatroryField = False
+        Me.txtMinQty.MyLinkLable1 = Nothing
+        Me.txtMinQty.MyLinkLable2 = Nothing
+        Me.txtMinQty.Name = "txtMinQty"
+        Me.txtMinQty.ReferenceFieldDesc = Nothing
+        Me.txtMinQty.ReferenceFieldName = Nothing
+        Me.txtMinQty.ReferenceTableName = Nothing
+        Me.txtMinQty.Size = New System.Drawing.Size(118, 20)
+        Me.txtMinQty.TabIndex = 41
+        Me.txtMinQty.Text = "0"
+        Me.txtMinQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtMinQty.Value = 0R
+        Me.txtMinQty.Visible = False
+        '
+        'lblSchemeUOM
+        '
+        Me.lblSchemeUOM.FieldName = Nothing
+        Me.lblSchemeUOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSchemeUOM.Location = New System.Drawing.Point(3, 74)
+        Me.lblSchemeUOM.Name = "lblSchemeUOM"
+        Me.lblSchemeUOM.Size = New System.Drawing.Size(77, 16)
+        Me.lblSchemeUOM.TabIndex = 46
+        Me.lblSchemeUOM.Text = "Scheme UOM"
+        Me.lblSchemeUOM.Visible = False
+        '
+        'txtSchemeItem
+        '
+        Me.txtSchemeItem.CalculationExpression = Nothing
+        Me.txtSchemeItem.FieldCode = Nothing
+        Me.txtSchemeItem.FieldDesc = Nothing
+        Me.txtSchemeItem.FieldMaxLength = 0
+        Me.txtSchemeItem.FieldName = Nothing
+        Me.txtSchemeItem.isCalculatedField = False
+        Me.txtSchemeItem.IsSourceFromTable = False
+        Me.txtSchemeItem.IsSourceFromValueList = False
+        Me.txtSchemeItem.IsUnique = False
+        Me.txtSchemeItem.Location = New System.Drawing.Point(83, 52)
+        Me.txtSchemeItem.MendatroryField = True
+        Me.txtSchemeItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSchemeItem.MyLinkLable1 = Me.lblSchemeItem
+        Me.txtSchemeItem.MyLinkLable2 = Nothing
+        Me.txtSchemeItem.MyReadOnly = False
+        Me.txtSchemeItem.MyShowMasterFormButton = False
+        Me.txtSchemeItem.Name = "txtSchemeItem"
+        Me.txtSchemeItem.ReferenceFieldDesc = Nothing
+        Me.txtSchemeItem.ReferenceFieldName = Nothing
+        Me.txtSchemeItem.ReferenceTableName = Nothing
+        Me.txtSchemeItem.Size = New System.Drawing.Size(118, 18)
+        Me.txtSchemeItem.TabIndex = 43
+        Me.txtSchemeItem.Value = ""
+        Me.txtSchemeItem.Visible = False
+        '
+        'lblSchemeItem
+        '
+        Me.lblSchemeItem.FieldName = Nothing
+        Me.lblSchemeItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSchemeItem.Location = New System.Drawing.Point(4, 54)
+        Me.lblSchemeItem.Name = "lblSchemeItem"
+        Me.lblSchemeItem.Size = New System.Drawing.Size(73, 16)
+        Me.lblSchemeItem.TabIndex = 44
+        Me.lblSchemeItem.Text = "Scheme Item"
+        Me.lblSchemeItem.Visible = False
+        '
+        'txtSchemeUOM
+        '
+        Me.txtSchemeUOM.CalculationExpression = Nothing
+        Me.txtSchemeUOM.FieldCode = Nothing
+        Me.txtSchemeUOM.FieldDesc = Nothing
+        Me.txtSchemeUOM.FieldMaxLength = 0
+        Me.txtSchemeUOM.FieldName = Nothing
+        Me.txtSchemeUOM.isCalculatedField = False
+        Me.txtSchemeUOM.IsSourceFromTable = False
+        Me.txtSchemeUOM.IsSourceFromValueList = False
+        Me.txtSchemeUOM.IsUnique = False
+        Me.txtSchemeUOM.Location = New System.Drawing.Point(83, 72)
+        Me.txtSchemeUOM.MendatroryField = True
+        Me.txtSchemeUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSchemeUOM.MyLinkLable1 = Me.lblSchemeUOM
+        Me.txtSchemeUOM.MyLinkLable2 = Nothing
+        Me.txtSchemeUOM.MyReadOnly = False
+        Me.txtSchemeUOM.MyShowMasterFormButton = False
+        Me.txtSchemeUOM.Name = "txtSchemeUOM"
+        Me.txtSchemeUOM.ReferenceFieldDesc = Nothing
+        Me.txtSchemeUOM.ReferenceFieldName = Nothing
+        Me.txtSchemeUOM.ReferenceTableName = Nothing
+        Me.txtSchemeUOM.Size = New System.Drawing.Size(118, 18)
+        Me.txtSchemeUOM.TabIndex = 45
+        Me.txtSchemeUOM.Value = ""
+        Me.txtSchemeUOM.Visible = False
         '
         'GroupBox1
         '
@@ -565,7 +697,7 @@ Partial Class FrmSchemeMasterDairy
         Me.GroupBox1.Controls.Add(Me.MyLabel8)
         Me.GroupBox1.Controls.Add(Me.txtQuantitiveStructureCode)
         Me.GroupBox1.Controls.Add(Me.MyLabel4)
-        Me.GroupBox1.Location = New System.Drawing.Point(10, 116)
+        Me.GroupBox1.Location = New System.Drawing.Point(3, 119)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(944, 83)
         Me.GroupBox1.TabIndex = 38
@@ -775,6 +907,104 @@ Partial Class FrmSchemeMasterDairy
         Me.MyLabel4.Size = New System.Drawing.Size(77, 18)
         Me.MyLabel4.TabIndex = 361
         Me.MyLabel4.Text = "Item Structure"
+        '
+        'RadLabel10
+        '
+        Me.RadLabel10.FieldName = Nothing
+        Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel10.Location = New System.Drawing.Point(759, 97)
+        Me.RadLabel10.Name = "RadLabel10"
+        Me.RadLabel10.Size = New System.Drawing.Size(45, 16)
+        Me.RadLabel10.TabIndex = 28
+        Me.RadLabel10.Text = "Amount"
+        Me.RadLabel10.Visible = False
+        '
+        'btn_Apply
+        '
+        Me.btn_Apply.Location = New System.Drawing.Point(858, 92)
+        Me.btn_Apply.Name = "btn_Apply"
+        Me.btn_Apply.Size = New System.Drawing.Size(96, 18)
+        Me.btn_Apply.TabIndex = 35
+        Me.btn_Apply.Text = "Apply"
+        Me.btn_Apply.Visible = False
+        '
+        'txtAmount
+        '
+        Me.txtAmount.BackColor = System.Drawing.Color.White
+        Me.txtAmount.CalculationExpression = Nothing
+        Me.txtAmount.DecimalPlaces = 2
+        Me.txtAmount.FieldCode = Nothing
+        Me.txtAmount.FieldDesc = Nothing
+        Me.txtAmount.FieldMaxLength = 0
+        Me.txtAmount.FieldName = Nothing
+        Me.txtAmount.isCalculatedField = False
+        Me.txtAmount.IsSourceFromTable = False
+        Me.txtAmount.IsSourceFromValueList = False
+        Me.txtAmount.IsUnique = False
+        Me.txtAmount.Location = New System.Drawing.Point(811, 93)
+        Me.txtAmount.MendatroryField = False
+        Me.txtAmount.MyLinkLable1 = Nothing
+        Me.txtAmount.MyLinkLable2 = Nothing
+        Me.txtAmount.Name = "txtAmount"
+        Me.txtAmount.ReferenceFieldDesc = Nothing
+        Me.txtAmount.ReferenceFieldName = Nothing
+        Me.txtAmount.ReferenceTableName = Nothing
+        Me.txtAmount.Size = New System.Drawing.Size(46, 20)
+        Me.txtAmount.TabIndex = 12
+        Me.txtAmount.Text = "0"
+        Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtAmount.Value = 0R
+        Me.txtAmount.Visible = False
+        '
+        'lblUnit
+        '
+        Me.lblUnit.FieldName = Nothing
+        Me.lblUnit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblUnit.Location = New System.Drawing.Point(630, 72)
+        Me.lblUnit.Name = "lblUnit"
+        Me.lblUnit.Size = New System.Drawing.Size(26, 16)
+        Me.lblUnit.TabIndex = 17
+        Me.lblUnit.Text = "Unit"
+        Me.lblUnit.Visible = False
+        '
+        'txtPercentage
+        '
+        Me.txtPercentage.BackColor = System.Drawing.Color.White
+        Me.txtPercentage.CalculationExpression = Nothing
+        Me.txtPercentage.DecimalPlaces = 2
+        Me.txtPercentage.FieldCode = Nothing
+        Me.txtPercentage.FieldDesc = Nothing
+        Me.txtPercentage.FieldMaxLength = 0
+        Me.txtPercentage.FieldName = Nothing
+        Me.txtPercentage.isCalculatedField = False
+        Me.txtPercentage.IsSourceFromTable = False
+        Me.txtPercentage.IsSourceFromValueList = False
+        Me.txtPercentage.IsUnique = False
+        Me.txtPercentage.Location = New System.Drawing.Point(663, 94)
+        Me.txtPercentage.MendatroryField = False
+        Me.txtPercentage.MyLinkLable1 = Nothing
+        Me.txtPercentage.MyLinkLable2 = Nothing
+        Me.txtPercentage.Name = "txtPercentage"
+        Me.txtPercentage.ReferenceFieldDesc = Nothing
+        Me.txtPercentage.ReferenceFieldName = Nothing
+        Me.txtPercentage.ReferenceTableName = Nothing
+        Me.txtPercentage.Size = New System.Drawing.Size(43, 20)
+        Me.txtPercentage.TabIndex = 11
+        Me.txtPercentage.Text = "0"
+        Me.txtPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtPercentage.Value = 0R
+        Me.txtPercentage.Visible = False
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(640, 96)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(16, 16)
+        Me.MyLabel1.TabIndex = 27
+        Me.MyLabel1.Text = "%"
+        Me.MyLabel1.Visible = False
         '
         'txtComment
         '
@@ -1130,7 +1360,7 @@ Partial Class FrmSchemeMasterDairy
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(663, 18)
+        Me.txtDesc.Size = New System.Drawing.Size(500, 18)
         Me.txtDesc.TabIndex = 5
         '
         'dtpScheme
@@ -1401,7 +1631,7 @@ Partial Class FrmSchemeMasterDairy
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(959, 235)
+        Me.gvItem.Size = New System.Drawing.Size(1282, 234)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         Me.gvItem.VarID = ""
@@ -1409,7 +1639,7 @@ Partial Class FrmSchemeMasterDairy
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(119.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(115.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(959, 361)
@@ -1549,24 +1779,16 @@ Partial Class FrmSchemeMasterDairy
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(959, 361)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(959, 361)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'pgAttachmentSchMst
         '
         Me.pgAttachmentSchMst.Controls.Add(Me.UcAttachment1)
-        Me.pgAttachmentSchMst.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.pgAttachmentSchMst.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
         Me.pgAttachmentSchMst.Location = New System.Drawing.Point(10, 37)
         Me.pgAttachmentSchMst.Name = "pgAttachmentSchMst"
         Me.pgAttachmentSchMst.Size = New System.Drawing.Size(959, 361)
@@ -1586,7 +1808,7 @@ Partial Class FrmSchemeMasterDairy
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox9)
         Me.RadPageViewPage3.Controls.Add(Me.chkSlabWise)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(37.0!, 28.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(33.0!, 24.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(959, 361)
@@ -1755,7 +1977,7 @@ Partial Class FrmSchemeMasterDairy
         'VolumeSlab
         '
         Me.VolumeSlab.Controls.Add(Me.SplitContainer5)
-        Me.VolumeSlab.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.VolumeSlab.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
         Me.VolumeSlab.Location = New System.Drawing.Point(10, 37)
         Me.VolumeSlab.Name = "VolumeSlab"
         Me.VolumeSlab.Size = New System.Drawing.Size(959, 361)
@@ -1906,7 +2128,7 @@ Partial Class FrmSchemeMasterDairy
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.SplitContainer6)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(151.0!, 28.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(147.0!, 24.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(959, 361)
@@ -2069,7 +2291,7 @@ Partial Class FrmSchemeMasterDairy
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(897, 4)
+        Me.btnClose.Location = New System.Drawing.Point(1220, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(80, 18)
         Me.btnClose.TabIndex = 2
@@ -2093,11 +2315,19 @@ Partial Class FrmSchemeMasterDairy
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(959, 361)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'FrmSchemeMasterDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(980, 459)
+        Me.ClientSize = New System.Drawing.Size(1303, 452)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmSchemeMasterDairy"
@@ -2117,12 +2347,15 @@ Partial Class FrmSchemeMasterDairy
         Me.SplitContainer3.Panel1.PerformLayout()
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btn_Apply, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblUnit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPercentage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbScheme.ResumeLayout(False)
+        Me.gbScheme.PerformLayout()
+        CType(Me.lblMainUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSchemeQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMinQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSchemeQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtMinQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSchemeUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSchemeItem, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2133,6 +2366,12 @@ Partial Class FrmSchemeMasterDairy
         CType(Me.txtQuantitiveStructureMainQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btn_Apply, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblUnit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPercentage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtQty, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2350,5 +2589,16 @@ Partial Class FrmSchemeMasterDairy
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents txtRangeUnit As common.UserControls.txtFinder
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents txtSchemeQty As common.MyNumBox
+    Friend WithEvents lblSchemeQty As common.Controls.MyLabel
+    Friend WithEvents lblSchemeUOM As common.Controls.MyLabel
+    Friend WithEvents txtSchemeUOM As common.UserControls.txtFinder
+    Friend WithEvents lblSchemeItem As common.Controls.MyLabel
+    Friend WithEvents txtSchemeItem As common.UserControls.txtFinder
+    Friend WithEvents txtMinQty As common.MyNumBox
+    Friend WithEvents lblMinQty As common.Controls.MyLabel
+    Friend WithEvents lblMainUOM As common.Controls.MyLabel
+    Friend WithEvents txtMainUOM As common.UserControls.txtFinder
+    Friend WithEvents gbScheme As GroupBox
 End Class
 

@@ -2,6 +2,8 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const DCSDispatch As String = "DCS Dispatch"
+    Public Const DCSInvoice As String = "DCS Invoice"
     Public Const ShortSupplyPenalty As String = "Short Supply Penalty"
     Public Const frmRCDFRateControl As String = "RCDF Rate Control"
     Public Const frmEmployeeDeductionMaster As String = "Employee Deduction Master"
@@ -1173,6 +1175,12 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteLocal, False, True)
             InsertDefaultValue(clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteInterstate, False, True)
             InsertDefaultValue(clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SupplementaryCNoteNonTaxable, False, True)
+
+            InsertDefaultValue(clsDocType.DCSDispatch, clsDocTransactionType.Other, False, True)
+            InsertDefaultValue(clsDocType.DCSDispatch, clsDocTransactionType.TaxExempted_ProductInvoice, False, True)
+            InsertDefaultValue(clsDocType.DCSInvoice, clsDocTransactionType.GSTNonTaxable, False, True)
+            InsertDefaultValue(clsDocType.DCSInvoice, clsDocTransactionType.GSTLocal, False, True)
+            InsertDefaultValue(clsDocType.DCSInvoice, clsDocTransactionType.GSTInterstate, False, True)
 
             'InsertDefaultValue(clsDocType.frmTransferKDIl, clsDocTransactionType.GSTTaxable, False, True)
             'InsertDefaultValue(clsDocType.frmTransferKDIl, clsDocTransactionType.GSTNonTaxable, False, True)

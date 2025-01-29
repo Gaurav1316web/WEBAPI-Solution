@@ -10,6 +10,7 @@ Public Class frmShipmentDairy
     Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
     Dim ApplyManualScheme As Boolean = False
+    Dim AutoSchemeOnTotalDispatchQty As Boolean = False
     Dim ApplyTPT As Boolean = False
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
     Dim AllowManualCrateForDispatch As Boolean = True
@@ -498,6 +499,7 @@ Public Class frmShipmentDairy
         EnableVehicleType = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, Nothing)) = 1, True, False)
         ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 1, True, False)
         SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
+        AutoSchemeOnTotalDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoSchemeOnTotalDispatchQty, clsFixedParameterCode.AutoSchemeOnTotalDispatchQty, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
@@ -4885,6 +4887,104 @@ Public Class frmShipmentDairy
     End Sub
     Sub OpenGetbalance(ByVal isButtonClick As Boolean)
         gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), IIf(clsCommon.myLen(clsCommon.myCstr(txtSubLocation.Value)) > 0, txtSubLocation.Value, txtBillToLocation.Value), txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value))
+    End Sub
+    Private Sub ApplyAtuoSchemeOnTotalDispatchQty(ByVal isButtonClick As Boolean, ByVal trans As SqlTransaction)
+        If chkSampling.Checked = False Then
+            Dim LocCodeCol As String
+            Dim LocNameCol As String
+            Dim strOrderCode As String = ""
+            Dim totalQty As Decimal = 0
+            LocCodeCol = clsCommon.myCstr(gv1.CurrentRow.Cells(colLocationCode).Value)
+            LocNameCol = clsCommon.myCstr(gv1.CurrentRow.Cells(colLocationName).Value)
+            Try
+                Dim strQry As String = "select top 1  TSPL_SCHEME_MASTER_NEW.Apply_Slab,TSPL_SCHEME_MASTER_NEW.Scheme_Code,TSPL_SCHEME_MASTER_NEW.Scheme_Type,TSPL_SCHEME_MASTER_NEW.MainUOM,TSPL_SCHEME_MASTER_NEW.MinQty,TSPL_SCHEME_MASTER_NEW.Schemeitem,TSPL_SCHEME_MASTER_NEW.schemeUOM
+from TSPL_SCHEME_MASTER_NEW 
+left join TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_BENEFICIARY.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code
+where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert(date,TSPL_SCHEME_MASTER_NEW.Start_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and 2=(Case when TSPL_SCHEME_MASTER_NEW.End_Date is null then 2 else (Case when TSPL_SCHEME_MASTER_NEW.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' then 2 else 3 end) end)
+ order by TSPL_SCHEME_MASTER_NEW.Start_Date desc"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For i As Integer = 0 To gv1.Rows.Count - 1
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(i).Cells(colUnit).Value), clsCommon.myCstr(dt.Rows(0)("MainUOM"))) = CompairStringResult.Equal Then
+                            totalQty += clsCommon.myCdbl(gv1.Rows(i).Cells(colQty).Value)
+                        End If
+                    Next
+                    Dim objD As clsSchemeApplyOnDairy = clsSchemeApplyOnDairy.GetSchemeDataOnTotalQty(clsCommon.myCstr(dt.Rows(0)("MainUOM")), totalQty, clsCommon.myCstr(dt.Rows(0)("Scheme_Code")), trans)
+                    If objD IsNot Nothing AndAlso clsCommon.myLen(objD.Schm_Code) > 0 Then
+                        'For Each objtr As clsSchemeApplyOnDairy In objD.Arr
+                        If clsCommon.myLen(LocCodeCol) = 0 Then
+                            LocCodeCol = txtBillToLocation.Value
+                            LocNameCol = lblBillToLocation.Text
+                        End If
+
+                        gv1.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objD.Schm_Icode
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(objD.Schm_Icode, Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIStruct).Value = clsItemMaster.GetItemStructureCode(objD.Schm_Icode, Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objD.Schm_Iname
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = LocCodeCol
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = LocNameCol
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceCOde).Value = ""
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objD.Schm_Item_Uom
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitRate).Value = objD.Schm_Item_Uom
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objD.Schm_Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemWeight).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "No"
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeItem).Value = "Yes"
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = objD.Schm_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColFOC).Value = 1
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementPer).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colActualCost).Value = 0
+                        If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
+                            If ShowSchemeItemRate Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = ItemPrice(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value, gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value, gv1.Rows(gv1.Rows.Count - 1).Index, False, Nothing)
+                            End If
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+                            If ShowSchemeItemRateTaxable Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = ItemPrice(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value, gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value, gv1.Rows(gv1.Rows.Count - 1).Index, False, Nothing)
+                            End If
+                        End If
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSchmCodeType).Value = objD.schm_Type
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colMainIcode).Value = MainItemCode
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colMainIQty).Value = MainItemQty
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colMainIUOM).Value = MainItemUnit
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = MainSaleOrderCode
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColFOC).Value = 1
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICodeGrp).Value = clsDBFuncationality.getSingleValue("select CSA_TYPE from TSPL_ITEM_MASTER where Item_Code='" & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "' ")
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(objD.Schm_Icode)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).ReadOnly = True
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSchmCodeType).ReadOnly = True
+                        Dim dblConvF As Double = clsItemMaster.GetConvertionFactor(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value, gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitRate).Value, Nothing)
+                        'gv1.Rows(intRow).Cells(colConvF).Value = dblConvF
+                        'gv1.Rows(intRow).Cells(colTotItemWt).Value = dblConvF * clsCommon.myCdbl(gv1.Rows(intRow).Cells(colItemWeight).Value) * clsCommon.myCdbl(gv1.Rows(intRow).Cells(colQty).Value)
+                        Dim qry As String = ""
+                        Dim Weight_UOM As String = ""
+                        Dim SKU_VALUE As Decimal = 0
+                        qry = "select Item_Code,Weight_UOM,Weight_Value from TSPL_ITEM_MASTER where Item_Code='" & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "'"
+                        Dim dtWt As New DataTable()
+                        dtWt = clsDBFuncationality.GetDataTable(qry)
+                        If dtWt.Rows.Count > 0 Then
+                            SKU_VALUE = clsCommon.myCdbl(dtWt.Rows(0).Item("Weight_Value"))
+                            Weight_UOM = clsCommon.myCstr(dtWt.Rows(0).Item("Weight_UOM"))
+                        End If
+                    End If
+                End If
+                RefreshSerialNo()
+            Catch ex As Exception
+                myMessages.myExceptions(ex)
+                Try
+                    gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
+                    gv1.CurrentRow.Cells(colFromSchemeCode).Value = String.Empty
+                Catch ex1 As Exception
+                End Try
+                Exit Sub
+            End Try
+            'End If
+        End If
     End Sub
     Private Sub findQtyandPromoSchemeCode(ByVal isButtonClick As Boolean, Optional ByVal SchemeCode As String = Nothing, Optional ByVal OrderDate? As DateTime = Nothing)
         If chkSampling.Checked = False Then
@@ -12957,7 +13057,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 If isCancel Then
                     InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where Document_Code in(select Document_Code from  TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
                 Else
-                    InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code in(select Document_Code from  TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + DocCode + "')"), "Sale_Invoice_No")
+                    InvoiceNo = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo in(select ParentDocNo from  TSPL_SD_SHIPMENT_HEAD where Document_Code='" + DocCode + "')"), "Sale_Invoice_No")
                 End If
                 Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, txtVendorNo.Value, ItemMain, isCancel)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -15148,33 +15248,28 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceCOde).Value = obj.Price_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = txtTransNo.Text
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'", trans))
+                        If Not AutoSchemeOnTotalDispatchQty Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'", trans))
+
+                        End If
                         If chkSampling.Checked Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
                         End If
-                        If AutoScheme = True Then
-                            If Not IsLoadCreditCust Then
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
-                                findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value)
+                        If Not AutoSchemeOnTotalDispatchQty Then
+                            If AutoScheme = True Then
+                                If Not IsLoadCreditCust Then
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
+                                    findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value)
+                                End If
                             End If
-
-
                         End If
-                        'If Not IsCreditCustomer Then
-                        'GetDCDetails(trans)
-                        'End If
-                        'calculateFOR(gv1.Rows.Count - 1, trans)
+
+
                     Next
-                    'SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
-                    'For ii As Integer = 0 To gv1.Rows.Count - 1
-                    '    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                    '        UpdateCurrentRow1(ii, trans)
-                    '    Else
-                    '        UpdateCurrentRow(ii, trans)
-                    '    End If
-                    'Next
-                    'UpdateAllTotals(trans)
-                    'SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
+                    If AutoSchemeOnTotalDispatchQty Then
+                        ApplyAtuoSchemeOnTotalDispatchQty(False, trans)
+                    End If
+
                 End If
 
             End If
@@ -15285,26 +15380,32 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceCOde).Value = obj.Price_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = txtTransNo.Text
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'", trans))
+                        If Not AutoSchemeOnTotalDispatchQty Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Scheme_Code from TSPL_SCHEME_DETAIL_NEW where MainItem_Code='" + myDictionary(strKey).ICode + "'", trans))
+
+                        End If
                         If chkSampling.Checked Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
                         End If
-                        If Not ApplyManualScheme Then
-                            If AutoScheme = True Then
-                                If Not IsLoadCreditCust Then
-                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
-                                    findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value)
+                        If Not AutoSchemeOnTotalDispatchQty Then
+                            If Not ApplyManualScheme Then
+                                If AutoScheme = True Then
+                                    If Not IsLoadCreditCust Then
+                                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
+                                        findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value)
+                                    End If
                                 End If
                             End If
-
-
-
                         End If
+
                         'If Not IsCreditCustomer Then
                         GetDCDetails(trans)
                         'End If
                         calculateFOR(gv1.Rows.Count - 1, trans)
                     Next
+                    If AutoSchemeOnTotalDispatchQty Then
+                        ApplyAtuoSchemeOnTotalDispatchQty(False, trans)
+                    End If
                     'SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
                     For ii As Integer = 0 To gv1.Rows.Count - 1
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then

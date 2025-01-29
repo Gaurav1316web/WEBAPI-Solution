@@ -210,7 +210,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.RadLabel39 = New common.Controls.MyLabel()
         Me.txtRemarks1 = New common.Controls.MyTextBox()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New XpertERPSalesAndDistribution.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.CrateAccounting = New Telerik.WinControls.UI.RadPageViewPage()
