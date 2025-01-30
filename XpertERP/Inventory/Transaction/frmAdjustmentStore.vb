@@ -1486,20 +1486,20 @@ Public Class frmAdjustmentStore
             whrclas += ") OR CSA_Type='Y'"
             txtLocation.Value = clsCommon.ShowSelectForm("AdjStoreLocation", qry, "Location_Code", whrclas, txtLocation.Value, "", isButtonClicked)
             lblLocation.Text = clsDBFuncationality.getSingleValue("select Location_Desc   from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "' ")
-
-            If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
-                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
-                    FndMainLocation.Value = txtLocation.Value
-                    FndMainLocation.Enabled = True
-                    RadLabel15.Text = "Sub Location/Section"
-                    txtLocation.Value = ""
-                    lblLocation.Text = ""
-                    LblMainLocation.Text = clsCommon.myCstr(clsLocation.GetName(FndMainLocation.Value, Nothing))
-                Else
-                    FndMainLocation.Enabled = False
+            If Not (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal) Then
+                If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                        FndMainLocation.Value = txtLocation.Value
+                        FndMainLocation.Enabled = True
+                        RadLabel15.Text = "Sub Location/Section"
+                        txtLocation.Value = ""
+                        lblLocation.Text = ""
+                        LblMainLocation.Text = clsCommon.myCstr(clsLocation.GetName(FndMainLocation.Value, Nothing))
+                    Else
+                        FndMainLocation.Enabled = False
+                    End If
                 End If
             End If
-
         End If
     End Sub
 

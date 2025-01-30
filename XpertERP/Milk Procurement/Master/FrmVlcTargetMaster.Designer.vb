@@ -54,7 +54,7 @@ Partial Class FrmVlcTargetMaster
         Me.lblDocDate = New common.Controls.MyLabel()
         Me.DtpDocDate = New common.Controls.MyDateTimePicker()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
@@ -770,7 +770,7 @@ Partial Class FrmVlcTargetMaster
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents Attachments As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents Panel1 As System.Windows.Forms.Panel

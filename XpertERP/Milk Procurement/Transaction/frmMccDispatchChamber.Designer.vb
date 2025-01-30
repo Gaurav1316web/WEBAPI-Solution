@@ -152,7 +152,7 @@ Partial Class frmMccDispatchChamber
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvPaperSeal = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.btnRefresh = New Telerik.WinControls.UI.RadButton()
         Me.txtTotalAmount = New common.Controls.MyTextBox()
@@ -3291,7 +3291,7 @@ Partial Class frmMccDispatchChamber
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents fndLevel1ChallanNo As common.UserControls.txtFinder
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents btnUpdateTanker As Telerik.WinControls.UI.RadButton
     Friend WithEvents lblWeighmentNo As common.Controls.MyLabel
     Friend WithEvents MyLabel24 As common.Controls.MyLabel

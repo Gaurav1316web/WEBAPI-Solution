@@ -64,7 +64,7 @@ Partial Class frmRequestMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New XpertERPCommanServices.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -754,7 +754,7 @@ Partial Class frmRequestMaster
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents txtReason As common.Controls.MyTextBox
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As XpertERPCommanServices.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents MyLabel1 As common.Controls.MyLabel

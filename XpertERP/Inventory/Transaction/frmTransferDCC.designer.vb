@@ -100,7 +100,7 @@ Partial Class frmTransferDCC
         Me.RadLabel17 = New common.Controls.MyLabel
         Me.gv2 = New common.UserControls.MyRadGridView
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage
-        Me.UcCustomFields1 = New ERP.ucCustomFields
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage
@@ -1790,7 +1790,7 @@ Partial Class frmTransferDCC
     Friend WithEvents txtTermRemark As common.Controls.MyTextBox
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents pnlCurrConv As System.Windows.Forms.Panel
     Friend WithEvents txtCurrencyCode As common.UserControls.txtFinder
     Friend WithEvents lblEffectiveFrom As common.Controls.MyLabel

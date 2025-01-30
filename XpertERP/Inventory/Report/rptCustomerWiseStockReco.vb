@@ -6536,7 +6536,7 @@ and TSPL_item_uom_detail.Report_UOM=1)and TSPL_item_uom_detail.Report_UOM=1   ) 
                 Exit Sub
             End If
 
-            Query = " ) xxx 
+            Query += " ) xxx 
  where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
 
 group by Item_Code  
@@ -6589,7 +6589,7 @@ and TSPL_item_uom_detail.Report_UOM=1)and TSPL_item_uom_detail.Report_UOM=1   ) 
                 Exit Sub
             End If
 
-            Query = " ) xxx 
+            Query += " ) xxx 
  where Punching_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
 )xxxxxx  )XXXXFinal  ) 
 

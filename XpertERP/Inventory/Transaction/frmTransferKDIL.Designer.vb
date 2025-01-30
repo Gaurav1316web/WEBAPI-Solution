@@ -207,7 +207,7 @@ Partial Class FrmTransferKDIL
         Me.RadLabel17 = New common.Controls.MyLabel()
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnSTAProductPrint = New Telerik.WinControls.UI.RadButton()
@@ -3697,7 +3697,7 @@ Partial Class FrmTransferKDIL
     Friend WithEvents RadLabel17 As common.Controls.MyLabel
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents Attachments As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton

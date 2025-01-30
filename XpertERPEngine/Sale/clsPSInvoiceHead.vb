@@ -1501,7 +1501,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where DOCUMENT_CODE ='" & strDocNo & "' ", trans)
                     End If
                 Else
-                    Throw New Exception("EInvoice- Invalid JSON Value")
+                    'Throw New Exception("EInvoice- Invalid JSON Value")
                 End If
             Else
                 Throw New Exception("EInvoice- Token No Not found")
@@ -1611,7 +1611,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                     If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
                         clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
                         If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
-                            Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                            'Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
                         End If
                     End If
                 End If
