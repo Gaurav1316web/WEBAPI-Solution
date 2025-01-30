@@ -15190,6 +15190,7 @@ Public Class clsCreateAllTable
             coll.Add("Ref_Doc_No", "varchar(50) NULL")
             coll.Add("Total_Chamber", "integer null")
             coll.Add("Provision_Min_Qty", "integer null")
+            coll.Add("Inactive", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_TANKER_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -25291,6 +25292,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Dont_Generate_DR_CR_Note", "integer NULL")
             coll.Add("Consider_Negative_Amt", "integer NULL")
             coll.Add("IsShare", "integer NULL")
+            coll.Add("MarginDCS", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)

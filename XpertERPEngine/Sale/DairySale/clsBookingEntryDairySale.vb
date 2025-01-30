@@ -1041,6 +1041,38 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            Dim FlagDocumentIsTaxable As Integer = 0
+            Dim EInvoiceType As String = ""
+            Dim strQry As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No ='" + Doc_No + "'"
+            Dim DispatchDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry, trans))
+            If clsCommon.myLen(DispatchDocNo) > 0 Then
+                Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(DispatchDocNo, NavigatorType.Current, trans)
+                FlagDocumentIsTaxable = obj.Is_Taxable
+                EInvoiceType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", obj.Invoice_No, trans)
+                Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Code from TSPL_SD_SALE_RETURN_HEAD where Against_Invoice_No='" & obj.Invoice_No & "' ", trans))
+                If clsCommon.myLen(strSaleReturnNo) > 0 Then
+                    Throw New Exception("You cannot cancelled this document because its Sale Return (" + clsCommon.myCstr(strSaleReturnNo) + ") has been created.")
+                End If
+                Dim strReceiptCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select receipt_no from TSPL_RECEIPT_DETAIL where Document_No in (Select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & obj.Invoice_No & "') ", trans))
+                If clsCommon.myLen(strReceiptCount) > 0 Then
+                    Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AR Invoice.")
+                End If
+                '' richa ERO/10/11/21-001547
+                Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select gpcode from TSPL_SD_SHIPMENT_HEAD where document_code='" & obj.Document_Code & "' ", trans))
+                If clsCommon.myLen(strDairyGAtePassCount) > 0 Then
+                    Throw New Exception("You cannot cancelled this document because Dairy GAte Pass (" + clsCommon.myCstr(strDairyGAtePassCount) + ") has been created.")
+                End If
+                If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+                    Dim EInvoiceCancelTimeValid As Int64 = 0
+                    EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + obj.Invoice_No + "'", trans))
+                    If EInvoiceCancelTimeValid >= 24 Then
+                        Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
+                    End If
+                End If
+                clsPSShipmentHead.CancelData(Form_Id, obj.Document_Code, obj.Invoice_No, NavigatorType.Current, trans)
+            End If
+
+
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", trans)
             DeleteData(Doc_No, trans)
             trans.Commit()

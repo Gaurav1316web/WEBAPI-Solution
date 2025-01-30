@@ -629,7 +629,7 @@ Public Class ClsEInvoiceOFAPIs
                         Else
                             Dim strStatusDesc As String = (jObj.SelectToken("status_desc")).ToString()
                             objResult = Nothing
-                            Throw New Exception(strStatusDesc)
+                            'Throw New Exception(strStatusDesc)
                         End If
                     End If
                 End If

@@ -2729,7 +2729,6 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         Else
             chkTPT.Checked = False
         End If
-
         chkisTCS.Checked = True
         lblShiftType.Text = ""
         btnGatePassPrint.Visible = False
@@ -4028,6 +4027,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     End If
                     rgbItemType.Enabled = False
                 End If
+
                 btnSave.Enabled = True
                 btnPost.Enabled = True
                 btnDelete.Enabled = True
@@ -6120,8 +6120,11 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
             frm1.strCode = clsFixedParameterCode.BookingCancel
             frm1.ShowDialog()
             If frm1.isPasswordCorrect Then
-                CancelData()
-                OneTimeCheck = True
+                If common.clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    CancelData()
+                    OneTimeCheck = True
+                End If
+
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -6130,15 +6133,13 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
     Private Sub CancelData()
         Try
             Dim strQry As String = ""
+            Dim DocNo As String = ""
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Document Not Found!")
             End If
-            strQry = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No ='" + txtDocNo.Value + "'"
-            If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry))) > 0 Then
-                Throw New Exception("You cannot cancelled this document because Dispatch (" + clsCommon.myCstr(txtDocNo.Value) + ") has been created.")
-            End If
             clsBookingEntryDairySale.CancelData(Me.Form_ID, txtDocNo.Value, NavigatorType.Current)
-
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+            AddNew()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -8411,9 +8412,11 @@ from
                         If rbtnTaxable.IsChecked Then
                             obj.DO_Item_Type = "T"
                             obj.Invoice_Type = "T"
+                            obj.Is_Taxable = 1
                         Else
                             obj.DO_Item_Type = "NT"
                             obj.Invoice_Type = "R"
+                            obj.Is_Taxable = 0
                         End If
                         obj.Route_No = txtRouteNo.Value
                         obj.Route_Desc = lblRouteDesc.Text
@@ -8636,13 +8639,13 @@ from
                                 Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + obj.Document_Code + "' where Document_Code='" + obj.Document_Code + "'"
                                 clsDBFuncationality.ExecuteNonQuery(strupdate, trans)
                                 'trans.Commit()
-                                clsPSShipmentHead.PostData("DISPATCH-DS", obj.Document_Code, trans, Nothing, True, "")
+                                'clsPSShipmentHead.PostData("DISPATCH-DS", obj.Document_Code, trans, Nothing, True, "")
                                 'clsPSShipmentHead.PostData(MyBase.Form_ID, obj.Document_Code)
                                 DocCode = obj.Document_Code
                                 'Dim QryBatchUpdate As String = "update  TSPL_BATCH_ITEM set In_Out_Type='N' where Document_Type='FS-SH' and  Document_Code='" + txtDocNo.Value + "'"
                                 'clsDBFuncationality.ExecuteNonQuery(QryBatchUpdate, trans)
                                 trans.Commit()
-                                clsCommon.MyMessageBoxShow(Me, "Document Created Successfully.", Me.Text)
+                                'clsCommon.MyMessageBoxShow(Me, "Document Created Successfully.", Me.Text)
                             Else
                                 DocCode = obj.Document_Code
                                 trans.Rollback()
@@ -8658,13 +8661,58 @@ from
                 End If
 
             Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
             End Try
+
         End If
+        If clsCommon.myLen(DocCode) > 0 Then
+            Try
+                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                Dim DocCode1 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "' and status =0", trans))
+                If clsCommon.myLen(DocCode1) > 0 Then
+                    Try
+                        clsPSShipmentHead.PostData("DISPATCH-DS", DocCode1, trans, Nothing, True, "")
+                        trans.Commit()
+                        clsCommon.MyMessageBoxShow(Me, "Document Created Successfully.", Me.Text)
+                    Catch ex As Exception
+                        trans.Rollback()
+                        Throw New Exception(ex.Message)
+                    End Try
+
+                Else
+                    trans.Commit()
+                    ' clsCommon.MyMessageBoxShow(Me, "Document Not Found!", Me.Text)
+                End If
+
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        End If
+
         Try
+            Dim DocWithIRN As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "' and status =1 and Is_Taxable=1"))
+            Dim isTaxable As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Taxable from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'"))
+            Dim flag As Boolean = False
             If clsCommon.myLen(DocCode) > 0 Then
-                If common.clsCommon.MyMessageBoxShow(" Print Invoice ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If isTaxable = 1 Then
+                    If clsCommon.myLen(DocWithIRN) > 0 Then
+                        If common.clsCommon.MyMessageBoxShow(" E-Invoice generated, Do you want to print ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                            flag = True
+                        End If
+                    Else
+                        If common.clsCommon.MyMessageBoxShow("E-Invoice not generated, Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                            flag = True
+                        End If
+
+                    End If
+                Else
+                    If common.clsCommon.MyMessageBoxShow("Print Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                        flag = True
+                    End If
+                End If
+
+                If flag Then
                     '' Print '''''''''''
                     Dim frmCRV As New frmCrystalReportViewer()
                     Dim objMultPrintInvoice As New FrmPrintFreshInvoice

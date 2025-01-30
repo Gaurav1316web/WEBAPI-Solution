@@ -573,6 +573,11 @@ Public Class frmCustomer
                 Throw New Exception("Please enter a valid 10-digit phone number. Driver Mobile Number")
             End If
 
+            Dim StateCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  STATE_CODE  from TSPL_State_MASTER where STATE_CODE ='" + clsCommon.myCstr(fndstate.Value) + "'"))
+            If clsCommon.myLen(StateCode) <= 0 Then
+                Throw New Exception("Please Enter Valid State")
+            End If
+
             '===================================================
             UcCustomFields1.AllowToSave()
             Return True
@@ -1274,12 +1279,15 @@ Public Class frmCustomer
                 fndCustomer.Value = fndCustomer.Value
             End If
             Dim obj As New clsCustomerMaster()
-            If isNewEntry = True Then
-                obj.Created_By = objCommonVar.CurrentUserCode
+
+            If ChkDcsOnly.Checked = True Then
+                obj.CUSTOMER_FORM_TYPE = "VSP"
             Else
-                obj.Modify_By = objCommonVar.CurrentUserCode
+                obj.CUSTOMER_FORM_TYPE = "ALL"
             End If
-            obj.CUSTOMER_FORM_TYPE = "ALL"
+
+            'obj.CUSTOMER_FORM_TYPE = "ALL"
+
             'Add Bank detail
             obj.Bank_Name = clsCommon.myCstr(TxtBankName.Text)
             obj.IFSC_Code = clsCommon.myCstr(TxtIFSCCode.Text)
@@ -2460,6 +2468,7 @@ Public Class frmCustomer
         End If
     End Sub
     Public Sub funNew()
+        ChkDcsOnly.ReadOnly = False
         txtCastCategory.Value = ""
         lblCastCategoryName.Text = ""
         TxtDistictCode.Value = ""
@@ -3200,7 +3209,7 @@ Public Class frmCustomer
                                 If StrRegion_Type <> "D" AndAlso StrRegion_Type <> "F" Then
                                     Throw New Exception("Region Should be D or F (D-Domestic F-Foreign)at line no:." & (grow.Index + 1))
                                 End If
-                                Dim strqry As String = "select  GST_STATE_Code  from TSPL_State_MASTER where STATE_CODE ='" + StateCode + "'"
+                                Dim strqry As String = "select GST_STATE_Code from TSPL_State_MASTER where STATE_CODE ='" + StateCode + "'"
                                 GstStateCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strqry, trans))
                                 clsERPFuncationality.ValidationGSTNO(GstStateCode, strPanNo, strGstNo, trans)
                                 StrGstEntity = strGstNo.Trim().Substring(12, 1)
@@ -3861,12 +3870,11 @@ Public Class frmCustomer
         If ChkDcsOnly.Checked = True Then
             strCmdDCS = " select Cust_Code from tspl_customer_master where CUSTOMER_FORM_TYPE='Vsp' and Cust_Code='" + fndCustomer.Value + "'"
             strId = clsDBFuncationality.getSingleValue(strCmdDCS)
-
         Else
             strCmd = "select Cust_Code from tspl_customer_master where CUSTOMER_FORM_TYPE='ALL' and Cust_Code='" + fndCustomer.Value + "'"
             strId = clsDBFuncationality.getSingleValue(strCmd)
-
         End If
+
         ' strCmd = "select Cust_Code from tspl_customer_master where CUSTOMER_FORM_TYPE='ALL' and Cust_Code='" + fndCustomer.Value + "'"
         'strId = clsDBFuncationality.getSingleValue(strCmd)
         'While myDr.Read()
@@ -3877,6 +3885,9 @@ Public Class frmCustomer
         If clsCommon.myCstr(strId).ToUpper() = fndCustomer.Value Then
             funFill()
             chkInActive.Enabled = True
+            If clsCommon.myLen(fndCustomer.Value) > 0 AndAlso ChkDcsOnly.Checked Then
+                ChkDcsOnly.ReadOnly = True
+            End If
         Else
             NewReset()
         End If
@@ -4644,7 +4655,7 @@ Public Class frmCustomer
         'Dim qry As String = "select state_code as [StateCode],state_name as [State Name] from TSPL_TDS_STATE_MASTER"
         'fndstate.Value = clsCommon.ShowSelectForm("FNDSTATE_CODE", qry, "StateCode", "", fndstate.Value, "", isButtonClicked)
         fndstate.Value = clsStateMaster.getFinder("", fndstate.Value, isButtonClicked)
-        txtStateName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  STATE_NAME  from TSPL_State_MASTER where STATE_CODE ='" + fndstate.Value + "'"))
+        txtStateName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select STATE_NAME from TSPL_State_MASTER where STATE_CODE ='" + fndstate.Value + "'"))
         If GstApplicable Then
             txtGSTstateCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  GST_STATE_Code  from TSPL_State_MASTER where STATE_CODE ='" + fndstate.Value + "'"))
         End If
@@ -4752,6 +4763,8 @@ Public Class frmCustomer
                 'fndCustomer.Value = ""
             Else
                 fndCustomer.MyReadOnly = True
+                ChkDcsOnly.ReadOnly = True
+                ChkDcsOnly.Checked = True
             End If
             If fndCustomer.MyReadOnly OrElse isButtonClicked Then
                 'Dim qry As String = "select Cust_Code as [CustomerCode],Customer_Name as [Name],Cust_Group_Code as [Customer Group],(select case when Status='N' then 'Active' else 'In.Active' end ) as [Status] from TSPL_CUSTOMER_MASTER  "
@@ -4761,13 +4774,16 @@ Public Class frmCustomer
                 LoadData()
             End If
         Else
-            Dim str As String = "select count(*) from TSPL_CUSTOMER_MASTER   where CUSTOMER_FORM_TYPE='ALL' and Cust_Code ='" + fndCustomer.Value + "' "
+            ChkDcsOnly.Checked = False
+            Dim str As String = "select count(*) from TSPL_CUSTOMER_MASTER where CUSTOMER_FORM_TYPE='ALL' and Cust_Code ='" + fndCustomer.Value + "' "
             Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
             If no = 0 AndAlso isButtonClicked = False Then
                 fndCustomer.MyReadOnly = False
                 'fndCustomer.Value = ""
             Else
                 fndCustomer.MyReadOnly = True
+                ChkDcsOnly.ReadOnly = True
+                ChkDcsOnly.Checked = False
             End If
             If fndCustomer.MyReadOnly OrElse isButtonClicked Then
                 'Dim qry As String = "select Cust_Code as [CustomerCode],Customer_Name as [Name],Cust_Group_Code as [Customer Group],(select case when Status='N' then 'Active' else 'In.Active' end ) as [Status] from TSPL_CUSTOMER_MASTER  "
@@ -4776,7 +4792,9 @@ Public Class frmCustomer
                 txtCustomerName.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER  where Cust_Code='" + fndCustomer.Value + "' ")
                 LoadData()
             End If
-
+            'If clsCommon.myLen(fndCustomer.Value) <= 0 Then
+            '    ChkDcsOnly.Checked = False
+            'End If
         End If
     End Sub
     Private Sub fndCustomer__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndCustomer._MYNavigator
@@ -5631,6 +5649,8 @@ Public Class frmCustomer
                 LoadData()
                 fndCustomer.Value = ""
                 txtCustomerName.Text = ""
+                'ChkDcsOnly.Checked = True
+                'ChkDcsOnly.ReadOnly = True
             Else
                 funNew()
                 isLoadCopy = False
@@ -5930,8 +5950,6 @@ Public Class frmCustomer
         Catch ex As Exception
         End Try
     End Sub
-
-
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
