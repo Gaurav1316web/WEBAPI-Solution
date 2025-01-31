@@ -195,12 +195,6 @@ Public Class FrmPaymentProcess
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
-
         SetUserMgmtNew()
         settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))

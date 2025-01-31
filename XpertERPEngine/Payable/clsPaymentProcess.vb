@@ -3717,7 +3717,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                         objidx.CRTo = -1
                         objidx.DRTo = -1
                         objidx.SavingTo = -1
-                        ArrIndex.Add(clsCommon.myCstr(dtbl.Rows(i)("VSP_CODE")), objidx)
+                        ArrIndex.Add(clsCommon.myCstr(dtbl.Rows(i)("VSP_CODE")).ToUpper(), objidx)
                     End If
                 Next
             End If
@@ -4375,7 +4375,7 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
             End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
-                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE"))
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE")).ToUpper()
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
@@ -4385,7 +4385,7 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
                                 IdxTo = i - 1
                                 ArrIndex(IdxVendor).DRFrom = IdxFrom
                                 ArrIndex(IdxVendor).DRTo = IdxTo
-                                IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
+                                IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE")).ToUpper()
                                 IdxFrom = i
                             End If
                             If i = dtbl.Rows.Count - 1 Then
@@ -4492,7 +4492,7 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
             End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
-                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE"))
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE")).ToUpper()
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
@@ -4502,7 +4502,7 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
                             ArrIndex(IdxVendor).CRFrom = IdxFrom
                             ArrIndex(IdxVendor).CRTo = IdxTo
 
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE")).ToUpper()
                             IdxFrom = i
                         End If
                         If i = dtbl.Rows.Count - 1 Then
@@ -4999,7 +4999,7 @@ from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSP
             End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
-                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code"))
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code")).ToUpper()
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
@@ -5009,7 +5009,7 @@ from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSP
                             ArrIndex(IdxVendor).SavingFrom = IdxFrom
                             ArrIndex(IdxVendor).SavingTo = IdxTo
 
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code")).ToUpper()
                             IdxFrom = i
                         End If
                         If i = dtbl.Rows.Count - 1 Then
@@ -5109,7 +5109,7 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
             End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
-                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code"))
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code")).ToUpper()
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
 
@@ -5120,7 +5120,7 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
                             ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
                             ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
 
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code")).ToUpper()
                             IdxFrom = i
                         End If
                         If i = dtbl.Rows.Count - 1 Then
