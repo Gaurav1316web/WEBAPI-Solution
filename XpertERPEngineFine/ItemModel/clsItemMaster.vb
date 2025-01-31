@@ -33,6 +33,7 @@ Public Class clsItemMaster
     Public Structure_Code As String = ""
     Public Structure_Desc As String = ""
     Public Deduction_Type As String = ""
+    Public Deduction As String = ""
     Public Deduction_Type_Hindi As String = ""
     Public Purchase_Class_Code As String = ""
     Public Sale_Class_Code As String = ""
@@ -1576,6 +1577,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
             clsCommon.AddColumnsForChange(coll, "BuyBackType", obj.BuyBackType, True, True)
             clsCommon.AddColumnsForChange(coll, "BuyBackValue", obj.BuyBackValue, True, True)
             clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Deduction", obj.Deduction, True)
             'clsCommon.AddColumnsForChange(coll, "Deduction_Type_Hindi", obj.Deduction_Type_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "isSecurityDeduction", obj.isSecurityDeduction)
             clsCommon.AddColumnsForChange(coll, "isPenaltyDeduction", obj.isPenaltyDeduction)
@@ -1684,6 +1686,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Item_Desc = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
                 obj.Item_Desc_Hindi = clsCommon.myCstr(dt.Rows(0)("Item_Desc_Hindi"))
                 obj.Deduction_Type = clsCommon.myCstr(dt.Rows(0)("Deduction_Type"))
+                obj.Deduction = clsCommon.myCstr(dt.Rows(0)("Deduction"))
                 'obj.Deduction_Type_Hindi = clsCommon.myCstr(dt.Rows(0)("Deduction_Type_Hindi"))
                 obj.Part_No = clsCommon.myCstr(dt.Rows(0)("Part_No"))
                 obj.Drawing_No = clsCommon.myCstr(dt.Rows(0)("Drawing_No"))

@@ -1397,9 +1397,8 @@ Public Class FrmItemMasterRMOther
     End Sub
 
     Private Sub txtDeductionType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDeductiontype._MYValidating
-        Dim Qry As String = "SELECT Document_No,Description	 FROM TSPL_DEDUCTION_TYPE_MASTER "
-        txtDeductiontype.Value = clsCommon.ShowSelectForm("txtDeductionType", Qry, "Document_No", "", txtDeductiontype.Value, "Document_No", isButtonClicked)
-        'lblDeduction.Text = clsDBFuncationality.getSingleValue("Select isnull(Description_Hindi,'') as Description_Hindi  from TSPL_DEDUCTION_TYPE_MASTER Where Document_No='" + txtDeductiontype.Value + "' ")
+        Dim Qry As String = "select Code, Description from TSPL_DEDUCTION_MASTER"
+        txtDeductiontype.Value = clsCommon.ShowSelectForm("txtDeduction", Qry, "Code", "", txtDeductiontype.Value, "Code", isButtonClicked)
     End Sub
     Private Sub txtPurchaseACSet__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPurchaseACSet._MYValidating
         Dim qry As String = "select Purchase_Class_Code as [Code], Purchase_Class_Desc as [Description] from dbo.TSPL_PURCHASE_ACCOUNTS"
@@ -1483,7 +1482,7 @@ Public Class FrmItemMasterRMOther
                 obj.std_pur_rate = clsCommon.myCdbl(txtstnd_pur_rate.Text)
                 obj.Structure_Code = txtStructurer.Value
                 obj.Structure_Desc = txtStructurer.Value
-                obj.Deduction_Type = txtDeductiontype.Value
+                obj.Deduction = txtDeductiontype.Value
                 'obj.Deduction_Type_Hindi = lblDeduction.Text
                 obj.Purchase_Class_Code = txtPurchaseACSet.Value
                 obj.Cost = txtCost.Value
@@ -2717,7 +2716,7 @@ Public Class FrmItemMasterRMOther
                 lblUOM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select unit_desc from tspl_unit_master where unit_code ='" + txtUOM.Value + "'"))
                 txtStructurer.Value = obj.Structure_Code
                 lblStructurer.Text = obj.Structure_Desc
-                txtDeductiontype.Value = obj.Deduction_Type
+                txtDeductiontype.Value = obj.Deduction
                 'lblDeduction.Text = obj.Deduction_Type_Hindi
                 txtPurchaseACSet.Value = obj.Purchase_Class_Code
                 lblPurchaseACSet.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Purchase_Class_Desc  from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code ='" + txtPurchaseACSet.Value + "'"))

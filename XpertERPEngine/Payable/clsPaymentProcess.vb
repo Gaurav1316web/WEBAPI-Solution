@@ -4032,11 +4032,11 @@ Public Class clsPaymentProcessMCCSale
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_TYPE_MASTER.Document_No as DeductionType 
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_MASTER.Code as DeductionType 
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Sale_Doc_No    
-left outer join TSPL_DEDUCTION_TYPE_MASTER on TSPL_DEDUCTION_TYPE_MASTER.Document_No=TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type 
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SALE_INVOICE_HEAD.Deduction 
 where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_MCC_SALE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
@@ -4379,20 +4379,26 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
-                    If ApplyIndex Then
-                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
-                            IdxTo = i - 1
-                            ArrIndex(IdxVendor).DRFrom = IdxFrom
-                            ArrIndex(IdxVendor).DRTo = IdxTo
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
-                            IdxFrom = i
+                    Try
+                        If ApplyIndex Then
+                            If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                                IdxTo = i - 1
+                                ArrIndex(IdxVendor).DRFrom = IdxFrom
+                                ArrIndex(IdxVendor).DRTo = IdxTo
+                                IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
+                                IdxFrom = i
+                            End If
+                            If i = dtbl.Rows.Count - 1 Then
+                                IdxTo = i
+                                ArrIndex(IdxVendor).DRFrom = IdxFrom
+                                ArrIndex(IdxVendor).DRTo = IdxTo
+                            End If
                         End If
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).DRFrom = IdxFrom
-                            ArrIndex(IdxVendor).DRTo = IdxTo
-                        End If
-                    End If
+                    Catch ex As Exception
+                        Dim x As Integer = i
+                        Dim y As Integer=i
+                    End Try
+
 
                     obj = New clsPaymentProcessDeduction
                     obj.Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Doc_No"))
