@@ -2663,7 +2663,7 @@ left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CAT
 TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value  from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' 
 left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=TSPL_ITEM_MASTER.Item_Code and TSPL_ITEM_MASTER.item_code=a.item_code "
             Dim whrcls As String = " "
-            whrcls = " TSPL_ITEM_MASTER.Active = 1 and TSPL_ITEM_MASTER.Deduction_Type='" + clsCommon.myCstr(cboDeductionType.SelectedValue) + "' And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
+            whrcls = " TSPL_ITEM_MASTER.Active = 1 and TSPL_ITEM_MASTER.Deduction ='" + clsCommon.myCstr(cboDeductionType.SelectedValue) + "' And Is_FreshItem = 0 And coalesce(Product_Type,'') not in ('MI') and Item_Type not in ('A') and coalesce(Item_used_as,'')='S' "
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) Then
                 whrcls += " and TSPL_ITEM_MASTER.IsTaxable='" + IIf(chkTaxable.Checked, "1", "0") + "'"
             End If
@@ -3453,7 +3453,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Price_Code = txtPriceCode.Text
                 obj.HeadDisc_Per = txtDiscPer.Text
                 obj.IS_TCS = IIf(chkisTCS.Checked, 1, 0)
-                obj.Deduction_Type = clsCommon.myCstr(cboDeductionType.SelectedValue)
+                obj.Deduction = clsCommon.myCstr(cboDeductionType.SelectedValue)
                 If obj.HeadDisc_Per > 0 Then
                     If MultiplySubsidyWithQuantity Then
                         obj.HeadDisc_PerAmt = obj.TotalSubsidyDisAmt
@@ -4385,7 +4385,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 'chkCreateAutoReceipt.Visible = chkCreateAutoInvoice.Checked
                 chkCreateAutoReceipt.Checked = obj.Is_Create_Auto_Receipt
                 chkTaxable.Checked = obj.Is_Taxable
-                cboDeductionType.SelectedValue = obj.Deduction_Type
+                cboDeductionType.SelectedValue = obj.Deduction
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsMCCMaterialSaleDetail In obj.Arr
                         gv1.Rows.AddNew()
@@ -6904,7 +6904,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         Return dt
     End Function
     Sub LoadDeductionType()
-        Dim qry As String = "select '' as Code, '<--Select-->' as Name union all select Document_No as Code, Description as Name from TSPL_DEDUCTION_TYPE_MASTER"
+        Dim qry As String = "select '' as Code, '<--Select-->' as Name union all select Code, Description as Name from TSPL_DEDUCTION_MASTER"
         cboDeductionType.DataSource = clsDBFuncationality.GetDataTable(qry)
         cboDeductionType.ValueMember = "Code"
         cboDeductionType.DisplayMember = "Name"
