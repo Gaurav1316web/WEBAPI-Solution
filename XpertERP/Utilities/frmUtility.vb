@@ -120,7 +120,7 @@ Public Class FrmUtility
 
     Private Sub FrmUtility_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        chkRetestingDate.Value = clsCommon.GETSERVERDATE()
+        txtRetestingDate.Value = clsCommon.GETSERVERDATE()
 
         Timer3.Enabled = True
         MyCheckBox1.Checked = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateJEOnProduction, clsFixedParameterCode.CreateJEOnProduction, Nothing)) > 0)
@@ -26582,64 +26582,86 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
 
     Private Sub btnInsertDataInRetestingTable_Click(sender As Object, e As EventArgs) Handles btnInsertDataInRetestingTable.Click
         Try
-            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Dim trans As SqlTransaction = Nothing
             Dim Document_No As String = ""
             Dim obj As New clsMilkProcurementUploaderHead()
             obj.Arr = New List(Of clsMilkProcurementUploaderDetail)
             Dim LastDate As Date = clsDBFuncationality.getSingleValue("select top 1  Hist_On from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING  order by TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING.Hist_On ,sno", trans)
-            'LastDate = LastDate.AddDays(-1)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT Document_No FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where convert(date, Document_Date,103) = convert(date,'" & clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy") & "',103) and not exists  ( select 1 from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING where Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No ) order by  Document_Date,Document_No ")
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                For Each dr As DataRow In dt.Rows
-                    Try
-                        trans = clsDBFuncationality.GetTransactin()
-                        Document_No = clsCommon.myCstr(dr("Document_No"))
-                        Dim dtHist As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data where Document_No= '" & clsCommon.myCstr(dr("Document_No")) & "' order by TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.SNo,Hist_Version ", trans)
-                        For ii As Integer = 0 To dtHist.Rows.Count - 1
-                            Dim objTr As New clsMilkProcurementUploaderDetail()
-                            objTr.SNo = dtHist.Rows(ii)("SNo")
-                            objTr.TR_No = clsCommon.myCstr(dtHist.Rows(ii)("TR_No"))
-                            objTr.Shift_Date = clsCommon.myCDate(dtHist.Rows(ii)("Shift_Date"))
-                            objTr.Shift = clsCommon.myCstr(dtHist.Rows(ii)("Shift"))
-                            objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(dtHist.Rows(ii)("Dock_Collection_Milk_Type"))
-                            objTr.VLC_Code = clsCommon.myCstr(dtHist.Rows(ii)("VLC_Code"))
-                            objTr.Bulk_Route_Code = clsCommon.myCstr(dtHist.Rows(ii)("Bulk_Route_Code"))
-                            objTr.No_Of_Cans = clsCommon.myCdbl(dtHist.Rows(ii)("No_Of_Cans"))
-                            objTr.Milk_Weight = clsCommon.myCdbl(dtHist.Rows(ii)("Milk_Weight"))
-                            objTr.FAT = clsCommon.myCdbl(dtHist.Rows(ii)("FAT"))
-                            objTr.SNF = clsCommon.myCdbl(dtHist.Rows(ii)("SNF"))
-                            objTr.Reject_Defaulter = clsCommon.myCstr(dtHist.Rows(ii)("Reject_Defaulter"))
-                            objTr.Reject_Type = clsCommon.myCstr(dtHist.Rows(ii)("Reject_Type"))
-                            objTr.Manual_Weight = clsCommon.myCDecimal(dtHist.Rows(ii)("Manual_Weight"))
-                            objTr.Manual_Sample = clsCommon.myCDecimal(dtHist.Rows(ii)("Manual_Sample"))
-                            objTr.Empty_Sample = clsCommon.myCDecimal(dtHist.Rows(ii)("Empty_Sample"))
-                            objTr.Page_No = clsCommon.myCDecimal(dtHist.Rows(ii)("Page_No"))
-                            objTr.Arrival_Time = clsCommon.myCDate(dtHist.Rows(ii)("Arrival_Time"))
-                            objTr.Weighment_Time = clsCommon.myCDate(dtHist.Rows(ii)("Weighment_Time"))
-                            objTr.Hist_On = clsCommon.myCDate(dtHist.Rows(ii)("Hist_On"))
-                            objTr.Hist_By = clsCommon.myCstr(dtHist.Rows(ii)("Hist_By"))
-                            If ii > 0 Then
-                                If (objTr.SNo = dtHist.Rows(ii - 1)("SNo") AndAlso (dtHist.Rows(ii)("Hist_Version") <> dtHist.Rows(ii - 1)("Hist_Version"))) Then
-                                    If (clsCommon.CompairString(objTr.VLC_Code, dtHist.Rows(ii - 1)("VLC_Code")) <> CompairStringResult.Equal) OrElse (objTr.Milk_Weight <> dtHist.Rows(ii - 1)("Milk_Weight")) OrElse (objTr.FAT <> dtHist.Rows(ii - 1)("FAT")) OrElse (objTr.SNF <> dtHist.Rows(ii - 1)("SNF")) Then
+            If clsCommon.GetPrintDate(txtRetestingDate.Value, "dd/MMM/yyyy") <= clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy") Then
+                clsCommon.ProgressBarPercentShow()
+                Dim Totaldays As Integer = clsDBFuncationality.getSingleValue("select datediff(DAY,'" & clsCommon.GetPrintDate(txtRetestingDate.Value, "dd/MMM/yyyy") & "','" & clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy") & "') +1", trans)
+                Dim Day As Integer = 0
+                While clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy") >= clsCommon.GetPrintDate(txtRetestingDate.Value, "dd/MMM/yyyy")
+
+                    'clsCommon.ProgressBarPercentUpdate(((Day + 1) * 100) / Totaldays, " Processing " & (Day + 1) & "  Of " & Totaldays & " Date (" & clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy").ToString + " )")
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT Document_No FROM  TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where convert(date, Document_Date,103) = convert(date,'" & clsCommon.GetPrintDate(LastDate, "dd/MMM/yyyy") & "',103) and not exists  ( select 1 from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_RETESTING where Document_No = TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No ) order by  Document_Date,Document_No ", trans)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        For Each dr As DataRow In dt.Rows
+                            Try
+                                trans = clsDBFuncationality.GetTransactin()
+                                Document_No = clsCommon.myCstr(dr("Document_No"))
+                                clsCommon.ProgressBarPercentUpdate((((Day + 1) * 100) / Totaldays), "Progress-" + clsCommon.myCstr(Day + 1) + "/" + clsCommon.myCstr(Totaldays) + " Document No-" + clsCommon.myCstr(Document_No) + " Rows-" + clsCommon.myCstr(Day))
+                                Dim dtHist As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data where Document_No= '" & clsCommon.myCstr(dr("Document_No")) & "' order by TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_Hist_Data.SNo,Hist_Version ", trans)
+                                For ii As Integer = 0 To dtHist.Rows.Count - 1
+                                    Dim objTr As New clsMilkProcurementUploaderDetail()
+                                    objTr.SNo = dtHist.Rows(ii)("SNo")
+                                    objTr.TR_No = clsCommon.myCstr(dtHist.Rows(ii)("TR_No"))
+                                    objTr.Shift_Date = clsCommon.myCDate(dtHist.Rows(ii)("Shift_Date"))
+                                    objTr.Shift = clsCommon.myCstr(dtHist.Rows(ii)("Shift"))
+                                    objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(dtHist.Rows(ii)("Dock_Collection_Milk_Type"))
+                                    objTr.VLC_Code = clsCommon.myCstr(dtHist.Rows(ii)("VLC_Code"))
+                                    objTr.Bulk_Route_Code = clsCommon.myCstr(dtHist.Rows(ii)("Bulk_Route_Code"))
+                                    objTr.No_Of_Cans = clsCommon.myCdbl(dtHist.Rows(ii)("No_Of_Cans"))
+                                    objTr.Milk_Weight = clsCommon.myCdbl(dtHist.Rows(ii)("Milk_Weight"))
+                                    objTr.FAT = clsCommon.myCdbl(dtHist.Rows(ii)("FAT"))
+                                    objTr.SNF = clsCommon.myCdbl(dtHist.Rows(ii)("SNF"))
+                                    objTr.Reject_Defaulter = clsCommon.myCstr(dtHist.Rows(ii)("Reject_Defaulter"))
+                                    objTr.Reject_Type = clsCommon.myCstr(dtHist.Rows(ii)("Reject_Type"))
+                                    objTr.Manual_Weight = clsCommon.myCDecimal(dtHist.Rows(ii)("Manual_Weight"))
+                                    objTr.Manual_Sample = clsCommon.myCDecimal(dtHist.Rows(ii)("Manual_Sample"))
+                                    objTr.Empty_Sample = clsCommon.myCDecimal(dtHist.Rows(ii)("Empty_Sample"))
+                                    objTr.Page_No = clsCommon.myCDecimal(dtHist.Rows(ii)("Page_No"))
+                                    If clsCommon.myLen(dtHist.Rows(ii)("Arrival_Time")) > 0 Then
+                                        objTr.Arrival_Time = clsCommon.myCDate(dtHist.Rows(ii)("Arrival_Time"))
+                                    End If
+                                    If clsCommon.myLen(dtHist.Rows(ii)("Weighment_Time")) Then
+                                        objTr.Weighment_Time = clsCommon.myCDate(dtHist.Rows(ii)("Weighment_Time"))
+                                    End If
+                                    objTr.Hist_On = clsCommon.myCDate(dtHist.Rows(ii)("Hist_On"))
+                                    objTr.Hist_By = clsCommon.myCstr(dtHist.Rows(ii)("Hist_By"))
+                                    If ii > 0 Then
+                                        If (objTr.SNo = dtHist.Rows(ii - 1)("SNo") AndAlso (dtHist.Rows(ii)("Hist_Version") <> dtHist.Rows(ii - 1)("Hist_Version"))) Then
+                                            If (clsCommon.CompairString(objTr.VLC_Code, dtHist.Rows(ii - 1)("VLC_Code")) <> CompairStringResult.Equal) OrElse (clsCommon.CompairString(objTr.Bulk_Route_Code, dtHist.Rows(ii - 1)("Bulk_Route_Code")) <> CompairStringResult.Equal) OrElse (objTr.Milk_Weight <> dtHist.Rows(ii - 1)("Milk_Weight")) OrElse (objTr.FAT <> dtHist.Rows(ii - 1)("FAT")) OrElse (objTr.SNF <> dtHist.Rows(ii - 1)("SNF")) Then
+                                                obj.Arr.Add(objTr)
+                                            End If
+                                        ElseIf (objTr.SNo <> dtHist.Rows(ii - 1)("SNo")) Then
+                                            obj.Arr.Add(objTr)
+                                        End If
+                                    Else
                                         obj.Arr.Add(objTr)
                                     End If
-                                ElseIf (objTr.SNo <> dtHist.Rows(ii - 1)("SNo")) Then
-                                    obj.Arr.Add(objTr)
-                                End If
-                            Else
-                                obj.Arr.Add(objTr)
-                            End If
+                                Next
+                                clsMilkProcurementUploaderDetail.SaveRetestingData(Document_No, obj.Arr, trans)
+                                trans.Commit()
+                            Catch ex As Exception
+                                clsCommon.ProgressBarPercentHide()
+                                trans.Rollback()
+                                Throw New Exception(ex.Message)
+                            End Try
                         Next
-                        clsMilkProcurementUploaderDetail.SaveRetestingData(Document_No, obj.Arr, trans)
-                        trans.Commit()
-                    Catch ex As Exception
-                        trans.Rollback()
-                        Throw New Exception(ex.Message)
-                    End Try
-                Next
+                    End If
+                    LastDate = LastDate.AddDays(-1)
+                    Day = +1
+                End While
+                clsCommon.ProgressBarPercentHide()
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+            Else
+                clsCommon.ProgressBarPercentHide()
+                clsCommon.MyMessageBoxShow(Me, "Data is already present till this Date in Retesting table.Please select the Date before ( " & Environment.NewLine & "" & clsCommon.myCstr(clsCommon.GetPrintDate(LastDate, "dd/MM/yyyy")) & " )", Me.Text)
+                Exit Sub
             End If
-            ' clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
         Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub

@@ -2278,7 +2278,19 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
                 ' )xxxx order by GRPColumn "
                 dtAdvice = clsDBFuncationality.GetDataTable(ssql)
             End If
-
+            Dim dtSavingat2 As DataTable = Nothing
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                Dim sqlqry = " select TSPL_DEDUCTION_MASTER.Description as Description, 
+                                sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount  from TSPL_PAYMENT_PROCESS_DEDUCTION
+                                left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
+                                left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+                                left outer join ( select code, Description  from TSPL_DCS_ADDITION_DEDUCTION
+                                union 
+                                select  Code , Description from TSPL_DEDUCTION_MASTER) as TSPL_DEDUCTION_MASTER on ( TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
+                                where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ( " + strDocNo + " )  and Len(TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE ) > 0 
+                                and TSPL_VENDOR_INVOICE_HEAD.Saving In ('1','2') group by TSPL_DEDUCTION_MASTER.Description   "
+                dtSavingat2 = clsDBFuncationality.GetDataTable(sqlqry)
+            End If
 
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -2308,7 +2320,7 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreNEW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreALW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreALW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType, "rptSavingat2.rpt", dtSavingat2)
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCre", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 End If
@@ -4020,11 +4032,11 @@ Public Class clsPaymentProcessMCCSale
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_TYPE_MASTER.Document_No as DeductionType 
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_MASTER.Code as DeductionType 
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Sale_Doc_No    
-left outer join TSPL_DEDUCTION_TYPE_MASTER on TSPL_DEDUCTION_TYPE_MASTER.Document_No=TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type 
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SALE_INVOICE_HEAD.Deduction 
 where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_MCC_SALE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
@@ -4367,20 +4379,26 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
-                    If ApplyIndex Then
-                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
-                            IdxTo = i - 1
-                            ArrIndex(IdxVendor).DRFrom = IdxFrom
-                            ArrIndex(IdxVendor).DRTo = IdxTo
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
-                            IdxFrom = i
+                    Try
+                        If ApplyIndex Then
+                            If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                                IdxTo = i - 1
+                                ArrIndex(IdxVendor).DRFrom = IdxFrom
+                                ArrIndex(IdxVendor).DRTo = IdxTo
+                                IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
+                                IdxFrom = i
+                            End If
+                            If i = dtbl.Rows.Count - 1 Then
+                                IdxTo = i
+                                ArrIndex(IdxVendor).DRFrom = IdxFrom
+                                ArrIndex(IdxVendor).DRTo = IdxTo
+                            End If
                         End If
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).DRFrom = IdxFrom
-                            ArrIndex(IdxVendor).DRTo = IdxTo
-                        End If
-                    End If
+                    Catch ex As Exception
+                        Dim x As Integer = i
+                        Dim y As Integer=i
+                    End Try
+
 
                     obj = New clsPaymentProcessDeduction
                     obj.Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Doc_No"))
