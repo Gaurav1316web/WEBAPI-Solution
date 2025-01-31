@@ -77,8 +77,10 @@ Partial Class FrmUtility
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
-        Me.RadButton356 = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnInsertDataInRetestingTable = New Telerik.WinControls.UI.RadButton()
+        Me.txtRetestingDate = New common.Controls.MyDateTimePicker()
+        Me.RadButton356 = New Telerik.WinControls.UI.RadButton()
         Me.btnBankAdvice = New Telerik.WinControls.UI.RadButton()
         Me.UpdateVirtualCustomerAccount = New Telerik.WinControls.UI.RadButton()
         Me.RadButton348 = New Telerik.WinControls.UI.RadButton()
@@ -805,8 +807,6 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
-        Me.chkRetestingDate = New common.Controls.MyDateTimePicker()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -855,8 +855,11 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel1.PanelContainer.SuspendLayout
         Me.RadScrollablePanel1.SuspendLayout
-        CType(Me.RadButton356, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.RadGroupBox4.SuspendLayout
         CType(Me.btnInsertDataInRetestingTable, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtRetestingDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton356, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnBankAdvice, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.UpdateVirtualCustomerAccount, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton348, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1564,9 +1567,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
-        CType(Me.chkRetestingDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadGroupBox4.SuspendLayout
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -2060,6 +2060,61 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 392)
         Me.RadScrollablePanel1.TabIndex = 627
         '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.btnInsertDataInRetestingTable)
+        Me.RadGroupBox4.Controls.Add(Me.txtRetestingDate)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(4, 514)
+        Me.RadGroupBox4.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(312, 36)
+        Me.RadGroupBox4.TabIndex = 1571
+        '
+        'btnInsertDataInRetestingTable
+        '
+        Me.btnInsertDataInRetestingTable.Location = New System.Drawing.Point(97, 6)
+        Me.btnInsertDataInRetestingTable.Name = "btnInsertDataInRetestingTable"
+        Me.btnInsertDataInRetestingTable.Size = New System.Drawing.Size(204, 24)
+        Me.btnInsertDataInRetestingTable.TabIndex = 389
+        Me.btnInsertDataInRetestingTable.Text = "Insert Data in Retesting Table"
+        '
+        'txtRetestingDate
+        '
+        Me.txtRetestingDate.CalculationExpression = Nothing
+        Me.txtRetestingDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtRetestingDate.FieldCode = Nothing
+        Me.txtRetestingDate.FieldDesc = Nothing
+        Me.txtRetestingDate.FieldMaxLength = 0
+        Me.txtRetestingDate.FieldName = Nothing
+        Me.txtRetestingDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRetestingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtRetestingDate.isCalculatedField = False
+        Me.txtRetestingDate.IsSourceFromTable = False
+        Me.txtRetestingDate.IsSourceFromValueList = False
+        Me.txtRetestingDate.IsUnique = False
+        Me.txtRetestingDate.Location = New System.Drawing.Point(11, 7)
+        Me.txtRetestingDate.MendatroryField = True
+        Me.txtRetestingDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtRetestingDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtRetestingDate.MyLinkLable2 = Nothing
+        Me.txtRetestingDate.Name = "txtRetestingDate"
+        Me.txtRetestingDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtRetestingDate.ReferenceFieldDesc = Nothing
+        Me.txtRetestingDate.ReferenceFieldName = Nothing
+        Me.txtRetestingDate.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.txtRetestingDate.RootElement.StretchVertically = True
+        Me.txtRetestingDate.Size = New System.Drawing.Size(83, 19)
+        Me.txtRetestingDate.TabIndex = 1570
+        Me.txtRetestingDate.TabStop = False
+        Me.txtRetestingDate.Text = "13/06/2011"
+        Me.txtRetestingDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
         'RadButton356
         '
         Me.RadButton356.Location = New System.Drawing.Point(163, 344)
@@ -2067,14 +2122,6 @@ Partial Class FrmUtility
         Me.RadButton356.Size = New System.Drawing.Size(153, 24)
         Me.RadButton356.TabIndex = 390
         Me.RadButton356.Text = "Start JSON Tracker"
-        '
-        'btnInsertDataInRetestingTable
-        '
-        Me.btnInsertDataInRetestingTable.Location = New System.Drawing.Point(6, 6)
-        Me.btnInsertDataInRetestingTable.Name = "btnInsertDataInRetestingTable"
-        Me.btnInsertDataInRetestingTable.Size = New System.Drawing.Size(183, 24)
-        Me.btnInsertDataInRetestingTable.TabIndex = 389
-        Me.btnInsertDataInRetestingTable.Text = "Insert Data in Retesting Table"
         '
         'btnBankAdvice
         '
@@ -9997,54 +10044,6 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
-        'chkRetestingDate
-        '
-        Me.chkRetestingDate.CalculationExpression = Nothing
-        Me.chkRetestingDate.CustomFormat = "dd/MM/yyyy"
-        Me.chkRetestingDate.FieldCode = Nothing
-        Me.chkRetestingDate.FieldDesc = Nothing
-        Me.chkRetestingDate.FieldMaxLength = 0
-        Me.chkRetestingDate.FieldName = Nothing
-        Me.chkRetestingDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkRetestingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.chkRetestingDate.isCalculatedField = False
-        Me.chkRetestingDate.IsSourceFromTable = False
-        Me.chkRetestingDate.IsSourceFromValueList = False
-        Me.chkRetestingDate.IsUnique = False
-        Me.chkRetestingDate.Location = New System.Drawing.Point(203, 8)
-        Me.chkRetestingDate.MendatroryField = True
-        Me.chkRetestingDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.chkRetestingDate.MyLinkLable1 = Me.RadLabel4
-        Me.chkRetestingDate.MyLinkLable2 = Nothing
-        Me.chkRetestingDate.Name = "chkRetestingDate"
-        Me.chkRetestingDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.chkRetestingDate.ReferenceFieldDesc = Nothing
-        Me.chkRetestingDate.ReferenceFieldName = Nothing
-        Me.chkRetestingDate.ReferenceTableName = Nothing
-        '
-        '
-        '
-        Me.chkRetestingDate.RootElement.StretchVertically = True
-        Me.chkRetestingDate.ShowCheckBox = True
-        Me.chkRetestingDate.Size = New System.Drawing.Size(95, 19)
-        Me.chkRetestingDate.TabIndex = 1570
-        Me.chkRetestingDate.TabStop = False
-        Me.chkRetestingDate.Text = "13/06/2011"
-        Me.chkRetestingDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'RadGroupBox4
-        '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.btnInsertDataInRetestingTable)
-        Me.RadGroupBox4.Controls.Add(Me.chkRetestingDate)
-        Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(4, 514)
-        Me.RadGroupBox4.Margin = New System.Windows.Forms.Padding(4)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(312, 36)
-        Me.RadGroupBox4.TabIndex = 1571
-        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10108,8 +10107,12 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel1.ResumeLayout(False)
-        CType(Me.RadButton356, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout
         CType(Me.btnInsertDataInRetestingTable, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtRetestingDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton356, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnBankAdvice, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.UpdateVirtualCustomerAccount, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton348, System.ComponentModel.ISupportInitialize).EndInit
@@ -10845,10 +10848,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.chkRetestingDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11625,7 +11624,7 @@ Partial Class FrmUtility
     Friend WithEvents btnBankAdvice As RadButton
     Friend WithEvents btnInsertDataInRetestingTable As RadButton
     Friend WithEvents RadButton356 As RadButton
-    Friend WithEvents chkRetestingDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtRetestingDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadGroupBox4 As RadGroupBox
 End Class
 

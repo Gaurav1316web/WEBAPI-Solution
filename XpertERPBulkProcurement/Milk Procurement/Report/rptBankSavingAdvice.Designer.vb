@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class rptBankSavingAdvice
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,12 +20,13 @@ Partial Class rptBankSavingAdvice
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIfscno = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
@@ -36,12 +37,16 @@ Partial Class rptBankSavingAdvice
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtMCC = New common.UserControls.txtFinder()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkIfscno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -52,6 +57,8 @@ Partial Class rptBankSavingAdvice
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -68,6 +75,7 @@ Partial Class rptBankSavingAdvice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
@@ -88,6 +96,9 @@ Partial Class rptBankSavingAdvice
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
+        Me.RadPageViewPage1.Controls.Add(Me.txtMCC)
+        Me.RadPageViewPage1.Controls.Add(Me.chkIfscno)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.ToDate)
@@ -99,6 +110,15 @@ Partial Class rptBankSavingAdvice
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 352)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'chkIfscno
+        '
+        Me.chkIfscno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIfscno.Location = New System.Drawing.Point(506, 17)
+        Me.chkIfscno.Name = "chkIfscno"
+        Me.chkIfscno.Size = New System.Drawing.Size(46, 16)
+        Me.chkIfscno.TabIndex = 433
+        Me.chkIfscno.Text = "IFSC"
         '
         'RadLabel2
         '
@@ -205,7 +225,7 @@ Partial Class rptBankSavingAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -234,6 +254,51 @@ Partial Class rptBankSavingAdvice
         Me.btnReset.TabIndex = 154
         Me.btnReset.Text = "Reset"
         '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Location = New System.Drawing.Point(3, 62)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel4.TabIndex = 440
+        Me.MyLabel4.Text = "MCC"
+        '
+        'txtMCC
+        '
+        Me.txtMCC.CalculationExpression = Nothing
+        Me.txtMCC.FieldCode = Nothing
+        Me.txtMCC.FieldDesc = Nothing
+        Me.txtMCC.FieldMaxLength = 0
+        Me.txtMCC.FieldName = Nothing
+        Me.txtMCC.isCalculatedField = False
+        Me.txtMCC.IsSourceFromTable = False
+        Me.txtMCC.IsSourceFromValueList = False
+        Me.txtMCC.IsUnique = False
+        Me.txtMCC.Location = New System.Drawing.Point(121, 62)
+        Me.txtMCC.MendatroryField = True
+        Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMCC.MyLinkLable1 = Nothing
+        Me.txtMCC.MyLinkLable2 = Nothing
+        Me.txtMCC.MyReadOnly = False
+        Me.txtMCC.MyShowMasterFormButton = False
+        Me.txtMCC.Name = "txtMCC"
+        Me.txtMCC.ReferenceFieldDesc = Nothing
+        Me.txtMCC.ReferenceFieldName = Nothing
+        Me.txtMCC.ReferenceTableName = Nothing
+        Me.txtMCC.Size = New System.Drawing.Size(380, 18)
+        Me.txtMCC.TabIndex = 439
+        Me.txtMCC.Value = ""
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(161, 12)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 155
+        Me.btnPrint.Text = "Print"
+        '
         'rptBankSavingAdvice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -253,6 +318,7 @@ Partial Class rptBankSavingAdvice
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkIfscno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -263,6 +329,8 @@ Partial Class rptBankSavingAdvice
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -281,4 +349,8 @@ Partial Class rptBankSavingAdvice
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
+    Friend WithEvents chkIfscno As RadCheckBox
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtMCC As common.UserControls.txtFinder
+    Friend WithEvents btnPrint As RadButton
 End Class
