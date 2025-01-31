@@ -5795,6 +5795,50 @@ Public Class frmSNShipment
                                 End If
 
                             End If
+                            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_TCS  from tspl_tax_master where tax_code ='" & clsCommon.myCstr(dr("Tax_Code")) & "' ")), "Y") = CompairStringResult.Equal Then
+                                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtCustomer.Value & "'")), "0") = CompairStringResult.Equal Then
+                                    If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
+                                        Dim dblOutstandingAmount As Double = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtCustomer.Value, txtDate.Value))
+                                        If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
+                                            dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
+                                            If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                                                If clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
+                                                    txttcstaxbaseamount.Value = clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax)
+                                                End If
+                                            End If
+                                        End If
+
+                                        If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+
+                                            If EnableTCSRateValidityFrom01July2021 Then
+                                                Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & txtCustomer.Value & "'")) = 1, True, False)
+                                                If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
+                                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                                                Else
+                                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                                                End If
+                                            Else
+                                                Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" & txtCustomer.Value & "'"))
+                                                If rbtnManualTCS.IsChecked = False Then
+                                                    If clsCommon.myLen(panno) > 0 Then
+                                                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                                                    Else
+                                                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                                                    End If
+                                                End If
+                                            End If
+
+                                        Else
+                                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = 0
+                                        End If
+                                    Else
+                                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = dr("TaxRate")
+                                    End If
+                                Else
+                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = 0
+                                End If
+
+                            End If
 
                             gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Taxable")), "Y") = CompairStringResult.Equal)
                             gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Surtax")), "Y") = CompairStringResult.Equal)
@@ -6863,7 +6907,33 @@ Public Class frmSNShipment
         strItmType = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
         Return strItmType
     End Function
-
+    Private Sub UpdateManualTCS(ByVal IntRowNo As Integer)
+        Try
+            For ii As Integer = 1 To 10
+                Dim Strii As String = clsCommon.myCstr(ii)
+                If rbtnManualTCS.IsChecked Then
+                    If gv2.Rows.Count >= ii Then
+                        Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
+                        If clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                            Dim dblTaxAmt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                            Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                            Dim dblTotAmt As Double = 0
+                            For jj As Integer = 0 To gv1.Rows.Count - 1
+                                dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                            Next
+                            Dim dblCurrCalTax As Double = 0
+                            If dblTotAmt <> 0 Then
+                                dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                            End If
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+                        End If
+                    End If
+                End If
+            Next
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
         Try
             Dim arrTaxableAuth As New List(Of String)
@@ -7021,6 +7091,24 @@ Public Class frmSNShipment
                         If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
                         End If
+                        'If rbtnManualTCS.IsChecked Then
+                        '    If gv2.Rows.Count >= ii Then
+                        '        Dim strTaxCodee As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
+                        '        If clsCommon.CompairString(strTaxCodee, "TCS") = CompairStringResult.Equal Then
+                        '            Dim dblTaxAmtt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                        '            Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                        '            Dim dblTotAmt As Double = 0
+                        '            For jj As Integer = 0 To gv1.Rows.Count - 1
+                        '                dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                        '            Next
+                        '            Dim dblCurrCalTax As Double = 0
+                        '            If dblTotAmt <> 0 Then
+                        '                dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmtt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                        '            End If
+                        '            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+                        '        End If
+                        '    End If
+                        'End If
 
                     Else
                         gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value = Nothing
@@ -7208,8 +7296,12 @@ Public Class frmSNShipment
             If e.Column.Index >= 0 Then
                 If (e.Column Is gv2.Columns(colTTaxAmt)) Then
                     gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = rbtnTaxCalAutomatic.IsChecked
-                    If clsCommon.CompairString(gv2.CurrentRow.Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal And rbtnManualTCS.IsChecked Then
-                        gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = False
+                    If rbtnManualTCS.IsChecked Then
+                        If clsCommon.CompairString(gv2.CurrentRow.Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal Then
+                            gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = False
+                        Else
+                            gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = True
+                        End If
                     End If
                 End If
 
@@ -7230,6 +7322,11 @@ Public Class frmSNShipment
                     If (e.Column Is (gv2.Columns(colTTaxAmt)) AndAlso rbtnTaxCalManual.IsChecked) Then
                         For ii As Integer = 0 To gv1.Rows.Count - 1
                             UpdateCurrentRow(ii)
+                        Next
+                        UpdateAllTotals()
+                    ElseIf (e.Column Is (gv2.Columns(colTTaxAmt)) AndAlso rbtnManualTCS.IsChecked) Then
+                        For ii As Integer = 0 To gv1.Rows.Count - 1
+                            UpdateManualTCS(ii)
                         Next
                         UpdateAllTotals()
                     End If
