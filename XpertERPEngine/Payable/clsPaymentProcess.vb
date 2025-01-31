@@ -2278,7 +2278,19 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
                 ' )xxxx order by GRPColumn "
                 dtAdvice = clsDBFuncationality.GetDataTable(ssql)
             End If
-
+            Dim dtSavingat2 As DataTable = Nothing
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                Dim sqlqry = " select TSPL_DEDUCTION_MASTER.Description as Description, 
+                                sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount  from TSPL_PAYMENT_PROCESS_DEDUCTION
+                                left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
+                                left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+                                left outer join ( select code, Description  from TSPL_DCS_ADDITION_DEDUCTION
+                                union 
+                                select  Code , Description from TSPL_DEDUCTION_MASTER) as TSPL_DEDUCTION_MASTER on ( TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
+                                where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ( " + strDocNo + " )  and Len(TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE ) > 0 
+                                and TSPL_VENDOR_INVOICE_HEAD.Saving In ('1','2') group by TSPL_DEDUCTION_MASTER.Description   "
+                dtSavingat2 = clsDBFuncationality.GetDataTable(sqlqry)
+            End If
 
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -2308,7 +2320,7 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreNEW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreALW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreALW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType, "rptSavingat2.rpt", dtSavingat2)
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCre", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 End If
