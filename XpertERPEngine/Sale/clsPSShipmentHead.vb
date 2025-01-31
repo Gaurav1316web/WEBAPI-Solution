@@ -319,10 +319,10 @@ Public Class clsPSShipmentHead
     Public Shared Function AdvanceReceived(ByVal strDONo As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim dblPendingBookingAdvanceAmt As Double
-            dblPendingBookingAdvanceAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select (TSPL_BOOKING_MASTER_PRODUCTSALE.Total_Amt * TSPL_BOOKING_MASTER_PRODUCTSALE.Advance_Percentage)/100 -  isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) from TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE  " & _
-            "left outer join TSPL_SD_SALES_ORDER_HEAD on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Against_Sales_Order=TSPL_SD_SALES_ORDER_HEAD.Document_Code  " & _
-            "left outer join TSPL_BOOKING_MASTER_PRODUCTSALE on TSPL_SD_SALES_ORDER_HEAD.Against_Booking_No=TSPL_BOOKING_MASTER_PRODUCTSALE.Document_Code " & _
-            "left outer join TSPL_RECEIPT_HEADER on TSPL_BOOKING_MASTER_PRODUCTSALE.Document_Code=TSPL_RECEIPT_HEADER.Booking_Code  " & _
+            dblPendingBookingAdvanceAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select (TSPL_BOOKING_MASTER_PRODUCTSALE.Total_Amt * TSPL_BOOKING_MASTER_PRODUCTSALE.Advance_Percentage)/100 -  isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) from TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE  " &
+            "left outer join TSPL_SD_SALES_ORDER_HEAD on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Against_Sales_Order=TSPL_SD_SALES_ORDER_HEAD.Document_Code  " &
+            "left outer join TSPL_BOOKING_MASTER_PRODUCTSALE on TSPL_SD_SALES_ORDER_HEAD.Against_Booking_No=TSPL_BOOKING_MASTER_PRODUCTSALE.Document_Code " &
+            "left outer join TSPL_RECEIPT_HEADER on TSPL_BOOKING_MASTER_PRODUCTSALE.Document_Code=TSPL_RECEIPT_HEADER.Booking_Code  " &
             "where TSPL_BOOKING_MASTER_PRODUCTSALE.Advance_Percentage > 0 and TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code='" & strDONo & "' ", trans))
             If dblPendingBookingAdvanceAmt > 0 Then
                 Return False
@@ -334,9 +334,20 @@ Public Class clsPSShipmentHead
         Return True
     End Function
     Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelData(Form_Id, Doc_No, InvoiceNo, NavType, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As Boolean
         '' created by Richa Agarwal against ticket No-ERO/09/09/19-001022  on date 09-09-2019
 
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             '' table list 
             ''1. TSPL_SD_SALE_INVOICE_HEAD
@@ -357,7 +368,7 @@ Public Class clsPSShipmentHead
 
                     CancelData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), Form_Id, trans)
                 Next
-                trans.Commit()
+                'trans.Commit()
             Else
                 Throw New Exception("Please select Parent Document")
             End If
@@ -370,7 +381,7 @@ Public Class clsPSShipmentHead
             'qry = Nothing
 
         Catch ex As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -391,15 +402,7 @@ Public Class clsPSShipmentHead
             'End If
 
             ''richa agarwal 24 Dec,2020
-            Dim dtirn As DataTable = clsDBFuncationality.GetDataTable("select Einvoice_type,IRN_No,Is_Taxable,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD where document_code='" & InvoiceNo & "'", trans)
-            If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
-                If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Is_Taxable")), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
-                    If ClsEInvoiceOFAPIs.EInvoice_Cancellation(InvoiceNo, clsCommon.myCstr(dtirn.Rows(0)("IRN_No")), clsCommon.myCstr(dtirn.Rows(0)("Bill_To_Location")), trans) = True Then
-                    Else
-                        Throw New Exception("Invalid JSON Value")
-                    End If
-                End If
-            End If
+
             ''----------
 
             clsItemLocationDetails.CheckCancelInventoryBalance(Form_Id, Doc_No, trans)
@@ -488,11 +491,27 @@ Public Class clsPSShipmentHead
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDairyGAtePassCount), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
 
+            qry = "select COUNT(*) as doc_count from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL   where PK_ID in(select PK_ID from tspl_sd_shipment_detail where document_code='" + Doc_No + "')"
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
+                Throw New Exception("Gate Pass has already been created.")
+            End If
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            '' Cancel E-Invoice ----------------------------- 
+            Dim dtirn As DataTable = clsDBFuncationality.GetDataTable("select Einvoice_type,IRN_No,Is_Taxable,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD where document_code='" & InvoiceNo & "'", trans)
+            If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Einvoice_type")), "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(dtirn.Rows(0)("Is_Taxable")), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+                    If ClsEInvoiceOFAPIs.EInvoice_Cancellation(InvoiceNo, clsCommon.myCstr(dtirn.Rows(0)("IRN_No")), clsCommon.myCstr(dtirn.Rows(0)("Bill_To_Location")), trans) = True Then
+                    Else
+                        Throw New Exception("Invalid JSON Value")
+                    End If
+                End If
+            End If
+            ''End of Cancel E_Invoice ---------------------------------------
 
             qry = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" & InvoiceNo & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
