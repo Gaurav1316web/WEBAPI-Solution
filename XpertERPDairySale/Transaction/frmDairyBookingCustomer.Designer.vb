@@ -290,7 +290,6 @@ Partial Class frmDairyBookingCustomer
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.lblTotalDocAmt = New common.Controls.MyLabel()
         Me.btnCancel = New Telerik.WinControls.UI.RadButton()
-        Me.btnCreateDO = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -313,6 +312,8 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnCreateDO = New Telerik.WinControls.UI.RadButton()
+        Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -562,7 +563,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnCreateDO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -582,6 +582,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCreateDO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -600,6 +602,7 @@ Partial Class frmDairyBookingCustomer
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnprinte_wayBill)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadLabel10)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintChallan)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGatepass)
@@ -613,7 +616,6 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel3)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCancel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnCreateDO)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -637,7 +639,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(1281, 455)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3071,6 +3073,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage3
         '
+        Me.RadPageViewPage3.Controls.Add(Me.btnCreateDO)
         Me.RadPageViewPage3.Controls.Add(Me.txtSalesman1)
         Me.RadPageViewPage3.Controls.Add(Me.lblSalesmandesc1)
         Me.RadPageViewPage3.Controls.Add(Me.lblsalesman1)
@@ -4065,9 +4068,9 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnGatePassPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGatePassPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGatePassPrint.Location = New System.Drawing.Point(961, 38)
+        Me.btnGatePassPrint.Location = New System.Drawing.Point(962, 38)
         Me.btnGatePassPrint.Name = "btnGatePassPrint"
-        Me.btnGatePassPrint.Size = New System.Drawing.Size(93, 22)
+        Me.btnGatePassPrint.Size = New System.Drawing.Size(92, 22)
         Me.btnGatePassPrint.TabIndex = 1502
         Me.btnGatePassPrint.Text = "Gate Pass Print"
         '
@@ -4221,16 +4224,6 @@ Partial Class frmDairyBookingCustomer
         Me.btnCancel.Size = New System.Drawing.Size(44, 22)
         Me.btnCancel.TabIndex = 20
         Me.btnCancel.Text = "Cancel"
-        '
-        'btnCreateDO
-        '
-        Me.btnCreateDO.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnCreateDO.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCreateDO.Location = New System.Drawing.Point(506, 39)
-        Me.btnCreateDO.Name = "btnCreateDO"
-        Me.btnCreateDO.Size = New System.Drawing.Size(110, 22)
-        Me.btnCreateDO.TabIndex = 18
-        Me.btnCreateDO.Text = "Create and Post DO"
         '
         'btnPrint
         '
@@ -4441,6 +4434,26 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.AccessibleName = "RadMenuItem5"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
+        '
+        'btnCreateDO
+        '
+        Me.btnCreateDO.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCreateDO.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCreateDO.Location = New System.Drawing.Point(776, 267)
+        Me.btnCreateDO.Name = "btnCreateDO"
+        Me.btnCreateDO.Size = New System.Drawing.Size(110, 22)
+        Me.btnCreateDO.TabIndex = 1527
+        Me.btnCreateDO.Text = "Create and Post DO"
+        '
+        'btnprinte_wayBill
+        '
+        Me.btnprinte_wayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprinte_wayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnprinte_wayBill.Location = New System.Drawing.Point(505, 39)
+        Me.btnprinte_wayBill.Name = "btnprinte_wayBill"
+        Me.btnprinte_wayBill.Size = New System.Drawing.Size(108, 22)
+        Me.btnprinte_wayBill.TabIndex = 1528
+        Me.btnprinte_wayBill.Text = "Print E-Way Bill"
         '
         'frmDairyBookingCustomer
         '
@@ -4723,7 +4736,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnCreateDO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4746,6 +4758,8 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCreateDO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -4796,7 +4810,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents lblTotRAmt1 As common.Controls.MyLabel
-    Friend WithEvents btnCreateDO As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadPanel1 As Telerik.WinControls.UI.RadPanel
     Friend WithEvents RadPanel2 As Telerik.WinControls.UI.RadPanel
     Friend WithEvents LblBox As common.Controls.MyLabel
@@ -5029,5 +5042,7 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents RadLabel18 As common.Controls.MyLabel
     Friend WithEvents chkTPT As RadCheckBox
     Friend WithEvents chkisTCS As RadCheckBox
+    Friend WithEvents btnCreateDO As RadButton
+    Friend WithEvents btnprinte_wayBill As RadButton
 End Class
 
