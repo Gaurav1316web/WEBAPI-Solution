@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class SaleEinvoiceReport
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,12 +20,16 @@ Partial Class SaleEinvoiceReport
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
+        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
+        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.BtnBoth = New common.Controls.MyRadioButton()
         Me.BtnMorning = New common.Controls.MyRadioButton()
@@ -53,22 +57,24 @@ Partial Class SaleEinvoiceReport
         Me.txtfDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvData = New common.UserControls.MyRadGridView()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmenuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
-        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
-        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.BtnBoth, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -96,12 +102,11 @@ Partial Class SaleEinvoiceReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox6.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,6 +120,7 @@ Partial Class SaleEinvoiceReport
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadMenu1)
         '
         'SplitContainer1.Panel2
         '
@@ -131,11 +137,11 @@ Partial Class SaleEinvoiceReport
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(792, 327)
-        Me.RadPageView1.TabIndex = 73
+        Me.RadPageView1.Size = New System.Drawing.Size(792, 307)
+        Me.RadPageView1.TabIndex = 75
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -155,8 +161,57 @@ Partial Class SaleEinvoiceReport
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(771, 279)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(771, 259)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.rbtnIceCream)
+        Me.RadGroupBox6.Controls.Add(Me.rbtnProduct)
+        Me.RadGroupBox6.Controls.Add(Me.rbtnMilk)
+        Me.RadGroupBox6.HeaderText = "Type"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(528, 52)
+        Me.RadGroupBox6.Margin = New System.Windows.Forms.Padding(4)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(239, 45)
+        Me.RadGroupBox6.TabIndex = 451
+        Me.RadGroupBox6.Text = "Type"
+        Me.RadGroupBox6.Visible = False
+        '
+        'rbtnIceCream
+        '
+        Me.rbtnIceCream.AutoSize = True
+        Me.rbtnIceCream.Location = New System.Drawing.Point(153, 17)
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnIceCream.TabIndex = 5
+        Me.rbtnIceCream.TabStop = True
+        Me.rbtnIceCream.Text = "Ice Cream"
+        Me.rbtnIceCream.UseVisualStyleBackColor = True
+        '
+        'rbtnProduct
+        '
+        Me.rbtnProduct.AutoSize = True
+        Me.rbtnProduct.Location = New System.Drawing.Point(73, 16)
+        Me.rbtnProduct.Name = "rbtnProduct"
+        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProduct.TabIndex = 3
+        Me.rbtnProduct.TabStop = True
+        Me.rbtnProduct.Text = "Product"
+        Me.rbtnProduct.UseVisualStyleBackColor = True
+        '
+        'rbtnMilk
+        '
+        Me.rbtnMilk.AutoSize = True
+        Me.rbtnMilk.Location = New System.Drawing.Point(10, 16)
+        Me.rbtnMilk.Name = "rbtnMilk"
+        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.TabIndex = 2
+        Me.rbtnMilk.TabStop = True
+        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.UseVisualStyleBackColor = True
         '
         'RadGroupBox3
         '
@@ -461,7 +516,7 @@ Partial Class SaleEinvoiceReport
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(707, 279)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(771, 259)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gvData
@@ -473,13 +528,40 @@ Partial Class SaleEinvoiceReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
-        Me.gvData.Size = New System.Drawing.Size(707, 279)
+        Me.gvData.Size = New System.Drawing.Size(771, 259)
         Me.gvData.TabIndex = 0
         Me.gvData.VarID = ""
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(792, 20)
+        Me.RadMenu1.TabIndex = 4
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmsaveLayout, Me.rmDeleteLayout})
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Setting"
+        Me.RadMenuItem1.UseCompatibleTextRendering = False
+        '
+        'rmsaveLayout
+        '
+        Me.rmsaveLayout.Name = "rmsaveLayout"
+        Me.rmsaveLayout.Text = "Save Layout"
+        Me.rmsaveLayout.UseCompatibleTextRendering = False
+        '
+        'rmDeleteLayout
+        '
+        Me.rmDeleteLayout.Name = "rmDeleteLayout"
+        Me.rmDeleteLayout.Text = "Delete Layout"
+        Me.rmDeleteLayout.UseCompatibleTextRendering = False
         '
         'btnClose
         '
@@ -530,55 +612,6 @@ Partial Class SaleEinvoiceReport
         Me.btnGo.TabIndex = 161
         Me.btnGo.Text = ">>>"
         '
-        'RadGroupBox6
-        '
-        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox6.Controls.Add(Me.rbtnIceCream)
-        Me.RadGroupBox6.Controls.Add(Me.rbtnProduct)
-        Me.RadGroupBox6.Controls.Add(Me.rbtnMilk)
-        Me.RadGroupBox6.HeaderText = "Type"
-        Me.RadGroupBox6.Location = New System.Drawing.Point(528, 52)
-        Me.RadGroupBox6.Margin = New System.Windows.Forms.Padding(4)
-        Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(13, 25, 13, 12)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(239, 45)
-        Me.RadGroupBox6.TabIndex = 451
-        Me.RadGroupBox6.Text = "Type"
-        Me.RadGroupBox6.Visible = False
-        '
-        'rbtnIceCream
-        '
-        Me.rbtnIceCream.AutoSize = True
-        Me.rbtnIceCream.Location = New System.Drawing.Point(153, 17)
-        Me.rbtnIceCream.Name = "rbtnIceCream"
-        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
-        Me.rbtnIceCream.TabIndex = 5
-        Me.rbtnIceCream.TabStop = True
-        Me.rbtnIceCream.Text = "Ice Cream"
-        Me.rbtnIceCream.UseVisualStyleBackColor = True
-        '
-        'rbtnProduct
-        '
-        Me.rbtnProduct.AutoSize = True
-        Me.rbtnProduct.Location = New System.Drawing.Point(73, 16)
-        Me.rbtnProduct.Name = "rbtnProduct"
-        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
-        Me.rbtnProduct.TabIndex = 3
-        Me.rbtnProduct.TabStop = True
-        Me.rbtnProduct.Text = "Product"
-        Me.rbtnProduct.UseVisualStyleBackColor = True
-        '
-        'rbtnMilk
-        '
-        Me.rbtnMilk.AutoSize = True
-        Me.rbtnMilk.Location = New System.Drawing.Point(10, 16)
-        Me.rbtnMilk.Name = "rbtnMilk"
-        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
-        Me.rbtnMilk.TabIndex = 2
-        Me.rbtnMilk.TabStop = True
-        Me.rbtnMilk.Text = "Milk"
-        Me.rbtnMilk.UseVisualStyleBackColor = True
-        '
         'SaleEinvoiceReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -592,12 +625,16 @@ Partial Class SaleEinvoiceReport
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "SaleEinvoiceReport"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -630,22 +667,51 @@ Partial Class SaleEinvoiceReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox6.ResumeLayout(False)
-        Me.RadGroupBox6.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents btnGo As RadButton
+    Friend WithEvents btnReset As RadButton
+    Friend WithEvents RadSplitButton1 As RadSplitButton
+    Friend WithEvents rmenuExport As RadMenuItem
+    Friend WithEvents rmenuPDF As RadMenuItem
+    Friend WithEvents btnClose As RadButton
+    Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents RadMenuItem1 As RadMenuItem
+    Friend WithEvents rmsaveLayout As RadMenuItem
+    Friend WithEvents rmDeleteLayout As RadMenuItem
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents rbtnIceCream As RadioButton
+    Friend WithEvents rbtnProduct As RadioButton
+    Friend WithEvents rbtnMilk As RadioButton
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents BtnBoth As common.Controls.MyRadioButton
+    Friend WithEvents BtnMorning As common.Controls.MyRadioButton
+    Friend WithEvents BtnEvening As common.Controls.MyRadioButton
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtItem As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rbtnDocumentdate As common.Controls.MyRadioButton
+    Friend WithEvents rbtnSupplydate As common.Controls.MyRadioButton
+    Friend WithEvents TxtRoute As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
+    Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents chkB2C As CheckBox
+    Friend WithEvents ChkBoth As CheckBox
+    Friend WithEvents ChkB2B As CheckBox
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents txtMultiCustomer As common.UserControls.txtMultiSelectFinder
     Friend WithEvents RadGroupBox4 As RadGroupBox
@@ -655,32 +721,5 @@ Partial Class SaleEinvoiceReport
     Friend WithEvents txtfDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gvData As common.UserControls.MyRadGridView
-    Friend WithEvents btnGo As RadButton
-    Friend WithEvents btnReset As RadButton
-    Friend WithEvents RadSplitButton1 As RadSplitButton
-    Friend WithEvents rmenuExport As RadMenuItem
-    Friend WithEvents rmenuPDF As RadMenuItem
-    Friend WithEvents btnClose As RadButton
-    Friend WithEvents ChkBoth As CheckBox
-    Friend WithEvents ChkB2B As CheckBox
-    Friend WithEvents RadGroupBox1 As RadGroupBox
-    Friend WithEvents RadGroupBox2 As RadGroupBox
-    Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
-    Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
-    Friend WithEvents MyLabel10 As common.Controls.MyLabel
-    Friend WithEvents TxtRoute As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents RadGroupBox5 As RadGroupBox
-    Friend WithEvents rbtnDocumentdate As common.Controls.MyRadioButton
-    Friend WithEvents rbtnSupplydate As common.Controls.MyRadioButton
-    Friend WithEvents txtItem As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents MyLabel4 As common.Controls.MyLabel
-    Friend WithEvents RadGroupBox3 As RadGroupBox
-    Friend WithEvents BtnMorning As common.Controls.MyRadioButton
-    Friend WithEvents BtnEvening As common.Controls.MyRadioButton
-    Friend WithEvents BtnBoth As common.Controls.MyRadioButton
-    Friend WithEvents RadGroupBox6 As RadGroupBox
-    Friend WithEvents rbtnIceCream As RadioButton
-    Friend WithEvents rbtnProduct As RadioButton
-    Friend WithEvents rbtnMilk As RadioButton
 End Class
 

@@ -1518,8 +1518,8 @@ inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DETAIL.Doc_No = TS
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
 where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) and isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)>0"
 
-        sQuery = " select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code , Final.Ded_Desc , sum(Amount) as [Amount] from (" + baseQryDeduction + "
-) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,Final.Ded_Desc  "
+        sQuery = " select Final.VSP_Uploader_Code, Final.Vendor_CODE, max(Vendor_NAME)Vendor_NAME, Final.Ded_Code , Final.Ded_Desc , sum(Amount) as [Amount] from (" + baseQryDeduction + "
+) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Final.Ded_Code,Final.Ded_Desc  "
         Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
         sQuery = "select max(Final.VSP_Uploader_Code)VSP_Uploader_Code, max(Final.Vendor_CODE)Vendor_CODE, max(final.Vendor_NAME)Vendor_NAME, Final.Ded_Code ,
