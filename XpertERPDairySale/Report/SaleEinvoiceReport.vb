@@ -33,15 +33,15 @@ Public Class SaleEinvoiceReport
         rbtnMilk.Checked = True
     End Sub
 
-    Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
-        Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master "
-        txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
-    End Sub
+    'Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs)
+    '    Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master "
+    '    txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
+    'End Sub
 
-    Private Sub TxtRoute__My_Click(sender As Object, e As EventArgs) Handles TxtRoute._My_Click
-        Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No AS Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER  where 1=1  "
-        TxtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", TxtRoute.arrValueMember, TxtRoute.arrDispalyMember)
-    End Sub
+    'Private Sub TxtRoute__My_Click(sender As Object, e As EventArgs)
+    '    Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No AS Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER  where 1=1  "
+    '    TxtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", TxtRoute.arrValueMember, TxtRoute.arrDispalyMember)
+    'End Sub
 
     Private Sub rmenuPDF_Click(sender As Object, e As EventArgs) Handles rmenuPDF.Click
         ExportToExcel(EnumExportTo.PDF)
@@ -105,10 +105,15 @@ Public Class SaleEinvoiceReport
         gvData.VarID = VarID
     End Sub
 
-
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        Try
+        PageSetupReport_ID = MyBase.Form_ID
+        TemplateGridview = gvData
+        LoadData()
+        'ControlEnableDisable(False)
+    End Sub
 
+    Public Sub LoadData()
+        Try
             Dim Whr As String = ""
             Dim dt As DataTable = Nothing
             Dim strtxtfDate As String = clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy")
@@ -164,12 +169,14 @@ Public Class SaleEinvoiceReport
                            max(TSPL_CUSTOMER_MASTER.Cust_Code) AS [Customer Code],
                            max(TSPL_CUSTOMER_MASTER.Customer_Name) AS [Customer Name],
                            maX(TSPL_STATE_MASTER.GST_STATE_Code) AS [Party State],
+                           max(TSPL_CUSTOMER_MASTER.GSTNO) AS [Recipient Gst No],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type) as [E Invoice Type],"
                 If EnableProductSaleForJPR Then
                     qry += "max(case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end  )  as [Item Type],"
                 End If
                 qry += " max(Ack_No) AS [Ack No],
                            max(CONVERT(varchar,Ack_Date, 103)) AS [Ack Date],
+                           max(IRN_No) AS [IRN No],
                            TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
                            max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date, 103)) AS [Invoice Date],
                            CASE WHEN max(TSPL_SD_SHIPMENT_HEAD.DO_Item_Type) = 'T' THEN 'Taxable'  
@@ -177,8 +184,6 @@ Public Class SaleEinvoiceReport
                            END AS [Invoice Type],
                            max(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt) AS [Invoice Value],
                            max(TSPL_SD_SALE_INVOICE_HEAD.Route_No) as [Route No],
-                           max(TSPL_CUSTOMER_MASTER.GSTNO) AS [Recipient Gst No], 
-                           max(IRN_No) AS [IRN No],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EwayBillNo) AS [EwayBillNo],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate) AS [EwayBillDate],
                            sum(TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount) As [Base Amount],
@@ -269,12 +274,14 @@ Public Class SaleEinvoiceReport
                                 TSPL_CUSTOMER_MASTER.Cust_Code AS [Customer Code],
                                 TSPL_CUSTOMER_MASTER.Customer_Name AS [Customer Name],
                                 TSPL_STATE_MASTER.GST_STATE_Code AS [Party State],
+								TSPL_CUSTOMER_MASTER.GSTNO AS [Recipient Gst No],
                                 TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [E Invoice Type],"
- If EnableProductSaleForJPR Then
+                If EnableProductSaleForJPR Then
                     qry += "case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream'  end as [Item Type],"
                 End If
                 qry += " Ack_No AS [Ack No],
                                 CONVERT(varchar,Ack_Date, 103) AS [Ack Date],
+								IRN_No AS [IRN No],
                                 TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
                                 CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) AS [Invoice Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.DO_Item_Type = 'T' THEN 'Taxable'WHEN TSPL_SD_SHIPMENT_HEAD.DO_Item_Type = 'NT' THEN 'Non-Taxable' 
@@ -282,12 +289,10 @@ Public Class SaleEinvoiceReport
                                 TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],
                                 tspl_item_master.Item_Code as [Item Code],
                                 tspl_item_master.Item_Desc as [Item Name],
+								TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [UOM],
+								TSPL_SD_SALE_INVOICE_DETAIL.Qty as [Qty],
                                 TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount AS [Item Amount],
                                 tspl_item_master.HSN_Code as [HSN Code],                               
-                                TSPL_SD_SALE_INVOICE_DETAIL.Qty as [Qty],
-                                TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as [UOM],
-                                TSPL_CUSTOMER_MASTER.GSTNO AS [Recipient Gst No], 
-                                IRN_No AS [IRN No],
                                 TSPL_SD_SALE_INVOICE_HEAD.EwayBillNo AS [EwayBillNo],
                                 TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate AS [EwayBillDate],
 
@@ -436,6 +441,9 @@ Public Class SaleEinvoiceReport
             End If
             qry += " ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
             dt = clsDBFuncationality.GetDataTable(qry)
+            gvData.GroupDescriptors.Clear()
+            gvData.MasterTemplate.SummaryRowsBottom.Clear()
+            gvData.DataSource = Nothing
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -445,7 +453,7 @@ Public Class SaleEinvoiceReport
                 gvData.MasterTemplate.SummaryRowsBottom.Clear()
                 gvData.DataSource = dt
 
-                SetGridFormationOFGV1()
+
                 gvData.AutoExpandGroups = True
                 gvData.ShowGroupPanel = True
                 gvData.ShowRowHeaderColumn = False
@@ -454,12 +462,34 @@ Public Class SaleEinvoiceReport
                 gvData.EnableFiltering = True
                 gvData.ShowFilteringRow = True
                 SetGridFormat()
-                'gvData.BestFitColumns()
+                SetGridFormationOFGV1()
+                gvData.BestFitColumns()
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+        ReStoreGridLayout()
+    End Sub
 
+    Private Sub ReStoreGridLayout()
+        Try
+            If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+                Dim obj As clsGridLayout = New clsGridLayout()
+                obj = CType(obj.GetData(Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                If Not obj Is Nothing AndAlso obj.GridColumns >= gvData.ColumnCount Then
+                    Dim ii As Integer
+                    For ii = 0 To gvData.Columns.Count - 1 Step ii + 1
+                        gvData.Columns(ii).IsVisible = False
+                        gvData.Columns(ii).VisibleInColumnChooser = True
+                    Next
+                    gvData.LoadLayout(obj.GridLayout)
+                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                End If
+            End If
+        Catch err As Exception
+            MessageBox.Show(err.Message)
+        End Try
     End Sub
 
     Sub SetGridFormat()
@@ -506,12 +536,16 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Customer Code").IsVisible = True
 
                 gvData.Columns("Customer Name").HeaderText = "Customer Name"
-                gvData.Columns("Customer Name").Width = 100
+                gvData.Columns("Customer Name").Width = 150
                 gvData.Columns("Customer Name").IsVisible = True
 
                 gvData.Columns("Party State").HeaderText = "Party State"
                 gvData.Columns("Party State").Width = 100
                 gvData.Columns("Party State").IsVisible = True
+
+                gvData.Columns("Recipient Gst No").HeaderText = "Recipient Gst No"
+                gvData.Columns("Recipient Gst No").Width = 100
+                gvData.Columns("Recipient Gst No").IsVisible = True
 
                 gvData.Columns("E Invoice Type").HeaderText = "E Invoice Type"
                 gvData.Columns("E Invoice Type").Width = 100
@@ -525,6 +559,10 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Ack Date").Width = 100
                 gvData.Columns("Ack Date").IsVisible = True
 
+                gvData.Columns("IRN No").HeaderText = "IRN No"
+                gvData.Columns("IRN No").Width = 100
+                gvData.Columns("IRN No").IsVisible = True
+
                 gvData.Columns("Invoice No").HeaderText = "Invoice No"
                 gvData.Columns("Invoice No").Width = 100
                 gvData.Columns("Invoice No").IsVisible = True
@@ -537,21 +575,17 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Invoice Type").Width = 100
                 gvData.Columns("Invoice Type").IsVisible = True
 
-                gvData.Columns("Route No").HeaderText = "Route No"
-                gvData.Columns("Route No").Width = 100
-                gvData.Columns("Route No").IsVisible = True
-
                 gvData.Columns("Invoice Value").HeaderText = "Invoice Value"
                 gvData.Columns("Invoice Value").Width = 100
                 gvData.Columns("Invoice Value").IsVisible = True
 
-                gvData.Columns("Recipient Gst No").HeaderText = "Recipient Gst No"
-                gvData.Columns("Recipient Gst No").Width = 100
-                gvData.Columns("Recipient Gst No").IsVisible = True
+                gvData.Columns("Route No").HeaderText = "Route No"
+                gvData.Columns("Route No").Width = 100
+                gvData.Columns("Route No").IsVisible = True
 
-                gvData.Columns("IRN No").HeaderText = "IRN No"
-                gvData.Columns("IRN No").Width = 100
-                gvData.Columns("IRN No").IsVisible = True
+                'gvData.Columns("Invoice Value").HeaderText = "Invoice Value"
+                'gvData.Columns("Invoice Value").Width = 100
+                'gvData.Columns("Invoice Value").IsVisible = True
 
                 gvData.Columns("EwayBillNo").HeaderText = "EwayBillNo"
                 gvData.Columns("EwayBillNo").Width = 100
@@ -635,6 +669,10 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Party State").Width = 100
                 gvData.Columns("Party State").IsVisible = True
 
+                gvData.Columns("Recipient Gst No").HeaderText = "Recipient Gst No"
+                gvData.Columns("Recipient Gst No").Width = 100
+                gvData.Columns("Recipient Gst No").IsVisible = True
+
                 gvData.Columns("E Invoice Type").HeaderText = "E Invoice Type"
                 gvData.Columns("E Invoice Type").Width = 100
                 gvData.Columns("E Invoice Type").IsVisible = True
@@ -646,6 +684,10 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Ack Date").HeaderText = "Ack Date"
                 gvData.Columns("Ack Date").Width = 100
                 gvData.Columns("Ack Date").IsVisible = True
+
+                gvData.Columns("IRN No").HeaderText = "IRN No"
+                gvData.Columns("IRN No").Width = 100
+                gvData.Columns("IRN No").IsVisible = True
 
                 gvData.Columns("Invoice No").HeaderText = "Invoice No"
                 gvData.Columns("Invoice No").Width = 100
@@ -671,6 +713,14 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Item Name").Width = 100
                 gvData.Columns("Item Name").IsVisible = True
 
+                gvData.Columns("UOM").HeaderText = "UOM"
+                gvData.Columns("UOM").Width = 100
+                gvData.Columns("UOM").IsVisible = True
+
+                gvData.Columns("Qty").HeaderText = "Qty"
+                gvData.Columns("Qty").Width = 100
+                gvData.Columns("Qty").IsVisible = True
+
                 gvData.Columns("Item Amount").HeaderText = "Item Amount"
                 gvData.Columns("Item Amount").Width = 100
                 gvData.Columns("Item Amount").IsVisible = True
@@ -678,22 +728,6 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("HSN Code").HeaderText = "HSN Code"
                 gvData.Columns("HSN Code").Width = 100
                 gvData.Columns("HSN Code").IsVisible = True
-
-                gvData.Columns("Qty").HeaderText = "Qty"
-                gvData.Columns("Qty").Width = 100
-                gvData.Columns("Qty").IsVisible = True
-
-                gvData.Columns("UOM").HeaderText = "UOM"
-                gvData.Columns("UOM").Width = 100
-                gvData.Columns("UOM").IsVisible = True
-
-                gvData.Columns("Recipient Gst No").HeaderText = "Recipient Gst No"
-                gvData.Columns("Recipient Gst No").Width = 100
-                gvData.Columns("Recipient Gst No").IsVisible = True
-
-                gvData.Columns("IRN No").HeaderText = "IRN No"
-                gvData.Columns("IRN No").Width = 100
-                gvData.Columns("IRN No").IsVisible = True
 
                 gvData.Columns("EwayBillNo").HeaderText = "EwayBillNo"
                 gvData.Columns("EwayBillNo").Width = 100
@@ -1008,47 +1042,163 @@ Public Class SaleEinvoiceReport
         Close()
     End Sub
 
-    Private Sub chkB2C_CheckStateChanged(sender As Object, e As EventArgs) Handles chkB2C.CheckStateChanged
-        If chkB2C.Checked Then
-            ChkB2B.Checked = False
-            ChkBoth.Checked = False
+    'Private Sub chkB2C_CheckStateChanged(sender As Object, e As EventArgs)
+    '    If chkB2C.Checked Then
+    '        ChkB2B.Checked = False
+    '        ChkBoth.Checked = False
+    '    End If
+    'End Sub
+
+    'Private Sub ChkB2B_CheckStateChanged(sender As Object, e As EventArgs)
+    '    If ChkB2B.Checked Then
+    '        chkB2C.Checked = False
+    '        ChkBoth.Checked = False
+    '    End If
+    'End Sub
+
+    'Private Sub ChkBoth_CheckStateChanged(sender As Object, e As EventArgs)
+    '    If ChkBoth.Checked Then
+    '        ChkB2B.Checked = False
+    '        chkB2C.Checked = False
+    '    End If
+    'End Sub
+
+    'Private Sub txtItem__My_Click(sender As Object, e As EventArgs)
+    '    Dim qry As String = " select Item_Code,Item_Desc from TSPL_ITEM_MASTER order by Item_Code "
+    '    txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Item_Code", "Item_Code", txtItem.arrValueMember, txtItem.arrDispalyMember)
+    'End Sub
+
+    'Private Sub rbtnDetail_Click(sender As Object, e As EventArgs)
+    '    txtItem.Visible = True
+    '    MyLabel4.Visible = True
+    'End Sub
+
+    'Private Sub rbtnSummary_Click(sender As Object, e As EventArgs)
+    '    txtItem.Visible = False
+    '    MyLabel4.Visible = False
+    'End Sub
+
+    'Private Sub rbtnSupplydate_CheckStateChanged(sender As Object, e As EventArgs)
+    '    If rbtnSupplydate.IsChecked Then
+    '        RadGroupBox3.Visible = True
+    '    Else
+    '        RadGroupBox3.Visible = False
+    '    End If
+    'End Sub
+
+    'Private Sub ReStoreGridLayout()
+    '    Try
+    '        If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+    '            Dim obj As clsGridLayout = New clsGridLayout()
+    '            obj = CType(obj.GetData(PageSetupReport_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+    '            If Not obj Is Nothing AndAlso obj.GridColumns >= gvData.ColumnCount Then
+    '                Dim ii As Integer
+    '                For ii = 0 To gvData.Columns.Count - 1 Step ii + 1
+    '                    gvData.Columns(ii).IsVisible = False
+    '                    gvData.Columns(ii).VisibleInColumnChooser = True
+    '                Next
+    '                gvData.LoadLayout(obj.GridLayout)
+    '                obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+    '            End If
+    '        End If
+    '    Catch err As Exception
+    '        MessageBox.Show(err.Message)
+    '    End Try
+    'End Sub
+
+    Private Sub rmSaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
+        If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+            gvData.MasterTemplate.FilterDescriptors.Clear()
+            Dim obj As New clsGridLayout()
+            obj.ReportID = PageSetupReport_ID
+            obj.UserID = objCommonVar.CurrentUserCode
+            obj.GridLayout = New MemoryStream()
+            gvData.SaveLayout(obj.GridLayout)
+            obj.GridColumns = gvData.ColumnCount
+            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+            If obj.SaveData() Then
+                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            End If
+            obj.GridLayout.Close()
+            obj.GridLayout.Dispose()
         End If
     End Sub
 
-    Private Sub ChkB2B_CheckStateChanged(sender As Object, e As EventArgs) Handles ChkB2B.CheckStateChanged
-        If ChkB2B.Checked Then
-            chkB2C.Checked = False
-            ChkBoth.Checked = False
-        End If
+    Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
+        clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
+        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
     End Sub
 
-    Private Sub ChkBoth_CheckStateChanged(sender As Object, e As EventArgs) Handles ChkBoth.CheckStateChanged
-        If ChkBoth.Checked Then
-            ChkB2B.Checked = False
-            chkB2C.Checked = False
-        End If
+    Private Sub txtMultiCustomer__My_Click_1(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
+        Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master "
+        txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
     End Sub
 
-    Private Sub txtItem__My_Click(sender As Object, e As EventArgs) Handles txtItem._My_Click
-        Dim qry As String = " select Item_Code,Item_Desc from TSPL_ITEM_MASTER order by Item_Code "
+    Private Sub TxtRoute__My_Click_1(sender As Object, e As EventArgs) Handles TxtRoute._My_Click
+        Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No AS Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER  where 1=1  "
+        TxtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", TxtRoute.arrValueMember, TxtRoute.arrDispalyMember)
+    End Sub
+
+    Private Sub txtItem__My_Click_1(sender As Object, e As EventArgs) Handles txtItem._My_Click
+        Dim qry As String = " select Item_Code,Item_Desc from TSPL_ITEM_MASTER where Item_Type='F' order by Item_Code "
         txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Item_Code", "Item_Code", txtItem.arrValueMember, txtItem.arrDispalyMember)
     End Sub
 
-    Private Sub rbtnDetail_Click(sender As Object, e As EventArgs) Handles rbtnDetail.Click
+    Private Sub rbtnDetail_Click_1(sender As Object, e As EventArgs) Handles rbtnDetail.Click
         txtItem.Visible = True
         MyLabel4.Visible = True
     End Sub
 
-    Private Sub rbtnSummary_Click(sender As Object, e As EventArgs) Handles rbtnSummary.Click
+    Private Sub rbtnSummary_Click_1(sender As Object, e As EventArgs) Handles rbtnSummary.Click
+        txtItem.arrValueMember = Nothing
         txtItem.Visible = False
         MyLabel4.Visible = False
     End Sub
 
-    Private Sub rbtnSupplydate_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnSupplydate.CheckStateChanged
+    Private Sub rbtnSupplydate_CheckStateChanged_1(sender As Object, e As EventArgs) Handles rbtnSupplydate.CheckStateChanged
         If rbtnSupplydate.IsChecked Then
             RadGroupBox3.Visible = True
         Else
             RadGroupBox3.Visible = False
         End If
     End Sub
+
+    Private Sub ChkB2B_CheckedChanged(sender As Object, e As EventArgs) Handles ChkB2B.CheckedChanged
+        If ChkB2B.Checked Then
+            chkB2C.Checked = False
+            ChkBoth.Checked = False
+        End If
+    End Sub
+
+    Private Sub chkB2C_CheckedChanged(sender As Object, e As EventArgs) Handles chkB2C.CheckedChanged
+        If chkB2C.Checked Then
+            ChkB2B.Checked = False
+            ChkBoth.Checked = False
+        End If
+    End Sub
+
+    Private Sub ChkBoth_CheckedChanged(sender As Object, e As EventArgs) Handles ChkBoth.CheckedChanged
+        If ChkBoth.Checked Then
+            ChkB2B.Checked = False
+            chkB2C.Checked = False
+        End If
+    End Sub
+
+    'Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
+    '    If clsCommon.myLen(PageSetupReport_ID) < 0 Then
+    '        gvData.MasterTemplate.FilterDescriptors.Clear()
+    '        Dim obj As New clsGridLayout()
+    '        obj.ReportID = PageSetupReport_ID
+    '        obj.UserID = objCommonVar.CurrentUserCode
+    '        obj.GridLayout = New MemoryStream()
+    '        gvData.SaveLayout(obj.GridLayout)
+    '        obj.GridColumns = gvData.ColumnCount
+    '        obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+    '        If obj.SaveData() Then
+    '            common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+    '        End If
+    '        obj.GridLayout.Close()
+    '        obj.GridLayout.Dispose()
+    '    End If
+    'End Sub
 End Class

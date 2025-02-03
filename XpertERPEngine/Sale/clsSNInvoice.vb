@@ -23,6 +23,7 @@ Public Class clsSNInvoiceHead
     Public Price_Group_Code As String = Nothing
     Public PROJECT_ID As String = Nothing
     Public Invoice_Type As String = Nothing
+    Public Is_ManualTCS As Integer = 0
     Public Mannual_Document_Code As Integer
     Public Document_Code As String = Nothing
     Public Document_Date As DateTime
@@ -317,6 +318,7 @@ Public Class clsSNInvoiceHead
             Else
                 clsCommon.AddColumnsForChange(coll, "Due_Date", Nothing, True)
             End If
+            clsCommon.AddColumnsForChange(coll, "Is_ManualTCS", IIf(obj.Is_ManualTCS, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Terms_Code", obj.Terms_Code)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
@@ -516,7 +518,7 @@ Public Class clsSNInvoiceHead
         Dim obj As clsSNInvoiceHead = Nothing
         Dim qry As String = "SELECT TSPL_SD_SALE_INVOICE_HEAD.Electronic_Ref_No,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,
 TSPL_SD_SALE_INVOICE_HEAD.EwayBillValidDate,TSPL_SD_SALE_INVOICE_HEAD.EwayBillRemarks,TSPL_SD_SALE_INVOICE_HEAD.IRN_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,
-TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.QR_COde,
+TSPL_SD_SALE_INVOICE_HEAD.Ack_Date,TSPL_SD_SALE_INVOICE_HEAD.QR_COde,TSPL_SD_SALE_INVOICE_HEAD.Is_ManualTCS,
 TSPL_SD_SALE_INVOICE_HEAD.is_taxable,TSPL_SD_SALE_INVOICE_HEAD.Is_Delivered,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_PerAmt,TSPL_SD_SALE_INVOICE_HEAD.cust_po_date,
 TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_HEAD.price_group_code,TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Per,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Amt,TSPL_SD_SALE_INVOICE_HEAD.TotCashDiscAmt,TSPL_SD_SALE_INVOICE_HEAD.Route_No,
 TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,TSPL_SD_SALE_INVOICE_HEAD.Price_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code,
@@ -674,7 +676,7 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
             obj.Comments = clsCommon.myCstr(dt.Rows(0)("Comments"))
             obj.Comp_Code = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
             obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
-
+            obj.Is_ManualTCS = clsCommon.myCdbl(dt.Rows(0)("Is_ManualTCS"))
             If dt.Rows(0)("Due_Date") IsNot DBNull.Value Then
                 obj.Due_Date = clsCommon.myCDate(dt.Rows(0)("Due_Date"))
             End If
