@@ -1394,6 +1394,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvicenewwBKN.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceSavingNEW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseBankWiseSubReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportNew.rpt" />
@@ -1973,6 +1974,8 @@
     <None Include="Crystal Reports\Sales Report\receiptold28052012.rpt" />
     <None Include="Crystal Reports\Sales Report\RouteMonthwiseSaleRpt.rpt" />
     <None Include="Crystal Reports\Sales Report\RouteSale.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBankSavingAdvice.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptBankSavingAdviceIFSC.rpt" />
     <None Include="Crystal Reports\Sales Report\rptBoothGatePassBKN.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocation.rpt" />
     <None Include="Crystal Reports\Sales Report\RptCEAllocationALl.rpt" />

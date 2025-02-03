@@ -2410,6 +2410,7 @@ Public Class clsCreateAllTable
             coll.Add("isPenaltyDeduction", "integer Not Null  DEFAULT 0")
             coll.Add("isHighClass", "integer Not Null  DEFAULT 0")
             coll.Add("IsRepeat", "integer NOT Null DEFAULT 1")
+            coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -24361,7 +24362,7 @@ Public Class clsCreateAllTable
             coll.Add("Raj_Entered_Qty", "Decimal(18,3) null")
             coll.Add("Raj_Entered_FATKg", "Decimal(18,3) null")
             coll.Add("Raj_Entered_SNFKg", "Decimal(18,3) null")
-            coll.Add("Tanker_No", "varchar(30) null")
+            ' coll.Add("Tanker_No", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Shift_Date")
             clsDBFuncationality.ExecuteNonQuery(qry)
             coll("Document_No") = "Varchar(30) null"
@@ -24386,6 +24387,7 @@ Public Class clsCreateAllTable
             coll.Add("Against_Milk_Collection_DCS_Detail", "integer null references TSPL_MILK_COLLECTION_DCS_DETAIL(PK_Id)")
             coll.Add("BULK_ROUTE_NO", "Varchar(30)  null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("QAT", "Integer null")
+            coll.Add("Tanker_No", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "")
             clsDBFuncationality.ExecuteNonQuery(qry)
 
@@ -30253,6 +30255,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Vehicle_Type", "varchar(10) null")
             coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("Is_ManualTCS", "Integer Default 0")
+            coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -31997,6 +32000,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("IsAdvanceTaxGlEntry", "integer null")
             coll.Add("MonthlySaleInvoiceNo", "varchar(30) NULL")
             coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
+            coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

@@ -182,6 +182,7 @@ Public Class clsMCCMaterialSale
     Public TotalSubsidyAmt As Double = 0
     Public TotalSubsidyDisAmt As Double = 0
     Public Deduction_Type As String = Nothing
+    Public Deduction As String = Nothing
 
 
 #End Region
@@ -303,7 +304,7 @@ Public Class clsMCCMaterialSale
             End If
         End If
 
-        qry = "select 1 from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Deduction_Type<>'" + obj.Deduction_Type + "' and Item_Code in ("
+        qry = "select 1 from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Deduction <>'" + obj.Deduction + "' and Item_Code in ("
         For Each objtr As clsMCCMaterialSaleDetail In obj.Arr
             If clsCommon.CompairString(objtr.Row_Type, "Item") = CompairStringResult.Equal Then
                 qry += "'" + objtr.Item_Code + "'"
@@ -312,7 +313,7 @@ Public Class clsMCCMaterialSale
         qry += ")"
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            Throw New Exception("Deduction type of All item should be [" + obj.Deduction_Type + "]")
+            Throw New Exception("Deduction of All item should be [" + obj.Deduction + "]")
         End If
         Return True
     End Function
@@ -453,6 +454,7 @@ Public Class clsMCCMaterialSale
             End If
 
             clsCommon.AddColumnsForChange(coll, "Deduction_Type", obj.Deduction_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Deduction", obj.Deduction, True)
             '---------------------------------------------------------------------------------------
             clsCommon.AddColumnsForChange(coll, "Customer_Code", obj.Customer_Code)
             clsCommon.AddColumnsForChange(coll, "On_Hold", IIf(obj.On_Hold, 1, 0))
@@ -797,7 +799,7 @@ Public Class clsMCCMaterialSale
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity,TSPL_SD_SHIPMENT_HEAD.RoundOffAmount,TSPL_SD_SHIPMENT_HEAD.Is_Taxable, TSPL_SD_SHIPMENT_HEAD.Electronic_Ref_No " &
-        ",TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt,TSPL_SD_SHIPMENT_HEAD.Deduction_Type "
+        ",TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.ReceiverName,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt ,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyDisAmt,TSPL_SD_SHIPMENT_HEAD.Deduction_Type ,TSPL_SD_SHIPMENT_HEAD.Deduction "
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SHIPMENT_HEAD.Ship_To_Location "
@@ -847,6 +849,7 @@ Public Class clsMCCMaterialSale
                 obj.EWayBillDate = clsCommon.myCDate(dt.Rows(0)("EWayBillDate"))
             End If
             obj.Deduction_Type = clsCommon.myCstr(dt.Rows(0)("Deduction_Type"))
+            obj.Deduction = clsCommon.myCstr(dt.Rows(0)("Deduction"))
             obj.Electronic_Ref_No = clsCommon.myCstr(dt.Rows(0)("Electronic_Ref_No"))
             obj.EWayBillNo = clsCommon.myCstr(dt.Rows(0)("EWayBillNo"))
             obj.SO_Validity = clsCommon.myCdbl(dt.Rows(0)("SO_Validity"))
@@ -1697,6 +1700,7 @@ Public Class clsMCCMaterialSale
         Dim obj As New clsPSInvoiceHead()
         obj = New clsPSInvoiceHead()
         obj.Deduction_Type = objShipment.Deduction_Type
+        obj.Deduction = objShipment.Deduction
         obj.Item_Tax_Type = objShipment.isTaxExempted
         obj.podate = objShipment.Document_Date
         obj.Total_Comm_Amt = objShipment.Total_Comm_Amt

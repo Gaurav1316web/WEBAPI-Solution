@@ -4156,7 +4156,9 @@ TSPL_SD_SALE_RETURN_DETAIL.MRP, TSPL_SD_SALE_RETURN_DETAIL.Scheme_Code ,TSPL_SD_
         strMCCMaterial += " left join (select Zone_Code,Description from TSPL_ZONE_MASTER) as Zone on Cust.Zone_Code=Zone.Zone_Code " &
                           " left join TSPL_LOCATION_MASTER as Loc on Loc.Location_Code=xx.[Location Code] "
         If clsCommon.myLen(strCategoryTable) > 0 Then
-            strMCCMaterial += " left outer join (" + strCategoryTable + ") as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=xx.[Item Code]"
+            strMCCMaterial += " left outer join (" + strCategoryTable + ") as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=xx.[Item Code] 
+ LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = xx.[Item Code] and TSPL_ITEM_UOM_DETAIL.UOM_Code = xx.uom	 
+ Inner JOIN  ( select item_code,uom_code,conversion_factor from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON xx.[Item Code] = I.item_code "
         End If
         ''==========Monika
         strMCCMaterial += " left outer join (" + qryQC + ")QC on QC.item_code=xx.[Item Code] "
