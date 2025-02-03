@@ -176,8 +176,8 @@
     <Reference Include="XpertERPMIS">
       <HintPath>..\XpertERP\bin\Debug\XpertERPMIS.dll</HintPath>
     </Reference>
-    <Reference Include="zxing %281%29">
-      <HintPath>..\XpertERP\bin\Debug\zxing (1).dll</HintPath>
+    <Reference Include="zxing">
+      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
