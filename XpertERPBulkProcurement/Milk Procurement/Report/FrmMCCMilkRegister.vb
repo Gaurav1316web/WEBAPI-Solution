@@ -5230,11 +5230,11 @@ Public Class FrmMCCMilkRegister
         End If
         Try
             If chkRouteWiseDateWise.Checked Then
-                strquery = "select ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC.Route_Code ORDER BY TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as SNo,  CASE 
+                strquery = "select * from (select ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC.Route_Code ORDER BY TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as SNo,TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,  CASE 
         WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'E' THEN DATEADD(DAY, -1, CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103))
         WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'M' THEN CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103)
         ELSE NULL  -- Optional: handle unknown shifts
-    END AS Shift_Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC,(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No, TSPL_MILK_COLLECTION_MCC.Route_Code as [Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME , TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type
+    END AS Shift_Date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as fromdate, '" + clsCommon.GetPrintDate(txtToDate.Value) + "' AS todate,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC,(TSPL_VLC_MASTER_HEAD.VLC_Name) as [VLC Name],TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No, TSPL_MILK_COLLECTION_MCC.Route_Code as [Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME , TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type
                 ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,0)) else 0 end as [Good Qty]
                 ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (TSPL_MILK_COLLECTION_DCS_DETAIL.FAT) else 0 end as [Good FAT %]
                 ,case When (isnull(TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,''))='Good' then (cast(TSPL_MILK_COLLECTION_DCS_DETAIL.Qty*TSPL_MILK_COLLECTION_DCS_DETAIL.FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
@@ -5262,14 +5262,8 @@ Public Class FrmMCCMilkRegister
                     left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
                     left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
                     Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code WHERE 2=2 
-AND (
-    (CASE 
-        WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'E' 
-            THEN DATEADD(DAY, -1, CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103))
-        WHEN TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'M' 
-            THEN CONVERT(DATE, TSPL_MILK_COLLECTION_DCS.Document_Date, 103)
-        ELSE NULL  
-    END) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "') ORDER BY TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.SNO ASC"
+)XXfinal  where  (
+    XXfinal.Shift_Date BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and '" + clsCommon.GetPrintDate(txtToDate.Value) + "')  and (Shift='" + Fromshift + "' or Shift='" + Toshift + "') and (Shift='" + Toshift + "' or Shift='" + Fromshift + "')   ORDER BY XXfinal.PK_Id,XXfinal.SNO ASC"
             Else
                 strquery = "SELECT 
     TSPL_MILK_COLLECTION_MCC.Route_Code AS [Route Code],

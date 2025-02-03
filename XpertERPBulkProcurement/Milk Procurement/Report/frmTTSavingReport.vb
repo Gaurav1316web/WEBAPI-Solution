@@ -56,11 +56,14 @@ Public Class frmTTSavingReport
             Dim itemCode As String = String.Empty
             Dim MainQueryForScheme As String = String.Empty
             Dim strWhrRoutSummaryPrint As String = String.Empty
+            Dim from_Date As String = clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy")
+            Dim To_date As String = clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy")
 
-            Query = " select ROW_NUMBER() over(order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as SNo,'" + fromDate.Value + "' as FD,'" + dtpToDate.Value + "' as TD,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xxxx.Vendor_Code,TSPL_VENDOR_MASTER.Bank_Code,
-                      TSPL_BANK_MASTER.DESCRIPTION AS Bank_Name,xxxx.Total_Amt,xxxx.Settlement_Amt,xxxx.Transfer_Amt,(xxxx.Total_Amt-xxxx.Settlement_Amt) as Outstanding_BLC from 
+            Query = " select ROW_NUMBER() over(order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as SNo,'" + from_Date + "' as FD,'" + To_date + "' as TD,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xxxx.Vendor_Code,TSPL_VENDOR_MASTER.Bank_Code,
+                      TSPL_BANK_MASTER.DESCRIPTION AS Bank_Name,xxxx.Invoice_Amt as Total_Amt,xxxx.Settlement_Amt,xxxx.Transfer_Amt,(xxxx.Invoice_Amt-xxxx.Settlement_Amt) as Outstanding_BLC from 
 (select Vendor_Code,sum(Document_Total)Document_Total,
-sum(Document_Total* case when RI=2 and Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'and Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end )  as Total_Amt,
+sum(Document_Total* case when RI=4 and Posting_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end )  as Invoice_Amt,
+sum(Document_Total* case when RI=2 and Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end )  as Total_Amt,
 sum(Document_Total* case when RI=3 and From_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'and To_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end ) AS Settlement_Amt,
 sum(Document_Total* case when RI=2 and Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'and Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' then 1 else 0 end ) AS Transfer_Amt
 
@@ -74,6 +77,9 @@ select Vendor_Code,Document_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as Document_Da
 LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
 LEFT OUTER JOIN TSPL_PAYMENT_PROCESS_HEAD ON TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No
 where  2=2 AND Against_TransferToSavingPKID IS NOT NULL and TSPL_PAYMENT_PROCESS_HEAD.From_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'and TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' 
+union all
+select Vendor_Code,Document_No,'' as Document_Date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,'' as From_Date,'' as To_Date ,Document_Total,4 as RI,0 AS CHK  from TSPL_VENDOR_INVOICE_HEAD
+where  2=2 AND Transfer_To_Saving=1
 )xxx   
 group by Vendor_Code)xxxx 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=xxxx.Vendor_Code

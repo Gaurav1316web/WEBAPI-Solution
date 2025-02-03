@@ -69,7 +69,7 @@ Partial Class frmTransferKDILReturn
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
@@ -941,7 +941,7 @@ Partial Class frmTransferKDILReturn
     Friend WithEvents lblVendorCode As common.Controls.MyLabel
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents Attachments As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents MyLabel2 As common.Controls.MyLabel

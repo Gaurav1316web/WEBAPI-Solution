@@ -1964,10 +1964,10 @@ union all"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 sQuery += " Select * from(select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount,99 as SNo from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
-                            )xx order by  xx.Description "
+                            )xx order by  xx.SNo "
             Else
                 sQuery += " Select * from(select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
-                            )xx order by  xx.SNo  "
+                            )xx order by  xx.Description  "
             End If
 
             dtDebit = clsDBFuncationality.GetDataTable(sQuery)
@@ -2278,7 +2278,19 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
                 ' )xxxx order by GRPColumn "
                 dtAdvice = clsDBFuncationality.GetDataTable(ssql)
             End If
-
+            Dim dtSavingat2 As DataTable = Nothing
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                Dim sqlqry = " select TSPL_DEDUCTION_MASTER.Description as Description, 
+                                sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount  from TSPL_PAYMENT_PROCESS_DEDUCTION
+                                left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
+                                left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+                                left outer join ( select code, Description  from TSPL_DCS_ADDITION_DEDUCTION
+                                union 
+                                select  Code , Description from TSPL_DEDUCTION_MASTER) as TSPL_DEDUCTION_MASTER on ( TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
+                                where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ( " + strDocNo + " )  and Len(TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE ) > 0 
+                                and TSPL_VENDOR_INVOICE_HEAD.Saving In ('1','2') group by TSPL_DEDUCTION_MASTER.Description   "
+                dtSavingat2 = clsDBFuncationality.GetDataTable(sqlqry)
+            End If
 
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -2308,7 +2320,7 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreNEW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreALW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreALW", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType, "rptSavingat2.rpt", dtSavingat2)
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCre", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 End If
@@ -3079,7 +3091,7 @@ left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.Ma
         sQuery += ")ZZ  where Addition!='Notview' GROUP BY  ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition,zz.Addition_Hindi"
         Dim dtAddition As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
-        sQuery = "select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME,Max(case when Ded_Desc IS NULL OR len(Ded_Desc)<=0 then Ded_Code else Ded_Desc end ) as Ded_Code,Max(case when len(Ded_Desc)<=0 then Ded_Code else Ded_Code_Hindi end ) as Ded_Code_Hindi,Max(case when len(Ded_Desc)<=0 then Ded_Code else Hindi end ) as Hindi_Ded_Code, sum(Amount) as [Amount],max(ManAddDed) as ManAddDed,sum(Reduce_Deduc_Amt)Reduce_Deduc_Amt ,max(Deduction_Type)Deduction_Type,max(Deduction_Type_Hindi)Deduction_Type_Hindi from (
+        sQuery = "select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME,Max(case when Ded_Desc IS NULL OR len(Ded_Desc)<=0 then Ded_Code else Ded_Desc end ) as Ded_Code,Max(case when len(Ded_Desc)<=0 then Ded_Code else Ded_Code_Hindi end ) as Ded_Code_Hindi,Max(case when len(Ded_Desc)<=0 then Ded_Code else Hindi end ) as Hindi_Ded_Code, sum(Amount) as [Amount],max(ManAddDed) as ManAddDed,sum(Reduce_Deduc_Amt)Reduce_Deduc_Amt from (
 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,case when len(isnull(TSPL_DEDUCTION_MASTER.Description,''))<=0  then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_DEDUCTION_MASTER.Description end as Ded_Desc,TSPL_DEDUCTION_MASTER.Description_Hindi  as Ded_Code_Hindi,"
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
@@ -3088,13 +3100,12 @@ select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYM
             sQuery += " (TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount "
         End If
 
-        sQuery += ",case when TSPL_MULTIPLE_DEDUCTION_head.Document_No is not null then 1 else 0 end as ManAddDed,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi AS Hindi ,TSPL_DEDUCTION_TYPE_MASTER.Description AS Deduction_Type,TSPL_DEDUCTION_MASTER.Deduction_Type_Hindi
+        sQuery += ",case when TSPL_MULTIPLE_DEDUCTION_head.Document_No is not null then 1 else 0 end as ManAddDed,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi AS Hindi 
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
 left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
 left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code 
-left outer join TSPL_DEDUCTION_TYPE_MASTER  on TSPL_DEDUCTION_TYPE_MASTER.Document_No=TSPL_DEDUCTION_MASTER.Code
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
 left outer join TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
 where  "
@@ -3106,11 +3117,11 @@ where  "
         End If
 
         sQuery += "   union all
-select TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE as Vendor_CODE,VSP_NAME as Vendor_NAME,'TDS' as Ded_Code,'TDS' as Ded_Desc,'' as Ded_Code_Hindi,TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount as Amount,0 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi ,'' as Deduction_Type,'' as Deduction_Type_Hindi
+select TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE as Vendor_CODE,VSP_NAME as Vendor_NAME,'TDS' as Ded_Code,'TDS' as Ded_Desc,'' as Ded_Code_Hindi,TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount as Amount,0 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi 
 from TSPL_PAYMENT_PROCESS_DETAIL 
 where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") and TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount>0 
 union all
-select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Ded_Code,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Ded_Desc,'' as Ded_Code_Hindi,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount as Amount,0 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi ,'' as Deduction_Type,'' as Deduction_Type_Hindi  from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE
+select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Ded_Code,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Ded_Desc,'' as Ded_Code_Hindi,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount as Amount,0 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi  from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE
 left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.DCS_Addition_Deduction
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_Code 
@@ -3119,17 +3130,16 @@ where TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Nature_Typ
 union ALL
 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_MCC_SALE.customer_code as Vendor_CODE, 
 TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME  as Vendor_NAME,
-'CENTRAL INPUT' as Ded_Code,'CENTRAL INPUT' as Ded_Desc,'' as Ded_Code_Hindi,(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount,1 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi ,TSPL_ITEM_MASTER.Deduction_Type as Deduction_Type,'' as Deduction_Type_Hindi
+'CENTRAL INPUT' as Ded_Code,'CENTRAL INPUT' as Ded_Desc,'' as Ded_Code_Hindi,(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount,1 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi 
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
 left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
 
 where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
-) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME,
-Case when isnull(Final.Deduction_Type,'')='' then Final.Ded_Code Else Final.Deduction_Type End,
-final.Hindi 
---group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,final.Hindi
+) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,final.Hindi
+--group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME,Case when isnull(Final.Deduction_Type,'')='' then Final.Ded_Code Else Final.Deduction_Type End,final.Hindi 
+
 "
         Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
@@ -3707,7 +3717,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                         objidx.CRTo = -1
                         objidx.DRTo = -1
                         objidx.SavingTo = -1
-                        ArrIndex.Add(clsCommon.myCstr(dtbl.Rows(i)("VSP_CODE")), objidx)
+                        ArrIndex.Add(clsCommon.myCstr(dtbl.Rows(i)("VSP_CODE")).ToUpper(), objidx)
                     End If
                 Next
             End If
@@ -4022,11 +4032,11 @@ Public Class clsPaymentProcessMCCSale
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_TYPE_MASTER.Document_No as DeductionType 
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_MASTER.Code as DeductionType 
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Sale_Doc_No    
-left outer join TSPL_DEDUCTION_TYPE_MASTER on TSPL_DEDUCTION_TYPE_MASTER.Document_No=TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type 
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SALE_INVOICE_HEAD.Deduction 
 where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_MCC_SALE.SLNO as int)"
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
@@ -4365,24 +4375,30 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
             End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
-                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE"))
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE")).ToUpper()
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
-                    If ApplyIndex Then
-                        If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
-                            IdxTo = i - 1
-                            ArrIndex(IdxVendor).DRFrom = IdxFrom
-                            ArrIndex(IdxVendor).DRTo = IdxTo
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
-                            IdxFrom = i
+                    Try
+                        If ApplyIndex Then
+                            If (Not (clsCommon.CompairString(IdxVendor, clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))) = CompairStringResult.Equal)) Then
+                                IdxTo = i - 1
+                                ArrIndex(IdxVendor).DRFrom = IdxFrom
+                                ArrIndex(IdxVendor).DRTo = IdxTo
+                                IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE")).ToUpper()
+                                IdxFrom = i
+                            End If
+                            If i = dtbl.Rows.Count - 1 Then
+                                IdxTo = i
+                                ArrIndex(IdxVendor).DRFrom = IdxFrom
+                                ArrIndex(IdxVendor).DRTo = IdxTo
+                            End If
                         End If
-                        If i = dtbl.Rows.Count - 1 Then
-                            IdxTo = i
-                            ArrIndex(IdxVendor).DRFrom = IdxFrom
-                            ArrIndex(IdxVendor).DRTo = IdxTo
-                        End If
-                    End If
+                    Catch ex As Exception
+                        Dim x As Integer = i
+                        Dim y As Integer=i
+                    End Try
+
 
                     obj = New clsPaymentProcessDeduction
                     obj.Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Doc_No"))
@@ -4476,7 +4492,7 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
             End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
-                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE"))
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_CODE")).ToUpper()
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
@@ -4486,7 +4502,7 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
                             ArrIndex(IdxVendor).CRFrom = IdxFrom
                             ArrIndex(IdxVendor).CRTo = IdxTo
 
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE")).ToUpper()
                             IdxFrom = i
                         End If
                         If i = dtbl.Rows.Count - 1 Then
@@ -4983,7 +4999,7 @@ from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSP
             End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
-                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code"))
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code")).ToUpper()
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
                 For i As Integer = 0 To dtbl.Rows.Count - 1
@@ -4993,7 +5009,7 @@ from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSP
                             ArrIndex(IdxVendor).SavingFrom = IdxFrom
                             ArrIndex(IdxVendor).SavingTo = IdxTo
 
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code")).ToUpper()
                             IdxFrom = i
                         End If
                         If i = dtbl.Rows.Count - 1 Then
@@ -5093,7 +5109,7 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
             End If
             Dim dtbl As DataTable = clsDBFuncationality.GetDataTable(q, trans)
             If dtbl IsNot Nothing AndAlso dtbl.Rows.Count > 0 Then
-                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code"))
+                Dim IdxVendor As String = clsCommon.myCstr(dtbl.Rows(0)("Vendor_Code")).ToUpper()
                 Dim IdxFrom As Integer = 0
                 Dim IdxTo As Integer = -1
 
@@ -5104,7 +5120,7 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
                             ArrIndex(IdxVendor).COMPULSORYFrom = IdxFrom
                             ArrIndex(IdxVendor).COMPULSORYTo = IdxTo
 
-                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
+                            IdxVendor = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code")).ToUpper()
                             IdxFrom = i
                         End If
                         If i = dtbl.Rows.Count - 1 Then

@@ -105,6 +105,7 @@ Partial Class frmSNSaleInvoice
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnManualTCS = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
         Me.rbtnTaxCalAutomatic = New common.Controls.MyRadioButton()
         Me.txtTaxGroup = New common.UserControls.txtFinder()
@@ -124,7 +125,7 @@ Partial Class frmSNSaleInvoice
         Me.RadLabel31 = New common.Controls.MyLabel()
         Me.lblAddCharges = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -294,6 +295,7 @@ Partial Class frmSNSaleInvoice
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -457,7 +459,7 @@ Partial Class frmSNSaleInvoice
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1282, 436)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1721,14 +1723,25 @@ Partial Class frmSNSaleInvoice
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.rbtnManualTCS)
         Me.GroupBox1.Controls.Add(Me.rbtnTaxCalManual)
         Me.GroupBox1.Controls.Add(Me.rbtnTaxCalAutomatic)
         Me.GroupBox1.Location = New System.Drawing.Point(547, -2)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(163, 36)
+        Me.GroupBox1.Size = New System.Drawing.Size(239, 36)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Tax Calculation Type"
+        '
+        'rbtnManualTCS
+        '
+        Me.rbtnManualTCS.Location = New System.Drawing.Point(152, 12)
+        Me.rbtnManualTCS.MyLinkLable1 = Nothing
+        Me.rbtnManualTCS.MyLinkLable2 = Nothing
+        Me.rbtnManualTCS.Name = "rbtnManualTCS"
+        Me.rbtnManualTCS.Size = New System.Drawing.Size(80, 18)
+        Me.rbtnManualTCS.TabIndex = 6
+        Me.rbtnManualTCS.Text = "Manual TCS"
         '
         'rbtnTaxCalManual
         '
@@ -3429,6 +3442,7 @@ Partial Class frmSNSaleInvoice
         Me.RadPageViewPage2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnManualTCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3658,7 +3672,7 @@ Partial Class frmSNSaleInvoice
     Friend WithEvents chkRateUserCustomer As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents chkRateDefaultSetting As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents pvpCustomFields As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents UcCustomFields1 As ERP.ucCustomFields
+    Friend WithEvents UcCustomFields1 As XpertERPEngine.ucCustomFields
     Friend WithEvents pnlCurrConv As System.Windows.Forms.Panel
     Friend WithEvents txtCurrencyCode As common.UserControls.txtFinder
     Friend WithEvents lblEffectiveFrom As common.Controls.MyLabel
@@ -3748,5 +3762,6 @@ Partial Class frmSNSaleInvoice
     Friend WithEvents btnInvAnnexure As RadSplitButton
     Friend WithEvents BtnInvoice As RadMenuItem
     Friend WithEvents btnAnnexure As RadMenuItem
+    Friend WithEvents rbtnManualTCS As common.Controls.MyRadioButton
 End Class
 

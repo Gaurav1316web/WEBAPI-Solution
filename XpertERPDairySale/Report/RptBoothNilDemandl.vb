@@ -74,18 +74,18 @@ Public Class RptBoothNilDemandl
                     Whr += " and TSPL_PRODUCT_DEMAND_BOOKING_MASTER.ItemType='IceCream' "
                 End If
             End If
-            Dim Qry As String = " select row_number() over(order by(select 1)) as SNo,Cust_Code as [Booth Code],customer_name as [Booth Name],Route_No as [Route No],Status,tspl_customer_master.Phone1 as [Mobile No] from tspl_customer_master where " + Routewhr + "   not exists  ( "
-            If rdbMilk.Checked Then
+            Dim Qry As String = " select row_number() over(order by(select 1)) as SNo,Cust_Code as [Booth Code],customer_name as [Booth Name],Route_No as [Route No],Status,tspl_customer_master.Phone1 as [Mobile No] from tspl_customer_master where 2=2 " + Routewhr + "and   not exists  ( "
+
+            If EnableProductSaleForJPR AndAlso (rdbProduct.Checked OrElse rbtnIceCream.Checked) Then
+                Qry += " Select  TSPL_PRODUCT_DEMAND_BOOKING_detail.Cust_Code from TSPL_PRODUCT_DEMAND_BOOKING_MASTER
+left join TSPL_PRODUCT_DEMAND_BOOKING_detail on TSPL_PRODUCT_DEMAND_BOOKING_detail.document_no=TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PRODUCT_DEMAND_BOOKING_detail.Item_Code
+where  tspl_customer_master.Cust_Code=TSPL_PRODUCT_DEMAND_BOOKING_detail.Cust_Code " + Whr + "   " + Routewhr + ")"
+            Else
+
                 Qry += " Select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.document_no=TSPL_DEMAND_BOOKING_MASTER.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 where  tspl_customer_master.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code " + Whr + "   " + Routewhr + ")"
-            End If
-            If EnableProductSaleForJPR Then
-                If rdbProduct.Checked OrElse rbtnIceCream.Checked Then
-                    Qry += " Select  TSPL_PRODUCT_DEMAND_BOOKING_detail.Cust_Code from TSPL_PRODUCT_DEMAND_BOOKING_MASTER
-left join TSPL_PRODUCT_DEMAND_BOOKING_detail on TSPL_PRODUCT_DEMAND_BOOKING_detail.document_no=TSPL_PRODUCT_DEMAND_BOOKING_MASTER.Document_No  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PRODUCT_DEMAND_BOOKING_detail.Item_Code
-where  tspl_customer_master.Cust_Code=TSPL_PRODUCT_DEMAND_BOOKING_detail.Cust_Code " + Whr + "   " + Routewhr + ")"
-                End If
+
             End If
             Qry += " And tspl_customer_master.IsDistributor='N'   " + status + " "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)

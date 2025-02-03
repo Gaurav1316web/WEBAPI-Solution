@@ -116,7 +116,7 @@ Public Class clsMilkShiftUploaderHead
             clsCommon.AddColumnsForChange(coll, "Raj_Entered_Qty", obj.Raj_Entered_Qty)
             clsCommon.AddColumnsForChange(coll, "Raj_Entered_FATKg", obj.Raj_Entered_FATKg)
             clsCommon.AddColumnsForChange(coll, "Raj_Entered_SNFKg", obj.Raj_Entered_SNFKg)
-            clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
+            'clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
 
             '' update Sync Satatus
             clsCommon.AddColumnsForChange(coll, "SYNC_STATUS", 0)
@@ -144,7 +144,7 @@ Public Class clsMilkShiftUploaderHead
     End Function
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal ForRaj As Boolean, ByVal isPickCLRInsteadOfSNF As Boolean) As clsMilkShiftUploaderHead
         Dim obj As clsMilkShiftUploaderHead = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name,TSPL_MILK_SHIFT_UPLOADER_HEAD.Tanker_No " &
+        Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No " &
         " FROM TSPL_MILK_SHIFT_UPLOADER_HEAD left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.Dock_Code  left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_HEAD.Raj_Bulk_Route_Code where 2=2 "
         Select Case NavType
             Case NavigatorType.First
@@ -1529,6 +1529,8 @@ Public Class clsMilkShiftUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
                 clsCommon.AddColumnsForChange(coll, "No_Of_Cans", obj.No_Of_Cans)
                 clsCommon.AddColumnsForChange(coll, "Milk_Weight", obj.Milk_Weight)
+                clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
+
                 If settMaxFATPerLimit > 0 Then
                     If obj.FAT > settMaxFATPerLimit Then
                         Throw New Exception("FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".")

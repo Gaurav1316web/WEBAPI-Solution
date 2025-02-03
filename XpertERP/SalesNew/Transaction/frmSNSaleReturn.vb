@@ -6206,6 +6206,13 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             If e.Column.Index >= 0 Then
                 If (e.Column Is gv2.Columns(colTTaxAmt)) Then
                     gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = rbtnTaxCalAutomatic.IsChecked
+                    If rbtnManualTCS.IsChecked Then
+                        If clsCommon.CompairString(gv2.CurrentRow.Cells(colTTaxAutCode).Value, "TCS") = CompairStringResult.Equal Then
+                            gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = False
+                        Else
+                            gv2.CurrentRow.Cells(colTTaxAmt).ReadOnly = True
+                        End If
+                    End If
                 End If
 
                 Dim cell As GridDataCellElement = TryCast(e.CellElement, GridDataCellElement)
@@ -6216,7 +6223,33 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
-
+    Private Sub UpdateManualTCS(ByVal IntRowNo As Integer)
+        Try
+            For ii As Integer = 1 To 10
+                Dim Strii As String = clsCommon.myCstr(ii)
+                If rbtnManualTCS.IsChecked Then
+                    If gv2.Rows.Count >= ii Then
+                        Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
+                        If clsCommon.CompairString(strTaxCode, "TCS") = CompairStringResult.Equal Then
+                            Dim dblTaxAmt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+                            Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmt).Value)
+                            Dim dblTotAmt As Double = 0
+                            For jj As Integer = 0 To gv1.Rows.Count - 1
+                                dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+                            Next
+                            Dim dblCurrCalTax As Double = 0
+                            If dblTotAmt <> 0 Then
+                                dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+                            End If
+                            gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+                        End If
+                    End If
+                End If
+            Next
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub gv2_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv2.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -6225,6 +6258,11 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                     If (e.Column Is (gv2.Columns(colTTaxAmt)) AndAlso rbtnTaxCalManual.IsChecked) Then
                         For ii As Integer = 0 To gv1.Rows.Count - 1
                             UpdateCurrentRow(ii)
+                        Next
+                        UpdateAllTotals()
+                    ElseIf (e.Column Is (gv2.Columns(colTTaxAmt)) AndAlso rbtnManualTCS.IsChecked) Then
+                        For ii As Integer = 0 To gv1.Rows.Count - 1
+                            UpdateManualTCS(ii)
                         Next
                         UpdateAllTotals()
                     End If
