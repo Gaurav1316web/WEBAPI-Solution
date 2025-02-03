@@ -144,8 +144,9 @@ Public Class clsMilkShiftUploaderHead
     End Function
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal ForRaj As Boolean, ByVal isPickCLRInsteadOfSNF As Boolean) As clsMilkShiftUploaderHead
         Dim obj As clsMilkShiftUploaderHead = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No " &
-        " FROM TSPL_MILK_SHIFT_UPLOADER_HEAD left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.Dock_Code  left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_HEAD.Raj_Bulk_Route_Code where 2=2 "
+        Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No " &
+        " FROM TSPL_MILK_SHIFT_UPLOADER_HEAD left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL  on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No=TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No
+ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.Dock_Code  left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_HEAD.Raj_Bulk_Route_Code where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No = (select MIN(Document_No) from TSPL_MILK_SHIFT_UPLOADER_HEAD where 1=1  )"
@@ -233,7 +234,7 @@ Public Class clsMilkShiftUploaderHead
 
                     Next
                 End If
-                qry += " ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo,TSPL_MILK_SHIFT_UPLOADER_HEAD.Tanker_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+                qry += " ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
 				left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
@@ -1601,6 +1602,8 @@ Public Class clsMilkShiftUploaderDetail
                 objTr.Reject_Defaulter = clsCommon.myCstr(dr("Reject_Defaulter"))
                 objTr.VLC_Uploader_Code = clsCommon.myCstr(dr("Uploader_Code"))
                 objTr.QAT = IIf(clsCommon.myCDecimal(dr("QAT")) = 1, True, False)
+                objTr.Tanker_No = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+
                 arr.Add(objTr)
             Next
         End If
