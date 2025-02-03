@@ -1502,6 +1502,9 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                             EwbValidTill = clsCommon.GetPrintDate(EwbValidTill, "dd/MMM/yyyy hh:mm tt")
                         End If
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set  EWayBillNo ='" & EwbNo & "',EwayBillDate=(CASE WHEN LEN('" & EwbDt & "')>0   THEN '" & EwbDt & "' ELSE NULL END) ,EwayBillValidDate=(CASE WHEN LEN('" & EwbValidTill & "')>0   THEN '" & EwbValidTill & "' ELSE NULL END)  , EWayBillRemarks = '" & Remarks & "'  where DOCUMENT_CODE ='" & strDocNo & "' ", trans)
+                        Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
+                        Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(EwbNo + "/" + CompGSTNo + "/" + EwbDt)
+                        clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
                     End If
                 Else
                     'Throw New Exception("EInvoice- Invalid JSON Value")
