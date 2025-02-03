@@ -41,10 +41,12 @@ Public Class frmCancelledTransactions_DairySale
             dtpToDate.Value = Todate
             ShowData()
         End If
-        If clsCommon.CompairString(cboTransaction.Text, "Dispatch") <> CompairStringResult.Equal Then
+        If clsCommon.CompairString(cboTransaction.Text, "Dispatch") = CompairStringResult.Equal Then
             btnPrintCancel.Visible = False
+            lblPrintMsg.Visible = True
         Else
-            btnPrintCancel.Visible = True
+            lblPrintMsg.Visible = False
+            btnPrintCancel.Visible = False
         End If
     End Sub
     Public Sub LoadModuleType()
@@ -130,7 +132,6 @@ Public Class frmCancelledTransactions_DairySale
         gv1.Rows.Clear()
         gv1.Columns.Clear()
         gv1.AllowAddNewRow = False
-
     End Sub
     Sub gv1Format()
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dairy GatePass") = CompairStringResult.Equal Then
@@ -146,7 +147,7 @@ Public Class frmCancelledTransactions_DairySale
             Me.gv1.MasterTemplate.Columns(i).Width = 120
         Next i
         Me.gv1.MasterTemplate.Columns("Description").Width = 200    ''Last Column
-        For j As Integer = 1 To count - 1
+        For j As Integer = 0 To count - 1
             Me.gv1.MasterTemplate.Columns(j).ReadOnly = True
         Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
@@ -162,8 +163,6 @@ Public Class frmCancelledTransactions_DairySale
             qry = Nothing
             ShowData()
         End If
-
-
     End Sub
     Function GetSubbordinateUsers(ByVal strUserCode As String) As ArrayList
         Dim arrUser As New ArrayList
@@ -211,15 +210,15 @@ Public Class frmCancelledTransactions_DairySale
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dispatch") = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "  Select TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_Code as [Document Id],convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) as [Document Date]," &
-                " TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_delivery_Code as [Against Delivery No] ,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location as [Location Code]," &
+                " TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Against_delivery_Code as [Against Delivery No], TSPL_CUSTOMER_MASTER.Cust_Code As [Distributor Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Distributor Name] , TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Route_No As [Route No],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Route_Desc As [Route Name],Convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Supply_Date,103) As [Supply Date]," &
+                " Case When TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Shift_Type='AM' Then 'Morning' Else 'Evening' End As [Supply Shift],Case When TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Is_Taxable=0 Then 'Non-Taxable' Else 'Taxable' End As [Invoice Type],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location as [Location Code]," &
                 " TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_By as [Created By]," &
-                " convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_Date,103) as [Created Date],'' as Description,Sale_Invoice_No as [Invoice No],
+                " (convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_Date,103)+' '+convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Created_Date,108)) as [Created Date],'' as Description,Sale_Invoice_No as [Invoice No],
 CONVERT(varchar, TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Sale_Invoice_Date,103) AS [Invoice Date],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Total_Amt as [Invoice Amount],IRN_No as[IRN No] ,TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_No as [Ack No],
-TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],
-TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_By AS [Canceled By],
-convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_On,103) AS [Canceled Date]
+TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_By AS [Canceled By],(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_On,103)+' '+CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_On,108)) AS [Canceled Date]
                  from TSPL_SD_SHIPMENT_HEAD_Cancel_Data left outer join TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data on TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Document_Code=TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Sale_Invoice_No " &
-                " Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code " &
+                " Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Customer_Code
+ Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code " &
             " WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
             " and convert(date,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) and  TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Screen_Type='DS'"
 
@@ -278,6 +277,7 @@ convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_On,103) AS [Canceled Da
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
             dt = clsDBFuncationality.GetDataTable(qry)
+            LoadBlankGrid()
             gv1.DataSource = dt
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             gv1Format()
@@ -352,38 +352,47 @@ convert(varchar,TSPL_SD_SHIPMENT_HEAD_Cancel_Data.Cancel_On,103) AS [Canceled Da
     End Sub
 
     Private Sub btnPrintCancel_Click(sender As Object, e As EventArgs) Handles btnPrintCancel.Click
+        printCanceInvoice()
+    End Sub
+
+    Sub printCanceInvoice()
         Try
-            Dim Doc_Code As String = Nothing
-            Dim Doc_Date As DateTime = Nothing
-            Dim Inv_Code As String = Nothing
-            Dim Cust_Code As String = Nothing
-            Dim objPrintInvoice As New frmShipmentDairy
-            If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
-                If gv1.CurrentCell.IsSelected Then
+            If clsCommon.CompairString(cboTransaction.Text, "Dispatch") = CompairStringResult.Equal Then
+                Dim Doc_Code As String = Nothing
+                Dim Doc_Date As DateTime = Nothing
+                Dim Inv_Code As String = Nothing
+                Dim Cust_Code As String = Nothing
+                Dim objPrintInvoice As New frmShipmentDairy
+                If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
                     Doc_Code = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value)
                     Doc_Date = clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value)
                     Inv_Code = clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Invoice No").Value)
                     Cust_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Customer_Code from TSPL_SD_SHIPMENT_HEAD_Cancel_Data where Document_Code='" + Doc_Code + "'"))
+                    objPrintInvoice.PrintInvoiveForAll(Doc_Code, Doc_Date, Inv_Code, True)
+                Else
+                    Throw New Exception("Data not found !")
                 End If
-            Else
-                Throw New Exception("Data not found !")
             End If
-            objPrintInvoice.PrintInvoiveForAll(Doc_Code, Doc_Date, Inv_Code, True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub cboTransaction_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboTransaction.SelectedValueChanged
+        Try
+            If clsCommon.CompairString(cboTransaction.Text, "Dispatch") = CompairStringResult.Equal Then
+                btnPrintCancel.Visible = False
+                lblPrintMsg.Visible = True
+            Else
+                btnPrintCancel.Visible = False
+                lblPrintMsg.Visible = False
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Private Sub cboTransaction_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboTransaction.SelectedValueChanged
-        Try
-            If clsCommon.CompairString(cboTransaction.Text, "Dispatch") <> CompairStringResult.Equal Then
-                btnPrintCancel.Visible = False
-            Else
-                btnPrintCancel.Visible = True
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+    Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
+        printCanceInvoice()
     End Sub
 
     'Private Sub gv1_CellEditorInitialized(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellEditorInitialized
