@@ -333,6 +333,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntries.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNewALW.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNewJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleMultipleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleMultipleGatePassEntryNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDispatchProductSale.rpt" />
@@ -1984,6 +1985,7 @@
     <None Include="Crystal Reports\Sales Report\rptCreditSaleSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustBillWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustBillWiseDuesSummary.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptCustItemWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustomerDayWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustomerDayWiseCredit.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustomerDayWiseDebit.rpt" />

@@ -184,7 +184,7 @@ Public Class clsfrmVLCMaster
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Update, " TSPL_VENDOR_MASTER.Vendor_Code='" + obj.vlcCode + "'", trans)
             End If
-            ' clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.vlcCode), "TSPL_VLC_MASTER_HEAD", "vlc_code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.vlcCode, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
             'isSaved = isSaved AndAlso SaveVLCPriceCode(obj.vlcCode, obj.vspCode, obj.MCCCOde, trans)
             SaveVLCPriceCode(obj.vlcCode, obj.vspCode, obj.MCCCOde, trans)
             '----------insert detail block--------------------------------------------------

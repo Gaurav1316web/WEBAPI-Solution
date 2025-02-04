@@ -2224,6 +2224,16 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.code =TSPL_PAYMEN
 where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1
 UNION
 SELECT 'TDS' as Ded_Code
+UNION
+select distinct (case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description end) as Ded_Code
+from TSPL_PAYMENT_PROCESS_MCC_SALE 
+inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Item_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_Code  
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.deduction
+where convert(date,TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1
+
 )x order by Ded_Code "
             End If
 
@@ -2488,7 +2498,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAY
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 sQueryDD += " Left Outer Join TSPL_MCC_MASTER On TSPL_VLC_MASTER_HEAD.MCC = TSPL_MCC_MASTER.MCC_Code "
             End If
-            sQueryDD += "  left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_SD_SHIPMENT_HEAD.Deduction_Type
+            sQueryDD += "  left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.deduction
                             where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate + "'),103) and
                             convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + Todate + "'),103)  "
 

@@ -126,6 +126,7 @@ Public Class clsMpMaster
                     If chkCount > 0 Then
                         Dim UpdateQry As String = "Update TSPL_MP_MASTER Set BankName='" + obj.BankName + "',IFCICode='" + obj.IFCICode + "',AccountNO='" + obj.AccountNO + "' Where MP_Code='" + obj.MP_Code + "'"
                         clsDBFuncationality.ExecuteNonQuery(UpdateQry, trans)
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MP_Code, "tspl_mp_master", "MP_Code", trans)
                     Else
                         Throw New Exception("Line No. " + clsCommon.myCstr(linno) + " MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") is not exist !")
                     End If
