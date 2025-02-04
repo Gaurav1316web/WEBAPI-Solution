@@ -13,14 +13,23 @@ Public Class frmBankAdvise
         btnDelete.Visible = MyBase.isDeleteFlag
     End Sub
     Private Sub frmBankAdvise_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        Reset()
         Try
+            SetUserMgmtNew()
+            Reset()
             IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
+            createTable()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
 
+    Sub createTable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_Code", "varchar(30) references TSPL_BANK_ADVISE(Document_No)")
+        coll.Add("Bank", "varchar(50) Null")
+        coll.Add("Bank_Email_ID", "varchar(50) Null")
+        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_ADVISE_SEND_EMAIL", coll, "", True)
     End Sub
 
 
@@ -94,6 +103,9 @@ Public Class frmBankAdvise
 
     Sub Reset()
         lblPending.Status = ERPTransactionStatus.Pending
+        If clsCommon.CompairString(lblPending.Status, ERPTransactionStatus.Pending) = CompairStringResult.Equal Then
+            btnSendEmail.Enabled = False
+        End If
         fndDocNo.Value = Nothing
         txtDocDate.Value = clsCommon.GETSERVERDATE()
         fndPaymentProcessNo.Value = Nothing
@@ -123,9 +135,11 @@ Public Class frmBankAdvise
                 If obj.Status > 0 Then
                     lblPending.Status = ERPTransactionStatus.Approved
                     btnPrint.Enabled = True
+                    btnSendEmail.Enabled = True
                 Else
                     lblPending.Status = ERPTransactionStatus.Pending
                     btnPrint.Enabled = False
+                    btnSendEmail.Enabled = False
                 End If
                 txtRemarks.Text = obj.Remarks
                 If clsCommon.CompairString(lblPending.Status, ERPTransactionStatus.Pending) = CompairStringResult.Equal Then
@@ -205,6 +219,17 @@ Public Class frmBankAdvise
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
+                Dim qry As String = clsBankAdvise.ChkReturnQry(fndPaymentProcessNo.Value)
+                Dim dtBank As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dtBank IsNot Nothing AndAlso dtBank.Rows.Count > 0 Then
+                    For Each drBank As DataRow In dtBank.Rows
+                        ''Note IF You do any changes than change in function frmVendorBankAdvice.Print(ByVal isPrint As Boolean) 
+                        If clsCommon.myLen(drBank("Email")) <= 0 Then
+                            Throw New Exception("Please Define email ID for bank [" + clsCommon.myCstr(drBank("Company_Bank_Current")) + "]")
+                        End If
+                    Next
+                End If
+
                 If clsBankAdvise.postData(fndDocNo.Value) Then
                     clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully", Me.Text)
                     LoadData(fndDocNo.Value, Nothing)
@@ -275,6 +300,26 @@ Public Class frmBankAdvise
                 'obj.Print(True, fndDocNo.Value, txtMCC.Text)
             Else
                 clsCommon.MyMessageBoxShow(Me, "Document code can't be blank !", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnSendEmail_Click(sender As Object, e As EventArgs) Handles btnSendEmail.Click
+        Try
+            If clsCommon.myLen(fndDocNo.Value) > 0 Then
+                Dim obj As New frmVendorBankAdvice()
+                obj.DocNo = clsCommon.myCstr(fndDocNo.Value)
+                obj.MCC = clsCommon.myCstr(txtMCC.Text)
+                obj.isSendMail = True
+                obj.FormLoad()
+                Dim BankAdviseQry As String = obj.returnBankAdviseQry
+                If clsBankAdvise.SendEmail(fndDocNo.Value, BankAdviseQry) Then
+                    clsCommon.MyMessageBoxShow(Me, "Email Send Successfully", Me.Text)
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found to Send.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
