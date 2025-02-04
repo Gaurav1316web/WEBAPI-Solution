@@ -33381,6 +33381,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Ack_No", "VARCHAR(20) NULL")
             coll.Add("Ack_Date", "Datetime NULL")
             coll.Add("BarCode_Img", "image null")
+            coll.Add("Is_ManualTCS", "Integer Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD_RETURN", coll, Nothing, True, True, "", "Document_No", "Return_ship_Date")
 
 

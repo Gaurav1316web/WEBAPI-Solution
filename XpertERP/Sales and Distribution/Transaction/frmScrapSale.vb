@@ -4374,14 +4374,16 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt)
         lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
         If rbtnManualTCS.IsChecked = False Then
-            lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTCSTotAmt)
+            lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
         Else
             lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblManualTCSTotAmt)
         End If
         If rbtnTaxCalAutomatic.IsChecked Then
-            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt + dblTCSTotAmt)
+            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
         ElseIf rbtnTaxCalManual.IsChecked Then
             lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
+        ElseIf rbtnManualTCS.IsChecked Then
+            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt + dblManualTCSTotAmt)
         End If
 
         lbldocamt.Text = clsCommon.myFormat(clsCommon.myCdbl(lbladdcharges.Text) + clsCommon.myCdbl(lblTotRAmt.Text))
