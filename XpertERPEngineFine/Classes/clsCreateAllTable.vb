@@ -24002,6 +24002,8 @@ Public Class clsCreateAllTable
             coll.Add("Posted_By", "varchar(12)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BULK_PROCUREMENT_DISPATCH_UPLOADER", coll, Nothing, False, False, "", "Document_No", "Document_Date")
 
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where table_name='TSPL_MILK_COLLECTION_BMCDCS' and COLUMN_NAME='Own_BMC_Qty_E'"
+            dt = clsDBFuncationality.GetDataTable(qry)
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
@@ -24019,9 +24021,15 @@ Public Class clsCreateAllTable
             coll.Add("Own_BMC_Qty", "Decimal(18,2) null")
             coll.Add("Own_BMC_FAT", "Decimal(18,2) null")
             coll.Add("Own_BMC_SNF", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Qty_E", "Decimal(18,2) null")
+            coll.Add("Own_BMC_FAT_E", "Decimal(18,2) null")
+            coll.Add("Own_BMC_SNF_E", "Decimal(18,2) null")
             coll.Add("Own_BMC_Loose_Sale_Qty", "Decimal(18,2) null")
             coll.Add("Own_BMC_Loose_Sale_FAT", "Decimal(18,2) null")
             coll.Add("Own_BMC_Loose_Sale_SNF", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_Qty_E", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_FAT_E", "Decimal(18,2) null")
+            coll.Add("Own_BMC_Loose_Sale_SNF_E", "Decimal(18,2) null")
             coll.Add("Remarks", "Varchar(100) null")
             coll.Add("No_Cluster_DCS", "int null")
             coll.Add("Status", "Integer NOT NULL DEFAULT 0")
@@ -24031,6 +24039,13 @@ Public Class clsCreateAllTable
             coll.Add("Unposted_Date", "datetime null")
             coll.Add("Milk_Not_Picked", "int Null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                qry = "update TSPL_MILK_COLLECTION_BMCDCS set Own_BMC_Qty_E=Own_BMC_Loose_Sale_Qty,Own_BMC_FAT_E=Own_BMC_Loose_Sale_FAT,Own_BMC_SNF_E=Own_BMC_Loose_Sale_SNF"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "update TSPL_MILK_COLLECTION_BMCDCS set Own_BMC_Loose_Sale_Qty=null,Own_BMC_Loose_Sale_FAT=null,Own_BMC_Loose_Sale_SNF=null"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
                 If chkValuesDetail = 1 Then
