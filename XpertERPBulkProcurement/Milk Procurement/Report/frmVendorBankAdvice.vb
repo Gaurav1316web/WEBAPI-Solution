@@ -18,6 +18,8 @@ Public Class frmVendorBankAdvice
     Public DocNo As String = Nothing
     Public MCC As String = Nothing
     Dim SettVSPHoldPaymentNotCompanyBank As Boolean = False
+    Public isSendMail As Boolean = False
+    Public returnBankAdviseQry As String = Nothing
 
 #End Region
     Private Sub SetUserMgmtNew()
@@ -597,7 +599,10 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                 FinalQuery = GetSavingCurrent()
                 FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
             End If
-
+            If isSendMail Then
+                returnBankAdviseQry = FinalQuery
+                Exit Sub
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
             ExportBankWiseQry = FinalQuery
 
