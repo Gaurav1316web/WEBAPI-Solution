@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ImportorExport As String = "Password for Import/Export"
     Public Const DCSWiseFilterEnableOnSavingCheck As String = "DCS Wise Filter Enable On Saving Check"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
@@ -1306,6 +1307,7 @@ Public Class clsFixedParameterType
     Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
     Public Const AutoSchemeOnTotalDispatchQty = "Auto Scheme On Total Dispatch Qty"
     Public Const ApplyDefaultTCSIsChecked = "Apply Default TCS IsChecked"
+    Public Const APIMilkSample = "APIMilkSample"
 End Class
 Public Class clsFixedParameterCode
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
@@ -1325,6 +1327,7 @@ Public Class clsFixedParameterCode
     Public Const EWayBillUpdate As String = "Update E-Way Bill"
     Public Const GatePassCancel As String = "GatePass Cancel"
     Public Const CustomerMaster As String = "Customer Master"
+    Public Const FarmerMaster As String = "Customer Master"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
     Public Const PrintPouchCrateQtyOnPrint As String = "Print PouchCrate Qty On Print"
@@ -2755,6 +2758,8 @@ Public Class clsFixedParameterCode
     Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
     Public Const AutoSchemeOnTotalDispatchQty = "Auto Scheme On Total Dispatch Qty"
     Public Const ApplyDefaultTCSIsChecked = "Apply Default TCS IsChecked"
+    Public Const DrippingQuantity = "DrippingQuantity"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3328,6 +3333,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetCSATransferwithZeroOnSalePatti, clsFixedParameterCode.SetCSATransferwithZeroOnSalePatti, "SETZERO", "")
         ''richa agarwal 09/04/2015 create password for PO Amendment
         'InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.SecretorydcsMasterUpdate, "Secretorydcs@123", "Secretory DCS Master Password")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ImportorExport, clsFixedParameterCode.FarmerMaster, "Import@123", "Farmer Master Import/Export Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.VendorMaster, "Vendor@123", "Vendor Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.ItemMaster, "Item@123", "Item Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.UserMaster, "User@123", "User Master Password")
@@ -4369,6 +4375,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoSchemeOnTotalDispatchQty, clsFixedParameterCode.AutoSchemeOnTotalDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "0:Off, 1:On;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6195,6 +6202,5 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
-
     End Sub
 End Class

@@ -2496,8 +2496,8 @@ Public Class FrmMPMaster
 
     Private Sub lblAccountNo_DoubleClick(sender As Object, e As EventArgs) Handles lblAccountNo.DoubleClick
         Dim frm As New FrmPWD(Nothing)
-        frm.strType = clsFixedParameterType.SIRC
-        frm.strCode = clsFixedParameterCode.SIReversAndCreate
+        frm.strType = clsFixedParameterType.ImportorExport
+        frm.strCode = clsFixedParameterCode.FarmerMaster
         frm.ShowDialog()
         If frm.isPasswordCorrect Then
             txtBankIFSC_M.Enabled = True

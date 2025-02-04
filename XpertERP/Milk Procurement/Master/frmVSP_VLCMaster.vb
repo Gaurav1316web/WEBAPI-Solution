@@ -3981,7 +3981,7 @@ Public Class frmVSP_VLCMaster
                             obj.mainvillcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Village_Code from TSPL_VILLAGE_MASTER where Village_Name='" + obj.mainvillname + "'", trans))
                         End If
                         'End If
-                        clsfrmVLCMaster.SaveData(Nothing, False, obj, arr, trans)
+                        'clsfrmVLCMaster.SaveData(Nothing, False, obj, arr, trans)
                         clsfrmVLCMaster.SaveDataBankDetail(Nothing, False, obj, arr, trans)
 
                     Next

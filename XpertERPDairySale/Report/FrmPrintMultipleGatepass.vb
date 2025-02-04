@@ -139,7 +139,9 @@ Public Class FrmPrintMultipleGatepass
             qry = " select Cast(1 as BIT) as 'Check'," & IIf(EnableProductSaleForJPR, "case when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'M' then 'Milk' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'P' then 'Product' when TSPL_DAIRYSALE_GATEPASS_MASTER.item_type = 'I' then 'Ice Cream' end  as [Item Type],", "") & " TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as GPDate,
                    TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,tspl_route_master.Route_Desc,
                    TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,
-                   TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate from TSPL_DAIRYSALE_GATEPASS_MASTER
+                   TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate,
+                    convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)Supply_Date ,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName,TSPL_DAIRYSALE_GATEPASS_MASTER.Remarks
+                   from TSPL_DAIRYSALE_GATEPASS_MASTER
                     left outer join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no where 2=2 
                     and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103)>=convert(date,('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'),103)
                     and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <=convert(date,('" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),103)"
@@ -272,6 +274,27 @@ Public Class FrmPrintMultipleGatepass
         gv.Columns("TotalCrate").HeaderText = "TotalCrate"
         gv.Columns("TotalCrate").ReadOnly = True
 
+
+        gv.Columns("Supply_Date").IsVisible = True
+        gv.Columns("Supply_Date").Width = 100
+        gv.Columns("Supply_Date").HeaderText = "Supply Date"
+        gv.Columns("Supply_Date").ReadOnly = True
+
+        gv.Columns("ShiftType").IsVisible = True
+        gv.Columns("ShiftType").Width = 100
+        gv.Columns("ShiftType").HeaderText = "Shift Type"
+        gv.Columns("ShiftType").ReadOnly = True
+
+
+        gv.Columns("DistributorName").IsVisible = True
+        gv.Columns("DistributorName").Width = 100
+        gv.Columns("DistributorName").HeaderText = "Party Name"
+        gv.Columns("DistributorName").ReadOnly = True
+
+        gv.Columns("Remarks").IsVisible = True
+        gv.Columns("Remarks").Width = 100
+        gv.Columns("Remarks").HeaderText = "Remarks"
+        gv.Columns("Remarks").ReadOnly = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
 
@@ -419,9 +442,12 @@ Public Class FrmPrintMultipleGatepass
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
 
                     'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptDairySaleGatePassEntryNewTNK", "Dairy Sale Gate Pass", "subrptCrateInOut.rpt")
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR", "Multiple GatePass Entry", clsCommon.myCDate(txtFromDate.Value))
 
                 Else
-                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleMultipleGatePassEntryNew", "Multiple GatePass Entry", clsCommon.myCDate(txtFromDate.Value))
+
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Multiple GatePass Entry", clsCommon.myCDate(txtFromDate.Value))
                     'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                 End If
                 frmCRV = Nothing
