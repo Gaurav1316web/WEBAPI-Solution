@@ -2778,14 +2778,109 @@ Public Class FrmMPMaster
             Dim gv As New RadGridView()
             Me.Controls.Add(gv)
             If transportSql.importExcel(gv, "MP Code", "Account Number", "IFSC Code") Then
-                If clsMpMaster.ImportBankDetail(gv) Then
-                    Throw New Exception("Data Transfer Completed !")
-                End If
+                Dim ii As Integer = 0
+                Dim Arr As New List(Of clsMpMaster)
+                Dim dtError As New DataTable
+                dtError.Columns.Add("RowNo", GetType(Integer))
+                dtError.Columns.Add("Error", GetType(String))
+                Try
+
+                    If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
+                        clsCommon.ProgressBarPercentShow()
+                        For Each grow As GridViewRowInfo In gv.Rows
+                            Try
+                                ii += 1
+                                clsCommon.ProgressBarPercentUpdate(ii, gv.Rows.Count, "Validating Data...")
+
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("MP Code").Value)) <= 0 Then
+                                    Throw New Exception("MP Code can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("IFSC Code").Value)) <= 0 Then
+                                    Throw New Exception("IFSC Code can't be blank !")
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Account Number").Value)) <= 0 Then
+                                    Throw New Exception("Account Number can't be blank !")
+                                End If
+
+                                Dim obj As New clsMpMaster
+                                obj.MP_Code = clsCommon.myCstr(grow.Cells("MP Code").Value)
+                                obj.IFCICode = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
+                                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select BANK,BRANCH,STATE,CITY from TSPL_MASTER.dbo.TSPL_IFSC where IFSC='" + obj.IFCICode + "'")
+                                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                                    Throw New Exception("Invalid IFSC Code [" + obj.IFCICode + "]")
+                                Else
+                                    obj.BankName = clsCommon.myCstr(dt.Rows(0)("BANK"))
+                                    obj.BankBranch = clsCommon.myCstr(dt.Rows(0)("BRANCH"))
+                                    obj.BankStateCode = clsCommon.myCstr(dt.Rows(0)("STATE"))
+                                    obj.BankCityCode = clsCommon.myCstr(dt.Rows(0)("CITY"))
+                                End If
+                                obj.AccountNO = clsCommon.myCstr(grow.Cells("Account Number").Value)
+                                Dim chkCount As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_MP_MASTER where MP_Code='" + clsCommon.myCstr(obj.MP_Code) + "'"))
+                                If chkCount > 0 Then
+                                Else
+                                    Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") is not exist !")
+                                End If
+                                Arr.Add(obj)
+                            Catch ex As Exception
+                                Dim dr As DataRow = dtError.NewRow()
+                                dr("RowNo") = ii
+                                dr("Error") = ex.Message
+                                dtError.Rows.Add(dr)
+                            End Try
+                        Next
+                        clsCommon.ProgressBarPercentHide()
+                    End If
+
+                    Try
+                        If dtError.Rows.Count > 0 Then
+                            Dim ff As New FrmFreeGrid
+                            ff.ReportID = "MilkShiftUploader"
+                            ff.Text = "MP Master Errors"
+                            ff.dt = dtError
+                            ff.ShowDialog()
+                        ElseIf Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                            Dim qry As String = "Valid Row [" + clsCommon.myCstr(Arr.Count) + "] Do You want to Proceed"
+                            If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                                clsCommon.ProgressBarPercentShow()
+                                ii = 0
+                                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                                Try
+                                    For Each obj As clsMpMaster In Arr
+                                        ii += 1
+                                        clsCommon.ProgressBarPercentUpdate(ii, Arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Arr.Count) & "")
+
+                                        Dim UpdateQry As String = "Update TSPL_MP_MASTER Set BankName='" + obj.BankName + "',IFCICode='" + obj.IFCICode + "',AccountNO='" + obj.AccountNO + "' Where MP_Code='" + obj.MP_Code + "'"
+                                        clsDBFuncationality.ExecuteNonQuery(UpdateQry, trans)
+                                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.MP_Code, "tspl_mp_master", "MP_Code", trans)
+                                    Next
+                                    trans.Commit()
+                                Catch ex As Exception
+                                    trans.Rollback()
+                                    Throw New Exception(ex.Message)
+                                Finally
+                                    clsCommon.ProgressBarPercentHide()
+                                End Try
+                                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                            End If
+                        Else
+                            Throw New Exception("No Valid Rows Found to Save")
+                        End If
+                    Catch ex As Exception
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    End Try
+                Catch ex As Exception
+                    Throw New Exception(ex.Message)
+                End Try
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Public Shared Function ImportBankDetail(gv As RadGridView) As Boolean
+
+        Return True
+    End Function
 
     Private Sub btnExportBlankSheet_Click(sender As Object, e As EventArgs) Handles btnExportBlankSheet.Click
         Try
