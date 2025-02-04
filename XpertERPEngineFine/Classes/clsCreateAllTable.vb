@@ -46846,7 +46846,11 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Posted_Date", "datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_ADVISE", coll, "", True)
 
-
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) references TSPL_BANK_ADVISE(Document_No)")
+            coll.Add("Bank", "varchar(50) Null")
+            coll.Add("Bank_Email_ID", "varchar(50) Null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_ADVISE_SEND_EMAIL", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Freight_Code", "varchar(30) NOT NULL Primary Key")
