@@ -24699,6 +24699,7 @@ Public Class clsCreateAllTable
             coll.Add("Include_In_DBT", "int Null")
             coll.Add("Exclude_Head", "int Null")
             coll.Add("Description_Hindi", "nvarchar(100) NULL ")
+            coll.Add("Include_In_Dripping_Entry", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
