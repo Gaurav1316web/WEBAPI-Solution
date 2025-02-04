@@ -1984,6 +1984,7 @@
     <None Include="Crystal Reports\Sales Report\rptCreditSaleSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustBillWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustBillWiseDuesSummary.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptCustItemWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustomerDayWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustomerDayWiseCredit.rpt" />
     <None Include="Crystal Reports\Sales Report\rptCustomerDayWiseDebit.rpt" />
