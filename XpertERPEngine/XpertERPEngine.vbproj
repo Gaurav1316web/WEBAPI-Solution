@@ -446,6 +446,7 @@
     <Compile Include="Milk Procurement\clsIncentiveEntryBySRN.vb" />
     <Compile Include="Milk Procurement\clsMCCPaymentCycleLockForScheduler.vb" />
     <Compile Include="Milk Procurement\clsMccScrapGatePass.vb" />
+    <Compile Include="Milk Procurement\clsMilkCollectionBMCDCS.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionDCS.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionDCSMulipleDays.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionDCSMulipleDaysMerge.vb" />
