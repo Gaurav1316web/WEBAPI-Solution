@@ -49,6 +49,7 @@ Partial Class frmCancelledTransactions_DairySale
         Me.btnPrintCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblNoOfRecords = New common.Controls.MyLabel()
+        Me.lblPrintMsg = New common.Controls.MyLabel()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -79,6 +80,7 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPrintMsg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -119,6 +121,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.lblPrintMsg)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.lblNoOfRecords)
@@ -420,6 +423,7 @@ Partial Class frmCancelledTransactions_DairySale
         Me.btnPrintCancel.Size = New System.Drawing.Size(69, 22)
         Me.btnPrintCancel.TabIndex = 7
         Me.btnPrintCancel.Text = "Print"
+        Me.btnPrintCancel.Visible = False
         '
         'btnReset
         '
@@ -441,6 +445,17 @@ Partial Class frmCancelledTransactions_DairySale
         Me.lblNoOfRecords.Size = New System.Drawing.Size(87, 16)
         Me.lblNoOfRecords.TabIndex = 2
         Me.lblNoOfRecords.Text = "0 Record Found"
+        '
+        'lblPrintMsg
+        '
+        Me.lblPrintMsg.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblPrintMsg.FieldName = Nothing
+        Me.lblPrintMsg.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPrintMsg.Location = New System.Drawing.Point(170, 7)
+        Me.lblPrintMsg.Name = "lblPrintMsg"
+        Me.lblPrintMsg.Size = New System.Drawing.Size(220, 16)
+        Me.lblPrintMsg.TabIndex = 3
+        Me.lblPrintMsg.Text = "Double click on row  to print cancel invoice"
         '
         'frmCancelledTransactions_DairySale
         '
@@ -489,6 +504,7 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPrintMsg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -519,5 +535,6 @@ Partial Class frmCancelledTransactions_DairySale
     Friend WithEvents chkLocAll As common.Controls.MyRadioButton
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPrintCancel As RadButton
+    Friend WithEvents lblPrintMsg As common.Controls.MyLabel
 End Class
 
