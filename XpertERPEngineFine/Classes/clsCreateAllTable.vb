@@ -24700,6 +24700,7 @@ Public Class clsCreateAllTable
             coll.Add("Include_In_DBT", "int Null")
             coll.Add("Exclude_Head", "int Null")
             coll.Add("Description_Hindi", "nvarchar(100) NULL ")
+            coll.Add("Include_In_Dripping_Entry", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -31992,6 +31993,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Ack_No", "VARCHAR(20) NULL")
             coll.Add("Ack_Date", "Datetime NULL")
             coll.Add("BarCode_Img", "image null")
+            coll.Add("EWayBill_QR_Code", "image null")
             coll.Add("EInvoice_Posting_Date", "Datetime NULL")
             coll.Add("EWayBillRemarks", "VARCHAR(100) NULL")
             coll.Add("EWayBillValidDate", "Datetime NULL")
@@ -32001,6 +32003,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("MonthlySaleInvoiceNo", "varchar(30) NULL")
             coll.Add("Deduction_Type", "varchar(40) NULL REFERENCES TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
+            coll.Add("Is_ManualTCS", "Integer Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
@@ -33380,6 +33383,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Ack_No", "VARCHAR(20) NULL")
             coll.Add("Ack_Date", "Datetime NULL")
             coll.Add("BarCode_Img", "image null")
+            coll.Add("Is_ManualTCS", "Integer Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD_RETURN", coll, Nothing, True, True, "", "Document_No", "Return_ship_Date")
 
 
