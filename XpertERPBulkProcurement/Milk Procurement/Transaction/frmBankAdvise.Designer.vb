@@ -50,6 +50,7 @@ Partial Class frmBankAdvise
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnSendEmail = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -74,6 +75,7 @@ Partial Class frmBankAdvise
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSendEmail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -100,6 +102,7 @@ Partial Class frmBankAdvise
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSendEmail)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseAndUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -469,6 +472,16 @@ Partial Class frmBankAdvise
         Me.btnPrint.TabIndex = 25
         Me.btnPrint.Text = "Print"
         '
+        'btnSendEmail
+        '
+        Me.btnSendEmail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSendEmail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSendEmail.Location = New System.Drawing.Point(396, 8)
+        Me.btnSendEmail.Name = "btnSendEmail"
+        Me.btnSendEmail.Size = New System.Drawing.Size(75, 22)
+        Me.btnSendEmail.TabIndex = 28
+        Me.btnSendEmail.Text = "Send Email"
+        '
         'frmBankAdvise
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -507,6 +520,7 @@ Partial Class frmBankAdvise
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSendEmail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -540,4 +554,5 @@ Partial Class frmBankAdvise
     Friend WithEvents txtRemarks As TextBox
     Friend WithEvents txtPPArea As TextBox
     Friend WithEvents btnReverseAndUnpost As RadButton
+    Friend WithEvents btnSendEmail As RadButton
 End Class
