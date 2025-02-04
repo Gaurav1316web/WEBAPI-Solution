@@ -17,20 +17,20 @@ Public Class frmBankAdvise
             SetUserMgmtNew()
             Reset()
             IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
-            createTable()
+            'createTable()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Sub createTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_Code", "varchar(30) references TSPL_BANK_ADVISE(Document_No)")
-        coll.Add("Bank", "varchar(50) Null")
-        coll.Add("Bank_Email_ID", "varchar(50) Null")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_ADVISE_SEND_EMAIL", coll, "", True)
-    End Sub
+    'Sub createTable()
+    '    Dim coll As Dictionary(Of String, String)
+    '    coll = New Dictionary(Of String, String)()
+    '    coll.Add("Document_Code", "varchar(30) references TSPL_BANK_ADVISE(Document_No)")
+    '    coll.Add("Bank", "varchar(50) Null")
+    '    coll.Add("Bank_Email_ID", "varchar(50) Null")
+    '    clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BANK_ADVISE_SEND_EMAIL", coll, "", True)
+    'End Sub
 
 
     Private Sub fndDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDocNo._MYValidating
