@@ -181,7 +181,7 @@ Public Class rptVSPMilkNotSold
 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
-left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_ITEM_MASTER.Deduction_Type
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
 where TSPL_SD_SHIPMENT_HEAD.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and
 TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "'"
                     If clsCommon.myLen(txtMultiDeduction.arrValueMember) > 0 Then
@@ -610,7 +610,7 @@ TSPL_SD_SHIPMENT_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.Get
                                         Inner Join TSPL_SD_SHIPMENT_HEAD On TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
                                         Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
 										left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
-										left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Deduction_Type = TSPL_ITEM_MASTER.Deduction_Type"
+										left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction"
                     If AreaWiseBilling = True Then
                         Qry += " inner join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_VLC_MASTER_HEAD.mcc				"
                     End If

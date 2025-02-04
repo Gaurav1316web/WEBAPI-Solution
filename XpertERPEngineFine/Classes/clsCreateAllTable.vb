@@ -46801,6 +46801,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Bank_Desc_Saving", "varchar(50) ")
             coll.Add("Payment_Mode_Saving", "varchar(30) ")
             coll.Add("Saving_Amount", "Decimal(18,2) null")
+            coll.Add("Zone_Code", "varchar(50) NULL ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
 
