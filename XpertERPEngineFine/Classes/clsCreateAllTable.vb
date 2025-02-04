@@ -31992,6 +31992,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Ack_No", "VARCHAR(20) NULL")
             coll.Add("Ack_Date", "Datetime NULL")
             coll.Add("BarCode_Img", "image null")
+            coll.Add("EWayBill_QR_Code", "image null")
             coll.Add("EInvoice_Posting_Date", "Datetime NULL")
             coll.Add("EWayBillRemarks", "VARCHAR(100) NULL")
             coll.Add("EWayBillValidDate", "Datetime NULL")

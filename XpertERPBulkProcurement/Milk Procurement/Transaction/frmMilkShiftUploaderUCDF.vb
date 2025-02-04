@@ -338,8 +338,9 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
         ",TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " &
         ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" &
         ",TSPL_MILK_SHIFT_UPLOADER_HEAD.DOCK_CODE as [Dock Code]" &
-        ",TSPL_DOCK_MASTER.Description as [Dock Name]" &
+        ",TSPL_DOCK_MASTER.Description as [Dock Name] ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No" &
         " from TSPL_MILK_SHIFT_UPLOADER_HEAD" &
+        " left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No=TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No " &
         " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.mcc_code" &
         " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" &
         " left join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.code=TSPL_MILK_SHIFT_UPLOADER_HEAD.dock_code"
@@ -356,7 +357,7 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                 obj.Shift = clsCommon.myCstr(cboShift.SelectedValue)
                 'obj.Description = txtDesc.Text
                 obj.MCC_Code = txtMCC.Value
-                obj.Tanker_No = txtTankerNo.Text
+                'obj.Tanker_No = txtTankerNo.Text
                 'obj.Dock_Code = txtDockCode.Value
                 'obj.Mix_Milk = chkMixMilk.Checked
 
@@ -369,6 +370,8 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                 obj.Arr = New List(Of clsMilkShiftUploaderDetail)
 
                 Dim objTr As New clsMilkShiftUploaderDetail()
+                objTr.Tanker_No = txtTankerNo.Text
+
                 If SampleNo > 0 Then
                     objTr.SNo = SampleNo
                 ElseIf gv1 Is Nothing OrElse gv1.Rows.Count <= 0 Then
