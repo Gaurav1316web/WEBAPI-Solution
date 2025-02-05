@@ -54,10 +54,10 @@ Public Class rptMonthlyBillSummary
             If rbtnrouteWise.IsChecked Then
                 maxroute = " Route_No, "
                 Group += " GROUP BY 
-                        Item_Code,Route_No,cust_Code ORDER BY Supply_Date,Shift_Type "
+                        Item_Code,Route_No,cust_Code,ReportRate ORDER BY Supply_Date,Shift_Type "
             ElseIf rbtnCustomerWise.IsChecked Then
                 maxroute = " Max(Route_No)Route_No, "
-                Group += "GROUP BY  Item_Code,cust_Code ORDER BY Supply_Date,Shift_Type"
+                Group += "GROUP BY  Item_Code,cust_Code,ReportRate ORDER BY Supply_Date,Shift_Type"
             End If
             If rbtnCustomerWise.IsChecked Then
                 Route = ",max(Routes)Routes"
@@ -76,7 +76,7 @@ GROUP BY
             End If
             qry = "select '" + txtfDate.Value + "' as FromDate,'" + txtToDate.Value + "' as todate " + Route + "
 ,0 as valueInRs,
-sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,
+sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   max(Payment_Terms) AS Payment_Terms, 
   MAX(Is_Distributor) AS Is_Distributor, 
   MAX(Is_BPL) Is_BPL, 
@@ -381,7 +381,9 @@ from
                 (
                   TSPL_SD_sale_invoice_DETAIL.Qty * ItemConvinUOM.Conversion_Factor / ItemConvReportUOM.Conversion_Factor
                 ) as Decimal(18, 2)
-              ) as QtyAccToReportUOM, 
+              ) as QtyAccToReportUOM, Convert(decimal(18,2),(TSPL_SD_sale_invoice_DETAIL.Amt_Less_Discount/((
+                TSPL_SD_sale_invoice_DETAIL.Qty
+              *ItemConvinUOM.Conversion_Factor )/ItemConvReportUOM.Conversion_Factor))) as ReportRate,
               '' GrandTotalCrates, 
               TSPL_COMPANY_MASTER.Comp_Code, 
               TSPL_COMPANY_MASTER.Comp_Name, 

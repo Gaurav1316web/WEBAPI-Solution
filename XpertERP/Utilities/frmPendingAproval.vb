@@ -917,6 +917,11 @@ Public Class FrmPendingAproval
         dr("Name") = "DCS Milk Collection"
         dt1.Rows.Add(dr)
 
+        dr = dt1.NewRow()
+        dr("Code") = "BMC Mobile Entry"
+        dr("Name") = "BMC Mobile Entry"
+        dt1.Rows.Add(dr)
+
         cboTransaction.DataSource = dt1
         cboTransaction.DisplayMember = "Name"
         cboTransaction.ValueMember = "Code"
@@ -1091,8 +1096,6 @@ Public Class FrmPendingAproval
         dr("Name") = "Production Standardization"
         dt1.Rows.Add(dr)
 
-
-
         dr = dt1.NewRow()
         dr("Code") = "Production Standardization Final QC"
         dr("Name") = "Production Standardization Final QC"
@@ -1125,9 +1128,16 @@ Public Class FrmPendingAproval
         For i As Integer = 2 To count - 2
             Me.gv1.MasterTemplate.Columns(i).Width = 120
         Next i
-        If Not (clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Standardization") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Standardization Final QC") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Stage Process") = CompairStringResult.Equal) Then
-            Me.gv1.MasterTemplate.Columns("Description").Width = 200    ''Last Column
+
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "BMC Mobile Entry") = CompairStringResult.Equal Then
+            Me.gv1.MasterTemplate.Columns("Date").Width = 200    ''Third Column
+            Me.gv1.MasterTemplate.Columns("BMC Code").Width = 200    ''Fourth Column
+        Else
+            If Not (clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Standardization") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Standardization Final QC") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Stage Process") = CompairStringResult.Equal) Then
+                Me.gv1.MasterTemplate.Columns("Description").Width = 200    ''Last Column
+            End If
         End If
+
         For j As Integer = 1 To count - 1
             Me.gv1.MasterTemplate.Columns(j).ReadOnly = True
         Next
@@ -2264,7 +2274,6 @@ Public Class FrmPendingAproval
     ''-------------------------------------------------------------------
 
     Sub FillTaxDdctdAtSource()
-
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Remittance Entry") = CompairStringResult.Equal Then
             Load_Authorisation(clsUserMgtCode.remittanceentry)
             If dtAuthen.Rows.Count > 0 Then
@@ -2373,6 +2382,39 @@ Public Class FrmPendingAproval
 
                 End If
             End If
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "BMC Mobile Entry") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.mbtnAPInvoiceEntry)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+                    qry = "SELECT CAST((case when ISNULL(TSPL_MILK_COLLECTION_BMCDCS.Posted_Date, '')= '' then 0 else 1 end)as BIT) as Status, TSPL_MILK_COLLECTION_BMCDCS.PK_ID as [Document Id], FORMAT(TSPL_MILK_COLLECTION_BMCDCS.IDate, 'dd/MM/yyyy') AS [Date], TSPL_MILK_COLLECTION_BMCDCS.MCC_Code as [BMC Code] FROM TSPL_MILK_COLLECTION_BMCDCS WHERE  convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate ,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " And ISNULL(TSPL_MILK_COLLECTION_BMCDCS.Posted_Date, '')= '' "
+                        Isrefreshed = False
+                    ElseIf rbtnStatusPosted.IsChecked = True Then
+                        qry += " and ISNULL(TSPL_MILK_COLLECTION_BMCDCS.Posted_Date, '')<> '' "
+                        Isrefreshed = True
+                    End If
+                    If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+
+                        qry += " (select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code IN (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") and Is_Sub_Location='N' and Is_Section='N')"
+
+                    End If
+                    If ChkAllowBulkPosting.Equals(0) Then
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+
+                            qry += " and TSPL_MILK_COLLECTION_BMCDCS.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_MILK_COLLECTION_BMCDCS.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+                    End If
+                    qry += " ORDER BY TSPL_MILK_COLLECTION_BMCDCS.IDate , TSPL_MILK_COLLECTION_BMCDCS.PK_ID "
+
+                End If
+            End If
+
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -2380,7 +2422,12 @@ Public Class FrmPendingAproval
             gv1.DataSource = dt
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             gv1Format()
-            gv1.MasterTemplate.Columns("Description").IsVisible = False
+
+            If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "MCC Procurement") <> CompairStringResult.Equal Then
+                gv1.MasterTemplate.Columns("Description").IsVisible = False
+            End If
+
+
             'Me.gv1.Columns("RefDocNo").IsVisible = False
             Validation()
             '----Added by--Pankaj Kummar--on-08/06/2012--For Counting Records on Each Refresh Operation-----
@@ -3754,6 +3801,31 @@ WHERE  convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103) >= convert(dat
                 End If
             End If
 
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "BMC Mobile Entry") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.MilkCollectionDCS)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+                    qry = "select CAST(TSPL_MILK_COLLECTION_BMCDCS.Status as BIT) as Status, TSPL_MILK_COLLECTION_BMCDCS.PK_ID as [Document Id], FORMAT(TSPL_MILK_COLLECTION_BMCDCS.IDate, 'dd/MM/yyyy') AS [Date], TSPL_MILK_COLLECTION_BMCDCS.MCC_Code as [BMC Code] FROM TSPL_MILK_COLLECTION_BMCDCS 
+                          WHERE convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_MILK_COLLECTION_BMCDCS.Status=0  "
+                        Isrefreshed = False
+                    ElseIf rbtnStatusPosted.IsChecked = True Then
+                        qry += " and TSPL_MILK_COLLECTION_BMCDCS.Status=1  "
+                        Isrefreshed = True
+                    End If
+
+                    If ChkAllowBulkPosting.Equals(0) Then
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                            qry += " and TSPL_MILK_COLLECTION_BMCDCS.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_MILK_COLLECTION_BMCDCS.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+                    End If
+                    qry += " ORDER BY TSPL_MILK_COLLECTION_BMCDCS.IDate, TSPL_MILK_COLLECTION_BMCDCS.PK_ID "
+                End If
+            End If
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -3771,6 +3843,7 @@ WHERE  convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103) >= convert(dat
             End If
         End If
     End Sub
+
 
     Sub FillMilkProcurementBulk()
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Invoice") = CompairStringResult.Equal Then
@@ -5182,6 +5255,21 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         DtError.Rows.Add(dr)
                     End Try
                 Next
+
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "BMC Mobile Entry") = CompairStringResult.Equal Then
+                For j As Integer = 0 To trnsLst.Count - 1
+                    Try
+                        clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
+                        strDocNo = trnsLst.Item(j)
+                        clsMilkCollectionBMCDCS.PostData(strDocNo)
+                        countPostedDoc = countPostedDoc + 1
+                    Catch ex As Exception
+                        dr = DtError.NewRow()
+                        dr("Code") = strDocNo
+                        dr("Error") = ex.Message
+                        DtError.Rows.Add(dr)
+                    End Try
+                Next
             End If
             GC.Collect()
         Catch ex As Exception
@@ -5191,6 +5279,8 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         FillPayables()
     End Sub
     '===================Added by preeti gupta=================
+
+
     Sub PostFarmerPayment()
         Try
             If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "MCC Material Sale Farmer") = CompairStringResult.Equal Then
@@ -6583,6 +6673,5 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
     Private Sub gv1_FilterChanged(sender As Object, e As GridViewCollectionChangedEventArgs) Handles gv1.FilterChanged
         lblNoOfRecords.Text = "" + gv1.ChildRows.Count.ToString + " Records Found"
     End Sub
-
 
 End Class

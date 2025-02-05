@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ImportorExport As String = "Password for Import/Export"
     Public Const DCSWiseFilterEnableOnSavingCheck As String = "DCS Wise Filter Enable On Saving Check"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
@@ -1326,6 +1327,7 @@ Public Class clsFixedParameterCode
     Public Const EWayBillUpdate As String = "Update E-Way Bill"
     Public Const GatePassCancel As String = "GatePass Cancel"
     Public Const CustomerMaster As String = "Customer Master"
+    Public Const FarmerMaster As String = "Customer Master"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
     Public Const PrintPouchCrateQtyOnPrint As String = "Print PouchCrate Qty On Print"
@@ -3331,6 +3333,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetCSATransferwithZeroOnSalePatti, clsFixedParameterCode.SetCSATransferwithZeroOnSalePatti, "SETZERO", "")
         ''richa agarwal 09/04/2015 create password for PO Amendment
         'InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.SecretorydcsMasterUpdate, "Secretorydcs@123", "Secretory DCS Master Password")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ImportorExport, clsFixedParameterCode.FarmerMaster, "Import@123", "Farmer Master Import/Export Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.VendorMaster, "Vendor@123", "Vendor Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.ItemMaster, "Item@123", "Item Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.UserMaster, "User@123", "User Master Password")
