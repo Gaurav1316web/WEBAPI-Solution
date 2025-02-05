@@ -15,6 +15,7 @@ Public Class clsMilkRejectType
     Public Prefix As Integer
     Public Include_In_DBT As Boolean
     Public Exclude_Head As Boolean
+    Public Include_In_Dripping_Entry As Boolean
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsMilkRejectType) As Boolean
@@ -39,6 +40,7 @@ Public Class clsMilkRejectType
             clsCommon.AddColumnsForChange(coll, "Prefix", obj.Prefix)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "Include_In_Dripping_Entry", IIf(obj.Include_In_Dripping_Entry, 1, 0), True)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -85,6 +87,7 @@ Public Class clsMilkRejectType
             obj.Applicable_On = clsCommon.myCdbl(dt.Rows(0)("Applicable_On"))
             obj.Applicable_Per = clsCommon.myCdbl(dt.Rows(0)("Applicable_Per"))
             obj.Include_In_DBT = (clsCommon.myCdbl(dt.Rows(0)("Include_In_DBT")) = 1)
+            obj.Include_In_Dripping_Entry = (clsCommon.myCdbl(dt.Rows(0)("Include_In_Dripping_Entry")) = 1)
             obj.Exclude_Head = (clsCommon.myCdbl(dt.Rows(0)("Exclude_Head")) = 1)
             obj.Type = clsCommon.myCstr(dt.Rows(0)("Type"))
             obj.SNo = clsCommon.myCdbl(dt.Rows(0)("SNo"))

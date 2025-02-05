@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmMilkRejectType
     Inherits XpertERPEngine.FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmMilkRejectType
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.rdmenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.File = New Telerik.WinControls.UI.RadMenuItem()
@@ -59,6 +59,7 @@ Partial Class frmMilkRejectType
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
+        Me.chkDrippingEntry = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -91,6 +92,7 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDrippingEntry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -143,6 +145,7 @@ Partial Class frmMilkRejectType
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkDrippingEntry)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblDescriptionhindi)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDescriptionhindi)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtPrefix)
@@ -600,6 +603,14 @@ Partial Class frmMilkRejectType
         Me.rdbtndelete.TabIndex = 1
         Me.rdbtndelete.Text = "Delete"
         '
+        'chkDrippingEntry
+        '
+        Me.chkDrippingEntry.Location = New System.Drawing.Point(388, 7)
+        Me.chkDrippingEntry.Name = "chkDrippingEntry"
+        Me.chkDrippingEntry.Size = New System.Drawing.Size(144, 18)
+        Me.chkDrippingEntry.TabIndex = 1037
+        Me.chkDrippingEntry.Text = "Include In Dripping Entry"
+        '
         'frmMilkRejectType
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -648,6 +659,7 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDrippingEntry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -690,5 +702,6 @@ Partial Class frmMilkRejectType
     Friend WithEvents lblDescriptionhindi As common.Controls.MyLabel
     Friend WithEvents txtDescriptionhindi As common.Controls.MyTextBox
     Friend WithEvents txtCode As common.UserControls.txtNavigator
+    Friend WithEvents chkDrippingEntry As RadCheckBox
 End Class
 

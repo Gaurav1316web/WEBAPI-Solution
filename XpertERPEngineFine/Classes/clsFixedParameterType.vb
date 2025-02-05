@@ -1306,7 +1306,7 @@ Public Class clsFixedParameterType
     Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
     Public Const AutoSchemeOnTotalDispatchQty = "Auto Scheme On Total Dispatch Qty"
     Public Const ApplyDefaultTCSIsChecked = "Apply Default TCS IsChecked"
-    Public Const APIMilkSample = "APIMilkSample"
+    Public Const APIMilkSample = "API Milk Sample"
 End Class
 Public Class clsFixedParameterCode
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
@@ -2756,7 +2756,7 @@ Public Class clsFixedParameterCode
     Public Const AllowResetCustomerDemandOnRouteChange = "Allow Reset Customer Demand On Route Change"
     Public Const AutoSchemeOnTotalDispatchQty = "Auto Scheme On Total Dispatch Qty"
     Public Const ApplyDefaultTCSIsChecked = "Apply Default TCS IsChecked"
-    Public Const DrippingQuantity = "DrippingQuantity"
+    Public Const DrippingQuantity = "Dripping Quantity"
 
 End Class
 Public Class clsFixedParameter
@@ -4372,7 +4372,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoSchemeOnTotalDispatchQty, clsFixedParameterCode.AutoSchemeOnTotalDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "Dripping Quantity;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True

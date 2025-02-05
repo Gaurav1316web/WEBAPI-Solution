@@ -56,6 +56,7 @@ Public Class frmMilkRejectType
                 obj.Applicable_On = 3
             End If
             obj.Include_In_DBT = chkIncludeInDBT.Checked
+            obj.Include_In_Dripping_Entry = chkDrippingEntry.Checked
             obj.Exclude_Head = chkExcludeHead.Checked
             obj.Applicable_Per = txtApplicablePer.Value
             obj.Type = clsCommon.myCstr(cboType.SelectedValue)
@@ -71,7 +72,7 @@ Public Class frmMilkRejectType
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         funReset()
         txtCode.MyReadOnly = True
-        btnSave.Enabled = True
+        btnsave.Enabled = True
         rdbtndelete.Enabled = True
         isNewEntry = False
         Dim obj As New clsMilkRejectType()
@@ -79,7 +80,7 @@ Public Class frmMilkRejectType
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
             funReset()
             isNewEntry = False
-            btnSave.Text = "Update"
+            btnsave.Text = "Update"
             rdbtndelete.Enabled = True
             txtCode.Value = obj.Code
             txtDescription.Text = obj.Description
@@ -94,6 +95,7 @@ Public Class frmMilkRejectType
                 rbtnPer.IsChecked = True
             End If
             chkIncludeInDBT.Checked = obj.Include_In_DBT
+            chkDrippingEntry.Checked = obj.Include_In_Dripping_Entry
             chkExcludeHead.Checked = obj.Exclude_Head
             txtApplicablePer.Value = obj.Applicable_Per
             txtItem.Value = obj.Item_Code
@@ -202,6 +204,7 @@ Public Class frmMilkRejectType
         txtSNo.MendatroryField = False
         rbtnPer.IsChecked = True
         chkIncludeInDBT.Checked = False
+        chkDrippingEntry.Checked = False
     End Sub
 
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -254,7 +257,7 @@ Public Class frmMilkRejectType
         If objCommonVar.DisplayTypeInMilkReceipt Then
             flag = transportSql.importExcel(gv, "Code", "Description", "Item Code", "Applicable%", "Type", "Prefix")
         Else
-            flag = transportSql.importExcel(gv, "Code", "Description", "Item Code", "Applicable%" , "Prefix")
+            flag = transportSql.importExcel(gv, "Code", "Description", "Item Code", "Applicable%", "Prefix")
         End If
 
         If flag Then
