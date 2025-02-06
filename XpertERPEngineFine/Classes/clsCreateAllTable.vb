@@ -19007,7 +19007,7 @@ Public Class clsCreateAllTable
             coll.Add("PRO_DATA_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("IsFarmer", "integer NOT NULL default 0")
             coll.Add("Arrear_Account", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
-            'coll.Add("Transfer_To_Saving", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
+            coll.Add("Transfer_To_Saving", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_ACCOUNT_SET", coll, "", True)
 
             coll = New Dictionary(Of String, String)
