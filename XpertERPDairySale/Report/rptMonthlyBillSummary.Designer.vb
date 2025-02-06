@@ -25,6 +25,9 @@ Partial Class rptMonthlyBillSummary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnCustomerWise = New common.Controls.MyRadioButton()
+        Me.rbtnrouteWise = New common.Controls.MyRadioButton()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnDocumentdate = New common.Controls.MyRadioButton()
         Me.rbtnSupplydate = New common.Controls.MyRadioButton()
@@ -40,15 +43,18 @@ Partial Class rptMonthlyBillSummary
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnCustomerWise = New common.Controls.MyRadioButton()
-        Me.rbtnrouteWise = New common.Controls.MyRadioButton()
+        Me.btnprintDetail = New Telerik.WinControls.UI.RadButton()
+        Me.chkExcludeShift = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.rbtnCustomerWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnrouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.rbtnDocumentdate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,10 +70,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.rbtnCustomerWise, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnrouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprintDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -84,10 +87,11 @@ Partial Class rptMonthlyBillSummary
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnprintDetail)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
-        Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
+        Me.SplitContainer1.Size = New System.Drawing.Size(901, 450)
         Me.SplitContainer1.SplitterDistance = 413
         Me.SplitContainer1.TabIndex = 0
         '
@@ -98,12 +102,13 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 413)
+        Me.RadPageView1.Size = New System.Drawing.Size(901, 413)
         Me.RadPageView1.TabIndex = 74
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkExcludeShift)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.TxtRoute)
@@ -114,8 +119,44 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 365)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(880, 365)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnCustomerWise)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnrouteWise)
+        Me.RadGroupBox1.HeaderText = "Report Type"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(533, 2)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(246, 43)
+        Me.RadGroupBox1.TabIndex = 447
+        Me.RadGroupBox1.Text = "Report Type"
+        '
+        'rbtnCustomerWise
+        '
+        Me.rbtnCustomerWise.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnCustomerWise.Location = New System.Drawing.Point(30, 17)
+        Me.rbtnCustomerWise.MyLinkLable1 = Nothing
+        Me.rbtnCustomerWise.MyLinkLable2 = Nothing
+        Me.rbtnCustomerWise.Name = "rbtnCustomerWise"
+        Me.rbtnCustomerWise.Size = New System.Drawing.Size(96, 18)
+        Me.rbtnCustomerWise.TabIndex = 393
+        Me.rbtnCustomerWise.Text = "Customer Wise"
+        Me.rbtnCustomerWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnrouteWise
+        '
+        Me.rbtnrouteWise.Location = New System.Drawing.Point(152, 15)
+        Me.rbtnrouteWise.MyLinkLable1 = Nothing
+        Me.rbtnrouteWise.MyLinkLable2 = Nothing
+        Me.rbtnrouteWise.Name = "rbtnrouteWise"
+        Me.rbtnrouteWise.Size = New System.Drawing.Size(77, 18)
+        Me.rbtnrouteWise.TabIndex = 393
+        Me.rbtnrouteWise.TabStop = False
+        Me.rbtnrouteWise.Text = "Route Wise"
         '
         'RadGroupBox5
         '
@@ -265,7 +306,7 @@ Partial Class rptMonthlyBillSummary
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(721, 7)
+        Me.btnClose.Location = New System.Drawing.Point(822, 7)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 18)
         Me.btnClose.TabIndex = 168
@@ -274,7 +315,7 @@ Partial Class rptMonthlyBillSummary
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(98, 7)
+        Me.btnReset.Location = New System.Drawing.Point(194, 7)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(68, 18)
         Me.btnReset.TabIndex = 166
@@ -285,51 +326,34 @@ Partial Class rptMonthlyBillSummary
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Location = New System.Drawing.Point(12, 7)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(80, 18)
+        Me.btnPrint.Size = New System.Drawing.Size(96, 18)
         Me.btnPrint.TabIndex = 165
         Me.btnPrint.Text = "Summary Print"
         '
-        'RadGroupBox1
+        'btnprintDetail
         '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rbtnCustomerWise)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnrouteWise)
-        Me.RadGroupBox1.HeaderText = "Report Type"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(533, 2)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(246, 43)
-        Me.RadGroupBox1.TabIndex = 447
-        Me.RadGroupBox1.Text = "Report Type"
+        Me.btnprintDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprintDetail.Location = New System.Drawing.Point(111, 7)
+        Me.btnprintDetail.Name = "btnprintDetail"
+        Me.btnprintDetail.Size = New System.Drawing.Size(80, 18)
+        Me.btnprintDetail.TabIndex = 166
+        Me.btnprintDetail.Text = "Detail Print"
         '
-        'rbtnCustomerWise
+        'chkExcludeShift
         '
-        Me.rbtnCustomerWise.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnCustomerWise.Location = New System.Drawing.Point(30, 17)
-        Me.rbtnCustomerWise.MyLinkLable1 = Nothing
-        Me.rbtnCustomerWise.MyLinkLable2 = Nothing
-        Me.rbtnCustomerWise.Name = "rbtnCustomerWise"
-        Me.rbtnCustomerWise.Size = New System.Drawing.Size(96, 18)
-        Me.rbtnCustomerWise.TabIndex = 393
-        Me.rbtnCustomerWise.Text = "Customer Wise"
-        Me.rbtnCustomerWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnrouteWise
-        '
-        Me.rbtnrouteWise.Location = New System.Drawing.Point(152, 15)
-        Me.rbtnrouteWise.MyLinkLable1 = Nothing
-        Me.rbtnrouteWise.MyLinkLable2 = Nothing
-        Me.rbtnrouteWise.Name = "rbtnrouteWise"
-        Me.rbtnrouteWise.Size = New System.Drawing.Size(77, 18)
-        Me.rbtnrouteWise.TabIndex = 393
-        Me.rbtnrouteWise.TabStop = False
-        Me.rbtnrouteWise.Text = "Route Wise"
+        Me.chkExcludeShift.AutoSize = True
+        Me.chkExcludeShift.Location = New System.Drawing.Point(785, 17)
+        Me.chkExcludeShift.Name = "chkExcludeShift"
+        Me.chkExcludeShift.Size = New System.Drawing.Size(92, 17)
+        Me.chkExcludeShift.TabIndex = 448
+        Me.chkExcludeShift.Text = "Exclude Shift"
+        Me.chkExcludeShift.UseVisualStyleBackColor = True
         '
         'rptMonthlyBillSummary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(901, 450)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "rptMonthlyBillSummary"
         '
@@ -344,6 +368,11 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.rbtnCustomerWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnrouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
         Me.RadGroupBox5.PerformLayout()
@@ -361,11 +390,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
-        CType(Me.rbtnCustomerWise, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnrouteWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprintDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -392,4 +417,6 @@ Partial Class rptMonthlyBillSummary
     Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents rbtnCustomerWise As common.Controls.MyRadioButton
     Friend WithEvents rbtnrouteWise As common.Controls.MyRadioButton
+    Friend WithEvents btnprintDetail As RadButton
+    Friend WithEvents chkExcludeShift As CheckBox
 End Class
