@@ -1323,6 +1323,9 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
     '        Return True
     '    End Function
     Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup) As Boolean
+        Return PrintDOSData(ArrRoute, strShift, DocDate, IsFreshItem, IsAmbientItem, IsIndividualCustomer, CharColumn, CharRows, EnumPageSize, enumPageSetup, False)
+    End Function
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isSplitPrint As Boolean) As Boolean
         Try
             If clsCommon.myLen(strShift) <= 0 Then
                 Throw New Exception("Please select Shift")
@@ -1337,19 +1340,29 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
             End If
             BaseQry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) ) else 0 end) else 0 end) + isnull((xx.PrevItemNetAmount),0)) as AmountBE,
  xx.Crate_Collect  as TotalCollectCrate,(case when xx.ShiftType='Morning' then (isnull(TCSAmount,0)) else 0 end )as TotalTCSAmt  from ( 
-select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date,
+select XXFinal.Cust_Code as Cust_Code,"
+
+            BaseQry += "max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date,
 max(XXFinal.Short_Description) as Short_Description, sum(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, sum(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch,
 sum(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,sum(XXFinal.PrevCrate) as Crate_Collect,
 max(XXFinal.CompanyName) as CompanyName ,max(XXFinal.TranspoterName) as TranspoterName,max(XXFinal.DriverName) as DriverName,max(XXFinal.Vehicle_No) as Vehicle_No,
 max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,
 sum(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO,max(XXFinal.CreditCust) as CreditCust,sum(XXFinal.TCSAmount) as TCSAmount
 from ( 
-select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType, TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,0 as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
+select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,"
+
+            BaseQry += " TSPL_DEMAND_BOOKING_DETAIL.ShiftType, TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,0 as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise Else 0 End As Crate, 
 0 As PrevCrate,
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
 0 As PrevPouch,
-TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0 as PrevItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
+TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0 as PrevItemNetAmount,"
+            If isSplitPrint Then
+                BaseQry += " (TSPL_DEMAND_BOOKING_MASTER.Route_No+' '+TSPL_CUSTOMER_MASTER.Split_Print)Route_No,"
+            Else
+                BaseQry += " TSPL_DEMAND_BOOKING_MASTER.Route_No,"
+            End If
+            BaseQry += "TSPL_ROUTE_MASTER.Route_Desc,
 TSPL_COMPANY_MASTER.Comp_Name as CompanyName,TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
 TSPL_DEMAND_BOOKING_DETAIL.Item_Rate,ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,Convert(decimal(18, 2),(TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ ITEMDETAIL.CFForLTR) As QTYLtr,
 TSPL_CUSTOMER_MASTER.Credit_Customer as CreditCust,
@@ -1370,6 +1383,9 @@ Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANS
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
 where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + strShift + "' 
 and CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' "
+            If isSplitPrint Then
+                BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null "
+            End If
             If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
                 BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
             End If
@@ -1382,13 +1398,21 @@ and CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon
                 BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
             End If
             BaseQry += Environment.NewLine + " Union all
-select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,'" + strShift + "'  as ShiftType,TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
+select  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,"
+
+            BaseQry += "'" + strShift + "'  as ShiftType,TSPL_ITEM_MASTER.Sku_Seq,'" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' as Document_Date, 
 TSPL_ITEM_MASTER.Short_Description,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as PrevQty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, 
 0 As Crate,
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Crate' Then TSPL_Demand_Booking_Detail.TotalCrates_ItemWise Else 0 End As PrevCrate, 
 0 As Pouch, 
 Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code = 'Pouch' Then TSPL_Demand_Booking_Detail.Qty Else 0 End As PrevPouch,
-0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
+0 as ItemNetAmount,TSPL_Demand_Booking_Detail.ItemNetAmount as PrevItemNetAmount,"
+            If isSplitPrint Then
+                BaseQry += " (TSPL_DEMAND_BOOKING_MASTER.Route_No+' '+TSPL_CUSTOMER_MASTER.Split_Print)Route_No,"
+            Else
+                BaseQry += " TSPL_DEMAND_BOOKING_MASTER.Route_No,"
+            End If
+            BaseQry += "TSPL_ROUTE_MASTER.Route_Desc,
 TSPL_COMPANY_MASTER.Comp_Name as CompanyName,TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
 TSPL_DEMAND_BOOKING_DETAIL.Item_Rate,ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0 As QTYLtr,TSPL_CUSTOMER_MASTER.Credit_Customer as CreditCust,
 CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX1_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX2_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX3_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX4_Amt) 
@@ -1407,6 +1431,9 @@ Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_
 Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' 
 where 2=2 "
+            If isSplitPrint Then
+                BaseQry += " And TSPL_ROUTE_MASTER.Split_Print=1 And TSPL_CUSTOMER_MASTER.Split_Print is not null"
+            End If
             If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
                 BaseQry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") "
             End If
@@ -1437,6 +1464,7 @@ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=xfinal.Cu
             If dtItem IsNot Nothing AndAlso dtItem.Rows.Count <= 0 Then
                 Throw New Exception("No Data found to print")
             End If
+
             qry = "select Route_No ,max(Route_Desc) as Route_Desc,max(TranspoterName) as TranspoterName,max(DriverName) as DriverName,MAX(Vehicle_No) as Vehicle_No,convert(varchar, max(Document_Date),103) as Document_Date,FORMAT(GETDATE(), 'dd/MM/yyyy hh:mm tt') as PrintDateTime ,max(ShiftType) as ShiftType,max(DocStatus) as DocStatus,Cust_Code,case when Credit_Customer='Y' then 'Department Booth' else 'Normal Booth' end as Credit_Customer "
             For Each drItem As DataRow In dtItem.Rows
                 qry += ",sum((case when Credit_Customer='Y' then QTYLtr else Crate end) * (case when Short_Description='" + clsCommon.myCstr(drItem("Short_Description")) + "' then 1 else 0 end)) as [" + clsCommon.myCstr(drItem("Short_Description")) + "] "
@@ -1528,7 +1556,7 @@ order by xx.Route_No,xx.Credit_Customer,max(Display_Seq)"
             objGRH.ColumnName = "DocStatus"
             objGRH.ConstString = "#$DocStatus$#"
             obj.objReportGroup.arrHeaderText1.Add(objGRH)
-            obj.objReportGroup.HeaderText2 = "#$Route_Desc$# ( ROUTE:#$Route_No$# ) #$TranspoterName$# DRIVER:#$DriverName$# VEHICLE NO:#$Vehicle_No$# [#$PrintDateTime$#]"
+            obj.objReportGroup.HeaderText2 = "#$Route_Desc$# (ROUTE:#$Route_No$#)#$TranspoterName$# DRIVER:#$DriverName$# VEHICLE NO:#$Vehicle_No$# [#$PrintDateTime$#]"
             obj.objReportGroup.arrHeaderText2 = New List(Of clsDosPrintReportGroupReplaceHeader)
             objGRH = New clsDosPrintReportGroupReplaceHeader
             objGRH.ColumnName = "Route_Desc"

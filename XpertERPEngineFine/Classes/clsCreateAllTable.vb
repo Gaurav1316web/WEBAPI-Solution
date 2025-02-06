@@ -3332,6 +3332,7 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "Varchar(12) null REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Zone_Code", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
             coll.Add("Area_Code", "varchar(12) null references TSPL_AREA_MASTER(Code)")
+            coll.Add("Split_Print", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -14855,6 +14856,7 @@ Public Class clsCreateAllTable
             coll.Add("Reference", "varchar(100) NULL")
             coll.Add("Is_Staff", "integer not null default 0")
             coll.Add("EMP_CODE", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+            coll.Add("Split_Print", "Varchar(15) NULL")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
@@ -19007,7 +19009,7 @@ Public Class clsCreateAllTable
             coll.Add("PRO_DATA_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("IsFarmer", "integer NOT NULL default 0")
             coll.Add("Arrear_Account", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
-            'coll.Add("Transfer_To_Saving", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
+            coll.Add("Transfer_To_Saving", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_ACCOUNT_SET", coll, "", True)
 
             coll = New Dictionary(Of String, String)
@@ -46734,7 +46736,8 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("VLC_Code", "Varchar(30) null REFERENCES TSPL_VLC_MASTER_HEAD (VLC_Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_VLC_MAPPING_FOR_MP_PAYMENT_PROCESS", coll)
 
-
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where table_name='TSPL_PAYMENT_PROCESS_DETAIL' and COLUMN_NAME='Bank_Account_No_Saving'"
+            dt = clsDBFuncationality.GetDataTable(qry)
             coll = New Dictionary(Of String, String)()
             coll.Add("PP_Detail_No", "Varchar(30) not null Primary Key")
             coll.Add("Doc_No", "Varchar(30) not null REFERENCES TSPL_PAYMENT_PROCESS_HEAD (Doc_No)")
@@ -46821,8 +46824,16 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Payment_Mode_Saving", "varchar(30) ")
             coll.Add("Saving_Amount", "Decimal(18,2) null")
             coll.Add("Zone_Code", "varchar(50) NULL ")
+            coll.Add("Bank_Account_No_Saving", "varchar(50) NULL ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
-
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                qry = "update TSPL_PAYMENT_PROCESS_DETAIL set Bank_Account_No_Saving=xx.AccNo2 from (
+select PP_Detail_No,TSPL_VENDOR_MASTER.AccNo2 from TSPL_PAYMENT_PROCESS_DETAIL
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving is null
+) xx inner join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No=xx.PP_Detail_No"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Against_PP_Detail_No", "Varchar(30) null REFERENCES TSPL_PAYMENT_PROCESS_DETAIL (PP_Detail_No)")

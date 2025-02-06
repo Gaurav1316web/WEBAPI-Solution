@@ -166,6 +166,7 @@ Public Class FrmPaymentProcess
 
     Public Const colBankCodeSaving As String = "colBankCodeSaving"
     Public Const colBankDescSaving As String = "colBankDescSaving"
+    Public Const colBankAccountNoSaving As String = "colBankAccountNoSaving"
     Public Const colPayModeSaving As String = "colPayModeSaving"
 
     Public Const colIsPaymentProcessHoldSaving As String = "colIsPaymentProcessHoldSaving"
@@ -1424,6 +1425,14 @@ Public Class FrmPaymentProcess
         colTextBox.Width = 200
         colTextBox.ReadOnly = True
         gv.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox1 = New GridViewTextBoxColumn()
+        colTextBox1.FormatString = ""
+        colTextBox1.HeaderText = "Saving Account No"
+        colTextBox1.Name = colBankAccountNoSaving
+        colTextBox1.Width = 200
+        colTextBox1.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox1)
 
         Dim colTextBox7 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         colTextBox7 = New GridViewTextBoxColumn()
@@ -4522,6 +4531,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPPDetail.Bank_Code_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankCodeSaving).Value)
                         objPPDetail.Bank_Desc_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankDescSaving).Value)
                         objPPDetail.Payment_Mode_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colPayModeSaving).Value)
+                        objPPDetail.Bank_Account_No_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankAccountNoSaving).Value)
 
                         If clsCommon.CompairString(objPPDetail.Payment_Mode, "Cheque") = CompairStringResult.Equal Then
                             objPPDetail.Cheque_Dated = clsCommon.myCstr(gv.Rows(i).Cells(colChequeDate).Value)
@@ -4986,6 +4996,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colChequeDate).FieldName = "Cheque_Dated"
                     gv.Columns(colBankCodeSaving).FieldName = "Bank_Code_Saving"
                     gv.Columns(colBankDescSaving).FieldName = "Bank_Desc_Saving"
+                    gv.Columns(colBankAccountNoSaving).FieldName = "Bank_Account_No_Saving"
                     gv.Columns(colPayModeSaving).FieldName = "Payment_Mode_Saving"
                     gv.Columns(colMilkQty).FieldName = "Milk_Qty"
                     gv.Columns(colVSPAmount).FieldName = "VSP_Amount"
@@ -5563,7 +5574,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 CalculateAdvanceKnockOff(k)
 
                 If SettVSPHoldPaymentNotCompanyBank Then
-                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving 
+                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving ,TSPL_VENDOR_MASTER.AccNo2 as AccountNo_Saving
 from TSPL_VENDOR_MASTER 
 left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_CURRENT on TSPL_BANK_MASTER_CURRENT.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank_Current
 left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_SAVING on TSPL_BANK_MASTER_SAVING.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank 
@@ -5581,6 +5592,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                         If clsCommon.myLen(dt.Rows(0)("Company_Bank")) > 0 Then
                             gv.Rows(i).Cells(colBankCodeSaving).Value = clsCommon.myCstr(dt.Rows(0)("Company_Bank"))
                             gv.Rows(i).Cells(colBankDescSaving).Value = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION_Saving"))
+                            gv.Rows(i).Cells(colBankAccountNoSaving).Value = clsCommon.myCstr(dt.Rows(0)("AccountNo_Saving"))
                             gv.Rows(i).Cells(colPayModeSaving).Value = "NEFT"
                         Else
                             gv.Rows(i).Cells(colIsPaymentProcessHoldSavingAuto).Value = True
