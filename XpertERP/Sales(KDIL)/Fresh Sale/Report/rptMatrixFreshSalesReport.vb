@@ -2896,6 +2896,11 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
     End Sub
     Private Sub RptMatrixFreshSalesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ToDate.Value = clsCommon.GETSERVERDATE()
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            btnSplitPrint.Visible = True
+        Else
+            btnSplitPrint.Visible = False
+        End If
         EnableProductSaleForJPR = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing)) = 1, True, False)
         If EnableProductSaleForJPR Then
             RadGroupBox8.Visible = True
@@ -3194,7 +3199,6 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
     End Sub
     Private Sub btnPrintTrkSht_Click(sender As Object, e As EventArgs) Handles btnPrintTrkSht.Click
         Try
-
             If EnableProductSaleForJPR Then
                 If rbtnMilkType.Checked Then
                     clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)
@@ -5487,4 +5491,11 @@ FROM
         End If
     End Sub
 
+    Private Sub btnSplitPrint_Click(sender As Object, e As EventArgs) Handles btnSplitPrint.Click
+        Try
+            clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap, True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

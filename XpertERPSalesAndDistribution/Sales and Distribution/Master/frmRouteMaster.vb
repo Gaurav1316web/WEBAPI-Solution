@@ -281,7 +281,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -325,6 +325,11 @@ Public Class frmRouteMaster
                     txtLocation.Value = clsCommon.myCstr(dt.Rows(i)("Location_Code"))
                     txtLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER Where Location_Code='" + txtLocation.Value + "'"))
                     fndZone.Value = clsCommon.myCstr(dt.Rows(i)("Area_Code"))
+                    If clsCommon.myCdbl(clsCommon.myCstr(dt.Rows(i)("Split_Print"))) > 0 Then
+                        rbtnSplitPrint.Checked = True
+                    Else
+                        rbtnSplitPrint.Checked = False
+                    End If
                     If String.IsNullOrEmpty(clsCommon.myCstr(dt.Rows(i)("Route_Time"))) = True Then
                         txtRouteTime.Value = Nothing
                         txtRouteTime.Checked = False
@@ -384,6 +389,7 @@ Public Class frmRouteMaster
     'This is Reset Function Used To Clear All Fields Of Current Windows Form
     Private Sub funReset()
         Try
+            rbtnSplitPrint.Checked = False
             fndRouteid.Value = ""
             txtZone.Text = ""
             txtZone.Visible = False
@@ -575,6 +581,7 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommon.AddColumnsForChange(coll1, "Area_Code", fndZone.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Zone_Code", txtZone.Text, True)
+        clsCommon.AddColumnsForChange(coll1, "Split_Print", IIf(rbtnSplitPrint.Checked, 1, 0), True)
         clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
     End Sub
     'This is Update Function Used To Update Records In TSPL_ROUTE_MASTER
