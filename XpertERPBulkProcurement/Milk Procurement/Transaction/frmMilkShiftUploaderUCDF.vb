@@ -149,7 +149,10 @@ Public Class frmMilkShiftUploaderUCDF
 
         txtMCC.Value = ""
         LblMccName.Text = ""
+
         txtTankerNo.Text = ""
+
+
         'txtTotEnteredQty.Text = ""
         'txtTotEnteredFAT.Text = ""
         'txtTotEnteredSNF.Text = ""
@@ -338,9 +341,8 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
         ",TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code as [MCC Code]  ,tspl_mcc_master.MCC_NAME as [Mcc Name] " &
         ",tspl_mcc_master.Plant_Code AS [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name]" &
         ",TSPL_MILK_SHIFT_UPLOADER_HEAD.DOCK_CODE as [Dock Code]" &
-        ",TSPL_DOCK_MASTER.Description as [Dock Name] ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No" &
+        ",TSPL_DOCK_MASTER.Description as [Dock Name] " &
         " from TSPL_MILK_SHIFT_UPLOADER_HEAD" &
-        " left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No=TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No " &
         " left join  tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_MILK_SHIFT_UPLOADER_HEAD.mcc_code" &
         " LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=tspl_mcc_master.Plant_Code" &
         " left join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.code=TSPL_MILK_SHIFT_UPLOADER_HEAD.dock_code"
@@ -414,7 +416,6 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
-
             AddNew()
             isInsideLoadData = True
             Dim obj As New clsMilkShiftUploaderHead()
@@ -439,7 +440,7 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                 txtMCC.Value = obj.MCC_Code
                 LblMccName.Text = obj.MCC_Name
                 cboLate.SelectedValue = obj.Raj_Late
-                txtTankerNo.Text = obj.Tanker_No
+
 
                 'SNo.Value = obj.S_No
 
@@ -488,11 +489,7 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                         gv1.Columns(ii).ReadOnly = True
                         gv1.Columns(ii).IsVisible = True
                         gv1.Columns(ii).BestFit()
-
-
                         Try
-
-
                             If gv1.Columns(ii).Name.Contains(" Qty") OrElse gv1.Columns(ii).Name.Contains(" FATKg") OrElse gv1.Columns(ii).Name.Contains(" SNFKG") Then
                                 Dim item1 As New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F3}", GridAggregateFunction.Sum)
                                 summaryRowItem.Add(item1)
@@ -569,12 +566,15 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                     gvP.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem2)
                     gvP.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                     '======================================================================
-
                 End If
+
                 txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtMCC.Value, txtDate.Value)
                 txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtMCC.Value, txtDate.Value)
                 For i As Integer = 0 To gv1.Rows.Count - 1
                     gv1.Rows(i).Cells("SNo").Value = (i + 1)
+                    If i = gv1.Rows.Count - 1 Then
+                        txtTankerNo.Text = clsCommon.myCstr(gv1.Rows(i).Cells("Tanker_No").Value)
+                    End If
                 Next
             End If
         Catch ex As Exception

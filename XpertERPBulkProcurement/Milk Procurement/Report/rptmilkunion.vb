@@ -103,6 +103,9 @@ Public Class rptmilkunion
             gv1.Columns("SRN_Count").HeaderText = "No of SRN"
             gv1.Columns("SRN_Count").IsVisible = True
 
+            gv1.Columns("GRN_Count").HeaderText = "No of GRN"
+            gv1.Columns("GRN_Count").IsVisible = True
+
             gv1.Columns("E_Invoice_Count").HeaderText = "E Invoice No"
             gv1.Columns("E_Invoice_Count").IsVisible = True
 
@@ -276,6 +279,7 @@ Public Class rptmilkunion
                 view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Purchase_Count").Name)
                 view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("SRN_Count").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("GRN_Count").Name)
 
                 view.ColumnGroups.Add(New GridViewColumnGroup("Sales(Demand)"))
                 view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
@@ -361,6 +365,7 @@ Public Class rptmilkunion
                     Dim status13 As String
                     Dim status14 As String
                     Dim status15 As String
+                    Dim status16 As String
                     If rdbPosted.Checked Then
                         status1 = " and  sh.Status=1 "
                         status2 = " and pe.POSTED= 1 "
@@ -377,7 +382,7 @@ Public Class rptmilkunion
                         status13 = " and TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
                         status14 = " and TSPL_DBT_NEFT.Status=1 "
                         status15 = " and TSPL_BOOKING_MATSER.Posted=1 "
-
+                        status16 = " and TSPL_GRN_HEAD.Status=1"
                     ElseIf rdbUnposted.Checked Then
                         status1 = " and  sh.Status= 0 "
                         status2 = " and pe.POSTED= 0 "
@@ -394,6 +399,7 @@ Public Class rptmilkunion
                         status13 = " and TSPL_SD_SALE_INVOICE_HEAD.Status=0 "
                         status14 = " and TSPL_DBT_NEFT.Status=0 "
                         status15 = " and TSPL_BOOKING_MATSER.Posted=0 "
+                        status16 = " and TSPL_GRN_HEAD.Status= 0 "
                     Else
                         status1 = " "
                         status2 = " "
@@ -410,6 +416,7 @@ Public Class rptmilkunion
                         status13 = " "
                         status14 = " "
                         status15 = " "
+                        status16 = " "
                     End If
                     If clsCommon.CompairString(ddlReportType.SelectedValue, "UWSR") = CompairStringResult.Equal Then
 
@@ -604,7 +611,7 @@ Public Class rptmilkunion
 
 
                     ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "UWASR") = CompairStringResult.Equal Then
-                        query = " select  SNo,[Union Name],Fromdate,Todate,username,Dis_QtyInLTR,(Dis_QtyInLTR/DaysCount) as [Dis Avg],Prod_QTY,(Prod_QTY/DaysCount) as [Prod Avg],TotalLtr_ItemWiseDemand,(TotalLtr_ItemWiseDemand/DaysCount) as [Dem Avg],Milk_WeightProc,(Milk_WeightProc/DaysCount) as [Proc Avg],Sale_Voucher,Purchase_Voucher,Last_Salary,Purchase_Count,SRN_Count,E_Invoice_Count,[Last DBT App. Month] from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
+                        query = " select  SNo,[Union Name],Fromdate,Todate,username,Dis_QtyInLTR,(Dis_QtyInLTR/DaysCount) as [Dis Avg],Prod_QTY,(Prod_QTY/DaysCount) as [Prod Avg],TotalLtr_ItemWiseDemand,(TotalLtr_ItemWiseDemand/DaysCount) as [Dem Avg],Milk_WeightProc,(Milk_WeightProc/DaysCount) as [Proc Avg],Sale_Voucher,Purchase_Voucher,Last_Salary,Purchase_Count,SRN_Count,GRN_Count,E_Invoice_Count,[Last DBT App. Month] from (select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
                         '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "'as Todate,'" + objCommonVar.CurrentUser + "' as username,
                     ISNULL(SUM(Dis_Disbursement.Dis_QtyInLTR), 0) AS Dis_QtyInLTR,
                     ISNULL(SUM(Dis_Production.Prod_QTY), 0) AS Prod_QTY,
@@ -614,7 +621,7 @@ Public Class rptmilkunion
 					ISNULL(SUM(Milk_Purchase_invoice.Purchase_Voucher),0) AS Purchase_Voucher,
                     (SELECT TOP 1 DATENAME(MONTH, [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO) + ' ' + CONVERT(VARCHAR(4), YEAR([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.DATE_TO)) FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY
                 left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE
-                where 2=2 " + status6 + " ORDER BY DATE_TO DESC) as Last_Salary,(select count(PurchaseOrder_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where CONVERT(DATE, PurchaseOrder_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status11 + ")   as Purchase_Count,(select count(SRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where CONVERT(DATE, SRN_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status12 + ") as SRN_Count,(select COUNT(IRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where CONVERT(DATE, Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status13 + ") as E_Invoice_Count,(select FORMAT(max(To_Date),'MMMM yyyy')
+                where 2=2 " + status6 + " ORDER BY DATE_TO DESC) as Last_Salary,(select count(PurchaseOrder_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_PURCHASE_ORDER_HEAD where CONVERT(DATE, PurchaseOrder_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status11 + ")   as Purchase_Count,(select count(SRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SRN_HEAD where CONVERT(DATE, SRN_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status12 + ") as SRN_Count,(select count(GRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_GRN_HEAD where CONVERT(DATE, GRN_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status16 + ") as GRN_Count,(select COUNT(IRN_No) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_SD_SALE_INVOICE_HEAD where CONVERT(DATE, Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + status13 + ") as E_Invoice_Count,(select FORMAT(max(To_Date),'MMMM yyyy')
             FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT  where  Status=1) AS [Last DBT App. Month],(SELECT DATEDIFF(day, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', '" + clsCommon.GetPrintDate(txtToDate.Value) + "')+1) AS DaysCount
                 FROM 
             (SELECT SUM(Dis_QtyInLTR) AS Dis_QtyInLTR FROM (( SELECT SUM(Dis_QtyInLTR) AS Dis_QtyInLTR from (
