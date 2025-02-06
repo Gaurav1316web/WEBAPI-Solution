@@ -3336,6 +3336,7 @@ Public Class clsPaymentProcessDetail
     Public Cheque_No As String = ""
     Public Bank_Code_Saving As String = ""
     Public Bank_Desc_Saving As String = ""
+    Public Bank_Account_No_Saving As String = ""
     Public Payment_Mode_Saving As String = ""
     Public Zone_Code As String = ""
 
@@ -3450,6 +3451,7 @@ Public Class clsPaymentProcessDetail
                     End If
                     clsCommon.AddColumnsForChange(coll, "Bank_Code_Saving", clsCommon.myCstr(arr.Item(i).Bank_Code_Saving))
                     clsCommon.AddColumnsForChange(coll, "Bank_Desc_Saving", clsCommon.myCstr(arr.Item(i).Bank_Desc_Saving))
+                    clsCommon.AddColumnsForChange(coll, "Bank_Account_No_Saving", clsCommon.myCstr(arr.Item(i).Bank_Account_No_Saving))
                     clsCommon.AddColumnsForChange(coll, "Payment_Mode_Saving", clsCommon.myCstr(arr.Item(i).Payment_Mode_Saving))
                     clsCommon.AddColumnsForChange(coll, "Zone_Code", clsCommon.myCstr(arr.Item(i).Zone_Code))
 
@@ -3555,6 +3557,7 @@ Public Class clsPaymentProcessDetail
 ,TSPL_PAYMENT_PROCESS_DETAIL.Cheque_Dated 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving 
+,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving
 ,TSPL_PAYMENT_PROCESS_DETAIL.Payment_Mode_Saving 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
  ,TabFATSNFDetail.FATPer 
@@ -3661,6 +3664,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                     obj.Bank_Code_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Code_Saving"))
                     obj.Bank_Desc_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Desc_Saving"))
                     obj.Payment_Mode_Saving = clsCommon.myCstr(dtbl.Rows(i)("Payment_Mode_Saving"))
+                    obj.Bank_Account_No_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Account_No_Saving"))
 
                     obj.VSP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("VSP_Amount"))
                     obj.Handling_Charges_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Handling_Charges_Amount"))
