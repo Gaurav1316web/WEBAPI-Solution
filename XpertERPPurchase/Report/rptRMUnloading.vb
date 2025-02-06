@@ -45,13 +45,16 @@ Public Class rptRMUnloading
             Dim item As String = Nothing
             Dim RMweight As String = "select  '" + clsCommon.GetPrintDate((Slot1FD), "dd/MM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate((Slot3TD), "dd/MM/yyyy") + "' as ToDate,
                                     max(TSPL_LOCATION_MASTER.Location_Desc) as Location_Desc,max(TSPL_LOCATION_MASTER.Add1) as add1,max(TSPL_LOCATION_MASTER.Add2) as add2 ,max(TSPL_LOCATION_MASTER.Add3) as add3,max(TSPL_LOCATION_MASTER.Add4) add4,CONVERT(DATE,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) AS Weighment_Date,(tspl_item_master.Short_Description) AS Short_Description,
-                                    cast((SUM(TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight)-SUM(TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight)) as decimal(10,0))*100 as weight ,COUNT(*) as noofdelivery
+                                    cast((SUM(((TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor))-
+		                            SUM(((TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/TSPL_ITEM_UOM_DETAIL_KG.Conversion_Factor))) as decimal(10,0)) as weight ,COUNT(*) as noofdelivery
                                     from TSPL_GRN_HEAD
                                     LEFT OUTER JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
                                     LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
                                     LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_DETAIL ON TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                                     left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code= TSPL_PO_WEIGHTMENT_DETAIL.Item_Code
                                     left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_PO_WEIGHTMENT_HEAD.Location_Code
+	                                left outer join tspl_item_uom_detail on tspl_item_uom_detail.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and tspl_item_uom_detail.UOM_Code=TSPL_PO_WEIGHTMENT_DETAIL.UOM
+	                                left outer join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAIL_KG on tspl_item_uom_detail_KG.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and tspl_item_uom_detail_KG.UOM_Code='KG'
                                     where 
                                     TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtLocation.Value) + "' AND convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)>='" + clsCommon.GetPrintDate(Slot1FD) + "' 
                                     AND convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)<='" + clsCommon.GetPrintDate(Slot3TD) + "' AND TSPL_GRN_HEAD.IsCancel=0 and TSPL_PO_WEIGHTMENT_HEAD.Status=1
