@@ -171,7 +171,7 @@ Public Class FrmAPInvoiceEntry
     Public Const DocTypeTransfer As String = "Transfer"
     Public Shared Milk_PI_No As String = ""
     Public arrProvDocNo As List(Of String) = Nothing
-
+    Dim TTSavingAcct As String = Nothing
     Dim isDeductionFinder As Boolean = False
     Dim dblPreviousTDSAmt As Double = 0
     Dim UDLPurchaseOrderthroughAP As Boolean = False
@@ -2281,7 +2281,10 @@ Public Class FrmAPInvoiceEntry
                                 'If ChkTrnsferToSvng.Checked = True Then
 
                                 'Else
-                                OpenGLAccount(False)
+                                If ChkTrnsferToSvng.Checked = False Then
+                                    OpenGLAccount(False)
+                                End If
+
                                 'End If
 
                             End If
@@ -3523,7 +3526,9 @@ Public Class FrmAPInvoiceEntry
                     Dim qry As String = "select Account_Code from TSPL_GL_ACCOUNTS where Account_Code in (" + clsCommon.GetMulcallString(arrAccountCode) + ") and ControlAccount<>'N' AND TSPL_GL_ACCOUNTS.Account_Code NOT IN  (select TSPL_CONTROL_ACC_MAPPING.Account_Code  from TSPL_CONTROL_ACC_MAPPING where IsForAP =1)"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        Throw New Exception("Can not select control Account -" + clsCommon.myCstr(dt.Rows(0)("Account_Code")))
+                        If ChkTrnsferToSvng.Checked = False Then
+                            Throw New Exception("Can not select control Account -" + clsCommon.myCstr(dt.Rows(0)("Account_Code")))
+                        End If
                     End If
                 End If
             End If
@@ -7793,5 +7798,23 @@ Public Class FrmAPInvoiceEntry
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub ChkTrnsferToSvng_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles ChkTrnsferToSvng.ToggleStateChanged
+        If ChkTrnsferToSvng.Checked = True Then
+            TTSavingAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transfer_To_Saving from TSPL_VENDOR_ACCOUNT_SET where Acct_Set_Code='DCS'"))
+            gv1.CurrentRow.Cells(colACCode).Value = TTSavingAcct
+            'gv1.CurrentRow.Cells(colACCode).Value = clsCommon.ShowSelectForm("TaxRateChangFND", strQry, "Account_Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colACCode).Value), "Account_Code", isButtonClick)
+            'gv1.CurrentRow.Cells(colACCode).Value = clsCommon.ShowSelectForm("TaxRateChangFND", qry, "Account_Code", whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colACCode).Value), "Account_Code", isButtonClick)
+            gv1.CurrentRow.Cells(colACName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colACCode).Value) + "'"))
+            gv1.CurrentRow.Cells(colACCode).ReadOnly = True
+            gv1.CurrentRow.Cells(colACName).ReadOnly = True
+        Else
+            gv1.CurrentRow.Cells(colACCode).Value = Nothing
+            gv1.CurrentRow.Cells(colACName).Value = Nothing
+            gv1.CurrentRow.Cells(colACCode).ReadOnly = False
+            gv1.CurrentRow.Cells(colACName).ReadOnly = False
+
+        End If
     End Sub
 End Class
