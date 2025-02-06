@@ -80,13 +80,16 @@ Public Class frmBulkSaleAcknowledgement
                     End If
                 Next
             End If
-            Dim whrCls As String = " TSPL_Dispatch_BulkSale.Document_No Not In (" + Code + ")"
+            Dim whrCls As String = ""
+            If Code IsNot Nothing Then
+                whrCls = " TSPL_Dispatch_BulkSale.Document_No Not In (" + Code + ")"
+            End If
             Dim qry As String = "Select TSPL_Dispatch_BulkSale.Document_No as Code,Convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as [Dispatch Date],TSPL_Dispatch_BulkSale.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_Dispatch_BulkSale.Tanker_Code as [Tanker Code],TSPL_Dispatch_BulkSale.QC_Code as [QC Code],TSPL_Dispatch_BulkSale.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_Dispatch_BulkSale.Price_Code as [Price Code],TSPL_Dispatch_BulkSale.Dip_marking as [Dip Marking],TSPL_Dispatch_BulkSale.Challan_No as [Challan No],case when TSPL_Dispatch_BulkSale.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_Dispatch_BulkSale left outer Join TSPL_CUSTOMER_MASTER on TSPL_Dispatch_BulkSale.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_Dispatch_BulkSale.Location_Code =TSPL_LOCATION_MASTER.Location_Code"
             fndBulkSaleNo.Value = clsCommon.ShowSelectForm("DispatchBulkSale", qry, "Code", whrCls, fndBulkSaleNo.Value, "", isButtonClicked)
             LoadDataBulkSale(fndBulkSaleNo.Value, NavigatorType.Current)
             qry = Nothing
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
