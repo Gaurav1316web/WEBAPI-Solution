@@ -2528,6 +2528,8 @@ Public Class clsFixedParameterCode
     Public Const ShowItemInCaseofNonInventory As String = "Show Item In Case of Non Inventory"
     Public Const ProductionFATRateTollerance As String = "Production FAT Rate Tollerance"
     Public Const ProductionSNFRateTollerance As String = "Production SNF Rate Tollerance"
+    Public Const MaxFATPerLimitOwnDCS As String = "Max FAT Per Limit Own DCS"
+    Public Const MaxSNFPerLimitOwnDCS As String = "Max SNF Per Limit Own DCS"
     Public Const MaxFATPerLimit As String = "Max FAT Per Limit"
     Public Const MaxSNFPerLimit As String = "Max SNF Per Limit"
     Public Const MinFATPerLimit As String = "Min FAT Per Limit"
@@ -4115,6 +4117,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowItemInCaseofNonInventory, clsFixedParameterCode.ShowItemInCaseofNonInventory, "0", "0-Off-Show Item In Case of Non Inventory(Work Order)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionFATRateTollerance, clsFixedParameterCode.ProductionFATRateTollerance, "0", "Dairy Production FAT Rate Tollerance")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionSNFRateTollerance, clsFixedParameterCode.ProductionSNFRateTollerance, "0", "Dairy Production SNF Rate Tollerance")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimitOwnDCS, "0", "0-OFF.Max FAT % limit on Milk Sampling OwnDCS")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimitOwnDCS, "0", "0-OFF.Max SNF % limit on Milk Sampling OwnDCS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk Sampling")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk Sampling")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MinFATPerLimit, clsFixedParameterCode.MinFATPerLimit, "3.5", "0-OFF.Min FAT % limit on Milk Sampling")
@@ -5746,6 +5750,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MinFATPerLimit, clsFixedParameterCode.MinFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MinSNFPerLimit, clsFixedParameterCode.MinSNFPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimitOwnDCS, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimitOwnDCS, EnumControlType.NumericBox)
         'Jobwork Inward
         InsertDefaultValue(clsUserMgtCode.frmJobWorkBillig, clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmJobWorkBillig, clsFixedParameterType.GrossWtFromItemMasterONCSATransfer, clsFixedParameterCode.GrossWtFromItemMasterONCSATransfer, EnumControlType.CheckBox)
