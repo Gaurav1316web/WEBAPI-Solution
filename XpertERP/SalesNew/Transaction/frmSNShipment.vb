@@ -3343,7 +3343,7 @@ Public Class frmSNShipment
 
                             If rbtnManualTCS.IsChecked = False Then
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
-                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
+                                dblTaxTotAmt = dblTaxTotAmt
                             Else
                                 dblTaxAmt2 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
@@ -3371,7 +3371,7 @@ Public Class frmSNShipment
 
                             If rbtnManualTCS.IsChecked = False Then
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
-                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
+                                dblTaxTotAmt = dblTaxTotAmt
                             Else
                                 dblTaxAmt3 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
@@ -3399,7 +3399,7 @@ Public Class frmSNShipment
 
                             If rbtnManualTCS.IsChecked = False Then
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
-                                dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt4
+                                dblTaxTotAmt = dblTaxTotAmt
                             Else
                                 dblTaxAmt4 = gv2.Rows(ii - 1).Cells(colTTaxAmt).Value
                                 gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)

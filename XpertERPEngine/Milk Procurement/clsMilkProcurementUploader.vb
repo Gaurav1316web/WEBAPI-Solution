@@ -859,6 +859,7 @@ Public Class clsMilkProcurementUploaderDetail
     Public IsUpdate As Boolean = False
     Public Hist_On As DateTime? = Nothing
     Public Hist_By As String
+    Public Is_Drip_Saver As Integer
 
     'Public Retesting_FAT As Decimal
     'Public Retesting_SNF As Decimal
@@ -901,6 +902,8 @@ Public Class clsMilkProcurementUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "Reject_Defaulter", obj.Reject_Defaulter)
                 clsCommon.AddColumnsForChange(coll, "Against_Milk_Collection_DCS_Detail", obj.Against_Milk_Collection_DCS_Detail, True)
                 clsCommon.AddColumnsForChange(coll, "Bulk_Route_Code", obj.Bulk_Route_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Is_Drip_Saver", obj.Is_Drip_Saver, True)
+
                 If obj.Arrival_Time Is Nothing Then
                     clsCommon.AddColumnsForChange(coll, "Arrival_Time", obj.Arrival_Time, True)
                 Else
@@ -1035,6 +1038,9 @@ where  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strPONo + "' "
                 End If
                 If dr("Weighment_Time") IsNot DBNull.Value Then
                     objTr.Weighment_Time = clsCommon.myCDate(dr("Weighment_Time"))
+                End If
+                If dr("Is_Drip_Saver") IsNot DBNull.Value Then
+                    objTr.Is_Drip_Saver = clsCommon.myCdbl(dr("Is_Drip_Saver"))
                 End If
                 arr.Add(objTr)
             Next

@@ -23,13 +23,10 @@ Public Class clsMilkShiftUploaderHead
     Public Raj_Entered_Qty As Decimal
     Public Raj_Entered_FATKg As Decimal
     Public Raj_Entered_SNFKg As Decimal
-
     Public Raj_Received_Qty As Decimal ''Not a table Column
     Public Raj_Received_FATKg As Decimal ''Not a table Column
     Public Raj_Received_SNFKg As Decimal ''Not a table Column
     Public Raj_PageNo As Integer
-    Public Tanker_No As String
-
     Public TR_No As String
 
 #End Region
@@ -51,7 +48,21 @@ Public Class clsMilkShiftUploaderHead
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, obj.MCC_Code, obj.Shift_Date, trans)
             clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.MCC_Code, obj.Shift_Date, trans)
-            Dim qry As String = "delete from TSPL_MILK_SHIFT_UPLOADER_QC_PARAMETER_DETAIL where Document_No='" & obj.Document_No & "'"
+            Dim qry As String = ""
+            If isForRaj Then
+                qry = "select count(TR_No) as CntTRNo,max(SNo) as MaxSNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL where Document_No='" + obj.Document_No + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If clsCommon.myCDecimal(dt.Rows(0)("CntTRNo")) <> clsCommon.myCDecimal(dt.Rows(0)("MaxSNo")) Then
+                        qry = "update TSPL_MILK_SHIFT_UPLOADER_DETAIL set SNo=NewSNo from (
+select TR_No,ROW_NUMBER() over(order by tr_no) as NewSNo from TSPL_MILK_SHIFT_UPLOADER_DETAIL where Document_No='" + obj.Document_No + "'
+)xx inner join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=xx.TR_No"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    End If
+                End If
+            End If
+
+            qry = "delete from TSPL_MILK_SHIFT_UPLOADER_QC_PARAMETER_DETAIL where Document_No='" & obj.Document_No & "'"
             If isForRaj Then
                 qry += " and Sample_No='" + clsCommon.myCstr(obj.Arr(0).SNo) + "'"
             End If
@@ -144,8 +155,9 @@ Public Class clsMilkShiftUploaderHead
     End Function
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal ForRaj As Boolean, ByVal isPickCLRInsteadOfSNF As Boolean) As clsMilkShiftUploaderHead
         Dim obj As clsMilkShiftUploaderHead = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No " &
-        " FROM TSPL_MILK_SHIFT_UPLOADER_HEAD left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.Dock_Code  left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_HEAD.Raj_Bulk_Route_Code where 2=2 "
+        Dim qry As String = "SELECT TSPL_MILK_SHIFT_UPLOADER_HEAD.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_DOCK_MASTER.Description as Dock_Name,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Raj_Bulk_Route_Name  " &
+        " FROM TSPL_MILK_SHIFT_UPLOADER_HEAD 
+ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code left outer join TSPL_DOCK_MASTER on TSPL_DOCK_MASTER.Code=TSPL_MILK_SHIFT_UPLOADER_HEAD.Dock_Code  left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_HEAD.Raj_Bulk_Route_Code where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No = (select MIN(Document_No) from TSPL_MILK_SHIFT_UPLOADER_HEAD where 1=1  )"
@@ -172,15 +184,12 @@ Public Class clsMilkShiftUploaderHead
             obj.MCC_Name = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
             obj.Dock_Code = clsCommon.myCstr(dt.Rows(0)("Dock_Code"))
             obj.Dock_Name = clsCommon.myCstr(dt.Rows(0)("Dock_Name"))
-            obj.Tanker_No = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
-
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 2, ERPTransactionStatus.Posted, ERPTransactionStatus.Pending))
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                 obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
             End If
 
             obj.Mix_Milk = (clsCommon.myCdbl(dt.Rows(0)("Mix_Milk")) = 1)
-
             obj.Raj_Bulk_Route_Code = clsCommon.myCstr(dt.Rows(0)("Raj_Bulk_Route_Code"))
             obj.Raj_Bulk_Route_Name = clsCommon.myCstr(dt.Rows(0)("Raj_Bulk_Route_Name"))
             obj.Raj_Truck_no = clsCommon.myCstr(dt.Rows(0)("Raj_Truck_no"))
@@ -233,7 +242,7 @@ Public Class clsMilkShiftUploaderHead
 
                     Next
                 End If
-                qry += " ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo,TSPL_MILK_SHIFT_UPLOADER_HEAD.Tanker_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+                qry += " ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Tanker_No from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
 				left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
@@ -1601,6 +1610,8 @@ Public Class clsMilkShiftUploaderDetail
                 objTr.Reject_Defaulter = clsCommon.myCstr(dr("Reject_Defaulter"))
                 objTr.VLC_Uploader_Code = clsCommon.myCstr(dr("Uploader_Code"))
                 objTr.QAT = IIf(clsCommon.myCDecimal(dr("QAT")) = 1, True, False)
+                objTr.Tanker_No = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+
                 arr.Add(objTr)
             Next
         End If
