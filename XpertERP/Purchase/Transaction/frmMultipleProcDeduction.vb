@@ -148,7 +148,7 @@ Public Class FrmMultipleProcDeduction
 
         Dim repoVlcUploderCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoVlcUploderCode.FormatString = ""
-        repoVlcUploderCode.HeaderText = "Vlc Uploder Code"
+        repoVlcUploderCode.HeaderText = "DCS Uploder Code"
         repoVlcUploderCode.Name = colVlcUploderCode
         repoVlcUploderCode.Width = 150
         repoVlcUploderCode.IsVisible = True
@@ -1002,7 +1002,7 @@ Public Class FrmMultipleProcDeduction
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
         Try
-            Dim Sql As String = " select ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
+            Dim Sql As String = " select ''  as [DCS Uploder Code], '' as [Deduction Code], 0.00 as Amount"
             transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1021,13 +1021,13 @@ Public Class FrmMultipleProcDeduction
             Me.Controls.Add(gv)
 
             Dim dtError As New DataTable
-            dtError.Columns.Add("Vlc Uploder Code", GetType(String))
+            dtError.Columns.Add("DCS Uploder Code", GetType(String))
             dtError.Columns.Add("Deduction Code", GetType(String))
             dtError.Columns.Add("Amount", GetType(String))
             dtError.Columns.Add("Error", GetType(String))
 
             Dim qry As String = ""
-            If transportSql.importExcel(gv, "Vlc Uploder Code", "Deduction Code", "Amount") Then
+            If transportSql.importExcel(gv, "DCS Uploder Code", "Deduction Code", "Amount") Then
                 Dim arr As New List(Of clsMultipleProcDeductionDetail)
 
                 Try
@@ -1038,20 +1038,20 @@ Public Class FrmMultipleProcDeduction
                         clsCommon.ProgressBarPercentUpdate(((count) * 100 / (gv.Rows.Count)), "Validating Data..." & clsCommon.myCstr(count) & "/" & clsCommon.myCstr(gv.Rows.Count) & "")
                         Try
                             Dim objTr As New clsMultipleProcDeductionDetail()
-                            If clsCommon.myLen(grow.Cells("Vlc Uploder Code").Value) <= 0 Then
-                                Throw New Exception("Vlc Uploder Code cannot be blank at line no " + clsCommon.myCstr(count) + " ")
+                            If clsCommon.myLen(grow.Cells("DCS Uploder Code").Value) <= 0 Then
+                                Throw New Exception("DCS Uploder Code cannot be blank at line no " + clsCommon.myCstr(count) + " ")
                             ElseIf clsCommon.myLen(grow.Cells("Deduction Code").Value) <= 0 Then
                                 Throw New Exception("Deduction Code cannot be blank at line no " + clsCommon.myCstr(count) + "")
                             ElseIf clsCommon.myCdbl(grow.Cells("Amount").Value) <= 0 Then
                                 Throw New Exception("Deduction Code cannot be blank at line no " + clsCommon.myCstr(count) + "")
                             End If
-                            objTr.VLCUploderCode = clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)
+                            objTr.VLCUploderCode = clsCommon.myCstr(grow.Cells("DCS Uploder Code").Value)
                             qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VENDOR_MASTER.Vendor_Name 
 from TSPL_VLC_MASTER_HEAD 
 inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + objTr.VLCUploderCode + "'"
                             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
                             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                                Throw New Exception("Invalid Vlc Uploder Code at line no " + clsCommon.myCstr(count) + "")
+                                Throw New Exception("Invalid DCS Uploder Code at line no " + clsCommon.myCstr(count) + "")
                             End If
                             objTr.VLCUploderCode = clsCommon.myCstr(dt1.Rows(0)("VLC_Code_VLC_Uploader"))
                             objTr.Vendor_Code = clsCommon.myCstr(dt1.Rows(0)("VSP_Code"))
@@ -1086,7 +1086,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objTr.DeductionCode + "'"
                             arr.Add(objTr)
                         Catch ex As Exception
                             Dim dr As DataRow = dtError.NewRow()
-                            dr("Vlc Uploder Code") = clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)
+                            dr("DCS Uploder Code") = clsCommon.myCstr(grow.Cells("DCS Uploder Code").Value)
                             dr("Deduction Code") = clsCommon.myCstr(grow.Cells("Deduction Code").Value)
                             dr("Amount") = clsCommon.myCstr(grow.Cells("Amount").Value)
                             dr("Error") = "Error At Row No [" + clsCommon.myCstr(count) + "] " + ex.Message
@@ -1161,7 +1161,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objTr.DeductionCode + "'"
 
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
         Try
-            Dim Sql As String = "select replace(convert(varchar, GetDate(),106),' ','/') as Date,'' as Location,'' as [Deduction/Addition], ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
+            Dim Sql As String = "select replace(convert(varchar, GetDate(),106),' ','/') as Date,'' as Location,'' as [Deduction/Addition], ''  as [DCS Uploder Code], '' as [Deduction Code], 0.00 as Amount"
             transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
@@ -1176,13 +1176,13 @@ where TSPL_DEDUCTION_MASTER.Code='" + objTr.DeductionCode + "'"
             dtError.Columns.Add("Date", GetType(String))
             dtError.Columns.Add("Location", GetType(String))
             dtError.Columns.Add("Deduction/Addition", GetType(String))
-            dtError.Columns.Add("Vlc Uploder Code", GetType(String))
+            dtError.Columns.Add("DCS Uploder Code", GetType(String))
             dtError.Columns.Add("Deduction Code", GetType(String))
             dtError.Columns.Add("Amount", GetType(String))
             dtError.Columns.Add("Error", GetType(String))
             Dim indxSuccess As Integer = 0
             Dim qry As String = ""
-            If transportSql.importExcel(gv, "Date", "Location", "Vlc Uploder Code", "Deduction/Addition", "Deduction Code", "Amount") Then
+            If transportSql.importExcel(gv, "Date", "Location", "DCS Uploder Code", "Deduction/Addition", "Deduction Code", "Amount") Then
                 Dim arr As New Dictionary(Of String, clsMultipleProcDeductionHead)
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -1192,7 +1192,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objTr.DeductionCode + "'"
                         clsCommon.ProgressBarPercentUpdate(((count) * 100 / (gv.Rows.Count)), "Validating Data..." & clsCommon.myCstr(count) & "/" & clsCommon.myCstr(gv.Rows.Count) & "")
                         Try
                             If clsCommon.myLen(clsCommon.myCstr(grow.Cells("Date").Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(grow.Cells("Location").Value)) > 0 AndAlso
-                                 clsCommon.myLen(clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(grow.Cells("Deduction/Addition").Value)) > 0 AndAlso
+                                 clsCommon.myLen(clsCommon.myCstr(grow.Cells("DCS Uploder Code").Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(grow.Cells("Deduction/Addition").Value)) > 0 AndAlso
                                  clsCommon.myLen(clsCommon.myCstr(grow.Cells("Deduction Code").Value)) > 0 AndAlso clsCommon.myCDecimal(grow.Cells("Amount").Value) > 0 Then
 
                                 Dim objImport As New clsMultipleProcDeductionHead()
@@ -1216,20 +1216,20 @@ where  Seg_No = '7' AND GIT='N' and Segment_code='" + objImport.loc_code + "' "
                                 End If
 
                                 Dim objImportTR As New clsMultipleProcDeductionDetail()
-                                If clsCommon.myLen(grow.Cells("Vlc Uploder Code").Value) <= 0 Then
-                                    Throw New Exception("Vlc Uploder Code cannot be blank at line no " + clsCommon.myCstr(count) + " ")
+                                If clsCommon.myLen(grow.Cells("DCS Uploder Code").Value) <= 0 Then
+                                    Throw New Exception("DCS Uploder Code cannot be blank at line no " + clsCommon.myCstr(count) + " ")
                                 ElseIf clsCommon.myLen(grow.Cells("Deduction Code").Value) <= 0 Then
                                     Throw New Exception("Deduction Code cannot be blank at line no " + clsCommon.myCstr(count) + "")
                                 ElseIf clsCommon.myCdbl(grow.Cells("Amount").Value) <= 0 Then
                                     Throw New Exception("Deduction Code cannot be blank at line no " + clsCommon.myCstr(count) + "")
                                 End If
-                                objImportTR.VLCUploderCode = clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)
+                                objImportTR.VLCUploderCode = clsCommon.myCstr(grow.Cells("DCS Uploder Code").Value)
                                 qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VENDOR_MASTER.Vendor_Name 
 from TSPL_VLC_MASTER_HEAD 
 inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + objImportTR.VLCUploderCode + "'"
                                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
                                 If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                                    Throw New Exception("Invalid Vlc Uploder Code at line no " + clsCommon.myCstr(count) + "")
+                                    Throw New Exception("Invalid DCS Uploder Code at line no " + clsCommon.myCstr(count) + "")
                                 End If
                                 objImportTR.VLCUploderCode = clsCommon.myCstr(dt1.Rows(0)("VLC_Code_VLC_Uploader"))
                                 objImportTR.Vendor_Code = clsCommon.myCstr(dt1.Rows(0)("VSP_Code"))
@@ -1277,7 +1277,7 @@ where TSPL_DEDUCTION_MASTER.Code='" + objImportTR.DeductionCode + "'"
                             dr("Date") = clsCommon.myCstr(grow.Cells("Date").Value)
                             dr("Location") = clsCommon.myCstr(grow.Cells("Location").Value)
                             dr("Deduction/Addition") = clsCommon.myCstr(grow.Cells("Deduction/Addition").Value)
-                            dr("Vlc Uploder Code") = clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)
+                            dr("DCS Uploder Code") = clsCommon.myCstr(grow.Cells("DCS Uploder Code").Value)
                             dr("Deduction Code") = clsCommon.myCstr(grow.Cells("Deduction Code").Value)
                             dr("Amount") = clsCommon.myCstr(grow.Cells("Amount").Value)
                             dr("Error") = "Error At Row No [" + clsCommon.myCstr(count) + "] " + ex.Message

@@ -54,6 +54,10 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnGPSummaryRouteWise = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintRoutBoothwise = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
+        Me.rbtnMilkType = New System.Windows.Forms.RadioButton()
+        Me.rbtnProductType = New System.Windows.Forms.RadioButton()
         Me.rbtnBoth = New System.Windows.Forms.RadioButton()
         Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.rbtnProduct = New System.Windows.Forms.RadioButton()
@@ -151,10 +155,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
-        Me.rbtnMilkType = New System.Windows.Forms.RadioButton()
-        Me.rbtnProductType = New System.Windows.Forms.RadioButton()
+        Me.btnSplitPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -174,6 +175,8 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnPrintRoutBoothwise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
+        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox8.SuspendLayout()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnTrkShtSummaryRW, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -247,8 +250,7 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox8.SuspendLayout()
+        CType(Me.btnSplitPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -423,6 +425,7 @@ Partial Class RptMatrixFreshSalesReport
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.btnSplitPrint)
         Me.RadGroupBox2.Controls.Add(Me.btngtpsExport)
         Me.RadGroupBox2.Controls.Add(Me.BtnGtPsSumgo)
         Me.RadGroupBox2.Controls.Add(Me.chkIndividualCustomer)
@@ -451,9 +454,9 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.btngtpsExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btngtpsExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btngtpsExport.Location = New System.Drawing.Point(138, 229)
+        Me.btngtpsExport.Location = New System.Drawing.Point(152, 229)
         Me.btngtpsExport.Name = "btngtpsExport"
-        Me.btngtpsExport.Size = New System.Drawing.Size(121, 22)
+        Me.btngtpsExport.Size = New System.Drawing.Size(143, 22)
         Me.btngtpsExport.TabIndex = 442
         Me.btngtpsExport.Text = "Export to Excel"
         '
@@ -461,9 +464,9 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.BtnGtPsSumgo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnGtPsSumgo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnGtPsSumgo.Location = New System.Drawing.Point(16, 229)
+        Me.BtnGtPsSumgo.Location = New System.Drawing.Point(17, 229)
         Me.BtnGtPsSumgo.Name = "BtnGtPsSumgo"
-        Me.BtnGtPsSumgo.Size = New System.Drawing.Size(121, 22)
+        Me.BtnGtPsSumgo.Size = New System.Drawing.Size(133, 22)
         Me.BtnGtPsSumgo.TabIndex = 441
         Me.BtnGtPsSumgo.Text = ">>>"
         '
@@ -481,9 +484,9 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.btnGPSummaryRouteWise.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGPSummaryRouteWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGPSummaryRouteWise.Location = New System.Drawing.Point(16, 203)
+        Me.btnGPSummaryRouteWise.Location = New System.Drawing.Point(17, 203)
         Me.btnGPSummaryRouteWise.Name = "btnGPSummaryRouteWise"
-        Me.btnGPSummaryRouteWise.Size = New System.Drawing.Size(242, 24)
+        Me.btnGPSummaryRouteWise.Size = New System.Drawing.Size(277, 24)
         Me.btnGPSummaryRouteWise.TabIndex = 444
         Me.btnGPSummaryRouteWise.Text = "Gate Pass Summary Route Wise"
         '
@@ -493,7 +496,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnPrintRoutBoothwise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnPrintRoutBoothwise.Location = New System.Drawing.Point(17, 153)
         Me.btnPrintRoutBoothwise.Name = "btnPrintRoutBoothwise"
-        Me.btnPrintRoutBoothwise.Size = New System.Drawing.Size(120, 22)
+        Me.btnPrintRoutBoothwise.Size = New System.Drawing.Size(98, 22)
         Me.btnPrintRoutBoothwise.TabIndex = 440
         Me.btnPrintRoutBoothwise.Text = "Print Route Booth"
         '
@@ -509,6 +512,51 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Size = New System.Drawing.Size(226, 26)
         Me.RadGroupBox4.TabIndex = 436
+        '
+        'RadGroupBox8
+        '
+        Me.RadGroupBox8.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox8.Controls.Add(Me.rbtnIceCream)
+        Me.RadGroupBox8.Controls.Add(Me.rbtnMilkType)
+        Me.RadGroupBox8.Controls.Add(Me.rbtnProductType)
+        Me.RadGroupBox8.HeaderText = ""
+        Me.RadGroupBox8.Location = New System.Drawing.Point(0, 0)
+        Me.RadGroupBox8.Name = "RadGroupBox8"
+        Me.RadGroupBox8.Size = New System.Drawing.Size(226, 26)
+        Me.RadGroupBox8.TabIndex = 443
+        Me.RadGroupBox8.Visible = False
+        '
+        'rbtnIceCream
+        '
+        Me.rbtnIceCream.AutoSize = True
+        Me.rbtnIceCream.Location = New System.Drawing.Point(141, 4)
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnIceCream.TabIndex = 442
+        Me.rbtnIceCream.Text = "Ice Cream"
+        Me.rbtnIceCream.UseVisualStyleBackColor = True
+        '
+        'rbtnMilkType
+        '
+        Me.rbtnMilkType.AutoSize = True
+        Me.rbtnMilkType.Checked = True
+        Me.rbtnMilkType.Location = New System.Drawing.Point(5, 4)
+        Me.rbtnMilkType.Name = "rbtnMilkType"
+        Me.rbtnMilkType.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilkType.TabIndex = 440
+        Me.rbtnMilkType.TabStop = True
+        Me.rbtnMilkType.Text = "Milk"
+        Me.rbtnMilkType.UseVisualStyleBackColor = True
+        '
+        'rbtnProductType
+        '
+        Me.rbtnProductType.AutoSize = True
+        Me.rbtnProductType.Location = New System.Drawing.Point(65, 4)
+        Me.rbtnProductType.Name = "rbtnProductType"
+        Me.rbtnProductType.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProductType.TabIndex = 441
+        Me.rbtnProductType.Text = "Product"
+        Me.rbtnProductType.UseVisualStyleBackColor = True
         '
         'rbtnBoth
         '
@@ -573,7 +621,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnTrkShtSummaryRW.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnTrkShtSummaryRW.Location = New System.Drawing.Point(17, 177)
         Me.btnTrkShtSummaryRW.Name = "btnTrkShtSummaryRW"
-        Me.btnTrkShtSummaryRW.Size = New System.Drawing.Size(241, 24)
+        Me.btnTrkShtSummaryRW.Size = New System.Drawing.Size(278, 24)
         Me.btnTrkShtSummaryRW.TabIndex = 434
         Me.btnTrkShtSummaryRW.Text = "Demand Truck Sheet Summary Route Wise"
         '
@@ -638,9 +686,9 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.btnPrintTrkSht.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintTrkSht.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintTrkSht.Location = New System.Drawing.Point(138, 153)
+        Me.btnPrintTrkSht.Location = New System.Drawing.Point(197, 153)
         Me.btnPrintTrkSht.Name = "btnPrintTrkSht"
-        Me.btnPrintTrkSht.Size = New System.Drawing.Size(120, 22)
+        Me.btnPrintTrkSht.Size = New System.Drawing.Size(98, 22)
         Me.btnPrintTrkSht.TabIndex = 433
         Me.btnPrintTrkSht.Text = "Print Truck Sheet"
         '
@@ -1695,50 +1743,15 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnReset.TabIndex = 147
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox8
+        'btnSplitPrint
         '
-        Me.RadGroupBox8.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox8.Controls.Add(Me.rbtnIceCream)
-        Me.RadGroupBox8.Controls.Add(Me.rbtnMilkType)
-        Me.RadGroupBox8.Controls.Add(Me.rbtnProductType)
-        Me.RadGroupBox8.HeaderText = ""
-        Me.RadGroupBox8.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox8.Name = "RadGroupBox8"
-        Me.RadGroupBox8.Size = New System.Drawing.Size(226, 26)
-        Me.RadGroupBox8.TabIndex = 443
-        Me.RadGroupBox8.Visible = False
-        '
-        'rbtnIceCream
-        '
-        Me.rbtnIceCream.AutoSize = True
-        Me.rbtnIceCream.Location = New System.Drawing.Point(141, 4)
-        Me.rbtnIceCream.Name = "rbtnIceCream"
-        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
-        Me.rbtnIceCream.TabIndex = 442
-        Me.rbtnIceCream.Text = "Ice Cream"
-        Me.rbtnIceCream.UseVisualStyleBackColor = True
-        '
-        'rbtnMilkType
-        '
-        Me.rbtnMilkType.AutoSize = True
-        Me.rbtnMilkType.Checked = True
-        Me.rbtnMilkType.Location = New System.Drawing.Point(5, 4)
-        Me.rbtnMilkType.Name = "rbtnMilkType"
-        Me.rbtnMilkType.Size = New System.Drawing.Size(47, 17)
-        Me.rbtnMilkType.TabIndex = 440
-        Me.rbtnMilkType.TabStop = True
-        Me.rbtnMilkType.Text = "Milk"
-        Me.rbtnMilkType.UseVisualStyleBackColor = True
-        '
-        'rbtnProductType
-        '
-        Me.rbtnProductType.AutoSize = True
-        Me.rbtnProductType.Location = New System.Drawing.Point(65, 4)
-        Me.rbtnProductType.Name = "rbtnProductType"
-        Me.rbtnProductType.Size = New System.Drawing.Size(65, 17)
-        Me.rbtnProductType.TabIndex = 441
-        Me.rbtnProductType.Text = "Product"
-        Me.rbtnProductType.UseVisualStyleBackColor = True
+        Me.btnSplitPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSplitPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSplitPrint.Location = New System.Drawing.Point(116, 153)
+        Me.btnSplitPrint.Name = "btnSplitPrint"
+        Me.btnSplitPrint.Size = New System.Drawing.Size(80, 22)
+        Me.btnSplitPrint.TabIndex = 445
+        Me.btnSplitPrint.Text = "Split Print"
         '
         'RptMatrixFreshSalesReport
         '
@@ -1775,6 +1788,9 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
+        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox8.ResumeLayout(False)
+        Me.RadGroupBox8.PerformLayout()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnTrkShtSummaryRW, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1854,9 +1870,7 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox8.ResumeLayout(False)
-        Me.RadGroupBox8.PerformLayout()
+        CType(Me.btnSplitPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1979,5 +1993,6 @@ Partial Class RptMatrixFreshSalesReport
     Friend WithEvents rbtnIceCream As RadioButton
     Friend WithEvents rbtnMilkType As RadioButton
     Friend WithEvents rbtnProductType As RadioButton
+    Friend WithEvents btnSplitPrint As RadButton
 End Class
 

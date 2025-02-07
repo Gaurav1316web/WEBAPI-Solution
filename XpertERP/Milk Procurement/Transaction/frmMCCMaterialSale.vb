@@ -8603,4 +8603,12 @@ a:          End If
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnPrintEwayBill_Click(sender As Object, e As EventArgs) Handles btnPrintEwayBill.Click
+        Try
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

@@ -360,7 +360,6 @@ Partial Class frmvendoraccountset
         Me.MyLabel17.Size = New System.Drawing.Size(98, 18)
         Me.MyLabel17.TabIndex = 379
         Me.MyLabel17.Text = "Transfer To Saving"
-        Me.MyLabel17.Visible = False
         '
         'lblTrnsferTS
         '
@@ -371,7 +370,6 @@ Partial Class frmvendoraccountset
         Me.lblTrnsferTS.Name = "lblTrnsferTS"
         Me.lblTrnsferTS.Size = New System.Drawing.Size(301, 19)
         Me.lblTrnsferTS.TabIndex = 373
-        Me.lblTrnsferTS.Visible = False
         '
         'TxtTrnsferTS
         '
@@ -398,7 +396,6 @@ Partial Class frmvendoraccountset
         Me.TxtTrnsferTS.Size = New System.Drawing.Size(188, 19)
         Me.TxtTrnsferTS.TabIndex = 378
         Me.TxtTrnsferTS.Value = ""
-        Me.TxtTrnsferTS.Visible = False
         '
         'MyLabel14
         '
