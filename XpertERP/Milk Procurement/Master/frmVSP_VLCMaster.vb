@@ -1454,7 +1454,7 @@ Public Class frmVSP_VLCMaster
         Try
             trans = clsDBFuncationality.GetTransactin()
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
             Dim Registered As Integer = 0
             If objCommonVar.GSTApplicable Then
@@ -1779,6 +1779,7 @@ Public Class frmVSP_VLCMaster
             'End If
 
             UcAttachment1.SaveData(fndvendorNo.Value)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
             myMessages.update()
         Catch ex As Exception
             trans.Rollback()
