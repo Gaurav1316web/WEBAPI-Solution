@@ -77,6 +77,8 @@ Public Class rptSaleRegisterDetail
         dt.Rows.Add("Customer Wise")
         dt.Rows.Add("Document Wise")
         dt.Rows.Add("Document Detail")
+        dt.Rows.Add("Customer Amount Wise")
+
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowParticluarColumnInSalesRegisterForGopalJee, clsFixedParameterCode.ShowParticluarColumnInSalesRegisterForGopalJee, Nothing)) = 0 Then
             dt.Rows.Add("Document Info Level")
         End If
@@ -619,6 +621,8 @@ Public Class rptSaleRegisterDetail
                         Gv1.Columns(i).IsVisible = False
                     End If
                 Next
+            
+
             ElseIf ddlReportType.SelectedValue = "Customer Wise" Then
                 Gv1.Columns("Total Amount").IsVisible = True
                 Gv1.Columns("Warehouse Code").IsVisible = True
@@ -645,7 +649,7 @@ Public Class rptSaleRegisterDetail
             End If
 
             If chk_amtinlacs.Checked Then
-                If ddlReportType.SelectedValue = "Total Sale" OrElse ddlReportType.SelectedValue = "Document Wise" OrElse ddlReportType.SelectedValue = "Location Wise" OrElse ddlReportType.SelectedValue = "Item Group Wise" OrElse ddlReportType.SelectedValue = "Customer Group Wise" OrElse ddlReportType.SelectedValue = "Item Wise" OrElse ddlReportType.SelectedValue = "Customer Wise" Then
+                If ddlReportType.SelectedValue = "Total Sale" OrElse ddlReportType.SelectedValue = "Document Wise" OrElse ddlReportType.SelectedValue = "Location Wise" OrElse ddlReportType.SelectedValue = "Item Group Wise" OrElse ddlReportType.SelectedValue = "Customer Group Wise" OrElse ddlReportType.SelectedValue = "Item Wise" OrElse ddlReportType.SelectedValue = "Customer Wise" OrElse ddlReportType.SelectedValue = "Customer Amount Wise" Then
                     Gv1.Columns("Total Amount").HeaderText = "Total Amount (in lacs)"
                     For i As Integer = 0 To Gv1.Rows.Count - 1
                         Gv1.Rows(i).Cells("Total Amount").Value = (clsCommon.myCdbl(Gv1.Rows(i).Cells("Total Amount").Value) / 100000)
@@ -872,6 +876,32 @@ Public Class rptSaleRegisterDetail
                         Gv1.Columns(i).IsVisible = False
                     End If
                 Next
+            ElseIf ddlReportType.SelectedValue = "Customer Amount Wise" Then
+
+                'Gv1.Columns("Total FAT KG").IsVisible = True
+                'Gv1.Columns("Total SNF KG").IsVisible = True
+                'Gv1.Columns("Total Amount").IsVisible = True
+                'Gv1.Columns("Location Code").IsVisible = True
+                'Gv1.Columns("Location Name").IsVisible = True
+
+                Gv1.Columns("Customer Group Code").IsVisible = True
+                Gv1.Columns("Customer Group Description").IsVisible = True
+
+
+                'Gv1.Columns("Item Code").IsVisible = True
+                'Gv1.Columns("Item Name").IsVisible = True
+
+                Gv1.Columns("Customer Code").IsVisible = True
+                Gv1.Columns("Customer Name").IsVisible = True
+
+                For i As Integer = 0 To Gv1.Columns.Count - 1
+                    Gv1.Columns(i).BestFit()
+                    Gv1.Columns(i).IsVisible = True
+
+                    If Gv1.Columns(i).Name.Contains("Code") = True And Not (Gv1.Columns(i).Name.Contains("Item Code") = False Or Gv1.Columns(i).Name.Contains("Customer Code") = False Or Gv1.Columns(i).Name.Contains("Location Code") = False) Then
+                        Gv1.Columns(i).IsVisible = False
+                    End If
+                Next
             ElseIf ddlReportType.SelectedValue = "Customer Wise" Then
 
                 Gv1.Columns("Total FAT KG").IsVisible = True
@@ -901,7 +931,7 @@ Public Class rptSaleRegisterDetail
             End If
 
             If chk_amtinlacs.Checked Then
-                If ddlReportType.SelectedValue = "Total Sale" OrElse ddlReportType.SelectedValue = "Document Wise" OrElse ddlReportType.SelectedValue = "Location Wise" OrElse ddlReportType.SelectedValue = "Item Group Wise" OrElse ddlReportType.SelectedValue = "Customer Group Wise" OrElse ddlReportType.SelectedValue = "Item Wise" OrElse ddlReportType.SelectedValue = "Customer Wise" Then
+                If ddlReportType.SelectedValue = "Total Sale" OrElse ddlReportType.SelectedValue = "Document Wise" OrElse ddlReportType.SelectedValue = "Location Wise" OrElse ddlReportType.SelectedValue = "Item Group Wise" OrElse ddlReportType.SelectedValue = "Customer Group Wise" OrElse ddlReportType.SelectedValue = "Item Wise" OrElse ddlReportType.SelectedValue = "Customer Wise" OrElse ddlReportType.SelectedValue = "Customer Amount Wise" Then
                     Gv1.Columns("Total Amount").HeaderText = "Total Amount (in lacs)"
                     For i As Integer = 0 To Gv1.Rows.Count - 1
                         Gv1.Rows(i).Cells("Total Amount").Value = (clsCommon.myCdbl(Gv1.Rows(i).Cells("Total Amount").Value) / 100000)
@@ -1102,6 +1132,8 @@ Public Class rptSaleRegisterDetail
             VarID += "_IW"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Customer Wise") = CompairStringResult.Equal Then
             VarID += "_CW"
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Customer Amount Wise") = CompairStringResult.Equal Then
+            VarID += "_CA"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Document Wise") = CompairStringResult.Equal Then
             VarID += "_DW"
         ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Document Detail") = CompairStringResult.Equal Then
@@ -1289,6 +1321,17 @@ Public Class rptSaleRegisterDetail
             ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Customer Wise") = CompairStringResult.Equal Then
                 If Not arrBack.Contains("Customer Wise") Then
                     arrBack.Add("Customer Wise")
+                End If
+                ddlReportType.SelectedValue = "Document Wise"
+                arrCustomer = New ArrayList()
+                arrCustomer = txtCustomer.arrValueMember
+                Dim tmp As New ArrayList()
+                tmp.Add(clsCommon.myCstr(Gv1.CurrentRow.Cells("Customer Code").Value))
+                txtCustomer.arrValueMember = tmp
+                Print(Exporter.Refresh)
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Customer Amount Wise") = CompairStringResult.Equal Then
+                If Not arrBack.Contains("Customer Amount Wise") Then
+                    arrBack.Add("Customer Amount Wise")
                 End If
                 ddlReportType.SelectedValue = "Document Wise"
                 arrCustomer = New ArrayList()
@@ -1611,6 +1654,11 @@ Public Class rptSaleRegisterDetail
             ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Document Wise") = CompairStringResult.Equal AndAlso arrBack.Contains("Customer Wise") Then
                 arrBack.Remove("Customer Wise")
                 ddlReportType.SelectedValue = "Customer Wise"
+                txtCustomer.arrValueMember = arrCustomer
+                Print(Exporter.Refresh)
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Document Wise") = CompairStringResult.Equal AndAlso arrBack.Contains("Customer Amount Wise") Then
+                arrBack.Remove("Customer Amount Wise")
+                ddlReportType.SelectedValue = "Customer Amount Wise"
                 txtCustomer.arrValueMember = arrCustomer
                 Print(Exporter.Refresh)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedValue), "Document Detail") = CompairStringResult.Equal AndAlso arrBack.Contains("Document Wise") Then
