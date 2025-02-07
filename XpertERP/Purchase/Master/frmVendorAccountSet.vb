@@ -151,6 +151,7 @@ Public Class frmvendoraccountset
         clsCommon.AddColumnsForChange(coll, "Profit_Loss_Account", txtProfitAndLossAccount.Value, True)
         clsCommon.AddColumnsForChange(coll, "PRO_DATA_ACCOUNT", txtProData.Value, True)
         clsCommon.AddColumnsForChange(coll, "Arrear_Account", txtArrear.Value, True)
+        clsCommon.AddColumnsForChange(coll, "Transfer_To_Saving", TxtTrnsferTS.Value, True)
         clsCommon.AddColumnsForChange(coll, "IsFarmer", IIf(chkFarmer.Checked = True, 1, 0))
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_ACCOUNT_SET", OMInsertOrUpdate.Update, "TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code='" + fndaccountsetcode.Value + "'", Nothing)
     End Sub
@@ -182,7 +183,7 @@ Public Class frmvendoraccountset
             " TSPL_CURRENCY_MASTER.currency_name,gl1.description as EXCHANGE_LOSS_ACCOUNT_Name,gl2.description as EXCHANGE_GAIN_ACCOUNT_Name" _
             & " ,TSPL_VENDOR_ACCOUNT_SET.EXCHANGE_GAIN_ACCOUNT,TSPL_VENDOR_ACCOUNT_SET.Commission_ACCOUNT,TSPL_VENDOR_ACCOUNT_SET.Incentive_ACCOUNT " _
             & " ,gl3.description as Commission_Name,gl4.description as Incentive_Name,Security_Account,gl5.description as Security_Name,RETENTION_ACCOUNT,gl13.description as Retention_Name " _
-            & " ,Own_Asset_Account,gl6.description as Own_Asset_Account_Name,Head_Load_Account,gl7.description as Head_Load_Account_Name,Deduction_Account,gl8.description as Deduction_Account_Name ,gl9.description as Advance_Against_Salary_Name,tspl_vendor_account_set.Advance_Against_Salary,tspl_vendor_account_set.Employee_Salary,gl10.description as Employee_Salary_Name,tspl_vendor_account_set.Advance_Against_Travelling,gl11.description as Advance_Against_Travelling_Name,tspl_vendor_account_set.Advance_Against_Imprest ,gl12.description as Advance_Against_Imprest_Name,TSPL_VENDOR_ACCOUNT_SET.Freight_Provision,glFreight_account.description as Freight_Provision_Desc,TSPL_VENDOR_ACCOUNT_SET.Handling_Charges,TabGLHandlingCharge.description as Handling_Charges_Desc,TSPL_VENDOR_ACCOUNT_SET.Round_Off,TabRoundOff.description as Round_Off_Dess,TSPL_VENDOR_ACCOUNT_SET.Short_Excess,TabShortExcess.description as Short_Excess_Dess,TSPL_VENDOR_ACCOUNT_SET.Opening_Clearing,TabOpeningClearing.description as Opening_Clearing_Desc  , TSPL_VENDOR_ACCOUNT_SET .Security_Opening_Clearing ,TabSecurityOpeningClearing.description as Security_Opening_Clearing_Desc ,TSPL_VENDOR_ACCOUNT_SET.Monthly_Rent_Account ,TabMonthlyRentAccountName.description as Monthly_Rent_AccountName,TSPL_VENDOR_ACCOUNT_SET.Profit_Loss_Account ,Table_Profit_Loss_AccountName.description as Profit_Loss_AccountName,TSPL_VENDOR_ACCOUNT_SET.PRO_DATA_ACCOUNT,Table_PRO_DATA_ACCOUNTName.description as PRO_DATA_ACCOUNTName,TSPL_VENDOR_ACCOUNT_SET.IsFarmer,TSPL_VENDOR_ACCOUNT_SET.Arrear_Account,Table_ArrearName.description as Arrear_AccountName  from TSPL_VENDOR_ACCOUNT_SET " &
+            & " ,Own_Asset_Account,gl6.description as Own_Asset_Account_Name,Head_Load_Account,gl7.description as Head_Load_Account_Name,Deduction_Account,gl8.description as Deduction_Account_Name ,gl9.description as Advance_Against_Salary_Name,tspl_vendor_account_set.Advance_Against_Salary,tspl_vendor_account_set.Employee_Salary,gl10.description as Employee_Salary_Name,tspl_vendor_account_set.Advance_Against_Travelling,gl11.description as Advance_Against_Travelling_Name,tspl_vendor_account_set.Advance_Against_Imprest ,gl12.description as Advance_Against_Imprest_Name,TSPL_VENDOR_ACCOUNT_SET.Freight_Provision,glFreight_account.description as Freight_Provision_Desc,TSPL_VENDOR_ACCOUNT_SET.Handling_Charges,TabGLHandlingCharge.description as Handling_Charges_Desc,TSPL_VENDOR_ACCOUNT_SET.Round_Off,TabRoundOff.description as Round_Off_Dess,TSPL_VENDOR_ACCOUNT_SET.Short_Excess,TabShortExcess.description as Short_Excess_Dess,TSPL_VENDOR_ACCOUNT_SET.Opening_Clearing,TabOpeningClearing.description as Opening_Clearing_Desc  , TSPL_VENDOR_ACCOUNT_SET .Security_Opening_Clearing ,TabSecurityOpeningClearing.description as Security_Opening_Clearing_Desc ,TSPL_VENDOR_ACCOUNT_SET.Monthly_Rent_Account ,TabMonthlyRentAccountName.description as Monthly_Rent_AccountName,TSPL_VENDOR_ACCOUNT_SET.Profit_Loss_Account ,Table_Profit_Loss_AccountName.description as Profit_Loss_AccountName,TSPL_VENDOR_ACCOUNT_SET.PRO_DATA_ACCOUNT,Table_PRO_DATA_ACCOUNTName.description as PRO_DATA_ACCOUNTName,TSPL_VENDOR_ACCOUNT_SET.IsFarmer,TSPL_VENDOR_ACCOUNT_SET.Arrear_Account,Table_ArrearName.description as Arrear_AccountName,TSPL_VENDOR_ACCOUNT_SET.Transfer_To_Saving,Table_TTSaving.description as TTSaving_AccountName  from TSPL_VENDOR_ACCOUNT_SET " &
             " left join TSPL_CURRENCY_MASTER on TSPL_VENDOR_ACCOUNT_SET.currency_code=TSPL_CURRENCY_MASTER.currency_code " &
             " left join TSPL_GL_ACCOUNTS gl1 on TSPL_VENDOR_ACCOUNT_SET.EXCHANGE_LOSS_ACCOUNT=gl1.account_code " &
             " left join TSPL_GL_ACCOUNTS gl2 on TSPL_VENDOR_ACCOUNT_SET.EXCHANGE_GAIN_ACCOUNT=gl2.account_code " &
@@ -207,6 +208,7 @@ Public Class frmvendoraccountset
             " left join TSPL_GL_ACCOUNTS Table_Profit_Loss_AccountName on Table_Profit_Loss_AccountName.account_code  =TSPL_VENDOR_ACCOUNT_SET.Profit_Loss_Account " &
             " left join TSPL_GL_ACCOUNTS Table_PRO_DATA_ACCOUNTName on Table_PRO_DATA_ACCOUNTName.account_code  =TSPL_VENDOR_ACCOUNT_SET.PRO_DATA_ACCOUNT " &
             " left join TSPL_GL_ACCOUNTS Table_ArrearName on Table_ArrearName.account_code  =TSPL_VENDOR_ACCOUNT_SET.Arrear_Account " &
+            " left join TSPL_GL_ACCOUNTS Table_TTSaving on Table_TTSaving.account_code  =TSPL_VENDOR_ACCOUNT_SET.Transfer_To_Saving " &
             " where acct_set_code='" + fndaccountsetcode.Value + "'"
             Dim adp As New SqlDataAdapter(query, connectSql.SqlCon)
             Dim dt As New DataTable()
@@ -277,6 +279,8 @@ Public Class frmvendoraccountset
 
             txtArrear.Value = clsCommon.myCstr(dr("Arrear_Account"))
             lblArrear.Text = clsCommon.myCstr(dr("Arrear_AccountName"))
+            TxtTrnsferTS.Value = clsCommon.myCstr(dr("Transfer_To_Saving"))
+            lblTrnsferTS.Text = clsCommon.myCstr(dr("TTSaving_AccountName"))
             rdbtnsave.Text = "Update"
             rdbtndelete.Enabled = True
         Catch ex As Exception
@@ -465,9 +469,9 @@ Public Class frmvendoraccountset
         ElseIf CheckControlAccount("Arrear", txtArrear.Value) = False Then
             txtArrear.Focus()
             Exit Sub
-            'ElseIf CheckControlAccount("Transfer To Saving", TxtTrnsferTS.Value) = False Then
-            '    txtArrear.Focus()
-            '    Exit Sub
+        ElseIf CheckControlAccount("Transfer To Saving", TxtTrnsferTS.Value) = False Then
+            txtArrear.Focus()
+            Exit Sub
         Else
             If MyBase.isModifyonPasswordFlag Then
                 If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.vendoraccountset, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
