@@ -276,6 +276,12 @@
     <Compile Include="frmShowInvoiceNo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\FrmBoothRouteMapping.Designer.vb">
+      <DependentUpon>FrmBoothRouteMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\FrmBoothRouteMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmCustCategoryWiseDefaultItemUomMaster.Designer.vb">
       <DependentUpon>frmCustCategoryWiseDefaultItemUomMaster.vb</DependentUpon>
     </Compile>
@@ -1149,6 +1155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmShowInvoiceNo.resx">
       <DependentUpon>frmShowInvoiceNo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\FrmBoothRouteMapping.resx">
+      <DependentUpon>FrmBoothRouteMapping.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmCustCategoryWiseDefaultItemUomMaster.resx">
       <DependentUpon>frmCustCategoryWiseDefaultItemUomMaster.vb</DependentUpon>

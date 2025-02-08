@@ -2314,6 +2314,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, "Distributor Commission", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, "Distributor Route Tagging", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.FrmItemCapacityLimt, "Item Capacity Limit", "1.36.01.13", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmBoothRouteMapping, "Booth Route Mapping", "1.36.01.14", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         'InsertDefaultValue(clsUserMgtCode.CardSale, "Card Sale", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         'InsertDefaultValue(clsUserMgtCode.frmCustCategoryWiseDefaultItemUomMaster, "Customer Category UOM", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
