@@ -661,6 +661,11 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             'Else
             '    btnPrintChallan.Visible = False
             'End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                btnSplitPrint.Visible = True
+            Else
+                btnSplitPrint.Visible = False
+            End If
             lstCustItem = New List(Of clsDemandCustItem)
             blnSaveTotalQTy = False
             isNewEntry = True
@@ -5210,6 +5215,47 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnSplitPrint_Click(sender As Object, e As EventArgs) Handles btnSplitPrint.Click
+        Try
+            Dim qry As String = Nothing
+            Dim SubRptQry As String = Nothing
+            Dim ShiftType As String = ""
+            Dim shiftAMPMType As String = ""
+            Dim PreshiftAMPMType As String = ""
+            Dim Previous_Shift As String = ""
+            Dim Previous_Date As String
+            Dim ItemCount As Double = 0
+            If rbtnEvening.IsChecked = True Then
+                ShiftType = "Evening"
+                shiftAMPMType = "PM"
+                PreshiftAMPMType = "AM"
+                Previous_Shift = "Morning"
+                Previous_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
+            Else
+                ShiftType = "Morning"
+                Previous_Shift = "Evening"
+                shiftAMPMType = "AM"
+                PreshiftAMPMType = "PM"
+                ' Previous_Date = clsDBFuncationality.getSingleValue("select CONVERT(varchar, DATEADD(DAY, -1, convert(Nvarchar, '" & txtDate.Value & "' ,112)),21) as Previous_Date")
+                Previous_Date = clsCommon.myCDate(txtDate.Value).AddDays(-1)
+            End If
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Booking not found to Print")
+            End If
+            qry = " Select Count(1) from TSPL_ROUTE_MASTER Where Split_Print=1 And Route_No='" + txtRouteNo.Value + "'"
+            If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry)) <= 0 Then
+                Throw New Exception("Split data not found to print on Route No: " + clsCommon.myCstr(txtRouteNo.Value) + ".")
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                Dim arrRoute As New ArrayList
+                arrRoute.Add(txtRouteNo.Value)
+                clsDemandBookingSale.PrintDOSData(arrRoute, ShiftType, txtDate.Value, rbtn_Fresh.IsChecked, rbtn_Ambient.IsChecked, chkIndividualCustomer.Checked, 107, 48, DosPaperSize.A4, PageSetup.Landscap, True) ''
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

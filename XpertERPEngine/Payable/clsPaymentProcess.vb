@@ -1967,6 +1967,15 @@ union all"
                             )xx order by  xx.SNo "
             Else
                 sQuery += " Select * from(select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
+                            union all
+                            select TSPL_DEDUCTION_MASTER.Description as Description,Sum(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount
+                            from TSPL_PAYMENT_PROCESS_MCC_SALE 
+                            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
+                            left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no
+                            left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
+                            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
+                            left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
+                            where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")  group by TSPL_DEDUCTION_MASTER.Description
                             )xx order by  xx.Description  "
             End If
 
@@ -2634,7 +2643,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         ' Else
         'BaseQry += " TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, "
         ' End If
-        BaseQry += " TSPL_VENDOR_MASTER.AccNo2 as Vendor_Account_No2,TSPL_VENDOR_MASTER.PAN As DCS_PAN, "
+        BaseQry += " PaymentProcess.Bank_Account_No_Saving as Vendor_Account_No2,TSPL_VENDOR_MASTER.PAN As DCS_PAN, "
         If AreaWiseBilling = True Then
             BaseQry += "  xxxSetLocation.Location_Desc as MCC_NAME "
         Else
@@ -2678,7 +2687,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
             BaseQry += ",Tab_TSPL_PRICE_CHART_PLANNING_TSDDCF.Rate_Per as Planing_Rate_Per,Tab_TSPL_PRICE_CHART_PLANNING_TSDDCF.Fixed_Rate as Planing_Fixed_Rate,tspl_vendor_master.Email"
         End If
         BaseQry += ",convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.Created_Date,103) as MPI_CREATED_Date,TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR as 'Milk Weight LTR'," + clsCommon.myCstr(IncentiveRate) + " as IncentiveRate,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Cans,FORMAT(CONVERT(date,'" + clsCommon.myCstr(clsCommon.GetPrintDate(Todate, "dd/MM/yyyy")) + "' ,103),'ddd') as DaysName,PaymentProcess.Compulsory_Amount,TSPL_VENDOR_MASTER.PAN
-                    ,TSPL_VENDOR_MASTER.RegistrationNo,Price_Chart.CircularNo "
+                    ,TSPL_VENDOR_MASTER.RegistrationNo,Price_Chart.CircularNo,PaymentProcess.zone_code "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             BaseQry += " ,Round(ISNULL(TrnferAmt.Trsfer_Amt,0), 0) as Trsfer_Amt "
         End If
@@ -2748,7 +2757,7 @@ left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MILK_SRN_D
         BaseQry += " left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code,TSPL_FAT_SNF_UPLOADER_MASTER.CircularNo    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code "
         BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine +
         " left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No  
-        Left Join(select max(created_date) As created_date, VLC_Code, VSP_CODE, sum(Total_EMP_Amount) As Total_EMP_Amount, sum(Incentive_Amount) As Incentive_Amount, sum(Incentive_EMP_Amount) As Incentive_EMP_Amount, sum(EMP_Amount) As EMP_Amount, sum(Vsp_Own_System_Amount) As Vsp_Own_System_Amount, sum(Head_Load_Amount) As Head_Load_Amount, sum(Payable_Amount) As Payable_Amount, sum(Credit_Note_Amount)As Credit_Note_Amount, sum(Deduction_Amount) As Deduction_Amount, sum(Item_Issue_Amount) As Item_Issue_Amount, sum(Item_Issue_Return_Amount) As Item_Issue_Return_Amount, sum(MCC_Sale_Amount) As MCC_Sale_Amount , sum(MCC_Sale_Return_Amount) As MCC_Sale_Return_Amount,sum(Compulsory_Amount) as Compulsory_Amount,MAX(Area_Location_Code)Area_Location_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,max(Payee_Joint_Branch_Name)Payee_Joint_Branch_Name from (Select TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code,TSPL_PAYMENT_PROCESS_HEAD.Created_Date  , TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount, TSPL_VLC_MASTER_HEAD.VLC_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE, TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Branch_Name  from TSPL_PAYMENT_PROCESS_DETAIL"
+        Left Join(select max(created_date) As created_date, VLC_Code, VSP_CODE, sum(Total_EMP_Amount) As Total_EMP_Amount, sum(Incentive_Amount) As Incentive_Amount, sum(Incentive_EMP_Amount) As Incentive_EMP_Amount, sum(EMP_Amount) As EMP_Amount, sum(Vsp_Own_System_Amount) As Vsp_Own_System_Amount, sum(Head_Load_Amount) As Head_Load_Amount, sum(Payable_Amount) As Payable_Amount, sum(Credit_Note_Amount)As Credit_Note_Amount, sum(Deduction_Amount) As Deduction_Amount, sum(Item_Issue_Amount) As Item_Issue_Amount, sum(Item_Issue_Return_Amount) As Item_Issue_Return_Amount, sum(MCC_Sale_Amount) As MCC_Sale_Amount , sum(MCC_Sale_Return_Amount) As MCC_Sale_Return_Amount,sum(Compulsory_Amount) as Compulsory_Amount,MAX(Area_Location_Code)Area_Location_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,max(Payee_Joint_Branch_Name)Payee_Joint_Branch_Name,max(Zone_Code)Zone_Code,max(Bank_Account_No_Saving)Bank_Account_No_Saving from (Select TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code,TSPL_PAYMENT_PROCESS_HEAD.Created_Date  , TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount, TSPL_VLC_MASTER_HEAD.VLC_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE, TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Branch_Name,TSPL_PAYMENT_PROCESS_DETAIL.Zone_Code,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving  from TSPL_PAYMENT_PROCESS_DETAIL"
         BaseQry += " left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No"
         BaseQry += " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader =TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader " & whrcls1 & ""
         BaseQry += " ) as pp group by VSP_CODE,VLC_Code"
@@ -3130,12 +3139,13 @@ where TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Nature_Typ
 union ALL
 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_MCC_SALE.customer_code as Vendor_CODE, 
 TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME  as Vendor_NAME,
-'CENTRAL INPUT' as Ded_Code,'CENTRAL INPUT' as Ded_Desc,'' as Ded_Code_Hindi,(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount,1 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi 
+TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_DEDUCTION_MASTER.Description as Ded_Desc,'' as Ded_Code_Hindi,(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) as Amount,1 as ManAddDed,0 as Reduce_Deduc_Amt,'' as Hindi 
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
+left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no
 left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
-
+left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
 where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
 ) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,final.Hindi
 --group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME,Case when isnull(Final.Deduction_Type,'')='' then Final.Ded_Code Else Final.Deduction_Type End,final.Hindi 
@@ -3157,12 +3167,14 @@ union all
 
 select 
 TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader AS VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_MCC_SALE.customer_code as Vendor_CODE, 
-TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME  as Vendor_NAME,'CENTRAL INPUT' as Ded_Code,
-TSPL_ITEM_MASTER.Deduction_Type as Ded_Desc,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt as Amount,'' as Hindi,'' as Description_Hindi
+TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME  as Vendor_NAME,TSPL_DEDUCTION_MASTER.Code as Ded_Code,
+TSPL_DEDUCTION_MASTER.Description as Ded_Desc,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt as Amount,'' as Hindi,'' as Description_Hindi
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
+left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no
 left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
+left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
 
 where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ") 
 ) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code having sum(Amount)>0"
@@ -3324,7 +3336,9 @@ Public Class clsPaymentProcessDetail
     Public Cheque_No As String = ""
     Public Bank_Code_Saving As String = ""
     Public Bank_Desc_Saving As String = ""
+    Public Bank_Account_No_Saving As String = ""
     Public Payment_Mode_Saving As String = ""
+    Public Zone_Code As String = ""
 
     Public Milk_Qty As Decimal = 0
     Public Milk_Amount As Decimal = 0
@@ -3437,7 +3451,9 @@ Public Class clsPaymentProcessDetail
                     End If
                     clsCommon.AddColumnsForChange(coll, "Bank_Code_Saving", clsCommon.myCstr(arr.Item(i).Bank_Code_Saving))
                     clsCommon.AddColumnsForChange(coll, "Bank_Desc_Saving", clsCommon.myCstr(arr.Item(i).Bank_Desc_Saving))
+                    clsCommon.AddColumnsForChange(coll, "Bank_Account_No_Saving", clsCommon.myCstr(arr.Item(i).Bank_Account_No_Saving))
                     clsCommon.AddColumnsForChange(coll, "Payment_Mode_Saving", clsCommon.myCstr(arr.Item(i).Payment_Mode_Saving))
+                    clsCommon.AddColumnsForChange(coll, "Zone_Code", clsCommon.myCstr(arr.Item(i).Zone_Code))
 
                     clsCommon.AddColumnsForChange(coll, "VSP_Amount", clsCommon.myCdbl(arr.Item(i).VSP_Amount))
                     clsCommon.AddColumnsForChange(coll, "Handling_Charges_Amount", clsCommon.myCdbl(arr.Item(i).Handling_Charges_Amount))
@@ -3534,12 +3550,14 @@ Public Class clsPaymentProcessDetail
 ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code 
-,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc 
+,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc
+,TSPL_PAYMENT_PROCESS_DETAIL.Zone_Code
 ,TSPL_PAYMENT_PROCESS_DETAIL.Payment_Mode 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Cheque_No 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Cheque_Dated 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving 
+,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving
 ,TSPL_PAYMENT_PROCESS_DETAIL.Payment_Mode_Saving 
 ,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty 
  ,TabFATSNFDetail.FATPer 
@@ -3646,6 +3664,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                     obj.Bank_Code_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Code_Saving"))
                     obj.Bank_Desc_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Desc_Saving"))
                     obj.Payment_Mode_Saving = clsCommon.myCstr(dtbl.Rows(i)("Payment_Mode_Saving"))
+                    obj.Bank_Account_No_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Account_No_Saving"))
 
                     obj.VSP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("VSP_Amount"))
                     obj.Handling_Charges_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Handling_Charges_Amount"))
@@ -4032,7 +4051,7 @@ Public Class clsPaymentProcessMCCSale
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_MASTER.Code as DeductionType 
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_MASTER.Code as DeductionType,TSPL_DEDUCTION_MASTER.Description as DeductionDesc 
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Sale_Doc_No    
@@ -4473,10 +4492,19 @@ Public Class clsPaymentProcessCreditNote
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Try
-            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.* 
+            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.*,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode , case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc 
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
+left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
+            '            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.* 
+            'from TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
+            'left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
+            'where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
+
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)

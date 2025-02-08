@@ -2712,6 +2712,7 @@ Public Class clsUserMgtCode
     Public Const frmDemandUploader As String = "DEM_UPL_TRN"
     Public Const frmDailyDemandReport As String = "DAI-DE-RE"
     Public Const rptHSNWiseSaleReport As String = "HSN_SAL_RPT"
+    Public Const rptCustItemWiseSaleReport As String = "CUS_ITM_RPT"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
     Public Const FrmperdayDetailRpt As String = "PER_DAY_RPT"
     Public Const rptBookingVsDispatchReport As String = "BOOK-VS-DI"

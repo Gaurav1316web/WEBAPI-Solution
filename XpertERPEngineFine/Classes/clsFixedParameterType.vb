@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const ImportorExport As String = "Password for Import/Export"
     Public Const DCSWiseFilterEnableOnSavingCheck As String = "DCS Wise Filter Enable On Saving Check"
     Public Const NoOfDCSToLoadDeductionData As String = "No Of DCS To Load Deduction Data"
     Public Const PenaltyAfterDays As String = "Define Penalty Days to Apply"
@@ -1308,6 +1309,7 @@ Public Class clsFixedParameterType
     Public Const ApplyDefaultTCSIsChecked = "Apply Default TCS IsChecked"
     Public Const ApplyDefaultTPTIsChecked = "Apply Default TPT IsChecked"
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
+    Public Const APIMilkSample = "API Milk Sample"
 End Class
 Public Class clsFixedParameterCode
     Public Const ViewDCSMilkPurchaseRegister As String = "View DCS Milk Purchase Register"
@@ -1327,6 +1329,7 @@ Public Class clsFixedParameterCode
     Public Const EWayBillUpdate As String = "Update E-Way Bill"
     Public Const GatePassCancel As String = "GatePass Cancel"
     Public Const CustomerMaster As String = "Customer Master"
+    Public Const FarmerMaster As String = "Customer Master"
     Public Const ConvertVlcCodeUploaderToInt As String = "Convert VlcCodeUploader To Int"
     Public Const PickOnlyOWNBMCDCS As String = "Pick Only OWN BMC DCS"
     Public Const PrintPouchCrateQtyOnPrint As String = "Print PouchCrate Qty On Print"
@@ -2527,6 +2530,8 @@ Public Class clsFixedParameterCode
     Public Const ShowItemInCaseofNonInventory As String = "Show Item In Case of Non Inventory"
     Public Const ProductionFATRateTollerance As String = "Production FAT Rate Tollerance"
     Public Const ProductionSNFRateTollerance As String = "Production SNF Rate Tollerance"
+    Public Const MaxFATPerLimitOwnDCS As String = "Max FAT Per Limit Own DCS"
+    Public Const MaxSNFPerLimitOwnDCS As String = "Max SNF Per Limit Own DCS"
     Public Const MaxFATPerLimit As String = "Max FAT Per Limit"
     Public Const MaxSNFPerLimit As String = "Max SNF Per Limit"
     Public Const MinFATPerLimit As String = "Min FAT Per Limit"
@@ -2759,6 +2764,8 @@ Public Class clsFixedParameterCode
     Public Const ApplyDefaultTPTIsChecked = "Apply Default TPT IsChecked"
     Public Const ApplyDefaultTCSIsChecked = "Apply Default TCS IsChecked"
     Public Const ApplyBoothRouteMapping = "Apply Booth Route Mapping"
+    Public Const DrippingQuantity = "Dripping Quantity"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3332,6 +3339,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SetCSATransferwithZeroOnSalePatti, clsFixedParameterCode.SetCSATransferwithZeroOnSalePatti, "SETZERO", "")
         ''richa agarwal 09/04/2015 create password for PO Amendment
         'InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.SecretorydcsMasterUpdate, "Secretorydcs@123", "Secretory DCS Master Password")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ImportorExport, clsFixedParameterCode.FarmerMaster, "Import@123", "Farmer Master Import/Export Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.VendorMaster, "Vendor@123", "Vendor Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.ItemMaster, "Item@123", "Item Master Password")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Transactionupdate, clsFixedParameterCode.UserMaster, "User@123", "User Master Password")
@@ -4113,6 +4121,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowItemInCaseofNonInventory, clsFixedParameterCode.ShowItemInCaseofNonInventory, "0", "0-Off-Show Item In Case of Non Inventory(Work Order)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionFATRateTollerance, clsFixedParameterCode.ProductionFATRateTollerance, "0", "Dairy Production FAT Rate Tollerance")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionSNFRateTollerance, clsFixedParameterCode.ProductionSNFRateTollerance, "0", "Dairy Production SNF Rate Tollerance")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimitOwnDCS, "0", "0-OFF.Max FAT % limit on Milk Sampling OwnDCS")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimitOwnDCS, "0", "0-OFF.Max SNF % limit on Milk Sampling OwnDCS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, "0", "0-OFF.Max FAT % limit on Milk Sampling")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, "0", "0-OFF.Max SNF % limit on Milk Sampling")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MinFATPerLimit, clsFixedParameterCode.MinFATPerLimit, "3.5", "0-OFF.Min FAT % limit on Milk Sampling")
@@ -4375,6 +4385,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDefaultTPTIsChecked, clsFixedParameterCode.ApplyDefaultTPTIsChecked, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "Dripping Quantity;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -5745,6 +5756,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MinFATPerLimit, clsFixedParameterCode.MinFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MinSNFPerLimit, clsFixedParameterCode.MinSNFPerLimit, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimitOwnDCS, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimitOwnDCS, EnumControlType.NumericBox)
         'Jobwork Inward
         InsertDefaultValue(clsUserMgtCode.frmJobWorkBillig, clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmJobWorkBillig, clsFixedParameterType.GrossWtFromItemMasterONCSATransfer, clsFixedParameterCode.GrossWtFromItemMasterONCSATransfer, EnumControlType.CheckBox)
@@ -6203,6 +6216,5 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmBoothRouteMapping, clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
-
     End Sub
 End Class

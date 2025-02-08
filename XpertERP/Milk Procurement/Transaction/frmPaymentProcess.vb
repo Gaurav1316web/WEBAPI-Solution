@@ -34,6 +34,8 @@ Public Class FrmPaymentProcess
     Public Const colRouteName As String = "colRouteName"
     Public Const colVendorCode As String = "colVendorCode"
     Public Const colVendorDesc As String = "colVendorDesc"
+    Public Const ColCreditDeduction As String = "ColCreditDeduction"
+    Public Const ColCreditDeductionDesc As String = "ColCreditDeductionDesc"
     Public Const colCustomerCode As String = "colCustomerCode"
     Public Const colCustomerName As String = "colCustomerName"
     Public Const colPayeeJointName As String = "colPayeeJointName"
@@ -86,6 +88,7 @@ Public Class FrmPaymentProcess
     Public Const colMPIncentiveAmount As String = "colMPIncentiveAmount"
     Public Const colMPEMPIncentiveAmount As String = "colMPEMPIncentiveAmount"
     Public Const colFileInfo As String = "colFileInfo"
+    Public Const colZone As String = "colZone"
 
     Public Const colMPVSPDiffAmount As String = "colMPVSPDiffAmount"
     Public Const colServiceChargeAmt As String = "colServiceChargeAmt"
@@ -113,6 +116,7 @@ Public Class FrmPaymentProcess
     Public Const colALPaymentAmt As String = "colALPaymentAmt"
 
     Public Const colDeductionTypeCode As String = "colDeductionTypeCode"
+    Public Const colDeductionDescCode As String = "colDeductionDescCode"
     Public Const colSequenceNo1 As String = "colSequenceNo1"
     Public Const colSequenceNo2 As String = "colSequenceNo2"
 
@@ -165,6 +169,7 @@ Public Class FrmPaymentProcess
 
     Public Const colBankCodeSaving As String = "colBankCodeSaving"
     Public Const colBankDescSaving As String = "colBankDescSaving"
+    Public Const colBankAccountNoSaving As String = "colBankAccountNoSaving"
     Public Const colPayModeSaving As String = "colPayModeSaving"
 
     Public Const colIsPaymentProcessHoldSaving As String = "colIsPaymentProcessHoldSaving"
@@ -412,6 +417,15 @@ Public Class FrmPaymentProcess
         colTextBox.Width = 200
         colTextBox.ReadOnly = True
         gvInvoice.MasterTemplate.Columns.Add(colTextBox)
+
+        Dim colTextBox7 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        colTextBox7 = New GridViewTextBoxColumn()
+        colTextBox7.FormatString = ""
+        colTextBox7.HeaderText = "Zone Code"
+        colTextBox7.Name = colZone
+        colTextBox7.Width = 200
+        colTextBox7.ReadOnly = True
+        gvInvoice.MasterTemplate.Columns.Add(colTextBox7)
 
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
@@ -1415,6 +1429,23 @@ Public Class FrmPaymentProcess
         colTextBox.ReadOnly = True
         gv.MasterTemplate.Columns.Add(colTextBox)
 
+        colTextBox1 = New GridViewTextBoxColumn()
+        colTextBox1.FormatString = ""
+        colTextBox1.HeaderText = "Saving Account No"
+        colTextBox1.Name = colBankAccountNoSaving
+        colTextBox1.Width = 200
+        colTextBox1.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox1)
+
+        Dim colTextBox7 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        colTextBox7 = New GridViewTextBoxColumn()
+        colTextBox7.FormatString = ""
+        colTextBox7.HeaderText = "Zone Code"
+        colTextBox7.Name = colZone
+        colTextBox7.Width = 200
+        colTextBox7.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox7)
+
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
         colTextBox.HeaderText = "Saving Payment Mode"
@@ -1839,7 +1870,7 @@ Public Class FrmPaymentProcess
     Sub LoadInvoiceGridData()
         Try
             LoadBlankGridInvoice()
-            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by x.[Milk Purchase Invoice Doc No]) as SNo ,x.*,Extra.Milk_OW_Amt_Document_No,Extra.HeadLoadAmt_Document_No,Extra.MilkDedAmt_Document_No,Extra.Milk_OW_Amt,Extra.HeadLoadAmt,Extra.MilkDedAmt from (select   MAX( xxx.[AP Invoice Doc No]) as [AP Invoice Doc No] ,max(xxx.[Ap Invoice Doc Date]) as [Ap Invoice Doc Date] ,xxx.[Milk Purchase Invoice Doc No] as [Milk Purchase Invoice Doc No],max(xxx.[Milk Purchase Invoice Doc Date]) as [Milk Purchase Invoice Doc Date],max(VLC_Code) as VLC_Code,max(xxx.VLC_Name) as VLC_Name,max(xxx.Vendor_Code)  as Vendor_Code,max(xxx.Vendor_Name) as Vendor_Name,max(xxx.[Payee/Joint Name]) as [Payee/Joint Name],max(xxx.[Bank Code]) as [Bank Code],max(xxx.[Bank Name]) as  [Bank Name] , max(xxx.[Branch Code]) as [Branch Code],max(xxx.[Branch Name]) as [Branch Name],max(xxx.[IFSC Code]) as  [IFSC Code],SUM(xxx.qty) as [Total Qty]   ,max(xxx.TOTAL_basic_amount) as TOTAL_basic_amount,max(xxx.TOTAL_AMOUNT ) as TOTAL_AMOUNT,MAX(xxx.TOTAL_PaymentCOMMISSION) as TOTAL_PaymentCOMMISSION,MAX(xxx.Incentive_Head ) as Incentive_Head, MAX(xxx .IncentiveEMP_Head ) as  IncentiveEMP_Head,sum(Service_Charge_Amount) as Service_Charge_Amount,max(xxx.TOTAL_AMOUNT_Acc  ) as TOTAL_AMOUNT_Acc,max(xxx.MCC_CODE) as  MCC_CODE,max(xxx.AccountNo) as AccountNo,max(MP_Amount) as MP_Amount,max(MP_EMP) as MP_EMP,max(MP_Incentive) as MP_Incentive,max(MP_IncentiveEMP) as MP_IncentiveEMP,max(Handling_Charges_Amount) as Handling_Charges_Amount,max(SRN_Net_Amount) as SRN_Net_Amount,max(SRN_RO_Amount) as SRN_RO_Amount,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer  ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer,max(TDSAmount) as TDSAmount ,max(ROUTE_CODE) as ROUTE_CODE ,max(ROUTE_NAME) as ROUTE_NAME,max(FILE_INFO) as FILE_INFO from (
+            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by x.[Milk Purchase Invoice Doc No]) as SNo ,x.*,Extra.Milk_OW_Amt_Document_No,Extra.HeadLoadAmt_Document_No,Extra.MilkDedAmt_Document_No,Extra.Milk_OW_Amt,Extra.HeadLoadAmt,Extra.MilkDedAmt from (select   MAX( xxx.[AP Invoice Doc No]) as [AP Invoice Doc No] ,max(xxx.[Ap Invoice Doc Date]) as [Ap Invoice Doc Date] ,xxx.[Milk Purchase Invoice Doc No] as [Milk Purchase Invoice Doc No],max(xxx.[Milk Purchase Invoice Doc Date]) as [Milk Purchase Invoice Doc Date],max(VLC_Code) as VLC_Code,max(xxx.VLC_Name) as VLC_Name,max(xxx.Vendor_Code)  as Vendor_Code,max(xxx.Vendor_Name) as Vendor_Name,max(xxx.[Payee/Joint Name]) as [Payee/Joint Name],max(xxx.[Bank Code]) as [Bank Code],max(xxx.[Bank Name]) as  [Bank Name] , max(xxx.[Branch Code]) as [Branch Code],max(xxx.[Branch Name]) as [Branch Name],max(xxx.[IFSC Code]) as  [IFSC Code],SUM(xxx.qty) as [Total Qty]   ,max(xxx.TOTAL_basic_amount) as TOTAL_basic_amount,max(xxx.TOTAL_AMOUNT ) as TOTAL_AMOUNT,MAX(xxx.TOTAL_PaymentCOMMISSION) as TOTAL_PaymentCOMMISSION,MAX(xxx.Incentive_Head ) as Incentive_Head, MAX(xxx .IncentiveEMP_Head ) as  IncentiveEMP_Head,sum(Service_Charge_Amount) as Service_Charge_Amount,max(xxx.TOTAL_AMOUNT_Acc  ) as TOTAL_AMOUNT_Acc,max(xxx.MCC_CODE) as  MCC_CODE,max(xxx.AccountNo) as AccountNo,max(MP_Amount) as MP_Amount,max(MP_EMP) as MP_EMP,max(MP_Incentive) as MP_Incentive,max(MP_IncentiveEMP) as MP_IncentiveEMP,max(Handling_Charges_Amount) as Handling_Charges_Amount,max(SRN_Net_Amount) as SRN_Net_Amount,max(SRN_RO_Amount) as SRN_RO_Amount,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer  ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer,max(TDSAmount) as TDSAmount ,max(ROUTE_CODE) as ROUTE_CODE ,max(ROUTE_NAME) as ROUTE_NAME,max(FILE_INFO) as FILE_INFO,MAX(Zone_Code)Zone_Code from (
 select  TSPL_VENDOR_INVOICE_HEAD.Document_No as [AP Invoice Doc No], TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date as [Ap Invoice Doc Date], TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as [Milk Purchase Invoice Doc No],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE  as [Milk Purchase Invoice Doc Date],coalesce(TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,mp_vlc.vlc_code_vlc_uploader) as VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,coalesce(TSPL_VLC_MASTER_HEAD.VLC_Name ,mp_vlc.vlc_name) as vlc_name,coalesce(TSPL_VENDOR_MASTER.Vendor_Code,mp_v.vendor_Code) as vendor_Code,coalesce(TSPL_VENDOR_MASTER.Vendor_Name,mp_v.Vendor_name) as Vendor_name , coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name) as [Payee/Joint Name], case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then ''  else ''   end as [Branch Code],case when isnull (coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Name,selfBank_mp.bank_name)  else coalesce(jointBank .Bank_Name,jointBank_MP .Bank_Code)   end as [Bank Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Code,SelfBank_MP .Bank_Code)   else coalesce(jointBank .Bank_Code,jointBank_Mp .Bank_Code)    end as [Bank Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Branch_Name,MP_V .Branch_Name )   else coalesce(TSPL_VENDOR_MASTER .Joint_Branch_Name,Mp_V.Joint_Branch_Name)   end as [Branch Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .IFSC_Code,mp_V.IFSC_Code)   else coalesce(TSPL_VENDOR_MASTER .Joint_IFSC_Code,mp_v.Joint_IFSC_Code)   end as [IFSC Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Account_No,mp_V .Account_No)    else coalesce(TSPL_VENDOR_MASTER.Joint_Account_No,mp_V.Joint_Account_No)    end as [AccountNo],TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_basic_amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT  , TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION, TSPL_MILK_PURCHASE_INVOICE_HEAD.Incentive_Head,TSPL_MILK_PURCHASE_INVOICE_HEAD.IncentiveEMP_Head, TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT_Acc ,  TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Service_Charge_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_EMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Incentive,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_IncentiveEMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_Net_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_RO_Amount,TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER/100) as decimal(18,2)) as FATKg,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER/100)as decimal(18,2)) as SNFKg"
             If settTDSRoundOffAmount Then
                 qry += ",TSPL_REMITTANCE.Actual_TDS as TDSAmount"
@@ -1848,7 +1879,7 @@ select  TSPL_VENDOR_INVOICE_HEAD.Document_No as [AP Invoice Doc No], TSPL_VENDOR
             End If
 
 
-            qry += ",TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO 
+            qry += ",TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO,TSPL_VENDOR_MASTER.Zone_Code  
 from TSPL_VENDOR_INVOICE_HEAD   
 left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
 left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE= TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No 
@@ -1956,6 +1987,7 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
                 'gvInvoice.Columns(colChequeNo).FieldName = ""
                 gvInvoice.Columns(colServiceChargeAmt).FieldName = "Service_Charge_Amount"
                 gvInvoice.Columns(colFileInfo).FieldName = "FILE_INFO"
+                gvInvoice.Columns(colZone).FieldName = "Zone_Code"
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -2079,6 +2111,14 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colTextBox.FormatString = ""
         colTextBox.HeaderText = "Deduction"
         colTextBox.Name = colDeductionTypeCode
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gvMccSale.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Deduction Description"
+        colTextBox.Name = colDeductionDescCode
         colTextBox.Width = 200
         colTextBox.ReadOnly = True
         gvMccSale.MasterTemplate.Columns.Add(colTextBox)
@@ -2685,6 +2725,22 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
         colTextBox.ReadOnly = True
         gvCreditNote.MasterTemplate.Columns.Add(colTextBox)
 
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Deduction Code"
+        colTextBox.Name = ColCreditDeduction
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gvCreditNote.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Deduction Desc"
+        colTextBox.Name = ColCreditDeductionDesc
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gvCreditNote.MasterTemplate.Columns.Add(colTextBox)
+
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
         colDecimal.HeaderText = "TDS Amount"
@@ -2894,17 +2950,28 @@ And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>''
     '                gvDeduction.Columns(colItemAmt).FieldName = "Total_Amount"
     '            End If
     '        End If
-    '    End Sub
+    '    End Subgvcred
 
     Sub LoadCreditNoteGridData()
         LoadBlankGridCreditNote()
         If clsCommon.myLen(strVendorCode) > 0 Then
             '' Update By pankaj jha For picking up amount from Head in place of details 
-            Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo, TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_REMITTANCE.Calculated_TDS,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
-from TSPL_VENDOR_INVOICE_head   
-left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_head.Document_No
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Transfer_To_Saving=0 and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+            '            Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo, TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_REMITTANCE.Calculated_TDS,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
+            'from TSPL_VENDOR_INVOICE_head   
+            'left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_head.Document_No
+            'left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+            'where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Transfer_To_Saving=0 and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+            Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo, TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,
+                                    case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode ,
+                                    case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc,isnull(TSPL_REMITTANCE.Calculated_TDS,0)Calculated_TDS,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
+                                    from TSPL_VENDOR_INVOICE_DETAIL 
+                                    left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+                                    left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
+                                    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
+                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                                    left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_head.Document_No
+                                    where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.Transfer_To_Saving=0 and TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  " ''UDL/03/07/18-000201 by balwinder on 09/07/2018  change TSPL_VENDOR_INVOICE_HEAD.Balance_Amt<>0 to TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0;ERO/14/08/19-000992 by balwinder on 14/08/2019
+
             Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE  where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no not in ('" + fndDocNo.Value + "')) "
             If clsCommon.myLen(strVendorCode) <= 0 Then
             Else
@@ -2940,6 +3007,8 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and TSPL_VENDOR_INVOICE_HEAD.
                 gvCreditNote.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
                 gvCreditNote.Columns(colVendorCode).FieldName = "Vendor_Code"
                 gvCreditNote.Columns(colVendorDesc).FieldName = "Vendor_Name"
+                gvCreditNote.Columns(ColCreditDeduction).FieldName = "DeductionCode"
+                gvCreditNote.Columns(ColCreditDeductionDesc).FieldName = "Deduction_Desc"
                 gvCreditNote.Columns(colTDSAmt).FieldName = "Calculated_TDS"
                 gvCreditNote.Columns(colItemAmt).FieldName = "Total_Amount"
             End If
@@ -3291,9 +3360,9 @@ order by Payment_Date "
     Sub LoadMccSaleGridData()
         LoadBlankGridMccSale()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by xx.[Shipment_No]) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, Loc_Code,[Shipment_No],[Shipment_Date] ,[Vendor_Code] ,[Vendor_Name] ,Sale_Invoice_No,[Sale_Inoivce_Date] ,[AR_Invoice_No],[AR_Invoice_Date],DeductionSNo,DeductionTypeCode,Balance_Amt as OriginalBalanceAmt,InstallmentAmount,case when InstallmentAmount>0 then case when Balance_Amt>(InstallmentAmount+1.00) then InstallmentAmount else Balance_Amt end else Balance_Amt end as Balance_Amt from (  
+            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by xx.[Shipment_No]) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, Loc_Code,[Shipment_No],[Shipment_Date] ,[Vendor_Code] ,[Vendor_Name] ,Sale_Invoice_No,[Sale_Inoivce_Date] ,[AR_Invoice_No],[AR_Invoice_Date],DeductionSNo,DeductionTypeCode,DeductionDesc,Balance_Amt as OriginalBalanceAmt,InstallmentAmount,case when InstallmentAmount>0 then case when Balance_Amt>(InstallmentAmount+1.00) then InstallmentAmount else Balance_Amt end else Balance_Amt end as Balance_Amt from (  
 select TSPL_Customer_Invoice_Head.Loc_Code, TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE as [Shipment_No],TSPL_SD_SHIPMENT_HEAD.Document_Date as [Shipment_Date] ,TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code [Vendor_Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [Vendor_Name] , TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [Sale_Inoivce_Date] ,TSPL_Customer_Invoice_Head.Document_No as [AR_Invoice_No] ,   TSPL_Customer_Invoice_Head.Document_Date as [AR_Invoice_Date], TSPL_Customer_Invoice_Head.Balance_Amt , 
-convert(decimal(18,2), case when isnull(TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment,0)=0 then 0 else TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment " + IIf(IsRoundOffPaiseAmount, "-((TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment)%1)", "") + "  end) as InstallmentAmount, TSPL_DEDUCTION_MASTER.Sequence_No  as DeductionSNo,TSPL_DEDUCTION_MASTER.Code as DeductionTypeCode 
+convert(decimal(18,2), case when isnull(TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment,0)=0 then 0 else TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment " + IIf(IsRoundOffPaiseAmount, "-((TSPL_SD_SALE_INVOICE_HEAD.Total_Amt/TSPL_SD_SALE_INVOICE_HEAD.No_Of_Instalment)%1)", "") + "  end) as InstallmentAmount, TSPL_DEDUCTION_MASTER.Sequence_No  as DeductionSNo,TSPL_DEDUCTION_MASTER.Code as DeductionTypeCode,TSPL_DEDUCTION_MASTER.Description as DeductionDesc
 from TSPL_SD_SHIPMENT_HEAD  
 left outer join  TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code     
 inner join TSPL_Customer_Invoice_Head on  TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No  and coalesce(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>''   
@@ -3327,6 +3396,7 @@ where  isnull(TSPL_SD_SHIPMENT_HEAD.Is_CashSale,'N')='N' and TSPL_SD_SHIPMENT_HE
                 gvMccSale.Columns(colInstallmentAmt).FieldName = "InstallmentAmount"
                 gvMccSale.Columns(colDeductionTypeCode).FieldName = "DeductionTypeCode"
                 gvMccSale.Columns(colSequenceNo2).FieldName = "DeductionSNo"
+                gvMccSale.Columns(colDeductionDescCode).FieldName = "DeductionDesc"
             End If
         End If
     End Sub
@@ -4502,6 +4572,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPPDetail.Bank_Code_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankCodeSaving).Value)
                         objPPDetail.Bank_Desc_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankDescSaving).Value)
                         objPPDetail.Payment_Mode_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colPayModeSaving).Value)
+                        objPPDetail.Bank_Account_No_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankAccountNoSaving).Value)
 
                         If clsCommon.CompairString(objPPDetail.Payment_Mode, "Cheque") = CompairStringResult.Equal Then
                             objPPDetail.Cheque_Dated = clsCommon.myCstr(gv.Rows(i).Cells(colChequeDate).Value)
@@ -4541,6 +4612,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPPDetail.Credit_Note_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalCreditNoteAmount).Value)
                         objPPDetail.Saving_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalSavingAmount).Value)
                         objPPDetail.Compulsory_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalCompulsoryAmount).Value)
+                        objPPDetail.Zone_Code = clsCommon.myCstr(gv.Rows(i).Cells(colZone).Value)
 
                         objPPDetail.Payable_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colPaybleAmt).Value)
                         objPPDetail.Service_Charge_Amt = clsCommon.myCdbl(gv.Rows(i).Cells(colServiceChargeAmt).Value)
@@ -4769,6 +4841,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvMccSale.Columns(colOrgBalanceAmt).FieldName = "Original_Balance_Amount"
                     gvMccSale.Columns(colInstallmentAmt).FieldName = "Instalment_Amt"
                     gvMccSale.Columns(colDeductionTypeCode).FieldName = "DeductionType"
+                    gvMccSale.Columns(colDeductionDescCode).FieldName = "DeductionDesc"
                 End If
                 If obj.dtClsPaymentProcessItemIssue IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssue.Rows.Count > 0 Then
                     gvItemIssue.DataSource = Nothing
@@ -4835,6 +4908,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvCreditNote.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
                     gvCreditNote.Columns(colVendorCode).FieldName = "Vendor_CODE"
                     gvCreditNote.Columns(colVendorDesc).FieldName = "Vendor_NAME"
+                    gvCreditNote.Columns(ColCreditDeduction).FieldName = "DeductionCode"
+                    gvCreditNote.Columns(ColCreditDeductionDesc).FieldName = "Deduction_Desc"
                     gvCreditNote.Columns(colTDSAmt).FieldName = "TDS_Amount"
                     gvCreditNote.Columns(colItemAmt).FieldName = "Amount"
 
@@ -4965,6 +5040,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colChequeDate).FieldName = "Cheque_Dated"
                     gv.Columns(colBankCodeSaving).FieldName = "Bank_Code_Saving"
                     gv.Columns(colBankDescSaving).FieldName = "Bank_Desc_Saving"
+                    gv.Columns(colBankAccountNoSaving).FieldName = "Bank_Account_No_Saving"
                     gv.Columns(colPayModeSaving).FieldName = "Payment_Mode_Saving"
                     gv.Columns(colMilkQty).FieldName = "Milk_Qty"
                     gv.Columns(colVSPAmount).FieldName = "VSP_Amount"
@@ -5007,6 +5083,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colFATKG).FieldName = "FATKg"
                     gv.Columns(colSNFPer).FieldName = "SNFPer"
                     gv.Columns(colSNFKG).FieldName = "SNFKg"
+                    gv.Columns(colZone).FieldName = "Zone_Code"
 
                     Dim arr As New ArrayList()
                     Dim arrMcc As New ArrayList()
@@ -5535,12 +5612,13 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 gv.Rows(k).Cells(colDeductionTotalAmount).Value = getTotalDeductionSum(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colAssetLostAmount).Value = getTotalAssetLost(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colServiceChargeAmt).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colServiceChargeAmt).Value)
+                gv.Rows(k).Cells(colZone).Value = gvInvoice.Rows(i).Cells(colZone).Value
 
                 gv.Rows(k).Cells(colPaybleAmt).Value = (((gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(k).Cells(colTDSAmt).Value + gv.Rows(k).Cells(colTotalCreditNoteAmount).Value + gv.Rows(k).Cells(colVSPOwnSystemAmt).Value + gv.Rows(k).Cells(colHeadLoadAmt).Value) - gv.Rows(k).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalAssetLost(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(k).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(k).Cells(colReduceDeduc).Value) + getTotalMccSaleReturnSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueReturnSum(gv.Rows(k).Cells(colVendorCode).Value)
                 CalculateAdvanceKnockOff(k)
 
                 If SettVSPHoldPaymentNotCompanyBank Then
-                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving 
+                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving ,TSPL_VENDOR_MASTER.AccNo2 as AccountNo_Saving
 from TSPL_VENDOR_MASTER 
 left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_CURRENT on TSPL_BANK_MASTER_CURRENT.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank_Current
 left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_SAVING on TSPL_BANK_MASTER_SAVING.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank 
@@ -5558,6 +5636,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                         If clsCommon.myLen(dt.Rows(0)("Company_Bank")) > 0 Then
                             gv.Rows(i).Cells(colBankCodeSaving).Value = clsCommon.myCstr(dt.Rows(0)("Company_Bank"))
                             gv.Rows(i).Cells(colBankDescSaving).Value = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION_Saving"))
+                            gv.Rows(i).Cells(colBankAccountNoSaving).Value = clsCommon.myCstr(dt.Rows(0)("AccountNo_Saving"))
                             gv.Rows(i).Cells(colPayModeSaving).Value = "NEFT"
                         Else
                             gv.Rows(i).Cells(colIsPaymentProcessHoldSavingAuto).Value = True

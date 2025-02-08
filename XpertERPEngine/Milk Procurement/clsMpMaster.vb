@@ -95,51 +95,7 @@ Public Class clsMpMaster
         Return str
     End Function
 
-    Public Shared Function ImportBankDetail(gv As RadGridView) As Boolean
-        clsCommon.ProgressBarShow()
-        Dim linno As Integer = 0
-        Dim obj As New clsMpMaster
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Try
-            If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
-                For Each grow As GridViewRowInfo In gv.Rows
-                    linno += 1
-                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells("MP Code").Value)) <= 0 Then
-                        Throw New Exception("Line No. " + clsCommon.myCstr(linno) + " MP Code can't be blank !")
-                    End If
-                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells("IFSC Code").Value)) <= 0 Then
-                        Throw New Exception("Line No. " + clsCommon.myCstr(linno) + "IFSC Code can't be blank !")
-                    End If
-                    obj.MP_Code = clsCommon.myCstr(grow.Cells("MP Code").Value)
-                    obj.IFCICode = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("select BANK,BRANCH,STATE,CITY from TSPL_MASTER.dbo.TSPL_IFSC where IFSC='" + obj.IFCICode + "'", trans)
-                    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                        Throw New Exception("Invalid IFSC Code")
-                    Else
-                        obj.BankName = clsCommon.myCstr(dt.Rows(0)("BANK"))
-                        obj.BankBranch = clsCommon.myCstr(dt.Rows(0)("BRANCH"))
-                        obj.BankStateCode = clsCommon.myCstr(dt.Rows(0)("STATE"))
-                        obj.BankCityCode = clsCommon.myCstr(dt.Rows(0)("CITY"))
-                    End If
-                    obj.AccountNO = clsCommon.myCstr(grow.Cells("Account Number").Value)
-                    Dim chkCount As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_MP_MASTER where MP_Code='" + clsCommon.myCstr(obj.MP_Code) + "'", trans))
-                    If chkCount > 0 Then
-                        Dim UpdateQry As String = "Update TSPL_MP_MASTER Set BankName='" + obj.BankName + "',IFCICode='" + obj.IFCICode + "',AccountNO='" + obj.AccountNO + "' Where MP_Code='" + obj.MP_Code + "'"
-                        clsDBFuncationality.ExecuteNonQuery(UpdateQry, trans)
-                    Else
-                        Throw New Exception("Line No. " + clsCommon.myCstr(linno) + " MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") is not exist !")
-                    End If
-                Next
-                trans.Commit()
-                clsCommon.ProgressBarHide()
-            End If
-        Catch ex As Exception
-            trans.Rollback()
-            clsCommon.ProgressBarHide()
-            Throw New Exception(ex.Message)
-        End Try
-        Return True
-    End Function
+
     '----------------End of Code For Get Finder--------------------------------------------------------------'
     Public Shared Function deleteData(ByVal strcode As String, ByVal progcode As String, ByVal trans As SqlTransaction) As Boolean
         Try

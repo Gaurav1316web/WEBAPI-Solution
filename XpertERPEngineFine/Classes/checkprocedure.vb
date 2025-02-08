@@ -2445,6 +2445,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBoothWiseBillReport, "Booth Wise Bill Print", "1.06.03.61", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDayBook, "Day Book", "1.06.03.62", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkSupplySaleReport, "Milk Supply Sale Report", "1.06.03.62", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCustItemWiseSaleReport, "Customer Item Wise Sale Report", "1.06.03.63", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

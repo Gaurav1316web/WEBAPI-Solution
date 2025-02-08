@@ -97,6 +97,7 @@ Partial Class frmRouteMaster
         Me.fndZone = New common.UserControls.txtFinder()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.txtZone = New common.Controls.MyTextBox()
+        Me.rbtnSplitPrint = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -155,6 +156,7 @@ Partial Class frmRouteMaster
         CType(Me.btnStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtZone, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSplitPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1288,11 +1290,21 @@ Partial Class frmRouteMaster
         Me.txtZone.Size = New System.Drawing.Size(139, 18)
         Me.txtZone.TabIndex = 1409
         '
+        'rbtnSplitPrint
+        '
+        Me.rbtnSplitPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtnSplitPrint.Location = New System.Drawing.Point(715, 27)
+        Me.rbtnSplitPrint.Name = "rbtnSplitPrint"
+        Me.rbtnSplitPrint.Size = New System.Drawing.Size(69, 16)
+        Me.rbtnSplitPrint.TabIndex = 1410
+        Me.rbtnSplitPrint.Text = "Split Print"
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(887, 511)
+        Me.Controls.Add(Me.rbtnSplitPrint)
         Me.Controls.Add(Me.txtZone)
         Me.Controls.Add(Me.fndZone)
         Me.Controls.Add(Me.MyLabel8)
@@ -1422,6 +1434,7 @@ Partial Class frmRouteMaster
         CType(Me.btnStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtZone, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSplitPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1499,5 +1512,6 @@ Partial Class frmRouteMaster
     Friend WithEvents fndZone As common.UserControls.txtFinder
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents txtZone As common.Controls.MyTextBox
+    Friend WithEvents rbtnSplitPrint As RadCheckBox
 End Class
 
