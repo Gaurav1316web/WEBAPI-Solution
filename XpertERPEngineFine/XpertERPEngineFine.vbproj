@@ -78,6 +78,7 @@
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
     <Compile Include="Accounts\clsJournalMaster.vb" />
+    <Compile Include="BoothRouteMapping\clsBoothRouteMappingHead.vb" />
     <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullCategoryMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullInsurance.vb" />

@@ -4051,7 +4051,7 @@ Public Class clsPaymentProcessMCCSale
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, ByVal trans As SqlTransaction) As DataTable
         Try
-            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_MASTER.Code as DeductionType 
+            Dim q As String = "select  cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.*,TSPL_DEDUCTION_MASTER.Code as DeductionType,TSPL_DEDUCTION_MASTER.Description as DeductionDesc 
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Sale_Doc_No    
@@ -4492,10 +4492,19 @@ Public Class clsPaymentProcessCreditNote
     End Function
     Public Shared Function getDataDT(ByVal doc_No As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Try
-            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.* 
+            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.*,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode , case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc 
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
+left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
+            '            Dim q As String = "select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.* 
+            'from TSPL_PAYMENT_PROCESS_CREDIT_NOTE 
+            'left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
+            'where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.SLNO as int)"
+
             Return clsDBFuncationality.GetDataTable(q, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
