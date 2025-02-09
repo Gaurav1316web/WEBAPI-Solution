@@ -1780,15 +1780,16 @@ where Document_No='" + BRM_DocNO + "' "
                 If chkIndividualCustomer.Checked = True Then
                     qry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code ='" & txtCustomerNo.Value & "' "
                 End If
-                If isLoadData Then
-                    qry += " union select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
-left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
- group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  " '--,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No
-                End If
-                MainQry = "Select xx.* from (" + qry + " ) xx order by xx.Serial_No"
+                '                If isLoadData Then
+                '                    qry += " union select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
+                'left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                'left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                'left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                'where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
+                ' group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  " '--,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No
+                '                End If
+                '                MainQry = "Select xx.* from (" + qry + " ) xx   order by xx.Serial_No"
+                MainQry = qry
             Else
                 qry = "select cust_code,Customer_name,display_seq from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "'  and  TSPL_CUSTOMER_MASTER.Status='N' "
                 If chkIndividualCustomer.Checked = True Then
