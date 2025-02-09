@@ -1769,28 +1769,52 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
         Try
             Dim MainQry As String = ""
             Dim qry As String = ""
-            qry = "select cust_code,Customer_name,display_seq from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "'  and  TSPL_CUSTOMER_MASTER.Status='N' "
-            If chkIndividualCustomer.Checked = True Then
-                qry += " and TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'"
-            End If
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                qry += "  and IsDistributor='N'"
-            End If
-            ' qry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0)  "
-            If isLoadData Then
-                qry += "union 
+            If objCommonVar.ApplyBoothRouteMapping Then
+                Dim BRM_DocNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
+left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No
+where CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_Booth_Route_Mapping_Head.Route_No='" + strtRouteCode + "' 
+and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 order by Document_No desc"))
+                qry = " select TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code as cust_code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No from TSPL_BOOTH_ROUTE_MAPPING_DETAIL 
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code 
+where Document_No='" + BRM_DocNO + "' "
+                If chkIndividualCustomer.Checked = True Then
+                    qry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code ='" & txtCustomerNo.Value & "' "
+                End If
+                '                If isLoadData Then
+                '                    qry += " union select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,max(TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No) as Serial_No from TSPL_DEMAND_BOOKING_MASTER 
+                'left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                'left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                'left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                'where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
+                ' group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  " '--,TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Serial_No
+                '                End If
+                '                MainQry = "Select xx.* from (" + qry + " ) xx   order by xx.Serial_No"
+                MainQry = qry
+            Else
+                qry = "select cust_code,Customer_name,display_seq from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "'  and  TSPL_CUSTOMER_MASTER.Status='N' "
+                If chkIndividualCustomer.Checked = True Then
+                    qry += " and TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'"
+                End If
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    qry += "  and IsDistributor='N'"
+                End If
+                ' qry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0)  "
+                If isLoadData Then
+                    qry += "union 
 select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,TSPL_CUSTOMER_MASTER.display_seq from TSPL_DEMAND_BOOKING_MASTER 
 left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
 group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.display_seq"
-                MainQry += "select X.* from (" + qry + " )X order by isnull(X.display_seq,0)"
-            Else
-                MainQry = qry + " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0) "
+                    MainQry += "select X.* from (" + qry + " )X order by isnull(X.display_seq,0)"
+                Else
+                    MainQry = qry + " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0) "
+                End If
+                If Not SeparateDemandMilkandProduct Then
+                    LoadBlankGrid()
+                End If
             End If
-            If Not SeparateDemandMilkandProduct Then
-                LoadBlankGrid()
-            End If
+
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(MainQry)
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 Dim i As Integer = 1
