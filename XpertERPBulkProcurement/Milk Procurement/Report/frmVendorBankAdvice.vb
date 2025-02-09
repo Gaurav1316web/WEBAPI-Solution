@@ -906,7 +906,7 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
     End Sub
 
     Private Function GetSavingCurrent() As String
-        Dim Qry As String = " Select xxxfinal.[Bank Advise No],xxxfinal.[Bank Advise Date],xxxfinal.VLC_CODE_Uploader,isnull(xxxfinal.Bank_Code_Saving,xxxfinal.Bank_Code) as BankCode,xxxfinal.Branch_Name,isnull(xxxfinal.Bank_Desc_Saving,xxxfinal.Bank_Code_Desc) as BankName,(xxxfinal.VLC_CODE_Uploader +' '+ xxxfinal.Payee_Joint_Name) As DCS_Name,
+        Dim Qry As String = " Select xxxfinal.[Bank Advise No],xxxfinal.[Bank Advise Date],xxxfinal.VLC_CODE_Uploader,isnull(xxxfinal.Bank_Code,xxxfinal.Bank_Code_Saving) as BankCode,xxxfinal.Branch_Name,isnull(xxxfinal.Bank_Code_Desc,xxxfinal.Bank_Desc_Saving) as BankName,(xxxfinal.VLC_CODE_Uploader +' '+ xxxfinal.Payee_Joint_Name) As DCS_Name,
 Round(Case When IsNull(xxxfinal.Payable_Amount,0)>0 Then (IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)) Else IsNull(xxxfinal.Saving_Amount,0) End,0) As Bill_Amt,
 xxxfinal.Bank_Account_No_Saving as SavingAccountNo,IsNull(xxxfinal.Saving_Amount,0) as SavingAmt,xxxfinal.Payee_Joint_Account_No as CurrentAccountNo,
 Round(IsNull(xxxfinal.Payable_Amount,0)-ISNULL(xxxfinal.Head_Load_Rate,0)-IsNull(xxxfinal.Saving_Amount,0),0) as CurrentAmt,DCSCount
