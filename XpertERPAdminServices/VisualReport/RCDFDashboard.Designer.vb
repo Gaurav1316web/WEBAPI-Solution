@@ -22,17 +22,17 @@ Partial Class RCDFDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition22 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition23 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim CartesianArea3 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition24 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition25 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition26 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition27 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
@@ -380,11 +380,13 @@ Partial Class RCDFDashboard
         '
         Me.gvRMStock.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMStock.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRMStock.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvRMStock.MasterTemplate.ViewDefinition = TableViewDefinition19
+        Me.gvRMStock.MyStopExport = False
         Me.gvRMStock.Name = "gvRMStock"
         Me.gvRMStock.ShowHeaderCellButtons = True
         Me.gvRMStock.Size = New System.Drawing.Size(531, 413)
         Me.gvRMStock.TabIndex = 15
+        Me.gvRMStock.VarID = ""
         '
         'lblRMStock
         '
@@ -431,11 +433,13 @@ Partial Class RCDFDashboard
         '
         Me.gvRMSupply.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMSupply.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRMSupply.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvRMSupply.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.gvRMSupply.MyStopExport = False
         Me.gvRMSupply.Name = "gvRMSupply"
         Me.gvRMSupply.ShowHeaderCellButtons = True
         Me.gvRMSupply.Size = New System.Drawing.Size(605, 251)
         Me.gvRMSupply.TabIndex = 6
+        Me.gvRMSupply.VarID = ""
         '
         'lblRMSupply
         '
@@ -460,11 +464,13 @@ Partial Class RCDFDashboard
         '
         Me.gvRMInPlant.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMInPlant.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRMInPlant.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRMInPlant.MasterTemplate.ViewDefinition = TableViewDefinition21
+        Me.gvRMInPlant.MyStopExport = False
         Me.gvRMInPlant.Name = "gvRMInPlant"
         Me.gvRMInPlant.ShowHeaderCellButtons = True
         Me.gvRMInPlant.Size = New System.Drawing.Size(605, 141)
         Me.gvRMInPlant.TabIndex = 7
+        Me.gvRMInPlant.VarID = ""
         '
         'lblRMInPlant
         '
@@ -519,11 +525,13 @@ Partial Class RCDFDashboard
         '
         Me.gvFinishGoods.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFinishGoods.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition22
+        Me.gvFinishGoods.MyStopExport = False
         Me.gvFinishGoods.Name = "gvFinishGoods"
         Me.gvFinishGoods.ShowHeaderCellButtons = True
         Me.gvFinishGoods.Size = New System.Drawing.Size(1140, 251)
         Me.gvFinishGoods.TabIndex = 6
+        Me.gvFinishGoods.VarID = ""
         '
         'MyLabel2
         '
@@ -541,7 +549,7 @@ Partial Class RCDFDashboard
         '
         'cvFinishGoods
         '
-        Me.cvFinishGoods.AreaDesign = CartesianArea1
+        Me.cvFinishGoods.AreaDesign = CartesianArea2
         Me.cvFinishGoods.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvFinishGoods.Location = New System.Drawing.Point(0, 0)
         Me.cvFinishGoods.Name = "cvFinishGoods"
@@ -592,11 +600,13 @@ Partial Class RCDFDashboard
         '
         Me.gvProdution.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProdution.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition23
+        Me.gvProdution.MyStopExport = False
         Me.gvProdution.Name = "gvProdution"
         Me.gvProdution.ShowHeaderCellButtons = True
         Me.gvProdution.Size = New System.Drawing.Size(1136, 251)
         Me.gvProdution.TabIndex = 6
+        Me.gvProdution.VarID = ""
         '
         'MyLabel1
         '
@@ -614,7 +624,7 @@ Partial Class RCDFDashboard
         '
         'cvProdution
         '
-        Me.cvProdution.AreaDesign = CartesianArea2
+        Me.cvProdution.AreaDesign = CartesianArea3
         Me.cvProdution.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvProdution.Location = New System.Drawing.Point(0, 0)
         Me.cvProdution.Name = "cvProdution"
@@ -663,11 +673,13 @@ Partial Class RCDFDashboard
         '
         Me.gvQuality.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvQuality.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvQuality.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvQuality.MasterTemplate.ViewDefinition = TableViewDefinition24
+        Me.gvQuality.MyStopExport = False
         Me.gvQuality.Name = "gvQuality"
         Me.gvQuality.ShowHeaderCellButtons = True
         Me.gvQuality.Size = New System.Drawing.Size(1140, 251)
         Me.gvQuality.TabIndex = 6
+        Me.gvQuality.VarID = ""
         '
         'lblQuality
         '
@@ -692,11 +704,13 @@ Partial Class RCDFDashboard
         '
         Me.gvQualitySummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvQualitySummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvQualitySummary.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvQualitySummary.MasterTemplate.ViewDefinition = TableViewDefinition25
+        Me.gvQualitySummary.MyStopExport = False
         Me.gvQualitySummary.Name = "gvQualitySummary"
         Me.gvQualitySummary.ShowHeaderCellButtons = True
         Me.gvQualitySummary.Size = New System.Drawing.Size(1140, 141)
         Me.gvQualitySummary.TabIndex = 7
+        Me.gvQualitySummary.VarID = ""
         '
         'lblQualitySummary
         '
@@ -750,11 +764,13 @@ Partial Class RCDFDashboard
         '
         Me.gvAccountVendor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAccountVendor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAccountVendor.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvAccountVendor.MasterTemplate.ViewDefinition = TableViewDefinition26
+        Me.gvAccountVendor.MyStopExport = False
         Me.gvAccountVendor.Name = "gvAccountVendor"
         Me.gvAccountVendor.ShowHeaderCellButtons = True
         Me.gvAccountVendor.Size = New System.Drawing.Size(574, 413)
         Me.gvAccountVendor.TabIndex = 16
+        Me.gvAccountVendor.VarID = ""
         '
         'lblvendor
         '
@@ -779,11 +795,13 @@ Partial Class RCDFDashboard
         '
         Me.gvAccountCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAccountCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAccountCustomer.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvAccountCustomer.MasterTemplate.ViewDefinition = TableViewDefinition27
+        Me.gvAccountCustomer.MyStopExport = False
         Me.gvAccountCustomer.Name = "gvAccountCustomer"
         Me.gvAccountCustomer.ShowHeaderCellButtons = True
         Me.gvAccountCustomer.Size = New System.Drawing.Size(562, 413)
         Me.gvAccountCustomer.TabIndex = 16
+        Me.gvAccountCustomer.VarID = ""
         '
         'lblCustomer
         '
